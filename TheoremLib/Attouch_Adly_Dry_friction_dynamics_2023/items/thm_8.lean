@@ -46,17 +46,17 @@ private theorem scaled_point_eq_v {H : Type*} [NormedAddCommGroup H] [NormedSpac
   abel
 
 /-- Theorem 5.1: accelerated dual DRYSTARDE distance decay. -/
-theorem theorem_5_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+theorem theorem_5_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
     {s₀ r α : ℝ} (hr : 0 < r) (hs₀ : 0 < s₀) (hα : 1 < α) (x₀ : H) (z dz g v w dw ddw : ℝ → H)
-    (f : H → ℝ) (fgrad : H → H) (fstar : H → ℝ) (gradFstar gradPsiStar : H → H)
+    (f : H → ℝ) (fstar : H → ℝ) (gradFstar gradPsiStar : H → H)
+    (hf : Differentiable ℝ f)
     (hessFstar : H → H →L[ℝ] H)
-    (_hgradient : ∀ x u, fderiv ℝ f x u = inner ℝ (fgrad x) u)
     (_hconjugate : ∀ q, fstar q = (ERealFunction.conjugate (fun x => (f x : EReal)) q).toReal)
     (hgradFstar : ∀ q v, fderiv ℝ fstar q v = inner ℝ (gradFstar q) v)
     (hhessFstar : ∀ q v, fderiv ℝ gradFstar q v = hessFstar q v)
     (hgradFstar_smooth : ∀ q, HasFDerivAt gradFstar (hessFstar q) q)
-    (_hsol : IsDrygradTrajectory r hr fgrad z dz s₀)
-    (hdualFlow : ∃ p : ℝ → H, ∀ t ∈ Set.Ici s₀, g t = fgrad (z t) ∧
+    (_hsol : IsDrygradTrajectory r hr f hf z dz s₀)
+    (hdualFlow : ∃ p : ℝ → H, ∀ t ∈ Set.Ici s₀, g t = gradient f (z t) ∧
       p t ∈ frictionBallProjector r (g t) ∧
       HasDerivAt (fun u => gradFstar (g u)) (p t - g t) t)
     (hscale : ∀ s ∈ Set.Ici s₀, v s = g (s ^ 2 / (2 * (α - 1))) ∧
@@ -85,7 +85,7 @@ theorem theorem_5_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     have hτpos : 0 < s / (α - 1) := div_pos hspos (sub_pos.mpr hα)
     have hτne : s / (α - 1) ≠ 0 := ne_of_gt hτpos
     let p : ℝ → H := Classical.choose hdualFlow
-    have hpflow : ∀ t ∈ Set.Ici s₀, g t = fgrad (z t) ∧
+    have hpflow : ∀ t ∈ Set.Ici s₀, g t = gradient f (z t) ∧
         p t ∈ frictionBallProjector r (g t) ∧
           HasDerivAt (fun u => gradFstar (g u)) (p t - g t) t :=
       Classical.choose_spec hdualFlow

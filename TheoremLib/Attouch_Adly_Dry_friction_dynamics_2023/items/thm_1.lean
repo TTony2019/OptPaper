@@ -60,10 +60,11 @@ theorem drygrad_subgradient_radial {H : Type*} [NormedAddCommGroup H]
       nlinarith
 
 private theorem drygrad_energy_deriv_le {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] {t₀ r : ℝ} (f : H → ℝ) (fgrad : H → H)
-    (z dz : ℝ → H) (hr : 0 < r) (hsol : IsDrygradTrajectory r hr fgrad z dz t₀)
+    [InnerProductSpace ℝ H] [CompleteSpace H] {t₀ r : ℝ} (f : H → ℝ)
+    (z dz : ℝ → H) (hr : 0 < r) (hf : Differentiable ℝ f)
+    (hsol : IsDrygradTrajectory r hr f hf z dz t₀)
     (hchain : ∀ t ∈ Set.Ici t₀,
-      HasDerivAt (fun s => f (z s)) (inner ℝ (fgrad (z t)) (dz t)) t)
+      HasDerivAt (fun s => f (z s)) (inner ℝ (gradient f (z t)) (dz t)) t)
     {t : ℝ} (ht : t ∈ Set.Ici t₀) :
     ‖dz t‖ ^ 2 + r * ‖dz t‖ + deriv (fun s => f (z s)) t ≤ 0 := by
   rcases hsol t ht with ⟨_, u, hu, hsum⟩
@@ -71,23 +72,24 @@ private theorem drygrad_energy_deriv_le {H : Type*} [NormedAddCommGroup H]
     drygrad_subgradient_work_le hu
   have hinner := congrArg (fun w => inner ℝ w (dz t)) hsum
   simp only [inner_add_left, real_inner_self_eq_norm_sq, inner_zero_left] at hinner
-  have hderiv : deriv (fun s => f (z s)) t = inner ℝ (fgrad (z t)) (dz t) :=
+  have hderiv : deriv (fun s => f (z s)) t = inner ℝ (gradient f (z t)) (dz t) :=
     (hchain t ht).deriv
   rw [hderiv]
   nlinarith
 
 private theorem drygrad_energy_antitone {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] {t₀ r : ℝ} (f : H → ℝ) (fgrad : H → H)
-    (z dz : ℝ → H) (hr : 0 < r) (hsol : IsDrygradTrajectory r hr fgrad z dz t₀)
+    [InnerProductSpace ℝ H] [CompleteSpace H] {t₀ r : ℝ} (f : H → ℝ)
+    (z dz : ℝ → H) (hr : 0 < r) (hf : Differentiable ℝ f)
+    (hsol : IsDrygradTrajectory r hr f hf z dz t₀)
     (hchain : ∀ t ∈ Set.Ici t₀,
-      HasDerivAt (fun s => f (z s)) (inner ℝ (fgrad (z t)) (dz t)) t)
+      HasDerivAt (fun s => f (z s)) (inner ℝ (gradient f (z t)) (dz t)) t)
     (hcont : ContinuousOn (fun t => f (z t)) (Set.Ici t₀)) :
     AntitoneOn (fun t => f (z t)) (Set.Ici t₀) := by
   apply antitoneOn_of_deriv_nonpos (convex_Ici t₀) hcont
   · intro t ht
     exact (hchain t (interior_subset ht)).differentiableAt.differentiableWithinAt
   · intro t ht
-    have henergy := drygrad_energy_deriv_le f fgrad z dz hr hsol hchain (interior_subset ht)
+    have henergy := drygrad_energy_deriv_le f z dz hr hf hsol hchain (interior_subset ht)
     have hsq : 0 ≤ ‖dz t‖ ^ 2 := sq_nonneg _
     have hnorm : 0 ≤ r * ‖dz t‖ := mul_nonneg (le_of_lt hr) (norm_nonneg _)
     linarith
@@ -120,16 +122,17 @@ private theorem integrableOn_Ici_of_nonneg_prefix_bound {g : ℝ → ℝ} {t₀ 
 
 /-- Theorem 2.1: descent, finite energy and length, and convergence for a DRYGRAD trajectory. -/
 theorem theorem_2_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
-    [CompleteSpace H] {t₀ r : ℝ} (hr : 0 < r) (f : H → ℝ) (fgrad : H → H)
-    (z dz : ℝ → H) (_hgradient : ∀ x v, fderiv ℝ f x v = inner ℝ (fgrad x) v)
-    (hf_lower : ∃ m : ℝ, ∀ x : H, m ≤ f x) (hfgrad_lip : LocallyLipschitz fgrad)
-    (hinitial : r < ‖fgrad (z t₀)‖)
+    [CompleteSpace H] {t₀ r : ℝ} (hr : 0 < r) (f : H → ℝ)
+    (z dz : ℝ → H) (hf : ContDiff ℝ 1 f)
+    (hf_lower : ∃ m : ℝ, ∀ x : H, m ≤ f x)
+    (hgradient_lip : LocallyLipschitz (gradient f))
+    (hinitial : r < ‖gradient f (z t₀)‖)
     (hchain : ∀ t ∈ Set.Ici t₀,
-      HasDerivAt (fun s => f (z s)) (inner ℝ (fgrad (z t)) (dz t)) t)
+      HasDerivAt (fun s => f (z s)) (inner ℝ (gradient f (z t)) (dz t)) t)
     (hcomp_cont : ContinuousOn (fun t => f (z t)) (Set.Ici t₀))
-    (hsol : IsDrygradTrajectory r hr fgrad z dz t₀)
+    (hsol : IsDrygradTrajectory r hr f (hf.differentiable (by norm_num)) z dz t₀)
     (V : H → H) (hV_lip : LocallyLipschitz V)
-    (hV_zero : ∀ x, V x = 0 ↔ ‖fgrad x‖ ≤ r)
+    (hV_zero : ∀ x, V x = 0 ↔ ‖gradient f x‖ ≤ r)
     (hvelocity : ∀ t ∈ Set.Ici t₀, dz t = V (z t))
     (hvelocity_limit : Filter.Tendsto dz Filter.atTop (nhds 0))
     (hstationary : ∀ S ∈ Set.Ici t₀, V (z S) = 0 →
@@ -137,11 +140,11 @@ theorem theorem_2_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     AntitoneOn (fun t => f (z t)) (Set.Ici t₀) ∧
       MeasureTheory.IntegrableOn (fun t => ‖dz t‖ ^ 2) (Set.Ici t₀) ∧
       MeasureTheory.IntegrableOn (fun t => ‖dz t‖) (Set.Ici t₀) ∧
-      ∃ zLimit, Filter.Tendsto z Filter.atTop (nhds zLimit) ∧ ‖fgrad zLimit‖ = r ∧
+      ∃ zLimit, Filter.Tendsto z Filter.atTop (nhds zLimit) ∧ ‖gradient f zLimit‖ = r ∧
         ((∃ T ∈ Set.Ici t₀, ∀ t ∈ Set.Ici T, z t = zLimit) ∨
-          ∀ t ∈ Set.Ici t₀, r < ‖fgrad (z t)‖) := by
+          ∀ t ∈ Set.Ici t₀, r < ‖gradient f (z t)‖) := by
   have hanti : AntitoneOn (fun t => f (z t)) (Set.Ici t₀) :=
-    drygrad_energy_antitone f fgrad z dz hr hsol hchain hcomp_cont
+    drygrad_energy_antitone f z dz hr (hf.differentiable (by norm_num)) hsol hchain hcomp_cont
   have hVcont : Continuous V := hV_lip.continuous
   have hzcont : ContinuousOn z (Set.Ici t₀) := by
     intro t ht
@@ -159,10 +162,10 @@ theorem theorem_2_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
   have hprefix : ∀ T : ℝ, t₀ ≤ T →
       ∫ t in t₀..T, (‖dz t‖ ^ 2 + r * ‖dz t‖) ≤ f (z t₀) - m := by
     intro T hT
-    have hfgcont : ContinuousOn (fun t => fgrad (z t)) (Set.Icc t₀ T) :=
-      hfgrad_lip.continuous.comp_continuousOn (hzcont.mono Set.Icc_subset_Ici_self)
+    have hfgcont : ContinuousOn (fun t => gradient f (z t)) (Set.Icc t₀ T) :=
+      hgradient_lip.continuous.comp_continuousOn (hzcont.mono Set.Icc_subset_Ici_self)
     have hdzIcc : ContinuousOn dz (Set.Icc t₀ T) := hdzcont.mono Set.Icc_subset_Ici_self
-    have hintercont : ContinuousOn (fun t => inner ℝ (fgrad (z t)) (dz t))
+    have hintercont : ContinuousOn (fun t => inner ℝ (gradient f (z t)) (dz t))
         (Set.Icc t₀ T) := hfgcont.inner hdzIcc
     have hderivcont : ContinuousOn (deriv (fun s => f (z s))) (Set.Icc t₀ T) :=
       hintercont.congr (by
@@ -179,7 +182,7 @@ theorem theorem_2_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     have hpoint : ∀ t ∈ Set.Icc t₀ T,
         ‖dz t‖ ^ 2 + r * ‖dz t‖ ≤ - deriv (fun s => f (z s)) t := by
       intro t ht
-      have h := drygrad_energy_deriv_le f fgrad z dz hr hsol hchain
+      have h := drygrad_energy_deriv_le f z dz hr (hf.differentiable (by norm_num)) hsol hchain
         (Set.Icc_subset_Ici_self ht)
       linarith
     have hint := intervalIntegral.integral_mono_on hT hleftint hrightint hpoint
@@ -253,18 +256,18 @@ theorem theorem_2_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     filter_upwards [Filter.eventually_atTop.2 ⟨t₀, fun t ht => ht⟩] with t ht
     exact hvelocity t ht
   have hVzero : V zLimit = 0 := tendsto_nhds_unique hVzlim hdzV
-  have hball : ‖fgrad zLimit‖ ≤ r := (hV_zero zLimit).mp hVzero
-  have hqcont : Continuous (fun x : H => ‖fgrad x‖) := hfgrad_lip.continuous.norm
-  have hqlim : Filter.Tendsto (fun t => ‖fgrad (z t)‖) Filter.atTop
-      (nhds ‖fgrad zLimit‖) := (hqcont.tendsto zLimit).comp hzlim
-  by_cases hhit : ∃ T ∈ Set.Ici t₀, ‖fgrad (z T)‖ ≤ r
+  have hball : ‖gradient f zLimit‖ ≤ r := (hV_zero zLimit).mp hVzero
+  have hqcont : Continuous (fun x : H => ‖gradient f x‖) := hgradient_lip.continuous.norm
+  have hqlim : Filter.Tendsto (fun t => ‖gradient f (z t)‖) Filter.atTop
+      (nhds ‖gradient f zLimit‖) := (hqcont.tendsto zLimit).comp hzlim
+  by_cases hhit : ∃ T ∈ Set.Ici t₀, ‖gradient f (z T)‖ ≤ r
   · rcases hhit with ⟨T, hT, hTball⟩
-    have hqIcc : ContinuousOn (fun t => ‖fgrad (z t)‖) (Set.Icc t₀ T) :=
+    have hqIcc : ContinuousOn (fun t => ‖gradient f (z t)‖) (Set.Icc t₀ T) :=
       hqcont.comp_continuousOn (hzcont.mono Set.Icc_subset_Ici_self)
-    have hrmem : r ∈ Set.Icc (‖fgrad (z T)‖) (‖fgrad (z t₀)‖) :=
+    have hrmem : r ∈ Set.Icc (‖gradient f (z T)‖) (‖gradient f (z t₀)‖) :=
       ⟨hTball, hinitial.le⟩
     rcases intermediate_value_Icc' hT hqIcc hrmem with ⟨S, hS, hqS⟩
-    have hVSzero : V (z S) = 0 := (hV_zero (z S)).mpr (by simp [hqS])
+    have hVSzero : V (z S) = 0 := (hV_zero (z S)).mpr (le_of_eq hqS)
     have hev : z =ᶠ[Filter.atTop] fun _ : ℝ => z S := by
       filter_upwards [Filter.eventually_atTop.2 ⟨S, fun t ht => ht⟩] with t ht
       exact hstationary S hS.1 hVSzero t ht
@@ -277,13 +280,13 @@ theorem theorem_2_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     · intro t ht
       rw [hzEq]
       exact hstationary S hS.1 hVSzero t ht
-  · have hexterior : ∀ t ∈ Set.Ici t₀, r < ‖fgrad (z t)‖ := by
+  · have hexterior : ∀ t ∈ Set.Ici t₀, r < ‖gradient f (z t)‖ := by
       intro t ht
       exact lt_of_not_ge (fun h => hhit ⟨t, ht, h⟩)
-    have hlower : r ≤ ‖fgrad zLimit‖ := by
+    have hlower : r ≤ ‖gradient f zLimit‖ := by
       by_contra hnot
-      have hless : ‖fgrad zLimit‖ < r := lt_of_not_ge hnot
-      have hevent : ∀ᶠ t in Filter.atTop, ‖fgrad (z t)‖ < r :=
+      have hless : ‖gradient f zLimit‖ < r := lt_of_not_ge hnot
+      have hevent : ∀ᶠ t in Filter.atTop, ‖gradient f (z t)‖ < r :=
         (tendsto_order.1 hqlim).2 r hless
       have htail : ∀ᶠ t in Filter.atTop, t ∈ Set.Ici t₀ :=
         Filter.eventually_atTop.2 ⟨t₀, fun t ht => ht⟩

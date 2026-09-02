@@ -14,20 +14,20 @@ namespace AttouchAdlyDryFrictionDynamics2023
 
 /-- Theorem 4.2: DRYSTAR has vanishing velocity, finite length, and converges to the friction boundary. -/
 theorem theorem_4_2 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
-    {s₀ r α : ℝ} (hr : 0 < r) (_hα : 1 < α) (f : H → ℝ) (fgrad : H → H) (x dx ddx p : ℝ → H)
+    {s₀ r α : ℝ} (hr : 0 < r) (_hα : 1 < α) (f : H → ℝ)
+    (hf : Differentiable ℝ f) (x dx ddx p : ℝ → H)
     (z dz y _dy : ℝ → H) (_hs₀ : 0 < s₀)
     (_hconvex : ConvexOn ℝ Set.univ f)
-    (_hgradient : ∀ u v, fderiv ℝ f u v = inner ℝ (fgrad u) v)
     (_hgradLipschitzOnBounded : ∀ R : ℝ, ∃ L : NNReal,
-      LipschitzOnWith L fgrad (Metric.closedBall 0 R)) (_hmin : ∃ xstar, ∀ x, f xstar ≤ f x)
-    (_hsolution : IsDryStarTrajectory r α s₀ fgrad x dx ddx p)
-    (_hsol : IsDrygradTrajectory r hr fgrad z dz (s₀ ^ 2 / (2 * (α - 1))))
+      LipschitzOnWith L (gradient f) (Metric.closedBall 0 R)) (_hmin : ∃ xstar, ∀ x, f xstar ≤ f x)
+    (_hsolution : IsDryStarTrajectory r α s₀ f hf x dx ddx p)
+    (_hsol : IsDrygradTrajectory r hr f hf z dz (s₀ ^ 2 / (2 * (α - 1))))
     (_hy : y = timeScaledTrajectory z (fun s => s ^ 2 / (2 * (α - 1))))
     (haverage : IsWeightedAverage (fun s => s ^ 2 / (2 * (α - 1)))
       (fun s => s / (α - 1)) x y dx s₀) :
     Filter.Tendsto (fun s : ℝ => s * ‖dx s‖) Filter.atTop (nhds 0) ∧
       MeasureTheory.IntegrableOn (fun s => ‖dx s‖) (Set.Ici s₀) ∧
-      ∃ xLimit, Filter.Tendsto x Filter.atTop (nhds xLimit) ∧ ‖fgrad xLimit‖ = r := by
+      ∃ xLimit, Filter.Tendsto x Filter.atTop (nhds xLimit) ∧ ‖gradient f xLimit‖ = r := by
   rcases haverage with ⟨hmono, _, _⟩
   have hstrict := hmono.1 (show (-1 : ℝ) < 1 by norm_num)
   norm_num at hstrict

@@ -16,31 +16,31 @@ The differentiability and dissipation certificates are the smooth form of the
 dual-flow calculation (3.9)--(3.13) used in the paper.  They are stated
 explicitly because `IsDrygradTrajectory` alone only supplies a subgradient
 witness and does not provide this regularity. -/
-theorem theorem_3_2 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
-    {t₀ r : ℝ} (hr : 0 < r) (fgrad : H → H) (z : ℝ → H)
+theorem theorem_3_2 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
+    {t₀ r : ℝ} (hr : 0 < r) (f : H → ℝ) (hf : Differentiable ℝ f) (z : ℝ → H)
     (fstar : H → ℝ) (gradFstar : H → H) (p : ℝ → H)
-    (hp : ∀ t : ℝ, p t ∈ frictionBallProjector r (fgrad (z t)))
+    (hp : ∀ t : ℝ, p t ∈ frictionBallProjector r (gradient f (z t)))
     (hdual : ∀ t ∈ Set.Ici t₀,
-      HasDerivAt (fun u => gradFstar (fgrad (z u))) (p t - fgrad (z t)) t)
+      HasDerivAt (fun u => gradFstar (gradient f (z u))) (p t - gradient f (z t)) t)
     (hdist : ∀ t : ℝ,
-      HasDerivAt (fun u => Metric.infDist (fgrad (z u)) (frictionBall r) ^ 2)
-        (inner ℝ (fgrad (z t) - p t) (p t - fgrad (z t))) t)
+      HasDerivAt (fun u => Metric.infDist (gradient f (z u)) (frictionBall r) ^ 2)
+        (inner ℝ (gradient f (z t) - p t) (p t - gradient f (z t))) t)
     (hint : MeasureTheory.IntegrableOn
-      (fun t => Metric.infDist (fgrad (z t)) (frictionBall r) ^ 2 / 2) (Set.Ici t₀))
+      (fun t => Metric.infDist (gradient f (z t)) (frictionBall r) ^ 2 / 2) (Set.Ici t₀))
     (hbregman : ∀ gLimit : H, gLimit ∈ frictionBall r → ∀ t : ℝ,
       HasDerivAt
-        (fun u => dualBregmanDistance fstar gradFstar (fgrad (z u)) gLimit)
-        (inner ℝ (fgrad (z t) - p t) (gLimit - fgrad (z t))) t) :
+        (fun u => dualBregmanDistance fstar gradFstar (gradient f (z u)) gLimit)
+        (inner ℝ (gradient f (z t) - p t) (gLimit - gradient f (z t))) t) :
     (∀ t ∈ Set.Ici t₀,
-      p t ∈ frictionBallProjector r (fgrad (z t)) ∧
-      HasDerivAt (fun u => gradFstar (fgrad (z u))) (p t - fgrad (z t)) t) ∧
-    AntitoneOn (fun t => Metric.infDist (fgrad (z t)) (frictionBall r) ^ 2) (Set.Ici t₀) ∧
-      Filter.Tendsto (fun t : ℝ => Real.sqrt t * Metric.infDist (fgrad (z t)) (frictionBall r))
+      p t ∈ frictionBallProjector r (gradient f (z t)) ∧
+      HasDerivAt (fun u => gradFstar (gradient f (z u))) (p t - gradient f (z t)) t) ∧
+    AntitoneOn (fun t => Metric.infDist (gradient f (z t)) (frictionBall r) ^ 2) (Set.Ici t₀) ∧
+      Filter.Tendsto (fun t : ℝ => Real.sqrt t * Metric.infDist (gradient f (z t)) (frictionBall r))
         Filter.atTop (nhds 0) ∧
       ∀ gLimit : H, gLimit ∈ frictionBall r →
-        AntitoneOn (fun t => dualBregmanDistance fstar gradFstar (fgrad (z t)) gLimit)
+        AntitoneOn (fun t => dualBregmanDistance fstar gradFstar (gradient f (z t)) gLimit)
           (Set.Ici t₀) := by
-  let g : ℝ → H := fun t => fgrad (z t)
+  let g : ℝ → H := fun t => gradient f (z t)
   have hdist_nonpos : ∀ t : ℝ,
       inner ℝ (g t - p t) (p t - g t) ≤ 0 := by
     intro t

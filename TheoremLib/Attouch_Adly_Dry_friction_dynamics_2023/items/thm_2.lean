@@ -33,17 +33,17 @@ private theorem drygrad_subgradient_eq_radial {H : Type*} [NormedAddCommGroup H]
 /-- Theorem 3.1: decreasing velocity and its `o(1/t)` decay under convexity. -/
 theorem theorem_3_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     [CompleteSpace H]
-    {t₀ r : ℝ} (hr : 0 < r) (f : H → ℝ) (fgrad : H → H) (z dz : ℝ → H)
+    {t₀ r : ℝ} (hr : 0 < r) (f : H → ℝ) (z dz : ℝ → H)
+    (hf : ContDiff ℝ 1 f)
     (_hconvex : ConvexOn ℝ Set.univ f)
-    (hgradient : ∀ x v, fderiv ℝ f x v = inner ℝ (fgrad x) v)
-    (hsol : IsDrygradTrajectory r hr fgrad z dz t₀)
-    (hf_lower : ∃ m : ℝ, ∀ x : H, m ≤ f x) (hfgrad_lip : LocallyLipschitz fgrad)
-    (hinitial : r < ‖fgrad (z t₀)‖)
+    (hsol : IsDrygradTrajectory r hr f (hf.differentiable (by norm_num)) z dz t₀)
+    (hf_lower : ∃ m : ℝ, ∀ x : H, m ≤ f x) (hgradient_lip : LocallyLipschitz (gradient f))
+    (hinitial : r < ‖gradient f (z t₀)‖)
     (hchain : ∀ t ∈ Set.Ici t₀,
-      HasDerivAt (fun s => f (z s)) (inner ℝ (fgrad (z t)) (dz t)) t)
+      HasDerivAt (fun s => f (z s)) (inner ℝ (gradient f (z t)) (dz t)) t)
     (hcomp_cont : ContinuousOn (fun t => f (z t)) (Set.Ici t₀))
     (V : H → H) (hV_lip : LocallyLipschitz V)
-    (hV_zero : ∀ x, V x = 0 ↔ ‖fgrad x‖ ≤ r)
+    (hV_zero : ∀ x, V x = 0 ↔ ‖gradient f x‖ ≤ r)
     (hvelocity : ∀ t ∈ Set.Ici t₀, dz t = V (z t))
     (hvelocity_limit : Filter.Tendsto dz Filter.atTop (nhds 0))
     (hstationary : ∀ S ∈ Set.Ici t₀, V (z S) = 0 →
@@ -51,17 +51,17 @@ theorem theorem_3_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     (ddz : ℝ → H) (A : ℝ → H → H)
     (hdz_deriv : ∀ t ∈ Set.Ici t₀, HasDerivAt dz (ddz t) t)
     (hgrad_deriv : ∀ t ∈ Set.Ici t₀,
-      HasDerivAt (fun s => fgrad (z s)) (A t (dz t)) t)
+      HasDerivAt (fun s => gradient f (z s)) (A t (dz t)) t)
     (hA_nonneg : ∀ t ∈ Set.Ici t₀, 0 ≤ inner ℝ (A t (dz t)) (dz t)) :
     AntitoneOn (fun t => ‖dz t‖) (Set.Ici t₀) ∧
       Filter.Tendsto (fun t : ℝ => t * ‖dz t‖) Filter.atTop (nhds 0) := by
   have hL1 : MeasureTheory.IntegrableOn (fun t => ‖dz t‖) (Set.Ici t₀) := by
-    rcases theorem_2_1 hr f fgrad z dz hgradient hf_lower hfgrad_lip hinitial hchain
+    rcases theorem_2_1 hr f z dz hf hf_lower hgradient_lip hinitial hchain
       hcomp_cont hsol V hV_lip hV_zero hvelocity hvelocity_limit hstationary with
       ⟨_, _, hL1, _⟩
     exact hL1
   have hradial : ∀ t ∈ Set.Ici t₀, dz t ≠ 0 →
-      dz t + (r / ‖dz t‖) • dz t + fgrad (z t) = 0 := by
+      dz t + (r / ‖dz t‖) • dz t + gradient f (z t) = 0 := by
     intro t ht hv
     rcases hsol t ht with ⟨_, u, hu, hsum⟩
     rw [drygrad_subgradient_eq_radial hr hv hu] at hsum
@@ -83,7 +83,7 @@ theorem theorem_3_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
         convert (hasDerivAt_const t r).div hn hvnorm using 1
         all_goals ring
       have hd : HasDerivAt (fun s =>
-          dz s + (r / ‖dz s‖) • dz s + fgrad (z s))
+          dz s + (r / ‖dz s‖) • dz s + gradient f (z s))
           (ddz t + ((r / ‖dz t‖) • ddz t +
             (-(r * (inner ℝ (ddz t) (dz t) / ‖dz t‖)) / ‖dz t‖ ^ 2) • dz t) +
             A t (dz t)) t :=
@@ -91,7 +91,7 @@ theorem theorem_3_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
       have hneigh : ∀ᶠ s in nhds t, dz s ≠ 0 :=
         (hdz_deriv t ht₀).continuousAt.eventually_ne hv
       have hEq : (fun _ : ℝ => (0 : H)) =ᶠ[nhds t]
-          fun s => dz s + (r / ‖dz s‖) • dz s + fgrad (z s) := by
+          fun s => dz s + (r / ‖dz s‖) • dz s + gradient f (z s) := by
         filter_upwards [mem_interior_iff_mem_nhds.mp ht, hneigh] with s hs hsnz
         exact (hradial s hs hsnz).symm
       have hDzero : ddz t + ((r / ‖dz t‖) • ddz t +

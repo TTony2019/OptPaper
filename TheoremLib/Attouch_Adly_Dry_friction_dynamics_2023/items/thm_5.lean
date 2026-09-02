@@ -12,21 +12,23 @@ namespace AttouchAdlyDryFrictionDynamics2023
     The subgradient is recorded by its defining inequality, avoiding unnecessary
     global convexity/domain side conditions. -/
 def IsDryStarFirstOrder {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
-    (r α s₀ : ℝ) (_hr : 0 < r) (fgrad : H → H) (x y dx dy : ℝ → H) : Prop :=
-  ∀ s ∈ Set.Ici s₀, HasDerivAt x (dx s) s ∧ HasDerivAt y (dy s) s ∧
+    [CompleteSpace H] (r α s₀ : ℝ) (_hr : 0 < r) (f : H → ℝ)
+    (_hf : Differentiable ℝ f) (x y : ℝ → H) (hx : Differentiable ℝ x) : Prop :=
+  ∀ s ∈ Set.Ici s₀, HasDerivAt y (deriv y s) s ∧
     ∃ u : H,
       (∀ q : H,
-        (dryFrictionPotential (H := H) r (dy s) : EReal) +
-            (inner ℝ u (q - dy s) : EReal) ≤
+        (dryFrictionPotential (H := H) r (deriv y s) : EReal) +
+            (inner ℝ u (q - deriv y s) : EReal) ≤
           (dryFrictionPotential (H := H) r q : EReal)) ∧
-      dy s + (s / (α - 1)) • u + (s / (α - 1)) • fgrad (y s) = 0 ∧
-        dx s + ((α - 1) / s) • (x s - y s) = 0
+      deriv y s + (s / (α - 1)) • u + (s / (α - 1)) • gradient f (y s) = 0 ∧
+        deriv x s + ((α - 1) / s) • (x s - y s) = 0
 
 def IsDryStarTrajectory {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
-    (r α s₀ : ℝ) (fgrad : H → H) (x dx ddx p : ℝ → H) : Prop :=
+    [CompleteSpace H] (r α s₀ : ℝ) (f : H → ℝ) (_hf : Differentiable ℝ f)
+    (x dx ddx p : ℝ → H) : Prop :=
   ∀ s ∈ Set.Ici s₀, HasDerivAt x (dx s) s ∧ HasDerivAt dx (ddx s) s ∧
-    p s ∈ frictionBallProjector r (fgrad (x s + (s / (α - 1)) • dx s)) ∧
-      ddx s + (α / s) • dx s + fgrad (x s + (s / (α - 1)) • dx s) - p s = 0
+    p s ∈ frictionBallProjector r (gradient f (x s + (s / (α - 1)) • dx s)) ∧
+      ddx s + (α / s) • dx s + gradient f (x s + (s / (α - 1)) • dx s) - p s = 0
 
 private theorem dryFriction_subgradient_smul_pos {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] {r c : ℝ} {v u : H} (hc : 0 < c)
@@ -117,19 +119,22 @@ private theorem neg_drygrad_subgradient_mem_projector {H : Type*} [NormedAddComm
 /-- Theorem 4.1: time scaling yields the first-order and inertial DRYSTAR systems. -/
 theorem theorem_4_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     [CompleteSpace H] {r α s₀ : ℝ} (hr : 0 < r) (hα : 1 < α) (hs₀ : 0 < s₀)
-    (f : H → ℝ) (fgrad : H → H)
-    (z dz x y dx dy ddx : ℝ → H)
-    (_hgradient : ∀ u v, fderiv ℝ f u v = inner ℝ (fgrad u) v)
-    (hsol : IsDrygradTrajectory r hr fgrad z dz (s₀ ^ 2 / (2 * (α - 1))))
+    (f : H → ℝ) (hf : Differentiable ℝ f)
+    (z dz x y : ℝ → H) (hx : Differentiable ℝ x)
+    (hy_diff : Differentiable ℝ y) (hx2 : Differentiable ℝ (deriv x))
+    (hsol : IsDrygradTrajectory r hr f hf z dz (s₀ ^ 2 / (2 * (α - 1))))
     (hy : y = timeScaledTrajectory z (fun s => s ^ 2 / (2 * (α - 1))))
     (haverage : x s₀ = y s₀ ∧ ∀ s ∈ Set.Ici s₀,
-      HasDerivAt x (dx s) s ∧
-        dx s + ((s / (α - 1))⁻¹) • (x s - y s) = 0)
-    (hdy : ∀ s, HasDerivAt y (dy s) s)
-    (hddx : ∀ s, HasDerivAt dx (ddx s) s) :
-    IsDryStarFirstOrder r α s₀ hr fgrad x y dx dy ∧
-      ∃ p : ℝ → H, IsDryStarTrajectory r α s₀ fgrad x dx ddx p := by
+      deriv x s + ((s / (α - 1))⁻¹) • (x s - y s) = 0) :
+    IsDryStarFirstOrder r α s₀ hr f hf x y hx ∧
+      ∃ p : ℝ → H, IsDryStarTrajectory r α s₀ f hf x (deriv x) (deriv (deriv x)) p := by
   have ha1 : 0 < α - 1 := sub_pos.mpr hα
+  let dx : ℝ → H := deriv x
+  let dy : ℝ → H := deriv y
+  let ddx : ℝ → H := deriv (deriv x)
+  have hdy : ∀ s, HasDerivAt y (deriv y s) s := fun s => (hy_diff s).hasDerivAt
+  have hddx : ∀ s, HasDerivAt (deriv x) (deriv (deriv x) s) s :=
+    fun s => (hx2 s).hasDerivAt
   have hτ_domain : ∀ s ∈ Set.Ici s₀,
       s ^ 2 / (2 * (α - 1)) ∈ Set.Ici (s₀ ^ 2 / (2 * (α - 1))) := by
     intro s hs
@@ -144,7 +149,7 @@ theorem theorem_4_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     all_goals
       field_simp [ne_of_gt ha1]
       ring
-  have hfirst : IsDryStarFirstOrder r α s₀ hr fgrad x y dx dy := by
+  have hfirst : IsDryStarFirstOrder r α s₀ hr f hf x y hx := by
     intro s hs
     have hspos : 0 < s := lt_of_lt_of_le hs₀ hs
     have hdτpos : 0 < s / (α - 1) := div_pos hspos ha1
@@ -157,7 +162,9 @@ theorem theorem_4_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
         (hsol_s.1.scomp s (hτ_deriv s))
     have hdy_eq : dy s = (s / (α - 1)) • dz (s ^ 2 / (2 * (α - 1))) :=
       (hdy s).unique hchain
-    refine ⟨(haverage.2 s hs).1, hdy s, u, ?_, ?_, ?_⟩
+    have hdy_deriv : HasDerivAt y (deriv y s) s := by
+      convert hdy s using 1
+    refine ⟨hdy_deriv, u, ?_, ?_, ?_⟩
     · -- Positive one-homogeneity transports the norm subgradient along the time scale.
       intro q
       have husub_real : ∀ q : H,
@@ -167,12 +174,14 @@ theorem theorem_4_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
         exact_mod_cast husub q
       have hscaled_sub := dryFriction_subgradient_smul_pos hdτpos husub_real q
       rw [← hdy_eq] at hscaled_sub
+      rw [(hdy s).deriv]
       exact_mod_cast hscaled_sub
     · have hscaled := congrArg (fun w : H => (s / (α - 1)) • w) huseq
       simp only [smul_add, smul_zero] at hscaled
+      change dy s + (s / (α - 1)) • u + (s / (α - 1)) • gradient f (y s) = 0
       rw [hdy_eq, hy_point]
       exact hscaled
-    · have havg := (haverage.2 s hs).2
+    · have havg := haverage.2 s hs
       have hcoef : (α - 1) / s = (s / (α - 1))⁻¹ := by
         field_simp [ne_of_gt ha1, ne_of_gt hspos]
       rw [hcoef]
@@ -182,7 +191,7 @@ theorem theorem_4_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     intro s hs
     have hspos : 0 < s := lt_of_lt_of_le hs₀ hs
     have hcne : s / (α - 1) ≠ 0 := ne_of_gt (div_pos hspos ha1)
-    have havg := congrArg (fun w : H => (s / (α - 1)) • w) (haverage.2 s hs).2
+    have havg := congrArg (fun w : H => (s / (α - 1)) • w) (haverage.2 s hs)
     simp only [smul_add, smul_zero, smul_smul] at havg
     rw [mul_inv_cancel₀ hcne, one_smul] at havg
     calc y s = y s + ((s / (α - 1)) • dx s + (x s - y s)) := by rw [havg, add_zero]
@@ -193,7 +202,7 @@ theorem theorem_4_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     let R : ℝ → H := fun t => x t + (t / (α - 1)) • dx t
     have hR : HasDerivAt R
         (dx s + (1 / (α - 1)) • dx s + (s / (α - 1)) • ddx s) s := by
-      convert (haverage.2 s hs).1.add
+      convert (hx s).hasDerivAt.add
         ((hasDerivAt_id s).div_const (α - 1) |>.smul (hddx s)) using 1
       all_goals
         simp
@@ -236,7 +245,7 @@ theorem theorem_4_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
         (dryFrictionPotential (H := H) r (dz (s ^ 2 / (2 * (α - 1)))) : EReal) +
           (inner ℝ (uOf s) (q - dz (s ^ 2 / (2 * (α - 1)))) : EReal) ≤
             dryFrictionPotential (H := H) r q) ∧
-        dz (s ^ 2 / (2 * (α - 1))) + uOf s + fgrad (z (s ^ 2 / (2 * (α - 1)))) = 0 := by
+        dz (s ^ 2 / (2 * (α - 1))) + uOf s + gradient f (z (s ^ 2 / (2 * (α - 1)))) = 0 := by
     intro s hs
     dsimp [uOf]
     rw [dif_pos hs]
@@ -253,7 +262,7 @@ theorem theorem_4_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
   have hdy_eq : dy s = (s / (α - 1)) • dz (s ^ 2 / (2 * (α - 1))) :=
     (hdy s).unique hchain
   rcases huOf_spec s hs with ⟨hsub, hforce⟩
-  refine ⟨(haverage.2 s hs).1, hddx s, ?_, ?_⟩
+  refine ⟨(hx s).hasDerivAt, hddx s, ?_, ?_⟩
   · have hproj := neg_drygrad_subgradient_mem_projector hr hsub hforce
     rw [← hy_point, hyx s hs] at hproj
     simpa [p] using hproj
@@ -273,8 +282,8 @@ theorem theorem_4_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     rw [← hyx s hs]
     simp only [p]
     calc
-      ddx s + (α / s) • dx s + fgrad (y s) - -uOf s =
-          ddx s + (α / s) • dx s + uOf s + fgrad (y s) := by abel
+      ddx s + (α / s) • dx s + gradient f (y s) - -uOf s =
+          ddx s + (α / s) • dx s + uOf s + gradient f (y s) := by abel
       _ = 0 := hdiv
 
 end AttouchAdlyDryFrictionDynamics2023

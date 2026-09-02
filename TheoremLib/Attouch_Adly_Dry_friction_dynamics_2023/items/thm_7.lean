@@ -24,11 +24,11 @@ private theorem scaled_exponent_eq {α rate s : ℝ} (hα : 1 < α) :
   field_simp [hden]
 
 /-- Theorem 4.3: the quadratic DRYSTAR trajectory has an `exp (-μ s²)` rate. -/
-theorem theorem_4_3 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+theorem theorem_4_3 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
     {s₀ r α : ℝ} (hr : 0 < r) (hα : 1 < α) (hs₀ : 0 < s₀)
-    (A : H →L[ℝ] H) (x dx ddx p g q : ℝ → H)
+    (A : H →L[ℝ] H) (f : H → ℝ) (hf : Differentiable ℝ f) (x dx ddx p g q : ℝ → H)
     (hsymm : A.IsSymmetric) (hpos : ∀ u ≠ 0, 0 < inner ℝ (A u) u)
-    (_hsolution : IsDryStarTrajectory r α s₀ A x dx ddx p)
+    (_hsolution : IsDryStarTrajectory r α s₀ f hf x dx ddx p)
     (hbridge : ∀ s ∈ Set.Ici s₀,
       g (s ^ 2 / (2 * (α - 1))) = A (x s + (s / (α - 1)) • dx s))
     (hdualDrygrad : ∀ t, q t ∈ frictionBallProjector r (g t) ∧

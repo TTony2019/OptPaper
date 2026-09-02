@@ -3,11 +3,14 @@ import Mathlib
 namespace AttouchAdlyDryFrictionDynamics2023
 
 private theorem convex_gradient_support {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
-    (f : H → ℝ) (fgrad : H → H) (fstar : ℝ) (hconvex : ConvexOn ℝ Set.univ f)
+    [CompleteSpace H] (f : H → ℝ) (fstar : ℝ) (hconvex : ConvexOn ℝ Set.univ f)
     (hdiff : Differentiable ℝ f)
-    (hgradient : ∀ x v, fderiv ℝ f x v = inner ℝ (fgrad x) v)
     {x xstar : H} (hxstar : f xstar = fstar) :
-    f x - fstar ≤ inner ℝ (fgrad x) (x - xstar) := by
+    f x - fstar ≤ inner ℝ (gradient f x) (x - xstar) := by
+  have hgradient : ∀ x v, fderiv ℝ f x v = inner ℝ (gradient f x) v := by
+    intro x v
+    rw [(hdiff x).hasGradientAt.hasFDerivAt.fderiv]
+    rfl
   let g : ℝ → ℝ := fun t => f (x + t • (xstar - x))
   have hconv_g : ConvexOn ℝ Set.univ g := by
     refine ⟨convex_univ, fun p hp q hq a b ha hb hab => ?_⟩
@@ -22,12 +25,12 @@ private theorem convex_gradient_support {H : Type*} [NormedAddCommGroup H] [Inne
         _ = a • (x + p • (xstar - x)) + b • (x + q • (xstar - x)) := by module
     rw [hident]
     exact hconvex.2 (Set.mem_univ _) (Set.mem_univ _) ha hb hab
-  have hderiv : HasDerivAt g (inner ℝ (fgrad x) (xstar - x)) 0 := by
-    have hline : HasLineDerivAt ℝ f (inner ℝ (fgrad x) (xstar - x)) x (xstar - x) := by
+  have hderiv : HasDerivAt g (inner ℝ (gradient f x) (xstar - x)) 0 := by
+    have hline : HasLineDerivAt ℝ f (inner ℝ (gradient f x) (xstar - x)) x (xstar - x) := by
       simpa [hgradient] using
         hdiff.differentiableAt.hasFDerivAt.hasLineDerivAt (xstar - x)
     simpa [g, HasLineDerivAt] using hline
-  have hslope : inner ℝ (fgrad x) (xstar - x) ≤ g 1 - g 0 := by
+  have hslope : inner ℝ (gradient f x) (xstar - x) ≤ g 1 - g 0 := by
     have h := ConvexOn.le_slope_of_hasDerivAt hconv_g (Set.mem_univ 0) (Set.mem_univ 1)
       (by norm_num : (0 : ℝ) < 1) hderiv
     simpa [slope, div_one] using h
@@ -42,14 +45,17 @@ private theorem convex_gradient_support {H : Type*} [NormedAddCommGroup H] [Inne
 -/
 /-- A classical convex gradient flow has value error `o(1/s)` when its infimum is attained. -/
 theorem classical_gradient_flow_value_rate {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
-    {s₀ : ℝ} (f : H → ℝ) (fgrad : H → H) (y dy : ℝ → H) (fstar : ℝ)
+    [CompleteSpace H] {s₀ : ℝ} (f : H → ℝ) (y dy : ℝ → H) (fstar : ℝ)
     (hconvex : ConvexOn ℝ Set.univ f)
     (hdiff : Differentiable ℝ f)
-    (hgradient : ∀ x v, fderiv ℝ f x v = inner ℝ (fgrad x) v)
     (hregular : ∀ s ∈ Set.Ici s₀, HasDerivAt y (dy s) s)
-    (hflow : ∀ s ∈ Set.Ici s₀, dy s + fgrad (y s) = 0)
+    (hflow : ∀ s ∈ Set.Ici s₀, dy s + gradient f (y s) = 0)
     (hmin : ∃ xstar, f xstar = fstar ∧ ∀ x, fstar ≤ f x) :
     Filter.Tendsto (fun s : ℝ => s * (f (y s) - fstar)) Filter.atTop (nhds 0) := by
+  have hgradient : ∀ x v, fderiv ℝ f x v = inner ℝ (gradient f x) v := by
+    intro x v
+    rw [(hdiff x).hasGradientAt.hasFDerivAt.fderiv]
+    rfl
   rcases hmin with ⟨xstar, hxstar, hmin_le⟩
   let gap : ℝ → ℝ := fun s => f (y s) - fstar
   let dist2 : ℝ → ℝ := fun s => ‖y s - xstar‖ ^ 2
@@ -57,7 +63,7 @@ theorem classical_gradient_flow_value_rate {H : Type*} [NormedAddCommGroup H] [I
     dsimp [gap]
     linarith [hmin_le (y s)]
   have hgap_deriv (s : ℝ) (hs : s ∈ Set.Ici s₀) :
-      HasDerivAt gap (inner ℝ (fgrad (y s)) (dy s)) s := by
+      HasDerivAt gap (inner ℝ (gradient f (y s)) (dy s)) s := by
     have hcomp := hdiff.differentiableAt.hasFDerivAt.comp_hasDerivAt s (hregular s hs)
     simpa [gap, Function.comp_def, hgradient] using hcomp.sub_const fstar
   have hgap_anti : AntitoneOn gap (Set.Ici s₀) := by
@@ -69,7 +75,7 @@ theorem classical_gradient_flow_value_rate {H : Type*} [NormedAddCommGroup H] [I
     · intro s hs
       have hs' : s ∈ Set.Ici s₀ := interior_subset hs
       rw [(hgap_deriv s hs').deriv]
-      have hdy : dy s = -fgrad (y s) := eq_neg_of_add_eq_zero_left (hflow s hs')
+      have hdy : dy s = -gradient f (y s) := eq_neg_of_add_eq_zero_left (hflow s hs')
       rw [hdy, inner_neg_right, real_inner_self_eq_norm_sq]
       exact neg_nonpos.mpr (sq_nonneg _)
   have hdist_deriv (s : ℝ) (hs : s ∈ Set.Ici s₀) :
@@ -77,9 +83,9 @@ theorem classical_gradient_flow_value_rate {H : Type*} [NormedAddCommGroup H] [I
     simpa [dist2] using ((hregular s hs).sub_const xstar).norm_sq
   have hdist_bound (s : ℝ) (hs : s ∈ Set.Ici s₀) :
       deriv dist2 s ≤ -2 * gap s := by
-    have hsupport := convex_gradient_support f fgrad fstar hconvex hdiff hgradient hxstar
+    have hsupport := convex_gradient_support f fstar hconvex hdiff hxstar
       (x := y s)
-    have hdy : dy s = -fgrad (y s) := eq_neg_of_add_eq_zero_left (hflow s hs)
+    have hdy : dy s = -gradient f (y s) := eq_neg_of_add_eq_zero_left (hflow s hs)
     rw [(hdist_deriv s hs).deriv, hdy, inner_neg_right, real_inner_comm]
     dsimp [gap] at hsupport ⊢
     nlinarith
