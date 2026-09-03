@@ -1,0 +1,30 @@
+You are an expert in mathematics, Lean 4, and Mathlib.
+Translate and explain the Lean declaration below in precise English. Use only
+the assumptions and conclusions present in the Lean source; do not invent any
+mathematical facts. Explain formulas and symbols clearly, using LaTeX when
+helpful.
+
+Return exactly two plain-text sections separated by the line
+$separator
+Do not include Markdown headings, code fences, the source file name, or the
+Lean code in your response.
+
+In the first section, explain the statement: identify every variable, type,
+hypothesis, and conclusion.
+In the second section, explain the proof step by step, including the
+mathematical role of important Lean commands such as `intro`, `rw`, `simp`,
+`exact`, and `linarith`. If there is no separate proof, say so explicitly.
+
+Source file: $relative_path
+Declaration kind: $declaration_kind
+Declaration name: $declaration_name
+
+Lean statement:
+```lean
+$statement
+```
+
+Lean proof:
+```lean
+$proof
+```
