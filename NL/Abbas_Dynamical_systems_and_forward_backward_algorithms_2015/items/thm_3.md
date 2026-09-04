@@ -28,21 +28,20 @@ theorem bf_convergence {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ
 ```
 
 ## Statement explanation
-Statement. The theorem `bf_convergence` is set in a real Hilbert space context. Precisely:
+The theorem assumes a type \(H\) with a normed additive commutative group structure, a real inner product space structure, and completeness. It fixes an extended-real-valued function \(\Phi : H \to \operatorname{Set.Ioi}(\bot : \mathrm{EReal})\), meaning \(\Phi\) takes extended real values strictly above the bottom element, and assumes \(\Phi\) belongs to the class \(\mathrm{ERealFunction.gammaZero}\,H\). It also fixes a subset \(S\subseteq H\), an operator \(B:H\to H\), and real parameters \(\mu,h,\beta,\delta\). The object \(\mathrm{alg}\) is a backward-forward discretization for \(\Phi\), \(B\), \(\mu\), and \(h\), providing sequences \(\mathrm{alg}.x\) and \(\mathrm{alg}.y\) and the update equations used in the proof.
 
-- `H : Type*` is an unspecified type equipped with a normed additive commutative group structure, a real inner product structure, and completeness, so it is a real Hilbert space.
-- `Phi : H → Set.Ioi (⊥ : EReal)` is a function assigning to each point an extended real number lying strictly above the bottom element `⊥` of `EReal`. This is an extended-real-valued objective function that is never equal to `-∞` in the extended-real order.
-- `hPhi : Phi ∈ ERealFunction.gammaZero H` states that `Phi` belongs to the gamma-zero class of extended-real-valued functions used in the theory of convex analysis in Mathlib.
-- `S : Set H` is a proposed solution set.
-- `B : H → H` is an operator.
-- `mu`, `h`, `beta`, `delta` are real numbers.
-- `alg : BackwardForwardDiscretization Phi hPhi B mu h` is an algorithmic object supplying the discrete sequences `alg.x k` and `alg.y k` produced by a backward-forward discretization associated with `Phi`, `B`, and step parameters `mu` and `h`.
-- `hmu` asserts `0 < mu` and `mu < 2 * beta`.
-- `hh` asserts `0 < h` and `h < delta`.
-- `hdelta` asserts that `delta = 1 / 2 + min 1 (beta / mu)`.
-- `hS` asserts that the solution set `S` is nonempty.
-- `hB` asserts that `B` is `beta`-cocoercive on the whole space, expressed via the restricted operator `fun w : Set.univ ↦ B w`.
-- `hsolution
+The assumptions are: \(0<\mu\) and \(\mu<2\beta\); \(0<h\) and \(h<\delta\); \(\delta = 1/2+\min(1,\beta/\mu)\); \(S\) is nonempty; \(B\) is \(\beta\)-cocoercive on the whole space; and \(S\) is exactly the solution set of the inclusion \(-Bz\in \partial\Phi(z)\), where \(\partial\Phi\) denotes the subdifferential of \(\Phi\).
+
+The conclusion asserts the existence of points \(\bar y,\bar x\in H\) such that:
+
+- the scaled proximity operator of \(\Phi\) with positive parameter \(\mu\), evaluated at \(\bar y\), equals \(\bar x\);
+- \(\bar x\in S\);
+- the sequence \(\mathrm{alg}.y_k\) converges weakly to \(\bar y\);
+- the sequence \(\mathrm{alg}.x_k\) converges weakly to \(\bar x\);
+- \(B(\mathrm{alg}.x_k)\) converges strongly to \(B(\bar x)\);
+- the series \(\sum_k \|\mathrm{alg}.x_{k+1}-\mathrm{alg}.x_k\|^2\) is summable;
+- the series \(\sum_k \|\mathrm{alg}.y_{k+1}-\mathrm{alg}.y_k\|^2\) is summable;
+- the difference \(\mathrm{alg}.y_k-\mathrm{alg}.x_k\) converges strongly to \(\bar y-\bar x\).
 
 ## Lean proof
 ```lean
@@ -311,5 +310,107 @@ by
 ```
 
 ## Proof explanation
-No proof explanation was returned by the model.
+The proof begins by defining three operators. It lets \(P\) be the scaled proximity operator for \(\Phi\) with parameter \(\mu\), lets \(F(x)=x-\mu B(x)\), and lets \(T(y)=P(y)-\mu B(P(y))\). Thus \(T=F\circ P\). It then proves \(\beta>0\) from the assumptions on \(\mu\) and \(\beta\) using nonlinear arithmetic.
+
+Next, the proof shows that \(P\) is firmly nonexpansive, using the fact that scaling preserves the \(\gamma_0\) class and the theorem that proximity operators of \(\gamma_0\) functions are firmly nonexpansive. Consequently, \(P\) is averaged with constant \(1/2\). It also proves that the constant \(\mu/(2\beta)\) lies in the interval \((0,1)\). Using the cocoercivity assumption on \(B\), it shows that \(F=I-\mu B\) is averaged with constant \(\mu/(2\beta)\). A composition lemma for averaged operators then shows that \(T=F\circ P\) is averaged with a certain constant. The proof simplifies this constant, using the definition of \(\delta\), to \(1/\delta\).
+
+The iteration is then rewritten. From the equations supplied by the backward-forward discretization, the proof obtains
+
+\[
+\mathrm{alg}.y_{k+1}=(1-h)\mathrm{alg}.y_k+h\,T(\mathrm{alg}.y_k).
+\]
+
+The proof also verifies that \(T\) has a fixed point. Since \(S\) is nonempty, it chooses \(z\in S\). The point \(z-\mu B(z)\) is shown to be a fixed point of \(T\), using the lemma that a solution of the inclusion produces a fixed point.
+
+The proof then checks the parameter conditions needed for the relaxed averaged iteration theorem. It shows \(\delta>0\), \(1/\delta\in(0,1)\), and \(h\in(0,\delta)\). Applying the relaxed averaged orbit theorem to the sequence \(\mathrm{alg}.y\) and the operator \(T\) gives a fixed point \(\bar y\) of \(T\), weak convergence of \(\mathrm{alg}.y_k\) to \(\bar y\), and summability of the squared successive \(y\)-differences.
+
+Define \(\bar x=P\bar y\). Since \(\bar y\) is a fixed point of \(T\), the fixed-point solution lemma gives \(\bar x\in S\).
+
+The remainder of the proof establishes the strong convergence and summability statements. It fixes \(z_0\in S\) and introduces auxiliary sequences. Define
+
+\[
+v_k=\mu^{-1}(y_k-x_k),
+\]
+
+\[
+g_k=\Phi(z_0)_{\mathrm{toReal}}-\Phi(x_k)_{\mathrm{toReal}}-\langle z_0-x_k,v_k\rangle,
+\]
+
+and
+
+\[
+A_k=\frac1{2\mu}\|x_k-z_0\|^2+g_k.
+\]
+
+The residual \(v_k\) lies in the subdifferential of \(\Phi\) at \(x_k\), by the proximity step. A discrete inequality gives
+
+\[
+A_{k+1}-A_k+\frac1{2\mu}\|x_{k+1}-x_k\|^2
++h\langle Bx_k-Bz_0,x_k-z_0\rangle
++h\langle x_k-z_0,v_k+Bz_0\rangle
+\le \frac1\mu\langle x_{k+1}-x_k,y_{k+1}-y_k\rangle.
+\]
+
+Cocoercivity of \(B\) gives
+
+\[
+\beta\|Bx_k-Bz_0\|^2
+\le \langle Bx_k-Bz_0,x_k-z_0\rangle.
+\]
+
+Monotonicity of the subdifferential gives
+
+\[
+0\le \langle x_k-z_0,v_k+Bz_0\rangle.
+\]
+
+The auxiliary function \(A_k\) is nonnegative. Combining these inequalities using a half-strong lemma yields
+
+\[
+A_{k+1}-A_k+\frac1{4\mu}\|x_{k+1}-x_k\|^2
++h\beta\|Bx_k-Bz_0\|^2
+\le \frac1\mu\|y_{k+1}-y_k\|^2.
+\]
+
+Because the series \(\sum_k\|y_{k+1}-y_k\|^2\) is summable, the scaled series is also summable. The proof uses a lemma that bounds nonnegative terms by a telescoping difference plus a summable error. This gives summability of
+
+\[
+\frac1{4\mu}\|x_{k+1}-x_k\|^2
+\]
+
+and of
+
+\[
+h\beta\|Bx_k-Bz_0\|^2.
+\]
+
+After scaling by positive constants, it obtains summability of \(\|x_{k+1}-x_k\|^2\) and of \(\|Bx_k-Bz_0\|^2\).
+
+From summability of \(\|Bx_k-Bz_0\|^2\), the norm \(\|Bx_k-Bz_0\|\) tends to \(0\), hence \(Bx_k-Bz_0\to0\). The proof also shows that \(B\) is constant on the solution set \(S\), so \(Bz_0=B\bar x\). Therefore \(Bx_k\to B\bar x\) strongly.
+
+Similarly, summability of the \(y\)-differences implies \(y_{k+1}-y_k\to0\). The update equation gives
+
+\[
+y_k-x_k=-\mu Bx_k-h^{-1}(y_{k+1}-y_k).
+\]
+
+The right side converges strongly to \(-\mu B\bar x\). Using the fixed point identity \(T\bar y=\bar y\) and \(\bar x=P\bar y\), the proof computes
+
+\[
+\bar y-\bar x=-\mu B\bar x.
+\]
+
+Thus \(y_k-x_k\to \bar y-\bar x\) strongly.
+
+Finally, weak convergence of \(x_k\) to \(\bar x\) is proved by the inner-product criterion for weak convergence. For an arbitrary vector \(w\), weak convergence of \(y_k\) gives \(\langle y_k,w\rangle\to\langle\bar y,w\rangle\). Strong convergence of the residual gives \(\langle y_k-x_k,w\rangle\to\langle\bar y-\bar x,w\rangle\). Since
+
+\[
+\langle x_k,w\rangle
+=
+\langle y_k,w\rangle-\langle y_k-x_k,w\rangle,
+\]
+
+the inner products \(\langle x_k,w\rangle\) converge to \(\langle\bar y,w\rangle-\langle\bar y-\bar x,w\rangle=\langle\bar x,w\rangle\). Therefore \(x_k\) converges weakly to \(\bar x\).
+
+The final `exact` assembles all the conclusions: \(\bar y\), \(\bar x\), the proximity identity, membership in \(S\), weak convergence of \(y\), weak convergence of \(x\), strong convergence of \(Bx_k\), summability of the \(x\)-differences, summability of the \(y\)-differences, and strong convergence of \(y_k-x_k\).
 

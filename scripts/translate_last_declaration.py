@@ -261,7 +261,7 @@ class AnthropicClient:
         model: str,
         timeout: float,
         retries: int,
-        max_tokens: int = 8192,
+        max_tokens: int = 32768,
     ):
         self.api_key = api_key
         self.endpoint = base_url.rstrip("/") + "/v1/messages"
@@ -352,7 +352,7 @@ def parse_args() -> argparse.Namespace:
         "--model",
         default=None,
     )
-    parser.add_argument("--max-tokens", type=int, default=8192)
+    parser.add_argument("--max-tokens", type=int, default=32768)
     parser.add_argument("--timeout", type=float, default=120.0)
     parser.add_argument("--retries", type=int, default=3)
     parser.add_argument("--delay", type=float, default=0.0, help="Seconds to wait between successful requests")

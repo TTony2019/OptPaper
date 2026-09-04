@@ -13,17 +13,28 @@ theorem lemma_A_1 {s₀ α : ℝ} (hα : 1 < α) (a : ℝ → ℝ)
 ```
 
 ## Statement explanation
-Let \(s_0\) and \(\alpha\) be real numbers, with the hypothesis \(h_\alpha: 1<\alpha\). Let \(a:\mathbb R\to\mathbb R\) be a real function. The hypotheses are:
-- \(ha\): for every \(s\in [s_0,\infty)\), one has \(a(s)>0\), so \(a\) is positive on the right-closed interval starting at \(s_0\).
-- \(ha0\): \(a(s)\to 0\) as \(s\to+\infty\), where \(\operatorname{atTop}\) is the filter of large real numbers and \(0\) is approached in the neighborhood filter.
-- \(hs_0\): \(0\le s_0\).
-- \(hInt\): for every real \(t\), the function \(u\mapsto u^{\alpha-2}a(u)\) is interval-integrable, with respect to Lebesgue volume measure, on the interval from \(s_0\) to \(t\). Here and below the powers are real powers.
-
-The conclusion is:
+The theorem assumes two real parameters \(s_0,\alpha\) with \(\alpha>1\), and a function \(a:\mathbb R\to\mathbb R\). The hypothesis
 \[
-\lim_{s\to+\infty} \bigl(s^{\alpha-1}\bigr)^{-1}\int_{s_0}^{s} u^{\alpha-2}a(u)\,du=0.
+\forall s\in \operatorname{Ici}(s_0),\quad 0<a(s)
 \]
-Equivalently, the normalized integral tends to \(0\) as the upper endpoint \(s\) tends to infinity.
+means \(a(s)>0\) for every \(s\ge s_0\). The hypothesis
+\[
+\operatorname{Filter.Tendsto}\ a\ \operatorname{Filter.atTop}\ (\operatorname{nhds}\ 0)
+\]
+means \(a(u)\to 0\) as \(u\to+\infty\). There is also the assumption \(0\le s_0\), and the integrability assumption that for every real \(t\), the function
+\[
+u\mapsto u^{\alpha-2}a(u)
+\]
+is interval-integrable on the interval between \(s_0\) and \(t\) with respect to Lebesgue measure.
+
+The conclusion is that
+\[
+s\mapsto \frac{1}{s^{\alpha-1}}\int_{s_0}^{s} u^{\alpha-2}a(u)\,du
+\]
+tends to \(0\) as \(s\to+\infty\). In Lean notation,
+\[
+(s^{\alpha-1})^{-1}\int_{s_0}^{s} u^{\alpha-2}a(u)\,du \longrightarrow 0.
+\]
 
 ## Lean proof
 ```lean
@@ -122,7 +133,75 @@ by
 ```
 
 ## Proof explanation
-The proof defines the auxiliary exponent \(q=\alpha-1\). Since \(1<\alpha\), the command `linarith` proves \(q>0\); it also proves \(-1<\alpha-2\), a useful condition for the later integral formula. The expression \(\alpha-1\) is replaced by its definitional equal \(q\) at a suitable point.
+The proof begins by defining \(q=\alpha-1\), so that the denominator is \(s^q\). Since \(\alpha>1\), one has \(q>0\), proved using `dsimp` and `linarith`. It also notes that \(\alpha-2>-1\), which is useful later for integrability of real powers.
 
-First, the proof shows that the whole normalized integral is eventually nonnegative. It chooses \(s\) eventually larger than both \(s_0\) and \(0\). Then \(s_0\le s\) and \(0\le s\). On the interval \([s_0,s]\), \(u\ge s_0\ge0\), so \(u^{\alpha-2}\ge0\), and by the hypothesis \(ha\), \(a(u)>0\). Thus the integrand is nonnegative, the integral is nonnegative, and multiplication by the nonnegative factor
+The first main step is to show that the expression
+\[
+(s^q)^{-1}\int_{s_0}^{s} u^{\alpha-2}a(u)\,du
+\]
+is eventually nonnegative as \(s\to+\infty\). This is done using `filter_upwards` with the fact that eventually \(s>\max(s_0,0)\). For such \(s\), one has \(s_0\le s\) and \(0\le s\). The inverse factor is nonnegative because \(s^q\ge0\) by real power nonnegativity. The integral is nonnegative because \(u\ge s_0\) on the interval, hence \(u^{\alpha-2}\ge0\) and \(a(u)>0\), so the integrand is nonnegative. Thus the whole product is nonnegative.
+
+Next, the proof rewrites the goal using `tendsto_order`, which characterizes convergence to \(0\) in the order topology by two conditions: for every \(b<0\), eventually the expression is greater than \(b\); and for every \(b>0\), eventually the expression is less than \(b\).
+
+The first condition is immediate from eventual nonnegativity: if the expression is eventually nonnegative and \(b<0\), then eventually \(b<\text{expression}\), proved by `linarith`.
+
+The second condition is the main part. Fix \(b>0\). The proof chooses
+\[
+\varepsilon=\frac{bq}{2},
+\]
+which is positive because \(b>0\) and \(q>0\). Since \(a(u)\to0\) as \(u\to+\infty\), eventually \(a(u)<\varepsilon\). Thus there is some \(T_0\) such that \(a(u)<\varepsilon\) for all \(u\ge T_0\). The proof then chooses
+\[
+T=\max(\max(s_0,0),T_0),
+\]
+so \(T\ge0\), \(T\ge s_0\), and for all \(u\ge T\), one has \(a(u)\le\varepsilon\).
+
+The integrand is named
+\[
+f(u)=u^{\alpha-2}a(u).
+\]
+The integral from \(s_0\) to \(s\) is split at \(T\). The part from \(s_0\) to \(T\) is a fixed finite integral multiplied by the decaying factor \((s^q)^{-1}\). Since \(q>0\), \((s^q)^{-1}\to0\) as \(s\to+\infty\), so the fixed part tends to \(0\). This uses `tendsto_rpow_neg_atTop` and `Real.rpow_neg`, followed by multiplying by a constant. Therefore, for large \(s\), the fixed part is less than \(b/2\).
+
+For the tail part from \(T\) to \(s\), the proof estimates the integrand:
+\[
+u^{\alpha-2}a(u)\le u^{\alpha-2}\varepsilon
+\]
+because \(a(u)\le\varepsilon\) and \(u^{\alpha-2}\ge0\). By interval integral monotonicity,
+\[
+\int_T^s f(u)\,du
+\le
+\int_T^s u^{\alpha-2}\varepsilon\,du.
+\]
+The right-hand integral is evaluated using the real power integral formula:
+\[
+\int_T^s u^{\alpha-2}\varepsilon\,du
+=
+\varepsilon\frac{s^q-T^q}{q}.
+\]
+Since \(T^q\ge0\), this is at most
+\[
+\frac{\varepsilon}{q}s^q.
+\]
+Multiplying by the nonnegative factor \((s^q)^{-1}\) gives
+\[
+(s^q)^{-1}\int_T^s f(u)\,du
+\le
+\frac{\varepsilon}{q}
+=
+\frac{b}{2}.
+\]
+Here \(s>0\), so \(s^q>0\) and the inverse is valid.
+
+Finally, using `intervalIntegral.integral_add_adjacent_intervals`, the whole integral is written as
+\[
+\int_{s_0}^s f(u)\,du
+=
+\int_{s_0}^T f(u)\,du
++
+\int_T^s f(u)\,du.
+\]
+After distributing the inverse factor, the first summand is less than \(b/2\) and the second summand is at most \(b/2\). Combining these with `nlinarith` yields the desired inequality
+\[
+(s^q)^{-1}\int_{s_0}^s f(u)\,du < b.
+\]
+This proves the upper-bound condition, completing the proof of convergence to \(0\).
 

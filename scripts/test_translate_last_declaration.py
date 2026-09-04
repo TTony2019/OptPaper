@@ -147,7 +147,7 @@ theorem real : True := by trivial
         self.assertEqual(request.full_url, "https://api.deepseek.com/anthropic/v1/messages")
         self.assertEqual(request.get_header("X-api-key"), "secret")
         payload = json.loads(request.data)
-        self.assertEqual(payload["max_tokens"], 8192)
+        self.assertEqual(payload["max_tokens"], 32768)
         self.assertEqual(payload["messages"][0]["content"][0]["type"], "text")
         self.assertFalse(payload["stream"])
 

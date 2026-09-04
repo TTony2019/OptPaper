@@ -14,8 +14,21 @@ theorem weak_strong_closedness_maximal_monotone_graph
 ```
 
 ## Statement explanation
-Let \(H\) be the real Hilbert space implicit in the context, and let  
-\(A:\operatorname{SetValuedOperator} H H\) be a set-valued operator, so \(A(p)\) is a set of vectors in \(H\). The assumption \(hA\) says that \(A\) is maximal monotone. The vectors \(x,u\in H\) and the two sequences \(xs,us:\mathbb N\to H\) are arbitrary. The hypothesis \(hxs\) says that \(xs_n\) converges weakly to \(x\): the images of \(xs_n\) under the weak
+The theorem proves a weak-strong closedness property of the graph of a maximal monotone operator. In the ambient real Hilbert space \(H\), let \(A\) be a set-valued operator from \(H\) to \(H\), so that \(A(x)\) is a set in \(H\) for each \(x\). The hypothesis \(hA\) says that \(A\) is maximal monotone. Given points \(x,u\in H\) and sequences \(xs,us:\mathbb{N}\to H\), assume that:
+
+- \(hxs\): the sequence \(xs_n\) converges weakly to \(x\), expressed as
+  \[
+  \operatorname{toWeakSpace}_{\mathbb R,H}(xs_n)\to \operatorname{toWeakSpace}_{\mathbb R,H}(x)
+  \]
+  along \(n\to\infty\);
+- \(hus\): the sequence \(us_n\) converges to \(u\) in the ordinary norm topology of \(H\);
+- \(hmem\): for every \(n\in\mathbb N\), \(us_n\in A(xs_n)\).
+
+The conclusion is that the limit point lies in the graph:
+\[
+u\in A(x).
+\]
+Thus, if the first coordinates \(xs_n\) converge weakly to \(x\), the second coordinates \(us_n\) converge strongly to \(u\), and each pair \((xs_n,us_n)\) is in the graph of \(A\), then \((x,u)\) is also in the graph of \(A\).
 
 ## Lean proof
 ```lean
@@ -91,5 +104,121 @@ by
 ```
 
 ## Proof explanation
-No proof explanation was returned by the model.
+The proof uses the maximal monotonicity of \(A\) to reduce the goal to checking that the candidate point \((x,u)\) is monotonically related to the graph of \(A\). The first step is
+
+\[
+\verb|apply mem_of_monotonically_related_to_graph hA|
+\]
+
+This lemma says that if \(A\) is maximal monotone and for every \((y,v)\) in the graph of \(A\) one has
+\[
+0\le \langle u-v,\ x-y\rangle,
+\]
+then \(u\in A(x)\). After this, the proof introduces arbitrary \(y,v\in H\) with \(v\in A(y)\), and the remaining goal is exactly that inequality.
+
+First, the proof records the monotonicity of \(A\) on the given graph points:
+
+\[
+\verb|hmono_n|:\quad 0\le \langle us_n-v,\ xs_n-y\rangle
+\]
+
+for every \(n\). This follows from \(hA.1\), the monotonicity part of maximal monotonicity, using \(us_n\in A(xs_n)\) and \(v\in A(y)\).
+
+Next, the proof needs to pass this inequality to the limit. To do so, it shows that the sequence
+\[
+\langle us_n-v,\ xs_n-y\rangle
+\]
+tends to
+\[
+\langle u-v,\ x-y\rangle.
+\]
+
+A key intermediate fact is that the weakly convergent sequence \(xs\) is bounded. The proof obtains this with
+
+\[
+\verb|bounded_range_of_tendsto_weakly hxs|,
+\]
+
+then chooses a constant \(C\) bounding the norms of the range of \(xs\), and sets \(M=\max(C,0)\) so that \(M\ge 0\) and
+\[
+\|xs_n\|\le M
+\]
+for all \(n\).
+
+The proof also uses the characterization of weak convergence in terms of inner products:
+
+\[
+\verb|weakConvergence_iff_forall_tendsto_inner_right|
+\]
+
+This gives that for every fixed \(z\in H\),
+\[
+\langle xs_n,z\rangle \to \langle x,z\rangle.
+\]
+
+Since \(us_n\to u\) strongly, one has
+\[
+\|us_n-u\|\to 0.
+\]
+
+The proof then shows that the mixed term
+\[
+\langle us_n-u,\ xs_n\rangle
+\]
+tends to \(0\). This is done by the Cauchy-Schwarz inequality:
+\[
+|\langle us_n-u,\ xs_n\rangle|
+\le \|us_n-u\|\,\|xs_n\|
+\le \|us_n-u\|\,M.
+\]
+Because \(\|us_n-u\|\to 0\) and \(M\) is constant, the right side tends to \(0\). The squeeze theorem, implemented with `squeeze_zero`, forces the absolute value, and therefore the mixed inner product, to tend to \(0\).
+
+Using this, the proof computes the limit of
+\[
+\langle us_n,\ xs_n\rangle.
+\]
+It writes
+\[
+us_n=(us_n-u)+u
+\]
+and obtains
+\[
+\langle us_n,\ xs_n\rangle
+=
+\langle us_n-u,\ xs_n\rangle
++
+\langle u,\ xs_n\rangle.
+\]
+The first term tends to \(0\), and the second term tends to \(\langle u,x\rangle\) by weak convergence. Hence
+\[
+\langle us_n,xs_n\rangle \to \langle u,x\rangle.
+\]
+
+Similarly, the proof obtains the limits:
+\[
+\langle us_n,y\rangle \to \langle u,y\rangle
+\]
+by strong convergence of \(us_n\), and
+\[
+\langle v,xs_n\rangle \to \langle v,x\rangle
+\]
+by weak convergence of \(xs_n\). The term \(\langle v,y\rangle\) is constant.
+
+Combining these limits linearly, the proof shows that
+\[
+\langle us_n-v,\ xs_n-y\rangle
+\to
+\langle u-v,\ x-y\rangle.
+\]
+The algebraic rewriting is handled with `convert` and `ring`, using the bilinearity of the inner product.
+
+Finally, because for every \(n\)
+\[
+0\le \langle us_n-v,\ xs_n-y\rangle,
+\]
+the limit inequality follows:
+\[
+0\le \langle u-v,\ x-y\rangle.
+\]
+This is obtained by `ge_of_tendsto`, which passes a pointwise inequality through a limit. Since \(y\) and \(v\) were arbitrary graph elements, the maximal monotonicity criterion gives \(u\in A(x)\).
 

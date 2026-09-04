@@ -28,34 +28,26 @@ theorem theorem_2_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 ```
 
 ## Statement explanation
-The theorem is stated in a complete real inner-product space. Concretely, the variables and assumptions are:
+The theorem assumes a type \(H\) equipped with a normed additive commutative group structure, a real inner product space structure, and completeness. There are real parameters \(t_0\) and \(r\), with \(r>0\). The data include a function \(f:H\to\mathbb R\), a trajectory \(z:\mathbb R\to H\), and a velocity \(dz:\mathbb R\to H\). The hypotheses are:
 
-- `H : Type*` is a type equipped with `[NormedAddCommGroup H]`, `[InnerProductSpace ℝ H]`, and `[CompleteSpace H]`; thus `H` is a real Hilbert space, with norm and inner product denoted by `‖·‖` and `inner ℝ · ·`.
-- `t₀` and `r` are real numbers, and `hr : 0 < r` says the radius parameter `r` is strictly positive.
-- `f : H → ℝ` is a real-valued function on `H`. The assumption `hf : ContDiff ℝ 1 f` means `f` is continuously differentiable. `hf_lower : ∃ m : ℝ, ∀ x : H, m ≤ f x` says `f` is bounded below.
-- `hgradient_lip : LocallyLipschitz (gradient f)` says the gradient of `f` is locally Lipschitz.
-- `z dz : ℝ → H` are time-dependent curves in `H`. Here `z` is the position curve and `dz` is its velocity-like curve.
-- `hinitial : r < ‖gradient f (z t₀)‖` says that at the initial time `t₀`, the norm of the gradient of `f` at the initial position is strictly larger than `r`.
-- `hchain` states that for every `t` with `t ≥ t₀`, the derivative at `t` of the scalar function `s ↦ f (z s)` is exactly `inner ℝ (gradient f (z t)) (dz t)`, i.e. the time derivative of `f ∘ z` is given by the inner product of the spatial gradient and the velocity.
-- `hcomp_cont` says `f (z t)` is continuous as a function of `t` on the set `Set.Ici t₀ = {t : ℝ | t₀ ≤ t}`.
-- `hsol : IsDrygradTrajectory r hr f (hf.differentiable (by norm_num)) z dz t₀` is an assumption using the custom predicate `IsDrygradTrajectory`; in the surrounding formalization this encodes that `(z,dz)` is a drygrad trajectory for `f` starting at `t₀` with parameter `r`.
-- `V : H → H` is a vector field, and `hV_lip : LocallyLipschitz V` says it is locally Lipschitz.
-- `hV_zero : ∀ x, V x = 0 ↔ ‖gradient f x‖ ≤ r` identifies the zero set of `V` with the set of points where the gradient norm is at most `r`.
-- `hvelocity` says that for every `t ≥ t₀`, `dz t = V (z t)`, so the velocity is the vector field evaluated along the trajectory.
-- `hvelocity_limit` says `dz` tends to `0` as `t → +∞`, i.e. `Filter.Tendsto dz Filter.atTop (nhds 0)`.
-- `hstationary` says that if at some time `S ≥ t₀` the vector field vanishes at `z S`, i.e. `V (z S) = 0`, then the trajectory is frozen forever after: `z t = z S` for every `t ≥ S`.
+- \(f\) is \(C^1\), i.e. `ContDiff ℝ 1 f`.
+- \(f\) is bounded below: there exists \(m\in\mathbb R\) such that \(m\le f(x)\) for all \(x\in H\).
+- The gradient \(\nabla f\) is locally Lipschitz.
+- Initially the gradient norm is larger than \(r\): \(r<\|\nabla f(z(t_0))\|\).
+- For every \(t\ge t_0\), the derivative of \(s\mapsto f(z(s))\) at \(t\) is the inner product \(\langle \nabla f(z(t)), dz(t)\rangle\).
+- The composition \(t\mapsto f(z(t))\) is continuous on \([t_0,\infty)\).
+- The trajectory \(z\) is a dry-gradient trajectory with threshold \(r\), velocity \(dz\), and initial time \(t_0\), expressed by the predicate `IsDrygradTrajectory`.
+- There is a velocity field \(V:H\to H\), locally Lipschitz, such that \(V(x)=0\) if and only if \(\|\nabla f(x)\|\le r\).
+- For all \(t\ge t_0\), \(dz(t)=V(z(t))\).
+- The velocity tends to zero at infinity: \(dz(t)\to 0\) as \(t\to\infty\).
+- If for some \(S\ge t_0\) one has \(V(z(S))=0\), then the trajectory is constant from \(S\) onward: for all \(t\ge S\), \(z(t)=z(S)\).
 
-The conclusion is a conjunction of four statements:
+The conclusion has four parts:
 
-1. `AntitoneOn (fun t => f (z t)) (Set.Ici t₀)`: the function `t ↦ f (z t)` is antitone, hence nonincreasing, on `[t₀, ∞)`.
-2. `MeasureTheory.IntegrableOn (fun t => ‖dz t‖ ^ 2) (Set.Ici t₀)`: the function `‖dz t‖²` is Lebesgue integrable over `[t₀, ∞)`.
-3. `MeasureTheory.IntegrableOn (fun t => ‖dz t‖) (Set.Ici t₀)`: the norm `‖dz t‖` is integrable over `[t₀, ∞)`.
-4. There exists a limit point `zLimit` in `H` such that:
-   - `z t` tends to `zLimit` as `t → +∞`;
-   - `‖gradient f zLimit‖ = r`;
-   - and either the trajectory reaches this limit in finite time and remains there — there is `T ≥ t₀` such that `z t = zLimit` for all `t ≥ T` — or the trajectory never enters the region where the gradient norm is at most `r`: for every `t ≥ t₀`, one has `r < ‖gradient f (z t)‖`.
-
-Thus the theorem says that under a drygrad dynamics with a locally Lipschitz damping field whose zero set is the gradient-n
+1. The energy \(t\mapsto f(z(t))\) is nonincreasing on \([t_0,\infty)\).
+2. The function \(t\mapsto \|dz(t)\|^2\) is Lebesgue integrable on \([t_0,\infty)\).
+3. The function \(t\mapsto \|dz(t)\|\) is Lebesgue integrable on \([t_0,\infty)\).
+4. The trajectory \(z(t)\) has a limit \(z_{\mathrm{limit}}\) as \(t\to\infty\), and \(\|\nabla f(z_{\mathrm{limit}})\|=r\). Moreover, either the trajectory is eventually constant equal to \(z_{\mathrm{limit}}\), or \(\|\nabla f(z(t))\|>r\) for every \(t\ge t_0\).
 
 ## Lean proof
 ```lean
@@ -213,5 +205,98 @@ by
 ```
 
 ## Proof explanation
-No proof explanation was returned by the model.
+The proof first obtains the monotonicity of the energy along the trajectory. This is done by applying the earlier lemma `drygrad_energy_antitone` to the assumptions `hsol`, `hchain`, and `hcomp_cont`. This yields that \(t\mapsto f(z(t))\) is antitone on \([t_0,\infty)\).
+
+Next, the proof establishes continuity facts. Since \(V\) is locally Lipschitz, it is continuous. The dry-gradient trajectory assumption gives continuity of \(z\) at every point \(t\ge t_0\), hence \(z\) is continuous on \([t_0,\infty)\). Since \(dz(t)=V(z(t))\) on \([t_0,\infty)\), and both \(V\) and \(z\) are continuous, \(dz\) is continuous on \([t_0,\infty)\). Consequently \(\|dz\|\) and \(\|dz\|^2\) are also continuous there.
+
+The proof then takes a lower bound \(m\) for \(f\) from `hf_lower`. The main technical step is to prove a uniform integral bound over finite intervals \([t_0,T]\). For any \(T\ge t_0\), it shows
+
+\[
+\int_{t_0}^{T} \bigl(\|dz(t)\|^2 + r\|dz(t)\|\bigr)\,dt
+\le f(z(t_0))-m.
+\]
+
+To prove this, the proof uses the chain-rule hypothesis `hchain` to identify the derivative of \(t\mapsto f(z(t))\) with the inner product \(\langle \nabla f(z(t)), dz(t)\rangle\). Continuity of the gradient and of \(z\) gives continuity of this derivative on \([t_0,T]\). A separate dry-gradient derivative lemma, `drygrad_energy_deriv_le`, supplies the pointwise inequality
+
+\[
+\|dz(t)\|^2+r\|dz(t)\|\le -\frac{d}{dt} f(z(t)).
+\]
+
+The proof then integrates this pointwise inequality over \([t_0,T]\) using `intervalIntegral.integral_mono_on`. The fundamental theorem of calculus, applied through `intervalIntegral.integral_deriv_eq_sub`, gives
+
+\[
+\int_{t_0}^{T} \frac{d}{dt} f(z(t))\,dt
+=
+f(z(T))-f(z(t_0)).
+\]
+
+Therefore the integral of the negative derivative is \(f(z(t_0))-f(z(T))\). Since \(m\le f(z(T))\), this is at most \(f(z(t_0))-m\). The command `calc` chains these inequalities, and `linarith` handles linear arithmetic.
+
+From this combined integral bound, two separate bounds are extracted. Because \(r\|dz\|\) is nonnegative, the integral of \(\|dz\|^2\) over \([t_0,T]\) is also bounded by \(f(z(t_0))-m\). Because \(\|dz\|^2\) is nonnegative, the integral of \(r\|dz\|\) is bounded by the same constant, so
+
+\[
+\int_{t_0}^{T} \|dz(t)\|\,dt
+\le
+\frac{f(z(t_0))-m}{r}.
+\]
+
+Here positivity of \(r\) is used. The proof uses `linarith` to combine inequalities and the lemma `le_div_iff₀` to divide by the positive number \(r\).
+
+These finite-interval bounds, together with continuity and nonnegativity, are then passed to a lemma `integrableOn_Ici_of_nonneg_prefix_bound`. This proves the two desired integrability statements on \([t_0,\infty)\).
+
+The proof then turns to the existence of a limit for \(z(t)\). It defines
+
+\[
+z_{\mathrm{limit}} := \lim_{\mathcal F_{\mathrm{atTop}}} z,
+\]
+
+where Lean uses `Filter.atTop.limUnder`. The integrability of \(\|dz\|\) on \([t_0,\infty)\) is transferred to the open interval \((t_0,\infty)\). Since \(dz\) is continuous and \(\|dz\|\) is integrable, \(dz\) itself is integrable on \((t_0,\infty)\). The proof applies the lemma `tendsto_limUnder_of_hasDerivAt_of_integrableOn_Ioi` to conclude that \(z(t)\to z_{\mathrm{limit}}\) as \(t\to\infty\).
+
+Next, the proof compares two limits of \(V(z(t))\). On one hand, because \(V\) is continuous and \(z(t)\to z_{\mathrm{limit}}\),
+
+\[
+V(z(t))\to V(z_{\mathrm{limit}}).
+\]
+
+On the other hand, since \(dz(t)\to 0\) and \(dz(t)=V(z(t))\) eventually for all large \(t\),
+
+\[
+V(z(t))\to 0.
+\]
+
+By uniqueness of limits, \(V(z_{\mathrm{limit}})=0\). The equivalence `hV_zero` then gives
+
+\[
+\|\nabla f(z_{\mathrm{limit}})\|\le r.
+\]
+
+It remains to prove equality with \(r\). The norm of the gradient is continuous because the gradient is locally Lipschitz, so
+
+\[
+\|\nabla f(z(t))\|\to \|\nabla f(z_{\mathrm{limit}})\|.
+\]
+
+The proof splits into two cases.
+
+In the first case, there exists some time \(T\ge t_0\) with \(\|\nabla f(z(T))\|\le r\). Since initially \(\|\nabla f(z(t_0))\|>r\) and the gradient norm along \(z\) is continuous on \([t_0,T]\), the intermediate value theorem gives a time \(S\in[t_0,T]\) such that
+
+\[
+\|\nabla f(z(S))\|=r.
+\]
+
+Then \(V(z(S))=0\). By the stationary assumption, \(z(t)=z(S)\) for every \(t\ge S\). Therefore the trajectory is eventually constant, so its limit \(z_{\mathrm{limit}}\) equals \(z(S)\). Hence \(\|\nabla f(z_{\mathrm{limit}})\|=r\), and the first alternative of the conclusion holds.
+
+In the second case, no such time \(T\) exists. Then for every \(t\ge t_0\),
+
+\[
+r<\|\nabla f(z(t))\|.
+\]
+
+The proof argues by contradiction that \(r\le \|\nabla f(z_{\mathrm{limit}})\|\). If instead \(\|\nabla f(z_{\mathrm{limit}})\|<r\), then eventually \(\|\nabla f(z(t))\|<r\), because the gradient norm tends to the limit norm. But this contradicts the fact that for all large \(t\ge t_0\), the gradient norm is greater than \(r\). Therefore
+
+\[
+r\le \|\nabla f(z_{\mathrm{limit}})\|.
+\]
+
+Combining this with the earlier inequality \(\|\nabla f(z_{\mathrm{limit}})\|\le r\) gives equality. The second alternative of the conclusion holds in this case. The proof uses `by_contra` for the contradiction, `tendsto_order` to extract the eventual inequality, and `filter_upwards` to combine eventually-at-top properties. The final `refine` assembles the four parts of the conclusion.
 

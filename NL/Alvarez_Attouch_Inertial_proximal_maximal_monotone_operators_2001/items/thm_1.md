@@ -17,33 +17,23 @@ theorem inertial_proximal_point_converges
 ```
 
 ## Statement explanation
-The ambient space \(H\) is the Hilbert space in which the statement is made; its typeclass assumptions are not shown in this theorem snippet. The theorem has an implicit operator parameter \(A : \mathsf{SetValuedOperator}\ H\ H\), i.e. a set-valued/multivalued operator from \(H\) to itself. The explicit hypotheses are:
+The theorem asserts a weak convergence result for an inertial proximal point algorithm. It assumes an implicit type `H`, equipped with whatever normed and weak-topological structure is needed for the notation used. The variables and hypotheses are as follows.
 
-- \(hA : A.\mathsf{IsMaximalMonotone}\): the operator \(A\) is maximal monotone.
-- \(x : \mathbb{N} \to H\): a sequence \(x_0, x_1, x_2,\dots\) in \(H\).
-- \(\alpha : \mathbb{N} \to \mathbb{R}\) and \(\mathsf{lambda} : \mathbb{N} \to \mathbb{R}\): real coefficient sequences used in the algorithm.  
-- \(hiteration : \mathsf{InertialProximalPointAlgorithm}\ A\ x\ \alpha\ \mathsf{lambda}\): a formal hypothesis asserting that the sequence \(x\), together with the coefficient sequences \(\alpha\) and \(\mathsf{lambda}\), satisfies the inertial proximal point algorithm equation for the operator \(A\). The exact definition of this predicate is not unfolded in the statement.
-- \(hzeros : A.\mathsf{zeros}.\mathsf{Nonempty}\): the zero set of \(A\), i.e. the set of \(z \in H\) with \(0 \in A(z)\), is nonempty.
-- \(hlambda\): there exists a real \(\lambda_0\) with \(0 < \lambda_0\) and \(\lambda_0 \le \lambda_k\) for every \(k\); thus the step-size sequence is bounded below by a positive constant.
-- \(halpha\): there exists a real \(\alpha_0\) with \(0 \le \alpha_0 < 1\), and for every \(k\), \(0 \le \alpha_k \le \alpha_0\). Hence all \(\alpha_k\) lie in \([0,\alpha_0]\subset[0,1)\).
-- \(hsummable\): the series over \(k\) of
+- `A : SetValuedOperator H H` is a set-valued operator on `H`.
+- `hA : A.IsMaximalMonotone` states that `A` is maximal monotone.
+- `x : ℕ → H` is a sequence in `H`.
+- `alpha lambda : ℕ → ℝ` are real sequences of algorithm parameters.
+- `hiteration : InertialProximalPointAlgorithm A x alpha lambda` states that `x`, `alpha`, and `lambda` satisfy the inertial proximal point algorithm for `A`.
+- `hzeros : A.zeros.Nonempty` states that the zero set of `A` is nonempty.
+- `hlambda : ∃ lambda0 : ℝ, 0 < lambda0 ∧ ∀ k : ℕ, lambda0 ≤ lambda k` says there is a positive real lower bound \(\lambda_0\) for all parameters \(\lambda_k\).
+- `halpha : ∃ alpha0 : ℝ, 0 ≤ alpha0 ∧ alpha0 < 1 ∧ ∀ k : ℕ, 0 ≤ alpha k ∧ alpha k ≤ alpha0` says there is a constant \(\alpha_0\) with \(0 \le \alpha_0 < 1\) such that every parameter \(\alpha_k\) lies in the interval \([0,\alpha_0]\).
+- `hsummable : Summable (fun k : ℕ => alpha (k + 1) * ‖x (k + 1) - x k‖ ^ 2)` says the series
   \[
-  \alpha_{k+1}\,\|x_{k+1}-x_k\|^2
+  \sum_{k} \alpha_{k+1} \|x_{k+1}-x_k\|^2
   \]
-  is summable; in Lean this is expressed as
-  \(\mathsf{Summable}\ (\lambda k.\ \alpha(k+1)\cdot \|x(k+1)-x(k)\|^2)\).
+  is summable.
 
-The conclusion is:
-\[
-\exists \hat x \in H,\quad \hat x \in A.\mathsf{zeros}
-\ \text{and}\quad
-x_k \rightharpoonup \hat x
-\]
-as \(k\to\infty\). In Lean notation, weak convergence is written as
-\[
-\mathsf{Tendsto}\ (\lambda k.\ \mathsf{toWeakSpace}\ \mathbb{R}\ H\ (x\,k))\ \mathsf{atTop}\ (\mathcal{N}(\mathsf{toWeakSpace}\ \mathbb{R}\ H\ \hat x)).
-\]
-Here \(\mathsf{toWeakSpace}\ \mathbb{R}\ H\) is the map viewing the space \(H\) with its weak topology, so the conclusion says that the sequence \(x_k\) converges weakly to a zero \(\hat x\) of \(A\).
+The conclusion is that there exists a point `xhat : H` such that `xhat` belongs to `A.zeros` and the sequence \( \operatorname{toWeakSpace}_{\mathbb R,H}(x_k) \) tends to \( \operatorname{toWeakSpace}_{\mathbb R,H}(\hat x) \) in the weak topology as \(k\) tends to infinity. In other words, the iterates converge weakly to a zero of `A`.
 
 ## Lean proof
 ```lean
@@ -56,5 +46,17 @@ by
 ```
 
 ## Proof explanation
-The proof is
+The proof is very short and consists of two steps.
+
+First, it creates an intermediate hypothesis
+`halg : InertialProximalAlgorithm A x alpha lambda`
+from the given hypothesis
+`hiteration : InertialProximalPointAlgorithm A x alpha lambda`.
+This reconciles the packaged point-algorithm formulation with the stepwise algorithm formulation expected by the main convergence theorem. The proof of `halg` uses `intro k hk` to introduce an arbitrary index `k` and any side-condition proof `hk`, and then applies `hiteration.update k hk` to obtain the required update condition at that index.
+
+Second, it applies the previously proved general theorem `convergence_of_inertial_proximal_method` to the assumptions
+`hA`, the sequences `x`, `alpha`, `lambda`, the derived hypothesis `halg`, and the remaining hypotheses `hzeros`, `hlambda`, `halpha`, and `hsummable`.
+This yields exactly the stated conclusion: existence of a zero `xhat` of `A` such that the sequence converges weakly to `xhat`.
+
+Only `intro` and `exact` are used in this proof. The commands `rw`, `simp`, and `linarith` do not appear here.
 

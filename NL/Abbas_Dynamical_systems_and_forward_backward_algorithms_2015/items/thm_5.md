@@ -25,17 +25,44 @@ theorem proximal_gradient_gradient_case {H : Type*} [NormedAddCommGroup H] [Inne
 ```
 
 ## Statement explanation
-This is a theorem about the continuous-time proximal-gradient (forward-backward) dynamical system in a real Hilbert space.
+The theorem `proximal_gradient_gradient_case` states a convergence result for a proximal-gradient dynamical system in a real Hilbert space.
 
-The space \(H\) is a complete real inner product space. The object \(\Phi\) is an extended-real-valued function on \(H\) whose values are strictly greater than the bottom extended-real value \(-\infty\), and the hypothesis \(h\Phi\) states that \(\Phi\) belongs to the class `ERealFunction.gammaZero H`, a regularity class used in the library for proper lower semicontinuous convex-type functions and their subdifferentials. The function \(\Psi\) is real-valued and convex on all of \(H\), and \(h\Psi\_grad\) says that at every point \(z\), the vector \(\nabla \Psi z\) is the gradient of \(\Psi\) at \(z\). The set \(S\) is the set of candidate stationary points: by the hypothesis `hsolution`, a point \(z\) belongs to \(S\) exactly when \(-\nabla \Psi z\) is a subgradient of \(\Phi\) at \(z\). The trajectory is \(x(t)\), defined for real times, with \(hderiv\) saying that for every \(t\ge 0\) its derivative is \(\operatorname{deriv} x(t)\), and \(hAC\) saying that \(x\) is absolutely continuous on every interval \([0,b]\). The dynamics is
+The type and data are as follows. \(H\) is a real Hilbert space: it has a normed additive commutative group structure, an inner product space structure over \(\mathbb R\), and is complete. There is a function
 \[
-\dot x(t)+x(t)-\operatorname{prox}_{\mu\Phi}\bigl(x(t)-\mu\nabla\Psi(x(t))\bigr)=0,
+\Phi:H\to \operatorname{Set.Ioi}(\bot:\mathrm{EReal})
 \]
-where the displayed proximity term is the scaled proximity operator of \(\Phi\) with parameter \(\mu\). The constants satisfy \(\mu>0\) and \(\beta>0\). The hypothesis \(hB\) says that \(\nabla\Psi\) is \(\beta\)-cocoercive on the whole space, meaning the usual monotonicity-type inequality with constant \(\beta\). Finally, \(S\) is nonempty by `hS`.
+taking extended-real values above the order-theoretic bottom, and \(h\Phi\) asserts that \(\Phi\) belongs to the class `ERealFunction.gammaZero H`, the class used for the proximal operator. There is a real-valued function \(\Psi:H\to\mathbb R\), a set \(S\subseteq H\), a trajectory \(x:\mathbb R\to H\), and real parameters \(\mu,\beta\).
 
-The theorem concludes three facts:
+The hypotheses are:
 
-1.
+- \(h\Psi_{\mathrm{convex}}\): \(\Psi\) is convex on all of \(H\).
+- \(h\Psi_{\mathrm{grad}}\): for every \(z\), \(\Psi\) has gradient \(\nabla\Psi(z)\) at \(z\).
+- \(hS\): \(S\) is nonempty.
+- \(h\beta,h\mu\): \(0<\beta\) and \(0<\mu\).
+- \(hB\): the gradient \(\nabla\Psi\) is \(\beta\)-cocoercive on all of \(H\).
+- \(h_{\mathrm{solution}}\): for every \(z\),
+  \[
+  z\in S \iff -\nabla\Psi(z)\in \operatorname{ERealFunction.subdifferential}\Phi(z).
+  \]
+- \(h_{\mathrm{deriv}}\): on \(t\ge 0\), \(x\) is differentiable, with derivative \(\operatorname{deriv}x(t)\).
+- \(hAC\): for every \(b>0\), \(x\) is absolutely continuous on \([0,b]\).
+- \(h_{\mathrm{dynamics}}\): for every \(t\ge 0\),
+  \[
+  \operatorname{deriv}x(t)+x(t)
+  -
+  \operatorname{ERealFunction.scaledProximityOperator}\Phi\,h\Phi\,\langle\mu,h\mu\rangle
+  \bigl(x(t)-\mu\,\nabla\Psi(x(t))\bigr)=0.
+  \]
+
+The conclusion has three parts:
+
+1. There exists \(x_{\inf}\in S\) such that \(x(t)\) converges weakly to \(x_{\inf}\) as \(t\to+\infty\).
+2. For every \(z\in S\), \(\nabla\Psi(x(t))\) converges strongly to \(\nabla\Psi(z)\) as \(t\to+\infty\), and
+   \[
+   t\mapsto \|\nabla\Psi(x(t))-\nabla\Psi(z)\|^2
+   \]
+   is integrable on the positive reals.
+3. The derivative \(\operatorname{deriv}x(t)\) converges strongly to \(0\) as \(t\to+\infty\).
 
 ## Lean proof
 ```lean
@@ -512,5 +539,184 @@ by
 ```
 
 ## Proof explanation
-No proof explanation was returned by the model.
+There is a separate proof. The proof is a Lyapunov energy argument combined with weak compactness and cocoercivity estimates.
+
+Throughout the proof, `intro` is used to introduce universally quantified variables and hypotheses, `rw` is used to rewrite using previously proved equalities or derivative formulas, `simp` simplifies inner-product and algebraic expressions, `exact` closes a goal by applying a lemma or hypothesis, and `linarith` combines linear inequalities into the required conclusion. Other tactics such as `calc`, `field_simp`, `ring`, `gcongr`, `nlinarith`, and `filter_upwards` are used for chained inequalities, algebraic simplification, and almost-everywhere estimates.
+
+The proof first derives a base Lyapunov inequality from the lemma `proximal_gradient_cocoercive_lyapunov`. For every \(z\in S\) and \(t\ge 0\),
+\[
+\frac{d}{dt}\left((2\mu)^{-1}\|x(t)-z\|^2\right)
++\mu^{-1}\|\operatorname{deriv}x(t)\|^2
++\beta\|\nabla\Psi(x(t))-\nabla\Psi(z)\|^2
++\langle \operatorname{deriv}x(t),\nabla\Psi(x(t))-\nabla\Psi(z)\rangle
+\le 0.
+\]
+
+Then the proof introduces an energy functional
+\[
+E(z,t)
+=
+(2\mu)^{-1}\|x(t)-z\|^2
++
+\bigl(
+\Psi(x(t))
+-\langle\nabla\Psi(z),x(t)-z\rangle
+-\Psi(z)
+\bigr).
+\]
+It proves that \(E(z,t)\ge 0\). The first quadratic term is nonnegative, and the remaining Bregman-type term is nonnegative by the lemma `convex_supporting_baillon_haddad`, using convexity and gradient differentiability of \(\Psi\). The proof computes the derivative of \(E(z,t)\):
+\[
+\partial_t E(z,t)
+=
+\mu^{-1}\langle x(t)-z,\operatorname{deriv}x(t)\rangle
++
+\langle \operatorname{deriv}x(t),\nabla\Psi(x(t))-\nabla\Psi(z)\rangle.
+\]
+Combining this with the base Lyapunov inequality gives
+\[
+\partial_t E(z,t)
++
+\mu^{-1}\|\operatorname{deriv}x(t)\|^2
++
+\beta\|\nabla\Psi(x(t))-\nabla\Psi(z)\|^2
+\le 0.
+\]
+Since the extra dissipation terms are nonnegative, \(\partial_t E(z,t)\le 0\). Therefore \(E(z,\cdot)\) is antitone on \([0,\infty)\). Because it is also nonnegative, the proof obtains a finite limit \(E(z,t)\to \ell_z\) as \(t\to+\infty\).
+
+Next, the proof establishes continuity of \(\nabla\Psi\). Cocoercivity implies Lipschitz continuity of \(\nabla\Psi\), and hence continuity. The proximal-gradient field
+\[
+u\mapsto
+\operatorname{prox}_{\mu\Phi}(u-\mu\nabla\Psi(u))-u
+\]
+is also continuous by `proximal_gradient_field_continuous`. From the dynamics equation, for \(t\ge 0\),
+\[
+\operatorname{deriv}x(t)
+=
+\operatorname{prox}_{\mu\Phi}(x(t)-\mu\nabla\Psi(x(t)))-x(t).
+\]
+This equality is used to show that \(\operatorname{deriv}x\) is continuous on compact intervals, since \(x\) is continuous by absolute continuity.
+
+The proof then uses the derivative inequality for \(E\) to obtain an integral bound. For every \(z\in S\) and every \(T>0\),
+\[
+\int_0^T
+\left(
+\mu^{-1}\|\operatorname{deriv}x(t)\|^2
++
+\beta\|\nabla\Psi(x(t))-\nabla\Psi(z)\|^2
+\right)
+\,dt
+\le E(z,0).
+\]
+This is obtained by integrating the Lyapunov inequality, applying the fundamental theorem of calculus to \(\partial_t E(z,t)\), and using \(E(z,T)\ge 0\). Consequently, both \(\|\operatorname{deriv}x(t)\|^2\) and \(\|\nabla\Psi(x(t))-\nabla\Psi(z)\|^2\) are integrable on \([0,\infty)\). The proof rescales by \(\mu\) and by \(\beta^{-1}\) to remove the constants \(\mu^{-1}\) and \(\beta\).
+
+The proof then chooses a point \(z_0\in S\). Since \(E(z_0,\cdot)\) is antitone and nonnegative,
+\[
+(2\mu)^{-1}\|x(t)-z_0\|^2 \le E(z_0,0),
+\]
+so
+\[
+\|x(t)-z_0\|^2 \le 2\mu E(z_0,0).
+\]
+Let
+\[
+R=\sqrt{2\mu E(z_0,0)}.
+\]
+Then \(\|x(t)-z_0\|\le R\) for all \(t\ge 0\).
+
+Using the Lipschitz continuity of the proximal-gradient field \(V\), the proof defines
+\[
+V(u)
+=
+\operatorname{prox}_{\mu\Phi}(u-\mu\nabla\Psi(u))-u.
+\]
+If \(L\) is a Lipschitz constant for \(V\), then for
+\[
+K=\|V(z_0)\|+L R,
+\]
+one obtains
+\[
+\|\operatorname{deriv}x(t)\|
+=
+\|V(x(t))\|
+\le
+\|V(x(t))-V(z_0)\|+\|V(z_0)\|
+\le
+L\|x(t)-z_0\|+\|V(z_0)\|
+\le
+K.
+\]
+Thus the trajectory \(x\) is \(K\)-Lipschitz on \([0,\infty)\).
+
+Cocoercivity of \(\nabla\Psi\) also gives uniform continuity of \(\nabla\Psi\). Since \(x\) is Lipschitz, the function
+\[
+t\mapsto \nabla\Psi(x(t))-\nabla\Psi(z)
+\]
+is uniformly continuous on \([0,\infty)\). This function has square-integrable norm, so by the lemma `uniformContinuousOn_sq_integrable_tendsto_zero`, it tends to \(0\). Therefore
+\[
+\nabla\Psi(x(t))\to \nabla\Psi(z)
+\]
+strongly as \(t\to+\infty\). Similarly, because \(V\) is Lipschitz and \(x\) is Lipschitz, \(t\mapsto V(x(t))\) is uniformly continuous. Since \(\operatorname{deriv}x(t)=V(x(t))\) on \([0,\infty)\), the derivative \(\operatorname{deriv}x\) is uniformly continuous and square-integrable, so the same lemma gives
+\[
+\operatorname{deriv}x(t)\to 0.
+\]
+
+The remaining part proves weak convergence of \(x(t)\) to a point in \(S\). The proof first shows a cluster-point property: if \(u_n\to+\infty\) and \(x(u_n)\to z\) weakly, then \(z\in S\). After shifting times by a large \(N\) so that all times are nonnegative, the proof shows that
+\[
+x(u_{n+N})+\operatorname{deriv}x(u_{n+N})
+\to
+z
+\]
+weakly, because \(x(u_{n+N})\to z\) weakly and \(\operatorname{deriv}x(u_{n+N})\to 0\) strongly. It also shows that
+\[
+-\nabla\Psi(x(u_{n+N}))
+-\mu^{-1}\operatorname{deriv}x(u_{n+N})
+\to
+-\nabla\Psi(z_0)
+\]
+strongly. For each shifted time, the proximal-gradient dynamics implies
+\[
+-\nabla\Psi(x(t))-\mu^{-1}\operatorname{deriv}x(t)
+\in
+\operatorname{subdifferential}\Phi(x(t)+\operatorname{deriv}x(t)).
+\]
+The subdifferential of \(\Phi\) is maximal monotone because \(\Phi\) is in `gammaZero H`, so its graph is weak-strong closed. Passing to the limit gives
+\[
+-\nabla\Psi(z_0)\in \operatorname{subdifferential}\Phi(z).
+\]
+A separate weak-strong closedness lemma for cocoercive operators gives \(\nabla\Psi(z)=\nabla\Psi(z_0)\). Therefore
+\[
+-\nabla\Psi(z)\in \operatorname{subdifferential}\Phi(z),
+\]
+and by \(h_{\mathrm{solution}}\), \(z\in S\).
+
+Next, the proof shows uniqueness of the weak cluster point. Suppose \(z_1,z_2\) are two weak cluster points of \(x(t)\). For each \(z\), the energy limit \(E(z,t)\to \ell_z\) exists. Define
+\[
+F(t)
+=
+\mu^{-1}\langle x(t),z_2-z_1\rangle
++
+\langle x(t),\nabla\Psi(z_2)-\nabla\Psi(z_1)\rangle.
+\]
+A direct expansion shows that
+\[
+E(z_1,t)-E(z_2,t)=F(t)+C
+\]
+for a constant \(C\) depending only on \(z_1,z_2,\Psi\). Hence \(F(t)\) has a limit along \(t\to+\infty\). Along sequences converging weakly to \(z_1\) and \(z_2\), this limit must equal two values \(q_1\) and \(q_2\), respectively. Therefore \(q_1=q_2\). A computation gives
+\[
+q_2-q_1
+=
+\mu^{-1}\|z_2-z_1\|^2
++
+\langle \nabla\Psi(z_2)-\nabla\Psi(z_1),z_2-z_1\rangle.
+\]
+Cocoercivity of \(\nabla\Psi\) implies
+\[
+\langle \nabla\Psi(z_2)-\nabla\Psi(z_1),z_2-z_1\rangle
+\ge
+\beta\|\nabla\Psi(z_2)-\nabla\Psi(z_1)\|^2
+\ge 0.
+\]
+Since \(\mu^{-1}>0\), the equality \(q_2-q_1=0\) forces \(\|z_2-z_1\|=0\), so \(z_1=z_2\).
+
+Finally, the proof proves that every divergent sequence of times has a weak cluster point. It uses the norm bound \(\|x(t)-z_0\|\le R\), the uniqueness of weak cluster points, and a weak sequential compactness criterion for bounded sequences in Hilbert space. Applying this to the natural time sequence gives a point \(x_{\inf}\in S\), and uniqueness gives that the full trajectory \(x(t)\) converges weakly to \(x_{\inf}\) as \(t\to+\infty\). The proof then assembles the three desired conclusions: weak convergence of \(x(t)\), strong convergence and integrability of the gradient mismatch for every \(z\in S\), and strong convergence of \(\operatorname{deriv}x(t)\) to \(0\).
 
