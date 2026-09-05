@@ -1,4 +1,5 @@
 import Mathlib
+import Foundation.FixedPoint.Nonexpansive
 
 namespace AttouchAdlyDryFrictionDynamics2023
 
@@ -67,6 +68,25 @@ theorem frictionBall_isChebyshev {H : Type*} [NormedAddCommGroup H] [InnerProduc
 noncomputable def frictionBallProjection {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
     (r : ℝ) (hr : 0 < r) : H → H :=
   fun x ↦ (frictionBall_isChebyshev (le_of_lt hr) x).choose
+
+/-- The paper-local ball projection is the residual complement of soft thresholding. -/
+theorem frictionBallProjection_eq_sub_softThresholder {H : Type*} [NormedAddCommGroup H]
+    [InnerProductSpace ℝ H] [CompleteSpace H] (r : ℝ) (hr : 0 < r) (x : H) :
+    frictionBallProjection r hr x = x - softThresholder r x := by
+  let C : Set H := Metric.closedBall 0 r
+  have hCnonempty : C.Nonempty := by
+    simpa [C] using (Metric.nonempty_closedBall.mpr hr.le : (Metric.closedBall (0 : H) r).Nonempty)
+  have hCclosed : IsClosed C := by
+    simpa [C] using (Metric.isClosed_closedBall : IsClosed (Metric.closedBall (0 : H) r))
+  have hCconvex : Convex ℝ C := by
+    simpa [C] using (convex_closedBall (0 : H) r)
+  let hC : IsChebyshev C := isChebyshev_of_nonempty_isClosed_convex hCnonempty hCclosed hCconvex
+  have hlocal : frictionBallProjection r hr x = projectionPoint C hC x := by
+    apply (hC x).unique
+    · exact (frictionBall_isChebyshev hr.le x).choose_spec.1
+    · exact projectionPoint_isBestApproximation C hC x
+  rw [hlocal, softThresholder_eq_sub_projection_closedBall r hr x]
+  abel
 
 noncomputable def frictionBallDistance {H : Type*} [PseudoMetricSpace H] [Zero H] (r : ℝ) (x : H) : ℝ :=
   Metric.infDist x (frictionBall r)

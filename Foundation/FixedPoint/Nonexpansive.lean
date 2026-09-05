@@ -2511,7 +2511,8 @@ private theorem projectionPoint_closedBall_zero_eq_radial_clip (ρ : ℝ) (hρ :
       simp
     simpa [C, hx] using hproj.symm
 
-private theorem softThresholder_eq_sub_projection_closedBall (ρ : ℝ) (hρ : 0 < ρ) (x : H) :
+/-- The soft thresholder is the residual of projection onto the centered closed ball. -/
+theorem softThresholder_eq_sub_projection_closedBall (ρ : ℝ) (hρ : 0 < ρ) (x : H) :
     softThresholder ρ x =
       x -
         projectionPoint (Metric.closedBall (0 : H) ρ)

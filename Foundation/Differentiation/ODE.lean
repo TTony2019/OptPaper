@@ -136,7 +136,7 @@ private theorem ode_eq_eventually_of_locally_lipschitz
 /-- Local uniqueness propagates along an interval on which both curves solve
 the autonomous equation.  We use the equality locus in a compact subinterval:
 it is closed by continuity and open by germ uniqueness. -/
-private theorem ode_eqOn_Ioo_of_locally_lipschitz
+theorem ode_eqOn_Ioo_of_locally_lipschitz
     {X : Type*} [NormedAddCommGroup X] [NormedSpace ℝ X] [CompleteSpace X]
     (F : X → X)
     (hF : ∀ x, ∃ U ∈ nhds x, ∃ L : ℝ, 0 ≤ L ∧

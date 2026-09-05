@@ -68,7 +68,8 @@ private theorem dualPotentialConjugate_radial_sup {H : Type*} [NormedAddCommGrou
     rw [max_eq_left (le_of_lt ha)]
     exact hsup
 
-private theorem infDist_frictionBall_eq {H : Type*} [NormedAddCommGroup H]
+/-- Distance to the friction ball is the positive part of `‖ξ‖ - r`. -/
+theorem infDist_frictionBall_eq {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] (r : ℝ) (hr : 0 < r) (ξ : H) :
     Metric.infDist ξ (frictionBall (H := H) r) = max (‖ξ‖ - r) 0 := by
   have hnonempty : (frictionBall (H := H) r).Nonempty := by

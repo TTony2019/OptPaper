@@ -25,24 +25,27 @@ private theorem scaled_exponent_eq {α rate s : ℝ} (hα : 1 < α) :
 
 /-- Theorem 4.3: the quadratic DRYSTAR trajectory has an `exp (-μ s²)` rate. -/
 theorem theorem_4_3 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
+    [FiniteDimensional ℝ H] [Nontrivial H]
     {s₀ r α : ℝ} (hr : 0 < r) (hα : 1 < α) (hs₀ : 0 < s₀)
-    (A : H →L[ℝ] H) (f : H → ℝ) (hf : Differentiable ℝ f) (x dx ddx p g q : ℝ → H)
+    (A : H →L[ℝ] H) (f : H → ℝ) (hf_quadratic : ∀ x : H,
+      f x = inner ℝ (A x) x / 2)
+    (_hf : Differentiable ℝ f)
+    (x dx _ddx p g q : ℝ → H) (hg : Differentiable ℝ g)
+    (_hx2 : ContDiff ℝ 2 x)
     (hsymm : A.IsSymmetric) (hpos : ∀ u ≠ 0, 0 < inner ℝ (A u) u)
-    (_hsolution : IsDryStarTrajectory r α s₀ f hf x dx ddx p)
+    (_hsolution : IsDryStarTrajectory r α s₀ f x p)
     (hbridge : ∀ s ∈ Set.Ici s₀,
       g (s ^ 2 / (2 * (α - 1))) = A (x s + (s / (α - 1)) • dx s))
-    (hdualDrygrad : ∀ t, q t ∈ frictionBallProjector r (g t) ∧
-      HasDerivAt g (A (q t - g t)) t)
-    (hcoercive : ∃ rate ν : ℝ, 0 < rate ∧ 0 < ν ∧ ∀ ξ : H,
-      rate * ‖ξ‖ ^ 2 ≤ inner ℝ (A ξ) ξ ∧ inner ℝ (A ξ) ξ ≤ ν * ‖ξ‖ ^ 2)
-    (henergyDeriv : ∀ t : ℝ, HasDerivAt
-      (fun u => Metric.infDist (g u) (frictionBall r) ^ 2 / 2)
-      (- inner ℝ (g t - q t) (A (g t - q t))) t)
+    (hdualFlow : ∀ t, q t ∈ frictionBallProjector r (g t) ∧
+      fderiv ℝ (gradient (fun u =>
+        (ERealFunction.conjugate (fun x => (f x : EReal)) u).toReal))
+        (g t) (deriv g t) + g t - q t = 0)
     (hinitial : r < ‖g (s₀ ^ 2 / (2 * (α - 1)))‖) :
     ∃ C μ : ℝ, 0 < C ∧ 0 < μ ∧ ∀ s ∈ Set.Ici s₀,
-      Metric.infDist (A (x s + (s / (α - 1)) • dx s)) (frictionBall r) ≤ C * Real.exp (-μ * s ^ 2) := by
-  rcases theorem_3_3 (t₀ := s₀ ^ 2 / (2 * (α - 1))) hr A g q hsymm hpos
-    hdualDrygrad hcoercive henergyDeriv hinitial with
+      Metric.infDist (A (x s + (s / (α - 1)) • dx s)) (frictionBall r) ≤
+        C * Real.exp (-μ * s ^ 2) := by
+  rcases theorem_3_3 (t₀ := s₀ ^ 2 / (2 * (α - 1))) hr A f hsymm hpos g q
+    hf_quadratic hg hdualFlow hinitial with
     ⟨Cupper, Clower, rate, ν, hCupper, hClower, hrate, hν, hupper, hlower, hnotmem⟩
   refine ⟨Cupper, rate / (2 * (α - 1)), hCupper,
     div_pos hrate (mul_pos (by norm_num) (sub_pos.mpr hα)), ?_⟩

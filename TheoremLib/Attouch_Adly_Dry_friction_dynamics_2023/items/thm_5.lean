@@ -24,11 +24,10 @@ def IsDryStarFirstOrder {H : Type*} [NormedAddCommGroup H] [InnerProductSpace �
         deriv x s + ((α - 1) / s) • (x s - y s) = 0
 
 def IsDryStarTrajectory {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
-    [CompleteSpace H] (r α s₀ : ℝ) (f : H → ℝ) (_hf : Differentiable ℝ f)
-    (x dx ddx p : ℝ → H) : Prop :=
-  ∀ s ∈ Set.Ici s₀, HasDerivAt x (dx s) s ∧ HasDerivAt dx (ddx s) s ∧
-    p s ∈ frictionBallProjector r (gradient f (x s + (s / (α - 1)) • dx s)) ∧
-      ddx s + (α / s) • dx s + gradient f (x s + (s / (α - 1)) • dx s) - p s = 0
+    [CompleteSpace H] (r α s₀ : ℝ) (f : H → ℝ) (x : ℝ → H) (p : ℝ → H) : Prop :=
+  ∀ s ∈ Set.Ici s₀, p s ∈ frictionBallProjector r (gradient f (x s + (s / (α - 1)) • deriv x s)) ∧
+      deriv (deriv x) s + (α / s) • deriv x s +
+        gradient f (x s + (s / (α - 1)) • deriv x s) - p s = 0
 
 private theorem dryFriction_subgradient_smul_pos {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] {r c : ℝ} {v u : H} (hc : 0 < c)
@@ -120,21 +119,25 @@ private theorem neg_drygrad_subgradient_mem_projector {H : Type*} [NormedAddComm
 theorem theorem_4_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     [CompleteSpace H] {r α s₀ : ℝ} (hr : 0 < r) (hα : 1 < α) (hs₀ : 0 < s₀)
     (f : H → ℝ) (hf : Differentiable ℝ f)
-    (z dz x y : ℝ → H) (hx : Differentiable ℝ x)
-    (hy_diff : Differentiable ℝ y) (hx2 : Differentiable ℝ (deriv x))
-    (hsol : IsDrygradTrajectory r hr f hf z dz (s₀ ^ 2 / (2 * (α - 1))))
+    (z x y : ℝ → H) (hx : Differentiable ℝ x)
+    (hz_diff : Differentiable ℝ z)
+    (hy_diff : Differentiable ℝ y) (hx2 : ContDiff ℝ 2 x)
+    (hsol : IsDrygradTrajectory r f z (s₀ ^ 2 / (2 * (α - 1))))
     (hy : y = timeScaledTrajectory z (fun s => s ^ 2 / (2 * (α - 1))))
     (haverage : x s₀ = y s₀ ∧ ∀ s ∈ Set.Ici s₀,
       deriv x s + ((s / (α - 1))⁻¹) • (x s - y s) = 0) :
     IsDryStarFirstOrder r α s₀ hr f hf x y hx ∧
-      ∃ p : ℝ → H, IsDryStarTrajectory r α s₀ f hf x (deriv x) (deriv (deriv x)) p := by
+      ∃ p : ℝ → H, IsDryStarTrajectory r α s₀ f x p := by
   have ha1 : 0 < α - 1 := sub_pos.mpr hα
   let dx : ℝ → H := deriv x
   let dy : ℝ → H := deriv y
   let ddx : ℝ → H := deriv (deriv x)
   have hdy : ∀ s, HasDerivAt y (deriv y s) s := fun s => (hy_diff s).hasDerivAt
+  have hx2_diff : Differentiable ℝ (deriv x) := by
+    have h := (contDiff_nat_iff_iteratedDeriv.mp hx2).2 1 (by norm_num)
+    simpa [iteratedDeriv_one] using h
   have hddx : ∀ s, HasDerivAt (deriv x) (deriv (deriv x) s) s :=
-    fun s => (hx2 s).hasDerivAt
+    fun s => (hx2_diff s).hasDerivAt
   have hτ_domain : ∀ s ∈ Set.Ici s₀,
       s ^ 2 / (2 * (α - 1)) ∈ Set.Ici (s₀ ^ 2 / (2 * (α - 1))) := by
     intro s hs
@@ -154,13 +157,22 @@ theorem theorem_4_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     have hspos : 0 < s := lt_of_lt_of_le hs₀ hs
     have hdτpos : 0 < s / (α - 1) := div_pos hspos ha1
     have hsol_s := hsol (s ^ 2 / (2 * (α - 1))) (hτ_domain s hs)
-    rcases hsol_s.2 with ⟨u, husub, huseq⟩
+    rcases hsol_s with ⟨u, husub, huseq⟩
+    have husub_ineq : ∀ q : H,
+        (dryFrictionPotential (H := H) r (deriv z (s ^ 2 / (2 * (α - 1)))) : EReal) +
+            (inner ℝ u (q - deriv z (s ^ 2 / (2 * (α - 1)))) : EReal) ≤
+          (dryFrictionPotential (H := H) r q : EReal) := by
+      intro q
+      have hq := (ERealFunction.mem_subdifferential_iff
+        (dryFrictionPotential (H := H) r)
+          (deriv z (s ^ 2 / (2 * (α - 1)))) u).mp husub q
+      simpa [real_inner_comm, add_comm] using hq
     have hy_point : y s = z (s ^ 2 / (2 * (α - 1))) := by
       simp [hy, timeScaledTrajectory]
-    have hchain : HasDerivAt y ((s / (α - 1)) • dz (s ^ 2 / (2 * (α - 1)))) s := by
+    have hchain : HasDerivAt y ((s / (α - 1)) • deriv z (s ^ 2 / (2 * (α - 1)))) s := by
       simpa only [hy, timeScaledTrajectory] using
-        (hsol_s.1.scomp s (hτ_deriv s))
-    have hdy_eq : dy s = (s / (α - 1)) • dz (s ^ 2 / (2 * (α - 1))) :=
+        ((hz_diff _).hasDerivAt.scomp s (hτ_deriv s))
+    have hdy_eq : dy s = (s / (α - 1)) • deriv z (s ^ 2 / (2 * (α - 1))) :=
       (hdy s).unique hchain
     have hdy_deriv : HasDerivAt y (deriv y s) s := by
       convert hdy s using 1
@@ -168,10 +180,10 @@ theorem theorem_4_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     · -- Positive one-homogeneity transports the norm subgradient along the time scale.
       intro q
       have husub_real : ∀ q : H,
-          r * ‖dz (s ^ 2 / (2 * (α - 1)))‖ +
-              inner ℝ u (q - dz (s ^ 2 / (2 * (α - 1)))) ≤ r * ‖q‖ := by
+          r * ‖deriv z (s ^ 2 / (2 * (α - 1)))‖ +
+              inner ℝ u (q - deriv z (s ^ 2 / (2 * (α - 1)))) ≤ r * ‖q‖ := by
         intro q
-        exact_mod_cast husub q
+        exact_mod_cast husub_ineq q
       have hscaled_sub := dryFriction_subgradient_smul_pos hdτpos husub_real q
       rw [← hdy_eq] at hscaled_sub
       rw [(hdy s).deriv]
@@ -239,17 +251,24 @@ theorem theorem_4_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     module
   classical
   let uOf : ℝ → H := fun s => if hs : s ∈ Set.Ici s₀ then
-    Classical.choose ((hsol (s ^ 2 / (2 * (α - 1))) (hτ_domain s hs)).2) else 0
+    Classical.choose (hsol (s ^ 2 / (2 * (α - 1))) (hτ_domain s hs)) else 0
   have huOf_spec : ∀ s (hs : s ∈ Set.Ici s₀),
       (∀ q : H,
-        (dryFrictionPotential (H := H) r (dz (s ^ 2 / (2 * (α - 1)))) : EReal) +
-          (inner ℝ (uOf s) (q - dz (s ^ 2 / (2 * (α - 1)))) : EReal) ≤
+        (dryFrictionPotential (H := H) r (deriv z (s ^ 2 / (2 * (α - 1)))) : EReal) +
+          (inner ℝ (uOf s) (q - deriv z (s ^ 2 / (2 * (α - 1)))) : EReal) ≤
             dryFrictionPotential (H := H) r q) ∧
-        dz (s ^ 2 / (2 * (α - 1))) + uOf s + gradient f (z (s ^ 2 / (2 * (α - 1)))) = 0 := by
+        deriv z (s ^ 2 / (2 * (α - 1))) + uOf s + gradient f (z (s ^ 2 / (2 * (α - 1)))) = 0 := by
     intro s hs
     dsimp [uOf]
     rw [dif_pos hs]
-    exact Classical.choose_spec ((hsol _ (hτ_domain s hs)).2)
+    have hspec := Classical.choose_spec (hsol _ (hτ_domain s hs))
+    refine ⟨?_, hspec.2⟩
+    intro q
+    have hq := (ERealFunction.mem_subdifferential_iff
+      (dryFrictionPotential (H := H) r)
+        (deriv z (s ^ 2 / (2 * (α - 1))))
+        (Classical.choose (hsol _ (hτ_domain s hs)))).mp hspec.1 q
+    simpa [real_inner_comm, add_comm] using hq
   let p : ℝ → H := fun s => -uOf s
   refine ⟨p, ?_⟩
   intro s hs
@@ -257,12 +276,13 @@ theorem theorem_4_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
   have hcne : s / (α - 1) ≠ 0 := ne_of_gt (div_pos hspos ha1)
   have hy_point : y s = z (s ^ 2 / (2 * (α - 1))) := by simp [hy, timeScaledTrajectory]
   have hsol_s := hsol (s ^ 2 / (2 * (α - 1))) (hτ_domain s hs)
-  have hchain : HasDerivAt y ((s / (α - 1)) • dz (s ^ 2 / (2 * (α - 1)))) s := by
-    simpa only [hy, timeScaledTrajectory] using hsol_s.1.scomp s (hτ_deriv s)
-  have hdy_eq : dy s = (s / (α - 1)) • dz (s ^ 2 / (2 * (α - 1))) :=
+  have hchain : HasDerivAt y ((s / (α - 1)) • deriv z (s ^ 2 / (2 * (α - 1)))) s := by
+    simpa only [hy, timeScaledTrajectory] using
+      ((hz_diff _).hasDerivAt.scomp s (hτ_deriv s))
+  have hdy_eq : dy s = (s / (α - 1)) • deriv z (s ^ 2 / (2 * (α - 1))) :=
     (hdy s).unique hchain
   rcases huOf_spec s hs with ⟨hsub, hforce⟩
-  refine ⟨(hx s).hasDerivAt, hddx s, ?_, ?_⟩
+  refine ⟨?_, ?_⟩
   · have hproj := neg_drygrad_subgradient_mem_projector hr hsub hforce
     rw [← hy_point, hyx s hs] at hproj
     simpa [p] using hproj
@@ -285,5 +305,51 @@ theorem theorem_4_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
       ddx s + (α / s) • dx s + gradient f (y s) - -uOf s =
           ddx s + (α / s) • dx s + uOf s + gradient f (y s) := by abel
       _ = 0 := hdiv
+
+/-! The reverse bridge records the missing relation needed to recover the
+    time-scaled first-order system from an inertial trajectory.  The relation
+    is stated explicitly because `IsDryStarTrajectory` by itself contains no
+    reference to the auxiliary trajectory `z`. -/
+theorem reverse_time_scaling_average
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    [CompleteSpace H] {α s₀ : ℝ} (hα : 1 < α) (hs₀ : 0 < s₀)
+    (x z : ℝ → H) (hx : ContDiff ℝ 2 x)
+    (hinitial : x s₀ = z (s₀ ^ 2 / (2 * (α - 1))))
+    (hrelation : ∀ s ∈ Set.Ici s₀,
+      z (s ^ 2 / (2 * (α - 1))) =
+        x s + (s / (α - 1)) • deriv x s) :
+    ∃ y : ℝ → H,
+      y = timeScaledTrajectory z
+          (fun s : ℝ => s ^ 2 / (2 * (α - 1))) ∧
+      IsWeightedAverageOn
+        (fun s : ℝ => s ^ 2 / (2 * (α - 1)))
+        (fun s : ℝ => s / (α - 1)) x y (deriv x) s₀ := by
+  let τ : ℝ → ℝ := fun s => s ^ 2 / (2 * (α - 1))
+  let dτ : ℝ → ℝ := fun s => s / (α - 1)
+  let y : ℝ → H := timeScaledTrajectory z τ
+  have hτ := quadraticTimeScale_isIncreasingC1TimeScaleOn hα hs₀
+  have hxderiv : ∀ s : ℝ, HasDerivAt x (deriv x s) s := by
+    intro s
+    exact (hx.differentiable (by norm_num) s).hasDerivAt
+  have haverage : IsWeightedAverageOn τ dτ x y (deriv x) s₀ := by
+    refine ⟨hτ, ?_, ?_⟩
+    · dsimp [y, timeScaledTrajectory, τ]
+      exact hinitial
+    · intro s hs
+      refine ⟨hxderiv s, ?_⟩
+      have hpos : 0 < dτ s := by
+        dsimp [dτ]
+        exact div_pos (lt_of_lt_of_le hs₀ hs) (sub_pos.mpr hα)
+      have hne : dτ s ≠ 0 := ne_of_gt hpos
+      have hrel := hrelation s hs
+      dsimp [y, timeScaledTrajectory, τ, dτ] at hrel ⊢
+      rw [hrel]
+      rw [show x s - (x s + (s / (α - 1)) • deriv x s) =
+          -((s / (α - 1)) • deriv x s) by abel]
+      rw [smul_neg, smul_smul, inv_mul_cancel₀ hne, one_smul]
+      abel
+  refine ⟨y, ?_, ?_⟩
+  · rfl
+  · simpa [τ, dτ] using haverage
 
 end AttouchAdlyDryFrictionDynamics2023

@@ -11,7 +11,7 @@ namespace AttouchAdlyDryFrictionDynamics2023
 theorem time_scaling_and_averaging_theorem {H : Type*} [NormedAddCommGroup H] [NormedSpace ℝ H]
     [CompleteSpace H]
     (z : ℝ → H) (τ dτ ddτ : ℝ → ℝ) (x y dx dy ddx : ℝ → H) (s₀ : ℝ)
-    (hy : y = timeScaledTrajectory z τ) (haverage : IsWeightedAverage τ dτ x y dx s₀)
+    (hy : y = timeScaledTrajectory z τ) (haverage : IsWeightedAverageOn τ dτ x y dx s₀)
     (hdτ_pos : ∀ s ∈ Set.Ici s₀, 0 < dτ s)
     (hdy : ∀ s ∈ Set.Ici s₀, HasDerivAt y (dy s) s)
     (hddx : ∀ s ∈ Set.Ici s₀, HasDerivAt dx (ddx s) s)

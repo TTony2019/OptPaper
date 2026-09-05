@@ -47,22 +47,22 @@ private theorem scaled_point_eq_v {H : Type*} [NormedAddCommGroup H] [NormedSpac
 
 /-- Theorem 5.1: accelerated dual DRYSTARDE distance decay. -/
 theorem theorem_5_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
-    {s₀ r α : ℝ} (hr : 0 < r) (hs₀ : 0 < s₀) (hα : 1 < α) (x₀ : H) (z dz g v w dw ddw : ℝ → H)
-    (f : H → ℝ) (fstar : H → ℝ) (gradFstar gradPsiStar : H → H)
-    (hf : Differentiable ℝ f)
+    {t₀ s₀ r α : ℝ} (hr : 0 < r) (hs₀ : 0 < s₀) (hα : 1 < α) (x₀ : H) (z g v w dw ddw : ℝ → H)
+    (f : H → ℝ) (gradFstar gradPsiStar : H → H)
     (hessFstar : H → H →L[ℝ] H)
-    (_hconjugate : ∀ q, fstar q = (ERealFunction.conjugate (fun x => (f x : EReal)) q).toReal)
-    (hgradFstar : ∀ q v, fderiv ℝ fstar q v = inner ℝ (gradFstar q) v)
+    (hgradFstar : ∀ q v,
+      fderiv ℝ (fun q => (ERealFunction.conjugate (fun x => (f x : EReal)) q).toReal) q v =
+        inner ℝ (gradFstar q) v)
     (hhessFstar : ∀ q v, fderiv ℝ gradFstar q v = hessFstar q v)
     (hgradFstar_smooth : ∀ q, HasFDerivAt gradFstar (hessFstar q) q)
-    (_hsol : IsDrygradTrajectory r hr f hf z dz s₀)
-    (hdualFlow : ∃ p : ℝ → H, ∀ t ∈ Set.Ici s₀, g t = gradient f (z t) ∧
+    (_hsol : IsDrygradTrajectory r f z t₀)
+    (hdualFlow : ∃ p : ℝ → H, ∀ t ∈ Set.Ici t₀, g t = gradient f (z t) ∧
       p t ∈ frictionBallProjector r (g t) ∧
       HasDerivAt (fun u => gradFstar (g u)) (p t - g t) t)
     (hscale : ∀ s ∈ Set.Ici s₀, v s = g (s ^ 2 / (2 * (α - 1))) ∧
       HasDerivAt w (dw s) s ∧ HasDerivAt dw (ddw s) s ∧
         dw s + ((α - 1) / s) • (w s - v s) = 0)
-    (hτIci : ∀ s ∈ Set.Ici s₀, s ^ 2 / (2 * (α - 1)) ∈ Set.Ici s₀)
+    (hτIci : ∀ s ∈ Set.Ici s₀, s ^ 2 / (2 * (α - 1)) ∈ Set.Ici t₀)
     (_hw₀ : w s₀ = v s₀ ∧ v s₀ = x₀)
     (hv_deriv : ∀ s ∈ Set.Ici s₀,
       HasDerivAt v ((s / (α - 1)) • (ddw s + (α / s) • dw s)) s)
@@ -73,7 +73,9 @@ theorem theorem_5_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     (hv_decay : Filter.Tendsto (fun s : ℝ => s * Metric.infDist (v s) (frictionBall r)) Filter.atTop (nhds 0))
     (hw_decay : Filter.Tendsto (fun s : ℝ => s * Metric.infDist (w s) (frictionBall r)) Filter.atTop (nhds 0))
     (hpsi : ∀ u q, q ∈ frictionBallProjector r u → gradPsiStar u = u - q) :
-    IsDryStarDualInertial r α s₀ fstar gradFstar hessFstar gradPsiStar hgradFstar hhessFstar w dw ddw ∧
+    IsDryStarDualInertial r α s₀
+      (fun q => (ERealFunction.conjugate (fun x => (f x : EReal)) q).toReal)
+      gradFstar hessFstar gradPsiStar hgradFstar hhessFstar w dw ddw ∧
     Filter.Tendsto (fun s : ℝ => s * Metric.infDist (w s + (s / (α - 1)) • dw s) (frictionBall r)) Filter.atTop (nhds 0) ∧
       Filter.Tendsto (fun s : ℝ => s * Metric.infDist (w s) (frictionBall r)) Filter.atTop (nhds 0) := by
   constructor
@@ -85,7 +87,7 @@ theorem theorem_5_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     have hτpos : 0 < s / (α - 1) := div_pos hspos (sub_pos.mpr hα)
     have hτne : s / (α - 1) ≠ 0 := ne_of_gt hτpos
     let p : ℝ → H := Classical.choose hdualFlow
-    have hpflow : ∀ t ∈ Set.Ici s₀, g t = gradient f (z t) ∧
+    have hpflow : ∀ t ∈ Set.Ici t₀, g t = gradient f (z t) ∧
         p t ∈ frictionBallProjector r (g t) ∧
           HasDerivAt (fun u => gradFstar (g u)) (p t - g t) t :=
       Classical.choose_spec hdualFlow
