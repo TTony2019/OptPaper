@@ -5,7 +5,7 @@ import Foundation.Convex.Basic
 structure ConvexDifferentiableObjective (H : Type*) [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] where
   f : H → ℝ
-  grad : H → H
+  differentiable : ∀ x : H, DifferentiableAt ℝ f x
   convex : ∀ x y : H, ∀ s : ℝ, 0 ≤ s → s ≤ 1 →
     f ((1 - s) • x + s • y) ≤ (1 - s) * f x + s * f y
-  firstOrder : ∀ x y : H, f y ≥ f x + inner ℝ (grad x) (y - x)
+  firstOrder : ∀ x y : H, f y ≥ f x + inner ℝ (gradient f x) (y - x)

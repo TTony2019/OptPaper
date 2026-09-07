@@ -317,7 +317,10 @@ private theorem togesVH_weighted_gradient_compare (alpha beta r q delta : ℝ)
   rw [← hleft, ← hright]
   exact mul_le_mul_of_nonneg_left hscaled hA2.le
 
-/-- The energy and rate conclusions of Theorem 3.1 for a regular TOGES-VH solution. -/
+/--
+Theorem 3.1:
+The energy and rate conclusions of Theorem 3.1 for a regular TOGES-VH solution.
+-/
 theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [CompleteSpace H] (f : H → ℝ)
     (u uDot uDdot uDddot : ℝ → H) (grad : H → H) (hess : H → H → H)

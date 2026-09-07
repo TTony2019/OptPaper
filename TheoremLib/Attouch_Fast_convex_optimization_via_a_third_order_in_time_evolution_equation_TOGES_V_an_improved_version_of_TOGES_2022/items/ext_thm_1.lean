@@ -10,8 +10,9 @@ open MeasureTheory
 -/
 
 /-- A classical solution of the third-order TOGES equation on its positive time domain.
-    This local predicate corrects the malformed imported `IsTOGES`, whose leading
-    term repeats the acceleration instead of using the third derivative. -/
+    This local predicate records the regularity and the positive-time restriction
+    needed by the change-of-variables argument; the equation itself is also
+    represented by the public derivative-based `IsTOGES` definition. -/
 private def IsClassicalTOGES {H : Type*} [NormedAddCommGroup H] [NormedSpace ℝ H]
     (u uDot uDdot uDddot : ℝ → H) (grad : H → H) (alpha t0 : ℝ) : Prop :=
   0 < t0 ∧

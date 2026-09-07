@@ -98,6 +98,9 @@ theorem togesVR_rate_and_weak_convergence {H : Type*} [NormedAddCommGroup H]
     (hu : ∀ t, t0 ≤ t → HasDerivAt u (uDot t) t)
     (huDot : ∀ t, t0 ≤ t → HasDerivAt uDot (uDdot t) t)
     (huDdot : ∀ t, t0 ≤ t → HasDerivAt uDdot (uDddot t) t)
+    (hDerivative : ∀ t, t0 ≤ t →
+      deriv u t = uDot t ∧ deriv (deriv u) t = uDdot t ∧
+        deriv (deriv (deriv u)) t = uDddot t)
     (hAuxiliaryStrict : 3 < alpha → ∃ vInfinity : H,
       Asymptotics.IsLittleO atTop
         (fun t : ℝ => (moreauEnvelope f lam (u t + (t / 4) • uDot t)).toReal -
@@ -106,7 +109,7 @@ theorem togesVR_rate_and_weak_convergence {H : Type*} [NormedAddCommGroup H]
         (nhds (toWeakSpace ℝ H vInfinity)) ∧
       (moreauEnvelope f lam vInfinity).toReal =
         sInf (Set.range (fun x => (moreauEnvelope f lam x).toReal)))
-    (hTrajectory : IsTOGESV u uDot uDdot uDddot gradEnvelope alpha) :
+    (hTrajectory : IsTOGESV alpha u (fun x => (moreauEnvelope f lam x).toReal)) :
     (3 ≤ alpha → ∃ C : ℝ, 0 ≤ C ∧ ∀ t ≥ t0,
       (moreauEnvelope f lam (u t + (t / 4) • uDot t)).toReal - (sInf (Set.range f)).toReal ≤ C / t ^ 3 ∧
       (f (prox (u t + (t / 4) • uDot t))).toReal - (sInf (Set.range f)).toReal ≤ C / t ^ 3 ∧
@@ -151,7 +154,7 @@ theorem togesVR_rate_and_weak_convergence {H : Type*} [NormedAddCommGroup H]
         exact hzGlobal x
   have hBase := togesV_rate_and_weak_convergence
     (fun x => (moreauEnvelope f lam x).toReal) u uDot uDdot uDddot gradEnvelope alpha t0
-    hFConvex hFGradient ⟨z, hz⟩ ht0pos hu huDot huDdot hAuxiliaryStrict hTrajectory
+    hFConvex hFGradient ⟨z, hz⟩ ht0pos hu huDot huDdot hDerivative hAuxiliaryStrict hTrajectory
   have hproxDom : ∀ x, prox x ∈ ERealFunction.dom f := by
     intro x
     have hpx := hres x

@@ -2,7 +2,8 @@ import Mathlib
 
 /-- The strongly convex third-order evolution equation (24). -/
 def IsStronglyConvexThirdOrderEvolution {H : Type*} [NormedAddCommGroup H] [NormedSpace ℝ H]
-    (u uDot uDdot uDddot : ℝ → H) (grad : H → H) (mu : ℝ) : Prop :=
+  [InnerProductSpace ℝ H] [CompleteSpace H]
+  (u : ℝ → H) (mu : ℝ) (f : H → ℝ) : Prop :=
   0 < mu ∧ ∀ t : ℝ,
-    uDddot t + (3 * Real.sqrt mu) • uDdot t + (2 * mu) • uDot t +
-      Real.sqrt mu • grad (u t + (Real.sqrt mu)⁻¹ • uDot t) = 0
+    deriv (deriv (deriv u)) t + (3 * Real.sqrt mu) • (deriv (deriv u)) t + (2 * mu) • (deriv u) t +
+      Real.sqrt mu • gradient f (u t + (Real.sqrt mu)⁻¹ • (deriv u) t) = 0

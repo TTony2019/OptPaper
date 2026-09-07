@@ -11,7 +11,10 @@ open MeasureTheory
 private theorem togesV_auxiliary_equation {H : Type*} [NormedAddCommGroup H]
     [NormedSpace ℝ H] (u uDot uDdot uDddot : ℝ → H) (grad : H → H)
     (alpha t0 : ℝ) (ht0pos : 0 < t0)
-    (hTrajectory : IsTOGESV u uDot uDdot uDddot grad alpha) :
+    (hTrajectory : ∀ t, t0 ≤ t →
+      uDddot t + ((alpha + 7) / t) • uDdot t +
+        (5 * (alpha + 1) / t ^ 2) • uDot t +
+        grad (u t + (t / 4) • uDot t) = 0) :
     ∀ t, t0 ≤ t →
       let v : ℝ → H := fun s => u s + (s / 4) • uDot s
       let vDot : ℝ → H := fun s => (5 / 4 : ℝ) • uDot s + (s / 4) • uDdot s
@@ -21,7 +24,7 @@ private theorem togesV_auxiliary_equation {H : Type*} [NormedAddCommGroup H]
   dsimp
   have htpos : 0 < t := lt_of_lt_of_le ht0pos ht
   have htne : t ≠ 0 := ne_of_gt htpos
-  have hscaled := congrArg (fun q : H => (t / 4) • q) (hTrajectory t htne)
+  have hscaled := congrArg (fun q : H => (t / 4) • q) (hTrajectory t ht)
   simp only [smul_zero, smul_add, smul_smul] at hscaled
   have hacc : (t / 4) * ((alpha + 7) / t) = (alpha + 7) / 4 := by
     field_simp [htne]
@@ -654,6 +657,9 @@ theorem togesV_rate_and_weak_convergence {H : Type*} [NormedAddCommGroup H]
     (hu : ∀ t, t0 ≤ t → HasDerivAt u (uDot t) t)
     (huDot : ∀ t, t0 ≤ t → HasDerivAt uDot (uDdot t) t)
     (huDdot : ∀ t, t0 ≤ t → HasDerivAt uDdot (uDddot t) t)
+    (hDerivative : ∀ t, t0 ≤ t →
+      deriv u t = uDot t ∧ deriv (deriv u) t = uDdot t ∧
+        deriv (deriv (deriv u)) t = uDddot t)
     (hAuxiliaryStrict : 3 < alpha → ∃ vInfinity : H,
       Asymptotics.IsLittleO atTop
         (fun t : ℝ => f (u t + (t / 4) • uDot t) - sInf (Set.range f))
@@ -661,7 +667,7 @@ theorem togesV_rate_and_weak_convergence {H : Type*} [NormedAddCommGroup H]
       Tendsto (fun t => toWeakSpace ℝ H (u t + (t / 4) • uDot t)) atTop
         (nhds (toWeakSpace ℝ H vInfinity)) ∧
       f vInfinity = sInf (Set.range f))
-    (hTrajectory : IsTOGESV u uDot uDdot uDddot grad alpha) :
+    (hTrajectory : IsTOGESV alpha u f) :
     (3 ≤ alpha → ∃ C : ℝ, 0 < C ∧ ∀ t ≥ t0,
       f (u t + (t / 4) • uDot t) - sInf (Set.range f) ≤ C / t ^ 3 ∧
       f (u t) - sInf (Set.range f) ≤ C / t ^ 3) ∧
@@ -676,7 +682,23 @@ theorem togesV_rate_and_weak_convergence {H : Type*} [NormedAddCommGroup H]
         (nhds (toWeakSpace ℝ H uInfinity)) ∧
       f uInfinity = sInf (Set.range f)) := by
   have hvData := togesV_auxiliary_hasDerivAt u uDot uDdot uDddot t0 hu huDot huDdot
-  have hveq := togesV_auxiliary_equation u uDot uDdot uDddot grad alpha t0 ht0pos hTrajectory
+  have hgrad_eq : ∀ x : H, gradient f x = grad x := by
+    intro x
+    have h2 : HasGradientAt f (grad x) x := by
+      rw [hasGradientAt_iff_hasFDerivAt]
+      simpa only [InnerProductSpace.toDual_apply_eq_toDualMap_apply,
+        InnerProductSpace.toContinuousLinearMap_toDualMap] using hGradient x
+    exact (h2.unique ((hGradient x).differentiableAt.hasGradientAt)).symm
+  have hEquation : ∀ t, t0 ≤ t →
+      uDddot t + ((alpha + 7) / t) • uDdot t +
+        (5 * (alpha + 1) / t ^ 2) • uDot t +
+        grad (u t + (t / 4) • uDot t) = 0 := by
+    intro t ht
+    have htne : t ≠ 0 := ne_of_gt (lt_of_lt_of_le ht0pos ht)
+    rcases hDerivative t ht with ⟨hdu, hddu, hdddu⟩
+    exact IsTOGESV.equation_of_derivatives hTrajectory hdu hddu hdddu htne
+      (hgrad_eq (u t + (t / 4) • uDot t))
+  have hveq := togesV_auxiliary_equation u uDot uDdot uDddot grad alpha t0 ht0pos hEquation
   constructor
   · intro hAlpha
     rcases togesV_auxiliary_bigO f
