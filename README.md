@@ -11,8 +11,8 @@ shared concepts under `Foundation/`.
 <!-- LOC_STATS:START -->
 
 ![foundation_lines](https://img.shields.io/badge/foundation_lines-41025-0f766e?style=flat-square)
-![theoremlib_lines](https://img.shields.io/badge/theoremlib_lines-57872-2563eb?style=flat-square)
-![total_lines](https://img.shields.io/badge/total_lines-98897-16a34a?style=flat-square)
+![theoremlib_lines](https://img.shields.io/badge/theoremlib_lines-58627-2563eb?style=flat-square)
+![total_lines](https://img.shields.io/badge/total_lines-99652-16a34a?style=flat-square)
 
 Counting convention:
 
@@ -24,8 +24,8 @@ Counting convention:
 | Directory | `.lean` files | Total lines | Code lines |
 | --- | ---: | ---: | ---: |
 | Foundation | 52 | 41025 | 31537 |
-| TheoremLib | 251 | 57872 | 53456 |
-| **Total** | **303** | **98897** | **84993** |
+| TheoremLib | 251 | 58627 | 54200 |
+| **Total** | **303** | **99652** | **85737** |
 
 <!-- LOC_STATS:END -->
 
@@ -35,8 +35,8 @@ Counting convention:
 
 ![papers](https://img.shields.io/badge/papers-10-0f766e?style=flat-square)
 ![defs_items](https://img.shields.io/badge/defs_items-107-2563eb?style=flat-square)
-![proved_theorem-items](https://img.shields.io/badge/proved_theorem--items-136-16a34a?style=flat-square)
-![open_theorem-items](https://img.shields.io/badge/open_theorem--items-7-dc2626?style=flat-square)
+![proved_theorem-items](https://img.shields.io/badge/proved_theorem--items-137-16a34a?style=flat-square)
+![open_theorem-items](https://img.shields.io/badge/open_theorem--items-6-dc2626?style=flat-square)
 
 Counting convention:
 
@@ -53,7 +53,7 @@ Counting convention:
 | No. | Paper | Status | Definition-like items | Theorem-like items |
 | ---: | --- | --- | ---: | ---: |
 | 1 | [Abbas_Dynamical_systems_and_2015](TheoremLib/Abbas_Dynamical_systems_and_forward_backward_algorithms_2015) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 9](https://img.shields.io/static/v1?label=&message=9&color=2563eb&style=flat-square) | ![proved 29](https://img.shields.io/badge/proved-29-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
-| 2 | [Alvarez_A_second_order_2002](TheoremLib/Alvarez_A_second_order_gradient_like_dissipative_dynamical_system_with_Hessian_driven_damping_2002) | ![in progress](https://img.shields.io/static/v1?label=&message=in%20progress&color=f59e0b&style=flat-square) | ![definition-like 13](https://img.shields.io/static/v1?label=&message=13&color=2563eb&style=flat-square) | ![proved 16](https://img.shields.io/badge/proved-16-16a34a?style=flat-square) ![open 5](https://img.shields.io/badge/open-5-dc2626?style=flat-square) |
+| 2 | [Alvarez_A_second_order_2002](TheoremLib/Alvarez_A_second_order_gradient_like_dissipative_dynamical_system_with_Hessian_driven_damping_2002) | ![in progress](https://img.shields.io/static/v1?label=&message=in%20progress&color=f59e0b&style=flat-square) | ![definition-like 13](https://img.shields.io/static/v1?label=&message=13&color=2563eb&style=flat-square) | ![proved 17](https://img.shields.io/badge/proved-17-16a34a?style=flat-square) ![open 4](https://img.shields.io/badge/open-4-dc2626?style=flat-square) |
 | 3 | [Alvarez_Attouch_Inertial_proximal_2001](TheoremLib/Alvarez_Attouch_Inertial_proximal_maximal_monotone_operators_2001) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 4](https://img.shields.io/static/v1?label=&message=4&color=2563eb&style=flat-square) | ![proved 4](https://img.shields.io/badge/proved-4-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
 | 4 | [Alvarez_Minimizing_property_second_2000](TheoremLib/Alvarez_Minimizing_property_second_order_dissipative_2000) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 12](https://img.shields.io/static/v1?label=&message=12&color=2563eb&style=flat-square) | ![proved 11](https://img.shields.io/badge/proved-11-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
 | 5 | [Alvarez_Weak_Convergence_of_2004](TheoremLib/Alvarez_Weak_Convergence_of_a_Relaxed_and_Inertial_Hybrid_Projection_Proximal_Point_Algorithm_for_Maximal_Monotone_Operators_in_Hilbert_Space_2004) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 4](https://img.shields.io/static/v1?label=&message=4&color=2563eb&style=flat-square) | ![proved 10](https://img.shields.io/badge/proved-10-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
