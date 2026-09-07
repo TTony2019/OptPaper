@@ -22,18 +22,20 @@ private theorem sInf_range_eq_value_of_global_min {H : Type*} (f : H → ℝ) (x
 
 /-- The standard change of variables for the strongly convex third-order equation. -/
 private theorem strongly_convex_change_of_variables {H : Type*} [NormedAddCommGroup H]
-    [NormedSpace ℝ H] (u uDot uDdot uDddot : ℝ → H) (grad : H → H) (mu t0 : ℝ)
-    (hmu : 0 < mu) (hu : ∀ t, t0 ≤ t → HasDerivAt u (uDot t) t)
-    (huDot : ∀ t, t0 ≤ t → HasDerivAt uDot (uDdot t) t)
-    (huDdot : ∀ t, t0 ≤ t → HasDerivAt uDdot (uDddot t) t)
-    (hTrajectory : IsStronglyConvexThirdOrderEvolution u uDot uDdot uDddot grad mu) :
+    [NormedSpace ℝ H] (u du d2u d3u : ℝ → H) (g : H → H) (mu t0 : ℝ)
+    (hmu : 0 < mu) (hu : ∀ t, t0 ≤ t → HasDerivAt u (du t) t)
+    (huDot : ∀ t, t0 ≤ t → HasDerivAt du (d2u t) t)
+    (huDdot : ∀ t, t0 ≤ t → HasDerivAt d2u (d3u t) t)
+    (hTrajectory : 0 < mu ∧ ∀ t : ℝ,
+      d3u t + (3 * Real.sqrt mu) • d2u t + (2 * mu) • du t +
+        Real.sqrt mu • g (u t + (Real.sqrt mu)⁻¹ • du t) = 0) :
     let a := Real.sqrt mu
-    let y : ℝ → H := fun t => u t + a⁻¹ • uDot t
-    let yDot : ℝ → H := fun t => uDot t + a⁻¹ • uDdot t
-    let yDdot : ℝ → H := fun t => uDdot t + a⁻¹ • uDddot t
+    let y : ℝ → H := fun t => u t + a⁻¹ • du t
+    let yDot : ℝ → H := fun t => du t + a⁻¹ • d2u t
+    let yDdot : ℝ → H := fun t => d2u t + a⁻¹ • d3u t
     (∀ t, t0 ≤ t → HasDerivAt y (yDot t) t) ∧
       (∀ t, t0 ≤ t → HasDerivAt yDot (yDdot t) t) ∧
-      ∀ t, t0 ≤ t → yDdot t + (2 * a) • yDot t + grad (y t) = 0 := by
+      ∀ t, t0 ≤ t → yDdot t + (2 * a) • yDot t + g (y t) = 0 := by
   dsimp
   let a := Real.sqrt mu
   have ha : 0 < a := by simpa [a] using Real.sqrt_pos.2 hmu
@@ -60,10 +62,10 @@ private theorem strongly_convex_change_of_variables {H : Type*} [NormedAddCommGr
       field_simp [ha0]
     dsimp only [a] at hscaled hainv hthree hgrad hgrad' htwo ⊢
     calc
-      _ = (Real.sqrt mu)⁻¹ • uDddot t + (3 : ℝ) • uDdot t +
-          ((Real.sqrt mu)⁻¹ * (2 * mu)) • uDot t +
-          ((Real.sqrt mu)⁻¹ * Real.sqrt mu) • grad
-            (u t + (Real.sqrt mu)⁻¹ • uDot t) := by
+      _ = (Real.sqrt mu)⁻¹ • d3u t + (3 : ℝ) • d2u t +
+          ((Real.sqrt mu)⁻¹ * (2 * mu)) • du t +
+          ((Real.sqrt mu)⁻¹ * Real.sqrt mu) • g
+            (u t + (Real.sqrt mu)⁻¹ • du t) := by
         have hcross : (2 * Real.sqrt mu) * (Real.sqrt mu)⁻¹ = 2 := by
           rw [mul_assoc, hgrad']
           ring
@@ -73,15 +75,15 @@ private theorem strongly_convex_change_of_variables {H : Type*} [NormedAddCommGr
       _ = 0 := by simpa [hthree] using hscaled
 
 private theorem strongly_convex_energy_hasDerivAt {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] (f : H → ℝ) (grad : H → H) (xStar : H) (a s : ℝ)
-    (y yDot yDdot : ℝ → H) (hGrad : ∀ x, HasFDerivAt f (innerSL ℝ (grad x)) x)
+    [InnerProductSpace ℝ H] (f : H → ℝ) (g : H → H) (xStar : H) (a s : ℝ)
+    (y yDot yDdot : ℝ → H) (hGrad : ∀ x, HasFDerivAt f (innerSL ℝ (g x)) x)
     (hy : HasDerivAt y (yDot s) s) (hyDot : HasDerivAt yDot (yDdot s) s) :
     HasDerivAt
       (fun r => f (y r) - f xStar + (1 / 2 : ℝ) * ‖a • (y r - xStar) + yDot r‖ ^ 2)
-      (inner ℝ (grad (y s)) (yDot s) +
+      (inner ℝ (g (y s)) (yDot s) +
         inner ℝ (a • (y s - xStar) + yDot s) (a • yDot s + yDdot s)) s := by
   have hobj : HasDerivAt (fun r => f (y r) - f xStar)
-      (inner ℝ (grad (y s)) (yDot s)) s := by
+      (inner ℝ (g (y s)) (yDot s)) s := by
     simpa [innerSL_apply_apply] using ((hGrad (y s)).comp_hasDerivAt s hy).sub_const (f xStar)
   have hv : HasDerivAt (fun r => a • (y r - xStar) + yDot r)
       (a • yDot s + yDdot s) s := by
@@ -91,14 +93,14 @@ private theorem strongly_convex_energy_hasDerivAt {H : Type*} [NormedAddCommGrou
   all_goals ring
 
 private theorem strongly_convex_energy_decay {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] (f : H → ℝ) (grad : H → H) (xStar : H) (a mu t0 : ℝ)
+    [InnerProductSpace ℝ H] (f : H → ℝ) (g : H → H) (xStar : H) (a mu t0 : ℝ)
     (y yDot yDdot : ℝ → H)
-    (hStrong : ∀ x z : H, f z ≥ f x + inner ℝ (grad x) (z - x) +
+    (hStrong : ∀ x z : H, f z ≥ f x + inner ℝ (g x) (z - x) +
       (mu / 2) * ‖z - x‖ ^ 2)
-    (hGrad : ∀ x, HasFDerivAt f (innerSL ℝ (grad x)) x) (ha : 0 < a)
+    (hGrad : ∀ x, HasFDerivAt f (innerSL ℝ (g x)) x) (ha : 0 < a)
     (ha2 : a ^ 2 = mu) (hy : ∀ s, t0 ≤ s → HasDerivAt y (yDot s) s)
     (hyDot : ∀ s, t0 ≤ s → HasDerivAt yDot (yDdot s) s)
-    (hODE : ∀ s, t0 ≤ s → yDdot s + (2 * a) • yDot s + grad (y s) = 0) :
+    (hODE : ∀ s, t0 ≤ s → yDdot s + (2 * a) • yDot s + g (y s) = 0) :
     ∀ s, t0 ≤ s →
       HasDerivAt (fun r => f (y r) - f xStar + (1 / 2 : ℝ) *
         ‖a • (y r - xStar) + yDot r‖ ^ 2)
@@ -111,17 +113,17 @@ private theorem strongly_convex_energy_decay {H : Type*} [NormedAddCommGroup H]
   intro s hs
   let E : ℝ → ℝ := fun r => f (y r) - f xStar + (1 / 2 : ℝ) *
     ‖a • (y r - xStar) + yDot r‖ ^ 2
-  have hderiv := strongly_convex_energy_hasDerivAt f grad xStar a s y yDot yDdot hGrad
+  have hderiv := strongly_convex_energy_hasDerivAt f g xStar a s y yDot yDdot hGrad
     (hy s hs) (hyDot s hs)
-  have hD : deriv E s = inner ℝ (grad (y s)) (yDot s) +
+  have hD : deriv E s = inner ℝ (g (y s)) (yDot s) +
       inner ℝ (a • (y s - xStar) + yDot s) (a • yDot s + yDdot s) := hderiv.deriv
-  have hode0 : yDdot s + ((2 * a) • yDot s + grad (y s)) = 0 := by
+  have hode0 : yDdot s + ((2 * a) • yDot s + g (y s)) = 0 := by
     simpa [add_assoc] using hODE s hs
-  have hode : yDdot s = -((2 * a) • yDot s + grad (y s)) :=
+  have hode : yDdot s = -((2 * a) • yDot s + g (y s)) :=
     (eq_neg_iff_add_eq_zero).2 hode0
   let d : H := y s - xStar
   let q : H := yDot s
-  let g : H := grad (y s)
+  let g : H := g (y s)
   have hD' : deriv E s = -a * inner ℝ g d - a ^ 2 * inner ℝ d q - a * ‖q‖ ^ 2 := by
     rw [hD, hode]
     change inner ℝ g q + inner ℝ (a • d + q)
@@ -197,13 +199,13 @@ private theorem strongly_convex_distance_decay {H : Type*} [NormedAddCommGroup H
     nlinarith
 
 private theorem strongly_convex_objective_decay {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] (f : H → ℝ) (grad : H → H) (xStar : H)
-    (a mu t0 C : ℝ) (u uDot y : ℝ → H)
-    (hStrong : ∀ x z : H, f z ≥ f x + inner ℝ (grad x) (z - x) +
+    [InnerProductSpace ℝ H] (f : H → ℝ) (g : H → H) (xStar : H)
+    (a mu t0 C : ℝ) (u du y : ℝ → H)
+    (hStrong : ∀ x z : H, f z ≥ f x + inner ℝ (g x) (z - x) +
       (mu / 2) * ‖z - x‖ ^ 2)
-    (hGrad : ∀ x, HasFDerivAt f (innerSL ℝ (grad x)) x) (ha : 0 < a) (hmu : 0 ≤ mu)
-    (hu : ∀ s, t0 ≤ s → HasDerivAt u (uDot s) s)
-    (hydef : ∀ s, y s = u s + a⁻¹ • uDot s)
+    (hGrad : ∀ x, HasFDerivAt f (innerSL ℝ (g x)) x) (ha : 0 < a) (hmu : 0 ≤ mu)
+    (hu : ∀ s, t0 ≤ s → HasDerivAt u (du s) s)
+    (hydef : ∀ s, y s = u s + a⁻¹ • du s)
     (hValue : ∀ s, t0 ≤ s → f (y s) - f xStar ≤ C * Real.exp (-a * s)) :
     ∀ s, t0 ≤ s →
       HasDerivAt (fun r => f (u r) - f xStar)
@@ -212,9 +214,9 @@ private theorem strongly_convex_objective_decay {H : Type*} [NormedAddCommGroup 
         C * a * Real.exp (-a * s) := by
   intro s hs
   have ha0 : a ≠ 0 := ne_of_gt ha
-  have hvelocity : uDot s = a • (y s - u s) := by
+  have hvelocity : du s = a • (y s - u s) := by
     calc
-      uDot s = a • (a⁻¹ • uDot s) := by
+      du s = a • (a⁻¹ • du s) := by
         rw [smul_smul]
         field_simp [ha0]
         simp
@@ -222,19 +224,19 @@ private theorem strongly_convex_objective_decay {H : Type*} [NormedAddCommGroup 
   have hderiv := ((hGrad (u s)).comp_hasDerivAt s (hu s hs)).sub_const (f xStar)
   simp only [Function.comp_apply, innerSL_apply_apply] at hderiv
   have hD : deriv (fun r => f (u r) - f xStar) s =
-      a * inner ℝ (grad (u s)) (y s - u s) := by
+      a * inner ℝ (g (u s)) (y s - u s) := by
     simpa [hvelocity, real_inner_smul_right] using hderiv.deriv
   have hstrong := hStrong (u s) (y s)
   have hsq : 0 ≤ ‖y s - u s‖ ^ 2 := sq_nonneg _
   have hval := hValue s hs
   constructor
   · have hderiv' : HasDerivAt (fun r => f (u r) - f xStar)
-        (a * inner ℝ (grad (u s)) (y s - u s)) s := by
+        (a * inner ℝ (g (u s)) (y s - u s)) s := by
       simpa [hvelocity, real_inner_smul_right] using hderiv
     rw [hD]
     exact hderiv'
   · rw [hD]
-    have hinner : inner ℝ (grad (u s)) (y s - u s) + (f (u s) - f xStar) ≤
+    have hinner : inner ℝ (g (u s)) (y s - u s) + (f (u s) - f xStar) ≤
         f (y s) - f xStar := by
       nlinarith [mul_nonneg (by norm_num : 0 ≤ (1 / 2 : ℝ)) (mul_nonneg hmu hsq)]
     have hexp : 0 ≤ Real.exp (-a * s) := Real.exp_nonneg _
@@ -242,54 +244,79 @@ private theorem strongly_convex_objective_decay {H : Type*} [NormedAddCommGroup 
       mul_le_mul_of_nonneg_left hval ha.le]
 
 private theorem strongly_convex_grad_eq_zero_of_global_min {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] (f : H → ℝ) (grad : H → H) (xStar : H)
-    (hGrad : HasFDerivAt f (innerSL ℝ (grad xStar)) xStar)
-    (hmin : ∀ x : H, f xStar ≤ f x) : grad xStar = 0 := by
+    [InnerProductSpace ℝ H] (f : H → ℝ) (g : H → H) (xStar : H)
+    (hGrad : HasFDerivAt f (innerSL ℝ (g xStar)) xStar)
+    (hmin : ∀ x : H, f xStar ≤ f x) : g xStar = 0 := by
   have hlocal : IsLocalMin f xStar := Filter.Eventually.of_forall hmin
   have hzero := hlocal.hasFDerivAt_eq_zero hGrad
-  have hinner := congrArg (fun g : H →L[ℝ] ℝ => g (grad xStar)) hzero
-  have hnorm : ‖grad xStar‖ ^ 2 = 0 := by
+  have hinner := congrArg (fun L : H →L[ℝ] ℝ => L (g xStar)) hzero
+  have hnorm : ‖g xStar‖ ^ 2 = 0 := by
     simpa [innerSL, real_inner_self_eq_norm_sq] using hinner
   exact norm_eq_zero.mp ((sq_eq_zero_iff).mp hnorm)
 
 /-- The exponential estimates of Theorem 5.1 for the strongly convex evolution. -/
 theorem strongly_convex_third_order_exponential_estimates {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [CompleteSpace H]
-    (f : H → ℝ) (u uDot uDdot uDddot : ℝ → H) (grad : H → H)
-    (xStar : H) (mu t0 : ℝ) (hStrong : IsStronglyConvexDifferentiable f grad mu)
+    (f : H → ℝ) (u du d2u d3u : ℝ → H) (g : H → H)
+    (xStar : H) (mu t0 : ℝ) (hStrong : IsStronglyConvexDifferentiable f mu)
     (hxStar : ∀ x : H, f xStar ≤ f x ∧ (f x = f xStar → x = xStar))
-    (hTrajectory : IsStronglyConvexThirdOrderEvolution u uDot uDdot uDddot grad mu)
-    (hGrad : ∀ x : H, HasFDerivAt f (innerSL ℝ (grad x)) x)
-    (hu : ∀ t, t0 ≤ t → HasDerivAt u (uDot t) t)
-    (huDot : ∀ t, t0 ≤ t → HasDerivAt uDot (uDdot t) t)
-    (huDdot : ∀ t, t0 ≤ t → HasDerivAt uDdot (uDddot t) t) :
+    (hTrajectory : IsStronglyConvexThirdOrderEvolution u mu f)
+    (hGrad : ∀ x : H, HasFDerivAt f (innerSL ℝ (g x)) x)
+    (hu : ∀ t, t0 ≤ t → HasDerivAt u (du t) t)
+    (huDot : ∀ t, t0 ≤ t → HasDerivAt du (d2u t) t)
+    (huDdot : ∀ t, t0 ≤ t → HasDerivAt d2u (d3u t) t)
+    (hDerivative : ∀ t, deriv u t = du t ∧ deriv (deriv u) t = d2u t ∧
+      deriv (deriv (deriv u)) t = d3u t) :
     ∀ t ≥ t0,
-      f (u t + (Real.sqrt mu)⁻¹ • uDot t) - sInf (Set.range f) ≤
-        stronglyConvexLyapunov f u uDot uDdot xStar mu t0 hxStar * Real.exp (-Real.sqrt mu * (t - t0)) ∧
+      f (u t + (Real.sqrt mu)⁻¹ • du t) - sInf (Set.range f) ≤
+        stronglyConvexLyapunov f u xStar mu t0 hxStar * Real.exp (-Real.sqrt mu * (t - t0)) ∧
       f (u t) - sInf (Set.range f) ≤
-        (stronglyConvexEnergyConstant f u uDot uDdot xStar mu t0 hxStar * Real.sqrt mu * t +
+        (stronglyConvexEnergyConstant f u xStar mu t0 hxStar * Real.sqrt mu * t +
           Real.exp (Real.sqrt mu * t0) * initialObjectiveGap f u xStar t0 -
-          stronglyConvexEnergyConstant f u uDot uDdot xStar mu t0 hxStar * Real.sqrt mu * t0) *
+          stronglyConvexEnergyConstant f u xStar mu t0 hxStar * Real.sqrt mu * t0) *
           Real.exp (-Real.sqrt mu * t) ∧
-      ‖u t + (Real.sqrt mu)⁻¹ • uDot t - xStar‖ ^ 2 ≤
+      ‖u t + (Real.sqrt mu)⁻¹ • du t - xStar‖ ^ 2 ≤
         (Real.exp (Real.sqrt mu * t0) / Real.sqrt mu) *
-          (Real.sqrt mu * ‖u t0 + (Real.sqrt mu)⁻¹ • uDot t0 - xStar‖ ^ 2 +
-            2 * stronglyConvexLyapunov f u uDot uDdot xStar mu t0 hxStar * (t - t0)) *
+          (Real.sqrt mu * ‖u t0 + (Real.sqrt mu)⁻¹ • du t0 - xStar‖ ^ 2 +
+            2 * stronglyConvexLyapunov f u xStar mu t0 hxStar * (t - t0)) *
           Real.exp (-Real.sqrt mu * t) ∧
       ‖u t - xStar‖ ^ 2 ≤ (2 / mu) *
-        (stronglyConvexEnergyConstant f u uDot uDdot xStar mu t0 hxStar * Real.sqrt mu * t +
+        (stronglyConvexEnergyConstant f u xStar mu t0 hxStar * Real.sqrt mu * t +
           Real.exp (Real.sqrt mu * t0) * initialObjectiveGap f u xStar t0 -
-          stronglyConvexEnergyConstant f u uDot uDdot xStar mu t0 hxStar * Real.sqrt mu * t0) *
+          stronglyConvexEnergyConstant f u xStar mu t0 hxStar * Real.sqrt mu * t0) *
           Real.exp (-Real.sqrt mu * t) := by
   rcases hStrong with ⟨hmu, hStrong⟩
+  have hGradEq : ∀ x : H, gradient f x = g x := by
+    intro x
+    have hg : HasGradientAt f (g x) x := by
+      rw [hasGradientAt_iff_hasFDerivAt]
+      simpa only [InnerProductSpace.toDual_apply_eq_toDualMap_apply,
+        InnerProductSpace.toContinuousLinearMap_toDualMap] using hGrad x
+    exact (hg.unique ((hGrad x).differentiableAt.hasGradientAt)).symm
+  have hStrongG : ∀ x z : H, f z ≥ f x + inner ℝ (g x) (z - x) +
+      (mu / 2) * ‖z - x‖ ^ 2 := by
+    intro x z
+    simpa [hGradEq x] using hStrong x z
+  have hTrajectory' : 0 < mu ∧ ∀ t : ℝ,
+      d3u t + (3 * Real.sqrt mu) • d2u t + (2 * mu) • du t +
+        Real.sqrt mu • g (u t + (Real.sqrt mu)⁻¹ • du t) = 0 := by
+    constructor
+    · exact hTrajectory.1
+    · intro t
+      have heq := hTrajectory.2 t
+      have hdu : deriv u t = du t := (hDerivative t).1
+      have hddu : deriv (deriv u) t = d2u t := (hDerivative t).2.1
+      have hdddu : deriv (deriv (deriv u)) t = d3u t := (hDerivative t).2.2
+      rw [hdddu, hddu, hdu, hGradEq] at heq
+      exact heq
   have hsInf : sInf (Set.range f) = f xStar :=
     sInf_range_eq_value_of_global_min f xStar (fun x => (hxStar x).1)
-  have hchange := strongly_convex_change_of_variables u uDot uDdot uDddot grad mu t0 hmu
-    hu huDot huDdot hTrajectory
+  have hchange := strongly_convex_change_of_variables u du d2u d3u g mu t0 hmu
+    hu huDot huDdot hTrajectory'
   let a : ℝ := Real.sqrt mu
-  let y : ℝ → H := fun s => u s + a⁻¹ • uDot s
-  let yDot : ℝ → H := fun s => uDot s + a⁻¹ • uDdot s
-  let yDdot : ℝ → H := fun s => uDdot s + a⁻¹ • uDddot s
+  let y : ℝ → H := fun s => u s + a⁻¹ • du s
+  let yDot : ℝ → H := fun s => du s + a⁻¹ • d2u s
+  let yDdot : ℝ → H := fun s => d2u s + a⁻¹ • d3u s
   have ha : 0 < a := by simpa [a] using Real.sqrt_pos.2 hmu
   have ha0 : a ≠ 0 := ne_of_gt ha
   have ha2 : a ^ 2 = mu := by simpa [a] using Real.sq_sqrt hmu.le
@@ -297,7 +324,7 @@ theorem strongly_convex_third_order_exponential_estimates {H : Type*} [NormedAdd
     simpa only [a, y, yDot] using hchange.1
   have hyDot : ∀ s, t0 ≤ s → HasDerivAt yDot (yDdot s) s := by
     simpa only [a, yDot, yDdot] using hchange.2.1
-  have hyeq : ∀ s, t0 ≤ s → yDdot s + (2 * a) • yDot s + grad (y s) = 0 := by
+  have hyeq : ∀ s, t0 ≤ s → yDdot s + (2 * a) • yDot s + g (y s) = 0 := by
     simpa only [a, y, yDot, yDdot] using hchange.2.2
   let v : ℝ → H := fun s => a • (y s - xStar) + yDot s
   let E : ℝ → ℝ := fun s => f (y s) - f xStar + (1 / 2 : ℝ) * ‖v s‖ ^ 2
@@ -306,16 +333,16 @@ theorem strongly_convex_third_order_exponential_estimates {H : Type*} [NormedAdd
     simpa [v] using ((hy s hs).sub_const xStar |>.const_smul a).add (hyDot s hs)
   have hEderiv : ∀ s, t0 ≤ s →
       HasDerivAt E
-        (inner ℝ (grad (y s)) (yDot s) +
+        (inner ℝ (g (y s)) (yDot s) +
           inner ℝ (v s) (a • yDot s + yDdot s)) s := by
     intro s hs
-    simpa [E, v] using strongly_convex_energy_hasDerivAt f grad xStar a s y yDot yDdot
+    simpa [E, v] using strongly_convex_energy_hasDerivAt f g xStar a s y yDot yDdot
       hGrad (hy s hs) (hyDot s hs)
   have hEdecay : ∀ s, t0 ≤ s → HasDerivAt E (deriv E s) s ∧
       deriv E s + a * E s ≤ 0 := by
     intro s hs
-    simpa [E, v] using strongly_convex_energy_decay f grad xStar a mu t0 y yDot yDdot
-      hStrong hGrad ha ha2 hy hyDot hyeq s hs
+    simpa [E, v] using strongly_convex_energy_decay f g xStar a mu t0 y yDot yDdot
+      hStrongG hGrad ha ha2 hy hyDot hyeq s hs
   intro t ht
   have hEnergy := scalar_differential_comparison E (fun _ : ℝ => 0) t0 a ha.le
     (fun s hs => intervalIntegrable_const) (fun s hs => (hEdecay s hs).1)
@@ -331,7 +358,8 @@ theorem strongly_convex_third_order_exponential_estimates {H : Type*} [NormedAdd
         f (y t) - f xStar ≤ E t := hgap
         _ ≤ Real.exp (-a * (t - t0)) * E t0 := hEnergy
         _ = E t0 * Real.exp (-a * (t - t0)) := by ring
-    simpa [a, y, yDot, E, v, hsInf, stronglyConvexLyapunov, add_assoc] using hfirst
+    simpa [a, y, yDot, E, v, hsInf, stronglyConvexLyapunov, add_assoc,
+      (hDerivative t0).1, (hDerivative t0).2.1] using hfirst
   · let C : ℝ := E t0 * Real.exp (a * t0)
     have hEnergyAt : ∀ s, t0 ≤ s → E s ≤ E t0 * Real.exp (-a * (s - t0)) := by
       intro s hs
@@ -413,7 +441,7 @@ theorem strongly_convex_third_order_exponential_estimates {H : Type*} [NormedAdd
       field_simp [ha0]
       ring_nf at hZbound ⊢
       exact hZbound
-    have hFdecay := strongly_convex_objective_decay f grad xStar a mu t0 C u uDot y hStrong
+    have hFdecay := strongly_convex_objective_decay f g xStar a mu t0 C u du y hStrongG
       hGrad ha hmu.le hu (fun s => by simp [y]) hValue
     let F : ℝ → ℝ := fun s => f (u s) - f xStar
     have hFcmp := scalar_differential_comparison F (fun s : ℝ => C * a * Real.exp (-a * s))
@@ -449,16 +477,18 @@ theorem strongly_convex_third_order_exponential_estimates {H : Type*} [NormedAdd
         congr 1
         ring] at hFbound
       nlinarith
-    have hgrad0 := strongly_convex_grad_eq_zero_of_global_min f grad xStar (hGrad xStar)
+    have hgrad0 := strongly_convex_grad_eq_zero_of_global_min f g xStar (hGrad xStar)
       (fun x => (hxStar x).1)
     have hdist : (mu / 2) * ‖u t - xStar‖ ^ 2 ≤ f (u t) - f xStar := by
-      have hstrong := hStrong xStar (u t)
+      have hstrong := hStrongG xStar (u t)
       rw [hgrad0, inner_zero_left] at hstrong
       nlinarith
     refine ⟨?_, ?_, ?_⟩
     · simpa [a, y, yDot, E, v, C, F, hsInf, stronglyConvexEnergyConstant, initialObjectiveGap,
-        stronglyConvexLyapunov, ← add_assoc] using hsecond
-    · simpa [a, y, yDot, E, v, hsInf, stronglyConvexLyapunov, ← add_assoc] using hthird
+        stronglyConvexLyapunov, ← add_assoc, (hDerivative t0).1,
+        (hDerivative t0).2.1] using hsecond
+    · simpa [a, y, yDot, E, v, hsInf, stronglyConvexLyapunov, ← add_assoc,
+        (hDerivative t0).1, (hDerivative t0).2.1] using hthird
     · have hfourth : ‖u t - xStar‖ ^ 2 ≤ (2 / mu) *
           (C * a * t + Real.exp (a * t0) * F t0 - C * a * t0) * Real.exp (-a * t) := by
         have hmu0 : mu ≠ 0 := ne_of_gt hmu
@@ -466,4 +496,5 @@ theorem strongly_convex_third_order_exponential_estimates {H : Type*} [NormedAdd
         ring_nf at hdist hsecond ⊢
         nlinarith
       simpa [a, y, yDot, E, v, C, F, hsInf, stronglyConvexEnergyConstant, initialObjectiveGap,
-        stronglyConvexLyapunov, ← add_assoc] using hfourth
+        stronglyConvexLyapunov, ← add_assoc, (hDerivative t0).1,
+        (hDerivative t0).2.1] using hfourth

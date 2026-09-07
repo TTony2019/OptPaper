@@ -14,14 +14,14 @@ open MeasureTheory
     needed by the change-of-variables argument; the equation itself is also
     represented by the public derivative-based `IsTOGES` definition. -/
 private def IsClassicalTOGES {H : Type*} [NormedAddCommGroup H] [NormedSpace ℝ H]
-    (u uDot uDdot uDddot : ℝ → H) (grad : H → H) (alpha t0 : ℝ) : Prop :=
+    (u du d2u d3u : ℝ → H) (g : H → H) (alpha t0 : ℝ) : Prop :=
   0 < t0 ∧
-  (∀ t, t0 ≤ t → HasDerivAt u (uDot t) t) ∧
-  (∀ t, t0 ≤ t → HasDerivAt uDot (uDdot t) t) ∧
-  (∀ t, t0 ≤ t → HasDerivAt uDdot (uDddot t) t) ∧
+  (∀ t, t0 ≤ t → HasDerivAt u (du t) t) ∧
+  (∀ t, t0 ≤ t → HasDerivAt du (d2u t) t) ∧
+  (∀ t, t0 ≤ t → HasDerivAt d2u (d3u t) t) ∧
   ∀ t, t0 ≤ t →
-    uDddot t + ((3 * alpha + 5) / (2 * t)) • uDdot t +
-      ((3 * alpha - 1) / t ^ 2) • uDot t + grad (u t + t • uDot t) = 0
+    d3u t + ((3 * alpha + 5) / (2 * t)) • d2u t +
+      ((3 * alpha - 1) / t ^ 2) • du t + g (u t + t • du t) = 0
 
 private theorem sInf_range_eq_value_of_global_min {H : Type*} (f : H → ℝ) (z : H)
     (hz : ∀ x, f z ≤ f x) : sInf (Set.range f) = f z := by
@@ -40,18 +40,18 @@ private theorem sInf_range_eq_value_of_global_min {H : Type*} (f : H → ℝ) (z
 
 /-- First-order lower support inequality for a differentiable convex objective. -/
 private theorem convex_gradient_le {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] (f : H → ℝ) (grad : H → H)
+    [InnerProductSpace ℝ H] (f : H → ℝ) (g : H → H)
     (hConvex : ConvexOn ℝ Set.univ f)
-    (hGrad : ∀ x, HasFDerivAt f (innerSL ℝ (grad x)) x) (x y : H) :
-    f x - f y ≤ inner ℝ (grad x) (x - y) := by
+    (hGrad : ∀ x, HasFDerivAt f (innerSL ℝ (g x)) x) (x y : H) :
+    f x - f y ≤ inner ℝ (g x) (x - y) := by
   let line : ℝ →ᵃ[ℝ] H := AffineMap.lineMap y x
   have hline : HasDerivAt line (x - y) 1 := by
     convert ((hasDerivAt_id (𝕜 := ℝ) 1).smul_const (x - y)).add_const y using 1
     all_goals simp
   have hphi : ConvexOn ℝ Set.univ (f ∘ line) := by
     simpa [line] using hConvex.comp_affineMap (AffineMap.lineMap y x)
-  have hderiv : HasDerivAt (f ∘ line) (inner ℝ (grad x) (x - y)) 1 := by
-    have hGradLine : HasFDerivAt f (innerSL ℝ (grad x)) (line 1) := by
+  have hderiv : HasDerivAt (f ∘ line) (inner ℝ (g x) (x - y)) 1 := by
+    have hGradLine : HasFDerivAt f (innerSL ℝ (g x)) (line 1) := by
       simpa [line] using hGrad x
     simpa [innerSL_apply_apply] using hGradLine.comp_hasDerivAt 1 hline
   have hslope := hphi.slope_le_of_hasDerivAt (show (0 : ℝ) ∈ Set.univ by simp)
@@ -62,12 +62,12 @@ private theorem convex_gradient_le {H : Type*} [NormedAddCommGroup H]
 /-- The standard TOGES change of variables and its first two derivatives. -/
 private theorem toges_change_of_variables_hasDerivAt {H : Type*}
     [NormedAddCommGroup H] [NormedSpace ℝ H]
-    (u uDot uDdot uDddot : ℝ → H) (grad : H → H) (alpha t0 : ℝ)
-    (hTrajectory : IsClassicalTOGES u uDot uDdot uDddot grad alpha t0) :
-    let v : ℝ → H := fun t => u t + t • uDot t
-    let vDot : ℝ → H := fun t => 2 • uDot t + t • uDdot t
+    (u du d2u d3u : ℝ → H) (g : H → H) (alpha t0 : ℝ)
+    (hTrajectory : IsClassicalTOGES u du d2u d3u g alpha t0) :
+    let v : ℝ → H := fun t => u t + t • du t
+    let vDot : ℝ → H := fun t => 2 • du t + t • d2u t
     (∀ t, t0 ≤ t → HasDerivAt v (vDot t) t) ∧
-      (∀ t, t0 ≤ t → HasDerivAt vDot (3 • uDdot t + t • uDddot t) t) := by
+      (∀ t, t0 ≤ t → HasDerivAt vDot (3 • d2u t + t • d3u t) t) := by
   dsimp
   rcases hTrajectory with ⟨_, hu, huDot, huDdot, _⟩
   constructor
@@ -89,13 +89,13 @@ private theorem toges_change_of_variables_hasDerivAt {H : Type*}
 /-- Under the TOGES equation, `u + t u'` satisfies the rescaled AVD equation. -/
 private theorem toges_change_of_variables_equation {H : Type*}
     [NormedAddCommGroup H] [NormedSpace ℝ H]
-    (u uDot uDdot uDddot : ℝ → H) (grad : H → H) (alpha t0 : ℝ)
-    (hTrajectory : IsClassicalTOGES u uDot uDdot uDddot grad alpha t0) :
+    (u du d2u d3u : ℝ → H) (g : H → H) (alpha t0 : ℝ)
+    (hTrajectory : IsClassicalTOGES u du d2u d3u g alpha t0) :
     ∀ t, t0 ≤ t →
-      let v : ℝ → H := fun s => u s + s • uDot s
-      let vDot : ℝ → H := fun s => 2 • uDot s + s • uDdot s
-      let vDdot : ℝ → H := fun s => 3 • uDdot s + s • uDddot s
-      vDdot t + ((3 * alpha - 1) / (2 * t)) • vDot t + t • grad (v t) = 0 := by
+      let v : ℝ → H := fun s => u s + s • du s
+      let vDot : ℝ → H := fun s => 2 • du s + s • d2u s
+      let vDdot : ℝ → H := fun s => 3 • d2u s + s • d3u s
+      vDdot t + ((3 * alpha - 1) / (2 * t)) • vDot t + t • g (v t) = 0 := by
   intro t ht
   dsimp
   rcases hTrajectory with ⟨ht0, _, _, _, hEq⟩
@@ -114,14 +114,14 @@ private theorem toges_change_of_variables_equation {H : Type*}
   simp only [smul_zero, smul_add, smul_smul] at hscaled
   rw [ht_acc, ht_vel] at hscaled
   rw [← Nat.cast_smul_eq_nsmul ℝ 3, ← Nat.cast_smul_eq_nsmul ℝ 2]
-  change (3 : ℝ) • uDdot t + t • uDddot t +
-    ((3 * alpha - 1) / (2 * t)) • ((2 : ℝ) • uDot t + t • uDdot t) +
-      t • grad (u t + t • uDot t) = 0
+  change (3 : ℝ) • d2u t + t • d3u t +
+    ((3 * alpha - 1) / (2 * t)) • ((2 : ℝ) • du t + t • d2u t) +
+      t • g (u t + t • du t) = 0
   simp only [smul_add, smul_smul]
   rw [hvelcross, hcross]
   calc
-    _ = t • uDddot t + (3 + (3 * alpha - 1) / 2) • uDdot t +
-        ((3 * alpha - 1) / t) • uDot t + t • grad (u t + t • uDot t) := by
+    _ = t • d3u t + (3 + (3 * alpha - 1) / 2) • d2u t +
+        ((3 * alpha - 1) / t) • du t + t • g (u t + t • du t) := by
       module
     _ = 0 := by simpa [hcoeff] using hscaled
 
@@ -129,14 +129,14 @@ private theorem toges_change_of_variables_equation {H : Type*}
     explicit here is important: it lets the product-rule witness be rewritten
     before the change-of-variables definitions are unfolded. -/
 private theorem toges_momentum_hasDerivAt {H : Type*} [NormedAddCommGroup H]
-    [NormedSpace ℝ H] (v vDot vDdot : ℝ → H) (grad : H → H)
+    [NormedSpace ℝ H] (v vDot vDdot : ℝ → H) (g : H → H)
     (alpha s : ℝ) (z : H) (hv : HasDerivAt v (vDot s) s)
     (hvDot : HasDerivAt vDot (vDdot s) s) (hspos : 0 < s)
     (heq : vDdot s + ((3 * alpha - 1) / (2 * s)) • vDot s +
-      s • grad (v s) = 0) :
+      s • g (v s) = 0) :
     HasDerivAt
       (fun r => ((3 / 2) * (alpha - 1)) • (v r - z) + r • vDot r)
-      (-s ^ 2 • grad (v s)) s := by
+      (-s ^ 2 • g (v s)) s := by
   let a : ℝ := (3 / 2) * (alpha - 1)
   have hsne : s ≠ 0 := ne_of_gt hspos
   have hraw := ((hv.sub_const z).const_smul a).add
@@ -147,10 +147,10 @@ private theorem toges_momentum_hasDerivAt {H : Type*} [NormedAddCommGroup H]
   simp only [smul_zero, smul_add, smul_smul] at hscaled
   rw [hcoef] at hscaled
   have hscaled' : s • vDdot s + ((3 * alpha - 1) / 2) • vDot s +
-      s ^ 2 • grad (v s) = 0 := by
+      s ^ 2 • g (v s) = 0 := by
     simpa only [pow_two] using hscaled
   have hsvDdot : s • vDdot s = -((3 * alpha - 1) / 2) • vDot s -
-      s ^ 2 • grad (v s) := by
+      s ^ 2 • g (v s) := by
     apply (eq_sub_iff_add_eq).2
     rw [neg_smul]
     apply (eq_neg_iff_add_eq_zero).2
@@ -159,7 +159,7 @@ private theorem toges_momentum_hasDerivAt {H : Type*} [NormedAddCommGroup H]
     dsimp [a]
     ring
   have hraw_eq : a • vDot s + (s • vDdot s + (1 : ℝ) • vDot s) =
-      -s ^ 2 • grad (v s) := by
+      -s ^ 2 • g (v s) := by
     rw [hsvDdot]
     module
   simpa only [a, id] using hraw.congr_deriv hraw_eq
@@ -167,35 +167,35 @@ private theorem toges_momentum_hasDerivAt {H : Type*} [NormedAddCommGroup H]
 /-- Derivative certificate for the Lyapunov energy of the transformed TOGES
     trajectory. -/
 private theorem toges_energy_hasDerivAt {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] (f : H → ℝ) (grad : H → H)
+    [InnerProductSpace ℝ H] (f : H → ℝ) (g : H → H)
     (v vDot vDdot : ℝ → H) (alpha s : ℝ) (z : H)
-    (hGrad : ∀ x, HasFDerivAt f (innerSL ℝ (grad x)) x)
+    (hGrad : ∀ x, HasFDerivAt f (innerSL ℝ (g x)) x)
     (hv : HasDerivAt v (vDot s) s)
     (hvDot : HasDerivAt vDot (vDdot s) s) (hspos : 0 < s)
     (heq : vDdot s + ((3 * alpha - 1) / (2 * s)) • vDot s +
-      s • grad (v s) = 0) :
+      s • g (v s) = 0) :
     HasDerivAt
       (fun r => r ^ 3 * (f (v r) - f z) +
         (1 / 2) * ‖((3 / 2) * (alpha - 1)) • (v r - z) + r • vDot r‖ ^ 2)
       (s ^ 2 * (3 * (f (v s) - f z) -
-        ((3 / 2) * (alpha - 1)) * inner ℝ (grad (v s)) (v s - z))) s := by
+        ((3 / 2) * (alpha - 1)) * inner ℝ (g (v s)) (v s - z))) s := by
   let a : ℝ := (3 / 2) * (alpha - 1)
   let w : ℝ → H := fun r => a • (v r - z) + r • vDot r
   have hF : HasDerivAt (fun r => f (v r) - f z)
-      (inner ℝ (grad (v s)) (vDot s)) s := by
+      (inner ℝ (g (v s)) (vDot s)) s := by
     simpa [innerSL_apply_apply] using ((hGrad (v s)).comp_hasDerivAt s hv).sub_const (f z)
-  have hw : HasDerivAt w (-s ^ 2 • grad (v s)) s := by
-    simpa [w, a] using toges_momentum_hasDerivAt v vDot vDdot grad alpha s z hv hvDot hspos heq
+  have hw : HasDerivAt w (-s ^ 2 • g (v s)) s := by
+    simpa [w, a] using toges_momentum_hasDerivAt v vDot vDdot g alpha s z hv hvDot hspos heq
   have hraw := ((hasDerivAt_pow 3 s).mul hF).add (hw.norm_sq.const_mul (1 / 2 : ℝ))
   have hderiv_eq :
-      3 * s ^ 2 * (f (v s) - f z) + s ^ 3 * inner ℝ (grad (v s)) (vDot s) +
-        (1 / 2) * (2 * inner ℝ (w s) (-s ^ 2 • grad (v s))) =
-      s ^ 2 * (3 * (f (v s) - f z) - a * inner ℝ (grad (v s)) (v s - z)) := by
+      3 * s ^ 2 * (f (v s) - f z) + s ^ 3 * inner ℝ (g (v s)) (vDot s) +
+        (1 / 2) * (2 * inner ℝ (w s) (-s ^ 2 • g (v s))) =
+      s ^ 2 * (3 * (f (v s) - f z) - a * inner ℝ (g (v s)) (v s - z)) := by
     rw [show w s = a • (v s - z) + s • vDot s by rfl]
     rw [inner_add_left]
     simp only [real_inner_smul_left, real_inner_smul_right]
-    rw [real_inner_comm (grad (v s)) (vDot s),
-      real_inner_comm (v s - z) (grad (v s))]
+    rw [real_inner_comm (g (v s)) (vDot s),
+      real_inner_comm (v s - z) (g (v s))]
     dsimp [a]
     ring
   simpa [w, a, pow_succ] using hraw.congr_deriv hderiv_eq
@@ -203,17 +203,17 @@ private theorem toges_energy_hasDerivAt {H : Type*} [NormedAddCommGroup H]
 /-- Derivative certificate for the identity `t * u t` used in the barycentric
     representation of a TOGES trajectory. -/
 private theorem toges_t_mul_hasDerivAt {H : Type*} [NormedAddCommGroup H]
-    [NormedSpace ℝ H] (u uDot : ℝ → H) (t0 : ℝ)
-    (hu : ∀ s, t0 ≤ s → HasDerivAt u (uDot s) s) :
-    ∀ s, t0 ≤ s → HasDerivAt (fun r => r • u r) (u s + s • uDot s) s := by
+    [NormedSpace ℝ H] (u du : ℝ → H) (t0 : ℝ)
+    (hu : ∀ s, t0 ≤ s → HasDerivAt u (du s) s) :
+    ∀ s, t0 ≤ s → HasDerivAt (fun r => r • u r) (u s + s • du s) s := by
   intro s hs
   convert (hasDerivAt_id s).smul (hu s hs) using 1; simp [id] ; module
 
 /-- Jensen's inequality in the form needed for the TOGES barycentric estimate. -/
 private theorem integral_jensen_for_f {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] [CompleteSpace H] (f : H → ℝ) (grad : H → H)
+    [InnerProductSpace ℝ H] [CompleteSpace H] (f : H → ℝ) (G : H → H)
     (hConvex : ConvexOn ℝ Set.univ f)
-    (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (grad x)) x)
+    (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (G x)) x)
     (a b : ℝ) (g : ℝ → H) (hab : a < b)
     (hg : IntervalIntegrable g volume a b)
     (hfg : IntervalIntegrable (fun s => f (g s)) volume a b) :
@@ -232,34 +232,34 @@ private theorem integral_jensen_for_f {H : Type*} [NormedAddCommGroup H]
     integrableOn_const (hs := hIoc_ne_top)
   have hsubI : IntegrableOn (fun s => g s - m) (Set.Ioc a b) volume :=
     hgI.sub hconstH
-  have hinnerI : IntegrableOn (fun s => inner ℝ (grad m) (g s - m))
-      (Set.Ioc a b) volume := hsubI.const_inner (grad m)
+  have hinnerI : IntegrableOn (fun s => inner ℝ (G m) (g s - m))
+      (Set.Ioc a b) volume := hsubI.const_inner (G m)
   have hconstR : IntegrableOn (fun _ : ℝ => f m) (Set.Ioc a b) volume :=
     integrableOn_const (hs := hIoc_ne_top)
-  have hleftI : IntegrableOn (fun s => f m + inner ℝ (grad m) (g s - m))
+  have hleftI : IntegrableOn (fun s => f m + inner ℝ (G m) (g s - m))
       (Set.Ioc a b) volume := hconstR.add hinnerI
-  have hpoint : ∀ s : ℝ, f m + inner ℝ (grad m) (g s - m) ≤ f (g s) := by
+  have hpoint : ∀ s : ℝ, f m + inner ℝ (G m) (g s - m) ≤ f (g s) := by
     intro s
-    have hsupport := convex_gradient_le f grad hConvex hGradient m (g s)
+    have hsupport := convex_gradient_le f G hConvex hGradient m (g s)
     rw [show m - g s = -(g s - m) by module, inner_neg_right] at hsupport
     linarith
-  have hmono : ∫ s in Set.Ioc a b, f m + inner ℝ (grad m) (g s - m) ≤
+  have hmono : ∫ s in Set.Ioc a b, f m + inner ℝ (G m) (g s - m) ≤
       ∫ s in Set.Ioc a b, f (g s) := integral_mono hleftI hfgI hpoint
   have hsub_integral : ∫ s in Set.Ioc a b, g s - m =
       (∫ s in Set.Ioc a b, g s) - ∫ _ in Set.Ioc a b, m := integral_sub hgI hconstH
-  have hinner_integral : ∫ s in Set.Ioc a b, inner ℝ (grad m) (g s - m) =
-      inner ℝ (grad m) (∫ s in Set.Ioc a b, g s - m) := integral_inner hsubI (grad m)
+  have hinner_integral : ∫ s in Set.Ioc a b, inner ℝ (G m) (g s - m) =
+      inner ℝ (G m) (∫ s in Set.Ioc a b, g s - m) := integral_inner hsubI (G m)
   have hconstR_integral : ∫ _ in Set.Ioc a b, f m = (b - a) * f m := by
     rw [← intervalIntegral.integral_of_le hab_le, intervalIntegral.integral_const]
     simp [smul_eq_mul]
   have hconstH_integral : ∫ _ in Set.Ioc a b, m = (b - a) • m := by
     rw [← intervalIntegral.integral_of_le hab_le, intervalIntegral.integral_const]
-  have hleft_calc : ∫ s in Set.Ioc a b, f m + inner ℝ (grad m) (g s - m) =
-      (b - a) * f m + inner ℝ (grad m)
+  have hleft_calc : ∫ s in Set.Ioc a b, f m + inner ℝ (G m) (g s - m) =
+      (b - a) * f m + inner ℝ (G m)
         ((∫ s in Set.Ioc a b, g s) - (b - a) • m) := by
     rw [integral_add hconstR hinnerI, hinner_integral, hsub_integral,
       hconstR_integral, hconstH_integral]
-  have hrem : inner ℝ (grad m) ((∫ s in Set.Ioc a b, g s) - (b - a) • m) = 0 := by
+  have hrem : inner ℝ (G m) ((∫ s in Set.Ioc a b, g s) - (b - a) • m) = 0 := by
     dsimp [m]
     rw [← intervalIntegral.integral_of_le hab_le, smul_smul]
     simp [mul_inv_cancel₀ hlen_ne]
@@ -272,16 +272,16 @@ private theorem integral_jensen_for_f {H : Type*} [NormedAddCommGroup H]
     convert hscaled using 1; field_simp [hlen_ne]
   simpa [m] using hfinal
 
-theorem attouch_chbani_riahi_toges_rate {H : Type*}
+private theorem attouch_chbani_riahi_toges_rate_named {H : Type*}
     [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
-    (f : H → ℝ) (u uDot uDdot uDddot : ℝ → H) (grad : H → H) (alpha t0 : ℝ)
+    (f : H → ℝ) (u du d2u d3u : ℝ → H) (g : H → H) (alpha t0 : ℝ)
     (hConvex : ConvexOn ℝ Set.univ f)
-    (hGradient : ∀ x : H, HasFDerivAt f (innerSL ℝ (grad x)) x)
+    (hGradient : ∀ x : H, HasFDerivAt f (innerSL ℝ (g x)) x)
     (hMin : ∃ z, IsMinOn f Set.univ z)
-    (hTrajectory : IsClassicalTOGES u uDot uDdot uDddot grad alpha t0)
+    (hTrajectory : IsClassicalTOGES u du d2u d3u g alpha t0)
     (hAlpha : 3 ≤ alpha) :
     ∃ C : ℝ, 0 < C ∧ ∀ t ≥ t0,
-      f (u t + t • uDot t) - sInf (Set.range f) ≤ C / t ^ 3 ∧
+      f (u t + t • du t) - sInf (Set.range f) ≤ C / t ^ 3 ∧
       f (u t) - sInf (Set.range f) ≤
         (t0 * (f (u t0) - sInf (Set.range f)) + C / (2 * t0 ^ 2)) / t := by
   rcases hMin with ⟨z, hz⟩
@@ -289,40 +289,40 @@ theorem attouch_chbani_riahi_toges_rate {H : Type*}
     simpa [IsMinOn, IsMinFilter] using hz
   have hsInf : sInf (Set.range f) = f z := sInf_range_eq_value_of_global_min f z hz_global
   rcases hTrajectory with ⟨ht0pos, hu, huDot, huDdot, hEq⟩
-  have hTrajectory' : IsClassicalTOGES u uDot uDdot uDddot grad alpha t0 :=
+  have hTrajectory' : IsClassicalTOGES u du d2u d3u g alpha t0 :=
     ⟨ht0pos, hu, huDot, huDdot, hEq⟩
-  let v : ℝ → H := fun s => u s + s • uDot s
-  let vDot : ℝ → H := fun s => 2 • uDot s + s • uDdot s
-  let vDdot : ℝ → H := fun s => 3 • uDdot s + s • uDddot s
+  let v : ℝ → H := fun s => u s + s • du s
+  let vDot : ℝ → H := fun s => 2 • du s + s • d2u s
+  let vDdot : ℝ → H := fun s => 3 • d2u s + s • d3u s
   let a : ℝ := (3 / 2) * (alpha - 1)
   let E : ℝ → ℝ := fun s => s ^ 3 * (f (v s) - f z) +
     (1 / 2) * ‖a • (v s - z) + s • vDot s‖ ^ 2
   have hv : ∀ s, t0 ≤ s → HasDerivAt v (vDot s) s := by
     intro s hs
-    simpa [v, vDot] using (toges_change_of_variables_hasDerivAt u uDot uDdot uDddot grad alpha t0 hTrajectory').1 s hs
+    simpa [v, vDot] using (toges_change_of_variables_hasDerivAt u du d2u d3u g alpha t0 hTrajectory').1 s hs
   have hvDot : ∀ s, t0 ≤ s → HasDerivAt vDot (vDdot s) s := by
     intro s hs
-    simpa [vDot, vDdot] using (toges_change_of_variables_hasDerivAt u uDot uDdot uDddot grad alpha t0 hTrajectory').2 s hs
+    simpa [vDot, vDdot] using (toges_change_of_variables_hasDerivAt u du d2u d3u g alpha t0 hTrajectory').2 s hs
   have hveq : ∀ s, t0 ≤ s →
-      vDdot s + ((3 * alpha - 1) / (2 * s)) • vDot s + s • grad (v s) = 0 := by
+      vDdot s + ((3 * alpha - 1) / (2 * s)) • vDot s + s • g (v s) = 0 := by
     intro s hs
     simpa [v, vDot, vDdot] using
-      toges_change_of_variables_equation u uDot uDdot uDddot grad alpha t0 hTrajectory' s hs
+      toges_change_of_variables_equation u du d2u d3u g alpha t0 hTrajectory' s hs
   have ha_ge_three : 3 ≤ a := by
     dsimp [a]
     nlinarith
   have hEderiv : ∀ s, t0 ≤ s → HasDerivAt E
-      (s ^ 2 * (3 * (f (v s) - f z) - a * inner ℝ (grad (v s)) (v s - z))) s := by
+      (s ^ 2 * (3 * (f (v s) - f z) - a * inner ℝ (g (v s)) (v s - z))) s := by
     intro s hs
     have hspos : 0 < s := lt_of_lt_of_le ht0pos hs
-    simpa [E, a] using toges_energy_hasDerivAt f grad v vDot vDdot alpha s z hGradient
+    simpa [E, a] using toges_energy_hasDerivAt f g v vDot vDdot alpha s z hGradient
       (hv s hs) (hvDot s hs) hspos (hveq s hs)
   have hEderiv_nonpos : ∀ s, t0 ≤ s → deriv E s ≤ 0 := by
     intro s hs
     have hFnonneg : 0 ≤ f (v s) - f z := sub_nonneg.mpr (hz_global (v s))
-    have hsupport := convex_gradient_le f grad hConvex hGradient (v s) z
-    have hinner_nonneg : 0 ≤ inner ℝ (grad (v s)) (v s - z) := le_trans hFnonneg hsupport
-    have hbracket : 3 * (f (v s) - f z) - a * inner ℝ (grad (v s)) (v s - z) ≤ 0 := by
+    have hsupport := convex_gradient_le f g hConvex hGradient (v s) z
+    have hinner_nonneg : 0 ≤ inner ℝ (g (v s)) (v s - z) := le_trans hFnonneg hsupport
+    have hbracket : 3 * (f (v s) - f z) - a * inner ℝ (g (v s)) (v s - z) ≤ 0 := by
       nlinarith
     rw [(hEderiv s hs).deriv]
     exact mul_nonpos_of_nonneg_of_nonpos (sq_nonneg s) hbracket
@@ -390,7 +390,7 @@ theorem attouch_chbani_riahi_toges_rate {H : Type*}
       have hfVInt : IntervalIntegrable (fun s => f (v s)) volume t0 t := hfVCont.intervalIntegrable
       have hu_integral : ∫ s in t0..t, v s = t • u t - t0 • u t0 := by
         rw [intervalIntegral.integral_eq_sub_of_hasDerivAt
-          (fun s hs => toges_t_mul_hasDerivAt u uDot t0 hu s (by
+          (fun s hs => toges_t_mul_hasDerivAt u du t0 hu s (by
             rw [Set.uIcc_of_le ht] at hs
             exact hs.1)) hvInt]
       have hu_repr : u t = (t0 / t) • u t0 + ((t - t0) / t) •
@@ -416,7 +416,7 @@ theorem attouch_chbani_riahi_toges_rate {H : Type*}
         rw [hu_repr]
         simpa [smul_eq_mul] using hConvex.2 (show u t0 ∈ Set.univ by simp)
           (show (t - t0)⁻¹ • ∫ s in t0..t, v s ∈ Set.univ by simp) hwt0 hwt hw_sum
-      have hJensen := integral_jensen_for_f f grad hConvex hGradient t0 t v htstrict hvInt hfVInt
+      have hJensen := integral_jensen_for_f f g hConvex hGradient t0 t v htstrict hvInt hfVInt
       have hJscaled := mul_le_mul_of_nonneg_left hJensen hwt
       have hconstInt : IntervalIntegrable (fun _ : ℝ => f z) volume t0 t := intervalIntegrable_const
       have hFInt : IntervalIntegrable (fun s => f (v s) - f z) volume t0 t := hfVInt.sub hconstInt
@@ -502,3 +502,24 @@ theorem attouch_chbani_riahi_toges_rate {H : Type*}
             add_le_add_left hscaledInt ((t0 / t) * (f (u t0) - f z))
         _ = (t0 * (f (u t0) - f z) + C / (2 * t0 ^ 2)) / t := by
           field_simp [htne]
+
+/-- The TOGES rate estimate stated directly with derivatives of the trajectory. -/
+theorem attouch_chbani_riahi_toges_rate {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
+    (f : H → ℝ) (u : ℝ → H) (alpha t0 : ℝ)
+    (hConvex : ConvexOn ℝ Set.univ f)
+    (hGradient : ∀ x : H, HasFDerivAt f (innerSL ℝ (gradient f x)) x)
+    (hMin : ∃ z, IsMinOn f Set.univ z) (ht0pos : 0 < t0)
+    (hRegularity :
+      (∀ t, t0 ≤ t → HasDerivAt u (deriv u t) t) ∧
+      (∀ t, t0 ≤ t → HasDerivAt (deriv u) (deriv (deriv u) t) t) ∧
+      (∀ t, t0 ≤ t → HasDerivAt (deriv (deriv u))
+        (deriv (deriv (deriv u)) t) t))
+    (hTrajectory : IsTOGES alpha u f t0) (hAlpha : 3 ≤ alpha) :
+    ∃ C : ℝ, 0 < C ∧ ∀ t ≥ t0,
+      f (u t + t • deriv u t) - sInf (Set.range f) ≤ C / t ^ 3 ∧
+      f (u t) - sInf (Set.range f) ≤
+        (t0 * (f (u t0) - sInf (Set.range f)) + C / (2 * t0 ^ 2)) / t := by
+  exact attouch_chbani_riahi_toges_rate_named f u (deriv u) (deriv (deriv u))
+    (deriv (deriv (deriv u))) (gradient f) alpha t0 hConvex hGradient hMin
+    ⟨ht0pos, hRegularity.1, hRegularity.2.1, hRegularity.2.2, hTrajectory⟩ hAlpha

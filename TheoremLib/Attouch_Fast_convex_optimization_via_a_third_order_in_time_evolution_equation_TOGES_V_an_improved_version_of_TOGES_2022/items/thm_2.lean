@@ -6,13 +6,15 @@ import TheoremLib.Attouch_Fast_convex_optimization_via_a_third_order_in_time_evo
 import TheoremLib.Attouch_Fast_convex_optimization_via_a_third_order_in_time_evolution_equation_TOGES_V_an_improved_version_of_TOGES_2022.items.ext_def_1
 import TheoremLib.Attouch_Fast_convex_optimization_via_a_third_order_in_time_evolution_equation_TOGES_V_an_improved_version_of_TOGES_2022.items.ext_thm_2
 
+set_option maxHeartbeats 800000
+
 /- The derivative of the auxiliary curve used in the TOGES-VH energy. -/
 private theorem togesVH_auxiliary_hasDerivAt {H : Type*} [NormedAddCommGroup H]
-    [NormedSpace ℝ H] (u uDot uDdot : ℝ → H) (t0 : ℝ)
-    (hu : ∀ t, t0 ≤ t → HasDerivAt u (uDot t) t)
-    (huDot : ∀ t, t0 ≤ t → HasDerivAt uDot (uDdot t) t) :
-    ∀ t, t0 ≤ t → HasDerivAt (fun s => u s + (s / 4) • uDot s)
-      ((5 / 4 : ℝ) • uDot t + (t / 4) • uDdot t) t := by
+    [NormedSpace ℝ H] (u du d2u : ℝ → H) (t0 : ℝ)
+    (hu : ∀ t, t0 ≤ t → HasDerivAt u (du t) t)
+    (huDot : ∀ t, t0 ≤ t → HasDerivAt du (d2u t) t) :
+    ∀ t, t0 ≤ t → HasDerivAt (fun s => u s + (s / 4) • du s)
+      ((5 / 4 : ℝ) • du t + (t / 4) • d2u t) t := by
   intro t ht
   have hraw := (hu t ht).add (((hasDerivAt_id t).div_const 4).smul (huDot t ht))
   convert hraw using 1 <;> simp [id] <;> module
@@ -36,18 +38,18 @@ private theorem togesVH_sInf_eq_minimum {H : Type*} (f : H → ℝ) (z : H)
 
 /-- The first-order support inequality supplied by convex differentiability. -/
 private theorem togesVH_convex_gradient_le {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] (f : H → ℝ) (grad : H → H)
+    [InnerProductSpace ℝ H] (f : H → ℝ) (g : H → H)
     (hConvex : ConvexOn ℝ Set.univ f)
-    (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (grad x)) x) (x y : H) :
-    f x - f y ≤ inner ℝ (grad x) (x - y) := by
+    (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (g x)) x) (x y : H) :
+    f x - f y ≤ inner ℝ (g x) (x - y) := by
   let line : ℝ →ᵃ[ℝ] H := AffineMap.lineMap y x
   have hline : HasDerivAt line (x - y) 1 := by
     convert ((hasDerivAt_id (𝕜 := ℝ) 1).smul_const (x - y)).add_const y using 1
     all_goals simp
   have hphi : ConvexOn ℝ Set.univ (f ∘ line) := by
     simpa [line] using hConvex.comp_affineMap (AffineMap.lineMap y x)
-  have hderiv : HasDerivAt (f ∘ line) (inner ℝ (grad x) (x - y)) 1 := by
-    have hgradline : HasFDerivAt f (innerSL ℝ (grad x)) (line 1) := by
+  have hderiv : HasDerivAt (f ∘ line) (inner ℝ (g x) (x - y)) 1 := by
+    have hgradline : HasFDerivAt f (innerSL ℝ (g x)) (line 1) := by
       simpa [line] using hGradient x
     simpa [innerSL_apply_apply] using hgradline.comp_hasDerivAt 1 hline
   have hslope := hphi.slope_le_of_hasDerivAt (show (0 : ℝ) ∈ Set.univ by simp)
@@ -63,43 +65,47 @@ private theorem togesVH_delta_hasDerivAt (beta t : ℝ) (ht : t ≠ 0) :
   convert hraw using 1 <;> simp [togesVDelta, id] <;> field_simp [ht] <;> ring
 
 private theorem togesVH_w_hasDerivAt {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] (u uDot uDdot uDddot : ℝ → H) (grad : H → H)
-    (hess : H → H → H) (z : H) (alpha beta t0 tStart t : ℝ)
-    (hu : ∀ r, t0 ≤ r → HasDerivAt u (uDot r) r)
-    (huDot : ∀ r, t0 ≤ r → HasDerivAt uDot (uDdot r) r)
-    (huDdot : ∀ r, t0 ≤ r → HasDerivAt uDdot (uDddot r) r)
+    [InnerProductSpace ℝ H] [CompleteSpace H] (f : H → ℝ)
+    (u du d2u d3u : ℝ → H) (g : H → H)
+    (hessian : H → H → H) (z : H) (alpha beta t0 tStart t : ℝ)
+    (hu : ∀ r, t0 ≤ r → HasDerivAt u (du r) r)
+    (huDot : ∀ r, t0 ≤ r → HasDerivAt du (d2u r) r)
+    (huDdot : ∀ r, t0 ≤ r → HasDerivAt d2u (d3u r) r)
     (hGradDeriv : ∀ r, t0 ≤ r → HasDerivAt
-      (fun s => grad (u s + (s / 4) • uDot s))
-      (hess (u r + (r / 4) • uDot r)
-        ((5 / 4 : ℝ) • uDot r + (r / 4) • uDdot r)) r)
+      (fun s => g (u s + (s / 4) • du s))
+      (hessian (u r + (r / 4) • du r)
+        ((5 / 4 : ℝ) • du r + (r / 4) • d2u r)) r)
     (ht0Start : t0 ≤ tStart) (htStart : tStart ≤ t) (htne : t ≠ 0)
     (hTrajectory : ∀ r, t0 ≤ r →
-      uDddot r + ((alpha + 7) / r) • uDdot r +
-        (5 * (alpha + 1) / r ^ 2) • uDot r +
-        beta • hess (u r + (r / 4) • uDot r)
-          ((5 / 4 : ℝ) • uDot r + (r / 4) • uDdot r) +
-        grad (u r + (r / 4) • uDot r) = 0) :
-    HasDerivAt (fun s => togesVLyapunovVector u uDot uDdot grad z alpha beta s)
-      (-(togesVDelta beta t) • grad (u t + (t / 4) • uDot t)) t := by
+      d3u r + ((alpha + 7) / r) • d2u r +
+        (5 * (alpha + 1) / r ^ 2) • du r +
+        beta • hessian (u r + (r / 4) • du r)
+          ((5 / 4 : ℝ) • du r + (r / 4) • d2u r) +
+        g (u r + (r / 4) • du r) = 0)
+    (hDerivative : ∀ r, deriv u r = du r ∧ deriv (deriv u) r = d2u r ∧
+      deriv (deriv (deriv u)) r = d3u r)
+    (hGradientEq : ∀ x, gradient f x = g x) :
+    HasDerivAt (fun s => togesVLyapunovVector u z alpha beta s f)
+      (-(togesVDelta beta t) • g (u t + (t / 4) • du t)) t := by
   let A : ℝ → H := fun s =>
-    uDdot s + beta • grad (u s + (s / 4) • uDot s)
+    d2u s + beta • g (u s + (s / 4) • du s)
   have htail : t0 ≤ t := le_trans ht0Start htStart
   have hA : HasDerivAt A
-      (uDddot t + beta • hess (u t + (t / 4) • uDot t)
-        ((5 / 4 : ℝ) • uDot t + (t / 4) • uDdot t)) t := by
+      (d3u t + beta • hessian (u t + (t / 4) • du t)
+        ((5 / 4 : ℝ) • du t + (t / 4) • d2u t)) t := by
     simpa [A] using (huDdot t htail).add
       ((hGradDeriv t htail).const_smul beta)
   have hwfun :
-      (fun s => togesVLyapunovVector u uDot uDdot grad z alpha beta s) =
+      (fun s => togesVLyapunovVector u z alpha beta s f) =
         (fun s => s ^ 2 • A s +
-          (((alpha + 5) * s) • uDot s + (4 * alpha) • (u s - z))) := by
+          (((alpha + 5) * s) • du s + (4 * alpha) • (u s - z))) := by
     funext s
-    simp [A, togesVLyapunovVector, togesVAuxiliary]
+    simp [A, togesVLyapunovVector, togesVAuxiliary, hDerivative s, hGradientEq]
     module
   have hfirst : HasDerivAt (fun s => s ^ 2 • A s)
       ((2 * t) • A t + t ^ 2 •
-        (uDddot t + beta • hess (u t + (t / 4) • uDot t)
-          ((5 / 4 : ℝ) • uDot t + (t / 4) • uDdot t))) t := by
+        (d3u t + beta • hessian (u t + (t / 4) • du t)
+          ((5 / 4 : ℝ) • du t + (t / 4) • d2u t))) t := by
     have h := ((hasDerivAt_id t).pow 2).smul hA
     have hfun : (id : ℝ → ℝ) ^ 2 • A = fun s => s ^ 2 • A s := by
       funext s
@@ -107,26 +113,26 @@ private theorem togesVH_w_hasDerivAt {H : Type*} [NormedAddCommGroup H]
     rw [hfun] at h
     simp [id] at h
     convert h using 1 <;> module
-  have hsecond : HasDerivAt (fun s => ((alpha + 5) * s) • uDot s)
-      ((alpha + 5) • uDot t + ((alpha + 5) * t) • uDdot t) t := by
+  have hsecond : HasDerivAt (fun s => ((alpha + 5) * s) • du s)
+      ((alpha + 5) • du t + ((alpha + 5) * t) • d2u t) t := by
     have h := ((hasDerivAt_id t).const_mul (alpha + 5)).smul (huDot t htail)
-    have hfun : (fun y : ℝ => (alpha + 5) * id y) • uDot =
-        fun s => ((alpha + 5) * s) • uDot s := by
+    have hfun : (fun y : ℝ => (alpha + 5) * id y) • du =
+        fun s => ((alpha + 5) * s) • du s := by
       funext s
       simp [id]
     rw [hfun] at h
     simp [id] at h
     convert h using 1 <;> module
   have hthird : HasDerivAt (fun s => (4 * alpha) • (u s - z))
-      ((4 * alpha) • uDot t) t := by
+      ((4 * alpha) • du t) t := by
     simpa using ((hu t htail).sub_const z).const_smul (4 * alpha)
   have hraw := hfirst.add (hsecond.add hthird)
-  have hraw' : HasDerivAt (fun s => togesVLyapunovVector u uDot uDdot grad z alpha beta s)
+  have hraw' : HasDerivAt (fun s => togesVLyapunovVector u z alpha beta s f)
       ((2 * t) • A t + t ^ 2 •
-        (uDddot t + beta • hess (u t + (t / 4) • uDot t)
-          ((5 / 4 : ℝ) • uDot t + (t / 4) • uDdot t)) +
-        (((alpha + 5) • uDot t + ((alpha + 5) * t) • uDdot t) +
-          (4 * alpha) • uDot t)) t := by
+        (d3u t + beta • hessian (u t + (t / 4) • du t)
+          ((5 / 4 : ℝ) • du t + (t / 4) • d2u t)) +
+        (((alpha + 5) • du t + ((alpha + 5) * t) • d2u t) +
+          (4 * alpha) • du t)) t := by
     rw [hwfun]
     exact hraw
   have hscaled := congrArg (fun q : H => t ^ 2 • q) (hTrajectory t htail)
@@ -138,11 +144,11 @@ private theorem togesVH_w_hasDerivAt {H : Type*} [NormedAddCommGroup H]
   rw [hcoef1, hcoef2] at hscaled
   have htarget :
       (2 * t) • A t + t ^ 2 •
-        (uDddot t + beta • hess (u t + (t / 4) • uDot t)
-          ((5 / 4 : ℝ) • uDot t + (t / 4) • uDdot t)) +
-        (((alpha + 5) • uDot t + ((alpha + 5) * t) • uDdot t) +
-          (4 * alpha) • uDot t) =
-        -(togesVDelta beta t) • grad (u t + (t / 4) • uDot t) := by
+        (d3u t + beta • hessian (u t + (t / 4) • du t)
+          ((5 / 4 : ℝ) • du t + (t / 4) • d2u t)) +
+        (((alpha + 5) • du t + ((alpha + 5) * t) • d2u t) +
+          (4 * alpha) • du t) =
+        -(togesVDelta beta t) • g (u t + (t / 4) • du t) := by
     dsimp [A]
     rw [show togesVDelta beta t = t ^ 2 - 2 * beta * t by
       simp [togesVDelta]
@@ -155,27 +161,27 @@ private theorem togesVH_w_hasDerivAt {H : Type*} [NormedAddCommGroup H]
 
 /- The derivative of the TOGES-VH Lyapunov function before applying convexity. -/
 private theorem togesVH_energy_hasDerivAt {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] (f : H → ℝ) (u uDot uDdot : ℝ → H) (grad : H → H)
+    [InnerProductSpace ℝ H] [CompleteSpace H] (f : H → ℝ) (u du d2u : ℝ → H) (g : H → H)
     (z : H) (alpha beta t : ℝ)
-    (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (grad x)) x)
-    (hv : HasDerivAt (fun s => u s + (s / 4) • uDot s)
-      ((5 / 4 : ℝ) • uDot t + (t / 4) • uDdot t) t)
-    (hw : HasDerivAt (fun s => togesVLyapunovVector u uDot uDdot grad z alpha beta s)
-      (-(togesVDelta beta t) • grad (u t + (t / 4) • uDot t)) t)
-    (htne : t ≠ 0) :
-    HasDerivAt (togesVLyapunov f u uDot uDdot grad z alpha beta)
+    (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (g x)) x)
+    (hv : HasDerivAt (fun s => u s + (s / 4) • du s)
+      ((5 / 4 : ℝ) • du t + (t / 4) • d2u t) t)
+    (hw : HasDerivAt (fun s => togesVLyapunovVector u z alpha beta s f)
+      (-(togesVDelta beta t) • g (u t + (t / 4) • du t)) t)
+    (htne : t ≠ 0) (hDerivative : ∀ r, deriv u r = du r) :
+    HasDerivAt (togesVLyapunov f u z alpha beta)
       (4 * t * togesVDelta beta t *
-          inner ℝ (grad (u t + (t / 4) • uDot t))
-            ((5 / 4 : ℝ) • uDot t + (t / 4) • uDdot t) +
+          inner ℝ (g (u t + (t / 4) • du t))
+            ((5 / 4 : ℝ) • du t + (t / 4) • d2u t) +
         4 * (togesVDelta beta t + t * (2 * t - 2 * beta)) *
-          (f (u t + (t / 4) • uDot t) - sInf (Set.range f)) +
-        inner ℝ (togesVLyapunovVector u uDot uDdot grad z alpha beta t)
-          (-(togesVDelta beta t) • grad (u t + (t / 4) • uDot t))) t := by
-  have hf : HasDerivAt (fun s => f (u s + (s / 4) • uDot s) - sInf (Set.range f))
-      (inner ℝ (grad (u t + (t / 4) • uDot t))
-        ((5 / 4 : ℝ) • uDot t + (t / 4) • uDdot t)) t := by
+          (f (u t + (t / 4) • du t) - sInf (Set.range f)) +
+        inner ℝ (togesVLyapunovVector u z alpha beta t f)
+          (-(togesVDelta beta t) • g (u t + (t / 4) • du t))) t := by
+  have hf : HasDerivAt (fun s => f (u s + (s / 4) • du s) - sInf (Set.range f))
+      (inner ℝ (g (u t + (t / 4) • du t))
+        ((5 / 4 : ℝ) • du t + (t / 4) • d2u t)) t := by
     simpa [innerSL_apply_apply] using
-      ((hGradient (u t + (t / 4) • uDot t)).comp_hasDerivAt t hv).sub_const
+      ((hGradient (u t + (t / 4) • du t)).comp_hasDerivAt t hv).sub_const
         (sInf (Set.range f))
   have hpref : HasDerivAt (fun s => 4 * s * togesVDelta beta s)
       (4 * (togesVDelta beta t + t * (2 * t - 2 * beta))) t := by
@@ -184,7 +190,14 @@ private theorem togesVH_energy_hasDerivAt {H : Type*} [NormedAddCommGroup H]
     convert h using 1 <;> simp [id] <;> ring
   have hsq := hw.norm_sq.const_mul (1 / 2 : ℝ)
   have hsum := (hpref.mul hf).add hsq
-  convert hsum using 1 <;> simp [togesVLyapunov] <;> ring
+  have hfun : togesVLyapunov f u z alpha beta =
+      (fun s => 4 * s * togesVDelta beta s *
+        (f (u s + (s / 4) • du s) - sInf (Set.range f)) +
+        (1 / 2 : ℝ) * ‖togesVLyapunovVector u z alpha beta s f‖ ^ 2) := by
+    funext s
+    simp [togesVLyapunov, togesVAuxiliary, hDerivative s]
+  rw [hfun]
+  convert hsum using 1 <;> simp [Pi.mul_apply, Pi.add_apply] <;> ring
 /-
   have hA := (huDdot t (le_trans ht0Start htStart)).add
     ((hGradDeriv t (le_trans ht0Start htStart)).const_smul beta)
@@ -204,12 +217,12 @@ private theorem togesVH_energy_hasDerivAt {H : Type*} [NormedAddCommGroup H]
     field_simp [htne]
   rw [hcoef1, hcoef2] at hscaled
   have htarget :
-      (2 * t) • (uDdot t + beta • grad (u t + (t / 4) • uDot t)) +
-        t ^ 2 • (uDddot t + beta • hess (u t + (t / 4) • uDot t)
-          ((5 / 4 : ℝ) • uDot t + (t / 4) • uDdot t)) +
-        ((alpha + 5) • uDot t + ((alpha + 5) * t) • uDdot t) +
-        (4 * alpha) • uDot t =
-        -(togesVDelta beta t) • grad (u t + (t / 4) • uDot t) := by
+      (2 * t) • (d2u t + beta • g (u t + (t / 4) • du t)) +
+        t ^ 2 • (d3u t + beta • hessian (u t + (t / 4) • du t)
+          ((5 / 4 : ℝ) • du t + (t / 4) • d2u t)) +
+        ((alpha + 5) • du t + ((alpha + 5) * t) • d2u t) +
+        (4 * alpha) • du t =
+        -(togesVDelta beta t) • g (u t + (t / 4) • du t) := by
     rw [show togesVDelta beta t = t ^ 2 - 2 * beta * t by
       simp [togesVDelta]
       field_simp [htne]]
@@ -217,12 +230,12 @@ private theorem togesVH_energy_hasDerivAt {H : Type*} [NormedAddCommGroup H]
     apply (eq_neg_iff_add_eq_zero).2
     rw [← hscaled]
     module
-  have hraw' : HasDerivAt (fun s => togesVLyapunovVector u uDot uDdot grad z alpha beta s)
-      ((2 * t) • (uDdot t + beta • grad (u t + (t / 4) • uDot t)) +
-        t ^ 2 • (uDddot t + beta • hess (u t + (t / 4) • uDot t)
-          ((5 / 4 : ℝ) • uDot t + (t / 4) • uDdot t)) +
-        ((alpha + 5) • uDot t + ((alpha + 5) * t) • uDdot t) +
-        (4 * alpha) • uDot t) t := by
+  have hraw' : HasDerivAt (fun s => togesVLyapunovVector u z alpha beta s f)
+      ((2 * t) • (d2u t + beta • g (u t + (t / 4) • du t)) +
+        t ^ 2 • (d3u t + beta • hessian (u t + (t / 4) • du t)
+          ((5 / 4 : ℝ) • du t + (t / 4) • d2u t)) +
+        ((alpha + 5) • du t + ((alpha + 5) * t) • d2u t) +
+        (4 * alpha) • du t) t := by
     convert hraw using 1
     · ext s
       simp only [Pi.add_apply, Pi.smul_apply', Pi.smul_apply, Pi.pow_apply, id_eq]
@@ -323,45 +336,62 @@ The energy and rate conclusions of Theorem 3.1 for a regular TOGES-VH solution.
 -/
 theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [CompleteSpace H] (f : H → ℝ)
-    (u uDot uDdot uDddot : ℝ → H) (grad : H → H) (hess : H → H → H)
+    (u du d2u d3u : ℝ → H)
     (z : H) (alpha beta t0 : ℝ)
     (hConvex : ConvexOn ℝ Set.univ f)
-    (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (grad x)) x)
-    (hGradDeriv : ∀ t, t0 ≤ t → HasDerivAt
-      (fun s => grad (u s + (s / 4) • uDot s))
-      (hess (u t + (t / 4) • uDot t)
-        ((5 / 4 : ℝ) • uDot t + (t / 4) • uDdot t)) t)
+    (hGradientDirect : ∀ x, HasFDerivAt f (innerSL ℝ (gradient f x)) x)
+    (hGradDerivDirect : ∀ t, t0 ≤ t → HasDerivAt
+      (fun s => gradient f (u s + (s / 4) • du s))
+      (fderiv ℝ (gradient f) (u t + (t / 4) • du t)
+        ((5 / 4 : ℝ) • du t + (t / 4) • d2u t)) t)
     (hMin : IsMinOn f Set.univ z) (ht0pos : 0 < t0)
-    (hu : ∀ t, t0 ≤ t → HasDerivAt u (uDot t) t)
-    (huDot : ∀ t, t0 ≤ t → HasDerivAt uDot (uDdot t) t)
-    (huDdot : ∀ t, t0 ≤ t → HasDerivAt uDdot (uDddot t) t)
-    (hTrajectory : ∀ t, t0 ≤ t →
-      uDddot t + ((alpha + 7) / t) • uDdot t + (5 * (alpha + 1) / t ^ 2) • uDot t +
-        beta • hess (u t + (t / 4) • uDot t)
-          ((5 / 4 : ℝ) • uDot t + (t / 4) • uDdot t) +
-        grad (u t + (t / 4) • uDot t) = 0) :
+    (hu : ∀ t, t0 ≤ t → HasDerivAt u (du t) t)
+    (huDot : ∀ t, t0 ≤ t → HasDerivAt du (d2u t) t)
+    (huDdot : ∀ t, t0 ≤ t → HasDerivAt d2u (d3u t) t)
+    (hDerivative : ∀ t, deriv u t = du t ∧ deriv (deriv u) t = d2u t ∧
+      deriv (deriv (deriv u)) t = d3u t)
+    (hTrajectoryDirect : IsTOGESVH u alpha beta f t0) :
     3 < alpha → 0 ≤ beta → let t1 := 2 * beta * (alpha - 2) / (alpha - 3)
       let tStart := max t0 t1
-      let E1 := togesVLyapunov f u uDot uDdot grad z alpha beta tStart
+      let E1 := togesVLyapunov f u z alpha beta tStart
       ∀ t ≥ tStart,
-        f (u t + (t / 4) • uDot t) - sInf (Set.range f) ≤ (alpha - 2) * E1 / (4 * t ^ 3) ∧
+        f (u t + (t / 4) • du t) - sInf (Set.range f) ≤ (alpha - 2) * E1 / (4 * t ^ 3) ∧
         f (u t) - sInf (Set.range f) ≤
           (tStart ^ 4 * (f (u tStart) - sInf (Set.range f)) - (alpha - 2) * E1 * tStart) / t ^ 4 +
             (alpha - 2) * E1 / t ^ 3 ∧
         AntitoneOn (fun s => f (u s) + (alpha - 2) * E1 / (3 * s ^ 3)) (Set.Ici tStart) ∧
         (0 < beta →
-          ∫ s in Set.Ici tStart, s ^ 4 * ‖grad (u s + (s / 4) • uDot s)‖ ^ 2 ≤
+          ∫ s in Set.Ici tStart, s ^ 4 *
+              ‖gradient f (u s + (s / 4) • du s)‖ ^ 2 ≤
             (alpha - 2) * E1 / beta) := by
   intro hAlpha hBeta
   dsimp
+  let g : H → H := gradient f
+  let hessian : H → H → H := fun x v => fderiv ℝ (gradient f) x v
+  have hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (g x)) x := by
+    simpa [g] using hGradientDirect
+  have hGradDeriv : ∀ t, t0 ≤ t → HasDerivAt
+      (fun s => g (u s + (s / 4) • du s))
+      (hessian (u t + (t / 4) • du t)
+        ((5 / 4 : ℝ) • du t + (t / 4) • d2u t)) t := by
+    simpa [g, hessian] using hGradDerivDirect
+  have hTrajectory : ∀ t, t0 ≤ t →
+      d3u t + ((alpha + 7) / t) • d2u t + (5 * (alpha + 1) / t ^ 2) • du t +
+        beta • hessian (u t + (t / 4) • du t)
+          ((5 / 4 : ℝ) • du t + (t / 4) • d2u t) +
+        g (u t + (t / 4) • du t) = 0 := by
+    intro t ht
+    have heq := hTrajectoryDirect t ht
+    rw [(hDerivative t).2.2, (hDerivative t).2.1, (hDerivative t).1] at heq
+    simpa [g, hessian] using heq
   have hsInf := togesVH_sInf_eq_minimum f z hMin
   let t1 : ℝ := 2 * beta * (alpha - 2) / (alpha - 3)
   let tStart : ℝ := max t0 t1
   have ht0Start : t0 ≤ tStart := le_max_left _ _
-  have hv : ∀ t, tStart ≤ t → HasDerivAt (fun s => u s + (s / 4) • uDot s)
-      ((5 / 4 : ℝ) • uDot t + (t / 4) • uDdot t) t := by
+  have hv : ∀ t, tStart ≤ t → HasDerivAt (fun s => u s + (s / 4) • du s)
+      ((5 / 4 : ℝ) • du t + (t / 4) • d2u t) t := by
     intro t ht
-    exact togesVH_auxiliary_hasDerivAt u uDot uDdot t0 hu huDot t
+    exact togesVH_auxiliary_hasDerivAt u du d2u t0 hu huDot t
       (le_trans ht0Start ht)
   have hA3 : 0 < alpha - 3 := by linarith
   have hA2 : 0 < alpha - 2 := by linarith
@@ -369,7 +399,7 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
   have htailFacts : ∀ t, tStart ≤ t →
       0 < t ∧ t ≠ 0 ∧ 0 ≤ togesVDelta beta t ∧
         0 ≤ (alpha - 3) * t ^ 2 - 2 * beta * t * (alpha - 2) ∧
-        0 ≤ f (u t + (t / 4) • uDot t) - f z ∧ 0 ≤ f (u t) - f z := by
+        0 ≤ f (u t + (t / 4) • du t) - f z ∧ 0 ≤ f (u t) - f z := by
     intro t ht
     have ht0t : t0 ≤ t := le_trans ht0Start ht
     have htpos : 0 < t := lt_of_lt_of_le ht0pos ht0t
@@ -392,49 +422,50 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
     exact ⟨htpos, htne, hdelta, hcoef,
       sub_nonneg.mpr (hmin _), sub_nonneg.mpr (hmin _)⟩
   have hw : ∀ t, tStart ≤ t → HasDerivAt
-      (fun s => togesVLyapunovVector u uDot uDdot grad z alpha beta s)
-      (-(togesVDelta beta t) • grad (u t + (t / 4) • uDot t)) t := by
+      (fun s => togesVLyapunovVector u z alpha beta s f)
+      (-(togesVDelta beta t) • g (u t + (t / 4) • du t)) t := by
     intro t ht
-    exact togesVH_w_hasDerivAt u uDot uDdot uDddot grad hess z alpha beta t0 tStart t
+    exact togesVH_w_hasDerivAt f u du d2u d3u g hessian z alpha beta t0 tStart t
       hu huDot huDdot hGradDeriv ht0Start ht (htailFacts t ht).2.1
-      hTrajectory
+      hTrajectory hDerivative (fun x => by simp [g])
   have hDiss : ∀ t, tStart ≤ t →
-      deriv (togesVLyapunov f u uDot uDdot grad z alpha beta) t +
+      deriv (togesVLyapunov f u z alpha beta) t +
           beta * t ^ 2 * togesVDelta beta t *
-            ‖grad (u t + (t / 4) • uDot t)‖ ^ 2 +
+            ‖g (u t + (t / 4) • du t)‖ ^ 2 +
           4 * ((alpha - 3) * t ^ 2 - 2 * beta * t * (alpha - 2)) *
-            (f (u t + (t / 4) • uDot t) - f z) ≤ 0 := by
+            (f (u t + (t / 4) • du t) - f z) ≤ 0 := by
     intro t ht
     have htail := htailFacts t ht
-    have hE := togesVH_energy_hasDerivAt f u uDot uDdot grad z alpha beta t
-      hGradient (hv t ht) (hw t ht) htail.2.1
+    have hE := togesVH_energy_hasDerivAt f u du d2u g z alpha beta t
+      hGradient (hv t ht) (hw t ht) htail.2.1 (fun r => (hDerivative r).1)
     rw [hE.deriv]
-    have hsupp := togesVH_convex_gradient_le f grad hConvex hGradient
-      (u t + (t / 4) • uDot t) z
-    have hW : togesVLyapunovVector u uDot uDdot grad z alpha beta t =
-        ((4 : ℝ) * t) • ((5 / 4 : ℝ) • uDot t + (t / 4) • uDdot t) +
-          (t ^ 2 * beta) • grad (u t + (t / 4) • uDot t) +
-          ((4 : ℝ) * alpha) • (u t + (t / 4) • uDot t - z) := by
-      simp [togesVLyapunovVector, togesVAuxiliary]
+    have hsupp := togesVH_convex_gradient_le f g hConvex hGradient
+      (u t + (t / 4) • du t) z
+    have hW : togesVLyapunovVector u z alpha beta t f =
+        ((4 : ℝ) * t) • ((5 / 4 : ℝ) • du t + (t / 4) • d2u t) +
+          (t ^ 2 * beta) • g (u t + (t / 4) • du t) +
+          ((4 : ℝ) * alpha) • (u t + (t / 4) • du t - z) := by
+      simp [togesVLyapunovVector, togesVAuxiliary, (hDerivative t).1,
+        (hDerivative t).2.1, g]
       module
-    have hinter : inner ℝ (togesVLyapunovVector u uDot uDdot grad z alpha beta t)
-        (-(togesVDelta beta t) • grad (u t + (t / 4) • uDot t)) =
+    have hinter : inner ℝ (togesVLyapunovVector u z alpha beta t f)
+        (-(togesVDelta beta t) • g (u t + (t / 4) • du t)) =
         - (4 * t * togesVDelta beta t *
-          inner ℝ (grad (u t + (t / 4) • uDot t))
-            ((5 / 4 : ℝ) • uDot t + (t / 4) • uDdot t)) -
+          inner ℝ (g (u t + (t / 4) • du t))
+            ((5 / 4 : ℝ) • du t + (t / 4) • d2u t)) -
         beta * t ^ 2 * togesVDelta beta t *
-          inner ℝ (grad (u t + (t / 4) • uDot t))
-            (grad (u t + (t / 4) • uDot t)) -
+          inner ℝ (g (u t + (t / 4) • du t))
+            (g (u t + (t / 4) • du t)) -
         4 * alpha * togesVDelta beta t *
-          inner ℝ (grad (u t + (t / 4) • uDot t))
-            (u t + (t / 4) • uDot t - z) := by
+          inner ℝ (g (u t + (t / 4) • du t))
+            (u t + (t / 4) • du t - z) := by
       rw [hW]
       simp only [inner_add_left, real_inner_smul_left, real_inner_smul_right,
         inner_neg_right]
-      rw [real_inner_comm ((5 / 4 : ℝ) • uDot t + (t / 4) • uDdot t)
-        (grad (u t + (t / 4) • uDot t))]
-      rw [real_inner_comm (u t + (t / 4) • uDot t - z)
-        (grad (u t + (t / 4) • uDot t))]
+      rw [real_inner_comm ((5 / 4 : ℝ) • du t + (t / 4) • d2u t)
+        (g (u t + (t / 4) • du t))]
+      rw [real_inner_comm (u t + (t / 4) • du t - z)
+        (g (u t + (t / 4) • du t))]
       simp only [inner_add_left, real_inner_smul_left, real_inner_smul_right]
       ring
     rw [hinter]
@@ -448,36 +479,36 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
       field_simp [htail.2.1]
     rw [hdelta] at hsupport ⊢
     nlinarith
-  have hEantitone : AntitoneOn (togesVLyapunov f u uDot uDdot grad z alpha beta)
+  have hEantitone : AntitoneOn (togesVLyapunov f u z alpha beta)
       (Set.Ici tStart) := by
     apply antitoneOn_of_deriv_nonpos (convex_Ici tStart)
     · intro s hs
-      exact (togesVH_energy_hasDerivAt f u uDot uDdot grad z alpha beta s hGradient
-        (hv s hs) (hw s hs) (htailFacts s hs).2.1).continuousAt.continuousWithinAt
+      exact (togesVH_energy_hasDerivAt f u du d2u g z alpha beta s hGradient
+        (hv s hs) (hw s hs) (htailFacts s hs).2.1 (fun r => (hDerivative r).1)).continuousAt.continuousWithinAt
     · intro s hs
       have hs' : tStart ≤ s := Set.mem_Ici.mp (interior_subset hs)
-      exact (togesVH_energy_hasDerivAt f u uDot uDdot grad z alpha beta s hGradient
-        (hv s hs') (hw s hs') (htailFacts s hs').2.1).differentiableAt.differentiableWithinAt
+      exact (togesVH_energy_hasDerivAt f u du d2u g z alpha beta s hGradient
+        (hv s hs') (hw s hs') (htailFacts s hs').2.1 (fun r => (hDerivative r).1)).differentiableAt.differentiableWithinAt
     · intro s hs
       have hs' : tStart ≤ s := Set.mem_Ici.mp (interior_subset hs)
       have hd := hDiss s hs'
       have htail := htailFacts s hs'
       have hterm1 : 0 ≤ beta * s ^ 2 * togesVDelta beta s *
-          ‖grad (u s + (s / 4) • uDot s)‖ ^ 2 := by
+          ‖g (u s + (s / 4) • du s)‖ ^ 2 := by
         exact mul_nonneg (mul_nonneg (mul_nonneg hBeta (sq_nonneg s)) htail.2.2.1)
           (sq_nonneg _)
       have hterm2 : 0 ≤ 4 * ((alpha - 3) * s ^ 2 - 2 * beta * s * (alpha - 2)) *
-          (f (u s + (s / 4) • uDot s) - f z) := by
+          (f (u s + (s / 4) • du s) - f z) := by
         exact mul_nonneg (mul_nonneg (by norm_num) htail.2.2.2.1) htail.2.2.2.2.1
       linarith
   have hEle : ∀ t, tStart ≤ t →
-      togesVLyapunov f u uDot uDdot grad z alpha beta t ≤
-        togesVLyapunov f u uDot uDdot grad z alpha beta tStart := by
+      togesVLyapunov f u z alpha beta t ≤
+        togesVLyapunov f u z alpha beta tStart := by
     intro t ht
     exact hEantitone (by simp) (by simpa using ht) ht
-  let C : ℝ := (alpha - 2) * togesVLyapunov f u uDot uDdot grad z alpha beta tStart
+  let C : ℝ := (alpha - 2) * togesVLyapunov f u z alpha beta tStart
   have hAuxRate : ∀ r, tStart ≤ r →
-      f (u r + (r / 4) • uDot r) - f z ≤ C / (4 * r ^ 3) := by
+      f (u r + (r / 4) • du r) - f z ≤ C / (4 * r ^ 3) := by
     intro t ht
     have htail := htailFacts t ht
     have ht1t : t1 ≤ t := le_trans ht1Start ht
@@ -503,53 +534,53 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
     rw [togesVLyapunov] at hEraw
     rw [hsInf] at hEraw
     have hsq : 0 ≤ (1 / 2 : ℝ) *
-        ‖togesVLyapunovVector u uDot uDdot grad z alpha beta t‖ ^ 2 := by positivity
+        ‖togesVLyapunovVector u z alpha beta t f‖ ^ 2 := by positivity
     have henergy : 4 * t * togesVDelta beta t *
-        (f (u t + (t / 4) • uDot t) - f z) ≤
-        togesVLyapunov f u uDot uDdot grad z alpha beta tStart := by
+        (f (u t + (t / 4) • du t) - f z) ≤
+        togesVLyapunov f u z alpha beta tStart := by
       have hraw := le_trans (le_add_of_nonneg_right hsq) hEraw
-      simpa [togesVAuxiliary] using hraw
-    have hmul : 0 ≤ 4 * t * (f (u t + (t / 4) • uDot t) - f z) := by
+      simpa [togesVAuxiliary, (hDerivative t).1] using hraw
+    have hmul : 0 ≤ 4 * t * (f (u t + (t / 4) • du t) - f z) := by
       exact mul_nonneg (mul_nonneg (by norm_num) htail.1.le) htail.2.2.2.2.1
     have hscaled := mul_le_mul_of_nonneg_left hdeltaLower hmul
     have haux : 4 * t ^ 3 / (alpha - 2) *
-        (f (u t + (t / 4) • uDot t) - f z) ≤
-        togesVLyapunov f u uDot uDdot grad z alpha beta tStart := by
+        (f (u t + (t / 4) • du t) - f z) ≤
+        togesVLyapunov f u z alpha beta tStart := by
       calc
         4 * t ^ 3 / (alpha - 2) *
-            (f (u t + (t / 4) • uDot t) - f z) =
-            (4 * t * (f (u t + (t / 4) • uDot t) - f z)) *
+            (f (u t + (t / 4) • du t) - f z) =
+            (4 * t * (f (u t + (t / 4) • du t) - f z)) *
               (t ^ 2 / (alpha - 2)) := by ring
-        _ ≤ (4 * t * (f (u t + (t / 4) • uDot t) - f z)) * togesVDelta beta t := hscaled
+        _ ≤ (4 * t * (f (u t + (t / 4) • du t) - f z)) * togesVDelta beta t := hscaled
         _ = 4 * t * togesVDelta beta t *
-            (f (u t + (t / 4) • uDot t) - f z) := by ring
+            (f (u t + (t / 4) • du t) - f z) := by ring
         _ ≤ _ := henergy
     have ht3 : 0 < 4 * t ^ 3 := mul_pos (by norm_num) (pow_pos htail.1 _)
-    have haux' : 4 * t ^ 3 * (f (u t + (t / 4) • uDot t) - f z) ≤ C := by
+    have haux' : 4 * t ^ 3 * (f (u t + (t / 4) • du t) - f z) ≤ C := by
       calc
-        4 * t ^ 3 * (f (u t + (t / 4) • uDot t) - f z) =
+        4 * t ^ 3 * (f (u t + (t / 4) • du t) - f z) =
             (alpha - 2) * (4 * t ^ 3 / (alpha - 2) *
-              (f (u t + (t / 4) • uDot t) - f z)) := by
+              (f (u t + (t / 4) • du t) - f z)) := by
                 field_simp [ne_of_gt hA2]
-        _ ≤ (alpha - 2) * togesVLyapunov f u uDot uDdot grad z alpha beta tStart :=
+        _ ≤ (alpha - 2) * togesVLyapunov f u z alpha beta tStart :=
           mul_le_mul_of_nonneg_left haux hA2.le
         _ = C := by rfl
     exact (le_div_iff₀ ht3).2 (by simpa [mul_comm] using haux')
   have hCore : ∀ r, tStart ≤ r →
       4 * r ^ 3 * (f (u r) - f z) +
-        r ^ 4 * inner ℝ (grad (u r)) (uDot r) ≤ C := by
+        r ^ 4 * inner ℝ (g (u r)) (du r) ≤ C := by
     intro r hr
     have htail := htailFacts r hr
-    have hsupp := togesVH_convex_gradient_le f grad hConvex hGradient
-      (u r) (u r + (r / 4) • uDot r)
+    have hsupp := togesVH_convex_gradient_le f g hConvex hGradient
+      (u r) (u r + (r / 4) • du r)
     have hsupport : 4 * (f (u r) - f z) +
-        r * inner ℝ (grad (u r)) (uDot r) ≤
-          4 * (f (u r + (r / 4) • uDot r) - f z) := by
-      rw [show u r - (u r + (r / 4) • uDot r) = -(r / 4) • uDot r by module,
+        r * inner ℝ (g (u r)) (du r) ≤
+          4 * (f (u r + (r / 4) • du r) - f z) := by
+      rw [show u r - (u r + (r / 4) • du r) = -(r / 4) • du r by module,
         real_inner_smul_right] at hsupp
       nlinarith
     have hrate := hAuxRate r hr
-    have hCt : 4 * r ^ 3 * (f (u r + (r / 4) • uDot r) - f z) ≤ C := by
+    have hCt : 4 * r ^ 3 * (f (u r + (r / 4) • du r) - f z) ≤ C := by
       have h4 : 0 < 4 * r ^ 3 := mul_pos (by norm_num) (pow_pos htail.1 3)
       have hscaled := mul_le_mul_of_nonneg_left hrate
         h4.le
@@ -560,11 +591,11 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
   have hGderiv : ∀ r, tStart ≤ r → deriv G r ≤ 0 := by
     intro r hr
     have hFderiv : HasDerivAt (fun s => f (u s) - f z)
-        (inner ℝ (grad (u r)) (uDot r)) r := by
+        (inner ℝ (g (u r)) (du r)) r := by
       simpa [innerSL_apply_apply] using
         ((hGradient (u r)).comp_hasDerivAt r (hu r (le_trans ht0Start hr))).sub_const (f z)
     have hderiv : HasDerivAt G
-        (4 * r ^ 3 * (f (u r) - f z) + r ^ 4 * inner ℝ (grad (u r)) (uDot r) - C) r := by
+        (4 * r ^ 3 * (f (u r) - f z) + r ^ 4 * inner ℝ (g (u r)) (du r) - C) r := by
       convert (((hasDerivAt_pow 4 r).mul hFderiv).sub
         ((hasDerivAt_id r).const_mul C)) using 1 <;> ring
     rw [hderiv.deriv]
@@ -572,7 +603,7 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
   have hGcont : ContinuousOn G (Set.Ici tStart) := by
     intro r hr
     have hFderiv : HasDerivAt (fun s => f (u s) - f z)
-        (inner ℝ (grad (u r)) (uDot r)) r := by
+        (inner ℝ (g (u r)) (du r)) r := by
       simpa [innerSL_apply_apply] using
         ((hGradient (u r)).comp_hasDerivAt r (hu r (le_trans ht0Start hr))).sub_const (f z)
     exact (((hasDerivAt_pow 4 r).mul hFderiv).sub
@@ -581,7 +612,7 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
     rw [interior_Ici]
     intro r hr
     have hFderiv : HasDerivAt (fun s => f (u s) - f z)
-        (inner ℝ (grad (u r)) (uDot r)) r := by
+        (inner ℝ (g (u r)) (du r)) r := by
       simpa [innerSL_apply_apply] using
         ((hGradient (u r)).comp_hasDerivAt r (hu r (le_trans ht0Start hr.le))).sub_const (f z)
     exact (((hasDerivAt_pow 4 r).mul hFderiv).sub
@@ -611,24 +642,24 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
     have hHderiv : ∀ r, tStart ≤ r → deriv Hcorr r ≤ 0 := by
       intro r hr
       have hFderiv : HasDerivAt (fun s => f (u s) - f z)
-          (inner ℝ (grad (u r)) (uDot r)) r := by
+          (inner ℝ (g (u r)) (du r)) r := by
         simpa [innerSL_apply_apply] using
           ((hGradient (u r)).comp_hasDerivAt r (hu r (le_trans ht0Start hr))).sub_const (f z)
       have hderiv := hFderiv.add (togesVH_correction_hasDerivAt C r
         (htailFacts r hr).2.1)
-      have hd : deriv Hcorr r = inner ℝ (grad (u r)) (uDot r) - C / r ^ 4 := by
+      have hd : deriv Hcorr r = inner ℝ (g (u r)) (du r) - C / r ^ 4 := by
         change deriv ((fun s => f (u s) - f z) + fun s => C / (3 * s ^ 3)) r = _
         convert hderiv.deriv using 1 <;> ring
       rw [hd]
       have htail := htailFacts r hr
       have hr4 : 0 < r ^ 4 := pow_pos htail.1 4
-      have hinner : r ^ 4 * inner ℝ (grad (u r)) (uDot r) ≤ C := by
+      have hinner : r ^ 4 * inner ℝ (g (u r)) (du r) ≤ C := by
         nlinarith [hCore r hr]
       exact sub_nonpos.mpr ((le_div_iff₀ hr4).2 (by simpa [mul_comm] using hinner))
     have hHcont : ContinuousOn Hcorr (Set.Ici tStart) := by
       intro r hr
       have hFderiv : HasDerivAt (fun s => f (u s) - f z)
-          (inner ℝ (grad (u r)) (uDot r)) r := by
+          (inner ℝ (g (u r)) (du r)) r := by
         simpa [innerSL_apply_apply] using
           ((hGradient (u r)).comp_hasDerivAt r (hu r (le_trans ht0Start hr))).sub_const (f z)
       exact (hFderiv.add (togesVH_correction_hasDerivAt C r
@@ -637,7 +668,7 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
       rw [interior_Ici]
       intro r hr
       have hFderiv : HasDerivAt (fun s => f (u s) - f z)
-          (inner ℝ (grad (u r)) (uDot r)) r := by
+          (inner ℝ (g (u r)) (du r)) r := by
         simpa [innerSL_apply_apply] using
           ((hGradient (u r)).comp_hasDerivAt r (hu r (le_trans ht0Start hr.le))).sub_const (f z)
       exact (hFderiv.add (togesVH_correction_hasDerivAt C r
@@ -653,21 +684,21 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
     dsimp [Hcorr] at h
     linarith
   · intro hBetaPos
-    let E : ℝ → ℝ := togesVLyapunov f u uDot uDdot grad z alpha beta
+    let E : ℝ → ℝ := togesVLyapunov f u z alpha beta
     let D : ℝ → ℝ := fun r => beta * r ^ 2 * togesVDelta beta r *
-      ‖grad (u r + (r / 4) • uDot r)‖ ^ 2
+      ‖g (u r + (r / 4) • du r)‖ ^ 2
     let p : ℝ → ℝ := fun r =>
       4 * r * togesVDelta beta r *
-          inner ℝ (grad (u r + (r / 4) • uDot r))
-            ((5 / 4 : ℝ) • uDot r + (r / 4) • uDdot r) +
+          inner ℝ (g (u r + (r / 4) • du r))
+            ((5 / 4 : ℝ) • du r + (r / 4) • d2u r) +
         4 * (togesVDelta beta r + r * (2 * r - 2 * beta)) *
-          (f (u r + (r / 4) • uDot r) - sInf (Set.range f)) +
-        inner ℝ (togesVLyapunovVector u uDot uDdot grad z alpha beta r)
-          (-(togesVDelta beta r) • grad (u r + (r / 4) • uDot r))
+          (f (u r + (r / 4) • du r) - sInf (Set.range f)) +
+        inner ℝ (togesVLyapunovVector u z alpha beta r f)
+          (-(togesVDelta beta r) • g (u r + (r / 4) • du r))
     have hEAt : ∀ r, tStart ≤ r → HasDerivAt E (p r) r := by
       intro r hr
-      exact togesVH_energy_hasDerivAt f u uDot uDdot grad z alpha beta r hGradient
-        (hv r hr) (hw r hr) (htailFacts r hr).2.1
+      exact togesVH_energy_hasDerivAt f u du d2u g z alpha beta r hGradient
+        (hv r hr) (hw r hr) (htailFacts r hr).2.1 (fun s => (hDerivative s).1)
     have hDnonneg : ∀ r, tStart ≤ r → 0 ≤ D r := by
       intro r hr
       exact mul_nonneg
@@ -686,10 +717,10 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
       rw [(hEAt r hr).deriv] at hd
       have hcoef : 0 ≤ (alpha - 3) * r ^ 2 - 2 * beta * r * (alpha - 2) :=
         (htailFacts r hr).2.2.2.1
-      have hvalue : 0 ≤ f (u r + (r / 4) • uDot r) - f z :=
+      have hvalue : 0 ≤ f (u r + (r / 4) • du r) - f z :=
         (htailFacts r hr).2.2.2.2.1
       have hq : 0 ≤ 4 * ((alpha - 3) * r ^ 2 - 2 * beta * r * (alpha - 2)) *
-          (f (u r + (r / 4) • uDot r) - f z) := by positivity
+          (f (u r + (r / 4) • du r) - f z) := by positivity
       change p r + D r + _ ≤ 0 at hd
       linarith
     have hPcont : ∀ T, tStart ≤ T → ContinuousOn p (Set.Icc tStart T) := by
@@ -699,13 +730,13 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
       have huDdot' := (huDdot r (le_trans ht0Start hr.1)).continuousAt
       have hv' := (hv r hr.1).continuousAt
       have hvDot' : ContinuousAt
-          (fun s => (5 / 4 : ℝ) • uDot s + (s / 4) • uDdot s) r := by
+          (fun s => (5 / 4 : ℝ) • du s + (s / 4) • d2u s) r := by
         exact (continuousAt_const.smul huDot').add
           (((hasDerivAt_id r).div_const 4).continuousAt.smul huDdot')
       have hgrad' := (hGradDeriv r (le_trans ht0Start hr.1)).continuousAt
-      have hf' : ContinuousAt (fun s => f (u s + (s / 4) • uDot s) -
+      have hf' : ContinuousAt (fun s => f (u s + (s / 4) • du s) -
           sInf (Set.range f)) r := by
-        exact ((hGradient (u r + (r / 4) • uDot r)).comp_hasDerivAt r (hv r hr.1)).continuousAt
+        exact ((hGradient (u r + (r / 4) • du r)).comp_hasDerivAt r (hv r hr.1)).continuousAt
           |>.sub continuousAt_const
       have hdelta' := (togesVH_delta_hasDerivAt beta r
         (htailFacts r hr.1).2.1).continuousAt
@@ -716,32 +747,31 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
           ((((hasDerivAt_id r).const_mul 2).continuousAt).sub
             (hasDerivAt_const r (2 * beta)).continuousAt))
       have hfirst : ContinuousAt (fun s => 4 * s * togesVDelta beta s *
-          inner ℝ (grad (u s + (s / 4) • uDot s))
-            ((5 / 4 : ℝ) • uDot s + (s / 4) • uDdot s)) r := by
+          inner ℝ (g (u s + (s / 4) • du s))
+            ((5 / 4 : ℝ) • du s + (s / 4) • d2u s)) r := by
         exact ((continuousAt_const.mul (hasDerivAt_id r).continuousAt).mul hdelta').mul
           (hgrad'.inner hvDot')
       have hsecond : ContinuousAt (fun s => 4 *
           (togesVDelta beta s + s * (2 * s - 2 * beta)) *
-          (f (u s + (s / 4) • uDot s) - sInf (Set.range f))) r := by
+          (f (u s + (s / 4) • du s) - sInf (Set.range f))) r := by
         exact (continuousAt_const.mul hcoeff).mul hf'
       have hthird : ContinuousAt (fun s =>
-          inner ℝ (togesVLyapunovVector u uDot uDdot grad z alpha beta s)
-            (-(togesVDelta beta s) • grad (u s + (s / 4) • uDot s))) r := by
+          inner ℝ (togesVLyapunovVector u z alpha beta s f)
+            (-(togesVDelta beta s) • g (u s + (s / 4) • du s))) r := by
         simpa [neg_smul] using hw'.inner (hdelta'.smul hgrad').neg
       simpa [p] using ((hfirst.add hsecond).add hthird).continuousWithinAt
     have hEnonneg : ∀ r, tStart ≤ r → 0 ≤ E r := by
       intro r hr
       have htail := htailFacts r hr
       have hfirst : 0 ≤ 4 * r * togesVDelta beta r *
-          (f (u r + (r / 4) • uDot r) - f z) := by
+          (f (u r + (r / 4) • du r) - f z) := by
         exact mul_nonneg (mul_nonneg (mul_nonneg (by norm_num) htail.1.le)
           htail.2.2.1) htail.2.2.2.2.1
       have hsecond : 0 ≤ (1 / 2 : ℝ) *
-          ‖togesVLyapunovVector u uDot uDdot grad z alpha beta r‖ ^ 2 := by positivity
-      change 0 ≤ 4 * r * togesVDelta beta r *
-        (f (u r + (r / 4) • uDot r) - sInf (Set.range f)) + _
-      rw [hsInf]
-      linarith
+          ‖togesVLyapunovVector u z alpha beta r f‖ ^ 2 := by positivity
+      dsimp [E]
+      rw [togesVLyapunov, togesVAuxiliary, (hDerivative r).1, hsInf]
+      exact add_nonneg hfirst hsecond
     have hDcompact : ∀ T, tStart ≤ T → (∫ r in tStart..T, D r) ≤ E tStart := by
       intro T hT
       have hDint : IntervalIntegrable D MeasureTheory.volume tStart T :=
@@ -761,19 +791,19 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
         · exact hPint
       rw [hFTC] at hmono
       linarith [hEnonneg T hT]
-    let g : ℝ → ℝ := fun r => r ^ 4 * ‖grad (u r + (r / 4) • uDot r)‖ ^ 2
-    have hgcont : ∀ T, tStart ≤ T → ContinuousOn g (Set.Icc tStart T) := by
+    let weight : ℝ → ℝ := fun r => r ^ 4 * ‖g (u r + (r / 4) • du r)‖ ^ 2
+    have hgcont : ∀ T, tStart ≤ T → ContinuousOn weight (Set.Icc tStart T) := by
       intro T hT r hr
       have hgrad := (hGradDeriv r (le_trans ht0Start hr.1)).continuousAt
       exact (((hasDerivAt_id r).pow 4).continuousAt.mul (hgrad.norm.pow 2)).continuousWithinAt
-    have hgcompact : ∀ T, tStart ≤ T → (∫ r in tStart..T, g r) ≤
+    have hgcompact : ∀ T, tStart ≤ T → (∫ r in tStart..T, weight r) ≤
         (alpha - 2) * E tStart / beta := by
       intro T hT
-      have hGint : IntervalIntegrable g MeasureTheory.volume tStart T :=
+      have hGint : IntervalIntegrable weight MeasureTheory.volume tStart T :=
         (hgcont T hT).intervalIntegrable_of_Icc hT
       have hDint : IntervalIntegrable D MeasureTheory.volume tStart T :=
         (hDcont T hT).intervalIntegrable_of_Icc hT
-      have hpoint : ∀ r, r ∈ Set.Icc tStart T → beta * g r ≤ (alpha - 2) * D r := by
+      have hpoint : ∀ r, r ∈ Set.Icc tStart T → beta * weight r ≤ (alpha - 2) * D r := by
         intro r hr
         have htail := htailFacts r hr.1
         have ht1r : t1 ≤ r := le_trans ht1Start hr.1
@@ -795,13 +825,13 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
             r ^ 2 / (alpha - 2) = r ^ 2 * (1 / (alpha - 2)) := by ring
             _ ≤ r ^ 2 * (1 - 2 * beta / r) :=
               mul_le_mul_of_nonneg_left hrecip (sq_nonneg r)
-        let q : ℝ := ‖grad (u r + (r / 4) • uDot r)‖ ^ 2
+        let q : ℝ := ‖g (u r + (r / 4) • du r)‖ ^ 2
         have hq : 0 ≤ q := by
           dsimp [q]
           exact sq_nonneg _
         have hcompare := togesVH_weighted_gradient_compare alpha beta r q
           (togesVDelta beta r) hA2 hBeta htail.1.le hq hlower
-        simpa only [g, D, q] using hcompare
+        simpa only [weight, D, q] using hcompare
       have hIntegrated := intervalIntegral.integral_mono_on hT
         (hGint.const_mul beta) (hDint.const_mul (alpha - 2)) (by
           intro r hr
@@ -811,11 +841,11 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
       have hDscaled : (alpha - 2) * (∫ r in tStart..T, D r) ≤
           (alpha - 2) * E tStart := by
         exact mul_le_mul_of_nonneg_left (hDcompact T hT) hA2.le
-      have hbetaScaled : beta * (∫ r in tStart..T, g r) ≤
+      have hbetaScaled : beta * (∫ r in tStart..T, weight r) ≤
           (alpha - 2) * E tStart := le_trans hIntegrated hDscaled
       exact (le_div_iff₀ hBetaPos).2 (by
         simpa [mul_assoc, mul_left_comm, mul_comm] using hbetaScaled)
-    have hgnonneg : ∀ r, tStart ≤ r → 0 ≤ g r := by
+    have hgnonneg : ∀ r, tStart ≤ r → 0 ≤ weight r := by
       intro r hr
       exact mul_nonneg (pow_nonneg (htailFacts r hr).1.le 4) (sq_nonneg _)
     rcases togesVH_integrableOn_Ici_of_nonneg_compact_integral_bound hgcont hgnonneg

@@ -3,7 +3,7 @@ import Foundation.Convex.Basic
 
 /-- A convex differentiable objective together with its first-order convexity inequality. -/
 structure ConvexDifferentiableObjective (H : Type*) [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] where
+    [NormedSpace ℝ H] [InnerProductSpace ℝ H] [CompleteSpace H] where
   f : H → ℝ
   differentiable : ∀ x : H, DifferentiableAt ℝ f x
   convex : ∀ x y : H, ∀ s : ℝ, 0 ≤ s → s ≤ 1 →

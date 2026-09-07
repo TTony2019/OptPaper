@@ -44,8 +44,8 @@ Counting convention:
   files.
 - `theorem-like items` counts `thm_*`, `lem_*`, `prop_*`, `cor_*`, `rem_*`,
   and their `ext_*` versions.
-- An item is marked open if its non-comment Lean code contains `sorry`, `admit`,
-  `axiom`, or `constant`.
+- An item is marked open if its non-comment, non-string Lean code contains
+  `sorry` or `admit`, or declares an `axiom`/`constant` command.
 - Display names are `first_author_first_three_title_words_year` (underscore
   joined); authors, titles, and years are read from `papers.json`, and an
   unlisted paper falls back to its directory name.
@@ -61,7 +61,7 @@ Counting convention:
 | 7 | [Attouch_Adly_Dry_friction_2023](TheoremLib/Attouch_Adly_Dry_friction_dynamics_2023) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 8](https://img.shields.io/static/v1?label=&message=8&color=2563eb&style=flat-square) | ![proved 17](https://img.shields.io/badge/proved-17-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
 | 8 | [Attouch_Fast_convex_optimization_2022](TheoremLib/Attouch_Fast_convex_optimization_via_a_third_order_in_time_evolution_equation_TOGES_V_an_improved_version_of_TOGES_2022) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 11](https://img.shields.io/static/v1?label=&message=11&color=2563eb&style=flat-square) | ![proved 10](https://img.shields.io/badge/proved-10-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
 | 9 | [Attouch_Redont_A_New_2007](TheoremLib/Attouch_Redont_A_New_Class_of_Alternating_Proximal_Minimization_Algorithms_with_Costs_to_Move_2007) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 9](https://img.shields.io/static/v1?label=&message=9&color=2563eb&style=flat-square) | ![proved 16](https://img.shields.io/badge/proved-16-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
-| 10 | [Beck_Teboulle_FISTA_2009](TheoremLib/Beck_Teboulle_FISTA_2009) | ![in progress](https://img.shields.io/static/v1?label=&message=in%20progress&color=f59e0b&style=flat-square) | ![definition-like 11](https://img.shields.io/static/v1?label=&message=11&color=2563eb&style=flat-square) | ![proved 7](https://img.shields.io/badge/proved-7-16a34a?style=flat-square) ![open 2](https://img.shields.io/badge/open-2-dc2626?style=flat-square) |
+| 10 | [Beck_Teboulle_FISTA_2009](TheoremLib/Beck_Teboulle_FISTA_2009) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 11](https://img.shields.io/static/v1?label=&message=11&color=2563eb&style=flat-square) | ![proved 9](https://img.shields.io/badge/proved-9-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
 
 <!-- FORMALIZATION_STATUS:END -->
 

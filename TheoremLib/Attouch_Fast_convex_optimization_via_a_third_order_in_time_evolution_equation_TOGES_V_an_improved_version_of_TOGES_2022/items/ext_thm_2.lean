@@ -23,35 +23,35 @@ theorem integral_jensen_inequality {H : Type*} [NormedAddCommGroup H] [InnerProd
   have hconstH : IntegrableOn (fun _ : ℝ => m) (Set.Ioc a b) volume :=
     integrableOn_const (hs := hIoc_ne_top)
   have hsubI : IntegrableOn (fun s => g s - m) (Set.Ioc a b) volume := hgI.sub hconstH
-  have hinnerI : IntegrableOn (fun s => inner ℝ (F.grad m) (g s - m)) (Set.Ioc a b) volume :=
-    (hsubI.const_inner (F.grad m))
+  have hinnerI : IntegrableOn (fun s => inner ℝ (gradient F.f m) (g s - m)) (Set.Ioc a b) volume :=
+    (hsubI.const_inner (gradient F.f m))
   have hconstR : IntegrableOn (fun _ : ℝ => F.f m) (Set.Ioc a b) volume :=
     integrableOn_const (hs := hIoc_ne_top)
-  have hleftI : IntegrableOn (fun s => F.f m + inner ℝ (F.grad m) (g s - m))
+  have hleftI : IntegrableOn (fun s => F.f m + inner ℝ (gradient F.f m) (g s - m))
       (Set.Ioc a b) volume := hconstR.add hinnerI
-  have hpoint : ∀ s : ℝ, F.f m + inner ℝ (F.grad m) (g s - m) ≤ F.f (g s) := by
+  have hpoint : ∀ s : ℝ, F.f m + inner ℝ (gradient F.f m) (g s - m) ≤ F.f (g s) := by
     intro s
     exact F.firstOrder m (g s)
-  have hmono : ∫ s in Set.Ioc a b, F.f m + inner ℝ (F.grad m) (g s - m) ≤
+  have hmono : ∫ s in Set.Ioc a b, F.f m + inner ℝ (gradient F.f m) (g s - m) ≤
       ∫ s in Set.Ioc a b, F.f (g s) :=
     integral_mono hleftI hFgI hpoint
   have hsub_integral : ∫ s in Set.Ioc a b, g s - m =
       (∫ s in Set.Ioc a b, g s) - ∫ _ in Set.Ioc a b, m :=
     integral_sub hgI hconstH
-  have hinner_integral : ∫ s in Set.Ioc a b, inner ℝ (F.grad m) (g s - m) =
-      inner ℝ (F.grad m) (∫ s in Set.Ioc a b, g s - m) :=
-    integral_inner hsubI (F.grad m)
+  have hinner_integral : ∫ s in Set.Ioc a b, inner ℝ (gradient F.f m) (g s - m) =
+      inner ℝ (gradient F.f m) (∫ s in Set.Ioc a b, g s - m) :=
+    integral_inner hsubI (gradient F.f m)
   have hconstR_integral : ∫ _ in Set.Ioc a b, F.f m = (b - a) * F.f m := by
     rw [← intervalIntegral.integral_of_le hab_le, intervalIntegral.integral_const]
     simp [smul_eq_mul]
   have hconstH_integral : ∫ _ in Set.Ioc a b, m = (b - a) • m := by
     rw [← intervalIntegral.integral_of_le hab_le, intervalIntegral.integral_const]
-  have hleft_calc : ∫ s in Set.Ioc a b, F.f m + inner ℝ (F.grad m) (g s - m) =
+  have hleft_calc : ∫ s in Set.Ioc a b, F.f m + inner ℝ (gradient F.f m) (g s - m) =
       (b - a) * F.f m +
-        inner ℝ (F.grad m) ((∫ s in Set.Ioc a b, g s) - (b - a) • m) := by
+        inner ℝ (gradient F.f m) ((∫ s in Set.Ioc a b, g s) - (b - a) • m) := by
     rw [integral_add hconstR hinnerI, hinner_integral, hsub_integral,
       hconstR_integral, hconstH_integral]
-  have hrem : inner ℝ (F.grad m) ((∫ s in Set.Ioc a b, g s) - (b - a) • m) = 0 := by
+  have hrem : inner ℝ (gradient F.f m) ((∫ s in Set.Ioc a b, g s) - (b - a) • m) = 0 := by
     dsimp [m]
     rw [← intervalIntegral.integral_of_le hab_le]
     rw [smul_smul]

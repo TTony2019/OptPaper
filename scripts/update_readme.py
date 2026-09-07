@@ -23,7 +23,10 @@ EXCLUDED_DIRECTORIES = {"Helpers", "test_paper"}
 
 DEFINITION_FILE = re.compile(r"^(?:(?:ext_)?def|algo)_.*\.lean$")
 THEOREM_FILE = re.compile(r"^(?:ext_)?(?:thm|lem|prop|cor|rem)_.*\.lean$")
-OPEN_ITEM = re.compile(r"\b(?:sorry|admit|axiom|constant)\b")
+OPEN_PLACEHOLDER = re.compile(r"\b(?:sorry|admit)\b")
+OPEN_DECLARATION = re.compile(
+    r"(?m)^[ \t]*(?:(?:private|protected|scoped)[ \t]+)*(?:axiom|constant)\b"
+)
 
 
 @dataclass(frozen=True)
@@ -93,7 +96,8 @@ def lean_code_without_comments_or_strings(source: str) -> str:
 
 def is_open_item(path: Path) -> bool:
     source = path.read_text(encoding="utf-8")
-    return OPEN_ITEM.search(lean_code_without_comments_or_strings(source)) is not None
+    code = lean_code_without_comments_or_strings(source)
+    return OPEN_PLACEHOLDER.search(code) is not None or OPEN_DECLARATION.search(code) is not None
 
 
 def count_lean_lines(directory: Path) -> DirectoryStats:
@@ -236,8 +240,8 @@ def render_status(papers: list[PaperStatus]) -> str:
         "  files.",
         "- `theorem-like items` counts `thm_*`, `lem_*`, `prop_*`, `cor_*`, `rem_*`,",
         "  and their `ext_*` versions.",
-        "- An item is marked open if its non-comment Lean code contains `sorry`, `admit`,",
-        "  `axiom`, or `constant`.",
+        "- An item is marked open if its non-comment, non-string Lean code contains",
+        "  `sorry` or `admit`, or declares an `axiom`/`constant` command.",
         "- Display names are `first_author_first_three_title_words_year` (underscore",
         "  joined); authors, titles, and years are read from `papers.json`, and an",
         "  unlisted paper falls back to its directory name.",

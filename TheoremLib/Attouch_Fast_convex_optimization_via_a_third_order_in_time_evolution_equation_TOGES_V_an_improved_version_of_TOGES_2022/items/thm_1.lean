@@ -9,17 +9,17 @@ open MeasureTheory
 
 /-- The TOGES-V change of variables satisfies the rescaled second-order equation. -/
 private theorem togesV_auxiliary_equation {H : Type*} [NormedAddCommGroup H]
-    [NormedSpace ℝ H] (u uDot uDdot uDddot : ℝ → H) (grad : H → H)
+    [NormedSpace ℝ H] (u du d2u d3u : ℝ → H) (g : H → H)
     (alpha t0 : ℝ) (ht0pos : 0 < t0)
     (hTrajectory : ∀ t, t0 ≤ t →
-      uDddot t + ((alpha + 7) / t) • uDdot t +
-        (5 * (alpha + 1) / t ^ 2) • uDot t +
-        grad (u t + (t / 4) • uDot t) = 0) :
+      d3u t + ((alpha + 7) / t) • d2u t +
+        (5 * (alpha + 1) / t ^ 2) • du t +
+        g (u t + (t / 4) • du t) = 0) :
     ∀ t, t0 ≤ t →
-      let v : ℝ → H := fun s => u s + (s / 4) • uDot s
-      let vDot : ℝ → H := fun s => (5 / 4 : ℝ) • uDot s + (s / 4) • uDdot s
-      let vDdot : ℝ → H := fun s => (3 / 2 : ℝ) • uDdot s + (s / 4) • uDddot s
-      vDdot t + ((alpha + 1) / t) • vDot t + (t / 4) • grad (v t) = 0 := by
+      let v : ℝ → H := fun s => u s + (s / 4) • du s
+      let vDot : ℝ → H := fun s => (5 / 4 : ℝ) • du s + (s / 4) • d2u s
+      let vDdot : ℝ → H := fun s => (3 / 2 : ℝ) • d2u s + (s / 4) • d3u s
+      vDdot t + ((alpha + 1) / t) • vDot t + (t / 4) • g (v t) = 0 := by
   intro t ht
   dsimp
   have htpos : 0 < t := lt_of_lt_of_le ht0pos ht
@@ -38,58 +38,58 @@ private theorem togesV_auxiliary_equation {H : Type*} [NormedAddCommGroup H]
   have hvel' : ((alpha + 1) / t) * (5 / 4 : ℝ) = 5 * (alpha + 1) / (4 * t) := by
     field_simp [htne]
   calc
-    _ = (t / 4) • uDddot t +
-        ((3 / 2 : ℝ) + ((alpha + 1) / t) * (t / 4)) • uDdot t +
-        (((alpha + 1) / t) * (5 / 4 : ℝ)) • uDot t +
-        (t / 4) • grad (u t + (t / 4) • uDot t) := by module
-    _ = (t / 4) • uDddot t + ((alpha + 7) / 4) • uDdot t +
-        (5 * (alpha + 1) / (4 * t)) • uDot t +
-        (t / 4) • grad (u t + (t / 4) • uDot t) := by rw [hacc', hvel']
+    _ = (t / 4) • d3u t +
+        ((3 / 2 : ℝ) + ((alpha + 1) / t) * (t / 4)) • d2u t +
+        (((alpha + 1) / t) * (5 / 4 : ℝ)) • du t +
+        (t / 4) • g (u t + (t / 4) • du t) := by module
+    _ = (t / 4) • d3u t + ((alpha + 7) / 4) • d2u t +
+        (5 * (alpha + 1) / (4 * t)) • du t +
+        (t / 4) • g (u t + (t / 4) • du t) := by rw [hacc', hvel']
     _ = 0 := hscaled
 
 /-- The fourth-power primitive used to average the auxiliary trajectory. -/
 private theorem togesV_power_four_hasDerivAt {H : Type*} [NormedAddCommGroup H]
-    [NormedSpace ℝ H] (u uDot : ℝ → H) (t0 : ℝ)
-    (hu : ∀ s, t0 ≤ s → HasDerivAt u (uDot s) s) :
+    [NormedSpace ℝ H] (u du : ℝ → H) (t0 : ℝ)
+    (hu : ∀ s, t0 ≤ s → HasDerivAt u (du s) s) :
     ∀ s, t0 ≤ s → HasDerivAt (fun r => r ^ 4 • u r)
-      (((4 : ℝ) * s ^ 3) • (u s + (s / 4) • uDot s)) s := by
+      (((4 : ℝ) * s ^ 3) • (u s + (s / 4) • du s)) s := by
   intro s hs
   have hraw := ((hasDerivAt_id s).pow 4).smul (hu s hs)
-  have hderiv : ((4 : ℝ) * s ^ 3) • u s + s ^ 4 • uDot s =
-      ((4 : ℝ) * s ^ 3) • (u s + (s / 4) • uDot s) := by
+  have hderiv : ((4 : ℝ) * s ^ 3) • u s + s ^ 4 • du s =
+      ((4 : ℝ) * s ^ 3) • (u s + (s / 4) • du s) := by
     rw [smul_add, smul_smul]
     module
   have hraw' : HasDerivAt (fun r => r ^ 4 • u r)
-      (((4 : ℝ) * s ^ 3) • u s + s ^ 4 • uDot s) s := by
+      (((4 : ℝ) * s ^ 3) • u s + s ^ 4 • du s) s := by
     convert hraw using 1; simp [id]
     module
   exact hraw'.congr_deriv hderiv
 
 /-- Integral form of the fourth-power barycentric identity. -/
 private theorem togesV_power_four_integral {H : Type*} [NormedAddCommGroup H]
-    [NormedSpace ℝ H] [CompleteSpace H] (u uDot : ℝ → H) (t0 t h : ℝ)
-    (hu : ∀ s, t0 ≤ s → HasDerivAt u (uDot s) s) (ht : t0 ≤ t) (hh : 0 ≤ h)
+    [NormedSpace ℝ H] [CompleteSpace H] (u du : ℝ → H) (t0 t h : ℝ)
+    (hu : ∀ s, t0 ≤ s → HasDerivAt u (du s) s) (ht : t0 ≤ t) (hh : 0 ≤ h)
     (hInt : IntervalIntegrable
-      (fun s => ((4 : ℝ) * s ^ 3) • (u s + (s / 4) • uDot s)) volume t (t + h)) :
-    ∫ s in t..t + h, ((4 : ℝ) * s ^ 3) • (u s + (s / 4) • uDot s) =
+      (fun s => ((4 : ℝ) * s ^ 3) • (u s + (s / 4) • du s)) volume t (t + h)) :
+    ∫ s in t..t + h, ((4 : ℝ) * s ^ 3) • (u s + (s / 4) • du s) =
       (t + h) ^ 4 • u (t + h) - t ^ 4 • u t := by
   exact intervalIntegral.integral_eq_sub_of_hasDerivAt
     (f := fun r => r ^ 4 • u r)
-    (f' := fun s => ((4 : ℝ) * s ^ 3) • (u s + (s / 4) • uDot s))
+    (f' := fun s => ((4 : ℝ) * s ^ 3) • (u s + (s / 4) • du s))
     (by
       intro s hs
       rw [Set.uIcc_of_le (by linarith : t ≤ t + h)] at hs
-      exact togesV_power_four_hasDerivAt u uDot t0 hu s (le_trans ht hs.1)) hInt
+      exact togesV_power_four_hasDerivAt u du t0 hu s (le_trans ht hs.1)) hInt
 
 /-- Differentiability data for the TOGES-V auxiliary trajectory. -/
 theorem togesV_auxiliary_hasDerivAt {H : Type*} [NormedAddCommGroup H]
-    [NormedSpace ℝ H] (u uDot uDdot uDddot : ℝ → H) (t0 : ℝ)
-    (hu : ∀ t, t0 ≤ t → HasDerivAt u (uDot t) t)
-    (huDot : ∀ t, t0 ≤ t → HasDerivAt uDot (uDdot t) t)
-    (huDdot : ∀ t, t0 ≤ t → HasDerivAt uDdot (uDddot t) t) :
-    let v : ℝ → H := fun s => u s + (s / 4) • uDot s
-    let vDot : ℝ → H := fun s => (5 / 4 : ℝ) • uDot s + (s / 4) • uDdot s
-    let vDdot : ℝ → H := fun s => (3 / 2 : ℝ) • uDdot s + (s / 4) • uDddot s
+    [NormedSpace ℝ H] (u du d2u d3u : ℝ → H) (t0 : ℝ)
+    (hu : ∀ t, t0 ≤ t → HasDerivAt u (du t) t)
+    (huDot : ∀ t, t0 ≤ t → HasDerivAt du (d2u t) t)
+    (huDdot : ∀ t, t0 ≤ t → HasDerivAt d2u (d3u t) t) :
+    let v : ℝ → H := fun s => u s + (s / 4) • du s
+    let vDot : ℝ → H := fun s => (5 / 4 : ℝ) • du s + (s / 4) • d2u s
+    let vDdot : ℝ → H := fun s => (3 / 2 : ℝ) • d2u s + (s / 4) • d3u s
     (∀ t, t0 ≤ t → HasDerivAt v (vDot t) t) ∧
       ∀ t, t0 ≤ t → HasDerivAt vDot (vDdot t) t := by
   dsimp
@@ -104,21 +104,21 @@ theorem togesV_auxiliary_hasDerivAt {H : Type*} [NormedAddCommGroup H]
 
 /-- Lyapunov derivative for the TOGES-V auxiliary trajectory. -/
 private theorem togesV_auxiliary_energy_hasDerivAt {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] (f : H → ℝ) (grad : H → H)
+    [InnerProductSpace ℝ H] (f : H → ℝ) (g : H → H)
     (v vDot vDdot : ℝ → H) (alpha s : ℝ) (z : H)
-    (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (grad x)) x)
+    (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (g x)) x)
     (hv : HasDerivAt v (vDot s) s)
     (hvDot : HasDerivAt vDot (vDdot s) s) (hspos : 0 < s)
     (hEq : vDdot s + ((alpha + 1) / s) • vDot s +
-      (s / 4) • grad (v s) = 0) :
+      (s / 4) • g (v s) = 0) :
     HasDerivAt
       (fun r => r ^ 3 / 4 * (f (v r) - f z) +
         (1 / 2) * ‖alpha • (v r - z) + r • vDot r‖ ^ 2)
       (s ^ 2 / 4 * (3 * (f (v s) - f z) -
-        alpha * inner ℝ (grad (v s)) (v s - z))) s := by
+        alpha * inner ℝ (g (v s)) (v s - z))) s := by
   let p : ℝ → H := fun r => alpha • (v r - z) + r • vDot r
   have hF : HasDerivAt (fun r => f (v r) - f z)
-      (inner ℝ (grad (v s)) (vDot s)) s := by
+      (inner ℝ (g (v s)) (vDot s)) s := by
     simpa [innerSL_apply_apply] using
       ((hGradient (v s)).comp_hasDerivAt s hv).sub_const (f z)
   have hsne : s ≠ 0 := ne_of_gt hspos
@@ -126,18 +126,18 @@ private theorem togesV_auxiliary_energy_hasDerivAt {H : Type*} [NormedAddCommGro
   simp only [smul_zero, smul_add, smul_smul] at hscaled
   have hcoef : s * ((alpha + 1) / s) = alpha + 1 := by field_simp [hsne]
   rw [hcoef] at hscaled
-  have hpderiv : HasDerivAt p (-(s ^ 2 / 4) • grad (v s)) s := by
+  have hpderiv : HasDerivAt p (-(s ^ 2 / 4) • g (v s)) s := by
     have hraw := ((hv.sub_const z).const_smul alpha).add
       ((hasDerivAt_id s).smul hvDot)
     have hsolve : s • vDdot s = -(alpha + 1) • vDot s -
-        (s ^ 2 / 4) • grad (v s) := by
+        (s ^ 2 / 4) • g (v s) := by
       calc
-        s • vDdot s = -((alpha + 1) • vDot s + (s ^ 2 / 4) • grad (v s)) := by
+        s • vDdot s = -((alpha + 1) • vDot s + (s ^ 2 / 4) • g (v s)) := by
           apply (eq_neg_iff_add_eq_zero).2
           convert hscaled using 1; module
-        _ = -(alpha + 1) • vDot s - (s ^ 2 / 4) • grad (v s) := by module
+        _ = -(alpha + 1) • vDot s - (s ^ 2 / 4) • g (v s) := by module
     have hcancel : alpha • vDot s + (s • vDdot s + (1 : ℝ) • vDot s) =
-        -(s ^ 2 / 4) • grad (v s) := by
+        -(s ^ 2 / 4) • g (v s) := by
       rw [hsolve]
       module
     simpa [p, id] using hraw.congr_deriv hcancel
@@ -145,32 +145,32 @@ private theorem togesV_auxiliary_energy_hasDerivAt {H : Type*} [NormedAddCommGro
     (hpderiv.norm_sq.const_mul (1 / 2 : ℝ))
   have hderiv_eq :
       ((3 * s ^ 2) / 4) * (f (v s) - f z) +
-        (s ^ 3 / 4) * inner ℝ (grad (v s)) (vDot s) +
-        (1 / 2) * (2 * inner ℝ (p s) (-(s ^ 2 / 4) • grad (v s))) =
+        (s ^ 3 / 4) * inner ℝ (g (v s)) (vDot s) +
+        (1 / 2) * (2 * inner ℝ (p s) (-(s ^ 2 / 4) • g (v s))) =
       s ^ 2 / 4 * (3 * (f (v s) - f z) -
-        alpha * inner ℝ (grad (v s)) (v s - z)) := by
+        alpha * inner ℝ (g (v s)) (v s - z)) := by
     rw [show p s = alpha • (v s - z) + s • vDot s by rfl]
     rw [inner_add_left]
     simp only [real_inner_smul_left, real_inner_smul_right]
-    rw [real_inner_comm (grad (v s)) (vDot s),
-      real_inner_comm (v s - z) (grad (v s))]
+    rw [real_inner_comm (g (v s)) (vDot s),
+      real_inner_comm (v s - z) (g (v s))]
     ring
   simpa [p, pow_succ] using hraw.congr_deriv hderiv_eq
 
 /-- The first-order support inequality supplied by convex differentiability. -/
 private theorem togesV_convex_gradient_le {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] (f : H → ℝ) (grad : H → H)
+    [InnerProductSpace ℝ H] (f : H → ℝ) (g : H → H)
     (hConvex : ConvexOn ℝ Set.univ f)
-    (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (grad x)) x) (x y : H) :
-    f x - f y ≤ inner ℝ (grad x) (x - y) := by
+    (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (g x)) x) (x y : H) :
+    f x - f y ≤ inner ℝ (g x) (x - y) := by
   let line : ℝ →ᵃ[ℝ] H := AffineMap.lineMap y x
   have hline : HasDerivAt line (x - y) 1 := by
     convert ((hasDerivAt_id (𝕜 := ℝ) 1).smul_const (x - y)).add_const y using 1
     all_goals simp
   have hphi : ConvexOn ℝ Set.univ (f ∘ line) := by
     simpa [line] using hConvex.comp_affineMap (AffineMap.lineMap y x)
-  have hderiv : HasDerivAt (f ∘ line) (inner ℝ (grad x) (x - y)) 1 := by
-    have hgradline : HasFDerivAt f (innerSL ℝ (grad x)) (line 1) := by
+  have hderiv : HasDerivAt (f ∘ line) (inner ℝ (g x) (x - y)) 1 := by
+    have hgradline : HasFDerivAt f (innerSL ℝ (g x)) (line 1) := by
       simpa [line] using hGradient x
     simpa [innerSL_apply_apply] using hgradline.comp_hasDerivAt 1 hline
   have hslope := hphi.slope_le_of_hasDerivAt (show (0 : ℝ) ∈ Set.univ by simp)
@@ -181,14 +181,14 @@ private theorem togesV_convex_gradient_le {H : Type*} [NormedAddCommGroup H]
 /-- The non-strict value estimate for the TOGES-V auxiliary trajectory. -/
 private theorem togesV_auxiliary_bigO {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [CompleteSpace H] (f : H → ℝ)
-    (v vDot vDdot : ℝ → H) (grad : H → H) (alpha t0 : ℝ)
+    (v vDot vDdot : ℝ → H) (g : H → H) (alpha t0 : ℝ)
     (hConvex : ConvexOn ℝ Set.univ f)
-    (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (grad x)) x)
+    (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (g x)) x)
     (hMin : ∃ z, IsMinOn f Set.univ z) (ht0pos : 0 < t0)
     (hv : ∀ t, t0 ≤ t → HasDerivAt v (vDot t) t)
     (hvDot : ∀ t, t0 ≤ t → HasDerivAt vDot (vDdot t) t)
     (hEq : ∀ t, t0 ≤ t → vDdot t + ((alpha + 1) / t) • vDot t +
-      (t / 4) • grad (v t) = 0) (hAlpha : 3 ≤ alpha) :
+      (t / 4) • g (v t) = 0) (hAlpha : 3 ≤ alpha) :
     ∃ C : ℝ, 0 < C ∧ ∀ t ≥ t0,
       f (v t) - sInf (Set.range f) ≤ C / t ^ 3 := by
   rcases hMin with ⟨z, hz⟩
@@ -208,17 +208,17 @@ private theorem togesV_auxiliary_bigO {H : Type*} [NormedAddCommGroup H]
     (1 / 2) * ‖alpha • (v t - z) + t • vDot t‖ ^ 2
   have hEderiv : ∀ t, t0 ≤ t → HasDerivAt E
       (t ^ 2 / 4 * (3 * (f (v t) - f z) -
-        alpha * inner ℝ (grad (v t)) (v t - z))) t := by
+        alpha * inner ℝ (g (v t)) (v t - z))) t := by
     intro t ht
-    exact togesV_auxiliary_energy_hasDerivAt f grad v vDot vDdot alpha t z hGradient
+    exact togesV_auxiliary_energy_hasDerivAt f g v vDot vDdot alpha t z hGradient
       (hv t ht) (hvDot t ht) (lt_of_lt_of_le ht0pos ht) (hEq t ht)
   have hE_nonpos : ∀ t, t0 ≤ t → deriv E t ≤ 0 := by
     intro t ht
     have hF : 0 ≤ f (v t) - f z := sub_nonneg.mpr (hzGlobal (v t))
-    have hsupp := togesV_convex_gradient_le f grad hConvex hGradient (v t) z
+    have hsupp := togesV_convex_gradient_le f g hConvex hGradient (v t) z
     rw [(hEderiv t ht).deriv]
     have hbracket : 3 * (f (v t) - f z) -
-        alpha * inner ℝ (grad (v t)) (v t - z) ≤ 0 := by nlinarith
+        alpha * inner ℝ (g (v t)) (v t - z) ≤ 0 := by nlinarith
     exact mul_nonpos_of_nonneg_of_nonpos (by positivity) hbracket
   have hEcont : ContinuousOn E (Set.Ici t0) := fun t ht =>
     (hEderiv t ht).continuousAt.continuousWithinAt
@@ -256,15 +256,15 @@ private theorem togesV_auxiliary_bigO {H : Type*} [NormedAddCommGroup H]
 /-- For a strict damping parameter, the auxiliary Lyapunov energy dissipates
 at a rate controlled by the objective gap. -/
 private theorem togesV_auxiliary_strict_dissipation {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] (f : H → ℝ) (grad : H → H)
+    [InnerProductSpace ℝ H] (f : H → ℝ) (g : H → H)
     (v vDot vDdot : ℝ → H) (alpha t0 : ℝ) (z : H)
     (hConvex : ConvexOn ℝ Set.univ f)
-    (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (grad x)) x)
+    (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (g x)) x)
     (hzGlobal : ∀ x : H, f z ≤ f x) (ht0pos : 0 < t0)
     (hv : ∀ t, t0 ≤ t → HasDerivAt v (vDot t) t)
     (hvDot : ∀ t, t0 ≤ t → HasDerivAt vDot (vDdot t) t)
     (hEq : ∀ t, t0 ≤ t → vDdot t + ((alpha + 1) / t) • vDot t +
-      (t / 4) • grad (v t) = 0) (hAlpha : 3 < alpha) :
+      (t / 4) • g (v t) = 0) (hAlpha : 3 < alpha) :
     ∀ t, t0 ≤ t →
       deriv (fun r => r ^ 3 / 4 * (f (v r) - f z) +
         (1 / 2) * ‖alpha • (v r - z) + r • vDot r‖ ^ 2) t ≤
@@ -272,12 +272,12 @@ private theorem togesV_auxiliary_strict_dissipation {H : Type*} [NormedAddCommGr
   intro t ht
   have htpos : 0 < t := lt_of_lt_of_le ht0pos ht
   have hF : 0 ≤ f (v t) - f z := sub_nonneg.mpr (hzGlobal (v t))
-  have hsupp := togesV_convex_gradient_le f grad hConvex hGradient (v t) z
+  have hsupp := togesV_convex_gradient_le f g hConvex hGradient (v t) z
   have hbracket :
-      3 * (f (v t) - f z) - alpha * inner ℝ (grad (v t)) (v t - z) ≤
+      3 * (f (v t) - f z) - alpha * inner ℝ (g (v t)) (v t - z) ≤
         -(alpha - 3) * (f (v t) - f z) := by
     nlinarith
-  rw [(togesV_auxiliary_energy_hasDerivAt f grad v vDot vDdot alpha t z hGradient
+  rw [(togesV_auxiliary_energy_hasDerivAt f g v vDot vDdot alpha t z hGradient
     (hv t ht) (hvDot t ht) htpos (hEq t ht)).deriv]
   have hscale : 0 ≤ t ^ 2 / 4 := by positivity
   have := mul_le_mul_of_nonneg_left hbracket hscale
@@ -286,12 +286,12 @@ private theorem togesV_auxiliary_strict_dissipation {H : Type*} [NormedAddCommGr
 /-- Transfer the auxiliary `t⁻³` value bound to the original trajectory. -/
 private theorem togesV_u_bigO_of_auxiliary_bigO {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [CompleteSpace H] (f : H → ℝ)
-    (u uDot v : ℝ → H) (grad : H → H) (t0 C : ℝ)
+    (u du v : ℝ → H) (g : H → H) (t0 C : ℝ)
     (hConvex : ConvexOn ℝ Set.univ f)
-    (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (grad x)) x)
+    (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (g x)) x)
     (hMin : ∃ z, IsMinOn f Set.univ z) (ht0pos : 0 < t0)
-    (hu : ∀ t, t0 ≤ t → HasDerivAt u (uDot t) t)
-    (hv : ∀ t, v t = u t + (t / 4) • uDot t)
+    (hu : ∀ t, t0 ≤ t → HasDerivAt u (du t) t)
+    (hv : ∀ t, v t = u t + (t / 4) • du t)
     (hC : 0 < C) (hvRate : ∀ t ≥ t0, f (v t) - sInf (Set.range f) ≤ C / t ^ 3) :
     ∃ D : ℝ, 0 < D ∧ ∀ t ≥ t0, f (u t) - sInf (Set.range f) ≤ D / t ^ 3 := by
   rcases hMin with ⟨z, hz⟩
@@ -312,26 +312,26 @@ private theorem togesV_u_bigO_of_auxiliary_bigO {H : Type*} [NormedAddCommGroup 
     intro t ht
     have htpos : 0 < t := lt_of_lt_of_le ht0pos ht
     have hFderiv : HasDerivAt (fun r => f (u r) - f z)
-        (inner ℝ (grad (u t)) (uDot t)) t := by
+        (inner ℝ (g (u t)) (du t)) t := by
       simpa [innerSL_apply_apply] using
         ((hGradient (u t)).comp_hasDerivAt t (hu t ht)).sub_const (f z)
     have hderiv : HasDerivAt G
         (4 * t ^ 3 * (f (u t) - f z) +
-          t ^ 4 * inner ℝ (grad (u t)) (uDot t) - 4 * C) t := by
+          t ^ 4 * inner ℝ (g (u t)) (du t) - 4 * C) t := by
       convert (((hasDerivAt_pow 4 t).mul hFderiv).sub
         ((hasDerivAt_id t).const_mul (4 * C))) using 1; ring
     rw [hderiv.deriv]
-    have hsupp := togesV_convex_gradient_le f grad hConvex hGradient (u t) (v t)
+    have hsupp := togesV_convex_gradient_le f g hConvex hGradient (u t) (v t)
     rw [hv t] at hsupp
     have hsupport : 4 * (f (u t) - f z) +
-        t * inner ℝ (grad (u t)) (uDot t) ≤ 4 * (f (v t) - f z) := by
-      rw [show u t - (u t + (t / 4) • uDot t) = -(t / 4) • uDot t by module,
+        t * inner ℝ (g (u t)) (du t) ≤ 4 * (f (v t) - f z) := by
+      rw [show u t - (u t + (t / 4) • du t) = -(t / 4) • du t by module,
         real_inner_smul_right] at hsupp
       rw [hv t]
       nlinarith
     have hrate : f (v t) - f z ≤ C / t ^ 3 := by simpa [hsInf] using hvRate t ht
     have hscaled : 4 * t ^ 3 * (f (u t) - f z) +
-        t ^ 4 * inner ℝ (grad (u t)) (uDot t) ≤ 4 * C := by
+        t ^ 4 * inner ℝ (g (u t)) (du t) ≤ 4 * C := by
       have := mul_le_mul_of_nonneg_left hsupport (show 0 ≤ t ^ 3 by positivity)
       have hCt : t ^ 3 * (f (v t) - f z) ≤ C :=
         by simpa [mul_comm] using
@@ -341,7 +341,7 @@ private theorem togesV_u_bigO_of_auxiliary_bigO {H : Type*} [NormedAddCommGroup 
   have hGcont : ContinuousOn G (Set.Ici t0) := fun t ht =>
     (by
       have hFderiv : HasDerivAt (fun r => f (u r) - f z)
-          (inner ℝ (grad (u t)) (uDot t)) t := by
+          (inner ℝ (g (u t)) (du t)) t := by
         simpa [innerSL_apply_apply] using
           ((hGradient (u t)).comp_hasDerivAt t (hu t ht)).sub_const (f z)
       exact (((hasDerivAt_pow 4 t).mul hFderiv).sub
@@ -351,7 +351,7 @@ private theorem togesV_u_bigO_of_auxiliary_bigO {H : Type*} [NormedAddCommGroup 
     intro t ht
     have ht' : t0 ≤ t := ht.le
     have hFderiv : HasDerivAt (fun r => f (u r) - f z)
-        (inner ℝ (grad (u t)) (uDot t)) t := by
+        (inner ℝ (g (u t)) (du t)) t := by
       simpa [innerSL_apply_apply] using
         ((hGradient (u t)).comp_hasDerivAt t (hu t ht')).sub_const (f z)
     exact (((hasDerivAt_pow 4 t).mul hFderiv).sub
@@ -385,12 +385,12 @@ private theorem togesV_u_bigO_of_auxiliary_bigO {H : Type*} [NormedAddCommGroup 
 identity. -/
 private theorem togesV_u_littleO_of_auxiliary_littleO {H : Type*}
     [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H] (f : H → ℝ)
-    (u uDot v : ℝ → H) (grad : H → H) (t0 : ℝ)
+    (u du v : ℝ → H) (g : H → H) (t0 : ℝ)
     (hConvex : ConvexOn ℝ Set.univ f)
-    (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (grad x)) x)
+    (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (g x)) x)
     (hMin : ∃ z, IsMinOn f Set.univ z) (ht0pos : 0 < t0)
-    (hu : ∀ t, t0 ≤ t → HasDerivAt u (uDot t) t)
-    (hv : ∀ t, v t = u t + (t / 4) • uDot t)
+    (hu : ∀ t, t0 ≤ t → HasDerivAt u (du t) t)
+    (hv : ∀ t, v t = u t + (t / 4) • du t)
     (hAuxLittle : Asymptotics.IsLittleO atTop
       (fun t => f (v t) - sInf (Set.range f)) (fun t => 1 / t ^ 3)) :
     Asymptotics.IsLittleO atTop
@@ -423,20 +423,20 @@ private theorem togesV_u_littleO_of_auxiliary_littleO {H : Type*}
     have ht0 : t0 ≤ t := le_trans hTt0 ht
     have htpos : 0 < t := lt_of_lt_of_le ht0pos ht0
     have hFderiv : HasDerivAt (fun r => f (u r) - f z)
-        (inner ℝ (grad (u t)) (uDot t)) t := by
+        (inner ℝ (g (u t)) (du t)) t := by
       simpa [innerSL_apply_apply] using
         ((hGradient (u t)).comp_hasDerivAt t (hu t ht0)).sub_const (f z)
     have hderiv : HasDerivAt G
         (4 * t ^ 3 * (f (u t) - f z) +
-          t ^ 4 * inner ℝ (grad (u t)) (uDot t) - 4 * (c / 5)) t := by
+          t ^ 4 * inner ℝ (g (u t)) (du t) - 4 * (c / 5)) t := by
       convert (((hasDerivAt_pow 4 t).mul hFderiv).sub
         ((hasDerivAt_id t).const_mul (4 * (c / 5)))) using 1; ring
     rw [hderiv.deriv]
-    have hsupp := togesV_convex_gradient_le f grad hConvex hGradient (u t) (v t)
+    have hsupp := togesV_convex_gradient_le f g hConvex hGradient (u t) (v t)
     rw [hv t] at hsupp
     have hsupport : 4 * (f (u t) - f z) +
-        t * inner ℝ (grad (u t)) (uDot t) ≤ 4 * (f (v t) - f z) := by
-      rw [show u t - (u t + (t / 4) • uDot t) = -(t / 4) • uDot t by module,
+        t * inner ℝ (g (u t)) (du t) ≤ 4 * (f (v t) - f z) := by
+      rw [show u t - (u t + (t / 4) • du t) = -(t / 4) • du t by module,
         real_inner_smul_right] at hsupp
       rw [hv t]
       nlinarith
@@ -455,7 +455,7 @@ private theorem togesV_u_littleO_of_auxiliary_littleO {H : Type*}
     (by
       have ht0 : t0 ≤ t := le_trans hTt0 ht
       have hFderiv : HasDerivAt (fun r => f (u r) - f z)
-          (inner ℝ (grad (u t)) (uDot t)) t := by
+          (inner ℝ (g (u t)) (du t)) t := by
         simpa [innerSL_apply_apply] using
           ((hGradient (u t)).comp_hasDerivAt t (hu t ht0)).sub_const (f z)
       exact (((hasDerivAt_pow 4 t).mul hFderiv).sub
@@ -465,7 +465,7 @@ private theorem togesV_u_littleO_of_auxiliary_littleO {H : Type*}
     intro t ht
     have ht0 : t0 ≤ t := le_trans hTt0 ht.le
     have hFderiv : HasDerivAt (fun r => f (u r) - f z)
-        (inner ℝ (grad (u t)) (uDot t)) t := by
+        (inner ℝ (g (u t)) (du t)) t := by
       simpa [innerSL_apply_apply] using
         ((hGradient (u t)).comp_hasDerivAt t (hu t ht0)).sub_const (f z)
     exact (((hasDerivAt_pow 4 t).mul hFderiv).sub
@@ -648,32 +648,32 @@ private theorem togesV_weak_weighted_cesaro_convergence_local {H : Type*}
   exact ht.symm
 
 /-- The rate and weak convergence conclusions of Theorem 2.1. -/
-theorem togesV_rate_and_weak_convergence {H : Type*} [NormedAddCommGroup H]
+theorem togesV_rate_and_weak_convergence_named {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [CompleteSpace H] (f : H → ℝ)
-    (u uDot uDdot uDddot : ℝ → H) (grad : H → H) (alpha t0 : ℝ)
+    (u du d2u d3u : ℝ → H) (g : H → H) (alpha t0 : ℝ)
     (hConvex : ConvexOn ℝ Set.univ f)
-    (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (grad x)) x)
+    (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (g x)) x)
     (hMin : ∃ z, IsMinOn f Set.univ z) (ht0pos : 0 < t0)
-    (hu : ∀ t, t0 ≤ t → HasDerivAt u (uDot t) t)
-    (huDot : ∀ t, t0 ≤ t → HasDerivAt uDot (uDdot t) t)
-    (huDdot : ∀ t, t0 ≤ t → HasDerivAt uDdot (uDddot t) t)
+    (hu : ∀ t, t0 ≤ t → HasDerivAt u (du t) t)
+    (huDot : ∀ t, t0 ≤ t → HasDerivAt du (d2u t) t)
+    (huDdot : ∀ t, t0 ≤ t → HasDerivAt d2u (d3u t) t)
     (hDerivative : ∀ t, t0 ≤ t →
-      deriv u t = uDot t ∧ deriv (deriv u) t = uDdot t ∧
-        deriv (deriv (deriv u)) t = uDddot t)
+      deriv u t = du t ∧ deriv (deriv u) t = d2u t ∧
+        deriv (deriv (deriv u)) t = d3u t)
     (hAuxiliaryStrict : 3 < alpha → ∃ vInfinity : H,
       Asymptotics.IsLittleO atTop
-        (fun t : ℝ => f (u t + (t / 4) • uDot t) - sInf (Set.range f))
+        (fun t : ℝ => f (u t + (t / 4) • du t) - sInf (Set.range f))
         (fun t => 1 / t ^ 3) ∧
-      Tendsto (fun t => toWeakSpace ℝ H (u t + (t / 4) • uDot t)) atTop
+      Tendsto (fun t => toWeakSpace ℝ H (u t + (t / 4) • du t)) atTop
         (nhds (toWeakSpace ℝ H vInfinity)) ∧
       f vInfinity = sInf (Set.range f))
-    (hTrajectory : IsTOGESV alpha u f) :
+    (hTrajectory : IsTOGESV alpha u f t0) :
     (3 ≤ alpha → ∃ C : ℝ, 0 < C ∧ ∀ t ≥ t0,
-      f (u t + (t / 4) • uDot t) - sInf (Set.range f) ≤ C / t ^ 3 ∧
+      f (u t + (t / 4) • du t) - sInf (Set.range f) ≤ C / t ^ 3 ∧
       f (u t) - sInf (Set.range f) ≤ C / t ^ 3) ∧
     (3 < alpha → ∃ uInfinity : H,
       Asymptotics.IsLittleO atTop
-        (fun t : ℝ => f (u t + (t / 4) • uDot t) - sInf (Set.range f))
+        (fun t : ℝ => f (u t + (t / 4) • du t) - sInf (Set.range f))
         (fun t => 1 / t ^ 3) ∧
       Asymptotics.IsLittleO atTop
         (fun t : ℝ => f (u t) - sInf (Set.range f))
@@ -681,34 +681,34 @@ theorem togesV_rate_and_weak_convergence {H : Type*} [NormedAddCommGroup H]
       Tendsto (fun t => toWeakSpace ℝ H (u t)) atTop
         (nhds (toWeakSpace ℝ H uInfinity)) ∧
       f uInfinity = sInf (Set.range f)) := by
-  have hvData := togesV_auxiliary_hasDerivAt u uDot uDdot uDddot t0 hu huDot huDdot
-  have hgrad_eq : ∀ x : H, gradient f x = grad x := by
+  have hvData := togesV_auxiliary_hasDerivAt u du d2u d3u t0 hu huDot huDdot
+  have hgrad_eq : ∀ x : H, gradient f x = g x := by
     intro x
-    have h2 : HasGradientAt f (grad x) x := by
+    have h2 : HasGradientAt f (g x) x := by
       rw [hasGradientAt_iff_hasFDerivAt]
       simpa only [InnerProductSpace.toDual_apply_eq_toDualMap_apply,
         InnerProductSpace.toContinuousLinearMap_toDualMap] using hGradient x
     exact (h2.unique ((hGradient x).differentiableAt.hasGradientAt)).symm
   have hEquation : ∀ t, t0 ≤ t →
-      uDddot t + ((alpha + 7) / t) • uDdot t +
-        (5 * (alpha + 1) / t ^ 2) • uDot t +
-        grad (u t + (t / 4) • uDot t) = 0 := by
+      d3u t + ((alpha + 7) / t) • d2u t +
+        (5 * (alpha + 1) / t ^ 2) • du t +
+        g (u t + (t / 4) • du t) = 0 := by
     intro t ht
-    have htne : t ≠ 0 := ne_of_gt (lt_of_lt_of_le ht0pos ht)
     rcases hDerivative t ht with ⟨hdu, hddu, hdddu⟩
-    exact IsTOGESV.equation_of_derivatives hTrajectory hdu hddu hdddu htne
-      (hgrad_eq (u t + (t / 4) • uDot t))
-  have hveq := togesV_auxiliary_equation u uDot uDdot uDddot grad alpha t0 ht0pos hEquation
+    have heq := hTrajectory t ht
+    rw [hdddu, hddu, hdu, hgrad_eq] at heq
+    exact heq
+  have hveq := togesV_auxiliary_equation u du d2u d3u g alpha t0 ht0pos hEquation
   constructor
   · intro hAlpha
     rcases togesV_auxiliary_bigO f
-      (fun t => u t + (t / 4) • uDot t)
-      (fun t => (5 / 4 : ℝ) • uDot t + (t / 4) • uDdot t)
-      (fun t => (3 / 2 : ℝ) • uDdot t + (t / 4) • uDddot t)
-      grad alpha t0 hConvex hGradient hMin ht0pos hvData.1 hvData.2 hveq hAlpha with
+      (fun t => u t + (t / 4) • du t)
+      (fun t => (5 / 4 : ℝ) • du t + (t / 4) • d2u t)
+      (fun t => (3 / 2 : ℝ) • d2u t + (t / 4) • d3u t)
+      g alpha t0 hConvex hGradient hMin ht0pos hvData.1 hvData.2 hveq hAlpha with
       ⟨C, hC, hvRate⟩
-    rcases togesV_u_bigO_of_auxiliary_bigO f u uDot
-      (fun t => u t + (t / 4) • uDot t) grad t0 C hConvex hGradient hMin ht0pos hu
+    rcases togesV_u_bigO_of_auxiliary_bigO f u du
+      (fun t => u t + (t / 4) • du t) g t0 C hConvex hGradient hMin ht0pos hu
       (by intro t; rfl) hC hvRate with ⟨D, hD, huRate⟩
     refine ⟨max C D, lt_of_lt_of_le hC (le_max_left _ _), ?_⟩
     intro t ht
@@ -734,9 +734,9 @@ theorem togesV_rate_and_weak_convergence {H : Type*} [NormedAddCommGroup H]
         · intro y hy
           rcases hy with ⟨x, rfl⟩
           exact hzGlobal x
-    let v : ℝ → H := fun t => u t + (t / 4) • uDot t
-    let vDot : ℝ → H := fun t => (5 / 4 : ℝ) • uDot t + (t / 4) • uDdot t
-    let vDdot : ℝ → H := fun t => (3 / 2 : ℝ) • uDdot t + (t / 4) • uDddot t
+    let v : ℝ → H := fun t => u t + (t / 4) • du t
+    let vDot : ℝ → H := fun t => (5 / 4 : ℝ) • du t + (t / 4) • d2u t
+    let vDdot : ℝ → H := fun t => (3 / 2 : ℝ) • d2u t + (t / 4) • d3u t
     have hv : ∀ t, t0 ≤ t → HasDerivAt v (vDot t) t := by
       intro t ht
       simpa [v, vDot] using hvData.1 t ht
@@ -744,7 +744,7 @@ theorem togesV_rate_and_weak_convergence {H : Type*} [NormedAddCommGroup H]
       intro t ht
       simpa [vDot, vDdot] using hvData.2 t ht
     have hEq : ∀ t, t0 ≤ t → vDdot t + ((alpha + 1) / t) • vDot t +
-        (t / 4) • grad (v t) = 0 := by
+        (t / 4) • g (v t) = 0 := by
       intro t ht
       simpa [v, vDot, vDdot] using hveq t ht
     have hAuxLittle : Asymptotics.IsLittleO atTop
@@ -754,7 +754,7 @@ theorem togesV_rate_and_weak_convergence {H : Type*} [NormedAddCommGroup H]
         (nhds (toWeakSpace ℝ H vInfinity)) := by
       simpa [v] using hvWeak
     refine ⟨vInfinity, hAuxLittle, ?_, ?_, ?_⟩
-    · exact togesV_u_littleO_of_auxiliary_littleO f u uDot v grad t0 hConvex hGradient
+    · exact togesV_u_littleO_of_auxiliary_littleO f u du v g t0 hConvex hGradient
         ⟨z, hz⟩ ht0pos hu (by intro t; rfl) hAuxLittle
     · let w : ℝ → ℝ := fun s => 4 * s ^ 3
       have hw_nonneg : ∀ s ≥ t0, 0 ≤ w s := by
@@ -799,14 +799,14 @@ theorem togesV_rate_and_weak_convergence {H : Type*} [NormedAddCommGroup H]
           t ^ 4 • u t - t0 ^ 4 • u t0 := by
         intro t ht
         change ∫ s in t0..t, ((4 : ℝ) * s ^ 3) •
-          (u s + (s / 4) • uDot s) = t ^ 4 • u t - t0 ^ 4 • u t0
+          (u s + (s / 4) • du s) = t ^ 4 • u t - t0 ^ 4 • u t0
         exact intervalIntegral.integral_eq_sub_of_hasDerivAt
           (f := fun r => r ^ 4 • u r)
-          (f' := fun s => ((4 : ℝ) * s ^ 3) • (u s + (s / 4) • uDot s))
+          (f' := fun s => ((4 : ℝ) * s ^ 3) • (u s + (s / 4) • du s))
           (by
             intro s hs
             rw [Set.uIcc_of_le ht] at hs
-            exact togesV_power_four_hasDerivAt u uDot t0 hu s hs.1)
+            exact togesV_power_four_hasDerivAt u du t0 hu s hs.1)
           (by simpa [w, v] using hwv_integrable (le_refl t0) ht)
       have hBary : ∀ᶠ t in atTop, u t = (t0 ^ 4 / t ^ 4) • u t0 +
           ((t ^ 4 - t0 ^ 4) / t ^ 4) • A t := by
@@ -859,3 +859,39 @@ theorem togesV_rate_and_weak_convergence {H : Type*} [NormedAddCommGroup H]
       filter_upwards [hBary] with t ht
       rw [ht]
     · simpa [hsInf] using hvMin
+
+/-- TOGES-V estimates with the derivative operators of the trajectory exposed directly. -/
+theorem togesV_rate_and_weak_convergence {H : Type*} [NormedAddCommGroup H]
+    [InnerProductSpace ℝ H] [CompleteSpace H] (f : H → ℝ) (u : ℝ → H)
+    (alpha t0 : ℝ) (hConvex : ConvexOn ℝ Set.univ f)
+    (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (gradient f x)) x)
+    (hMin : ∃ z, IsMinOn f Set.univ z) (ht0pos : 0 < t0)
+    (hRegularity :
+      (∀ t, t0 ≤ t → HasDerivAt u (deriv u t) t) ∧
+      (∀ t, t0 ≤ t → HasDerivAt (deriv u) (deriv (deriv u) t) t) ∧
+      (∀ t, t0 ≤ t → HasDerivAt (deriv (deriv u))
+        (deriv (deriv (deriv u)) t) t))
+    (hAuxiliaryStrict : 3 < alpha → ∃ vInfinity : H,
+      Asymptotics.IsLittleO atTop
+        (fun t => f (u t + (t / 4) • deriv u t) - sInf (Set.range f))
+        (fun t => 1 / t ^ 3) ∧
+      Tendsto (fun t => toWeakSpace ℝ H (u t + (t / 4) • deriv u t)) atTop
+        (nhds (toWeakSpace ℝ H vInfinity)) ∧
+      f vInfinity = sInf (Set.range f))
+    (hTrajectory : IsTOGESV alpha u f t0) :
+    (3 ≤ alpha → ∃ C : ℝ, 0 < C ∧ ∀ t ≥ t0,
+      f (u t + (t / 4) • deriv u t) - sInf (Set.range f) ≤ C / t ^ 3 ∧
+      f (u t) - sInf (Set.range f) ≤ C / t ^ 3) ∧
+    (3 < alpha → ∃ uInfinity : H,
+      Asymptotics.IsLittleO atTop
+        (fun t => f (u t + (t / 4) • deriv u t) - sInf (Set.range f))
+        (fun t => 1 / t ^ 3) ∧
+      Asymptotics.IsLittleO atTop
+        (fun t => f (u t) - sInf (Set.range f)) (fun t => 1 / t ^ 3) ∧
+      Tendsto (fun t => toWeakSpace ℝ H (u t)) atTop
+        (nhds (toWeakSpace ℝ H uInfinity)) ∧
+      f uInfinity = sInf (Set.range f)) := by
+  exact togesV_rate_and_weak_convergence_named f u (deriv u) (deriv (deriv u))
+    (deriv (deriv (deriv u))) (gradient f) alpha t0 hConvex hGradient hMin ht0pos
+    hRegularity.1 hRegularity.2.1 hRegularity.2.2
+    (fun t ht => ⟨rfl, rfl, rfl⟩) hAuxiliaryStrict hTrajectory
