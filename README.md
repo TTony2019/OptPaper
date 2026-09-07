@@ -11,8 +11,8 @@ shared concepts under `Foundation/`.
 <!-- LOC_STATS:START -->
 
 ![foundation_lines](https://img.shields.io/badge/foundation_lines-41025-0f766e?style=flat-square)
-![theoremlib_lines](https://img.shields.io/badge/theoremlib_lines-58627-2563eb?style=flat-square)
-![total_lines](https://img.shields.io/badge/total_lines-99652-16a34a?style=flat-square)
+![theoremlib_lines](https://img.shields.io/badge/theoremlib_lines-58805-2563eb?style=flat-square)
+![total_lines](https://img.shields.io/badge/total_lines-99830-16a34a?style=flat-square)
 
 Counting convention:
 
@@ -24,8 +24,8 @@ Counting convention:
 | Directory | `.lean` files | Total lines | Code lines |
 | --- | ---: | ---: | ---: |
 | Foundation | 52 | 41025 | 31537 |
-| TheoremLib | 251 | 58627 | 54200 |
-| **Total** | **303** | **99652** | **85737** |
+| TheoremLib | 251 | 58805 | 54371 |
+| **Total** | **303** | **99830** | **85908** |
 
 <!-- LOC_STATS:END -->
 
@@ -35,8 +35,8 @@ Counting convention:
 
 ![papers](https://img.shields.io/badge/papers-10-0f766e?style=flat-square)
 ![defs_items](https://img.shields.io/badge/defs_items-107-2563eb?style=flat-square)
-![proved_theorem-items](https://img.shields.io/badge/proved_theorem--items-137-16a34a?style=flat-square)
-![open_theorem-items](https://img.shields.io/badge/open_theorem--items-6-dc2626?style=flat-square)
+![proved_theorem-items](https://img.shields.io/badge/proved_theorem--items-139-16a34a?style=flat-square)
+![open_theorem-items](https://img.shields.io/badge/open_theorem--items-4-dc2626?style=flat-square)
 
 Counting convention:
 
