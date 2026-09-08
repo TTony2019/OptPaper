@@ -82,44 +82,51 @@ private theorem littleO_of_nonneg_le {P A B : ℝ → ℝ}
   simpa only [Real.norm_eq_abs, abs_of_nonneg hP] using hle.trans hA''
 
 /-- The Moreau-regularized rate and weak convergence conclusions of Theorem 6.1. -/
-private theorem togesVR_rate_and_weak_convergence_named {H : Type*} [NormedAddCommGroup H]
+private theorem togesVR_rate_and_weak_convergence_core {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [CompleteSpace H] (f : H → EReal) (prox : H → H)
-    (u du d2u d3u : ℝ → H) (gEnvelope : H → H) (alpha lam t0 : ℝ)
+    (u firstDerivative secondDerivative thirdDerivative : ℝ → H) (envelopeGradient : H → H)
+    (alpha lam t0 : ℝ)
     (hLam : 0 < lam) (hProper : ERealFunction.IsProper f) (hlsc : LowerSemicontinuous f)
     (hConvex : Convex ℝ (ERealFunction.epigraph f))
     (hArgmin : ∃ x : H, f x = sInf (Set.range f))
     (hProx : IsProximalMapping f lam prox hProper hConvex)
     (hFConvex : ConvexOn ℝ Set.univ (fun x => (moreauEnvelope f lam x).toReal))
     (hFGradient : ∀ x, HasFDerivAt (fun x => (moreauEnvelope f lam x).toReal)
-      (innerSL ℝ (gEnvelope x)) x)
+      (innerSL ℝ (envelopeGradient x)) x)
     (hFMin : ∃ z, IsMinOn (fun x => (moreauEnvelope f lam x).toReal) Set.univ z)
     (hFInf : sInf (Set.range (fun x => (moreauEnvelope f lam x).toReal)) =
       (sInf (Set.range f)).toReal) (ht0pos : 0 < t0)
-    (hu : ∀ t, t0 ≤ t → HasDerivAt u (du t) t)
-    (huDot : ∀ t, t0 ≤ t → HasDerivAt du (d2u t) t)
-    (huDdot : ∀ t, t0 ≤ t → HasDerivAt d2u (d3u t) t)
+    (hu : ∀ t, t0 ≤ t → HasDerivAt u (firstDerivative t) t)
+    (hFirst : ∀ t, t0 ≤ t → HasDerivAt firstDerivative (secondDerivative t) t)
+    (hSecond : ∀ t, t0 ≤ t → HasDerivAt secondDerivative (thirdDerivative t) t)
     (hDerivative : ∀ t, t0 ≤ t →
-      deriv u t = du t ∧ deriv (deriv u) t = d2u t ∧
-        deriv (deriv (deriv u)) t = d3u t)
+      deriv u t = firstDerivative t ∧ deriv (deriv u) t = secondDerivative t ∧
+        deriv (deriv (deriv u)) t = thirdDerivative t)
     (hAuxiliaryStrict : 3 < alpha → ∃ vInfinity : H,
       Asymptotics.IsLittleO atTop
-        (fun t : ℝ => (moreauEnvelope f lam (u t + (t / 4) • du t)).toReal -
+        (fun t : ℝ => (moreauEnvelope f lam (u t + (t / 4) • firstDerivative t)).toReal -
           sInf (Set.range (fun x => (moreauEnvelope f lam x).toReal))) (fun t => 1 / t ^ 3) ∧
-      Tendsto (fun t => toWeakSpace ℝ H (u t + (t / 4) • du t)) atTop
+      Tendsto (fun t => toWeakSpace ℝ H (u t + (t / 4) • firstDerivative t)) atTop
         (nhds (toWeakSpace ℝ H vInfinity)) ∧
       (moreauEnvelope f lam vInfinity).toReal =
         sInf (Set.range (fun x => (moreauEnvelope f lam x).toReal)))
     (hTrajectory : IsTOGESV alpha u (fun x => (moreauEnvelope f lam x).toReal) t0) :
     (3 ≤ alpha → ∃ C : ℝ, 0 ≤ C ∧ ∀ t ≥ t0,
-      (moreauEnvelope f lam (u t + (t / 4) • du t)).toReal - (sInf (Set.range f)).toReal ≤ C / t ^ 3 ∧
-      (f (prox (u t + (t / 4) • du t))).toReal - (sInf (Set.range f)).toReal ≤ C / t ^ 3 ∧
-      (moreauEnvelope f lam (u t)).toReal - (sInf (Set.range f)).toReal ≤ C / t ^ 3 ∧
+      (moreauEnvelope f lam (u t + (t / 4) • firstDerivative t)).toReal -
+      (sInf (Set.range f)).toReal ≤ C / t ^ 3 ∧
+      (f (prox (u t + (t / 4) • firstDerivative t))).toReal -
+      (sInf (Set.range f)).toReal ≤ C / t ^ 3
+      ∧ (moreauEnvelope f lam (u t)).toReal - (sInf (Set.range f)).toReal ≤ C / t ^ 3 ∧
       (f (prox (u t))).toReal - (sInf (Set.range f)).toReal ≤ C / t ^ 3) ∧
     (3 < alpha → ∃ uInfinity : H,
-      Asymptotics.IsLittleO atTop (fun t : ℝ => (moreauEnvelope f lam (u t + (t / 4) • du t)).toReal - (sInf (Set.range f)).toReal) (fun t => 1 / t ^ 3) ∧
-      Asymptotics.IsLittleO atTop (fun t : ℝ => (f (prox (u t + (t / 4) • du t))).toReal - (sInf (Set.range f)).toReal) (fun t => 1 / t ^ 3) ∧
-      Asymptotics.IsLittleO atTop (fun t : ℝ => (moreauEnvelope f lam (u t)).toReal - (sInf (Set.range f)).toReal) (fun t => 1 / t ^ 3) ∧
-      Asymptotics.IsLittleO atTop (fun t : ℝ => (f (prox (u t))).toReal - (sInf (Set.range f)).toReal) (fun t => 1 / t ^ 3) ∧
+      Asymptotics.IsLittleO atTop (fun t : ℝ => (moreauEnvelope f lam (u t + (t / 4) •
+      firstDerivative t)).toReal - (sInf (Set.range f)).toReal) (fun t => 1 / t ^ 3) ∧
+      Asymptotics.IsLittleO atTop (fun t : ℝ => (f (prox (u t + (t / 4) •
+      firstDerivative t))).toReal - (sInf (Set.range f)).toReal) (fun t => 1 / t ^ 3) ∧
+      Asymptotics.IsLittleO atTop (fun t : ℝ => (moreauEnvelope f lam (u t)).toReal -
+      (sInf (Set.range f)).toReal) (fun t => 1 / t ^ 3) ∧
+      Asymptotics.IsLittleO atTop (fun t : ℝ => (f (prox (u t))).toReal -
+      (sInf (Set.range f)).toReal) (fun t => 1 / t ^ 3) ∧
       Tendsto (fun t => toWeakSpace ℝ H (u t)) atTop (nhds (toWeakSpace ℝ H uInfinity)) ∧
       f uInfinity = sInf (Set.range f)) := by
   have hres : ∀ x, prox x ∈ SetValuedOperator.resolvent
@@ -152,9 +159,10 @@ private theorem togesVR_rate_and_weak_convergence_named {H : Type*} [NormedAddCo
       · intro y hy
         rcases hy with ⟨x, rfl⟩
         exact hzGlobal x
-  have hBase := togesV_rate_and_weak_convergence_named
-    (fun x => (moreauEnvelope f lam x).toReal) u du d2u d3u gEnvelope alpha t0
-    hFConvex hFGradient ⟨z, hz⟩ ht0pos hu huDot huDdot hDerivative hAuxiliaryStrict hTrajectory
+  have hBase := togesV_rate_and_weak_convergence_core
+    (fun x => (moreauEnvelope f lam x).toReal) u firstDerivative secondDerivative thirdDerivative
+    envelopeGradient alpha t0
+    hFConvex hFGradient ⟨z, hz⟩ ht0pos hu hFirst hSecond hDerivative hAuxiliaryStrict hTrajectory
   have hproxDom : ∀ x, prox x ∈ ERealFunction.dom f := by
     intro x
     have hpx := hres x
@@ -187,7 +195,7 @@ private theorem togesVR_rate_and_weak_convergence_named {H : Type*} [NormedAddCo
       exact sub_nonneg.mpr (EReal.toReal_le_toReal
         ((isGLB_sInf (Set.range f)).1 ⟨prox x, rfl⟩) hinfbot (ne_of_lt (hproxDom x)))
     have hv' : Asymptotics.IsLittleO atTop
-        (fun t : ℝ => (moreauEnvelope f lam (u t + (t / 4) • du t)).toReal -
+        (fun t : ℝ => (moreauEnvelope f lam (u t + (t / 4) • firstDerivative t)).toReal -
           (sInf (Set.range f)).toReal) (fun t => 1 / t ^ 3) := by simpa [hFInf] using hv
     have hu'' : Asymptotics.IsLittleO atTop
         (fun t : ℝ => (moreauEnvelope f lam (u t)).toReal - (sInf (Set.range f)).toReal)
@@ -232,7 +240,8 @@ private theorem togesVR_rate_and_weak_convergence_named {H : Type*} [NormedAddCo
           ((sInf (Set.range f)).toReal : EReal) at hcoe
         rw [EReal.coe_toReal henvtop henvbot, EReal.coe_toReal hinftop hinfbot] at hcoe
         exact hcoe.trans hInfE.symm
-      have : uInfinity ∈ {x | moreauEnvelope f lam x = sInf (Set.range (moreauEnvelope f lam))} := henv
+      have : uInfinity ∈ {x | moreauEnvelope f lam x =
+      sInf (Set.range (moreauEnvelope f lam))} := henv
       change uInfinity ∈ {x | f x = sInf (Set.range f)}
       rw [← hMinSet]
       exact this
@@ -246,16 +255,10 @@ theorem togesVR_rate_and_weak_convergence {H : Type*} [NormedAddCommGroup H]
     (hArgmin : ∃ x : H, f x = sInf (Set.range f))
     (hProx : IsProximalMapping f lam prox hProper hConvex)
     (hFConvex : ConvexOn ℝ Set.univ (fun x => (moreauEnvelope f lam x).toReal))
-    (hFGradient : ∀ x, HasFDerivAt (fun x => (moreauEnvelope f lam x).toReal)
-      (innerSL ℝ (gradient (fun x => (moreauEnvelope f lam x).toReal) x)) x)
     (hFMin : ∃ z, IsMinOn (fun x => (moreauEnvelope f lam x).toReal) Set.univ z)
     (hFInf : sInf (Set.range (fun x => (moreauEnvelope f lam x).toReal)) =
       (sInf (Set.range f)).toReal) (ht0pos : 0 < t0)
-    (hRegularity :
-      (∀ t, t0 ≤ t → HasDerivAt u (deriv u t) t) ∧
-      (∀ t, t0 ≤ t → HasDerivAt (deriv u) (deriv (deriv u) t) t) ∧
-      (∀ t, t0 ≤ t → HasDerivAt (deriv (deriv u))
-        (deriv (deriv (deriv u)) t) t))
+    (hUContDiff : ContDiff ℝ 3 u)
     (hAuxiliaryStrict : 3 < alpha → ∃ vInfinity : H,
       Asymptotics.IsLittleO atTop
         (fun t => (moreauEnvelope f lam (u t + (t / 4) • deriv u t)).toReal -
@@ -287,9 +290,42 @@ theorem togesVR_rate_and_weak_convergence {H : Type*} [NormedAddCommGroup H]
         (fun t => (f (prox (u t))).toReal - (sInf (Set.range f)).toReal)
           (fun t => 1 / t ^ 3) ∧
       Tendsto (fun t => toWeakSpace ℝ H (u t)) atTop
-        (nhds (toWeakSpace ℝ H uInfinity)) ∧
+      (nhds (toWeakSpace ℝ H uInfinity)) ∧
       f uInfinity = sInf (Set.range f)) := by
-  exact togesVR_rate_and_weak_convergence_named f prox u (deriv u) (deriv (deriv u))
+  have hres : ∀ x, prox x ∈ SetValuedOperator.resolvent
+      (lam • subdifferential f) x := by
+    intro x
+    rw [show SetValuedOperator.resolvent ((lam) • (subdifferential f)) x =
+      {prox x} from (hProx.2 x).2]
+    simp
+  have hformula : ∀ x, f (prox x) + ((1 / (2 * lam) * ‖x - prox x‖ ^ 2 : ℝ) : EReal) =
+      moreauEnvelope f lam x := fun x => (hProx.2 x).1
+  have hFContDiff : ContDiff ℝ 1 (fun x => (moreauEnvelope f lam x).toReal) :=
+    (moreau_envelope_regularity_and_minimizers f lam hLam hProper hlsc hConvex
+      (moreauEnvelope f lam) prox hres (fun x => (hformula x).symm)).2.1
+  have hFGradient : ∀ x, HasFDerivAt (fun x => (moreauEnvelope f lam x).toReal)
+      (innerSL ℝ (gradient (fun x => (moreauEnvelope f lam x).toReal) x)) x := by
+    intro x
+    simpa [innerSL_apply_apply] using
+      ((hFContDiff.differentiable (by norm_num) x).hasGradientAt.hasFDerivAt)
+  have huDiff : Differentiable ℝ u := hUContDiff.differentiable (by norm_num)
+  have hFirstDiff : Differentiable ℝ (deriv u) :=
+    (hUContDiff.of_le (by norm_num)).differentiable_deriv_two
+  have hSecondDiff : Differentiable ℝ (deriv (deriv u)) := by
+    exact hUContDiff.deriv'.differentiable_deriv_two
+  have hRegularity :
+      (∀ t, t0 ≤ t → HasDerivAt u (deriv u t) t) ∧
+      (∀ t, t0 ≤ t → HasDerivAt (deriv u) (deriv (deriv u) t) t) ∧
+      (∀ t, t0 ≤ t → HasDerivAt (deriv (deriv u))
+        (deriv (deriv (deriv u)) t) t) := by
+    refine ⟨?_, ?_, ?_⟩
+    · intro t _
+      exact (huDiff t).hasDerivAt
+    · intro t _
+      exact (hFirstDiff t).hasDerivAt
+    · intro t _
+      exact (hSecondDiff t).hasDerivAt
+  exact togesVR_rate_and_weak_convergence_core f prox u (deriv u) (deriv (deriv u))
     (deriv (deriv (deriv u)))
     (gradient (fun x => (moreauEnvelope f lam x).toReal)) alpha lam t0 hLam hProper hlsc
     hConvex hArgmin hProx hFConvex hFGradient hFMin hFInf ht0pos

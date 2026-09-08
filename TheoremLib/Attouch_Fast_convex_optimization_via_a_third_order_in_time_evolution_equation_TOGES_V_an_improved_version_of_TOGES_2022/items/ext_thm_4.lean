@@ -13,11 +13,10 @@ private theorem scalar_differential_kernel_identity (t0 t a s : ℝ) :
       Real.exp (-a * (t - s)) := by
   rw [← Real.exp_add]
   congr 1
-  ring
+  ring_nf
 
 /-- Scalar differential comparison by integrating factors. -/
 theorem scalar_differential_comparison (E b : ℝ → ℝ) (t0 a : ℝ)
-    (ha : 0 ≤ a)
     (hIntegrable : ∀ t ≥ t0, IntervalIntegrable b MeasureTheory.volume t0 t)
     (hDifferentiable : ∀ t ≥ t0, HasDerivAt E (deriv E t) t)
     (h : ∀ t ≥ t0, deriv E t + a * E t ≤ b t) :
@@ -45,11 +44,11 @@ theorem scalar_differential_comparison (E b : ℝ → ℝ) (t0 a : ℝ)
       HasDerivWithinAt q (w s * (deriv E s + a * E s)) (Set.Ioi s) s := by
     intro s hs
     have hlin : HasDerivAt (fun u : ℝ => a * (u - t0)) a s := by
-      convert ((hasDerivAt_id s).sub_const t0).const_mul a using 1 <;> ring
+      convert ((hasDerivAt_id s).sub_const t0).const_mul a using 1; ring_nf
     have hw_deriv : HasDerivAt w (w s * a) s := by
       exact (Real.hasDerivAt_exp (a * (s - t0))).comp s hlin
     have hprod := hw_deriv.mul (hDifferentiable s hs.1.le)
-    convert hprod.hasDerivWithinAt using 1 <;> dsimp [q, w] <;> ring
+    convert hprod.hasDerivWithinAt using 1; dsimp [q, w]; ring_nf
   have hneg_deriv : ∀ s ∈ Set.Ioo t0 t,
       HasDerivWithinAt (fun u => -q u) (-(w s * (deriv E s + a * E s))) (Set.Ioi s) s := by
     intro s hs
@@ -78,7 +77,7 @@ theorem scalar_differential_comparison (E b : ℝ → ℝ) (t0 a : ℝ)
     dsimp [w] at hcancel
     have hprod : Real.exp (-a * (t - t0)) * Real.exp (a * (t - t0)) = 1 := by
       rw [← Real.exp_add]
-      convert Real.exp_zero using 1 <;> ring
+      convert Real.exp_zero using 1; ring_nf
     rw [mul_add, ← mul_assoc, hprod, one_mul] at hcancel
     exact hcancel
   have hkernel : Real.exp (-a * (t - t0)) * ∫ s in t0..t, w s * b s =

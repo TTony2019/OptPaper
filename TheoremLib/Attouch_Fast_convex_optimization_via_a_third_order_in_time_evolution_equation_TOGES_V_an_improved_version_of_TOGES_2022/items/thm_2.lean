@@ -10,14 +10,14 @@ set_option maxHeartbeats 800000
 
 /- The derivative of the auxiliary curve used in the TOGES-VH energy. -/
 private theorem togesVH_auxiliary_hasDerivAt {H : Type*} [NormedAddCommGroup H]
-    [NormedSpace ℝ H] (u du d2u : ℝ → H) (t0 : ℝ)
-    (hu : ∀ t, t0 ≤ t → HasDerivAt u (du t) t)
-    (huDot : ∀ t, t0 ≤ t → HasDerivAt du (d2u t) t) :
-    ∀ t, t0 ≤ t → HasDerivAt (fun s => u s + (s / 4) • du s)
-      ((5 / 4 : ℝ) • du t + (t / 4) • d2u t) t := by
+    [NormedSpace ℝ H] (u firstDerivative secondDerivative : ℝ → H) (t0 : ℝ)
+    (hu : ∀ t, t0 ≤ t → HasDerivAt u (firstDerivative t) t)
+    (hFirst : ∀ t, t0 ≤ t → HasDerivAt firstDerivative (secondDerivative t) t) :
+    ∀ t, t0 ≤ t → HasDerivAt (fun s => u s + (s / 4) • firstDerivative s)
+      ((5 / 4 : ℝ) • firstDerivative t + (t / 4) • secondDerivative t) t := by
   intro t ht
-  have hraw := (hu t ht).add (((hasDerivAt_id t).div_const 4).smul (huDot t ht))
-  convert hraw using 1 <;> simp [id] <;> module
+  have hraw := (hu t ht).add (((hasDerivAt_id t).div_const 4).smul (hFirst t ht))
+  convert hraw using 1; simp [id]; module
 
 /- A global minimizer realizes the infimum of the range. -/
 private theorem togesVH_sInf_eq_minimum {H : Type*} (f : H → ℝ) (z : H)
@@ -62,77 +62,78 @@ private theorem togesVH_delta_hasDerivAt (beta t : ℝ) (ht : t ≠ 0) :
   have hraw := ((hasDerivAt_pow 2 t).mul
     ((hasDerivAt_const t (1 : ℝ)).sub ((hasDerivAt_const t (2 * beta)).div
       (hasDerivAt_id t) ht)))
-  convert hraw using 1 <;> simp [togesVDelta, id] <;> field_simp [ht] <;> ring
+  convert hraw using 1; simp [id]; field_simp [ht]; ring
 
 private theorem togesVH_w_hasDerivAt {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [CompleteSpace H] (f : H → ℝ)
-    (u du d2u d3u : ℝ → H) (g : H → H)
-    (hessian : H → H → H) (z : H) (alpha beta t0 tStart t : ℝ)
-    (hu : ∀ r, t0 ≤ r → HasDerivAt u (du r) r)
-    (huDot : ∀ r, t0 ≤ r → HasDerivAt du (d2u r) r)
-    (huDdot : ∀ r, t0 ≤ r → HasDerivAt d2u (d3u r) r)
-    (hGradDeriv : ∀ r, t0 ≤ r → HasDerivAt
-      (fun s => g (u s + (s / 4) • du s))
-      (hessian (u r + (r / 4) • du r)
-        ((5 / 4 : ℝ) • du r + (r / 4) • d2u r)) r)
+    (u firstDerivative secondDerivative thirdDerivative : ℝ → H) (g : H → H)
+    (gradientDerivative : H → H → H) (z : H) (alpha beta t0 tStart t : ℝ)
+    (hu : ∀ r, t0 ≤ r → HasDerivAt u (firstDerivative r) r)
+    (hFirst : ∀ r, t0 ≤ r → HasDerivAt firstDerivative (secondDerivative r) r)
+    (hSecond : ∀ r, t0 ≤ r → HasDerivAt secondDerivative (thirdDerivative r) r)
+    (hGradientDerivative : ∀ r, t0 ≤ r → HasDerivAt
+      (fun s => g (u s + (s / 4) • firstDerivative s))
+      (gradientDerivative (u r + (r / 4) • firstDerivative r)
+        ((5 / 4 : ℝ) • firstDerivative r + (r / 4) • secondDerivative r)) r)
     (ht0Start : t0 ≤ tStart) (htStart : tStart ≤ t) (htne : t ≠ 0)
     (hTrajectory : ∀ r, t0 ≤ r →
-      d3u r + ((alpha + 7) / r) • d2u r +
-        (5 * (alpha + 1) / r ^ 2) • du r +
-        beta • hessian (u r + (r / 4) • du r)
-          ((5 / 4 : ℝ) • du r + (r / 4) • d2u r) +
-        g (u r + (r / 4) • du r) = 0)
-    (hDerivative : ∀ r, deriv u r = du r ∧ deriv (deriv u) r = d2u r ∧
-      deriv (deriv (deriv u)) r = d3u r)
+      thirdDerivative r + ((alpha + 7) / r) • secondDerivative r +
+        (5 * (alpha + 1) / r ^ 2) • firstDerivative r +
+        beta • gradientDerivative (u r + (r / 4) • firstDerivative r)
+          ((5 / 4 : ℝ) • firstDerivative r + (r / 4) • secondDerivative r) +
+        g (u r + (r / 4) • firstDerivative r) = 0)
+    (hDerivative : ∀ r, deriv u r = firstDerivative r ∧ deriv (deriv u) r = secondDerivative r ∧
+      deriv (deriv (deriv u)) r = thirdDerivative r)
     (hGradientEq : ∀ x, gradient f x = g x) :
     HasDerivAt (fun s => togesVLyapunovVector u z alpha beta s f)
-      (-(togesVDelta beta t) • g (u t + (t / 4) • du t)) t := by
+      (-(togesVDelta beta t) • g (u t + (t / 4) • firstDerivative t)) t := by
   let A : ℝ → H := fun s =>
-    d2u s + beta • g (u s + (s / 4) • du s)
+    secondDerivative s + beta • g (u s + (s / 4) • firstDerivative s)
   have htail : t0 ≤ t := le_trans ht0Start htStart
   have hA : HasDerivAt A
-      (d3u t + beta • hessian (u t + (t / 4) • du t)
-        ((5 / 4 : ℝ) • du t + (t / 4) • d2u t)) t := by
-    simpa [A] using (huDdot t htail).add
-      ((hGradDeriv t htail).const_smul beta)
+      (thirdDerivative t + beta • gradientDerivative (u t + (t / 4) • firstDerivative t)
+        ((5 / 4 : ℝ) • firstDerivative t + (t / 4) • secondDerivative t)) t := by
+    simpa [A] using (hSecond t htail).add
+      ((hGradientDerivative t htail).const_smul beta)
   have hwfun :
       (fun s => togesVLyapunovVector u z alpha beta s f) =
         (fun s => s ^ 2 • A s +
-          (((alpha + 5) * s) • du s + (4 * alpha) • (u s - z))) := by
+          (((alpha + 5) * s) • firstDerivative s + (4 * alpha) • (u s - z))) := by
     funext s
     simp [A, togesVLyapunovVector, togesVAuxiliary, hDerivative s, hGradientEq]
     module
   have hfirst : HasDerivAt (fun s => s ^ 2 • A s)
       ((2 * t) • A t + t ^ 2 •
-        (d3u t + beta • hessian (u t + (t / 4) • du t)
-          ((5 / 4 : ℝ) • du t + (t / 4) • d2u t))) t := by
+        (thirdDerivative t + beta • gradientDerivative (u t + (t / 4) • firstDerivative t)
+          ((5 / 4 : ℝ) • firstDerivative t + (t / 4) • secondDerivative t))) t := by
     have h := ((hasDerivAt_id t).pow 2).smul hA
     have hfun : (id : ℝ → ℝ) ^ 2 • A = fun s => s ^ 2 • A s := by
       funext s
       simp [id]
     rw [hfun] at h
-    simp [id] at h
-    convert h using 1 <;> module
-  have hsecond : HasDerivAt (fun s => ((alpha + 5) * s) • du s)
-      ((alpha + 5) • du t + ((alpha + 5) * t) • d2u t) t := by
-    have h := ((hasDerivAt_id t).const_mul (alpha + 5)).smul (huDot t htail)
-    have hfun : (fun y : ℝ => (alpha + 5) * id y) • du =
-        fun s => ((alpha + 5) * s) • du s := by
+    simp only [Pi.pow_apply, id, smul_add, Nat.cast_ofNat, Nat.add_one_sub_one, pow_one,
+      mul_one] at h
+    convert h using 1; module
+  have hsecond : HasDerivAt (fun s => ((alpha + 5) * s) • firstDerivative s)
+      ((alpha + 5) • firstDerivative t + ((alpha + 5) * t) • secondDerivative t) t := by
+    have h := ((hasDerivAt_id t).const_mul (alpha + 5)).smul (hFirst t htail)
+    have hfun : (fun y : ℝ => (alpha + 5) * id y) • firstDerivative =
+        fun s => ((alpha + 5) * s) • firstDerivative s := by
       funext s
       simp [id]
     rw [hfun] at h
-    simp [id] at h
-    convert h using 1 <;> module
+    simp only [id, mul_one] at h
+    convert h using 1; module
   have hthird : HasDerivAt (fun s => (4 * alpha) • (u s - z))
-      ((4 * alpha) • du t) t := by
+      ((4 * alpha) • firstDerivative t) t := by
     simpa using ((hu t htail).sub_const z).const_smul (4 * alpha)
   have hraw := hfirst.add (hsecond.add hthird)
   have hraw' : HasDerivAt (fun s => togesVLyapunovVector u z alpha beta s f)
       ((2 * t) • A t + t ^ 2 •
-        (d3u t + beta • hessian (u t + (t / 4) • du t)
-          ((5 / 4 : ℝ) • du t + (t / 4) • d2u t)) +
-        (((alpha + 5) • du t + ((alpha + 5) * t) • d2u t) +
-          (4 * alpha) • du t)) t := by
+        (thirdDerivative t + beta • gradientDerivative (u t + (t / 4) • firstDerivative t)
+          ((5 / 4 : ℝ) • firstDerivative t + (t / 4) • secondDerivative t)) +
+        (((alpha + 5) • firstDerivative t + ((alpha + 5) * t) • secondDerivative t) +
+          (4 * alpha) • firstDerivative t)) t := by
     rw [hwfun]
     exact hraw
   have hscaled := congrArg (fun q : H => t ^ 2 • q) (hTrajectory t htail)
@@ -144,11 +145,11 @@ private theorem togesVH_w_hasDerivAt {H : Type*} [NormedAddCommGroup H]
   rw [hcoef1, hcoef2] at hscaled
   have htarget :
       (2 * t) • A t + t ^ 2 •
-        (d3u t + beta • hessian (u t + (t / 4) • du t)
-          ((5 / 4 : ℝ) • du t + (t / 4) • d2u t)) +
-        (((alpha + 5) • du t + ((alpha + 5) * t) • d2u t) +
-          (4 * alpha) • du t) =
-        -(togesVDelta beta t) • g (u t + (t / 4) • du t) := by
+        (thirdDerivative t + beta • gradientDerivative (u t + (t / 4) • firstDerivative t)
+          ((5 / 4 : ℝ) • firstDerivative t + (t / 4) • secondDerivative t)) +
+        (((alpha + 5) • firstDerivative t + ((alpha + 5) * t) • secondDerivative t) +
+          (4 * alpha) • firstDerivative t) =
+        -(togesVDelta beta t) • g (u t + (t / 4) • firstDerivative t) := by
     dsimp [A]
     rw [show togesVDelta beta t = t ^ 2 - 2 * beta * t by
       simp [togesVDelta]
@@ -161,51 +162,52 @@ private theorem togesVH_w_hasDerivAt {H : Type*} [NormedAddCommGroup H]
 
 /- The derivative of the TOGES-VH Lyapunov function before applying convexity. -/
 private theorem togesVH_energy_hasDerivAt {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] [CompleteSpace H] (f : H → ℝ) (u du d2u : ℝ → H) (g : H → H)
+    [InnerProductSpace ℝ H] [CompleteSpace H] (f : H → ℝ)
+    (u firstDerivative secondDerivative : ℝ → H) (g : H → H)
     (z : H) (alpha beta t : ℝ)
     (hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (g x)) x)
-    (hv : HasDerivAt (fun s => u s + (s / 4) • du s)
-      ((5 / 4 : ℝ) • du t + (t / 4) • d2u t) t)
+    (hv : HasDerivAt (fun s => u s + (s / 4) • firstDerivative s)
+      ((5 / 4 : ℝ) • firstDerivative t + (t / 4) • secondDerivative t) t)
     (hw : HasDerivAt (fun s => togesVLyapunovVector u z alpha beta s f)
-      (-(togesVDelta beta t) • g (u t + (t / 4) • du t)) t)
-    (htne : t ≠ 0) (hDerivative : ∀ r, deriv u r = du r) :
+      (-(togesVDelta beta t) • g (u t + (t / 4) • firstDerivative t)) t)
+    (htne : t ≠ 0) (hDerivative : ∀ r, deriv u r = firstDerivative r) :
     HasDerivAt (togesVLyapunov f u z alpha beta)
       (4 * t * togesVDelta beta t *
-          inner ℝ (g (u t + (t / 4) • du t))
-            ((5 / 4 : ℝ) • du t + (t / 4) • d2u t) +
+          inner ℝ (g (u t + (t / 4) • firstDerivative t))
+            ((5 / 4 : ℝ) • firstDerivative t + (t / 4) • secondDerivative t) +
         4 * (togesVDelta beta t + t * (2 * t - 2 * beta)) *
-          (f (u t + (t / 4) • du t) - sInf (Set.range f)) +
+          (f (u t + (t / 4) • firstDerivative t) - sInf (Set.range f)) +
         inner ℝ (togesVLyapunovVector u z alpha beta t f)
-          (-(togesVDelta beta t) • g (u t + (t / 4) • du t))) t := by
-  have hf : HasDerivAt (fun s => f (u s + (s / 4) • du s) - sInf (Set.range f))
-      (inner ℝ (g (u t + (t / 4) • du t))
-        ((5 / 4 : ℝ) • du t + (t / 4) • d2u t)) t := by
+          (-(togesVDelta beta t) • g (u t + (t / 4) • firstDerivative t))) t := by
+  have hf : HasDerivAt (fun s => f (u s + (s / 4) • firstDerivative s) - sInf (Set.range f))
+      (inner ℝ (g (u t + (t / 4) • firstDerivative t))
+        ((5 / 4 : ℝ) • firstDerivative t + (t / 4) • secondDerivative t)) t := by
     simpa [innerSL_apply_apply] using
-      ((hGradient (u t + (t / 4) • du t)).comp_hasDerivAt t hv).sub_const
+      ((hGradient (u t + (t / 4) • firstDerivative t)).comp_hasDerivAt t hv).sub_const
         (sInf (Set.range f))
   have hpref : HasDerivAt (fun s => 4 * s * togesVDelta beta s)
       (4 * (togesVDelta beta t + t * (2 * t - 2 * beta))) t := by
     have h := (((hasDerivAt_const t (4 : ℝ)).mul (hasDerivAt_id t)).mul
       (togesVH_delta_hasDerivAt beta t htne))
-    convert h using 1 <;> simp [id] <;> ring
+    convert h using 1; simp [id]; ring
   have hsq := hw.norm_sq.const_mul (1 / 2 : ℝ)
   have hsum := (hpref.mul hf).add hsq
   have hfun : togesVLyapunov f u z alpha beta =
       (fun s => 4 * s * togesVDelta beta s *
-        (f (u s + (s / 4) • du s) - sInf (Set.range f)) +
+        (f (u s + (s / 4) • firstDerivative s) - sInf (Set.range f)) +
         (1 / 2 : ℝ) * ‖togesVLyapunovVector u z alpha beta s f‖ ^ 2) := by
     funext s
     simp [togesVLyapunov, togesVAuxiliary, hDerivative s]
   rw [hfun]
-  convert hsum using 1 <;> simp [Pi.mul_apply, Pi.add_apply] <;> ring
+  convert hsum using 1; simp; ring
 /-
-  have hA := (huDdot t (le_trans ht0Start htStart)).add
-    ((hGradDeriv t (le_trans ht0Start htStart)).const_smul beta)
+  have hA := (hSecond t (le_trans ht0Start htStart)).add
+    ((hGradientDerivative t (le_trans ht0Start htStart)).const_smul beta)
   have hfirst := (((hasDerivAt_id t).pow 2).smul
-    ((huDdot t (le_trans ht0Start htStart)).add
-      ((hGradDeriv t (le_trans ht0Start htStart)).const_smul beta)))
+    ((hSecond t (le_trans ht0Start htStart)).add
+      ((hGradientDerivative t (le_trans ht0Start htStart)).const_smul beta)))
   have hsecond := (((hasDerivAt_id t).const_mul (alpha + 5 : ℝ)).smul
-    (huDot t (le_trans ht0Start htStart)))
+    (hFirst t (le_trans ht0Start htStart)))
   have hthird := ((hu t (le_trans ht0Start htStart)).sub_const z).const_smul (4 * alpha)
   have hraw := hfirst.add (hsecond.add hthird)
   have hscaled := congrArg (fun q : H => t ^ 2 • q)
@@ -217,12 +219,12 @@ private theorem togesVH_energy_hasDerivAt {H : Type*} [NormedAddCommGroup H]
     field_simp [htne]
   rw [hcoef1, hcoef2] at hscaled
   have htarget :
-      (2 * t) • (d2u t + beta • g (u t + (t / 4) • du t)) +
-        t ^ 2 • (d3u t + beta • hessian (u t + (t / 4) • du t)
-          ((5 / 4 : ℝ) • du t + (t / 4) • d2u t)) +
-        ((alpha + 5) • du t + ((alpha + 5) * t) • d2u t) +
-        (4 * alpha) • du t =
-        -(togesVDelta beta t) • g (u t + (t / 4) • du t) := by
+      (2 * t) • (secondDerivative t + beta • g (u t + (t / 4) • firstDerivative t)) +
+        t ^ 2 • (thirdDerivative t + beta • gradientDerivative (u t + (t / 4) • firstDerivative t)
+          ((5 / 4 : ℝ) • firstDerivative t + (t / 4) • secondDerivative t)) +
+        ((alpha + 5) • firstDerivative t + ((alpha + 5) * t) • secondDerivative t) +
+        (4 * alpha) • firstDerivative t =
+        -(togesVDelta beta t) • g (u t + (t / 4) • firstDerivative t) := by
     rw [show togesVDelta beta t = t ^ 2 - 2 * beta * t by
       simp [togesVDelta]
       field_simp [htne]]
@@ -231,11 +233,11 @@ private theorem togesVH_energy_hasDerivAt {H : Type*} [NormedAddCommGroup H]
     rw [← hscaled]
     module
   have hraw' : HasDerivAt (fun s => togesVLyapunovVector u z alpha beta s f)
-      ((2 * t) • (d2u t + beta • g (u t + (t / 4) • du t)) +
-        t ^ 2 • (d3u t + beta • hessian (u t + (t / 4) • du t)
-          ((5 / 4 : ℝ) • du t + (t / 4) • d2u t)) +
-        ((alpha + 5) • du t + ((alpha + 5) * t) • d2u t) +
-        (4 * alpha) • du t) t := by
+      ((2 * t) • (secondDerivative t + beta • g (u t + (t / 4) • firstDerivative t)) +
+        t ^ 2 • (thirdDerivative t + beta • gradientDerivative (u t + (t / 4) • firstDerivative t)
+          ((5 / 4 : ℝ) • firstDerivative t + (t / 4) • secondDerivative t)) +
+        ((alpha + 5) • firstDerivative t + ((alpha + 5) * t) • secondDerivative t) +
+        (4 * alpha) • firstDerivative t) t := by
     convert hraw using 1
     · ext s
       simp only [Pi.add_apply, Pi.smul_apply', Pi.smul_apply, Pi.pow_apply, id_eq]
@@ -313,7 +315,7 @@ private theorem togesVH_correction_hasDerivAt (C r : ℝ) (hr : r ≠ 0) :
 
 /- The scalar comparison converting the dissipative weight into the t^4 weight. -/
 private theorem togesVH_weighted_gradient_compare (alpha beta r q delta : ℝ)
-    (hA2 : 0 < alpha - 2) (hBeta : 0 ≤ beta) (hr : 0 ≤ r) (hq : 0 ≤ q)
+    (hA2 : 0 < alpha - 2) (hBeta : 0 ≤ beta) (hq : 0 ≤ q)
     (hdelta : r ^ 2 / (alpha - 2) ≤ delta) :
     beta * (r ^ 4 * q) ≤ (alpha - 2) * (beta * r ^ 2 * delta * q) := by
   have hfactor : 0 ≤ beta * r ^ 2 * q := by
@@ -334,64 +336,65 @@ private theorem togesVH_weighted_gradient_compare (alpha beta r q delta : ℝ)
 Theorem 3.1:
 The energy and rate conclusions of Theorem 3.1 for a regular TOGES-VH solution.
 -/
-theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H]
+private theorem togesVH_rate_descent_and_integrability_core {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [CompleteSpace H] (f : H → ℝ)
-    (u du d2u d3u : ℝ → H)
+    (u firstDerivative secondDerivative thirdDerivative : ℝ → H)
     (z : H) (alpha beta t0 : ℝ)
     (hConvex : ConvexOn ℝ Set.univ f)
     (hGradientDirect : ∀ x, HasFDerivAt f (innerSL ℝ (gradient f x)) x)
-    (hGradDerivDirect : ∀ t, t0 ≤ t → HasDerivAt
-      (fun s => gradient f (u s + (s / 4) • du s))
-      (fderiv ℝ (gradient f) (u t + (t / 4) • du t)
-        ((5 / 4 : ℝ) • du t + (t / 4) • d2u t)) t)
+    (hGradientDerivativeDirect : ∀ t, t0 ≤ t → HasDerivAt
+      (fun s => gradient f (u s + (s / 4) • firstDerivative s))
+      (fderiv ℝ (gradient f) (u t + (t / 4) • firstDerivative t)
+        ((5 / 4 : ℝ) • firstDerivative t + (t / 4) • secondDerivative t)) t)
     (hMin : IsMinOn f Set.univ z) (ht0pos : 0 < t0)
-    (hu : ∀ t, t0 ≤ t → HasDerivAt u (du t) t)
-    (huDot : ∀ t, t0 ≤ t → HasDerivAt du (d2u t) t)
-    (huDdot : ∀ t, t0 ≤ t → HasDerivAt d2u (d3u t) t)
-    (hDerivative : ∀ t, deriv u t = du t ∧ deriv (deriv u) t = d2u t ∧
-      deriv (deriv (deriv u)) t = d3u t)
+    (hu : ∀ t, t0 ≤ t → HasDerivAt u (firstDerivative t) t)
+    (hFirst : ∀ t, t0 ≤ t → HasDerivAt firstDerivative (secondDerivative t) t)
+    (hSecond : ∀ t, t0 ≤ t → HasDerivAt secondDerivative (thirdDerivative t) t)
+    (hDerivative : ∀ t, deriv u t = firstDerivative t ∧ deriv (deriv u) t = secondDerivative t ∧
+      deriv (deriv (deriv u)) t = thirdDerivative t)
     (hTrajectoryDirect : IsTOGESVH u alpha beta f t0) :
     3 < alpha → 0 ≤ beta → let t1 := 2 * beta * (alpha - 2) / (alpha - 3)
       let tStart := max t0 t1
       let E1 := togesVLyapunov f u z alpha beta tStart
       ∀ t ≥ tStart,
-        f (u t + (t / 4) • du t) - sInf (Set.range f) ≤ (alpha - 2) * E1 / (4 * t ^ 3) ∧
-        f (u t) - sInf (Set.range f) ≤
+        f (u t + (t / 4) • firstDerivative t) - sInf (Set.range f) ≤ (alpha - 2) * E1 / (4 * t ^ 3)
+        ∧ f (u t) - sInf (Set.range f) ≤
           (tStart ^ 4 * (f (u tStart) - sInf (Set.range f)) - (alpha - 2) * E1 * tStart) / t ^ 4 +
             (alpha - 2) * E1 / t ^ 3 ∧
         AntitoneOn (fun s => f (u s) + (alpha - 2) * E1 / (3 * s ^ 3)) (Set.Ici tStart) ∧
         (0 < beta →
           ∫ s in Set.Ici tStart, s ^ 4 *
-              ‖gradient f (u s + (s / 4) • du s)‖ ^ 2 ≤
+              ‖gradient f (u s + (s / 4) • firstDerivative s)‖ ^ 2 ≤
             (alpha - 2) * E1 / beta) := by
   intro hAlpha hBeta
   dsimp
   let g : H → H := gradient f
-  let hessian : H → H → H := fun x v => fderiv ℝ (gradient f) x v
+  let gradientDerivative : H → H → H := fun x v => fderiv ℝ (gradient f) x v
   have hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (g x)) x := by
     simpa [g] using hGradientDirect
-  have hGradDeriv : ∀ t, t0 ≤ t → HasDerivAt
-      (fun s => g (u s + (s / 4) • du s))
-      (hessian (u t + (t / 4) • du t)
-        ((5 / 4 : ℝ) • du t + (t / 4) • d2u t)) t := by
-    simpa [g, hessian] using hGradDerivDirect
+  have hGradientDerivative : ∀ t, t0 ≤ t → HasDerivAt
+      (fun s => g (u s + (s / 4) • firstDerivative s))
+      (gradientDerivative (u t + (t / 4) • firstDerivative t)
+        ((5 / 4 : ℝ) • firstDerivative t + (t / 4) • secondDerivative t)) t := by
+    simpa [g, gradientDerivative] using hGradientDerivativeDirect
   have hTrajectory : ∀ t, t0 ≤ t →
-      d3u t + ((alpha + 7) / t) • d2u t + (5 * (alpha + 1) / t ^ 2) • du t +
-        beta • hessian (u t + (t / 4) • du t)
-          ((5 / 4 : ℝ) • du t + (t / 4) • d2u t) +
-        g (u t + (t / 4) • du t) = 0 := by
+      thirdDerivative t + ((alpha + 7) / t) •
+      secondDerivative t + (5 * (alpha + 1) / t ^ 2) • firstDerivative t +
+        beta • gradientDerivative (u t + (t / 4) • firstDerivative t)
+          ((5 / 4 : ℝ) • firstDerivative t + (t / 4) • secondDerivative t) +
+        g (u t + (t / 4) • firstDerivative t) = 0 := by
     intro t ht
     have heq := hTrajectoryDirect t ht
     rw [(hDerivative t).2.2, (hDerivative t).2.1, (hDerivative t).1] at heq
-    simpa [g, hessian] using heq
+    simpa [g, gradientDerivative] using heq
   have hsInf := togesVH_sInf_eq_minimum f z hMin
   let t1 : ℝ := 2 * beta * (alpha - 2) / (alpha - 3)
   let tStart : ℝ := max t0 t1
   have ht0Start : t0 ≤ tStart := le_max_left _ _
-  have hv : ∀ t, tStart ≤ t → HasDerivAt (fun s => u s + (s / 4) • du s)
-      ((5 / 4 : ℝ) • du t + (t / 4) • d2u t) t := by
+  have hv : ∀ t, tStart ≤ t → HasDerivAt (fun s => u s + (s / 4) • firstDerivative s)
+      ((5 / 4 : ℝ) • firstDerivative t + (t / 4) • secondDerivative t) t := by
     intro t ht
-    exact togesVH_auxiliary_hasDerivAt u du d2u t0 hu huDot t
+    exact togesVH_auxiliary_hasDerivAt u firstDerivative secondDerivative t0 hu hFirst t
       (le_trans ht0Start ht)
   have hA3 : 0 < alpha - 3 := by linarith
   have hA2 : 0 < alpha - 2 := by linarith
@@ -399,7 +402,7 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
   have htailFacts : ∀ t, tStart ≤ t →
       0 < t ∧ t ≠ 0 ∧ 0 ≤ togesVDelta beta t ∧
         0 ≤ (alpha - 3) * t ^ 2 - 2 * beta * t * (alpha - 2) ∧
-        0 ≤ f (u t + (t / 4) • du t) - f z ∧ 0 ≤ f (u t) - f z := by
+        0 ≤ f (u t + (t / 4) • firstDerivative t) - f z ∧ 0 ≤ f (u t) - f z := by
     intro t ht
     have ht0t : t0 ≤ t := le_trans ht0Start ht
     have htpos : 0 < t := lt_of_lt_of_le ht0pos ht0t
@@ -423,50 +426,50 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
       sub_nonneg.mpr (hmin _), sub_nonneg.mpr (hmin _)⟩
   have hw : ∀ t, tStart ≤ t → HasDerivAt
       (fun s => togesVLyapunovVector u z alpha beta s f)
-      (-(togesVDelta beta t) • g (u t + (t / 4) • du t)) t := by
+      (-(togesVDelta beta t) • g (u t + (t / 4) • firstDerivative t)) t := by
     intro t ht
-    exact togesVH_w_hasDerivAt f u du d2u d3u g hessian z alpha beta t0 tStart t
-      hu huDot huDdot hGradDeriv ht0Start ht (htailFacts t ht).2.1
+    exact togesVH_w_hasDerivAt f u firstDerivative secondDerivative thirdDerivative
+      g gradientDerivative z alpha beta t0 tStart t
+      hu hFirst hSecond hGradientDerivative ht0Start ht (htailFacts t ht).2.1
       hTrajectory hDerivative (fun x => by simp [g])
   have hDiss : ∀ t, tStart ≤ t →
       deriv (togesVLyapunov f u z alpha beta) t +
           beta * t ^ 2 * togesVDelta beta t *
-            ‖g (u t + (t / 4) • du t)‖ ^ 2 +
+            ‖g (u t + (t / 4) • firstDerivative t)‖ ^ 2 +
           4 * ((alpha - 3) * t ^ 2 - 2 * beta * t * (alpha - 2)) *
-            (f (u t + (t / 4) • du t) - f z) ≤ 0 := by
+            (f (u t + (t / 4) • firstDerivative t) - f z) ≤ 0 := by
     intro t ht
     have htail := htailFacts t ht
-    have hE := togesVH_energy_hasDerivAt f u du d2u g z alpha beta t
+    have hE := togesVH_energy_hasDerivAt f u firstDerivative secondDerivative g z alpha beta t
       hGradient (hv t ht) (hw t ht) htail.2.1 (fun r => (hDerivative r).1)
     rw [hE.deriv]
     have hsupp := togesVH_convex_gradient_le f g hConvex hGradient
-      (u t + (t / 4) • du t) z
+      (u t + (t / 4) • firstDerivative t) z
     have hW : togesVLyapunovVector u z alpha beta t f =
-        ((4 : ℝ) * t) • ((5 / 4 : ℝ) • du t + (t / 4) • d2u t) +
-          (t ^ 2 * beta) • g (u t + (t / 4) • du t) +
-          ((4 : ℝ) * alpha) • (u t + (t / 4) • du t - z) := by
+        ((4 : ℝ) * t) • ((5 / 4 : ℝ) • firstDerivative t + (t / 4) • secondDerivative t) +
+          (t ^ 2 * beta) • g (u t + (t / 4) • firstDerivative t) +
+          ((4 : ℝ) * alpha) • (u t + (t / 4) • firstDerivative t - z) := by
       simp [togesVLyapunovVector, togesVAuxiliary, (hDerivative t).1,
         (hDerivative t).2.1, g]
       module
     have hinter : inner ℝ (togesVLyapunovVector u z alpha beta t f)
-        (-(togesVDelta beta t) • g (u t + (t / 4) • du t)) =
+        (-(togesVDelta beta t) • g (u t + (t / 4) • firstDerivative t)) =
         - (4 * t * togesVDelta beta t *
-          inner ℝ (g (u t + (t / 4) • du t))
-            ((5 / 4 : ℝ) • du t + (t / 4) • d2u t)) -
+          inner ℝ (g (u t + (t / 4) • firstDerivative t))
+            ((5 / 4 : ℝ) • firstDerivative t + (t / 4) • secondDerivative t)) -
         beta * t ^ 2 * togesVDelta beta t *
-          inner ℝ (g (u t + (t / 4) • du t))
-            (g (u t + (t / 4) • du t)) -
+          inner ℝ (g (u t + (t / 4) • firstDerivative t))
+            (g (u t + (t / 4) • firstDerivative t)) -
         4 * alpha * togesVDelta beta t *
-          inner ℝ (g (u t + (t / 4) • du t))
-            (u t + (t / 4) • du t - z) := by
+          inner ℝ (g (u t + (t / 4) • firstDerivative t))
+            (u t + (t / 4) • firstDerivative t - z) := by
       rw [hW]
-      simp only [inner_add_left, real_inner_smul_left, real_inner_smul_right,
-        inner_neg_right]
-      rw [real_inner_comm ((5 / 4 : ℝ) • du t + (t / 4) • d2u t)
-        (g (u t + (t / 4) • du t))]
-      rw [real_inner_comm (u t + (t / 4) • du t - z)
-        (g (u t + (t / 4) • du t))]
       simp only [inner_add_left, real_inner_smul_left, real_inner_smul_right]
+      rw [real_inner_comm ((5 / 4 : ℝ) • firstDerivative t + (t / 4) • secondDerivative t)
+        (g (u t + (t / 4) • firstDerivative t))]
+      rw [real_inner_comm (u t + (t / 4) • firstDerivative t - z)
+        (g (u t + (t / 4) • firstDerivative t))]
+      simp only [inner_add_left, real_inner_smul_left]
       ring
     rw [hinter]
     rw [real_inner_self_eq_norm_sq]
@@ -483,22 +486,26 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
       (Set.Ici tStart) := by
     apply antitoneOn_of_deriv_nonpos (convex_Ici tStart)
     · intro s hs
-      exact (togesVH_energy_hasDerivAt f u du d2u g z alpha beta s hGradient
-        (hv s hs) (hw s hs) (htailFacts s hs).2.1 (fun r => (hDerivative r).1)).continuousAt.continuousWithinAt
+      exact (togesVH_energy_hasDerivAt f u firstDerivative secondDerivative g z
+        alpha beta s hGradient
+        (hv s hs) (hw s hs) (htailFacts s hs).2.1
+        (fun r => (hDerivative r).1)).continuousAt.continuousWithinAt
     · intro s hs
       have hs' : tStart ≤ s := Set.mem_Ici.mp (interior_subset hs)
-      exact (togesVH_energy_hasDerivAt f u du d2u g z alpha beta s hGradient
-        (hv s hs') (hw s hs') (htailFacts s hs').2.1 (fun r => (hDerivative r).1)).differentiableAt.differentiableWithinAt
+      exact (togesVH_energy_hasDerivAt f u firstDerivative secondDerivative
+        g z alpha beta s hGradient
+        (hv s hs') (hw s hs') (htailFacts s hs').2.1
+        (fun r => (hDerivative r).1)).differentiableAt.differentiableWithinAt
     · intro s hs
       have hs' : tStart ≤ s := Set.mem_Ici.mp (interior_subset hs)
       have hd := hDiss s hs'
       have htail := htailFacts s hs'
       have hterm1 : 0 ≤ beta * s ^ 2 * togesVDelta beta s *
-          ‖g (u s + (s / 4) • du s)‖ ^ 2 := by
+          ‖g (u s + (s / 4) • firstDerivative s)‖ ^ 2 := by
         exact mul_nonneg (mul_nonneg (mul_nonneg hBeta (sq_nonneg s)) htail.2.2.1)
           (sq_nonneg _)
       have hterm2 : 0 ≤ 4 * ((alpha - 3) * s ^ 2 - 2 * beta * s * (alpha - 2)) *
-          (f (u s + (s / 4) • du s) - f z) := by
+          (f (u s + (s / 4) • firstDerivative s) - f z) := by
         exact mul_nonneg (mul_nonneg (by norm_num) htail.2.2.2.1) htail.2.2.2.2.1
       linarith
   have hEle : ∀ t, tStart ≤ t →
@@ -508,7 +515,7 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
     exact hEantitone (by simp) (by simpa using ht) ht
   let C : ℝ := (alpha - 2) * togesVLyapunov f u z alpha beta tStart
   have hAuxRate : ∀ r, tStart ≤ r →
-      f (u r + (r / 4) • du r) - f z ≤ C / (4 * r ^ 3) := by
+      f (u r + (r / 4) • firstDerivative r) - f z ≤ C / (4 * r ^ 3) := by
     intro t ht
     have htail := htailFacts t ht
     have ht1t : t1 ≤ t := le_trans ht1Start ht
@@ -536,31 +543,31 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
     have hsq : 0 ≤ (1 / 2 : ℝ) *
         ‖togesVLyapunovVector u z alpha beta t f‖ ^ 2 := by positivity
     have henergy : 4 * t * togesVDelta beta t *
-        (f (u t + (t / 4) • du t) - f z) ≤
+        (f (u t + (t / 4) • firstDerivative t) - f z) ≤
         togesVLyapunov f u z alpha beta tStart := by
       have hraw := le_trans (le_add_of_nonneg_right hsq) hEraw
       simpa [togesVAuxiliary, (hDerivative t).1] using hraw
-    have hmul : 0 ≤ 4 * t * (f (u t + (t / 4) • du t) - f z) := by
+    have hmul : 0 ≤ 4 * t * (f (u t + (t / 4) • firstDerivative t) - f z) := by
       exact mul_nonneg (mul_nonneg (by norm_num) htail.1.le) htail.2.2.2.2.1
     have hscaled := mul_le_mul_of_nonneg_left hdeltaLower hmul
     have haux : 4 * t ^ 3 / (alpha - 2) *
-        (f (u t + (t / 4) • du t) - f z) ≤
+        (f (u t + (t / 4) • firstDerivative t) - f z) ≤
         togesVLyapunov f u z alpha beta tStart := by
       calc
         4 * t ^ 3 / (alpha - 2) *
-            (f (u t + (t / 4) • du t) - f z) =
-            (4 * t * (f (u t + (t / 4) • du t) - f z)) *
+            (f (u t + (t / 4) • firstDerivative t) - f z) =
+            (4 * t * (f (u t + (t / 4) • firstDerivative t) - f z)) *
               (t ^ 2 / (alpha - 2)) := by ring
-        _ ≤ (4 * t * (f (u t + (t / 4) • du t) - f z)) * togesVDelta beta t := hscaled
+        _ ≤ (4 * t * (f (u t + (t / 4) • firstDerivative t) - f z)) * togesVDelta beta t := hscaled
         _ = 4 * t * togesVDelta beta t *
-            (f (u t + (t / 4) • du t) - f z) := by ring
+            (f (u t + (t / 4) • firstDerivative t) - f z) := by ring
         _ ≤ _ := henergy
     have ht3 : 0 < 4 * t ^ 3 := mul_pos (by norm_num) (pow_pos htail.1 _)
-    have haux' : 4 * t ^ 3 * (f (u t + (t / 4) • du t) - f z) ≤ C := by
+    have haux' : 4 * t ^ 3 * (f (u t + (t / 4) • firstDerivative t) - f z) ≤ C := by
       calc
-        4 * t ^ 3 * (f (u t + (t / 4) • du t) - f z) =
+        4 * t ^ 3 * (f (u t + (t / 4) • firstDerivative t) - f z) =
             (alpha - 2) * (4 * t ^ 3 / (alpha - 2) *
-              (f (u t + (t / 4) • du t) - f z)) := by
+              (f (u t + (t / 4) • firstDerivative t) - f z)) := by
                 field_simp [ne_of_gt hA2]
         _ ≤ (alpha - 2) * togesVLyapunov f u z alpha beta tStart :=
           mul_le_mul_of_nonneg_left haux hA2.le
@@ -568,42 +575,42 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
     exact (le_div_iff₀ ht3).2 (by simpa [mul_comm] using haux')
   have hCore : ∀ r, tStart ≤ r →
       4 * r ^ 3 * (f (u r) - f z) +
-        r ^ 4 * inner ℝ (g (u r)) (du r) ≤ C := by
+        r ^ 4 * inner ℝ (g (u r)) (firstDerivative r) ≤ C := by
     intro r hr
     have htail := htailFacts r hr
     have hsupp := togesVH_convex_gradient_le f g hConvex hGradient
-      (u r) (u r + (r / 4) • du r)
+      (u r) (u r + (r / 4) • firstDerivative r)
     have hsupport : 4 * (f (u r) - f z) +
-        r * inner ℝ (g (u r)) (du r) ≤
-          4 * (f (u r + (r / 4) • du r) - f z) := by
-      rw [show u r - (u r + (r / 4) • du r) = -(r / 4) • du r by module,
+        r * inner ℝ (g (u r)) (firstDerivative r) ≤
+          4 * (f (u r + (r / 4) • firstDerivative r) - f z) := by
+      rw [show u r - (u r + (r / 4) • firstDerivative r) = -(r / 4) • firstDerivative r by module,
         real_inner_smul_right] at hsupp
       nlinarith
     have hrate := hAuxRate r hr
-    have hCt : 4 * r ^ 3 * (f (u r + (r / 4) • du r) - f z) ≤ C := by
+    have hCt : 4 * r ^ 3 * (f (u r + (r / 4) • firstDerivative r) - f z) ≤ C := by
       have h4 : 0 < 4 * r ^ 3 := mul_pos (by norm_num) (pow_pos htail.1 3)
       have hscaled := mul_le_mul_of_nonneg_left hrate
         h4.le
-      convert hscaled using 1 <;> field_simp [htail.2.1] <;> ring
+      convert hscaled using 1; field_simp [htail.2.1]
     have hscaled := mul_le_mul_of_nonneg_left hsupport (pow_nonneg htail.1.le 3)
     nlinarith
   let G : ℝ → ℝ := fun r => r ^ 4 * (f (u r) - f z) - C * r
   have hGderiv : ∀ r, tStart ≤ r → deriv G r ≤ 0 := by
     intro r hr
     have hFderiv : HasDerivAt (fun s => f (u s) - f z)
-        (inner ℝ (g (u r)) (du r)) r := by
+        (inner ℝ (g (u r)) (firstDerivative r)) r := by
       simpa [innerSL_apply_apply] using
         ((hGradient (u r)).comp_hasDerivAt r (hu r (le_trans ht0Start hr))).sub_const (f z)
     have hderiv : HasDerivAt G
-        (4 * r ^ 3 * (f (u r) - f z) + r ^ 4 * inner ℝ (g (u r)) (du r) - C) r := by
+        (4 * r ^ 3 * (f (u r) - f z) + r ^ 4 * inner ℝ (g (u r)) (firstDerivative r) - C) r := by
       convert (((hasDerivAt_pow 4 r).mul hFderiv).sub
-        ((hasDerivAt_id r).const_mul C)) using 1 <;> ring
+        ((hasDerivAt_id r).const_mul C)) using 1; ring
     rw [hderiv.deriv]
     linarith [hCore r hr]
   have hGcont : ContinuousOn G (Set.Ici tStart) := by
     intro r hr
     have hFderiv : HasDerivAt (fun s => f (u s) - f z)
-        (inner ℝ (g (u r)) (du r)) r := by
+        (inner ℝ (g (u r)) (firstDerivative r)) r := by
       simpa [innerSL_apply_apply] using
         ((hGradient (u r)).comp_hasDerivAt r (hu r (le_trans ht0Start hr))).sub_const (f z)
     exact (((hasDerivAt_pow 4 r).mul hFderiv).sub
@@ -612,7 +619,7 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
     rw [interior_Ici]
     intro r hr
     have hFderiv : HasDerivAt (fun s => f (u s) - f z)
-        (inner ℝ (g (u r)) (du r)) r := by
+        (inner ℝ (g (u r)) (firstDerivative r)) r := by
       simpa [innerSL_apply_apply] using
         ((hGradient (u r)).comp_hasDerivAt r (hu r (le_trans ht0Start hr.le))).sub_const (f z)
     exact (((hasDerivAt_pow 4 r).mul hFderiv).sub
@@ -642,24 +649,24 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
     have hHderiv : ∀ r, tStart ≤ r → deriv Hcorr r ≤ 0 := by
       intro r hr
       have hFderiv : HasDerivAt (fun s => f (u s) - f z)
-          (inner ℝ (g (u r)) (du r)) r := by
+          (inner ℝ (g (u r)) (firstDerivative r)) r := by
         simpa [innerSL_apply_apply] using
           ((hGradient (u r)).comp_hasDerivAt r (hu r (le_trans ht0Start hr))).sub_const (f z)
       have hderiv := hFderiv.add (togesVH_correction_hasDerivAt C r
         (htailFacts r hr).2.1)
-      have hd : deriv Hcorr r = inner ℝ (g (u r)) (du r) - C / r ^ 4 := by
+      have hd : deriv Hcorr r = inner ℝ (g (u r)) (firstDerivative r) - C / r ^ 4 := by
         change deriv ((fun s => f (u s) - f z) + fun s => C / (3 * s ^ 3)) r = _
-        convert hderiv.deriv using 1 <;> ring
+        convert hderiv.deriv using 1; ring
       rw [hd]
       have htail := htailFacts r hr
       have hr4 : 0 < r ^ 4 := pow_pos htail.1 4
-      have hinner : r ^ 4 * inner ℝ (g (u r)) (du r) ≤ C := by
+      have hinner : r ^ 4 * inner ℝ (g (u r)) (firstDerivative r) ≤ C := by
         nlinarith [hCore r hr]
       exact sub_nonpos.mpr ((le_div_iff₀ hr4).2 (by simpa [mul_comm] using hinner))
     have hHcont : ContinuousOn Hcorr (Set.Ici tStart) := by
       intro r hr
       have hFderiv : HasDerivAt (fun s => f (u s) - f z)
-          (inner ℝ (g (u r)) (du r)) r := by
+          (inner ℝ (g (u r)) (firstDerivative r)) r := by
         simpa [innerSL_apply_apply] using
           ((hGradient (u r)).comp_hasDerivAt r (hu r (le_trans ht0Start hr))).sub_const (f z)
       exact (hFderiv.add (togesVH_correction_hasDerivAt C r
@@ -668,7 +675,7 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
       rw [interior_Ici]
       intro r hr
       have hFderiv : HasDerivAt (fun s => f (u s) - f z)
-          (inner ℝ (g (u r)) (du r)) r := by
+          (inner ℝ (g (u r)) (firstDerivative r)) r := by
         simpa [innerSL_apply_apply] using
           ((hGradient (u r)).comp_hasDerivAt r (hu r (le_trans ht0Start hr.le))).sub_const (f z)
       exact (hFderiv.add (togesVH_correction_hasDerivAt C r
@@ -686,18 +693,19 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
   · intro hBetaPos
     let E : ℝ → ℝ := togesVLyapunov f u z alpha beta
     let D : ℝ → ℝ := fun r => beta * r ^ 2 * togesVDelta beta r *
-      ‖g (u r + (r / 4) • du r)‖ ^ 2
+      ‖g (u r + (r / 4) • firstDerivative r)‖ ^ 2
     let p : ℝ → ℝ := fun r =>
       4 * r * togesVDelta beta r *
-          inner ℝ (g (u r + (r / 4) • du r))
-            ((5 / 4 : ℝ) • du r + (r / 4) • d2u r) +
+          inner ℝ (g (u r + (r / 4) • firstDerivative r))
+            ((5 / 4 : ℝ) • firstDerivative r + (r / 4) • secondDerivative r) +
         4 * (togesVDelta beta r + r * (2 * r - 2 * beta)) *
-          (f (u r + (r / 4) • du r) - sInf (Set.range f)) +
+          (f (u r + (r / 4) • firstDerivative r) - sInf (Set.range f)) +
         inner ℝ (togesVLyapunovVector u z alpha beta r f)
-          (-(togesVDelta beta r) • g (u r + (r / 4) • du r))
+          (-(togesVDelta beta r) • g (u r + (r / 4) • firstDerivative r))
     have hEAt : ∀ r, tStart ≤ r → HasDerivAt E (p r) r := by
       intro r hr
-      exact togesVH_energy_hasDerivAt f u du d2u g z alpha beta r hGradient
+      exact togesVH_energy_hasDerivAt f u
+        firstDerivative secondDerivative g z alpha beta r hGradient
         (hv r hr) (hw r hr) (htailFacts r hr).2.1 (fun s => (hDerivative s).1)
     have hDnonneg : ∀ r, tStart ≤ r → 0 ≤ D r := by
       intro r hr
@@ -706,7 +714,7 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
           (htailFacts r hr).2.2.1) (sq_nonneg _)
     have hDcont : ∀ T, tStart ≤ T → ContinuousOn D (Set.Icc tStart T) := by
       intro T hT r hr
-      have hgrad := (hGradDeriv r (le_trans ht0Start hr.1)).continuousAt
+      have hgrad := (hGradientDerivative r (le_trans ht0Start hr.1)).continuousAt
       have hdelta := (togesVH_delta_hasDerivAt beta r
         (htailFacts r hr.1).2.1).continuousAt
       exact (((continuousAt_const.mul ((hasDerivAt_id r).pow 2).continuousAt).mul hdelta).mul
@@ -717,27 +725,27 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
       rw [(hEAt r hr).deriv] at hd
       have hcoef : 0 ≤ (alpha - 3) * r ^ 2 - 2 * beta * r * (alpha - 2) :=
         (htailFacts r hr).2.2.2.1
-      have hvalue : 0 ≤ f (u r + (r / 4) • du r) - f z :=
+      have hvalue : 0 ≤ f (u r + (r / 4) • firstDerivative r) - f z :=
         (htailFacts r hr).2.2.2.2.1
       have hq : 0 ≤ 4 * ((alpha - 3) * r ^ 2 - 2 * beta * r * (alpha - 2)) *
-          (f (u r + (r / 4) • du r) - f z) := by positivity
+          (f (u r + (r / 4) • firstDerivative r) - f z) := by positivity
       change p r + D r + _ ≤ 0 at hd
       linarith
     have hPcont : ∀ T, tStart ≤ T → ContinuousOn p (Set.Icc tStart T) := by
       intro T hT r hr
       have hu' := (hu r (le_trans ht0Start hr.1)).continuousAt
-      have huDot' := (huDot r (le_trans ht0Start hr.1)).continuousAt
-      have huDdot' := (huDdot r (le_trans ht0Start hr.1)).continuousAt
+      have hFirst' := (hFirst r (le_trans ht0Start hr.1)).continuousAt
+      have hSecond' := (hSecond r (le_trans ht0Start hr.1)).continuousAt
       have hv' := (hv r hr.1).continuousAt
-      have hvDot' : ContinuousAt
-          (fun s => (5 / 4 : ℝ) • du s + (s / 4) • d2u s) r := by
-        exact (continuousAt_const.smul huDot').add
-          (((hasDerivAt_id r).div_const 4).continuousAt.smul huDdot')
-      have hgrad' := (hGradDeriv r (le_trans ht0Start hr.1)).continuousAt
-      have hf' : ContinuousAt (fun s => f (u s + (s / 4) • du s) -
+      have hvFirst' : ContinuousAt
+          (fun s => (5 / 4 : ℝ) • firstDerivative s + (s / 4) • secondDerivative s) r := by
+        exact (continuousAt_const.smul hFirst').add
+          (((hasDerivAt_id r).div_const 4).continuousAt.smul hSecond')
+      have hgrad' := (hGradientDerivative r (le_trans ht0Start hr.1)).continuousAt
+      have hf' : ContinuousAt (fun s => f (u s + (s / 4) • firstDerivative s) -
           sInf (Set.range f)) r := by
-        exact ((hGradient (u r + (r / 4) • du r)).comp_hasDerivAt r (hv r hr.1)).continuousAt
-          |>.sub continuousAt_const
+        exact ((hGradient (u r + (r / 4) • firstDerivative r)).comp_hasDerivAt
+          r (hv r hr.1)).continuousAt |>.sub continuousAt_const
       have hdelta' := (togesVH_delta_hasDerivAt beta r
         (htailFacts r hr.1).2.1).continuousAt
       have hw' := (hw r hr.1).continuousAt
@@ -747,24 +755,24 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
           ((((hasDerivAt_id r).const_mul 2).continuousAt).sub
             (hasDerivAt_const r (2 * beta)).continuousAt))
       have hfirst : ContinuousAt (fun s => 4 * s * togesVDelta beta s *
-          inner ℝ (g (u s + (s / 4) • du s))
-            ((5 / 4 : ℝ) • du s + (s / 4) • d2u s)) r := by
+          inner ℝ (g (u s + (s / 4) • firstDerivative s))
+            ((5 / 4 : ℝ) • firstDerivative s + (s / 4) • secondDerivative s)) r := by
         exact ((continuousAt_const.mul (hasDerivAt_id r).continuousAt).mul hdelta').mul
-          (hgrad'.inner hvDot')
+          (hgrad'.inner hvFirst')
       have hsecond : ContinuousAt (fun s => 4 *
           (togesVDelta beta s + s * (2 * s - 2 * beta)) *
-          (f (u s + (s / 4) • du s) - sInf (Set.range f))) r := by
+          (f (u s + (s / 4) • firstDerivative s) - sInf (Set.range f))) r := by
         exact (continuousAt_const.mul hcoeff).mul hf'
       have hthird : ContinuousAt (fun s =>
           inner ℝ (togesVLyapunovVector u z alpha beta s f)
-            (-(togesVDelta beta s) • g (u s + (s / 4) • du s))) r := by
+            (-(togesVDelta beta s) • g (u s + (s / 4) • firstDerivative s))) r := by
         simpa [neg_smul] using hw'.inner (hdelta'.smul hgrad').neg
       simpa [p] using ((hfirst.add hsecond).add hthird).continuousWithinAt
     have hEnonneg : ∀ r, tStart ≤ r → 0 ≤ E r := by
       intro r hr
       have htail := htailFacts r hr
       have hfirst : 0 ≤ 4 * r * togesVDelta beta r *
-          (f (u r + (r / 4) • du r) - f z) := by
+          (f (u r + (r / 4) • firstDerivative r) - f z) := by
         exact mul_nonneg (mul_nonneg (mul_nonneg (by norm_num) htail.1.le)
           htail.2.2.1) htail.2.2.2.2.1
       have hsecond : 0 ≤ (1 / 2 : ℝ) *
@@ -791,10 +799,10 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
         · exact hPint
       rw [hFTC] at hmono
       linarith [hEnonneg T hT]
-    let weight : ℝ → ℝ := fun r => r ^ 4 * ‖g (u r + (r / 4) • du r)‖ ^ 2
+    let weight : ℝ → ℝ := fun r => r ^ 4 * ‖g (u r + (r / 4) • firstDerivative r)‖ ^ 2
     have hgcont : ∀ T, tStart ≤ T → ContinuousOn weight (Set.Icc tStart T) := by
       intro T hT r hr
-      have hgrad := (hGradDeriv r (le_trans ht0Start hr.1)).continuousAt
+      have hgrad := (hGradientDerivative r (le_trans ht0Start hr.1)).continuousAt
       exact (((hasDerivAt_id r).pow 4).continuousAt.mul (hgrad.norm.pow 2)).continuousWithinAt
     have hgcompact : ∀ T, tStart ≤ T → (∫ r in tStart..T, weight r) ≤
         (alpha - 2) * E tStart / beta := by
@@ -825,12 +833,12 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
             r ^ 2 / (alpha - 2) = r ^ 2 * (1 / (alpha - 2)) := by ring
             _ ≤ r ^ 2 * (1 - 2 * beta / r) :=
               mul_le_mul_of_nonneg_left hrecip (sq_nonneg r)
-        let q : ℝ := ‖g (u r + (r / 4) • du r)‖ ^ 2
+        let q : ℝ := ‖g (u r + (r / 4) • firstDerivative r)‖ ^ 2
         have hq : 0 ≤ q := by
           dsimp [q]
           exact sq_nonneg _
         have hcompare := togesVH_weighted_gradient_compare alpha beta r q
-          (togesVDelta beta r) hA2 hBeta htail.1.le hq hlower
+          (togesVDelta beta r) hA2 hBeta hq hlower
         simpa only [weight, D, q] using hcompare
       have hIntegrated := intervalIntegral.integral_mono_on hT
         (hGint.const_mul beta) (hDint.const_mul (alpha - 2)) (by
@@ -851,3 +859,68 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
     rcases togesVH_integrableOn_Ici_of_nonneg_compact_integral_bound hgcont hgnonneg
       ((alpha - 2) * E tStart / beta) hgcompact with ⟨hgi, hgb⟩
     exact hgb
+
+/--
+TOGES-VH estimates with trajectory derivatives and the derivative of `gradient f` written directly.
+-/
+theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H]
+    [InnerProductSpace ℝ H] [CompleteSpace H] (f : H → ℝ) (u : ℝ → H)
+    (z : H) (alpha beta t0 : ℝ)
+    (hConvex : ConvexOn ℝ Set.univ f)
+    (hFContDiff : ContDiff ℝ 2 f)
+    (hMin : IsMinOn f Set.univ z) (ht0pos : 0 < t0)
+    (hUContDiff : ContDiff ℝ 3 u)
+    (hTrajectory : IsTOGESVH u alpha beta f t0) :
+    3 < alpha → 0 ≤ beta → let t1 := 2 * beta * (alpha - 2) / (alpha - 3)
+      let tStart := max t0 t1
+      let E1 := togesVLyapunov f u z alpha beta tStart
+      ∀ t ≥ tStart,
+        f (u t + (t / 4) • deriv u t) - sInf (Set.range f) ≤ (alpha - 2) * E1 / (4 * t ^ 3) ∧
+        f (u t) - sInf (Set.range f) ≤
+          (tStart ^ 4 * (f (u tStart) - sInf (Set.range f)) - (alpha - 2) * E1 * tStart) / t ^ 4 +
+            (alpha - 2) * E1 / t ^ 3 ∧
+        AntitoneOn (fun s => f (u s) + (alpha - 2) * E1 / (3 * s ^ 3)) (Set.Ici tStart) ∧
+        (0 < beta →
+          ∫ s in Set.Ici tStart, s ^ 4 *
+            ‖gradient f (u s + (s / 4) • deriv u s)‖ ^ 2 ≤ (alpha - 2) * E1 / beta) := by
+  have hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (gradient f x)) x := by
+    intro x
+    simpa [innerSL_apply_apply] using
+      ((hFContDiff.differentiable (by norm_num) x).hasGradientAt.hasFDerivAt)
+  have huDiff : Differentiable ℝ u := hUContDiff.differentiable (by norm_num)
+  have hFirstDiff : Differentiable ℝ (deriv u) :=
+    (hUContDiff.of_le (by norm_num)).differentiable_deriv_two
+  have hSecondDiff : Differentiable ℝ (deriv (deriv u)) := by
+    exact hUContDiff.deriv'.differentiable_deriv_two
+  have hRegularity :
+      (∀ t, t0 ≤ t → HasDerivAt u (deriv u t) t) ∧
+      (∀ t, t0 ≤ t → HasDerivAt (deriv u) (deriv (deriv u) t) t) ∧
+      (∀ t, t0 ≤ t → HasDerivAt (deriv (deriv u))
+        (deriv (deriv (deriv u)) t) t) := by
+    refine ⟨?_, ?_, ?_⟩
+    · intro t _
+      exact (huDiff t).hasDerivAt
+    · intro t _
+      exact (hFirstDiff t).hasDerivAt
+    · intro t _
+      exact (hSecondDiff t).hasDerivAt
+  have hGradientContDiff : ContDiff ℝ 1 (gradient f) := by
+    have hfderivContDiff : ContDiff ℝ 1 (fderiv ℝ f) := by
+      exact (contDiff_succ_iff_fderiv.mp
+        (show ContDiff ℝ (1 + 1) f by simpa using hFContDiff)).2.2
+    simpa [gradient, Function.comp_def] using
+      (InnerProductSpace.toDual ℝ H).symm.contDiff.comp hfderivContDiff
+  have hGradientDerivative : ∀ t, t0 ≤ t → HasDerivAt
+      (fun s => gradient f (u s + (s / 4) • deriv u s))
+      (fderiv ℝ (gradient f) (u t + (t / 4) • deriv u t)
+        ((5 / 4 : ℝ) • deriv u t + (t / 4) • deriv (deriv u) t)) t := by
+    intro t ht
+    have hv := togesVH_auxiliary_hasDerivAt u (deriv u) (deriv (deriv u)) t0
+      (fun s _ => (huDiff s).hasDerivAt)
+      (fun s _ => (hFirstDiff s).hasDerivAt) t ht
+    exact (hGradientContDiff.differentiable (by norm_num)
+      (u t + (t / 4) • deriv u t)).hasFDerivAt.comp_hasDerivAt t hv
+  exact togesVH_rate_descent_and_integrability_core f u (deriv u) (deriv (deriv u))
+    (deriv (deriv (deriv u))) z alpha beta t0 hConvex hGradient hGradientDerivative
+    hMin ht0pos hRegularity.1 hRegularity.2.1 hRegularity.2.2
+    (fun t => ⟨rfl, rfl, rfl⟩) hTrajectory

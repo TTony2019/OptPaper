@@ -4,7 +4,7 @@ import TheoremLib.Attouch_Fast_convex_optimization_via_a_third_order_in_time_evo
 import TheoremLib.Attouch_Fast_convex_optimization_via_a_third_order_in_time_evolution_equation_TOGES_V_an_improved_version_of_TOGES_2022.items.ext_thm_5
 
 /-- The Moreau-regularized TOGES-VR evolution equation. -/
-def IsTOGESVR {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+def IsTOGESVR {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
     (f : H → EReal) (lam : ℝ) (prox : H → H) (u : ℝ → H)
     (alpha t0 : ℝ) (hProper : ERealFunction.IsProper f)
     (hConvex : Convex ℝ (ERealFunction.epigraph f)) : Prop :=
