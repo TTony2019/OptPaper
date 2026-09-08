@@ -498,7 +498,10 @@ private theorem strongly_convex_third_order_exponential_estimates_core {H : Type
         stronglyConvexLyapunov, ← add_assoc, (hDerivative t0).1,
         (hDerivative t0).2.1] using hfourth
 
-/-- Strongly convex estimates with the trajectory derivatives supplied directly. -/
+/--
+Theorem 5.1:
+Strongly convex estimates with the trajectory derivatives supplied directly.
+-/
 theorem strongly_convex_third_order_exponential_estimates {H : Type*}
     [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
     (f : H → ℝ) (u : ℝ → H) (xStar : H) (mu t0 : ℝ)

@@ -103,7 +103,8 @@ theorem strongConvex_support_at
     rw [real_inner_comm z u]
     ring
   dsimp [phi, ell, d] at hslope
-  simp at hslope
+  simp only [one_smul, add_sub_cancel, zero_smul, add_zero, sub_zero, div_one,
+    tsub_le_iff_right] at hslope
   rw [hnorm_expand]
   simp only [inner_sub_right] at hslope ⊢
   rw [real_inner_self_eq_norm_sq] at hslope

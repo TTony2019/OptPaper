@@ -865,7 +865,10 @@ theorem togesV_rate_and_weak_convergence_core {H : Type*} [NormedAddCommGroup H]
       rw [ht]
     · simpa [hsInf] using hvMin
 
-/-- TOGES-V estimates with the derivative operators of the trajectory exposed directly. -/
+/--
+Theorem 2.1:
+TOGES-V estimates with the derivative operators of the trajectory exposed directly.
+-/
 theorem togesV_rate_and_weak_convergence {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [CompleteSpace H] (f : H → ℝ) (u : ℝ → H)
     (alpha t0 : ℝ) (hConvex : ConvexOn ℝ Set.univ f)

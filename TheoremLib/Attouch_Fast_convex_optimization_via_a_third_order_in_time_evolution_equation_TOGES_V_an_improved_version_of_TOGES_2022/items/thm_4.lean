@@ -246,17 +246,20 @@ private theorem togesVR_rate_and_weak_convergence_core {H : Type*} [NormedAddCom
       rw [← hMinSet]
       exact this
 
-/-- Moreau-regularized TOGES-V estimates with direct trajectory derivatives. -/
+/--
+Theorem 6.1:
+Moreau-regularized TOGES-V estimates with direct trajectory derivatives.
+-/
 theorem togesVR_rate_and_weak_convergence {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [CompleteSpace H] (f : H → EReal) (prox : H → H)
     (u : ℝ → H) (alpha lam t0 : ℝ)
     (hLam : 0 < lam) (hProper : ERealFunction.IsProper f) (hlsc : LowerSemicontinuous f)
     (hConvex : Convex ℝ (ERealFunction.epigraph f))
     (hArgmin : ∃ x : H, f x = sInf (Set.range f))
-    (hProx : IsProximalMapping f lam prox hProper hConvex)
-    (hFConvex : ConvexOn ℝ Set.univ (fun x => (moreauEnvelope f lam x).toReal))
-    (hFMin : ∃ z, IsMinOn (fun x => (moreauEnvelope f lam x).toReal) Set.univ z)
-    (hFInf : sInf (Set.range (fun x => (moreauEnvelope f lam x).toReal)) =
+    (hProx : IsProximalMapping f lam prox hProper hConvex) --recall
+    (hFConvex : ConvexOn ℝ Set.univ (fun x => (moreauEnvelope f lam x).toReal)) --merge
+    (hFMin : ∃ z, IsMinOn (fun x => (moreauEnvelope f lam x).toReal) Set.univ z) --merge
+    (hFInf : sInf (Set.range (fun x => (moreauEnvelope f lam x).toReal)) = --merge
       (sInf (Set.range f)).toReal) (ht0pos : 0 < t0)
     (hUContDiff : ContDiff ℝ 3 u)
     (hAuxiliaryStrict : 3 < alpha → ∃ vInfinity : H,

@@ -13,14 +13,10 @@ import Foundation.SetValued.Monotone
 /-!
 # The convex subdifferential
 
-Definition 16.1 and the fundamental properties of the subdifferential of an
+The fundamental properties of the subdifferential of an
 `]-∞,+∞]`-valued function on a real Hilbert space, promoted from the
 Bauschke–Combettes book formalization (Bauschke-lean-project, Chap16).
 -/
-
-
-
-/-! Source item: Bauschke-lean-project/BauschkeLean/Chap16/Definition_16_1.lean -/
 
 open scoped InnerProductSpace Set
 

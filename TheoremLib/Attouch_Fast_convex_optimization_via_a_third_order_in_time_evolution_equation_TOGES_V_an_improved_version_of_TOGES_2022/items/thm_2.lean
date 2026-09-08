@@ -861,6 +861,7 @@ private theorem togesVH_rate_descent_and_integrability_core {H : Type*} [NormedA
     exact hgb
 
 /--
+Theorem 3.1:
 TOGES-VH estimates with trajectory derivatives and the derivative of `gradient f` written directly.
 -/
 theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H]
@@ -871,7 +872,8 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
     (hMin : IsMinOn f Set.univ z) (ht0pos : 0 < t0)
     (hUContDiff : ContDiff ℝ 3 u)
     (hTrajectory : IsTOGESVH u alpha beta f t0) :
-    3 < alpha → 0 ≤ beta → let t1 := 2 * beta * (alpha - 2) / (alpha - 3)
+    3 < alpha → 0 ≤ beta →
+      let t1 := 2 * beta * (alpha - 2) / (alpha - 3)
       let tStart := max t0 t1
       let E1 := togesVLyapunov f u z alpha beta tStart
       ∀ t ≥ tStart,
@@ -880,8 +882,7 @@ theorem togesVH_rate_descent_and_integrability {H : Type*} [NormedAddCommGroup H
           (tStart ^ 4 * (f (u tStart) - sInf (Set.range f)) - (alpha - 2) * E1 * tStart) / t ^ 4 +
             (alpha - 2) * E1 / t ^ 3 ∧
         AntitoneOn (fun s => f (u s) + (alpha - 2) * E1 / (3 * s ^ 3)) (Set.Ici tStart) ∧
-        (0 < beta →
-          ∫ s in Set.Ici tStart, s ^ 4 *
+        (0 < beta → ∫ s in Set.Ici tStart, s ^ 4 *
             ‖gradient f (u s + (s / 4) • deriv u s)‖ ^ 2 ≤ (alpha - 2) * E1 / beta) := by
   have hGradient : ∀ x, HasFDerivAt f (innerSL ℝ (gradient f x)) x := by
     intro x
