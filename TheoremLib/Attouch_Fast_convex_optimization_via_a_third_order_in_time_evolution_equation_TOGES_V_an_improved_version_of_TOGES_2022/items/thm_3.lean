@@ -258,7 +258,8 @@ private theorem strongly_convex_grad_eq_zero_of_global_min {H : Type*} [NormedAd
 private theorem strongly_convex_third_order_exponential_estimates_core {H : Type*}
   [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
     (f : H → ℝ) (u firstDerivative secondDerivative thirdDerivative : ℝ → H) (g : H → H)
-    (xStar : H) (mu t0 : ℝ) (hStrong : IsStronglyConvexDifferentiable f mu)
+    (xStar : H) (mu t0 : ℝ)
+    (hStrong : IsStronglyConvexWith (fun x : H => (f x : EReal)) mu)
     (hxStar : ∀ x : H, f xStar ≤ f x ∧ (f x = f xStar → x = xStar))
     (hTrajectory : IsStronglyConvexThirdOrderEvolution u mu f)
     (hGrad : ∀ x : H, HasFDerivAt f (innerSL ℝ (g x)) x)
@@ -285,7 +286,18 @@ private theorem strongly_convex_third_order_exponential_estimates_core {H : Type
           Real.exp (Real.sqrt mu * t0) * initialObjectiveGap f u xStar t0 -
           stronglyConvexEnergyConstant f u xStar mu t0 hxStar * Real.sqrt mu * t0) *
           Real.exp (-Real.sqrt mu * t) := by
-  rcases hStrong with ⟨hmu, hStrong⟩
+  have hStrongReal := (isStronglyConvexWith_iff_real_jensen f mu).mp hStrong
+  rcases hStrongReal with ⟨hmu, hJensen⟩
+  have hStrongJensen : ∀ x z : H, ∀ a b : ℝ, 0 ≤ a → 0 ≤ b → a + b = 1 →
+      f (a • x + b • z) ≤ a * f x + b * f z - mu / 2 * a * b * ‖x - z‖ ^ 2 := by
+    intro x z a b ha hb hab
+    have hb01 : b ∈ Set.Icc (0 : ℝ) 1 := by
+      constructor
+      · exact hb
+      · linarith
+    have h := hJensen x z b hb01
+    have hab' : 1 - b = a := by linarith
+    simpa [hab', mul_comm, mul_left_comm, mul_assoc] using h
   have hGradEq : ∀ x : H, gradient f x = g x := by
     intro x
     have hg : HasGradientAt f (g x) x := by
@@ -296,7 +308,11 @@ private theorem strongly_convex_third_order_exponential_estimates_core {H : Type
   have hStrongG : ∀ x z : H, f z ≥ f x + inner ℝ (g x) (z - x) +
       (mu / 2) * ‖z - x‖ ^ 2 := by
     intro x z
-    simpa [hGradEq x] using hStrong x z
+    have hs := strongConvex_support_at f mu hStrongJensen x z (g x) (hGrad x)
+    have hinner : inner ℝ (g x) (x - z) = -inner ℝ (g x) (z - x) := by
+      rw [← neg_sub z x, inner_neg_right]
+    rw [hinner, norm_sub_rev] at hs
+    nlinarith
   have hTrajectory' : 0 < mu ∧ ∀ t : ℝ,
       thirdDerivative t + (3 * Real.sqrt mu) • secondDerivative t + (2 * mu) • firstDerivative t +
         Real.sqrt mu • g (u t + (Real.sqrt mu)⁻¹ • firstDerivative t) = 0 := by
@@ -505,7 +521,7 @@ Strongly convex estimates with the trajectory derivatives supplied directly.
 theorem strongly_convex_third_order_exponential_estimates {H : Type*}
     [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
     (f : H → ℝ) (u : ℝ → H) (xStar : H) (mu t0 : ℝ)
-    (hStrong : IsStronglyConvexDifferentiable f mu)
+    (hStrong : IsStronglyConvexWith (fun x : H => (f x : EReal)) mu)
     (hxStar : ∀ x : H, f xStar ≤ f x ∧ (f x = f xStar → x = xStar))
     (hTrajectory : IsStronglyConvexThirdOrderEvolution u mu f)
     (hFContDiff : ContDiff ℝ 1 f) (hUContDiff : ContDiff ℝ 3 u) :

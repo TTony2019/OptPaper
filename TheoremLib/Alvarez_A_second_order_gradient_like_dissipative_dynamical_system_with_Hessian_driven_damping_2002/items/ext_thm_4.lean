@@ -1,120 +1,117 @@
 import Mathlib
-
 open Filter
 open scoped Topology
-
 namespace AlvarezAttouchBolteRedont
-
 /-- The recorded vector field is the Hilbert-space gradient of the scalar potential. -/
-def IsGradientOf {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    (phi : H -> Real) (gradPhi : H -> H) : Prop :=
-  forall x v : H,
-    HasDerivAt (fun t : Real => phi (x + t • v))
-      (inner Real (gradPhi x) v) 0
+def IsGradientOf {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    (phi : H → ℝ) (gradPhi : H → H) : Prop :=
+  ∀ x v : H,
+    HasDerivAt (fun t : ℝ => phi (x + t • v))
+      (inner ℝ (gradPhi x) v) 0
 
 /-- The Frechet derivative of `phi` is represented by the Hilbert-space gradient field. -/
-def IsFrechetGradientOf {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    (phi : H -> Real) (gradPhi : H -> H) : Prop :=
-  forall x : H,
-    HasFDerivAt phi (InnerProductSpace.toDualMap Real H (gradPhi x)) x
+def IsFrechetGradientOf {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    (phi : H → ℝ) (gradPhi : H → H) : Prop :=
+  ∀ x : H,
+    HasFDerivAt phi (InnerProductSpace.toDualMap ℝ H (gradPhi x)) x
 
 /-- Lipschitz continuity on each bounded subset of the Hilbert space. -/
-def LipschitzOnBoundedSets {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    (F : H -> H) : Prop :=
-  forall s : Set H, Bornology.IsBounded s -> exists K : NNReal, LipschitzOnWith K F s
+def LipschitzOnBoundedSets {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    (F : H → H) : Prop :=
+  ∀ s : Set H, Bornology.IsBounded s → ∃ K : NNReal, LipschitzOnWith K F s
 
 /-- Forward-time version of system (1.2), matching the paper's half-line domain. -/
 structure NonnegativeDissipativeSystem (H : Type*) [NormedAddCommGroup H]
-    [InnerProductSpace Real H]
-    (gradPhi : H -> H) (beta a b : Real) (x0 y0 : H) where
-  x : Real -> H
-  y : Real -> H
-  xdot : Real -> H
-  ydot : Real -> H
+    [InnerProductSpace ℝ H]
+    (gradPhi : H → H) (beta a b : ℝ) (x0 y0 : H) where
+  x : ℝ → H
+  y : ℝ → H
+  xdot : ℝ → H
+  ydot : ℝ → H
   beta_pos : 0 < beta
   b_pos : 0 < b
   a_add_b_pos : 0 < a + b
   initial_x : x 0 = x0
   initial_y : y 0 = y0
-  equation_x : forall t : Real, 0 <= t ->
+  equation_x : ∀ t : ℝ, 0 <= t →
     xdot t + beta • gradPhi (x t) + a • x t + b • y t = 0
-  equation_y : forall t : Real, 0 <= t ->
+  equation_y : ∀ t : ℝ, 0 <= t →
     ydot t + a • x t + b • y t = 0
 
 /-- The Lyapunov energy `F_lambda(x, y) = lambda * phi x + 1 / 2 * |a x + b y|^2`. -/
-noncomputable def LyapunovEnergy {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    (phi : H -> Real) (lam a b : Real) (p : Prod H H) : Real :=
+noncomputable def LyapunovEnergy {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    (phi : H → ℝ) (lam a b : ℝ) (p : Prod H H) : ℝ :=
   lam * phi p.1 + (1 / 2) * norm (a • p.1 + b • p.2) ^ 2
 
 /-- A trajectory whose recorded velocity fields are the actual derivatives on `(0, +infty)`. -/
-def IsGenuineTrajectory {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    {gradPhi : H -> H} {beta a b : Real} {x0 y0 : H}
+def IsGenuineTrajectory {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    {gradPhi : H → H} {beta a b : ℝ} {x0 y0 : H}
     (sys : NonnegativeDissipativeSystem H gradPhi beta a b x0 y0) : Prop :=
-  (forall t : Real, 0 < t -> HasDerivAt sys.x (sys.xdot t) t) /\
-    (forall t : Real, 0 < t -> HasDerivAt sys.y (sys.ydot t) t)
+  (∀ t : ℝ, 0 < t → HasDerivAt sys.x (sys.xdot t) t) ∧
+    (∀ t : ℝ, 0 < t → HasDerivAt sys.y (sys.ydot t) t)
 
 /-- The interior regularity asserted for solutions in Theorem 1.1. -/
-def IsRegularTrajectory {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    {gradPhi : H -> H} {beta a b : Real} {x0 y0 : H}
+def IsRegularTrajectory {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    {gradPhi : H → H} {beta a b : ℝ} {x0 y0 : H}
     (sys : NonnegativeDissipativeSystem H gradPhi beta a b x0 y0) : Prop :=
-  ContDiffOn Real 1 sys.x (Set.Ici (0 : Real)) /\
-    ContDiffOn Real 2 sys.y (Set.Ici (0 : Real))
+  ContDiffOn ℝ 1 sys.x (Set.Ici (0 : ℝ)) ∧
+    ContDiffOn ℝ 2 sys.y (Set.Ici (0 : ℝ))
 
 /--
 The trajectory is continuous on the closed time interval `[0, +infty)`.
 Together with the stored equalities `x 0 = x0` and `y 0 = y0`, this rules out
 positive-time solutions that jump at the initial time.
 -/
-def IsContinuousOnNonnegative {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    {gradPhi : H -> H} {beta a b : Real} {x0 y0 : H}
+def IsContinuousOnNonnegative {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    {gradPhi : H → H} {beta a b : ℝ} {x0 y0 : H}
     (sys : NonnegativeDissipativeSystem H gradPhi beta a b x0 y0) : Prop :=
-  ContinuousOn sys.x (Set.Ici (0 : Real)) /\
-    ContinuousOn sys.y (Set.Ici (0 : Real))
+  ContinuousOn sys.x (Set.Ici (0 : ℝ)) ∧
+    ContinuousOn sys.y (Set.Ici (0 : ℝ))
 
 /-- The solution predicate used in Theorem 1.1 on the paper's interval `[0, +infty)`. -/
-def IsSolutionOnNonnegative {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    {gradPhi : H -> H} {beta a b : Real} {x0 y0 : H}
+def IsSolutionOnNonnegative {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    {gradPhi : H → H} {beta a b : ℝ} {x0 y0 : H}
     (sys : NonnegativeDissipativeSystem H gradPhi beta a b x0 y0) : Prop :=
-  IsGenuineTrajectory sys /\ IsRegularTrajectory sys /\ IsContinuousOnNonnegative sys
+  IsGenuineTrajectory sys ∧ IsRegularTrajectory sys ∧ IsContinuousOnNonnegative sys
 
 /--
 Equality of two stored first-order systems on the paper's time domain `[0, +infty)`.
-The structure stores total functions `Real -> H`, but the ODE requirements and
+The structure stores total functions `ℝ → H`, but the ODE requirements and
 uniqueness assertion are only for nonnegative time.
 -/
-def SameTrajectoryOnNonnegative {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    {gradPhi : H -> H} {beta a b : Real} {x0 y0 : H}
+def SameTrajectoryOnNonnegative {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    {gradPhi : H → H} {beta a b : ℝ} {x0 y0 : H}
     (sys1 sys2 : NonnegativeDissipativeSystem H gradPhi beta a b x0 y0) : Prop :=
-  forall t : Real, 0 <= t ->
-    sys1.x t = sys2.x t /\
-      sys1.y t = sys2.y t /\
-      sys1.xdot t = sys2.xdot t /\
+  ∀ t : ℝ, 0 <= t →
+    sys1.x t = sys2.x t ∧
+      sys1.y t = sys2.y t ∧
+      sys1.xdot t = sys2.xdot t ∧
       sys1.ydot t = sys2.ydot t
 
 /-- Existence and uniqueness of a solution on the interval `[0, +infty)`. -/
-def ExistsUniqueSolutionOnNonnegative {H : Type*}
-    [NormedAddCommGroup H] [InnerProductSpace Real H]
-    (gradPhi : H -> H) (beta a b : Real) (x0 y0 : H) : Prop :=
-  exists sys : NonnegativeDissipativeSystem H gradPhi beta a b x0 y0,
-    IsSolutionOnNonnegative sys /\
-      forall sys' : NonnegativeDissipativeSystem H gradPhi beta a b x0 y0,
-        IsSolutionOnNonnegative sys' ->
+def existsUniqueSolutionOnNonnegative {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    (gradPhi : H → H) (beta a b : ℝ) (x0 y0 : H) : Prop :=
+  ∃ sys : NonnegativeDissipativeSystem H gradPhi beta a b x0 y0,
+    IsSolutionOnNonnegative sys ∧
+      ∀ sys' : NonnegativeDissipativeSystem H gradPhi beta a b x0 y0,
+        IsSolutionOnNonnegative sys' →
           SameTrajectoryOnNonnegative sys' sys
 
 /-- Square integrability on the nonnegative half-line. -/
-def MemL2OnNonnegative {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    (f : Real -> H) : Prop :=
+def MemL2OnNonnegative {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    (f : ℝ → H) : Prop :=
   MeasureTheory.MemLp f 2
-    ((MeasureTheory.volume : MeasureTheory.Measure Real).restrict (Set.Ici (0 : Real)))
+    ((MeasureTheory.volume : MeasureTheory.Measure ℝ).restrict (Set.Ici (0 : ℝ)))
 
 /-- Boundedness of the range on the nonnegative half-line. -/
-def BoundedOnNonnegative {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    (f : Real -> H) : Prop :=
-  Bornology.IsBounded (f '' Set.Ici (0 : Real))
+def BoundedOnNonnegative {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    (f : ℝ → H) : Prop :=
+  Bornology.IsBounded (f '' Set.Ici (0 : ℝ))
 
 private theorem bounded_image_of_lipschitzOn_bounded
-    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    {F : H -> H} {s : Set H} {K : NNReal}
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    {F : H → H} {s : Set H} {K : NNReal}
     (hs : Bornology.IsBounded s) (hK : LipschitzOnWith K F s) :
     Bornology.IsBounded (F '' s) := by
   have hLip : LipschitzWith K (s.restrict F) := hK.to_restrict
@@ -131,13 +128,13 @@ private theorem bounded_image_of_lipschitzOn_bounded
     exact ⟨x.1, x.2, rfl⟩
 
 private theorem aabr_energy_bddBelow
-    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    (phi : H -> Real) (gradPhi : H -> H) (beta a b lam : Real)
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    (phi : H → ℝ) (gradPhi : H → H) (beta a b lam : ℝ)
     {x0 y0 : H} (sys : NonnegativeDissipativeSystem H gradPhi beta a b x0 y0)
-    (hphi_bddBelow : exists m : Real, forall x : H, m <= phi x)
+    (hphi_bddBelow : ∃ m : ℝ, ∀ x : H, m <= phi x)
     (hbeta : 0 < beta)
     (hlam_low : beta * (Real.sqrt (a + b) - Real.sqrt b) ^ 2 <= lam) :
-    exists m : Real, forall t : Real, 0 <= t ->
+    ∃ m : ℝ, ∀ t : ℝ, 0 <= t →
       m <= LyapunovEnergy phi lam a b (sys.x t, sys.y t) := by
   have hlam_nonneg : 0 <= lam := by
     have hsq : 0 <= (Real.sqrt (a + b) - Real.sqrt b) ^ 2 := sq_nonneg _
@@ -150,19 +147,19 @@ private theorem aabr_energy_bddBelow
   unfold LyapunovEnergy
   have hphi_le : lam * mphi <= lam * phi (sys.x t) :=
     mul_le_mul_of_nonneg_left (hmphi (sys.x t)) hlam_nonneg
-  have hnorm : 0 <= (1 / 2 : Real) * norm (a • sys.x t + b • sys.y t) ^ 2 :=
+  have hnorm : 0 <= (1 / 2 : ℝ) * norm (a • sys.x t + b • sys.y t) ^ 2 :=
     mul_nonneg (by norm_num) (sq_nonneg _)
   nlinarith
 
 private theorem aabr_grad_bounded
-    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    {gradPhi : H -> H} {beta a b : Real} {x0 y0 : H}
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    {gradPhi : H → H} {beta a b : ℝ} {x0 y0 : H}
     (sys : NonnegativeDissipativeSystem H gradPhi beta a b x0 y0)
     (hgrad_lip : LipschitzOnBoundedSets gradPhi)
     (hxbdd : BoundedOnNonnegative sys.x) :
-    BoundedOnNonnegative (fun t : Real => gradPhi (sys.x t)) := by
-  rcases hgrad_lip (sys.x '' Set.Ici (0 : Real)) hxbdd with ⟨K, hK⟩
-  have himg : Bornology.IsBounded (gradPhi '' (sys.x '' Set.Ici (0 : Real))) :=
+    BoundedOnNonnegative (fun t : ℝ => gradPhi (sys.x t)) := by
+  rcases hgrad_lip (sys.x '' Set.Ici (0 : ℝ)) hxbdd with ⟨K, hK⟩
+  have himg : Bornology.IsBounded (gradPhi '' (sys.x '' Set.Ici (0 : ℝ))) :=
     bounded_image_of_lipschitzOn_bounded hxbdd hK
   unfold BoundedOnNonnegative
   convert himg using 1
@@ -174,9 +171,9 @@ private theorem aabr_grad_bounded
     exact ⟨t, ht, rfl⟩
 
 private theorem BoundedOnNonnegative.congr
-    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    {f g : Real -> H}
-    (hf : BoundedOnNonnegative f) (hfg : forall t : Real, 0 <= t -> g t = f t) :
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    {f g : ℝ → H}
+    (hf : BoundedOnNonnegative f) (hfg : ∀ t : ℝ, 0 <= t → g t = f t) :
     BoundedOnNonnegative g := by
   unfold BoundedOnNonnegative at *
   refine hf.subset ?_
@@ -185,12 +182,12 @@ private theorem BoundedOnNonnegative.congr
   exact ⟨t, ht, (hfg t ht).symm⟩
 
 private theorem BoundedOnNonnegative.const_smul
-    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    (c : Real) {f : Real -> H} (hf : BoundedOnNonnegative f) :
-    BoundedOnNonnegative (fun t : Real => c • f t) := by
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    (c : ℝ) {f : ℝ → H} (hf : BoundedOnNonnegative f) :
+    BoundedOnNonnegative (fun t : ℝ => c • f t) := by
   unfold BoundedOnNonnegative at *
-  let L : H →L[Real] H := c • ContinuousLinearMap.id Real H
-  have hsmul : Bornology.IsBounded (L '' (f '' Set.Ici (0 : Real))) :=
+  let L : H →L[ℝ] H := c • ContinuousLinearMap.id ℝ H
+  have hsmul : Bornology.IsBounded (L '' (f '' Set.Ici (0 : ℝ))) :=
     Bornology.IsBounded.image L hf
   refine hsmul.subset ?_
   intro z hz
@@ -198,18 +195,18 @@ private theorem BoundedOnNonnegative.const_smul
   exact ⟨f t, ⟨t, ht, rfl⟩, rfl⟩
 
 private theorem BoundedOnNonnegative.add
-    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    {f g : Real -> H}
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    {f g : ℝ → H}
     (hf : BoundedOnNonnegative f) (hg : BoundedOnNonnegative g) :
-    BoundedOnNonnegative (fun t : Real => f t + g t) := by
+    BoundedOnNonnegative (fun t : ℝ => f t + g t) := by
   unfold BoundedOnNonnegative at *
-  let L : H × H →L[Real] H :=
-    ContinuousLinearMap.fst Real H H + ContinuousLinearMap.snd Real H H
+  let L : H × H →L[ℝ] H :=
+    ContinuousLinearMap.fst ℝ H H + ContinuousLinearMap.snd ℝ H H
   have hprod :
-      Bornology.IsBounded ((f '' Set.Ici (0 : Real)) ×ˢ (g '' Set.Ici (0 : Real))) :=
+      Bornology.IsBounded ((f '' Set.Ici (0 : ℝ)) ×ˢ (g '' Set.Ici (0 : ℝ))) :=
     hf.prod hg
   have hadd :
-      Bornology.IsBounded (L '' ((f '' Set.Ici (0 : Real)) ×ˢ (g '' Set.Ici (0 : Real)))) :=
+      Bornology.IsBounded (L '' ((f '' Set.Ici (0 : ℝ)) ×ˢ (g '' Set.Ici (0 : ℝ)))) :=
     Bornology.IsBounded.image L hprod
   refine hadd.subset ?_
   intro z hz
@@ -217,19 +214,19 @@ private theorem BoundedOnNonnegative.add
   exact ⟨(f t, g t), ⟨⟨t, ht, rfl⟩, ⟨t, ht, rfl⟩⟩, rfl⟩
 
 private theorem BoundedOnNonnegative.sub
-    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    {f g : Real -> H}
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    {f g : ℝ → H}
     (hf : BoundedOnNonnegative f) (hg : BoundedOnNonnegative g) :
-    BoundedOnNonnegative (fun t : Real => f t - g t) := by
+    BoundedOnNonnegative (fun t : ℝ => f t - g t) := by
   simpa [sub_eq_add_neg] using
-    BoundedOnNonnegative.add hf (BoundedOnNonnegative.const_smul (-1 : Real) hg)
+    BoundedOnNonnegative.add hf (BoundedOnNonnegative.const_smul (-1 : ℝ) hg)
 
 private theorem antitoneOn_Ici_bddBelow_tendsto_atTop
-    {f : Real -> Real}
-    (hanti : AntitoneOn f (Set.Ici (0 : Real)))
-    (hlower : exists m : Real, forall t : Real, 0 <= t -> m <= f t) :
-    exists l : Real, Tendsto f atTop (nhds l) := by
-  let g : Real -> Real := fun t => f (max t 0)
+    {f : ℝ → ℝ}
+    (hanti : AntitoneOn f (Set.Ici (0 : ℝ)))
+    (hlower : ∃ m : ℝ, ∀ t : ℝ, 0 <= t → m <= f t) :
+    ∃ l : ℝ, Tendsto f atTop (nhds l) := by
+  let g : ℝ → ℝ := fun t => f (max t 0)
   have hganti : Antitone g := by
     intro x y hxy
     dsimp [g]
@@ -243,18 +240,18 @@ private theorem antitoneOn_Ici_bddBelow_tendsto_atTop
   have hlim : Tendsto g atTop (nhds (⨅ t, g t)) :=
     tendsto_atTop_ciInf hganti hbdd
   refine hlim.congr' ?_
-  filter_upwards [eventually_ge_atTop (0 : Real)] with t ht
+  filter_upwards [eventually_ge_atTop (0 : ℝ)] with t ht
   dsimp [g]
   rw [max_eq_left ht]
 
 /-- The quadratic form occurring in the derivative of an admissible Lyapunov energy
-is nonpositive on a real Hilbert space. -/
+is nonpositive on a ℝ Hilbert space. -/
 lemma aabr_admissible_energy_deriv_nonpos
-    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    (beta a b lam : Real) (hbeta : 0 < beta) (hb : 0 < b) (hab : 0 < a + b)
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    (beta a b lam : ℝ) (hbeta : 0 < beta) (hb : 0 < b) (hab : 0 < a + b)
     (hlow : beta * (Real.sqrt (a + b) - Real.sqrt b) ^ 2 <= lam)
     (hhigh : lam <= beta * (Real.sqrt (a + b) + Real.sqrt b) ^ 2) (u q : H) :
-    -lam * beta * ‖u‖ ^ 2 - (lam + a * beta) * inner Real u q -
+    -lam * beta * ‖u‖ ^ 2 - (lam + a * beta) * inner ℝ u q -
         (a + b) * ‖q‖ ^ 2 <= 0 := by
   have hs_sq : Real.sqrt (a + b) ^ 2 = a + b := Real.sq_sqrt (le_of_lt hab)
   have ht_sq : Real.sqrt b ^ 2 = b := Real.sq_sqrt (le_of_lt hb)
@@ -297,16 +294,16 @@ lemma aabr_admissible_energy_deriv_nonpos
       have hsquare : 0 <=
           (2 * (lam * beta) * ‖u‖ - |lam + a * beta| * ‖q‖) ^ 2 := sq_nonneg _
       nlinarith
-  have hinner : |inner Real u q| <= ‖u‖ * ‖q‖ := abs_real_inner_le_norm u q
-  have hcross : -(lam + a * beta) * inner Real u q <=
+  have hinner : |inner ℝ u q| <= ‖u‖ * ‖q‖ := abs_real_inner_le_norm u q
+  have hcross : -(lam + a * beta) * inner ℝ u q <=
       |lam + a * beta| * ‖u‖ * ‖q‖ := by
     calc
-      -(lam + a * beta) * inner Real u q <=
-          |lam + a * beta| * |inner Real u q| := by
+      -(lam + a * beta) * inner ℝ u q <=
+          |lam + a * beta| * |inner ℝ u q| := by
             calc
-              -(lam + a * beta) * inner Real u q <=
-                  |-(lam + a * beta) * inner Real u q| := le_abs_self _
-              _ = |lam + a * beta| * |inner Real u q| := by
+              -(lam + a * beta) * inner ℝ u q <=
+                  |-(lam + a * beta) * inner ℝ u q| := le_abs_self _
+              _ = |lam + a * beta| * |inner ℝ u q| := by
                 rw [abs_mul, abs_neg]
       _ <= |lam + a * beta| * (‖u‖ * ‖q‖) :=
         mul_le_mul_of_nonneg_left hinner (abs_nonneg _)
@@ -314,27 +311,27 @@ lemma aabr_admissible_energy_deriv_nonpos
   nlinarith
 
 /-- The autonomous phase-space vector field for the dissipative system. -/
-def aabr_phaseField {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    (gradPhi : H -> H) (beta a b : Real) : H × H -> H × H :=
+def aabr_phaseField {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    (gradPhi : H → H) (beta a b : ℝ) : H × H → H × H :=
   fun z => (-beta • gradPhi z.1 - a • z.1 - b • z.2, -a • z.1 - b • z.2)
 
 /-- The phase field is locally Lipschitz when the gradient is Lipschitz on bounded sets. -/
 private theorem aabr_phaseField_locallyLipschitz
-    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    (gradPhi : H -> H) (beta a b : Real)
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    (gradPhi : H → H) (beta a b : ℝ)
     (hgrad_lip : LipschitzOnBoundedSets gradPhi) :
     LocallyLipschitz (aabr_phaseField gradPhi beta a b) := by
   have hgrad_local : LocallyLipschitz gradPhi := by
     intro x
     rcases hgrad_lip (Metric.closedBall x 1) Metric.isBounded_closedBall with ⟨K, hK⟩
     exact ⟨K, Metric.closedBall x 1, Metric.closedBall_mem_nhds x zero_lt_one, hK⟩
-  have hfst : LocallyLipschitz (Prod.fst : H × H -> H) :=
+  have hfst : LocallyLipschitz (Prod.fst : H × H → H) :=
     LipschitzWith.prod_fst.locallyLipschitz
-  have hsnd : LocallyLipschitz (Prod.snd : H × H -> H) :=
+  have hsnd : LocallyLipschitz (Prod.snd : H × H → H) :=
     LipschitzWith.prod_snd.locallyLipschitz
-  let Lbeta : H →L[Real] H := beta • ContinuousLinearMap.id Real H
-  let La : H →L[Real] H := a • ContinuousLinearMap.id Real H
-  let Lb : H →L[Real] H := b • ContinuousLinearMap.id Real H
+  let Lbeta : H →L[ℝ] H := beta • ContinuousLinearMap.id ℝ H
+  let La : H →L[ℝ] H := a • ContinuousLinearMap.id ℝ H
+  let Lb : H →L[ℝ] H := b • ContinuousLinearMap.id ℝ H
   have hbeta_grad : LocallyLipschitz (fun z : H × H => beta • gradPhi z.1) := by
     simpa [Lbeta, Function.comp_def] using
       Lbeta.lipschitz.locallyLipschitz.comp (hgrad_local.comp hfst)
@@ -365,15 +362,15 @@ private theorem aabr_phaseField_locallyLipschitz
 
 /-- The strict dissipation identity at the midpoint admissible Lyapunov parameter. -/
 lemma aabr_midpoint_dissipation
-    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    (beta a b : Real) (u q : H) :
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    (beta a b : ℝ) (u q : H) :
     -(- (beta * (a + 2 * b)) * beta * ‖u‖ ^ 2 -
-        ((beta * (a + 2 * b)) + a * beta) * inner Real u q -
+        ((beta * (a + 2 * b)) + a * beta) * inner ℝ u q -
         (a + b) * ‖q‖ ^ 2) =
       beta ^ 2 * b * ‖u‖ ^ 2 + (a + b) * ‖beta • u + q‖ ^ 2 := by
-  rw [show ‖u‖ ^ 2 = inner Real u u by rw [real_inner_self_eq_norm_sq],
-    show ‖q‖ ^ 2 = inner Real q q by rw [real_inner_self_eq_norm_sq],
-    show ‖beta • u + q‖ ^ 2 = inner Real (beta • u + q) (beta • u + q) by
+  rw [show ‖u‖ ^ 2 = inner ℝ u u by rw [real_inner_self_eq_norm_sq],
+    show ‖q‖ ^ 2 = inner ℝ q q by rw [real_inner_self_eq_norm_sq],
+    show ‖beta • u + q‖ ^ 2 = inner ℝ (beta • u + q) (beta • u + q) by
       rw [real_inner_self_eq_norm_sq]]
   simp only [inner_add_left, inner_add_right, real_inner_smul_left,
     real_inner_smul_right]
@@ -382,25 +379,25 @@ lemma aabr_midpoint_dissipation
 
 /-- Derivative of the Lyapunov energy along a genuine `(g-DIN)` trajectory. -/
 lemma aabr_energy_hasDerivAt
-    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    (phi : H -> Real) (gradPhi : H -> H) (beta a b lam : Real)
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    (phi : H → ℝ) (gradPhi : H → H) (beta a b lam : ℝ)
     {x0 y0 : H} (sys : NonnegativeDissipativeSystem H gradPhi beta a b x0 y0)
     (hgrad_phi : IsFrechetGradientOf phi gradPhi)
-    (hsol : IsSolutionOnNonnegative sys) {t : Real} (ht : 0 < t) :
-    HasDerivAt (fun s : Real => LyapunovEnergy phi lam a b (sys.x s, sys.y s))
+    (hsol : IsSolutionOnNonnegative sys) {t : ℝ} (ht : 0 < t) :
+    HasDerivAt (fun s : ℝ => LyapunovEnergy phi lam a b (sys.x s, sys.y s))
       (-lam * beta * ‖gradPhi (sys.x t)‖ ^ 2 -
-        (lam + a * beta) * inner Real (gradPhi (sys.x t))
+        (lam + a * beta) * inner ℝ (gradPhi (sys.x t))
           (a • sys.x t + b • sys.y t) -
         (a + b) * ‖a • sys.x t + b • sys.y t‖ ^ 2) t := by
   have hx : HasDerivAt sys.x (sys.xdot t) t := hsol.1.1 t ht
   have hy : HasDerivAt sys.y (sys.ydot t) t := hsol.1.2 t ht
-  have hphi : HasDerivAt (fun s : Real => phi (sys.x s))
-      (inner Real (gradPhi (sys.x t)) (sys.xdot t)) t := by
+  have hphi : HasDerivAt (fun s : ℝ => phi (sys.x s))
+      (inner ℝ (gradPhi (sys.x t)) (sys.xdot t)) t := by
     convert (hgrad_phi (sys.x t)).comp_hasDerivAt t hx using 1
-  have hq : HasDerivAt (fun s : Real => a • sys.x s + b • sys.y s)
+  have hq : HasDerivAt (fun s : ℝ => a • sys.x s + b • sys.y s)
       (a • sys.xdot t + b • sys.ydot t) t := by
     exact (hx.const_smul a).add (hy.const_smul b)
-  have hnorm := hq.norm_sq.const_smul (1 / 2 : Real)
+  have hnorm := hq.norm_sq.const_smul (1 / 2 : ℝ)
   have hE := (hphi.const_smul lam).add hnorm
   convert hE using 1
   have hxeq := sys.equation_x t (le_of_lt ht)
@@ -416,10 +413,10 @@ lemma aabr_energy_hasDerivAt
     simpa [add_assoc] using hyeq
   rw [hxval, hyval]
   rw [show ‖gradPhi (sys.x t)‖ ^ 2 =
-      inner Real (gradPhi (sys.x t)) (gradPhi (sys.x t)) by
+      inner ℝ (gradPhi (sys.x t)) (gradPhi (sys.x t)) by
     rw [real_inner_self_eq_norm_sq],
     show ‖a • sys.x t + b • sys.y t‖ ^ 2 =
-      inner Real (a • sys.x t + b • sys.y t) (a • sys.x t + b • sys.y t) by
+      inner ℝ (a • sys.x t + b • sys.y t) (a • sys.x t + b • sys.y t) by
     rw [real_inner_self_eq_norm_sq]]
   simp only [one_div, invOf_eq_inv, smul_add, inner_add_left, inner_add_right,
     inner_sub_left, inner_sub_right, real_inner_smul_left, real_inner_smul_right]
@@ -429,21 +426,21 @@ lemma aabr_energy_hasDerivAt
   ring
 
 private theorem aabr_global_solution
-    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H] [CompleteSpace H]
-    (phi : H -> Real) (gradPhi : H -> H) (beta a b : Real)
-    (hphi_c1 : ContDiff Real 1 phi)
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
+    (phi : H → ℝ) (gradPhi : H → H) (beta a b : ℝ)
+    (hphi_c1 : ContDiff ℝ 1 phi)
     (hgrad_phi : IsFrechetGradientOf phi gradPhi)
-    (hphi_bddBelow : exists m : Real, forall x : H, m <= phi x)
+    (hphi_bddBelow : ∃ m : ℝ, ∀ x : H, m <= phi x)
     (hgrad_lip : LipschitzOnBoundedSets gradPhi)
     (hbeta : 0 < beta) (hb : 0 < b) (hab : 0 < a + b)
     (x0 y0 : H) :
-    ExistsUniqueSolutionOnNonnegative gradPhi beta a b x0 y0 := by
+    existsUniqueSolutionOnNonnegative gradPhi beta a b x0 y0 := by
   -- EXTERNAL-REPAIR NOTE: needs a formal maximal-solution continuation theorem for the local ODE API.
   sorry
 
 private theorem aabr_energy_antitone
-    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H] [CompleteSpace H]
-    (phi : H -> Real) (gradPhi : H -> H) (beta a b lam : Real)
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
+    (phi : H → ℝ) (gradPhi : H → H) (beta a b lam : ℝ)
     (hgrad_phi : IsFrechetGradientOf phi gradPhi)
     (hbeta : 0 < beta) (hb : 0 < b) (hab : 0 < a + b)
     {x0 y0 : H} (sys : NonnegativeDissipativeSystem H gradPhi beta a b x0 y0)
@@ -451,20 +448,20 @@ private theorem aabr_energy_antitone
     (hlam_low : beta * (Real.sqrt (a + b) - Real.sqrt b) ^ 2 <= lam)
     (hlam_high : lam <= beta * (Real.sqrt (a + b) + Real.sqrt b) ^ 2) :
     AntitoneOn
-      (fun t : Real => LyapunovEnergy phi lam a b (sys.x t, sys.y t))
-      (Set.Ici (0 : Real)) := by
+      (fun t : ℝ => LyapunovEnergy phi lam a b (sys.x t, sys.y t))
+      (Set.Ici (0 : ℝ)) := by
   have hcont : IsContinuousOnNonnegative sys := hsol.2.2
   have hphi_cont : Continuous phi := continuous_iff_continuousAt.2 fun x =>
     (hgrad_phi x).continuousAt
-  apply antitoneOn_of_hasDerivWithinAt_nonpos (convex_Ici (0 : Real))
-  · have hphix : ContinuousOn (fun t : Real => phi (sys.x t)) (Set.Ici 0) :=
+  apply antitoneOn_of_hasDerivWithinAt_nonpos (convex_Ici (0 : ℝ))
+  · have hphix : ContinuousOn (fun t : ℝ => phi (sys.x t)) (Set.Ici 0) :=
       hphi_cont.comp_continuousOn hcont.1
-    have hq : ContinuousOn (fun t : Real => a • sys.x t + b • sys.y t) (Set.Ici 0) :=
+    have hq : ContinuousOn (fun t : ℝ => a • sys.x t + b • sys.y t) (Set.Ici 0) :=
       (hcont.1.const_smul a).add (hcont.2.const_smul b)
     have hnorm : ContinuousOn
-        (fun t : Real => ‖a • sys.x t + b • sys.y t‖ ^ 2) (Set.Ici 0) :=
+        (fun t : ℝ => ‖a • sys.x t + b • sys.y t‖ ^ 2) (Set.Ici 0) :=
       hq.norm.pow 2
-    exact (hphix.const_mul lam).add (hnorm.const_mul (1 / 2 : Real))
+    exact (hphix.const_mul lam).add (hnorm.const_mul (1 / 2 : ℝ))
   · intro t ht
     have ht_pos : 0 < t := by simpa only [interior_Ici] using ht
     exact (aabr_energy_hasDerivAt phi gradPhi beta a b lam sys hgrad_phi hsol ht_pos).hasDerivWithinAt
@@ -473,18 +470,18 @@ private theorem aabr_energy_antitone
       hlam_low hlam_high (gradPhi (sys.x t)) (a • sys.x t + b • sys.y t)
 
 private theorem aabr_l2_estimates
-    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H] [CompleteSpace H]
-    (phi : H -> Real) (gradPhi : H -> H) (beta a b : Real)
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
+    (phi : H → ℝ) (gradPhi : H → H) (beta a b : ℝ)
     (hgrad_phi : IsFrechetGradientOf phi gradPhi)
-    (hphi_bddBelow : exists m : Real, forall x : H, m <= phi x)
+    (hphi_bddBelow : ∃ m : ℝ, ∀ x : H, m <= phi x)
     (hbeta : 0 < beta) (hb : 0 < b) (hab : 0 < a + b)
     {x0 y0 : H} (sys : NonnegativeDissipativeSystem H gradPhi beta a b x0 y0)
     (hsol : IsSolutionOnNonnegative sys) :
-      MemL2OnNonnegative sys.xdot /\
+      MemL2OnNonnegative sys.xdot ∧
       MemL2OnNonnegative sys.ydot := by
-  let lamMid : Real := beta * (a + 2 * b)
+  let lamMid : ℝ := beta * (a + 2 * b)
   have _hlowerMid :
-      exists m : Real, forall t : Real, 0 <= t ->
+      ∃ m : ℝ, ∀ t : ℝ, 0 <= t →
         m <= LyapunovEnergy phi lamMid a b (sys.x t, sys.y t) := by
     -- The interior midpoint is admissible by the strict endpoint calculation in
     -- the plan; after that the existing lower-bound lemma applies.
@@ -501,19 +498,19 @@ private theorem aabr_l2_estimates
   sorry
 
 private theorem aabr_phi_convergence
-    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H]
-    (phi : H -> Real) (gradPhi : H -> H) (beta a b : Real)
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    (phi : H → ℝ) (gradPhi : H → H) (beta a b : ℝ)
     (hbeta : 0 < beta) (hb : 0 < b) (hab : 0 < a + b)
     {x0 y0 : H} (sys : NonnegativeDissipativeSystem H gradPhi beta a b x0 y0)
-    (hEconv : forall lam : Real,
-      beta * (Real.sqrt (a + b) - Real.sqrt b) ^ 2 <= lam ->
-      lam <= beta * (Real.sqrt (a + b) + Real.sqrt b) ^ 2 ->
-      exists l : Real,
-        Tendsto (fun t : Real => LyapunovEnergy phi lam a b (sys.x t, sys.y t))
+    (hEconv : ∀ lam : ℝ,
+      beta * (Real.sqrt (a + b) - Real.sqrt b) ^ 2 <= lam →
+      lam <= beta * (Real.sqrt (a + b) + Real.sqrt b) ^ 2 →
+      ∃ l : ℝ,
+        Tendsto (fun t : ℝ => LyapunovEnergy phi lam a b (sys.x t, sys.y t))
           atTop (nhds l)) :
-    exists l : Real, Tendsto (fun t : Real => phi (sys.x t)) atTop (nhds l) := by
-  let lamLow : Real := beta * (Real.sqrt (a + b) - Real.sqrt b) ^ 2
-  let lamHigh : Real := beta * (Real.sqrt (a + b) + Real.sqrt b) ^ 2
+    ∃ l : ℝ, Tendsto (fun t : ℝ => phi (sys.x t)) atTop (nhds l) := by
+  let lamLow : ℝ := beta * (Real.sqrt (a + b) - Real.sqrt b) ^ 2
+  let lamHigh : ℝ := beta * (Real.sqrt (a + b) + Real.sqrt b) ^ 2
   have hendpoint_le : lamLow <= lamHigh := by
     dsimp [lamLow, lamHigh]
     have hs : 0 <= Real.sqrt (a + b) := Real.sqrt_nonneg _
@@ -557,81 +554,81 @@ private theorem aabr_phi_convergence
   simp [hs_ne, ht_ne]
 
 private theorem aabr_bounded_xdot_tendsto_zero
-    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H] [CompleteSpace H]
-    (phi : H -> Real) (gradPhi : H -> H) (beta a b : Real)
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
+    (phi : H → ℝ) (gradPhi : H → H) (beta a b : ℝ)
     (hgrad_lip : LipschitzOnBoundedSets gradPhi)
     {x0 y0 : H} (sys : NonnegativeDissipativeSystem H gradPhi beta a b x0 y0)
     (hsol : IsSolutionOnNonnegative sys)
     (hxbdd : BoundedOnNonnegative sys.x)
-    (hgrad_bdd : BoundedOnNonnegative (fun t : Real => gradPhi (sys.x t)))
+    (hgrad_bdd : BoundedOnNonnegative (fun t : ℝ => gradPhi (sys.x t)))
     (hy_bdd : BoundedOnNonnegative sys.y)
     (hxdot_bdd : BoundedOnNonnegative sys.xdot)
     (hxdot_l2 : MemL2OnNonnegative sys.xdot) :
     Tendsto sys.xdot atTop (nhds 0) := by
-  rcases hgrad_lip (sys.x '' Set.Ici (0 : Real)) hxbdd with ⟨K, hK⟩
+  rcases hgrad_lip (sys.x '' Set.Ici (0 : ℝ)) hxbdd with ⟨K, hK⟩
   have _hgrad_lip_on_range := hK
-  have _hx_deriv : forall t : Real, 0 < t -> HasDerivAt sys.x (sys.xdot t) t :=
+  have _hx_deriv : ∀ t : ℝ, 0 < t → HasDerivAt sys.x (sys.xdot t) t :=
     fun t ht => hsol.1.1 t ht
   sorry
 
 private theorem aabr_lyapunov_and_limits
-    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H] [CompleteSpace H]
-    (phi : H -> Real) (gradPhi : H -> H) (beta a b : Real)
-    (hphi_c1 : ContDiff Real 1 phi)
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
+    (phi : H → ℝ) (gradPhi : H → H) (beta a b : ℝ)
+    (hphi_c1 : ContDiff ℝ 1 phi)
     (hgrad_phi : IsFrechetGradientOf phi gradPhi)
-    (hphi_bddBelow : exists m : Real, forall x : H, m <= phi x)
+    (hphi_bddBelow : ∃ m : ℝ, ∀ x : H, m <= phi x)
     (hgrad_lip : LipschitzOnBoundedSets gradPhi)
     (hbeta : 0 < beta) (hb : 0 < b) (hab : 0 < a + b)
     {x0 y0 : H} (sys : NonnegativeDissipativeSystem H gradPhi beta a b x0 y0)
-    (hsol : IsSolutionOnNonnegative sys) (lam : Real)
+    (hsol : IsSolutionOnNonnegative sys) (lam : ℝ)
     (hlam_low : beta * (Real.sqrt (a + b) - Real.sqrt b) ^ 2 <= lam)
     (hlam_high : lam <= beta * (Real.sqrt (a + b) + Real.sqrt b) ^ 2) :
       AntitoneOn
-        (fun t : Real => LyapunovEnergy phi lam a b (sys.x t, sys.y t))
-        (Set.Ici (0 : Real)) /\
-      (exists m : Real, forall t : Real, 0 <= t ->
-        m <= LyapunovEnergy phi lam a b (sys.x t, sys.y t)) /\
-      (exists l : Real,
+        (fun t : ℝ => LyapunovEnergy phi lam a b (sys.x t, sys.y t))
+        (Set.Ici (0 : ℝ)) ∧
+      (∃ m : ℝ, ∀ t : ℝ, 0 <= t →
+        m <= LyapunovEnergy phi lam a b (sys.x t, sys.y t)) ∧
+      (∃ l : ℝ,
         Tendsto
-          (fun t : Real => LyapunovEnergy phi lam a b (sys.x t, sys.y t))
-          atTop (nhds l)) /\
-      MemL2OnNonnegative sys.xdot /\
-      (exists l : Real, Tendsto (fun t : Real => phi (sys.x t)) atTop (nhds l)) /\
-      MemL2OnNonnegative sys.ydot /\
+          (fun t : ℝ => LyapunovEnergy phi lam a b (sys.x t, sys.y t))
+          atTop (nhds l)) ∧
+      MemL2OnNonnegative sys.xdot ∧
+      (∃ l : ℝ, Tendsto (fun t : ℝ => phi (sys.x t)) atTop (nhds l)) ∧
+      MemL2OnNonnegative sys.ydot ∧
       Tendsto sys.ydot atTop (nhds 0) := by
   have hantitone :
       AntitoneOn
-        (fun t : Real => LyapunovEnergy phi lam a b (sys.x t, sys.y t))
-        (Set.Ici (0 : Real)) := by
+        (fun t : ℝ => LyapunovEnergy phi lam a b (sys.x t, sys.y t))
+        (Set.Ici (0 : ℝ)) := by
     exact aabr_energy_antitone phi gradPhi beta a b lam hgrad_phi hbeta hb hab sys hsol
       hlam_low hlam_high
   have hlower :
-      exists m : Real, forall t : Real, 0 <= t ->
+      ∃ m : ℝ, ∀ t : ℝ, 0 <= t →
         m <= LyapunovEnergy phi lam a b (sys.x t, sys.y t) :=
     aabr_energy_bddBelow phi gradPhi beta a b lam sys hphi_bddBelow hbeta hlam_low
   have henergy_conv :
-      exists l : Real,
+      ∃ l : ℝ,
         Tendsto
-          (fun t : Real => LyapunovEnergy phi lam a b (sys.x t, sys.y t))
+          (fun t : ℝ => LyapunovEnergy phi lam a b (sys.x t, sys.y t))
           atTop (nhds l) := by
     exact antitoneOn_Ici_bddBelow_tendsto_atTop hantitone hlower
   have hl2_estimates :
-      MemL2OnNonnegative sys.xdot /\
+      MemL2OnNonnegative sys.xdot ∧
       MemL2OnNonnegative sys.ydot :=
     aabr_l2_estimates phi gradPhi beta a b hgrad_phi hphi_bddBelow hbeta hb hab sys hsol
   have hxdot_l2 : MemL2OnNonnegative sys.xdot := hl2_estimates.1
   have hphi_conv :
-      exists l : Real, Tendsto (fun t : Real => phi (sys.x t)) atTop (nhds l) := by
+      ∃ l : ℝ, Tendsto (fun t : ℝ => phi (sys.x t)) atTop (nhds l) := by
     refine aabr_phi_convergence phi gradPhi beta a b hbeta hb hab sys ?_
     intro mu hmu_low hmu_high
     have hanti_mu :
         AntitoneOn
-          (fun t : Real => LyapunovEnergy phi mu a b (sys.x t, sys.y t))
-          (Set.Ici (0 : Real)) :=
+          (fun t : ℝ => LyapunovEnergy phi mu a b (sys.x t, sys.y t))
+          (Set.Ici (0 : ℝ)) :=
       aabr_energy_antitone phi gradPhi beta a b mu hgrad_phi hbeta hb hab sys hsol
         hmu_low hmu_high
     have hlower_mu :
-        exists m : Real, forall t : Real, 0 <= t ->
+        ∃ m : ℝ, ∀ t : ℝ, 0 <= t →
           m <= LyapunovEnergy phi mu a b (sys.x t, sys.y t) :=
       aabr_energy_bddBelow phi gradPhi beta a b mu sys hphi_bddBelow hbeta hmu_low
     exact antitoneOn_Ici_bddBelow_tendsto_atTop hanti_mu hlower_mu
@@ -642,21 +639,21 @@ private theorem aabr_lyapunov_and_limits
     hydot_l2, hydot_lim⟩
 
 private theorem aabr_bounded_case
-    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H] [CompleteSpace H]
-    (phi : H -> Real) (gradPhi : H -> H) (beta a b : Real)
-    (hphi_c1 : ContDiff Real 1 phi)
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
+    (phi : H → ℝ) (gradPhi : H → H) (beta a b : ℝ)
+    (hphi_c1 : ContDiff ℝ 1 phi)
     (hgrad_phi : IsFrechetGradientOf phi gradPhi)
-    (hphi_bddBelow : exists m : Real, forall x : H, m <= phi x)
+    (hphi_bddBelow : ∃ m : ℝ, ∀ x : H, m <= phi x)
     (hgrad_lip : LipschitzOnBoundedSets gradPhi)
     (hbeta : 0 < beta) (hb : 0 < b) (hab : 0 < a + b)
     {x0 y0 : H} (sys : NonnegativeDissipativeSystem H gradPhi beta a b x0 y0)
     (hsol : IsSolutionOnNonnegative sys)
     (hxbdd : BoundedOnNonnegative sys.x) :
-      BoundedOnNonnegative (fun t : Real => gradPhi (sys.x t)) /\
-      BoundedOnNonnegative sys.xdot /\
-      Tendsto sys.xdot atTop (nhds 0) /\
-      Tendsto (fun t : Real => gradPhi (sys.x t)) atTop (nhds 0) := by
-  have hgrad_bdd : BoundedOnNonnegative (fun t : Real => gradPhi (sys.x t)) :=
+      BoundedOnNonnegative (fun t : ℝ => gradPhi (sys.x t)) ∧
+      BoundedOnNonnegative sys.xdot ∧
+      Tendsto sys.xdot atTop (nhds 0) ∧
+      Tendsto (fun t : ℝ => gradPhi (sys.x t)) atTop (nhds 0) := by
+  have hgrad_bdd : BoundedOnNonnegative (fun t : ℝ => gradPhi (sys.x t)) :=
     aabr_grad_bounded sys hgrad_lip hxbdd
   have hendpoint_le :
       beta * (Real.sqrt (a + b) - Real.sqrt b) ^ 2 <=
@@ -668,7 +665,7 @@ private theorem aabr_bounded_case
           (Real.sqrt (a + b) + Real.sqrt b) ^ 2 := by
       nlinarith [mul_nonneg hs ht]
     exact mul_le_mul_of_nonneg_left hbase (le_of_lt hbeta)
-  let lamTop : Real := beta * (Real.sqrt (a + b) + Real.sqrt b) ^ 2
+  let lamTop : ℝ := beta * (Real.sqrt (a + b) + Real.sqrt b) ^ 2
   have hlyap :=
     aabr_lyapunov_and_limits phi gradPhi beta a b hphi_c1 hgrad_phi hphi_bddBelow
       hgrad_lip hbeta hb hab sys hsol lamTop hendpoint_le le_rfl
@@ -677,15 +674,15 @@ private theorem aabr_bounded_case
       have hsq : 0 <= (Real.sqrt (a + b) + Real.sqrt b) ^ 2 := sq_nonneg _
       exact mul_nonneg (le_of_lt hbeta) hsq
     rcases hphi_bddBelow with ⟨mphi, hmphi⟩
-    let E : Real -> Real := fun t =>
+    let E : ℝ → ℝ := fun t =>
       LyapunovEnergy phi lamTop a b (sys.x t, sys.y t)
-    have hE_le_E0 : forall t : Real, 0 <= t -> E t <= E 0 := by
+    have hE_le_E0 : ∀ t : ℝ, 0 <= t → E t <= E 0 := by
       intro t ht
       exact hlyap.1 (by simp) ht ht
     have hv_bdd :
-        BoundedOnNonnegative (fun t : Real => a • sys.x t + b • sys.y t) := by
+        BoundedOnNonnegative (fun t : ℝ => a • sys.x t + b • sys.y t) := by
       refine (isBounded_iff_forall_norm_le).2 ?_
-      let C0 : Real := 2 * (E 0 - lamTop * mphi)
+      let C0 : ℝ := 2 * (E 0 - lamTop * mphi)
       refine ⟨max C0 1, ?_⟩
       rintro z ⟨t, ht, rfl⟩
       have hphi_le : lamTop * mphi <= lamTop * phi (sys.x t) :=
@@ -696,7 +693,7 @@ private theorem aabr_bounded_case
         dsimp [C0, E, LyapunovEnergy]
         nlinarith
       have hC_ge_C0 : C0 <= max C0 1 := le_max_left _ _
-      have hC_ge_one : (1 : Real) <= max C0 1 := le_max_right _ _
+      have hC_ge_one : (1 : ℝ) <= max C0 1 := le_max_right _ _
       have hC_nonneg : 0 <= max C0 1 := by linarith
       have hsq_le_Csq :
           norm (a • sys.x t + b • sys.y t) ^ 2 <= (max C0 1) ^ 2 := by
@@ -704,36 +701,36 @@ private theorem aabr_bounded_case
         exact hsq_le.trans (hC_ge_C0.trans hC_le_Csq)
       have habs := (sq_le_sq.mp hsq_le_Csq)
       simpa [abs_of_nonneg (norm_nonneg _), abs_of_nonneg hC_nonneg] using habs
-    have hax : BoundedOnNonnegative (fun t : Real => a • sys.x t) :=
+    have hax : BoundedOnNonnegative (fun t : ℝ => a • sys.x t) :=
       BoundedOnNonnegative.const_smul a hxbdd
-    have hby : BoundedOnNonnegative (fun t : Real => b • sys.y t) :=
+    have hby : BoundedOnNonnegative (fun t : ℝ => b • sys.y t) :=
       (BoundedOnNonnegative.sub hv_bdd hax).congr (by
         intro t ht
         module)
     have hb_ne : b ≠ 0 := ne_of_gt hb
     have hy_scaled :
-        BoundedOnNonnegative (fun t : Real => (1 / b) • (b • sys.y t)) :=
+        BoundedOnNonnegative (fun t : ℝ => (1 / b) • (b • sys.y t)) :=
       BoundedOnNonnegative.const_smul (1 / b) hby
     exact hy_scaled.congr (by
       intro t ht
       simp [smul_smul, hb_ne])
   have hxdot_bdd : BoundedOnNonnegative sys.xdot := by
     have hbeta_grad :
-        BoundedOnNonnegative (fun t : Real => beta • gradPhi (sys.x t)) :=
+        BoundedOnNonnegative (fun t : ℝ => beta • gradPhi (sys.x t)) :=
       BoundedOnNonnegative.const_smul beta hgrad_bdd
-    have hax : BoundedOnNonnegative (fun t : Real => a • sys.x t) :=
+    have hax : BoundedOnNonnegative (fun t : ℝ => a • sys.x t) :=
       BoundedOnNonnegative.const_smul a hxbdd
-    have hby : BoundedOnNonnegative (fun t : Real => b • sys.y t) :=
+    have hby : BoundedOnNonnegative (fun t : ℝ => b • sys.y t) :=
       BoundedOnNonnegative.const_smul b hy_bdd
     have hsum :
         BoundedOnNonnegative
-          (fun t : Real => (beta • gradPhi (sys.x t) + a • sys.x t) + b • sys.y t) :=
+          (fun t : ℝ => (beta • gradPhi (sys.x t) + a • sys.x t) + b • sys.y t) :=
       (BoundedOnNonnegative.add hbeta_grad hax).add hby
     have hneg :
         BoundedOnNonnegative
-          (fun t : Real =>
-            (-1 : Real) • ((beta • gradPhi (sys.x t) + a • sys.x t) + b • sys.y t)) :=
-      BoundedOnNonnegative.const_smul (-1 : Real) hsum
+          (fun t : ℝ =>
+            (-1 : ℝ) • ((beta • gradPhi (sys.x t) + a • sys.x t) + b • sys.y t)) :=
+      BoundedOnNonnegative.const_smul (-1 : ℝ) hsum
     exact hneg.congr (by
       intro t ht
       have hx := sys.equation_x t ht
@@ -746,16 +743,16 @@ private theorem aabr_bounded_case
   have hxdot_lim : Tendsto sys.xdot atTop (nhds 0) := by
     exact aabr_bounded_xdot_tendsto_zero phi gradPhi beta a b hgrad_lip sys hsol
       hxbdd hgrad_bdd hy_bdd hxdot_bdd hlyap.2.2.2.1
-  have hgrad_lim : Tendsto (fun t : Real => gradPhi (sys.x t)) atTop (nhds 0) := by
+  have hgrad_lim : Tendsto (fun t : ℝ => gradPhi (sys.x t)) atTop (nhds 0) := by
     have hbeta_ne : beta ≠ 0 := ne_of_gt hbeta
     have hbeta_grad :
-        Tendsto (fun t : Real => beta • gradPhi (sys.x t)) atTop (nhds 0) := by
-      have hsum : Tendsto (fun t : Real => sys.xdot t - sys.ydot t) atTop (nhds 0) := by
+        Tendsto (fun t : ℝ => beta • gradPhi (sys.x t)) atTop (nhds 0) := by
+      have hsum : Tendsto (fun t : ℝ => sys.xdot t - sys.ydot t) atTop (nhds 0) := by
         simpa using hxdot_lim.sub hlyap.2.2.2.2.2.2
-      have hneg : Tendsto (fun t : Real => -(sys.xdot t - sys.ydot t)) atTop (nhds 0) := by
+      have hneg : Tendsto (fun t : ℝ => -(sys.xdot t - sys.ydot t)) atTop (nhds 0) := by
         simpa using hsum.neg
       refine hneg.congr' ?_
-      filter_upwards [eventually_ge_atTop (0 : Real)] with t ht
+      filter_upwards [eventually_ge_atTop (0 : ℝ)] with t ht
       have hx := sys.equation_x t ht
       have hy := sys.equation_y t ht
       have hdiff : sys.xdot t - sys.ydot t + beta • gradPhi (sys.x t) = 0 := by
@@ -772,42 +769,42 @@ private theorem aabr_bounded_case
   exact ⟨hgrad_bdd, hxdot_bdd, hxdot_lim, hgrad_lim⟩
 
 private theorem alvarez_attouch_bolte_redont_theorem_1_1_core
-    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H] [CompleteSpace H]
-    (phi : H -> Real) (gradPhi : H -> H) (beta a b : Real)
-    (hphi_c1 : ContDiff Real 1 phi)
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
+    (phi : H → ℝ) (gradPhi : H → H) (beta a b : ℝ)
+    (hphi_c1 : ContDiff ℝ 1 phi)
     (hgrad_phi : IsFrechetGradientOf phi gradPhi)
-    (hphi_bddBelow : exists m : Real, forall x : H, m <= phi x)
+    (hphi_bddBelow : ∃ m : ℝ, ∀ x : H, m <= phi x)
     (hgrad_lip : LipschitzOnBoundedSets gradPhi)
     (hbeta : 0 < beta) (hb : 0 < b) (hab : 0 < a + b) :
-    (forall x0 y0 : H,
-      ExistsUniqueSolutionOnNonnegative gradPhi beta a b x0 y0) /\
-    (forall (x0 y0 : H)
+    (∀ x0 y0 : H,
+      existsUniqueSolutionOnNonnegative gradPhi beta a b x0 y0) ∧
+    (∀ (x0 y0 : H)
         (sys : NonnegativeDissipativeSystem H gradPhi beta a b x0 y0),
-      IsSolutionOnNonnegative sys ->
-      forall lam : Real,
-        beta * (Real.sqrt (a + b) - Real.sqrt b) ^ 2 <= lam ->
-        lam <= beta * (Real.sqrt (a + b) + Real.sqrt b) ^ 2 ->
+      IsSolutionOnNonnegative sys →
+      ∀ lam : ℝ,
+        beta * (Real.sqrt (a + b) - Real.sqrt b) ^ 2 <= lam →
+        lam <= beta * (Real.sqrt (a + b) + Real.sqrt b) ^ 2 →
           AntitoneOn
-            (fun t : Real => LyapunovEnergy phi lam a b (sys.x t, sys.y t))
-            (Set.Ici (0 : Real)) /\
-          (exists m : Real, forall t : Real, 0 <= t ->
-            m <= LyapunovEnergy phi lam a b (sys.x t, sys.y t)) /\
-          (exists l : Real,
+            (fun t : ℝ => LyapunovEnergy phi lam a b (sys.x t, sys.y t))
+            (Set.Ici (0 : ℝ)) ∧
+          (∃ m : ℝ, ∀ t : ℝ, 0 <= t →
+            m <= LyapunovEnergy phi lam a b (sys.x t, sys.y t)) ∧
+          (∃ l : ℝ,
             Tendsto
-              (fun t : Real => LyapunovEnergy phi lam a b (sys.x t, sys.y t))
-              atTop (nhds l)) /\
-          MemL2OnNonnegative sys.xdot /\
-          (exists l : Real, Tendsto (fun t : Real => phi (sys.x t)) atTop (nhds l)) /\
-           MemL2OnNonnegative sys.ydot /\
-           Tendsto sys.ydot atTop (nhds 0)) /\
-    (forall (x0 y0 : H)
+              (fun t : ℝ => LyapunovEnergy phi lam a b (sys.x t, sys.y t))
+              atTop (nhds l)) ∧
+          MemL2OnNonnegative sys.xdot ∧
+          (∃ l : ℝ, Tendsto (fun t : ℝ => phi (sys.x t)) atTop (nhds l)) ∧
+           MemL2OnNonnegative sys.ydot ∧
+           Tendsto sys.ydot atTop (nhds 0)) ∧
+    (∀ (x0 y0 : H)
         (sys : NonnegativeDissipativeSystem H gradPhi beta a b x0 y0),
-      IsSolutionOnNonnegative sys ->
-      BoundedOnNonnegative sys.x ->
-        BoundedOnNonnegative (fun t : Real => gradPhi (sys.x t)) /\
-        BoundedOnNonnegative sys.xdot /\
-        Tendsto sys.xdot atTop (nhds 0) /\
-        Tendsto (fun t : Real => gradPhi (sys.x t)) atTop (nhds 0)) := by
+      IsSolutionOnNonnegative sys →
+      BoundedOnNonnegative sys.x →
+        BoundedOnNonnegative (fun t : ℝ => gradPhi (sys.x t)) ∧
+        BoundedOnNonnegative sys.xdot ∧
+        Tendsto sys.xdot atTop (nhds 0) ∧
+        Tendsto (fun t : ℝ => gradPhi (sys.x t)) atTop (nhds 0)) := by
   refine ⟨?existence, ?lyapunov, ?bounded_case⟩
   · intro x0 y0
     exact aabr_global_solution phi gradPhi beta a b hphi_c1 hgrad_phi hphi_bddBelow
@@ -828,42 +825,42 @@ conditions are satisfied in the same topology used for the ODE interval, not mer
 as isolated values at `t = 0`.
 -/
 theorem alvarez_attouch_bolte_redont_theorem_1_1
-    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace Real H] [CompleteSpace H]
-    (phi : H -> Real) (gradPhi : H -> H) (beta a b : Real)
-    (hphi_c1 : ContDiff Real 1 phi)
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
+    (phi : H → ℝ) (gradPhi : H → H) (beta a b : ℝ)
+    (hphi_c1 : ContDiff ℝ 1 phi)
     (hgrad_phi : IsFrechetGradientOf phi gradPhi)
-    (hphi_bddBelow : exists m : Real, forall x : H, m <= phi x)
+    (hphi_bddBelow : ∃ m : ℝ, ∀ x : H, m <= phi x)
     (hgrad_lip : LipschitzOnBoundedSets gradPhi)
     (hbeta : 0 < beta) (hb : 0 < b) (hab : 0 < a + b) :
-    (forall x0 y0 : H,
-      ExistsUniqueSolutionOnNonnegative gradPhi beta a b x0 y0) /\
-    (forall (x0 y0 : H)
+    (∀ x0 y0 : H,
+      existsUniqueSolutionOnNonnegative gradPhi beta a b x0 y0) ∧
+    (∀ (x0 y0 : H)
         (sys : NonnegativeDissipativeSystem H gradPhi beta a b x0 y0),
-      IsSolutionOnNonnegative sys ->
-      forall lam : Real,
-        beta * (Real.sqrt (a + b) - Real.sqrt b) ^ 2 <= lam ->
-        lam <= beta * (Real.sqrt (a + b) + Real.sqrt b) ^ 2 ->
+      IsSolutionOnNonnegative sys →
+      ∀ lam : ℝ,
+        beta * (Real.sqrt (a + b) - Real.sqrt b) ^ 2 <= lam →
+        lam <= beta * (Real.sqrt (a + b) + Real.sqrt b) ^ 2 →
           AntitoneOn
-            (fun t : Real => LyapunovEnergy phi lam a b (sys.x t, sys.y t))
-            (Set.Ici (0 : Real)) /\
-          (exists m : Real, forall t : Real, 0 <= t ->
-            m <= LyapunovEnergy phi lam a b (sys.x t, sys.y t)) /\
-          (exists l : Real,
+            (fun t : ℝ => LyapunovEnergy phi lam a b (sys.x t, sys.y t))
+            (Set.Ici (0 : ℝ)) ∧
+          (∃ m : ℝ, ∀ t : ℝ, 0 <= t →
+            m <= LyapunovEnergy phi lam a b (sys.x t, sys.y t)) ∧
+          (∃ l : ℝ,
             Tendsto
-              (fun t : Real => LyapunovEnergy phi lam a b (sys.x t, sys.y t))
-              atTop (nhds l)) /\
-          MemL2OnNonnegative sys.xdot /\
-          (exists l : Real, Tendsto (fun t : Real => phi (sys.x t)) atTop (nhds l)) /\
-           MemL2OnNonnegative sys.ydot /\
-           Tendsto sys.ydot atTop (nhds 0)) /\
-    (forall (x0 y0 : H)
+              (fun t : ℝ => LyapunovEnergy phi lam a b (sys.x t, sys.y t))
+              atTop (nhds l)) ∧
+          MemL2OnNonnegative sys.xdot ∧
+          (∃ l : ℝ, Tendsto (fun t : ℝ => phi (sys.x t)) atTop (nhds l)) ∧
+           MemL2OnNonnegative sys.ydot ∧
+           Tendsto sys.ydot atTop (nhds 0)) ∧
+    (∀ (x0 y0 : H)
         (sys : NonnegativeDissipativeSystem H gradPhi beta a b x0 y0),
-      IsSolutionOnNonnegative sys ->
-      BoundedOnNonnegative sys.x ->
-        BoundedOnNonnegative (fun t : Real => gradPhi (sys.x t)) /\
-        BoundedOnNonnegative sys.xdot /\
-        Tendsto sys.xdot atTop (nhds 0) /\
-        Tendsto (fun t : Real => gradPhi (sys.x t)) atTop (nhds 0)) := by
+      IsSolutionOnNonnegative sys →
+      BoundedOnNonnegative sys.x →
+        BoundedOnNonnegative (fun t : ℝ => gradPhi (sys.x t)) ∧
+        BoundedOnNonnegative sys.xdot ∧
+        Tendsto sys.xdot atTop (nhds 0) ∧
+        Tendsto (fun t : ℝ => gradPhi (sys.x t)) atTop (nhds 0)) := by
   exact alvarez_attouch_bolte_redont_theorem_1_1_core phi gradPhi beta a b hphi_c1
     hgrad_phi hphi_bddBelow hgrad_lip hbeta hb hab
 
