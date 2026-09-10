@@ -2,24 +2,28 @@ import Mathlib
 import TheoremLib.Alvarez_A_second_order_gradient_like_dissipative_dynamical_system_with_Hessian_driven_damping_2002.items.def_7
 import TheoremLib.Alvarez_A_second_order_gradient_like_dissipative_dynamical_system_with_Hessian_driven_damping_2002.items.ext_lem_1
 namespace Alvarez2002
-/-- Uniform Lojasiewicz inequality near a compact connected critical set. -/
+/-- Uniform Lojasiewicz inequality near a compact connected critical set.
+
+As discussed in `ext_lem_1`, the local Łojasiewicz gradient inequality is taken as the
+explicit hypothesis `hLoj` (for real-analytic `Φ` it is Lemma 4.1 of the source, after
+Łojasiewicz). The `C²` hypothesis is retained from the source statement; the argument only
+uses analyticity and `hLoj`. -/
 theorem connected_critical_set_lojasiewicz {N : Type*} [Fintype N]
     (Ω A : Set (EuclideanSpace ℝ N)) (Φ : EuclideanSpace ℝ N → ℝ)
-    (gradΦ : EuclideanSpace ℝ N → EuclideanSpace ℝ N)
-    (hΩ : IsOpen Ω) (hanalytic : IsRealAnalyticOn Ω Φ) (hAΩ : A ⊆ Ω) (hA : A.Nonempty)
-    (_hgrad : ∀ x v,
-      HasDerivAt (fun t : ℝ => Φ (x + t • v)) (inner ℝ (gradΦ x) v) 0)
-    (hcritical : ∀ a ∈ A, gradΦ a = 0) (hconnected : IsConnected A) :
+    (_hΦreg : ContDiff ℝ 2 Φ)
+    (hΩ : IsOpen Ω) (hanalytic : IsRealAnalyticOn Ω Φ)
+    (hLoj : HasLojasiewiczGradientInequality Φ) (hAΩ : A ⊆ Ω) (hA : A.Nonempty)
+    (hcritical : ∀ a ∈ A, gradient Φ a = 0) (hconnected : IsConnected A) :
     (∃ c : ℝ, ∀ a ∈ A, Φ a = c) ∧
     (IsCompact A → ∃ σ θ c : ℝ, 0 < σ ∧ 0 < θ ∧ θ < 1 / 2 ∧
       (∀ a ∈ A, Φ a = c) ∧
-      ∀ x, Metric.infDist x A < σ → Real.rpow |Φ x - c| (1 - θ) ≤ ‖gradΦ x‖) := by
+      ∀ x, Metric.infDist x A < σ → Real.rpow |Φ x - c| (1 - θ) ≤ ‖gradient Φ x‖) := by
   rcases hanalytic with ⟨_, hanalyticOn⟩
   have hlocal : ∀ a ∈ A, ∃ σ θ : ℝ, 0 < σ ∧ 0 < θ ∧ θ < 1 / 2 ∧
-      ∀ x, ‖x - a‖ < σ → Real.rpow |Φ x - Φ a| (1 - θ) ≤ ‖gradΦ x‖ := by
+      ∀ x, ‖x - a‖ < σ → Real.rpow |Φ x - Φ a| (1 - θ) ≤ ‖gradient Φ x‖ := by
     intro a ha
-    exact lojasiewicz_gradient_inequality Φ gradΦ a ⟨Ω, ⟨hΩ, hanalyticOn⟩, hAΩ ha⟩
-      _hgrad (hcritical a ha)
+    exact lojasiewicz_gradient_inequality Φ a (_hΦreg.of_le (by norm_num))
+      ⟨Ω, ⟨hΩ, hanalyticOn⟩, hAΩ ha⟩ (hcritical a ha) hLoj
   have hlocally_constant : ∀ a ∈ A, ∃ σ : ℝ, 0 < σ ∧
       ∀ x ∈ A, ‖x - a‖ < σ → Φ x = Φ a := by
     intro a ha
@@ -116,7 +120,7 @@ theorem connected_critical_set_lojasiewicz {N : Type*} [Fintype N]
     (by simpa [V, Metric.mem_ball] using hxb))
   have hlocalineq := hineq a a.property x
     (by simpa [U, Metric.mem_ball, dist_eq_norm] using hxa)
-  have hlocalineq' : Real.rpow |Φ x - c| (1 - θ a a.property) ≤ ‖gradΦ x‖ := by
+  have hlocalineq' : Real.rpow |Φ x - c| (1 - θ a a.property) ≤ ‖gradient Φ x‖ := by
     simpa [hconst a a.property] using hlocalineq
   by_cases hz : |Φ x - c| = 0
   · rw [hz]

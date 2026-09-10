@@ -114,12 +114,17 @@ set_option maxHeartbeats 1000000 in
 /--
 Theorem 4.1:
 Strong convergence of a bounded finite-dimensional analytic `(DIN)` trajectory.
+
+The local Łojasiewicz gradient inequality (Lemma 4.1 of the source, after Łojasiewicz) is
+supplied as the explicit hypothesis `hLoj`; for a real-analytic potential it holds
+automatically, so this is the analytic convergence theorem modulo that cited lemma.
 -/
 theorem analytic_bounded_din_converges {N : Type*} [Fintype N]
     (Φ : EuclideanSpace ℝ N → ℝ)
     (x : ℝ → EuclideanSpace ℝ N)
     (hΦ : AssumptionH (EuclideanSpace ℝ N) Φ)
     (hanalytic : AnalyticOnNhd ℝ Φ Set.univ)
+    (hLoj : HasLojasiewiczGradientInequality Φ)
     (hsol : IsDINTrajectory (EuclideanSpace ℝ N) Φ α β x)
     (hxreg : ContDiff ℝ 2 x)
     (hbounded : Bornology.IsBounded (Set.range x)) :
@@ -173,16 +178,9 @@ theorem analytic_bounded_din_converges {N : Type*} [Fintype N]
       (fun t => deriv x (t : ℝ))
       (by simpa using hvlim.comp hcoe) hgradI
   obtain ⟨hAnon, hAcomp, hAconn, hdist, hAcrit⟩ := hΩ
-  have hcoord : ∀ z w, HasDerivAt (fun r : ℝ => Φ (z + r • w))
-      (inner ℝ (gradient Φ z) w) 0 := by
-    intro z w
-    have hline : HasDerivAt (fun r : ℝ => z + r • w) w 0 := by
-      simpa using ((hasDerivAt_id (0 : ℝ)).smul_const w).const_add z
-    have hcomp := (hgradF z).comp_hasDerivAt_of_eq 0 hline (by simp)
-    simpa [innerSL] using hcomp
   have hlojall := connected_critical_set_lojasiewicz
-    (Set.univ : Set (EuclideanSpace ℝ N)) (omegaLimit xI) Φ (gradient Φ) isOpen_univ
-    ⟨isOpen_univ, hanalytic⟩ (Set.subset_univ _) hAnon hcoord hAcrit hAconn
+    (Set.univ : Set (EuclideanSpace ℝ N)) (omegaLimit xI) Φ hΦC2 isOpen_univ
+    ⟨isOpen_univ, hanalytic⟩ hLoj (Set.subset_univ _) hAnon hAcrit hAconn
   obtain ⟨c0, hc⟩ := hlojall.1
   obtain ⟨σ, θ, c1, hσ, hθ, hθhalf, hconst1, hcθineq⟩ := hlojall.2 hAcomp
   have hc1 : c1 = c0 := by
