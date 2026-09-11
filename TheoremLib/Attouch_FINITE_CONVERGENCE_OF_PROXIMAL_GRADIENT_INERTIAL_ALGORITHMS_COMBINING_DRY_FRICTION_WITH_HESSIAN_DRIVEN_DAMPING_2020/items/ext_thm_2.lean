@@ -4,6 +4,7 @@ import TheoremLib.Attouch_FINITE_CONVERGENCE_OF_PROXIMAL_GRADIENT_INERTIAL_ALGOR
 open scoped InnerProductSpace
 
 open ERealFunction
+open Pointwise
 
 private theorem quadratic_increment_adjoint {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [CompleteSpace H] (A : H →L[ℝ] H) (b p y : H) :
@@ -46,46 +47,29 @@ private theorem ereal_convex_segment_ne_top {H : Type*} [NormedAddCommGroup H]
   apply ne_top_of_le_ne_top (EReal.coe_ne_top _) 
   simpa [Prod.smul_mk, hsegment] using hcomb
 
-/-- Inclusion-based extended-real proximal points are unique at a positive index. -/
-theorem proximalPointEReal_unique {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] (g : H → EReal) (lam : ℝ) (hlam : 0 < lam)
-    (hproper : ERealFunction.IsProper g) (w p q : H) :
-    IsProximalPointEReal g lam w p → IsProximalPointEReal g lam w q → p = q := by
-  rintro ⟨hp, v, hv, hwp⟩ ⟨hq, z, hz, hwq⟩
-  have hpbot : g p ≠ ⊥ := hproper.1 p
-  have hqbot : g q ≠ ⊥ := hproper.1 q
-  have hpq : (g p).toReal + @inner ℝ H _ v (q - p) ≤ (g q).toReal := by
-    have h := hv q
-    change (⟪q - p, v⟫_ℝ : EReal) + (g p : EReal) ≤ (g q : EReal) at h
-    rw [real_inner_comm, add_comm] at h
-    have h := EReal.toReal_le_toReal h
-      (EReal.add_ne_bot_iff.mpr ⟨hpbot, EReal.coe_ne_bot _⟩) hq
-    simpa [EReal.toReal_add hp hpbot (EReal.coe_ne_top _) (EReal.coe_ne_bot _)] using h
-  have hqp : (g q).toReal + @inner ℝ H _ z (p - q) ≤ (g p).toReal := by
-    have h := hz p
-    change (⟪p - q, z⟫_ℝ : EReal) + (g q : EReal) ≤ (g p : EReal) at h
-    rw [real_inner_comm, add_comm] at h
-    have h := EReal.toReal_le_toReal h
-      (EReal.add_ne_bot_iff.mpr ⟨hqbot, EReal.coe_ne_bot _⟩) hp
-    simpa [EReal.toReal_add hq hqbot (EReal.coe_ne_top _) (EReal.coe_ne_bot _)] using h
-  have hmono : @inner ℝ H _ (v - z) (q - p) ≤ 0 := by
-    rw [← neg_sub, inner_neg_right] at hqp
-    rw [inner_sub_left]
-    linarith [add_le_add hpq hqp]
-  have hdiff : q - p = lam • (v - z) := by
-    calc
-      q - p = (w - p) - (w - q) := by abel
-      _ = lam • v - lam • z := by rw [← hwp, ← hwq]
-      _ = lam • (v - z) := by module
-  have hsq : lam * ‖v - z‖ ^ 2 ≤ 0 := by
-    calc
-      lam * ‖v - z‖ ^ 2 = @inner ℝ H _ (v - z) (q - p) := by
-        rw [hdiff, inner_smul_right, real_inner_self_eq_norm_sq]
-      _ ≤ 0 := hmono
-  have hvz : v = z := by
-    have : ‖v - z‖ ^ 2 = 0 := by nlinarith [sq_nonneg ‖v - z‖]
-    exact sub_eq_zero.mp (sq_eq_zero_iff.mp this |> norm_eq_zero.mp)
-  exact (sub_eq_zero.mp (by simpa [hvz] using hdiff)).symm
+set_option linter.unusedVariables false in
+/-- `]-∞,+∞]`-valued objectives that are proper, convex (with convex epigraph) and lower
+semicontinuous lie in `Γ₀(H)`, so Foundation's proximity operator is available for them. -/
+private theorem properIoi_mem_gammaZero_of_epigraph_convex_lsc {H : Type*} [NormedAddCommGroup H]
+    [InnerProductSpace ℝ H] {g : H → EReal} (hproper : ERealFunction.IsProper g)
+    (hconvex : Convex ℝ (ERealFunction.epigraph g)) (hlsc : LowerSemicontinuous g) :
+    ERealFunction.properIoi g hproper ∈ Γ₀(H) :=
+  ERealFunction.properIoi_mem_gammaZero_of_mem_gamma hproper (by
+    rw [ERealFunction.mem_gamma_iff]
+    exact ⟨ERealFunction.isConvex_of_convex_epigraph hproper hconvex, hlsc⟩)
+
+/-- Proximal points of a `Γ₀` objective are unique at a positive index; this is Foundation's
+`HasUniqueProxPoint` in its primal `IsProxPoint` form. -/
+theorem isProxPoint_unique {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    [CompleteSpace H] {g : H → EReal} (hproper : ERealFunction.IsProper g)
+    (hΓ : ERealFunction.properIoi g hproper ∈ Γ₀(H))
+    (lam : ℝ) (hlam : 0 < lam) (w p q : H)
+    (hp : IsProxPoint ((⟨lam, hlam⟩ : PosReal) • ERealFunction.properIoi g hproper) w p)
+    (hq : IsProxPoint ((⟨lam, hlam⟩ : PosReal) • ERealFunction.properIoi g hproper) w q) :
+    p = q :=
+  ExistsUnique.unique
+    (hasUniqueProxPoint_of_mem_gammaZero
+      (smul_mem_gammaZero (ERealFunction.properIoi g hproper) hΓ ⟨lam, hlam⟩) w) hp hq
 
 /-- Removing the smooth quadratic part from an extended-real subgradient. -/
 private theorem subgradientEReal_quadratic_add {H : Type*} [NormedAddCommGroup H]
@@ -172,14 +156,15 @@ theorem variableMetric_composite_proximal_identity {H : Type*} [NormedAddCommGro
     [InnerProductSpace ℝ H] [CompleteSpace H] (f g : H → EReal) (A : H →L[ℝ] H) (b : H)
     (M : H →L[ℝ] H) (lam : ℝ) (hlam : 0 < lam)
     (hconvex : Convex ℝ (ERealFunction.epigraph g))
-    (_hlsc : LowerSemicontinuous g) (hproper : ERealFunction.IsProper g)
+    (hlsc : LowerSemicontinuous g) (hproper : ERealFunction.IsProper g)
     (hf : ∀ x, f x = (((1 / 2 : ℝ) * ‖A x - b‖ ^ 2 : ℝ) : EReal) + g x)
     (hM : M = ContinuousLinearMap.id ℝ H - lam • (A.adjoint.comp A))
-    (_hM_positive : ∀ v, v ≠ 0 → 0 < @inner ℝ H _ (M v) v) (proxF proxG : H → H)
+    (_hM_positive : ∀ v, v ≠ 0 → 0 < @inner ℝ H _ (M v) v) (proxF : H → H)
     (hproxF : ∀ x, ∃ (_hp : f (proxF x) ≠ ⊤),
-      M (x - proxF x) ∈ (fun u ↦ lam • u) '' subdifferential f (proxF x))
-    (hproxG : ∀ x, IsProximalPointEReal g lam x (proxG x)) (x : H) :
-    proxF x = proxG (x - lam • A.adjoint (A x - b)) := by
+      M (x - proxF x) ∈ (fun u ↦ lam • u) '' subdifferential f (proxF x)) (x : H) :
+    proxF x = ERealFunction.scaledProximityOperator (ERealFunction.properIoi g hproper)
+      (properIoi_mem_gammaZero_of_epigraph_convex_lsc hproper hconvex hlsc) ⟨lam, hlam⟩
+      (x - lam • A.adjoint (A x - b)) := by
   rcases hproxF x with ⟨hp, u, hu, hMu⟩
   have hres : x - lam • A.adjoint (A x - b) - proxF x =
       lam • (u - A.adjoint (A (proxF x) - b)) := by
@@ -196,12 +181,18 @@ theorem variableMetric_composite_proximal_identity {H : Type*} [NormedAddCommGro
               module
       _ = lam • u - lam • A.adjoint (A (proxF x) - b) := by rw [hMu']
       _ = lam • (u - A.adjoint (A (proxF x) - b)) := by module
-  have hP : IsProximalPointEReal g lam (x - lam • A.adjoint (A x - b)) (proxF x) := by
-    refine ⟨?_, ?_⟩
-    · intro htop
-      apply hp
-      rw [hf (proxF x), htop]
-      exact EReal.coe_add_top _
-    · refine ⟨u - A.adjoint (A (proxF x) - b), ?_, hres.symm⟩
-      exact subgradientEReal_quadratic_add A b (proxF x) u g f hconvex hproper hf hp hu
-  exact proximalPointEReal_unique g lam hlam hproper _ _ _ hP (hproxG _)
+  have hg : u - A.adjoint (A (proxF x) - b) ∈ subdifferential g (proxF x) :=
+    subgradientEReal_quadratic_add A b (proxF x) u g f hconvex hproper hf hp hu
+  have hΓ : ERealFunction.properIoi g hproper ∈ Γ₀(H) :=
+    properIoi_mem_gammaZero_of_epigraph_convex_lsc hproper hconvex hlsc
+  rw [ERealFunction.scaledProximityOperator]
+  refine (ERealFunction.eq_proximityOperator_iff_sub_mem_subdifferential
+    (f := (⟨lam, hlam⟩ : PosReal) • ERealFunction.properIoi g hproper)
+    (ERealFunction.smul_mem_gammaZero _ hΓ ⟨lam, hlam⟩)
+    (x - lam • A.adjoint (A x - b)) (proxF x)).2 ?_
+  rw [ERealFunction.subdifferential_posReal_smul_eq_smul]
+  change x - lam • A.adjoint (A x - b) - proxF x ∈
+    (lam : ℝ) • (subdifferential (ERealFunction.properIoi g hproper) (proxF x))
+  rw [Set.mem_smul_set_iff_inv_smul_mem₀ hlam.ne']
+  rw [hres, smul_smul, inv_mul_cancel₀ hlam.ne', one_smul]
+  simpa [ERealFunction.properIoi, ERealFunction.subdifferential] using hg

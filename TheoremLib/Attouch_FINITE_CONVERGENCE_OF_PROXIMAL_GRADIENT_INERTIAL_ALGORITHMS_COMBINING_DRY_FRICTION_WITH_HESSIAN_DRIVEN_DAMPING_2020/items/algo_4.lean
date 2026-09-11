@@ -2,7 +2,9 @@ import TheoremLib.Attouch_FINITE_CONVERGENCE_OF_PROXIMAL_GRADIENT_INERTIAL_ALGOR
 
 /-- Perturbed IPAHDD, including its auxiliary sequence. -/
 structure IPAHDDPert {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
-    (f : H → ℝ) (prox : ℝ → H → H) (e : ℕ → H) (h gamma beta : ℝ) where
+    (f : H → ℝ) (φ : H → Set.Ioi (⊥ : EReal)) (hφ : φ ∈ Γ₀(H)) (e : ℕ → H) (h gamma beta : ℝ) where
+  h_pos : 0 < h
+  gamma_pos : 0 < gamma
   x : ℕ → H
   y : ℕ → H
   x0 : x 0 = x 0
@@ -10,4 +12,8 @@ structure IPAHDDPert {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H
   aux (k : ℕ) : y k = (1 / (h * (1 + h * gamma))) • (x (k + 1) - x k) -
     (beta / (1 + h * gamma)) • (gradient f (x (k + 1)) - gradient f (x k)) -
     (h / (1 + h * gamma)) • gradient f (x (k + 1)) + (h / (1 + h * gamma)) • e k
-  update (k : ℕ) : x (k + 2) = x (k + 1) + h • prox (h / (1 + h * gamma)) (y k)
+  update (k : ℕ) : x (k + 2) = x (k + 1) + h •
+    ERealFunction.scaledProximityOperator φ hφ
+      ⟨h / (1 + h * gamma), by
+        have hden : 0 < 1 + h * gamma := by nlinarith [mul_pos h_pos gamma_pos]
+        exact div_pos h_pos hden⟩ (y k)

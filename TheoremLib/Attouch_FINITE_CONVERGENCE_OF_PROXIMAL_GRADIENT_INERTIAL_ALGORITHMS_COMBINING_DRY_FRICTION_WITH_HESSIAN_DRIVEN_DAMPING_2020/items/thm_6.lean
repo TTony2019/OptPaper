@@ -15,24 +15,21 @@ open Filter Topology
 
 /-- Theorem 4.1, reduced to the regularity facts for the extended-real Moreau envelope. -/
 theorem IPAHDDNonsmooth_finiteLength {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] [CompleteSpace H] (f : H → EReal) (phi fLam : H → ℝ)
-    (proxF proxPhi : ℝ → H → H) (h gamma beta lam r : ℝ)
-    (alg : IPAHDDNonsmooth proxF proxPhi h gamma beta lam)
-    (_hconvex : Convex ℝ (ERealFunction.epigraph f)) (_hlsc : LowerSemicontinuous f)
-    (_hproper : ERealFunction.IsProper f) (_hbelow : sInf (Set.range f) > ⊥) (hdf : DryFriction phi)
+    [InnerProductSpace ℝ H] [CompleteSpace H] (F : H → Set.Ioi (⊥ : EReal)) (hF : F ∈ Γ₀(H))
+    (phi fLam : H → ℝ) (h gamma beta lam r : ℝ) (hdf : DryFriction phi)
+    (alg : IPAHDDNonsmooth F hF phi.toEReal hdf.toEReal_mem_gammaZero h gamma beta lam)
     (hpositive : 0 < h ∧ 0 < gamma ∧ 0 < beta) (hlam : 0 < lam) (hr : 0 < r)
     (hdf_r : Metric.ball (0 : H) r ⊆ subdifferential phi 0)
-    (hproxF : ∀ x, IsProximalPointEReal f lam x (proxF lam x))
-    (hproxPhi : ∀ mu x, IsProximalPoint phi mu x (proxPhi mu x))
     (hgamma : gamma ≥ (h / 2 + beta) / lam)
     (hfLam : ContDiff ℝ 1 fLam)
     (hMoreau : (∀ x, HasFDerivAt fLam
-      (innerSL ℝ ((1 / lam) • (x - proxF lam x))) x) ∧
+      (innerSL ℝ ((1 / lam) • (x - ERealFunction.scaledProximityOperator F hF ⟨lam, hlam⟩ x))) x) ∧
       HasLipschitzGradient (gradient fLam) (1 / lam) ∧
       Continuous (gradient fLam) ∧
       (∃ c : ℝ, ∀ x, c ≤ fLam x) ∧
-      (∀ x y, ‖proxF lam x - proxF lam y‖ ≤ ‖x - y‖))
-    (smooth : IPAHDD fLam phi proxPhi h gamma beta)
+      (∀ x y, ‖ERealFunction.scaledProximityOperator F hF ⟨lam, hlam⟩ x -
+        ERealFunction.scaledProximityOperator F hF ⟨lam, hlam⟩ y‖ ≤ ‖x - y‖))
+    (smooth : IPAHDD fLam phi.toEReal hdf.toEReal_mem_gammaZero h gamma beta)
     (hsmooth : smooth.x = alg.x) :
     ∃ xInf pInf E1, E1 = (1 / 2) * ‖(1 / h) • (alg.x 1 - alg.x 0)‖ ^ 2 +
         fLam (alg.x 1) - sInf (Set.range fLam) ∧
@@ -43,10 +40,11 @@ theorem IPAHDDNonsmooth_finiteLength {H : Type*} [NormedAddCommGroup H]
         ‖alg.x (k.1 + 1) - 2 • alg.x k.1 + alg.x (k.1 - 1)‖ ^ 2) ≤
         2 * h ^ 2 * (E1 + beta * (1 / lam) / (2 * h) * ‖alg.x 1 - alg.x 0‖ ^ 2) ∧
       IsDryFrictionCritical phi fLam xInf ∧
-      HasFiniteLength (fun k ↦ proxF lam (alg.x k)) ∧
-      Tendsto (fun k ↦ proxF lam (alg.x k)) Filter.atTop (𝓝 pInf) ∧
-      pInf = proxF lam xInf ∧
-      ((1 / lam) • (xInf - pInf) ∈ subdifferential f pInf) ∧
+      HasFiniteLength (fun k ↦ ERealFunction.scaledProximityOperator F hF ⟨lam, hlam⟩ (alg.x k)) ∧
+      Tendsto (fun k ↦ ERealFunction.scaledProximityOperator F hF ⟨lam, hlam⟩ (alg.x k))
+        Filter.atTop (𝓝 pInf) ∧
+      pInf = ERealFunction.scaledProximityOperator F hF ⟨lam, hlam⟩ xInf ∧
+      ((1 / lam) • (xInf - pInf) ∈ subdifferential F pInf) ∧
       (-gradient fLam xInf ∈ interior (subdifferential phi 0) →
         let q := 1 / Real.sqrt (1 + 2 * h * (gamma * lam - beta) / (lam + beta * h))
         0 < q ∧ q < 1 ∧ ∃ k0, ∀ k ≥ k0,
@@ -55,7 +53,8 @@ theorem IPAHDDNonsmooth_finiteLength {H : Type*} [NormedAddCommGroup H]
       (‖gradient fLam xInf‖ < r →
         Metric.ball (0 : H) r ⊆ subdifferential phi 0 → IsFinitelyConvergent alg.x) := by
   rcases hMoreau with ⟨hderiv, hLip, hCont, hbelowLam, hnonexp⟩
-  let moreauGrad : H → H := fun x ↦ (1 / lam) • (x - proxF lam x)
+  let P : H → H := ERealFunction.scaledProximityOperator F hF ⟨lam, hlam⟩
+  let moreauGrad : H → H := fun x ↦ (1 / lam) • (x - P x)
   have hgrad_eq : gradient fLam = moreauGrad := by
     funext x
     rw [gradient, (hderiv x).fderiv]
@@ -67,47 +66,39 @@ theorem IPAHDDNonsmooth_finiteLength {H : Type*} [NormedAddCommGroup H]
   have hgamma' : gamma ≥ (1 / lam : ℝ) * (h / 2 + beta) := by
     calc gamma ≥ (h / 2 + beta) / lam := hgamma
          _ = (1 / lam : ℝ) * (h / 2 + beta) := by ring
-  have hfinite := IPAHDD_finiteLength_and_critical fLam phi proxPhi h gamma beta
-    (1 / lam) r smooth hfLam (by simpa [moreauGrad, hgrad_eq] using hLip)
-    hLnonneg (by simpa [moreauGrad, hgrad_eq] using hCont) hbelowLam hdf hpositive hr hdf_r hproxPhi hgamma'
+  have hfinite := IPAHDD_finiteLength_and_critical fLam phi h gamma beta
+    (1 / lam) r hdf smooth hfLam hLip
+    hLnonneg hbelowLam hpositive hr hdf_r hgamma'
   rcases hfinite with ⟨xInf, E1, hE1, hlength, hlim, hcritical, hlenbound, haccelbound⟩
   have hlengthAlg : HasFiniteLength alg.x := by simpa [hsmooth] using hlength
   have hlimAlg : Tendsto alg.x Filter.atTop (𝓝 xInf) := by simpa [hsmooth] using hlim
-  have hproxLength : HasFiniteLength (fun k ↦ proxF lam (alg.x k)) := by
+  have hproxLength : HasFiniteLength (fun k ↦ P (alg.x k)) := by
     unfold HasFiniteLength at hlengthAlg ⊢
     apply Summable.of_nonneg_of_le (fun k => norm_nonneg _)
       (fun k => hnonexp _ _) hlengthAlg
-  have hproxCont : Continuous (proxF lam) := by
+  have hproxCont : Continuous P := by
     rw [Metric.continuous_iff]
     intro x ε hε
     refine ⟨ε, hε, ?_⟩
     intro y hy
-    calc dist (proxF lam y) (proxF lam x) = ‖proxF lam y - proxF lam x‖ := dist_eq_norm _ _
+    calc dist (P y) (P x) = ‖P y - P x‖ := dist_eq_norm _ _
          _ ≤ ‖y - x‖ := hnonexp _ _
          _ = dist y x := (dist_eq_norm _ _).symm
          _ < ε := hy
-  have hproxLim : Tendsto (fun k ↦ proxF lam (alg.x k)) Filter.atTop
-      (𝓝 (proxF lam xInf)) := hproxCont.continuousAt.tendsto.comp hlimAlg
-  have hsubgrad : moreauGrad xInf ∈ subdifferential f (proxF lam xInf) := by
-    rcases hproxF xInf with ⟨hp, u, hu, hxu⟩
-    rw [show moreauGrad xInf = u by
-      dsimp [moreauGrad]
-      rw [← hxu]
-      change (1 / lam) • (lam • u) = u
-      rw [smul_smul]
-      field_simp [hlam.ne']
-      simp]
-    exact hu
-  have hgeo := IPAHDD_geometric_and_finite fLam phi proxPhi h gamma beta (1 / lam) r
-    smooth xInf hfLam (by simpa [moreauGrad, hgrad_eq] using hLip) hLnonneg
-    (by simpa [moreauGrad, hgrad_eq] using hCont) hbelowLam hdf hpositive hr hdf_r hproxPhi hgamma' hlim
+  have hproxLim : Tendsto (fun k ↦ P (alg.x k)) Filter.atTop
+      (𝓝 (P xInf)) := hproxCont.continuousAt.tendsto.comp hlimAlg
+  have hsubgrad : moreauGrad xInf ∈ subdifferential F (P xInf) := by
+    have h := ERealFunction.scaledProximityOperator_residual_mem hF ⟨lam, hlam⟩ xInf
+    simpa [P, moreauGrad, one_div, subdifferential] using h
+  have hgeo := IPAHDD_geometric_and_finite fLam phi h gamma beta (1 / lam) r
+    hdf smooth xInf hfLam hLip hLnonneg hbelowLam hpositive hr hdf_r hgamma' hlim
   have hrate :
       1 / Real.sqrt (1 + 2 * h * (gamma - beta * (1 / lam)) /
         (1 + beta * h * (1 / lam))) =
       1 / Real.sqrt (1 + 2 * h * (gamma * lam - beta) / (lam + beta * h)) := by
     congr 2
     field_simp [hlam.ne']
-  refine ⟨xInf, proxF lam xInf, E1, ?_, hlengthAlg, hlimAlg, ?_, ?_, ?_, hproxLength,
+  refine ⟨xInf, P xInf, E1, ?_, hlengthAlg, hlimAlg, ?_, ?_, ?_, hproxLength,
     hproxLim, rfl, ?_, ?_, ?_⟩
   · simpa [hsmooth] using hE1
   · simpa [hsmooth, moreauGrad] using hlenbound

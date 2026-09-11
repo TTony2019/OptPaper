@@ -16,10 +16,10 @@ private theorem inner_sub_self_energy_identity_pert_local {H : Type*}
   ring
 
 private theorem ipahddPert_shifted_recurrence_local {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] [CompleteSpace H] (f phi : H → ℝ)
-    (prox : ℝ → H → H) (e : ℕ → H) (h gamma beta : ℝ)
-    (alg : IPAHDDPert f prox e h gamma beta) (hh : 0 < h) (hg : 0 < gamma)
-    (hprox : ∀ lam x, IsProximalPoint phi lam x (prox lam x)) (k : ℕ) :
+    [InnerProductSpace ℝ H] [CompleteSpace H] (f phi : H → ℝ) (hphi : phi.toEReal ∈ Γ₀(H))
+    (e : ℕ → H) (h gamma beta : ℝ)
+    (alg : IPAHDDPert f phi.toEReal hphi e h gamma beta) (hh : 0 < h) (hg : 0 < gamma)
+    (k : ℕ) :
     ∃ s, s ∈ subdifferential phi ((1 / h) • (alg.x (k + 2) - alg.x (k + 1))) ∧
       ((1 / h) • (alg.x (k + 2) - alg.x (k + 1)) -
           (1 / h) • (alg.x (k + 1) - alg.x k) +
@@ -35,20 +35,23 @@ private theorem ipahddPert_shifted_recurrence_local {H : Type*} [NormedAddCommGr
     dsimp [D]
     nlinarith [mul_pos hh hg]
   have hD0 : D ≠ 0 := ne_of_gt hD
-  rcases hprox (h / D) z with ⟨_hlam_pos, hmem⟩
-  let s : H := (h / D)⁻¹ • (z - prox (h / D) z)
-  have hs : s ∈ subdifferential phi (prox (h / D) z) := by
-    simpa [s, subdifferential] using hmem
-  have hseq : (h / D) • s = z - prox (h / D) z := by
+  have hlam_pos : 0 < h / D := div_pos hh hD
+  let P : H → H := ERealFunction.scaledProximityOperator phi.toEReal hphi ⟨h / D, hlam_pos⟩
+  have hmem : (h / D)⁻¹ • (z - P z) ∈ subdifferential phi (P z) :=
+    ERealFunction.scaledProximityOperator_residual_mem hphi ⟨h / D, hlam_pos⟩ z
+  let s : H := (h / D)⁻¹ • (z - P z)
+  have hs : s ∈ subdifferential phi (P z) := by
+    simpa [s, P] using hmem
+  have hseq : (h / D) • s = z - P z := by
     dsimp [s]
     rw [smul_smul, mul_inv_cancel₀ (div_ne_zero hh.ne' hD0)]
     simp
-  have hstep : h • prox (h / D) z = alg.x (k + 2) - alg.x (k + 1) := by
+  have hstep : h • P z = alg.x (k + 2) - alg.x (k + 1) := by
     rw [alg.update k, alg.aux k]
-    simp [z, D]
-  have hp : prox (h / D) z = (1 / h) • (alg.x (k + 2) - alg.x (k + 1)) := by
+    simp [P, z, D]
+  have hp : P z = (1 / h) • (alg.x (k + 2) - alg.x (k + 1)) := by
     calc
-      prox (h / D) z = (1 / h) • (h • prox (h / D) z) := by
+      P z = (1 / h) • (h • P z) := by
         rw [smul_smul]
         field_simp [hh.ne']
         simp
@@ -179,16 +182,14 @@ private theorem geometric_range_sum_le_pert_local (q : ℝ) (hq0 : 0 ≤ q) (hq1
 set_option maxHeartbeats 800000 in
 /-- Theorem 2.7: vanishing perturbations preserve finite length for IPAHDD. -/
 theorem IPAHDDPert_finiteLength {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] [CompleteSpace H] (f phi : H → ℝ) (prox : ℝ → H → H)
-    (e : ℕ → H) (h gamma beta L r : ℝ)
-    (alg : IPAHDDPert f prox e h gamma beta)
+    [InnerProductSpace ℝ H] [CompleteSpace H] (f phi : H → ℝ)
+    (e : ℕ → H) (h gamma beta L r : ℝ) (hdf : DryFriction phi)
+    (alg : IPAHDDPert f phi.toEReal hdf.toEReal_mem_gammaZero e h gamma beta)
     (hf : ContDiff ℝ 1 f)
     (hL : HasLipschitzGradient (gradient f) L) (hL_nonneg : 0 ≤ L)
-    (hC1 : Continuous (gradient f))
-    (hbelow : ∃ c : ℝ, ∀ x, c ≤ f x) (hdf : DryFriction phi)
+    (hbelow : ∃ c : ℝ, ∀ x, c ≤ f x)
     (hpositive : 0 < h ∧ 0 < gamma ∧ 0 < beta) (hr : 0 < r)
     (hdf_r : Metric.ball (0 : H) r ⊆ subdifferential phi 0)
-    (hprox : ∀ lam x, IsProximalPoint phi lam x (prox lam x))
     (hgamma : gamma ≥ L * (h / 2 + beta)) (he : Filter.Tendsto e Filter.atTop (nhds 0)) :
     ∃ xInf E1, E1 = (1 / 2) * ‖(1 / h) • (alg.x 1 - alg.x 0)‖ ^ 2 +
         f (alg.x 1) - sInf (Set.range f) ∧
@@ -204,6 +205,7 @@ theorem IPAHDDPert_finiteLength {H : Type*} [NormedAddCommGroup H]
           ‖alg.x k - xInf‖ ≤ q ^ (k - k0) / (1 - q) * ‖alg.x (k0 + 1) - alg.x k0‖) ∧
       (‖gradient f xInf‖ < r → IsFinitelyConvergent alg.x) := by
   rcases hpositive with ⟨hh, hg, hb⟩
+  have hC1 : Continuous (gradient f) := continuous_gradient_of_contDiff hf
   have hgrad : ∀ z, HasFDerivAt f (innerSL ℝ (gradient f z)) z :=
     fun z => hasFDerivAt_gradient f hf z
   let d : ℕ → H := fun k => alg.x (k + 1) - alg.x k
@@ -219,7 +221,7 @@ theorem IPAHDDPert_finiteLength {H : Type*} [NormedAddCommGroup H]
           beta • (gradient f (alg.x (k + 1)) - gradient f (alg.x k)) +
           h • gradient f (alg.x (k + 1)) = h • e k) := by
     simpa [d, v, Nat.add_assoc, Nat.add_left_comm, Nat.add_comm] using
-      ipahddPert_shifted_recurrence_local f phi prox e h gamma beta alg hh hg hprox k
+      ipahddPert_shifted_recurrence_local f phi hdf.toEReal_mem_gammaZero e h gamma beta alg hh hg k
   have hraw (k : ℕ) :
       (1 / 2 : ℝ) * ‖v (k + 1)‖ ^ 2 - (1 / 2 : ℝ) * ‖v k‖ ^ 2 +
         (1 / 2 : ℝ) * ‖v (k + 1) - v k‖ ^ 2 +
@@ -587,11 +589,17 @@ theorem IPAHDDPert_finiteLength {H : Type*} [NormedAddCommGroup H]
       have hzero : IsProximalPoint phi lam (z j) 0 := by
         refine ⟨hlam, ?_⟩
         simpa [sub_zero] using hmem
-      have hpzero : prox lam (z j) = 0 :=
-        proximal_point_eq_zero_pert_local phi lam hlam (z j) (prox lam (z j))
-          (hprox lam (z j)) hzero
+      have hp : IsProximalPoint phi lam (z j)
+          (ERealFunction.scaledProximityOperator phi.toEReal hdf.toEReal_mem_gammaZero
+            ⟨lam, hlam⟩ (z j)) :=
+        ⟨hlam, ERealFunction.scaledProximityOperator_residual_mem
+          hdf.toEReal_mem_gammaZero ⟨lam, hlam⟩ (z j)⟩
+      have hpzero :
+          ERealFunction.scaledProximityOperator phi.toEReal hdf.toEReal_mem_gammaZero
+            ⟨lam, hlam⟩ (z j) = 0 :=
+        proximal_point_eq_zero_pert_local phi lam hlam (z j) _ hp hzero
       have hupdate := alg.update j
-      rw [show h / (1 + h * gamma) = lam by rfl, alg.aux] at hupdate
+      rw [alg.aux] at hupdate
       have hz : (1 / (h * (1 + h * gamma))) • d j -
           (beta / (1 + h * gamma)) • (gradient f (alg.x (j + 1)) - gradient f (alg.x j)) -
           (h / (1 + h * gamma)) • gradient f (alg.x (j + 1)) +

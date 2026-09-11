@@ -123,9 +123,9 @@ theorem tsum_subtype_succ_reindex {α : Type*} [AddCommMonoid α] [TopologicalSp
   simpa [e] using (Equiv.tsum_eq e (fun k : {k : ℕ // 1 ≤ k} => a k.1)).symm
 
 private theorem IPAHDD_shifted_recurrence {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] [CompleteSpace H] (f phi : H → ℝ) (prox : ℝ → H → H)
-    (h gamma beta : ℝ) (alg : IPAHDD f phi prox h gamma beta) (hh : 0 < h)
-    (hg : 0 < gamma) (hprox : ∀ lam x, IsProximalPoint phi lam x (prox lam x)) (k : ℕ) :
+    [InnerProductSpace ℝ H] [CompleteSpace H] (f phi : H → ℝ) (hphi : phi.toEReal ∈ Γ₀(H))
+    (h gamma beta : ℝ) (alg : IPAHDD f phi.toEReal hphi h gamma beta) (hh : 0 < h)
+    (hg : 0 < gamma) (k : ℕ) :
     ∃ q, q ∈ subdifferential phi ((1 / h) • (alg.x (k + 2) - alg.x (k + 1))) ∧
       ((1 / h) • (alg.x (k + 2) - alg.x (k + 1)) -
           (1 / h) • (alg.x (k + 1) - alg.x k) +
@@ -141,23 +141,25 @@ private theorem IPAHDD_shifted_recurrence {H : Type*} [NormedAddCommGroup H]
     dsimp [D]
     nlinarith [mul_pos hh hg]
   have hD0 : D ≠ 0 := ne_of_gt hD
-  -- `IsProximalPoint` is now the subgradient-form
-  -- `0 < lam ∧ (lam⁻¹ • (z - p)) ∈ subdifferential (fun x => (phi x : EReal)) p`
-  -- (no witness component); the residual is the subgradient witness `q`.
-  rcases hprox (h / D) z with ⟨hlam_pos, hmem⟩
-  let q : H := (h / D)⁻¹ • (z - prox (h / D) z)
-  have hq : q ∈ subdifferential phi (prox (h / D) z) := by
-    simpa [q, subdifferential] using hmem
-  have hqeq : (h / D) • q = z - prox (h / D) z := by
+  -- The proximal point is Foundation's proximity operator, and its residual is the subgradient
+  -- witness `q` (Proposition 16.44).
+  have hlam_pos : 0 < h / D := div_pos hh hD
+  let P : H → H := ERealFunction.scaledProximityOperator phi.toEReal hphi ⟨h / D, hlam_pos⟩
+  have hmem : (h / D)⁻¹ • (z - P z) ∈ subdifferential phi (P z) :=
+    ERealFunction.scaledProximityOperator_residual_mem hphi ⟨h / D, hlam_pos⟩ z
+  let q : H := (h / D)⁻¹ • (z - P z)
+  have hq : q ∈ subdifferential phi (P z) := by
+    simpa [q, P] using hmem
+  have hqeq : (h / D) • q = z - P z := by
     dsimp [q]
     rw [smul_smul, mul_inv_cancel₀ (div_ne_zero hh.ne' hD0)]
     simp
-  have hstep : h • prox (h / D) z = alg.x (k + 2) - alg.x (k + 1) := by
+  have hstep : h • P z = alg.x (k + 2) - alg.x (k + 1) := by
     rw [alg.update k]
-    simp [z, D]
-  have hp : prox (h / D) z = (1 / h) • (alg.x (k + 2) - alg.x (k + 1)) := by
+    simp [P, z, D]
+  have hp : P z = (1 / h) • (alg.x (k + 2) - alg.x (k + 1)) := by
     calc
-      prox (h / D) z = (1 / h) • (h • prox (h / D) z) := by
+      P z = (1 / h) • (h • P z) := by
         rw [smul_smul]
         field_simp [hh.ne']
         simp
@@ -200,14 +202,13 @@ private theorem summable_real_of_summable_real_succ (a : ℕ → ℝ)
 /-- Theorem 2.1: IPAHDD trajectories have finite length and satisfy the limit inclusion. -/
 theorem IPAHDD_finiteLength_and_critical {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     [CompleteSpace H]
-    (f phi : H → ℝ) (prox : ℝ → H → H) (h gamma beta L r : ℝ)
-    (alg : IPAHDD f phi prox h gamma beta)
+    (f phi : H → ℝ) (h gamma beta L r : ℝ) (hdf : DryFriction phi)
+    (alg : IPAHDD f phi.toEReal hdf.toEReal_mem_gammaZero h gamma beta)
     (hf : ContDiff ℝ 1 f) (hL : HasLipschitzGradient (gradient f) L)
     (hL_nonneg : 0 ≤ L)
-    (hC1 : Continuous (gradient f)) (hbelow : ∃ c : ℝ, ∀ x, c ≤ f x)
-    (hdf : DryFriction phi) (hpositive : 0 < h ∧ 0 < gamma ∧ 0 < beta)
+    (hbelow : ∃ c : ℝ, ∀ x, c ≤ f x)
+    (hpositive : 0 < h ∧ 0 < gamma ∧ 0 < beta)
     (hr : 0 < r) (hdf_r : Metric.ball (0 : H) r ⊆ subdifferential phi 0)
-    (hprox : ∀ lam x, IsProximalPoint phi lam x (prox lam x))
     (hgamma : gamma ≥ L * (h / 2 + beta)) :
     ∃ xInf E1, E1 = (1 / 2) * ‖(1 / h) • (alg.x 1 - alg.x 0)‖ ^ 2 + f (alg.x 1) - sInf (Set.range f) ∧
       HasFiniteLength alg.x ∧ Filter.Tendsto alg.x Filter.atTop (nhds xInf) ∧
@@ -222,6 +223,7 @@ theorem IPAHDD_finiteLength_and_critical {H : Type*} [NormedAddCommGroup H] [Inn
   rcases hpositive with ⟨hh, hg, hb⟩
   have hgrad : ∀ z, HasFDerivAt f (innerSL ℝ (gradient f z)) z :=
     fun z => hasFDerivAt_gradient f hf z
+  have hC1 : Continuous (gradient f) := continuous_gradient_of_contDiff hf
   have hden : 0 < 1 + h * gamma := by
     nlinarith [mul_pos hh hg]
   have hden0 : 1 + h * gamma ≠ 0 := ne_of_gt hden
@@ -236,7 +238,7 @@ theorem IPAHDD_finiteLength_and_critical {H : Type*} [NormedAddCommGroup H] [Inn
           beta • (gradient f (alg.x (k + 1)) - gradient f (alg.x k)) +
           h • gradient f (alg.x (k + 1)) = 0) := by
     simpa [v, d, Nat.add_assoc, Nat.add_left_comm, Nat.add_comm] using
-      IPAHDD_shifted_recurrence f phi prox h gamma beta alg hh hg hprox k
+      IPAHDD_shifted_recurrence f phi hdf.toEReal_mem_gammaZero h gamma beta alg hh hg k
   have hdescent (x y : H) :
       f y ≤ f x + inner ℝ (gradient f x) (y - x) + (L / 2) * ‖y - x‖ ^ 2 :=
     smooth_descent_of_fderiv_lipschitz f L hf hL x y

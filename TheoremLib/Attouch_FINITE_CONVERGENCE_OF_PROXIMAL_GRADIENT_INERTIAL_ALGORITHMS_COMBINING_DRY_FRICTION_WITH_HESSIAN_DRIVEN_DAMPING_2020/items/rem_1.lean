@@ -7,9 +7,9 @@ open ERealFunction
 
 /-- The IPAHDD update written as a subgradient recurrence for the next velocity. -/
 theorem rem_1_shifted_recurrence {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] [CompleteSpace H] (f phi : H → ℝ) (prox : ℝ → H → H)
-    (h gamma beta : ℝ) (alg : IPAHDD f phi prox h gamma beta) (hh : 0 < h)
-    (hg : 0 < gamma) (hprox : ∀ lam x, IsProximalPoint phi lam x (prox lam x)) (k : ℕ) :
+    [InnerProductSpace ℝ H] [CompleteSpace H] (f phi : H → ℝ) (hphi : phi.toEReal ∈ Γ₀(H))
+    (h gamma beta : ℝ) (alg : IPAHDD f phi.toEReal hphi h gamma beta) (hh : 0 < h)
+    (hg : 0 < gamma) (k : ℕ) :
     ∃ q, q ∈ subdifferential phi ((1 / h) • (alg.x (k + 2) - alg.x (k + 1))) ∧
       ((1 / h) • (alg.x (k + 2) - alg.x (k + 1)) -
           (1 / h) • (alg.x (k + 1) - alg.x k) +
@@ -25,20 +25,23 @@ theorem rem_1_shifted_recurrence {H : Type*} [NormedAddCommGroup H]
     dsimp [D]
     nlinarith [mul_pos hh hg]
   have hD0 : D ≠ 0 := ne_of_gt hD
-  rcases hprox (h / D) z with ⟨_hlam_pos, hmem⟩
-  let q : H := (h / D)⁻¹ • (z - prox (h / D) z)
-  have hq : q ∈ subdifferential phi (prox (h / D) z) := by
-    simpa [q, subdifferential] using hmem
-  have hqeq : (h / D) • q = z - prox (h / D) z := by
+  have hlam_pos : 0 < h / D := div_pos hh hD
+  let P : H → H := ERealFunction.scaledProximityOperator phi.toEReal hphi ⟨h / D, hlam_pos⟩
+  have hmem : (h / D)⁻¹ • (z - P z) ∈ subdifferential phi (P z) :=
+    ERealFunction.scaledProximityOperator_residual_mem hphi ⟨h / D, hlam_pos⟩ z
+  let q : H := (h / D)⁻¹ • (z - P z)
+  have hq : q ∈ subdifferential phi (P z) := by
+    simpa [q, P] using hmem
+  have hqeq : (h / D) • q = z - P z := by
     dsimp [q]
     rw [smul_smul, mul_inv_cancel₀ (div_ne_zero hh.ne' hD0)]
     simp
-  have hstep : h • prox (h / D) z = alg.x (k + 2) - alg.x (k + 1) := by
+  have hstep : h • P z = alg.x (k + 2) - alg.x (k + 1) := by
     rw [alg.update k]
-    simp [z, D]
-  have hp : prox (h / D) z = (1 / h) • (alg.x (k + 2) - alg.x (k + 1)) := by
+    simp [P, z, D]
+  have hp : P z = (1 / h) • (alg.x (k + 2) - alg.x (k + 1)) := by
     calc
-      prox (h / D) z = (1 / h) • (h • prox (h / D) z) := by
+      P z = (1 / h) • (h • P z) := by
         rw [smul_smul]
         field_simp [hh.ne']
         simp
@@ -63,28 +66,29 @@ theorem rem_1_shifted_recurrence {H : Type*} [NormedAddCommGroup H]
 /-- Remark 2.3: in finite dimension, an interior limiting force also yields finite stopping. -/
 theorem finiteDimensional_finiteStopping_remark {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [FiniteDimensional ℝ H] (f phi : H → ℝ)
-    (prox : ℝ → H → H) (h gamma beta L r : ℝ) (alg : IPAHDD f phi prox h gamma beta)
+    (h gamma beta L r : ℝ) (_hdf : DryFriction phi)
+    (alg : IPAHDD f phi.toEReal _hdf.toEReal_mem_gammaZero h gamma beta)
     (xInf : H) (hlimit : Filter.Tendsto alg.x Filter.atTop (nhds xInf))
     (hfinite : HasFiniteLength alg.x)
     (_hcritical : IsDryFrictionCritical phi f xInf)
-    (_hL : HasLipschitzGradient (gradient f) L) (hC1 : Continuous (gradient f))
+    (_hL : HasLipschitzGradient (gradient f) L) (hf : ContDiff ℝ 1 f)
     (_hbelow : ∃ c : ℝ, ∀ x, c ≤ f x) (hpositive : 0 < h ∧ 0 < gamma ∧ 0 < beta)
     (_hgamma : gamma ≥ L * (h / 2 + beta))
-    (_hdf : DryFriction phi) (_hr : 0 < r)
+    (_hr : 0 < r)
     (_hdf_r : Metric.ball (0 : H) r ⊆ subdifferential phi 0)
-    (hprox : ∀ lam x, IsProximalPoint phi lam x (prox lam x))
     (hinterior : -gradient f xInf ∈ interior (subdifferential phi 0)) :
     ∃ N, ∀ k ≥ N, alg.x (k + 1) = alg.x k := by
   let d : ℕ → H := fun k ↦ alg.x (k + 1) - alg.x k
   let v : ℕ → H := fun k ↦ (1 / h) • d k
   rcases hpositive with ⟨hh, hg, hb⟩
+  have hC1 : Continuous (gradient f) := continuous_gradient_of_contDiff hf
   have hshift (k : ℕ) :
       ∃ q, q ∈ subdifferential phi (v (k + 1)) ∧
         (v (k + 1) - v k + gamma • d (k + 1) + h • q +
           beta • (gradient f (alg.x (k + 1)) - gradient f (alg.x k)) +
           h • gradient f (alg.x (k + 1)) = 0) := by
     simpa [v, d, Nat.add_assoc, Nat.add_left_comm, Nat.add_comm] using
-      rem_1_shifted_recurrence f phi prox h gamma beta alg hh hg hprox k
+      rem_1_shifted_recurrence f phi _hdf.toEReal_mem_gammaZero h gamma beta alg hh hg k
   have hd_norm : Filter.Tendsto (fun k => ‖d k‖) Filter.atTop (nhds 0) :=
     hfinite.tendsto_atTop_zero
   have hd : Filter.Tendsto d Filter.atTop (nhds 0) :=

@@ -7,9 +7,9 @@ open ERealFunction
 
 private theorem IPAHDDN_shifted_recurrence {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [CompleteSpace H]
-    (f phi : H → ℝ) (prox : ℝ → H → H)
-    (h gamma beta : ℝ) (alg : IPAHDDN f prox h gamma beta) (hh : 0 < h)
-    (hg : 0 < gamma) (hprox : ∀ lam x, IsProximalPoint phi lam x (prox lam x)) (k : ℕ) :
+    (f phi : H → ℝ) (hphi : phi.toEReal ∈ Γ₀(H))
+    (h gamma beta : ℝ) (alg : IPAHDDN f phi.toEReal hphi h gamma beta) (hh : 0 < h)
+    (hg : 0 < gamma) (k : ℕ) :
     ∃ q, q ∈ subdifferential phi ((1 / h) • (alg.x (k + 2) - alg.x (k + 1))) ∧
       ((1 / h) • (alg.x (k + 2) - alg.x (k + 1)) -
           (1 / h) • (alg.x (k + 1) - alg.x k) + gamma •
@@ -24,20 +24,23 @@ private theorem IPAHDDN_shifted_recurrence {H : Type*} [NormedAddCommGroup H]
     dsimp [D]
     nlinarith [mul_pos hh hg]
   have hD0 : D ≠ 0 := ne_of_gt hD
-  rcases hprox (h / D) z with ⟨_hlam_pos, hmem⟩
-  let q : H := (h / D)⁻¹ • (z - prox (h / D) z)
-  have hq : q ∈ subdifferential phi (prox (h / D) z) := by
-    simpa [q, subdifferential] using hmem
-  have hqeq : (h / D) • q = z - prox (h / D) z := by
+  have hlam_pos : 0 < h / D := div_pos hh hD
+  let P : H → H := ERealFunction.scaledProximityOperator phi.toEReal hphi ⟨h / D, hlam_pos⟩
+  have hmem : (h / D)⁻¹ • (z - P z) ∈ subdifferential phi (P z) :=
+    ERealFunction.scaledProximityOperator_residual_mem hphi ⟨h / D, hlam_pos⟩ z
+  let q : H := (h / D)⁻¹ • (z - P z)
+  have hq : q ∈ subdifferential phi (P z) := by
+    simpa [q, P] using hmem
+  have hqeq : (h / D) • q = z - P z := by
     dsimp [q]
     rw [smul_smul, mul_inv_cancel₀ (div_ne_zero hh.ne' hD0)]
     simp
-  have hstep : h • prox (h / D) z = alg.x (k + 2) - alg.x (k + 1) := by
+  have hstep : h • P z = alg.x (k + 2) - alg.x (k + 1) := by
     rw [alg.update k]
-    simp [z, D]
-  have hp : prox (h / D) z = (1 / h) • (alg.x (k + 2) - alg.x (k + 1)) := by
+    simp [P, z, D]
+  have hp : P z = (1 / h) • (alg.x (k + 2) - alg.x (k + 1)) := by
     calc
-      prox (h / D) z = (1 / h) • (h • prox (h / D) z) := by
+      P z = (1 / h) • (h • P z) := by
         rw [smul_smul]
         field_simp [hh.ne']
         simp
@@ -141,15 +144,13 @@ private theorem IPAHDDN_parameter_quadratic_nonneg
 /-- Theorem 3.1: IPAHDD-N has finite length under its Lyapunov parameter conditions. -/
 theorem IPAHDDN_finiteLength {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [CompleteSpace H]
-    (f phi : H → ℝ) (prox : ℝ → H → H) (h gamma beta L r : ℝ)
-    (alg : IPAHDDN f prox h gamma beta)
+    (f phi : H → ℝ) (h gamma beta L r : ℝ) (hdf : DryFriction phi)
+    (alg : IPAHDDN f phi.toEReal hdf.toEReal_mem_gammaZero h gamma beta)
     (hf : ContDiff ℝ 1 f)
     (hL : HasLipschitzGradient (gradient f) L) (hL_nonneg : 0 ≤ L)
-    (hC1 : Continuous (gradient f))
-    (hbelow : ∃ c : ℝ, ∀ x, c ≤ f x) (hdf : DryFriction phi)
+    (hbelow : ∃ c : ℝ, ∀ x, c ≤ f x)
     (hpositive : 0 < h ∧ 0 < gamma ∧ 0 < beta) (hr : 0 < r)
     (hdf_r : ∀ z : H, r * ‖z‖ ≤ phi z)
-    (hprox : ∀ lam x, IsProximalPoint phi lam x (prox lam x))
     (hgamma : gamma ≥ (3 * L / 2) * (h + beta)) (hh : L * h ^ 2 ≤ 1) :
     ∃ xInf, HasFiniteLength alg.x ∧ Filter.Tendsto alg.x Filter.atTop (nhds xInf) ∧
       tsum (fun k : {k : ℕ // 1 ≤ k} ↦ ‖alg.x (k.1 + 1) - alg.x k.1‖) ≤
@@ -159,6 +160,7 @@ theorem IPAHDDN_finiteLength {H : Type*} [NormedAddCommGroup H]
   let d : ℕ → H := fun k ↦ alg.x (k + 1) - alg.x k
   let v : ℕ → H := fun k ↦ (1 / h) • d k
   rcases hpositive with ⟨hh, hg, hb⟩
+  have hC1 : Continuous (gradient f) := continuous_gradient_of_contDiff hf
   have hgrad : ∀ z, HasFDerivAt f (innerSL ℝ (gradient f z)) z :=
     fun z => hasFDerivAt_gradient f hf z
   have hD : 0 < 1 + h * gamma := by nlinarith [mul_pos hh hg]
@@ -168,7 +170,7 @@ theorem IPAHDDN_finiteLength {H : Type*} [NormedAddCommGroup H]
         (v (k + 1) - v k + gamma • d (k + 1) + h • q +
           beta • (gradient f (alg.x (k + 1)) - gradient f (alg.x k)) + h • gradient f (alg.y k) = 0) := by
     simpa [v, d, Nat.add_assoc, Nat.add_left_comm, Nat.add_comm] using
-      IPAHDDN_shifted_recurrence f phi prox h gamma beta alg hh hg hprox k
+      IPAHDDN_shifted_recurrence f phi hdf.toEReal_mem_gammaZero h gamma beta alg hh hg k
   have hdv (k : ℕ) : d k = h • v k := by
     dsimp [d, v]
     rw [smul_smul]

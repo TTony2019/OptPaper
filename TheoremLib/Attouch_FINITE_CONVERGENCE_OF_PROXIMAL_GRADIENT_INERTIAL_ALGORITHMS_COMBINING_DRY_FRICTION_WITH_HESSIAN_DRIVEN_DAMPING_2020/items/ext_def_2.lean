@@ -1,12 +1,8 @@
-import Mathlib
+import Foundation.Convex.Conjugate
 
-noncomputable section
-
-/-- Fenchel conjugate of a real-valued function. -/
-def fenchelConjugate {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
-    (g : H → ℝ) (u : H) : ℝ := sSup (Set.range fun x ↦ @inner ℝ H _ u x - g x)
-
-/-- Fenchel conjugate of an extended-real-valued function. -/
-def fenchelConjugateEReal {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
-    (g : H → EReal) (u : H) : EReal :=
-  sSup (Set.range fun x ↦ (@inner ℝ H _ u x : EReal) - g x)
+/-! The Fenchel conjugate `f∗` of an extended-real-valued function (and the associated proper and
+`Γ₀` conjugates) is supplied canonically by Foundation (`Foundation/Convex/Conjugate.lean`);
+rather than re-encoding it as a supremum, it is recalled here for paper-local use. -/
+recall ERealFunction.conjugate
+recall ERealFunction.properConjugateIoi
+recall ERealFunction.gammaZeroConjugate

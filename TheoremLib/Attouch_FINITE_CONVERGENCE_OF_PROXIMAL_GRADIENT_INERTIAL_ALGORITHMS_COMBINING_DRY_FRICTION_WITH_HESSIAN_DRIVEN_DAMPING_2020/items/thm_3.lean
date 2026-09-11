@@ -7,9 +7,8 @@ open scoped InnerProductSpace
 open ERealFunction
 
 private theorem IPAHDDVar_shifted_recurrence {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] [CompleteSpace H] (f phi : H → ℝ) (prox : ℝ → H → H)
-    (h gamma beta : ℝ) (alg : IPAHDDVar f prox h gamma beta) (hh : 0 < h)
-    (hprox : ∀ lam x, IsProximalPoint phi lam x (prox lam x)) (k : ℕ) :
+    [InnerProductSpace ℝ H] [CompleteSpace H] (f phi : H → ℝ) (hphi : phi.toEReal ∈ Γ₀(H))
+    (h gamma beta : ℝ) (alg : IPAHDDVar f phi.toEReal hphi h gamma beta) (hh : 0 < h) (k : ℕ) :
     ∃ q, q ∈ subdifferential phi ((1 / h) • (alg.x (k + 2) - alg.x (k + 1))) ∧
       ((1 / h) • (alg.x (k + 2) - alg.x (k + 1)) -
           (1 / h) • (alg.x (k + 1) - alg.x k) + (h * gamma) •
@@ -18,20 +17,22 @@ private theorem IPAHDDVar_shifted_recurrence {H : Type*} [NormedAddCommGroup H]
           h • gradient f (alg.x (k + 1)) + h • q = 0) := by
   let z : H := ((1 - h * gamma) / h) • (alg.x (k + 1) - alg.x k) -
     beta • (gradient f (alg.x (k + 1)) - gradient f (alg.x k)) - h • gradient f (alg.x (k + 1))
-  rcases hprox h z with ⟨_hlam_pos, hmem⟩
-  let q : H := h⁻¹ • (z - prox h z)
-  have hq : q ∈ subdifferential phi (prox h z) := by
-    simpa [q, subdifferential] using hmem
-  have hqeq : h • q = z - prox h z := by
+  let P : H → H := ERealFunction.scaledProximityOperator phi.toEReal hphi ⟨h, hh⟩
+  have hmem : h⁻¹ • (z - P z) ∈ subdifferential phi (P z) :=
+    ERealFunction.scaledProximityOperator_residual_mem hphi ⟨h, hh⟩ z
+  let q : H := h⁻¹ • (z - P z)
+  have hq : q ∈ subdifferential phi (P z) := by
+    simpa [q, P] using hmem
+  have hqeq : h • q = z - P z := by
     dsimp [q]
     rw [smul_smul, mul_inv_cancel₀ hh.ne']
     simp
-  have hstep : h • prox h z = alg.x (k + 2) - alg.x (k + 1) := by
+  have hstep : h • P z = alg.x (k + 2) - alg.x (k + 1) := by
     rw [alg.update k]
-    simp [z]
-  have hp : prox h z = (1 / h) • (alg.x (k + 2) - alg.x (k + 1)) := by
+    simp [P, z]
+  have hp : P z = (1 / h) • (alg.x (k + 2) - alg.x (k + 1)) := by
     calc
-      prox h z = (1 / h) • (h • prox h z) := by
+      P z = (1 / h) • (h • P z) := by
         rw [smul_smul]
         field_simp [hh.ne']
         simp
@@ -215,14 +216,14 @@ private theorem IPAHDDVar_subgradient_interior_forces_zero {H : Type*}
 
 /-- Theorem 2.6: the variable-friction IPAHDD scheme has finite-length trajectories. -/
 theorem IPAHDDVar_finiteLength {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
-    [CompleteSpace H] (f phi : H → ℝ) (prox : ℝ → H → H) (h gamma beta L r : ℝ)
-    (alg : IPAHDDVar f prox h gamma beta)
+    [CompleteSpace H] (f phi : H → ℝ) (h gamma beta L r : ℝ)
+    (hdf : DryFriction phi)
+    (alg : IPAHDDVar f phi.toEReal hdf.toEReal_mem_gammaZero h gamma beta)
     (hf : ContDiff ℝ 1 f)
-    (hL : HasLipschitzGradient (gradient f) L) (hC1 : Continuous (gradient f))
-    (hbelow : ∃ c : ℝ, ∀ x, c ≤ f x) (hdf : DryFriction phi)
+    (hL : HasLipschitzGradient (gradient f) L)
+    (hbelow : ∃ c : ℝ, ∀ x, c ≤ f x)
     (hpositive : 0 < h ∧ 0 < gamma) (hL_nonneg : 0 ≤ L) (hbeta_nonneg : 0 ≤ beta) (hr : 0 < r)
     (hdf_r : Metric.ball (0 : H) r ⊆ subdifferential phi 0)
-    (hprox : ∀ lam x, IsProximalPoint phi lam x (prox lam x))
     (hgamma : gamma ≥ L * (beta + h / 2) + gamma ^ 2 * h / 2) :
     ∃ xInf E1, E1 = (1 / 2) * (1 + beta * h * L) * ‖(1 / h) • (alg.x 1 - alg.x 0)‖ ^ 2 +
         f (alg.x 1) - sInf (Set.range f) ∧
@@ -238,6 +239,7 @@ theorem IPAHDDVar_finiteLength {H : Type*} [NormedAddCommGroup H] [InnerProductS
   let d : ℕ → H := fun k ↦ alg.x (k + 1) - alg.x k
   let v : ℕ → H := fun k ↦ (1 / h) • d k
   rcases hpositive with ⟨hh, hg⟩
+  have hC1 : Continuous (gradient f) := continuous_gradient_of_contDiff hf
   have hgrad : ∀ z, HasFDerivAt f (innerSL ℝ (gradient f z)) z :=
     fun z => hasFDerivAt_gradient f hf z
   have hshift (k : ℕ) :
@@ -246,7 +248,7 @@ theorem IPAHDDVar_finiteLength {H : Type*} [NormedAddCommGroup H] [InnerProductS
           beta • (gradient f (alg.x (k + 1)) - gradient f (alg.x k)) +
           h • gradient f (alg.x (k + 1)) + h • q = 0) := by
     simpa [v, d, Nat.add_assoc, Nat.add_left_comm, Nat.add_comm] using
-      IPAHDDVar_shifted_recurrence f phi prox h gamma beta alg hh hprox k
+      IPAHDDVar_shifted_recurrence f phi hdf.toEReal_mem_gammaZero h gamma beta alg hh k
   have hdv (k : ℕ) : d k = h • v k := by
     dsimp [d, v]
     rw [smul_smul]

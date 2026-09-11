@@ -2,12 +2,14 @@ import TheoremLib.Attouch_FINITE_CONVERGENCE_OF_PROXIMAL_GRADIENT_INERTIAL_ALGOR
 
 /-- The variable-friction IPAHDD iteration. -/
 structure IPAHDDVar {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
-    (f : H → ℝ) (prox : ℝ → H → H) (h gamma beta : ℝ) where
+    (f : H → ℝ) (φ : H → Set.Ioi (⊥ : EReal)) (hφ : φ ∈ Γ₀(H)) (h gamma beta : ℝ) where
+  h_pos : 0 < h
   x : ℕ → H
   initial0 : H
   initial1 : H
   init0 : x 0 = initial0
   init1 : x 1 = initial1
-  update (k : ℕ) : x (k + 2) = x (k + 1) + h • prox h
+  update (k : ℕ) : x (k + 2) = x (k + 1) + h •
+    ERealFunction.scaledProximityOperator φ hφ ⟨h, h_pos⟩
     (((1 - h * gamma) / h) • (x (k + 1) - x k) -
       beta • (gradient f (x (k + 1)) - gradient f (x k)) - h • gradient f (x (k + 1)))
