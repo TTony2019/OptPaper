@@ -141,16 +141,18 @@ private theorem IPAHDDN_parameter_quadratic_nonneg
     0 ≤ (1 + h * gamma - L * h ^ 2 / 2 - 3 * beta * h * L / 2) / 2)
   nlinarith
 
-/-- Theorem 3.1: IPAHDD-N has finite length under its Lyapunov parameter conditions. -/
+/--
+Theorem 3.1:
+IPAHDD-N has finite length under its Lyapunov parameter conditions.
+-/
 theorem IPAHDDN_finiteLength {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [CompleteSpace H]
-    (f phi : H → ℝ) (h gamma beta L r : ℝ) (hdf : DryFriction phi)
+    (f phi : H → ℝ) (h gamma beta L r : ℝ) (hdf : DF_r phi r)
     (alg : IPAHDDN f phi.toEReal hdf.toEReal_mem_gammaZero h gamma beta)
     (hf : ContDiff ℝ 1 f)
     (hL : HasLipschitzGradient (gradient f) L) (hL_nonneg : 0 ≤ L)
     (hbelow : ∃ c : ℝ, ∀ x, c ≤ f x)
-    (hpositive : 0 < h ∧ 0 < gamma ∧ 0 < beta) (hr : 0 < r)
-    (hdf_r : ∀ z : H, r * ‖z‖ ≤ phi z)
+    (hpositive : 0 < h ∧ 0 < gamma ∧ 0 < beta)
     (hgamma : gamma ≥ (3 * L / 2) * (h + beta)) (hh : L * h ^ 2 ≤ 1) :
     ∃ xInf, HasFiniteLength alg.x ∧ Filter.Tendsto alg.x Filter.atTop (nhds xInf) ∧
       tsum (fun k : {k : ℕ // 1 ≤ k} ↦ ‖alg.x (k.1 + 1) - alg.x k.1‖) ≤
@@ -223,7 +225,9 @@ theorem IPAHDDN_finiteLength {H : Type*} [NormedAddCommGroup H]
     have hhphi := mul_le_mul_of_nonneg_left hphi hh.le
     linarith
   have hfric (k : ℕ) : r * ‖d (k + 1)‖ ≤ h * phi (v (k + 1)) := by
-    have hmul := mul_le_mul_of_nonneg_left (hdf_r (v (k + 1))) hh.le
+    have hdry := subgradient_ball_exact_linear_lower_bound phi hdf.value_at_zero
+      hdf.radius_pos hdf.ball_subset (v (k + 1))
+    have hmul := mul_le_mul_of_nonneg_left hdry hh.le
     have hnorm : ‖d (k + 1)‖ = h * ‖v (k + 1)‖ := by
       rw [hdv (k + 1), norm_smul, Real.norm_eq_abs, abs_of_pos hh]
     rw [hnorm]
@@ -375,7 +379,7 @@ theorem IPAHDDN_finiteLength {H : Type*} [NormedAddCommGroup H]
     have hlen_nonneg : 0 ≤ ∑ k ∈ Finset.range N, r * ‖d (k + 1)‖ := by
       apply Finset.sum_nonneg
       intro k hk
-      exact mul_nonneg hr.le (norm_nonneg _)
+      exact mul_nonneg hdf.radius_pos.le (norm_nonneg _)
     have hle := htel N
     have hfactor : (∑ k ∈ Finset.range N, r * ‖d (k + 1)‖) =
         r * (∑ k ∈ Finset.range N, ‖d (k + 1)‖) := by
@@ -383,7 +387,7 @@ theorem IPAHDDN_finiteLength {H : Type*} [NormedAddCommGroup H]
     rw [hfactor] at hle
     have hright : r * (∑ k ∈ Finset.range N, ‖d (k + 1)‖) ≤ E 0 := by
       linarith [hE_nonneg N]
-    exact (le_div_iff₀ hr).mpr (by simpa [mul_comm] using hright)
+    exact (le_div_iff₀ hdf.radius_pos).mpr (by simpa [mul_comm] using hright)
   have hs_d : Summable (fun k => ‖d (k + 1)‖) :=
     summable_of_sum_range_le (fun k => norm_nonneg _) hsum_d
   have hs : Summable (fun k : ℕ => ‖d k‖) :=
@@ -409,7 +413,7 @@ theorem IPAHDDN_finiteLength {H : Type*} [NormedAddCommGroup H]
         dsimp [E, v, d]
         have hinv_h : 0 < (1 / h : ℝ) := one_div_pos.mpr hh
         rw [norm_smul, Real.norm_eq_abs, abs_of_pos hinv_h]
-        field_simp [hr.ne', hh.ne']
+        field_simp [hdf.radius_pos.ne', hh.ne']
   have hd_norm : Filter.Tendsto (fun k => ‖d k‖) Filter.atTop (nhds 0) :=
     hs.tendsto_atTop_zero
   have hd : Filter.Tendsto d Filter.atTop (nhds 0) :=

@@ -203,16 +203,18 @@ private theorem inner_sub_self_energy_identity_local {H : Type*}
   ring
 
 set_option maxHeartbeats 800000
-/-- Theorem 2.2: strict interior dry friction gives geometric decay and finite stopping. -/
+/--
+Theorem 2.2: (Human checked)
+strict interior dry friction gives geometric decay and finite stopping.
+-/
 theorem IPAHDD_geometric_and_finite {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     [CompleteSpace H]
-    (f phi : H → ℝ) (h gamma beta L r : ℝ) (hdf : DryFriction phi)
+    (f phi : H → ℝ) (h gamma beta L r : ℝ) (hdf : DF_r phi r)
     (alg : IPAHDD f phi.toEReal hdf.toEReal_mem_gammaZero h gamma beta) (xInf : H)
     (hf : ContDiff ℝ 1 f)
     (hL : HasLipschitzGradient (gradient f) L) (hL_nonneg : 0 ≤ L)
     (_hbelow : ∃ c : ℝ, ∀ x, c ≤ f x)
-    (hpositive : 0 < h ∧ 0 < gamma ∧ 0 < beta) (_hr : 0 < r)
-    (hdf_r : Metric.ball (0 : H) r ⊆ subdifferential phi 0)
+    (hpositive : 0 < h ∧ 0 < gamma ∧ 0 < beta)
     (hgamma : gamma ≥ L * (h / 2 + beta))
     (hlimit : Filter.Tendsto alg.x Filter.atTop (nhds xInf)) :
     let q := 1 / Real.sqrt (1 + 2 * h * (gamma - beta * L) / (1 + beta * h * L))
@@ -284,7 +286,8 @@ theorem IPAHDD_geometric_and_finite {H : Type*} [NormedAddCommGroup H] [InnerPro
         change (⟪0 - v (k + 1), s⟫_ℝ : EReal) + (phi (v (k + 1)) : EReal) ≤
           (phi 0 : EReal) at hs0
         norm_cast at hs0
-        simp [hdf.value_at_zero, inner_neg_left] at hs0
+        simp only [zero_sub, inner_neg_left, hdf.value_at_zero, neg_add_le_iff_le_add,
+          add_zero] at hs0
         rw [real_inner_comm] at hs0
         linarith
       have hhphi := mul_le_mul_of_nonneg_left hphi hh.le
@@ -585,7 +588,7 @@ theorem IPAHDD_geometric_and_finite {H : Type*} [NormedAddCommGroup H] [InnerPro
     rcases Filter.eventually_atTop.1 hsmall with ⟨kStop, hkStop⟩
     have hnext : ∀ j ≥ kStop, alg.x (j + 2) = alg.x (j + 1) := by
       intro j hj
-      have hmem : lam⁻¹ • z j ∈ subdifferential phi 0 := hdf_r (by
+      have hmem : lam⁻¹ • z j ∈ subdifferential phi 0 := hdf.ball_subset (by
         simpa [Metric.mem_ball, dist_eq_norm] using hkStop j hj)
       have hzero : IsProximalPoint phi lam (z j) 0 := by
         refine ⟨hlam, ?_⟩

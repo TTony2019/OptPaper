@@ -41,3 +41,16 @@ theorem DryFriction.toEReal_mem_gammaZero {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] {phi : H → ℝ} (h : DryFriction phi) :
     phi.toEReal ∈ Γ₀(H) :=
   toEReal_mem_gammaZero_of_continuous_convexOn_univ h.continuous h.convex
+
+/-- Dry friction with an explicit sharpness radius `r`: the dry-friction property together with
+the radius-`r` subgradient ball at the origin.  Equivalently (Lemma 1.1), `r ‖x‖ ≤ φ x` for all
+`x`, i.e. `φ` has a sharp minimum at the origin with coefficient `r`. -/
+structure DF_r {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    (phi : H → ℝ) (r : ℝ) : Prop extends DryFriction phi where
+  radius_pos : 0 < r
+  ball_subset : Metric.ball (0 : H) r ⊆ subdifferential phi 0
+
+/-- A radius-`r` dry friction is in particular a `Γ₀` function. -/
+theorem DF_r.toEReal_mem_gammaZero {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    {phi : H → ℝ} {r : ℝ} (h : DF_r phi r) : phi.toEReal ∈ Γ₀(H) :=
+  h.toDryFriction.toEReal_mem_gammaZero

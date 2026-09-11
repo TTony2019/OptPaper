@@ -66,7 +66,7 @@ theorem rem_1_shifted_recurrence {H : Type*} [NormedAddCommGroup H]
 /-- Remark 2.3: in finite dimension, an interior limiting force also yields finite stopping. -/
 theorem finiteDimensional_finiteStopping_remark {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [FiniteDimensional ℝ H] (f phi : H → ℝ)
-    (h gamma beta L r : ℝ) (_hdf : DryFriction phi)
+    (h gamma beta L r : ℝ) (_hdf : DF_r phi r)
     (alg : IPAHDD f phi.toEReal _hdf.toEReal_mem_gammaZero h gamma beta)
     (xInf : H) (hlimit : Filter.Tendsto alg.x Filter.atTop (nhds xInf))
     (hfinite : HasFiniteLength alg.x)
@@ -74,8 +74,6 @@ theorem finiteDimensional_finiteStopping_remark {H : Type*} [NormedAddCommGroup 
     (_hL : HasLipschitzGradient (gradient f) L) (hf : ContDiff ℝ 1 f)
     (_hbelow : ∃ c : ℝ, ∀ x, c ≤ f x) (hpositive : 0 < h ∧ 0 < gamma ∧ 0 < beta)
     (_hgamma : gamma ≥ L * (h / 2 + beta))
-    (_hr : 0 < r)
-    (_hdf_r : Metric.ball (0 : H) r ⊆ subdifferential phi 0)
     (hinterior : -gradient f xInf ∈ interior (subdifferential phi 0)) :
     ∃ N, ∀ k ≥ N, alg.x (k + 1) = alg.x k := by
   let d : ℕ → H := fun k ↦ alg.x (k + 1) - alg.x k

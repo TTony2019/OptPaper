@@ -180,16 +180,18 @@ private theorem geometric_range_sum_le_pert_local (q : ℝ) (hq0 : 0 ≤ q) (hq1
     _ = q ^ n / (1 - q) := by ring
 
 set_option maxHeartbeats 800000 in
-/-- Theorem 2.7: vanishing perturbations preserve finite length for IPAHDD. -/
+/--
+Theorem 2.7:
+vanishing perturbations preserve finite length for IPAHDD.
+-/
 theorem IPAHDDPert_finiteLength {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [CompleteSpace H] (f phi : H → ℝ)
-    (e : ℕ → H) (h gamma beta L r : ℝ) (hdf : DryFriction phi)
+    (e : ℕ → H) (h gamma beta L r : ℝ) (hdf : DF_r phi r)
     (alg : IPAHDDPert f phi.toEReal hdf.toEReal_mem_gammaZero e h gamma beta)
     (hf : ContDiff ℝ 1 f)
     (hL : HasLipschitzGradient (gradient f) L) (hL_nonneg : 0 ≤ L)
     (hbelow : ∃ c : ℝ, ∀ x, c ≤ f x)
-    (hpositive : 0 < h ∧ 0 < gamma ∧ 0 < beta) (hr : 0 < r)
-    (hdf_r : Metric.ball (0 : H) r ⊆ subdifferential phi 0)
+    (hpositive : 0 < h ∧ 0 < gamma ∧ 0 < beta)
     (hgamma : gamma ≥ L * (h / 2 + beta)) (he : Filter.Tendsto e Filter.atTop (nhds 0)) :
     ∃ xInf E1, E1 = (1 / 2) * ‖(1 / h) • (alg.x 1 - alg.x 0)‖ ^ 2 +
         f (alg.x 1) - sInf (Set.range f) ∧
@@ -276,7 +278,7 @@ theorem IPAHDDPert_finiteLength {H : Type*} [NormedAddCommGroup H]
       simpa [hdv] using real_inner_le_norm (e k) (d (k + 1))
     linarith
   have hdry : ∀ u : H, r * ‖u‖ ≤ phi u :=
-    subgradient_ball_exact_linear_lower_bound phi hdf.value_at_zero hr hdf_r
+    subgradient_ball_exact_linear_lower_bound phi hdf.value_at_zero hdf.radius_pos hdf.ball_subset
   have hfric (k : ℕ) : r * ‖d (k + 1)‖ ≤ h * phi (v (k + 1)) := by
     have hmul := mul_le_mul_of_nonneg_left (hdry (v (k + 1))) hh.le
     have hnorm : ‖d (k + 1)‖ = h * ‖v (k + 1)‖ := by
@@ -371,7 +373,7 @@ theorem IPAHDDPert_finiteLength {H : Type*} [NormedAddCommGroup H]
   have he_norm : Filter.Tendsto (fun k => ‖e k‖) Filter.atTop (nhds 0) := by
     simpa using he.norm
   have he_tail : ∀ᶠ k : ℕ in Filter.atTop, ‖e k‖ < r / 2 := by
-    exact he_norm.eventually (eventually_lt_nhds (by simpa using (half_pos hr)))
+    exact he_norm.eventually (eventually_lt_nhds (by simpa using (half_pos hdf.radius_pos)))
   obtain ⟨K, hK⟩ := Filter.eventually_atTop.1 he_tail
   have htailstep (k : ℕ) (hk : K ≤ k) :
       M (k + 1) - M k +
@@ -409,14 +411,14 @@ theorem IPAHDDPert_finiteLength {H : Type*} [NormedAddCommGroup H]
     have hlen_nonneg : 0 ≤ ∑ i ∈ Finset.range N, (r / 2) * ‖d (K + i + 1)‖ := by
       apply Finset.sum_nonneg
       intro i hi
-      exact mul_nonneg (half_pos hr).le (norm_nonneg _)
+      exact mul_nonneg (half_pos hdf.radius_pos).le (norm_nonneg _)
     have hle := htailtel N
     rw [Finset.sum_add_distrib] at hle
     have hfactor : (∑ i ∈ Finset.range N, (r / 2) * ‖d (K + i + 1)‖) =
         (r / 2) * ∑ i ∈ Finset.range N, ‖d (K + i + 1)‖ := by
       rw [Finset.mul_sum]
     rw [hfactor] at hle
-    apply (le_div_iff₀ (half_pos hr)).mpr
+    apply (le_div_iff₀ (half_pos hdf.radius_pos)).mpr
     linarith [hM_nonneg (K + N)]
   have hsTail : Summable (fun n => ‖d (K + n + 1)‖) :=
     summable_of_sum_range_le (fun n => norm_nonneg _) htailsum
@@ -471,7 +473,7 @@ theorem IPAHDDPert_finiteLength {H : Type*} [NormedAddCommGroup H]
           (r / 2) * ∑ i ∈ Finset.range N, ‖d (i + 1)‖ := by
         rw [Finset.mul_sum]
       rw [hfactor] at hle
-      apply (le_div_iff₀ (half_pos hr)).mpr
+      apply (le_div_iff₀ (half_pos hdf.radius_pos)).mpr
       linarith [hM_nonneg N]
     have htsum : tsum (fun i => ‖d (i + 1)‖) ≤ M 0 / (r / 2) :=
       Real.tsum_le_of_sum_range_le (fun i => norm_nonneg _) hsum
@@ -483,7 +485,7 @@ theorem IPAHDDPert_finiteLength {H : Type*} [NormedAddCommGroup H]
       _ ≤ M 0 / (r / 2) := htsum
       _ = (2 / r) * (E1 + beta * L / (2 * h) * ‖alg.x 1 - alg.x 0‖ ^ 2) := by
           rw [hM0]
-          field_simp [hr.ne'] <;> ring
+          field_simp [hdf.radius_pos.ne'] <;> ring
   have hd_norm : Filter.Tendsto (fun k => ‖d k‖) Filter.atTop (nhds 0) :=
     hs.tendsto_atTop_zero
   have hd : Filter.Tendsto d Filter.atTop (nhds 0) :=
@@ -584,7 +586,7 @@ theorem IPAHDDPert_finiteLength {H : Type*} [NormedAddCommGroup H]
     obtain ⟨kStop, hkStop⟩ := Filter.eventually_atTop.1 hsmall
     have hnext : ∀ j ≥ kStop, alg.x (j + 2) = alg.x (j + 1) := by
       intro j hj
-      have hmem : lam⁻¹ • z j ∈ subdifferential phi 0 := hdf_r (by
+      have hmem : lam⁻¹ • z j ∈ subdifferential phi 0 := hdf.ball_subset (by
         simpa [Metric.mem_ball, dist_eq_norm] using hkStop j hj)
       have hzero : IsProximalPoint phi lam (z j) 0 := by
         refine ⟨hlam, ?_⟩

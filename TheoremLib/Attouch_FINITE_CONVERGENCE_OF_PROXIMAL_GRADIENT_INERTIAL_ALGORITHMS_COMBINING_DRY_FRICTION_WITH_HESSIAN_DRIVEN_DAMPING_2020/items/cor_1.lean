@@ -12,14 +12,13 @@ open ERealFunction
 specialization of the soft-threshold update. -/
 theorem IPAHDD_softThreshold_finiteConvergence {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [CompleteSpace H] (f phi : H → ℝ)
-    (h gamma beta r L : ℝ) (hdf : DryFriction phi)
+    (h gamma beta r L : ℝ) (hdf : DF_r phi r)
     (alg : IPAHDD f phi.toEReal hdf.toEReal_mem_gammaZero h gamma beta)
-    (hpositive : 0 < h ∧ 0 < gamma ∧ 0 < beta) (hr : 0 < r)
+    (hpositive : 0 < h ∧ 0 < gamma ∧ 0 < beta)
     (hf : ContDiff ℝ 1 f) (hL : HasLipschitzGradient (gradient f) L)
     (hL_nonneg : 0 ≤ L)
     (hbelow : ∃ c : ℝ, ∀ x, c ≤ f x)
-    (hgamma : gamma ≥ L * (h / 2 + beta))
-    (hdf_r : Metric.ball (0 : H) r ⊆ subdifferential phi 0) :
+    (hgamma : gamma ≥ L * (h / 2 + beta)) :
     ∃ xInf, HasFiniteLength alg.x ∧ Filter.Tendsto alg.x Filter.atTop (nhds xInf) ∧
       IsDryFrictionCritical phi f xInf ∧
       (let q := 1 / Real.sqrt (1 + 2 * h * (gamma - beta * L) / (1 + beta * h * L));
@@ -32,12 +31,12 @@ theorem IPAHDD_softThreshold_finiteConvergence {H : Type*} [NormedAddCommGroup H
   have hC1 : Continuous (gradient f) := continuous_gradient_of_contDiff hf
   obtain ⟨xInf, E1, hE1, hfinite, hlimit, hcritical, hlength, hacc⟩ :=
     IPAHDD_finiteLength_and_critical f phi h gamma beta L r hdf alg hf hL hL_nonneg
-      hbelow ⟨hh, hg, hb⟩ hr hdf_r hgamma
+      hbelow ⟨hh, hg, hb⟩ hgamma
   refine ⟨xInf, hfinite, hlimit, hcritical, ?_⟩
   dsimp
   obtain ⟨hgeometric, hstopping⟩ :=
     IPAHDD_geometric_and_finite f phi h gamma beta L r hdf alg xInf hf hL hL_nonneg
-      hbelow ⟨hh, hg, hb⟩ hr hdf_r hgamma hlimit
+      hbelow ⟨hh, hg, hb⟩ hgamma hlimit
   constructor
   · exact hgeometric
   · intro hmargin

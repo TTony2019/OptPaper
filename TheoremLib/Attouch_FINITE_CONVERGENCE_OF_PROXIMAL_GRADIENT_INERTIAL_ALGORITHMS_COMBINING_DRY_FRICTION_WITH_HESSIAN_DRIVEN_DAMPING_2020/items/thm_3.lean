@@ -196,13 +196,13 @@ private theorem IPAHDDVar_subgradient_interior_forces_zero {H : Type*}
   have hp0' : phi u ≤ inner ℝ p u := by
     change (⟪0 - u, p⟫_ℝ : EReal) + (phi u : EReal) ≤ (phi 0 : EReal) at hp0
     norm_cast at hp0
-    simp [hzero, inner_neg_left] at hp0
-    rw [real_inner_comm] at hp0
+    simp only [zero_sub, inner_neg_left, hzero, neg_add_le_iff_le_add, add_zero,
+      real_inner_comm] at hp0
     linarith
   have hzu' : inner ℝ z u ≤ phi u := by
     change (⟪u - 0, z⟫_ℝ : EReal) + (phi 0 : EReal) ≤ (phi u : EReal) at hzu
     norm_cast at hzu
-    simp [hzero] at hzu
+    simp only [sub_zero, hzero, add_zero] at hzu
     rw [real_inner_comm] at hzu
     exact hzu
   have hle : inner ℝ z u ≤ inner ℝ p u := hzu'.trans hp0'
@@ -214,16 +214,18 @@ private theorem IPAHDDVar_subgradient_interior_forces_zero {H : Type*}
   have hpos : 0 < (ε / (2 * ‖u‖)) * ‖u‖ ^ 2 := by positivity
   linarith
 
-/-- Theorem 2.6: the variable-friction IPAHDD scheme has finite-length trajectories. -/
+/--
+Theorem 2.6: (Human checked)
+the variable-friction IPAHDD scheme has finite-length trajectories.
+-/
 theorem IPAHDDVar_finiteLength {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     [CompleteSpace H] (f phi : H → ℝ) (h gamma beta L r : ℝ)
-    (hdf : DryFriction phi)
+    (hdf : DF_r phi r)
     (alg : IPAHDDVar f phi.toEReal hdf.toEReal_mem_gammaZero h gamma beta)
     (hf : ContDiff ℝ 1 f)
     (hL : HasLipschitzGradient (gradient f) L)
     (hbelow : ∃ c : ℝ, ∀ x, c ≤ f x)
-    (hpositive : 0 < h ∧ 0 < gamma) (hL_nonneg : 0 ≤ L) (hbeta_nonneg : 0 ≤ beta) (hr : 0 < r)
-    (hdf_r : Metric.ball (0 : H) r ⊆ subdifferential phi 0)
+    (hpositive : 0 < h ∧ 0 < gamma) (hL_nonneg : 0 ≤ L) (hbeta_nonneg : 0 ≤ beta)
     (hgamma : gamma ≥ L * (beta + h / 2) + gamma ^ 2 * h / 2) :
     ∃ xInf E1, E1 = (1 / 2) * (1 + beta * h * L) * ‖(1 / h) • (alg.x 1 - alg.x 0)‖ ^ 2 +
         f (alg.x 1) - sInf (Set.range f) ∧
@@ -293,14 +295,14 @@ theorem IPAHDDVar_finiteLength {H : Type*} [NormedAddCommGroup H] [InnerProductS
       change (⟪0 - v (k + 1), q⟫_ℝ : EReal) + (phi (v (k + 1)) : EReal) ≤
         (phi 0 : EReal) at hq0
       norm_cast at hq0
-      simp [hdf.value_at_zero, inner_neg_left] at hq0
-      rw [real_inner_comm] at hq0
+      simp only [zero_sub, inner_neg_left, hdf.value_at_zero, neg_add_le_iff_le_add,
+        add_zero, real_inner_comm] at hq0
       linarith
     have hhphi : h * phi (v (k + 1)) ≤ h * inner ℝ q (v (k + 1)) :=
       mul_le_mul_of_nonneg_left hphi hh.le
     linarith
   have hdry : ∀ u : H, r * ‖u‖ ≤ phi u :=
-    subgradient_ball_exact_linear_lower_bound phi hdf.value_at_zero hr hdf_r
+    subgradient_ball_exact_linear_lower_bound phi hdf.value_at_zero hdf.radius_pos hdf.ball_subset
   have hdescent (x y : H) :
       f y ≤ f x + inner ℝ (gradient f x) (y - x) + (L / 2) * ‖y - x‖ ^ 2 :=
     IPAHDDVar_smooth_descent f L hf hL x y
@@ -372,7 +374,7 @@ theorem IPAHDDVar_finiteLength {H : Type*} [NormedAddCommGroup H] [InnerProductS
     have hfactor : (∑ k ∈ Finset.range N, r * ‖d (k + 1)‖) =
         r * ∑ k ∈ Finset.range N, ‖d (k + 1)‖ := by rw [Finset.mul_sum]
     rw [hfactor] at htel'
-    apply (le_div_iff₀ hr).mpr
+    apply (le_div_iff₀ hdf.radius_pos).mpr
     linarith [hE_nonneg N]
   have hs_d : Summable (fun k => ‖d (k + 1)‖) :=
     summable_of_sum_range_le (fun k => norm_nonneg _) hsum_d
@@ -405,24 +407,25 @@ theorem IPAHDDVar_finiteLength {H : Type*} [NormedAddCommGroup H] [InnerProductS
     simpa using hv_succ.sub hv
   have hxInf_succ : Filter.Tendsto (fun k => alg.x (k + 1)) Filter.atTop (nhds xInf) := by
     simpa using hxInf.comp (Filter.tendsto_add_atTop_nat 1)
-  have hgradlim : Filter.Tendsto (fun k => gradient f (alg.x k)) Filter.atTop (nhds (gradient f xInf)) :=
-    (hC1.tendsto xInf).comp hxInf
-  have hgrad_succ : Filter.Tendsto (fun k => gradient f (alg.x (k + 1))) Filter.atTop (nhds (gradient f xInf)) :=
-    (hC1.tendsto xInf).comp hxInf_succ
-  have hgrad_diff : Filter.Tendsto (fun k => gradient f (alg.x (k + 1)) - gradient f (alg.x k)) Filter.atTop (nhds 0) := by
-    simpa using hgrad_succ.sub hgradlim
+  have hgradlim : Filter.Tendsto (fun k => gradient f (alg.x k))
+    Filter.atTop (nhds (gradient f xInf)) := (hC1.tendsto xInf).comp hxInf
+  have hgrad_succ : Filter.Tendsto (fun k => gradient f (alg.x (k + 1)))
+    Filter.atTop (nhds (gradient f xInf)) := (hC1.tendsto xInf).comp hxInf_succ
+  have hgrad_diff : Filter.Tendsto (fun k => gradient f (alg.x (k + 1)) - gradient f (alg.x k))
+    Filter.atTop (nhds 0) := by simpa using hgrad_succ.sub hgradlim
   let q : ℕ → H := fun k => Classical.choose (hshift k)
   have hqmem (k : ℕ) : q k ∈ subdifferential phi (v (k + 1)) :=
     (Classical.choose_spec (hshift k)).1
   have hqrec (k : ℕ) : v (k + 1) - v k + (h * gamma) • v k +
-      beta • (gradient f (alg.x (k + 1)) - gradient f (alg.x k)) + h • gradient f (alg.x (k + 1)) + h • q k = 0 :=
-    (Classical.choose_spec (hshift k)).2
+      beta • (gradient f (alg.x (k + 1)) - gradient f (alg.x k)) + h • gradient f (alg.x (k + 1))
+      + h • q k = 0 := (Classical.choose_spec (hshift k)).2
   have hqsolve (k : ℕ) : h • q k = -(v (k + 1) - v k + (h * gamma) • v k +
-      beta • (gradient f (alg.x (k + 1)) - gradient f (alg.x k)) + h • gradient f (alg.x (k + 1))) := by
+      beta • (gradient f (alg.x (k + 1)) - gradient f (alg.x k)) + h • gradient f (alg.x (k + 1)))
+      := by
     apply eq_neg_of_add_eq_zero_left
     calc h • q k + (v (k + 1) - v k + (h * gamma) • v k +
-        beta • (gradient f (alg.x (k + 1)) - gradient f (alg.x k)) + h • gradient f (alg.x (k + 1))) =
-        v (k + 1) - v k + (h * gamma) • v k + beta •
+        beta • (gradient f (alg.x (k + 1)) - gradient f (alg.x k)) + h • gradient f (alg.x (k + 1)))
+        = v (k + 1) - v k + (h * gamma) • v k + beta •
           (gradient f (alg.x (k + 1)) - gradient f (alg.x k)) + h • gradient f (alg.x (k + 1)) + h • q k := by ac_rfl
       _ = 0 := hqrec k
   have hdamp : Filter.Tendsto (fun k => (h * gamma) • v k) Filter.atTop (nhds 0) := by
@@ -510,7 +513,7 @@ theorem IPAHDDVar_finiteLength {H : Type*} [NormedAddCommGroup H] [InnerProductS
     apply Metric.mem_nhds_iff.mpr
     refine ⟨r - ‖q k‖, sub_pos.mpr hk, ?_⟩
     intro y hy
-    apply hdf_r
+    apply hdf.ball_subset
     rw [Metric.mem_ball, dist_eq_norm] at hy ⊢
     have hy' : ‖y‖ < r := calc
       ‖y‖ = ‖(y - q k) + q k‖ := by congr 1; abel

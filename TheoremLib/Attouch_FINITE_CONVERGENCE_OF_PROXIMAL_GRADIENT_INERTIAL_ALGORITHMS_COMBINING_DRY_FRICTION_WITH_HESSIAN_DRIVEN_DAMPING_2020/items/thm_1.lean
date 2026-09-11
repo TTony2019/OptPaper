@@ -35,7 +35,7 @@ theorem subgradient_ball_exact_linear_lower_bound
     have hp' := hball (Metric.mem_ball_self hr) u
     change (⟪u - 0, 0⟫_ℝ : EReal) + (phi 0 : EReal) ≤ (phi u : EReal) at hp'
     norm_cast at hp'
-    simp [hzero, inner_zero_right] at hp'
+    simp only [sub_zero, inner_zero_right, hzero, add_zero] at hp'
     exact hp'
   have ht : 0 < t := lt_of_le_of_lt (div_nonneg hphi (norm_nonneg u)) htquot
   have hp_norm : ‖p‖ < r := by
@@ -56,7 +56,7 @@ theorem subgradient_ball_exact_linear_lower_bound
     have hp' := hp u
     change (⟪u - 0, p⟫_ℝ : EReal) + (phi 0 : EReal) ≤ (phi u : EReal) at hp'
     norm_cast at hp'
-    simp [hzero] at hp'
+    simp only [sub_zero, hzero, add_zero] at hp'
     rw [real_inner_comm] at hp'
     rw [← hinner]
     exact hp'
@@ -199,19 +199,21 @@ private theorem summable_real_of_summable_real_succ (a : ℕ → ℝ)
     (ha : Summable (fun n => a (n + 1))) : Summable a := by
   exact (summable_nat_add_iff (f := a) 1).mp ha
 
-/-- Theorem 2.1: IPAHDD trajectories have finite length and satisfy the limit inclusion. -/
+/--
+Theorem 2.1: (Human checked)
+IPAHDD trajectories have finite length and satisfy the limit inclusion.
+-/
 theorem IPAHDD_finiteLength_and_critical {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     [CompleteSpace H]
-    (f phi : H → ℝ) (h gamma beta L r : ℝ) (hdf : DryFriction phi)
+    (f phi : H → ℝ) (h gamma beta L r : ℝ) (hdf : DF_r phi r)
     (alg : IPAHDD f phi.toEReal hdf.toEReal_mem_gammaZero h gamma beta)
     (hf : ContDiff ℝ 1 f) (hL : HasLipschitzGradient (gradient f) L)
     (hL_nonneg : 0 ≤ L)
     (hbelow : ∃ c : ℝ, ∀ x, c ≤ f x)
     (hpositive : 0 < h ∧ 0 < gamma ∧ 0 < beta)
-    (hr : 0 < r) (hdf_r : Metric.ball (0 : H) r ⊆ subdifferential phi 0)
     (hgamma : gamma ≥ L * (h / 2 + beta)) :
-    ∃ xInf E1, E1 = (1 / 2) * ‖(1 / h) • (alg.x 1 - alg.x 0)‖ ^ 2 + f (alg.x 1) - sInf (Set.range f) ∧
-      HasFiniteLength alg.x ∧ Filter.Tendsto alg.x Filter.atTop (nhds xInf) ∧
+    ∃ xInf E1, E1 = (1 / 2) * ‖(1 / h) • (alg.x 1 - alg.x 0)‖ ^ 2 + f (alg.x 1) - sInf (Set.range f)
+    ∧ HasFiniteLength alg.x ∧ Filter.Tendsto alg.x Filter.atTop (nhds xInf) ∧
       IsDryFrictionCritical phi f xInf ∧
       tsum (fun k : {k : ℕ // 1 ≤ k} ↦ ‖alg.x (k.1 + 1) - alg.x k.1‖) ≤
         (1 / r) * (E1 + beta * L / (2 * h) * ‖alg.x 1 - alg.x 0‖ ^ 2) ∧
@@ -231,7 +233,7 @@ theorem IPAHDD_finiteLength_and_critical {H : Type*} [NormedAddCommGroup H] [Inn
   have hc : 0 ≤ beta * L / (2 * h) := by
     exact div_nonneg (mul_nonneg hb.le hL_nonneg) (by positivity)
   have hdry : ∀ u : H, r * ‖u‖ ≤ phi u :=
-    subgradient_ball_exact_linear_lower_bound phi hdf.value_at_zero hr hdf_r
+    subgradient_ball_exact_linear_lower_bound phi hdf.value_at_zero hdf.radius_pos hdf.ball_subset
   have hshift (k : ℕ) :
       ∃ q, q ∈ subdifferential phi (v (k + 1)) ∧
         (v (k + 1) - v k + gamma • d (k + 1) + h • q +
@@ -292,8 +294,8 @@ theorem IPAHDD_finiteLength_and_critical {H : Type*} [NormedAddCommGroup H] [Inn
       change (⟪0 - v (k + 1), q⟫_ℝ : EReal) + (phi (v (k + 1)) : EReal) ≤
         (phi 0 : EReal) at hq0
       norm_cast at hq0
-      simp [hdf.value_at_zero, inner_neg_left] at hq0
-      rw [real_inner_comm] at hq0
+      simp only [zero_sub, inner_neg_left, hdf.value_at_zero,
+        neg_add_le_iff_le_add, add_zero, real_inner_comm] at hq0
       linarith
     have hhphi : h * phi (v (k + 1)) ≤ h * inner ℝ q (v (k + 1)) :=
       mul_le_mul_of_nonneg_left hphi hh.le
@@ -455,7 +457,7 @@ theorem IPAHDD_finiteLength_and_critical {H : Type*} [NormedAddCommGroup H] [Inn
     have hlen_nonneg : 0 ≤ ∑ k ∈ Finset.range N, r * ‖d (k + 1)‖ := by
       apply Finset.sum_nonneg
       intro k hk
-      exact mul_nonneg hr.le (norm_nonneg _)
+      exact mul_nonneg hdf.radius_pos.le (norm_nonneg _)
     have hle := htel N
     rw [Finset.sum_add_distrib] at hle
     have hlen_factor :
@@ -467,7 +469,7 @@ theorem IPAHDD_finiteLength_and_critical {H : Type*} [NormedAddCommGroup H] [Inn
       linarith [hM_nonneg N]
     have hright' : (∑ k ∈ Finset.range N, ‖d (k + 1)‖) * r ≤ M 0 := by
       simpa [mul_comm] using hright
-    exact (le_div_iff₀ hr).mpr hright'
+    exact (le_div_iff₀ hdf.radius_pos).mpr hright'
   have hsum_acc (N : ℕ) : ∑ k ∈ Finset.range N,
       ‖alg.x (k + 2) - 2 • alg.x (k + 1) + alg.x k‖ ^ 2 ≤ 2 * h ^ 2 * M 0 := by
     have hacc_nonneg : 0 ≤ ∑ k ∈ Finset.range N,
@@ -478,7 +480,7 @@ theorem IPAHDD_finiteLength_and_critical {H : Type*} [NormedAddCommGroup H] [Inn
     have hlen_nonneg : 0 ≤ ∑ k ∈ Finset.range N, r * ‖d (k + 1)‖ := by
       apply Finset.sum_nonneg
       intro k hk
-      exact mul_nonneg hr.le (norm_nonneg _)
+      exact mul_nonneg hdf.radius_pos.le (norm_nonneg _)
     have hle := htel N
     rw [Finset.sum_add_distrib] at hle
     have hscaled : (1 / (2 * h ^ 2)) *
@@ -527,7 +529,7 @@ theorem IPAHDD_finiteLength_and_critical {H : Type*} [NormedAddCommGroup H] [Inn
       _ ≤ M 0 / r := hlength0
       _ = (1 / r) * (E1 + beta * L / (2 * h) * ‖alg.x 1 - alg.x 0‖ ^ 2) := by
         rw [hM0]
-        field_simp [hr.ne']
+        field_simp [hdf.radius_pos.ne']
   have hacc0 : tsum (fun k =>
       ‖alg.x (k + 2) - 2 • alg.x (k + 1) + alg.x k‖ ^ 2) ≤ 2 * h ^ 2 * M 0 :=
     Real.tsum_le_of_sum_range_le (fun k => sq_nonneg _) hsum_acc
@@ -559,8 +561,8 @@ theorem IPAHDD_finiteLength_and_critical {H : Type*} [NormedAddCommGroup H] [Inn
     by simpa using hv_succ.sub hv
   have hxInf_succ : Filter.Tendsto (fun k => alg.x (k + 1)) Filter.atTop (nhds xInf) := by
     simpa using hxInf.comp (Filter.tendsto_add_atTop_nat 1)
-  have hgrad : Filter.Tendsto (fun k => gradient f (alg.x k)) Filter.atTop (nhds (gradient f xInf)) :=
-    (hC1.tendsto xInf).comp hxInf
+  have hgrad : Filter.Tendsto (fun k => gradient f (alg.x k)) Filter.atTop (nhds (gradient f xInf))
+    := (hC1.tendsto xInf).comp hxInf
   have hgrad_succ : Filter.Tendsto (fun k => gradient f (alg.x (k + 1)))
       Filter.atTop (nhds (gradient f xInf)) :=
     (hC1.tendsto xInf).comp hxInf_succ
