@@ -1,17 +1,19 @@
 import TheoremLib.Burachik_Svaiter_Robustness_HPE_2001.items.def_1
 import Foundation.Analysis.ExtendedRealFunctions
 import Foundation.Convex.ProximalOperator
+import Foundation.Convex.Subdifferential
 import Foundation.SetValued.Monotone
 import Foundation.SetValued.Minty
+import Mathlib.Tactic
 
 open scoped InnerProductSpace
+open ERealFunction
+
+/-! The subdifferential of an extended-real-valued function is supplied by Foundation
+(Bauschke--Combettes, Definition 16.1): `ERealFunction.subdifferential f : SetValuedOperator H H`. -/
+recall ERealFunction.subdifferential
 
 namespace BurachikSvaiterRobustnessHPE2001
-
-/-- The subdifferential of an extended-real-valued function. -/
-def subdifferential {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
-    (f : H → EReal) : SetValuedOperator H H :=
-  fun x ↦ {v | ∀ z, f z ≥ f x + (inner ℝ v (z - x) : EReal)}
 
 /-- The epsilon-subdifferential of an extended-real-valued function. -/
 def epsilonSubdifferential {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
@@ -41,13 +43,21 @@ theorem epsilonSubdifferential_subset_enlargement
     intro htop
     have h := hw a
     rw [htop] at h
-    simp at h
-    exact hfa_top h
+    have hle : (⊤ : EReal) ≤ f a := by
+      simpa only [EReal.coe_add_top] using h
+    exact hfa_top (top_le_iff.mp hle)
   have hvz := hv z
   have hwx := hw x
-  rw [← EReal.coe_toReal hfx_top hfx_bot, ← EReal.coe_toReal hfz_top hfz_bot] at hvz hwx
-  norm_cast at hvz hwx
-  rw [show x - z = -(z - x) by abel, inner_neg_right] at hwx
+  rw [← EReal.coe_toReal hfx_top hfx_bot, ← EReal.coe_toReal hfz_top hfz_bot] at hvz
+  norm_cast at hvz
+  have hwx' : inner ℝ (x - z) w + (f z).toReal ≤ (f x).toReal := by
+    have hbot : (⟪x - z, w⟫_ℝ : EReal) + f z ≠ ⊥ :=
+      EReal.add_ne_bot_iff.mpr ⟨EReal.coe_ne_bot _, hfz_bot⟩
+    have h' := EReal.toReal_le_toReal hwx hbot hfx_top
+    erw [EReal.toReal_add (EReal.coe_ne_top _) (EReal.coe_ne_bot _) hfz_top hfz_bot,
+      EReal.toReal_coe] at h'
+    simpa using h'
+  rw [show x - z = -(z - x) by abel, inner_neg_left, real_inner_comm] at hwx'
   rw [inner_sub_left]
   linarith
 
@@ -58,7 +68,10 @@ theorem subdifferential_isMonotone
     (subdifferential f).IsMonotone := by
   intro x z v hv w hw
   have hvε : v ∈ epsilonSubdifferential f 0 x := by
-    simpa [subdifferential, epsilonSubdifferential] using hv
+    intro y
+    have h := hv y
+    rw [real_inner_comm] at h
+    simpa [add_comm] using h
   have henlarge :=
     epsilonSubdifferential_subset_enlargement f hf 0 (le_refl 0) x hvε z w hw
   have hnonneg : 0 ≤ inner ℝ (w - v) (z - x) := by
@@ -247,7 +260,9 @@ theorem subdifferential_enlargement_remark
       intro p hp
       refine ⟨y - p, ?_, ?_⟩
       · intro z
-        simpa [subdifferential] using hp z
+        have h := hp z
+        rw [real_inner_comm] at h
+        simpa [add_comm] using h
       · abel
     have hf_convex : ERealFunction.IsConvex f :=
       ERealFunction.isConvex_of_convex_epigraph hf hconvex

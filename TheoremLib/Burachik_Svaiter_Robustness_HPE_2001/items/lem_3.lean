@@ -9,6 +9,8 @@ import TheoremLib.Burachik_Svaiter_Robustness_HPE_2001.items.ext_thm_3
 import TheoremLib.Burachik_Svaiter_Robustness_HPE_2001.items.ext_thm_4
 import Foundation.SetValued.Minty
 
+open scoped Pointwise Set
+
 namespace BurachikSvaiterRobustnessHPE2001
 
 private theorem nonneg_summable_uniform_bound {f : ℕ → ℝ}
@@ -28,10 +30,10 @@ private theorem related_operator_dom_subset_ball {H : Type*} [NormedAddCommGroup
     (relatedOperator T M).dom ⊆ relatedBall (H := H) M := by
   intro x hx
   rcases SetValuedOperator.mem_dom_iff _ _ |>.mp hx with ⟨w, hw⟩
-  rcases hw with ⟨u, hu, η, hη, hwEq⟩
-  by_cases hball : x ∈ relatedBall (H := H) M
-  · exact hball
-  · simp [normalityOperator, hball] at hη
+  change w ∈ T x + N[relatedBall (H := H) M] x at hw
+  rw [Set.mem_add] at hw
+  rcases hw with ⟨u, hu, η, hη, _⟩
+  exact (Set.mem_normalCone_iff_forall.mp hη).1
 
 private theorem squared_reverse_triangle_bound {H : Type*} [NormedAddCommGroup H]
     {a b : H} : (‖b‖ - ‖a‖) ^ 2 ≤ ‖a + b‖ ^ 2 := by
@@ -57,12 +59,10 @@ private theorem quadratic_nonneg_root_bound {p C D t : ℝ} (hp : 0 < p)
     nlinarith
   nlinarith
 
-private theorem normality_zero_of_interior {H : Type*} [NormedAddCommGroup H]
+private theorem normalCone_zero_of_interior {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] {S : Set H} {x η : H}
-    (hx : x ∈ interior S) (hη : η ∈ normalityOperator S x) : η = 0 := by
+    (hx : x ∈ interior S) (hη : η ∈ N[S] x) : η = 0 := by
   by_contra hne
-  have hxS : x ∈ S := interior_subset hx
-  simp only [normalityOperator, hxS, ↓reduceIte, Set.mem_setOf_eq] at hη
   have hnhds : S ∈ nhds x := mem_interior_iff_mem_nhds.mp hx
   rcases (Metric.mem_nhds_iff.mp hnhds) with ⟨ε, hε, hεsub⟩
   let c : ℝ := ε / (2 * ‖η‖)
@@ -77,15 +77,13 @@ private theorem normality_zero_of_interior {H : Type*} [NormedAddCommGroup H]
     have hηpos : 0 < ‖η‖ := norm_pos_iff.mpr hne
     field_simp [ne_of_gt hηpos]
     linarith
-  have hle := hη y hyS
+  have hle : inner ℝ (y - x) η ≤ 0 := (Set.mem_normalCone_iff_forall.mp hη).2 y hyS
   have hpos : 0 < inner ℝ η (y - x) := by
     dsimp [y, c]
     rw [add_sub_cancel_left, inner_smul_right, real_inner_self_eq_norm_sq]
     have hηpos : 0 < ‖η‖ := norm_pos_iff.mpr hne
     positivity
-  have hneg : inner ℝ η (x - y) < 0 := by
-    rw [show x - y = -(y - x) by abel, inner_neg_right]
-    linarith
+  rw [real_inner_comm] at hle
   linarith
 
 /-- Lemma 3.4: in the absence of zeros, the HPE sequence is unbounded. -/
@@ -234,16 +232,18 @@ theorem hpe_unbounded_of_no_zero {H : Type*} [NormedAddCommGroup H]
     intro k
     change ∀ z w, w ∈ U z → -A.ε k ≤ inner ℝ (w - A.v k) (z - A.y k)
     intro z w hw
-    change ∃ u ∈ T z, ∃ η ∈ normalityOperator (relatedBall (H := H) M) z, w = u + η at hw
+    change w ∈ T z + N[relatedBall (H := H) M] z at hw
+    rw [Set.mem_add] at hw
     rcases hw with ⟨u, hu, η, hη, rfl⟩
     have hTmem := A.enlargement_mem k z u hu
     change -A.ε k ≤ inner ℝ (u - A.v k) (z - A.y k) at hTmem
-    have hzS : z ∈ relatedBall (H := H) M := by
-      by_contra hz
-      simp [normalityOperator, hz] at hη
     have hηineq : 0 ≤ inner ℝ η (z - A.y k) := by
-      simp only [normalityOperator, hzS, ↓reduceIte, Set.mem_setOf_eq] at hη
-      exact hη (A.y k) (interior_subset (hyint k))
+      have hle : inner ℝ (A.y k - z) η ≤ 0 :=
+        (Set.mem_normalCone_iff_forall.mp hη).2 (A.y k) (interior_subset (hyint k))
+      have hle' : inner ℝ η (A.y k - z) ≤ 0 := by simpa [real_inner_comm] using hle
+      have hcomm : inner ℝ η (A.y k - z) = -inner ℝ η (z - A.y k) := by
+        rw [show A.y k - z = -(z - A.y k) by abel, inner_neg_right]
+      linarith
     calc
       -A.ε k = -A.ε k + 0 := by ring
       _ ≤ inner ℝ (u - A.v k) (z - A.y k) + inner ℝ η (z - A.y k) :=
@@ -268,11 +268,11 @@ theorem hpe_unbounded_of_no_zero {H : Type*} [NormedAddCommGroup H]
     rw [dist_zero_right]
     linarith [hxbarB, hBxM]
   change (0 : H) ∈ U xbar at hxbarU
-  change ∃ u ∈ T xbar, ∃ η ∈ normalityOperator (relatedBall (H := H) M) xbar,
-    (0 : H) = u + η at hxbarU
+  change (0 : H) ∈ T xbar + N[relatedBall (H := H) M] xbar at hxbarU
+  rw [Set.mem_add] at hxbarU
   rcases hxbarU with ⟨u, hu, η, hη, hsum⟩
-  have hηzero : η = 0 := normality_zero_of_interior hxbarint hη
-  have huzero : u = 0 := by simpa [hηzero] using hsum.symm
+  have hηzero : η = 0 := normalCone_zero_of_interior hxbarint hη
+  have huzero : u = 0 := by simpa [hηzero] using hsum
   have hcontr : xbar ∈ T.zeros := by simpa [SetValuedOperator.mem_zeros_iff, huzero] using hu
   simpa [hzero] using hcontr
 

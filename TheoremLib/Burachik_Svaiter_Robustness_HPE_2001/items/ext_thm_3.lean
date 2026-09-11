@@ -1,110 +1,117 @@
 import TheoremLib.Burachik_Svaiter_Robustness_HPE_2001.items.def_3
-import TheoremLib.Burachik_Svaiter_Robustness_HPE_2001.items.ext_def_1
 import Foundation.SetValued.Minty
 import Foundation.Projection.BestApproximation
-import TheoremLib.Baji_Cabot_An_Inertial_Proximal_Algorithm_with_Dry_Friction_2006.items.ext_thm_1
 
 namespace BurachikSvaiterRobustnessHPE2001
 
 open SetValuedOperator
-open scoped InnerProductSpace Pointwise
+open scoped InnerProductSpace Pointwise Set
 
-private theorem normalityOperator_dom {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] (C : Set H) : (normalityOperator C).dom = C := by
+private theorem normalCone_dom {H : Type*} [NormedAddCommGroup H]
+    [InnerProductSpace ℝ H] (C : Set H) : (SetValuedOperator.dom (N[C])) = C := by
   ext x
   constructor
   · rintro hx
     rcases (mem_dom_iff _ _).mp hx with ⟨u, hu⟩
-    by_cases hxc : x ∈ C
-    · exact hxc
-    · simp [normalityOperator, hxc] at hu
+    exact (Set.mem_normalCone_iff_forall.mp hu).1
   · intro hxc
     apply (mem_dom_iff _ _).mpr
     refine ⟨0, ?_⟩
-    simp [normalityOperator, hxc]
+    rw [Set.mem_normalCone_iff_forall]
+    exact ⟨hxc, fun y _ => by simp⟩
 
-private theorem normalityOperator_monotone {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] (C : Set H) : IsMonotone (normalityOperator C) := by
+private theorem normalCone_monotone {H : Type*} [NormedAddCommGroup H]
+    [InnerProductSpace ℝ H] (C : Set H) : IsMonotone (N[C]) := by
   intro x y u hu v hv
-  by_cases hx : x ∈ C
-  · by_cases hy : y ∈ C
-    · simp [normalityOperator, hx, hy] at hu hv
-      have hu_xy : 0 ≤ inner ℝ u (x - y) := hu y hy
-      have hv_yx : 0 ≤ inner ℝ v (y - x) := hv x hx
-      have hv_xy : 0 ≤ inner ℝ (-v) (x - y) := by
-        calc
-          0 ≤ inner ℝ v (y - x) := hv_yx
-          _ = inner ℝ (-v) (x - y) := by
-            rw [show x - y = -(y - x) by abel, inner_neg_left, inner_neg_right]
-            ring
-      calc
-        0 ≤ inner ℝ u (x - y) + inner ℝ (-v) (x - y) := add_nonneg hu_xy hv_xy
-        _ = inner ℝ (u - v) (x - y) := by
-          rw [show u - v = u + -v by abel, inner_add_left]
-    · simp [normalityOperator, hy] at hv
-  · simp [normalityOperator, hx] at hu
+  have hxu : x ∈ C := (Set.mem_normalCone_iff_forall.mp hu).1
+  have hyv : y ∈ C := (Set.mem_normalCone_iff_forall.mp hv).1
+  have hu_le : inner ℝ (y - x) u ≤ 0 := (Set.mem_normalCone_iff_forall.mp hu).2 y hyv
+  have hv_le : inner ℝ (x - y) v ≤ 0 := (Set.mem_normalCone_iff_forall.mp hv).2 x hxu
+  have hu_xy : 0 ≤ inner ℝ u (x - y) := by
+    have h1 : inner ℝ u (y - x) ≤ 0 := by simpa [real_inner_comm] using hu_le
+    have h2 : inner ℝ u (y - x) = -inner ℝ u (x - y) := by
+      rw [show y - x = -(x - y) by abel, inner_neg_right]
+    linarith
+  have hv_xy : 0 ≤ inner ℝ (-v) (x - y) := by
+    have h1 : inner ℝ v (x - y) ≤ 0 := by simpa [real_inner_comm] using hv_le
+    have h2 : inner ℝ (-v) (x - y) = -inner ℝ v (x - y) := by rw [inner_neg_left]
+    linarith
+  calc
+    0 ≤ inner ℝ u (x - y) + inner ℝ (-v) (x - y) := add_nonneg hu_xy hv_xy
+    _ = inner ℝ (u - v) (x - y) := by
+      rw [show u - v = u + -v by abel, inner_add_left]
 
-private theorem normalityOperator_minty_surjective {H : Type*} [NormedAddCommGroup H]
+private theorem normalCone_minty_surjective {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [CompleteSpace H] (C : Set H) (hCnonempty : C.Nonempty)
     (hCclosed : IsClosed C) (hCconvex : Convex ℝ C) :
-    ∀ r : H, ∃ p : H, ∃ u ∈ normalityOperator C p, r = p + u := by
+    ∀ r : H, ∃ p : H, ∃ u ∈ N[C] p, r = p + u := by
   intro r
   let hCheb : IsChebyshev C :=
     isChebyshev_of_nonempty_isClosed_convex hCnonempty hCclosed hCconvex
   let p : H := projectionPoint C hCheb r
   have hpC : p ∈ C := projectionPoint_mem C hCheb r
   refine ⟨p, r - p, ?_, by abel⟩
-  simp only [normalityOperator, hpC, ↓reduceIte, Set.mem_setOf_eq]
-  intro z hz
-  have hproj : inner ℝ (z - p) (r - p) ≤ 0 := by
-    exact ((eq_projectionPoint_iff_mem_and_inner_sub_right_nonpos hCheb hCconvex).mp rfl).2 z hz
-  calc
-    0 ≤ -inner ℝ (z - p) (r - p) := neg_nonneg.mpr hproj
-    _ = inner ℝ (r - p) (p - z) := by
-      rw [real_inner_comm, show p - z = -(z - p) by abel, inner_neg_right]
+  rw [Set.mem_normalCone_iff_forall]
+  exact ⟨hpC, fun z hz =>
+    ((eq_projectionPoint_iff_mem_and_inner_sub_right_nonpos hCheb hCconvex).mp rfl).2 z hz⟩
 
-private theorem normalityOperator_maximal {H : Type*} [NormedAddCommGroup H]
+private theorem normalCone_maximal {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [CompleteSpace H] (C : Set H) (hCnonempty : C.Nonempty)
     (hCclosed : IsClosed C) (hCconvex : Convex ℝ C) :
-    IsMaximalMonotone (normalityOperator C) := by
-  exact (minty_surjective_iff_maximal_monotone (normalityOperator_monotone C)).2
-    (normalityOperator_minty_surjective C hCnonempty hCclosed hCconvex)
+    IsMaximalMonotone (N[C]) := by
+  exact (minty_surjective_iff_maximal_monotone (normalCone_monotone C)).2
+    (normalCone_minty_surjective C hCnonempty hCclosed hCconvex)
 
+/-! ### External input: the sum theorem for maximal monotone operators
+
+Lemma 3.4 of the paper invokes the following classical theorem, cited there as
+`Ref. 29, Theorem 1` (R. T. Rockafellar, *On the maximality of sums of nonlinear
+monotone operators*, Trans. Amer. Math. Soc. **149** (1970), 75--88).  It is the
+same statement as H. Brézis, *Opérateurs maximaux monotones et semi-groupes de
+contractions dans les espaces de Hilbert* (1973), Corollaire 2.7, and
+Bauschke--Combettes, *Convex Analysis and Monotone Operator Theory in Hilbert
+Spaces*, Theorem 25.1.
+
+A proof is a deep piece of maximal-monotone operator theory (its standard
+arguments require either the Fitzpatrick machinery of Bauschke--Combettes
+Chapter 25 or a Yosida-approximation argument passing to weak limits, none of
+which is available in `Foundation` yet), so the statement is recorded here and
+left as a `sorry`, exactly in the role that the citation plays in the paper.
+Only `rockafellar_sum_maximal` below depends on it. -/
+theorem sum_maximal_monotone {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    [CompleteSpace H] (A B : SetValuedOperator H H) (hA : A.IsMaximalMonotone)
+    (hB : B.IsMaximalMonotone) (hqual : (interior A.dom ∩ B.dom).Nonempty) :
+    IsMaximalMonotone (A + B) := by
+  sorry
+
+/-- Rockafellar's sum theorem specialized to the sum of a maximal monotone
+operator with the normal-cone operator of a nonempty closed convex set: the
+qualification point `z0 ∈ dom T ∩ interior C` supplied by Lemma 3.4 makes the
+sum maximal monotone. -/
 theorem rockafellar_sum_maximal {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     [CompleteSpace H]
     {T : SetValuedOperator H H} (hT : T.IsMaximalMonotone) (C : Set H)
     (hCnonempty : C.Nonempty) (hCclosed : IsClosed C) (hCconvex : Convex ℝ C)
     (hint : (T.dom ∩ interior C).Nonempty) :
-    (setValuedSum T (normalityOperator C)).IsMaximalMonotone := by
-  have hnormal_max : IsMaximalMonotone (normalityOperator C) :=
-    normalityOperator_maximal C hCnonempty hCclosed hCconvex
+    (T + N[C]).IsMaximalMonotone := by
+  have hnormal_max : IsMaximalMonotone (N[C]) :=
+    normalCone_maximal C hCnonempty hCclosed hCconvex
   rcases hint with ⟨x, hxT, hxC⟩
-  have hqual : (interior (normalityOperator C).dom ∩ T.dom).Nonempty := by
+  have hqual : (interior (SetValuedOperator.dom (N[C])) ∩ T.dom).Nonempty := by
     refine ⟨x, ?_, hxT⟩
-    rw [normalityOperator_dom]
+    rw [normalCone_dom]
     exact hxC
-  have hsum : IsMaximalMonotone (normalityOperator C + T) :=
-    sum_maximal_monotone (normalityOperator C) T hnormal_max hT hqual
-  have hcomm : normalityOperator C + T = T + normalityOperator C := by
+  have hsum : IsMaximalMonotone (N[C] + T) :=
+    sum_maximal_monotone (N[C]) T hnormal_max hT hqual
+  have hcomm : N[C] + T = T + N[C] := by
     ext x w
-    change w ∈ normalityOperator C x + T x ↔ w ∈ T x + normalityOperator C x
+    change w ∈ N[C] x + T x ↔ w ∈ T x + N[C] x
     rw [Set.mem_add]
     constructor
     · rintro ⟨n, hn, t, ht, rfl⟩
       exact ⟨t, ht, n, hn, by exact add_comm t n⟩
     · rintro ⟨t, ht, n, hn, rfl⟩
       exact ⟨n, hn, t, ht, by exact add_comm n t⟩
-  have hsetValuedSum : setValuedSum T (normalityOperator C) = T + normalityOperator C := by
-    ext x w
-    change (∃ t ∈ T x, ∃ n ∈ normalityOperator C x, w = t + n) ↔
-      w ∈ T x + normalityOperator C x
-    rw [Set.mem_add]
-    constructor
-    · rintro ⟨t, ht, n, hn, hEq⟩
-      exact ⟨t, ht, n, hn, hEq.symm⟩
-    · rintro ⟨t, ht, n, hn, hEq⟩
-      exact ⟨t, ht, n, hn, hEq.symm⟩
-  rw [hcomm, ← hsetValuedSum] at hsum
-  exact hsum
+  rwa [hcomm] at hsum
 
 end BurachikSvaiterRobustnessHPE2001
