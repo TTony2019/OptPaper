@@ -43,35 +43,32 @@ reduced to the regularity facts for the extended-real Moreau envelope.
 -/
 theorem IPAHDDNonsmooth_finiteLength {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [CompleteSpace H] (F : H → Set.Ioi (⊥ : EReal)) (hF : F ∈ Γ₀(H))
-    (phi : H → ℝ) (h gamma beta lam r : ℝ) (hdf : DF_r phi r)
+    (fLam : H → ℝ) (phi : H → ℝ) (h gamma beta lam r : ℝ) (hdf : DF_r phi r)
     (alg : IPAHDDNonsmooth F hF phi.toEReal hdf.toEReal_mem_gammaZero h gamma beta lam)
     (hpositive : 0 < h ∧ 0 < gamma ∧ 0 < beta) (hlam : 0 < lam)
     (hgamma : gamma ≥ (h / 2 + beta) / lam)
-    (hbelowLam : ∃ c : ℝ, ∀ x, c ≤ moreauEnvelopeReal F ⟨lam, hlam⟩ x)
-    (smooth : IPAHDD (moreauEnvelopeReal F ⟨lam, hlam⟩) phi.toEReal
-      hdf.toEReal_mem_gammaZero h gamma beta)
-    (hsmooth : smooth.x = alg.x) :
+    (hfLam_def : fLam = moreauEnvelopeReal F ⟨lam, hlam⟩)
+    (hbelow : ∃ c : ℝ, ∀ x, (c : EReal) ≤ (F x : EReal)) :
     ∃ xInf pInf E1, E1 = (1 / 2) * ‖(1 / h) • (alg.x 1 - alg.x 0)‖ ^ 2 +
-        moreauEnvelopeReal F ⟨lam, hlam⟩ (alg.x 1) -
-          sInf (Set.range (moreauEnvelopeReal F ⟨lam, hlam⟩)) ∧
+        fLam (alg.x 1) - sInf (Set.range fLam) ∧
       HasFiniteLength alg.x ∧ Tendsto alg.x Filter.atTop (𝓝 xInf) ∧
       tsum (fun k : {k : ℕ // 1 ≤ k} ↦ ‖alg.x (k.1 + 1) - alg.x k.1‖) ≤
         (1 / r) * (E1 + beta * (1 / lam) / (2 * h) * ‖alg.x 1 - alg.x 0‖ ^ 2) ∧
       tsum (fun k : {k : ℕ // 1 ≤ k} ↦
         ‖alg.x (k.1 + 1) - 2 • alg.x k.1 + alg.x (k.1 - 1)‖ ^ 2) ≤
         2 * h ^ 2 * (E1 + beta * (1 / lam) / (2 * h) * ‖alg.x 1 - alg.x 0‖ ^ 2) ∧
-      IsDryFrictionCritical phi (moreauEnvelopeReal F ⟨lam, hlam⟩) xInf ∧
+      IsDryFrictionCritical phi fLam xInf ∧
       HasFiniteLength (fun k ↦ ERealFunction.scaledProximityOperator F hF ⟨lam, hlam⟩ (alg.x k)) ∧
       Tendsto (fun k ↦ ERealFunction.scaledProximityOperator F hF ⟨lam, hlam⟩ (alg.x k))
         Filter.atTop (𝓝 pInf) ∧
       pInf = ERealFunction.scaledProximityOperator F hF ⟨lam, hlam⟩ xInf ∧
       ((1 / lam) • (xInf - pInf) ∈ subdifferential F pInf) ∧
-      (-gradient (moreauEnvelopeReal F ⟨lam, hlam⟩) xInf ∈ interior (subdifferential phi 0) →
+      (-gradient fLam xInf ∈ interior (subdifferential phi 0) →
         let q := 1 / Real.sqrt (1 + 2 * h * (gamma * lam - beta) / (lam + beta * h))
         0 < q ∧ q < 1 ∧ ∃ k0, ∀ k ≥ k0,
           ‖alg.x (k + 1) - alg.x k‖ ≤ q ^ (k - k0) * ‖alg.x (k0 + 1) - alg.x k0‖ ∧
           ‖alg.x k - xInf‖ ≤ q ^ (k - k0) / (1 - q) * ‖alg.x (k0 + 1) - alg.x k0‖) ∧
-      (‖gradient (moreauEnvelopeReal F ⟨lam, hlam⟩) xInf‖ < r →
+      (‖gradient fLam xInf‖ < r →
         Metric.ball (0 : H) r ⊆ subdifferential phi 0 → IsFinitelyConvergent alg.x) := by
   let P : H → H := ERealFunction.scaledProximityOperator F hF ⟨lam, hlam⟩
   have hP_firm : FirmlyNonexpansive P := by
@@ -81,15 +78,14 @@ theorem IPAHDDNonsmooth_finiteLength {H : Type*} [NormedAddCommGroup H]
     simpa [P, ERealFunction.scaledProximityOperator] using hfirm
   have hnonexp : ∀ x y, ‖P x - P y‖ ≤ ‖x - y‖ := fun x y => by
     simpa [dist_eq_norm] using (lipschitzWith_one_of_firmlyNonexpansive hP_firm).dist_le_mul x y
-  let fLam : H → ℝ := moreauEnvelopeReal F ⟨lam, hlam⟩
   have hderiv : ∀ x, HasFDerivAt fLam (innerSL ℝ ((1 / lam) • (x - P x))) x := by
     intro x
     have h := hasFDerivAt_moreauEnvelopeReal (F := F) hF ⟨lam, hlam⟩ x
-    simpa [fLam, P, one_div] using h
+    simpa [hfLam_def, P, one_div] using h
   have hlipgrad : LipschitzWith (Real.toNNReal ((⟨lam, hlam⟩ : PosReal) : ℝ)⁻¹)
       (gradient fLam) := by
     have h := lipschitzWith_gradient_moreauEnvelopeReal (F := F) hF ⟨lam, hlam⟩
-    simpa [fLam] using h
+    simpa [hfLam_def] using h
   have hLip : HasLipschitzGradient (gradient fLam) (1 / lam) := by
     intro x y
     have h := hlipgrad.dist_le_mul x y
@@ -117,6 +113,60 @@ theorem IPAHDDNonsmooth_finiteLength {H : Type*} [NormedAddCommGroup H]
   have hgamma' : gamma ≥ (1 / lam : ℝ) * (h / 2 + beta) := by
     calc gamma ≥ (h / 2 + beta) / lam := hgamma
          _ = (1 / lam : ℝ) * (h / 2 + beta) := by ring
+  -- The Moreau envelope is `C¹` with gradient `(1/λ)(x - Prox_{λF} x)`, so the splitting
+  -- iteration `alg` is literally the IPAHDD trajectory of `fLam`.
+  have hz : ∀ k, gradient fLam (alg.x k) = (1 / lam) • (alg.x k - P (alg.x k)) := by
+    intro k
+    simpa [moreauGrad] using congrFun hgrad_eq (alg.x k)
+  have hsmooth : ∃ smooth : IPAHDD fLam phi.toEReal hdf.toEReal_mem_gammaZero h gamma beta,
+      smooth.x = alg.x := by
+    refine ⟨{ h_pos := alg.h_pos
+              gamma_pos := alg.gamma_pos
+              x := alg.x
+              initial0 := alg.x 0
+              initial1 := alg.x 1
+              init0 := rfl
+              init1 := rfl
+              update := ?_ }, rfl⟩
+    intro k
+    have harg : (1 / (h * (1 + h * gamma))) • (alg.x (k + 1) - alg.x k) -
+        (beta / (1 + h * gamma)) •
+          (gradient fLam (alg.x (k + 1)) - gradient fLam (alg.x k)) -
+        (h / (1 + h * gamma)) • gradient fLam (alg.x (k + 1)) = alg.y k := by
+      rw [alg.aux k, hz (k + 1), hz k]
+      apply ext_inner_left ℝ
+      intro w
+      simp only [inner_sub_right, inner_add_right, real_inner_smul_right]
+      have hh : h ≠ 0 := ne_of_gt alg.h_pos
+      have hl : lam ≠ 0 := ne_of_gt alg.lam_pos
+      have hg : 1 + h * gamma ≠ 0 := by
+        have hpos : 0 < h * gamma := mul_pos alg.h_pos hpositive.2.1
+        exact ne_of_gt (by linarith)
+      field_simp
+      ring
+    rw [alg.update k, harg]
+  obtain ⟨smooth, hsmooth⟩ := hsmooth
+  -- The Moreau envelope preserves the infimum, so a lower bound on `F` bounds the envelope.
+  have hPdom : ∀ y, (F (P y) : EReal) ≠ ⊤ := by
+    intro y
+    have hmem := ERealFunction.scaledProximityOperator_residual_mem hF ⟨lam, hlam⟩ y
+    have hsub : SubdifferentiableAt F (P y) :=
+      (SetValuedOperator.mem_dom_iff (∂ F) (P y)).mpr ⟨_, by simpa [P] using hmem⟩
+    exact ne_of_lt (ERealFunction.mem_effectiveDomain_iff.mp
+      (SubdifferentiableAt.mem_effectiveDomain (isProper_of_mem_gammaZero hF).2 hsub))
+  have hbelowLam : ∃ c : ℝ, ∀ x, c ≤ fLam x := by
+    obtain ⟨c, hc⟩ := hbelow
+    refine ⟨c, fun x => ?_⟩
+    rw [hfLam_def, moreauEnvelopeReal,
+      ERealFunction.moreauEnvelope_eq_proxValue_add_scaled_sqDist_of_mem_gammaZero
+        (f := F) (γ := ⟨lam, hlam⟩) hF x]
+    rw [EReal.toReal_add (hPdom x) (ne_of_gt (F (P x)).2) (EReal.coe_ne_top _)
+        (EReal.coe_ne_bot _),
+      EReal.toReal_coe]
+    have h1 : c ≤ ((F (P x) : EReal)).toReal :=
+      EReal.toReal_le_toReal (hc (P x)) (EReal.coe_ne_bot _) (hPdom x)
+    have h2 : 0 ≤ (‖x - P x‖ ^ 2) / (2 * (⟨lam, hlam⟩ : PosReal) : ℝ) := by positivity
+    linarith
   have hfinite := IPAHDD_finiteLength_and_critical fLam phi h gamma beta
     (1 / lam) r hdf smooth hfLam hLip
     hLnonneg hbelowLam hpositive hgamma'
@@ -158,8 +208,8 @@ theorem IPAHDDNonsmooth_finiteLength {H : Type*} [NormedAddCommGroup H]
   · simpa [moreauGrad] using hsubgrad
   · intro hinterior
     simpa only [hrate, hsmooth] using
-      hgeo.1 (by simpa [fLam, moreauGrad, hgrad_eq] using hinterior)
+      hgeo.1 (by simpa [hfLam_def, moreauGrad, hgrad_eq] using hinterior)
   · intro hnorm hball
-    obtain ⟨kStop, hkStop⟩ := hgeo.2 (by simpa [fLam, moreauGrad, hgrad_eq] using hnorm)
+    obtain ⟨kStop, hkStop⟩ := hgeo.2 (by simpa [hfLam_def, moreauGrad, hgrad_eq] using hnorm)
     exact eventually_constant_of_eventual_successor_eq alg.x kStop (by
       simpa only [hsmooth] using hkStop)
