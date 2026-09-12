@@ -11,8 +11,8 @@ shared concepts under `Foundation/`.
 <!-- LOC_STATS:START -->
 
 ![foundation_lines](https://img.shields.io/badge/foundation_lines-41510-0f766e?style=flat-square)
-![theoremlib_lines](https://img.shields.io/badge/theoremlib_lines-81990-2563eb?style=flat-square)
-![total_lines](https://img.shields.io/badge/total_lines-123500-16a34a?style=flat-square)
+![theoremlib_lines](https://img.shields.io/badge/theoremlib_lines-88874-2563eb?style=flat-square)
+![total_lines](https://img.shields.io/badge/total_lines-130384-16a34a?style=flat-square)
 
 Counting convention:
 
@@ -24,8 +24,8 @@ Counting convention:
 | Directory | `.lean` files | Total lines | Code lines |
 | --- | ---: | ---: | ---: |
 | Foundation | 54 | 41510 | 31856 |
-| TheoremLib | 374 | 81990 | 76114 |
-| **Total** | **428** | **123500** | **107970** |
+| TheoremLib | 401 | 88874 | 82598 |
+| **Total** | **455** | **130384** | **114454** |
 
 <!-- LOC_STATS:END -->
 
@@ -33,9 +33,9 @@ Counting convention:
 
 <!-- FORMALIZATION_STATUS:START -->
 
-![papers](https://img.shields.io/badge/papers-16-0f766e?style=flat-square)
-![defs_items](https://img.shields.io/badge/defs_items-169-2563eb?style=flat-square)
-![proved_theorem-items](https://img.shields.io/badge/proved_theorem--items-199-16a34a?style=flat-square)
+![papers](https://img.shields.io/badge/papers-17-0f766e?style=flat-square)
+![defs_items](https://img.shields.io/badge/defs_items-180-2563eb?style=flat-square)
+![proved_theorem-items](https://img.shields.io/badge/proved_theorem--items-215-16a34a?style=flat-square)
 ![open_theorem-items](https://img.shields.io/badge/open_theorem--items-5-dc2626?style=flat-square)
 
 Counting convention:
@@ -64,10 +64,11 @@ Counting convention:
 | 10 | [Attouch_Redont_A_New_2007](TheoremLib/Attouch_Redont_A_New_Class_of_Alternating_Proximal_Minimization_Algorithms_with_Costs_to_Move_2007) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 9](https://img.shields.io/static/v1?label=&message=9&color=2563eb&style=flat-square) | ![proved 16](https://img.shields.io/badge/proved-16-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
 | 11 | [Baji_Cabot_An_Inertial_2006](TheoremLib/Baji_Cabot_An_Inertial_Proximal_Algorithm_with_Dry_Friction_2006) | ![in progress](https://img.shields.io/static/v1?label=&message=in%20progress&color=f59e0b&style=flat-square) | ![definition-like 15](https://img.shields.io/static/v1?label=&message=15&color=2563eb&style=flat-square) | ![proved 12](https://img.shields.io/badge/proved-12-16a34a?style=flat-square) ![open 5](https://img.shields.io/badge/open-5-dc2626?style=flat-square) |
 | 12 | [Beck_Teboulle_FISTA_2009](TheoremLib/Beck_Teboulle_FISTA_2009) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 11](https://img.shields.io/static/v1?label=&message=11&color=2563eb&style=flat-square) | ![proved 9](https://img.shields.io/badge/proved-9-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
-| 13 | [Burachik_Svaiter_Robustness_HPE_2001](TheoremLib/Burachik_Svaiter_Robustness_HPE_2001) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 6](https://img.shields.io/static/v1?label=&message=6&color=2563eb&style=flat-square) | ![proved 13](https://img.shields.io/badge/proved-13-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
-| 14 | [Dong_A_strong_convergence_2017](TheoremLib/Dong_A_strong_convergence_result_involving_an_inertial_forward_backward_algorithm_for_monotone_inclusions_2017) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 6](https://img.shields.io/static/v1?label=&message=6&color=2563eb&style=flat-square) | ![proved 8](https://img.shields.io/badge/proved-8-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
-| 15 | [Moudafi_Oliny_Splitting_inertial](TheoremLib/Moudafi_Oliny_Splitting_inertial_proximal_monotone_operators) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 8](https://img.shields.io/static/v1?label=&message=8&color=2563eb&style=flat-square) | ![proved 3](https://img.shields.io/badge/proved-3-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
-| 16 | [Nesterov_Accelerated_gradient_1983](TheoremLib/Nesterov_Accelerated_gradient_1983) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 9](https://img.shields.io/static/v1?label=&message=9&color=2563eb&style=flat-square) | ![proved 7](https://img.shields.io/badge/proved-7-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
+| 13 | [Bot_Csetnek_An_Inertial_2015](TheoremLib/Bot_Csetnek_An_Inertial_Tseng_s_Type_Proximal_Algorithm_for_Nonsmooth_and_Nonconvex_Optimization_Problems_2015) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 11](https://img.shields.io/static/v1?label=&message=11&color=2563eb&style=flat-square) | ![proved 16](https://img.shields.io/badge/proved-16-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
+| 14 | [Burachik_Svaiter_Robustness_HPE_2001](TheoremLib/Burachik_Svaiter_Robustness_HPE_2001) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 6](https://img.shields.io/static/v1?label=&message=6&color=2563eb&style=flat-square) | ![proved 13](https://img.shields.io/badge/proved-13-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
+| 15 | [Dong_A_strong_convergence_2017](TheoremLib/Dong_A_strong_convergence_result_involving_an_inertial_forward_backward_algorithm_for_monotone_inclusions_2017) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 6](https://img.shields.io/static/v1?label=&message=6&color=2563eb&style=flat-square) | ![proved 8](https://img.shields.io/badge/proved-8-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
+| 16 | [Moudafi_Oliny_Splitting_inertial](TheoremLib/Moudafi_Oliny_Splitting_inertial_proximal_monotone_operators) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 8](https://img.shields.io/static/v1?label=&message=8&color=2563eb&style=flat-square) | ![proved 3](https://img.shields.io/badge/proved-3-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
+| 17 | [Nesterov_Accelerated_gradient_1983](TheoremLib/Nesterov_Accelerated_gradient_1983) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 9](https://img.shields.io/static/v1?label=&message=9&color=2563eb&style=flat-square) | ![proved 7](https://img.shields.io/badge/proved-7-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
 
 <!-- FORMALIZATION_STATUS:END -->
 
