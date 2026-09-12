@@ -16,23 +16,42 @@ proof or goal and do not guess the rest of its statement.
 
 The response will be embedded in Markdown and rendered on GitHub with MathJax.
 Every mathematical expression must be inside a valid math environment, even
-when it appears in a sentence or list item:
+when it appears in a sentence or list item.
+
+Delimiters:
 
 - Use `$...$` for short inline mathematics, with no space just inside the
-  delimiters.
-- Use `$$...$$`, with `$$` on lines of their own, for displayed mathematics,
-  and leave a blank line before the opening `$$` and after the closing `$$`.
-- Never use `\(...\)` or `\[...\]`: GitHub treats those backslash escapes as
-  ordinary text, so the formula shows up unrendered.
-- Never use bare square brackets as math delimiters. In particular, never
-  write `[ t\mapsto f(t) ]`; write `$t\mapsto f(t)$` or a display block.
+  delimiters, with a space before the opening `$`, and with something other
+  than a letter or digit right after the closing `$`. GitHub ignores a formula
+  that breaks either of the last two rules and prints it as plain text.
+- Use `$$...$$` for displayed mathematics, with each `$$` alone on its own
+  line and a blank line before the opening one and after the closing one.
+- Never use `\(...\)`, `\[...\]`, or bare square brackets as math delimiters:
+  GitHub consumes those backslash escapes, so the formula stays unrendered.
+  Write `$t\mapsto f(t)$` rather than `[ t\mapsto f(t) ]` or `\(t\mapsto f(t)\)`.
+
+Inside a `$$` block, keep the formula a single Markdown paragraph. GitHub ends
+the display math as soon as a line looks like the start of another Markdown
+block, and then prints the formula as text. Never break a formula so that a
+line
+
+- consists only of punctuation such as `-`, `=` or `+`;
+- begins with a list marker (`- `, `+ `, `* `, `1. `) or with `>`;
+- is indented by four spaces or more;
+- looks like a table row followed by a `|---|` separator.
+
+Keep such an operator on the line of the expression it applies to, writing
+`+\|u'(t)\|^2` and `-\gamma u'(t)` rather than `+` or `-` alone on a line.
+
+Commands:
+
 - Do not put mathematical formulas in backticks. Backticks are reserved for
   exact Lean identifiers, theorem names, tactic names, and short Lean syntax.
-- Use only commands that GitHub's MathJax build implements. For a Lean
-  identifier with no standard mathematical symbol, write `\mathrm{name}`;
-  never invent commands such as `\eps` or `\alphaSeq`, and never write
-  `\operatorname`, `\DeclareMathOperator`, `\phantom` or `\require`, for which
-  GitHub reports "The following macros are not allowed".
+- Use only commands that GitHub's MathJax build implements. Write a Lean
+  identifier as `\mathrm{name}`. Never invent commands such as `\eps` or
+  `\alphaSeq`. GitHub reports "The following macros are not allowed" for
+  `\operatorname`, `\DeclareMathOperator`, `\phantom` and `\require`, and
+  prints the formula as plain text instead.
 - Inside `\text{...}` and `\texttt{...}` escape underscores as `\_`, and use
   `$...$` if a symbol such as `\in` or `\langle` is needed there.
 - Convert Lean notation into valid LaTeX. Do not leave raw LaTeX commands such

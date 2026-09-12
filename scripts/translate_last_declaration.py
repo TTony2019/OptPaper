@@ -340,7 +340,12 @@ SYSTEM_PROMPT = (
     "Explain the mathematical content of cited results instead of merely naming them. "
     "Return valid Markdown with every mathematical expression delimited by $ ... $ "
     "or by $$ ... $$ on lines of their own; never use \\( ... \\), \\[ ... \\] or "
-    "bare square brackets as math delimiters."
+    "bare square brackets as math delimiters. "
+    "Keep each $$ block a single Markdown paragraph: no line inside it may consist "
+    "only of punctuation such as - or =, begin with a list marker or >, or be "
+    "indented, because GitHub then stops rendering the formula. "
+    "Write a Lean identifier as \\mathrm{name}: GitHub refuses \\operatorname, "
+    "\\DeclareMathOperator, \\phantom and \\require."
 )
 
 

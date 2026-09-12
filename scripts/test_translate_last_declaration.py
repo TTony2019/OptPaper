@@ -139,8 +139,12 @@ theorem real : True := by trivial
         self.assertRegex(prompt, r"concrete mathematical\s+content")
         self.assertIn("Never stop at a", prompt)
         self.assertIn("Use `$...$` for short inline mathematics", prompt)
-        self.assertIn("Never use `\\(...\\)` or `\\[...\\]`", prompt)
-        self.assertIn("Never use bare square brackets as math delimiters", prompt)
+        self.assertIn("with a space before the opening `$`", prompt)
+        self.assertIn("Use `$$...$$` for displayed mathematics", prompt)
+        self.assertIn("Never use `\\(...\\)`, `\\[...\\]`, or bare square brackets", prompt)
+        self.assertIn("keep the formula a single Markdown paragraph", prompt)
+        self.assertIn("consists only of punctuation", prompt)
+        self.assertIn("is indented by four spaces or more", prompt)
         self.assertIn(r"\mathrm{deriv}", prompt)
         self.assertIn("The following macros are not allowed", prompt)
         self.assertIn("provided only as reference context", prompt)
@@ -295,6 +299,16 @@ theorem real : True := by trivial
         statement, proof = split_explanations("Only one explanation")
         self.assertEqual(statement, "Only one explanation")
         self.assertIn("No proof explanation", proof)
+    def test_system_prompt_states_the_github_rendering_rules(self):
+        from translate_last_declaration import SYSTEM_PROMPT
+
+        self.assertIn("$ ... $", SYSTEM_PROMPT)
+        self.assertIn("$$ ... $$", SYSTEM_PROMPT)
+        self.assertIn("single Markdown paragraph", SYSTEM_PROMPT)
+        self.assertIn("list marker or >", SYSTEM_PROMPT)
+        self.assertIn(r"\mathrm{name}", SYSTEM_PROMPT)
+        self.assertIn(r"\operatorname", SYSTEM_PROMPT)
+
     def test_anthropic_request_uses_documented_defaults(self):
         client = AnthropicClient("key", "https://api.deepseek.com/anthropic", "deepseek-v4-pro", 1, 0)
         self.assertEqual(client.model, "deepseek-v4-pro")
