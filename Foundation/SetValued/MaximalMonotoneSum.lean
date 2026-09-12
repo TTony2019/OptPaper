@@ -264,6 +264,21 @@ theorem Maximal.add_of_sumRegularity
     simpa [id_adjointImage_eq] using hmaxId
   simpa [add_comm] using hmax
 
+/-- Brézis Corollary 2.7 (equivalently Rockafellar's sum theorem, Bauschke–Combettes Theorem
+25.1): if `A` and `B` are maximally monotone and the interior of `dom A` meets `dom B`, then
+`A + B` is maximally monotone.  This is the second regularity alternative of Corollary 25.5 with
+the roles of `A` and `B` exchanged. -/
+theorem Maximal.add_of_interior_dom_inter_dom_nonempty
+    {A B : SetValuedOperator H H} (hA : Maximal IsMonotone A) (hB : Maximal IsMonotone B)
+    (hqual : (interior A.dom ∩ B.dom).Nonempty) :
+    Maximal IsMonotone (A + B) := by
+  have hqual' : (B.dom ∩ interior A.dom).Nonempty := by
+    rcases hqual with ⟨x, hxA, hxB⟩
+    exact ⟨x, hxB, hxA⟩
+  have hmax : Maximal IsMonotone (B + A) :=
+    Maximal.add_of_sumRegularity (A := B) (B := A) hB hA (Or.inr (Or.inl hqual'))
+  simpa [add_comm] using hmax
+
 end SumRegularity
 
 end SetValuedOperator
