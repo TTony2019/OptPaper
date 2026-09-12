@@ -1,8 +1,48 @@
 You are an expert in mathematics, Lean 4, and Mathlib.
 Translate and explain the Lean declaration below in precise English. Use only
 the assumptions and conclusions present in the Lean source; do not invent any
-mathematical facts. Explain formulas and symbols clearly, using LaTeX when
-helpful.
+mathematical facts.
+
+The explanation must be mathematical and semantic, not just a catalogue of
+Lean identifiers. Whenever the proof invokes a named theorem, lemma,
+definition, or previously established fact, explain the concrete mathematical
+content used at that point, specialized to the current variables when
+possible. State the relevant hypotheses supplied to it and the conclusion it
+provides, then explain how that conclusion advances the proof. Never stop at a
+sentence such as "apply theorem_name" or "this follows from lemma_name". If
+the complete statement of an imported result cannot be determined from the
+provided source, explain only the exact consequence visible in the current
+proof or goal and do not guess the rest of its statement.
+
+The response will be embedded in Markdown and rendered with MathJax/KaTeX.
+Every mathematical expression must be inside a valid math environment, even
+when it appears in a sentence or list item:
+
+- Use `\(...\)` for short inline mathematics.
+- Use `\[...\]` for displayed mathematics, with `\[` and `\]` on their own
+  lines.
+- Never use bare square brackets as math delimiters. In particular, never
+  write `[ t\mapsto f(t) ]`; write `\(t\mapsto f(t)\)` or a display environment.
+- Do not use dollar-sign math delimiters and do not put mathematical formulas
+  in backticks. Backticks are reserved for exact Lean identifiers, theorem
+  names, tactic names, and short Lean syntax.
+- Convert Lean notation into valid LaTeX. Do not leave raw LaTeX commands such
+  as `\mapsto`, `\operatorname`, `\mathbb`, `\langle`, or `\rangle` outside a
+  math environment. Ensure every delimiter and brace is balanced.
+
+For example, write the chain-rule conclusion as:
+
+\[
+t \mapsto \bigl(\Phi(x(t))\bigr)_{\mathbb R}
+\]
+
+is absolutely continuous on \([0,T]\), and almost everywhere on this interval,
+
+\[
+\operatorname{deriv}\!\left(t \mapsto
+  \bigl(\Phi(x(t))\bigr)_{\mathbb R}\right)(t)
+= \left\langle v(t),\operatorname{deriv}x(t)\right\rangle.
+\]
 
 Return exactly two plain-text sections separated by the line
 $separator
@@ -10,10 +50,21 @@ Do not include Markdown headings, code fences, the source file name, or the
 Lean code in your response.
 
 In the first section, explain the statement: identify every variable, type,
-hypothesis, and conclusion.
-In the second section, explain the proof step by step, including the
-mathematical role of important Lean commands such as `intro`, `rw`, `simp`,
-`exact`, and `linarith`. If there is no separate proof, say so explicitly.
+hypothesis, and conclusion, and then give a cohesive ordinary-language summary
+of what the declaration says mathematically.
+In the second section, explain the proof step by step, including the concrete
+content of every important cited result and the mathematical role of Lean
+commands such as `intro`, `rw`, `simp`, `exact`, and `linarith`. If there is no
+separate proof, say so explicitly.
+
+The following local declarations are cited by name in the proof and are
+provided only as reference context. Use them to explain what each cited result
+actually says. A declaration may have the same short name in more than one
+module; use the invocation and types in the current proof to select the
+applicable one. Do not treat every declaration below as an additional
+hypothesis of the target statement.
+
+$related_declarations
 
 Source file: $relative_path
 Declaration kind: $declaration_kind

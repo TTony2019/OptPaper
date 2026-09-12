@@ -28,20 +28,52 @@ theorem bf_convergence {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ
 ```
 
 ## Statement explanation
-The theorem assumes a type \(H\) with a normed additive commutative group structure, a real inner product space structure, and completeness. It fixes an extended-real-valued function \(\Phi : H \to \operatorname{Set.Ioi}(\bot : \mathrm{EReal})\), meaning \(\Phi\) takes extended real values strictly above the bottom element, and assumes \(\Phi\) belongs to the class \(\mathrm{ERealFunction.gammaZero}\,H\). It also fixes a subset \(S\subseteq H\), an operator \(B:H\to H\), and real parameters \(\mu,h,\beta,\delta\). The object \(\mathrm{alg}\) is a backward-forward discretization for \(\Phi\), \(B\), \(\mu\), and \(h\), providing sequences \(\mathrm{alg}.x\) and \(\mathrm{alg}.y\) and the update equations used in the proof.
+The theorem `bf_convergence` is a convergence statement for a backward-forward discretization in a real Hilbert space \(H\). The space \(H\) is assumed to be a complete real inner product space. The function \(\Phi:H\to \operatorname{EReal}\) takes values strictly above the bottom element \(\bot=-\infty\), and the hypothesis \(\Phi\in\Gamma_0(H)\) says that \(\Phi\) is a proper, convex, lower semicontinuous extended-real-valued function. The set \(S\subseteq H\) is the solution set, characterized by the equivalence
+\[
+z\in S \quad\Longleftrightarrow\quad -Bz\in \partial\Phi(z)
+\]
+for every \(z\in H\). Thus \(S\) is the zero-inclusion solution set for the problem \(0\in Bz+\partial\Phi(z)\). The map \(B:H\to H\) is single-valued, and the hypothesis \(hB\) says that \(B\) is \(\beta\)-cocoercive on all of \(H\), meaning that for all \(u,v\in H\),
+\[
+\beta\,\|Bu-Bv\|^2 \le \langle Bu-Bv,u-v\rangle .
+\]
+The real parameters are \(\mu,h,\beta,\delta\). The assumptions on them are
+\[
+0<\mu<2\beta,\qquad 0<h<\delta,\qquad
+\delta=\frac12+\min\left(1,\frac{\beta}{\mu}\right).
+\]
+The object `alg` is a `BackwardForwardDiscretization` with parameter \(\mu\), step \(h\), operator \(B\), and function \(\Phi\); its proof fields supply the two sequences \(x_k,y_k\), positivity of \(\mu\) and \(h\), and the proximal and update equations used later. The set \(S\) is assumed nonempty.
 
-The assumptions are: \(0<\mu\) and \(\mu<2\beta\); \(0<h\) and \(h<\delta\); \(\delta = 1/2+\min(1,\beta/\mu)\); \(S\) is nonempty; \(B\) is \(\beta\)-cocoercive on the whole space; and \(S\) is exactly the solution set of the inclusion \(-Bz\in \partial\Phi(z)\), where \(\partial\Phi\) denotes the subdifferential of \(\Phi\).
-
-The conclusion asserts the existence of points \(\bar y,\bar x\in H\) such that:
-
-- the scaled proximity operator of \(\Phi\) with positive parameter \(\mu\), evaluated at \(\bar y\), equals \(\bar x\);
-- \(\bar x\in S\);
-- the sequence \(\mathrm{alg}.y_k\) converges weakly to \(\bar y\);
-- the sequence \(\mathrm{alg}.x_k\) converges weakly to \(\bar x\);
-- \(B(\mathrm{alg}.x_k)\) converges strongly to \(B(\bar x)\);
-- the series \(\sum_k \|\mathrm{alg}.x_{k+1}-\mathrm{alg}.x_k\|^2\) is summable;
-- the series \(\sum_k \|\mathrm{alg}.y_{k+1}-\mathrm{alg}.y_k\|^2\) is summable;
-- the difference \(\mathrm{alg}.y_k-\mathrm{alg}.x_k\) converges strongly to \(\bar y-\bar x\).
+The conclusion is that there exist \(ybar,xbar\in H\) such that
+\[
+xbar=\operatorname{Prox}_{\mu\Phi}(ybar),
+\]
+where the scaled proximity operator is formed using \(hPhi\) and the positivity of \(\mu\), and such that
+\[
+xbar\in S,
+\]
+the sequence \(y_k\) converges weakly to \(ybar\),
+\[
+y_k\rightharpoonup ybar,
+\]
+the sequence \(x_k\) converges weakly to \(xbar\),
+\[
+x_k\rightharpoonup xbar,
+\]
+the images \(B(x_k)\) converge strongly to \(B(xbar)\),
+\[
+B(x_k)\to B(xbar),
+\]
+the squared successive differences are summable,
+\[
+\sum_{k}\|x_{k+1}-x_k\|^2<\infty,
+\qquad
+\sum_{k}\|y_{k+1}-y_k\|^2<\infty,
+\]
+and the residual converges strongly:
+\[
+y_k-x_k\to ybar-xbar.
+\]
+In ordinary mathematical language, under a cocoercivity condition on \(B\), a step-size restriction \(h<\delta\), and the assumption that the solution set is nonempty, the relaxed backward-forward orbit converges weakly to a pair \((ybar,xbar)\) where \(xbar\) is the proximal image of \(ybar\) and lies in the solution set. The operator values along \(x_k\) converge strongly, the successive increments are square-summable, and the gap \(y_k-x_k\) tends to the limiting gap.
 
 ## Lean proof
 ```lean
@@ -310,107 +342,266 @@ by
 ```
 
 ## Proof explanation
-The proof begins by defining three operators. It lets \(P\) be the scaled proximity operator for \(\Phi\) with parameter \(\mu\), lets \(F(x)=x-\mu B(x)\), and lets \(T(y)=P(y)-\mu B(P(y))\). Thus \(T=F\circ P\). It then proves \(\beta>0\) from the assumptions on \(\mu\) and \(\beta\) using nonlinear arithmetic.
-
-Next, the proof shows that \(P\) is firmly nonexpansive, using the fact that scaling preserves the \(\gamma_0\) class and the theorem that proximity operators of \(\gamma_0\) functions are firmly nonexpansive. Consequently, \(P\) is averaged with constant \(1/2\). It also proves that the constant \(\mu/(2\beta)\) lies in the interval \((0,1)\). Using the cocoercivity assumption on \(B\), it shows that \(F=I-\mu B\) is averaged with constant \(\mu/(2\beta)\). A composition lemma for averaged operators then shows that \(T=F\circ P\) is averaged with a certain constant. The proof simplifies this constant, using the definition of \(\delta\), to \(1/\delta\).
-
-The iteration is then rewritten. From the equations supplied by the backward-forward discretization, the proof obtains
-
+The proof begins by introducing three auxiliary operators. Let
 \[
-\mathrm{alg}.y_{k+1}=(1-h)\mathrm{alg}.y_k+h\,T(\mathrm{alg}.y_k).
+P(y)=\operatorname{Prox}_{\mu\Phi}(y),
+\qquad
+F(x)=x-\mu Bx,
+\qquad
+T(y)=P(y)-\mu B(P(y)).
 \]
+Thus \(T=F\circ P\). The goal is to show that the \(y\)-sequence is a relaxed averaged iteration for \(T\), then transfer the resulting weak convergence from \(y_k\) to \(x_k=P(y_k)\), and finally establish the strong convergence and summability claims.
 
-The proof also verifies that \(T\) has a fixed point. Since \(S\) is nonempty, it chooses \(z\in S\). The point \(z-\mu B(z)\) is shown to be a fixed point of \(T\), using the lemma that a solution of the inclusion produces a fixed point.
+First, the proof notes that \(\beta>0\). This follows from \(0<\mu\) and \(\mu<2\beta\) by `nlinarith`. Next it shows that \(P\) is firmly nonexpansive. Since \(\Phi\in\Gamma_0(H)\) and \(\mu>0\), the cited result `smul_mem_gammaZero` says that the positive scalar multiple \(\mu\Phi\) again belongs to \(\Gamma_0(H)\). The cited theorem `proximityOperator_firmlyNonexpansive_of_mem_gammaZero` then says that the proximity operator of a \(\Gamma_0\)-function is firmly nonexpansive. Because \(P\) is by definition the scaled proximity operator of \(\Phi\) with parameter \(\mu\), this gives that \(P\) is firmly nonexpansive. The proof then converts this into averagedness: the theorem `firmlyNonexpansiveOn_iff_averagedWith_half` says that firm nonexpansiveness on a set is equivalent to averagedness with parameter \(1/2\), and `firmlyNonexpansive_iff_firmlyNonexpansiveOn_univ` identifies the whole-space firm nonexpansiveness with the version on `Set.univ`. Hence \(P\) is \((1/2)\)-averaged.
 
-The proof then checks the parameter conditions needed for the relaxed averaged iteration theorem. It shows \(\delta>0\), \(1/\delta\in(0,1)\), and \(h\in(0,\delta)\). Applying the relaxed averaged orbit theorem to the sequence \(\mathrm{alg}.y\) and the operator \(T\) gives a fixed point \(\bar y\) of \(T\), weak convergence of \(\mathrm{alg}.y_k\) to \(\bar y\), and summability of the squared successive \(y\)-differences.
+Second, the proof obtains averagedness of \(F\). From \(0<\mu<2\beta\), it proves
+\[
+0<\frac{\mu}{2\beta}<1.
+\]
+The cited theorem `cocoerciveOn_iff_averagedWith_id_sub_smul` says that if \(\beta>0\) and \(\gamma\in(0,2\beta)\), then \(\beta\)-cocoercivity of an operator \(B\) on a set \(D\) is equivalent to averagedness of the map
+\[
+x\mapsto x-\gamma Bx
+\]
+with parameter \(\gamma/(2\beta)\). Applying this with \(\gamma=\mu\) and \(D=\mathrm{Set.univ}\), the hypothesis \(hB\) gives that
+\[
+F(x)=x-\mu Bx
+\]
+is \((\mu/(2\beta))\)-averaged.
 
-Define \(\bar x=P\bar y\). Since \(\bar y\) is a fixed point of \(T\), the fixed-point solution lemma gives \(\bar x\in S\).
+Third, the proof shows that \(T=F\circ P\) is averaged. It converts the averagedness of \(F\) and \(P\) into the `IsAveragedOperator` form, then invokes `averaged_composition_constant`. In this instance that result gives that the composition \(F\circ P\) is averaged with parameter
+\[
+\frac{1}{\frac12+\frac12\min\left(\frac{1}{\mu/(2\beta)},\frac{1}{1/2}\right)}.
+\]
+Since \(T=F\circ P\), this is an averagedness statement for \(T\). The proof then simplifies this parameter. It uses
+\[
+\frac{1}{\mu/(2\beta)}=\frac{2\beta}{\mu},
+\qquad
+\frac{1}{1/2}=2,
+\]
+and splits into the two cases \(\beta/\mu\le 1\) and \(1\le \beta/\mu\). In both cases the displayed parameter becomes
+\[
+\frac{1}{\delta},
+\]
+because
+\[
+\delta=\frac12+\min\left(1,\frac{\beta}{\mu}\right).
+\]
+Thus \(T\) is \((1/\delta)\)-averaged.
 
-The remainder of the proof establishes the strong convergence and summability statements. It fixes \(z_0\in S\) and introduces auxiliary sequences. Define
+The proof next verifies that the relaxed averaged-orbit theorem applies. It proves \(0<\delta\) and \((1/\delta)\in(0,1)\). Indeed, \(\delta>0\) is immediate from its definition. Also \(\mu<2\beta\) gives \(\beta/\mu>1/2\), hence \(\min(1,\beta/\mu)>1/2\), so \(\delta>1\), which implies \(1/\delta<1\). Since \(h<\delta\), and \(1/(1/\delta)=\delta\), the hypothesis \(hh\) gives
+\[
+h\in\left(0,\frac{1}{1/\delta}\right).
+\]
+Thus all hypotheses on the averaging parameter and step size are satisfied.
 
+The proof also needs a fixed point of \(T\). Since \(S\) is nonempty, choose \(z\in S\). The cited result `bf_solution_produces_fixed_point` is used in the following form: if \(z\in S\), then \(z-\mu Bz\) is a fixed point of \(T\). Therefore `Function.fixedPoints T` is nonempty. Next, from the discretization fields, the proof obtains the update formula
+\[
+y_{k+1}=(1-h)y_k+hT(y_k).
+\]
+Indeed, `alg.prox_step` identifies \(x_k=P(y_k)\), while `alg.equation_step` gives the backward-forward update; after rewriting, this is exactly the relaxed averaged-iteration form.
+
+Now the cited theorem `bf_relaxed_averaged_orbit` is applied to \(T\), the averaging parameter \(1/\delta\), the step \(h\), and the sequence \(u_k=y_k\). Its conclusions give a point \(ybar\) such that \(T(ybar)=ybar\), such that
+\[
+y_k\rightharpoonup ybar
+\]
+weakly, and such that
+\[
+\sum_k\|y_{k+1}-y_k\|^2<\infty.
+\]
+The proof sets
+\[
+xbar=P(ybar).
+\]
+Since \(T(ybar)=ybar\), we have
+\[
+P(ybar)-\mu B(P(ybar))=ybar.
+\]
+The cited result `bf_fixed_point_prox_mem_solution` states that if
+\[
+P(y)-\mu B(P(y))=y,
+\]
+then \(P(y)\in S\). Applying this to \(y=ybar\) gives \(xbar=P(ybar)\in S\).
+
+The remaining part of the proof establishes the strong convergence, summability, and weak convergence of \(x_k\). It again chooses a point \(z_0\in S\), using the nonemptiness of \(S\). It defines
 \[
 v_k=\mu^{-1}(y_k-x_k),
 \]
-
 \[
-g_k=\Phi(z_0)_{\mathrm{toReal}}-\Phi(x_k)_{\mathrm{toReal}}-\langle z_0-x_k,v_k\rangle,
+g_k=(\Phi z_0)_{\mathbb R}-(\Phi x_k)_{\mathbb R}
+-\langle z_0-x_k,v_k\rangle,
 \]
-
 and
-
 \[
-A_k=\frac1{2\mu}\|x_k-z_0\|^2+g_k.
+A_k=\frac{1}{2\mu}\|x_k-z_0\|^2+g_k.
 \]
+Here \((\Phi z)_{\mathbb R}\) denotes the real reading of the extended-real value \(\Phi(z)\) supplied by `EReal.toReal`.
 
-The residual \(v_k\) lies in the subdifferential of \(\Phi\) at \(x_k\), by the proximity step. A discrete inequality gives
-
+The cited result `bf_discrete_source51` is used to produce the discrete energy inequality
 \[
-A_{k+1}-A_k+\frac1{2\mu}\|x_{k+1}-x_k\|^2
-+h\langle Bx_k-Bz_0,x_k-z_0\rangle
-+h\langle x_k-z_0,v_k+Bz_0\rangle
-\le \frac1\mu\langle x_{k+1}-x_k,y_{k+1}-y_k\rangle.
+\begin{aligned}
+A_{k+1}-A_k+\frac{1}{2\mu}\|x_{k+1}-x_k\|^2
+&+h\langle Bx_k-Bz_0,x_k-z_0\rangle\\
+&+h\langle x_k-z_0,v_k+Bz_0\rangle
+\le \frac{1}{\mu}\langle x_{k+1}-x_k,y_{k+1}-y_k\rangle.
+\end{aligned}
 \]
-
-Cocoercivity of \(B\) gives
-
+This is the source estimate from which the summability conclusions will be extracted. The proof also derives the cocoercivity inequality
 \[
-\beta\|Bx_k-Bz_0\|^2
-\le \langle Bx_k-Bz_0,x_k-z_0\rangle.
+\beta\|Bx_k-Bz_0\|^2\le \langle Bx_k-Bz_0,x_k-z_0\rangle,
 \]
+directly from the hypothesis \(hB\) applied to \(x_k\) and \(z_0\), using symmetry of the real inner product.
 
-Monotonicity of the subdifferential gives
-
+Next, the proof proves the monotonicity inequality
+\[
+0\le \langle x_k-z_0,v_k+Bz_0\rangle.
+\]
+For this, it first notes that
+\[
+v_k\in\partial\Phi(x_k).
+\]
+This follows from the cited theorem `scaledProximityOperator_residual_mem`, which says that for a \(\Gamma_0\)-function \(f\), a positive parameter \(\gamma\), and a point \(y\),
+\[
+\gamma^{-1}\bigl(y-\operatorname{Prox}_{\gamma f}(y)\bigr)
+\in \partial f\bigl(\operatorname{Prox}_{\gamma f}(y)\bigr).
+\]
+Since \(x_k\) is the proximal image of \(y_k\), this gives \(v_k=\mu^{-1}(y_k-x_k)\in\partial\Phi(x_k)\). Also, from the solution characterization,
+\[
+-Bz_0\in\partial\Phi(z_0).
+\]
+The cited theorem `isMonotone_subdifferential` says that the subdifferential of a proper convex function is a monotone set-valued operator. The properness hypothesis is supplied by `isProper_of_mem_gammaZero`, which states that a \(\Gamma_0\)-function is proper when regarded as an extended-real-valued function. Monotonicity therefore gives
+\[
+0\le \langle x_k-z_0,v_k-(-Bz_0)\rangle,
+\]
+which is exactly
 \[
 0\le \langle x_k-z_0,v_k+Bz_0\rangle.
 \]
 
-The auxiliary function \(A_k\) is nonnegative. Combining these inequalities using a half-strong lemma yields
-
+The proof then shows that \(A_k\ge 0\). It uses the cited theorem `bf_prox_gap_nonneg`, which gives
 \[
-A_{k+1}-A_k+\frac1{4\mu}\|x_{k+1}-x_k\|^2
+0\le (\Phi z_0)_{\mathbb R}-(\Phi x_k)_{\mathbb R}
+-\left\langle \mu^{-1}(y_k-x_k),z_0-x_k\right\rangle.
+\]
+After identifying \(\mu^{-1}(y_k-x_k)\) with \(v_k\) and using symmetry of the inner product, this is precisely \(g_k\ge 0\). Since
+\[
+\frac{1}{2\mu}\|x_k-z_0\|^2\ge 0,
+\]
+it follows that \(A_k\ge 0\).
+
+With these three ingredients, the proof applies the algebraic lemma `bf_discrete_source55_half`. Its statement is: if
+\[
+A_1-A_0+\frac{1}{2\mu}\|dx\|^2+h\langle bx-bz,xz\rangle+h\langle xz,q\rangle
+\le \frac{1}{\mu}\langle dx,dy\rangle,
+\]
+if
+\[
+\beta\|bx-bz\|^2\le \langle bx-bz,xz\rangle,
+\]
+and if
+\[
+0\le \langle xz,q\rangle,
+\]
+then
+\[
+A_1-A_0+\frac{1}{4\mu}\|dx\|^2+h\beta\|bx-bz\|^2
+\le \frac{1}{\mu}\|dy\|^2.
+\]
+Instantiating this with \(A_0=A_k\), \(A_1=A_{k+1}\), \(dx=x_{k+1}-x_k\), \(dy=y_{k+1}-y_k\), \(bx=Bx_k\), \(bz=Bz_0\), \(xz=x_k-z_0\), and \(q=v_k+Bz_0\) yields
+\[
+A_{k+1}-A_k+\frac{1}{4\mu}\|x_{k+1}-x_k\|^2
 +h\beta\|Bx_k-Bz_0\|^2
-\le \frac1\mu\|y_{k+1}-y_k\|^2.
+\le \frac{1}{\mu}\|y_{k+1}-y_k\|^2.
 \]
 
-Because the series \(\sum_k\|y_{k+1}-y_k\|^2\) is summable, the scaled series is also summable. The proof uses a lemma that bounds nonnegative terms by a telescoping difference plus a summable error. This gives summability of
-
+The summability of the \(y\)-increments gives that the sequence
 \[
-\frac1{4\mu}\|x_{k+1}-x_k\|^2
+c_k=\frac{1}{\mu}\|y_{k+1}-y_k\|^2
 \]
-
-and of
-
+is summable. The proof then applies the lemma `summable_of_nonneg_le_diff_add_summable`, which states that if \(a_k\ge 0\), \(d_k\ge 0\), \(c\) is summable, and
 \[
-h\beta\|Bx_k-Bz_0\|^2.
+a_k\le d_k-d_{k+1}+c_k
 \]
-
-After scaling by positive constants, it obtains summability of \(\|x_{k+1}-x_k\|^2\) and of \(\|Bx_k-Bz_0\|^2\).
-
-From summability of \(\|Bx_k-Bz_0\|^2\), the norm \(\|Bx_k-Bz_0\|\) tends to \(0\), hence \(Bx_k-Bz_0\to0\). The proof also shows that \(B\) is constant on the solution set \(S\), so \(Bz_0=B\bar x\). Therefore \(Bx_k\to B\bar x\) strongly.
-
-Similarly, summability of the \(y\)-differences implies \(y_{k+1}-y_k\to0\). The update equation gives
-
+for every \(k\), then \(a\) is summable. Taking
 \[
-y_k-x_k=-\mu Bx_k-h^{-1}(y_{k+1}-y_k).
+a_k=\frac{1}{4\mu}\|x_{k+1}-x_k\|^2,
+\qquad
+d_k=A_k,
+\qquad
+c_k=\frac{1}{\mu}\|y_{k+1}-y_k\|^2
 \]
-
-The right side converges strongly to \(-\mu B\bar x\). Using the fixed point identity \(T\bar y=\bar y\) and \(\bar x=P\bar y\), the proof computes
-
+gives summability of the scaled \(x\)-increment squares. Taking instead
 \[
-\bar y-\bar x=-\mu B\bar x.
+a_k=h\beta\|Bx_k-Bz_0\|^2
+\]
+with the same \(d_k\) and \(c_k\) gives summability of \(h\beta\|Bx_k-Bz_0\|^2\). After multiplying by the positive constants \((4\mu)\) and \((h\beta)^{-1}\), respectively, the proof obtains
+\[
+\sum_k\|x_{k+1}-x_k\|^2<\infty
+\]
+and
+\[
+\sum_k\|Bx_k-Bz_0\|^2<\infty.
 \]
 
-Thus \(y_k-x_k\to \bar y-\bar x\) strongly.
+From the latter summability, the terms \(\|Bx_k-Bz_0\|^2\) tend to \(0\). The cited theorem `ext_cor_1_sq_tendsto_implies_norm_tendsto_zero` says that if \(r_k\ge 0\) and \(r_k^2\to 0\), then \(r_k\to 0\). Applying it with \(r_k=\|Bx_k-Bz_0\|\) gives
+\[
+\|Bx_k-Bz_0\|\to 0.
+\]
+Using `tendsto_zero_iff_norm_tendsto_zero`, this converts to
+\[
+Bx_k-Bz_0\to 0,
+\]
+hence \(Bx_k\to Bz_0\). The proof then invokes `bf_operator_constant_on_solution_set`, which says that if \(B\) is \(\beta\)-cocoercive with \(\beta>0\) and \(S\) is the solution set defined by the subdifferential inclusion, then \(B\) is constant on \(S\). Since \(z_0\in S\) and \(xbar\in S\), it follows that \(Bz_0=Bxbar\). Therefore
+\[
+Bx_k\to Bxbar.
+\]
 
-Finally, weak convergence of \(x_k\) to \(\bar x\) is proved by the inner-product criterion for weak convergence. For an arbitrary vector \(w\), weak convergence of \(y_k\) gives \(\langle y_k,w\rangle\to\langle\bar y,w\rangle\). Strong convergence of the residual gives \(\langle y_k-x_k,w\rangle\to\langle\bar y-\bar x,w\rangle\). Since
+Similarly, from the summability of the \(y\)-increments, the terms \(\|y_{k+1}-y_k\|^2\) tend to \(0\), and again `ext_cor_1_sq_tendsto_implies_norm_tendsto_zero` and `tendsto_zero_iff_norm_tendsto_zero` give
+\[
+y_{k+1}-y_k\to 0.
+\]
+The proof also derives the residual identity
+\[
+y_k-x_k=-\mu Bx_k-h^{-1}(y_{k+1}-y_k)
+\]
+from the update equation. Since \(Bx_k\to Bxbar\) and \(y_{k+1}-y_k\to 0\), the right-hand side tends to \(-\mu Bxbar\). But from the fixed-point equation \(T(ybar)=ybar\), we have
+\[
+ybar=P(ybar)-\mu B(P(ybar))=xbar-\mu Bxbar,
+\]
+so
+\[
+-\mu Bxbar=ybar-xbar.
+\]
+Therefore
+\[
+y_k-x_k\to ybar-xbar.
+\]
 
+Finally, the proof obtains weak convergence of \(x_k\). The cited theorem `weakConvergence_iff_forall_tendsto_inner_right` states that in a complete Hilbert space, weak convergence \(\xi_k\rightharpoonup x\) is equivalent to convergence of all inner products:
+\[
+\langle \xi_k,u\rangle\to \langle x,u\rangle
+\]
+for every \(u\). Since \(y_k\rightharpoonup ybar\), for every \(w\),
+\[
+\langle y_k,w\rangle\to \langle ybar,w\rangle.
+\]
+Since \(y_k-x_k\to ybar-xbar\) strongly, continuity of the linear functional \(z\mapsto \langle z,w\rangle\) gives
+\[
+\langle y_k-x_k,w\rangle\to \langle ybar-xbar,w\rangle.
+\]
+Subtracting these limits yields
 \[
 \langle x_k,w\rangle
 =
-\langle y_k,w\rangle-\langle y_k-x_k,w\rangle,
+\langle y_k,w\rangle-\langle y_k-x_k,w\rangle
+\to
+\langle ybar,w\rangle-\langle ybar-xbar,w\rangle
+=
+\langle xbar,w\rangle.
+\]
+Applying the weak-convergence criterion again, this time to the sequence \(x_k\), gives
+\[
+x_k\rightharpoonup xbar.
 \]
 
-the inner products \(\langle x_k,w\rangle\) converge to \(\langle\bar y,w\rangle-\langle\bar y-\bar x,w\rangle=\langle\bar x,w\rangle\). Therefore \(x_k\) converges weakly to \(\bar x\).
-
-The final `exact` assembles all the conclusions: \(\bar y\), \(\bar x\), the proximity identity, membership in \(S\), weak convergence of \(y\), weak convergence of \(x\), strong convergence of \(Bx_k\), summability of the \(x\)-differences, summability of the \(y\)-differences, and strong convergence of \(y_k-x_k\).
+The proof then assembles all conclusions: the chosen \(ybar\) and \(xbar=P(ybar)\) satisfy the proximal relation by definition, \(xbar\in S\) has been shown, the weak convergences of \(y_k\) and \(x_k\) have been proved, the strong convergence \(Bx_k\to Bxbar\) has been proved, both squared-increment series are summable, and the residual convergence \(y_k-x_k\to ybar-xbar\) has been established. This is exactly the existential conclusion of `bf_convergence`.
 

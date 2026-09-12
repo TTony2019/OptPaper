@@ -37,27 +37,51 @@ theorem strong_convex_solution_unique_and_convergent {H : Type*} [NormedAddCommG
 ```
 
 ## Statement explanation
-The theorem is set in a real Hilbert space, expressed through Lean's typeclass assumptions. Let me unpack the statement.
+The declaration is a theorem in a real Hilbert space \(H\), meaning that \(H\) is a complete normed additive commutative group equipped with a real inner product. The function \(\Phi : H \to \operatorname{EReal}\) takes values strictly greater than \(\bot\), where \(\bot\) is the bottom element of the extended reals, so \(\Phi\) never takes the value \(-\infty\). The hypothesis \(hPhi\) says that \(\Phi\) belongs to `ERealFunction.gammaZero H`. The provided excerpt defines the ambient class \(\Gamma(H)\) as the convex, lower semicontinuous functions; the zero-class is the corresponding properness/domain class used by the subgradient theory. The proof itself only passes this hypothesis unchanged to `proposition_2_16`.
 
-Let `H` be a type equipped with a normed additive commutative group structure, an inner product space over `ℝ`, and completeness, so `H` is a real Hilbert space. The expression `⊥ : EReal` is negative infinity in the extended real numbers, and `Set.Ioi ⊥` means the interval of extended reals strictly greater than `-∞`, i.e. finite real numbers or `+∞`. The variable `Phi : H → Set.Ioi (⊥ : EReal)` is therefore a function from `H` to extended-real-valued quantities that are never `-∞`, so `Phi` is a proper extended-real-valued function on `H`. The hypothesis `hPhi : Phi ∈ ERealFunction.gammaZero H` asserts that `Phi` belongs to the class of functions with zero "gamma" parameter, a kind of convexity or weak convexity condition used in the source framework.
+The other objects are a single-valued operator \(B : H \to H\), a nonempty set \(S \subseteq H\) of candidate solutions, two trajectories \(x,v : \mathbb R \to H\), and real parameters \(\lambda,\mu,\beta\). The assumptions on the parameters are \(0<\lambda\), \(0<\mu\), \(\mu\lambda=1\), and \(0<\beta\). The hypothesis \(hB\) says that \(B\) is \(\beta\)-cocoercive on all of \(H\). In the proof this is used in the form that for any \(y,z\in H\),
+\[
+\beta\|By-Bz\|^2 \le \langle y-z, By-Bz\rangle,
+\]
+so in particular the inner product \(\langle y-z, By-Bz\rangle\) is nonnegative.
 
-The other variables are: `B : H → H`, a vector field on `H`; `S : Set H`, a subset of `H`; `x v : ℝ → H`, two time-dependent paths in `H`; `lam`, `mu`, `beta` real numbers; and `m` appears later existentially. The hypothesis `hS : S.Nonempty` says `S` is nonempty. The hypotheses `hlam : 0 < lam`, `hmu : 0 < mu`, and `hmu_lam : mu * lam = 1` mean `lam` and `mu` are positive reciprocal parameters. `hbeta : 0 < beta` says `beta` is positive. The hypothesis `hB : CocoerciveOn beta Set.univ (fun w : Set.univ ↦ B w)` states that `B` is `beta`-cocoercive on the whole space, expressed for the subtype of elements of the universe; this is an inequality involving `⟨B w1, B w2⟩` and `⟨w1 - w2, B w1 - B w2⟩`.
+The trajectory hypotheses say that \(x\) and \(v\) are absolutely continuous on every \( [0,b] \) with \(b>0\), and that for every \(T>0\), almost every \(t\in[0,T]\) satisfies
+\[
+\operatorname{HasDerivAt}\, x\,(\operatorname{deriv} x(t))\,t,
+\qquad
+\operatorname{HasDerivAt}\, v\,(\operatorname{deriv} v(t))\,t.
+\]
+Thus \(x\) and \(v\) are locally absolutely continuous and almost everywhere differentiable with the stated derivatives. The hypotheses \(hvL2\) and \(hdxL2\) say that \(v\) and \(\operatorname{deriv} x\) are in \(L^2\) on every finite interval \( [0,b] \). The hypothesis \(hsubgradient\) says that for every \(t\ge 0\),
+\[
+v(t)\in \partial\Phi(x(t)).
+\]
 
-The path regularity hypotheses are:
-- `hx_ac : ∀ b, 0 < b → AbsolutelyContinuousOnInterval x 0 b`: for every positive time `b`, `x` is absolutely continuous on `[0,b]`.
-- `hv_ac` similarly for `v`.
-- `hx_deriv`: for every `T > 0`, almost everywhere on `[0,T]` with respect to restricted Lebesgue volume, `HasDerivAt x (deriv x t) t`, i.e. the derivative of `x` equals the weak/derived derivative. Same for `hv_deriv` with `v`.
+The domain hypothesis \(hdom\) says that for every \(t\ge 0\), \(x(t)\in\operatorname{dom}\Phi\), and that every \(w\in S\) lies in \(\operatorname{dom}\Phi\). The weak convergence hypothesis \(hweak\) says that there exists \(x_\infty\in S\) such that \(x(t)\) converges weakly to \(x_\infty\) as \(t\to\infty\). The solution hypothesis \(hsolution\) says that for every \(z\in S\),
+\[
+-Bz\in \partial\Phi(z),
+\]
+equivalently \(0\in Bz+\partial\Phi(z)\). The orbit equation \(horbit\) says that for almost every \(t\in[0,\infty)\),
+\[
+v(t)\in \partial\Phi(x(t))
+\quad\text{and}\quad
+\lambda\,\dot x(t)+\dot v(t)+v(t)+B(x(t))=0.
+\]
+Finally, \(hstrong_support\) is a strong-convexity hypothesis on \(\Phi\): there exists \(m>0\) such that for all \(a,u,y\in H\), if \(u\in\partial\Phi(a)\) and \(y\in\operatorname{dom}\Phi\), then
+\[
+\frac m2\|y-a\|^2
+\le
+(\Phi y)_{\mathbb R}-(\Phi a)_{\mathbb R}
+-\langle u,y-a\rangle.
+\]
+Here \((\Phi y)_{\mathbb R}\) denotes the real part of the extended-real value \(\Phi y\). This is the subgradient form of strong convexity with modulus \(m\).
 
-The subdifferential and membership hypotheses are:
-- `hsubgradient : ∀ t, 0 ≤ t → v t ∈ ERealFunction.subdifferential Phi (x t)`: for all nonnegative times, `v t` is a subgradient of `Phi` at `x t`.
-- `hvL2` and `hdxL2`: for every positive `b`, `v` and `deriv x` are square-integrable on `[0,b]`.
-- `hdom : (∀ t, 0 ≤ t → x t ∈ ERealFunction.effectiveDomain Phi) ∧ ∀ w, w ∈ S → w ∈ ERealFunction.effectiveDomain Phi`: the path `x` and every point of `S` lie in the effective domain of `Phi`.
-- `hweak : ∃ xinf ∈ S, Tendsto (fun t ↦ toWeakSpace ℝ H (x t)) atTop (nhds (toWeakSpace ℝ H xinf))`: there is a point `xinf` in `S` such that `x t` converges weakly to `xinf` as `t → ∞`.
-- `hsolution : ∀ z, z ∈ S → -B z ∈ ERealFunction.subdifferential Phi z`: for every `z` in `S`, the vector `-B z` is a subgradient of `Phi` at `z`.
-- `horbit : ∀ᵐ t ∂volume.restrict (Set.Ici 0), v t ∈ ERealFunction.subdifferential Phi (x t) ∧ lam • deriv x t + deriv v t + v t + B (x t) = 0`: almost everywhere on `[0,∞)`, the subgradient inclusion holds and the damped forward-backward differential equation `λ ẋ(t) + \dot v(t) + v(t) + B(x(t)) = 0` holds.
-- `hstrong_support : ∃ m : ℝ, 0 < m ∧ ∀ {a u y : H}, u ∈ ERealFunction.subdifferential Phi a → y ∈ ERealFunction.effectiveDomain Phi → m / 2 * ‖y - a‖ ^ 2 ≤ (Phi y : EReal).toReal - (Phi a : EReal).toReal - inner ℝ u (y - a)`: the function `Phi` has a strong convexity-like quadratic lower bound with parameter `m` at every subgradient point.
-
-The conclusion is: `∃ z, S = {z} ∧ Tendsto x atTop (nhds z)`. That is, there exists a point `z` such that `S` is the singleton `{z}`, and the trajectory `x t` converges strongly to `z` as `t` tends to infinity.
+The conclusion is that there exists \(z\) such that
+\[
+S=\{z\}
+\quad\text{and}\quad
+x(t)\to z \text{ strongly in }H \text{ as }t\to\infty.
+\]
+Thus the theorem says that, under the dynamical system, cocoercivity, and strong convexity assumptions, the solution set is a singleton and the trajectory \(x\) converges strongly to that unique solution.
 
 ## Lean proof
 ```lean
@@ -137,77 +161,134 @@ by
 ```
 
 ## Proof explanation
-The proof has two major parts. First, it proves that `S` has exactly one point. Second, it proves that the whole trajectory `x` converges to that unique point.
+The proof begins by using `rcases hS with ⟨z, hz⟩` to choose an element \(z\in S\), and `rcases hstrong_support with ⟨m, hm, hsupp⟩` to choose the strong-convexity modulus \(m>0\) together with the inequality \(hsupp\).
 
-The proof starts with `rcases hS with ⟨z, hz⟩`, choosing a point `z ∈ S` from nonemptiness. Then `rcases hstrong_support with ⟨m, hm, hsupp⟩` extracts the strong-support parameter `m > 0` and the quadratic inequality `hsupp`.
+First the proof shows that \(S\) is the singleton \(\{z\}\). It applies `Set.eq_singleton_iff_unique_mem.mpr`, which reduces the goal \(S=\{z\}\) to proving two things: that \(z\in S\), supplied by \(hz\), and that every \(y\in S\) is equal to \(z\). The command `intro y hy` introduces an arbitrary \(y\in S\) and the proof `hy` of membership.
 
-To show `S = {z}`, Lean uses `refine Set.eq_singleton_iff_unique_mem.mpr ⟨hz, ?_⟩`. This reduces the task to proving that every `y ∈ S` equals `z`. Take an arbitrary `y ∈ S`. Using `hsupp` twice with two subgradient inequalities:
-- For `a = z`, `u = -B z`, and `y = y`, since `z ∈ S` and `hsolution z hz` gives `-B z ∈ ∂Phi z`, and `hdom.2 y hy` gives `y` in the domain, one obtains
-  \[
-  \frac m2 \|y-z\|^2 \le \Phi(y)-\Phi(z) - \langle -Bz, y-z\rangle.
-  \]
-  Using `simpa [inner_neg_left, real_inner_comm]`, this is rewritten as
-  \[
-  \frac m2 \|y-z\|^2 \le \Phi(y)-\Phi(z) + \langle y-z, Bz\rangle.
-  \]
-- For `a = y`, `u = -B y`, and `y = z`, similarly:
-  \[
-  \frac m2 \|z-y\|^2 \le \Phi(z)-\Phi(y) - \langle -By, z-y\rangle.
-  \]
-  After rewriting inner products using `inner_neg_left`, `inner_neg_right`, commutation, and `norm_sub_rev`, Lean obtains
-  \[
-  \frac m2 \|y-z\|^2 \le \Phi(z)-\Phi(y) - \langle y-z, By\rangle.
-  \]
+For this arbitrary \(y\in S\), the proof applies the strong-convexity inequality \(hsupp\) twice. First, with \(a=z\), \(u=-Bz\), and the second variable equal to \(y\), using \(hsolution z hz\) to know that \(-Bz\in\partial\Phi(z)\) and \(hdom.2 y hy\) to know that \(y\in\operatorname{dom}\Phi\). This gives
+\[
+\frac m2\|y-z\|^2
+\le
+(\Phi y)_{\mathbb R}-(\Phi z)_{\mathbb R}
+-\langle -Bz,y-z\rangle.
+\]
+Using \(\langle -Bz,y-z\rangle=-\langle Bz,y-z\rangle=-\langle y-z,Bz\rangle\), the proof rewrites this as
+\[
+\frac m2\|y-z\|^2
+\le
+(\Phi y)_{\mathbb R}-(\Phi z)_{\mathbb R}
++\langle y-z,Bz\rangle.
+\]
 
-Next, `hineq := hB.ineq ⟨y, Set.mem_univ y⟩ ⟨z, Set.mem_univ z⟩` is the cocoercivity inequality applied to the two points `y` and `z`. Cocoercivity gives an inequality
+Second, with \(a=y\), \(u=-By\), and the second variable equal to \(z\), using \(hsolution y hy\) to know that \(-By\in\partial\Phi(y)\) and \(hdom.2 z hz\) to know that \(z\in\operatorname{dom}\Phi\), the proof obtains
 \[
-\beta \langle B y - B z, y - z\rangle \le \|B y - B z\|^2
+\frac m2\|z-y\|^2
+\le
+(\Phi z)_{\mathbb R}-(\Phi y)_{\mathbb R}
+-\langle -By,z-y\rangle.
 \]
-or in the form used here, combined with `hbeta.le` and `sq_nonneg`, Lean shows
+The proof rewrites the inner product term using \(\langle -By,z-y\rangle=-\langle By,z-y\rangle\), then uses \(\langle By,z-y\rangle=-\langle y-z,By\rangle\), and replaces \(\|z-y\|\) by \(\|y-z\|\). The result is
 \[
-0 \le \langle y - z, B y - B z\rangle.
+\frac m2\|y-z\|^2
+\le
+(\Phi z)_{\mathbb R}-(\Phi y)_{\mathbb R}
+-\langle y-z,By\rangle.
 \]
-This is `hinner`.
 
-The proof then forms `hdist : m * ‖y - z‖^2 ≤ 0`. Inside, it derives an intermediate sum inequality `hsum`:
+Next the proof uses cocoercivity. The call `hB.ineq` gives the inequality
 \[
-m \|y-z\|^2 \le -\langle y-z, B y - B z\rangle.
+\beta\|By-Bz\|^2
+\le
+\langle y-z,By-Bz\rangle.
 \]
-This is obtained by adding the two quadratic lower bounds. Writing
+Because \(\beta>0\) and \(\|By-Bz\|^2\ge 0\), the left-hand side is nonnegative, so the inner product on the right is nonnegative:
 \[
-\inner{ y-z}{ B y - B z} = \inner{ y-z}{B y} - \inner{ y-z}{B z}
+0\le \langle y-z,By-Bz\rangle.
 \]
-and using `nlinarith [h1', h2', hinner_eq]`, Lean combines the two inequalities to conclude `hsum`. Then
-\[
-\inner{ y-z}{ B y - B z} \ge 0
-\]
-implies its negation is nonpositive, so `hsum` gives `m\|y-z\|^2 ≤ 0`. Since `m > 0`, the only nonnegative number satisfying this is `0`; using `sq_nonneg`, `nlinarith` proves `hzero : ‖y - z‖^2 = 0`. Then `norm_eq_zero` and `sub_eq_zero` turn this into `y = z`. Thus `S = {z}`.
 
-Now the proof turns to convergence. It calls `proposition_2_16 S Phi hPhi B x v z lam mu beta ⟨z, hz⟩ hz ...`. This is an imported proposition giving properties of the forward-backward dynamics. In particular it provides `hp.2.1`, named `hF_lim`, a limit involving the quantity
+Adding the two strong-convexity inequalities, the \(\Phi\)-terms cancel. Using
 \[
-\Phi(x(t)) - \Phi(z) + \langle B z, x(t)-z\rangle
+\langle y-z,By-Bz\rangle
+=
+\langle y-z,By\rangle-\langle y-z,Bz\rangle,
 \]
-tending to zero as `t → ∞`. The proof defines `gamma := m / 2`, so `gamma > 0` by `linarith`.
+the proof obtains
+\[
+m\|y-z\|^2
+\le
+-\langle y-z,By-Bz\rangle.
+\]
+Since the inner product is nonnegative, the right-hand side is nonpositive, hence
+\[
+m\|y-z\|^2\le 0.
+\]
+Because \(m>0\) and \(\|y-z\|^2\ge 0\), the proof concludes that \(\|y-z\|^2=0\). Therefore \(\|y-z\|=0\), then \(y-z=0\), and finally \(y=z\). This proves uniqueness of the element of \(S\), so \(S=\{z\}\).
 
-The next goal is to prove `hnorm_lim : Tendsto (fun t => ‖x t - z‖) atTop (nhds 0)`. Since the norm is nonnegative, it suffices to compare it to a quantity that tends to zero. Lean introduces the auxiliary function
+The proof then invokes `proposition_2_16`. This proposition applies to the same Hilbert space, the same \(\Phi\), \(B\), \(S\), \(x\), \(v\), and parameters, with the chosen element \(z\in S\). Its conclusion includes the statement that the function
 \[
-g(t) = \frac{1}{\gamma}\Big(\Phi(x t)-\Phi(z)+\langle B z, x t - z\rangle\Big).
+F(t)
+=
+(\Phi(x(t)))_{\mathbb R}-(\Phi(z))_{\mathbb R}
++\langle Bz,x(t)-z\rangle
 \]
-Using `squeeze_zero'`, it shows that `‖x t - z‖^2` is squeezed between `0` and `g(t)`. The lower bound is simply `sq_nonneg`. The upper estimate comes from `hsupp` applied with `a = z`, `u = -B z`, `y = x t`. Since `z ∈ S`, `hsolution z hz` gives `-B z ∈ ∂Phi(z)`, and `hdom.1 t ht` gives `x t` in the domain. This yields
+is integrable on \([0,\infty)\), that
 \[
-\frac m 2 \|x t - z\|^2 \le \Phi(x t)-\Phi(z)+\langle B z, x t - z\rangle.
+F(t)\to 0 \quad\text{as }t\to\infty,
 \]
-Rewriting with `gamma` and `inner_neg_left`, this is exactly
+and that there exists a weak limit point in \(S\) together with convergence of \(\Phi(x(t))\) to its value. The proof only uses the second conjunct, extracted as `hp.2.1`, which is precisely the convergence
 \[
-\gamma \|x t - z\|^2 \le \Phi(x t)-\Phi(z)+\langle B z, x t - z\rangle.
+F(t)\to 0.
 \]
-Multiplying by `γ^{-1} ≥ 0` gives
-\[
-\|x t - z\|^2 \le γ^{-1}\big(\Phi(x t)-\Phi(z)+\langle B z, x t - z\rangle\big).
-\]
-Lean handles the algebraic step with `calc`, `rw`, `inv_mul_cancel₀`, and `mul_le_mul_of_nonneg_left`. The nonnegativity of the right side is shown from the same inequality and `nlinarith`, since `γ > 0`.
 
-The right-hand quantity `g(t)` tends to zero because `hF_lim.const_mul γ⁻¹` handles multiplication by the constant `γ⁻¹`. Thus by `squeeze_zero'`, `‖x t - z‖^2 → 0`. Then continuous square root composition gives `‖x t - z‖ → 0`: `simpa ... using (Real.continuous_sqrt.tendsto 0).comp hsquare`.
+The proof next defines
+\[
+\gamma=\frac m2.
+\]
+Since \(m>0\), `linarith` proves \(\gamma>0\). The goal is to prove
+\[
+\|x(t)-z\|\to 0.
+\]
+The proof first proves the squared norm converges to zero by a squeeze argument. For \(t\ge 0\), applying the strong-convexity inequality \(hsupp\) with \(a=z\), \(u=-Bz\), and the second variable equal to \(x(t)\), using \(hsolution z hz\) and \(hdom.1 t ht\), gives
+\[
+\gamma\|x(t)-z\|^2
+\le
+F(t).
+\]
+The left-hand side is nonnegative, so \(F(t)\ge 0\). Since \(\gamma^{-1}\ge 0\), multiplying by \(\gamma^{-1}\) gives
+\[
+0\le \|x(t)-z\|^2
+\le
+\gamma^{-1}F(t)
+\]
+eventually. The command `filter_upwards [eventually_ge_atTop (0 : ℝ)]` makes the argument eventual in \(t\), because the strong-convexity inequality is available only for \(t\ge 0\). Since \(F(t)\to 0\), the scalar multiple satisfies
+\[
+\gamma^{-1}F(t)\to 0.
+\]
+The theorem `squeeze_zero'` then yields
+\[
+\|x(t)-z\|^2\to 0.
+\]
 
-Finally, from norm convergence to zero, `tendsto_zero_iff_norm_tendsto_zero` gives `x t - z → 0`. The equivalence `tendsto_sub_nhds_zero_iff.mp` turns convergence of differences to zero into `Tendsto x atTop (nhds z)`. The conclusion packages the previously proved singleton identity `S = {z}`, the point `z`, and strong convergence: `exact ⟨z, hS_singleton, tendsto_sub_nhds_zero_iff.mp hsub_lim⟩`. Thus the theorem is proved: `S` is a singleton and the whole trajectory converges strongly to its unique element.
+Finally, the proof converts convergence of the square of the norm into convergence of the norm itself. The square-root function is continuous at \(0\), and for a nonnegative norm,
+\[
+\sqrt{\|x(t)-z\|^2}=\|x(t)-z\|.
+\]
+Thus composing continuity of \(\sqrt{\cdot}\) at \(0\) with \(\|x(t)-z\|^2\to 0\) gives
+\[
+\|x(t)-z\|\to 0.
+\]
+The lemma `tendsto_zero_iff_norm_tendsto_zero.mpr` then gives
+\[
+x(t)-z\to 0.
+\]
+Finally, `tendsto_sub_nhds_zero_iff.mp` converts \(x(t)-z\to 0\) into
+\[
+x(t)\to z.
+\]
+Together with the already established equality \(S=\{z\}\), this proves the desired conclusion
+\[
+\exists z,\quad S=\{z\}
+\quad\text{and}\quad
+x(t)\to z \text{ strongly as }t\to\infty.
+\]
 

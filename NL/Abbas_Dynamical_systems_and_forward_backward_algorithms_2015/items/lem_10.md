@@ -11,25 +11,29 @@ theorem averaged_composition_constant {H : Type*} [NormedAddCommGroup H] [InnerP
 ```
 
 ## Statement explanation
-The theorem involves a type \(H\) equipped with a normed additive commutative group structure and a real inner product space structure. It considers two self-maps \(T_1,T_2:H\to H\), real parameters \(\alpha_1,\alpha_2\), and hypotheses
-
-- \(h\alpha_1:0<\alpha_1\wedge \alpha_1<1\),
-- \(h\alpha_2:0<\alpha_2\wedge \alpha_2<1\),
-- \(h_{T_1}:\) \(T_1\) is \(\alpha_1\)-averaged, expressed as `IsAveragedOperator T1 alpha1 halpha1`,
-- \(h_{T_2}:\) \(T_2\) is \(\alpha_2\)-averaged, expressed as `IsAveragedOperator T2 alpha2 halpha2`.
-
-The conclusion defines a real number
+The declaration `averaged_composition_constant` is set in a real inner product space \(H\). It takes two self-maps \(T_1,T_2:H\to H\), two real numbers \(\alpha_1,\alpha_2\), hypotheses
 \[
-\delta = \frac12+\frac12\min\left(\frac1{\alpha_1},\frac1{\alpha_2}\right),
+0<\alpha_1<1,\qquad 0<\alpha_2<1,
 \]
-then defines
+and hypotheses that \(T_1\) is an \(\alpha_1\)-averaged operator and \(T_2\) is an \(\alpha_2\)-averaged operator.
+
+The relevant notion of averagedness is `AveragedWith`: for a map \(T:D\to H\) on a set \(D\subseteq H\), being \(\alpha\)-averaged means that \(\alpha\in(0,1)\) and there exists a \(1\)-Lipschitz map \(R:D\to H\) such that
 \[
+T(x)=(1-\alpha)x+\alpha R(x)
+\]
+for every \(x\in D\). Thus \(T\) is a convex combination, with weight \(\alpha\), of the identity and a nonexpansive map. The definition `IsAveragedOperator T α hα` is the whole-space version of this condition, where \(D\) is the universal subset of \(H\). The proof argument \(hα\) records \(0<\alpha<1\), although the definition itself is just the corresponding `AveragedWith` statement on the whole space.
+
+The conclusion introduces
+\[
+\delta=\frac12+\frac12\min\!\left(\frac1{\alpha_1},\frac1{\alpha_2}\right),
+\qquad
 \alpha=\frac1\delta,
 \]
-and asserts that the composition \(T_1\circ T_2\) is \(\alpha\)-averaged. Because the predicate `IsAveragedOperator` requires a proof that the averaging parameter lies strictly between \(0\) and \(1\), the statement also includes an inline proof of
+and asserts that the composition \(T_1\circ T_2\) is an \(\alpha\)-averaged operator. Equivalently,
 \[
-0<\alpha<1.
+\alpha=\frac{2}{1+\min(1/\alpha_1,1/\alpha_2)}.
 \]
+The declaration also contains the necessary proof that this \(\alpha\) lies in \((0,1)\). In ordinary language: the composition of an \(\alpha_1\)-averaged map and an \(\alpha_2\)-averaged map is again averaged, and one explicit admissible averaging parameter for the composition is the reciprocal of the average of \(1\) and the smaller of the two reciprocals \(1/\alpha_1,1/\alpha_2\).
 
 ## Lean proof
 ```lean
@@ -112,107 +116,98 @@ and asserts that the composition \(T_1\circ T_2\) is \(\alpha\)-averaged. Becaus
 ```
 
 ## Proof explanation
-The theorem statement itself first verifies the required parameter bounds for \(\alpha=1/\delta\). The inline proof uses `change` to rewrite the goal as
+The proof first discharges the side condition that the proposed number
 \[
-0<\frac1\delta\wedge \frac1\delta<1,
+\alpha=\frac1{\frac12+\frac12\min(1/\alpha_1,1/\alpha_2)}
 \]
-where \(\delta\) is expanded. It derives
+lies in \((0,1)\). The nested proof uses `change` to replace the let-bound expression for \(\alpha\) by the explicit reciprocal. Since \(0<\alpha_1<1\), the lemma `one_lt_div` applied with the positive denominator \(\alpha_1\) gives the equivalence
 \[
-1<\frac1{\alpha_1}
+1<\frac1{\alpha_1}\iff \alpha_1<1,
 \]
-and
+so the hypothesis \(\alpha_1<1\) yields \(1<1/\alpha_1\). Similarly, from \(0<\alpha_2<1\), one obtains \(1<1/\alpha_2\). The lemma `lt_min` then gives
 \[
-1<\frac1{\alpha_2}
+1<\min\!\left(\frac1{\alpha_1},\frac1{\alpha_2}\right).
 \]
-from \(0<\alpha_1<1\) and \(0<\alpha_2<1\) using `one_lt_div`. Then `lt_min` gives
+Therefore
 \[
-1<\min\left(\frac1{\alpha_1},\frac1{\alpha_2}\right),
+\delta=\frac12+\frac12\min\!\left(\frac1{\alpha_1},\frac1{\alpha_2}\right)>1,
 \]
-and `nlinarith` proves
+which `nlinarith` verifies. Hence also \(\delta>0\), and then `one_div_pos` gives \(0<1/\delta\), while `div_lt_one`, using positivity of \(\delta\), gives
 \[
-1<\frac12+\frac12\min\left(\frac1{\alpha_1},\frac1{\alpha_2}\right).
+\frac1\delta<1 \iff 1<\delta.
 \]
-This is `hdelta_gt_one`. From it, `linarith` proves that \(\delta>0\). Finally, `one_div_pos` proves \(1/\delta>0\), and `div_lt_one` combined with \(1<\delta\) proves \(1/\delta<1\).
+Thus \(0<\alpha<1\). The main proof repeats the same reciprocal, minimum, and positivity estimates to obtain the fact named `halpha`.
 
-The main proof begins with `dsimp only`, which unfolds the local definitions `delta` and `alpha` in the goal. It then repeats the inequalities \(1<1/\alpha_1\), \(1<1/\alpha_2\), \(\delta>1\), \(\delta>0\), and the valid parameter bounds for \(\alpha=1/\delta\). These are recorded as local hypotheses for later use.
+Next the proof passes from whole-space maps to maps on the universal subtype. It defines
+\[
+U_1(x)=T_1(x),\qquad U_2(x)=T_2(x)
+\]
+for \(x\) in the subtype `Set.univ` of \(H\). The equivalence `isAveragedOperator_iff_averagedWith` states that for a map \(T:H\to H\) and a parameter \(\alpha\) with \(0<\alpha<1\), being an averaged operator on all of \(H\) is equivalent to being \(\alpha\)-averaged as a map on the universal subset. Applying this equivalence to `hT1` and `hT2` gives
+\[
+\text{`AveragedWith` }\alpha_1\ U_1,\qquad
+\text{`AveragedWith` }\alpha_2\ U_2.
+\]
 
-The proof then moves the maps to the full subtype \(\operatorname{Set.univ}\) of \(H\). It defines
+The proof then sets
 \[
-U_1,U_2:\operatorname{Set.univ}\to \operatorname{Set.univ}
+c=\operatorname{compositionAveragingConstant}(\alpha_1,\alpha_2)
+=\frac{\alpha_1+\alpha_2-2\alpha_1\alpha_2}{1-\alpha_1\alpha_2}.
 \]
-by
-\[
-U_i(x)=\langle T_i(x),\operatorname{mem\_univ}(x)\rangle,
-\]
-so \(U_i\) is essentially \(T_i\) viewed on the whole-space subtype. The commands `simpa [U1] using ...` and `simpa [U2] using ...` convert the given `IsAveragedOperator` hypotheses \(h_{T_1},h_{T_2}\) into corresponding `AveragedWith` statements for \(U_1,U_2\), using the lemma `isAveragedOperator_iff_averagedWith`.
+The cited theorem `averagedWith_comp` says that if \(U_1\) is \(\alpha_1\)-averaged and \(U_2\) is \(\alpha_2\)-averaged, then their composition \(U_1\circ U_2\) is averaged with parameter \(c\). This gives the fact `hcomp`.
 
-Next, the proof introduces a library constant
+The proof also records that
 \[
-c:=\operatorname{compositionAveragingConstant}(\alpha_1,\alpha_2).
+1-\alpha_1\alpha_2>0,
 \]
-Using the composition lemma `averagedWith_comp`, it proves that the composition \(U_1\circ U_2\) is \(c\)-averaged:
-\[
-\operatorname{AveragedWith} c\;(\lambda x,\ (U_1(U_2 x):H)).
-\]
-This is the local hypothesis `hcomp`.
+which follows from \(0<\alpha_i<1\); `nlinarith` derives it from the four inequalities \(0<\alpha_1\), \(\alpha_1<1\), \(0<\alpha_2\), \(\alpha_2<1\). This positivity is needed because \(c\) has denominator \(1-\alpha_1\alpha_2\).
 
-The proof then compares \(c\) with the desired parameter \(1/\delta\). First it proves
+The main comparison to be proved is
 \[
-0<1-\alpha_1\alpha_2
+c\le \frac1{\frac12+\frac12\min(1/\alpha_1,1/\alpha_2)}.
 \]
-by `nlinarith` from \(0<\alpha_1<1\) and \(0<\alpha_2<1\). Then it proves
-\[
-c\le \frac1\delta.
-\]
-This is the main algebraic estimate. It splits on whether \(\alpha_1\le \alpha_2\) or \(\alpha_2\le \alpha_1\) using `rcases le_total alpha1 alpha2 with h12 | h21`.
+The proof splits into the two cases \(\alpha_1\le\alpha_2\) and \(\alpha_2\le\alpha_1\), using `le_total`.
 
-In the first case, \(\alpha_1\le \alpha_2\). Then
+If \(\alpha_1\le\alpha_2\), then since \(\alpha_1>0\), reciprocals reverse the inequality, so
 \[
-\frac1{\alpha_2}\le \frac1{\alpha_1},
+\frac1{\alpha_2}\le\frac1{\alpha_1}.
 \]
-so `rw [min_eq_right hrecip]` replaces
+Thus the minimum is \(1/\alpha_2\), and the right-hand side becomes
 \[
-\min\left(\frac1{\alpha_1},\frac1{\alpha_2}\right)
+\frac1{\frac12+\frac12\cdot\frac1{\alpha_2}}
+=\frac{2\alpha_2}{1+\alpha_2}.
 \]
-by \(1/\alpha_2\). After `dsimp [c, compositionAveragingConstant]`, the proof uses `field_simp` to show
+The lemma `field_simp` clears denominators in this algebraic identity, using \(\alpha_2>0\) and \(1+\alpha_2>0\). To prove
 \[
-\frac1{\frac12+\frac12\cdot \frac1{\alpha_2}}
-=
-\frac{2\alpha_2}{1+\alpha_2}.
+\frac{\alpha_1+\alpha_2-2\alpha_1\alpha_2}{1-\alpha_1\alpha_2}
+\le \frac{2\alpha_2}{1+\alpha_2},
 \]
-It also proves the nonnegativity
+the proof uses `div_le_div_iff₀` with positive denominators to reduce to the cross-multiplied inequality
 \[
-0\le (\alpha_2-\alpha_1)(1-\alpha_2)
+(\alpha_1+\alpha_2-2\alpha_1\alpha_2)(1+\alpha_2)
+\le 2\alpha_2(1-\alpha_1\alpha_2).
 \]
-from \(\alpha_1\le \alpha_2\) and \(\alpha_2<1\). It then uses the positive-denominator fraction comparison lemma `div_le_div_iff₀` and finishes the inequality with `nlinarith`.
+The difference of the right side minus the left side is
+\[
+(\alpha_2-\alpha_1)(1-\alpha_2),
+\]
+which is nonnegative because \(\alpha_1\le\alpha_2\) and \(\alpha_2<1\). This nonnegativity is `hnonneg`, and `nlinarith` closes the inequality.
 
-The second case, \(\alpha_2\le \alpha_1\), is symmetric. It uses
+The case \(\alpha_2\le\alpha_1\) is symmetric. Then
 \[
-\frac1{\alpha_1}\le \frac1{\alpha_2},
+\frac1{\alpha_1}\le\frac1{\alpha_2},
 \]
-replaces the minimum by \(1/\alpha_1\), proves
+so the minimum is \(1/\alpha_1\), and the right-hand side becomes
 \[
-\frac1{\frac12+\frac12\cdot \frac1{\alpha_1}}
-=
-\frac{2\alpha_1}{1+\alpha_1},
+\frac1{\frac12+\frac12\cdot\frac1{\alpha_1}}
+=\frac{2\alpha_1}{1+\alpha_1}.
 \]
-and uses the nonnegativity
+After cross-multiplication, the difference of the right and left sides is
 \[
-0\le (\alpha_1-\alpha_2)(1-\alpha_1)
+(\alpha_1-\alpha_2)(1-\alpha_1)\ge 0,
 \]
-to finish again by `nlinarith`.
+again because \(\alpha_2\le\alpha_1\) and \(\alpha_1<1\). Hence \(c\le\alpha\) in both cases.
 
-Thus the proof has
-\[
-c\le \frac1\delta.
-\]
-Since \(hcomp\) says the composition is \(c\)-averaged, and the desired parameter \(\alpha=1/\delta\) satisfies \(0<\alpha<1\), the monotonicity lemma
-\[
-\operatorname{averagedWith\_mono\_parameter}
-\]
-is applied with `hcomp`, `halpha`, and `h_c_le_alpha` to conclude that the composition is also \(1/\delta\)-averaged:
-\[
-\operatorname{AveragedWith}\left(\frac1\delta\right)\;(\lambda x,\ (U_1(U_2 x):H)).
-\]
-Finally, `simpa [U1, U2, Function.comp_def]` simplifies this statement back to the desired goal, showing that \(T_1\circ T_2\) is \(\alpha\)-averaged.
+Once the estimate \(c\le\alpha\) is available, the proof applies `averagedWith_mono_parameter`. That lemma says that if a map is \(a\)-averaged, if \(b\in(0,1)\), and if \(a\le b\), then the same map is also \(b\)-averaged. Here \(a=c\), \(b=\alpha=1/\delta\), and the earlier facts give \(c\le\alpha\) and \(\alpha\in(0,1)\). Therefore \(U_1\circ U_2\) is averaged with parameter \(\alpha\), yielding `hpaper`.
+
+Finally, `simpa [U1, U2, Function.comp_def] using hpaper` rewrites the restricted composition \(U_1(U_2(x))\) back to \(T_1(T_2(x))\), i.e. to \((T_1\circ T_2)(x)\). Thus the averagedness obtained for the restricted maps is exactly the desired conclusion that \(T_1\circ T_2\) is an \(\alpha\)-averaged operator.
 

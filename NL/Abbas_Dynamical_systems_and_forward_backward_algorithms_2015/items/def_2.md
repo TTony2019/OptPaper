@@ -9,16 +9,27 @@ noncomputable def lyapunovGamma {H : Type*} [NormedAddCommGroup H]
 ```
 
 ## Statement explanation
-In the declaration, `H : Type*` means `H` is an arbitrary type (a set/space in a type-theoretic sense). The hypothesis `[NormedAddCommGroup H]` says that `H` is equipped with the structure of a normed additive commutative group: it has an addition, subtraction, zero, a norm, and satisfies the usual group and norm axioms. The variables are:
-- `x : ℝ → H`, a function assigning to each real time `t` a point `x t` in `H`, so `x` is a curve in the normed space `H`;
-- `mu : ℝ`, a real-valued parameter;
-- `g : ℝ → ℝ`, a real-valued function of a real variable;
-- `z : H`, a fixed point in `H`;
-- `t : ℝ`, a real number at which the functions are evaluated.
+The declaration defines a noncomputable function named `lyapunovGamma`. The implicit type parameter is an arbitrary type \(H\) equipped with the typeclass instance `NormedAddCommGroup H`, so \(H\) is an additive commutative group with a norm; in particular, one can subtract two elements of \(H\) and take the norm of the resulting element. The explicit arguments are:
 
-The declared object is `lyapunovGamma x mu g z t`, whose value is the real number
-`(1 / 2 : ℝ) * ‖x t - z‖ ^ 2 + mu * g t`.
-Here `x t` denotes the evaluation of `x` at `t`, and `x t - z` is the difference of two points in `H`. The symbol `‖·‖` is the norm on `H`, so `‖x t - z‖ ^ 2` is the squared norm of that difference. The first term multiplies this squared norm by the real number `1 / 2`. The second term is the product of the real parameter `mu` with the real number `g t`. The sum of these two real terms is the real value of the definition.
+- \(x : \mathbb{R} \to H\), a function from real numbers to \(H\), thought of as a state or trajectory parameterized by a real variable;
+- \(\mu : \mathbb{R}\), a real scalar;
+- \(g : \mathbb{R} \to \mathbb{R}\), a real-valued function of the real variable;
+- \(z : H\), a point of \(H\), used as a reference or target point;
+- \(t : \mathbb{R}\), the real variable at which the function is evaluated.
+
+The result is a real number, and `lyapunovGamma x mu g z t` is defined to be
+
+\[
+\frac12 \left\|x(t)-z\right\|^2 + \mu g(t).
+\]
+
+Here \(x(t)-z\) is the displacement from the reference point \(z\) to the current state \(x(t)\), and \(\left\|x(t)-z\right\|^2\) is its squared norm. The term \(\frac12\left\|x(t)-z\right\|^2\) is therefore one half of the squared distance from \(x(t)\) to \(z\). The term \(\mu g(t)\) is the real number obtained by multiplying the scalar \(\mu\) by the value \(g(t)\). No hypotheses are imposed on \(x\), \(\mu\), \(g\), \(z\), or \(t\) beyond their types; for example, \(\mu\) is not required to be nonnegative, and \(g\) is not required to be continuous or differentiable. The declaration is a definition, not a theorem: it names the real-valued function
+
+\[
+t \mapsto \frac12 \left\|x(t)-z\right\|^2 + \mu g(t)
+\]
+
+for fixed \(x\), \(\mu\), \(g\), and \(z\). It does not assert any inequality, monotonicity, decrease property, or Lyapunov property.
 
 ## Lean proof
 ```lean
@@ -26,5 +37,19 @@ Here `x t` denotes the evaluation of `x` at `t`, and `x t - z` is the difference
 ```
 
 ## Proof explanation
-There is no separate proof part for this declaration. The source contains only the definition and a comment stating “No separate proof part.” Thus there are no Lean proof commands such as `intro`, `rw`, `simp`, `exact`, or `linarith` to explain. The declaration simply introduces `lyapunovGamma` as a noncomputable definition whose value is given explicitly by the displayed real expression.
+There is no separate proof part. The Lean source consists only of a definition body and contains no theorem to prove, so there are no hypotheses to introduce, no rewrites or simplifications to perform, and no applications of exactness, linear arithmetic, or any named theorem or lemma. No local result is cited, because no proof step invokes one.
+
+The mathematical content is exactly the defining formula above. In Lean, whenever the expression `lyapunovGamma x mu g z t` appears, it can be unfolded to
+
+\[
+\left(\frac12 : \mathbb{R}\right) \cdot \left\|x(t)-z\right\|^2 + \mu \cdot g(t),
+\]
+
+which is the same as
+
+\[
+\frac12 \left\|x(t)-z\right\|^2 + \mu g(t).
+\]
+
+The marker `noncomputable` affects only how Lean treats computation for this definition; it does not add any mathematical hypotheses or conclusions. The definition itself merely introduces a real-valued function of \(t\) built from the squared distance from \(x(t)\) to \(z\) and the scalar multiple \(\mu g(t)\).
 

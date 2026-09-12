@@ -7,10 +7,15 @@ recall SetValuedOperator.graph
 ```
 
 ## Statement explanation
-The declaration is `recall SetValuedOperator.graph`. The only pieces are the command keyword `recall` and the fully qualified name `SetValuedOperator.graph`. Here `SetValuedOperator` is a namespace or existing declaration identifier, and `graph` is a name inside that namespace; the dot combines them into one full name. The command does not introduce any variables, types, hypotheses, assumptions, or conclusions. It does not state a formula or assert a mathematical fact. It only refers to an already existing declaration whose name is `SetValuedOperator.graph`, “recalling” it in this context. The source gives no information about the type, value, or meaning of that declaration, so no mathematical content can be inferred from this line alone.
+The declaration is a recall item for the previously defined Lean name `SetValuedOperator.graph`. It contains no explicit variables, no hypotheses, and no target proposition. Thus it does not assert a new theorem and does not introduce a new mathematical object; it refers to an existing component or definition named `graph` in the namespace or structure `SetValuedOperator`.
 
-===PROOF_EXPLANATION
-There is no separate proof part. The proof portion of the Lean source consists only of the comment `-- No separate proof part.` A `recall` command is not a theorem, lemma, or definition, and it does not carry a proof obligation. Therefore there are no proof steps to explain; no `intro`, `rw`, `simp`, `exact`, `linarith`, or any other tactic appears. The declaration simply names an existing item and requires no justification.
+Mathematically, the name indicates the graph associated with a set-valued operator. In the standard convention, if \(T\) is a set-valued operator acting on a space \(X\), then its graph is the set of ordered pairs
+
+\[
+\operatorname{gra} T = \{(x,y) : y \in T(x)\}.
+\]
+
+This is the object that identifies the set-valued operator with a relation on \(X\). However, the supplied source does not include the exact type signature, underlying type, or defining equation of `SetValuedOperator.graph`. Therefore the only precise claim that can be extracted from this file is that it recalls that existing graph component or definition. It supplies no additional assumptions and has no conclusion.
 
 ## Lean proof
 ```lean
@@ -18,5 +23,7 @@ There is no separate proof part. The proof portion of the Lean source consists o
 ```
 
 ## Proof explanation
-No proof explanation was returned by the model.
+There is no separate proof. The Lean proof field consists only of the comment saying that there is no separate proof part. Consequently, no tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` occur, and no named local lemmas or theorems are invoked.
+
+A `recall` declaration is not a proof step: it does not create a goal, assume a hypothesis, or discharge a conclusion. Its role is simply to make the existing identifier `SetValuedOperator.graph` available for reference. Any mathematical meaning or later use of that identifier would come from its original defining declaration in another module, not from any argument contained in this file.
 

@@ -8,11 +8,21 @@ noncomputable def distanceToSet (y : H) (C : Set H) : EReal :=
 ```
 
 ## Statement explanation
-The declaration is a noncomputable definition named `distanceToSet`. It takes two explicit arguments: `y : H`, a point in an ambient type `H`, and `C : Set H`, a subset of `H`. The context is assumed to provide enough structure on `H` for the expression `‖y - c‖` to make sense, so `H` is a type equipped with subtraction and a norm, although no explicit type-class hypotheses appear in this snippet. The output type is `EReal`, the extended real numbers.
+`distanceToSet` is a noncomputable definition. It has an ambient type \(H\), whose subtraction and norm operations are used in the expression, and it has two explicit arguments: a point \(y : H\) and a set \(C : \mathrm{Set}\,H\). It returns a value of type `EReal`, the extended real numbers. The defining equation is
 
-The defined value is
-`distanceToSet y C = sInf ((fun c : H => (‖y - c‖ : EReal)) '' C)`,
-where the function `fun c : H => (‖y - c‖ : EReal)` maps each point `c` of `H` to the extended-real-valued norm of `y - c`. The image `'' C` is the set of all these values as `c` ranges over `C`. Thus `distanceToSet y C` is the extended-real infimum, denoted `sInf`, of the set `{‖y - c‖ : EReal | c ∈ C}`. In words, it is defined as the distance from the point `y` to the set `C`, measured as an extended real number. There are no additional hypotheses or asserted mathematical properties in this declaration.
+\[
+\operatorname{distanceToSet}(y,C)
+=
+\inf \left\{\|y-c\| : c \in C\right\},
+\]
+
+where each real norm \(\|y-c\|\) is coerced into `EReal`. In Lean, the set whose infimum is taken is the image of \(C\) under the function
+
+\[
+c \mapsto (\|y-c\| : \mathrm{EReal}),
+\]
+
+and `sInf` is the infimum, or greatest lower bound, in the order on `EReal`. Thus the declaration defines the distance from the point \(y\) to the set \(C\), valued in extended reals. If \(C\) is nonempty, this is the infimum of a nonempty set of finite nonnegative real distances, so it is a finite nonnegative extended real; if \(C\) is empty, the infimum is taken over the empty set and therefore gives the empty-infimum value, conventionally \(+\infty\) in the complete-lattice order on extended reals. The value need not be attained by any point of \(C\). The definition is marked `noncomputable` because it uses an arbitrary infimum over a set.
 
 ## Lean proof
 ```lean
@@ -20,7 +30,11 @@ where the function `fun c : H => (‖y - c‖ : EReal)` maps each point `c` of `
 ```
 
 ## Proof explanation
-There is no separate proof. The declaration is only a definition: `noncomputable def distanceToSet ... := ...`. The source explicitly says there is no proof part. Consequently, there are no Lean proof commands such as `intro`, `rw`, `simp`, `exact`, or `linarith` to explain.
+There is no separate proof. The declaration is a definition, so its right-hand side is the whole mathematical content and no hypotheses need to be discharged. No named theorem or lemma is invoked, and no tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` occur. The only construction is: take the image of \(C\) under the map \(c \mapsto \|y-c\|\), interpreted in the extended-real type `EReal`, and then apply `sInf` to that image. Mathematically, this is exactly the extended-real infimum
 
-The mathematical content lies entirely in the defining expression. First, `fun c : H => (‖y - c‖ : EReal)` forms the function sending each candidate point `c` to the extended-real norm of the difference `y - c`. Second, the image notation `'' C` collects the values of this function over all `c` in the set `C`. Third, `sInf` takes the greatest lower bound of that collection in the extended real numbers. Therefore the definition gives `distanceToSet y C` as the infimum distance from `y` to any point of `C`. No theorem is proved; the declaration merely introduces this definition.
+\[
+\inf_{c \in C} \|y-c\|,
+\]
+
+with the usual empty-set convention when \(C = \varnothing\).
 

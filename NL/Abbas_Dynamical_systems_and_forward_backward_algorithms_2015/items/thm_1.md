@@ -17,36 +17,51 @@ theorem theorem_2_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 ```
 
 ## Statement explanation
-This theorem states existence and uniqueness of a solution to a forward-backward dynamical system in a complete real inner product space \(H\). The data are:
+In a complete real Hilbert space \(H\), let
+\[
+\Phi:H\to (-\infty,+\infty]
+\]
+be an extended-real-valued function in the admissible class denoted \(\Gamma_0(H)\) by the hypothesis `hPhi`, and let
+\[
+B:H\to H
+\]
+be a \(\beta\)-cocoercive map on all of \(H\), as expressed by `hB`. The cocoercivity condition is the standard one: for all \(x,y\in H\),
+\[
+\langle B x-B y,x-y\rangle \ge \beta\|B x-B y\|^2,
+\]
+which in particular will imply that \(B\) is Lipschitz with constant \(1/\beta\). The parameters satisfy \(\lambda>0\) and \(\beta>0\), and the initial data are \(x_0,v_0\in H\). The final hypothesis is
+\[
+v_0\in \partial\Phi(x_0),
+\]
+meaning that \(v_0\) is a subgradient of \(\Phi\) at \(x_0\): for every \(y\in H\),
+\[
+\langle y-x_0,v_0\rangle+\Phi(x_0)\le \Phi(y),
+\]
+with the inequality interpreted in the extended real numbers.
 
-- \(H\) is a normed additive commutative group with a real inner product space structure and is complete.
-- \(\Phi : H \to \operatorname{Set.Ioi}(\bot : \mathrm{EReal})\) is an extended-real-valued function whose values are strictly above the bottom element of \(\mathrm{EReal}\).
-- \(\Phi\) is assumed to belong to the class \(\mathrm{ERealFunction.gammaZero}\ H\), the gamma-zero class used by the library.
-- \(B : H \to H\) is a cocoercive map. Specifically, \(B\) is \(\beta\)-cocoercive on the whole space \(H\).
-- \(\lambda, \beta \in \mathbb{R}\) are positive real parameters, with \(0 < \lambda\) and \(0 < \beta\).
-- \(x_0, v_0 \in H\) are initial points.
-- \(v_0\) is assumed to lie in the subdifferential of \(\Phi\) at \(x_0\), i.e. \(v_0 \in \partial \Phi(x_0)\).
-
-The conclusion asserts that there exists a unique pair \(xv = (x, v)\) of functions \(x, v : \mathbb{R} \to H\) such that:
-
-1. The pair \((x,v)\) is a strong global solution of the combined system,
-   \[
-   \operatorname{IsStrongGlobalSolutionCombined}\ \Phi\ B\ \lambda\ x_0\ v_0\ x\ v.
-   \]
-   In the proof this predicate is expanded as:
-   - \(x\) and \(v\) are absolutely continuous on every interval \([0,b]\) with \(b>0\);
-   - for every \(t \ge 0\), \(v(t) \in \partial \Phi(x(t))\);
-   - for almost every \(t \ge 0\),
-     \[
-     \frac{d}{dt}\bigl(\lambda x(t) + v(t)\bigr) = -(v(t) + B(x(t)));
-     \]
-   - \(x(0) = x_0\) and \(v(0) = v_0\).
-
-2. For every \(t < 0\), \(x(t) = x_0\).
-
-3. For every \(t < 0\), \(v(t) = v_0\).
-
-Thus the theorem says that the forward-backward combined system has exactly one strong global solution that is constant in the past at the prescribed initial values.
+The theorem asserts that there exists a unique pair of trajectories
+\[
+(x,v):\mathbb R\to H\times H
+\]
+such that the following conditions hold. First, \(x\) and \(v\) are absolutely continuous on every interval \([0,b]\) with \(b>0\). Second, for every \(t\ge 0\),
+\[
+v(t)\in \partial\Phi(x(t)).
+\]
+Third, for almost every \(t\ge 0\) with respect to volume restricted to \([0,\infty)\),
+\[
+\frac{d}{dt}\bigl(\lambda x(t)+v(t)\bigr)
+=
+-\bigl(v(t)+B(x(t))\bigr).
+\]
+Fourth, the initial conditions are
+\[
+x(0)=x_0,\qquad v(0)=v_0.
+\]
+Finally, the pair is extended constantly to negative times:
+\[
+t<0\implies x(t)=x_0,\qquad t<0\implies v(t)=v_0.
+\]
+Thus the theorem gives global existence and uniqueness of a strong solution to a subgradient differential inclusion combined with an ordinary differential equation, with the left half-line filled in by the constant initial values.
 
 ## Lean proof
 ```lean
@@ -331,233 +346,272 @@ by
 ```
 
 ## Proof explanation
-The proof is constructive: it builds the solution using a proximity operator and an auxiliary ODE, then proves uniqueness by reduction to uniqueness for that ODE.
-
-Throughout, `intro` fixes arbitrary objects or hypotheses, `rw` and `simp` rewrite using definitions and equalities, `exact` closes a goal with an already-known fact, `module` and `ring` handle vector-space and real-number arithmetic, and `linarith` solves linear inequalities.
-
-**Step 1: Lipschitz constants and the auxiliary map \(F\).**
-
-First, the proof uses the cocoercivity assumption on \(B\) to obtain a Lipschitz constant:
+The proof first converts the cocoercivity of \(B\) into a Lipschitz estimate. Applying `cocoercive_implies_lipschitz` to \(B\), \(\beta\), and `hB` gives
 \[
-\operatorname{LipschitzWith}\Bigl(\frac{1}{\beta}\Bigr)\ B.
+\operatorname{LipschitzWith}(\operatorname{toNNReal}(1/\beta))\,B.
 \]
-This is the standard fact that a \(\beta\)-cocoercive map is \(1/\beta\)-Lipschitz.
+Concretely, for all \(p,q\in H\),
+\[
+\|B p-B q\|\le \frac1\beta\|p-q\|.
+\]
+This estimate is used later to show that the auxiliary vector field \(F\) below is Lipschitz.
 
-It then defines the positive parameter
+Next the proof introduces the positive real
 \[
-\gamma = \lambda^{-1},
+\gamma=\lambda^{-1}
 \]
-using the positivity of \(\lambda\). It defines the proximity operator
+and the scaled proximity operator
 \[
-P = \operatorname{Prox}[\gamma,\Phi,h_\Phi],
+P=\operatorname{Prox}[\gamma,\Phi,hPhi].
 \]
-the proximal operator associated with the scaled function \(\gamma \Phi\). Because \(\Phi\) is gamma-zero and \(\gamma\) is positive, the scaled proximity operator is firmly nonexpansive, hence \(P\) is \(1\)-Lipschitz.
+Since \(\gamma>0\), the lemma `smul_mem_gammaZero` says that \(\gamma\Phi\) again belongs to \(\Gamma_0(H)\). Therefore the proximity operator of \(\gamma\Phi\) exists, and the theorem `proximityOperator_firmlyNonexpansive_of_mem_gammaZero` says that it is firmly nonexpansive. Because \(P\) is precisely the proximity operator of \(\gamma\Phi\), this gives
+\[
+P \text{ is firmly nonexpansive}.
+\]
+For a map on a Hilbert space, firm nonexpansiveness means
+\[
+\|P p-P q\|^2\le \langle P p-P q,p-q\rangle,
+\]
+and the lemma `lipschitzWith_one_of_firmlyNonexpansive` converts this into the ordinary estimate
+\[
+\|P p-P q\|\le \|p-q\|.
+\]
+So \(P\) is \(1\)-Lipschitz.
 
-Then the proof defines the auxiliary vector field
+The proof then defines
 \[
-F(q) = P(q) - q - \lambda^{-1}\cdot B(P(q)).
+F(q)=P(q)-q-\lambda^{-1}B(P(q)).
 \]
-It proves that \(F\) is Lipschitz with constant
+It wants \(F\) to be globally Lipschitz. Let
 \[
-K = \operatorname{Real.toNNReal}\left(2 + \frac{|\lambda^{-1}|}{\beta}\right).
+K=\operatorname{toNNReal}\bigl(2+|\lambda^{-1}|/\beta\bigr).
 \]
-For two points \(p,q\), the estimate is
+For \(p,q\in H\), the triangle inequality gives
 \[
 \|F(p)-F(q)\|
-\le \|P(p)-P(q)\| + \|p-q\|
-+ |\lambda^{-1}|\,\|B(P(p))-B(P(q))\|.
+\le
+\|P(p)-P(q)\|+\|p-q\|+|\lambda^{-1}|\,\|B(P(p))-B(P(q))\|.
 \]
-Using that \(P\) is \(1\)-Lipschitz,
+Using \(\|P(p)-P(q)\|\le\|p-q\|\) and
 \[
-\|P(p)-P(q)\| \le \|p-q\|,
+\|B(P(p))-B(P(q))\|\le \frac1\beta\|P(p)-P(q)\|\le \frac1\beta\|p-q\|,
 \]
-and using that \(B\) is \(1/\beta\)-Lipschitz,
+the right-hand side is at most
 \[
-\|B(P(p))-B(P(q))\| \le \frac{1}{\beta}\|P(p)-P(q)\|
-\le \frac{1}{\beta}\|p-q\|,
+\|p-q\|+\|p-q\|+|\lambda^{-1}|\frac1\beta\|p-q\|
+=
+\left(2+\frac{|\lambda^{-1}|}{\beta}\right)\|p-q\|.
 \]
-the proof obtains
-\[
-\|F(p)-F(q)\|
-\le \left(2+\frac{|\lambda^{-1}|}{\beta}\right)\|p-q\|.
-\]
-This is done with a `calc` chain using triangle inequalities, `norm_sub_le`, `norm_smul`, and `ring` for the final real arithmetic.
+Thus \(F\) is Lipschitz with constant \(K\). In the Lean proof this is the block using `LipschitzWith.of_dist_le_mul`, `norm_sub_le`, `norm_smul`, `gcongr`, and algebraic simplification with `ring` and `ac_rfl`.
 
-**Step 2: Initial condition for the proximal equation.**
+A crucial compatibility step is the identity
+\[
+P\bigl(x_0+\lambda^{-1}v_0\bigr)=x_0.
+\]
+Let \(q_0=x_0+\lambda^{-1}v_0\). Since \(P\) is the proximity operator of \(\gamma\Phi\), the characterization
+\[
+p=\operatorname{Prox}[f,hf](x)
+\quad\Longleftrightarrow\quad
+x-p\in\partial f(p)
+\]
+from `eq_proximityOperator_iff_sub_mem_subdifferential` says it is enough to prove
+\[
+q_0-x_0\in\partial(\gamma\Phi)(x_0).
+\]
+The lemma `subdifferential_posReal_smul_eq_smul` gives
+\[
+\partial(\gamma\Phi)=\gamma\,\partial\Phi.
+\]
+Because \(\gamma=\lambda^{-1}>0\), membership in \(\gamma\partial\Phi(x_0)\) is equivalent to
+\[
+\gamma^{-1}(q_0-x_0)\in\partial\Phi(x_0).
+\]
+But
+\[
+\gamma^{-1}(q_0-x_0)
+=
+\lambda\bigl((x_0+\lambda^{-1}v_0)-x_0\bigr)
+=
+v_0,
+\]
+and \(v_0\in\partial\Phi(x_0)\) is exactly `hv0`. Hence the proximal optimality condition holds and \(P(q_0)=x_0\).
 
-The proof defines
+The proof then solves the ODE
 \[
-q_0 = x_0 + \lambda^{-1} v_0.
+z'(t)=F(z(t)),\qquad z(0)=q_0.
 \]
-It then proves
+The lemma `exists_global_solution_of_lipschitz` applies because \(F\) is Lipschitz on the complete space \(H\). It gives a global trajectory \(z:\mathbb R\to H\) satisfying
 \[
-P(q_0) = x_0.
+z(0)=q_0,\qquad \forall t,\ \operatorname{HasDerivAt} z\,(F(z(t)))\,t.
 \]
-This uses the characterization of the proximity operator:
+In particular \(z\) is differentiable everywhere, hence continuous. Since \(F\) is Lipschitz, \(F\) is continuous, so \(t\mapsto F(z(t))\) is continuous. For each \(b>0\), this continuous function is bounded on the compact interval \([0,b]\) by some \(C\). The derivative bound
 \[
-P(q_0)=x_0
-\iff q_0 - x_0 \in \partial(\gamma\Phi)(x_0).
+\|z'(t)\|=\|F(z(t))\|\le C
 \]
-The subdifferential of the scaled function is rewritten using
+on \([0,b]\) then implies that \(z\) is Lipschitz on \([0,b]\), using `convex_Icc.lipschitzOnWith_of_nnnorm_deriv_le`. Lipschitz functions on intervals are absolutely continuous, so
 \[
-\partial(\gamma\Phi)(x_0) = \gamma\,\partial\Phi(x_0).
+z \text{ is absolutely continuous on } [0,b]
 \]
-Thus it suffices to show
-\[
-\gamma^{-1}(q_0-x_0) \in \partial\Phi(x_0).
-\]
-Since \(\gamma = \lambda^{-1}\), we have \(\gamma^{-1}=\lambda\), and
-\[
-\lambda(q_0-x_0)=\lambda(\lambda^{-1}v_0)=v_0.
-\]
-The assumption \(v_0 \in \partial\Phi(x_0)\) gives exactly the desired membership. The Lean proof uses `eq_proximityOperator_iff_sub_mem_subdifferential`, `subdifferential_posReal_smul_eq_smul`, and `Set.mem_smul_set_iff_inv_smul_mem₀`.
+for every \(b>0\).
 
-**Step 3: Auxiliary global ODE solution \(z\).**
-
-Using the global existence theorem for Lipschitz ODEs,
+Now define
 \[
-\operatorname{exists\_global\_solution\_of\_lipschitz}\ F\ hF_{\mathrm{lipschitz}}\ q_0,
+x(t)=P(z(t)),\qquad v(t)=\lambda(z(t)-x(t)).
 \]
-the proof obtains a function
+The absolute continuity of \(x\) follows from that of \(z\) and the Lipschitzness of \(P\) via `ac_comp_of_lipschitzOn_image_vec`: if \(z\) is absolutely continuous on an interval and \(P\) is Lipschitz on the image of that interval, then \(P\circ z\) is absolutely continuous there. Since \(P\) is globally \(1\)-Lipschitz, this hypothesis is immediate. The absolute continuity of \(v\) follows because \(v\) is a scalar multiple of the difference of the absolutely continuous functions \(z\) and \(x\).
+
+The initial values are
 \[
-z : \mathbb{R} \to H
+x(0)=P(z(0))=P(q_0)=x_0,
 \]
-satisfying
+and
 \[
-z(0) = q_0, \qquad z'(t) = F(z(t))
+v(0)=\lambda(z(0)-x(0))
+=
+\lambda(q_0-x_0)
+=
+\lambda(\lambda^{-1}v_0)
+=
+v_0.
 \]
-for all \(t\).
-
-The proof then shows that \(z\) is absolutely continuous on every interval \([0,b]\), \(b>0\). First, differentiability gives continuity of \(z\). Since \(F\) is Lipschitz, \(F\) is continuous, so \(t \mapsto F(z(t))\) is continuous. On the compact interval \([0,b]\), this continuous function is bounded by some constant \(C\). The derivative bound gives a Lipschitz bound on \(z\), which implies absolute continuity. This uses `lipschitzOnWith_of_nnnorm_deriv_le` and `absolutelyContinuousOnInterval`.
-
-**Step 4: Construction of the candidate pair \((x,v)\).**
-
-Define
+The subgradient condition is obtained from `scaledProximityOperator_residual_mem`, which says that for \(f\in\Gamma_0(H)\) and \(\gamma>0\),
 \[
-x(t) = P(z(t)), \qquad v(t) = \lambda(z(t)-x(t)).
+\gamma^{-1}\bigl(z-\operatorname{Prox}[\gamma,f](z)\bigr)
+\in
+\partial f\bigl(\operatorname{Prox}[\gamma,f](z)\bigr).
 \]
-The proof verifies:
-
-- \(x\) is absolutely continuous on every \([0,b]\), because it is the composition of the absolutely continuous \(z\) with the Lipschitz map \(P\).
-- \(v\) is absolutely continuous on every \([0,b]\), because it is a scalar multiple of the difference \(z-x\).
-- \(x(0)=x_0\), using \(z(0)=q_0\) and \(P(q_0)=x_0\).
-- \(v(0)=v_0\), using the definition of \(q_0\):
-  \[
-  v(0)=\lambda(x_0+\lambda^{-1}v_0-x_0)=v_0.
-  \]
-- For every \(t\), \(v(t)\in \partial\Phi(x(t))\). This follows from the residual property of the proximity operator:
-  \[
-  v(t)=\lambda(z(t)-P(z(t)))\in \partial\Phi(P(z(t))).
-  \]
-- The identity
-  \[
-  z(t) = x(t) + \lambda^{-1}v(t)
-  \]
-  holds for all \(t\).
-- The auxiliary vector field satisfies
-  \[
-  F(z(t)) = -\lambda^{-1}(v(t)+B(x(t))).
-  \]
-- Therefore, from \(z'(t)=F(z(t))\), the proof derives the pointwise derivative
-  \[
-  \frac{d}{dt}\bigl(\lambda x(t)+v(t)\bigr)
-  = -(v(t)+B(x(t))).
-  \]
-  This is because \(\lambda x(t)+v(t)=\lambda z(t)\), and
-  \[
-  \lambda z'(t)=\lambda F(z(t))
-  = -\lambda\lambda^{-1}(v(t)+B(x(t)))
-  = -(v(t)+B(x(t))).
-  \]
-
-**Step 5: Extension to negative time.**
-
-The candidate solution is extended before time \(0\) by the constant initial values:
+Here \(f=\Phi\), \(\gamma=\lambda^{-1}\), and \(P(z(t))=x(t)\), so
 \[
-\widetilde{x}(t)=
+\lambda(z(t)-x(t))=v(t)\in\partial\Phi(x(t)).
+\]
+This proves the required inclusion for every \(t\).
+
+The differential equation is also a direct consequence of the construction. Since
+\[
+v=\lambda(z-x),
+\]
+we have
+\[
+z=x+\lambda^{-1}v,
+\]
+hence
+\[
+\lambda x+v=\lambda z.
+\]
+Also,
+\[
+F(z(t))
+=
+P(z(t))-z(t)-\lambda^{-1}B(P(z(t)))
+=
+x(t)-z(t)-\lambda^{-1}B(x(t))
+=
+-\lambda^{-1}\bigl(v(t)+B(x(t))\bigr).
+\]
+Therefore, differentiating \(\lambda x+v=\lambda z\) and using \(z'=F(z)\), we get
+\[
+\frac{d}{dt}\bigl(\lambda x(t)+v(t)\bigr)
+=
+\lambda F(z(t))
+=
+-\bigl(v(t)+B(x(t))\bigr).
+\]
+Thus the combined differential equation holds for all \(t\), hence almost everywhere on \([0,\infty)\).
+
+To get the desired negative-time behavior, the proof defines
+\[
+x_t(t)=
 \begin{cases}
-x_0, & t<0,\\
-x(t), & t\ge 0,
+x_0,&t<0,\\
+x(t),&t\ge 0,
 \end{cases}
 \qquad
-\widetilde{v}(t)=
+v_t(t)=
 \begin{cases}
-v_0, & t<0,\\
-v(t), & t\ge 0.
+v_0,&t<0,\\
+v(t),&t\ge 0.
 \end{cases}
 \]
-In Lean these are defined with `if t < 0 then ... else ...`.
+On any interval \([0,b]\), these functions agree with \(x\) and \(v\), so they inherit absolute continuity. The subgradient condition and the differential equation hold on \([0,\infty)\). The initial conditions hold at \(0\), and the negative-time conditions are true by definition. For the almost-everywhere derivative statement, the proof uses the fact that almost every \(t\) in \([0,\infty)\) is strictly positive, so near such a \(t\) the functions \(x_t\) and \(v_t\) are eventually equal to \(x\) and \(v\). This is formalized with `hpositive_ae`, `MeasureTheory.restrict_Ioi_eq_restrict_Ici`, and `filter_upwards`. Hence existence of the pair \((x_t,v_t)\) is established.
 
-The proof checks that \(\widetilde{x}\) and \(\widetilde{v}\) are still absolutely continuous on \([0,b]\) for every \(b>0\). This uses the epsilon-delta criterion for absolute continuity. For any family of subintervals inside \([0,b]\), the endpoints are nonnegative, so on those endpoints the `if` branches reduce to the original \(x\) and \(v\). The inequality is then inherited from the absolute continuity of \(x\) and \(v\). The Lean commands `absolutelyContinuousOnInterval_iff`, `Finset.sum_le_sum`, and simplification of the `if` conditions are used here.
-
-It also checks that the derivative equation holds almost everywhere on \([0,\infty)\). For almost every \(t>0\), the extended functions coincide with \(x\) and \(v\) in a neighborhood of \(t\), so the pointwise derivative identity from Step 4 transfers to the extended functions. This uses `filter_upwards` and `Ioi_mem_nhds`.
-
-Finally, the proof assembles the five required properties of `IsStrongGlobalSolutionCombined`:
-
-- absolute continuity of \(\widetilde{x}\) and \(\widetilde{v}\);
-- subdifferential inclusion for \(t\ge 0\);
-- the almost-everywhere differential equation for \(t\ge 0\);
-- initial conditions \(\widetilde{x}(0)=x_0\) and \(\widetilde{v}(0)=v_0\).
-
-It also verifies the two negative-time constancy conditions. This proves existence.
-
-**Step 6: Uniqueness.**
-
-Suppose \(y=(y_1,y_2)\) is another pair satisfying the strong solution conditions and the negative-time constancy conditions. Define
+For uniqueness, suppose \((y_1,y_2)\) is any other pair satisfying the same strong-solution conditions and the negative-time constant conditions. Define
 \[
-q(t) = y_1(t) + \lambda^{-1} y_2(t).
+q(t)=y_1(t)+\lambda^{-1}y_2(t).
 \]
-Then \(q\) is absolutely continuous on every \([0,b]\), and
+Then \(q\) is absolutely continuous on each \([0,b]\), because it is a sum of an absolutely continuous function and a scalar multiple of an absolutely continuous function. Also,
 \[
-q(0)=q_0.
+q(0)=x_0+\lambda^{-1}v_0=q_0.
 \]
-Using the subdifferential inclusion for \(y\),
+For \(t\ge 0\), the proof shows
 \[
-y_2(t)\in \partial\Phi(y_1(t)),
+y_1(t)=P(q(t)).
 \]
-the same proximity-operator characterization implies
+Indeed, by the scaled proximal characterization, it is enough to prove
 \[
-y_1(t)=P(q(t))
+q(t)-y_1(t)\in\partial(\gamma\Phi)(y_1(t)).
 \]
-for every \(t\ge 0\).
+Using \(\partial(\gamma\Phi)=\gamma\partial\Phi\), this is equivalent to
+\[
+\gamma^{-1}\bigl(q(t)-y_1(t)\bigr)\in\partial\Phi(y_1(t)).
+\]
+But \(\gamma^{-1}=\lambda\) and
+\[
+\gamma^{-1}(q(t)-y_1(t))
+=
+\lambda\bigl(y_1(t)+\lambda^{-1}y_2(t)-y_1(t)\bigr)
+=
+y_2(t),
+\]
+and \(y_2(t)\in\partial\Phi(y_1(t))\) is part of the assumed strong-solution data. Thus \(y_1(t)=P(q(t))\).
 
-The proof then uses the differential equation for \(y\) to derive an ODE for \(q\). It shows that for almost every \(t\in[0,b]\),
+Next the proof shows that \(q\) solves the same ODE as \(z\). From the assumed differential equation for \((y_1,y_2)\), for almost every \(t\ge 0\),
 \[
-q'(t)=F(q(t)).
+\frac{d}{dt}\bigl(\lambda y_1(t)+y_2(t)\bigr)
+=
+-\bigl(y_2(t)+B(y_1(t))\bigr).
 \]
-Passing to right derivatives on \([0,b)\), it obtains
+Since
 \[
-\operatorname{HasDerivWithinAt}\ q\ (F(q(t)))\ (\operatorname{Set.Ici} t)\ t
+q=\lambda^{-1}(\lambda y_1+y_2),
 \]
-for all \(t\in[0,b)\). This uses `ac_hasDerivWithinAt_right_of_ae_hasDerivAt` and the continuity of \(F\circ q\).
+differentiating gives
+\[
+q'(t)
+=
+-\lambda^{-1}\bigl(y_2(t)+B(y_1(t))\bigr).
+\]
+Using \(y_1(t)=P(q(t))\) and \(q(t)=y_1(t)+\lambda^{-1}y_2(t)\), the right-hand side becomes
+\[
+P(q(t))-q(t)-\lambda^{-1}B(P(q(t)))
+=
+F(q(t)).
+\]
+Thus \(q'=F(q)\) almost everywhere on \([0,b]\).
 
-Now both \(q\) and \(z\) are solutions of the same ODE with the same initial value:
+The proof then upgrades this almost-everywhere derivative to a right derivative using `ac_hasDerivWithinAt_right_of_ae_hasDerivAt`. Specialized here, that result says: if an absolutely continuous function on \([0,b]\) has almost everywhere derivative equal to a continuous function \(g\), then for every \(t\in[0,b)\), its right derivative at \(t\) is \(g(t)\). Applying this with \(g(t)=F(q(t))\) gives
 \[
-q(0)=q_0=z(0), \qquad q' = F(q), \quad z'=F(z).
+\forall t\in[0,b),\quad
+\operatorname{HasDerivWithinAt} q\,(F(q(t)))\,([t,\infty))\,t.
 \]
-Since \(F\) is Lipschitz, the uniqueness theorem for ODEs on intervals,
-`ODE_solution_unique_of_mem_Icc_right`, implies
+Now both \(q\) and \(z\) are continuous on \([0,b]\), have the same initial value \(q(0)=q_0=z(0)\), and satisfy the same ODE \(u'=F(u)\) on \([0,b]\), with \(q\) in right-derivative form and \(z\) in ordinary derivative form. Since \(F\) is Lipschitz with constant \(K\), the ODE uniqueness lemma `ODE_solution_unique_of_mem_Icc_right` applies. Its consequence in this situation is exactly
 \[
-q(t)=z(t)
+q(t)=z(t)\qquad\text{for all }t\in[0,b].
 \]
-on every \([0,b]\), hence for all \(t\ge 0\).
+Because \(b>0\) is arbitrary, this gives \(q(t)=z(t)\) for every \(t\ge 0\).
 
 Therefore, for \(t\ge 0\),
 \[
-y_1(t)=P(q(t))=P(z(t))=x(t)=\widetilde{x}(t).
+y_1(t)=P(q(t))=P(z(t))=x(t)=x_t(t),
 \]
-Also, from the definition of \(q\),
+and
 \[
-y_2(t)=\lambda(q(t)-y_1(t)),
+y_2(t)=\lambda(q(t)-y_1(t))
+=
+\lambda(z(t)-x(t))
+=
+v(t)=v_t(t).
 \]
-so for \(t\ge 0\),
-\[
-y_2(t)=\lambda(z(t)-x(t))=v(t)=\widetilde{v}(t).
-\]
-For \(t<0\), the negative-time constancy conditions give
-\[
-y_1(t)=x_0=\widetilde{x}(t), \qquad
-y_2(t)=v_0=\widetilde{v}(t).
-\]
-Thus \(y_1=\widetilde{x}\) and \(y_2=\widetilde{v}\). The proof concludes using `Prod.ext` and `funext` to prove equality of the pair of functions. This gives uniqueness.
+For \(t<0\), the assumed negative-time conditions on \((y_1,y_2)\) give \(y_1(t)=x_0=x_t(t)\) and \(y_2(t)=v_0=v_t(t)\). Hence \(y_1=x_t\) and \(y_2=v_t\) as functions. The final Lean steps use `Prod.ext` to split equality of the pair into equality of the two components, `funext` to prove equality of functions pointwise, and `by_cases` to split into the cases \(t<0\) and \(t\ge 0\). This completes the uniqueness proof.
+
+Throughout, tactics such as `rw`, `simp`, `ring`, and `module` perform definitional and algebraic rewrites; `gcongr` proves the needed inequalities term by term; `filter_upwards` combines almost-everywhere statements; `convert` transfers derivative statements along eventually-equal functions; and `linarith` handles the arithmetic needed to choose positive interval endpoints.
 

@@ -15,24 +15,22 @@ structure ProximalGradientDynamics {H : Type*} [NormedAddCommGroup H]
 ```
 
 ## Statement explanation
-The declaration defines a **structure**, not a theorem. A structure is a type whose terms are records of data and proof fields satisfying the stated conditions.
+The declaration `ProximalGradientDynamics` is a structure. Its ambient space is a type \(H\) equipped with a normed abelian group structure, a real inner product, and completeness; together these make \(H\) a complete real inner product space, i.e. a real Hilbert space. The symbol `EReal` denotes the extended real numbers. The function \(\Phi\) sends each point \(x\in H\) to an extended real value strictly greater than the bottom element \(\bot\) of `EReal`; the Lean type `Set.Ioi (⊥ : EReal)` is exactly the subtype of extended reals satisfying that strict inequality. The hypothesis \(hPhi\) says that \(\Phi\) belongs to the class `ERealFunction.gammaZero H`. The supplied source does not define that class, so its internal conditions are not expanded here; its visible role is to certify that \(\Phi\) is admissible for the scaled proximity operator.
 
-The structure is named `ProximalGradientDynamics`. It is parameterized by a type `H`, together with implicit typeclass assumptions that `H` is a normed additive commutative group, carries an inner product over `ℝ`, and is complete. Thus, in this context, `H` is a real Hilbert space.
-
-Other parameters are:
-- `Phi`, a function from `H` to values in the extended-real type `EReal`, with the restriction that every value lies in the set `Set.Ioi ⊥`, i.e. is strictly greater than the bottom element `⊥` of `EReal`.
-- `hPhi`, a proof that `Phi` belongs to the set/class `ERealFunction.gammaZero H`. This is an assumption needed as an argument to the proximity operator.
-- `B`, a function from `H` to `H`, i.e. a vector field on `H`.
-- `mu`, a real number.
-
-A term of the structure `ProximalGradientDynamics Phi hPhi B mu` consists of the following fields:
-- `mu_pos`: a proof that `0 < mu`.
-- `x`: a curve `x : ℝ → H`, assigning to each real time a point of `H`.
-- `differential_equation`: a proof that, for every real time `t`,
+The parameter \(B:H\to H\) is an operator on \(H\), and \(\mu\) is a real parameter. A term of the structure `ProximalGradientDynamics Phi hPhi B mu` packages three things: a proof that \(\mu>0\); a trajectory \(x:\mathbb R\to H\); and a proof that for every real number \(t\), the following equality in \(H\) holds:
 \[
-\dot x(t) + x(t) - P\bigl(x(t) - \mu B(x(t))\bigr) = 0,
+\operatorname{deriv}x(t)+x(t)
+-\operatorname{scaledProx}_{\mu,\Phi}\!\left(x(t)-\mu B(x(t))\right)=0.
 \]
-where \(\dot x(t)\) denotes `deriv x t`, the derivative of the curve `x` at time `t`, and \(P\) abbreviates the expression `ERealFunction.scaledProximityOperator Phi hPhi ⟨mu, mu_pos⟩`. Thus \(P\) is the scaled proximity operator of `Phi` with scaling parameter `mu`, using the positivity proof `mu_pos`. The argument \(x(t) - \mu B(x(t))\) is the current point `x t` minus the scalar multiple by `mu` of the vector `B (x t)`. The whole equality is an equality of vectors in `H`.
+Here \(\operatorname{scaledProx}_{\mu,\Phi}\) denotes the value of `ERealFunction.scaledProximityOperator Phi hPhi ⟨mu, mu_pos⟩` as an operator on \(H\). The component `⟨mu, mu_pos⟩` packages the real number \(\mu\) together with the proof that it is positive; this is passed as the positive scale to the scaled proximity operator. The term \(x(t)-\mu B(x(t))\) is the point at which that scaled proximity operator is evaluated.
+
+Equivalently, the field `differential_equation` says that for every \(t\in\mathbb R\),
+\[
+\operatorname{deriv}x(t)
+=
+\operatorname{scaledProx}_{\mu,\Phi}\!\left(x(t)-\mu B(x(t))\right)-x(t).
+\]
+Thus the declaration describes a continuous-time trajectory whose velocity at time \(t\) is the difference between the scaled proximal step applied to \(x(t)-\mu B(x(t))\) and the current point \(x(t)\). The same positive parameter \(\mu\) appears both as the coefficient of \(B(x(t))\) and as the scale in the proximity operator. The structure does not by itself assert that such a trajectory exists or is unique; it defines the type of data consisting of a positive \(\mu\), a trajectory \(x\), and a proof that the trajectory satisfies the displayed differential equation.
 
 ## Lean proof
 ```lean
@@ -40,9 +38,12 @@ where \(\dot x(t)\) denotes `deriv x t`, the derivative of the curve `x` at time
 ```
 
 ## Proof explanation
-There is no separate proof part in the source. After the structure declaration, the file only states that no proof is provided. Because this is a `structure` declaration, its role is definitional rather than proof-theoretic: it introduces the type of triples
+There is no separate proof. The declaration is a `structure`, so the text after `where` lists fields rather than proving a theorem. The line `-- No separate proof part.` confirms that no proof body is supplied. Consequently there are no tactic steps such as `intro`, `rw`, `simp`, `exact`, or `linarith`, and no named theorem or lemma is invoked.
+
+The mathematical content is entirely contained in the fields. The field `mu_pos` records the hypothesis \(0<\mu\). The field `x` records the trajectory from \(\mathbb R\) to \(H\). The field `differential_equation` records the universal statement that for every \(t\in\mathbb R\), the equality
 \[
-(\mathit{mu\_pos},\; x,\; \mathit{differential\_equation})
+\operatorname{deriv}x(t)+x(t)
+-\operatorname{scaledProx}_{\mu,\Phi}\!\left(x(t)-\mu B(x(t))\right)=0
 \]
-satisfying the stated conditions. To construct an element of this structure, one would have to supply a proof that `mu > 0`, choose a curve `x`, and prove the differential equation for all real times `t`. The assumptions `Phi`, `hPhi`, `B`, and `mu` are fixed parameters of the structure, while `x` is part of the data being bundled. No commands such as `intro`, `rw`, `simp`, `exact`, or `linarith` appear in a proof, and no further mathematical facts are derived from this definition.
+holds. The proof `mu_pos` is also used as the positivity certificate inside the subtype element `⟨mu, mu_pos⟩` supplied to the scaled proximity operator, ensuring that the scale is positive. A term of the structure can therefore be built only by providing these three components.
 

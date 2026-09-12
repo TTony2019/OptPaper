@@ -8,9 +8,13 @@ def IsDryFrictionPotential {H : Type*} [NormedAddCommGroup H] (φ : H → ℝ) :
 ```
 
 ## Statement explanation
-`H` is a type variable (a type in an arbitrary universe). The typeclass `[NormedAddCommGroup H]` means `H` carries the structure of a normed additive commutative group, so it has an addition, negation, zero, and a norm `‖·‖ : H → ℝ` satisfying the usual normed-group axioms. The term `φ : H → ℝ` is a function assigning a real number to every element of `H`. The declaration `IsDryFrictionPotential φ` is a proposition defined to mean:
-`∃ r : ℝ, 0 < r ∧ ∀ x, φ x = r * ‖x‖`.
-Thus `IsDryFrictionPotential φ` states that there exists a real number `r` such that `r` is strictly positive, and for every element `x` in `H`, the value `φ x` equals `r` multiplied by the norm of `x`. In symbols, `φ` is a real scalar multiple of the norm function, with positive scalar.
+The declaration defines a unary predicate named `IsDryFrictionPotential`. It takes an implicit type \(H\), equipped with the typeclass `NormedAddCommGroup H`, and an arbitrary function \(\varphi : H \to \mathbb{R}\). The result of the definition is a proposition, in Lean `Prop`, whose meaning is
+
+\[
+\exists r \in \mathbb{R},\; 0 < r \;\land\; \forall x \in H,\; \varphi(x) = r\,\|x\|.
+\]
+
+Thus \(\varphi\) is called a dry friction potential exactly when there exists a strictly positive real number \(r\) such that, for every point \(x\) of \(H\), the value \(\varphi(x)\) is the product of \(r\) and the norm \(\|x\|\). The scalar \(r\) is not an additional input to the predicate; the predicate only asserts that some such positive \(r\) exists. The equality is an equality of real numbers. Since the norm satisfies \(\|0\|=0\), any such representation would in particular give \(\varphi(0)=0\), but this is a consequence of the displayed condition rather than a separate hypothesis. The definition imposes no other condition, such as differentiability or continuity, beyond the existence of this positive scalar multiple of the norm.
 
 ## Lean proof
 ```lean
@@ -18,5 +22,11 @@ Thus `IsDryFrictionPotential φ` states that there exists a real number `r` such
 ```
 
 ## Proof explanation
-This is a `def`, not a theorem with a proof. The declaration simply defines the predicate `IsDryFrictionPotential` by giving the right-hand side `∃ r : ℝ, 0 < r ∧ ∀ x, φ x = r * ‖x‖`. There is no separate proof part, and indeed the source contains only a comment saying that there is no separate proof. No Lean proof commands such as `intro`, `rw`, `simp`, `exact`, or `linarith` are used, because nothing is being proved: the statement itself is the defining definitional content of the named proposition.
+There is no separate proof part for this declaration. It is a `def`, not a theorem, so the source after `:=` is the defining body of the predicate rather than a proof of a proposition. The Lean expression
+
+\[
+\exists r : \mathbb{R},\; 0 < r \land \forall x,\; \varphi(x) = r * \|x\|
+\]
+
+is therefore not something that is proved here; it is the proposition that the name `IsDryFrictionPotential` is defined to mean. No tactics such as `intro`, `rw`, `simp`, or `exact` occur, and no named theorem or lemma is invoked. Consequently there are no proof steps to analyze beyond the semantics of the definition itself: an existential quantifier introduces the positive real scalar \(r\), the conjunction records that \(r\) is positive and that the equality holds for every \(x\), and the universal quantifier expresses that the equality \(\varphi(x)=r\|x\|\) is required at every point of \(H\).
 

@@ -14,23 +14,31 @@ theorem operator_constant_on_solution_set {H : Type*} [NormedAddCommGroup H]
 ```
 
 ## Statement explanation
-The theorem is stated in a real inner-product space \(H\): the type \(H\) is assumed to carry a normed additive commutative group structure and an inner product space structure over \(\mathbb{R}\).  
-
-Let \(\Phi : H \to \{e \in EReal \mid e > \bot_{EReal}\}\) be an extended-real-valued function whose values are strictly above the bottom extended real, and assume \(hPhi : \Phi \in ERealFunction.gammaZero H\). This is a hypothesis placing \(\Phi\) in the \(\Gamma_0\)-type class of extended-real-valued functions; in the proof only its consequence that \(\Phi\) is proper is used.  
-
-Let \(B : H \to H\) be a map, \(\beta : \mathbb{R}\) be a real number, and \(S : Set H\) be a subset of \(H\). Assume \(hbeta : 0 < \beta\). Assume \(hcoco : CocoerciveOn\ \beta\ Set.univ\ (fun x : Set.univ \mapsto B x)\), meaning that \(B\) is \(\beta\)-cocoercive on the whole space: for all \(x,y \in H\),  
+The declaration is a theorem about a real inner product space \(H\). It assumes \(H\) is a normed additive commutative group equipped with a real inner product. The function \(\Phi\) has type \(H \to \mathrm{Set.Ioi}(\bot:\mathrm{EReal})\), so its values are extended real numbers strictly larger than \(-\infty\); equivalently, \(\Phi\) takes values in \((-\infty,+\infty]\). The hypothesis that \(\Phi\) belongs to `ERealFunction.gammaZero H`, written here as \(\Phi \in \Gamma_0(H)\), places \(\Phi\) in the \(\Gamma_0\) class. The cited result `isProper_of_mem_gammaZero` will be used to conclude that the coerced function
 \[
-\beta \|Bx-By\|^2 \le \langle Bx-By,\ x-y\rangle .
+x \mapsto (\Phi(x):\mathrm{EReal})
 \]
-Also assume \(hBmax : Maximal\ SetValuedOperator.IsMonotone\ B.toSetValuedOperator\), that is, the set-valued operator \(x \mapsto \{Bx\}\) is maximal monotone.  
+is proper.
 
-Finally assume \(hS : \forall z,\ z \in S \leftrightarrow -Bz \in ERealFunction.subdifferential\ \Phi z\). This means that the set \(S\) is exactly the set of points \(z\) for which \(-Bz\) is a subgradient of \(\Phi\) at \(z\).  
-
-The conclusion is: for every \(z \in S\) and every \(w \in S\),  
+The theorem also assumes a single-valued operator \(B:H\to H\), a real number \(\beta\) with \(0<\beta\), and a subset \(S\subseteq H\). The hypothesis `hcoco` says that \(B\) is \(\beta\)-cocoercive on all of \(H\), i.e. on `Set.univ`. The concrete consequence used in the proof is that for arbitrary \(z,w\in H\), after commuting the real inner product, one has
 \[
-Bz = Bw.
+\beta\,\|B z-B w\|^2 \le \langle B z-B w,z-w\rangle .
 \]
-Thus \(B\) is constant on the set \(S\).
+The hypothesis `hBmax` says that the set-valued operator induced by \(B\), namely \(x\mapsto\{B x\}\), is maximal monotone. This assumption is present in the statement, but it is not invoked anywhere in the displayed proof.
+
+The set \(S\) is characterized by
+\[
+z\in S \quad\Longleftrightarrow\quad -B z\in \partial \Phi(z),
+\]
+where \(\partial \Phi(z)\) is the subdifferential of the coerced extended-real function \(x\mapsto(\Phi(x):\mathrm{EReal})\). Concretely, \(u\in\partial \Phi(z)\) means that for every \(y\in H\),
+\[
+\langle y-z,u\rangle+\Phi(z)\le \Phi(y),
+\]
+with the inequality interpreted in \(\mathrm{EReal}\). Thus \(S\) is the solution set of the inclusion
+\[
+0\in B z+\partial \Phi(z).
+\]
+The conclusion of the theorem is that \(B\) is constant on this solution set: for every \(z\in S\) and every \(w\in S\), one has \(B z=B w\).
 
 ## Lean proof
 ```lean
@@ -61,56 +69,96 @@ by
 ```
 
 ## Proof explanation
-The proof begins with `intro z hz w hw`, introducing arbitrary elements \(z,w \in H\) and hypotheses \(hz : z \in S\) and \(hw : w \in S\). The goal becomes \(B z = B w\).  
+The proof begins with `intro z hz w hw`. This starts the proof of the universally quantified conclusion by fixing an arbitrary \(z\in S\) with hypothesis \(hz\), and an arbitrary \(w\in S\) with hypothesis \(hw\). The goal is now to prove \(B z=B w\).
 
-Using \(hS\), the equivalences \(hS z\) and \(hS w\) give  
+Next, the proof uses the characterization of \(S\) to obtain the two subgradient inclusions
 \[
-hzsub : -Bz \in \partial \Phi(z), \qquad hwsub : -Bw \in \partial \Phi(w).
+-B z\in \partial \Phi(z),\qquad -B w\in \partial \Phi(w).
 \]
-The proof applies monotonicity of the subdifferential through `ERealFunction.isMonotone_subdifferential`, using the properness of \(\Phi\) obtained from \(hPhi\). With subgradients \(-Bz\) at \(z\) and \(-Bw\) at \(w\), this yields  
-\[
-hmono : 0 \le \langle (-Bz)-(-Bw),\ z-w\rangle .
-\]
-This is the standard monotonicity inequality for subgradients.
+The lines `have hzsub ... := (hS z).1 hz` and `have hwsub ... := (hS w).1 hw` extract these from the forward implications of the equivalence in `hS`.
 
-Next, the proof rewrites this inequality. The equality  
+The proof then invokes the cited theorem `isMonotone_subdifferential`. That theorem states that if \(F:H\to\mathrm{EReal}\) is proper, then its subdifferential operator \(\partial F\) is monotone. In concrete terms, whenever \(u\in\partial F(x)\) and \(v\in\partial F(y)\), monotonicity gives
 \[
-(-Bz)-(-Bw) = -(Bz-Bw)
+0\le \langle u-v,x-y\rangle .
 \]
-is proved by `abel`, and then `inner_neg_left` rewrites the first inner-product argument after removing the minus sign:
+Here the theorem is applied to the coerced function
 \[
-0 \le -\langle Bz-Bw,\ z-w\rangle .
+F(x)=(\Phi(x):\mathrm{EReal}).
 \]
-From this, `linarith` derives  
+The properness hypothesis required by `isMonotone_subdifferential` is supplied by the cited lemma `isProper_of_mem_gammaZero`, which says that membership of \(\Phi\) in \(\Gamma_0(H)\) implies that the coerced function \(x\mapsto(\Phi(x):\mathrm{EReal})\) is proper. Applying the monotonicity theorem to
 \[
-hsubmon : \langle Bz-Bw,\ z-w\rangle \le 0.
+x=z,\qquad y=w,\qquad u=-B z,\qquad v=-B w
 \]
-
-The cocoercivity assumption is then invoked via `hcoco.ineq`, applied to the two points \(z\) and \(w\) as elements of `Set.univ`. After simplification with `simpa [real_inner_comm]`, which uses commutativity of the real inner product, the proof obtains  
+gives
 \[
-hcobound : \beta \|Bz-Bw\|^2 \le \langle Bz-Bw,\ z-w\rangle .
+0\le \left\langle (-B z)-(-B w),\, z-w\right\rangle .
 \]
 
-The proof also establishes  
+The proof next simplifies the left-hand difference. The command `rw [show ... by abel, inner_neg_left] at hmono` first rewrites
 \[
-hnonneg : 0 \le \beta \|Bz-Bw\|^2
+(-B z)-(-B w)=-(B z-B w)
 \]
-using that \(\beta > 0\), via `mul_nonneg`, and that a square is nonnegative, via `sq_nonneg`.
+using the algebraic identity proved by `abel`, and then applies `inner_neg_left`, which says
+\[
+\langle -a,b\rangle=-\langle a,b\rangle .
+\]
+Thus the monotonicity inequality becomes
+\[
+0\le -\langle B z-B w,z-w\rangle .
+\]
+The tactic `linarith` then rearranges this to
+\[
+\langle B z-B w,z-w\rangle\le 0 .
+\]
+This is the inequality `hsubmono`.
 
-Combining these inequalities gives  
+Next, the proof uses the cocoercivity hypothesis `hcoco`. The expression `hcoco.ineq` applies the cocoercivity condition to the two points of the subtype `Set.univ` corresponding to \(z\) and \(w\). Since `Set.univ` contains every point of \(H\), this is the cocoercivity inequality for \(z\) and \(w\). The command `simpa [real_inner_comm] using hc` converts it into the form
 \[
-0 \le \beta \|Bz-Bw\|^2 \le \langle Bz-Bw,\ z-w\rangle \le 0.
+\beta\,\|B z-B w\|^2 \le \langle B z-B w,z-w\rangle .
 \]
-The Lean command `le_antisymm` is used with the two inequalities \(\beta \|Bz-Bw\|^2 \le 0\) and \(0 \le \beta \|Bz-Bw\|^2\) to conclude  
+Here `real_inner_comm` is the symmetry of the real inner product,
 \[
-hprodzero : \beta \|Bz-Bw\|^2 = 0.
+\langle a,b\rangle=\langle b,a\rangle,
+\]
+which allows the order of the two inner-product arguments to be swapped.
+
+The proof then records that
+\[
+0\le \beta\,\|B z-B w\|^2 .
+\]
+This is proved by `mul_nonneg hbeta.le (sq_nonneg _)`: the positivity hypothesis \(0<\beta\) gives \(0\le\beta\), and the square \(\|B z-B w\|^2\) is nonnegative.
+
+Now the two inequalities are combined. The term `hcobound.trans hsubmono` chains
+\[
+\beta\,\|B z-B w\|^2
+\le \langle B z-B w,z-w\rangle
+\le 0 .
+\]
+Together with the previously established reverse inequality
+\[
+0\le \beta\,\|B z-B w\|^2,
+\]
+the command `le_antisymm` yields
+\[
+\beta\,\|B z-B w\|^2=0 .
 \]
 
-Since \(\beta > 0\), \(\beta \ne 0\). From \(\beta \|Bz-Bw\|^2 = 0\), the proof applies `mul_eq_zero` and then resolves the factor \(\beta \ne 0\), obtaining \(\|Bz-Bw\|^2 = 0\). Then `sq_eq_zero_iff` gives  
+From this product being zero, the proof extracts \(\|B z-B w\|^2=0\). The command `mul_eq_zero.mp hprodzero` says that a product is zero only if one of its factors is zero, so either \(\beta=0\) or \(\|B z-B w\|^2=0\). The factor \(\beta\) is nonzero because \(\beta>0\), and `resolve_left hbeta.ne'` rules out the possibility \(\beta=0\). Hence
 \[
-hnormzero : \|Bz-Bw\| = 0.
+\|B z-B w\|^2=0.
 \]
-Finally, `norm_eq_zero` converts this into \(Bz-Bw = 0\), and `sub_eq_zero` converts that into the desired conclusion \(Bz = Bw\). The command `exact` closes the goal.
+Then `sq_eq_zero_iff.mp` converts a squared real number equal to zero into the number itself being zero, so
+\[
+\|B z-B w\|=0.
+\]
 
-The hypothesis \(hBmax\) is not used in this proof.
+Finally, `norm_eq_zero.mp` converts zero norm into the vector being zero:
+\[
+B z-B w=0.
+\]
+Then `sub_eq_zero.mp` converts this difference equality into
+\[
+B z=B w.
+\]
+The final `exact` closes the goal with this equality. The maximal monotonicity hypothesis `hBmax` is not used in this proof; the argument relies only on the monotonicity of the subdifferential of the proper convex function \(x\mapsto(\Phi(x):\mathrm{EReal})\) and on the cocoercivity of \(B\).
 

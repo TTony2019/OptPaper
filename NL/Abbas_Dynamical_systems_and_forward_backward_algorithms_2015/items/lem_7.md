@@ -11,35 +11,24 @@ theorem limit_zero_of_memLp_deriv_bound (F G : ℝ → ℝ) (p r : ENNReal)
 ```
 
 ## Statement explanation
-The theorem `limit_zero_of_memLp_deriv_bound` states the following. Let \(F,G:\mathbb R\to\mathbb R\) be real-valued functions, and let \(p,r\) be extended nonnegative real numbers, i.e. elements of \(\mathrm{ENNReal}=[0,\infty]\). Assume that
+The declaration `limit_zero_of_memLp_deriv_bound` is a theorem about two functions \(F,G:\mathbb R\to\mathbb R\), two extended nonnegative real exponents \(p,r\), and Lebesgue measure \(\mathrm{volume}\) on \(\mathbb R\). The hypotheses are:
+
+- \(1\le p\), \(p\ne \top\), and \(1\le r\). Thus \(p\) is a finite exponent at least \(1\), and \(r\) is an exponent at least \(1\).
+- \(F(t)\ge 0\) for every \(t\in\mathbb R\).
+- For every \(b>0\), \(F\) is absolutely continuous on the interval \([0,b]\).
+- \(F\in L^p(\mathbb R)\) and \(G\in L^r(\mathbb R)\), expressed by `MemLp F p volume` and `MemLp G r volume`.
+- For almost every \(t\) with respect to Lebesgue measure,
+  \[
+  \operatorname{deriv}F(t)\le G(t).
+  \]
+
+The conclusion is
 \[
-1\le p,\qquad p\ne \top,\qquad 1\le r,
+F(t)\to 0 \qquad (t\to+\infty),
 \]
-so in particular \(p\) is finite and nonzero. Assume that \(F\) is nonnegative:
-\[
-\forall t,\quad 0\le F(t).
-\]
-Assume that \(F\) is absolutely continuous on the interval from \(0\) to \(b\) for every positive \(b\):
-\[
-\forall b>0,\quad \mathrm{AbsolutelyContinuousOnInterval}\ F\ 0\ b.
-\]
-Assume that \(F\in L^p\) with respect to Lebesgue measure, and \(G\in L^r\) with respect to Lebesgue measure:
-\[
-\mathrm{MemLp}\ F\ p\ \mathrm{volume},\qquad \mathrm{MemLp}\ G\ r\ \mathrm{volume}.
-\]
-Finally, assume that for almost every \(t\) with respect to Lebesgue measure,
-\[
-\mathrm{deriv}\ F(t)\le G(t).
-\]
-The conclusion is that \(F\) tends to \(0\) as \(t\to+\infty\):
-\[
-\mathrm{Tendsto}\ F\ \mathrm{atTop}\ (\mathrm{nhds}\ 0).
-\]
-Equivalently, for every \(\varepsilon>0\) there exists \(R\) such that for all \(t\ge R\),
-\[
-|F(t)|<\varepsilon.
-\]
-Because \(F\) is nonnegative, this is equivalent to \(F(t)\to 0\) from above as \(t\to\infty\).
+formally `Tendsto F atTop (nhds 0)`.
+
+Mathematically, the theorem says that a nonnegative absolutely continuous function on the positive half-line must vanish at infinity if its derivative is bounded above almost everywhere by an \(L^r\) function and the function itself lies in \(L^p\) for some finite \(p\ge1\). The proof is by contradiction: if \(F\) stayed above a fixed positive level arbitrarily far to the right, then the derivative bound would force \(F\) to remain above half that level on infinitely many disjoint intervals of positive length. That would force the \(L^p\) mass of \(F\) to be infinite, contradicting \(F\in L^p\).
 
 ## Lean proof
 ```lean
@@ -186,141 +175,161 @@ by
 ```
 
 ## Proof explanation
-The proof is by contradiction. It first extracts two useful consequences of the hypotheses, then assumes the limit is not zero and constructs infinitely many separated intervals on which \(F\) has uniformly positive mass, contradicting the \(L^p\)-integrability of \(F\).
+The proof begins by recording two consequences of the cited lemmas.
 
-First, the proof establishes an increment inequality:
+First, it establishes the increment inequality
 \[
 F(b)-F(a)\le \int_a^b G(x)\,dx
 \]
-for all \(a,b\) with \(0\le a\le b\). This is done using the library lemma `increment_le_interval_integral`, applied to the absolute continuity of \(F\), the derivative bound, and the integrability assumptions on \(G\). This inequality is the main link between the derivative bound and the growth of \(F\).
+for all \(0\le a\le b\). This is exactly the conclusion of `increment_le_interval_integral`, applied with the present \(F,G,r\). The hypotheses supplied to that lemma are \(1\le r\), the absolute continuity of \(F\) on every \([0,b]\) with \(b>0\), the membership \(G\in L^r\), and the almost-everywhere derivative bound \(\operatorname{deriv}F(t)\le G(t)\). The lemma converts the pointwise almost-everywhere differential inequality into an integral inequality controlling the increase of \(F\).
 
-Second, the proof obtains a small-interval-integral property for \(G\). Using the lemma `eventual_interval_integral_upper` and the assumption \(G\in L^r\) with \(1\le r\), it proves that for every \(\eta>0\) there exist real numbers \(T\ge 0\) and \(L>0\) such that whenever
+Second, the proof records the small-interval property
 \[
-T\le a\le b,\qquad b-a\le L,
+\forall \eta>0,\ \exists T,L,\ 0\le T,\ 0<L,
 \]
-one has
+such that for all \(a,b\),
 \[
+T\le a,\quad a\le b,\quad b-a\le L
+\quad\Longrightarrow\quad
 \int_a^b G(x)\,dx\le \eta.
 \]
-This says that sufficiently far to the right, interval integrals of \(G\) over intervals of bounded length become uniformly small. The proof applies this with \(\eta=\varepsilon/2\), where \(\varepsilon\) comes from the contradiction assumption.
+This is the conclusion of `eventual_interval_integral_upper`, applied with \(1\le r\) and \(G\in L^r\). It says that, sufficiently far to the right, the integral of \(G\) over any interval of length at most \(L\) is as small as desired.
 
-The main contradiction begins with `by_contra`. It assumes that \(F\) does not tend to \(0\) at \(+\infty\). The command `rw [Metric.tendsto_atTop]` rewrites the metric tendsto condition into the usual epsilon-and-R form. Then `push Not` pushes the negation through the quantifiers, producing a positive \(\varepsilon\) such that for every \(R\) there exists \(t\ge R\) with
+The proof then argues by contradiction. It assumes the negation of \(F(t)\to0\). Using the metric characterization of convergence along `atTop`, the negation becomes: there exists \(\varepsilon>0\) such that for every \(R\) there is some \(t\ge R\) with
 \[
 \varepsilon\le \operatorname{dist}(F(t),0).
 \]
-Using nonnegativity of \(F\), the proof simplifies this to
+Because \(F(t)\ge0\), we have \(\operatorname{dist}(F(t),0)=|F(t)|=F(t)\). Thus there are arbitrarily large \(t\) with
 \[
 \varepsilon\le F(t).
 \]
-Thus for every \(R\), there are arbitrarily large times \(t\ge R\) at which \(F(t)\ge\varepsilon\).
+The command `push_neg` is what turns the negated metric convergence statement into this existential form, and `rcases` extracts the witnesses \(\varepsilon\), the positivity proof, and the higher-and-higher points.
 
-Choose \(T\) and \(L\) from the small-interval-integral property for \(G\) with \(\eta=\varepsilon/2\). The proof then recursively constructs a sequence \(t_n\) of real numbers such that
+Applying the small-interval property with \(\eta=\varepsilon/2\) gives numbers \(T,L\) with \(T\ge0\), \(L>0\), and such that every interval \([a,b]\) lying to the right of \(T\) and having length at most \(L\) satisfies
 \[
-t_0\ge T+L,\qquad t_{n+1}\ge t_n+2L,
+\int_a^b G(x)\,dx\le \frac{\varepsilon}{2}.
 \]
-and such that
+
+Next the proof constructs a sequence \(t_n\) recursively. Since \(F\) is at least \(\varepsilon\) at arbitrarily large arguments, it chooses
 \[
-F(t_n)\ge \varepsilon
+t_0\ge T+L,\qquad F(t_0)\ge\varepsilon,
 \]
-for every \(n\). This is done with `Classical.choose` and `Nat.rec`. The first inequality is called `ht_step` in the proof. An induction then gives
+and then, given \(t_n\), chooses
 \[
-t_n\ge T+L
+t_{n+1}\ge t_n+2L,\qquad F(t_{n+1})\ge\varepsilon.
 \]
-for every \(n\).
+The Lean construction uses `Classical.choose` to select these points from the existential statement. The properties are proved by induction: every \(t_n\) satisfies \(t_n\ge T+L\), every \(t_n\) satisfies \(F(t_n)\ge\varepsilon\), and every step satisfies \(t_n+2L\le t_{n+1}\). From these step inequalities the proof also obtains the separation property
+\[
+m<n \quad\Longrightarrow\quad t_m+2L\le t_n.
+\]
+This is proved by iterating the step inequality, using natural-number induction and natural arithmetic.
 
 For each \(n\), define the interval
 \[
-J_n=(t_n-L,\ t_n].
+J_n=(t_n-L,t_n].
 \]
-These intervals are subsets of \((0,\infty)\), because \(t_n\ge T+L\) and \(T\ge 0\), so \(t_n-L\ge T\ge 0\).
+Because \(t_n\ge T+L\) and \(T\ge0\), each \(J_n\) lies inside \((0,\infty)\). If \(x\in J_n\), then
+\[
+T\le x\le t_n
+\]
+and
+\[
+t_n-x\le L.
+\]
+Therefore the increment inequality applies to \(a=x\) and \(b=t_n\), giving
+\[
+F(t_n)-F(x)\le \int_x^{t_n}G(u)\,du.
+\]
+The interval \([x,t_n]\) is far enough to the right and has length at most \(L\), so the small-interval property gives
+\[
+\int_x^{t_n}G(u)\,du\le \frac{\varepsilon}{2}.
+\]
+Since \(F(t_n)\ge\varepsilon\), it follows that
+\[
+F(x)\ge \frac{\varepsilon}{2}
+\]
+for every \(x\in J_n\). This is the key lower bound on each interval \(J_n\).
 
-The proof then shows that on each \(J_n\),
+The proof then raises this lower bound to the power \(p_{\mathrm{toReal}}\), the real value of the extended real exponent \(p\). Since \(F(x)\ge0\), one has \(|F(x)|=F(x)\). Since \(p_{\mathrm{toReal}}\ge0\) and \(\varepsilon/2\le F(x)\), the monotonicity of real powers for nonnegative bases gives
 \[
-F(x)\ge \frac{\varepsilon}{2}.
+\left(\frac{\varepsilon}{2}\right)^{p_{\mathrm{toReal}}}
+\le |F(x)|^{p_{\mathrm{toReal}}}
 \]
-Indeed, if \(x\in J_n\), then \(t_n-L<x\le t_n\). In particular, \(x\ge T\) and \(t_n-x\le L\). Applying the increment inequality with \(a=x\) and \(b=t_n\),
-\[
-F(t_n)-F(x)\le \int_x^{t_n} G(u)\,du.
-\]
-By the small-interval-integral property of \(G\), the right side is at most \(\varepsilon/2\). Since \(F(t_n)\ge \varepsilon\), linear arithmetic, performed by `linarith`, gives
-\[
-F(x)\ge \varepsilon/2.
-\]
+for \(x\in J_n\). This uses the lemma `Real.rpow_le_rpow`, whose content is exactly that \(u\le v\) with \(u,v\ge0\) implies \(u^s\le v^s\) for nonnegative real exponents \(s\).
 
-Using disjointness of the \(J_n\), the proof then converts this pointwise lower bound into an integral lower bound. The intervals \(J_m\) and \(J_n\) are disjoint when \(m<n\), because the recursive spacing gives
-\[
-t_m+2L\le t_n,
-\]
-so \(J_m\) ends at \(t_m\), while \(J_n\) begins at \(t_n-L\ge t_m+L\). This separation is proved by the local argument involving `hsep` and `linarith`.
+Next, the proof obtains integrability of the function \(x\mapsto |F(x)|^{p_{\mathrm{toReal}}}\) on \((0,\infty)\). From \(F\in L^p\), together with \(p\ne0\) and \(p\ne\top\), the `MemLp` lemma `hF.integrable_norm_rpow` gives that \(x\mapsto |F(x)|^{p_{\mathrm{toReal}}}\) is integrable on \(\mathbb R\). Restricting to \((0,\infty)\) gives integrability there. Since each \(J_n\subseteq(0,\infty)\), the restricted integrability on every \(J_n\) follows by monotonicity of integrability on subsets.
 
-Since \(F(x)\ge \varepsilon/2>0\) on \(J_n\), and \(F\) is nonnegative, one has
+For each fixed \(n\), the constant
 \[
-|F(x)|\ge \varepsilon/2.
+c=\left(\frac{\varepsilon}{2}\right)^{p_{\mathrm{toReal}}}
 \]
-Raising to the real power \(p.toReal\), using monotonicity of the real power function, gives
+satisfies \(c\le |F(x)|^{p_{\mathrm{toReal}}}\) on \(J_n\). The interval \(J_n\) has length \(L\), so
 \[
-|F(x)|^{p.toReal}\ge \left(\frac{\varepsilon}{2}\right)^{p.toReal}.
+\int_{J_n} c\,dx=cL.
 \]
-This is the content of the local lemma `hpointpow`.
-
-Next, the proof uses the \(L^p\) assumption on \(F\). Since \(p\) is finite, nonzero, and at least \(1\), the lemma `hF.integrable_norm_rpow` gives that
+Therefore, using `integral_mono_ae` to compare the constant integrand with the nonnegative integrand \(|F|^{p_{\mathrm{toReal}}}\), the proof obtains
 \[
-x\mapsto |F(x)|^{p.toReal}
-\]
-is integrable over the whole real line, hence over \((0,\infty)\) and over each \(J_n\). This is represented by `hFpow` and `hint`.
-
-On each interval \(J_n\), the constant function
-\[
-x\mapsto \left(\frac{\varepsilon}{2}\right)^{p.toReal}
-\]
-is pointwise dominated by \(x\mapsto |F(x)|^{p.toReal}\). Therefore, by monotonicity of the integral, the proof obtains
-\[
-\left(\frac{\varepsilon}{2}\right)^{p.toReal}L
+\left(\frac{\varepsilon}{2}\right)^{p_{\mathrm{toReal}}}L
 \le
-\int_{J_n} |F(x)|^{p.toReal}\,dx.
+\int_{J_n}|F(x)|^{p_{\mathrm{toReal}}}\,dx.
 \]
-Here the left side is the integral of the constant function over \(J_n\), whose Lebesgue measure is \(L\). The relevant integral computation uses `integral_const` and the measure computation for an interval, with `simp` and `ring` closing the algebraic arithmetic.
+The computation of the constant integral uses `integral_const` and the fact that the Lebesgue measure of \((t_n-L,t_n]\) is \(L\).
 
-For any natural number \(N\), let \(U\) be the union of the first \(N\) intervals \(J_0,\dots,J_{N-1}\). Since these intervals are pairwise disjoint, the integral over \(U\) is the sum of the integrals over the individual intervals. The command `integral_biUnion_finset` is used for this finite disjoint union. Summing the lower bound over \(n=0,\dots,N-1\) gives
+The intervals \(J_n\) are pairwise disjoint. Indeed, if \(m<n\), then \(t_m+2L\le t_n\). Any \(x\in J_m\) satisfies \(x\le t_m\), while any \(x\in J_n\) satisfies
 \[
-N\cdot \left(\frac{\varepsilon}{2}\right)^{p.toReal}L
-\le
-\int_U |F(x)|^{p.toReal}\,dx.
+x>t_n-L\ge t_m+L.
 \]
-Since \(U\subseteq (0,\infty)\), monotonicity of the set integral gives
-\[
-\int_U |F(x)|^{p.toReal}\,dx
-\le
-\int_{(0,\infty)} |F(x)|^{p.toReal}\,dx.
-\]
-Thus for every \(N\),
-\[
-N\cdot \left(\frac{\varepsilon}{2}\right)^{p.toReal}L
-\le
-\int_{(0,\infty)} |F(x)|^{p.toReal}\,dx.
-\]
+Thus \(x>t_m\), contradicting \(x\le t_m\). The Lean proof packages this as a pairwise disjointness statement and proves it by splitting into the cases \(m<n\) and \(n<m\).
 
-Finally, the factor
+For any natural number \(N\), let
 \[
-m:=\left(\frac{\varepsilon}{2}\right)^{p.toReal}L
+U=\bigcup_{n=0}^{N-1}J_n.
 \]
-is strictly positive. Let
+This union is contained in \((0,\infty)\), and the \(J_n\) are pairwise disjoint. The integral over the finite disjoint union equals the sum of the integrals:
 \[
-M:=\int_{(0,\infty)} |F(x)|^{p.toReal}\,dx.
+\int_U |F(x)|^{p_{\mathrm{toReal}}}\,dx
+=
+\sum_{n=0}^{N-1}
+\int_{J_n}|F(x)|^{p_{\mathrm{toReal}}}\,dx.
 \]
-The Archimedean property of the reals gives a natural number \(N\) such that
+This is the content of `integral_biUnion_finset`, applied to the finite family of disjoint measurable intervals. Using the lower bound on each \(J_n\), the proof obtains
 \[
-N>\frac{M}{m}.
+N\left(\frac{\varepsilon}{2}\right)^{p_{\mathrm{toReal}}}L
+\le
+\int_U |F(x)|^{p_{\mathrm{toReal}}}\,dx.
 \]
-Equivalently,
+Since \(U\subseteq(0,\infty)\) and the integrand is nonnegative, the set integral over \(U\) is at most the set integral over \((0,\infty)\). This uses `setIntegral_mono_set`, whose mathematical meaning here is that enlarging the domain of integration cannot decrease the integral of a nonnegative function. Hence
 \[
-Nm>M.
+N\left(\frac{\varepsilon}{2}\right)^{p_{\mathrm{toReal}}}L
+\le
+\int_{(0,\infty)}|F(x)|^{p_{\mathrm{toReal}}}\,dx
 \]
-The command `exact_mod_cast` handles the natural-to-real casting in this step. But the previous inequality states
-\[
-Nm\le M,
-\]
-a contradiction. The proof concludes with `linarith [hmass N]`, using the contradiction between the lower bound and the upper bound.
+for every \(N\).
 
-Important Lean tactics used in the proof include: `intro` to introduce local variables, `rw` to rewrite using metric tendsto and integral identities, `simp` to simplify measure and arithmetic goals, `exact` to supply direct proof terms, `linarith` to close linear inequalities, `by_contra` for contradiction, `rcases` for destructuring existentials, `induction` to prove facts about all natural numbers, `gcongr` for generalized congruence reasoning with sums, `filter_upwards` to prove almost-everywhere properties, and `calc` for chained inequalities.
+Finally, the proof observes that
+\[
+\left(\frac{\varepsilon}{2}\right)^{p_{\mathrm{toReal}}}L>0.
+\]
+The first factor is positive because \(\varepsilon/2>0\) and the real power of a positive number is positive; the second is positive because \(L>0\). Therefore one may choose a natural number \(N\) with
+\[
+N>
+\frac{\int_{(0,\infty)}|F(x)|^{p_{\mathrm{toReal}}}\,dx}
+{\left(\frac{\varepsilon}{2}\right)^{p_{\mathrm{toReal}}}L}.
+\]
+This uses the Archimedean property via `exists_nat_gt`. Multiplying by the positive denominator gives
+\[
+\int_{(0,\infty)}|F(x)|^{p_{\mathrm{toReal}}}\,dx
+<
+N\left(\frac{\varepsilon}{2}\right)^{p_{\mathrm{toReal}}}L.
+\]
+But the previous inequality says the reverse:
+\[
+N\left(\frac{\varepsilon}{2}\right)^{p_{\mathrm{toReal}}}L
+\le
+\int_{(0,\infty)}|F(x)|^{p_{\mathrm{toReal}}}\,dx.
+\]
+This contradiction is closed by `linarith`. Hence the assumption that \(F(t)\) does not tend to \(0\) as \(t\to+\infty\) is false, and therefore
+\[
+F(t)\to 0 \qquad (t\to+\infty).
+\]
 

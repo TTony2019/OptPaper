@@ -23,31 +23,59 @@ theorem gradient_rate_comparison {H : Type*} [NormedAddCommGroup H] [InnerProduc
 ```
 
 ## Statement explanation
-Let \(H\) be a real inner product space that is also complete as a normed additive commutative group, so it is a real Hilbert space. The function \(\Phi : H \to \mathbb{R}\) is real-valued on \(H\). The functions \(x_{\text{Semigroup}} : \mathbb{R} \to H\) and \(x_{\text{Newton}} : \mathbb{R} \to H\) are curves in \(H\), and \(c\) is a real number.
+The declaration is a theorem about two different gradient-based dynamics in a complete real inner product space \(H\), hence in a real Hilbert space. It fixes a real-valued function \(\Phi : H \to \mathbb R\), two trajectories \(x_{\mathrm{sg}} : \mathbb R \to H\) and \(x_{\mathrm{nt}} : \mathbb R \to H\), and a real scalar \(c\). The names suggest \(x_{\mathrm{sg}}\) is a semigroup/gradient-flow trajectory and \(x_{\mathrm{nt}}\) is a Newton-type trajectory.
 
-The hypotheses are:
-- \(h_{\text{convex}}\): \(\Phi\) is convex on the entire space \(H\).
-- \(h_{\text{gradient}}\): \(\Phi\) is differentiable over \(\mathbb{R}\).
-- \(h_c\): \(c > 0\).
-- \(h_{\text{min}}\): \(\Phi\) attains a global minimum, i.e. there exists \(z \in H\) with \(\Phi(z) \le \Phi(y)\) for all \(y \in H\).
-- \(h_{\text{semigroup}}\): For every \(t \ge 0\), the derivative of \(x_{\text{Semigroup}}\) at \(t\) equals \(-\nabla \Phi(x_{\text{Semigroup}}(t))\). Thus \(x_{\text{Semigroup}}\) is a gradient-flow trajectory.
-- \(h_{\text{semigroup\_vclassical}}\): For every \(t \ge 0\), the composed curve \(s \mapsto \nabla \Phi(x_{\text{Semigroup}}(s))\) is differentiable at \(t\), and its derivative is the ordinary derivative of that curve at \(t\).
-- \(h_{\text{newton\_xclassical}}\): For every \(t \ge 0\), \(x_{\text{Newton}}\) has derivative at \(t\) equal to \(\operatorname{deriv} x_{\text{Newton}}(t)\), a classical differentiability condition.
-- \(h_{\text{newton\_vclassical}}\): For every \(t \ge 0\), the composed curve \(s \mapsto \nabla \Phi(x_{\text{Newton}}(s))\) is differentiable at \(t\), with derivative equal to its ordinary derivative at \(t\).
-- \(h_{\text{newton}}\): For every \(t \ge 0\), the following forced Newton-like equation holds:
+The common hypotheses on \(\Phi\) are:
+
+- \(\Phi\) is convex on the whole space \(H\), i.e. `ConvexOn ℝ Set.univ Phi`.
+- \(\Phi\) is differentiable, i.e. `Differentiable ℝ Phi`.
+- \(\Phi\) has a global minimum: there exists \(z \in H\) such that \(\Phi(z) \le \Phi(y)\) for every \(y \in H\).
+- The scalar \(c\) is positive: \(c > 0\).
+
+The hypotheses on the semigroup trajectory \(x_{\mathrm{sg}}\) are:
+
+- For every \(t \ge 0\), \(x_{\mathrm{sg}}\) has derivative
+  \[
+  -\nabla \Phi(x_{\mathrm{sg}}(t))
+  \]
+  at \(t\). Thus \(x_{\mathrm{sg}}\) solves the gradient-flow equation
+  \[
+  \dot{x}_{\mathrm{sg}}(t) = -\nabla \Phi(x_{\mathrm{sg}}(t)).
+  \]
+- For every \(t \ge 0\), the map
+  \[
+  s \mapsto \nabla \Phi(x_{\mathrm{sg}}(s))
+  \]
+  is differentiable at \(t\), with derivative its classical Lean derivative `deriv`.
+
+The hypotheses on the Newton trajectory \(x_{\mathrm{nt}}\) are:
+
+- For every \(t \ge 0\), \(x_{\mathrm{nt}}\) is differentiable at \(t\), with derivative `deriv xNewton t`.
+- For every \(t \ge 0\), the map
+  \[
+  s \mapsto \nabla \Phi(x_{\mathrm{nt}}(s))
+  \]
+  is differentiable at \(t\), with derivative its classical Lean derivative `deriv`.
+- For every \(t \ge 0\), the Newton-type equation holds:
+  \[
+  c e^{-t} \dot{x}_{\mathrm{nt}}(t)
+  + \frac{d}{dt}\nabla \Phi(x_{\mathrm{nt}}(t))
+  + \nabla \Phi(x_{\mathrm{nt}}(t))
+  = 0.
+  \]
+  Here the addition and the zero are those of the vector space \(H\), while \(c e^{-t}\) is a real scalar multiplying the velocity vector.
+
+The conclusion is a conjunction of two rate statements:
+
 \[
-(c e^{-t}) \operatorname{deriv} x_{\text{Newton}}(t) + \operatorname{deriv}\!\bigl(s \mapsto \nabla \Phi(x_{\text{Newton}}(s))\bigr)(t) + \nabla \Phi(x_{\text{Newton}}(t)) = 0.
+\Bigl(\exists C \in \mathbb R,\ \forall t > 0,\ 
+\lVert \nabla \Phi(x_{\mathrm{sg}}(t)) \rVert \le C/t\Bigr)
+\land
+\Bigl(\exists C \in \mathbb R,\ \forall t \ge 0,\ 
+\lVert \nabla \Phi(x_{\mathrm{nt}}(t)) \rVert \le C e^{-t}\Bigr).
 \]
 
-The conclusion is a conjunction of two rate estimates:
-\[
-(\exists C \in \mathbb{R},\ \forall t > 0,\ \|\nabla \Phi(x_{\text{Semigroup}}(t))\| \le C/t)
-\]
-and
-\[
-(\exists C \in \mathbb{R},\ \forall t \ge 0,\ \|\nabla \Phi(x_{\text{Newton}}(t))\| \le C e^{-t}).
-\]
-So the theorem states that under these convexity, differentiability, and dynamical assumptions, the gradient along the semigroup trajectory decays at least like \(O(1/t)\), and the gradient along the Newton trajectory decays at least exponentially like \(O(e^{-t})\).
+Thus the semigroup/gradient-flow trajectory has gradient norm decaying like \(O(1/t)\) for positive times, while the Newton-type trajectory has gradient norm decaying exponentially like \(O(e^{-t})\) for nonnegative times. The two existential constants \(C\) are independent; the statement does not assert that they are equal or that one estimate implies the other. It simply packages both decay rates under the shared convexity, differentiability, and minimum assumptions.
 
 ## Lean proof
 ```lean
@@ -59,62 +87,56 @@ by
 ```
 
 ## Proof explanation
-The proof is very short and relies entirely on two previously established theorems, one for the semigroup estimate and one for the Newton estimate. The command
-```lean
-refine ⟨?_, newton_gradient_exponential_rate Phi xNewton c hconvex hgradient hc hmin hnewton_xclassical hnewton_vclassical hnewton⟩
-```
-splits the conjunctive conclusion into two goals. The second conjunct is proved immediately by invoking the theorem `newton_gradient_exponential_rate` with the relevant arguments: the function \(\Phi\), the Newton curve \(x_{\text{Newton}}\), the constant \(c\), convexity, differentiability, \(c > 0\), existence of a minimizer, the two classical differentiability assumptions for the Newton curve, and the Newton equation. This supplies
-\[
-\exists C,\ \forall t \ge 0,\ \|\nabla \Phi(x_{\text{Newton}}(t))\| \le C e^{-t}.
-\]
-The first conjunct is left as the placeholder `?_`. The following command
-```lean
-exact semigroup_gradient_rate Phi xSemigroup hconvex hgradient hmin hsemigroup hsemigroup_vclassical
-```
-closes this first goal exactly by applying the theorem `semigroup_gradient_rate` to \(\Phi\), the semigroup curve, convexity, differentiability, existence of a minimizer, the semigroup differential equation, and the classical differentiability of the composed gradient curve. That theorem yields precisely
-\[
-\exists C,\ \forall t > 0,\ \|\nabla \Phi(x_{\text{Semigroup}}(t))\| \le C/t.
-\]
-There is no additional computational reasoning: the proof establishes the desired conjunction by combining two already available rate results.
+The proof is a direct combination of the two previously established rate theorems.
 
-Thus the proof consists of a structural split of the conjunction, followed by direct applications of the supporting theorems.Let \(H\) be a real inner product space that is also complete as a normed additive commutative group, so it is a real Hilbert space. The functions \(x_{\text{Semigroup}}, x_{\text{Newton}}\) are curves in \(H\), \(\Phi: H \to \mathbb{R}\) is a scalar field, and \(c\) is a real number.
+First, the target is a conjunction. The tactic
 
-The theorem assumes:
-- \(\Phi\) is convex on all of \(H\).
-- \(\Phi\) is differentiable over \(\mathbb{R}\).
-- \(0 < c\).
-- \(\Phi\) has a global minimizer: \(\exists z, \forall y, \Phi(z) \le \Phi(y)\).
-- For every \(t \ge 0\), the derivative of \(x_{\text{Semigroup}}\) at \(t\) equals \(-\nabla \Phi(x_{\text{Semigroup}}(t))\), so \(x_{\text{Semigroup}}\) is a gradient-flow trajectory.
-- For every \(t \ge 0\), the map \(s \mapsto \nabla \Phi(x_{\text{Semigroup}}(s))\) has derivative at \(t\) equal to its ordinary derivative at \(t\).
-- For every \(t \ge 0\), the curve \(x_{\text{Newton}}\) has derivative at \(t\) equal to \(\operatorname{deriv} x_{\text{Newton}}(t)\).
-- For every \(t \ge 0\), the map \(s \mapsto \nabla \Phi(x_{\text{Newton}}(s))\) has derivative at \(t\) equal to its ordinary derivative at \(t\).
-- For every \(t \ge 0\), the vector equation
-\[
-(c e^{-t})\, \operatorname{deriv}(x_{\text{Newton}})(t) + \operatorname{deriv}\bigl(s\mapsto \nabla\Phi(x_{\text{Newton}}(s))\bigr)(t) + \nabla\Phi(x_{\text{Newton}}(t)) = 0
-\]
-holds.
+- `refine` is used to introduce the conjunction. The anonymous constructor splits the goal into two components: the first component is left as a placeholder goal, and the second component is filled by the term
+  `newton_gradient_exponential_rate Phi xNewton c hconvex hgradient hc hmin hnewton_xclassical hnewton_vclassical hnewton`.
 
-The conclusion is:
+The theorem `newton_gradient_exponential_rate`, specialized to the current variables, says the following. If \(H\) is a complete real inner product space, \(\Phi\) is convex on the whole space and differentiable, \(c>0\), \(\Phi\) has a global minimum, the trajectory \(x\) satisfies
 \[
-(\exists C\in\mathbb{R}, \forall t > 0,\ \|\nabla\Phi(x_{\text{Semigroup}}(t))\| \le C/t)
+\dot{x}(t)=\text{deriv }x(t)
 \]
-and
+at every \(t\ge0\), the gradient field \(s\mapsto \nabla\Phi(x(s))\) is differentiable at every \(t\ge0\), and the Newton-type system
 \[
-(\exists C\in\mathbb{R}, \forall t \ge 0,\ \|\nabla\Phi(x_{\text{Newton}}(t))\| \le C e^{-t}).
+c e^{-t}\dot{x}(t)
++ \frac{d}{dt}\nabla\Phi(x(t))
++ \nabla\Phi(x(t))=0
 \]
-Thus it gives a \(O(1/t)\) decay rate for the gradient along the semigroup flow and an exponential decay rate \(O(e^{-t})\) for the gradient along the Newton-type trajectory.
+holds for every \(t\ge0\), then there exists a constant \(C\) such that
+\[
+\lVert \nabla\Phi(x(t))\rVert \le C e^{-t}
+\]
+for every \(t\ge0\).
 
-===PROOF_EXPLANATION===
-
-The proof first uses `refine ⟨?_, ...⟩` to break the conjunctive conclusion into two independent goals. The second component, the Newton gradient rate, is proved by applying the previously established lemma `newton_gradient_exponential_rate` to the data \(\Phi\), \(x_{\text{Newton}}\), \(c\), and all the relevant hypotheses: convexity, differentiability, \(c>0\), existence of a minimizer, the two classical differentiability assumptions, and the Newton equation. This directly supplies
+In the current proof this theorem is applied with \(x = x_{\mathrm{nt}}\). The hypotheses supplied to it are exactly `hconvex`, `hgradient`, `hc`, `hmin`, `hnewton_xclassical`, `hnewton_vclassical`, and `hnewton`. Its conclusion is precisely the second conjunct of the target:
 \[
-\exists C,\ \forall t \ge 0,\ \|\nabla\Phi(x_{\text{Newton}}(t))\| \le C e^{-t}.
+\exists C,\ \forall t\ge0,\ 
+\lVert \nabla \Phi(x_{\mathrm{nt}}(t)) \rVert \le C e^{-t}.
 \]
-The first component is left as a placeholder `?_` in the `refine` call.
+So after the `refine`, the second part of the conjunction is proved, and only the first part remains.
 
-The line `exact semigroup_gradient_rate Phi xSemigroup hconvex hgradient hmin hsemigroup hsemigroup_vclassical` fills that remaining goal exactly. It invokes the lemma `semigroup_gradient_rate`, supplying \(\Phi\), \(x_{\text{Semigroup}}\), convexity, differentiability, the global-minimizer assumption, the semigroup derivative law, and the classical differentiability of the gradient along the semigroup. That lemma yields precisely
+The remaining goal is then closed by
+
+- `exact semigroup_gradient_rate Phi xSemigroup hconvex hgradient hmin hsemigroup hsemigroup_vclassical`.
+
+The theorem `semigroup_gradient_rate`, specialized here, says that if \(\Phi\) is convex on the whole space and differentiable, \(\Phi\) has a global minimum, the trajectory \(x\) satisfies
 \[
-\exists C,\ \forall t > 0,\ \|\nabla\Phi(x_{\text{Semigroup}}(t))\| \le C/t.
+\dot{x}(t)=-\nabla\Phi(x(t))
 \]
-There is no separate computational reasoning beyond these applications of preexisting lemmas: the proof simply splits the conjunction and closes each side by exact application of the corresponding lemma.
+for every \(t\ge0\), and the gradient field \(s\mapsto \nabla\Phi(x(s))\) is differentiable at every \(t\ge0\), then there exists a constant \(C\) such that
+\[
+\lVert \nabla\Phi(x(t))\rVert \le C/t
+\]
+for every \(t>0\).
+
+In the current proof this theorem is applied with \(x = x_{\mathrm{sg}}\). The hypotheses supplied to it are `hconvex`, `hgradient`, `hmin`, `hsemigroup`, and `hsemigroup_vclassical`. Its conclusion is exactly the first conjunct:
+\[
+\exists C,\ \forall t>0,\ 
+\lVert \nabla \Phi(x_{\mathrm{sg}}(t)) \rVert \le C/t.
+\]
+Therefore the placeholder goal is solved, and the full conjunction follows.
+
+No `intro`, `rw`, `simp`, or `linarith` tactic is used in this proof. The proof is purely term-style: `refine` performs conjunction introduction and leaves one subgoal, and `exact` closes that subgoal by supplying the appropriate rate theorem.
 

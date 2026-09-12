@@ -14,21 +14,44 @@ theorem classical_gradient_flow_value_rate {H : Type*} [NormedAddCommGroup H] [I
 ```
 
 ## Statement explanation
-Theorem statement:
+`classical_gradient_flow_value_rate` is a theorem about the decay rate of the value of a convex function along a classical gradient flow. The ambient space \(H\) is a real Hilbert space: it is a complete normed additive group with a real inner product. The theorem has the following data and hypotheses.
 
-Let `H` be a type, assumed to be a normed additive commutative group and an inner product space over `ℝ`, and additionally complete. Let `s₀ : ℝ` be a real number. Let `f : H → ℝ`, `y dy : ℝ → H`, and `fstar : ℝ` be given. Assume:
+- \(s_0\) is a real number, serving as the initial time of the flow.
+- \(f : H \to \mathbb{R}\) is a real-valued function on \(H\).
+- \(y : \mathbb{R} \to H\) is the trajectory, and \(dy : \mathbb{R} \to H\) is its derivative.
+- \(f^\star \in \mathbb{R}\) is intended to be the minimal value of \(f\).
+- \(f\) is convex on all of \(H\), expressed as \( \operatorname{ConvexOn} \mathbb{R} \operatorname{Set.univ} f\).
+- \(f\) is differentiable over \(\mathbb{R}\), expressed as \( \operatorname{Differentiable} \mathbb{R} f\).
+- For every \(s \in [s_0,\infty)\), the curve \(y\) has derivative \(dy(s)\) at time \(s\):
+  \[
+  \operatorname{HasDerivAt} y (dy(s)) s.
+  \]
+- For every \(s \in [s_0,\infty)\), the flow equation holds:
+  \[
+  dy(s) + \nabla f(y(s)) = 0,
+  \]
+  equivalently \(dy(s) = -\nabla f(y(s))\). This is exactly the classical gradient-flow equation \(y'(s) = -\nabla f(y(s))\).
+- There exists \(x^\star \in H\) such that
+  \[
+  f(x^\star) = f^\star
+  \qquad\text{and}\qquad
+  \forall x \in H,\ f^\star \le f(x).
+  \]
+  Thus \(f^\star\) is a global minimum of \(f\), attained at \(x^\star\).
 
-- `hconvex : ConvexOn ℝ Set.univ f`: `f` is convex on the whole space `H`.
-- `hdiff : Differentiable ℝ f`: `f` is differentiable (over `ℝ`) everywhere.
-- `hregular : ∀ s, s ∈ Set.Ici s₀ → HasDerivAt y (dy s) s`: for every real `s ≥ s₀`, the function `y` is differentiable at `s` with derivative `dy s`.
-- `hflow : ∀ s, s ∈ Set.Ici s₀ → dy s + gradient f (y s) = 0`: for every `s ≥ s₀`, the derivative of `y` plus the gradient of `f` at `y s` equals zero, i.e. `dy s = -gradient f (y s)`.
-- `hmin : ∃ xstar, f xstar = fstar ∧ ∀ x, fstar ≤ f x`: there exists a point `xstar` attaining value `fstar`, which is a global minimum of `f` over all of `H`.
-
-Conclusion:
-
-`Filter.Tendsto (fun s : ℝ => s * (f (y s) - fstar)) Filter.atTop (nhds 0)`: as `s` tends to `+∞`, the quantity `s * (f (y s) - fstar)` tends to `0`.
-
-Equivalently, along the gradient-flow trajectory `y`, the product of the independent variable `s` and the excess of the value `f(y s)` over the minimum value `fstar` tends to zero at infinity.
+The conclusion is
+\[
+\operatorname{Tendsto}
+\left(s \mapsto s\bigl(f(y(s)) - f^\star\bigr)\right)
+\operatorname{atTop}
+(\operatorname{nhds} 0),
+\]
+which means
+\[
+s\bigl(f(y(s)) - f^\star\bigr) \longrightarrow 0
+\qquad\text{as } s \to \infty.
+\]
+Since \(f^\star\) is a global minimum, the value gap \(f(y(s))-f^\star\) is nonnegative. Therefore the conclusion says that this gap tends to zero faster than \(1/s\), along the gradient flow.
 
 ## Lean proof
 ```lean
@@ -157,86 +180,170 @@ by
 ```
 
 ## Proof explanation
-The proof first prepares several facts about derivatives, monotonicity, and limits, then uses a squeeze argument.
+The proof begins by recording how the Fréchet derivative of \(f\) is represented by its gradient. For every \(x \in H\) and \(v \in H\), the proof establishes
+\[
+\operatorname{fderiv}_{\mathbb R} f(x)(v)
+=
+\langle \nabla f(x), v\rangle .
+\]
+This is the standard identification, in a real inner product space, of the derivative of a differentiable real-valued function with the inner product against its gradient. The Lean step uses differentiability of \(f\) at \(x\), obtains the Fréchet derivative from the gradient, and then closes by definitional equality.
 
-1. Define the gradient property.  
-   `hgradient : ∀ x v, fderiv ℝ f x v = inner ℝ (gradient f x) v`.  
-   This says that the Fréchet derivative of `f` at `x`, applied to `v`, equals the inner product of the gradient with `v`. The proof fixes `x` and `v` with `intro`, uses `hgradient` on `fderiv` by rewriting with the `fderiv` of the `HasGradientAt` statement obtained from differentiability of `f`, and then `rfl`.
+Next, the minimization hypothesis is unpacked. The proof obtains an element \(x^\star\) such that
+\[
+f(x^\star)=f^\star
+\qquad\text{and}\qquad
+\forall x,\ f^\star \le f(x).
+\]
+It then defines two real-valued functions along the trajectory:
+\[
+g(s) = f(y(s)) - f^\star,
+\qquad
+d(s) = \lVert y(s)-x^\star\rVert^2.
+\]
+Here \(g(s)\) is the value gap and \(d(s)\) is the squared distance from the trajectory to the minimizer \(x^\star\).
 
-2. Extract the minimizer.  
-   `rcases hmin with ⟨xstar, hxstar, hmin_le⟩` splits the existential into a point `xstar`, the equality `f xstar = fstar`, and the universal lower bound `∀ x, fstar ≤ f x`.
+The proof first shows \(g(s) \ge 0\) for every \(s\). Indeed,
+\[
+g(s)=f(y(s))-f^\star \ge 0
+\]
+because \(f^\star \le f(x)\) for every \(x\), in particular for \(x=y(s)\). This is the arithmetic step handled by `linarith`.
 
-3. Define two auxiliary functions:  
-   `gap s = f (y s) - fstar` and `dist2 s = ‖y s - xstar‖^2`.  
-   These represent the gap to the minimum value and the squared distance from the trajectory to the minimizer.
+Next, the derivative of \(g\) is computed. For \(s \in [s_0,\infty)\), the chain rule applied to \(f \circ y\) gives that the derivative of \(f(y(s))\) is the derivative of \(f\) at \(y(s)\) applied to \(dy(s)\). Using the gradient representation above, this becomes
+\[
+g'(s) = \langle \nabla f(y(s)), dy(s)\rangle .
+\]
+Subtracting the constant \(f^\star\) does not change the derivative.
 
-4. Prove `hgap_nonneg`: `0 ≤ gap s` for all real `s`.  
-   This follows by unfolding `gap` and applying `hmin_le (y s)` plus linear arithmetic (`linarith`).
+This derivative is nonpositive. Indeed, from the flow equation,
+\[
+dy(s) = -\nabla f(y(s)),
+\]
+so
+\[
+g'(s)
+=
+\langle \nabla f(y(s)), -\nabla f(y(s))\rangle
+=
+-\lVert \nabla f(y(s))\rVert^2
+\le 0.
+\]
+The proof then invokes the general fact `antitoneOn_of_deriv_nonpos`: on a convex set, if a function is continuous, differentiable on the interior, and has nonpositive derivative on the interior, then it is nonincreasing. Applying this on the convex interval \( [s_0,\infty) \) shows that \(g\) is antitone on \( [s_0,\infty) \). Thus, if \(s_0 \le r \le t\), then
+\[
+g(t) \le g(r).
+\]
 
-5. Prove `hgap_deriv`: on `s ≥ s₀`, `gap` has derivative `inner ℝ (gradient f (y s)) (dy s)`.  
-   The derivative of `f ∘ y` is obtained by composing the derivative of `f` with the derivative of `y`: `differentiableAt.hasFDerivAt.comp_hasDerivAt`. Then one subtracts the constant `fstar`, giving the derivative as the fderiv of `f` applied to `dy s`; rewriting with `hgradient` converts this to the inner product with the gradient.
+The proof then studies the squared distance \(d(s)\). For \(s \in [s_0,\infty)\), differentiating \(\lVert y(s)-x^\star\rVert^2\) gives
+\[
+d'(s) = 2\langle y(s)-x^\star, dy(s)\rangle .
+\]
+This is the usual derivative formula for the squared norm of a differentiable vector-valued function.
 
-6. Prove `hgap_anti`: `gap` is antitone on `[s₀, ∞)`, meaning `r ≤ s` implies `gap r ≥ gap s` there.  
-   The proof applies `antitoneOn_of_deriv_nonpos` to the interval `Set.Ici s₀`, which is convex. This lemma requires three things:
-   - continuity of `gap` on the interval: obtained from the derivative statement via `continuousAt.continuousWithinAt`;
-   - differentiability within the interval: from the derivative statement;
-   - nonpositivity of the derivative inside the interval:  
-     It rewrites the derivative to `inner (gradient f (y s)) (dy s)`. Using `hflow`, one gets `dy s = -gradient f (y s)`. Then `rw [hdy, inner_neg_right, real_inner_self_eq_norm_sq]` transforms the derivative to `-‖gradient f (y s)‖^2`, which is nonpositive because the square is nonnegative. Thus the gap decreases.
+The crucial estimate for \(d'(s)\) uses the cited result `convex_gradient_support`. In concrete terms, that theorem says that if \(f\) is convex on all of \(H\), differentiable, and \(x^\star\) satisfies \(f(x^\star)=f^\star\), then for every \(x \in H\),
+\[
+f(x)-f^\star \le
+\langle \nabla f(x), x-x^\star\rangle .
+\]
+This is the first-order support inequality for convex differentiable functions: the tangent plane at \(x\) lies below the graph of \(f\). Specialized to \(x=y(s)\), it gives
+\[
+g(s) = f(y(s))-f^\star
+\le
+\langle \nabla f(y(s)), y(s)-x^\star\rangle .
+\]
+Using \(dy(s)=-\nabla f(y(s))\) and symmetry of the real inner product, the proof obtains
+\[
+d'(s)
+=
+2\langle y(s)-x^\star, dy(s)\rangle
+=
+-2\langle y(s)-x^\star, \nabla f(y(s))\rangle
+=
+-2\langle \nabla f(y(s)), y(s)-x^\star\rangle
+\le
+-2g(s).
+\]
+Since \(g(s)\ge 0\), this also gives \(d'(s)\le 0\). Applying `antitoneOn_of_deriv_nonpos` again, now to \(d\) on \( [s_0,\infty) \), shows that \(d\) is nonincreasing along the flow.
 
-7. Prove `hdist_deriv`: `dist2` has derivative `2 * inner ℝ (y s - xstar) (dy s)` on `s ≥ s₀`.  
-   Since `dist2 s = ‖y s - xstar‖^2`, this follows from the derivative of `y` via `(hregular s hs).sub_const xstar` and the derivative of the squared norm, using `norm_sq`.
+The next major step is the key inequality
+\[
+t g(t) \le d(t/2)-d(t)
+\]
+for \(t \ge 0\) and \(2s_0 \le t\). To prove it, the proof fixes such a \(t\) and considers the auxiliary function
+\[
+q(r)=d(r)+2g(t)r
+\]
+on the interval \( [t/2,t]\). It computes
+\[
+q'(r)
+=
+d'(r)+2g(t)
+=
+2\langle y(r)-x^\star, dy(r)\rangle+2g(t).
+\]
+For \(r \in [t/2,t]\), the inequalities \(r \ge s_0\) and \(t \ge s_0\) hold. Also \(r \le t\), and since \(g\) is nonincreasing on \( [s_0,\infty) \), we have
+\[
+g(t) \le g(r).
+\]
+Combining this with the earlier bound
+\[
+d'(r) \le -2g(r)
+\]
+gives
+\[
+q'(r) \le -2g(r)+2g(t) \le 0.
+\]
+Therefore \(q\) is nonincreasing on \( [t/2,t]\), so \(q(t) \le q(t/2)\). Expanding this inequality yields
+\[
+d(t)+2t g(t) \le d(t/2)+t g(t),
+\]
+hence
+\[
+t g(t) \le d(t/2)-d(t).
+\]
+The arithmetic steps here are handled by `nlinarith`, while `convert` and `ring_nf` are used to identify the derivative of the auxiliary function.
 
-8. Prove `hdist_bound`: for `s ≥ s₀`,  
-   `deriv dist2 s ≤ -2 * gap s`.  
-   The proof uses a support inequality: convexity and differentiability imply that for every point `x`, `f xstar + inner (gradient f x) (x - xstar) ≤ f x`. In code this is called `hsupport := convex_gradient_support f fstar hconvex hdiff hxstar (x := y s)`.  
-   Using `hflow`, rewrite `dy s = -gradient f (y s)`, so the derivative of `dist2` becomes  
-   `2 * inner (y s - xstar) (dy s) = -2 * inner (y s - xstar) (gradient f (y s))`.  
-   By symmetry of the real inner product and the support inequality, this is at most `-2 * (f (y s) - fstar) = -2 * gap s`. The nonlinear arithmetic tactic `nlinarith` handles the rearrangement and uses the support inequality.
+The proof now constructs a globally defined antitone function
+\[
+D(r)=d(\max(r,s_0)).
+\]
+For every \(r\), \(D(r)\ge 0\), since it is a squared norm. It is antitone: if \(a \le b\), then \(\max(a,s_0)\le \max(b,s_0)\), and since \(d\) is antitone on \( [s_0,\infty) \), this gives \(D(b)\le D(a)\). Also \(D\) is bounded below by \(0\). By the monotone convergence fact `tendsto_atTop_ciInf`, an antitone function bounded below tends at \(+\infty\) to the infimum of its range. Thus
+\[
+D(r) \to L
+\qquad\text{as } r\to\infty,
+\]
+where
+\[
+L=\inf\{\,D(r):r\in\mathbb R\,\}.
+\]
+For all sufficiently large \(r\), one has \(r\ge s_0\), so \(\max(r,s_0)=r\) and \(D(r)=d(r)\). Hence \(d(s)\to L\) as \(s\to\infty\). Similarly, since \(s\mapsto s/2\to\infty\), one has \(D(s/2)\to L\). For large \(s\), \(s/2\ge s_0\), so \(D(s/2)=d(s/2)\). Therefore
+\[
+d(s/2)\to L
+\qquad\text{and}\qquad
+d(s)\to L,
+\]
+and hence
+\[
+d(s/2)-d(s) \to L-L=0.
+\]
+This is the content of the intermediate limit `hdrop_lim`.
 
-9. Prove `hdist_anti`: `dist2` is antitone on `[s₀, ∞)`.  
-   Similar to `hgap_anti`, using `antitoneOn_of_deriv_nonpos`. The derivative is nonpositive because of `hdist_bound` and because `gap s ≥ 0`. The last condition is handled by `nlinarith [hgap_nonneg s]` after rewriting the derivative.
-
-10. Prove `hhalf_bound`: for `t ≥ 0` and `2 * s₀ ≤ t`,  
-    `t * gap t ≤ dist2 (t / 2) - dist2 t`.  
-    This is the key quantitative estimate. It defines an auxiliary affine combination  
-    `q(r) = dist2 r + 2 * gap t * r` on the interval `[t / 2, t]`.  
-    On this interval, `q` is antitone:
-    - Its derivative is `2 * inner (y r - xstar) (dy r) + 2 * gap t`, obtained by adding the derivative of `dist2` and the derivative of `2 * gap t * r`.
-    - For `r` in this interval, one has `r ≥ s₀` since `s₀ ≤ t/2 ≤ r`. Also `t ≥ r`, so by antitone monotonicity of `gap`, `gap t ≤ gap r`.
-    - Using `hdist_bound r`, the derivative of `q` is at most  
-      `-2 * gap r + 2 * gap t ≤ 0`, since `gap t ≤ gap r`.  
-      The nonlinear arithmetic `nlinarith` proves this.
-    Since `q` is antitone on `[t/2, t]`, applying it to the endpoints `t/2 ≤ t` gives  
-    `q(t) ≤ q(t/2)`.  
-    Expanding `q` and rearranging with `nlinarith` yields exactly  
-    `dist2 (t/2) - dist2 t ≥ t * gap t` because the `2 * gap t * t` terms cancel after algebraic manipulation.
-
-11. Define `D r = dist2 (max r s₀)`.  
-    This truncates the argument at `s₀` from below, so the domain can start at `s₀`.
-
-12. Show `D` is nonnegative, antitone, and bounded below.  
-    - `hD_nonneg`: `0 ≤ D r` because it is a squared norm.
-    - `hD_anti`: if `a ≤ b`, then `max a s₀ ≤ max b s₀`, and by `hdist_anti` applied on `[s₀, ∞)`, `D a ≥ D b`.
-    - `hD_bdd`: `Set.range D` is bounded below by `0`.
-
-13. Since `D` is antitone and bounded below, its limit at `+∞` is the infimum:  
-    `hD_lim : Tendsto D atTop (nhds (sInf (Set.range D)))`, using `tendsto_atTop_ciInf hD_anti hD_bdd`.
-
-14. Relate this limit to `dist2`.  
-    For `t → +∞`, eventually `t ≥ s₀`, so `max t s₀ = t`. Therefore `D t = dist2 t` eventually, hence  
-    `hdist_lim : Tendsto dist2 atTop (nhds (sInf (Set.range D)))`.  
-    Similarly, since `t / 2 → +∞`, eventually `t / 2 ≥ s₀`, so `D (t / 2) = dist2 (t / 2)`, giving  
-    `hdist_half_lim : Tendsto (fun t => dist2 (t / 2)) atTop (nhds (sInf (Set.range D)))`.
-
-15. Subtract these two limits:  
-    `hdrop_lim : Tendsto (fun t => dist2 (t / 2) - dist2 t) atTop (nhds 0)`.  
-    Since both sequences converge to the same constant, their difference tends to `0`.
-
-16. Conclude with a squeeze theorem.  
-    The goal is to show `s * gap s → 0` as `s → +∞`. The proof uses `squeeze_zero'`, which requires:
-    - a lower bound eventually nonnegative: `0 ≤ t * gap t`, since `t ≥ 0` eventually and `hgap_nonneg t`;
-    - an upper bound eventually: `t * gap t ≤ dist2 (t / 2) - dist2 t`, from `hhalf_bound` applied after choosing `t` large enough so that `t ≥ 0` and `t ≥ 2 * s₀`;
-    - convergence of the upper bound to zero: `(dist2 (t / 2) - dist2 t) → 0`, from `hdrop_lim`.
-
-    The `filter_upwards` commands specify the eventual conditions. The final `simpa [gap] using hdrop_lim` converts the expression in the squeeze statement to the function whose limit is zero. Therefore `t * (f (y t) - fstar) → 0`, which is the desired conclusion.
+Finally, the squeeze argument is applied to the desired function
+\[
+s \mapsto s\bigl(f(y(s))-f^\star\bigr)=s g(s).
+\]
+For eventually all \(s\), one has \(s\ge 0\), and since \(g(s)\ge 0\), the product \(s g(s)\) is nonnegative. For eventually all \(s\), namely once \(s\ge \max(0,2s_0)\), the key inequality gives
+\[
+s g(s)
+\le
+d(s/2)-d(s).
+\]
+The upper bound \(d(s/2)-d(s)\) tends to \(0\), as shown above. The squeeze theorem `squeeze_zero'` therefore yields
+\[
+s g(s) \to 0
+\qquad\text{as } s\to\infty.
+\]
+Since \(g(s)=f(y(s))-f^\star\), this is exactly
+\[
+s\bigl(f(y(s))-f^\star\bigr) \to 0,
+\]
+which is the claimed conclusion.
 

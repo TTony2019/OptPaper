@@ -7,7 +7,7 @@ recall opial_lemma
 ```
 
 ## Statement explanation
-In the Lean source snippet, the declaration is `recall opial_lemma`. This is a declaration of kind `recall`, not a new theorem or lemma definition. It does not provide the full type of `opial_lemma`, nor does it contain any explicit variables, hypotheses, or conclusions. The only object introduced is the name `opial_lemma`, which is presumably a previously established lemma in the surrounding development. No mathematical formulas, symbols, or assumptions are stated in this snippet. In ordinary mathematical terminology, “recalling” here means making an existing declaration available in the current file, rather than restating its content.
+The supplied Lean source consists solely of the command `recall opial_lemma`. It does not contain an explicit theorem statement: there are no binders, variables, types, hypotheses, or conclusions written in the source. Its visible mathematical effect is to make the previously established declaration named `opial_lemma` available in the current context. The command `recall` therefore indicates that a known result is being cited or imported, rather than that a new proposition is being asserted or proved here. Since the type of `opial_lemma` is not included in the supplied source, the exact mathematical content of that result—its domain, assumptions, and conclusion—cannot be determined from this declaration alone. The only definite assertion is that a result called `opial_lemma` is available for later use.
 
 ## Lean proof
 ```lean
@@ -15,5 +15,5 @@ In the Lean source snippet, the declaration is `recall opial_lemma`. This is a d
 ```
 
 ## Proof explanation
-There is no separate proof accompanying this declaration. The source explicitly says `-- No separate proof part.` A `recall` command is not a proof step and does not require proving anything: it refers to an already-existing declaration and imports or reopens that name into the current context. Therefore, the usual Lean proof tactics such as `intro`, `rw`, `simp`, `exact`, and `linarith` do not appear and play no role here. The proof explanation is simply that there is no proof: the declaration only recalls the existing lemma `opial_lemma`.
+There is no separate proof part. The proof field is empty, containing only a comment that there is no separate proof. Consequently, no proof tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` occur, and no named theorem or lemma is invoked inside a proof to derive a conclusion. The `recall` command itself imposes no proof obligation: it merely makes the named result available. Because the statement of `opial_lemma` is not present in the supplied source, no step-by-step mathematical deduction can be reconstructed from this declaration. The only proof-related fact is that the result is being recalled rather than proved here.
 

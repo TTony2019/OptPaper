@@ -7,7 +7,7 @@ recall ERealFunction.conjugate
 ```
 
 ## Statement explanation
-The source consists only of the command `recall ERealFunction.conjugate`. This is a recall declaration, not a theorem, definition, or type statement. The identifier `ERealFunction.conjugate` names a constant called `conjugate` in the namespace `ERealFunction`. The source does not provide its type, definition, or meaning; in particular, it does not introduce any variable, type parameter, hypothesis, or conclusion. The declaration simply states that the already-existing declaration `ERealFunction.conjugate` is being recalled or made part of the current context. No mathematical formula is present.
+The declaration is a `recall` declaration rather than a theorem. It recalls the existing identifier `ERealFunction.conjugate`. The dotted name indicates that `conjugate` is a declaration in the namespace `ERealFunction`; the namespace name indicates that it concerns functions whose values are extended real numbers, and `conjugate` denotes the conjugate operation or definition attached to such functions. The supplied statement contains no binders, no variables, no typeclass assumptions, no hypotheses, and no conclusion. In particular, it does not assert a proposition \(P\), nor does it assert any equality, inequality, continuity, or convexity property. The only mathematical content visible in this snippet is that the previously defined object `ERealFunction.conjugate` is available for later use. Its precise type and defining formula are not displayed here; any formula or theorem about it must be recovered from the recalled declaration itself.
 
 ## Lean proof
 ```lean
@@ -15,5 +15,5 @@ The source consists only of the command `recall ERealFunction.conjugate`. This i
 ```
 
 ## Proof explanation
-There is no separate proof part. The proof section consists only of the comment `-- No separate proof part.`, indicating that no Lean proof term or tactic script accompanies the recall. Since `recall` is not a theorem, there are no hypotheses to introduce and no goals to prove, so commands such as `intro`, `rw`, `simp`, `exact`, and `linarith` do not appear and have no role here. The declaration merely references an existing constant and therefore needs no proof.
+There is no separate proof part. The Lean proof consists only of the comment `-- No separate proof part.`, so no tactics are executed. In particular, there is no use of `intro`, `rw`, `simp`, `exact`, or `linarith`, and no named theorem or lemma is invoked. The `recall` command does not constitute a mathematical proof step and does not establish any new fact; it only refers to the previously defined declaration `ERealFunction.conjugate`. Therefore, no mathematical argument needs to be reconstructed beyond the availability of that identifier and whatever its defining declaration states.
 

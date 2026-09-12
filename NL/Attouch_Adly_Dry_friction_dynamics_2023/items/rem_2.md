@@ -13,27 +13,42 @@ theorem remark_4_1 {H : Type*} [NormedAddCommGroup H] [NormedSpace ℝ H] {sbar 
 ```
 
 ## Statement explanation
-Let \(H\) be a type with the structure of an additive normed commutative group and a normed real vector space over \(\mathbb R\). Let \(sbar,\alpha\) be real numbers, and let \(x,y,dx\) be functions from \(\mathbb R\) to \(H\). Let \(xLimit\) be an element of \(H\).
+Let \(H\) be a real normed vector space, let \(\bar s,\alpha\in\mathbb R\), let \(x,y,dx:\mathbb R\to H\) be functions, and let \(x_{\mathrm{Limit}}\in H\). The theorem assumes:
 
-The assumptions are:
+- \(1<\alpha\);
+- \(0<\bar s\);
+- for every \(s\in[\bar s,\infty)\),
+  \[
+  x'(s)=dx(s)
+  \]
+  in the sense of `HasDerivAt`, and
+  \[
+  dx(s)+\frac{\alpha-1}{s}\bigl(x(s)-y(s)\bigr)=0;
+  \]
+- for every \(s\in[\bar s,\infty)\),
+  \[
+  y(s)=x_{\mathrm{Limit}}.
+  \]
 
-- \(hα : 1 < α\).
-- \(hpositiveTime : 0 < sbar\).
-- \(haverage :\) for every \(s \in \operatorname{Set.Ici} sbar\), meaning every \(s \ge sbar\), both
-  1. \(x\) has derivative \(dx(s)\) at \(s\), written \(\operatorname{HasDerivAt} x (dx s) s\);
-  2. the vector equation
-     \[
-     dx(s) + \frac{\alpha-1}{s}\bigl(x(s)-y(s)\bigr) = 0
-     \]
-     holds.
-- \(hstab :\) for every \(s \ge sbar\), \(y(s) = xLimit\).
-
-The conclusion is:
+The conclusion is that there exists a vector \(C\in H\) such that, for every \(s\in[\bar s,\infty)\),
 \[
-\exists C : H,\ \forall s \in \mathbb R,\ s \ge sbar \Rightarrow
-x(s) = xLimit + \bigl(s^{\alpha-1}\bigr)^{-1}\bullet C.
+x(s)=x_{\mathrm{Limit}}+\bigl(s^{\alpha-1}\bigr)^{-1}\cdot C,
 \]
-Here \(\operatorname{Real.rpow} s (\alpha-1)\) denotes the real power \(s^{\alpha-1}\), the symbol \(\bullet\) denotes scalar multiplication by a real number on \(H\), and \((s^{\alpha-1})^{-1}\) is its multiplicative inverse as a real number.
+where the scalar multiplication is the real vector-space action on \(H\).
+
+Mathematically, on the tail \([\bar s,\infty)\) the function \(x\) satisfies the first-order linear ODE
+\[
+dx(s)+\frac{\alpha-1}{s}\bigl(x(s)-y(s)\bigr)=0.
+\]
+Since \(y(s)=x_{\mathrm{Limit}}\) there, this becomes
+\[
+dx(s)+\frac{\alpha-1}{s}\bigl(x(s)-x_{\mathrm{Limit}}\bigr)=0.
+\]
+The usual integrating factor for this equation is \(s^{\alpha-1}\). The theorem says that \(s^{\alpha-1}\bigl(x(s)-x_{\mathrm{Limit}}\bigr)\) is constant on the tail, so that
+\[
+x(s)-x_{\mathrm{Limit}}=s^{-(\alpha-1)}C
+\]
+for one fixed vector \(C\), namely the value of the integrating-factor expression at the initial tail point \(\bar s\). Thus the conclusion describes all possible trajectories \(x\) on the tail: they are exactly \(x_{\mathrm{Limit}}\) plus a scalar multiple of the decaying factor \(s^{-(\alpha-1)}\).
 
 ## Lean proof
 ```lean
@@ -71,61 +86,143 @@ by
 ```
 
 ## Proof explanation
-The proof starts by obtaining a positive exponent:
+The proof begins by recording the positivity of the exponent:
 \[
-have\ {\_hp}: 0 < \alpha - 1 := sub\_pos.mpr hα,
+1<\alpha \implies 0<\alpha-1.
 \]
-which rewrites the hypothesis \(1<\alpha\) into \(0<\alpha-1\).
+In Lean this is `have _hp : 0 < α - 1 := sub_pos.mpr hα`. This positivity is natural for the integrating factor, although the later algebra mainly uses the positivity of the base \(s\), not of the exponent.
 
-Next it defines
+Next the proof defines the integrating-factor function
 \[
-F(t) = \operatorname{Real.rpow} t (\alpha-1)\bullet (x(t)-xLimit).
+F(t)=t^{\alpha-1}\cdot\bigl(x(t)-x_{\mathrm{Limit}}\bigr).
 \]
-This is the intended “integrating factor” adjustment of \(x(t)-xLimit\).
+In Lean this is
+`let F : ℝ → H := fun t => Real.rpow t (α - 1) • (x t - xLimit)`.
+The scalar \(t^{\alpha-1}\) is the real power `Real.rpow t (α - 1)`. The purpose of \(F\) is to absorb the coefficient \((\alpha-1)/s\) in the ODE.
 
-The first key claim is \(hFzero\): for every \(s \ge sbar\), \(F\) has derivative \(0\) at \(s\). The proof fixes \(s\) with \(s\ge sbar\). From \(0<sbar\le s\) it derives \(0<s\). It applies \(haverage\) at this \(s\), yielding both \(\operatorname{HasDerivAt} x (dx s) s\) and
+The proof then establishes that \(F\) has derivative zero at every point of the tail. The relevant claim is
+\[
+\forall s\in[\bar s,\infty),\quad F'(s)=0.
+\]
+In Lean this is `hFzero : ∀ s ∈ Set.Ici sbar, HasDerivAt F 0 s`.
+
+To prove this, the proof fixes an arbitrary \(s\in[\bar s,\infty)\). The tactic `intro s hs` introduces \(s\) and the hypothesis \(hs:s\in[\bar s,\infty)\). Since \(\bar s>0\) and \(\bar s\le s\), it obtains
+\[
+0<s
+\]
+by `lt_of_lt_of_le hpositiveTime hs`, stored as `hspos`.
+
+Then `havg := haverage s hs` extracts the conjunction saying that \(x\) has derivative \(dx(s)\) at \(s\), and that
 \[
 dx(s)+\frac{\alpha-1}{s}\bigl(x(s)-y(s)\bigr)=0.
 \]
-Using \(hstab\), it rewrites \(y(s)\) to \(xLimit\), so the equation becomes
+Using the hypothesis `hstab s hs`, which says \(y(s)=x_{\mathrm{Limit}}\), the proof rewrites \(y(s)\) to \(x_{\mathrm{Limit}}\). After this rewrite, the ODE hypothesis becomes
 \[
-dx(s)+\frac{\alpha-1}{s}\bigl(x(s)-xLimit\bigr)=0.
-\]
-The declaration then applies the helper lemma `integrating_factor_deriv_zero` to conclude exactly that \(F\) has derivative zero at \(s\). This helper is the mathematical fact that this particular differential equation for \(x\) is equivalent to the vanishing derivative of the factored expression \(F\).
-
-The next part proves that \(F\) is constant on the whole interval \([sbar,\infty)\). The proof first notes \(hdiff\): at each \(t\ge sbar\), \(F\) is differentiable within the set \(\{s \mid sbar \le s\}\), because it actually has a full derivative at \(t\). Then it defines \(hderiv\): the derivative within that interval is zero at each such \(t\). This follows from having derivative zero at \(t\), using `HasFDerivWithinAt.fderivWithin` together with the fact that the interval has a unique derivative direction at every point. Then the proof invokes the theorem
-\[
-(convex\_Ici sbar).is\_const\_of\_fderivWithin\_eq\_zero
-\]
-with the differentiability data, the zero derivative data, and the two points \(s\) and \(sbar\). Since the interval is convex and \(F\) is differentiable on it with zero derivative, \(F\) is constant, giving
-\[
-F(s)=F(sbar).
+dx(s)+\frac{\alpha-1}{s}\bigl(x(s)-x_{\mathrm{Limit}}\bigr)=0.
 \]
 
-With this equality in hand, the rest is algebraic manipulation. Since \(s\ge sbar>0\), the base \(s\) is positive, hence
+At this point the proof applies the cited private theorem `integrating_factor_deriv_zero`. Its statement, specialized to \(p=\alpha-1\), says: if \(0<s\), if \(x\) has derivative \(dx(s)\) at \(s\), and if
 \[
-Real.rpow s (\alpha-1) \neq 0.
+dx(s)+\frac{\alpha-1}{s}\bigl(x(s)-x_{\mathrm{Limit}}\bigr)=0,
 \]
-The proof defines \(hdiv\) by applying to the equality \(F(s)=F(sbar)\) the scalar multiplication map
+then the function
 \[
-v \mapsto \bigl(\operatorname{Real.rpow} s (\alpha-1)\bigr)^{-1}\bullet v.
+t\mapsto t^{\alpha-1}\cdot\bigl(x(t)-x_{\mathrm{Limit}}\bigr)
 \]
-Thus \(hdiv\) states
+has derivative \(0\) at \(s\). Concretely, the product rule gives
 \[
-\bigl(s^{\alpha-1}\bigr)^{-1}\bullet F(s)
+F'(s)=(\alpha-1)s^{\alpha-2}\bigl(x(s)-x_{\mathrm{Limit}}\bigr)
++s^{\alpha-1}dx(s),
+\]
+which is
+\[
+s^{\alpha-2}\left((\alpha-1)\bigl(x(s)-x_{\mathrm{Limit}}\bigr)+s\,dx(s)\right).
+\]
+Multiplying the ODE by \(s\) gives
+\[
+s\,dx(s)+(\alpha-1)\bigl(x(s)-x_{\mathrm{Limit}}\bigr)=0,
+\]
+so the derivative is indeed zero. This proves `hFzero`.
+
+The proof now chooses the constant
+\[
+C=F(\bar s).
+\]
+In Lean this is `refine ⟨F sbar, ?_⟩`, where the existential witness is \(F(\bar s)\). It remains to prove that for every \(s\in[\bar s,\infty)\),
+\[
+x(s)=x_{\mathrm{Limit}}+\bigl(s^{\alpha-1}\bigr)^{-1}\cdot F(\bar s).
+\]
+The tactic `intro s hs` introduces an arbitrary such \(s\).
+
+The proof next prepares to use the constancy theorem for functions with zero derivative on a convex set. First it shows that \(F\) is differentiable within the tail at every point of the tail:
+\[
+\forall t\in[\bar s,\infty),\quad
+F\text{ is differentiable within }[\bar s,\infty)\text{ at }t.
+\]
+This is `hdiff`. It is obtained from `hFzero t ht`: since \(F\) has a derivative at \(t\), it is differentiable at \(t\), hence also differentiable within the subset \([\bar s,\infty)\).
+
+Second, it shows that the within-derivative of \(F\) is zero everywhere on the tail:
+\[
+\forall t\in[\bar s,\infty),\quad
+\operatorname{fderivWithin}_{\mathbb R} F\,[\bar s,\infty)\,t=0.
+\]
+This is `hderiv`. The proof uses `HasFDerivWithinAt.fderivWithin`: from \(F'(t)=0\) one gets a within-derivative \(0\) on the tail, and since the interval \([\bar s,\infty)\) is uniquely differentiable at each of its points, the within Fréchet derivative is exactly that zero derivative. The relevant uniqueness fact is supplied by `uniqueDiffOn_Ici sbar t ht`. The tactic `simpa` then simplifies the derivative expression to \(0\).
+
+Now the proof applies constancy on a convex set. The interval \([\bar s,\infty)\) is convex, as given by `convex_Ici sbar`. The theorem `is_const_of_fderivWithin_eq_zero` says that if a function is differentiable within a convex set at every point and its within-derivative is zero there, then the function is constant on that set. Applying it to \(F\), \(hdiff\), and \(hderiv\), and using the two points \(s\) and \(\bar s\) of \([\bar s,\infty)\), gives
+\[
+F(s)=F(\bar s).
+\]
+In Lean the membership \(s\in[\bar s,\infty)\) is `hs`, and \(\bar s\in[\bar s,\infty)\) is proved by `Set.mem_Ici.mpr le_rfl`, since \(\bar s\le\bar s\).
+
+The proof then recalls that \(s>0\), again from \(\bar s>0\) and \(\bar s\le s\), and proves that
+\[
+s^{\alpha-1}\ne0.
+\]
+This follows from `Real.rpow_pos_of_pos hspos (α - 1)`: because the base \(s\) is positive, the real power \(s^{\alpha-1}\) is positive, hence nonzero.
+
+Next, the equality \(F(s)=F(\bar s)\) is multiplied on the left by the scalar \(\bigl(s^{\alpha-1}\bigr)^{-1}\). In Lean this is done with `congrArg`:
+\[
+\bigl(s^{\alpha-1}\bigr)^{-1}\cdot F(s)
 =
-\bigl(s^{\alpha-1}\bigr)^{-1}\bullet F(sbar).
+\bigl(s^{\alpha-1}\bigr)^{-1}\cdot F(\bar s).
 \]
-Using the definition of \(F(s)\), this becomes
+The resulting equality is called `hdiv`.
+
+The goal is changed to the desired identity with \(C=F(\bar s)\):
 \[
-\bigl(s^{\alpha-1}\bigr)^{-1}\bullet
-\Bigl(\bigl(s^{\alpha-1}\bigr)\bullet (x(s)-xLimit)\Bigr)
+x(s)=x_{\mathrm{Limit}}+\bigl(s^{\alpha-1}\bigr)^{-1}\cdot F(\bar s).
+\]
+The equality `hdiv` is then rewritten using the definition of \(F\) at \(s\):
+\[
+F(s)=s^{\alpha-1}\cdot\bigl(x(s)-x_{\mathrm{Limit}}\bigr).
+\]
+Thus `hdiv` becomes
+\[
+\bigl(s^{\alpha-1}\bigr)^{-1}\cdot
+\left(s^{\alpha-1}\cdot\bigl(x(s)-x_{\mathrm{Limit}}\bigr)\right)
 =
-\bigl(s^{\alpha-1}\bigr)^{-1}\bullet F(sbar).
+\bigl(s^{\alpha-1}\bigr)^{-1}\cdot F(\bar s).
 \]
-The `rw` command applies associativity of scalar multiplication, cancellation of \(s^{\alpha-1}\) with its inverse, and the identity \(1\bullet v=v\). The equation simplifies to
+
+The proof simplifies the left-hand side by rewriting with `smul_smul`, `inv_mul_cancel₀ hpow_ne`, and `one_smul`. The first rewrites associativity of scalar multiplication:
 \[
-x(s)-xLimit = \bigl(s^{\alpha-1}\bigr)^{-1}\bullet F(sbar).
+a^{-1}\cdot(a\cdot z)=(a^{-1}a)\cdot z.
 \]
-Finally, `sub_eq_iff_eq_add'.mp` converts the equality \(x(s)-xLimit = C'\) into \(x(s)=xLimit+C'\). Therefore, choosing \(C=F(sbar)\) establishes exactly the desired existential statement. No use of `linarith` is needed; the positivity and cancellation arguments come from already proved facts about real powers, inequalities, and scalar multiplication.
+The second uses \(a\neq0\) to simplify \(a^{-1}a=1\). The third removes the scalar \(1\). Hence `hdiv` becomes
+\[
+x(s)-x_{\mathrm{Limit}}
+=
+\bigl(s^{\alpha-1}\bigr)^{-1}\cdot F(\bar s).
+\]
+Finally, `exact sub_eq_iff_eq_add'.mp hdiv` applies the elementary equivalence
+\[
+a-b=c \iff a=b+c
+\]
+to convert this into
+\[
+x(s)=x_{\mathrm{Limit}}+\bigl(s^{\alpha-1}\bigr)^{-1}\cdot F(\bar s).
+\]
+This is exactly the required formula with \(C=F(\bar s)\), completing the existential proof.
+
+No `linarith` call occurs in this proof. The positivity and order facts are handled by `sub_pos.mpr`, `lt_of_lt_of_le`, and the real-power positivity lemma.
 

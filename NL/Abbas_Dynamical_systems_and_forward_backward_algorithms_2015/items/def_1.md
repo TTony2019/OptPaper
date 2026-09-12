@@ -16,27 +16,23 @@ def IsStrongOrbitWithVelocity {H : Type*} [NormedAddCommGroup H]
 ```
 
 ## Statement explanation
-The declaration defines a proposition `IsStrongOrbitWithVelocity` depending on a real inner-product space `H`, a function `Phi`, a map `B`, a real parameter `lam`, and four time-dependent curves `x`, `v`, `dx`, `dv`.
-
-Here, `H` is an arbitrary type with a normed additive commutative group structure and a real inner product. Thus `H` is a real Hilbert-like inner-product space, but no completeness is assumed beyond what Mathlib's typeclasses impose.
-
-- `Phi : H → Set.Ioi (⊥ : EReal)`: For every point of `H`, `Phi` gives an extended-real value strictly greater than the bottom element `⊥` of `EReal`. In other words, `Phi` is an `EReal`-valued function that never takes the value `-∞`; it may take real values or possibly `+∞`.
-- `B : H → H`: A vector field or nonlinear map on `H`.
-- `lam : ℝ`: A real scalar coefficient.
-- `x v dx dv : ℝ → H`: Four curves indexed by real time. Intended informally: `x` is position, `v` is velocity, `dx` is the time-derivative of `x`, and `dv` is the time-derivative of `v`.
-
-The proposition is the conjunction of four conditions:
-
-1. `∀ b : ℝ, 0 < b → AbsolutelyContinuousOnInterval x 0 b`: For every positive real `b`, the curve `x` is absolutely continuous on the interval from `0` to `b`.
-2. `∀ b : ℝ, 0 < b → AbsolutelyContinuousOnInterval v 0 b`: The same absolute continuity condition holds for `v` on every interval `[0,b]` with `b > 0`.
-3. `∀ t, 0 ≤ t → v t ∈ ERealFunction.subdifferential Phi (x t)`: For every nonnegative time `t`, the vector `v t` belongs to the subdifferential of the extended-real-valued function `Phi` at the point `x t`.
-4. `∀ᵐ t ∂volume.restrict (Set.Ici 0), HasDerivAt x (dx t) t ∧ HasDerivAt v (dv t) t ∧ lam • dx t + dv t + v t + B (x t) = 0`: For almost every nonnegative time `t` with respect to Lebesgue measure restricted to `[0,∞)`, the curve `x` has derivative `dx t` at `t`, the curve `v` has derivative `dv t` at `t`, and the vector equation
+The declaration defines a predicate `IsStrongOrbitWithVelocity`. It is parameterized by an implicit type \(H\) with the typeclass assumptions `[NormedAddCommGroup H]` and `[InnerProductSpace ℝ H]`, so \(H\) is a real inner product space and a normed additive commutative group. Its explicit arguments are an extended-real-valued function
 \[
-lam \cdot dx(t) + dv(t) + v(t) + B(x(t)) = 0
+\Phi : H \to \{\, y \in \mathrm{EReal} \mid y > \bot \,\},
 \]
-holds in `H`.
+where \(\bot\) is the bottom element of the extended real order and `Set.Ioi (⊥ : EReal)` is the subtype of extended reals strictly above \(\bot\); a map \(B : H \to H\); a real parameter \(\lambda \in \mathbb{R}\); and four curves \(x, v, dx, dv : \mathbb{R} \to H\).
 
-Thus the declaration defines what it means for `(x,v)` to be a strong orbit with velocity with respect to `Phi`, `B`, and the parameter `lam`, with `v` in the subdifferential and an almost-everywhere differential equation linking the derivatives, velocity, and map `B`.
+For these data, the proposition `IsStrongOrbitWithVelocity Phi B lam x v dx dv` is the conjunction of four conditions. First, for every positive real \(b\), the curve \(x\) is absolutely continuous on the interval from \(0\) to \(b\). Second, for every positive real \(b\), the curve \(v\) is absolutely continuous on the same kind of interval. Third, for every \(t\) with \(0 \le t\), the vector \(v(t)\) belongs to the subdifferential of \(\Phi\) at \(x(t)\), i.e.
+\[
+v(t) \in \partial \Phi(x(t)),
+\]
+using the imported subdifferential operator `ERealFunction.subdifferential`. Fourth, for almost every \(t\) with respect to the Lebesgue measure restricted to \( [0,\infty) \), the curve \(x\) has derivative \(dx(t)\) at \(t\), the curve \(v\) has derivative \(dv(t)\) at \(t\), and the vector equation
+\[
+\lambda \cdot dx(t) + dv(t) + v(t) + B(x(t)) = 0
+\]
+holds in \(H\).
+
+In ordinary language, the predicate says that the pair of curves \((x,v)\) is a strong orbit with velocity \(v\): both \(x\) and \(v\) are absolutely continuous on every finite interval starting at \(0\); the velocity \(v(t)\) is always a subgradient of \(\Phi\) at \(x(t)\) for nonnegative times; and almost everywhere on \( [0,\infty) \), the supplied curves \(dx\) and \(dv\) are the derivatives of \(x\) and \(v\), and these derivatives satisfy the differential equation \(\lambda dx + dv + v + B(x) = 0\). The subgradient condition is imposed pointwise for every \(t \ge 0\), whereas the derivative and differential equation condition is imposed only almost everywhere.
 
 ## Lean proof
 ```lean
@@ -44,5 +40,5 @@ Thus the declaration defines what it means for `(x,v)` to be a strong orbit with
 ```
 
 ## Proof explanation
-This declaration is a `def`, not a theorem. There is no separate proof component in the source. The declaration simply states the defining formula for `IsStrongOrbitWithVelocity` as a proposition built from the conjunction of the four conditions above. Since it is a definition, its truth for specific choices of inputs would have to be established separately, but no such Lean proof is supplied here.
+There is no separate proof. The declaration is a `def`, and its body is exactly the four-conjunct proposition described above. Consequently there are no proof steps, no tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith`, and no named lemmas or previously established facts are invoked. The entire mathematical content is the definitional unfolding of `IsStrongOrbitWithVelocity` into the four conditions: absolute continuity of \(x\), absolute continuity of \(v\), the pointwise subgradient condition \(v(t) \in \partial \Phi(x(t))\) for all \(t \ge 0\), and the almost-everywhere derivative and differential equation condition on \( [0,\infty) \).
 

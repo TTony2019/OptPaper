@@ -27,54 +27,46 @@ theorem bregman_gap_properties {H : Type*} [NormedAddCommGroup H] [InnerProductS
 ```
 
 ## Statement explanation
-The theorem `bregman_gap_properties` assumes that \(H\) is a complete real inner product space, with the normed additive commutative group structure required by the typeclass assumptions. Let
+The theorem `bregman_gap_properties` is stated in a complete real inner product space \(H\), hence a real Hilbert space. It fixes an extended-real-valued function \(\Phi\) whose values lie in \(\mathbb R\cup\{+\infty\}\) rather than in the full extended real line; the hypothesis `hPhi` says \(\Phi\in\Gamma_0(H)\), i.e. \(\Phi\) is a proper convex lower semicontinuous extended-real function in the usual convex-analysis sense. The notation \((\Phi(x))_{\mathbb R}\) denotes the `toReal` value of the extended real \(\Phi(x)\), and \(\partial\Phi\) denotes its subdifferential.
+
+The data are a set \(S\subseteq H\), a map \(B:H\to H\), two curves \(x,v:\mathbb R\to H\), and a point \(z\in H\) with \(z\in S\). The main hypotheses are:
+
 \[
-\Phi : H \to \operatorname{Set.Ioi}(\bot : \mathrm{EReal})
+\forall t\ge 0,\quad v(t)\in \partial\Phi(x(t)),
 \]
-be an extended-real-valued function whose values lie strictly above the bottom element of \(\mathrm{EReal}\), and assume
+
+so \(v(t)\) is a subgradient of \(\Phi\) at \(x(t)\) for every nonnegative time; and
+
 \[
-h\Phi : \Phi \in \mathrm{ERealFunction.gammaZero}\;H.
+\forall w\in S,\quad -B(w)\in \partial\Phi(w),
 \]
-Further data are a set \(S \subseteq H\), a map \(B : H \to H\), curves \(x, v : \mathbb R \to H\), and a point \(z \in H\).
 
-The assumptions are:
+which is the stationarity condition \(0\in B(w)+\partial\Phi(w)\) for every \(w\in S\).
 
-- \(hz : z \in S\).
-- For every \(t \ge 0\), \(v(t)\) is in the subdifferential of \(\Phi\) at \(x(t)\):
-  \[
-  \forall t,\; 0 \le t \implies v(t)\in \mathrm{ERealFunction.subdifferential}\;\Phi\;(x(t)).
-  \]
-- For every \(w \in S\), \(-B(w)\) is in the subdifferential of \(\Phi\) at \(w\):
-  \[
-  \forall w,\; w\in S \implies -B(w)\in \mathrm{ERealFunction.subdifferential}\;\Phi\;w.
-  \]
-- For every \(b>0\), the curves \(x\) and \(v\) are absolutely continuous on \([0,b]\).
-- For every \(b>0\), almost everywhere on \([0,b]\) with respect to Lebesgue measure restricted to \([0,b]\), the curve \(x\) has derivative \(\operatorname{deriv}x(t)\), and similarly \(v\) has derivative \(\operatorname{deriv}v(t)\).
-- For every \(b>0\), \(v\) and \(\operatorname{deriv}x\) are \(L^2\) on \([0,b]\) with respect to restricted Lebesgue measure.
-- The function \(g:\mathbb R \to \mathbb R\) is defined pointwise by
-  \[
-  g(t)
-  =
-  (\Phi(z):\mathrm{EReal}).\mathrm{toReal}
-  -
-  (\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
-  -
-  \langle z-x(t), v(t)\rangle,
-  \]
-  where \(\langle \cdot,\cdot\rangle\) denotes the real inner product.
+There are also regularity assumptions. For every \(b>0\), the curves \(x\) and \(v\) are absolutely continuous on \([0,b]\), and almost everywhere on \([0,b]\) they have derivatives \(\operatorname{deriv}x(t)\) and \(\operatorname{deriv}v(t)\). Moreover \(v\) and \(\operatorname{deriv}x\) are square-integrable on each \([0,b]\). These are exactly the hypotheses needed to apply the subgradient chain rule on finite intervals.
 
-The conclusion is a conjunction of two statements:
+A real-valued function \(g:\mathbb R\to\mathbb R\) is then assumed to satisfy, for every \(t\),
 
-1. For every \(t \ge 0\),
-   \[
-   0 \le g(t).
-   \]
-2. For almost every \(t \in [0,\infty)\) with respect to Lebesgue measure restricted to \([0,\infty)\),
-   \[
-   \operatorname{deriv} g(t)
-   =
-   \langle x(t)-z, \operatorname{deriv}v(t)\rangle.
-   \]
+\[
+g(t)=(\Phi(z))_{\mathbb R}-(\Phi(x(t)))_{\mathbb R}
+-\langle z-x(t),v(t)\rangle .
+\]
+
+This is the Bregman gap between \(z\) and \(x(t)\), measured using the subgradient \(v(t)\).
+
+The conclusion is a conjunction:
+
+\[
+\bigl(\forall t,\;0\le t\Rightarrow 0\le g(t)\bigr)
+\]
+
+and, almost everywhere with respect to Lebesgue measure restricted to \([0,\infty)\),
+
+\[
+\operatorname{deriv}g(t)=\langle x(t)-z,\operatorname{deriv}v(t)\rangle .
+\]
+
+Thus the Bregman gap is nonnegative along nonnegative times, and its derivative is given almost everywhere by the inner product of \(x(t)-z\) with the derivative of \(v\).
 
 ## Lean proof
 ```lean
@@ -145,113 +137,115 @@ by
 ```
 
 ## Proof explanation
-The proof begins by extracting properness information about \(\Phi\) from the hypothesis \(h\Phi\). The command
-```lean
-have hdomPhi := (ERealFunction.isProper_of_mem_gammaZero hPhi).2
-```
-obtains the properness component needed for domain arguments. Using \(hz : z \in S\) and the assumption \(hsolution\), the proof obtains that \(-B z\) is a subgradient of \(\Phi\) at \(z\). Since subdifferentiability implies membership in the effective domain, it concludes
-```lean
-hzdom : z ∈ ERealFunction.effectiveDomain Phi.
-```
+The proof begins by extracting properness information from \(\Phi\in\Gamma_0(H)\). The theorem `isProper_of_mem_gammaZero` says that a function in \(\Gamma_0(H)\), viewed as an extended-real-valued function, is proper. The proof takes the second component of this properness assertion as `hdomPhi`. In this setting that component controls the failure of the value \(-\infty\). The proof then uses `SubdifferentiableAt.mem_effectiveDomain` together with the stationarity condition. Since `hsolution z hz` gives \(-B(z)\in\partial\Phi(z)\), the lemma implies that \(z\) lies in the effective domain of \(\Phi\), meaning \((\Phi(z))_{\mathbb R}\) is finite. This fact is named `hzdom`.
 
-The two conclusions are then proved separately using `constructor`.
+The proof then uses `constructor` to split the desired conjunction into its two parts.
 
-For the first conclusion, fix \(t\) with \(0 \le t\). The proof applies a subgradient inequality for functions in `gammaZero`:
-```lean
-ERealFunction.subgradient_ineq_toReal_of_mem_gammaZero
-```
-using the subgradient \(v(t)\) at \(x(t)\) and the fact \(z\) is in the effective domain of \(\Phi\). This gives the inequality
+For the first part, `intro t ht` fixes an arbitrary \(t\) with \(0\le t\). The proof applies `subgradient_ineq_toReal_of_mem_gammaZero`. That lemma states that if \(f\in\Gamma_0(H)\), \(u\in\partial f(x)\), and \(y\) lies in the effective domain of \(f\), then
+
 \[
-(\Phi(x(t)))_{\mathbb R}
-+
-\langle v(t), z-x(t)\rangle
-\le
-(\Phi(z))_{\mathbb R}.
+(f(y))_{\mathbb R}\ge (f(x))_{\mathbb R}+\langle u,y-x\rangle .
 \]
-After rewriting \(g(t)\) using the definition \(hg\), and commuting the inner product with `real_inner_comm`, the goal becomes a linear inequality that `linarith` closes.
 
-For the second conclusion, the proof first proves the derivative equality locally on each interval \([0,T]\), where \(T=n+1\) for a natural number \(n\). It sets \(T = n+1\) and proves \(T>0\) using `positivity`.
+Specialized here to \(f=\Phi\), \(x=x(t)\), \(u=v(t)\), and \(y=z\), and using `hsubgradient t ht` together with `hzdom`, it gives
 
-The main local step is an application of the library theorem
-```lean
-subgradient_chain_rule
-```
-to \(\Phi\), \(x\), \(v\), and \(T\). The proof supplies this theorem with the absolute continuity of \(x\) on \([0,T]\), the subgradient condition for \(v(t)\) on \([0,T]\), the fact that \(x(t)\) lies in the effective domain of \(\Phi\), the almost-everywhere derivative condition for \(x\), and the \(L^2\) hypotheses for \(v\) and \(\operatorname{deriv}x\). The chain rule gives two pieces of information used later:
-
-- \(hchain.1\) is an almost-everywhere differentiability statement for the function
-  \[
-  s \mapsto (\Phi(x(s)):\mathrm{EReal}).\mathrm{toReal}.
-  \]
-- \(hchain.2\) is the almost-everywhere derivative formula
-  \[
-  \operatorname{deriv}\bigl(s\mapsto (\Phi(x(s)):\mathrm{EReal}).\mathrm{toReal}\bigr)(t)
-  =
-  \langle v(t), \operatorname{deriv}x(t)\rangle.
-  \]
-
-The proof then uses `filter_upwards` to collect the following almost-everywhere facts on \([0,T]\):
-
-- the derivative condition for \(x\),
-- the derivative condition for \(v\),
-- the chain-rule derivative formula for \(\Phi(x(t))\),
-- membership in the interval \([0,T]\),
-- differentiability of \(s \mapsto (\Phi(x(s)))_{\mathbb R}\).
-
-On this set of points \(t\), the proof constructs several derivative facts:
-
-1. The function
-   \[
-   s \mapsto (\Phi(x(s)):\mathrm{EReal}).\mathrm{toReal}
-   \]
-   has derivative
-   \[
-   \operatorname{deriv}\bigl(s\mapsto (\Phi(x(s)):\mathrm{EReal}).\mathrm{toReal}\bigr)(t).
-   \]
-
-2. The inner-product term
-   \[
-   s \mapsto \langle z-x(s), v(s)\rangle
-   \]
-   has derivative
-   \[
-   \langle z-x(t), \operatorname{deriv}v(t)\rangle
-   -
-   \langle \operatorname{deriv}x(t), v(t)\rangle.
-   \]
-   This is obtained using the derivative rules for \(x\) and \(v\), followed by simplification with `simp` and `ring`.
-
-3. The combined expression
-   \[
-   s \mapsto
-   (\Phi(z):\mathrm{EReal}).\mathrm{toReal}
-   -
-   (\Phi(x(s)):\mathrm{EReal}).\mathrm{toReal}
-   -
-   \langle z-x(s), v(s)\rangle
-   \]
-   has derivative
-   \[
-   \langle x(t)-z, \operatorname{deriv}v(t)\rangle.
-   \]
-   The proof uses `convert` and the chain-rule formula \(hchain.2\) to cancel the terms involving \(\operatorname{deriv}x(t)\), and uses `ring` for the remaining algebra.
-
-Since \(g\) is pointwise equal to that combined expression by \(hg\), rewriting the goal and applying the derivative equality yields
 \[
-\operatorname{deriv} g(t)
-=
-\langle x(t)-z, \operatorname{deriv}v(t)\rangle
+(\Phi(z))_{\mathbb R}\ge (\Phi(x(t)))_{\mathbb R}
++\langle v(t),z-x(t)\rangle .
 \]
-almost everywhere on \([0,T]\).
 
-Finally, the proof observes that
+The proof rewrites \(g(t)\) using `hg t`, obtaining
+
 \[
-[0,\infty)
-=
-\bigcup_{n\in\mathbb N} [0,n+1].
+g(t)=(\Phi(z))_{\mathbb R}-(\Phi(x(t)))_{\mathbb R}
+-\langle z-x(t),v(t)\rangle .
 \]
-For any \(t \ge 0\), the lemma `exists_nat_ge` gives a natural number \(n\) with \(t \le n+1\). Conversely, every interval \([0,n+1]\) lies in \([0,\infty)\). The proof then applies
-```lean
-MeasureTheory.ae_restrict_iUnion_iff
-```
-to lift the local almost-everywhere equality on each interval \([0,n+1]\) to the whole union \([0,\infty)\).
+
+It then rewrites \(\langle z-x(t),v(t)\rangle\) as \(\langle v(t),z-x(t)\rangle\) using `real_inner_comm`, the symmetry of the real inner product. The inequality now directly implies \(0\le g(t)\), and `linarith` finishes this linear real inequality.
+
+For the second part, the proof proves the derivative identity locally on every interval \([0,T]\) with \(T=n+1\) for \(n\in\mathbb N\), and then passes to the countable union \([0,\infty)=\bigcup_{n\in\mathbb N}[0,n+1]\).
+
+For a fixed \(n\), it sets \(T=n+1\) and proves \(0<T\) using `positivity`. It then applies `subgradient_chain_rule`. That theorem says: if \(\Phi\in\Gamma_0(H)\), \(x\) is absolutely continuous on \([0,b]\), \(v(t)\in\partial\Phi(x(t))\) for almost every \(t\in[0,b]\), \(x(t)\) lies in the effective domain of \(\Phi\) for every \(t\in[0,b]\), \(x\) is differentiable almost everywhere with derivative \(\operatorname{deriv}x(t)\), and both \(v\) and \(\operatorname{deriv}x\) are in \(L^2([0,b])\), then the function
+
+\[
+t\mapsto (\Phi(x(t)))_{\mathbb R}
+\]
+
+is absolutely continuous on \([0,b]\), and for almost every \(t\in[0,b]\),
+
+\[
+\operatorname{deriv}\bigl(t\mapsto (\Phi(x(t)))_{\mathbb R}\bigr)(t)
+=\langle v(t),\operatorname{deriv}x(t)\rangle .
+\]
+
+In the proof, the almost-everywhere subgradient hypothesis is supplied by restricting `hsubgradient` to the interval using `ae_restrict_mem measurableSet_Icc`: almost every \(t\) in the restricted interval lies in \([0,T]\), so \(t\ge0\), and then `hsubgradient t ht.1` applies. The effective-domain hypothesis is obtained pointwise from `SubdifferentiableAt.mem_effectiveDomain`: since \(v(t)\in\partial\Phi(x(t))\), the point \(x(t)\) lies in the effective domain of \(\Phi\). The remaining inputs are `hx_ac T hT`, `hx_deriv T hT`, `hvL2 T hT`, and `hdxL2 T hT`. Let \(\phi(t)=(\Phi(x(t)))_{\mathbb R}\). The chain rule returns that \(\phi\) is absolutely continuous on \([0,T]\) and that almost everywhere on \([0,T]\),
+
+\[
+\operatorname{deriv}\phi(t)=\langle v(t),\operatorname{deriv}x(t)\rangle .
+\]
+
+Next, the proof uses `filter_upwards` to combine several almost-everywhere facts on \([0,T]\): differentiability of \(x\), differentiability of \(v\), the chain-rule derivative identity for \(\phi\), membership of \(t\) in \([0,T]\), and almost-everywhere differentiability of \(\phi\) coming from its absolute continuity. The fact `hchain.1.ae_differentiableAt` says that the absolutely continuous function \(\phi\) is differentiable almost everywhere; after restricting to \([0,T]\), it gives differentiability of \(\phi\) at the current \(t\). Since \(0<T\), the unordered interval `uIcc 0 T` is the same as the ordered interval \([0,T]\), so the proof converts the membership `ht` accordingly. Then `.hasDerivAt` turns differentiability of \(\phi\) at \(t\) into the statement that \(\phi\) has derivative
+
+\[
+\operatorname{deriv}\phi(t)
+\]
+
+at \(t\).
+
+The proof then computes the derivative of
+
+\[
+t\mapsto \langle z-x(t),v(t)\rangle .
+\]
+
+Using the constant rule, the difference rule, and the product rule for the real inner product, its derivative is
+
+\[
+\langle -\operatorname{deriv}x(t),v(t)\rangle
++\langle z-x(t),\operatorname{deriv}v(t)\rangle ,
+\]
+
+which is rewritten as
+
+\[
+\langle z-x(t),\operatorname{deriv}v(t)\rangle
+-\langle \operatorname{deriv}x(t),v(t)\rangle .
+\]
+
+The Lean proof implements this by applying `HasDerivAt.sub` and `HasDerivAt.inner`, then simplifying with `inner_sub_left` and `real_inner_comm`.
+
+Using this, the proof computes the derivative of the full expression
+
+\[
+t\mapsto (\Phi(z))_{\mathbb R}
+-(\Phi(x(t)))_{\mathbb R}
+-\langle z-x(t),v(t)\rangle .
+\]
+
+The derivative of the constant term \((\Phi(z))_{\mathbb R}\) is \(0\). Subtracting the derivative of the \(\Phi(x(t))\) term and the derivative of the inner-product term gives
+
+\[
+-\langle v(t),\operatorname{deriv}x(t)\rangle
+-\langle z-x(t),\operatorname{deriv}v(t)\rangle
++\langle \operatorname{deriv}x(t),v(t)\rangle .
+\]
+
+By symmetry of the real inner product, the first and third terms cancel, leaving
+
+\[
+-\langle z-x(t),\operatorname{deriv}v(t)\rangle
+=\langle x(t)-z,\operatorname{deriv}v(t)\rangle .
+\]
+
+The Lean proof carries out these algebraic rearrangements with `convert`, `simp only [hphit, sub_eq_add_neg, real_inner_comm]`, `rw` using \(x(t)-z=-(z-x(t))\), `inner_neg_right`, and `ring`.
+
+The proof then uses `funext` and `hg` to show that \(g\) is pointwise equal to this explicit expression. Rewriting with this function equality reduces the goal to the just-proved derivative statement, and `hraw.deriv` converts the `HasDerivAt` fact into the equality of `deriv` values. This proves the local almost-everywhere derivative identity on each interval \([0,T]\).
+
+Finally, the proof rewrites
+
+\[
+[0,\infty)=\bigcup_{n\in\mathbb N}[0,n+1].
+\]
+
+For \(t\ge0\), `exists_nat_ge t` chooses a natural number \(n\) with \(t\le n\), hence \(t\le n+1\). Conversely, membership in some \([0,n+1]\) implies \(0\le t\). The theorem `MeasureTheory.ae_restrict_iUnion_iff` says that, for a countable union of sets, almost everywhere on the union with respect to the restricted measure is equivalent to almost everywhere on each member of the union. Applying this to the countable family \([0,n+1]\) and the local facts just proved gives the desired almost-everywhere derivative identity on \([0,\infty)\).
 

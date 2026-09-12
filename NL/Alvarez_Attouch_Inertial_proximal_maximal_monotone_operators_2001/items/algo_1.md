@@ -12,17 +12,35 @@ structure InertialProximalPointAlgorithm (A : SetValuedOperator H H)
 ```
 
 ## Statement explanation
-The declaration defines a proposition `InertialProximalPointAlgorithm` depending on four data: an operator `A`, a sequence `x`, and two real-valued sequences `alpha` and `lambda`. Here `H` is the ambient point space, appearing implicitly in the types of `A` and `x`; `A : SetValuedOperator H H` is a set-valued operator on `H`, meaning it maps points to subsets of `H`; `x : ℕ → H` is a sequence of points in `H`; and `alpha lambda : ℕ → ℝ` are two real sequences indexed by natural numbers. The declaration is a `structure` with type `Prop`, so it asserts that the given data satisfy the following three fields.
+The declaration introduces a proposition-valued structure named `InertialProximalPointAlgorithm`. Its parameters are a set-valued operator \(A\) on an ambient space \(H\), a sequence \(x:\mathbb N\to H\), and two real sequences \(\alpha:\mathbb N\to\mathbb R\) and \(\lambda:\mathbb N\to\mathbb R\). Thus \(x=(x_k)_{k\in\mathbb N}\), \(\alpha=(\alpha_k)_{k\in\mathbb N}\), and \(\lambda=(\lambda_k)_{k\in\mathbb N}\). The operator \(A\) is set-valued, so \(A(z)\subseteq H\) for each \(z\in H\), and the notation \((\lambda_k A)\) denotes the scalar-rescaled operator.
 
-- `alpha_mem`: For every natural number `k`, one has `0 ≤ alpha k` and `alpha k < 1`. Thus each coefficient `α_k` lies in the interval `[0,1)`.
-- `lambda_pos`: For every natural number `k`, one has `0 < lambda k`. Thus each parameter `λ_k` is strictly positive.
-- `update`: For every natural number `k`, if `1 ≤ k`, then
-  \[
-  x(k+1) \in (\lambda_k A)^{\mathrm{resolvent}}\bigl(x(k)+\alpha_k\,(x(k)-x(k-1))\bigr).
-  \]
-  In Lean notation, `(lambda k • A)` is the operator `A` scaled by the real number `λ_k`, and `.resolvent` denotes the resolvent of that scaled set-valued operator. The expression `x k + alpha k • (x k - x (k - 1))` is the vector sum of `x(k)` and `α_k` times the difference `x(k)-x(k-1)`. The condition `1 ≤ k` guarantees that the index `k-1` is a valid natural number; no update is required for `k=0`.
+The structure says that the triple \((x,\alpha,\lambda)\) is an inertial proximal point algorithm for \(A\) exactly when three conditions hold.
 
-There is no separate conclusion beyond the conjunction of these three properties: a term of this structure is exactly a proof that `A`, `x`, `alpha`, and `lambda` define an inertial proximal point algorithm.
+First, `alpha_mem` states that for every \(k\in\mathbb N\),
+\[
+0\le \alpha_k<1.
+\]
+So the inertial parameter \(\alpha_k\) is nonnegative and strictly smaller than \(1\).
+
+Second, `lambda_pos` states that for every \(k\in\mathbb N\),
+\[
+0<\lambda_k.
+\]
+So all proximal step sizes \(\lambda_k\) are strictly positive.
+
+Third, `update` states that for every \(k\in\mathbb N\) with \(1\le k\),
+\[
+x_{k+1}\in (\lambda_k A).\operatorname{resolvent}\!\left(x_k+\alpha_k(x_k-x_{k-1})\right).
+\]
+Here \(x_k+\alpha_k(x_k-x_{k-1})\) is the inertial, or extrapolated, point obtained from the current iterate \(x_k\) and the previous iterate \(x_{k-1}\). The next iterate \(x_{k+1}\) is required to lie in the resolvent of the scaled operator \(\lambda_k A\) at that extrapolated point. In the usual set-valued notation, if \(J_{\lambda_k A}=(I+\lambda_k A)^{-1}\) is the resolvent, then this membership is equivalent to
+\[
+x_k+\alpha_k(x_k-x_{k-1})\in x_{k+1}+\lambda_k A(x_{k+1}),
+\]
+or, since \(\lambda_k>0\), equivalently
+\[
+\frac{x_k+\alpha_k(x_k-x_{k-1})-x_{k+1}}{\lambda_k}\in A(x_{k+1}).
+\]
+Thus the declaration encodes the standard implicit inertial proximal-point recurrence: form an inertial point from \(x_{k-1}\) and \(x_k\), then take a proximal step with parameter \(\lambda_k\). The condition is stated as membership because \(A\) is set-valued; the structure does not assert uniqueness of \(x_{k+1}\). The recurrence begins at \(k=1\), so the initial points \(x_0\) and \(x_1\) are not constrained by this structure except through later updates.
 
 ## Lean proof
 ```lean
@@ -30,5 +48,14 @@ There is no separate conclusion beyond the conjunction of these three properties
 ```
 
 ## Proof explanation
-There is no separate proof in the source. The declaration is only a `structure` statement, not a theorem or lemma, so it contains no proof block. After the `where` keyword, the fields `alpha_mem`, `lambda_pos`, and `update` are stated as required properties; they are axioms that any instance of the structure must satisfy. To construct an element of this structure one would need to provide proofs of those three fields, but no such proof is supplied here. Consequently, there are no Lean proof commands such as `intro`, `rw`, `simp`, `exact`, or `linarith` to explain.
+There is no separate proof part. The declaration is a `structure`, not a theorem, so it does not prove existence of such a sequence or derive the conditions from other facts. Instead, it defines a predicate whose fields are the required hypotheses: the inequalities on \(\alpha_k\), the positivity of \(\lambda_k\), and the resolvent membership for every \(k\ge 1\).
+
+Mathematically, to use an assumption that `InertialProximalPointAlgorithm A x alpha lambda` holds, one may extract:
+- `alpha_mem k`, giving \(0\le \alpha_k\) and \(\alpha_k<1\);
+- `lambda_pos k`, giving \(0<\lambda_k\);
+- `update k hk` for \(k\ge 1\), giving
+\[
+x_{k+1}\in (\lambda_k A).\operatorname{resolvent}\!\left(x_k+\alpha_k(x_k-x_{k-1})\right).
+\]
+Conversely, to prove that \(x,\alpha,\lambda\) form an inertial proximal point algorithm for \(A\), one must supply exactly these three fields. No named local theorem or lemma is cited, and no tactic commands such as `intro`, `rw`, `simp`, `exact`, or `linarith` occur in this declaration.
 

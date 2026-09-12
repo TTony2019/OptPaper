@@ -11,20 +11,21 @@ theorem fubini_tonelli_nonnegative {α β : Type*} [MeasurableSpace α] [Measura
 ```
 
 ## Statement explanation
-The declaration is a theorem named `fubini_tonelli_nonnegative`. It states a Fubini–Tonelli interchange for two iterated Lebesgue integrals of a nonnegative, product-measurable function.
+Let \(\alpha\) and \(\beta\) be types equipped with measurable spaces, let \(\mu\) be a measure on \(\alpha\), and let \(\nu\) be a measure on \(\beta\). The hypotheses \([\mathrm{SFinite}\,\mu]\) and \([\mathrm{SFinite}\,\nu]\) say that the two measures satisfy Mathlib’s `MeasureTheory.SFinite` condition, i.e. s-finiteness, which is the measure-finiteness assumption needed by the Fubini–Tonelli swap being invoked.
 
-Variables and types:
-- `α` and `β` are arbitrary types, equipped with measurable space structures via `[MeasurableSpace α]` and `[MeasurableSpace β]`.
-- `μ` is a measure on `α`, and `ν` is a measure on `β`.
-- The typeclass assumptions `[MeasureTheory.SFinite μ]` and `[MeasureTheory.SFinite ν]` say that both measures are s-finite, meaning each can be written as a countable sum of finite measures.
-- `K : α → β → ENNReal` is a function taking a point `x : α` and a point `y : β` to a value in `ENNReal`, the extended nonnegative real numbers.
-- The hypothesis `hK : Measurable (fun p : α × β => K p.1 p.2)` says that the associated function on the product `α × β`, sending a pair `(x, y)` to `K x y`, is measurable with respect to the product measurable space structure on `α × β`.
+The function \(K : \alpha \to \beta \to \mathrm{ENNReal}\) is a curried two-variable kernel taking values in the extended nonnegative real numbers. Equivalently, it is a function on the product \(\alpha \times \beta\), written \(K(x,y)\), whose values lie in \(\overline{\mathbb{R}}_{\ge 0}\). The hypothesis `hK` states that the uncurried function
+\[
+p \mapsto K(p_1,p_2)
+\]
+from \(\alpha \times \beta\) to \(\mathrm{ENNReal}\) is measurable with respect to the product measurable structure on \(\alpha \times \beta\).
 
-Conclusion:
-- `∫⁻ x, ∫⁻ y, K x y ∂ν ∂μ = ∫⁻ y, ∫⁻ x, K x y ∂μ ∂ν`.
-In standard notation, this is
-`∫_α (∫_β K(x,y) dν(y)) dμ(x) = ∫_β (∫_α K(x,y) dμ(x)) dν(y)`.
-Thus the theorem says that, under these hypotheses, the two iterated integrals with respect to `μ` and `ν` may be exchanged.
+The conclusion is that the two iterated Lebesgue integrals of \(K\) agree:
+\[
+\int_{\alpha}^{-} \left(\int_{\beta}^{-} K(x,y)\,d\nu(y)\right)d\mu(x)
+=
+\int_{\beta}^{-} \left(\int_{\alpha}^{-} K(x,y)\,d\mu(x)\right)d\nu(y).
+\]
+Thus, on the left one first integrates in \(y\) with respect to \(\nu\) and then in \(x\) with respect to \(\mu\); on the right the order is reversed. Since the values are extended nonnegative reals, both iterated integrals are always defined in \(\overline{\mathbb{R}}_{\ge 0}\), and no separate integrability hypothesis is required. The equality may therefore hold as \(+\infty = +\infty\). This is Tonelli’s theorem in kernel form: for a nonnegative measurable kernel on a product of s-finite measure spaces, the order of iterated integration can be swapped.
 
 ## Lean proof
 ```lean
@@ -32,9 +33,16 @@ MeasureTheory.lintegral_lintegral_swap (μ := μ) (ν := ν) (f := K) hK.aemeasu
 ```
 
 ## Proof explanation
-The proof is a single application of an existing library lemma, `MeasureTheory.lintegral_lintegral_swap`. The command supplies that lemma with the explicit measure arguments `μ := μ`, `ν := ν`, and the function argument `f := K`. This lemma states, for s-finite measures `μ` and `ν` and a function `f : α → β → ENNReal`, that if the associated function on the product is almost everywhere measurable with respect to the product measure, then the iterated integrals may be swapped.
+The proof is a single term-level application rather than a tactic block. It invokes
+`MeasureTheory.lintegral_lintegral_swap` with the named arguments `μ := μ`, `ν := ν`, and `f := K`, and it supplies `hK.aemeasurable` as the measurability argument. There are no uses of `intro`, `rw`, `simp`, `linarith`, or other tactics; the term is the analogue of an `exact` application of the swap lemma.
 
-The only minor conversion needed is that the hypothesis `hK` gives ordinary measurability on the product. The expression `hK.aemeasurable` forms from this the corresponding almost-everywhere measurability property required by the library lemma. Since ordinary measurability implies almost-everywhere measurability, this is a valid hypothesis.
+The argument `hK.aemeasurable` comes from the general fact that a measurable function is almost everywhere measurable. Here `hK` says that the uncurried kernel \(p \mapsto K(p_1,p_2)\) is measurable on \(\alpha \times \beta\). Applying `hK.aemeasurable` weakens that to almost-everywhere measurability with respect to the product measure \(\mu \otimes \nu\). This is the precise form of measurability that the Fubini–Tonelli lemma requires.
 
-The Lean command used is `exact`. It closes the goal by saying that the statement to be proved is precisely the instance of the library lemma with these chosen arguments. Therefore no additional construction or computation is needed; the theorem is proved directly by this single lemma application.
+The cited result `MeasureTheory.lintegral_lintegral_swap` is the Mathlib form of the Fubini–Tonelli swap theorem for nonnegative functions. In this application, its inputs are the two s-finite measures \(\mu\) and \(\nu\), the kernel \(K\), and the a.e.-measurability of the uncurried kernel with respect to \(\mu \otimes \nu\). Its output is exactly the displayed equality
+\[
+\int_{\alpha}^{-} \left(\int_{\beta}^{-} K(x,y)\,d\nu(y)\right)d\mu(x)
+=
+\int_{\beta}^{-} \left(\int_{\alpha}^{-} K(x,y)\,d\mu(x)\right)d\nu(y).
+\]
+Because that is precisely the goal of `fubini_tonelli_nonnegative`, the term closes the proof. The proof uses only the a.e.-measurability consequence of `hK`; the original measurability hypothesis is stronger than what the invoked swap lemma needs.
 

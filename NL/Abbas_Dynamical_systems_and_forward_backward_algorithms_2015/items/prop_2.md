@@ -29,40 +29,50 @@ theorem subgradient_gap_tendsto_zero {H : Type*} [NormedAddCommGroup H] [InnerPr
 ```
 
 ## Statement explanation
-The theorem states a limit result under assumptions involving a convex-like function, a forward-backward dynamical system, and subdifferentials. It asserts that the “subgradient gap” at a point `z` in a set `S` tends to `0` as time tends to `+∞`.
+The declaration `subgradient_gap_tendsto_zero` is a convergence theorem for a continuous-time dynamical system in a real Hilbert space \(H\). The data are a set \(S\subseteq H\), a point \(z\in S\), an extended-real function \(\Phi:H\to\mathrm{EReal}\) whose values lie above the bottom element of \(\mathrm{EReal}\), a map \(B:H\to H\), two trajectories \(x,v:\mathbb R\to H\), and positive parameters \(\lambda,\mu,\beta\) satisfying \(\mu\lambda=1\).
 
-Variables and parameters:
-- `H` is a real inner product space with a norm compatible with the inner product, and `H` is complete. This is encoded by `[NormedAddCommGroup H]`, `[InnerProductSpace ℝ H]`, and `[CompleteSpace H]`.
-- `S : Set H` is a subset of `H`.
-- `Phi : H → Set.Ioi (⊥ : EReal)`: for each point of `H`, `Phi` returns a set of extended-real numbers strictly greater than bottom. The bottom `⊥ : EReal` is negative infinity, so this means `Phi(x)` is a subset of extended reals excluding `-∞`.
-- `hPhi : Phi ∈ ERealFunction.gammaZero H`: the set-valued map `Phi` belongs to the class `gammaZero`, meaning it is a “gamma-zero” generalized convex function, i.e. it is the closure of a proper convex lower semicontinuous function, equivalently it has appropriate convex-subdifferential behavior. Its exact mathematical content is imported from `ERealFunction`, but the proof only uses subgradient inequalities available from this assumption.
-- `B : H → H` is an operator.
-- `x v : ℝ → H` are time-dependent curves in `H`.
-- `z : H` is a point in `S`.
-- `lam mu beta : ℝ` are real parameters.
-- `hS : S.Nonempty` says `S` is nonempty.
-- `hz : z ∈ S` says the fixed point `z` belongs to `S`.
-- `hlam : 0 < lam`, `hmu : 0 < mu`, `hmu_lam : mu * lam = 1`, `hbeta : 0 < beta`: `lam`, `mu`, and `beta` are positive, and `mu * lam = 1`, so `mu = 1 / lam`.
-- `hB : CocoerciveOn beta Set.univ (fun w : Set.univ ↦ B w)`: the operator `B`, restricted to the full space, is `beta`-cocoercive on the entire space. This means `B` is monotone and Lipschitz-like with cocoercivity parameter `beta`.
-- `hx_ac` and `hv_ac`: for every positive endpoint `b`, the curves `x` and `v` are absolutely continuous on the interval `[0,b]`.
-- `hx_deriv` and `hv_deriv`: for every `T > 0`, almost everywhere on `[0,T]` with respect to the restricted Lebesgue volume measure, `x` and `v` are differentiable with derivatives `deriv x` and `deriv v`.
-- `hvL2`: for every `T > 0`, `v` belongs to `L^2` on the restricted interval `[0,T]`.
-- `hdxL2`: for every `T > 0`, the derivative `deriv x` belongs to `L^2` on the restricted interval `[0,T]`.
-- `hsubgradient`: for every time `t ≥ 0`, `v t` belongs to the subdifferential of `Phi` at `x t`, written `ERealFunction.subdifferential Phi (x t)`.
-- `horbit`: almost everywhere on `[0,∞)`, the curve satisfies the dynamical system equation
-  `lam • deriv x t + deriv v t + v t + B (x t) = 0`.
-- `hsolution`: for every `w`, `w ∈ S` if and only if `-B w` belongs to the subdifferential of `Phi` at `w`.
-- `hdom`: for every `t ≥ 0`, `x t` lies in the effective domain of `Phi`.
-- `hdomS`: for every `w ∈ S`, `w` lies in the effective domain of `Phi`.
-
-Conclusion:
-The function
+The hypotheses say the following. The set \(S\) is nonempty and \(z\in S\). The function \(\Phi\) belongs to the class `ERealFunction.gammaZero H`; in the proof this membership is used exactly as the hypothesis that permits the cited subgradient inequality for \(\Phi\). The map \(B\) is \(\beta\)-cocoercive on all of \(H\). The trajectories \(x\) and \(v\) are absolutely continuous on every interval \([0,b]\) with \(b>0\), their derivatives exist almost everywhere on every \([0,T]\) with \(T>0\), and \(v\) and \(\operatorname{deriv} x\) are \(L^2\) on every such interval. For every \(t\ge 0\), the vector \(v(t)\) is a subgradient of \(\Phi\) at \(x(t)\), i.e.
 \[
-t \mapsto (\Phi z)_{\mathrm{toReal}} - (\Phi(x t))_{\mathrm{toReal}}
-    - \langle v t,\, z - x t\rangle
+v(t)\in \partial \Phi(x(t)).
 \]
-tends to `0` as `t → +∞`, in the sense of `Tendsto ... atTop (nhds 0)`.
-Here `(Phi z : EReal).toReal` denotes the real part of the extended-real value of `Phi z`; since `Phi` maps into sets of extended reals above `⊥`, this notation is meaningful under the strong subgradient assumptions used. The final expression is called the subgradient gap, involving the value difference and an inner-product correction with `v t`.
+Almost everywhere for \(t\ge 0\), the dynamical equation
+\[
+\lambda \operatorname{deriv} x(t)+\operatorname{deriv} v(t)+v(t)+B(x(t))=0
+\]
+holds. For every \(w\), membership in \(S\) is equivalent to
+\[
+-B(w)\in \partial \Phi(w).
+\]
+Finally, \(x(t)\) lies in the effective domain of \(\Phi\) for every \(t\ge 0\), and every point of \(S\) lies in the effective domain of \(\Phi\).
+
+The definition of the subdifferential used here is
+\[
+u\in \partial \Phi(x)
+\quad\Longleftrightarrow\quad
+\forall y,\quad
+\langle y-x,u\rangle+\Phi(x)\le \Phi(y),
+\]
+with the inner product taken over \(\mathbb R\). The cited theorem `subgradient_ineq_toReal_of_mem_gammaZero` turns this into the real-valued inequality
+\[
+(\Phi(y):\mathrm{EReal}).\mathrm{toReal}
+\ge
+(\Phi(x):\mathrm{EReal}).\mathrm{toReal}
++
+\langle u,y-x\rangle
+\]
+whenever \(u\in \partial \Phi(x)\) and \(y\) is in the effective domain of \(\Phi\).
+
+The conclusion of `subgradient_gap_tendsto_zero` is
+\[
+(\Phi(z):\mathrm{EReal}).\mathrm{toReal}
+-
+(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
+-
+\langle v(t),z-x(t)\rangle
+\longrightarrow 0
+\qquad (t\to\infty).
+\]
+Because \(v(t)\in \partial \Phi(x(t))\), the subgradient inequality implies that this quantity is nonnegative whenever \(z\) is in the effective domain of \(\Phi\). Thus the theorem says that the subgradient or duality gap between the trajectory point \(x(t)\) and the fixed point \(z\) tends to \(0\).
 
 ## Lean proof
 ```lean
@@ -127,96 +137,187 @@ by
 ```
 
 ## Proof explanation
-The proof has several stages. It first establishes nonnegativity of the gap, then uses previously proved results about Lyapunov functions and convergence to obtain bounds, and finally applies a squeezing theorem to force the gap to zero.
+The proof first establishes that the gap expression is nonnegative. For any \(t\ge 0\), the hypothesis \(hsubgradient\) gives \(v(t)\in \partial \Phi(x(t))\). The hypothesis \(hdomS\) gives \(z\in \operatorname{dom}\Phi\), since \(z\in S\). Applying `subgradient_ineq_toReal_of_mem_gammaZero` with \(f=\Phi\), \(x=x(t)\), \(u=v(t)\), and \(y=z\) yields
+\[
+(\Phi(z):\mathrm{EReal}).\mathrm{toReal}
+\ge
+(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
++
+\langle v(t),z-x(t)\rangle .
+\]
+Rearranging this inequality gives
+\[
+0\le
+(\Phi(z):\mathrm{EReal}).\mathrm{toReal}
+-
+(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
+-
+\langle v(t),z-x(t)\rangle .
+\]
+The tactic `linarith` performs precisely this linear rearrangement over the reals. This proves the local fact `hnonneg`.
 
-1. **Nonnegativity of the gap.**  
-   The proof starts with `have hnonneg : ∀ t, 0 ≤ t → 0 ≤ (Phi z : EReal).toReal - (Phi (x t) : EReal).toReal - inner ℝ (v t) (z - x t)`.  
-   To prove it, for arbitrary `t ≥ 0`, it invokes
-   `ERealFunction.subgradient_ineq_toReal_of_mem_gammaZero hPhi (hsubgradient t ht) (hdomS z hz)`.  
-   This imported lemma, valid because `Phi ∈ gammaZero`, says that for points in the effective domain and subgradients, a subgradient inequality holds when converted to real extended values. The conclusion produced is an inequality relating `(Phi z).toReal`, `(Phi (x t)).toReal`, and `inner (v t) (z - x t)`. The command `linarith` closes the goal because the inequality is exactly the negation rearranged to show the desired expression is nonnegative.
+Next, the proof forms an almost-everywhere statement that is acceptable to `proposition_2_12`. The original `horbit` hypothesis gives the dynamical equation almost everywhere for \(t\ge 0\). The theorem `ae_restrict_mem measurableSet_Ici` records that almost every point with respect to the restricted measure on \([0,\infty)\) actually belongs to \([0,\infty)\), i.e. satisfies \(t\ge 0\). Combining that with `horbit` and with the pointwise subgradient hypothesis `hsubgradient` gives, almost everywhere for \(t\ge 0\),
+\[
+v(t)\in \partial \Phi(x(t))
+\quad\text{and}\quad
+\lambda \operatorname{deriv} x(t)+\operatorname{deriv} v(t)+v(t)+B(x(t))=0.
+\]
+This is the almost-everywhere conjunction required by `proposition_2_12`; the tactic `filter_upwards` performs the passage from the separate almost-everywhere facts to the combined one.
 
-2. **Combining subgradient and ODE information.**  
-   The proof creates `horbit_pair`, which is the almost-everywhere conjunction of the subgradient membership `v t ∈ subdifferential Phi (x t)` and the differential equation. It uses `filter_upwards [ae_restrict_mem measurableSet_Ici, horbit] with t ht hEq`. This combines two almost-everywhere facts on the upper half-line: first, that for almost every `t` in `Ici 0` we have `t ≥ 0`, and second, the ODE `horbit`. The `filter_upwards ... with t ht hEq` tactic unfolds the meaning of almost-everywhere membership and produces the conjunction
-   \[
-   v(t) \in \partial \Phi(x(t)) \quad\land\quad
-   \lambda \dot x(t)+\dot v(t)+v(t)+B(x(t))=0.
-   \]
+The proof then invokes `proposition_2_12`. The hypotheses supplied are the nonemptiness of \(S\), the membership \(z\in S\), the positivity and product condition \(\lambda>0\), \(\mu>0\), \(\mu\lambda=1\), \(\beta>0\), the cocoercivity of \(B\), the absolute continuity and a.e. differentiability of \(x\) and \(v\), the \(L^2\) assumptions, the subgradient condition \(v(t)\in \partial \Phi(x(t))\), the almost-everywhere orbit equation, the implication \(w\in S\Rightarrow -B(w)\in \partial \Phi(w)\), and the domain assumptions for \(x(t)\) and for points of \(S\). The conclusion of `proposition_2_12` is a long conjunction. It says that the function
+\[
+t\mapsto
+\frac12\|x(t)-z\|^2
++
+\mu\left(
+(\Phi(z):\mathrm{EReal}).\mathrm{toReal}
+-
+(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
+-
+\langle z-x(t),v(t)\rangle
+\right)
+\]
+is antitone on \([0,\infty)\), that it has a finite limit at \(+\infty\), and it also gives several integrability and boundedness conclusions. The proof extracts from this conjunction the assertion that there exists a real constant \(C\) such that
+\[
+\|x(t)\|\le C
+\qquad\text{for all }t\ge 0.
+\]
+This is the component `hLyapunov.2.2.2.1`, destructed as `⟨C, hC⟩`.
 
-3. **Use of previous Lyapunov results.**  
-   The proof applies `proposition_2_12` to obtain a Lyapunov-type result:
-   `hLyapunov := proposition_2_12 S Phi hPhi B x v z lam mu beta hS hz hlam hmu hmu_lam hbeta hB hx_ac hv_ac hx_deriv hv_deriv hsubgradient hvL2 hdxL2 horbit_pair ...`.  
-   The relevant part extracted is `hLyapunov.2.2.2.1`, and from it one obtains a pair `⟨C, hC⟩`: there exists a constant `C` such that for every `t ≥ 0`, `‖x t‖ ≤ C`. The proof uses `obtain ⟨C, hC⟩ := hLyapunov.2.2.2.1`.
+The proof also invokes `theorem_2_8_convergence`. The hypotheses passed are the nonemptiness of \(S\), the positivity of \(\lambda\) and \(\beta\), the cocoercivity of \(B\), the almost-everywhere orbit equation, the absolute continuity and a.e. differentiability of \(x\) and \(v\), the \(L^2\) assumptions, the subgradient condition, and the equivalence
+\[
+w\in S \Longleftrightarrow -B(w)\in \partial \Phi(w).
+\]
+That theorem concludes, among other things, that
+\[
+\|v(t)+B(x(t))\|\to 0,
+\]
+that for every \(w\in S\), \(B(x(t))\to B(w)\), that for every \(w\in S\), \(v(t)\to -B(w)\), and that some weak limit of \(x(t)\) lies in \(S\). The proof uses the third component with the fixed point \(z\in S\), obtaining
+\[
+v(t)\to -B(z).
+\]
+Adding the constant trajectory \(t\mapsto B(z)\), which tends to \(B(z)\) by `tendsto_const_nhds`, gives
+\[
+v(t)+B(z)\to (-B(z))+B(z)=0.
+\]
+This is the statement `hvlim`.
 
-4. **Application of a convergence theorem.**  
-   The proof applies `theorem_2_8_convergence` to the original data:
-   `hconvergence := theorem_2_8_convergence S Phi hPhi B x v lam beta hS hlam hbeta hB horbit hx_ac hv_ac hx_deriv hv_deriv hvL2 hdxL2 hsubgradient hsolution`.  
-   This gives asymptotic convergence information. In particular, the component `hconvergence.2.2.1 z hz` states that, as `t → +∞`, the quantity `v t + B z` tends to `0`.  
-   The next block proves `hvlim : Tendsto (fun t => v t + B z) atTop (nhds 0)`. It starts with `have hconst : Tendsto (fun _ : ℝ => B z) atTop (nhds (B z)) := tendsto_const_nhds`, which is the constant-net limit. It then adds this constant limit to the previously obtained limit:
-   `have h := (hconvergence.2.2.1 z hz).add hconst`. This is justified because if two functions tend to limits, their pointwise sum tends to the sum of the limits. Finally `simpa using h` simplifies the expression to get exactly `Tendsto (v t + B z) atTop (nhds 0)`.
+From this convergence, the proof derives that the bounding factor
+\[
+\|v(t)+B(z)\|(C+\|z\|)
+\]
+also tends to \(0\). Indeed, taking norms gives
+\[
+\|v(t)+B(z)\|\to 0,
+\]
+and multiplying by the constant \(C+\|z\|\), which tends to itself, gives limit \(0\cdot(C+\|z\|)=0\). The tactics `hvlim.norm.mul hconst` and `simpa` implement this limit argument.
 
-5. **Limit of the upper-bound factor.**  
-   The proof next proves
-   `hupperlim : Tendsto (fun t => ‖v t + B z‖ * (C + ‖z‖)) atTop (nhds 0)`.  
-   Since `C + ‖z‖` is a constant, the proof forms its constant limit and then uses `.norm.mul hconst`:
-   `simpa using hvlim.norm.mul hconst`.  
-   The tactic `.norm` takes the norm of the limit, and `.mul` multiplies by a constant limit. Therefore the product tends to `0 * (C + ‖z‖) = 0`.
+The proof then converts the pointwise nonnegativity of the gap to eventual nonnegativity at \(+\infty\). Since \(t\ge 0\) eventually as \(t\to\infty\), the earlier fact `hnonneg` yields
+\[
+0\le
+(\Phi(z):\mathrm{EReal}).\mathrm{toReal}
+-
+(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
+-
+\langle v(t),z-x(t)\rangle
+\]
+eventually. This is `hnonneg'`.
 
-6. **The gap is eventually nonnegative.**  
-   The proof forms `hnonneg'` as an `atTop` eventually fact:
-   `filter_upwards [eventually_ge_atTop (0 : ℝ)] with t ht`.  
-   This means for sufficiently large `t`, one has `t ≥ 0`; then it invokes the earlier `hnonneg t ht`. Thus, eventually, the gap is nonnegative.
+The main remaining step is to prove an eventual upper bound for the same gap by \(\|v(t)+B(z)\|(C+\|z\|)\). For eventually \(t\ge 0\), the proof uses the second direction of the subgradient inequality. Since \(z\in S\), the equivalence `hsolution` gives
+\[
+-B(z)\in \partial \Phi(z).
+\]
+Also \(x(t)\in \operatorname{dom}\Phi\) by `hdom`. Applying `subgradient_ineq_toReal_of_mem_gammaZero` with \(f=\Phi\), \(x=z\), \(u=-B(z)\), and \(y=x(t)\) yields
+\[
+(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
+\ge
+(\Phi(z):\mathrm{EReal}).\mathrm{toReal}
++
+\langle -B(z),x(t)-z\rangle .
+\]
+Using \(\langle -B(z),x(t)-z\rangle=-\langle B(z),x(t)-z\rangle\), the tactic `rw [inner_neg_left]` rewrites this to
+\[
+(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
+\ge
+(\Phi(z):\mathrm{EReal}).\mathrm{toReal}
+-
+\langle B(z),x(t)-z\rangle .
+\]
+Rearranging with `linarith` gives
+\[
+(\Phi(z):\mathrm{EReal}).\mathrm{toReal}
+-
+(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
+\le
+\langle B(z),x(t)-z\rangle .
+\]
+This is `hzineq'`.
 
-7. **An eventual upper bound for the gap.**  
-   The heart of the proof is the step establishing
-   `hupper : ∀ᶠ t in atTop, (Phi z).toReal - (Phi (x t)).toReal - inner (v t) (z - x t) ≤ ‖v t + B z‖ * (C + ‖z‖)`.  
-   Again the proof filters over `eventually_ge_atTop (0 : ℝ)` and fix `t ≥ 0`.  
-   It first uses the subgradient inequality at the solution point `z`. Since `hz : z ∈ S`, the equivalence `hsolution` gives `-B z ∈ subdifferential Phi z`, and because `x t` is in the effective domain of `Phi`, applying
-   `ERealFunction.subgradient_ineq_toReal_of_mem_gammaZero hPhi ((hsolution z).1 hz) (hdom t ht)` yields
-   \[
-   (\Phi z)_{\rm real} - (\Phi(x t))_{\rm real}
-     \le \langle B z,\, x t - z\rangle.
-   \]
-   In Lean, the inequality statement is stored with a sign on the inner product, so the proof rewrites with `rw [inner_neg_left] at hzineq` and then uses `linarith` to turn it into this form. The lemma `inner_neg_left` says \(\langle -a, b\rangle = -\langle a, b\rangle\).
+The proof then bounds the norm difference \(x(t)-z\). By `norm_sub_le`,
+\[
+\|x(t)-z\|\le \|x(t)\|+\|z\|,
+\]
+and by the bound \(hC\),
+\[
+\|x(t)\|\le C.
+\]
+Hence
+\[
+\|x(t)-z\|\le C+\|z\|.
+\]
+Next, the real inner product is bounded by the product of norms. The proof uses the chain
+\[
+\langle v(t)+B(z),x(t)-z\rangle
+\le
+\|v(t)+B(z)\|\,\|x(t)-z\|
+\le
+\|v(t)+B(z)\|(C+\|z\|),
+\]
+where the first inequality combines \(a\le |a|\) with the standard estimate \(|\langle u,w\rangle|\le \|u\|\|w\|\), and the second uses multiplication by the nonnegative factor \(\|v(t)+B(z)\|\).
 
-   Next, the bound on the norm is obtained. The triangle inequality gives `‖x t - z‖ ≤ ‖x t‖ + ‖z‖`, and the bound `‖x t‖ ≤ C` from `hC t ht` gives
-   \[
-   \|x t - z\| \le C + \|z\|.
-   \]
-   This is proved by `calc`:
-   `‖x t - z‖ ≤ ‖x t‖ + ‖z‖ := norm_sub_le _ _`, then `_ ≤ C + ‖z‖ := add_le_add (hC t ht) le_rfl`.
+Finally, the proof algebraically compares the gap expression with this inner product. Since
+\[
+z-x(t)=-(x(t)-z),
+\]
+we have
+\[
+-\langle v(t),z-x(t)\rangle
+=
+\langle v(t),x(t)-z\rangle.
+\]
+Therefore the gap expression equals
+\[
+\left[
+(\Phi(z):\mathrm{EReal}).\mathrm{toReal}
+-
+(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
+\right]
++
+\langle v(t),x(t)-z\rangle .
+\]
+Using the bound \(hzineq'\), this is at most
+\[
+\langle B(z),x(t)-z\rangle+\langle v(t),x(t)-z\rangle
+=
+\langle v(t)+B(z),x(t)-z\rangle,
+\]
+and this in turn is at most \(\|v(t)+B(z)\|(C+\|z\|)\). The rewrites `inner_neg_right` and `inner_add_left` justify the algebra of the inner product, and `linarith [hzineq']` closes the inequality. This proves the eventual upper bound `hupper`.
 
-   The proof then bounds the inner product by a norm product. It shows
-   \[
-   \langle v t + B z,\; x t - z\rangle \le \|v t + B z\| \cdot \|x t - z\|.
-   \]
-   The Lean proof uses `(le_abs_self _).trans (abs_real_inner_le_norm _ _)`; this says that an inner product is at most its absolute value, and the absolute value of a real inner product is at most the product of norms by Cauchy–Schwarz.
-
-   Then the norm product is bounded by the desired constant term:
-   \[
-   \|v t + B z\| \cdot \|x t - z\| \le \|v t + B z\| \cdot (C+\|z\|),
-   \]
-   using `hxz` and the nonnegativity of the norm.
-
-   The final key algebraic step is to show that the gap is at most the inner product \(\langle v t+Bz,\; x t-z\rangle\). The proof rewrites the difference `z - x t` as `-(x t - z)` via `abel`, then applies `inner_neg_right` and `inner_add_left` to expand:
-   \[
-   -\langle v t,\, z-x t\rangle
-   =\langle v t,\, x t-z\rangle
-   \quad\text{and}\quad
-   \langle v t+Bz,\,x t-z\rangle
-   =\langle v t,x t-z\rangle+\langle Bz,x t-z\rangle.
-   \]
-   Using the earlier inequality for the value difference in terms of \(\langle Bz, x t-z\rangle\), `linarith` closes the gap:
-   \[
-   (\Phi z)_{\rm real} - (\Phi(x t))_{\rm real} - \langle v t,z-x t\rangle
-   \le \langle v t+Bz,\,x t-z\rangle.
-   \]
-   Combining the three inequalities with `.trans` gives the eventual upper bound:
-   \[
-   \text{gap}(t) \le \|v t+Bz\|(C+\|z\|).
-   \]
-
-8. **Squeeze to zero.**  
-   Finally, the proof calls
-   `exact squeeze_zero' hnonneg' hupper hupperlim`.  
-   The theorem `squeeze_zero'` states that if a function is eventually nonnegative, bounded above by another function, and the upper bounding function tends to `0`, then the original function tends to `0`. Here `hupperlim` provides the limit of the upper bound, `hnonneg'` provides the lower bound by zero, and `hupper` provides the eventual pointwise upper comparison. Therefore the gap, which is eventually between `0` and the tending-to-zero product, converges to `0` as `t → +∞`.
+At this point the proof has three facts: the gap is eventually nonnegative, it is eventually bounded above by \(\|v(t)+B(z)\|(C+\|z\|)\), and that upper bounding function tends to \(0\). The final command `exact squeeze_zero' hnonneg' hupper hupperlim` applies the squeeze theorem for filters: if \(0\le f(t)\) eventually, if \(f(t)\le g(t)\) eventually, and if \(g(t)\to 0\), then \(f(t)\to 0\). With
+\[
+f(t)=
+(\Phi(z):\mathrm{EReal}).\mathrm{toReal}
+-
+(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
+-
+\langle v(t),z-x(t)\rangle
+\]
+and
+\[
+g(t)=\|v(t)+B(z)\|(C+\|z\|),
+\]
+this yields exactly the desired conclusion
+\[
+f(t)\to 0.
+\]
 

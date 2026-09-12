@@ -21,49 +21,28 @@ def remark_2_3_variable_regularization {H : Type*} [NormedAddCommGroup H] [Norme
 ```
 
 ## Statement explanation
-The declaration defines a proposition named `remark_2_3_variable_regularization`.
-
-The ambient space is an implicit type variable \(H\), equipped with the typeclasses making it a normed additive commutative group, a normed vector space over \(\mathbb R\), a real inner-product space, and complete. Thus \(H\) is a real Hilbert space.
-
-The explicit mathematical inputs are:
-
-- \(\Phi : H \to \operatorname{Set.Ioi}(\bot_{\mathrm{EReal}})\), a function taking values in the extended real numbers strictly above the bottom element. This is interpreted as an extended-real-valued function on \(H\) excluding the bottom value.
-- An assumption `_hPhi : Phi ∈ ERealFunction.gammaZero H`, saying that \(\Phi\) belongs to the class `ERealFunction.gammaZero H` used in the surrounding development.
-- \(B : H \to H\), an operator on \(H\).
-- \(\lambda : \mathbb R \to \mathbb R\), a real-valued parameter function.
-- \(\beta : \mathbb R\), a real parameter.
-- \(x_0, v_0 : H\), two initial vectors in \(H\).
-
-The declared hypotheses are:
-
-- `_hlam_pos`: For every \(t \ge 0\), \(\lambda(t) > 0\).
-- `_hlam_ac`: For every \(b > 0\), \(\lambda\) is absolutely continuous on the interval \([0,b]\).
-- `_hbeta`: \(\beta > 0\).
-- `_hB`: \(B\) is \(\beta\)-cocoercive on \(\operatorname{Set.univ}\), the whole space. In the source, the function is written as \(x \mapsto B x\) on the subtype consisting of all points of \(H\).
-- `_hv0`: \(v_0 \in \operatorname{ERealFunction.subdifferential} \Phi(x_0)\), i.e. \(v_0\) is in the subdifferential of \(\Phi\) at \(x_0\).
-
-The conclusion is the following proposition:
-
-There exists a unique pair
+The declaration defines a proposition named `remark_2_3_variable_regularization`. It is a `def`, not a theorem: it packages a predicate rather than asserting that predicate. The parameters are a real Hilbert space \(H\), an extended-real-valued function \(\Phi:H\to \mathbb R\cup\{+\infty\}\) (formally a function into the subtype of extended reals greater than \(-\infty\)), an operator \(B:H\to H\), a real-valued time-dependent coefficient \(\lambda:\mathbb R\to\mathbb R\), a real constant \(\beta\), and initial points \(x_0,v_0\in H\). The hypotheses supplied to the definition are: \(\Phi\) belongs to the formal class `ERealFunction.gammaZero H`; \(\lambda(t)>0\) for all \(t\ge 0\); \(\lambda\) is absolutely continuous on \([0,b]\) for every \(b>0\); \(\beta>0\); \(B\) is \(\beta\)-cocoercive on the whole space \(H\), meaning the standard global cocoercivity inequality
 \[
-xv = (x,v) \in (\mathbb R \to H) \times (\mathbb R \to H)
+\beta\,\|B(x)-B(y)\|^{2}
+\le \langle B(x)-B(y),\,x-y\rangle
+\qquad (x,y\in H);
 \]
-such that:
+and \(v_0\) lies in the subdifferential of \(\Phi\) at \(x_0\).
 
-1. For every \(b > 0\), the first component \(xv.1 = x\) is absolutely continuous on \([0,b]\).
-2. For every \(b > 0\), the second component \(xv.2 = v\) is absolutely continuous on \([0,b]\).
-3. For every \(t \ge 0\), \(v(t) \in \operatorname{ERealFunction.subdifferential} \Phi(x(t))\).
-4. For almost every \(t \ge 0\) with respect to Lebesgue measure restricted to \([0,\infty)\),
-\[
-\lambda(t)\, x'(t) + v'(t) + v(t) + B(x(t)) = 0,
-\]
-where `deriv` is denoted by the derivative.
-5. The initial conditions hold:
-\[
-x(0) = x_0, \qquad v(0) = v_0.
-\]
+The returned `Prop` is a unique-existence statement. It says there exists exactly one pair of functions \((x,v)\), with \(x:\mathbb R\to H\) and \(v:\mathbb R\to H\), such that:
 
-Thus the declaration states the existence and uniqueness of a pair of absolutely continuous forward curves \((x,v)\) satisfying a subdifferential inclusion and an almost-everywhere differential equation together with initial data.
+- for every \(b>0\), \(x\) is absolutely continuous on \([0,b]\);
+- for every \(b>0\), \(v\) is absolutely continuous on \([0,b]\);
+- for every \(t\ge 0\), \(v(t)\) belongs to the subdifferential of \(\Phi\) at \(x(t)\), formally \(v(t)\in \operatorname{subdifferential}\Phi(x(t))\);
+- for almost every \(t\) in \([0,\infty)\) with respect to Lebesgue measure restricted to \([0,\infty)\),
+\[
+\lambda(t)\operatorname{deriv}(x)(t)
++\operatorname{deriv}(v)(t)
++v(t)+B(x(t))=0;
+\]
+- \(x(0)=x_0\) and \(v(0)=v_0\).
+
+In ordinary language, this is the unique-existence property for an absolutely continuous trajectory of a variable-regularized forward-backward differential inclusion: the second component \(v(t)\) is a subgradient of \(\Phi\) at the current point \(x(t)\), and the displayed differential equation holds almost everywhere on the nonnegative time axis, with prescribed initial state \(x_0\) and initial value \(v_0\). The assumptions on \(\Phi\), \(\lambda\), \(\beta\), \(B\), and \(v_0\) are standing hypotheses supplied as arguments to the definition; several of them, such as `_hPhi`, `_hlam_pos`, `_hlam_ac`, `_hbeta`, `_hB`, and `_hv0`, do not appear explicitly in the body of the returned `Prop`.
 
 ## Lean proof
 ```lean
@@ -71,7 +50,5 @@ Thus the declaration states the existence and uniqueness of a pair of absolutely
 ```
 
 ## Proof explanation
-There is no separate proof part in the Lean source. The declaration is a `def` whose declared type is `Prop`, and its body after `:=` is exactly the proposition stated above. It is therefore a definition of a predicate/proposition, not a theorem supplied with a proof.
-
-Because there is no proof, there are no `intro`, `rw`, `simp`, `exact`, `linarith`, or other tactic commands to explain. The statement is expressed directly with logical and analytic notation: `∃!` asserts uniqueness of existence; `∧` combines the required conditions; `∀` and `∀ᵐ ... ∂ ...` express pointwise and almost-everywhere quantifiers; `AbsolutelyContinuousOnInterval` expresses absolute continuity on a finite interval; and `deriv` gives the derivative used in the differential equation. No mathematical fact beyond the stated uniqueness existence proposition is asserted or proved here.
+There is no separate proof part. The declaration is a `def`, not a theorem, and its body is exactly the proposition described above. The Lean source contains only a comment saying that there is no separate proof. Therefore no tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` are used, and no named lemmas or previously established facts are invoked. There are no proof steps to explain; the mathematical content is entirely the statement of the predicate `remark_2_3_variable_regularization`.
 

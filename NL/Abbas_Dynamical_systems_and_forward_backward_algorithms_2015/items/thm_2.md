@@ -29,25 +29,49 @@ theorem theorem_2_8_convergence {H : Type*} [NormedAddCommGroup H] [InnerProduct
 ```
 
 ## Statement explanation
-Let H be a real Hilbert space: it is a type with a normed additive group structure, a real inner product space structure, and completeness. Fix a set S in H, and let Phi be an extended-real-valued function on H whose values lie strictly above the bottom element of EReal, so the value -∞ is excluded. Let B:H→H, let x,v:ℝ→H be curves, and let lam and beta be real numbers.
+Let \(H\) be a real inner product space which is complete, hence a Hilbert space. Let \(S\subseteq H\) be a nonempty set. Let
+\[
+\Phi:H\to (-\infty,+\infty]
+\]
+be an extended-real-valued function, encoded in Lean as a map into the subtype of extended reals strictly greater than \(-\infty\). Assume \(\Phi\in\Gamma_0(H)\), i.e. \(\Phi\) is proper, convex, and lower semicontinuous. Let \(B:H\to H\) be a single-valued operator, let \(\beta>0\), and assume that \(B\) is \(\beta\)-cocoercive on all of \(H\): for all \(u,w\in H\),
+\[
+\beta\|B(u)-B(w)\|^2\le \langle u-w,B(u)-B(w)\rangle .
+\]
+Let \(x,v:\mathbb R\to H\) be two trajectories, and let \(\lambda>0\). The hypotheses of the theorem say, in mathematical language, that:
 
-The hypotheses are:
-- S is nonempty.
-- lam > 0 and beta > 0.
-- B is beta-cocoercive on the whole space H.
-- For almost every t ≥ 0 with respect to Lebesgue measure restricted to [0,∞), the forward-backward evolution equation holds:
-  lam • deriv x t + deriv v t + v t + B (x t) = 0.
-- For every b > 0, both x and v are absolutely continuous on the interval [0,b].
-- For every T > 0, for almost every t ∈ [0,T], deriv x t is actually the derivative of x at t; similarly deriv v t is the derivative of v at t.
-- For every T > 0, v is in L² on [0,T], and deriv x is in L² on [0,T].
-- For every t ≥ 0, v t belongs to the subdifferential of Phi at x t.
-- For every point z, z belongs to S exactly when -B z belongs to the subdifferential of Phi at z. Thus S is the set of equilibrium points of the inclusion: -B z ∈ ∂Phi(z).
+- \(S\) is the solution set of the equilibrium/subdifferential inclusion:
+\[
+z\in S \quad\Longleftrightarrow\quad -B(z)\in\partial\Phi(z).
+\]
+- Almost everywhere on \([0,\infty)\) with respect to Lebesgue measure, the orbit equation holds:
+\[
+\lambda\,\operatorname{deriv} x(t)+\operatorname{deriv} v(t)+v(t)+B(x(t))=0.
+\]
+- For every \(b>0\), \(x\) and \(v\) are absolutely continuous on \([0,b]\).
+- For every \(T>0\), almost everywhere on \([0,T]\), \(x\) and \(v\) have derivatives equal to \(\operatorname{deriv} x(t)\) and \(\operatorname{deriv} v(t)\), respectively.
+- \(v\) and \(\operatorname{deriv} x\) are locally square-integrable on intervals \([0,T]\), \(T>0\).
+- For every \(t\ge0\),
+\[
+v(t)\in\partial\Phi(x(t)).
+\]
 
-The conclusion is fourfold:
-1. ‖v t + B (x t)‖ tends to 0 as t → ∞.
-2. For every z ∈ S, B (x t) tends to B z as t → ∞.
-3. For every z ∈ S, v t tends to -B z as t → ∞.
-4. There exists some z ∈ S such that x t converges weakly to z as t → ∞, expressed using the map to the weak topological space `toWeakSpace ℝ H`.
+The conclusion is fourfold. First, the residual tends to zero:
+\[
+\|v(t)+B(x(t))\|\to0 \qquad (t\to\infty).
+\]
+Second, for every equilibrium \(z\in S\), the image \(B(x(t))\) converges strongly to \(B(z)\):
+\[
+\forall z\in S,\qquad B(x(t))\to B(z).
+\]
+Third, for every \(z\in S\), the subgradient trajectory converges strongly to \(-B(z)\):
+\[
+\forall z\in S,\qquad v(t)\to -B(z).
+\]
+Fourth, the primal trajectory has a weak limit in the solution set:
+\[
+\exists z\in S,\qquad x(t)\rightharpoonup z
+\]
+weakly as \(t\to\infty\). Thus the theorem states convergence of the continuous-time forward-backward dynamical system to an equilibrium in \(S\), with strong convergence of \(v+B(x)\) and of the quantities \(B(x(t))\) and \(v(t)\), and weak convergence of \(x(t)\).
 
 ## Lean proof
 ```lean
@@ -337,23 +361,282 @@ by
 ```
 
 ## Proof explanation
-The proof begins by using the nonemptiness of S to choose a point z₀ ∈ S. From the fact that Phi belongs to the class `gammaZero` and from hsubgradient and hsolution, the argument first shows that every x t with t ≥ 0 and every z ∈ S lies in the effective domain of Phi. It also combines the a.e. differential equation with the subgradient condition into one `horbit_pair`: almost everywhere on [0,∞), both v t ∈ ∂Phi(x t) and the differential equation hold.
+The proof begins by choosing an element \(z_0\in S\), using `obtain ⟨z₀, hz₀⟩ := hS`, which is possible because \(hS\) says that \(S\) is nonempty.
 
-The central analytic input is then obtained by invoking `proposition_2_12` with the coefficient lam⁻¹. The variable lam⁻¹ is positive because lam > 0. This proposition supplies a large Lyapunov-style package: gamma along the orbit has a limit; the square of ‖B(x t) - B z₀‖ is integrable on [0,∞); x is bounded; derivative norms are square-integrable; derivative of v is square-integrable; and an energy term has a limit. The proof uses `rcases` to decompose this package into its named pieces, for example hBsq for the integrability of ‖B(x t)-B z₀‖², hdxsq and hdvsq for the L² estimates, hxBound for the boundedness of x, and hEnergyLim for the energy limit.
+Next, the proof extracts a finiteness fact for \(\Phi\). The declaration `isProper_of_mem_gammaZero` says that if \(\Phi\in\Gamma_0(H)\), then the function \(x\mapsto \Phi(x)\), viewed as an extended-real-valued function, is proper. In particular, its effective domain
+\[
+\operatorname{dom}\Phi=\{x\in H:\Phi(x)<+\infty\}
+\]
+is nonempty. The proof writes this as `hdomPhi`. It then shows that both the trajectory \(x(t)\) and every equilibrium \(z\in S\) lie in the effective domain of \(\Phi\). For \(x(t)\), this follows from the subgradient hypothesis \(v(t)\in\partial\Phi(x(t))\): the lemma `SubdifferentiableAt.mem_effectiveDomain` says that a point admitting a subgradient lies in the effective domain. For \(z\in S\), the same argument is applied to \(-B(z)\in\partial\Phi(z)\), which holds by the characterization of \(S\). This gives
+\[
+\forall t\ge0,\quad x(t)\in\operatorname{dom}\Phi,
+\qquad
+\forall z\in S,\quad z\in\operatorname{dom}\Phi.
+\]
+This is necessary because the later Lyapunov function uses the real numbers \((\Phi z)_{\mathbb R}\) and \((\Phi(x(t)))_{\mathbb R}\), which require finite values.
 
-Next the proof builds the fundamental theorem of calculus for x and v on intervals [s,t] with 0 ≤ s ≤ t. The zero endpoint cases are handled separately, and the nonsingleton cases use absolute continuity, the a.e. derivative hypotheses, and the integrability of deriv x and deriv v. The resulting identities express x t - x s and v t - v s as interval integrals of their derivatives.
+The proof then combines the almost-everywhere orbit equation with the everywhere subgradient condition. Using `filter_upwards` with `ae_restrict_mem measurableSet_Ici`, it obtains an almost-everywhere statement on \([0,\infty)\) of the form
+\[
+v(t)\in\partial\Phi(x(t))
+\quad\text{and}\quad
+\lambda\,\operatorname{deriv} x(t)+\operatorname{deriv} v(t)+v(t)+B(x(t))=0.
+\]
+This paired statement is exactly what `proposition_2_12` expects.
 
-From these identities and the square-integrability estimates, a library lemma gives uniform continuity of x and v on [0,∞). B itself is uniformly continuous because a cocoercive map is Lipschitz, and composing this uniform continuity of B with that of x gives uniform continuity of B∘x. Subtracting the constant B z₀ preserves uniform continuity. A general lemma, `uniformContinuousOn_sq_integrable_tendsto_zero_local`, converts uniform continuity plus square-integrability on [0,∞) into convergence to zero at infinity. Applied to B(x t)-B z₀, it gives B(x t) → B z₀.
+Next, the proof applies `operator_constant_on_solution_set_local`. That theorem says that under the hypotheses \(\Phi\in\Gamma_0(H)\), \(\beta>0\), \(B\) \(\beta\)-cocoercive on all of \(H\), and
+\[
+z\in S\iff -B(z)\in\partial\Phi(z),
+\]
+the operator \(B\) is constant on \(S\): for all \(z,w\in S\), \(B(z)=B(w)\). Applying it to arbitrary \(z\in S\) and to the fixed \(z_0\in S\), the proof obtains
+\[
+\forall z\in S,\qquad B(z)=B(z_0).
+\]
+This will later identify all possible strong limits of \(B(x(t))\) and \(v(t)\).
 
-The proof then shows that v t + B(x t) is uniformly continuous and lies in L² on [0,∞). The L² bound is a pointwise estimate obtained from the differential equation: v t + B(x t) equals -(lam • deriv x t + deriv v t), and its squared norm is bounded by a combination of ‖deriv x t‖² and ‖deriv v t‖² using the triangle inequality and the inequality (a+b)² ≤ 2a²+2b². In the formal proof this is done after `filter_upwards [horbit]`, which uses the a.e. equation pointwise, followed by arithmetic simplifications and `linarith`-type estimates. Then the same uniform-continuity-plus-square-integrability lemma gives v t + B(x t) → 0. Its norm therefore also tends to 0, proving the first conclusion.
+The proof sets \(\mu=\lambda^{-1}\). Since \(\lambda>0\), \(\mu>0\), and \(\mu\lambda=1\). It then applies the cited theorem `proposition_2_12` with \(z=z_0\). That theorem is the Lyapunov/energy estimate for the system. In the present variables, it gives:
 
-Since B(x t)-B z₀ → 0 and v t + B(x t) → 0, their difference v t + B z₀ tends to 0, hence v t → -B z₀. A separate argument, using the theorem `operator_constant_on_solution_set_local`, proves that B is constant on S, so B z = B z₀ for every z ∈ S. Therefore, for every z ∈ S, B(x t) → B z and v t → -B z. This proves the second and third conclusions.
+- the function
+\[
+\Gamma_{z_0}(t)
+=\frac12\|x(t)-z_0\|^2
++\lambda^{-1}\Bigl(
+(\Phi(z_0))_{\mathbb R}-(\Phi(x(t)))_{\mathbb R}
+-\langle z_0-x(t),v(t)\rangle
+\Bigr)
+\]
+is antitone on \([0,\infty)\), and it converges to some real limit as \(t\to\infty\);
+- the function \(t\mapsto \|B(x(t))-B(z_0)\|^2\) is integrable on \([0,\infty)\);
+- \(x\) is bounded on \([0,\infty)\);
+- \(t\mapsto \|\operatorname{deriv} x(t)\|^2\) is integrable on \([0,\infty)\);
+- \(t\mapsto \|\operatorname{deriv} v(t)+v(t)+B(z_0)\|^2\) is integrable on \([0,\infty)\);
+- \(t\mapsto \|\operatorname{deriv} v(t)\|^2\) is integrable on \([0,\infty)\);
+- \(v\) is bounded on \([0,\infty)\);
+- the energy \(t\mapsto (\Phi(x(t)))_{\mathbb R}+\langle x(t),B(z_0)\rangle\) converges to some real limit.
 
-For the fourth, weak convergence of x, the proof uses an Opial-type trajectory lemma. For an arbitrary z ∈ S, it applies `proposition_2_12` again, this time to z, to obtain the limit of the Lyapunov/energy expression associated with z. Combining this with the already proved convergence v t → -B z, and expanding the gamma expression using inner-product algebra, the proof shows that ‖x t - z‖² has a limit as t → ∞. This is the key fact `hdist`: for every z ∈ S, the distance ‖x t - z‖ tends to some real limit.
+These are the outputs collected by `rcases hLyapunov with ...`.
 
-The proof then establishes a cluster-point property: if a subsequence of x(t_n) converges weakly to some z, then z must belong to S. In more detail, after passing to a subsubsequence with nonnegative times, weak convergence x(t_n) ⇀ z and strong convergence v(t_n) → -B z₀ are known. Using beta-cocoercivity of B, the proof shows that the distance between B z and B z₀ must be zero, so B z = B z₀. Then, because the graph of the subdifferential of Phi is maximal monotone and closed under mixed weak-strong limits, the facts v(t_n) ∈ ∂Phi(x(t_n)), x(t_n) ⇀ z, and v(t_n) → -B z₀ imply -B z₀ ∈ ∂Phi(z). By the hypothesis characterizing S, this gives z ∈ S.
+Using the integrability of \(\|\operatorname{deriv} v\|^2\) on \([0,\infty)\), the proof obtains local \(L^2\) membership of \(\operatorname{deriv} v\). The criterion `memLp_two_iff_integrable_sq_norm` says that, for an almost-everywhere strongly measurable function, being in \(L^2\) is equivalent to integrability of the square of its norm. Since \(\operatorname{deriv} v\) is almost-everywhere strongly measurable, and since the square-norm integrability restricts from \([0,\infty)\) to \([0,T]\), the proof concludes
+\[
+\operatorname{deriv} v\in L^2([0,T])
+\]
+for every \(T>0\).
 
-Finally, the proof applies the Opial trajectory lemma: since S is nonempty, for every z ∈ S the distance ‖x t - z‖ has a limit, and every weak subsequential limit of x is in S, the whole trajectory x t must converge weakly to some point of S. This is the final existential statement.
+The proof then establishes the fundamental theorem of calculus for \(x\) and \(v\). The cited result `intervalIntegral_deriv_eq_sub_of_ac_ae_local` says that if \(a\le b\), \(f\) is absolutely continuous on \([a,b]\), \(\operatorname{deriv} f\) is interval-integrable on \([a,b]\), and almost everywhere on \([a,b]\) one has
+\[
+\operatorname{HasDerivAt} f\,(\operatorname{deriv} f(t))\,t,
+\]
+then
+\[
+\int_a^b \operatorname{deriv} f(t)\,dt=f(b)-f(a).
+\]
+The proof applies this to \(f=x\) and to \(f=v\), for \(0\le s\le t\). The cases \(t=0\) are trivial because then \(s=0\), handled by `simp`. In the nontrivial case \(t>0\), the local \(L^2\) hypotheses give integrability on \([s,t]\), the absolute continuity hypotheses restrict from \([0,t]\) to \([s,t]\), and the almost-everywhere derivative hypotheses restrict similarly. The conclusion is
+\[
+x(t)-x(s)=\int_s^t \operatorname{deriv} x(r)\,dr,
+\qquad
+v(t)-v(s)=\int_s^t \operatorname{deriv} v(r)\,dr
+\]
+whenever \(0\le s\le t\).
 
-The important Lean commands used in the proof have the following roles: `obtain` and `rcases` destruct existential claims or split conjunctive data; `intro` proves universal statements by naming arbitrary variables; `have` creates intermediate claims; `filter_upwards` applies pointwise or a.e. arguments inside filtered limits; `rw` rewrites a goal using equalities such as inner-product or norm identities; `simp` simplifies goals, especially trivial zero or endpoint cases; `exact` closes a goal by providing a precisely matching proof term; and `linarith` solves linear inequalities arising from estimates like the epsilon/2 distance bound. The proof is a single long formal argument that ends by combining the previously established limits with `opial_trajectory_lemma`.
+These FTC identities are then fed into the cited theorem `uniformContinuousOn_of_deriv_integral_eq_sub_sq_local`. That theorem says that if a curve satisfies the FTC on all nonnegative intervals, has locally \(L^2\) derivative on \([0,T]\), and has globally integrable squared derivative norm on \([0,\infty)\), then the curve is uniformly continuous on \([0,\infty)\). Applying it to \(x\) and to \(v\), the proof obtains
+\[
+x\text{ uniformly continuous on }[0,\infty),
+\qquad
+v\text{ uniformly continuous on }[0,\infty).
+\]
+
+Next, the proof shows \(B\) is uniformly continuous. The cited theorem `lipschitzWith_of_cocoercive` says that a \(\beta\)-cocoercive operator is Lipschitz with constant \(\operatorname{Real.toNNReal}(1/\beta)\), which is \(1/\beta\) because \(\beta>0\). Applying this to \(B\) restricted to all of \(H\) and composing with the inclusion \(y\mapsto \langle y,\operatorname{univ}\rangle\), the proof concludes that \(B:H\to H\) is uniformly continuous. Therefore the composition \(t\mapsto B(x(t))\) is uniformly continuous on \([0,\infty)\), because it is the composition of uniformly continuous maps. Subtracting the constant \(B(z_0)\) preserves uniform continuity, so
+\[
+t\mapsto B(x(t))-B(z_0)
+\]
+is uniformly continuous on \([0,\infty)\).
+
+The proof now applies `uniformContinuousOn_sq_integrable_tendsto_zero_local`. That theorem says that if \(f\) is uniformly continuous on \([0,\infty)\) and \(\int_0^\infty \|f(t)\|^2\,dt<\infty\), then \(f(t)\to0\) as \(t\to\infty\). Here it is applied to \(f(t)=B(x(t))-B(z_0)\). The square-integrability was supplied by `proposition_2_12`. Hence
+\[
+B(x(t))-B(z_0)\to0.
+\]
+
+The proof then treats the residual \(v(t)+B(x(t))\). Since \(v\) and \(B\circ x\) are uniformly continuous on \([0,\infty)\), their sum is uniformly continuous. The proof next proves that the square of the residual is integrable. On the almost-everywhere set where the orbit equation holds,
+\[
+v(t)+B(x(t))
+=-\bigl(\lambda\,\operatorname{deriv} x(t)+\operatorname{deriv} v(t)\bigr).
+\]
+Therefore, by the triangle inequality and the elementary inequality
+\[
+(a+b)^2\le 2a^2+2b^2,
+\]
+one has
+\[
+\|v(t)+B(x(t))\|^2
+\le
+\bigl(\lambda\|\operatorname{deriv} x(t)\|+\|\operatorname{deriv} v(t)\|\bigr)^2
+\le
+2\lambda^2\|\operatorname{deriv} x(t)\|^2
++2\|\operatorname{deriv} v(t)\|^2.
+\]
+The right-hand side is integrable on \([0,\infty)\) by the Lyapunov estimates. The proof uses `Integrable.mono'` to deduce that
+\[
+t\mapsto \|v(t)+B(x(t))\|^2
+\]
+is integrable on \([0,\infty)\). Applying `uniformContinuousOn_sq_integrable_tendsto_zero_local` once more, this time to the residual \(v+B(x)\), yields
+\[
+v(t)+B(x(t))\to0.
+\]
+Taking norms gives the first conclusion:
+\[
+\|v(t)+B(x(t))\|\to0.
+\]
+
+From here the proof derives the strong limits. Since
+\[
+v(t)+B(x(t))\to0
+\quad\text{and}\quad
+B(x(t))-B(z_0)\to0,
+\]
+subtracting gives
+\[
+v(t)+B(z_0)\to0,
+\]
+hence
+\[
+v(t)\to -B(z_0).
+\]
+Also
+\[
+B(x(t))=B(z_0)+(B(x(t))-B(z_0))\to B(z_0).
+\]
+Using the earlier constancy \(B(z)=B(z_0)\) for every \(z\in S\), the proof rewrites these limits as
+\[
+\forall z\in S,\qquad B(x(t))\to B(z),
+\qquad
+\forall z\in S,\qquad v(t)\to -B(z).
+\]
+These are the second and third conclusions of the theorem.
+
+It remains to prove weak convergence of \(x(t)\). The proof uses the cited Opial trajectory lemma. To apply it, one must verify two hypotheses. First, for every \(z\in S\), the distance \(\|x(t)-z\|\) must converge as \(t\to\infty\). Second, every weak cluster point of \(x(t)\) at infinity must belong to \(S\).
+
+For the distance convergence, the proof fixes \(z\in S\) and applies `proposition_2_12` again, now with this arbitrary \(z\). That gives a Lyapunov function
+\[
+\Gamma_z(t)
+=
+\frac12\|x(t)-z\|^2
++\lambda^{-1}\Bigl(
+(\Phi(z))_{\mathbb R}-(\Phi(x(t)))_{\mathbb R}
+-\langle z-x(t),v(t)\rangle
+\Bigr)
+\]
+which converges to some limit \(l_\Gamma\). It also gives convergence of the energy
+\[
+E_z(t)=(\Phi(x(t)))_{\mathbb R}+\langle x(t),B(z)\rangle
+\]
+to some limit \(l_E\). Since \(v(t)\to -B(z)\), one has
+\[
+\langle z,v(t)\rangle\to \langle z,-B(z)\rangle.
+\]
+Also \(x\) is bounded on \([0,\infty)\), say \(\|x(t)\|\le M\) eventually, and \(v(t)+B(z)\to0\). By Cauchy–Schwarz,
+\[
+|\langle x(t),v(t)+B(z)\rangle|
+\le \|x(t)\|\,\|v(t)+B(z)\|
+\le M\|v(t)+B(z)\|,
+\]
+so the cross term tends to \(0\). The proof uses the squeeze theorem `tendsto_of_tendsto_of_tendsto_of_le_of_le'` to conclude
+\[
+\langle x(t),v(t)+B(z)\rangle\to0.
+\]
+Therefore the gap
+\[
+(\Phi(z))_{\mathbb R}
+-\bigl((\Phi(x(t)))_{\mathbb R}+\langle x(t),B(z)\rangle\bigr)
++\langle x(t),v(t)+B(z)\rangle
+-\langle z,v(t)\rangle
+\]
+converges. The proof rewrites \(\Gamma_z(t)\) as
+\[
+\frac12\|x(t)-z\|^2
++\lambda^{-1}
+\Bigl(
+(\Phi(z))_{\mathbb R}
+-\bigl((\Phi(x(t)))_{\mathbb R}+\langle x(t),B(z)\rangle\bigr)
++\langle x(t),v(t)+B(z)\rangle
+-\langle z,v(t)\rangle
+\Bigr),
+\]
+which is just the expansion of the inner product term. Since \(\Gamma_z(t)\) converges and the gap converges, the squared distance \(\|x(t)-z\|^2\) converges to an explicit real limit. Taking square roots, using continuity of the square root, gives convergence of \(\|x(t)-z\|\). Thus the first hypothesis of the Opial lemma holds for every \(z\in S\).
+
+For the second hypothesis, the proof shows that every weak cluster point of \(x(t)\) at infinity belongs to \(S\). Suppose \(u_n\to\infty\) and
+\[
+x(u_n)\rightharpoonup z
+\]
+weakly. Since the sequence \(u_n\) may not be nonnegative, the proof shifts it by a large integer \(N\) so that \(q_n=u_{n+N}\ge0\) for all \(n\). Then \(q_n\to\infty\) and still
+\[
+x(q_n)\rightharpoonup z.
+\]
+From the previously established limits,
+\[
+v(q_n)\to -B(z_0),
+\qquad
+B(x(q_n))\to B(z_0).
+\]
+The proof sets \(d=B(z_0)-B(z)\). Then
+\[
+B(x(q_n))-B(z)-d\to0.
+\]
+The sequence \(x(q_n)-z\) is bounded: indeed weak convergence of \(x(q_n)\) to \(z\) implies boundedness of the range by `bounded_range_of_tendsto_weakly`, and subtracting the fixed vector \(z\) preserves boundedness. The cited lemma `inner_tendsto_zero_of_tendsto_zero_of_bounded_range_local` says that if \(a_n\to0\) and \(b_n\) has bounded range, then \(\langle a_n,b_n\rangle\to0\). Applying it to
+\[
+a_n=B(x(q_n))-B(z)-d,
+\qquad
+b_n=x(q_n)-z,
+\]
+and then using symmetry of the real inner product, gives
+\[
+\langle x(q_n)-z,B(x(q_n))-B(z)-d\rangle\to0.
+\]
+On the other hand, since \(x(q_n)\rightharpoonup z\), the cited weak-continuity theorem `weakSpace_continuous_inner_right` gives
+\[
+\langle x(q_n),d\rangle\to\langle z,d\rangle,
+\]
+so
+\[
+\langle x(q_n)-z,d\rangle\to0.
+\]
+Adding the last two limits yields
+\[
+\langle x(q_n)-z,B(x(q_n))-B(z)\rangle\to0.
+\]
+But \(\beta\)-cocoercivity gives, for every \(n\),
+\[
+\beta\|B(x(q_n))-B(z)\|^2
+\le
+\langle x(q_n)-z,B(x(q_n))-B(z)\rangle.
+\]
+Taking limits and using that limits preserve non-strict inequalities, the proof obtains
+\[
+\beta\|d\|^2\le0.
+\]
+Since \(\beta>0\), this forces \(\|d\|=0\), hence \(d=0\), i.e.
+\[
+B(z)=B(z_0).
+\]
+Now the proof uses maximal monotonicity of the subdifferential. The theorem `subdifferential_isMaximalMonotone_of_mem_gammaZero` says that if \(\Phi\in\Gamma_0(H)\), then \(\partial\Phi\) is a maximal monotone operator. The cited result `maximal_monotone_graph_weak_strong_closed` says that for a maximal monotone operator \(T\), if \(x_n\rightharpoonup x_0\), \(v_n\to v_0\) strongly, and \(v_n\in T(x_n)\) for all \(n\), then \(v_0\in T(x_0)\). Applying this to
+\[
+T=\partial\Phi,\qquad x_n=x(q_n),\qquad v_n=v(q_n),
+\]
+with weak limit \(z\) and strong limit \(-B(z_0)\), and using \(v(q_n)\in\partial\Phi(x(q_n))\), gives
+\[
+-B(z_0)\in\partial\Phi(z).
+\]
+Since \(B(z)=B(z_0)\), this is
+\[
+-B(z)\in\partial\Phi(z).
+\]
+By the defining characterization of \(S\), this implies \(z\in S\). Thus every weak cluster point of the trajectory belongs to \(S\).
+
+Finally, the proof applies `opial_trajectory_lemma`. That lemma states that if \(S\) is nonempty, every distance \(\|x(t)-z\|\) with \(z\in S\) has a limit as \(t\to\infty\), and every weak cluster point of \(x(t)\) at infinity lies in \(S\), then there exists \(z\in S\) such that
+\[
+x(t)\rightharpoonup z
+\]
+weakly. All hypotheses have been verified: \(S\) is nonempty, the distance limits were proved using `proposition_2_12`, and the cluster-point property was proved using cocoercivity, weak continuity of the inner product, and maximal monotonicity of \(\partial\Phi\). This yields the final conclusion:
+\[
+\exists z\in S,\qquad x(t)\rightharpoonup z.
+\]
+Combined with the earlier strong limits of the residual, of \(B(x(t))\), and of \(v(t)\), this completes the proof of the theorem.
 

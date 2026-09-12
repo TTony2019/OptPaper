@@ -17,45 +17,55 @@ theorem semigroup_convergence {H : Type*} [NormedAddCommGroup H] [InnerProductSp
 ```
 
 ## Statement explanation
-The theorem is named `semigroup_convergence`. It assumes a real Hilbert space \(H\), meaning \(H\) has a normed additive commutative group structure, an inner product space structure over \(\mathbb R\), and is complete. The data are:
-
-- \(\Phi : H \to \operatorname{Set.Ioi}(\bot : \mathrm{EReal})\), an extended-real-valued function whose values lie above the bottom element of \(\mathrm{EReal}\).
-- \(h\Phi : \Phi \in \mathrm{ERealFunction.gammaZero}\ H\), meaning \(\Phi\) belongs to the class \(\mathrm{gammaZero}\) of proper, convex, lower semicontinuous extended-real functions.
-- \(S : \operatorname{Set} H\), a subset of \(H\).
-- \(B : H \to H\), an operator on \(H\).
-- \(x : \mathbb R \to H\), a curve in \(H\).
-- \(\beta : \mathbb R\), a real parameter.
+The declaration concerns a continuous-time forward-backward trajectory in a real Hilbert space \(H\). The function \(\Phi:H\to(-\infty,+\infty]\) is extended-real-valued and is assumed to lie in \(\Gamma_0(H)\), the class of proper convex lower semicontinuous functions; the Lean type \(H\to \operatorname{Ioi}(\bot:\mathbb E\mathbb R)\) encodes that \(\Phi\) never takes the value \(-\infty\). The set \(S\subseteq H\) is nonempty, \(B:H\to H\) is a forward operator, \(x:\mathbb R\to H\) is a trajectory, and \(\beta>0\).
 
 The hypotheses are:
 
-- \(hS : S.\mathrm{Nonempty}\), so \(S\) has at least one point.
-- \(h\beta : 0 < \beta\).
-- \(hB : \operatorname{CocoerciveOn}\ \beta\ \operatorname{Set.univ}\ (\lambda w : \operatorname{Set.univ} \mapsto B\,w)\), so \(B\) is \(\beta\)-cocoercive on all of \(H\).
-- \(hsolution : \forall z,\ z \in S \leftrightarrow -B z \in \operatorname{ERealFunction.subdifferential}\ \Phi\ z\). Thus \(S\) is exactly the set of points \(z\) for which \(-B z\) is a subgradient of \(\Phi\) at \(z\).
-- \(horbit : \operatorname{ForwardBackwardSemigroupOrbit}\ \Phi\ B\ x\), meaning \(x\) is a forward-backward semigroup orbit associated with \(\Phi\) and \(B\).
+- \(B\) is \(\beta\)-cocoercive on all of \(H\): for all \(u,v\in H\),
+  \[
+  \langle Bu-Bv,u-v\rangle \ge \beta\|Bu-Bv\|^2.
+  \]
+- The set \(S\) is exactly the solution set of the inclusion
+  \[
+  z\in S \quad\Longleftrightarrow\quad -Bz\in\partial\Phi(z),
+  \]
+  equivalently \(0\in Bz+\partial\Phi(z)\). Here \(\partial\Phi\) is the subdifferential.
+- \(x\) is a forward-backward semigroup orbit for \(\Phi\) and \(B\). The proof unpacks this as follows: \(x\) is locally absolutely continuous on every interval \([0,T]\) with \(T>0\); there is \(v:\mathbb R\to H\) with \(v(t)\in\partial\Phi(x(t))\) for almost every \(t\ge0\); \(x(t)\) lies in the effective domain of \(\Phi\) for \(t\ge0\); \(v\) and \(\dot x\) are locally \(L^2\) on \([0,T]\); \(x\) is differentiable almost everywhere; \(x\) satisfies the fundamental-theorem-of-calculus identity
+  \[
+  x(t)-x(s)=\int_s^t \dot x(r)\,dr \qquad(0\le s\le t);
+  \]
+  and the differential inclusion is realized as the equation
+  \[
+  \dot x(t)+v(t)+B(x(t))=0
+  \]
+  for almost every \(t\ge0\). There is also a residual function \(r:\mathbb R\to H\) such that
+  \[
+  r(t)-B(x(t))\in\partial\Phi(x(t)),
+  \]
+  \[
+  r(t)=-\dot x(t)\quad\text{for almost every }t\ge0,
+  \]
+  and \(t\mapsto \|r(t)\|\) is antitone on \([0,\infty)\). The proof unpacks a further minimality field for \(r\), but it is not used later.
 
 The conclusion has three parts:
 
-1. \(\int_0^\infty \|x'(t)\|^2\,dt < \infty\), formally:  
-   \[
-   \operatorname{IntegrableOn}\ (\lambda t \mapsto \|\operatorname{deriv} x(t)\|^2)\ (\operatorname{Set.Ici} 0).
-   \]
+\[
+\int_0^\infty \|\dot x(t)\|^2\,dt<\infty,
+\]
 
-2. There exists some point \(z\in S\) such that \(x(t)\) converges weakly to \(z\) as \(t\to\infty\):  
-   \[
-   \exists z\in S,\quad
-   (\lambda t \mapsto \operatorname{toWeakSpace}_{\mathbb R\,H}(x(t)))
-   \to
-   \operatorname{toWeakSpace}_{\mathbb R\,H}(z)
-   \quad\text{as }t\to\infty.
-   \]
+there exists \(z\in S\) such that
 
-3. For every \(z\in S\), the image \(B(x(t))\) converges strongly to \(B(z)\) as \(t\to\infty\):  
-   \[
-   \forall z\in S,\quad
-   B(x(t)) \to B(z)
-   \quad\text{as }t\to\infty.
-   \]
+\[
+x(t)\rightharpoonup z \qquad(t\to\infty)
+\]
+
+weakly in \(H\), and for every \(z\in S\),
+
+\[
+B(x(t))\to Bz \qquad(t\to\infty)
+\]
+
+strongly. Thus the trajectory has finite energy, converges weakly to some solution, and the forward operator values converge strongly to the corresponding solution value.
 
 ## Lean proof
 ```lean
@@ -453,194 +463,203 @@ by
 ```
 
 ## Proof explanation
-The proof is a long constructive argument. It first extracts the packaged information in `horbit`, then proves a chain of energy and integrability estimates, and finally obtains weak convergence via an Opial-type lemma.
+The proof proceeds as follows.
 
-1. The proof begins with  
-   ```lean
-   rcases horbit with ⟨...⟩
-   ```  
-   This decomposes the forward-backward semigroup orbit hypothesis into its components, including local absolute continuity of \(x\), a curve \(v\), almost-everywhere subgradient membership \(v(t)\in\partial\Phi(x(t))\), domain membership of \(x(t)\), square-integrability of \(v\) and \(x'\) on finite intervals, differentiability of \(x\), a fundamental theorem of calculus property, the forward-backward equation
-   \[
-   x'(t) = -\bigl(v(t)+B(x(t))\bigr),
-   \]
-   and a residual curve with associated membership, derivative, minimality, and antitone properties.
+First, `rcases horbit` unpacks the forward-backward orbit hypothesis into local absolute continuity of \(x\), the selection \(v\) from the subdifferential, the effective-domain condition, local \(L^2\) bounds, almost-everywhere differentiability, the fundamental-theorem identity, the differential equation, and the residual function \(r\) with its membership, derivative identity, and antitone norm.
 
-2. It proves `hchain`: for every \(T>0\), the real-valued function
-   \[
-   t \mapsto (\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
-   \]
-   is absolutely continuous on \([0,T]\), and almost everywhere its derivative is
-   \[
-   \langle v(t), x'(t)\rangle.
-   \]
-   This is obtained by applying the lemma `subgradient_chain_rule` to \(\Phi\), \(h\Phi\), \(x\), and \(v\), with the almost-everywhere hypotheses passed using `filter_upwards`.
+For each \(T>0\), the chain rule `subgradient_chain_rule` is applied to \(\Phi\), \(x\), and \(v\) on \([0,T]\). Its mathematical content is: if \(\Phi\in\Gamma_0(H)\), if \(x\) is absolutely continuous on \([0,T]\), if \(v(t)\in\partial\Phi(x(t))\) almost everywhere, if \(x(t)\in\operatorname{dom}\Phi\), if \(x\) is differentiable almost everywhere, and if \(v,\dot x\in L^2(0,T)\), then
+\[
+t\mapsto (\Phi(x(t)))_{\mathbb R}
+\]
+is absolutely continuous on \([0,T]\), and almost everywhere
+\[
+\frac{d}{dt}(\Phi(x(t)))_{\mathbb R}
+=
+\langle v(t),\dot x(t)\rangle.
+\]
+The restrictions from \([0,\infty)\) to \([0,T]\) are obtained with `ae_restrict_of_ae_restrict_of_subset`.
 
-3. It proves a Lyapunov inequality `hlyap`: for \(T>0\) and \(z\in S\), almost every \(t\in[0,T]\) satisfies
-   \[
-   \frac{d}{dt}\left(\frac12\|x(t)-z\|^2\right)
-   +
-   \beta\|B(x(t))-B z\|^2
-   \le 0.
-   \]
-   The derivative of the squared-distance term is calculated using `HasDerivAt`. The term \(\frac12\|x(t)-z\|^2\) has derivative
-   \[
-   \langle x(t)-z, x'(t)\rangle.
-   \]
-   Monotonicity of the subdifferential gives
-   \[
-   0\le \langle x(t)-z, v(t)+B z\rangle.
-   \]
-   Cocoercivity of \(B\) gives
-   \[
-   \beta\|B(x(t))-B z\|^2
-   \le
-   \langle x(t)-z, B(x(t))-B z\rangle.
-   \]
-   The forward-backward equation gives
-   \[
-   \langle x(t)-z, x'(t)\rangle
-   =
-   -\langle x(t)-z, v(t)\rangle
-   -\langle x(t)-z, B(x(t))\rangle.
-   \]
-   Combining these inequalities with `linarith` proves the Lyapunov inequality.
+Next, the proof establishes the Lyapunov inequality `hlyap`: for every \(T>0\) and \(z\in S\),
+\[
+\frac{d}{dt}\left(\frac12\|x(t)-z\|^2\right)
++\beta\|B(x(t))-Bz\|^2\le0
+\]
+for almost every \(t\in[0,T]\). The derivative of \(\frac12\|x(t)-z\|^2\) is computed as
+\[
+\langle x(t)-z,\dot x(t)\rangle.
+\]
+Since \(v(t)\in\partial\Phi(x(t))\) and \(-Bz\in\partial\Phi(z)\), the monotonicity of the subdifferential, supplied by `isMonotone_subdifferential` together with properness from `isProper_of_mem_gammaZero`, gives
+\[
+0\le \langle x(t)-z,v(t)+Bz\rangle.
+\]
+Cocoercivity gives
+\[
+\beta\|B(x(t))-Bz\|^2
+\le
+\langle x(t)-z,B(x(t))-Bz\rangle.
+\]
+The differential equation gives \(\dot x(t)=-(v(t)+B(x(t)))\). Combining these inequalities yields the Lyapunov inequality. Here `rw` rewrites the derivative and inner-product expressions, and `linarith` closes the resulting arithmetic inequality.
 
-4. It defines an energy function
-   \[
-   E(t)
-   =
-   \frac12\|x(t)-z\|^2
-   +
-   2\beta\left(
-   (\Phi(x(t))).\mathrm{toReal}
-   -(\Phi(z)).\mathrm{toReal}
-   +\langle B z, x(t)-z\rangle
-   \right).
-   \]
-   The lemma `henergy` shows that almost everywhere,
-   \[
-   E'(t)
-   +
-   \beta\|x'(t)\|^2
-   +
-   \beta\|v(t)+B z\|^2
-   \le 0.
-   \]
-   To prove this, the proof computes the HasDerivAt derivative of each term in \(E\), rewrites \(B(x(t))-B z\) as
-   \[
-   -\bigl(x'(t)+v(t)+B z\bigr),
-   \]
-   uses the norm-square expansion by `norm_add_sq_real`, rewrites inner products, and finishes with `linarith`.
+The proof then defines the energy
+\[
+E_z(s)=\frac12\|x(s)-z\|^2
++2\beta\left((\Phi(x(s)))_{\mathbb R}-(\Phi(z))_{\mathbb R}
++\langle Bz,x(s)-z\rangle\right).
+\]
+Using the chain rule for the \(\Phi\)-term and differentiating the square-distance and inner-product terms, the proof obtains
+\[
+E_z'(t)
+=
+\langle x(t)-z,\dot x(t)\rangle
++2\beta\bigl(\langle v(t),\dot x(t)\rangle
++\langle Bz,\dot x(t)\rangle\bigr).
+\]
+The differential equation gives
+\[
+B(x(t))-Bz=-(\dot x(t)+v(t)+Bz).
+\]
+Expanding the square norm in the Lyapunov inequality and comparing with the derivative of \(E_z\) gives the energy dissipation inequality `henergy`: for almost every \(t\in[0,T]\),
+\[
+E_z'(t)+\beta\|\dot x(t)\|^2+\beta\|v(t)+Bz\|^2\le0.
+\]
+The tactic `filter_upwards` combines the almost-everywhere hypotheses, and `linarith` finishes the algebra.
 
-5. It proves `hE_nonneg`: for \(z\in S\) and \(t\ge 0\),
-   \[
-   0\le E(t).
-   \]
-   The half-squared-distance term is nonnegative, and the subgradient inequality
-   \[
-   0\le
-   (\Phi(x(t))).\mathrm{toReal}
-   -(\Phi(z)).\mathrm{toReal}
-   +\langle B z, x(t)-z\rangle
-   \]
-   follows from \(-B z\in\partial\Phi(z)\) and \(x(t)\in\operatorname{dom}\Phi\).
+Next, the proof shows that \(E_z(t)\ge0\) for \(t\ge0\). It applies `subgradient_ineq_toReal_of_mem_gammaZero`: since \(-Bz\in\partial\Phi(z)\) and \(x(t)\in\operatorname{dom}\Phi\),
+\[
+(\Phi(x(t)))_{\mathbb R}
+\ge
+(\Phi(z))_{\mathbb R}
++\langle -Bz,x(t)-z\rangle
+=
+(\Phi(z))_{\mathbb R}
+-\langle Bz,x(t)-z\rangle.
+\]
+Hence
+\[
+(\Phi(x(t)))_{\mathbb R}-(\Phi(z))_{\mathbb R}
++\langle Bz,x(t)-z\rangle\ge0.
+\]
+Since \(\beta>0\) and \(\frac12\|x(t)-z\|^2\ge0\), the energy \(E_z(t)\) is nonnegative.
 
-6. It proves `hfinite`: for \(T>0\) and \(z\in S\),
-   \[
-   \int_0^T \beta\|x'(t)\|^2\,dt
-   \le
-   E(0).
-   \]
-   This is done by integrating the pointwise inequality from `henergy`:
-   almost everywhere,
-   \[
-   \beta\|x'(t)\|^2 \le -E'(t).
-   \]
-   The proof uses absolute continuity of \(E\), interval integrability, and `intervalIntegral.integral_mono_ae_restrict`. Then
-   \[
-   \int_0^T -E'(t)\,dt
-   =
-   -(E(T)-E(0))
-   \le
-   E(0),
-   \]
-   because \(E(T)\ge 0\).
+From the energy inequality and nonnegativity of \(\beta\|v(t)+Bz\|^2\), the proof gets
+\[
+\beta\|\dot x(t)\|^2\le -E_z'(t)
+\]
+almost everywhere on \([0,T]\). The energy \(E_z\) is absolutely continuous by `semigroup_lyapunov_absolutelyContinuousOnInterval`, which combines absolute continuity of \(x\) and of \((\Phi(x(t)))_{\mathbb R}\). Therefore the fundamental theorem of calculus applies:
+\[
+\int_0^T E_z'(t)\,dt=E_z(T)-E_z(0).
+\]
+Since \(E_z(T)\ge0\), this gives
+\[
+\int_0^T \beta\|\dot x(t)\|^2\,dt\le E_z(0).
+\]
 
-7. The proof obtains `hscaled`: the function
-   \[
-   t\mapsto \beta\|x'(t)\|^2
-   \]
-   is integrable on \([0,\infty)\), using the lemma `integrableOn_Ici_of_nonneg_interval_bound` with the uniform bound \(E(0)\). Then, multiplying by \(\beta^{-1}\), it obtains `hdxint`:
-   \[
-   t\mapsto \|x'(t)\|^2
-   \]
-   is integrable on \([0,\infty)\). This proves the first part of the theorem.
+Using `integrableOn_Ici_of_nonneg_interval_bound` with \(g(t)=\beta\|\dot x(t)\|^2\), \(a=0\), and \(C=E_z(0)\), the proof concludes that \(\beta\|\dot x(t)\|^2\) is integrable on \([0,\infty)\). The cited lemma says that a locally integrable nonnegative function whose integrals over \([0,T]\) are uniformly bounded has an integrable extension to \([0,\infty)\). Multiplying by \(\beta^{-1}\) yields
+\[
+\int_0^\infty \|\dot x(t)\|^2\,dt<\infty,
+\]
+which is the first conclusion.
 
-8. From square-integrability of \(x'\) and the fundamental theorem of calculus hypothesis, it proves \(x\) is uniformly continuous on \([0,\infty)\), using `uniformContinuousOn_of_deriv_integral_eq_sub_sq`.
+The proof then applies `uniformContinuousOn_of_deriv_integral_eq_sub_sq` to \(x\). Its content is: if \(x\) satisfies the fundamental-theorem identity
+\[
+x(t)-x(s)=\int_s^t \dot x(r)\,dr,
+\]
+if \(\dot x\) is locally \(L^2\) on \([0,T]\), and if \(\|\dot x\|^2\) is integrable on \([0,\infty)\), then \(x\) is uniformly continuous on \([0,\infty)\). Thus \(x\) is uniformly continuous.
 
-9. It proves \(B\) is continuous. Cocoercivity implies Lipschitz continuity via `lipschitzWith_of_cocoercive`, and hence \(B\) is uniformly continuous.
+Cocoercivity implies a Lipschitz bound for \(B\): `lipschitzWith_of_cocoercive` gives that \(B\) is Lipschitz with constant \((1/\beta)_{\ge0}\). Hence \(B\) is continuous and uniformly continuous.
 
-10. It proves `hBfinite`: for \(T>0\) and \(z\in S\),
-    \[
-    \int_0^T \beta\|B(x(t))-B z\|^2\,dt
-    \le
-    \frac12\|x(0)-z\|^2.
-    \]
-    This is analogous to the derivative bound, but now using \(hlyap\) directly. Then it obtains integrability of
-    \[
-    t\mapsto \|B(x(t))-B z\|^2
-    \]
-    on \([0,\infty)\).
+For \(z\in S\), the proof next bounds the forward residual. From the Lyapunov inequality,
+\[
+\beta\|B(x(t))-Bz\|^2
+\le
+-\frac{d}{dt}\left(\frac12\|x(t)-z\|^2\right).
+\]
+The function \(t\mapsto \frac12\|x(t)-z\|^2\) is absolutely continuous by `sqdist_absolutelyContinuousOnInterval`. Integrating over \([0,T]\) gives
+\[
+\int_0^T \beta\|B(x(t))-Bz\|^2\,dt
+\le
+\frac12\|x(0)-z\|^2.
+\]
+Again using `integrableOn_Ici_of_nonneg_interval_bound`, this time with \(g(t)=\beta\|B(x(t))-Bz\|^2\) and \(C=\frac12\|x(0)-z\|^2\), the proof gets integrability on \([0,\infty)\). After multiplying by \(\beta^{-1}\),
+\[
+\int_0^\infty \|B(x(t))-Bz\|^2\,dt<\infty.
+\]
 
-11. It proves `hBlim`: for every \(z\in S\),
-    \[
-    B(x(t)) \to B(z)
-    \quad\text{as }t\to\infty.
-    \]
-    Since \(B\) is uniformly continuous and \(x\) is uniformly continuous on \([0,\infty)\), the composition \(B\circ x\) is uniformly continuous on \([0,\infty)\). Since \(B(x(t))-B(z)\) is both uniformly continuous and square-integrable on \([0,\infty)\), a standard lemma
-    `uniformContinuousOn_sq_integrable_tendsto_zero`
-    gives \(B(x(t))-B(z)\to 0\). Adding the constant \(B(z)\) gives the desired convergence.
+Since \(B\) is uniformly continuous and \(x\) is uniformly continuous, the map \(t\mapsto B(x(t))-Bz\) is uniformly continuous. Because its square norm is integrable on \([0,\infty)\), the lemma `uniformContinuousOn_sq_integrable_tendsto_zero` gives
+\[
+B(x(t))-Bz\to0.
+\]
+Hence
+\[
+B(x(t))\to Bz
+\]
+strongly. This holds for every \(z\in S\), proving the third conclusion.
 
-12. It proves `hdist`: for each \(z\in S\), the real limit
-    \[
-    \lim_{t\to\infty}\|x(t)-z\|
-    \]
-    exists. First it shows the squared distance is antitone on \([0,\infty)\). For \(s\le t\), it uses absolute continuity on \([s,t]\) and the inequality from `hlyap` to show the derivative of the squared distance is almost everywhere nonpositive. Therefore the squared distance decreases. It is bounded below by \(0\). To get an at-top limit, it defines
-    \[
-    F(t)=\|x(\max(t,0))-z\|^2,
-    \]
-    shows \(F\) is antitone and bounded below, applies `tendsto_atTop_ciInf`, then restricts to \(t\ge 0\) and applies continuity of \(\sqrt{\cdot}\).
+To prepare for Opial’s lemma, the proof shows that for every \(z\in S\), the distance \(\|x(t)-z\|\) has a finite limit as \(t\to\infty\). It first proves that \(t\mapsto\|x(t)-z\|^2\) is antitone on \([0,\infty)\). Indeed, for \(0\le s\le t\), the Lyapunov inequality gives
+\[
+\frac{d}{dr}\left(\frac12\|x(r)-z\|^2\right)\le0
+\]
+almost everywhere on \([s,t]\). The function \(\frac12\|x(r)-z\|^2\) is absolutely continuous by `sqdist_absolutelyContinuousOnInterval`, so integrating this inequality via the fundamental theorem of calculus yields
+\[
+\|x(t)-z\|^2\le\|x(s)-z\|^2.
+\]
+Thus the square distance is antitone and bounded below by \(0\). Extending it to all real \(t\) by \(F(t)=\|x(\max(t,0))-z\|^2\), the theorem `tendsto_atTop_ciInf` shows that \(F(t)\) tends to its infimum at \(+\infty\). Since eventually \(F(t)=\|x(t)-z\|^2\), the square distance converges. Taking square roots, using continuity of \(\sqrt{\cdot}\), gives a finite limit for \(\|x(t)-z\|\).
 
-13. It proves the residual tends to \(0\). The residual is almost everywhere equal to \(-x'(t)\), so it is square-integrable on \([0,\infty)\). Since it is also antitone in the appropriate sense, the lemma
-    `antitone_norm_sq_integrableOn_Ici_tendsto_zero`
-    gives
-    \[
-    \operatorname{residual}(t)\to 0.
-    \]
+The proof also proves convergence of the residual to zero. Since \(r(t)=-\dot x(t)\) almost everywhere and \(\|\dot x\|^2\) is integrable, \(\|r(t)\|^2\) is integrable on \([0,\infty)\). Because \(\|r(t)\|\) is antitone, the lemma `antitone_norm_sq_integrableOn_Ici_tendsto_zero` gives
+\[
+r(t)\to0.
+\]
 
-14. It proves `hcluster`: every weak sequential cluster point of \(x(t)\) lies in \(S\). Suppose \(x(u_n)\rightharpoonup z\) weakly for some times \(u_n\to\infty\). Shift the sequence to ensure \(u_n\ge 0\). Pick \(z_0\in S\). Define
-    \[
-    r_n=\operatorname{residual}(u_n)-B(x(u_n)).
-    \]
-    Then \(r_n\in\partial\Phi(x(u_n))\), and \(r_n\to -B(z_0)\). Let
-    \[
-    d=B(z_0)-B(z).
-    \]
-    Using weak convergence and boundedness of weakly convergent sequences, the proof shows
-    \[
-    \langle x(u_n)-z, B(x(u_n))-B(z)\rangle \to 0.
-    \]
-    By cocoercivity,
-    \[
-    \beta\|B(x(u_n))-B(z)\|^2
-    \le
-    \langle x(u_n)-z, B(x(u_n))-B(z)\rangle.
-    \]
-    Passing to the limit gives \(\beta\|d\|^2\le 0\), hence \(d=0\), so \(B(z)=B(z_0)\). Finally, maximal monotonicity of the subdifferential and the weak-strong closedness of its graph imply
-    \[
-    -B(z_0)\in\partial\Phi(z).
-    \]
-    Since \(B(z)=B(z_0)\), the inclusion \(hsolution\) gives \(z\in S\).
+The next major step is showing that every weak cluster point of \(x(t)\) as \(t\to\infty\) belongs to \(S\). Suppose \(u_n\to\infty\) and \(x(u_n)\rightharpoonup z\) weakly. After shifting, one may assume \(u_n\ge0\). Choose \(z_0\in S\), which is possible because \(S\) is nonempty. Define
+\[
+r_n=r(u_n)-B(x(u_n)).
+\]
+The residual property gives \(r_n\in\partial\Phi(x(u_n))\). Also \(r(u_n)\to0\) and \(B(x(u_n))\to Bz_0\), so
+\[
+r_n\to -Bz_0.
+\]
 
-15. Finally, the proof applies `opial_trajectory_lemma` using \(S\), the nonempty set \(S\), the distance-limit property `hdist`, and the cluster-point property `hcluster`. This gives a point \(z_{\inf}\in S\) such that \(x(t)\) converges weakly to \(z_{\inf}\) as \(t\to\infty\). Together with the already proved derivative integrability and the strong convergence of \(B(x(t))\) for every \(z\in S\), this completes the theorem.
+To show \(z\in S\), the proof first proves \(Bz=Bz_0\). Let \(d=Bz_0-Bz\). Since \(B(x(u_n))\to Bz_0\), one has
+\[
+B(x(u_n))-Bz-d\to0.
+\]
+The weakly convergent sequence \(x(u_n)\) is bounded in norm by `bounded_range_of_tendsto_weakly`. The lemma `inner_tendsto_zero_of_tendsto_zero_of_bounded_range` therefore gives
+\[
+\langle x(u_n)-z,B(x(u_n))-Bz-d\rangle\to0.
+\]
+Weak continuity of the inner product with fixed right argument, from `weakSpace_continuous_inner_right`, gives
+\[
+\langle x(u_n)-z,d\rangle\to0.
+\]
+Adding these two limits yields
+\[
+\langle x(u_n)-z,B(x(u_n))-Bz\rangle\to0.
+\]
+On the other hand, cocoercivity gives
+\[
+\beta\|B(x(u_n))-Bz\|^2
+\le
+\langle x(u_n)-z,B(x(u_n))-Bz\rangle.
+\]
+The left side tends to \(\beta\|d\|^2\). Taking limits in the inequality gives \(\beta\|d\|^2\le0\), hence \(d=0\), so \(Bz=Bz_0\).
+
+The proof then uses maximal monotonicity of the subdifferential. The theorem `subdifferential_isMaximalMonotone_of_mem_gammaZero` says that \(\partial\Phi\) is maximal monotone because \(\Phi\in\Gamma_0(H)\). The theorem `maximal_monotone_graph_weak_strong_closed` says that the graph of a maximal monotone operator is closed under weak convergence in the domain variable and strong convergence in the value variable. Applying it to \(x(u_n)\rightharpoonup z\), \(r_n\to -Bz_0\), and \(r_n\in\partial\Phi(x(u_n))\), one obtains
+\[
+-Bz_0\in\partial\Phi(z).
+\]
+Since \(Bz=Bz_0\), this is equivalent to
+\[
+-Bz\in\partial\Phi(z).
+\]
+By the characterization of \(S\), this means \(z\in S\). Thus every weak cluster point belongs to \(S\).
+
+Finally, the proof invokes `opial_trajectory_lemma`. Its statement is: if \(S\) is nonempty, if for every \(z\in S\) the distance \(\|x(t)-z\|\) has a finite limit as \(t\to\infty\), and if every weak cluster point of \(x(t)\) at infinity lies in \(S\), then there exists \(z\in S\) such that
+\[
+x(t)\rightharpoonup z
+\]
+weakly. Applying this lemma gives the second conclusion.
+
+Combining the established global integrability of \(\|\dot x\|^2\), the weak convergence to some \(z\in S\), and the strong convergence \(B(x(t))\to Bz\) for every \(z\in S\), the proof finishes the theorem.
+
+In the formal proof, `intro` introduces variables or hypotheses, `rw` rewrites with equalities such as derivative formulas and inner-product identities, `simp` and `simpa` simplify definitions and algebraic expressions, `linarith` and `nlinarith` close linear or nonlinear arithmetic inequalities, and `exact` supplies an already established lemma or proof term. Commands such as `filter_upwards` combine almost-everywhere assertions, while `calc` chains equalities and inequalities.
 

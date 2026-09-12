@@ -4,69 +4,81 @@
 ## Lean statement
 ```lean
 theorem theorem_4_3 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
+    [FiniteDimensional ℝ H] [Nontrivial H]
     {s₀ r α : ℝ} (hr : 0 < r) (hα : 1 < α) (hs₀ : 0 < s₀)
-    (A : H →L[ℝ] H) (f : H → ℝ) (hf : Differentiable ℝ f) (x dx ddx p g q : ℝ → H)
+    (A : H →L[ℝ] H) (f : H → ℝ) (hf_quadratic : ∀ x : H,
+      f x = inner ℝ (A x) x / 2)
+    (_hf : Differentiable ℝ f)
+    (x dx _ddx p g q : ℝ → H) (hg : Differentiable ℝ g)
+    (_hx2 : ContDiff ℝ 2 x)
     (hsymm : A.IsSymmetric) (hpos : ∀ u ≠ 0, 0 < inner ℝ (A u) u)
-    (_hsolution : IsDryStarTrajectory r α s₀ f hf x dx ddx p)
+    (_hsolution : IsDryStarTrajectory r α s₀ f x p)
     (hbridge : ∀ s ∈ Set.Ici s₀,
       g (s ^ 2 / (2 * (α - 1))) = A (x s + (s / (α - 1)) • dx s))
-    (hdualDrygrad : ∀ t, q t ∈ frictionBallProjector r (g t) ∧
-      HasDerivAt g (A (q t - g t)) t)
-    (hcoercive : ∃ rate ν : ℝ, 0 < rate ∧ 0 < ν ∧ ∀ ξ : H,
-      rate * ‖ξ‖ ^ 2 ≤ inner ℝ (A ξ) ξ ∧ inner ℝ (A ξ) ξ ≤ ν * ‖ξ‖ ^ 2)
-    (henergyDeriv : ∀ t : ℝ, HasDerivAt
-      (fun u => Metric.infDist (g u) (frictionBall r) ^ 2 / 2)
-      (- inner ℝ (g t - q t) (A (g t - q t))) t)
+    (hdualFlow : ∀ t, q t ∈ frictionBallProjector r (g t) ∧
+      fderiv ℝ (gradient (fun u =>
+        (ERealFunction.conjugate (fun x => (f x : EReal)) u).toReal))
+        (g t) (deriv g t) + g t - q t = 0)
     (hinitial : r < ‖g (s₀ ^ 2 / (2 * (α - 1)))‖) :
     ∃ C μ : ℝ, 0 < C ∧ 0 < μ ∧ ∀ s ∈ Set.Ici s₀,
-      Metric.infDist (A (x s + (s / (α - 1)) • dx s)) (frictionBall r) ≤ C * Real.exp (-μ * s ^ 2)
+      Metric.infDist (A (x s + (s / (α - 1)) • dx s)) (frictionBall r) ≤
+        C * Real.exp (-μ * s ^ 2)
 ```
 
 ## Statement explanation
-The theorem is a statement about a real Hilbert space \(H\) with a symmetric positive-definite continuous linear operator \(A\). It assumes \(r>0\), \(\alpha>1\), and \(s_0>0\). The data include a differentiable function \(f:H\to\mathbb R\), curves \(x,dx,ddx,p,g,q:\mathbb R\to H\), and a collection of hypotheses:
+Let \(H\) be a nontrivial finite-dimensional real Hilbert space. The declaration is about real parameters \(s_0,r,\alpha\) satisfying \(r>0\), \(\alpha>1\), and \(s_0>0\). It takes a continuous linear map \(A:H\to H\), a real-valued function \(f:H\to\mathbb R\), and paths \(x,dx,ddx,p,g,q:\mathbb R\to H\). The main structural assumptions are:
 
-- \(A\) is symmetric, and for every nonzero \(u\in H\), \(\langle A u,u\rangle>0\).
-- \(x\) is part of a “dry star trajectory” satisfying a predicate `IsDryStarTrajectory r α s₀ f hf x dx ddx p`.
-- For every \(s\ge s_0\),
+- \(f\) is the quadratic form attached to \(A\):
   \[
-  g\left(\frac{s^2}{2(\alpha-1)}\right)
+  f(x)=\frac12\langle A x,x\rangle
+  \]
+  for every \(x\in H\).
+- \(A\) is symmetric: \(A\) is self-adjoint for the real inner product.
+- \(A\) is positive definite: for every nonzero \(u\in H\),
+  \[
+  0<\langle A u,u\rangle.
+  \]
+- \(g\) is differentiable. There are also hypotheses that \(f\) is differentiable, that \(x\) is \(C^2\), and that \((x,p)\) is a dry-star trajectory, but in the Lean statement these are marked with leading underscores and are not used in the proof.
+- The bridge condition connects the transformed path \(g\) to the original scaled trajectory: for every \(s\ge s_0\),
+  \[
+  g\!\left(\frac{s^2}{2(\alpha-1)}\right)
   =
-  A\left(x(s)+\frac{s}{\alpha-1}\,dx(s)\right).
+  A\!\left(x(s)+\frac{s}{\alpha-1}\,dx(s)\right).
   \]
-- For every \(t\), \(q(t)\) belongs to the friction ball projector of \(g(t)\), and the derivative of \(g\) at \(t\) is \(A(q(t)-g(t))\).
-- The operator \(A\) is coercive and bounded above in the sense that there exist positive constants \(\mathsf{rate}\) and \(\nu\) such that for all \(\xi\in H\),
+- The dual-flow condition says that for every \(t\),
   \[
-  \mathsf{rate}\,\|\xi\|^2 \le \langle A\xi,\xi\rangle \le \nu\,\|\xi\|^2.
+  q(t)\in \operatorname{frictionBallProjector}_r(g(t)),
   \]
-- For every \(t\), the derivative of
+  and, writing
   \[
-  \frac{1}{2}\operatorname{dist}(g(t),\operatorname{frictionBall}(r))^2
+  \Phi(u)=\left(\operatorname{conj}\bigl(v\mapsto f(v)\bigr)(u)\right)_{\mathbb R}
   \]
-  is
+  for the real value of the extended-real Fenchel conjugate of \(f\),
   \[
-  -\langle g(t)-q(t), A(g(t)-q(t))\rangle.
+  \left(\operatorname{fderiv}_{\mathbb R}(\nabla \Phi)(g(t))\right)(g'(t))
+  +g(t)-q(t)=0.
   \]
-- Initially,
+  Here the exact definition of the friction-ball projector and extended-real conjugate is not needed for the algebraic part of the proof; the whole condition is passed to the cited theorem.
+- The initial condition is
   \[
-  r<\left\|g\left(\frac{s_0^2}{2(\alpha-1)}\right)\right\|.
+  r<\|g(s_0^2/(2(\alpha-1)))\|.
   \]
 
-Under these assumptions, the conclusion is that there exist positive real constants \(C\) and \(\mu\) such that for every \(s\ge s_0\),
+The conclusion is that there exist positive constants \(C\) and \(\mu\) such that for every \(s\ge s_0\),
 \[
-\operatorname{dist}\left(
-A\left(x(s)+\frac{s}{\alpha-1}dx(s)\right),
-\operatorname{frictionBall}(r)
+\operatorname{infDist}\!\left(
+A\!\left(x(s)+\frac{s}{\alpha-1}\,dx(s)\right),
+\operatorname{frictionBall}_r
 \right)
-\le
-C e^{-\mu s^2}.
+\le C e^{-\mu s^2}.
 \]
-Thus the distance from the rescaled trajectory point to the friction ball decays exponentially in \(s^2\).
+Thus the distance of the scaled trajectory \(A(x(s)+(s/(\alpha-1))dx(s))\) from the friction ball decays exponentially in the squared variable \(s^2\).
 
 ## Lean proof
 ```lean
 by
-  rcases theorem_3_3 (t₀ := s₀ ^ 2 / (2 * (α - 1))) hr A g q hsymm hpos
-    hdualDrygrad hcoercive henergyDeriv hinitial with
+  rcases theorem_3_3 (t₀ := s₀ ^ 2 / (2 * (α - 1))) hr A f hsymm hpos g q
+    hf_quadratic hg hdualFlow hinitial with
     ⟨Cupper, Clower, rate, ν, hCupper, hClower, hrate, hν, hupper, hlower, hnotmem⟩
   refine ⟨Cupper, rate / (2 * (α - 1)), hCupper,
     div_pos hrate (mul_pos (by norm_num) (sub_pos.mpr hα)), ?_⟩
@@ -78,41 +90,89 @@ by
 ```
 
 ## Proof explanation
-The proof begins by invoking a previous theorem, `theorem_3_3`, with initial time
+The proof first invokes the previously established theorem `theorem_3_3`. In its own variables, that theorem assumes a symmetric positive definite continuous linear operator, the associated quadratic form \(f(x)=\frac12\langle Ax,x\rangle\), a differentiable path \(g\), a path \(p\) satisfying the friction-ball projector and dual-flow condition, and an initial condition \(r<\|g(t_0)\|\). It then produces positive constants \(C_{\text{upper}},C_{\text{lower}},\mu,\nu\) such that for every \(t\ge t_0\),
+\[
+\operatorname{infDist}(g(t),\operatorname{frictionBall}_r)\le C_{\text{upper}}e^{-\mu t},
+\]
+together with a lower exponential bound and the statement that \(g(t)\) never lies in the friction ball.
+
+In this proof, `theorem_3_3` is applied with time origin
 \[
 t_0=\frac{s_0^2}{2(\alpha-1)}.
 \]
-It supplies the assumptions \(hr\), \(A\), \(g\), \(q\), \(hsymm\), \(hpos\), `hdualDrygrad`, `hcoercive`, `henergyDeriv`, and `hinitial`. The `rcases` command destructs the existential conclusion of `theorem_3_3`, obtaining constants `Cupper`, `Clower`, `rate`, `ν` and associated positivity and bound properties. The important component used later is `hupper`, which gives an exponential upper bound for the distance of \(g(t)\) from the friction ball for times \(t\ge t_0\).
-
-Next, the proof uses `refine` to produce the desired existential witnesses:
+The supplied hypotheses \(r>0\), symmetry of \(A\), positive definiteness of \(A\), the quadratic identity for \(f\), differentiability of \(g\), the dual-flow condition with the given path \(q\), and the initial inequality
 \[
-C=\mathrm{Cupper},\qquad \mu=\frac{\mathsf{rate}}{2(\alpha-1)}.
+r<\|g(s_0^2/(2(\alpha-1)))\|
 \]
-The positivity of \(C\) is given by `hCupper`. The positivity of \(\mu\) is proved by `div_pos`: the numerator is positive by `hrate`, and the denominator is positive because \(2>0\) and \(\alpha-1>0\). The fact \(0<\alpha-1\) is obtained from \(1<\alpha\) using `sub_pos.mpr`.
+match exactly the hypotheses of `theorem_3_3`, with its path \(p\) instantiated as the current path \(q\). The `rcases` step therefore unpacks the existential conclusion of `theorem_3_3` into constants \(C_{\text{upper}}\), \(C_{\text{lower}}\), a rate `rate`, another positive constant \(\nu\), and the associated inequalities. The lower bound and nonmembership conclusion are not used.
 
-After supplying the witnesses, the proof introduces an arbitrary \(s\) with \(s\in \operatorname{Ici} s_0\), i.e. \(s\ge s_0\). It then applies the upper bound `hupper` to the time
+The proof then chooses witnesses
+\[
+C=C_{\text{upper}},\qquad
+\mu=\frac{\text{rate}}{2(\alpha-1)}.
+\]
+The positivity of \(C\) is exactly the positivity of \(C_{\text{upper}}\). For the positivity of \(\mu\), the Lean term
+\[
+\texttt{div\_pos hrate (mul\_pos (by norm\_num) (sub\_pos.mpr hα))}
+\]
+first uses \(\alpha>1\) to get \(\alpha-1>0\), then combines \(0<2\) with \(0<\alpha-1\) to get \(0<2(\alpha-1)\), and finally divides the positive numerator `rate` by this positive denominator. Hence \(0<\mu\).
+
+Next `intro s hs` introduces an arbitrary \(s\) together with the hypothesis \(hs:s\in \operatorname{Ici}s_0\), i.e. \(s\ge s_0\). The goal is to prove the desired decay inequality at this arbitrary \(s\).
+
+The upper bound from `theorem_3_3` is then applied at the transformed time
 \[
 t=\frac{s^2}{2(\alpha-1)}.
 \]
-The proof that this time is at least the initial time \(t_0\) is supplied by `scaled_time_mem_Ici`.
+To use it, the proof needs
+\[
+\frac{s^2}{2(\alpha-1)}
+\in
+\operatorname{Ici}\!\left(\frac{s_0^2}{2(\alpha-1)}\right),
+\]
+that is,
+\[
+\frac{s^2}{2(\alpha-1)}
+\ge
+\frac{s_0^2}{2(\alpha-1)}.
+\]
+This is supplied by `scaled_time_mem_Ici`. That lemma uses \(s_0>0\), \(\alpha>1\), and \(s\ge s_0\). Since \(s_0>0\) and \(s\ge s_0\), both \(s\) and \(s_0\) are nonnegative, so \(s^2\ge s_0^2\). Also \(2(\alpha-1)>0\), so dividing by this positive denominator preserves the inequality. Therefore the transformed time lies in the interval where the upper bound from `theorem_3_3` is valid.
 
-This gives a bound for
+Consequently, the hypothesis `hbound` contains
 \[
-\operatorname{dist}\left(g\left(\frac{s^2}{2(\alpha-1)}\right),\operatorname{frictionBall}(r)\right).
+\operatorname{infDist}\!\left(
+g\!\left(\frac{s^2}{2(\alpha-1)}\right),
+\operatorname{frictionBall}_r
+\right)
+\le
+C_{\text{upper}}
+\exp\!\left(-\text{rate}\cdot \frac{s^2}{2(\alpha-1)}\right).
 \]
-The rewrite `rw [hbridge s hs, scaled_exponent_eq hα] at hbound` replaces the argument of \(g\) using the bridge hypothesis:
+The rewrite `rw [hbridge s hs, scaled_exponent_eq hα] at hbound` transforms this inequality in two ways. First, the bridge hypothesis for \(s\ge s_0\) replaces
 \[
-g\left(\frac{s^2}{2(\alpha-1)}\right)
+g\!\left(\frac{s^2}{2(\alpha-1)}\right)
+\]
+by
+\[
+A\!\left(x(s)+\frac{s}{\alpha-1}\,dx(s)\right).
+\]
+Second, `scaled_exponent_eq` gives the algebraic identity
+\[
+-\text{rate}\cdot \frac{s^2}{2(\alpha-1)}
 =
-A\left(x(s)+\frac{s}{\alpha-1}dx(s)\right),
+-\left(\frac{\text{rate}}{2(\alpha-1)}\right)s^2.
 \]
-and also rewrites the exponent from
+Thus the exponent becomes exactly \(-\mu s^2\) for the chosen
 \[
--\mathsf{rate}\cdot \frac{s^2}{2(\alpha-1)}
+\mu=\frac{\text{rate}}{2(\alpha-1)}.
 \]
-to
+After these rewrites, `hbound` has the form
 \[
--\frac{\mathsf{rate}}{2(\alpha-1)}\cdot s^2.
+\operatorname{infDist}\!\left(
+A\!\left(x(s)+\frac{s}{\alpha-1}\,dx(s)\right),
+\operatorname{frictionBall}_r
+\right)
+\le
+C_{\text{upper}}e^{-\mu s^2},
 \]
-After these rewrites, `hbound` is exactly the desired inequality, so `exact hbound` finishes the proof. The commands `simp` and `linarith` are not used in this proof.
+which is precisely the goal for the chosen \(C\) and \(\mu\). The final `exact hbound` closes the proof. Since \(s\ge s_0\) was arbitrary, the universal decay statement follows.
 

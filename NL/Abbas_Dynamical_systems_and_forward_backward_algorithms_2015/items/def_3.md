@@ -7,7 +7,7 @@ recall IsAveragedOperator
 ```
 
 ## Statement explanation
-The declaration is not a theorem statement with a mathematical content of its own. It consists only of the command whose keyword is recall and whose target identifier is IsAveragedOperator. That identifier is the name of an existing declaration being brought back into the current context. No variables are bound, no type is displayed, no hypotheses are assumed, and no conclusion is asserted in this fragment. Thus the declaration says only that IsAveragedOperator refers to a previously declared object; any type or mathematical meaning must come from that original declaration.
+The source contains a single declaration of kind `recall` named `IsAveragedOperator`. As presented, it does not contain an explicit type, body, hypotheses, variables, or conclusion. It is therefore not a theorem, lemma, axiom, or fully displayed definition in this excerpt; it is a reference to an already available notion whose name is `IsAveragedOperator`. No domain, codomain, scalar parameter, inequality, equality, or quantified operator appears in the provided statement. The mathematical content of the recalled notion must come from the external declaration bearing that name, but that declaration is not included here. Thus the only exact statement visible is that the identifier `IsAveragedOperator` is being recalled for later use; any concrete meaning such as “an operator satisfying an averagedness condition” cannot be recovered from the supplied source alone.
 
 ## Lean proof
 ```lean
@@ -15,5 +15,5 @@ The declaration is not a theorem statement with a mathematical content of its ow
 ```
 
 ## Proof explanation
-There is no separate proof part. The source explicitly contains no proof. Since the command only recalls the existing declaration IsAveragedOperator, it does not introduce a new proposition requiring justification. There are no proof steps to explain, and commands such as intro, rw, simp, exact, and linarith do not appear.
+There is no separate proof part. The source explicitly states that there is no proof, and no tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` occur. Since no theorem or lemma is being proved, there are no hypotheses to discharge, no goals to transform, and no named mathematical result invoked. The mathematical role of the declaration is only to recall the identifier `IsAveragedOperator`; it does not by itself assert or prove any property.
 

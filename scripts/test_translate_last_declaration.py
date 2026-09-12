@@ -6,8 +6,12 @@ import sys
 sys.path.insert(0, str(Path(__file__).parent))
 from translate_last_declaration import (
     AnthropicClient,
+    build_prompt,
+    collect_related_declaration_context,
+    extract_declarations,
     extract_last_declaration,
     load_claude_settings,
+    normalize_bare_latex_brackets,
     output_path_for,
     render_markdown,
     split_explanations,
@@ -38,6 +42,15 @@ end Demo
         assert declaration is not None
         self.assertEqual(declaration.kind, "def")
         self.assertIsNone(declaration.proof)
+
+    def test_extracts_all_declarations(self):
+        declarations = extract_declarations(
+            "lemma helper (n : Nat) : n = n := by rfl\n"
+            "theorem final : True := by exact True.intro\n"
+        )
+        self.assertEqual([item.name for item in declarations], ["helper", "final"])
+        self.assertEqual(declarations[0].statement, "lemma helper (n : Nat) : n = n")
+        self.assertEqual(declarations[1].proof, "by exact True.intro")
 
     def test_comments_do_not_create_declarations(self):
         source = """/- theorem fake : False := by contradiction -/
@@ -117,6 +130,109 @@ theorem real : True := by trivial
         self.assertEqual([rendered.index(item) for item in order], sorted(rendered.index(item) for item in order))
         self.assertIn("It is reflexive.", rendered)
         self.assertIn("The proof uses rfl.", rendered)
+
+    def test_prompt_requires_semantic_references_and_math_environments(self):
+        declaration = extract_last_declaration("theorem final (n : Nat) : n = n := by rfl\n")
+        assert declaration is not None
+        prompt = build_prompt(declaration, "Paper/items/thm_1.lean")
+        self.assertRegex(prompt, r"concrete mathematical\s+content")
+        self.assertIn("Never stop at a", prompt)
+        self.assertIn(r"Use `\(...\)`", prompt)
+        self.assertIn("Never use bare square brackets as math delimiters", prompt)
+        self.assertIn(r"\operatorname{deriv}", prompt)
+        self.assertIn("provided only as reference context", prompt)
+
+    def test_collects_cited_result_from_local_import_graph(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as directory:
+            project = Path(directory)
+            helper_path = project / "TheoremLib/Paper/helper.lean"
+            main_path = project / "TheoremLib/Paper/main.lean"
+            helper_path.parent.mkdir(parents=True)
+            helper_path.write_text(
+                "theorem energy_decreases (E : Real → Real) : True := by trivial\n",
+                encoding="utf-8",
+            )
+            main_path.write_text(
+                "import TheoremLib.Paper.helper\n"
+                "theorem final (E : Real → Real) : True := by\n"
+                "  exact energy_decreases E\n",
+                encoding="utf-8",
+            )
+            declaration = extract_last_declaration(main_path.read_text(encoding="utf-8"))
+            assert declaration is not None
+            context = collect_related_declaration_context(declaration, main_path, project)
+            self.assertIn("TheoremLib/Paper/helper.lean", context)
+            self.assertIn("theorem energy_decreases (E : Real → Real) : True", context)
+            self.assertNotIn("by trivial", context)
+
+    def test_resolves_shortened_theoremlib_import_alias(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as directory:
+            project = Path(directory)
+            helper_path = project / "TheoremLib/Abbas_Dynamical_systems_2015/items/lem_5.lean"
+            main_path = project / "TheoremLib/Abbas_Dynamical_systems_2015/items/prop_1.lean"
+            helper_path.parent.mkdir(parents=True)
+            helper_path.write_text(
+                "theorem subgradient_chain_rule (x : Real) : True := by trivial\n",
+                encoding="utf-8",
+            )
+            main_path.write_text(
+                "import TheoremLib.Abbas_Dynamical_systems_associated_with_the_sum_2015.items.lem_5\n"
+                "theorem final (x : Real) : True := by\n"
+                "  exact subgradient_chain_rule x\n",
+                encoding="utf-8",
+            )
+            declaration = extract_last_declaration(main_path.read_text(encoding="utf-8"))
+            assert declaration is not None
+            context = collect_related_declaration_context(declaration, main_path, project)
+            self.assertIn("subgradient_chain_rule (x : Real) : True", context)
+
+    def test_related_context_ignores_uncited_results(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as directory:
+            project = Path(directory)
+            main_path = project / "TheoremLib/Paper/main.lean"
+            main_path.parent.mkdir(parents=True)
+            main_path.write_text(
+                "lemma used_result : True := by trivial\n"
+                "lemma unused_result : True := by trivial\n"
+                "theorem final : True := by exact used_result\n",
+                encoding="utf-8",
+            )
+            declaration = extract_last_declaration(main_path.read_text(encoding="utf-8"))
+            assert declaration is not None
+            context = collect_related_declaration_context(declaration, main_path, project)
+            self.assertIn("lemma used_result : True", context)
+            self.assertNotIn("unused_result", context)
+
+    def test_normalizes_bare_latex_brackets_with_nested_interval(self):
+        text = (
+            r"the function [ t\mapsto (\Phi(x(t)))_{\mathbb R} ] is absolutely continuous "
+            r"on [0,T], and [ \operatorname{deriv}(t\mapsto \Phi(x(t)))(t) "
+            r"=\langle v(t),\operatorname{deriv}x(t)\rangle \text{ on } [0,T] ]."
+        )
+        normalized = normalize_bare_latex_brackets(text)
+        self.assertIn(r"the function \(t\mapsto (\Phi(x(t)))_{\mathbb R}\)", normalized)
+        self.assertIn(r"\(\operatorname{deriv}", normalized)
+        self.assertIn(r"\text{ on } [0,T]\)", normalized)
+        self.assertIn("on [0,T]", normalized)
+
+    def test_normalizer_preserves_code_fences_and_markdown_links(self):
+        text = "`[ t\\mapsto f(t) ]` and [label \\mapsto value](target)\n```lean\n[ t\\mapsto f(t) ]\n```"
+        self.assertEqual(normalize_bare_latex_brackets(text), text)
+
+    def test_normalizer_preserves_already_delimited_math(self):
+        text = r"Already valid \( [\operatorname{dom} f] \) and \[ [0,T] \]."
+        self.assertEqual(normalize_bare_latex_brackets(text), text)
+
+    def test_normalizes_standalone_bare_display_delimiters(self):
+        text = "The conclusion is\n[\n\\operatorname{deriv} f(t) = 0\n]\nfor almost every t."
+        expected = "The conclusion is\n\\[\n\\operatorname{deriv} f(t) = 0\n\\]\nfor almost every t."
+        self.assertEqual(normalize_bare_latex_brackets(text), expected)
 
     def test_split_explanations_without_separator(self):
         statement, proof = split_explanations("Only one explanation")

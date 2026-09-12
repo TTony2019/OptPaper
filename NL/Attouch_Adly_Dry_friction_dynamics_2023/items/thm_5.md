@@ -3,379 +3,347 @@
 
 ## Lean statement
 ```lean
-theorem theorem_4_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
-    [CompleteSpace H] {r α s₀ : ℝ} (hr : 0 < r) (hα : 1 < α) (hs₀ : 0 < s₀)
-    (f : H → ℝ) (hf : Differentiable ℝ f)
-    (z dz x y : ℝ → H) (hx : Differentiable ℝ x)
-    (hy_diff : Differentiable ℝ y) (hx2 : Differentiable ℝ (deriv x))
-    (hsol : IsDrygradTrajectory r hr f hf z dz (s₀ ^ 2 / (2 * (α - 1))))
-    (hy : y = timeScaledTrajectory z (fun s => s ^ 2 / (2 * (α - 1))))
-    (haverage : x s₀ = y s₀ ∧ ∀ s ∈ Set.Ici s₀,
-      deriv x s + ((s / (α - 1))⁻¹) • (x s - y s) = 0) :
-    IsDryStarFirstOrder r α s₀ hr f hf x y hx ∧
-      ∃ p : ℝ → H, IsDryStarTrajectory r α s₀ f hf x (deriv x) (deriv (deriv x)) p
+theorem reverse_time_scaling_average
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+    [CompleteSpace H] {α s₀ : ℝ} (hα : 1 < α) (hs₀ : 0 < s₀)
+    (x z : ℝ → H) (hx : ContDiff ℝ 2 x)
+    (hinitial : x s₀ = z (s₀ ^ 2 / (2 * (α - 1))))
+    (hrelation : ∀ s ∈ Set.Ici s₀,
+      z (s ^ 2 / (2 * (α - 1))) =
+        x s + (s / (α - 1)) • deriv x s) :
+    ∃ y : ℝ → H,
+      y = timeScaledTrajectory z
+          (fun s : ℝ => s ^ 2 / (2 * (α - 1))) ∧
+      IsWeightedAverageOn
+        (fun s : ℝ => s ^ 2 / (2 * (α - 1)))
+        (fun s : ℝ => s / (α - 1)) x y (deriv x) s₀
 ```
 
 ## Statement explanation
-The theorem assumes a complete real inner product space \(H\) and real parameters \(r,\alpha,s_0\) with
+The declaration is a theorem named `reverse_time_scaling_average`. It is stated for a type \(H\) carrying the structures of a real normed additive commutative group, a real inner product space, and a complete space; thus \(H\) is a complete real inner product space, in particular a real normed vector space. The real parameters are \(\alpha\) and \(s_0\), with hypotheses \(h_\alpha : 1 < \alpha\) and \(h_{s_0} : 0 < s_0\). The theorem also takes two curves \(x,z : \mathbb R \to H\). The curve \(x\) is assumed to be twice continuously differentiable, \(h_x : \operatorname{ContDiff}_{\mathbb R}^2 x\). There is an initial matching hypothesis
+
 \[
-r>0,\qquad \alpha>1,\qquad s_0>0.
+h_{\mathrm{initial}} : x(s_0)=z\!\left(\frac{s_0^2}{2(\alpha-1)}\right),
 \]
-There is a differentiable function \(f:H\to\mathbb R\), and curves
+
+and a relation hypothesis
+
 \[
-z,dz,x,y:\mathbb R\to H.
+h_{\mathrm{relation}} : \forall s \in \operatorname{Ici}s_0,\quad
+z\!\left(\frac{s^2}{2(\alpha-1)}\right)
+=
+x(s)+\frac{s}{\alpha-1}\cdot \operatorname{deriv}x(s),
 \]
-The curve \(x\) is differentiable, \(y\) is differentiable, and \(\operatorname{deriv} x\) is differentiable.
 
-The hypotheses are:
+where \(s \in \operatorname{Ici}s_0\) means \(s \ge s_0\), and the dot denotes scalar multiplication by the real number \(\frac{s}{\alpha-1}\).
 
-- \(h_{\mathrm{sol}}\): the pair \((z,dz)\) satisfies an `IsDrygradTrajectory` property with friction parameter \(r\) and potential \(f\), starting from the scaled time
-  \[
-  \frac{s_0^2}{2(\alpha-1)}.
-  \]
-- \(h_y\): \(y\) is the time-scaled trajectory obtained from \(z\) using the time change
-  \[
-  s\mapsto \frac{s^2}{2(\alpha-1)}.
-  \]
-- \(h_{\mathrm{average}}\): 
-  \[
-  x(s_0)=y(s_0),
-  \]
-  and for every \(s\ge s_0\),
-  \[
-  \operatorname{deriv} x(s)
-  +
-  \left(\frac{s}{\alpha-1}\right)^{-1}\bullet (x(s)-y(s))
-  =
-  0.
-  \]
-  Here \(\bullet\) denotes scalar multiplication in the vector space \(H\).
+The conclusion asserts the existence of a curve \(y : \mathbb R \to H\) such that
 
-The conclusion is a conjunction:
+\[
+y = \operatorname{timeScaledTrajectory} z \left(s \mapsto \frac{s^2}{2(\alpha-1)}\right)
+\]
 
-1. The first-order property
-   \[
-   \text{IsDryStarFirstOrder}\ r\ \alpha\ s_0\ hr\ f\ hf\ x\ y\ hx
-   \]
-   holds for \(x\) and \(y\).
+and
 
-2. There exists a curve \(p:\mathbb R\to H\) such that
-   \[
-   \text{IsDryStarTrajectory}\ r\ \alpha\ s_0\ f\ hf\ x\ (\operatorname{deriv} x)\ (\operatorname{deriv}(\operatorname{deriv} x))\ p
-   \]
-   holds. Thus the second-order trajectory uses \(x\) itself, its first derivative \(\operatorname{deriv} x\), its second derivative \(\operatorname{deriv}(\operatorname{deriv} x)\), and a witness \(p\).
+\[
+\operatorname{IsWeightedAverageOn}
+\left(s \mapsto \frac{s^2}{2(\alpha-1)}\right)
+\left(s \mapsto \frac{s}{\alpha-1}\right)
+x\ y\ (\operatorname{deriv}x)\ s_0.
+\]
+
+The cited definition `timeScaledTrajectory` says that for \(z : \mathbb R \to H\) and a time change \(\tau : \mathbb R \to \mathbb R\),
+
+\[
+\operatorname{timeScaledTrajectory} z \tau = \bigl(s \mapsto z(\tau(s))\bigr).
+\]
+
+Thus the first conjunct of the conclusion says precisely that
+
+\[
+y(s)=z\!\left(\frac{s^2}{2(\alpha-1)}\right)
+\]
+
+for every real \(s\).
+
+The cited definition `IsWeightedAverageOn` unfolds to the following three requirements, where we write
+
+\[
+\tau(s)=\frac{s^2}{2(\alpha-1)},\qquad d\tau(s)=\frac{s}{\alpha-1}.
+\]
+
+First, \(\operatorname{IsIncreasingC1TimeScaleOn}\ \tau\ d\tau\ s_0\) must hold. Second, the initial values must agree:
+
+\[
+x(s_0)=y(s_0).
+\]
+
+Third, for every \(s \in \operatorname{Ici}s_0\), the curve \(x\) must have derivative \(\operatorname{deriv}x(s)\) at \(s\), and the weighted-average relation
+
+\[
+\operatorname{deriv}x(s)+ (d\tau(s))^{-1}\cdot (x(s)-y(s))=0
+\]
+
+must hold. Here \((d\tau(s))^{-1}\) is the reciprocal of the real number \(d\tau(s)\), and the dot is scalar multiplication on \(H\).
+
+The cited theorem `quadraticTimeScale_isIncreasingC1TimeScaleOn` provides exactly the first requirement: if \(1<\alpha\) and \(0<s_0\), then
+
+\[
+\operatorname{IsIncreasingC1TimeScaleOn}
+\left(s \mapsto \frac{s^2}{2(\alpha-1)}\right)
+\left(s \mapsto \frac{s}{\alpha-1}\right)
+s_0.
+\]
+
+Its full internal definition of `IsIncreasingC1TimeScaleOn` is not needed beyond this stated consequence. Mathematically, the theorem says that if \(x\) is \(C^2\), and \(z\) is related to \(x\) by the reverse time-scaled formula
+
+\[
+z(\tau(s))=x(s)+d\tau(s)\operatorname{deriv}x(s)\qquad (s\ge s_0),
+\]
+
+with \(x(s_0)=z(\tau(s_0))\), then the curve \(y=z\circ\tau\) satisfies the weighted-average relation
+
+\[
+\operatorname{deriv}x(s)+d\tau(s)^{-1}(x(s)-y(s))=0.
+\]
+
+Indeed, this is just the rearrangement of \(y(s)=x(s)+d\tau(s)\operatorname{deriv}x(s)\). The theorem packages this as an existence statement for a curve \(y\) satisfying `IsWeightedAverageOn`.
 
 ## Lean proof
 ```lean
 by
-  have ha1 : 0 < α - 1 := sub_pos.mpr hα
-  let dx : ℝ → H := deriv x
-  let dy : ℝ → H := deriv y
-  let ddx : ℝ → H := deriv (deriv x)
-  have hdy : ∀ s, HasDerivAt y (deriv y s) s := fun s => (hy_diff s).hasDerivAt
-  have hddx : ∀ s, HasDerivAt (deriv x) (deriv (deriv x) s) s :=
-    fun s => (hx2 s).hasDerivAt
-  have hτ_domain : ∀ s ∈ Set.Ici s₀,
-      s ^ 2 / (2 * (α - 1)) ∈ Set.Ici (s₀ ^ 2 / (2 * (α - 1))) := by
-    intro s hs
-    have hspos : 0 < s := lt_of_lt_of_le hs₀ hs
-    have hdenom : 0 < 2 * (α - 1) := mul_pos (by norm_num) ha1
-    apply (div_le_div_iff_of_pos_right hdenom).mpr
-    nlinarith [mul_nonneg (sub_nonneg.mpr hs) (add_nonneg (le_of_lt hs₀) (le_of_lt hspos))]
-  have hτ_deriv : ∀ s : ℝ,
-      HasDerivAt (fun t : ℝ => t ^ 2 / (2 * (α - 1))) (s / (α - 1)) s := by
+  let τ : ℝ → ℝ := fun s => s ^ 2 / (2 * (α - 1))
+  let dτ : ℝ → ℝ := fun s => s / (α - 1)
+  let y : ℝ → H := timeScaledTrajectory z τ
+  have hτ := quadraticTimeScale_isIncreasingC1TimeScaleOn hα hs₀
+  have hxderiv : ∀ s : ℝ, HasDerivAt x (deriv x s) s := by
     intro s
-    convert ((hasDerivAt_pow 2 s).div_const (2 * (α - 1))) using 1
-    all_goals
-      field_simp [ne_of_gt ha1]
-      ring
-  have hfirst : IsDryStarFirstOrder r α s₀ hr f hf x y hx := by
-    intro s hs
-    have hspos : 0 < s := lt_of_lt_of_le hs₀ hs
-    have hdτpos : 0 < s / (α - 1) := div_pos hspos ha1
-    have hsol_s := hsol (s ^ 2 / (2 * (α - 1))) (hτ_domain s hs)
-    rcases hsol_s.2 with ⟨u, husub, huseq⟩
-    have hy_point : y s = z (s ^ 2 / (2 * (α - 1))) := by
-      simp [hy, timeScaledTrajectory]
-    have hchain : HasDerivAt y ((s / (α - 1)) • dz (s ^ 2 / (2 * (α - 1)))) s := by
-      simpa only [hy, timeScaledTrajectory] using
-        (hsol_s.1.scomp s (hτ_deriv s))
-    have hdy_eq : dy s = (s / (α - 1)) • dz (s ^ 2 / (2 * (α - 1))) :=
-      (hdy s).unique hchain
-    have hdy_deriv : HasDerivAt y (deriv y s) s := by
-      convert hdy s using 1
-    refine ⟨hdy_deriv, u, ?_, ?_, ?_⟩
-    · -- Positive one-homogeneity transports the norm subgradient along the time scale.
-      intro q
-      have husub_real : ∀ q : H,
-          r * ‖dz (s ^ 2 / (2 * (α - 1)))‖ +
-              inner ℝ u (q - dz (s ^ 2 / (2 * (α - 1)))) ≤ r * ‖q‖ := by
-        intro q
-        exact_mod_cast husub q
-      have hscaled_sub := dryFriction_subgradient_smul_pos hdτpos husub_real q
-      rw [← hdy_eq] at hscaled_sub
-      rw [(hdy s).deriv]
-      exact_mod_cast hscaled_sub
-    · have hscaled := congrArg (fun w : H => (s / (α - 1)) • w) huseq
-      simp only [smul_add, smul_zero] at hscaled
-      change dy s + (s / (α - 1)) • u + (s / (α - 1)) • gradient f (y s) = 0
-      rw [hdy_eq, hy_point]
-      exact hscaled
-    · have havg := haverage.2 s hs
-      have hcoef : (α - 1) / s = (s / (α - 1))⁻¹ := by
-        field_simp [ne_of_gt ha1, ne_of_gt hspos]
-      rw [hcoef]
-      exact havg
-  refine ⟨hfirst, ?_⟩
-  have hyx : ∀ s ∈ Set.Ici s₀, y s = x s + (s / (α - 1)) • dx s := by
-    intro s hs
-    have hspos : 0 < s := lt_of_lt_of_le hs₀ hs
-    have hcne : s / (α - 1) ≠ 0 := ne_of_gt (div_pos hspos ha1)
-    have havg := congrArg (fun w : H => (s / (α - 1)) • w) (haverage.2 s hs)
-    simp only [smul_add, smul_zero, smul_smul] at havg
-    rw [mul_inv_cancel₀ hcne, one_smul] at havg
-    calc y s = y s + ((s / (α - 1)) • dx s + (x s - y s)) := by rw [havg, add_zero]
-         _ = x s + (s / (α - 1)) • dx s := by abel
-  have hdy_avg : ∀ s ∈ Set.Ici s₀,
-      dy s = (s / (α - 1)) • ddx s + (1 + 1 / (α - 1)) • dx s := by
-    intro s hs
-    let R : ℝ → H := fun t => x t + (t / (α - 1)) • dx t
-    have hR : HasDerivAt R
-        (dx s + (1 / (α - 1)) • dx s + (s / (α - 1)) • ddx s) s := by
-      convert (hx s).hasDerivAt.add
-        ((hasDerivAt_id s).div_const (α - 1) |>.smul (hddx s)) using 1
-      all_goals
-        simp
-        module
-    have hdiff : HasDerivAt (fun t => y t - R t)
-        (dy s - (dx s + (1 / (α - 1)) • dx s + (s / (α - 1)) • ddx s)) s :=
-      (hdy s).sub hR
-    have hzero : dy s - (dx s + (1 / (α - 1)) • dx s +
-        (s / (α - 1)) • ddx s) = 0 := by
-      change s₀ ≤ s at hs
-      rcases lt_or_eq_of_le hs with hslt | rfl
-      · have heq : (fun t => y t - R t) =ᶠ[nhds s] fun _ => 0 := by
-          filter_upwards [eventually_gt_nhds hslt] with t ht
-          simp [R, hyx t (le_of_lt ht)]
-        exact (hdiff.congr_of_eventuallyEq heq.symm).unique (hasDerivAt_const s 0)
-      · have heq : (fun t => y t - R t) =ᶠ[nhdsWithin s₀ (Set.Ioi s₀)] fun _ => 0 := by
-          filter_upwards [self_mem_nhdsWithin] with t ht
-          change s₀ < t at ht
-          simp [R, hyx t (le_of_lt ht)]
-        calc
-          dy s₀ - (dx s₀ + (1 / (α - 1)) • dx s₀ + (s₀ / (α - 1)) • ddx s₀) =
-              derivWithin (fun t => y t - R t) (Set.Ioi s₀) s₀ :=
-            (hdiff.hasDerivWithinAt.derivWithin (uniqueDiffWithinAt_Ioi s₀)).symm
-          _ = 0 :=
-            by
-              have hend : y s₀ - R s₀ = 0 := by
-                simp [R, hyx s₀ (Set.mem_Ici.mpr le_rfl)]
-              have hzeroDeriv : HasDerivWithinAt (fun t => y t - R t) 0 (Set.Ioi s₀) s₀ :=
-                (hasDerivAt_const s₀ (0 : H)).hasDerivWithinAt.congr_of_eventuallyEq
-                  heq hend
-              exact hzeroDeriv.derivWithin (uniqueDiffWithinAt_Ioi s₀)
-    rw [sub_eq_zero] at hzero
-    rw [hzero]
-    module
-  classical
-  let uOf : ℝ → H := fun s => if hs : s ∈ Set.Ici s₀ then
-    Classical.choose ((hsol (s ^ 2 / (2 * (α - 1))) (hτ_domain s hs)).2) else 0
-  have huOf_spec : ∀ s (hs : s ∈ Set.Ici s₀),
-      (∀ q : H,
-        (dryFrictionPotential (H := H) r (dz (s ^ 2 / (2 * (α - 1)))) : EReal) +
-          (inner ℝ (uOf s) (q - dz (s ^ 2 / (2 * (α - 1)))) : EReal) ≤
-            dryFrictionPotential (H := H) r q) ∧
-        dz (s ^ 2 / (2 * (α - 1))) + uOf s + gradient f (z (s ^ 2 / (2 * (α - 1)))) = 0 := by
-    intro s hs
-    dsimp [uOf]
-    rw [dif_pos hs]
-    exact Classical.choose_spec ((hsol _ (hτ_domain s hs)).2)
-  let p : ℝ → H := fun s => -uOf s
-  refine ⟨p, ?_⟩
-  intro s hs
-  have hspos : 0 < s := lt_of_lt_of_le hs₀ hs
-  have hcne : s / (α - 1) ≠ 0 := ne_of_gt (div_pos hspos ha1)
-  have hy_point : y s = z (s ^ 2 / (2 * (α - 1))) := by simp [hy, timeScaledTrajectory]
-  have hsol_s := hsol (s ^ 2 / (2 * (α - 1))) (hτ_domain s hs)
-  have hchain : HasDerivAt y ((s / (α - 1)) • dz (s ^ 2 / (2 * (α - 1)))) s := by
-    simpa only [hy, timeScaledTrajectory] using hsol_s.1.scomp s (hτ_deriv s)
-  have hdy_eq : dy s = (s / (α - 1)) • dz (s ^ 2 / (2 * (α - 1))) :=
-    (hdy s).unique hchain
-  rcases huOf_spec s hs with ⟨hsub, hforce⟩
-  refine ⟨(hx s).hasDerivAt, hddx s, ?_, ?_⟩
-  · have hproj := neg_drygrad_subgradient_mem_projector hr hsub hforce
-    rw [← hy_point, hyx s hs] at hproj
-    simpa [p] using hproj
-  · have hscaled := congrArg (fun w : H => (s / (α - 1)) • w) hforce
-    simp only [smul_add, smul_zero] at hscaled
-    rw [← hdy_eq, ← hy_point] at hscaled
-    have hdiv := congrArg (fun w : H => (s / (α - 1))⁻¹ • w) hscaled
-    simp only [smul_add, smul_zero, smul_smul] at hdiv
-    have hone : (s / (α - 1))⁻¹ * (s / (α - 1)) = 1 := inv_mul_cancel₀ hcne
-    rw [hone, one_smul] at hdiv
-    have hcoef : (s / (α - 1))⁻¹ * (1 + 1 / (α - 1)) = α / s := by
-      field_simp [ne_of_gt hspos, ne_of_gt ha1]
-      ring
-    rw [hdy_avg s hs, smul_add, smul_smul, smul_smul, hcoef] at hdiv
-    rw [hone, one_smul] at hdiv
-    simp only [one_smul] at hdiv
-    rw [← hyx s hs]
-    simp only [p]
-    calc
-      ddx s + (α / s) • dx s + gradient f (y s) - -uOf s =
-          ddx s + (α / s) • dx s + uOf s + gradient f (y s) := by abel
-      _ = 0 := hdiv
+    exact (hx.differentiable (by norm_num) s).hasDerivAt
+  have haverage : IsWeightedAverageOn τ dτ x y (deriv x) s₀ := by
+    refine ⟨hτ, ?_, ?_⟩
+    · dsimp [y, timeScaledTrajectory, τ]
+      exact hinitial
+    · intro s hs
+      refine ⟨hxderiv s, ?_⟩
+      have hpos : 0 < dτ s := by
+        dsimp [dτ]
+        exact div_pos (lt_of_lt_of_le hs₀ hs) (sub_pos.mpr hα)
+      have hne : dτ s ≠ 0 := ne_of_gt hpos
+      have hrel := hrelation s hs
+      dsimp [y, timeScaledTrajectory, τ, dτ] at hrel ⊢
+      rw [hrel]
+      rw [show x s - (x s + (s / (α - 1)) • deriv x s) =
+          -((s / (α - 1)) • deriv x s) by abel]
+      rw [smul_neg, smul_smul, inv_mul_cancel₀ hne, one_smul]
+      abel
+  refine ⟨y, ?_, ?_⟩
+  · rfl
+  · simpa [τ, dτ] using haverage
 ```
 
 ## Proof explanation
-The proof can be divided into several main parts.
+The proof begins by introducing local abbreviations. It sets
 
-First, the proof fixes notation and records basic derivative facts. It defines
 \[
-dx=\operatorname{deriv} x,\qquad dy=\operatorname{deriv} y,\qquad ddx=\operatorname{deriv}(\operatorname{deriv} x).
+\tau : \mathbb R \to \mathbb R,\qquad
+\tau(s)=\frac{s^2}{2(\alpha-1)},
 \]
-From the differentiability assumptions it obtains pointwise derivative facts:
+
 \[
-\forall s,\quad \operatorname{HasDerivAt} y\ (dy(s))\ s,
+d\tau : \mathbb R \to \mathbb R,\qquad
+d\tau(s)=\frac{s}{\alpha-1},
 \]
+
 and
-\[
-\forall s,\quad \operatorname{HasDerivAt} (\operatorname{deriv} x)\ (ddx(s))\ s.
-\]
-It also notes that \(\alpha-1>0\).
 
-The proof then studies the time scaling
 \[
-\tau(s)=\frac{s^2}{2(\alpha-1)}.
+y : \mathbb R \to H,\qquad
+y=\operatorname{timeScaledTrajectory} z \tau.
 \]
-Using monotonicity of the square on positive numbers, it proves that if \(s\ge s_0\), then
-\[
-\tau(s)\ge \tau(s_0)=\frac{s_0^2}{2(\alpha-1)}.
-\]
-It also proves
-\[
-\tau'(s)=\frac{s}{\alpha-1}.
-\]
-The positivity of \(s/(\alpha-1)\) for \(s\ge s_0>0\) is important later.
 
-To prove the first conclusion `IsDryStarFirstOrder`, the proof fixes an arbitrary \(s\ge s_0\). From the hypothesis \(h_{\mathrm{sol}}\) at time \(\tau(s)\), it obtains a subgradient \(u\) and the force balance equation
-\[
-dz(\tau(s))+u+\nabla f(z(\tau(s)))=0.
-\]
-By the definition of the time-scaled trajectory,
-\[
-y(s)=z(\tau(s)).
-\]
-Using the chain rule for \(\tau\), it proves
-\[
-\operatorname{HasDerivAt} y
-\left(\frac{s}{\alpha-1}\bullet dz(\tau(s))\right)
-s.
-\]
-Uniqueness of derivatives gives
-\[
-dy(s)=\frac{s}{\alpha-1}\bullet dz(\tau(s)).
-\]
-Now the subgradient inequality for \(u\) is scaled by the positive factor \(\frac{s}{\alpha-1}\), using the lemma `dryFriction_subgradient_smul_pos`. The force balance equation is also scaled by the same factor. Finally, the average equation is rewritten using the identity
-\[
-\frac{\alpha-1}{s}=\left(\frac{s}{\alpha-1}\right)^{-1},
-\]
-which matches the required first-order dry-star condition.
+Thus, by the definition of `timeScaledTrajectory`,
 
-The second part of the proof derives an algebraic relation between \(x\) and \(y\). For \(s\ge s_0\), the average equation
 \[
-dx(s)+\left(\frac{s}{\alpha-1}\right)^{-1}\bullet(x(s)-y(s))=0
+y(s)=z(\tau(s))=z\!\left(\frac{s^2}{2(\alpha-1)}\right).
 \]
-is multiplied by the nonzero scalar \(\frac{s}{\alpha-1}\). After simplification this yields
-\[
-\frac{s}{\alpha-1}\bullet dx(s)+(x(s)-y(s))=0,
-\]
-or equivalently
-\[
-y(s)=x(s)+\frac{s}{\alpha-1}\bullet dx(s).
-\]
-This relation is recorded as `hyx`.
 
-Next, the proof differentiates this relation. It defines
+These `let` declarations do not add new mathematical assumptions; they only name the functions that occur in the conclusion.
+
+Next the proof obtains the time-scale property. It writes
+
 \[
-R(t)=x(t)+\frac{t}{\alpha-1}\bullet dx(t).
+h\tau := \text{quadraticTimeScale\_isIncreasingC1TimeScaleOn}\ h_\alpha\ h_{s_0}.
 \]
-The derivative of \(R\) is computed as
+
+The cited theorem `quadraticTimeScale_isIncreasingC1TimeScaleOn` applies because \(1<\alpha\) and \(0<s_0\). Its conclusion is that the pair of functions
+
 \[
-R'(s)
+\tau(s)=\frac{s^2}{2(\alpha-1)},\qquad
+d\tau(s)=\frac{s}{\alpha-1}
+\]
+
+satisfies \(\operatorname{IsIncreasingC1TimeScaleOn}\) at \(s_0\). This is exactly the first conjunct required by `IsWeightedAverageOn`.
+
+The proof then establishes that \(x\) has derivative \(\operatorname{deriv}x(s)\) at every point \(s\). It defines
+
+\[
+hxderiv : \forall s,\ \operatorname{HasDerivAt} x (\operatorname{deriv}x(s)) s.
+\]
+
+To prove this, it fixes an arbitrary \(s\) with `intro s`. Since \(h_x\) says that \(x\) is \(C^2\), in particular \(x\) is differentiable. The invocation `hx.differentiable (by norm_num)` uses that a \(C^2\) function is differentiable, with the numerical side condition \(2\ne 0\) discharged by `norm_num`. Applying the resulting differentiability to the point \(s\) gives differentiability of \(x\) at \(s\). The field access `.hasDerivAt` then gives
+
+\[
+\operatorname{HasDerivAt} x (\operatorname{deriv}x(s)) s.
+\]
+
+This supplies the derivative component required in the third conjunct of `IsWeightedAverageOn`.
+
+The main local claim is
+
+\[
+haverage : \operatorname{IsWeightedAverageOn}\ \tau\ d\tau\ x\ y\ (\operatorname{deriv}x)\ s_0.
+\]
+
+The proof establishes this by `refine ⟨hτ, ?_, ?_⟩`, splitting the definition into its three conjuncts.
+
+The first conjunct is exactly \(h\tau\), already proved.
+
+The second conjunct requires \(x(s_0)=y(s_0)\). The proof uses `dsimp [y, timeScaledTrajectory, τ]` to unfold the definitions. The goal becomes
+
+\[
+x(s_0)=z\!\left(\frac{s_0^2}{2(\alpha-1)}\right).
+\]
+
+This is precisely the hypothesis \(h_{\mathrm{initial}}\). The command `exact hinitial` closes the goal.
+
+The third conjunct requires that for every \(s \in \operatorname{Ici}s_0\),
+
+\[
+\operatorname{HasDerivAt} x (\operatorname{deriv}x(s)) s
+\]
+
+and
+
+\[
+\operatorname{deriv}x(s)+(d\tau(s))^{-1}\cdot (x(s)-y(s))=0.
+\]
+
+The proof introduces such an \(s\) with `intro s hs`, where \(hs : s \in \operatorname{Ici}s_0\), i.e. \(s_0 \le s\). Then `refine ⟨hxderiv s, ?_⟩` supplies the first part using \(hxderiv\), and leaves the weighted-average equation as the remaining goal.
+
+To prove the remaining equation, the proof first shows that \(d\tau(s)\) is nonzero. It establishes
+
+\[
+hpos : 0<d\tau(s).
+\]
+
+After unfolding \(d\tau\), this means
+
+\[
+0<\frac{s}{\alpha-1}.
+\]
+
+The proof uses `lt_of_lt_of_le hs₀ hs`: from \(0<s_0\) and \(s_0\le s\), it obtains \(0<s\). It also uses `sub_pos.mpr hα`: from \(1<\alpha\), it obtains \(0<\alpha-1\). Then `div_pos` combines the positive numerator and positive denominator to give
+
+\[
+0<\frac{s}{\alpha-1}.
+\]
+
+Consequently, `hne : dτ(s) \ne 0` is obtained from `ne_of_gt hpos`. This nonzero fact is needed later to cancel \(d\tau(s)\) by its inverse.
+
+Next the proof invokes the relation hypothesis. `hrel := hrelation s hs` gives
+
+\[
+z\!\left(\frac{s^2}{2(\alpha-1)}\right)
 =
-dx(s)+\frac{1}{\alpha-1}\bullet dx(s)
-+\frac{s}{\alpha-1}\bullet ddx(s).
+x(s)+\frac{s}{\alpha-1}\cdot \operatorname{deriv}x(s).
 \]
-Since \(y(t)-R(t)=0\) for \(t\ge s_0\), the derivative of \(y-R\) is zero. For \(s>s_0\), this is immediate from a neighborhood equality. For \(s=s_0\), the proof uses a right-neighborhood within `Set.Ioi s_0` and `derivWithin` to handle the boundary. Therefore
+
+The command `dsimp [y, timeScaledTrajectory, τ, dτ] at hrel ⊢` unfolds the local definitions in both `hrel` and the current goal. The goal is therefore the equation
+
 \[
-dy(s)
-=
-\frac{s}{\alpha-1}\bullet ddx(s)
+\operatorname{deriv}x(s)
 +
-\left(1+\frac{1}{\alpha-1}\right)\bullet dx(s).
-\]
-
-The proof now constructs the witness \(p\) for the second-order trajectory. For each \(s\ge s_0\), it chooses \(u(s)\) from the `hsol` data at time \(\tau(s)\), and sets
-\[
-p(s)=-u(s).
-\]
-Outside \(s\ge s_0\), the value is taken to be \(0\). The chosen \(u(s)\) satisfies the dry-friction subgradient inequality and the force balance
-\[
-dz(\tau(s))+u(s)+\nabla f(z(\tau(s)))=0.
-\]
-
-Finally, for \(s\ge s_0\), the proof verifies the second-order `IsDryStarTrajectory` condition with \(p(s)=-u(s)\). The derivative facts for \(x\) and \(dx\) are immediate. The projector condition for \(p\) is obtained from the lemma `neg_drygrad_subgradient_mem_projector` applied to the chosen \(u(s)\). The force balance equation is transported as follows. Scaling
-\[
-dz(\tau(s))+u(s)+\nabla f(z(\tau(s)))=0
-\]
-by \(\frac{s}{\alpha-1}\) gives
-\[
-dy(s)+\frac{s}{\alpha-1}\bullet u(s)
-+\frac{s}{\alpha-1}\bullet \nabla f(y(s))
-=
-0.
-\]
-Multiplying by the inverse scalar \(\left(\frac{s}{\alpha-1}\right)^{-1}\) gives
-\[
-\left(\frac{s}{\alpha-1}\right)^{-1}\bullet dy(s)
-+u(s)
-+\nabla f(y(s))
-=
-0.
-\]
-Using the formula for \(dy(s)\) derived above,
-\[
-dy(s)
-=
-\frac{s}{\alpha-1}\bullet ddx(s)
-+
-\left(1+\frac{1}{\alpha-1}\right)\bullet dx(s),
-\]
-and the identity
-\[
 \left(\frac{s}{\alpha-1}\right)^{-1}
-\left(1+\frac{1}{\alpha-1}\right)
-=
-\frac{\alpha}{s},
+\cdot
+\left(
+x(s)-z\!\left(\frac{s^2}{2(\alpha-1)}\right)
+\right)
+=0.
 \]
-the equation becomes
-\[
-ddx(s)
-+
-\frac{\alpha}{s}\bullet dx(s)
-+
-u(s)
-+
-\nabla f(y(s))
-=
-0.
-\]
-Since \(p(s)=-u(s)\), this matches the required second-order dry-star equation. Rewriting \(y(s)\) using the relation
-\[
-y(s)=x(s)+\frac{s}{\alpha-1}\bullet dx(s)
-\]
-gives the final form required by `IsDryStarTrajectory`.
 
-Important Lean tactics used in the proof include `have` and `let` for intermediate facts and abbreviations; `intro` to fix arbitrary \(s\ge s_0\); `rcases` to extract the chosen subgradient from an existence hypothesis; `rw` and `simp` for rewriting with equations and simplifying scalar-multiplication expressions; `nlinarith` for nonlinear arithmetic inequalities; `field_simp` and `ring` for field and scalar algebra; `module` and `abel` for vector-space arithmetic; `HasDerivAt.unique` for uniqueness of derivatives; `congr_of_eventuallyEq` and `derivWithin` for derivative equality at the boundary; and `Classical.choose` with `dif_pos` to define a chosen subgradient curve.
+Then `rw [hrel]` replaces the occurrence of
+
+\[
+z\!\left(\frac{s^2}{2(\alpha-1)}\right)
+\]
+
+by
+
+\[
+x(s)+\frac{s}{\alpha-1}\cdot \operatorname{deriv}x(s).
+\]
+
+So the inner difference becomes
+
+\[
+x(s)-\left(x(s)+\frac{s}{\alpha-1}\cdot \operatorname{deriv}x(s)\right).
+\]
+
+The proof next rewrites this difference using a local equality proved by `abel`:
+
+\[
+x(s)-\left(x(s)+\frac{s}{\alpha-1}\cdot \operatorname{deriv}x(s)\right)
+=
+-\left(\frac{s}{\alpha-1}\cdot \operatorname{deriv}x(s)\right).
+\]
+
+The `abel` tactic proves identities in additive abelian groups; here \(H\) is an additive commutative group, so it can cancel the common \(x(s)\). After this rewrite, the goal becomes
+
+\[
+\operatorname{deriv}x(s)
++
+\left(\frac{s}{\alpha-1}\right)^{-1}
+\cdot
+\left(
+-\left(\frac{s}{\alpha-1}\cdot \operatorname{deriv}x(s)\right)
+\right)
+=0.
+\]
+
+The proof then applies the scalar-multiplication rewrites
+
+\[
+\text{smul\_neg},\quad \text{smul\_smul},\quad
+\text{inv\_mul\_cancel₀ } hne,\quad \text{one\_smul}.
+\]
+
+These steps move the negative sign out of the scalar product, reassociate the scalar multiplication, cancel the scalar factor using
+
+\[
+\left(\frac{s}{\alpha-1}\right)^{-1}\cdot \frac{s}{\alpha-1}=1,
+\]
+
+which is possible because \(d\tau(s)\ne 0\), and remove the scalar \(1\). The equation reduces to
+
+\[
+\operatorname{deriv}x(s)+(-\operatorname{deriv}x(s))=0.
+\]
+
+The final `abel` closes this additive identity. Thus the weighted-average equation is proved for the arbitrary \(s \ge s_0\). Therefore the local claim `haverage` is established.
+
+Finally, the proof constructs the existential witness. `refine ⟨y, ?_, ?_⟩` chooses \(y\) as the desired curve. The first goal is
+
+\[
+y=\operatorname{timeScaledTrajectory} z
+\left(s \mapsto \frac{s^2}{2(\alpha-1)}\right).
+\]
+
+This is closed by `rfl`, because \(y\) was defined as `timeScaledTrajectory z τ` and \(\tau\) was defined as \(s \mapsto s^2/(2(\alpha-1))\); the equality holds by definitional unfolding. The second goal is the `IsWeightedAverageOn` statement with the explicit functions
+
+\[
+s \mapsto \frac{s^2}{2(\alpha-1)},\qquad
+s \mapsto \frac{s}{\alpha-1}.
+\]
+
+The command `simpa [τ, dτ] using haverage` unfolds the local abbreviations \(\tau\) and \(d\tau\) in the goal and then uses the already established `haverage` to close it. Hence the existence of \(y\) satisfying both required properties is proved.
 

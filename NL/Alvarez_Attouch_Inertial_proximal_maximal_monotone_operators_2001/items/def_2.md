@@ -12,28 +12,40 @@ theorem resolvent_of_maximal_monotone
 ```
 
 ## Statement explanation
-The theorem concerns a set-valued operator \(A\) from an implicit space \(H\) to sets in \(H\), written in Lean as `SetValuedOperator H H`. The assumption `hA` says that \(A\) is maximal monotone. The scalar `lambda` is a real number, and `hlambda` says \(0 < \lambda\).
+Let \(H\) be the ambient space on which the set-valued operator acts, with the algebraic and topological structure supplied by the surrounding Lean context. The declaration concerns a set-valued operator \(A : H \rightrightarrows H\), a hypothesis \(hA\) that \(A\) is maximal monotone, a real number \(\lambda\), and the hypothesis \(h\lambda : 0 < \lambda\).
 
-The notation `A.identityAddScaled lambda z` denotes the set of points of the form \(z+\lambda a\) with \(a\in A z\). Thus
+The operator \(A.\mathrm{identityAddScaled}\,\lambda\), written mathematically as \(I+\lambda A\), is defined by
+
 \[
-u\in A.\mathrm{identityAddScaled}\,\lambda\,z
+(I+\lambda A)(z)=\{\, z+\lambda a \mid a\in A(z) \,\}.
 \]
-means there exists \(a\in A z\) such that \(u=z+\lambda a\). This is the inclusion \(u\in (I+\lambda A)z\).
 
-The notation \(J[(\lambda\bullet A)]u\) denotes the resolvent of the scaled operator \(\lambda\bullet A\) at \(u\). Thus \(J u\in J[(\lambda\bullet A)]u\) means precisely that \(u\in A.\mathrm{identityAddScaled}\,\lambda\,(J u)\).
+Its resolvent is the inverse of \(I+\lambda A\); in the Lean statement this resolvent is denoted by the resolvent notation `J[(lambda • A)]`, i.e. the resolvent of the operator \(\lambda A\).
 
-The theorem states two conclusions:
+The theorem concludes the conjunction of two statements.
 
-1. For every \(u\in H\), there exists a unique \(z\in H\) such that
-   \[
-   u\in A.\mathrm{identityAddScaled}\,\lambda\,z.
-   \]
-2. There exists a function \(J:H\to H\) such that:
-   - for every \(u\), \(J u\) belongs to the resolvent of \(\lambda A\) at \(u\);
-   - \(J\) is \(1\)-Lipschitz, i.e. nonexpansive;
-   - for every \(z\in H\), \(J z=z\) if and only if \(0\in A z\).
+First, for every \(u\in H\), there is a unique \(z\in H\) such that
 
-In words, a maximal monotone operator has a unique resolvent value at every point, and there is a nonexpansive selection of the resolvent whose fixed points are exactly the zeros of the original operator.
+\[
+u\in (I+\lambda A)(z).
+\]
+
+Equivalently, the resolvent equation \(u\in z+\lambda A(z)\) has a unique solution \(z\) for every right-hand side \(u\). This is the unique solvability of the resolvent of \(\lambda A\).
+
+Second, there exists a single-valued map \(J:H\to H\) such that:
+
+- for every \(u\in H\), \(J(u)\) lies in the resolvent of \(\lambda A\) at \(u\), written in Lean as \(J u\in J[(\lambda\cdot A)]u\). By definition of the resolvent, this means
+  \[
+  u\in (I+\lambda A)(J(u)),
+  \]
+  or equivalently \(u\in J(u)+\lambda A(J(u))\). Thus \(J\) is a selection of the resolvent.
+- \(J\) is \(1\)-Lipschitz, i.e. nonexpansive: the Lean assertion \(\mathrm{LipschitzWith}\,1\,J\) means that the usual Lipschitz condition with constant \(1\) holds for \(J\).
+- the fixed points of \(J\) are exactly the zeros of \(A\):
+  \[
+  \forall z\in H,\qquad J(z)=z \iff 0\in A(z).
+  \]
+
+So the declaration says that for a maximal monotone operator \(A\) and a positive step size \(\lambda\), the resolvent of \(\lambda A\) is single-valued and uniquely defined, and it admits a nonexpansive selection whose fixed points are precisely the points \(z\) with \(0\in A(z)\).
 
 ## Lean proof
 ```lean
@@ -65,53 +77,89 @@ by
 ```
 
 ## Proof explanation
-The proof starts with `classical`, enabling classical choice and decidability.
+The proof begins with `classical`, because it uses classical choice to select the unique solution of each resolvent equation.
 
-First, the proof obtains uniqueness of the resolvent point:
+First, the proof invokes the cited result `identityAddScaled_existsUnique_of_maximal_monotone`. Its mathematical content is the following: if \(A\) is maximal monotone and \(\lambda>0\), then for every \(u\in H\) there exists a unique \(z\in H\) such that
+
 \[
-\forall u,\ \exists! z,\ u\in A.\mathrm{identityAddScaled}\,\lambda\,z.
+u\in A.\mathrm{identityAddScaled}\,\lambda\,z,
 \]
-This is given by the lemma `identityAddScaled_existsUnique_of_maximal_monotone`, applied to `A`, `hA`, and `hlambda`. This proves the first conjunct.
 
-Then the proof defines a function \(J:H\to H\) by choosing, for each \(u\), the unique \(z\) satisfying that inclusion:
+i.e. \(u\in (I+\lambda A)(z)\). The proof applies this result to the given \(A\), \(hA\), \(\lambda\), \(h\lambda\), and to an arbitrary \(u\), obtaining exactly
+
 \[
-J u := \text{Classical.choose } (hunique\ u).
+\forall u\in H,\ \exists! z\in H,\ u\in (I+\lambda A)(z).
 \]
-The `Classical.choose_spec` command gives the defining property of this chosen element, which is recorded as `hJ_identity`:
+
+This is recorded as `hunique` and is precisely the first conjunct of the theorem.
+
+Next, the proof defines a function \(J:H\to H\) by choosing, for each \(u\), the unique element supplied by `hunique u`:
+
 \[
-\forall u,\ u\in A.\mathrm{identityAddScaled}\,\lambda\,(J u).
+J(u)=\text{the unique }z\text{ such that }u\in (I+\lambda A)(z).
 \]
-This is exactly the first component of the chosen witness.
 
-Next, the proof converts this inclusion into resolvent membership. The lemma `mem_resolvent_smul_iff` is used in the reverse direction to prove
+In Lean this is done by `Classical.choose (hunique u)`. The proof then records the defining property of the chosen element:
+
 \[
-J u\in J[(\lambda\bullet A)]u
+\forall u\in H,\qquad u\in (I+\lambda A)(J(u)).
 \]
-for every \(u\). This gives the statement `hJ`.
 
-The proof then assembles the existential statement using `refine`. The first three components are:
-- `hunique`, the uniqueness statement;
-- the function `J`;
-- `hJ`, the resolvent membership property.
-The Lipschitz condition is supplied by the lemma `resolvent_selection_lipschitz`, using `A`, `hA`, `hlambda`, `J`, and `hJ`. What remains is the fixed-point equivalence.
+This is `hJ_identity`. It follows from `Classical.choose_spec (hunique u)`: the specification of classical choice says that the chosen element satisfies the property used in the existence proof, and the first component of that specification gives the membership statement.
 
-For the fixed-point equivalence, the proof introduces an arbitrary \(z\) and splits the bidirectional implication with `constructor`.
+To show that \(J\) is a selection of the resolvent of \(\lambda A\), the proof uses `mem_resolvent_smul_iff`. That lemma states that for any set-valued operator \(A\), any scalar \(\rho\), and any \(x,y\in H\),
 
-For the forward direction, assume \(J z=z\). From `hJ_identity z`, there exist \(a\in A(J z)\) and an equation
 \[
-z=J z+\lambda a.
+y\in J[(\rho\cdot A)]x \iff x\in A.\mathrm{identityAddScaled}\,\rho\,y.
 \]
-After rewriting \(J z\) to \(z\) using the fixed-point assumption, this becomes
-\[
-z=z+\lambda a.
-\]
-Cancelling \(z\) gives \(\lambda a=0\). Since \(\lambda>0\), one has \(\lambda\neq 0\), so \(a=0\). After rewriting `a` to `0` and using the fixed-point equality again, the membership \(a\in A(J z)\) becomes \(0\in A z\).
 
-For the reverse direction, assume \(0\in A z\). Then, because \(z=z+\lambda 0\), the proof obtains
-\[
-z\in A.\mathrm{identityAddScaled}\,\lambda\,z.
-\]
-But `hunique z` says there is a unique \(w\) such that \(z\in A.\mathrm{identityAddScaled}\,\lambda\,w\). Both \(J z\) and \(z\) are such witnesses: the first is `hJ_identity z`, and the second is the newly proved inclusion. Therefore uniqueness gives \(J z=z\).
+In other words, \(y\) belongs to the resolvent of \(\rho A\) at \(x\) exactly when \(x\in (I+\rho A)(y)\). Taking \(\rho=\lambda\), \(x=u\), and \(y=J(u)\), the right-hand side is exactly `hJ_identity u`, namely \(u\in (I+\lambda A)(J(u))\). The `.mpr` direction of the equivalence therefore gives
 
-Important Lean commands used include `intro` to introduce arbitrary variables and implications, `rcases` to unpack the existential membership, `rw` to rewrite using equalities, `exact` to supply a direct proof, `simpa` to simplify goals using assumptions, and `constructor` to split an if-and-only-if goal. The proof does not use `linarith`.
+\[
+J(u)\in J[(\lambda\cdot A)]u
+\]
+
+for every \(u\). This is recorded as `hJ`. Thus \(J\) is a single-valued selection of the resolvent.
+
+The proof then assembles the existential part of the theorem with `refine`. The witness for the existential quantifier is the function \(J\). The first property required is `hJ`, which says that \(J\) is a resolvent selection. The second property, \(1\)-Lipschitzness, is supplied by the cited theorem `resolvent_selection_lipschitz`. Its content is: if \(A\) is maximal monotone, \(\lambda>0\), and \(J:H\to H\) satisfies \(J(u)\in J[(\lambda\cdot A)]u\) for every \(u\), then \(J\) is \(1\)-Lipschitz. Applied to the present \(A\), \(hA\), \(h\lambda\), \(J\), and `hJ`, it gives \(\mathrm{LipschitzWith}\,1\,J\). Mathematically, this is the nonexpansiveness of the resolvent selection.
+
+Only the fixed-point characterization remains. The proof fixes an arbitrary \(z\in H\) with `intro z` and splits the biconditional into two implications using `constructor`.
+
+For the forward direction, assume \(J(z)=z\), recorded as `hfix`. From `hJ_identity z`, we know
+
+\[
+z\in (I+\lambda A)(J(z)).
+\]
+
+Unfolding the definition of \(I+\lambda A\), this means that there exists some \(a\in A(J(z))\) and an equality expressing that \(J(z)+\lambda a=z\) (equivalently \(z=J(z)+\lambda a\)). The proof extracts such an \(a\) and the equality by `rcases hJ_identity z with ⟨a, ha, hza⟩`. Then it rewrites \(J(z)\) to \(z\) in both the equality and the membership, using `rw [hfix] at hza ha`. After this substitution, one has \(a\in A(z)\) and an equality between \(z+\lambda a\) and \(z\) (up to symmetry).
+
+The proof then cancels \(z\). It uses `apply add_left_cancel (a := z)`, which reduces the goal \(\lambda a=0\) to an equality with \(z\) added on both sides. The resulting equality is closed by `simpa` using the rewritten equality. Hence
+
+\[
+\lambda a=0.
+\]
+
+The proof now applies `smul_eq_zero.mp hscaled`. This theorem says that in a vector space, \(\lambda a=0\) implies \(\lambda=0\) or \(a=0\). Since \(h\lambda\) gives \(0<\lambda\), in particular \(\lambda\neq 0\), the disjunct \(\lambda=0\) is impossible. The tactic `resolve_left` uses this to conclude \(a=0\). Therefore the earlier membership \(a\in A(z)\) becomes \(0\in A(z)\). The final `simpa [hfix, ha_zero] using ha` rewrites the extracted membership into the desired conclusion.
+
+For the backward direction, assume \(0\in A(z)\), recorded as `hzero`. The proof constructs the membership
+
+\[
+z\in (I+\lambda A)(z)
+\]
+
+by taking the witness \(0\). Indeed, \(0\in A(z)\) is exactly `hzero`, and the required equality \(z+\lambda\cdot 0=z\) is discharged by `simp`. This is recorded as `hz`.
+
+Now observe that \(J(z)\) also satisfies the same resolvent equation for the same input \(z\), by `hJ_identity z`:
+
+\[
+z\in (I+\lambda A)(J(z)).
+\]
+
+Meanwhile `hz` gives
+
+\[
+z\in (I+\lambda A)(z).
+\]
+
+But `hunique z` states that there is a unique solution \(w\) to the equation \(z\in (I+\lambda A)(w)\). Since both \(J(z)\) and \(z\) are such solutions, uniqueness forces them to be equal. The proof invokes `(hunique z).unique (hJ_identity z) hz`, which yields \(J(z)=z\). This completes the fixed-point equivalence and therefore the whole theorem.
 

@@ -7,7 +7,19 @@ recall ERealFunction.subdifferential
 ```
 
 ## Statement explanation
-The Lean declaration is only `recall ERealFunction.subdifferential`, with declaration kind `recall`. This is not a normal theorem, definition, or lemma statement: it does not contain a type, a formula, or a proof obligation. The identifier `ERealFunction.subdifferential` is a name referring to some earlier declaration; the leading component `ERealFunction` and the component `subdifferential` suggest an object called “subdifferential” connected with a type or namespace named `ERealFunction`, but the source displayed here gives no mathematical definition, type signature, hypotheses, or conclusion. Thus, in this snippet, there are no variables, types, hypotheses, or conclusions to translate. The only content is the act of recalling the already-existing declaration with that name.
+The declaration is a recall item rather than a theorem. It introduces no variables, hypotheses, or conclusion of its own. Its entire content is a reference to the existing object named `ERealFunction.subdifferential`. Mathematically, this object is the subdifferential of an extended-real-valued function.
+
+In the standard mathematical reading of that name, one considers a real inner product space \(E\) and a function
+\[
+f : E \to \overline{\mathbb R},
+\]
+where \(\overline{\mathbb R}\) is the extended real line. For a point \(x \in E\), the subdifferential \(\partial f(x)\) is the set of all vectors \(y \in E\) such that
+\[
+f(x) + \langle y, z - x \rangle \le f(z)
+\]
+for every \(z \in E\). Here the addition and order are those of \(\overline{\mathbb R}\), and \(\langle \cdot, \cdot \rangle\) is the real inner product on \(E\). Thus the recalled declaration specifies the set of subgradients of \(f\) at \(x\).
+
+The provided source does not display the exact Lean signature or body of `ERealFunction.subdifferential`, so the precise typeclass assumptions and the exact Lean notation are not visible in this snippet. The only exact mathematical consequence visible from the source is that the item recalls this subdifferential construction; it adds no new assumptions or goals.
 
 ## Lean proof
 ```lean
@@ -15,5 +27,5 @@ The Lean declaration is only `recall ERealFunction.subdifferential`, with declar
 ```
 
 ## Proof explanation
-There is no separate proof part. The source explicitly contains the comment `-- No separate proof part.` Because the command is `recall`, it does not assert a new theorem and does not require a proof. Consequently, no Lean proof steps are present, and commands such as `intro`, `rw`, `simp`, `exact`, and `linarith` do not occur. No mathematical reasoning is performed or justified in the shown source.
+There is no separate proof part. The Lean proof field is empty and contains only a comment stating that no separate proof is given. Consequently, no tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` are used, and no named lemmas or theorems are invoked. The declaration is a recall item, so its role is simply to make the already-existing subdifferential definition available in the current context; it does not establish a new theorem and has no proof obligations to discharge.
 

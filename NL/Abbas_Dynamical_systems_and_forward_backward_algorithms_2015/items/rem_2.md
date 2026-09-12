@@ -13,27 +13,38 @@ theorem bregman_distance_remark {H : Type*} [NormedAddCommGroup H] [InnerProduct
 ```
 
 ## Statement explanation
-Let \(H\) be a type with the structure of a normed additive commutative group and a real inner product space. Thus elements of \(H\) can be subtracted, have a norm \(\|\cdot\|\), and have a real inner product \(\langle \cdot,\cdot\rangle\), written in Lean as `inner ℝ`.
+The declaration `bregman_distance_remark` is a theorem in a real inner product space. It fixes a type \(H\) which is both a normed additive commutative group and an inner product space over \(\mathbb R\), so \(H\) has a norm \(\lVert\cdot\rVert\) and a real inner product \(\langle\cdot,\cdot\rangle\). The variables are:
 
-Let \(\Phi:H\to\mathbb R\) be a real-valued function on \(H\), \(\mu\in\mathbb R\) a real coefficient, \(x:\mathbb R\to H\) and \(v:\mathbb R\to H\) two functions of a real parameter \(t\), and \(z\in H\) a fixed point. Let \(\Gamma:\mathbb R\to\mathbb R\) be another real-valued function of \(t\).
+- \(\Phi : H \to \mathbb R\), a real-valued function on \(H\);
+- \(\mu \in \mathbb R\), a real scalar;
+- \(x : \mathbb R \to H\), a curve or path in \(H\);
+- \(z \in H\), a fixed point;
+- \(v : \mathbb R \to H\), a vector-valued function of time;
+- \(\Gamma : \mathbb R \to \mathbb R\), a real-valued function of time.
 
 The hypotheses are:
 
-1. \(hGamma\): for every real \(t\),
+1. `hGamma` states that for every \(t \in \mathbb R\),
 \[
-\Gamma(t)=\frac12\|x(t)-z\|^2+\mu\Bigl(\Phi(z)-\Phi(x(t))-\langle z-x(t),v(t)\rangle\Bigr).
+\Gamma(t)=\frac12\lVert x(t)-z\rVert^2
++\mu\Bigl(\Phi(z)-\Phi(x(t))-\langle z-x(t),v(t)\rangle\Bigr).
 \]
-Here \(x(t)-z\) is the vector difference of \(x(t)\) and \(z\), \(z-x(t)\) is its negative, and \(\langle z-x(t),v(t)\rangle\) is the real inner product of the vector \(z-x(t)\) with the vector \(v(t)\).
+So \(\Gamma\) is assumed to be given by this explicit Bregman-type expression involving the squared distance from \(x(t)\) to \(z\), the difference of values of \(\Phi\), and the inner product of \(z-x(t)\) with \(v(t)\).
 
-2. \(hdecreasing\): \(\Gamma\) is antitone, meaning that if \(t\le s\), then \(\Gamma(s)\le \Gamma(t)\); equivalently, \(\Gamma\) is non-increasing as a real-valued function.
-
-The conclusion is the conjunction of these two facts:
+2. `hdecreasing` states that \(\Gamma\) is antitone. Since \(\Gamma : \mathbb R \to \mathbb R\), this means that for all \(s,t \in \mathbb R\),
 \[
-\Bigl(\forall t,\ \Gamma(t)=\frac12\|x(t)-z\|^2+\mu\bigl(\Phi(z)-\Phi(x(t))-\langle z-x(t),v(t)\rangle\bigr)\Bigr)
-\quad\wedge\quad
-\text{\(\Gamma\) is antitone}.
+s \le t \implies \Gamma(t) \le \Gamma(s).
 \]
-In other words, the theorem merely packages the assumption \(hGamma\) and the assumption \(hdecreasing\) together into one combined statement.
+Equivalently, \(\Gamma\) is nonincreasing.
+
+The conclusion is the conjunction
+\[
+\Bigl(\forall t \in \mathbb R,\ \Gamma(t)=\frac12\lVert x(t)-z\rVert^2
++\mu\bigl(\Phi(z)-\Phi(x(t))-\langle z-x(t),v(t)\rangle\bigr)\Bigr)
+\;\wedge\;
+\operatorname{Antitone}(\Gamma).
+\]
+Thus the theorem says: under the assumptions that \(\Gamma\) is defined by that formula at every \(t\) and that \(\Gamma\) is antitone, both of those facts hold together. It does not derive any further inequality or identity; it packages the two hypotheses into the corresponding conjunction.
 
 ## Lean proof
 ```lean
@@ -42,16 +53,24 @@ by
 ```
 
 ## Proof explanation
-The proof goal is exactly a conjunction \(P\wedge Q\), where
-\[
-P=\forall t,\ \Gamma(t)=\frac12\|x(t)-z\|^2+\mu\bigl(\Phi(z)-\Phi(x(t))-\langle z-x(t),v(t)\rangle\bigr)
-\]
-and
-\[
-Q=\text{\(\Gamma\) is antitone}.
-\]
+The proof is a single tactic:
+```lean
+by
+  exact ⟨hGamma, hdecreasing⟩
+```
 
-The hypothesis `hGamma` is already a proof of \(P\), and the hypothesis `hdecreasing` is already a proof of \(Q\). In Lean, a proof of a conjunction \(P\wedge Q\) is constructed by pairing a proof of \(P\) with a proof of \(Q\). The proof term \(\langle hGamma,hdecreasing\rangle\) does exactly that: its first component proves the equality statement for all \(t\), and its second component proves that \(\Gamma\) is antitone.
+At the beginning of the proof, the goal is exactly the conjunction
+\[
+\Bigl(\forall t,\ \Gamma(t)=\cdots\Bigr) \wedge \operatorname{Antitone}(\Gamma).
+\]
+The expression `⟨hGamma, hdecreasing⟩` is Lean’s anonymous constructor for a conjunction, equivalent to applying `And.intro hGamma hdecreasing`. It builds a proof of \(A \wedge B\) from a proof of \(A\) and a proof of \(B\).
 
-The command `exact` closes the goal because this pair has precisely the statement type appearing in the theorem. No rewriting, simplification, or arithmetic reasoning is needed. The proof is therefore a trivial direct packaging of the two assumptions into the required conjunction; it establishes no new mathematical fact beyond combining the given hypotheses.
+Here the left conjunct is precisely the type of the hypothesis `hGamma`, namely the statement that for every \(t\),
+\[
+\Gamma(t)=\frac12\lVert x(t)-z\rVert^2
++\mu\bigl(\Phi(z)-\Phi(x(t))-\langle z-x(t),v(t)\rangle\bigr).
+\]
+The right conjunct is precisely the type of the hypothesis `hdecreasing`, namely that \(\Gamma\) is antitone.
+
+Therefore `exact` closes the goal by supplying the pair consisting of those two already available hypotheses. No rewriting, simplification, arithmetic reasoning, monotonicity reasoning, or inner-product manipulation is used. There are no cited local theorems or lemmas invoked in the proof; the only mathematical content used is the two hypotheses themselves.
 

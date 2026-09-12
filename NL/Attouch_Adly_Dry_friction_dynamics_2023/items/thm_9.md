@@ -5,69 +5,75 @@
 ```lean
 theorem theorem_A_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     [CompleteSpace H] {t₀ r : ℝ}
-    (hr : 0 < r) (f : H → ℝ) (z dz : ℝ → H) (hf : ContDiff ℝ 1 f)
+    (hr : 0 < r) (f : H → ℝ) (z : ℝ → H) (hf : ContDiff ℝ 1 f)
     (hf_lower : ∃ m : ℝ, ∀ x : H, m ≤ f x) (hgradient_lip : LocallyLipschitz (gradient f))
     (hinitial : r < ‖gradient f (z t₀)‖)
-    (hchain : ∀ t ∈ Set.Ici t₀,
-      HasDerivAt (fun s => f (z s)) (inner ℝ (gradient f (z t)) (dz t)) t)
-    (hcomp_cont : ContinuousOn (fun t => f (z t)) (Set.Ici t₀))
-    (hsolution : IsDrygradTrajectory r hr f (hf.differentiable (by norm_num)) z dz t₀)
-    (V : H → H) (hV_lip : LocallyLipschitz V)
-    (hV_zero : ∀ x, V x = 0 ↔ ‖gradient f x‖ ≤ r)
-    (hvelocity : ∀ t ∈ Set.Ici t₀, dz t = V (z t))
-    (hvelocity_limit : Filter.Tendsto dz Filter.atTop (nhds 0))
-    (hstationary : ∀ S ∈ Set.Ici t₀, V (z S) = 0 →
-      ∀ t ∈ Set.Ici S, z t = z S) :
+    (hsolution : IsDrygradTrajectory r f z t₀)
+    (hz_diff : Differentiable ℝ z) :
     AntitoneOn (fun t => f (z t)) (Set.Ici t₀)
 ```
 
 ## Statement explanation
-The theorem is stated in a real Hilbert space setting. The type `H` is arbitrary but is assumed to be a normed additive commutative group, a real inner product space over `ℝ`, and complete, so it is a real Hilbert space. The parameters `t₀` and `r` are real numbers, with the explicit hypothesis `hr : 0 < r`. The symbols `f`, `z`, and `dz` denote functions: `f : H → ℝ` is a real-valued function on the space, while `z : ℝ → H` and `dz : ℝ → H` are curves in `H`, generally interpreted as a position and a velocity.
+The declaration `theorem_A_1` is stated for a real Hilbert space \(H\), encoded by the typeclasses `NormedAddCommGroup`, `InnerProductSpace ℝ H`, and `CompleteSpace H`. It fixes real parameters \(t_0\) and \(r\) with \(0<r\), a function \(f:H\to\mathbb R\), and a trajectory \(z:\mathbb R\to H\). The hypotheses are:
 
-The hypotheses are as follows:
-- `hf : ContDiff ℝ 1 f` means that `f` is continuously differentiable of order one.
-- `hf_lower : ∃ m : ℝ, ∀ x : H, m ≤ f x` says that `f` is bounded below.
-- `hgradient_lip : LocallyLipschitz (gradient f)` says that the gradient vector field of `f` is locally Lipschitz.
-- `hinitial : r < ‖gradient f (z t₀)‖` says that at the initial time `t₀`, the norm of the gradient of `f` at `z t₀` is strictly larger than `r`.
-- `hchain : ∀ t ∈ Set.Ici t₀, HasDerivAt (fun s => f (z s)) (inner ℝ (gradient f (z t)) (dz t)) t` means that for every time `t ≥ t₀`, the function `s ↦ f(z s)` is differentiable at `t`, and its derivative equals the real inner product of `gradient f (z t)` with `dz t`.
-- `hcomp_cont : ContinuousOn (fun t => f (z t)) (Set.Ici t₀)` says that the composition `f ∘ z` is continuous on the half-line `[t₀, +∞)`.
-- `hsolution : IsDrygradTrajectory r hr f (hf.differentiable (by norm_num)) z dz t₀` asserts that the pair `(z, dz)` is a dry-friction gradient trajectory for `f`, with threshold `r > 0`, starting at `t₀`, using the differentiability of `f` supplied by `hf`.
-- Then `V : H → H` is another map, with `hV_lip : LocallyLipschitz V` saying that `V` is locally Lipschitz.
-- `hV_zero : ∀ x, V x = 0 ↔ ‖gradient f x‖ ≤ r` says that the zeros of `V` are exactly the points where the gradient norm is no more than `r`.
-- `hvelocity : ∀ t ∈ Set.Ici t₀, dz t = V (z t)` says that the velocity curve `dz` equals `V` evaluated along `z`.
-- `hvelocity_limit : Filter.Tendsto dz Filter.atTop (nhds 0)` says that `dz t` tends to `0` as `t → +∞`.
-- `hstationary : ∀ S ∈ Set.Ici t₀, V (z S) = 0 → ∀ t ∈ Set.Ici S, z t = z S` says that if at some time `S ≥ t₀` the vector `V(z S)` is zero, then the curve `z` remains constantly equal to `z S` for all later times `t ≥ S`.
+- `hf`: \(f\) is \(C^1\), i.e. continuously differentiable.
+- `hf_lower`: \(f\) is bounded below, meaning there exists \(m\in\mathbb R\) such that \(m\le f(x)\) for every \(x\in H\).
+- `hgradient_lip`: the gradient map \(\nabla f\) is locally Lipschitz.
+- `hinitial`: the initial gradient norm satisfies
+  \[
+  r<\|\nabla f(z(t_0))\|.
+  \]
+- `hsolution`: \(z\) is a dry-gradient trajectory for \(f\) with threshold \(r\) and initial time \(t_0\), written `IsDrygradTrajectory r f z t₀`. The provided source does not expand the internal definition of this predicate, so it is treated as the hypothesis that \(z\) satisfies the dry-gradient trajectory condition.
+- `hz_diff`: \(z\) is differentiable as a map \(\mathbb R\to H\).
 
-The conclusion is `AntitoneOn (fun t => f (z t)) (Set.Ici t₀)`. This means that the composed function `t ↦ f(z t)` is nonincreasing on the entire half-line `[t₀, +∞)`: for any times `a, b ≥ t₀` with `a ≤ b`, one has `f(z b) ≤ f(z a)`.
+The conclusion is
+\[
+\operatorname{AntitoneOn}\bigl(t\mapsto f(z(t))\bigr)\bigl([t_0,\infty)\bigr).
+\]
+Mathematically, this says that the energy function \(t\mapsto f(z(t))\) is nonincreasing on the interval \([t_0,\infty)\): whenever \(t_0\le s\le t\), one has
+\[
+f(z(t))\le f(z(s)).
+\]
+Thus theorem_A_1 extracts only the monotonicity of the potential energy along the dry-friction gradient trajectory; it does not itself assert convergence, integrability, or any limit behavior.
 
 ## Lean proof
 ```lean
-(theorem_2_1 hr f z dz hf hf_lower hgradient_lip hinitial hchain hcomp_cont hsolution V
-    hV_lip hV_zero hvelocity hvelocity_limit hstationary).1
+(theorem_2_1 hr f z hf hf_lower hgradient_lip hz_diff hinitial hsolution).1
 ```
 
 ## Proof explanation
-The proof consists of a single direct appeal to a previously established theorem named `theorem_2_1`. The proof term is:
+The proof is not a tactic proof. It is a single term obtained by applying `theorem_2_1` and then projecting out the first conjunct of its conclusion.
 
-`(theorem_2_1 hr f z dz hf hf_lower hgradient_lip hinitial hchain hcomp_cont hsolution V hV_lip hV_zero hvelocity hvelocity_limit hstationary).1`
+The cited theorem `theorem_2_1` applies under the same typeclass assumptions on \(H\) and under the hypotheses \(0<r\), \(f\) is \(C^1\), \(f\) is bounded below, \(\nabla f\) is locally Lipschitz, \(z\) is differentiable, \(r<\|\nabla f(z(t_0))\|\), and \(z\) is a dry-gradient trajectory for \(r\), \(f\), and \(t_0\). Its conclusion is the conjunction
+\[
+\operatorname{AntitoneOn}\bigl(t\mapsto f(z(t))\bigr)\bigl([t_0,\infty)\bigr)
+\]
+together with
+\[
+\operatorname{IntegrableOn}\bigl(t\mapsto \|\operatorname{deriv} z(t)\|^2\bigr)\bigl([t_0,\infty)\bigr),
+\]
+\[
+\operatorname{IntegrableOn}\bigl(t\mapsto \|\operatorname{deriv} z(t)\|\bigr)\bigl([t_0,\infty)\bigr),
+\]
+and the existence of a limit point \(z_\infty\in H\) such that
+\[
+z(t)\to z_\infty\quad\text{as }t\to\infty,
+\qquad
+\|\nabla f(z_\infty)\|=r,
+\]
+and either there is \(T\ge t_0\) with \(z(t)=z_\infty\) for all \(t\ge T\), or else
+\[
+r<\|\nabla f(z(t))\|\quad\text{for all }t\ge t_0.
+\]
+The proof only needs the first conjunct of this stronger statement.
 
-In words, all of the hypotheses of the present theorem are passed, in order, to `theorem_2_1`. Thus `theorem_2_1` is applied to the same objects:
-- the positive threshold `hr`,
-- the function `f`,
-- the curves `z` and `dz`,
-- the smoothness hypothesis `hf`,
-- the lower-bound hypothesis `hf_lower`,
-- the local-Lipschitz gradient hypothesis `hgradient_lip`,
-- the initial gradient condition `hinitial`,
-- the chain-rule hypothesis `hchain`,
-- the continuity hypothesis `hcomp_cont`,
-- the dry-gradient trajectory hypothesis `hsolution`,
-- the map `V`,
-- the local-Lipschitz condition `hV_lip`,
-- the zero characterisation `hV_zero`,
-- the velocity relation `hvelocity`,
-- the vanishing-at-infinity condition `hvelocity_limit`,
-- and the stationarity condition `hstationary`.
+The Lean term applies `theorem_2_1` with the arguments
+`hr f z hf hf_lower hgradient_lip hz_diff hinitial hsolution`.
+The order of `hz_diff` and `hinitial` in this call follows the argument order of `theorem_2_1`; the target statement lists those hypotheses in a different order, but that does not affect the mathematical content. All hypotheses required by `theorem_2_1` are exactly the available hypotheses of `theorem_A_1`.
 
-The result of this application is some object whose first component, selected by `.1`, has exactly the type of the desired conclusion `AntitoneOn (fun t => f (z t)) (Set.Ici t₀)`. Therefore the current theorem is an immediate consequence of `theorem_2_1`, with no additional reasoning, case analysis, or algebraic manipulation. No Lean tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` appear in the proof; the only operation is the use of projection `.1` on the result supplied by `theorem_2_1` to extract its first assertion.
+After `theorem_2_1` produces its conjunction, the projection `.1` extracts the first component, namely
+\[
+\operatorname{AntitoneOn}\bigl(t\mapsto f(z(t))\bigr)\bigl([t_0,\infty)\bigr).
+\]
+This is precisely the conclusion of `theorem_A_1`. No rewriting, simplification, arithmetic reasoning, or logical introduction is performed, so commands such as `intro`, `rw`, `simp`, and `linarith` play no role here. The only proof step is the elimination of a conjunction by taking its first component.
 

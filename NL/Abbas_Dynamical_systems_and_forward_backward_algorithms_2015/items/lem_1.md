@@ -9,13 +9,36 @@ theorem cocoercive_lipschitz {H : Type*} [NormedAddCommGroup H] [InnerProductSpa
 ```
 
 ## Statement explanation
-The declaration is a theorem. It fixes a type `H` equipped with the typeclass assumptions `[NormedAddCommGroup H]` and `[InnerProductSpace ℝ H]`, so `H` is a real vector space with an inner product, norm, and additive group structure. The theorem also takes three explicit arguments:
+The declaration is stated for an arbitrary type \(H\) carrying a normed additive commutative group structure and a real inner-product-space structure. The operator is \(B:H\to H\), a possibly nonlinear map from \(H\) to itself. The real parameter is \(\beta\). The hypothesis `hB` says that \(B\), viewed on the whole space \(H\), is cocoercive with constant \(\beta\):
 
-- `B : H → H`, a self-map on `H`;
-- `beta : ℝ`, a real number intended as a cocoercivity constant;
-- `hB : CocoerciveOn beta Set.univ (fun x : Set.univ ↦ B x)`, an assumption that `B` is `beta`-cocoercive on the whole space `H`. The expression `Set.univ` is the universal subset of `H`, and the elements `x : Set.univ` are coerced to elements of `H` before applying `B`, so this is the full map `B : H → H`.
+\[
+\text{`CocoerciveOn beta Set.univ (fun x : Set.univ ↦ B x)`}.
+\]
 
-The conclusion is `LipschitzWith ⟨1 / beta, le_of_lt (one_div_pos.mpr hB.pos)⟩ B`. Here `⟨1 / beta, ...⟩` constructs a nonnegative real number, i.e. an element of `ℝ≥0`, whose underlying value is `1 / beta` and whose second component is a proof that `1 / beta ≥ 0`. That nonnegativity proof is obtained from `hB.pos`, which expresses that the cocoercivity constant `beta` is positive. Therefore the conclusion says that `B` is Lipschitz continuous with Lipschitz constant `1 / beta`.
+In this proof, the only explicit consequence of `hB` that is used directly is `hB.pos`, which provides
+
+\[
+0<\beta.
+\]
+
+The conclusion asserts that \(B\) is Lipschitz with constant \(1/\beta\). In Lean, the Lipschitz constant must be a nonnegative real, so the conclusion packages the real number \(1/\beta\) as
+
+\[
+\left\langle \frac1\beta,\; \text{a proof that }0\le \frac1\beta\right\rangle.
+\]
+
+That nonnegativity proof is `le_of_lt (one_div_pos.mpr hB.pos)`: from \(0<\beta\) one gets \(0<1/\beta\), and hence \(0\le 1/\beta\). Mathematically, the theorem says that if \(B\) is cocoercive on all of \(H\) with positive parameter \(\beta\), then \(B\) is Lipschitz with constant \(1/\beta\), i.e.
+
+\[
+\forall x,y\in H,\qquad
+\operatorname{dist}(B x,B y)\le \frac1\beta\,\operatorname{dist}(x,y).
+\]
+
+Since \(H\) is a normed group, this is the usual inequality
+
+\[
+\|B x-B y\|\le \frac1\beta\,\|x-y\|.
+\]
 
 ## Lean proof
 ```lean
@@ -28,11 +51,46 @@ by
 ```
 
 ## Proof explanation
-The proof has no `intro` commands, because the hypotheses are already in the local context and the goal is not a universal implication that needs to be unpacked.
+The proof first compares two ways of representing the same nonnegative real number. The left side is `Real.toNNReal (1 / beta)`, the nonnegative truncation of \(1/\beta\) as an element of \(\mathbb{R}_{\ge 0}\). Since the proof knows \(0<\beta\), it also knows \(0\le \beta\), so `one_div_nonneg.mpr hB.pos.le` gives
 
-The first step creates a local equality named `heq`. It states that `Real.toNNReal (1 / beta)` equals the nonnegative-real-number expression `⟨1 / beta, le_of_lt (one_div_pos.mpr hB.pos)⟩`. In Lean, a real number can be converted to a nonnegative real via `Real.toNNReal`. When the input real number is already nonnegative, this conversion does not change its value. Here `1 / beta` is nonnegative because `hB.pos` says `beta > 0`, so `one_div_pos.mpr hB.pos` proves `1 / beta > 0`, and `le_of_lt` turns that strict inequality into a non-strict inequality `0 ≤ 1 / beta`. The equality `heq` is proved by `NNReal.eq`, which reduces equality of two nonnegative real numbers to equality of their underlying real values, together with `Real.coe_toNNReal`, which states that coercing `Real.toNNReal (1 / beta)` back to a real number gives `1 / beta` under the nonnegativity hypothesis.
+\[
+0\le \frac1\beta.
+\]
 
-The second step uses `rw [← heq]`. This rewrites the goal from right to left using `heq`: it replaces the expression `⟨1 / beta, le_of_lt (one_div_pos.mpr hB.pos)⟩` appearing in the stated Lipschitz constant by the equivalent expression `Real.toNNReal (1 / beta)`. After this rewriting, the goal is `LipschitzWith (Real.toNNReal (1 / beta)) B`.
+Therefore the nonnegative truncation of \(1/\beta\) is just \(1/\beta\) itself. The auxiliary fact `Real.coe_toNNReal (1 / beta) (one_div_nonneg.mpr hB.pos.le)` states exactly that the underlying real number of `Real.toNNReal (1 / beta)` is \(1/\beta\). The right side `⟨1 / beta, le_of_lt (one_div_pos.mpr hB.pos)⟩` is the bundled nonnegative real with value \(1/\beta\) and proof \(0\le 1/\beta\), so its underlying real value is also \(1/\beta\). Applying `NNReal.eq` turns the equality of the underlying real numbers into equality of the nonnegative real numbers themselves. Thus the line
 
-The final step is `exact cocoercive_implies_lipschitz B beta hB`. This supplies an existing theorem that says, from the same cocoercivity hypothesis `hB`, the map `B` is Lipschitz with constant `Real.toNNReal (1 / beta)`. That term exactly matches the rewritten goal, so `exact` closes the proof.
+```lean
+have heq : Real.toNNReal (1 / beta) =
+    ⟨1 / beta, le_of_lt (one_div_pos.mpr hB.pos)⟩
+```
+
+establishes
+
+\[
+\operatorname{Real.toNNReal}\!\left(\frac1\beta\right)
+=
+\left\langle \frac1\beta,\; 0\le \frac1\beta\right\rangle
+\]
+
+as elements of \(\mathbb{R}_{\ge 0}\).
+
+Next, the target conclusion is
+
+\[
+\text{`LipschitzWith ⟨1 / beta, ...⟩ B`}.
+\]
+
+The command `rw [← heq]` rewrites the expression \(\langle 1/\beta,\ldots\rangle\) in the goal to `Real.toNNReal (1 / beta)`, using the equality `heq` from right to left. The goal becomes
+
+\[
+\text{`LipschitzWith (Real.toNNReal (1 / beta)) B`}.
+\]
+
+This is precisely the conclusion of the cited theorem `cocoercive_implies_lipschitz`, which states that for any \(A:H\to H\) and real \(\beta\), if \(A\) is cocoercive on all of \(H\) with constant \(\beta\), then \(A\) is Lipschitz with constant `Real.toNNReal (1 / β)`. Specializing that theorem to \(A=B\) and \(\beta=\beta\), and supplying the hypothesis `hB`, the final command
+
+```lean
+exact cocoercive_implies_lipschitz B beta hB
+```
+
+closes the goal. Thus the theorem is proved by converting the explicit bundled Lipschitz constant \(1/\beta\) into the equivalent `Real.toNNReal` form used by the general cocoercivity-to-Lipschitz theorem, then applying that general theorem.
 

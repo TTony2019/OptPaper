@@ -16,18 +16,51 @@ theorem derivative_inner_nonnegative {H : Type*} [NormedAddCommGroup H] [InnerPr
 ```
 
 ## Statement explanation
-The statement is an implication. For an arbitrary type `H` equipped with a normed additive commutative group structure and an inner product space structure over `ℝ`, the theorem assumes:
+Let \(H\) be a normed additive group with a real inner product space structure. The theorem concerns maps \(x,v:\mathbb R\to H\) and an extended-real-valued function
+\[
+\Phi:H\to \operatorname{Set.Ioi}(\bot:\mathrm{EReal}),
+\]
+meaning that each \(\Phi(y)\) is an extended real number strictly above the bottom element \(\bot\). The hypothesis `hPhi` says that \(\Phi\) belongs to the class `ERealFunction.gammaZero H`, written \(\Gamma_0(H)\) in the cited context. The proof uses this membership only through the fact that the coerced function
+\[
+F(y)=(\Phi(y):\mathrm{EReal})
+\]
+is proper.
 
-- `Phi` is a function from `H` to the subtype `Set.Ioi (⊥ : EReal)`, i.e. to extended-real numbers strictly greater than the bottom element `⊥` of `EReal`.
-- `hPhi : Phi ∈ ERealFunction.gammaZero H` is an assumption that `Phi` belongs to the library-defined set `gammaZero H`.
-- `x` and `v` are functions `ℝ → H`, so they are curves in the real inner product space `H`.
-- `hsubgradient` says that for every real `t ≥ 0`, the vector `v t` belongs to the subdifferential of `Phi` at `x t`: `v t ∈ ERealFunction.subdifferential Phi (x t)`.
-- The assumptions `_hx_ac` and `_hv_ac` state that for every `b > 0`, `x` and `v` are absolutely continuous on the interval `[0, b]`.
-- `hx_deriv` states that, for almost every `t` with respect to the default volume measure restricted to `Set.Ioi 0 = {t | 0 < t}`, the curve `x` has derivative at `t` equal to `deriv x t`: `HasDerivAt x (deriv x t) t`.
-- Similarly, `hv_deriv` states that for almost every such `t`, `v` has derivative `deriv v t` at `t`.
+The subdifferential used here is defined by the subgradient inequality
+\[
+\partial f(x)
+=
+\left\{\,u\in H \;\middle|\;
+\forall y\in H,\;
+(\langle y-x,u\rangle_{\mathbb R}:\mathrm{EReal})
++(f(x):\mathrm{EReal})
+\le
+(f(y):\mathrm{EReal})
+\,\right\}.
+\]
+The hypothesis `hsubgradient` states that for every real \(t\) with \(0\le t\),
+\[
+v(t)\in \partial \Phi(x(t)).
+\]
+Thus \(v(t)\) is a subgradient of \(\Phi\) at the point \(x(t)\) for every nonnegative time \(t\).
 
-The conclusion is also an almost-everywhere statement with respect to the same restricted measure: for almost every `t > 0`, the real inner product of the two derivatives is nonnegative:
-`0 ≤ inner ℝ (deriv x t) (deriv v t)`.
+The two hypotheses `_hx_ac` and `_hv_ac` say that \(x\) and \(v\) are absolutely continuous on the interval from \(0\) to \(b\), for every \(b>0\). They are present in the statement, but the proof below does not invoke them.
+
+The differentiability hypotheses `hx_deriv` and `hv_deriv` say that, for almost every \(t\) with respect to Lebesgue measure restricted to \((0,\infty)\), the maps \(x\) and \(v\) have derivatives
+\[
+\operatorname{deriv} x(t)
+\qquad\text{and}\qquad
+\operatorname{deriv} v(t)
+\]
+at \(t\), respectively. The conclusion is that, for almost every \(t\in(0,\infty)\),
+\[
+0\le
+\left\langle
+\operatorname{deriv} x(t),
+\operatorname{deriv} v(t)
+\right\rangle_{\mathbb R}.
+\]
+In words: along a curve \(x\) for which \(v(t)\) is always a subgradient of \(\Phi\) at \(x(t)\), the derivatives of \(x\) and \(v\) have nonnegative inner product almost everywhere on \((0,\infty)\).
 
 ## Lean proof
 ```lean
@@ -43,20 +76,77 @@ by
 ```
 
 ## Proof explanation
-The proof starts with a `have` step that constructs a monotonicity statement. Using the assumption `hPhi`, the proof first applies a library theorem `ERealFunction.isProper_of_mem_gammaZero` to conclude that the extended-real-valued function `y ↦ (Phi y : EReal)` is proper. Then it applies `ERealFunction.isMonotone_subdifferential` to conclude that the set-valued subdifferential operator of this proper function is monotone. This local result is named `hmono`.
+The proof starts with the intermediate assertion `hmono`. Let
+\[
+F(y)=(\Phi(y):\mathrm{EReal}).
+\]
+The cited result `ERealFunction.isProper_of_mem_gammaZero` has the following content: if \(f:H\to \operatorname{Set.Ioi}(\bot:\mathrm{EReal})\) lies in \(\Gamma_0(H)\), then the coerced function \(y\mapsto (f(y):\mathrm{EReal})\) is proper. Applying it to \(\Phi\) and `hPhi` gives that \(F\) is proper.
 
-Next, the goal is an almost-everywhere statement with respect to the measure `volume.restrict (Set.Ioi 0)`. The command `filter_upwards` combines the three almost-everywhere hypotheses:
+Next, the cited theorem `ERealFunction.isMonotone_subdifferential` states that if \(F:H\to\mathrm{EReal}\) is proper, then its subdifferential operator \(\partial F\) is monotone as a set-valued operator. In concrete terms, for all \(p,q\in H\), all \(u\in\partial F(p)\), and all \(w\in\partial F(q)\),
+\[
+0\le \langle u-w,p-q\rangle_{\mathbb R}.
+\]
+Applying this theorem to the proper function \(F(y)=(\Phi(y):\mathrm{EReal})\) gives exactly the asserted monotonicity `hmono`.
 
-- `hx_deriv`,
-- `hv_deriv`,
-- `MeasureTheory.ae_restrict_mem measurableSet_Ioi`, which says that almost every point under the restriction of the measure to `Set.Ioi 0` belongs to `Set.Ioi 0`.
+The tactic `filter_upwards` is then used to prove an almost-everywhere statement. It consumes the three almost-everywhere facts `hx_deriv`, `hv_deriv`, and
+\[
+\text{`MeasureTheory.ae_restrict_mem measurableSet_Ioi`}.
+\]
+The first two say that \(x\) and \(v\) are differentiable at almost every point of the restricted measure. The third says that almost every point of that restricted measure belongs to the set \((0,\infty)\). Therefore, after `filter_upwards`, the proof has a point \(t\) with \(0<t\), together with the differentiability facts
+\[
+\operatorname{HasDerivAt} x (\operatorname{deriv} x(t)) t,
+\qquad
+\operatorname{HasDerivAt} v (\operatorname{deriv} v(t)) t.
+\]
+The remaining goal at that point is
+\[
+0\le
+\left\langle
+\operatorname{deriv} x(t),
+\operatorname{deriv} v(t)
+\right\rangle_{\mathbb R}.
+\]
 
-Using the `with` clause, the proof obtains a generic point `t` and the corresponding pointwise hypotheses:
-- `hxt : HasDerivAt x (deriv x t) t`,
-- `hvt : HasDerivAt v (deriv v t) t`,
-- `ht : t ∈ Set.Ioi 0`, equivalently `0 < t`.
+The final step applies the cited lemma `inner_deriv_nonneg_of_monotone`. Its statement is: if \(T\) is a monotone set-valued operator on \(H\), if for every \(s\ge 0\) one has \(v(s)\in T(x(s))\), and if at a positive time \(t\) the maps \(x\) and \(v\) have derivatives \(dx(t)\) and \(dv(t)\), then
+\[
+0\le \langle dx(t),dv(t)\rangle_{\mathbb R}.
+\]
+In the present application, \(T=\partial F\), the derivative \(dx(t)\) is \(\operatorname{deriv} x(t)\), and \(dv(t)\) is \(\operatorname{deriv} v(t)\). The hypothesis \(v(s)\in T(x(s))\) for all \(s\ge 0\) is exactly `hsubgradient`, after identifying \(\partial \Phi\) with \(\partial F\) via the coercion. The positivity \(0<t\) is supplied by `ht`, and the two derivative facts are exactly the ones introduced by `filter_upwards`.
 
-At this stage it suffices to prove the pointwise inequality `0 ≤ inner ℝ (deriv x t) (deriv v t)`.
-
-The proof finishes with `exact inner_deriv_nonneg_of_monotone hmono hsubgradient ht hxt hvt`. This applies an existing lemma which, from the monotonicity of the subdifferential operator, the subgradient inclusion for `v` along `x`, the positivity `0 < t`, and the differentiability of `x` and `v` at `t`, derives exactly the desired nonnegativity of the inner product of the derivatives. Since all its hypotheses are available, the goal is closed. The proof does not use `rw`, `simp`, or `linarith`; it relies on the earlier library lemma and on `filter_upwards` to handle the almost-everywhere quantification.
+Mathematically, the lemma uses monotonicity at the two times \(t\) and \(t-h\), for small \(h>0\). Since both are nonnegative, it obtains
+\[
+v(t)\in T(x(t)),
+\qquad
+v(t-h)\in T(x(t-h)).
+\]
+Monotonicity then gives
+\[
+0\le
+\left\langle
+v(t)-v(t-h),\,
+x(t)-x(t-h)
+\right\rangle_{\mathbb R}.
+\]
+Dividing by \(h^2>0\) yields
+\[
+0\le
+\left\langle
+\frac{v(t)-v(t-h)}{h},\,
+\frac{x(t)-x(t-h)}{h}
+\right\rangle_{\mathbb R}.
+\]
+As \(h\to 0^+\), the two difference quotients converge to \(\operatorname{deriv} v(t)\) and \(\operatorname{deriv} x(t)\), respectively. Hence
+\[
+0\le
+\left\langle
+\operatorname{deriv} v(t),
+\operatorname{deriv} x(t)
+\right\rangle_{\mathbb R}
+=
+\left\langle
+\operatorname{deriv} x(t),
+\operatorname{deriv} v(t)
+\right\rangle_{\mathbb R},
+\]
+because the real inner product is symmetric. This is exactly the desired pointwise inequality at \(t\). Since \(t\) was an arbitrary point satisfying the three almost-everywhere properties, the `filter_upwards` construction completes the proof of the almost-everywhere conclusion.
 
