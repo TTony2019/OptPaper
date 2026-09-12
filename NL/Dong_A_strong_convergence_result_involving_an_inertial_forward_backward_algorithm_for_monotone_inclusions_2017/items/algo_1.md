@@ -24,8 +24,7 @@ The two named sets are subsets of $H$: the first is determined by $x$, $z$, $\ma
 
 $$
 S_n
-=
-\mathrm{inertialForwardBackwardC}(x,z,\mathrm{inertia},n)
+=\mathrm{inertialForwardBackwardC}(x,z,\mathrm{inertia},n)
 \cap
 \mathrm{inertialForwardBackwardQ}(x,x_0,n)
 $$
@@ -54,8 +53,7 @@ where
 
 $$
 S_n
-=
-\mathrm{inertialForwardBackwardC}(x,z,\mathrm{inertia},n)
+=\mathrm{inertialForwardBackwardC}(x,z,\mathrm{inertia},n)
 \cap
 \mathrm{inertialForwardBackwardQ}(x,x_0,n).
 $$

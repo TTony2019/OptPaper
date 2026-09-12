@@ -101,8 +101,7 @@ together with proofs of the following conditions.
 
   $$
   x_{k+1}
-  =
-  y_k-\frac{\langle v_k,y_k-z_k\rangle_{\mathbb R}}{\|v_k\|^2}v_k.
+  =y_k-\frac{\langle v_k,y_k-z_k\rangle_{\mathbb R}}{\|v_k\|^2}v_k.
   $$
 
   This is the orthogonal projection of $y_k$ onto the affine hyperplane through $z_k$ with normal $v_k$, namely

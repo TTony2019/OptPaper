@@ -241,8 +241,7 @@ This is done in the block proving `hPointUpper`. The proof first uses `thm41_smo
 
 $$
 \mathrm{normalCone}\bigl(A(0),-\nabla ((f(\cdot))_{\mathbb R})(x_\infty)\bigr)
-=
-\{v\mid \exists t\ge0,\ v=t u\}.
+=\{v\mid \exists t\ge0,\ v=t u\}.
 $$
 
 This unit normal is needed later for the one-dimensional scalar-product estimate.
@@ -321,10 +320,8 @@ Using this eventual summability, the proof applies `thm41_increment_tail_tsum_eq
 
 $$
 \sum_{k\ge0}\|x_{n+k+1}-x_{n+k}\|
-=
-\|x_{n+1}-x_n\|
-+
-\sum_{k\ge0}\|x_{n+1+k+1}-x_{n+1+k}\|.
+=\|x_{n+1}-x_n\|
++\sum_{k\ge0}\|x_{n+1+k+1}-x_{n+1+k}\|.
 $$
 
 In the notation of the proof, this becomes eventually
@@ -361,8 +358,7 @@ $$
 \sum_{k\ge0}\|x_{n+2+k+1}-x_{n+2+k}\|
 \le
 \lambda^{-2}\langle x_{n+2}-x_{n+1},u\rangle
--
-\lambda^{-2}\langle x_{n+1}-x_n,u\rangle.
+-\lambda^{-2}\langle x_{n+1}-x_n,u\rangle.
 $$
 
 In the proof’s abbreviations this is exactly

@@ -65,8 +65,7 @@ Third, for almost every $t\ge 0$ with respect to volume restricted to $[0,\infty
 
 $$
 \frac{d}{dt}\bigl(\lambda x(t)+v(t)\bigr)
-=
--\bigl(v(t)+B(x(t))\bigr).
+=-\bigl(v(t)+B(x(t))\bigr).
 $$
 
 Fourth, the initial conditions are
@@ -442,8 +441,7 @@ the right-hand side is at most
 
 $$
 \|p-q\|+\|p-q\|+|\lambda^{-1}|\frac1\beta\|p-q\|
-=
-\left(2+\frac{|\lambda^{-1}|}{\beta}\right)\|p-q\|.
+=\left(2+\frac{|\lambda^{-1}|}{\beta}\right)\|p-q\|.
 $$
 
 Thus $F$ is Lipschitz with constant $K$. In the Lean proof this is the block using `LipschitzWith.of_dist_le_mul`, `norm_sub_le`, `norm_smul`, `gcongr`, and algebraic simplification with `ring` and `ac_rfl`.
@@ -484,10 +482,8 @@ But
 
 $$
 \gamma^{-1}(q_0-x_0)
-=
-\lambda\bigl((x_0+\lambda^{-1}v_0)-x_0\bigr)
-=
-v_0,
+=\lambda\bigl((x_0+\lambda^{-1}v_0)-x_0\bigr)
+=v_0,
 $$
 
 and $v_0\in\partial\Phi(x_0)$ is exactly `hv0`. Hence the proximal optimality condition holds and $P(q_0)=x_0$.
@@ -536,12 +532,9 @@ and
 
 $$
 v(0)=\lambda(z(0)-x(0))
-=
-\lambda(q_0-x_0)
-=
-\lambda(\lambda^{-1}v_0)
-=
-v_0.
+=\lambda(q_0-x_0)
+=\lambda(\lambda^{-1}v_0)
+=v_0.
 $$
 
 The subgradient condition is obtained from `scaledProximityOperator_residual_mem`, which says that for $f\in\Gamma_0(H)$ and $\gamma>0$,
@@ -582,22 +575,17 @@ Also,
 
 $$
 F(z(t))
-=
-P(z(t))-z(t)-\lambda^{-1}B(P(z(t)))
-=
-x(t)-z(t)-\lambda^{-1}B(x(t))
-=
--\lambda^{-1}\bigl(v(t)+B(x(t))\bigr).
+=P(z(t))-z(t)-\lambda^{-1}B(P(z(t)))
+=x(t)-z(t)-\lambda^{-1}B(x(t))
+=-\lambda^{-1}\bigl(v(t)+B(x(t))\bigr).
 $$
 
 Therefore, differentiating $\lambda x+v=\lambda z$ and using $z'=F(z)$, we get
 
 $$
 \frac{d}{dt}\bigl(\lambda x(t)+v(t)\bigr)
-=
-\lambda F(z(t))
-=
--\bigl(v(t)+B(x(t))\bigr).
+=\lambda F(z(t))
+=-\bigl(v(t)+B(x(t))\bigr).
 $$
 
 Thus the combined differential equation holds for all $t$, hence almost everywhere on $[0,\infty)$.
@@ -654,10 +642,8 @@ But $\gamma^{-1}=\lambda$ and
 
 $$
 \gamma^{-1}(q(t)-y_1(t))
-=
-\lambda\bigl(y_1(t)+\lambda^{-1}y_2(t)-y_1(t)\bigr)
-=
-y_2(t),
+=\lambda\bigl(y_1(t)+\lambda^{-1}y_2(t)-y_1(t)\bigr)
+=y_2(t),
 $$
 
 and $y_2(t)\in\partial\Phi(y_1(t))$ is part of the assumed strong-solution data. Thus $y_1(t)=P(q(t))$.
@@ -666,8 +652,7 @@ Next the proof shows that $q$ solves the same ODE as $z$. From the assumed diffe
 
 $$
 \frac{d}{dt}\bigl(\lambda y_1(t)+y_2(t)\bigr)
-=
--\bigl(y_2(t)+B(y_1(t))\bigr).
+=-\bigl(y_2(t)+B(y_1(t))\bigr).
 $$
 
 Since
@@ -680,16 +665,14 @@ differentiating gives
 
 $$
 q'(t)
-=
--\lambda^{-1}\bigl(y_2(t)+B(y_1(t))\bigr).
+=-\lambda^{-1}\bigl(y_2(t)+B(y_1(t))\bigr).
 $$
 
 Using $y_1(t)=P(q(t))$ and $q(t)=y_1(t)+\lambda^{-1}y_2(t)$, the right-hand side becomes
 
 $$
 P(q(t))-q(t)-\lambda^{-1}B(P(q(t)))
-=
-F(q(t)).
+=F(q(t)).
 $$
 
 Thus $q'=F(q)$ almost everywhere on $[0,b]$.
@@ -719,10 +702,8 @@ and
 
 $$
 y_2(t)=\lambda(q(t)-y_1(t))
-=
-\lambda(z(t)-x(t))
-=
-v(t)=v_t(t).
+=\lambda(z(t)-x(t))
+=v(t)=v_t(t).
 $$
 
 For $t<0$, the assumed negative-time conditions on $(y_1,y_2)$ give $y_1(t)=x_0=x_t(t)$ and $y_2(t)=v_0=v_t(t)$. Hence $y_1=x_t$ and $y_2=v_t$ as functions. The final Lean steps use `Prod.ext` to split equality of the pair into equality of the two components, `funext` to prove equality of functions pointwise, and `by_cases` to split into the cases $t<0$ and $t\ge 0$. This completes the uniqueness proof.

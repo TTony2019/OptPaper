@@ -67,8 +67,7 @@ Second, there exists $p\in\ker A$ such that
 
 $$
 \left\|x(0)+\alpha^{-1}\dot x(0)-p\right\|
-=
-\mathrm{infDist}\!\left(x(0)+\alpha^{-1}\dot x(0),\ker A\right),
+=\mathrm{infDist}\!\left(x(0)+\alpha^{-1}\dot x(0),\ker A\right),
 $$
 
 and
@@ -391,8 +390,7 @@ The proof shows that $f$ is constant on $[0,\infty)$. For $t\ge0$, the different
 
 $$
 \langle A\dot x(t),z\rangle
-=
-\langle \dot x(t),Az\rangle
+=\langle \dot x(t),Az\rangle
 =0,
 $$
 
@@ -400,8 +398,7 @@ and
 
 $$
 \langle A x(t),z\rangle
-=
-\langle x(t),Az\rangle
+=\langle x(t),Az\rangle
 =0.
 $$
 
@@ -441,8 +438,7 @@ Unfolding $f(0)$,
 
 $$
 \langle \dot x(0),z\rangle+\alpha\langle x(0),z\rangle
-=
-\alpha\langle p,z\rangle.
+=\alpha\langle p,z\rangle.
 $$
 
 Rearranging and using $q=x(0)+\alpha^{-1}\dot x(0)$ gives
@@ -475,10 +471,8 @@ for every $z\in K$. The proof has $p\in K$. From $\langle q-p,z\rangle=0$ for ev
 
 $$
 \langle z-p,q-p\rangle
-=
-\langle z,q-p\rangle-\langle p,q-p\rangle
-=
-0\le0.
+=\langle z,q-p\rangle-\langle p,q-p\rangle
+=0\le0.
 $$
 
 So $p$ satisfies the projection variational inequality. Hence
@@ -491,28 +485,23 @@ Finally, `projectionPoint_isBestApproximation` states that the chosen projection
 
 $$
 \mathrm{dist}(q,\mathrm{projectionPoint} K h_{\mathrm{Cheb}} q)
-=
-\mathrm{infDist}(q,K).
+=\mathrm{infDist}(q,K).
 $$
 
 Using $p=\mathrm{projectionPoint} K h_{\mathrm{Cheb}} q$, the proof obtains
 
 $$
 \|q-p\|
-=
-\mathrm{dist}(q,p)
-=
-\mathrm{dist}(q,\mathrm{projectionPoint} K h_{\mathrm{Cheb}} q)
-=
-\mathrm{infDist}(q,K).
+=\mathrm{dist}(q,p)
+=\mathrm{dist}(q,\mathrm{projectionPoint} K h_{\mathrm{Cheb}} q)
+=\mathrm{infDist}(q,K).
 $$
 
 Substituting $q=x(0)+\alpha^{-1}\dot x(0)$ and $K=\ker A$ gives exactly the claimed equality
 
 $$
 \left\|x(0)+\alpha^{-1}\dot x(0)-p\right\|
-=
-\mathrm{infDist}\!\left(x(0)+\alpha^{-1}\dot x(0),\ker A\right).
+=\mathrm{infDist}\!\left(x(0)+\alpha^{-1}\dot x(0),\ker A\right).
 $$
 
 Together with the earlier equality $\mathrm{argminSet}\Phi=\ker A$, the inclusion $p\in\ker A$, and the convergence $x(t)\to p$, this completes the proof.

@@ -55,8 +55,7 @@ The conclusion of the theorem is
 
 $$
 \mathrm{prox}_F(x)
-=
-\mathrm{Prox}_{\lambda \iota(g)}
+=\mathrm{Prox}_{\lambda \iota(g)}
 \bigl(x-\lambda A^*(Ax-b)\bigr),
 $$
 
@@ -125,8 +124,7 @@ The proof then establishes the algebraic identity
 
 $$
 x-\lambda A^*(Ax-b)-p
-=
-\lambda\bigl(u-A^*(Ap-b)\bigr).
+=\lambda\bigl(u-A^*(Ap-b)\bigr).
 $$
 
 It proves this by a `calc` chain. First, using linearity of $A$,
@@ -139,8 +137,7 @@ so
 
 $$
 x-\lambda A^*(Ax-b)-p
-=
-x-p-\lambda A^*(A(x-p))-\lambda A^*(Ap-b).
+=x-p-\lambda A^*(A(x-p))-\lambda A^*(Ap-b).
 $$
 
 The tactic `simp [map_sub]` uses linearity to rewrite the difference inside $A$, and `module` normalizes the resulting module expression. Second, the previously derived identity replaces $x-p-\lambda A^*(A(x-p))$ by $\lambda u$, giving
@@ -203,8 +200,7 @@ The subdifferential of the scaled function is then rewritten using `subdifferent
 
 $$
 \partial(\lambda\iota(g))(p)
-=
-\lambda\cdot\partial\iota(g)(p).
+=\lambda\cdot\partial\iota(g)(p).
 $$
 
 Here the right-hand side is the set of all vectors $\lambda w$ with $w\in\partial\iota(g)(p)$. After this rewrite, the `change` tactic restates the goal as
@@ -223,18 +219,15 @@ Using the earlier identity
 
 $$
 z-p=x-\lambda A^*(Ax-b)-p
-=
-\lambda\bigl(u-A^*(Ap-b)\bigr),
+=\lambda\bigl(u-A^*(Ap-b)\bigr),
 $$
 
 we obtain
 
 $$
 \lambda^{-1}(z-p)
-=
-\lambda^{-1}\bigl(\lambda(u-A^*(Ap-b))\bigr)
-=
-u-A^*(Ap-b).
+=\lambda^{-1}\bigl(\lambda(u-A^*(Ap-b))\bigr)
+=u-A^*(Ap-b).
 $$
 
 The simplifications `smul_smul`, `inv_mul_cancel₀ hlam.ne'`, and `one_smul` perform exactly this cancellation. Hence the goal is reduced to
@@ -253,8 +246,7 @@ therefore proves the desired membership. Consequently the backward direction of 
 
 $$
 p=\mathrm{prox}_F x
-=
-\mathrm{Prox}_{\lambda\iota(g)}
+=\mathrm{Prox}_{\lambda\iota(g)}
 \bigl(x-\lambda A^*(Ax-b)\bigr),
 $$
 

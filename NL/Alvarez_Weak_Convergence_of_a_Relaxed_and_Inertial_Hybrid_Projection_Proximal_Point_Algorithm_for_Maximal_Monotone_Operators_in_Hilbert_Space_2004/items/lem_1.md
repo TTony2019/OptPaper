@@ -244,8 +244,7 @@ The proof then expands the inner product. Because $v=u+\eta$, and because `inner
 
 $$
 \langle u+\eta,u\rangle_{\mathbb R}
-=
-\langle u,u\rangle_{\mathbb R}+\langle \eta,u\rangle_{\mathbb R},
+=\langle u,u\rangle_{\mathbb R}+\langle \eta,u\rangle_{\mathbb R},
 $$
 
 while `real_inner_self_eq_norm_sq` says
@@ -258,8 +257,7 @@ the proof obtains
 
 $$
 \langle v,u\rangle_{\mathbb R}
-=
-\|u\|^2+\langle \eta,u\rangle_{\mathbb R}.
+=\|u\|^2+\langle \eta,u\rangle_{\mathbb R}.
 $$
 
 The proof also applies Cauchy–Schwarz in the form `abs_real_inner_le_norm eta u`, which gives
@@ -289,8 +287,7 @@ After rewriting the goal using the expansion of $\langle v,u\rangle_{\mathbb R}$
 $$
 (1-\sigma)\|u\|\|v\|
 \le (1-\sigma)\|u\|^2
-=
-\|u\|^2-\sigma\|u\|^2
+=\|u\|^2-\sigma\|u\|^2
 \le
 \|u\|^2-\|\eta\|\|u\|
 \le
@@ -327,16 +324,14 @@ Indeed, since $v=u+\eta$, one has $u=(u+\eta)-\eta=v-\eta$; this additive rearra
 
 $$
 \langle v,v-\eta\rangle_{\mathbb R}
-=
-\langle v,v\rangle_{\mathbb R}-\langle v,\eta\rangle_{\mathbb R},
+=\langle v,v\rangle_{\mathbb R}-\langle v,\eta\rangle_{\mathbb R},
 $$
 
 and `real_inner_self_eq_norm_sq` gives $\langle v,v\rangle_{\mathbb R}=\|v\|^2$. Hence
 
 $$
 \langle v,u\rangle_{\mathbb R}
-=
-\|v\|^2-\langle v,\eta\rangle_{\mathbb R}.
+=\|v\|^2-\langle v,\eta\rangle_{\mathbb R}.
 $$
 
 Cauchy–Schwarz `abs_real_inner_le_norm v eta` gives
@@ -357,8 +352,7 @@ After rewriting the goal using the expansion of $\langle v,u\rangle_{\mathbb R}$
 $$
 (1-\sigma)\|u\|\|v\|
 \le (1-\sigma)\|v\|^2
-=
-\|v\|^2-\sigma\|v\|^2
+=\|v\|^2-\sigma\|v\|^2
 \le
 \|v\|^2-\|v\|\|\eta\|
 \le

@@ -273,8 +273,7 @@ $$
 \rho_b\left(\|p_1-q_1\|^2+\|p_2-q_2\|^2\right)
 \le
 \left\langle F_b(p)_1-F_b(q)_1,\ p_1-q_1\right\rangle
-+
-\left\langle F_b(p)_2-F_b(q)_2,\ p_2-q_2\right\rangle.
++\left\langle F_b(p)_2-F_b(q)_2,\ p_2-q_2\right\rangle.
 $$
 
 The positivity $\rho_b>0$ is supplied by `energyRate_pos`, using $\beta>0$, $\gamma>0$, $1<\beta\gamma$, and $0<\delta_b$, which is the first component of the strong-convexity hypothesis. The nonnegativity of $D$ is proved from `def_6_nonneg`, i.e. $D_r(A,B)\ge0$, multiplied by $\beta\ge0$.
@@ -283,8 +282,7 @@ The remaining hypothesis of `din_oriented_comparison` is the almost-everywhere b
 
 $$
 F_a(p)_1-F_b(p)_1
-=
-\beta\left(\mathrm{grad}\varphi_a(p_1)-\mathrm{grad}\varphi_b(p_1)\right),
+=\beta\left(\mathrm{grad}\varphi_a(p_1)-\mathrm{grad}\varphi_b(p_1)\right),
 \qquad
 F_a(p)_2-F_b(p)_2=0.
 $$
@@ -293,8 +291,7 @@ The first identity is the linear `module` calculation: the terms involving $\sqr
 
 $$
 \sqrt{\|F_a(p)_1-F_b(p)_1\|^2+\|F_a(p)_2-F_b(p)_2\|^2}
-=
-\beta\|\mathrm{grad}\varphi_a(p_1)-\mathrm{grad}\varphi_b(p_1)\|,
+=\beta\|\mathrm{grad}\varphi_a(p_1)-\mathrm{grad}\varphi_b(p_1)\|,
 $$
 
 using `norm_smul` and $\|\beta z\|=\beta\|z\|$ because $\beta>0$. Now `le_def_6` applies: since the discrepancy set for $\mathrm{grad}\varphi_a$ and $\mathrm{grad}\varphi_b$ is bounded above by `hbdd a ha b hb`, and since $\|p_1\|\le r$, it gives

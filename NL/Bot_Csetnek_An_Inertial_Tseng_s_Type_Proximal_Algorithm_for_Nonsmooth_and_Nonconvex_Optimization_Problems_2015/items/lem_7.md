@@ -65,8 +65,7 @@ The function `HFunction P M2` is defined by applying `objectiveWithQuadratic P M
 
 $$
 \mathrm{HFunction}(P,M2,z)
-=
-\mathrm{erealAddReal}
+=\mathrm{erealAddReal}
 \bigl(P.\mathrm{objective}(z_1),\, M2\,\|z_1-z_2\|^2\bigr).
 $$
 
@@ -252,8 +251,7 @@ The proof first obtains the one-coordinate cluster-point information for the $p$
 
    $$
    \omega(\mathrm{pairSequence}(A))
-   =
-   d\bigl(\omega(A.p)\bigr).
+   =d\bigl(\omega(A.p)\bigr).
    $$
 
    In words, the cluster points of the pair sequence $(p_n,x_n)$ are exactly the diagonal pairs $(q,q)$ where $q$ is a cluster point of $p_n$. The proof records this as `homega_eq`, using `simpa [diagMap]`.

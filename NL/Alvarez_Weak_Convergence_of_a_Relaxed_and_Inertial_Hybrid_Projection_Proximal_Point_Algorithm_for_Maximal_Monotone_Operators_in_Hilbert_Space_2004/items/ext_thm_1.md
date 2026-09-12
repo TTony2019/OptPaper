@@ -208,8 +208,7 @@ The proof then computes the limit of $\langle vs_i,xs_i\rangle$. It writes
 
 $$
 \langle vs_i,xs_i\rangle
-=
-\langle vs_i-v,xs_i\rangle+\langle v,xs_i\rangle.
+=\langle vs_i-v,xs_i\rangle+\langle v,xs_i\rangle.
 $$
 
 The first summand tends to $0$ by `h_cross_inner_tendsto`. The second summand tends to $\langle v,x\rangle$ because $xs_i\rightharpoonup x$ and, using symmetry of the real inner product via `real_inner_comm`, the inner products $\langle v,xs_i\rangle$ converge to $\langle v,x\rangle$. Therefore
@@ -244,8 +243,7 @@ Indeed, bilinearity gives the pointwise identity
 
 $$
 \langle vs_i-w,xs_i-y\rangle
-=
-\langle vs_i,xs_i\rangle-\langle vs_i,y\rangle
+=\langle vs_i,xs_i\rangle-\langle vs_i,y\rangle
 -\langle w,xs_i\rangle+\langle w,y\rangle,
 $$
 
@@ -253,8 +251,7 @@ and the limit of the right-hand side is
 
 $$
 \langle v,x\rangle-\langle v,y\rangle-\langle w,x\rangle+\langle w,y\rangle
-=
-\langle v-w,x-y\rangle.
+=\langle v-w,x-y\rangle.
 $$
 
 The `convert` command reduces the desired limit statement to the equality of these expressions, `ext i` proves the pointwise sequence identity, and `simp` with the inner-product linearity lemmas together with `ring` verifies the algebraic rearrangements.

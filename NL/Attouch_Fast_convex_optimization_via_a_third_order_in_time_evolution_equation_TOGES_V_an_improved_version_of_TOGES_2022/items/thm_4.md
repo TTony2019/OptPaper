@@ -193,8 +193,7 @@ for every $x$, and
 $$
 f(\mathrm{prox}(x))+
 \frac{1}{2\lambda}\|x-\mathrm{prox}(x)\|^2
-=
-e_\lambda f(x)
+=e_\lambda f(x)
 $$
 
 for every $x$. The proof unpacks this conjunction as `hres` and `hformula`. The first fact is the standard proximal first-order/resolvent relation for $\lambda\partial f$. The second is the exact Moreau-envelope formula expressing the envelope value at $x$ in terms of the value at the proximal point and the quadratic penalty.

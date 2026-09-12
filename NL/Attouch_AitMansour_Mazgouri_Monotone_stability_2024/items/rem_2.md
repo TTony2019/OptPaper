@@ -69,8 +69,7 @@ as $\mu\to\bar\mu$. Since
 
 $$
 \mathrm{pathSupNorm}_T f
-=
-\sup\{\|f(t)\|:t\in [0,T]\},
+=\sup\{\|f(t)\|:t\in [0,T]\},
 $$
 
 this says that the trajectories $x(\mu)$ converge to the reference trajectory $x(\bar\mu)$ uniformly on the time interval $[0,T]$, measured by the path supremum norm.
@@ -178,11 +177,9 @@ Using `hsqrt` and the hypothesis `hconv_A`, the proof then shows that the whole 
 
 $$
 R(\mu)
-=
-e^{m_0T}
+=e^{m_0T}
 \sqrt{\|u_0(\mu)-u_0(\bar\mu)\|^2+\|v_0(\mu)-v_0(\bar\mu)\|^2}
-+
-m_0^{-1}(e^{m_0T}-1)\mathrm{def}_6(r,h_r,A_\mu,A_{\bar\mu})
++m_0^{-1}(e^{m_0T}-1)\mathrm{def}_6(r,h_r,A_\mu,A_{\bar\mu})
 $$
 
 tends to $0$. The first summand is a constant multiple of a quantity tending to $0$, and the second summand is a constant multiple of $\mathrm{def}_6(r,h_r,A_\mu,A_{\bar\mu})$, which tends to $0$ by `hconv_A`. The Lean commands `hsqrt.const_mul`, `hconv_A.const_mul`, and `h1.add h2` implement these closure properties of limits. This is the auxiliary fact `hRHS`.

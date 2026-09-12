@@ -62,10 +62,8 @@ The fields of the structure are as follows.
 
   $$
   x_{k+2}
-  =
-  x_{k+1}
-  +
-  h\,\mathrm{softThresholdVector}\!\left(
+  =x_{k+1}
+  +h\,\mathrm{softThresholdVector}\!\left(
     \frac{h r}{1+h\gamma},\,
     \pi,\,
     z_k
@@ -76,12 +74,9 @@ The fields of the structure are as follows.
 
   $$
   z_k
-  =
-  \frac{1}{h(1+h\gamma)}(x_{k+1}-x_k)
-  -
-  \frac{\beta}{1+h\gamma}\bigl(\nabla f(x_{k+1})-\nabla f(x_k)\bigr)
-  -
-  \frac{h}{1+h\gamma}\nabla f(x_{k+1}).
+  =\frac{1}{h(1+h\gamma)}(x_{k+1}-x_k)
+  -\frac{\beta}{1+h\gamma}\bigl(\nabla f(x_{k+1})-\nabla f(x_k)\bigr)
+  -\frac{h}{1+h\gamma}\nabla f(x_{k+1}).
   $$
 
   Here $\nabla f$ denotes the gradient of $f$ in the Euclidean space, and `softThresholdVector` is the named vector-valued soft-thresholding operation appearing in the update. Its internal formula is not expanded in the provided source; only its role as a function taking the threshold $\frac{h r}{1+h\gamma}$, the proof that this threshold is nonnegative, and the vector $z_k$, and returning the vector that is added to $x_{k+1}$, is visible.
@@ -106,10 +101,8 @@ This proof is then passed as the second argument to `softThresholdVector` inside
 
 $$
 x_{k+2}
-=
-x_{k+1}
-+
-h\,\mathrm{softThresholdVector}\!\left(
+=x_{k+1}
++h\,\mathrm{softThresholdVector}\!\left(
   \frac{h r}{1+h\gamma},\,
   \pi,\,
   z_k

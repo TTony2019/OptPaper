@@ -675,8 +675,7 @@ Since $v_{k+1}-v_k=(1/h)(d_{k+1}-d_k)$,
 
 $$
 \frac12\|v_{k+1}-v_k\|^2
-=
-\frac{1}{2h^2}\|x_{k+2}-2x_{k+1}+x_k\|^2.
+=\frac{1}{2h^2}\|x_{k+2}-2x_{k+1}+x_k\|^2.
 $$
 
 Combining `hraw`, `hfric`, `hcross_lower`, and the descent inequality gives the intermediate inequality
@@ -791,8 +790,7 @@ For each $k$, the recurrence provides a subgradient $q_k\in\partial\phi(v_{k+1})
 
 $$
 h q_k
-=
--\left(
+=-\left(
 v_{k+1}-v_k+\gamma d_{k+1}
 +\beta(\nabla f(x_{k+1})-\nabla f(x_k))
 +h\nabla f(x_{k+1})

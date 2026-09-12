@@ -234,20 +234,16 @@ Since
 
 $$
 e^{-a(t-t_0)}w(t)
-=
-e^{-a(t-t_0)}e^{a(t-t_0)}
-=
-e^0
-=
-1,
+=e^{-a(t-t_0)}e^{a(t-t_0)}
+=e^0
+=1,
 $$
 
 and the right-hand side distributes, this becomes
 
 $$
 E(t)\le e^{-a(t-t_0)}E(t_0)
-+
-e^{-a(t-t_0)}\int_{t_0}^{t}w(s)b(s)\,ds.
++e^{-a(t-t_0)}\int_{t_0}^{t}w(s)b(s)\,ds.
 $$
 
 This is `hresult`.
@@ -256,8 +252,7 @@ Finally, the proof identifies the remaining integral. It uses `intervalIntegral.
 
 $$
 e^{-a(t-t_0)}\int_{t_0}^{t}w(s)b(s)\,ds
-=
-\int_{t_0}^{t}
+=\int_{t_0}^{t}
 e^{-a(t-t_0)}w(s)b(s)\,ds.
 $$
 
@@ -265,8 +260,7 @@ For each $s$, the cited identity `scalar_differential_kernel_identity` gives
 
 $$
 e^{-a(t-t_0)}e^{a(s-t_0)}
-=
-e^{-a(t-s)},
+=e^{-a(t-s)},
 $$
 
 because the exponents add:
@@ -279,16 +273,14 @@ Thus, by `intervalIntegral.integral_congr`,
 
 $$
 e^{-a(t-t_0)}\int_{t_0}^{t}w(s)b(s)\,ds
-=
-\int_{t_0}^{t}e^{-a(t-s)}b(s)\,ds.
+=\int_{t_0}^{t}e^{-a(t-s)}b(s)\,ds.
 $$
 
 Substituting this equality into `hresult` and applying `linarith` gives exactly the claimed bound
 
 $$
 E(t)\le e^{-a(t-t_0)}E(t_0)
-+
-\int_{t_0}^{t}e^{-a(t-s)}b(s)\,ds.
++\int_{t_0}^{t}e^{-a(t-s)}b(s)\,ds.
 $$
 
 This completes the proof for arbitrary $t\ge t_0$.

@@ -21,8 +21,8 @@ and such that $x$ satisfies the predicate `AlgorithmA A B x lam`. The proof show
 
 $$
 0 \in \bigl\{\lambda_n^{-2}\bigl(x(n+2)-2x(n+1)+x(n)\bigr)\bigr\}
-+ A\bigl(\lambda_n^{-1}(x(n+2)-x(n+1))\bigr)
-+ B x(n+2).
++A\bigl(\lambda_n^{-1}(x(n+2)-x(n+1))\bigr)
++B x(n+2).
 $$
 
 Thus the theorem says that, under the maximal-monotonicity and domain hypotheses, the algorithm has one and only one trajectory with the two prescribed initial values. It is an existence and uniqueness statement for the generated sequence, not a convergence statement.

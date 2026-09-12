@@ -173,8 +173,7 @@ where $h_\alpha$ is $0<\alpha$, $h_\beta$ is $0<\beta$, and $h_{\mathrm{Eq}}$ is
 
 $$
 y_0
-=
--\bigl(\beta x'(0)+\beta^2\nabla\Phi(x(0))+\beta a x(0)\bigr),
+=-\bigl(\beta x'(0)+\beta^2\nabla\Phi(x(0))+\beta a x(0)\bigr),
 $$
 
 with $a=\alpha-1/\beta$. This is exactly the initial datum required by the cited theorem `din_iff_gdin`.
@@ -191,8 +190,7 @@ Next the proof defines
 
 $$
 z(t)=\sqrt{\frac{b}{a}}\,y(t)
-=
-\sqrt{\frac{1/\beta}{\alpha-1/\beta}}\,y(t).
+=\sqrt{\frac{1/\beta}{\alpha-1/\beta}}\,y(t).
 $$
 
 It applies the cited theorem `isSolution_gDIN_iff_rescaled_gDIN` in the forward direction to `hsol`. That theorem says that for positive $a,b$, being a gDIN solution is equivalent to being a rescaled gDIN trajectory after scaling the auxiliary curve by $\sqrt{b/a}$. Concretely, it gives
@@ -236,8 +234,7 @@ It now defines the inverse scaling
 
 $$
 y(t)=\sqrt{\frac{a}{b}}\,z(t)
-=
-\sqrt{\frac{\alpha-1/\beta}{1/\beta}}\,z(t).
+=\sqrt{\frac{\alpha-1/\beta}{1/\beta}}\,z(t).
 $$
 
 Set $y_0=y(0)$. The scaling factors are inverse to each other. The cited lemma `sqrt_b_div_a_mul_sqrt_a_div_b` states that for positive $a,b$,
@@ -284,8 +281,7 @@ which follows from $\beta\ne0$ by `field_simp`, yields an identity equivalent to
 
 $$
 y_0
-=
--\bigl(\beta x'(0)+\beta^2\nabla\Phi(x(0))+\beta a x(0)\bigr).
+=-\bigl(\beta x'(0)+\beta^2\nabla\Phi(x(0))+\beta a x(0)\bigr).
 $$
 
 The tactic `eq_neg_iff_add_eq_zero.mpr` is used to turn the goal $y_0=-V$ into the equivalent equation $y_0+V=0$, and `simpa` with associativity, commutativity, and `pow_two` rearranges the terms to match the multiplied differential equation.

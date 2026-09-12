@@ -21,8 +21,7 @@ a real scalar $L : \mathbb R$, and two vectors $x,y \in \mathbb R^n$. It returns
 
 $$
 \mathrm{quadraticApprox}(f,g,L,x,y)
-=
-f(y)
+=f(y)
 +\left\langle \nabla f(y),\, x-y \right\rangle
 +\frac{L}{2}\left\lVert x-y \right\rVert^2
 +g(x).

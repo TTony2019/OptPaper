@@ -188,8 +188,7 @@ The central differential relation is extracted from `hforward.2.2 t ht`. At ever
 
 $$
 \ddot x(t)
-=
--\Bigl(
+=-\Bigl(
 \alpha\,\dot x(t)
 +\beta\,\bigl(D(\nabla\Phi)(x(t))\bigr)(\dot x(t))
 +\nabla\Phi(x(t))

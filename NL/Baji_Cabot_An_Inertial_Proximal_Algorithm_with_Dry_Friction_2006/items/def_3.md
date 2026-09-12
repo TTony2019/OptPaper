@@ -27,8 +27,8 @@ The second field, `step`, requires for every $n\in\mathbb N$ that
 $$
 0_H \in
 \left\{((\lambda_n)^2)^{-1}(x_{n+2}-2x_{n+1}+x_n)\right\}
-+ A\!\left(\lambda_n^{-1}(x_{n+2}-x_{n+1})\right)
-+ B(x_{n+2}).
++A\!\left(\lambda_n^{-1}(x_{n+2}-x_{n+1})\right)
++B(x_{n+2}).
 $$
 
 Here the plus signs are pointwise sums of subsets of $H$, and the first summand is the singleton set containing the scaled second difference. Unfolding this membership gives the equivalent existential condition

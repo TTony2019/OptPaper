@@ -29,8 +29,7 @@ is nonempty: `hmin : (Optimization.argminSet Φ).Nonempty`. The trajectory is a 
 
 $$
 x''(t)
-=
--\Bigl(\alpha x'(t)+\beta\,D\nabla\Phi(x(t))\,x'(t)+\nabla\Phi(x(t))\Bigr)
+=-\Bigl(\alpha x'(t)+\beta\,D\nabla\Phi(x(t))\,x'(t)+\nabla\Phi(x(t))\Bigr)
 $$
 
 for every $t\ge 0$. Here $\nabla\Phi$ is the Lean `gradient Φ`, the Riesz representative of the Fréchet derivative $D\Phi$, so that
@@ -635,8 +634,7 @@ Its derivative is
 
 $$
 H'(t)
-=
--(\alpha-\varepsilon)\|v(t)\|^2-\beta\|g(t)\|^2
+=-(\alpha-\varepsilon)\|v(t)\|^2-\beta\|g(t)\|^2
 -\varepsilon\langle g(t),u(t)\rangle
 +\varepsilon\beta\langle g(t),v(t)\rangle.
 $$
@@ -708,8 +706,7 @@ Now the proof uses `din_integrated_identity`. This lemma states that for every $
 $$
 x'(t)+\alpha x(t)+\beta\nabla\Phi(x(t))
 +\int_0^t \nabla\Phi(x(s))\,ds
-=
-x'(0)+\alpha x(0)+\beta\nabla\Phi(x(0)).
+=x'(0)+\alpha x(0)+\beta\nabla\Phi(x(0)).
 $$
 
 Let
@@ -722,8 +719,7 @@ Solving the identity for $x(t)$ gives
 
 $$
 x(t)
-=
-\alpha^{-1}\left(
+=\alpha^{-1}\left(
 c-x'(t)-\beta\nabla\Phi(x(t))
 -\int_0^t \nabla\Phi(x(s))\,ds
 \right).

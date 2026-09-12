@@ -15,8 +15,7 @@ Mathematically, the declaration defines a real-valued energy function determined
 
 $$
 \bigl(\texttt{dinStandardEnergy } \Phi \alpha \beta h_{\alpha\beta} x\bigr)(t)
-=
-\bigl(\texttt{dinEnergy } \Phi \beta (\alpha\beta+1) h_{\alpha\beta} x\bigr)(t).
+=\bigl(\texttt{dinEnergy } \Phi \beta (\alpha\beta+1) h_{\alpha\beta} x\bigr)(t).
 $$
 
 No further formula, property, monotonicity, differentiability, or asymptotic assertion is present in this declaration. In particular, the definition does not itself prove any inequality or dynamical statement; it only packages the standard energy as a particular instance of `dinEnergy`.
@@ -35,8 +34,7 @@ Consequently, unfolding `dinStandardEnergy` gives the definitional equality
 
 $$
 \texttt{dinStandardEnergy } \Phi \alpha \beta h_{\alpha\beta} x
-=
-\texttt{dinEnergy } \Phi \beta (\alpha \beta + 1) h_{\alpha\beta} x.
+=\texttt{dinEnergy } \Phi \beta (\alpha \beta + 1) h_{\alpha\beta} x.
 $$
 
 No named theorem, lemma, tactic, or previously established local result is invoked. In particular, $\alpha$ enters the definition only through the combination $\alpha \beta + 1$, together with the separate occurrence of $\beta$. The declaration asserts no property of the resulting energy function beyond this equality of definitions.

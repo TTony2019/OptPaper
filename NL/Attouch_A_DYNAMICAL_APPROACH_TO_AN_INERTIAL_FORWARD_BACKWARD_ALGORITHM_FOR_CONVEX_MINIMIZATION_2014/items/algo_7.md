@@ -68,8 +68,7 @@ Finally, $u : \mathbb{N} \to (n \to \mathbb{R})$ is a sequence of vectors in $\m
 $$
 \forall k \in \mathbb{N},\qquad
 u_{k+1}
-=
-\mathrm{prox}\left(
+=\mathrm{prox}\left(
 u_k - (2\lambda)\mathrm{At}\bigl(A(u_k)-d\bigr)
 \right).
 $$
@@ -89,8 +88,7 @@ Mathematically, the content of the definition is exactly the universal recurrenc
 $$
 \forall k \in \mathbb{N},\qquad
 u_{k+1}
-=
-\mathrm{prox}\left(
+=\mathrm{prox}\left(
 u_k - (2\lambda)\mathrm{At}\bigl(A(u_k)-d\bigr)
 \right).
 $$

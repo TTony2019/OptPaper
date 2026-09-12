@@ -42,14 +42,12 @@ Then there exist natural numbers `iterations`, `gradientEvaluations`, and `funct
 
 $$
 \text{gradientEvaluations}
-=
-\text{acceleratedGradientEvaluationCount}(f,M,\text{iterations}),
+=\text{acceleratedGradientEvaluationCount}(f,M,\text{iterations}),
 $$
 
 $$
 \text{functionEvaluations}
-=
-\text{acceleratedFunctionEvaluationCount}(f,M,\text{iterations}),
+=\text{acceleratedFunctionEvaluationCount}(f,M,\text{iterations}),
 $$
 
 and
@@ -72,8 +70,7 @@ so the gradient-evaluation count is just the number of iterations, and
 
 $$
 \text{acceleratedFunctionEvaluationCount}(f,M,n)
-=
-2n+\sum_{i<n} M.searchIndex_i.
+=2n+\sum_{i<n} M.searchIndex_i.
 $$
 
 Thus the function-evaluation count is $2n$ plus the total number of rejected line-search trials.
@@ -233,8 +230,7 @@ The proof first defines the auxiliary sequence
 
 $$
 p_n
-=
-(M.weight_n-1)\cdot
+=(M.weight_n-1)\cdot
 \left(
 \left(\text{if }n=0\text{ then }M.x_{-1}\text{ else }M.x_{n-1}\right)-M.x_n
 \right).
@@ -256,8 +252,7 @@ The central estimate is the energy bound
 
 $$
 2 M.step_k M.weight_k^2\bigl(f(M.x_k)-f(x^*)\bigr)
-+
-\lVert p_k-M.x_k+x^*\rVert^2
++\lVert p_k-M.x_k+x^*\rVert^2
 \le
 \lVert M.y_0-x^*\rVert^2 .
 $$
@@ -266,8 +261,7 @@ The proof proves this for all $k$ by induction. The base case $k=0$ is exactly t
 
 $$
 2 M.step_0 M.weight_0^2\bigl(f(M.x_0)-f(x^*)\bigr)
-+
-\lVert p_0-M.x_0+x^*\rVert^2
++\lVert p_0-M.x_0+x^*\rVert^2
 \le
 \lVert M.y_0-x^*\rVert^2 .
 $$
@@ -279,13 +273,11 @@ For the induction step, `accelerated_energy_succ_le` states
 $$
 2 M.step_{k+1} M.weight_{k+1}^2
 \bigl(f(M.x_{k+1})-f(x^*)\bigr)
-+
-\lVert p_{k+1}-M.x_{k+1}+x^*\rVert^2
++\lVert p_{k+1}-M.x_{k+1}+x^*\rVert^2
 \le
 2 M.step_k M.weight_k^2
 \bigl(f(M.x_k)-f(x^*)\bigr)
-+
-\lVert p_k-M.x_k+x^*\rVert^2 .
++\lVert p_k-M.x_k+x^*\rVert^2 .
 $$
 
 So the energy at step $k+1$ is at most the energy at step $k$. Composing this with the induction hypothesis gives the desired global bound. This is the mathematical content of the `.trans ih` step.
@@ -453,24 +445,20 @@ $$
 
 $$
 \text{gradientEvaluations}
-=
-\text{acceleratedGradientEvaluationCount}(f,M,\text{iterations}),
+=\text{acceleratedGradientEvaluationCount}(f,M,\text{iterations}),
 $$
 
 $$
 \text{functionEvaluations}
-=
-\text{acceleratedFunctionEvaluationCount}(f,M,\text{iterations}).
+=\text{acceleratedFunctionEvaluationCount}(f,M,\text{iterations}).
 $$
 
 The two defining equalities are closed by `rfl`. The gradient-evaluation bound is also immediate, because
 
 $$
 \text{acceleratedGradientEvaluationCount}(f,M,\text{iterations})
-=
-\text{iterations}
-=
-(\lceil NG\rceil)_{\mathbb N},
+=\text{iterations}
+=(\lceil NG\rceil)_{\mathbb N},
 $$
 
 so the inequality against `(Int.ceil NG).toNat` is reflexive.

@@ -15,11 +15,9 @@ The declaration `togesVLyapunov` introduces a real-valued function. The ambient 
 
 $$
 \mathrm{togesVLyapunov}(f,u,z,\alpha,\beta,t)
-=
-4t\,\mathrm{togesVDelta}(\beta,t)\,
+=4t\,\mathrm{togesVDelta}(\beta,t)\,
 \left(f(\mathrm{togesVAuxiliary}(u,t))-\mathrm{sInf}(\mathrm{Set.range} f)\right)
-+
-\frac12 \left\|\mathrm{togesVLyapunovVector}(u,z,\alpha,\beta,t,f)\right\|^2.
++\frac12 \left\|\mathrm{togesVLyapunovVector}(u,z,\alpha,\beta,t,f)\right\|^2.
 $$
 
 Here $\mathrm{togesVDelta}(\beta,t)$ is a real scalar depending on $\beta$ and $t$. The expression $\mathrm{togesVAuxiliary}(u,t)$ is a point of $H$, so $f(\mathrm{togesVAuxiliary}(u,t))$ is the value of $f$ at that auxiliary point. The term $\mathrm{sInf}(\mathrm{Set.range} f)$ is the formal infimum of the set of real values $\{f(x) : x \in H\}$, so the difference $f(\mathrm{togesVAuxiliary}(u,t))-\mathrm{sInf}(\mathrm{Set.range} f)$ measures the gap between the value of $f$ at the auxiliary point and the infimum of $f$ over $H$. The first summand multiplies this gap by the scalar $4t\,\mathrm{togesVDelta}(\beta,t)$. The second summand uses the vector $\mathrm{togesVLyapunovVector}(u,z,\alpha,\beta,t,f)\in H$, whose squared norm is multiplied by $\frac12$.

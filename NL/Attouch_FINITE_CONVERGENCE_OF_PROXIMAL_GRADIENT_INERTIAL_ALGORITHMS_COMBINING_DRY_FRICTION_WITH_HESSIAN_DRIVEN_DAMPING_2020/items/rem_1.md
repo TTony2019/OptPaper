@@ -30,8 +30,7 @@ The subdifferential used here is, at a point $x$,
 
 $$
 \partial\phi(x)
-=
-\left\{u:H\;\middle|\;
+=\left\{u:H\;\middle|\;
 \forall y:H,\;
 \langle y-x,u\rangle_{\mathbb R}+\phi(x)\le \phi(y)
 \right\},
@@ -308,8 +307,7 @@ The terms $\gamma d_{k+1}$ and $\beta(\nabla f(x_{k+1})-\nabla f(x_k))$ therefor
 
 $$
 h q_k
-=
--\left(
+=-\left(
 v_{k+1}-v_k+\gamma d_{k+1}
 +\beta\bigl(\nabla f(x_{k+1})-\nabla f(x_k)\bigr)
 +h\nabla f(x_{k+1})
@@ -432,8 +430,7 @@ Therefore
 
 $$
 \langle q_{k-1}-p,v_k\rangle
-=
--\frac\varepsilon2\|v_k\|.
+=-\frac\varepsilon2\|v_k\|.
 $$
 
 Since $\varepsilon>0$ and $v_k\ne0$, the right-hand side is strictly negative, contradicting

@@ -356,8 +356,7 @@ the Lyapunov energy
 
 $$
 E(t)=\ell\,\Phi(x(t))+\frac12\|q(t)\|^2
-=
-\ell\,\Phi(x(t))+\frac12\|a x(t)+b y(t)\|^2
+=\ell\,\Phi(x(t))+\frac12\|a x(t)+b y(t)\|^2
 $$
 
 is antitone on $[0,\infty)$, bounded below, and has a finite limit as $t\to\infty$. The proof uses only the antitone part, obtaining that for every $t\ge 0$,

@@ -179,10 +179,8 @@ Subtracting these derivatives gives
 
 $$
 r'(t)
-=
-\langle g(\phi(t))-g(x),v-x\rangle
--
-L t\|v-x\|^2.
+=\langle g(\phi(t))-g(x),v-x\rangle
+-L t\|v-x\|^2.
 $$
 
 The identity $\langle a-b,c\rangle=\langle a,c\rangle-\langle b,c\rangle$, invoked as `inner_sub_left`, is used to combine the two inner-product terms into this single inner product.
@@ -193,8 +191,7 @@ The key sign estimate is `hr_deriv_nonpos`. For $t>0$, the proof shows
 
 $$
 \langle g(\phi(t))-g(x),v-x\rangle
--
-L t\|v-x\|^2\le 0.
+-L t\|v-x\|^2\le 0.
 $$
 
 Indeed, by Cauchy-Schwarz in the form `real_inner_le_norm`,
@@ -255,8 +252,7 @@ Finally, the proof expands $r(1)$. Since $\phi(1)=v$, the definition of $r$ give
 
 $$
 r(1)
-=
-\psi(v)-\psi(x)-\langle g(x),v-x\rangle-\frac{L}{2}\|v-x\|^2.
+=\psi(v)-\psi(x)-\langle g(x),v-x\rangle-\frac{L}{2}\|v-x\|^2.
 $$
 
 The inequality $r(1)\le 0$ therefore becomes

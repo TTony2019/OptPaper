@@ -68,8 +68,8 @@ The hypotheses on the Newton trajectory $x_{\mathrm{nt}}$ are:
 
   $$
   c e^{-t} \dot{x}_{\mathrm{nt}}(t)
-  + \frac{d}{dt}\nabla \Phi(x_{\mathrm{nt}}(t))
-  + \nabla \Phi(x_{\mathrm{nt}}(t))
+  +\frac{d}{dt}\nabla \Phi(x_{\mathrm{nt}}(t))
+  +\nabla \Phi(x_{\mathrm{nt}}(t))
   = 0.
   $$
 
@@ -114,8 +114,8 @@ at every $t\ge0$, the gradient field $s\mapsto \nabla\Phi(x(s))$ is differentiab
 
 $$
 c e^{-t}\dot{x}(t)
-+ \frac{d}{dt}\nabla\Phi(x(t))
-+ \nabla\Phi(x(t))=0
++\frac{d}{dt}\nabla\Phi(x(t))
++\nabla\Phi(x(t))=0
 $$
 
 holds for every $t\ge0$, then there exists a constant $C$ such that

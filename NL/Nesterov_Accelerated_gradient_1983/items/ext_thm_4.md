@@ -13,8 +13,7 @@ The declaration is a `theorem` named `firstOrder_complexity_lower_bound_referenc
 
 $$
 \texttt{citedFirstOrderComplexityLowerBoundSource}
-=
-\text{“A. S. Nemirovskii and D. B. Yudin, Complexity of problems and efficiency of optimization methods, Nauka, Moscow, 1979 (Russian).”}
+=\text{“A. S. Nemirovskii and D. B. Yudin, Complexity of problems and efficiency of optimization methods, Nauka, Moscow, 1979 (Russian).”}
 $$
 
 Both sides of this equality are terms of the type `String` (Lean's type of character strings), so the equality is the propositional equality of `String`, not a numerical or set-theoretic statement. The left-hand side is the identifier `citedFirstOrderComplexityLowerBoundSource`, an already-defined constant of the environment; the right-hand side is a string literal, i.e., a concrete element of `String`. Because the declaration has no hypotheses and no universal quantifiers, there is nothing to assume and nothing to instantiate: the statement is simply that the value denoted by the identifier `citedFirstOrderComplexityLowerBoundSource` is that particular bibliographic string.

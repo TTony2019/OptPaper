@@ -60,8 +60,7 @@ The definition of `togesVLyapunov` gives
 
 $$
 \mathrm{togesVLyapunov}(f,u,z,\alpha,\beta,t)
-=
-4t\,\mathrm{togesVDelta}(\beta,t)
+=4t\,\mathrm{togesVDelta}(\beta,t)
 \left(f(\mathrm{togesVAuxiliary}(u,t))-\inf(\mathrm{range}f)\right)
 +\frac12
 \left\|\mathrm{togesVLyapunovVector}(u,z,\alpha,\beta,t,f)\right\|^2.
@@ -86,8 +85,7 @@ f(u(t))-\inf f
 t_{\mathrm{start}}^4\bigl(f(u(t_{\mathrm{start}}))-\inf f\bigr)
 -(\alpha-2)E_1t_{\mathrm{start}}
 }{t^4}
-+
-\frac{(\alpha-2)E_1}{t^3},
++\frac{(\alpha-2)E_1}{t^3},
 $$
 
 and the function
@@ -218,8 +216,7 @@ Next the proof establishes that for every $t\ge t_0$,
 
 $$
 \frac{d}{dt}\nabla f\!\left(u(t)+\frac{t}{4}u'(t)\right)
-=
-D(\nabla f)\!\left(u(t)+\frac{t}{4}u'(t)\right)
+=D(\nabla f)\!\left(u(t)+\frac{t}{4}u'(t)\right)
 \!\left(\frac54 u'(t)+\frac{t}{4}u''(t)\right).
 $$
 

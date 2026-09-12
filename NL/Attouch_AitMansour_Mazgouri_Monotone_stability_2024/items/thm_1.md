@@ -74,8 +74,7 @@ $$
 \|x(t)-x'(t)\|
 \le
 e^{mt}\sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}
-+
-\frac{\theta_1}{m}\bigl(e^{mt}-1\bigr)\|\mu-\mu'\|^{\theta_2}.
++\frac{\theta_1}{m}\bigl(e^{mt}-1\bigr)\|\mu-\mu'\|^{\theta_2}.
 $$
 
 In fact the proof establishes the inequality pointwise for every $t\ge 0$, so the almost-everywhere formulation is immediate.
@@ -201,8 +200,7 @@ $$
 \|x(t)-x'(t)\|
 \le
 e^{mt}\sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}
-+
-\frac{D}{m}\bigl(e^{mt}-1\bigr),
++\frac{D}{m}\bigl(e^{mt}-1\bigr),
 $$
 
 with the same $m=\max(m_\mu,m_{\mu'})$. The command `dsimp only at hstable` unfolds the `let` definition of $m$ inside this stability statement. Then `convert hstable using 1` aligns the estimate produced by `damped_solution_stability` with the exact right-hand side required by `thm_1`. The remaining difference is that `hstable` contains $D$, whereas the target contains $\theta_1\|\mu-\mu'\|^{\theta_2}$. After `dsimp [D]`, the tactic `ring` proves the required algebraic identity, using that

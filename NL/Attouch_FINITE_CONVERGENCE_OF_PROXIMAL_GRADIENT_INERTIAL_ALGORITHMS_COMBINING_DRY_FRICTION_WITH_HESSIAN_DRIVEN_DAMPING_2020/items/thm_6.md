@@ -313,8 +313,7 @@ With $\gamma=\lambda$, this gives
 
 $$
 D f_\lambda(x)
-=
-\left\langle \frac1\lambda(x-Px),\,\cdot\,\right\rangle.
+=\left\langle \frac1\lambda(x-Px),\,\cdot\,\right\rangle.
 $$
 
 Thus the Riesz gradient is
@@ -342,8 +341,7 @@ $$
 \frac{1}{h(1+h\gamma)}(x_{k+1}-x_k)
 -\frac{\beta}{1+h\gamma}\bigl(\nabla f_\lambda(x_{k+1})-\nabla f_\lambda(x_k)\bigr)
 -\frac{h}{1+h\gamma}\nabla f_\lambda(x_{k+1})
-=
-\text{alg.y }k.
+=\text{alg.y }k.
 $$
 
 This is done by rewriting with `alg.aux k`, substituting
@@ -366,8 +364,7 @@ Then the proof uses `moreauEnvelope_eq_proxValue_add_scaled_sqDist_of_mem_gammaZ
 
 $$
 ({}^\lambda F)(x)
-=
-F(Px)+\frac{\|x-Px\|^2}{2\lambda}.
+=F(Px)+\frac{\|x-Px\|^2}{2\lambda}.
 $$
 
 Since $F(Px)$ is finite and $F$ is bounded below by $c$, one has
@@ -380,8 +377,7 @@ The squared-distance term is nonnegative. Converting the extended-real identity 
 
 $$
 f_\lambda(x)
-=
-F(Px)_{\mathrm{toReal}}+\frac{\|x-Px\|^2}{2\lambda}.
+=F(Px)_{\mathrm{toReal}}+\frac{\|x-Px\|^2}{2\lambda}.
 $$
 
 Therefore $c\le f_\lambda(x)$ for all $x$, proving that $f_\lambda$ is bounded below.
@@ -390,8 +386,7 @@ The proof then applies `IPAHDD_finiteLength_and_critical` to $f_\lambda$, $\phi$
 
 $$
 \gamma\ge \frac{h/2+\beta}{\lambda}
-=
-\frac1\lambda\left(\frac h2+\beta\right).
+=\frac1\lambda\left(\frac h2+\beta\right).
 $$
 
 The smooth theorem yields $x_\infty$, $E_1$, finite length of the smooth iterates, convergence to $x_\infty$, dry-friction criticality, and the two summability bounds. Since the smooth iterates are exactly `alg.x`, these conclusions transfer to the nonsmooth sequence.

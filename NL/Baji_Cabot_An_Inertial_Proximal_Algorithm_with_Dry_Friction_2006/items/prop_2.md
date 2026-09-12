@@ -611,8 +611,7 @@ It follows from
 
 $$
 0\le \|d_2-d_1\|^2
-=
-\|d_2\|^2-2\langle d_2,d_1\rangle+\|d_1\|^2
+=\|d_2\|^2-2\langle d_2,d_1\rangle+\|d_1\|^2
 $$
 
 and the symmetry of the real inner product. This is `hnorm`. Multiplying by the nonnegative number $(2\lambda_n^2)^{-1}$ gives
@@ -635,8 +634,7 @@ we have
 
 $$
 \langle \mathrm{acc},d_2\rangle
-=
-\lambda_n^{-2}\langle d_2-d_1,d_2\rangle.
+=\lambda_n^{-2}\langle d_2-d_1,d_2\rangle.
 $$
 
 Therefore the previous two inequalities combine to
@@ -693,8 +691,7 @@ $$
 (R_{n+1}-R_n:\overline{\mathbb R})
 \le
 \bigl(-\lambda_n(\Phi_A(v))_{\mathbb R}:\overline{\mathbb R}\bigr)
-=
--\lambda_n\Phi_A(v).
+=-\lambda_n\Phi_A(v).
 $$
 
 This is the first half of `hmainR`. Rearranging the same real inequality also gives
@@ -757,8 +754,7 @@ $$
 \sum_{n=0}^{N-1}t_n
 \le
 \sum_{n=0}^{N-1}(R_n-R_{n+1})
-=
-R_0-R_N
+=R_0-R_N
 \le
 R_0-m.
 $$
@@ -791,8 +787,7 @@ Finite sums of coercions are the coercion of the finite sum, so
 
 $$
 \left(\sum_{n=0}^{N+1}t_n:\overline{\mathbb R}\right)
-=
-\sum_{n=0}^{N+1}T_n.
+=\sum_{n=0}^{N+1}T_n.
 $$
 
 Therefore

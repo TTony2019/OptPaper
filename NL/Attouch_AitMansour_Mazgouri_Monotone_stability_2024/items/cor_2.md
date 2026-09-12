@@ -101,8 +101,7 @@ $$
 \le
 e^{mt}
 \sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}
-+
-\frac{\theta_1}{m}(e^{mt}-1)\|\mu-\mu'\|^{\theta_2}.
++\frac{\theta_1}{m}(e^{mt}-1)\|\mu-\mu'\|^{\theta_2}.
 $$
 
 This is a stability estimate: it bounds the distance between the two solution curves in terms of the differences in initial data and in the parameters.
@@ -259,8 +258,7 @@ directly from the hypotheses. Then for arbitrary $u\in H$ and $\mu,\mu'\in V$, i
 
 $$
 (u-T_\mu u)-(u-T_{\mu'}u)
-=
--(T_\mu u-T_{\mu'}u).
+=-(T_\mu u-T_{\mu'}u).
 $$
 
 This algebraic identity is proved by `abel`. Rewriting with this identity and using `norm_neg`, the norm becomes
@@ -294,8 +292,7 @@ $$
 \le
 e^{m_{\mathrm{thm}}t}
 \sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}
-+
-\frac{\theta_1}{m_{\mathrm{thm}}}
++\frac{\theta_1}{m_{\mathrm{thm}}}
 (e^{m_{\mathrm{thm}}t}-1)\|\mu-\mu'\|^{\theta_2},
 $$
 
@@ -303,8 +300,7 @@ where, from `thm_1`,
 
 $$
 m_{\mathrm{thm}}
-=
-\max\left(
+=\max\left(
 \sqrt{1+2\gamma^2+\frac{2}{(1/2)^2}},
 \sqrt{1+2\gamma^2+\frac{2}{(1/2)^2}}
 \right).
@@ -332,8 +328,7 @@ we have
 
 $$
 \sqrt{1+2\gamma^2+\frac{2}{(1/2)^2}}
-=
-\sqrt{1+2\gamma^2+8}.
+=\sqrt{1+2\gamma^2+8}.
 $$
 
 The proof records this as `hrate`. The tactic `congr 1` reduces the equality of the two square roots to equality of their radicands, and `norm_num` proves the numerical identity.

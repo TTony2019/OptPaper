@@ -17,8 +17,7 @@ For each extremal problem $P$, the definition sets
 
 $$
 \mathrm{dualProblem} P
-=
-\left\{\, l \in \mathbb{R}^m \mid \mathrm{IsDualOptimal} P l \,\right\}.
+=\left\{\, l \in \mathbb{R}^m \mid \mathrm{IsDualOptimal} P l \,\right\}.
 $$
 
 Here `IsDualOptimal P l` is a predicate expressing that the point $l$ is dual optimal for the problem $P$. The internal definition of `IsDualOptimal` is not given in this declaration; the only content visible here is that it takes the problem $P$ and a vector $l$ and produces a proposition. Therefore the mathematical meaning of `dualProblem` is exactly: it assigns to an extremal problem the set of all its dual-optimal vectors. It is an extensional representation of the dual solution set. The declaration does not assert that this set is nonempty, that it is unique, or that any duality theorem holds; it only defines membership in the set.

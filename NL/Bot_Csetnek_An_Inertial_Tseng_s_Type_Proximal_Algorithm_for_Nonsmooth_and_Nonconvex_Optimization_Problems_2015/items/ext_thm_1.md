@@ -27,8 +27,7 @@ where the Bregman distance is defined by
 
 $$
 D_u(x,y)
-=
-u(x)-u(y)-\langle \nabla u(y),x-y\rangle .
+=u(x)-u(y)-\langle \nabla u(y),x-y\rangle .
 $$
 
 Here `EuclideanSpace m` is the finite-dimensional real Euclidean space $\mathbb R^m$, `gradient u y` is the gradient $\nabla u(y)$, and `inner Real` is the real inner product $\langle \cdot,\cdot\rangle$.
@@ -142,8 +141,7 @@ The lemma `inner_gradient_left`, used here with $(f,x,y)=(u,y,x-y)$, gives the g
 
 $$
 \mathrm{fderiv}u(y)(x-y)
-=
-\langle \nabla u(y),x-y\rangle .
+=\langle \nabla u(y),x-y\rangle .
 $$
 
 Thus the derivative of the composed map $t\mapsto u(y+t(x-y))$ at $0$ is
@@ -172,10 +170,8 @@ Combining these two derivative computations with the subtraction rule and consta
 
 $$
 \phi'(0)
-=
-\langle \nabla u(y),x-y\rangle
--
-\frac{\sigma}{2}\,2\langle y,x-y\rangle .
+=\langle \nabla u(y),x-y\rangle
+-\frac{\sigma}{2}\,2\langle y,x-y\rangle .
 $$
 
 The proof records this as `hφ_deriv`, then converts it to the equality `hderiv_eq` for `deriv φ 0`, and notes `hφ_diff : DifferentiableAt Real φ 0`.
@@ -221,8 +217,7 @@ specialized through `norm_add_sq_real y (x-y)` to
 
 $$
 \|x\|^2
-=
-\|y\|^2+2\langle y,x-y\rangle+\|x-y\|^2.
+=\|y\|^2+2\langle y,x-y\rangle+\|x-y\|^2.
 $$
 
 This identity is `hnorm_id`. Substituting it into the previous inequality and cancelling the common term $-\sigma\langle y,x-y\rangle$ yields
@@ -239,8 +234,7 @@ $$
 \frac{\sigma}{2}\|x-y\|^2
 \le
 u(x)-u(y)-\langle \nabla u(y),x-y\rangle
-=
-D_u(x,y).
+=D_u(x,y).
 $$
 
 The final nonlinear arithmetic is closed by `nlinarith [hnorm_id, hstrong.1]`. The call to `nlinarith` performs this algebraic combination involving the squared norms and the scalar $\sigma$. The extra hypothesis `hstrong.1` is the scalar inequality about $\sigma$ supplied by the strong-convexity structure; it is used as auxiliary real arithmetic information in this final step.

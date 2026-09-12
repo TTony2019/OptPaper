@@ -94,8 +94,7 @@ The identifier `def_6` is an abbreviation:
 
 $$
 \mathrm{def_6}(r,hr,A,B)
-=
-\mathrm{supDiscrepancyOnBall}(r,hr,A,B).
+=\mathrm{supDiscrepancyOnBall}(r,hr,A,B).
 $$
 
 The source does not give the full definition of `supDiscrepancyOnBall`, but the cited lemma `def_6_le_of_norm_le` supplies the exact property used here: if $0<r$, if $A,B:H\to H$, if the set
@@ -198,8 +197,7 @@ First, the proof proves
 $$
 \|\mathrm{gradE}_\mu(X_\mu(t))
 -\mathrm{gradE}_{\mu'}(X_\mu(t))\|
-=
-\|\beta\bullet
+=\|\beta\bullet
 (\mathrm{grad}\varphi_\mu(X_\mu(t))
 -\mathrm{grad}\varphi_{\mu'}(X_\mu(t)))\|.
 $$
@@ -225,8 +223,7 @@ The reverse rewrite `← smul_sub` uses the distributive law for scalar multipli
 
 $$
 \beta\bullet a-\beta\bullet b
-=
-\beta\bullet(a-b).
+=\beta\bullet(a-b).
 $$
 
 Applying it gives the displayed equality.
@@ -237,8 +234,7 @@ $$
 \|\beta\bullet
 (\mathrm{grad}\varphi_\mu(X_\mu(t))
 -\mathrm{grad}\varphi_{\mu'}(X_\mu(t)))\|
-=
-\beta\,
+=\beta\,
 \|\mathrm{grad}\varphi_\mu(X_\mu(t))
 -\mathrm{grad}\varphi_{\mu'}(X_\mu(t))\|.
 $$

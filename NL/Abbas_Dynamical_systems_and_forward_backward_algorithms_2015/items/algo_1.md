@@ -50,8 +50,7 @@ The fields of the structure are the data and properties that an inhabitant must 
 
   $$
   x_k
-  =
-  \mathrm{scaledProximityOperator}\bigl(f,hf,\langle \mu,\mu_{\mathrm{pos}}\rangle,y_k\bigr).
+  =\mathrm{scaledProximityOperator}\bigl(f,hf,\langle \mu,\mu_{\mathrm{pos}}\rangle,y_k\bigr).
   $$
 
   Here $\langle \mu,\mu_{\mathrm{pos}}\rangle$ is the positive real $\mu$, packaged as a subtype element using the proof `mu_pos`. This is the backward/proximal step: $x_k$ is obtained from $y_k$ by applying the scaled proximity operator of $f$ with scale $\mu$.
@@ -60,10 +59,8 @@ The fields of the structure are the data and properties that an inhabitant must 
 
   $$
   y_{k+1}
-  =
-  (1-h_k)y_k
-  +
-  h_k\bigl(x_k-\mu B(x_k)\bigr).
+  =(1-h_k)y_k
+  +h_k\bigl(x_k-\mu B(x_k)\bigr).
   $$
 
   This is the relaxed forward step: from $x_k$ one forms the forward point $x_k-\mu B(x_k)$, and then $y_{k+1}$ is an affine combination of $y_k$ and that forward point with coefficients $1-h_k$ and $h_k$. Since these coefficients sum to $1$, this is a relaxation step, and because $h_k$ may depend on $k$, it is a variable relaxation scheme.

@@ -179,16 +179,14 @@ The proof then establishes two finite-sum reindexing identities. For every $k$,
 
 $$
 \sum_{m=0}^{k-1}\xi_{m+2}+\xi_0+\xi_1
-=
-\sum_{i=0}^{k+1}\xi_i.
+=\sum_{i=0}^{k+1}\xi_i.
 $$
 
 This is `hshift_two`. Similarly, for every $k$,
 
 $$
 \sum_{m=0}^{k-1}\xi_{m+1}+\xi_0
-=
-\sum_{i=0}^{k}\xi_i.
+=\sum_{i=0}^{k}\xi_i.
 $$
 
 This is `hshift_one`. Both are proved by induction on $k$. In the base cases, the sums over empty ranges vanish, and `simp` simplifies the expressions. In the successor step, the proof uses `Finset.sum_range_succ`, which expresses a sum over $0,\ldots,k$ as the previous sum plus the last term, and then `ring` rearranges the resulting algebraic identity.
@@ -223,10 +221,8 @@ $$
 \sum_{m=0}^{k-1}\xi_{m+2}
 \le
 a\sum_{m=0}^{k-1}\xi_{m+1}
-+
-b\sum_{m=0}^{k-1}\xi_m
-+
-\sum_{m=0}^{k-1}\varepsilon_{m+1}.
++b\sum_{m=0}^{k-1}\xi_m
++\sum_{m=0}^{k-1}\varepsilon_{m+1}.
 $$
 
 The equality step uses `Finset.sum_add_distrib` to distribute a sum of three terms, and `Finset.mul_sum` to pull the constants $a$ and $b$ out of the finite sums. This is the local fact `hsum_rec`.

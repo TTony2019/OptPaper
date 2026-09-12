@@ -702,8 +702,7 @@ Taking $x=\hat u$, the proof uses $\Phi(\hat u)=\inf\Phi(H)$ and `potential_sInf
 
 $$
 \Phi(\hat u)-\Phi(\mathrm{sys.u}(t))
-=
-\inf\Phi(H)-\Phi(\mathrm{sys.u}(t))\le 0.
+=\inf\Phi(H)-\Phi(\mathrm{sys.u}(t))\le 0.
 $$
 
 Therefore the potential-difference term can be dropped, yielding
@@ -746,16 +745,14 @@ The proof then computes derivatives of $\theta$. For $s>-1$,
 
 $$
 \theta'(s)
-=
-\frac{d}{dr}\left(\frac12\|\mathrm{sys.u}(r)\|^2\right)\bigg|_{r=s+1}.
+=\frac{d}{dr}\left(\frac12\|\mathrm{sys.u}(r)\|^2\right)\bigg|_{r=s+1}.
 $$
 
 This is the chain rule for the shift $r\mapsto r+1$. It also proves that for $s\ge 0$,
 
 $$
 \theta''(s)
-=
-\frac{d^2}{dr^2}\left(\frac12\|\mathrm{sys.u}(r)\|^2\right)\bigg|_{r=s+1}.
+=\frac{d^2}{dr^2}\left(\frac12\|\mathrm{sys.u}(r)\|^2\right)\bigg|_{r=s+1}.
 $$
 
 These identities are used to transfer the damped differential inequality from the original time variable to the shifted variable.
@@ -925,8 +922,7 @@ $$
 G_T''(s)+\gamma G_T'(s)
 \le
 \frac32\|\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(s)(1)\|^2
-=
-qfun(s).
+=qfun(s).
 $$
 
 Thus all hypotheses of `damped_two_time_integral_bound` are satisfied.
@@ -937,8 +933,7 @@ $$
 G_T(T)-G_T(t)
 \le
 \frac{e^{-\gamma(t-1)}-e^{-\gamma(T-1)}}{\gamma}G_T'(1)
-+
-\int_t^T\int_1^\theta
++\int_t^T\int_1^\theta
 e^{-\gamma(\theta-s)}qfun(s)\,ds\,d\theta.
 $$
 
@@ -954,10 +949,8 @@ $$
 \frac12\|\mathrm{sys.u}(t)-\mathrm{sys.u}(T)\|^2
 \le
 \|\mathrm{sys.u}(t)\|^2-\|\mathrm{sys.u}(T)\|^2
-+
-\frac{e^{-\gamma(t-1)}-e^{-\gamma(T-1)}}{\gamma}G_T'(1)
-+
-\int_t^T\int_1^\theta
++\frac{e^{-\gamma(t-1)}-e^{-\gamma(T-1)}}{\gamma}G_T'(1)
++\int_t^T\int_1^\theta
 e^{-\gamma(\theta-s)}qfun(s)\,ds\,d\theta.
 $$
 
@@ -1072,8 +1065,7 @@ $$
 \frac12\|\mathrm{sys.u}(s)-\mathrm{sys.u}(t)\|^2
 <
 2\delta+\delta+2\delta
-=
-5\delta.
+=5\delta.
 $$
 
 Since $\delta=\varepsilon^2/12$,

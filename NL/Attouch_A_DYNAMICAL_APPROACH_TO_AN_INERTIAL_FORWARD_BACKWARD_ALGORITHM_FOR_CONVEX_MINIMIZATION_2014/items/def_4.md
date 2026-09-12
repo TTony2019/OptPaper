@@ -27,10 +27,8 @@ The body of the definition is
 
 $$
 \mathrm{mechanicalEnergy}(\Theta,u,\gamma,k,hk)
-=
-\Theta(u(k))
-+
-\bigl(\gamma\,\|\mathrm{velocity}(u,k,hk)\|^2\bigr)_{\mathrm{EReal}}.
+=\Theta(u(k))
++\bigl(\gamma\,\|\mathrm{velocity}(u,k,hk)\|^2\bigr)_{\mathrm{EReal}}.
 $$
 
 Here $u(k)$ is the $k$-th term of the sequence $u$, and $\mathrm{velocity}(u,k,hk)$ is a term of $H$ supplied by the identifier `velocity`; its norm $\|\mathrm{velocity}(u,k,hk)\|$ is a real number. The expression $\gamma\,\|\mathrm{velocity}(u,k,hk)\|^2$ is first computed in $\mathbb R$, then coerced into $\mathrm{EReal}$. Finally, that coerced real number is added to $\Theta(u(k))$ using the addition operation on extended real numbers.

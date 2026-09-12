@@ -30,8 +30,7 @@ Equivalently, the field `differential_equation` says that for every $t\in\mathbb
 
 $$
 \mathrm{deriv}x(t)
-=
-\mathrm{scaledProx}_{\mu,\Phi}\!\left(x(t)-\mu B(x(t))\right)-x(t).
+=\mathrm{scaledProx}_{\mu,\Phi}\!\left(x(t)-\mu B(x(t))\right)-x(t).
 $$
 
 Thus the declaration describes a continuous-time trajectory whose velocity at time $t$ is the difference between the scaled proximal step applied to $x(t)-\mu B(x(t))$ and the current point $x(t)$. The same positive parameter $\mu$ appears both as the coefficient of $B(x(t))$ and as the scale in the proximity operator. The structure does not by itself assert that such a trajectory exists or is unique; it defines the type of data consisting of a positive $\mu$, a trajectory $x$, and a proof that the trajectory satisfies the displayed differential equation.

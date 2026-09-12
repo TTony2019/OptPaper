@@ -13,8 +13,7 @@ The mathematical content visible from the name is that of an argmin set. In opti
 
 $$
 \mathrm{argmin}_{x\in C} f(x)
-=
-\{x\in C : f(x)=\inf_{y\in C} f(y)\}.
+=\{x\in C : f(x)=\inf_{y\in C} f(y)\}.
 $$
 
 When the minimum is attained and comparison is meaningful, this can equivalently be written as the set of $x\in C$ such that

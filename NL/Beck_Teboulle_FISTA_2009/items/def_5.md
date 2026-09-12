@@ -19,8 +19,7 @@ where Lean writes the domain as `EuclideanSpace ℝ (Fin n)`, the $n$-dimensiona
 
 $$
 \mathrm{solutionSet}(f,g)
-=
-\{x \in \mathbb{R}^n \mid
+=\{x \in \mathbb{R}^n \mid
 \mathrm{IsMinOn}(\mathrm{compositeObjective}(f,g),\mathbb{R}^n,x)\}.
 $$
 
@@ -39,8 +38,7 @@ Thus `solutionSet f g` is the set of global minimizers of the composite objectiv
 
 $$
 \mathrm{solutionSet}(f,g)
-=
-\arg\min_{x \in \mathbb{R}^n}
+=\arg\min_{x \in \mathbb{R}^n}
 (\mathrm{compositeObjective}(f,g))(x).
 $$
 

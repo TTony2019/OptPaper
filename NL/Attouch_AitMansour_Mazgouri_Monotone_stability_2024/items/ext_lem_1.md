@@ -40,7 +40,7 @@ $$
 w(t)^{1-\alpha}
 \le w(t_0)^{1-\alpha}
   \exp\!\left(\int_{t_0}^{t} a(\tau)\,d\tau\right)
-+ \int_{t_0}^{t}
++\int_{t_0}^{t}
   \exp\!\left(\int_{s}^{t} a(\tau)\,d\tau\right)b(s)\,ds .
 $$
 
@@ -73,7 +73,7 @@ $$
 w(t)^{1-\alpha}
 \le w(t_0)^{1-\alpha}
   \exp\!\left(\int_{t_0}^{t} a(\tau)\,d\tau\right)
-+ \int_{t_0}^{t}
++\int_{t_0}^{t}
   \exp\!\left(\int_{s}^{t} a(\tau)\,d\tau\right)b(s)\,ds .
 $$
 

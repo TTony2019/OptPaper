@@ -51,8 +51,7 @@ The structure then requires the following properties. The sequence $y$ starts at
 
 $$
 L_{\rm init}(i)
-=
-\frac{\left\|\nabla f_i(y_0)-\nabla f_i(z)\right\|}{\|y_0-z\|}.
+=\frac{\left\|\nabla f_i(y_0)-\nabla f_i(z)\right\|}{\|y_0-z\|}.
 $$
 
 Since $z\ne y_0$, the denominator $\|y_0-z\|$ is nonzero in the normed space $E$. The scalar $A_{\rm init}$ is defined from $L_{\rm init}$ by

@@ -83,8 +83,7 @@ The fields of the structure encode the following mathematical requirements.
   $$
   0 \le t \implies
   \mathrm{deriv} x(t)
-  =
-  \mathrm{projection}\!\left(-(\nabla \Psi)(x(t)), \mathrm{tangentCone}(x(t))\right).
+  =\mathrm{projection}\!\left(-(\nabla \Psi)(x(t)), \mathrm{tangentCone}(x(t))\right).
   $$
 
   Thus the velocity of the trajectory is the projection of the negative gradient onto the tangent cone at the current point.

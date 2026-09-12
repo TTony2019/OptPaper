@@ -52,8 +52,7 @@ Fourth, their sets of minimizers coincide:
 
 $$
 \{x\in H\mid e(x)=\inf_{y\in H} e(y)\}
-=
-\{x\in H\mid f(x)=\inf_{y\in H} f(y)\}.
+=\{x\in H\mid f(x)=\inf_{y\in H} f(y)\}.
 $$
 
 Fifth, the defining envelope formula is restated in the opposite orientation:
@@ -210,16 +209,14 @@ Now the proof shows that the quadratic term must vanish. From the envelope ident
 
 $$
 f(p(x))+\left(\frac{1}{2\lambda}\|x-p(x)\|^2:\overline{\mathbb R}\right)
-=
-f(p(x)).
+=f(p(x)).
 $$
 
 Using `hpfin`, the expression $f(p(x))$ is rewritten as the coercion of its real value, and using `EReal.coe_add`, the addition inside the extended reals is converted into addition of real numbers. Then `norm_cast` transports the equality back to the real numbers, yielding
 
 $$
 (f(p(x)))_{\mathbb R}+\frac{1}{2\lambda}\|x-p(x)\|^2
-=
-(f(p(x)))_{\mathbb R}.
+=(f(p(x)))_{\mathbb R}.
 $$
 
 The tactic `linarith` cancels the common real term and proves

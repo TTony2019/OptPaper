@@ -45,8 +45,7 @@ The set $\mathrm{argminSet}\Theta$ is defined by
 
 $$
 \mathrm{argminSet}\Theta
-=
-\{x\in H:\forall y\in H,\ \Theta(x)\le \Theta(y)\}.
+=\{x\in H:\forall y\in H,\ \Theta(x)\le \Theta(y)\}.
 $$
 
 Thus the theorem says: under the inertial forward-backward hypotheses, if $\Theta$ is boundedly inf-compact and the iterates $u_k$ converge weakly to $q$, then they actually converge strongly to $q$, and $q$ is a global minimizer of $\Theta$.

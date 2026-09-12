@@ -288,10 +288,8 @@ Because
 
 $$
 |a_k|
-=
-|\alpha_k\|x_k-x_{k-1}\||
-=
-|\alpha_k|\,\|x_k-x_{k-1}\|,
+=|\alpha_k\|x_k-x_{k-1}\||
+=|\alpha_k|\,\|x_k-x_{k-1}\|,
 $$
 
 this gives the bound
@@ -312,8 +310,7 @@ The norm of a scalar multiple is
 
 $$
 \|\alpha_k(x_k-x_{k-1})\|
-=
-|\alpha_k|\,\|x_k-x_{k-1}\|.
+=|\alpha_k|\,\|x_k-x_{k-1}\|.
 $$
 
 Also,
@@ -347,8 +344,7 @@ To prove that the range of $y$ is bounded, the proof rewrites boundedness using 
 
 $$
 \mathrm{dist}(y_i,y_j)
-=
-\|y_i-y_j\|
+=\|y_i-y_j\|
 \le
 \|y_i\|+\|y_j\|
 \le

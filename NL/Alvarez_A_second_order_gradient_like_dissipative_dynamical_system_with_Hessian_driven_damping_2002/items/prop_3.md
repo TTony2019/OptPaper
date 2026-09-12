@@ -1064,8 +1064,7 @@ $$
 g(T)-g(t)
 \le
 \frac{e^{-\gamma(t-a)}-e^{-\gamma(T-a)}}{\gamma}g'(a)
-+
-\int_t^T\int_a^\theta e^{-\gamma(\theta-s)}q(s)\,ds\,d\theta.
++\int_t^T\int_a^\theta e^{-\gamma(\theta-s)}q(s)\,ds\,d\theta.
 $$
 
 The proof applies this with $g=K_T$, $\gamma=\alpha$, $a=1$, and the same $q$. The required differential inequality is exactly
@@ -1109,12 +1108,9 @@ $$
 \frac12\|x(t)-x(T)\|^2
 \le
 \|x(t)\|^2-\|x(T)\|^2
-+
-\frac{e^{-\alpha(t-1)}-e^{-\alpha(T-1)}}{\alpha}K_T'(1)
-+
-\int_t^T\int_1^\theta e^{-\alpha(\theta-s)}q(s)\,ds\,d\theta
-+
-\frac{\beta}{2}\int_t^T\|r(s)\|^2\,ds.
++\frac{e^{-\alpha(t-1)}-e^{-\alpha(T-1)}}{\alpha}K_T'(1)
++\int_t^T\int_1^\theta e^{-\alpha(\theta-s)}q(s)\,ds\,d\theta
++\frac{\beta}{2}\int_t^T\|r(s)\|^2\,ds.
 $$
 
 Next the proof defines

@@ -258,6 +258,20 @@ theorem real : True := by trivial
             r"the map $\mathrm{deriv} f$ and $\mathrm{argmin}_{x} g$ and $\mathrm{fderiv}$",
         )
 
+    def test_normalizer_keeps_a_display_block_one_paragraph(self):
+        # A lone ``-`` would become a setext heading, a list marker followed by
+        # a space would become a list, and a leading ``>`` a block quote; each
+        # one stops GitHub from recognising the display math.
+        text = "$$\nf(x)\n-\ng(x)\n+ h(x)\n>0.\n$$"
+        self.assertEqual(
+            normalize_math_delimiters(text),
+            "$$\nf(x)\n-g(x)\n+h(x) >0.\n$$",
+        )
+
+    def test_normalizer_glues_a_trailing_marker_onto_the_previous_line(self):
+        text = "$$\nf(x)\n=\ng(x)\n+ \n$$"
+        self.assertEqual(normalize_math_delimiters(text), "$$\nf(x)\n=g(x) +\n$$")
+
     def test_normalizer_keeps_code_fences_and_break_commands(self):
         text = "```lean\n\\(x\\)\n```\n\n$$\na+\\\\[4pt]b\n$$\n"
         self.assertEqual(normalize_math_delimiters(text), "```lean\n\\(x\\)\n```\n\n$$\na+\\\\[4pt]b\n$$\n")

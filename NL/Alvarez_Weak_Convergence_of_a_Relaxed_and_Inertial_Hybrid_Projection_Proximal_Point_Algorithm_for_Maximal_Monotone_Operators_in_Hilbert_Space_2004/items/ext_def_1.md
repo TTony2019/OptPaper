@@ -80,8 +80,7 @@ Next, the proof unfolds the definition of `SetValuedOperator.identityAddScaled`.
 
 $$
 A.\mathrm{identityAddScaled}(\lambda)(y)
-=
-\{\,y+\lambda\bullet a \mid a \in A(y)\,\}.
+=\{\,y+\lambda\bullet a \mid a \in A(y)\,\}.
 $$
 
 So after `dsimp`, the hypothesis says that $x$ belongs to this set. The tactic `rcases` then unpacks the existential witness. It produces an element $a$, a proof `ha : a ∈ A y`, and an equality `hx_eq` expressing that $x$ is the corresponding element of the set, namely, up to orientation,
@@ -108,8 +107,7 @@ The proof rewrites the left-hand side using the scalar multiplication identity `
 
 $$
 \lambda^{-1}\bullet(\lambda\bullet a)
-=
-(\lambda^{-1}\lambda)\bullet a.
+=(\lambda^{-1}\lambda)\bullet a.
 $$
 
 Then `simp [hlam]` simplifies $\lambda^{-1}\lambda$ to $1$ using the hypothesis $\lambda\neq 0$, and simplifies $1\bullet a$ to $a$. Hence

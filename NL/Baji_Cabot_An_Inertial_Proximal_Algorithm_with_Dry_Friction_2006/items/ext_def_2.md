@@ -206,8 +206,7 @@ The theorem `real_inner_smul_right` pulls the scalar out of the second argument 
 
 $$
 \langle a_1-a_2,\lambda(a_2-a_1)\rangle
-=
-\lambda\langle a_1-a_2,a_2-a_1\rangle.
+=\lambda\langle a_1-a_2,a_2-a_1\rangle.
 $$
 
 So the inequality becomes
@@ -232,10 +231,8 @@ one obtains
 
 $$
 \langle a_1-a_2,a_2-a_1\rangle
-=
-\langle a_1-a_2,-(a_1-a_2)\rangle
-=
--\langle a_1-a_2,a_1-a_2\rangle.
+=\langle a_1-a_2,-(a_1-a_2)\rangle
+=-\langle a_1-a_2,a_1-a_2\rangle.
 $$
 
 The `simp` step then uses the real inner product identity

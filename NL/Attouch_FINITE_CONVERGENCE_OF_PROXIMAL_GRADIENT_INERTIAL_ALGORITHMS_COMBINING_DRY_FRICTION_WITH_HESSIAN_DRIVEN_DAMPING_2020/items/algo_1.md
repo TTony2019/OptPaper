@@ -58,18 +58,14 @@ Third, for every natural number $k$, the field `update` asserts the recurrence
 
 $$
 x_{k+2}
-=
-x_{k+1}
-+
-h\,
+=x_{k+1}
++h\,
 P_{\phi,\, h/(1+h\gamma)}
 \left(
 \frac{x_{k+1}-x_k}{h(1+h\gamma)}
--
-\frac{\beta}{1+h\gamma}
+-\frac{\beta}{1+h\gamma}
 \bigl(\nabla f(x_{k+1})-\nabla f(x_k)\bigr)
--
-\frac{h}{1+h\gamma}
+-\frac{h}{1+h\gamma}
 \nabla f(x_{k+1})
 \right),
 $$

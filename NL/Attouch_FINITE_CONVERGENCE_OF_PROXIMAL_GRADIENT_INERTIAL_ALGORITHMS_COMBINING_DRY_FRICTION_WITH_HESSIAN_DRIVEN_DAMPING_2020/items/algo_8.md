@@ -58,8 +58,8 @@ Here $\mathrm{prox}_{\lambda G}$ denotes the scaled proximal operator of $G$ wit
 
 $$
 y_k = \frac{1}{h(1+h\gamma)}(x_{k+1}-x_k)
-      - \frac{\beta}{1+h\gamma}(z_{k+1}-z_k)
-      - \frac{h}{1+h\gamma}z_{k+1}.
+      -\frac{\beta}{1+h\gamma}(z_{k+1}-z_k)
+      -\frac{h}{1+h\gamma}z_{k+1}.
 $$
 
 - Update for $x$: for every $k \in \mathbb N$,

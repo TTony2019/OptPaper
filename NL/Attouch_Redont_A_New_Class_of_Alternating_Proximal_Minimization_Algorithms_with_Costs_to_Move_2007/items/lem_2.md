@@ -17,8 +17,7 @@ The definition `L_beta_mu` used in the statement is
 
 $$
 L_{\beta,\mu}(f,g)(\xi,\eta)
-=
-\mu f(\xi)+\beta g(\eta)+\frac{\beta\mu}{2}\|\xi-\eta\|^2.
+=\mu f(\xi)+\beta g(\eta)+\frac{\beta\mu}{2}\|\xi-\eta\|^2.
 $$
 
 The theorem compares the predicate `IsINE` applied to $f,g$, the three copies of the same cost function
@@ -336,8 +335,7 @@ Using also `real_inner_comm`, which says $\langle a,b\rangle=\langle b,a\rangle$
 
 $$
 \|\xi-\eta\|^2
-=
-\|d\|^2+\|p\|^2+\|q\|^2
+=\|d\|^2+\|p\|^2+\|q\|^2
 +2\langle d,p\rangle
 -2\langle p,q\rangle
 -2\langle d,q\rangle.
@@ -358,8 +356,7 @@ Since $xbar-ybar=d$, subtracting $\|d\|^2$ from the expansion of $\|\xi-\eta\|^2
 
 $$
 \|\xi-\eta\|^2-\|xbar-ybar\|^2
-=
-\|p\|^2+\|q\|^2
+=\|p\|^2+\|q\|^2
 +2\langle d,p\rangle
 -2\langle p,q\rangle
 -2\langle d,q\rangle.
@@ -397,16 +394,14 @@ After rewriting with this identity, the cross terms cancel algebraically. The re
 
 $$
 \beta\mu\bigl(-\langle d,p\rangle+\langle d,q\rangle\bigr)
-+
-\frac{\beta\mu}{2}
++\frac{\beta\mu}{2}
 \bigl(
 \|p\|^2+\|q\|^2
 +2\langle d,p\rangle
 -2\langle p,q\rangle
 -2\langle d,q\rangle
 \bigr)
-=
-\frac{\beta\mu}{2}\|p-q\|^2.
+=\frac{\beta\mu}{2}\|p-q\|^2.
 $$
 
 The proof first uses `ring` to reduce the left side to

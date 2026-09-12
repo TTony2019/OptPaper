@@ -19,10 +19,8 @@ The definition returns an element of `EReal`, namely
 
 $$
 \mathrm{energySeq}(x,\lambda,f,n)
-=
-\left(\left(2(\lambda_n)^2\right)^{-1}\left\|x_{n+1}-x_n\right\|^2\right)
-+
-f(x_{n+1}).
+=\left(\left(2(\lambda_n)^2\right)^{-1}\left\|x_{n+1}-x_n\right\|^2\right)
++f(x_{n+1}).
 $$
 
 The first summand is explicitly forced to be a real number by the type ascription $: \mathbb{R}$. Thus Lean computes
@@ -49,8 +47,7 @@ There is no separate proof part. The source states that there is no proof, and t
 
 $$
 \left(\left(2(\lambda_n)^2\right)^{-1}\left\|x_{n+1}-x_n\right\|^2\right)
-+
-f(x_{n+1}),
++f(x_{n+1}),
 $$
 
 with the first term understood as a real number and the whole expression understood in the extended reals. Thus the declaration is a notational and structural definition of an energy quantity, not a theorem requiring proof.

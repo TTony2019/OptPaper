@@ -140,8 +140,7 @@ It proceeds by a `calc` chain. First, by `hrewrite`,
 
 $$
 \|(x-\mu Bx)-(y-\mu By)\|^2
-=
-\|(x-y)-\mu(Bx-By)\|^2 .
+=\|(x-y)-\mu(Bx-By)\|^2 .
 $$
 
 Then the lemma `norm_sub_sq_real` expands the squared norm of a difference in a real inner product space:
@@ -154,8 +153,7 @@ Applying this with $a=x-y$ and $b=\mu(Bx-By)$ gives
 
 $$
 \|(x-y)-\mu(Bx-By)\|^2
-=
-\|x-y\|^2
+=\|x-y\|^2
 -2\langle x-y,\mu(Bx-By)\rangle
 +\|\mu(Bx-By)\|^2 .
 $$
@@ -164,18 +162,15 @@ Next the proof rewrites the inner product and the norm. The lemma `real_inner_sm
 
 $$
 \langle x-y,\mu(Bx-By)\rangle
-=
-\mu\langle x-y,Bx-By\rangle .
+=\mu\langle x-y,Bx-By\rangle .
 $$
 
 The lemmas `norm_smul`, `Real.norm_eq_abs`, and `abs_of_pos hmu.1` give
 
 $$
 \|\mu(Bx-By)\|^2
-=
-(|\mu|\,\|Bx-By\|)^2
-=
-\mu^2\|Bx-By\|^2,
+=(|\mu|\,\|Bx-By\|)^2
+=\mu^2\|Bx-By\|^2,
 $$
 
 because $0<\mu$. Thus the expression becomes

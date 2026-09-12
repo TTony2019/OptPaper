@@ -194,8 +194,7 @@ The proof begins by recording how the Fréchet derivative of $f$ is represented 
 
 $$
 \mathrm{fderiv}_{\mathbb R} f(x)(v)
-=
-\langle \nabla f(x), v\rangle .
+=\langle \nabla f(x), v\rangle .
 $$
 
 This is the standard identification, in a real inner product space, of the derivative of a differentiable real-valued function with the inner product against its gradient. The Lean step uses differentiability of $f$ at $x$, obtains the Fréchet derivative from the gradient, and then closes by definitional equality.
@@ -244,10 +243,8 @@ so
 
 $$
 g'(s)
-=
-\langle \nabla f(y(s)), -\nabla f(y(s))\rangle
-=
--\lVert \nabla f(y(s))\rVert^2
+=\langle \nabla f(y(s)), -\nabla f(y(s))\rangle
+=-\lVert \nabla f(y(s))\rVert^2
 \le 0.
 $$
 
@@ -284,12 +281,9 @@ Using $dy(s)=-\nabla f(y(s))$ and symmetry of the real inner product, the proof 
 
 $$
 d'(s)
-=
-2\langle y(s)-x^\star, dy(s)\rangle
-=
--2\langle y(s)-x^\star, \nabla f(y(s))\rangle
-=
--2\langle \nabla f(y(s)), y(s)-x^\star\rangle
+=2\langle y(s)-x^\star, dy(s)\rangle
+=-2\langle y(s)-x^\star, \nabla f(y(s))\rangle
+=-2\langle \nabla f(y(s)), y(s)-x^\star\rangle
 \le
 -2g(s).
 $$
@@ -312,10 +306,8 @@ on the interval $[t/2,t]$. It computes
 
 $$
 q'(r)
-=
-d'(r)+2g(t)
-=
-2\langle y(r)-x^\star, dy(r)\rangle+2g(t).
+=d'(r)+2g(t)
+=2\langle y(r)-x^\star, dy(r)\rangle+2g(t).
 $$
 
 For $r \in [t/2,t]$, the inequalities $r \ge s_0$ and $t \ge s_0$ hold. Also $r \le t$, and since $g$ is nonincreasing on $[s_0,\infty)$, we have

@@ -16,13 +16,11 @@ In the body, `sys.u` is the trajectory component of the system. The definition a
 
 $$
 \mathrm{dissipativeEnergy}(\mathrm{sys},t)
-=
-\frac{1}{2}
+=\frac{1}{2}
 \left\|
 \mathrm{fderiv}_{\mathbb{R}}(\mathrm{sys.u})(t)(1)
 \right\|^2
-+
-\Phi\bigl(\mathrm{sys.u}(t)\bigr).
++\Phi\bigl(\mathrm{sys.u}(t)\bigr).
 $$
 
 Here $\mathrm{fderiv}_{\mathbb{R}}(\mathrm{sys.u})(t)$ is the Fréchet derivative of the curve $\mathrm{sys.u}$ at time $t$, a continuous linear map $\mathbb{R} \to H$. Applying it to the scalar $1$ gives the velocity vector of the trajectory at that time. Thus the first term is one half the squared norm of that velocity, and the second term is the potential $\Phi$ evaluated at the position at time $t$. The definition therefore assigns to each dissipative system and each nonnegative time the real number consisting of one half the squared speed plus the potential energy at the current position. The parameters $\gamma$, `gradPhi`, $u_0$, and $v_0$ enter only through the system `sys`; they are not used explicitly in the displayed formula.

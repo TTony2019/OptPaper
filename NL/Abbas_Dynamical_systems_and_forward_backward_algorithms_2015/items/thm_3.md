@@ -706,12 +706,10 @@ Subtracting these limits yields
 
 $$
 \langle x_k,w\rangle
-=
-\langle y_k,w\rangle-\langle y_k-x_k,w\rangle
+=\langle y_k,w\rangle-\langle y_k-x_k,w\rangle
 \to
 \langle ybar,w\rangle-\langle ybar-xbar,w\rangle
-=
-\langle xbar,w\rangle.
+=\langle xbar,w\rangle.
 $$
 
 Applying the weak-convergence criterion again, this time to the sequence $x_k$, gives

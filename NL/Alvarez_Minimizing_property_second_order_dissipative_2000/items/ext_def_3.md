@@ -13,8 +13,7 @@ The declaration `epsilonSubdifferential` takes a type $H$ equipped with a normed
 
 $$
 \mathrm{epsilonSubdifferential}(f,\varepsilon,x)
-=
-\{\,p\in H \mid \forall y\in H,\;
+=\{\,p\in H \mid \forall y\in H,\;
 f(y) \ge f(x) + \langle p, y-x\rangle_{\mathbb R} - \varepsilon \,\}.
 $$
 

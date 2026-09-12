@@ -49,8 +49,7 @@ and consequently
 
 $$
 (Q_M(z,w)).\mathrm{toReal}
-=
-(P.objective(z)).\mathrm{toReal} + M\|z-w\|^2.
+=(P.objective(z)).\mathrm{toReal} + M\|z-w\|^2.
 $$
 
 These are exactly the contents of the cited lemmas `objectiveWithQuadratic_eq_coe` and `objectiveWithQuadratic_toReal_eq`.
@@ -359,8 +358,7 @@ The extended-real lemma `EReal.coe_toReal` then yields
 
 $$
 P.objective(p_{k+2})
-=
-\bigl((P.objective(p_{k+2})).\mathrm{toReal} : \overline{\mathbb R}\bigr).
+=\bigl((P.objective(p_{k+2})).\mathrm{toReal} : \overline{\mathbb R}\bigr).
 $$
 
 Using the lower bound $C\le P.objective(p_{k+2})$ and the lemma `EReal.coe_le_coe_iff`, the proof extracts the real inequality
@@ -379,10 +377,8 @@ is nonnegative. Rewriting $a_k$ using `objectiveWithQuadratic_toReal_eq`, namely
 
 $$
 a_k
-=
-(P.objective(p_{k+2})).\mathrm{toReal}
-+
-M_2\|p_{k+2}-x_{k+2}\|^2,
+=(P.objective(p_{k+2})).\mathrm{toReal}
++M_2\|p_{k+2}-x_{k+2}\|^2,
 $$
 
 the proof concludes
@@ -412,40 +408,34 @@ Both $p_{k+3}$ and $p_{k+2}$ lie in the effective domain of $P.objective$, again
 
 $$
 \bigl((P.objective(p_{k+3})).\mathrm{toReal}
-+
-M_1\|p_{k+3}-x_{k+3}\|^2 : \overline{\mathbb R}\bigr)
++M_1\|p_{k+3}-x_{k+3}\|^2 : \overline{\mathbb R}\bigr)
 \le
 \bigl((P.objective(p_{k+2})).\mathrm{toReal}
-+
-M_2\|p_{k+2}-x_{k+2}\|^2 : \overline{\mathbb R}\bigr).
++M_2\|p_{k+2}-x_{k+2}\|^2 : \overline{\mathbb R}\bigr).
 $$
 
 Applying `EReal.coe_le_coe_iff` removes the coercions and gives the corresponding real inequality:
 
 $$
 (P.objective(p_{k+3})).\mathrm{toReal}
-+
-M_1\|p_{k+3}-x_{k+3}\|^2
++M_1\|p_{k+3}-x_{k+3}\|^2
 \le
 (P.objective(p_{k+2})).\mathrm{toReal}
-+
-M_2\|p_{k+2}-x_{k+2}\|^2.
++M_2\|p_{k+2}-x_{k+2}\|^2.
 $$
 
 Now the proof unfolds the definitions of $a$ and $b$, uses `objectiveWithQuadratic_toReal_eq`, uses the symmetry of the norm $\|x_{k+3}-p_{k+3}\|=\|p_{k+3}-x_{k+3}\|$, and rewrites $D=M_1-M_2$. The left side $a_{k+1}+b_k$ becomes exactly
 
 $$
 (P.objective(p_{k+3})).\mathrm{toReal}
-+
-M_1\|p_{k+3}-x_{k+3}\|^2,
++M_1\|p_{k+3}-x_{k+3}\|^2,
 $$
 
 while $a_k$ is
 
 $$
 (P.objective(p_{k+2})).\mathrm{toReal}
-+
-M_2\|p_{k+2}-x_{k+2}\|^2.
++M_2\|p_{k+2}-x_{k+2}\|^2.
 $$
 
 Thus `nlinarith` closes the goal $a_{k+1}+b_k\le a_k$.
@@ -622,10 +612,8 @@ Recall that $a_k\to l_a$. By the definition of $a_k$ and the effective-domain re
 
 $$
 a_k
-=
-(P.objective(p_{k+2})).\mathrm{toReal}
-+
-M_2\|p_{k+2}-x_{k+2}\|^2.
+=(P.objective(p_{k+2})).\mathrm{toReal}
++M_2\|p_{k+2}-x_{k+2}\|^2.
 $$
 
 Subtracting the vanishing quadratic term gives
@@ -641,8 +629,7 @@ Since each $p_{k+2}$ is in the effective domain of $P.objective$, the extended-r
 
 $$
 P.objective(p_{k+2})
-=
-\bigl((P.objective(p_{k+2})).\mathrm{toReal} : \overline{\mathbb R}\bigr).
+=\bigl((P.objective(p_{k+2})).\mathrm{toReal} : \overline{\mathbb R}\bigr).
 $$
 
 Therefore `EReal.tendsto_coe` upgrades the real convergence to extended-real convergence:

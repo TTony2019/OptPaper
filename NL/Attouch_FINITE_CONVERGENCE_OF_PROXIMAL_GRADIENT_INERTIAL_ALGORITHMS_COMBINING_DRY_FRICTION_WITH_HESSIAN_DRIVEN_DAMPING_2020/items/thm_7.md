@@ -234,8 +234,7 @@ The pointwise gradient formula is then established as `hgrad`. For every $x$, th
 
 $$
 \nabla f_\lambda(x)
-=
-\frac1\lambda M\bigl(x-p_\lambda(x)\bigr).
+=\frac1\lambda M\bigl(x-p_\lambda(x)\bigr).
 $$
 
 The proof obtains the function equality from `gradient_lassoEnvelope` and applies it pointwise using `congrFun`, giving
@@ -243,8 +242,7 @@ The proof obtains the function equality from `gradient_lassoEnvelope` and applie
 $$
 \forall x,\qquad
 \nabla f_\lambda(x)
-=
-\frac1\lambda M\bigl(x-p_\lambda(x)\bigr).
+=\frac1\lambda M\bigl(x-p_\lambda(x)\bigr).
 $$
 
 This is the key identity that later identifies the Lasso auxiliary variable $z_k$ with the gradient of $f_\lambda$.
@@ -281,8 +279,7 @@ for every $p$. For an arbitrary $x$, the proof sets $p=p_\lambda(x)$. Because $G
 
 $$
 \mathrm{toReal}\bigl(\mathrm{lassoObjectiveE}(G,A,b,p)\bigr)
-=
-\mathrm{lassoObjectiveReal}(G,A,b,p).
+=\mathrm{lassoObjectiveReal}(G,A,b,p).
 $$
 
 The proof uses the facts `EReal.toReal_add`, `EReal.toReal_coe`, and finite/non-bottom/non-top side conditions to justify this passage. It then applies monotonicity of taking real parts in the extended real line, `EReal.toReal_le_toReal`, to obtain
@@ -295,10 +292,8 @@ On the other hand, the definition of `lassoEnvelope` gives
 
 $$
 f_\lambda(x)
-=
-\mathrm{lassoObjectiveReal}(G,A,b,p)
-+
-\frac{\langle M(x-p),x-p\rangle}{2\lambda}.
+=\mathrm{lassoObjectiveReal}(G,A,b,p)
++\frac{\langle M(x-p),x-p\rangle}{2\lambda}.
 $$
 
 The quadratic metric term is nonnegative by `hnonneg`, and the denominator is nonnegative because $\lambda>0$; the proof uses `div_nonneg` and `linarith` to verify this. Combining these inequalities with `linarith` yields a global real lower bound for $f_\lambda$. This produces `hbelowLam`, which is needed because the abstract IPAHDD theorem is stated for real-valued functions bounded below.
@@ -317,8 +312,7 @@ The proof now establishes the composite subgradient representation of the envelo
 
 $$
 \nabla f_\lambda(x)
-=
-A^*\bigl(Ap-b\bigr)+u.
+=A^*\bigl(Ap-b\bigr)+u.
 $$
 
 First, using the metric identity $M=I-\lambda A^*A$, it obtains
@@ -331,8 +325,7 @@ Together with the gradient formula this gives
 
 $$
 \nabla f_\lambda(x)
-=
-\frac1\lambda M(x-p).
+=\frac1\lambda M(x-p).
 $$
 
 Next, `scaledProximityOperator_residual_mem` applied to the proximal point $p=p_\lambda(x)$ gives
@@ -347,8 +340,7 @@ The proof then rewrites
 
 $$
 A^*A(x-p)
-=
-A^*(Ax-b)-A^*(Ap-b),
+=A^*(Ax-b)-A^*(Ap-b),
 $$
 
 using additivity of the adjoint and elementary additive regrouping. Substituting this into the expression for $\frac1\lambda M(x-p)$ gives exactly
@@ -363,12 +355,9 @@ The proof then applies the abstract theorem `IPAHDD_finiteLength_and_critical` t
 
 $$
 E_{\text{base}}
-=
-\frac12\left\|\frac1h(\text{smooth}.x_1-\text{smooth}.x_0)\right\|^2
-+
-f_\lambda(\text{smooth}.x_1)
--
-\inf f_\lambda,
+=\frac12\left\|\frac1h(\text{smooth}.x_1-\text{smooth}.x_0)\right\|^2
++f_\lambda(\text{smooth}.x_1)
+-\inf f_\lambda,
 $$
 
 together with finite length of the trajectory, convergence of the trajectory to $x_\infty$, the dry-friction criticality condition, and the finite total-variation estimate. The proof keeps the first four conclusions and the length estimate; the additional second-order acceleration estimate returned by that theorem is not used and is discarded with `_`.
@@ -383,8 +372,7 @@ and
 
 $$
 \nabla f_\lambda(x_\infty)
-=
-A^*\bigl(Ap_\lambda(x_\infty)-b\bigr)+u.
+=A^*\bigl(Ap_\lambda(x_\infty)-b\bigr)+u.
 $$
 
 The next step is to bound the gradient of the envelope at the limit by the dry-friction radius. The criticality conclusion from `IPAHDD_finiteLength_and_critical` is used as the subgradient membership

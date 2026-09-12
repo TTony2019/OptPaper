@@ -66,8 +66,7 @@ $$
 (\Phi(y):\mathrm{EReal}).\mathrm{toReal}
 \ge
 (\Phi(x):\mathrm{EReal}).\mathrm{toReal}
-+
-\langle u,y-x\rangle
++\langle u,y-x\rangle
 $$
 
 whenever $u\in \partial \Phi(x)$ and $y$ is in the effective domain of $\Phi$.
@@ -76,10 +75,8 @@ The conclusion of `subgradient_gap_tendsto_zero` is
 
 $$
 (\Phi(z):\mathrm{EReal}).\mathrm{toReal}
--
-(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
--
-\langle v(t),z-x(t)\rangle
+-(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
+-\langle v(t),z-x(t)\rangle
 \longrightarrow 0
 \qquad (t\to\infty).
 $$
@@ -155,8 +152,7 @@ $$
 (\Phi(z):\mathrm{EReal}).\mathrm{toReal}
 \ge
 (\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
-+
-\langle v(t),z-x(t)\rangle .
++\langle v(t),z-x(t)\rangle .
 $$
 
 Rearranging this inequality gives
@@ -164,10 +160,8 @@ Rearranging this inequality gives
 $$
 0\le
 (\Phi(z):\mathrm{EReal}).\mathrm{toReal}
--
-(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
--
-\langle v(t),z-x(t)\rangle .
+-(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
+-\langle v(t),z-x(t)\rangle .
 $$
 
 The tactic `linarith` performs precisely this linear rearrangement over the reals. This proves the local fact `hnonneg`.
@@ -187,13 +181,10 @@ The proof then invokes `proposition_2_12`. The hypotheses supplied are the nonem
 $$
 t\mapsto
 \frac12\|x(t)-z\|^2
-+
-\mu\left(
++\mu\left(
 (\Phi(z):\mathrm{EReal}).\mathrm{toReal}
--
-(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
--
-\langle z-x(t),v(t)\rangle
+-(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
+-\langle z-x(t),v(t)\rangle
 \right)
 $$
 
@@ -251,10 +242,8 @@ The proof then converts the pointwise nonnegativity of the gap to eventual nonne
 $$
 0\le
 (\Phi(z):\mathrm{EReal}).\mathrm{toReal}
--
-(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
--
-\langle v(t),z-x(t)\rangle
+-(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
+-\langle v(t),z-x(t)\rangle
 $$
 
 eventually. This is `hnonneg'`.
@@ -271,8 +260,7 @@ $$
 (\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
 \ge
 (\Phi(z):\mathrm{EReal}).\mathrm{toReal}
-+
-\langle -B(z),x(t)-z\rangle .
++\langle -B(z),x(t)-z\rangle .
 $$
 
 Using $\langle -B(z),x(t)-z\rangle=-\langle B(z),x(t)-z\rangle$, the tactic `rw [inner_neg_left]` rewrites this to
@@ -281,16 +269,14 @@ $$
 (\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
 \ge
 (\Phi(z):\mathrm{EReal}).\mathrm{toReal}
--
-\langle B(z),x(t)-z\rangle .
+-\langle B(z),x(t)-z\rangle .
 $$
 
 Rearranging with `linarith` gives
 
 $$
 (\Phi(z):\mathrm{EReal}).\mathrm{toReal}
--
-(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
+-(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
 \le
 \langle B(z),x(t)-z\rangle .
 $$
@@ -337,8 +323,7 @@ we have
 
 $$
 -\langle v(t),z-x(t)\rangle
-=
-\langle v(t),x(t)-z\rangle.
+=\langle v(t),x(t)-z\rangle.
 $$
 
 Therefore the gap expression equals
@@ -346,19 +331,16 @@ Therefore the gap expression equals
 $$
 \left[
 (\Phi(z):\mathrm{EReal}).\mathrm{toReal}
--
-(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
+-(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
 \right]
-+
-\langle v(t),x(t)-z\rangle .
++\langle v(t),x(t)-z\rangle .
 $$
 
 Using the bound $hzineq'$, this is at most
 
 $$
 \langle B(z),x(t)-z\rangle+\langle v(t),x(t)-z\rangle
-=
-\langle v(t)+B(z),x(t)-z\rangle,
+=\langle v(t)+B(z),x(t)-z\rangle,
 $$
 
 and this in turn is at most $\|v(t)+B(z)\|(C+\|z\|)$. The rewrites `inner_neg_right` and `inner_add_left` justify the algebra of the inner product, and `linarith [hzineq']` closes the inequality. This proves the eventual upper bound `hupper`.
@@ -368,10 +350,8 @@ At this point the proof has three facts: the gap is eventually nonnegative, it i
 $$
 f(t)=
 (\Phi(z):\mathrm{EReal}).\mathrm{toReal}
--
-(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
--
-\langle v(t),z-x(t)\rangle
+-(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
+-\langle v(t),z-x(t)\rangle
 $$
 
 and

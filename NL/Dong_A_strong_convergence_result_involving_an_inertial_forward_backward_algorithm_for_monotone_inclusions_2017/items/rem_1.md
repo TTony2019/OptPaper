@@ -30,18 +30,15 @@ The proof begins with `rw [inner_sub_left]`. The lemma `inner_sub_left` expresse
 
 $$
 \langle u-x,\ y\rangle_{\mathbb R}
-=
-\langle u,\ y\rangle_{\mathbb R}
--
-\langle x,\ y\rangle_{\mathbb R}.
+=\langle u,\ y\rangle_{\mathbb R}
+-\langle x,\ y\rangle_{\mathbb R}.
 $$
 
 Applying it with $y=x_0-x$ rewrites the left side of the equivalence. The goal becomes
 
 $$
 \langle u,\ x_0-x\rangle_{\mathbb R}
--
-\langle x,\ x_0-x\rangle_{\mathbb R}
+-\langle x,\ x_0-x\rangle_{\mathbb R}
 \le 0
 \quad\Longleftrightarrow\quad
 \langle u,\ x_0-x\rangle_{\mathbb R}
@@ -53,8 +50,7 @@ The tactic `constructor` splits an iff-goal into its two implication directions.
 
 $$
 \langle u,\ x_0-x\rangle_{\mathbb R}
--
-\langle x,\ x_0-x\rangle_{\mathbb R}
+-\langle x,\ x_0-x\rangle_{\mathbb R}
 \le 0,
 $$
 
@@ -80,8 +76,7 @@ and the goal is to prove
 
 $$
 \langle u,\ x_0-x\rangle_{\mathbb R}
--
-\langle x,\ x_0-x\rangle_{\mathbb R}
+-\langle x,\ x_0-x\rangle_{\mathbb R}
 \le 0.
 $$
 

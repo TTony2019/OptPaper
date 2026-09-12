@@ -78,8 +78,7 @@ Here the right-hand side is the real number $b\langle S_k,u_{k+1}-q\rangle$ rega
 
 $$
 b\langle S_k,u_{k+1}-q\rangle
-=
-F_{k+1}-F_k.
+=F_{k+1}-F_k.
 $$
 
 3. If $q$ is a minimizer of $\Theta$, i.e. $q\in\mathrm{argminSet}\Theta$, then
@@ -200,8 +199,7 @@ such that
 
 $$
 g+\mathrm{grad}\psi(u_{k+1})
-=
--\left(
+=-\left(
 \left(\frac1\lambda-a\right)v_{k+1}
 +\left(\frac1\lambda+b\right)\zeta y_{k+1}
 \right)
@@ -216,8 +214,7 @@ $$
 \Theta(u_{k+1})\ne\top,\qquad
 \Theta(u_{k+1})\ne\bot,\qquad
 \left((\Theta(u_{k+1})).\mathrm{toReal}\right)_{\overline{\mathbb R}}
-=
-\Theta(u_{k+1}).
+=\Theta(u_{k+1}).
 $$
 
 So the value of $\Theta$ at the next iterate is finite and may be treated as a real number. This is used later to move between extended-real and real inequalities.
@@ -240,8 +237,7 @@ A small inner-product sign calculation gives
 
 $$
 \langle -S_k,q-u_{k+1}\rangle
-=
-\langle S_k,u_{k+1}-q\rangle.
+=\langle S_k,u_{k+1}-q\rangle.
 $$
 
 Indeed, $q-u_{k+1}=-(u_{k+1}-q)$, and using bilinearity and symmetry of the real inner product changes the two minus signs into the displayed equality. Hence
@@ -268,8 +264,7 @@ $$
 \langle S_k,u_{k+1}-q\rangle
 \le
 (\Theta(q)).\mathrm{toReal}
--
-(\Theta(u_{k+1})).\mathrm{toReal}.
+-(\Theta(u_{k+1})).\mathrm{toReal}.
 $$
 
 Since $b\ge0$, multiplying by $b$ preserves the inequality:
@@ -278,8 +273,7 @@ $$
 b\langle S_k,u_{k+1}-q\rangle
 \le
 b\left((\Theta(q)).\mathrm{toReal}
--
-(\Theta(u_{k+1})).\mathrm{toReal}\right).
+-(\Theta(u_{k+1})).\mathrm{toReal}\right).
 $$
 
 Casting back to $\overline{\mathbb R}$ gives the first asserted inequality. This is the content of the `linarith` and `exact_mod_cast` steps in the first part.
@@ -298,8 +292,7 @@ $$
 -\left(\frac1\lambda+b\right)
 \Bigl(
 \langle a u_{k+1}-b y_{k+1},u_{k+1}-q\rangle
--
-\langle a u_k-b y_k,u_k-q\rangle
+-\langle a u_k-b y_k,u_k-q\rangle
 \Bigr).
 \end{aligned}
 $$
@@ -318,15 +311,13 @@ F_{k+1}-F_k
 -\left(\frac1\lambda+b\right)
 \Bigl(
 \langle z_{k+2},u_{k+2}-q\rangle
--
-\langle z_{k+1},u_{k+1}-q\rangle
+-\langle z_{k+1},u_{k+1}-q\rangle
 \Bigr) \\
 &\quad
 +2\frac{1+b\lambda}{2\lambda^2}
 \Bigl(
 \langle v_{k+2},u_{k+1}-q\rangle
--
-\langle v_{k+1},u_k-q\rangle
+-\langle v_{k+1},u_k-q\rangle
 \Bigr).
 \end{aligned}
 $$

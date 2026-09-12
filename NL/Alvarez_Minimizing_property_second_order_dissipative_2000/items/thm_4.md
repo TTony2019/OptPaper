@@ -832,8 +832,7 @@ The proof then invokes `alvarez_residual_decomposition`, which is the algebraic 
 
 $$
 u_{k+1}-(1+\alpha_k)u_k+\alpha_k u_{k-1}
-=
-\alpha_k(u_{k+1}-2u_k+u_{k-1})
+=\alpha_k(u_{k+1}-2u_k+u_{k-1})
 +(1-\alpha_k)(u_{k+1}-u_k).
 $$
 

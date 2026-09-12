@@ -488,8 +488,7 @@ is absolutely continuous on $[0,T]$, and almost everywhere
 
 $$
 \frac{d}{dt}(\Phi(x(t)))_{\mathbb R}
-=
-\langle v(t),\dot x(t)\rangle.
+=\langle v(t),\dot x(t)\rangle.
 $$
 
 The restrictions from $[0,\infty)$ to $[0,T]$ are obtained with `ae_restrict_of_ae_restrict_of_subset`.
@@ -535,8 +534,7 @@ Using the chain rule for the $\Phi$-term and differentiating the square-distance
 
 $$
 E_z'(t)
-=
-\langle x(t)-z,\dot x(t)\rangle
+=\langle x(t)-z,\dot x(t)\rangle
 +2\beta\bigl(\langle v(t),\dot x(t)\rangle
 +\langle Bz,\dot x(t)\rangle\bigr).
 $$
@@ -562,8 +560,7 @@ $$
 \ge
 (\Phi(z))_{\mathbb R}
 +\langle -Bz,x(t)-z\rangle
-=
-(\Phi(z))_{\mathbb R}
+=(\Phi(z))_{\mathbb R}
 -\langle Bz,x(t)-z\rangle.
 $$
 

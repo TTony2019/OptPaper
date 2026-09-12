@@ -20,8 +20,7 @@ For a real number $\epsilon$ and point $x\in H$, the enlargement $\mathrm{enlarg
 
 $$
 T_\epsilon(x)
-=
-\left\{
+=\left\{
 v\in H
 \;\middle|\;
 \forall y\in H,\ \forall w\in T(y),\
@@ -183,8 +182,7 @@ The proof then rewrites the inner product by the identity
 
 $$
 \langle v-u_k,\,y-x_k\rangle_{\mathbb R}
-=
-\langle x_k-y,\,u_k-v\rangle_{\mathbb R}.
+=\langle x_k-y,\,u_k-v\rangle_{\mathbb R}.
 $$
 
 This is purely algebraic: it uses bilinearity of the inner product, the identities `inner_sub_left`, `inner_sub_right`, and real symmetry `real_inner_comm`, followed by `ring`. Thus for every $k$,
@@ -231,8 +229,7 @@ The first inequality is the triangle inequality `norm_sub_le`; the second is obt
 
 $$
 \langle x_k-y,\,u_k-v\rangle_{\mathbb R}
-=
-\langle x_k-x_0,\,u_k-u_0\rangle_{\mathbb R}
+=\langle x_k-x_0,\,u_k-u_0\rangle_{\mathbb R}
 +\langle x_0-y,\,u_k-u_0\rangle_{\mathbb R}
 +\langle x_k-y,\,u_0-v\rangle_{\mathbb R}.
 $$
@@ -291,8 +288,7 @@ Subtracting the constant $\langle x_0-y,u_0\rangle_{\mathbb R}$, and using
 
 $$
 \langle x_0-y,u_k-u_0\rangle_{\mathbb R}
-=
-\langle x_0-y,u_k\rangle_{\mathbb R}
+=\langle x_0-y,u_k\rangle_{\mathbb R}
 -\langle x_0-y,u_0\rangle_{\mathbb R},
 $$
 
@@ -365,8 +361,7 @@ This is the key limiting step that transfers the enlargement inequality from the
 
 $$
 \langle x_0-y,u_0-v\rangle_{\mathbb R}
-=
-\langle v-u_0,y-x_0\rangle_{\mathbb R}.
+=\langle v-u_0,y-x_0\rangle_{\mathbb R}.
 $$
 
 Again this uses bilinearity and real symmetry of the inner product, followed by `ring`. Therefore the previous inequality becomes

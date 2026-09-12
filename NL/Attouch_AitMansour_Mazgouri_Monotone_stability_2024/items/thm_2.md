@@ -395,8 +395,7 @@ one gets
 
 $$
 ddx_\mu(t)-ddx_{\mu'}(t)
-=
-\left(-\gamma z(t)-\bigl(A_{\mu'}(x_\mu(t))-A_{\mu'}(x_{\mu'}(t))\bigr)\right)
+=\left(-\gamma z(t)-\bigl(A_{\mu'}(x_\mu(t))-A_{\mu'}(x_{\mu'}(t))\bigr)\right)
 -\bigl(A_\mu(x_\mu(t))-A_{\mu'}(x_\mu(t))\bigr).
 $$
 

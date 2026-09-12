@@ -23,8 +23,7 @@ The definition returns the subset of $H$ consisting exactly of those $x$ for whi
 
 $$
 \mathrm{argmin}(F,h)
-=
-\{\, x : H \mid F(x) = \mathrm{sInf}(\mathrm{range} F) \,\}.
+=\{\, x : H \mid F(x) = \mathrm{sInf}(\mathrm{range} F) \,\}.
 $$
 
 Thus it is the set of points at which $F$ attains the infimum of all its values. It is a set rather than a choice of one point, so it may contain no points, one point, or many points. The hypothesis $h$ records that the set of values is bounded below, so that its infimum is the intended greatest lower bound in the usual mathematical sense. The definition itself does not assert that this infimum is attained, nor does it assert that a minimum exists.

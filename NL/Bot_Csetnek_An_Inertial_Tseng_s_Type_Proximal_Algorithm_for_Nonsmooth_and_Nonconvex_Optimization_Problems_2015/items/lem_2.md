@@ -23,8 +23,7 @@ Here $A.p_n$ denotes $A.p(n)$, $A.x_n$ denotes $A.x(n)$, and
 
 $$
 \mathrm{objectiveWithQuadratic}_P(M,y,z)
-=
-\mathrm{erealAddReal}\bigl(P.\mathrm{objective}(y),\,M\|y-z\|^2\bigr).
+=\mathrm{erealAddReal}\bigl(P.\mathrm{objective}(y),\,M\|y-z\|^2\bigr).
 $$
 
 Thus the left-hand side is the extended-real objective at the current proximal point $p_n$, plus the quadratic term $M_1(\nu,\mu)\|p_n-x_n\|^2$, while the right-hand side is the extended-real objective at the previous proximal point $p_{n-1}$, plus the quadratic term $M_2(\nu,\mu)\|p_{n-1}-x_{n-1}\|^2$. The constants $M_1(\nu,\mu)$ and $M_2(\nu,\mu)$ are algorithm constants depending on $\nu$ and $\mu$. The theorem says that the $M_1$-penalized value at step $n$ is bounded above by the $M_2$-penalized value at the previous step. This is the form of a decrease inequality: the theorem compares two penalized objective values rather than proving equality of objective values.
@@ -488,8 +487,7 @@ The first main inequality is the minimization property of $p_n$. The proof defin
 
 $$
 J_n(y)
-=
-\mathrm{erealAddReal}\Bigl(
+=\mathrm{erealAddReal}\Bigl(
 P.f(y),\,
 \frac1{\lambda_n}D_u(y,x_n)
 +\langle y,\nabla h(x_n)\rangle
@@ -521,8 +519,7 @@ The proof then analyzes the auxiliary point $x_n$. The field `A.x_update (n-1) h
 
 $$
 x_n
-=
-p_{n-1}
+=p_{n-1}
 +\lambda_{n-1}\bigl(\nabla h(x_{n-1})-\nabla h(p_{n-1})\bigr).
 $$
 
@@ -530,8 +527,7 @@ Subtracting $p_{n-1}$ yields
 
 $$
 x_n-p_{n-1}
-=
-\lambda_{n-1}\bigl(\nabla h(x_{n-1})-\nabla h(p_{n-1})\bigr).
+=\lambda_{n-1}\bigl(\nabla h(x_{n-1})-\nabla h(p_{n-1})\bigr).
 $$
 
 Using the Lipschitz estimate for $\nabla h$, namely
@@ -552,8 +548,7 @@ This is the estimate called `h13`. It is obtained by taking norms:
 
 $$
 \|x_n-p_{n-1}\|
-=
-\lambda_{n-1}
+=\lambda_{n-1}
 \|\nabla h(x_{n-1})-\nabla h(p_{n-1})\|,
 $$
 
@@ -599,8 +594,7 @@ $$
 \le
 2\Bigl(
 \|x_n-p_n\|^2
-+
-\lambda_{n-1}^2L_h^2
++\lambda_{n-1}^2L_h^2
 \|x_{n-1}-p_{n-1}\|^2
 \Bigr).
 $$
@@ -619,8 +613,7 @@ $$
 L_h\|x_n-p_{n-1}\|\|p_n-p_{n-1}\|
 \le
 \frac{\nu}{2}\|p_n-p_{n-1}\|^2
-+
-\frac{L_h^2}{2\nu}\|x_n-p_{n-1}\|^2.
++\frac{L_h^2}{2\nu}\|x_n-p_{n-1}\|^2.
 $$
 
 Together with the elementary bound
@@ -638,8 +631,7 @@ $$
 \langle \nabla h(p_{n-1})-\nabla h(x_n),\,p_n-p_{n-1}\rangle
 \le
 \frac{\nu}{2}\|p_n-p_{n-1}\|^2
-+
-\frac{L_h^2}{2\nu}\|x_n-p_{n-1}\|^2.
++\frac{L_h^2}{2\nu}\|x_n-p_{n-1}\|^2.
 $$
 
 This is `h16`.
@@ -658,8 +650,7 @@ $$
 \langle p_n-p_{n-1},\,x_n-x_{n-1}\rangle
 \le
 \frac{\mu}{2}\|p_n-p_{n-1}\|^2
-+
-\frac1{2\mu}\|x_n-x_{n-1}\|^2.
++\frac1{2\mu}\|x_n-x_{n-1}\|^2.
 $$
 
 This is `h17`. Since $c_n=\alpha_n/\lambda_n\ge 0$, multiplying by $c_n$ gives the scaled version `h17_scaled`.
@@ -747,19 +738,16 @@ The proof now bounds the right-hand side $R_n$. It defines local constants
 
 $$
 M_{1,n}
-=
-\frac{\sigma}{2\lambda_n}-L_h-\nu-c_n\mu,
+=\frac{\sigma}{2\lambda_n}-L_h-\nu-c_n\mu,
 $$
 
 $$
 M_{2,n}
-=
-\lambda_{n-1}^2L_h^2
+=\lambda_{n-1}^2L_h^2
 \left(
 \frac{L_h^2}{2\nu}+\nu+L_h+\frac{L_u}{2\lambda_n}
 \right)
-+
-c_n\left(
++c_n\left(
 \mu\lambda_{n-1}^2L_h^2+
 \frac{(1+\lambda_{n-1}L_h)^2}{2\mu}
 \right),
@@ -793,12 +781,10 @@ R_n
 \left(
 \frac{L_u}{2\lambda_n}+\frac{L_h^2}{2\nu}
 \right)\|p_{n-1}-x_n\|^2
-+
-\left(
++\left(
 \frac{L_h}{2}+\frac{\nu}{2}+\frac{c_n\mu}{2}
 \right)\|p_n-p_{n-1}\|^2
-+
-c_n\frac1{2\mu}\|x_n-x_{n-1}\|^2.
++c_n\frac1{2\mu}\|x_n-x_{n-1}\|^2.
 $$
 
 This is a direct application of the two Young bounds. Then:
@@ -824,8 +810,7 @@ to bound the $\|p_n-p_{n-1}\|^2$ term by
 
 $$
 K\|x_n-p_n\|^2
-+
-K\lambda_{n-1}^2L_h^2\|x_{n-1}-p_{n-1}\|^2.
++K\lambda_{n-1}^2L_h^2\|x_{n-1}-p_{n-1}\|^2.
 $$
 
 - The squared estimate `h14sq` is used to replace
@@ -846,8 +831,7 @@ $$
 R_n
 \le
 K\|x_n-p_n\|^2
-+
-M_{2,n}\|x_{n-1}-p_{n-1}\|^2.
++M_{2,n}\|x_{n-1}-p_{n-1}\|^2.
 $$
 
 This is `hRbound`. The proof uses `linarith` to combine the intermediate inequalities and `ring` to verify the algebraic identity matching the coefficients with $M_{2,n}$.

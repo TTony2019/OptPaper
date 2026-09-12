@@ -176,8 +176,7 @@ By the vector identity
 
 $$
 w(s)\cdot v(s)-w(s)\cdot v_\infty
-=
-w(s)\cdot (v(s)-v_\infty),
+=w(s)\cdot (v(s)-v_\infty),
 $$
 
 this proves the desired interval integrability. The `convert` step reduces the goal to that pointwise identity, and `module` proves the identity in the real vector space $H$.
@@ -214,39 +213,32 @@ The main algebraic step is an eventual identity for the scalar coordinate of the
 
 $$
 \langle A(t),u\rangle
-=
-\langle v_\infty,u\rangle
-+
-W(t)^{-1}\int_{t_0}^{t} w(s)\langle v(s)-v_\infty,u\rangle\,ds.
+=\langle v_\infty,u\rangle
++W(t)^{-1}\int_{t_0}^{t} w(s)\langle v(s)-v_\infty,u\rangle\,ds.
 $$
 
 This is proved for all sufficiently large $t$ with $W(t)\neq 0$. First, the vector-valued integrand is decomposed pointwise:
 
 $$
 w(s)\cdot v(s)
-=
-w(s)\cdot v_\infty + w(s)\cdot(v(s)-v_\infty).
+=w(s)\cdot v_\infty + w(s)\cdot(v(s)-v_\infty).
 $$
 
 Integrating both sides uses additivity of the interval integral, justified by interval integrability of the two summands. Then
 
 $$
 \int_{t_0}^{t} w(s)\cdot v_\infty\,ds
-=
-\left(\int_{t_0}^{t} w(s)\,ds\right)\cdot v_\infty
-=
-W(t)\cdot v_\infty.
+=\left(\int_{t_0}^{t} w(s)\,ds\right)\cdot v_\infty
+=W(t)\cdot v_\infty.
 $$
 
 For the remaining integral, the continuous linear functional $x\mapsto \langle x,u\rangle$ commutes with the interval integral:
 
 $$
 \left\langle \int_{t_0}^{t} w(s)\cdot(v(s)-v_\infty)\,ds,u\right\rangle
-=
-\int_{t_0}^{t}
+=\int_{t_0}^{t}
 \left\langle w(s)\cdot(v(s)-v_\infty),u\right\rangle\,ds
-=
-\int_{t_0}^{t}
+=\int_{t_0}^{t}
 w(s)\langle v(s)-v_\infty,u\rangle\,ds.
 $$
 
@@ -254,16 +246,14 @@ Thus, after multiplying by $W(t)^{-1}$, the inner product of the weighted averag
 
 $$
 W(t)^{-1}\left\langle W(t)\cdot v_\infty
-+
-\int_{t_0}^{t} w(s)\cdot(v(s)-v_\infty)\,ds,u\right\rangle.
++\int_{t_0}^{t} w(s)\cdot(v(s)-v_\infty)\,ds,u\right\rangle.
 $$
 
 Using linearity of the inner product and the fact that $W(t)\neq0$, this simplifies exactly to
 
 $$
 \langle v_\infty,u\rangle
-+
-W(t)^{-1}\int_{t_0}^{t} w(s)\langle v(s)-v_\infty,u\rangle\,ds.
++W(t)^{-1}\int_{t_0}^{t} w(s)\langle v(s)-v_\infty,u\rangle\,ds.
 $$
 
 The tactic `field_simp [ht]` performs this final simplification using $W(t)\neq0$.

@@ -73,8 +73,7 @@ The conclusion is an estimate for the distance between two trajectories $x_\mu$ 
 
 $$
 c_{\max}
-=
-\max\left\{
+=\max\left\{
 \mathrm{energyRate}(\beta,\gamma,\delta(\mu)),
 \mathrm{energyRate}(\beta,\gamma,\delta(\mu'))
 \right\},
@@ -84,16 +83,14 @@ where
 
 $$
 \mathrm{energyRate}(\beta,\gamma,\delta)
-=
-\frac{(\beta\delta+\gamma)-\sqrt{(\beta\delta+\gamma)^2-4\delta}}{2}.
+=\frac{(\beta\delta+\gamma)-\sqrt{(\beta\delta+\gamma)^2-4\delta}}{2}.
 $$
 
 Also define the auxiliary initial coordinate
 
 $$
 \mathrm{dinAuxInitial}(\mu)
-=
--\left(\sqrt{\left(\gamma-\frac1\beta\right)\frac1\beta}\right)^{-1}
+=-\left(\sqrt{\left(\gamma-\frac1\beta\right)\frac1\beta}\right)^{-1}
 \left(
 v_0(\mu)+\beta\,\mathrm{grad}\phi_\mu(u_0(\mu))
 +\left(\gamma-\frac1\beta\right)u_0(\mu)
@@ -108,11 +105,9 @@ $$
 e^{-c_{\max}t}
 \sqrt{
 \|u_0(\mu)-u_0(\mu')\|^2
-+
-\|\mathrm{dinAuxInitial}(\mu)-\mathrm{dinAuxInitial}(\mu')\|^2
++\|\mathrm{dinAuxInitial}(\mu)-\mathrm{dinAuxInitial}(\mu')\|^2
 }
-+
-\frac{\beta k_1}{c_{\max}}
++\frac{\beta k_1}{c_{\max}}
 \bigl(1-e^{-c_{\max}t}\bigr)
 \|\mu-\mu'\|^{\gamma_1}.
 $$
@@ -171,11 +166,9 @@ $$
 e^{-c_{\max}t}
 \sqrt{
 \|u_0(\mu)-u_0(\mu')\|^2
-+
-\|\mathrm{dinAuxInitial}(\mu)-\mathrm{dinAuxInitial}(\mu')\|^2
++\|\mathrm{dinAuxInitial}(\mu)-\mathrm{dinAuxInitial}(\mu')\|^2
 }
-+
-\frac{\beta k_1}{c_{\max}}
++\frac{\beta k_1}{c_{\max}}
 \bigl(1-e^{-c_{\max}t}\bigr)
 \|\mu-\mu'\|^{\gamma_1}.
 $$
@@ -190,8 +183,7 @@ The cited theorem `thm_5_estimate_all` has the same hypotheses as `thm_5`: the p
 
 $$
 c_{\max}
-=
-\max\left\{
+=\max\left\{
 \mathrm{energyRate}(\beta,\gamma,\delta(\mu)),
 \mathrm{energyRate}(\beta,\gamma,\delta(\mu'))
 \right\}.

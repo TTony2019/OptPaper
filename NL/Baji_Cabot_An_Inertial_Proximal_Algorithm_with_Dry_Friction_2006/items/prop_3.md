@@ -33,8 +33,7 @@ The hypotheses say that $A$ is maximal monotone, has full domain $H$, and satisf
 
 $$
 \mathrm{normalCone}(A(0),-\nabla g(x_\infty))
-=
-\{t u:t\ge 0\}.
+=\{t u:t\ge 0\}.
 $$
 
 The function $R$ is defined by

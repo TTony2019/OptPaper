@@ -1015,8 +1015,7 @@ Now the proof defines the auxiliary scalar function
 
 $$
 F(t)
-=
-\langle z_0-x(t),q(t)\rangle
+=\langle z_0-x(t),q(t)\rangle
 +\frac{a+b}{2}\|z_0-x(t)\|^2
 +b\beta\Phi(x(t)),
 $$

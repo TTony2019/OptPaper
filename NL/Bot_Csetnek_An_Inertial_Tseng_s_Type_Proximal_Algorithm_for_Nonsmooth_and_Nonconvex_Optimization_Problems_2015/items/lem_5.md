@@ -57,8 +57,7 @@ $$
 \|s_n\|
 \le
 \left(\frac{L_u}{\lambda_n}+L_h\right)\|x_n-p_n\|
-+
-\frac{\alpha_n}{\lambda_n}
++\frac{\alpha_n}{\lambda_n}
 \left(1+\lambda_{n-1}L_h\right)
 \|x_{n-1}-p_{n-1}\|.
 $$
@@ -172,8 +171,7 @@ $$
 \|\mathrm{subgradientEstimateVector}(A,n)\|
 \le
 \left(\frac{L_u}{\lambda_n}+L_h\right)\|x_n-p_n\|
-+
-\frac{\alpha_n}{\lambda_n}
++\frac{\alpha_n}{\lambda_n}
 \left(1+\lambda_{n-1}L_h\right)
 \|x_{n-1}-p_{n-1}\|.
 $$

@@ -236,8 +236,7 @@ so that
 
 $$
 \mathcal E_k
-=
-\Theta(u_k)+\gamma(a,b,\lambda)\,\|u_k-u_{k-1}\|^2 .
+=\Theta(u_k)+\gamma(a,b,\lambda)\,\|u_k-u_{k-1}\|^2 .
 $$
 
 The Lean tactic `rcases` destructs this conjunction into `henergy_mono`, `hsq`, and the limiting data.
@@ -252,8 +251,7 @@ The proof then defines
 
 $$
 E_k=\mathcal E_{k+1}
-=
-\Theta(u_{k+1})+\gamma(a,b,\lambda)\|u_{k+1}-u_k\|^2 .
+=\Theta(u_{k+1})+\gamma(a,b,\lambda)\|u_{k+1}-u_k\|^2 .
 $$
 
 From `proposition2`, $E_k\to e$, and from the monotonicity of the mechanical energy, $E_{k+1}\le E_k$. The lemma `energy_limit_le_local` then gives
@@ -300,8 +298,7 @@ At this point the cited lemma `liapunov_distance_increment_le` is applied. It pr
 
 $$
 \frac{1+b\lambda}{2\lambda^2}\|u_{k+1}-q\|^2
--
-\frac{1+b\lambda}{2\lambda^2}\|u_k-q\|^2
+-\frac{1+b\lambda}{2\lambda^2}\|u_k-q\|^2
 \le
 \mathrm{liapunovF}(u,y,a,b,\lambda,q,k)-C.
 $$
@@ -346,8 +343,7 @@ The first inequality for `lemma5` is established using `liapunov_succ_increment_
 
 $$
 \mathrm{liapunovF}(u,y,a,b,\lambda,q,k+1)
--
-\mathrm{liapunovF}(u,y,a,b,\lambda,q,k)
+-\mathrm{liapunovF}(u,y,a,b,\lambda,q,k)
 \le
 b\left((\Theta(q))_{\mathbb R}-(\Theta(u_{k+1}))_{\mathbb R}\right).
 $$
@@ -364,8 +360,7 @@ $$
 e_{\mathbb R}
 \le
 (\Theta(u_{k+1}))_{\mathbb R}
-+
-\gamma(a,b,\lambda)\|u_{k+1}-u_k\|^2.
++\gamma(a,b,\lambda)\|u_{k+1}-u_k\|^2.
 $$
 
 Multiplication by $b>0$ and elementary real arithmetic then yield

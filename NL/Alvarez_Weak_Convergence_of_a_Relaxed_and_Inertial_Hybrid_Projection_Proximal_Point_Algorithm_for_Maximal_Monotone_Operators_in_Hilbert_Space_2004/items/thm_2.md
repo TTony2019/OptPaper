@@ -887,8 +887,7 @@ The inertial expansion is supplied by `inertial_expansion_y_thm2`, using $y_k=x_
 
 $$
 \frac12\|y_k-\bar x'\|^2
-=
-\frac12\|x_k-\bar x'\|^2
+=\frac12\|x_k-\bar x'\|^2
 +\alpha_k\left(\frac12\|x_k-\bar x'\|^2-\frac12\|x_{k-1}-\bar x'\|^2\right)
 +\frac{\alpha_k+\alpha_k^2}{2}\|x_k-x_{k-1}\|^2.
 $$
@@ -903,8 +902,7 @@ and
 
 $$
 \delta(\bar x',k)
-=
-\frac{\alpha_k+\alpha_k^2}{2}\|x_k-x_{k-1}\|^2
+=\frac{\alpha_k+\alpha_k^2}{2}\|x_k-x_{k-1}\|^2
 +\lambda_k\|\eta_k\|\|y_k-\bar x'\|
 +\frac{\lambda_k^2}{2}\|\eta_k\|^2.
 $$
@@ -937,16 +935,14 @@ so $z_k\in J[(\lambda_k A)](y_k+(\lambda_k/\rho_k)\eta_k)$. Since the resolvent 
 
 $$
 J_{\lambda,k}\left(y_k+\frac{\lambda_k}{\rho_k}\eta_k\right)
-=
-\rho_k^{-1}x_{k+1}+(1-\rho_k^{-1})y_k.
+=\rho_k^{-1}x_{k+1}+(1-\rho_k^{-1})y_k.
 $$
 
 After rearranging,
 
 $$
 x_{k+1}
-=
-(1-\rho_k)y_k
+=(1-\rho_k)y_k
 +\rho_k J_{\lambda,k}\left(y_k+\frac{\lambda_k}{\rho_k}\eta_k\right).
 $$
 
@@ -960,8 +956,7 @@ gives
 
 $$
 x_{k+1}-w_k
-=
-\rho_k\left(
+=\rho_k\left(
 J_{\lambda,k}\left(y_k+\frac{\lambda_k}{\rho_k}\eta_k\right)
 -J_{\lambda,k}(y_k)
 \right).
@@ -973,8 +968,7 @@ $$
 \|x_{k+1}-w_k\|
 \le
 \rho_k\left\|\frac{\lambda_k}{\rho_k}\eta_k\right\|
-=
-\lambda_k\|\eta_k\|.
+=\lambda_k\|\eta_k\|.
 $$
 
 The proof uses the quadratic identity
@@ -987,8 +981,7 @@ With $A_{\lambda,k}(\bar x')=0$, obtained from `yosida_selection_eq_zero_iff_thm
 
 $$
 w_k-\bar x'
-=
-(y_k-\bar x')-(\lambda_k\rho_k)A_{\lambda,k}(y_k).
+=(y_k-\bar x')-(\lambda_k\rho_k)A_{\lambda,k}(y_k).
 $$
 
 The cocoercivity inequality for $A_{\lambda,k}$ gives
@@ -1005,8 +998,7 @@ $$
 \frac12\|w_k-\bar x'\|^2
 \le
 \frac12\|y_k-\bar x'\|^2
--
-\lambda_k^2\rho_k\left(1-\frac{\rho_k}{2}\right)
+-\lambda_k^2\rho_k\left(1-\frac{\rho_k}{2}\right)
 \|A_{\lambda,k}(y_k)\|^2.
 $$
 
@@ -1030,8 +1022,7 @@ $$
 \frac12\|x_{k+1}-\bar x'\|^2
 \le
 \frac12\|y_k-\bar x'\|^2
--
-\lambda_k^2\rho_k\left(1-\frac{\rho_k}{2}\right)
+-\lambda_k^2\rho_k\left(1-\frac{\rho_k}{2}\right)
 \|A_{\lambda,k}(y_k)\|^2
 +\lambda_k\|\eta_k\|\|y_k-\bar x'\|
 +\frac{\lambda_k^2}{2}\|\eta_k\|^2.
@@ -1045,8 +1036,7 @@ $$
 \phi(\bar x',k)
 +\alpha_k\bigl(\phi(\bar x',k)-\phi(\bar x',k-1)\bigr)
 +\delta(\bar x',k)
--
-\lambda_k^2\rho_k\left(1-\frac{\rho_k}{2}\right)
+-\lambda_k^2\rho_k\left(1-\frac{\rho_k}{2}\right)
 \|A_{\lambda,k}(y_k)\|^2.
 $$
 
@@ -1084,8 +1074,7 @@ The proof next establishes summability of the Yosida residual. Let
 
 $$
 \gamma_k
-=
-\lambda_k^2\rho_k\left(1-\frac{\rho_k}{2}\right)
+=\lambda_k^2\rho_k\left(1-\frac{\rho_k}{2}\right)
 \|A_{\lambda,k}(y_k)\|^2.
 $$
 

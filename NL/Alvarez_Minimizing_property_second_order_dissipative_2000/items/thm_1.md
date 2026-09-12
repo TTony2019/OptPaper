@@ -22,8 +22,7 @@ The Lean expression `fderiv ℝ sys.u t 1` denotes the derivative $u'(t)$ of the
 
 $$
 \mathrm{argmin}\Phi
-=
-\left\{x\in H:\Phi(x)=\inf\Phi(H)\right\}.
+=\left\{x\in H:\Phi(x)=\inf\Phi(H)\right\}.
 $$
 
 The argument `potential_range_bddBelow hPhi` is only the proof that this infimum is well-behaved; mathematically the set is just the minimizer set.
@@ -654,8 +653,7 @@ For $s\in(a,T)$, the cited lemma `scalar_frozen_energy_first_integral` gives
 $$
 p_x'(s)\le
 e^{-\gamma(s-1)}p_x'(1)
-+
-\int_1^s e^{-\gamma(s-r)}
++\int_1^s e^{-\gamma(s-r)}
 \left(\Phi(x)-E(T)+\frac32\|u'(r)\|^2\right)dr.
 $$
 

@@ -53,8 +53,7 @@ The $\omega$-limit set is defined as the set of all limit points of $x$ along se
 
 $$
 \omega(x)
-=
-\left\{
+=\left\{
 a\in N:
 \exists (t_n)_{n\in\mathbb N}\subset [0,\infty),\
 t_n\to\infty,\

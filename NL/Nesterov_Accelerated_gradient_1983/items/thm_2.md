@@ -88,8 +88,7 @@ The count functions are
 
 $$
 \text{compositeAuxiliarySolveCount}(n)
-=
-n+\sum_{j=0}^{n-1} M.searchIndex_j,
+=n+\sum_{j=0}^{n-1} M.searchIndex_j,
 $$
 
 $$
@@ -98,8 +97,7 @@ $$
 
 $$
 \text{compositeFunctionEvaluationCount}(n)
-=
-2n+\sum_{j=0}^{n-1} M.searchIndex_j.
+=2n+\sum_{j=0}^{n-1} M.searchIndex_j.
 $$
 
 Thus the theorem states both a convergence-rate estimate and a complexity estimate: to reach accuracy $\varepsilon$, the number of iterations is governed by $\lceil NG\rceil$, while the search-index sum is governed by the logarithmic doubling term $D$.
@@ -417,10 +415,8 @@ For the auxiliary-solve bound, the definition gives
 
 $$
 \text{auxiliarySolves}
-=
-\text{iterations}
-+
-\sum_{j=0}^{\text{iterations}-1} M.searchIndex_j.
+=\text{iterations}
++\sum_{j=0}^{\text{iterations}-1} M.searchIndex_j.
 $$
 
 The lemma `composite_searchIndex_sum_le`, applied with $N=\text{iterations}$, $hLower$, and $hApos$, states
@@ -441,22 +437,18 @@ Since $\lceil NG\rceil$ and $D$ are nonnegative integers, `Int.toNat_add` gives
 
 $$
 (\lceil NG\rceil+D).\mathrm{toNat}
-=
-(\lceil NG\rceil).\mathrm{toNat}+D.\mathrm{toNat}
-=
-\text{iterations}+D.\mathrm{toNat}.
+=(\lceil NG\rceil).\mathrm{toNat}+D.\mathrm{toNat}
+=\text{iterations}+D.\mathrm{toNat}.
 $$
 
 Adding `iterations` to both sides of the search-index inequality gives
 
 $$
 \text{iterations}
-+
-\sum_{j=0}^{\text{iterations}-1} M.searchIndex_j
++\sum_{j=0}^{\text{iterations}-1} M.searchIndex_j
 \le
 \text{iterations}+D.\mathrm{toNat}
-=
-NA.\mathrm{toNat}.
+=NA.\mathrm{toNat}.
 $$
 
 This proves the auxiliary-solve bound.
@@ -479,10 +471,8 @@ For the function-evaluation bound, the definition gives
 
 $$
 \text{functionEvaluations}
-=
-2\,\text{iterations}
-+
-\sum_{j=0}^{\text{iterations}-1} M.searchIndex_j.
+=2\,\text{iterations}
++\sum_{j=0}^{\text{iterations}-1} M.searchIndex_j.
 $$
 
 The proof must show this is at most
@@ -495,26 +485,22 @@ Since $2\lceil NG\rceil\ge0$ and $D\ge0$, `Int.toNat_add` splits the natural con
 
 $$
 (2\lceil NG\rceil+D).\mathrm{toNat}
-=
-(2\lceil NG\rceil).\mathrm{toNat}+D.\mathrm{toNat}.
+=(2\lceil NG\rceil).\mathrm{toNat}+D.\mathrm{toNat}.
 $$
 
 Then `Int.toNat_mul` uses nonnegativity of $2$ and of $\lceil NG\rceil$ to get
 
 $$
 (2\lceil NG\rceil).\mathrm{toNat}
-=
-2\,(\lceil NG\rceil).\mathrm{toNat}
-=
-2\,\text{iterations}.
+=2\,(\lceil NG\rceil).\mathrm{toNat}
+=2\,\text{iterations}.
 $$
 
 Thus the target becomes
 
 $$
 2\,\text{iterations}
-+
-\sum_{j=0}^{\text{iterations}-1} M.searchIndex_j
++\sum_{j=0}^{\text{iterations}-1} M.searchIndex_j
 \le
 2\,\text{iterations}+D.\mathrm{toNat}.
 $$

@@ -24,8 +24,7 @@ The definition then takes the supremum of this set in the order on $\mathrm{ERea
 
 $$
 \mathrm{supportFunction}(C,x)
-=
-\sup_{z\in C}\langle z,x\rangle_{\mathbb R},
+=\sup_{z\in C}\langle z,x\rangle_{\mathbb R},
 $$
 
 with the supremum interpreted in the extended real numbers. There are no hypotheses on $C$ or $x$ beyond the typing needed for the real inner product and the extended-real supremum; in particular, $C$ need not be convex, closed, bounded, or nonempty. This is a definition rather than a theorem, so its whole mathematical content is the displayed formula.

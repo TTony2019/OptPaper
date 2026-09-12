@@ -226,14 +226,10 @@ The proof then computes the inner product:
 
 $$
 \langle z,x\rangle
-=
-\left\langle \frac{\alpha}{\|x\|}x,x\right\rangle
-=
-\frac{\alpha}{\|x\|}\langle x,x\rangle
-=
-\frac{\alpha}{\|x\|}\|x\|^2
-=
-\alpha\|x\|.
+=\left\langle \frac{\alpha}{\|x\|}x,x\right\rangle
+=\frac{\alpha}{\|x\|}\langle x,x\rangle
+=\frac{\alpha}{\|x\|}\|x\|^2
+=\alpha\|x\|.
 $$
 
 The lemmas used here are `real_inner_smul_left`, which pulls the scalar out of the first argument of the real inner product, and `real_inner_self_eq_norm_sq`, which states $\langle x,x\rangle=\|x\|^2$. Since $z\in A(0)$, the number $\langle z,x\rangle=\alpha\|x\|$ is one of the values over which the supremum $S(x)$ is taken. Therefore `le_sSup` yields

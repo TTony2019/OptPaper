@@ -47,8 +47,7 @@ Let $H$ be a nontrivial finite-dimensional real Hilbert space. The declaration i
 
   $$
   g\!\left(\frac{s^2}{2(\alpha-1)}\right)
-  =
-  A\!\left(x(s)+\frac{s}{\alpha-1}\,dx(s)\right).
+  =A\!\left(x(s)+\frac{s}{\alpha-1}\,dx(s)\right).
   $$
 
 - The dual-flow condition says that for every $t$,
@@ -196,8 +195,7 @@ Second, `scaled_exponent_eq` gives the algebraic identity
 
 $$
 -\text{rate}\cdot \frac{s^2}{2(\alpha-1)}
-=
--\left(\frac{\text{rate}}{2(\alpha-1)}\right)s^2.
+=-\left(\frac{\text{rate}}{2(\alpha-1)}\right)s^2.
 $$
 
 Thus the exponent becomes exactly $-\mu s^2$ for the chosen

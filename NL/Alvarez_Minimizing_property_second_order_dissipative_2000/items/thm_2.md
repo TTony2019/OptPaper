@@ -19,8 +19,7 @@ The set
 
 $$
 \mathrm{argmin}\Phi
-=
-\{x\in H:\Phi(x)=\inf \Phi(H)\}
+=\{x\in H:\Phi(x)=\inf \Phi(H)\}
 $$
 
 is the set of global minimizers of $\Phi$; in Lean it is written `argmin Phi (potential_range_bddBelow hPhi)`, where the second argument is the proof that the range of $\Phi$ is bounded below. The hypothesis `hcase` is a disjunction of two alternatives. The first alternative says that the minimizer set is nonempty and that $\Phi$ is an even function. The second alternative says that the interior of the minimizer set is nonempty.
@@ -243,8 +242,7 @@ The proof then derives the differential inequality
 
 $$
 \frac{d^2}{dt^2}\left(\frac12\|u(t)-z_0\|^2\right)
-+
-\gamma\frac{d}{dt}\left(\frac12\|u(t)-z_0\|^2\right)
++\gamma\frac{d}{dt}\left(\frac12\|u(t)-z_0\|^2\right)
 \le
 \|u'(t)\|^2
 $$
@@ -253,8 +251,7 @@ for every $t>0$. First it applies `scalar_distance_damped_ineq_local`, which giv
 
 $$
 \frac{d^2}{dt^2}\left(\frac12\|u(t)-z_0\|^2\right)
-+
-\gamma\frac{d}{dt}\left(\frac12\|u(t)-z_0\|^2\right)
++\gamma\frac{d}{dt}\left(\frac12\|u(t)-z_0\|^2\right)
 \le
 \Phi(z_0)-\Phi(u(t))+\|u'(t)\|^2.
 $$
@@ -288,10 +285,8 @@ $$
 \rho\left\|u''(t)+\gamma u'(t)\right\|
 \le
 -\frac{d^2}{dt^2}\left(\frac12\|u(t)-z_0\|^2\right)
-+
-\|u'(t)\|^2
--
-\gamma\frac{d}{dt}\left(\frac12\|u(t)-z_0\|^2\right).
++\|u'(t)\|^2
+-\gamma\frac{d}{dt}\left(\frac12\|u(t)-z_0\|^2\right).
 $$
 
 This inequality controls the size of the damped acceleration $u''+\gamma u'$ in terms of derivatives of the squared distance and the squared velocity.
@@ -380,20 +375,16 @@ $$
 \rho\int_1^{n+1}\|r(t)\|\,dt
 \le
 \phi'(1)-\phi'(n+1)
-+
-\int_1^{n+1} q(t)\,dt
-+
-\gamma\bigl(\phi(1)-\phi(n+1)\bigr).
++\int_1^{n+1} q(t)\,dt
++\gamma\bigl(\phi(1)-\phi(n+1)\bigr).
 $$
 
 Now $-\phi'(n+1)\le1$, the $q$-integral is at most $V$, and $\phi(n+1)\ge0$, so
 
 $$
 \phi'(1)-\phi'(n+1)
-+
-\int_1^{n+1} q(t)\,dt
-+
-\gamma(\phi(1)-\phi(n+1))
++\int_1^{n+1} q(t)\,dt
++\gamma(\phi(1)-\phi(n+1))
 \le
 \phi'(1)+1+V+\gamma\phi(1).
 $$

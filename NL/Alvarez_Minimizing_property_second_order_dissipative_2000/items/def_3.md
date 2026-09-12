@@ -57,8 +57,8 @@ Seventh, `equation` is the differential equation satisfied by $u$ for every $t \
 
 $$
 fderiv ℝ \bigl(fun s \mapsto fderiv ℝ u s 1\bigr) t\, 1
-+ \Gamma\bigl(fderiv ℝ u t\, 1\bigr)
-+ \mathrm{gradPhi}(u(t)) = 0.
++\Gamma\bigl(fderiv ℝ u t\, 1\bigr)
++\mathrm{gradPhi}(u(t)) = 0.
 $$
 
 Here $fderiv ℝ u t\, 1$ is the velocity $u'(t)$, and

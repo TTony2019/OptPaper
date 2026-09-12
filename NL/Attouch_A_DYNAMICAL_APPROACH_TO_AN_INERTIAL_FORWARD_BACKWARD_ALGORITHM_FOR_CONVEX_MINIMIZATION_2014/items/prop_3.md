@@ -209,10 +209,8 @@ where
 
 $$
 z_j
-=
-zSequence(u,y,a,b,\lambda,j)
-=
-\lambda^{-1}(u(j)-u(j-1))+a u(j-1)-b y(j-1).
+=zSequence(u,y,a,b,\lambda,j)
+=\lambda^{-1}(u(j)-u(j-1))+a u(j-1)-b y(j-1).
 $$
 
 The subdifferential membership means that for every $w\in H$,
@@ -251,8 +249,7 @@ Next, the proof establishes two telescoping identities.
 
 $$
 \sum_{i=2}^{k}\Bigl((\Phi(u(i)))_{\mathbb R}-(\Phi(u(i-1)))_{\mathbb R}\Bigr)
-=
-(\Phi(u(k)))_{\mathbb R}-(\Phi(u(1)))_{\mathbb R}.
+=(\Phi(u(k)))_{\mathbb R}-(\Phi(u(1)))_{\mathbb R}.
 $$
 
 It is proved by induction on $k$ starting at $2$, using `Nat.le_induction`. In the successor step, `Finset.sum_Icc_succ_top` adds the last term of the sum over $\{2,\dots,k\}$, and `norm_num` simplifies the resulting arithmetic.
@@ -261,8 +258,7 @@ Similarly, `htelTheta` states that for every $k\ge 2$,
 
 $$
 \sum_{i=2}^{k}\Bigl((\Theta(u(i-1)))_{\mathbb R}-(\Theta(u(i)))_{\mathbb R}\Bigr)
-=
-(\Theta(u(1)))_{\mathbb R}-(\Theta(u(k)))_{\mathbb R}.
+=(\Theta(u(1)))_{\mathbb R}-(\Theta(u(k)))_{\mathbb R}.
 $$
 
 Next, from $q\in\mathrm{dom}\Phi$, the proof obtains `hqtop` using `ERealFunction.mem_dom_iff`, which says
@@ -347,10 +343,8 @@ $$
 -\sum_{i=2}^{k}\langle z_i-z_{i-1},v_i\rangle
 \le
 A\sum_{i=2}^{k}\|v_i\|^2
-+
-B\sum_{i=2}^{k}\|v_{i-1}\|^2
-+
-b\lambda\Bigl((\Theta(u(1)))_{\mathbb R}-(\Theta(u(k)))_{\mathbb R}\Bigr).
++B\sum_{i=2}^{k}\|v_{i-1}\|^2
++b\lambda\Bigl((\Theta(u(1)))_{\mathbb R}-(\Theta(u(k)))_{\mathbb R}\Bigr).
 $$
 
 To do this, it again rewrites the negative sum as a sum of negatives. For each $i$, `z_difference_bound` gives
@@ -359,8 +353,7 @@ $$
 -\langle z_i-z_{i-1},v_i\rangle
 \le
 A\|v_i\|^2+B\|v_{i-1}\|^2
-+
-b\lambda\Bigl((\Theta(u(i-1)))_{\mathbb R}-(\Theta(u(i)))_{\mathbb R}\Bigr).
++b\lambda\Bigl((\Theta(u(i-1)))_{\mathbb R}-(\Theta(u(i)))_{\mathbb R}\Bigr).
 $$
 
 The proof uses `simpa only [A, B]` to unfold the local definitions $A,B$ so that they match the coefficients in `z_difference_bound`. Then `Finset.sum_le_sum` sums the inequalities. Finally, `Finset.sum_add_distrib`, `Finset.mul_sum`, `Finset.sum_attach`, and the telescoping identity `htelTheta` convert the sum to the displayed form.
@@ -420,10 +413,8 @@ The difference sum is at most
 
 $$
 A\sum_{i=2}^{k}\|v_i\|^2
-+
-B\sum_{i=2}^{k}\|v_{i-1}\|^2
-+
-b\lambda\Bigl((\Theta(u(1)))_{\mathbb R}-(\Theta(u(k)))_{\mathbb R}\Bigr).
++B\sum_{i=2}^{k}\|v_{i-1}\|^2
++b\lambda\Bigl((\Theta(u(1)))_{\mathbb R}-(\Theta(u(k)))_{\mathbb R}\Bigr).
 $$
 
 Then the quadratic terms are bounded by
@@ -443,12 +434,9 @@ Adding these inequalities gives
 $$
 G_k\le
 (\Phi(q))_{\mathbb R}-(\Phi(u(1)))_{\mathbb R}
-+
-b\lambda\Bigl((\Theta(u(1)))_{\mathbb R}-m\Bigr)
-+
-(|A|+|B|)S
-=
-M.
++b\lambda\Bigl((\Theta(u(1)))_{\mathbb R}-m\Bigr)
++(|A|+|B|)S
+=M.
 $$
 
 The final `linarith` closes the goal by combining these real linear inequalities. This proves that the auxiliary quantities $G_k$ admit the uniform upper bound $M$ for all $k\ge 2$.

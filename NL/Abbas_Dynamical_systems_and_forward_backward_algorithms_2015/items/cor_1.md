@@ -232,8 +232,7 @@ Adding the two strong-convexity inequalities, the $\Phi$-terms cancel. Using
 
 $$
 \langle y-z,By-Bz\rangle
-=
-\langle y-z,By\rangle-\langle y-z,Bz\rangle,
+=\langle y-z,By\rangle-\langle y-z,Bz\rangle,
 $$
 
 the proof obtains
@@ -256,8 +255,7 @@ The proof then invokes `proposition_2_16`. This proposition applies to the same 
 
 $$
 F(t)
-=
-(\Phi(x(t)))_{\mathbb R}-(\Phi(z))_{\mathbb R}
+=(\Phi(x(t)))_{\mathbb R}-(\Phi(z))_{\mathbb R}
 +\langle Bz,x(t)-z\rangle
 $$
 

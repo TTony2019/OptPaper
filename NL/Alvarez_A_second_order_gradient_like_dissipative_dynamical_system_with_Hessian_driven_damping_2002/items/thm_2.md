@@ -566,10 +566,8 @@ the forward energy
 
 $$
 E_\ell(t)
-=
-\ell\,\Phi(x(t))
-+
-\frac12\left\|\mathrm{deriv}x(t)+\beta\nabla\Phi(x(t))\right\|^2
+=\ell\,\Phi(x(t))
++\frac12\left\|\mathrm{deriv}x(t)+\beta\nabla\Phi(x(t))\right\|^2
 $$
 
 is antitone on $t\ge0$, bounded below, and convergent as $t\to\infty$. In addition,
@@ -613,8 +611,7 @@ Applying `omega_limit_properties` gives the following facts about the omega-limi
 
 $$
 \omega(x_I)
-=
-\{a\in E:\exists t_n\ge0,\ t_n\to\infty,\ x(t_n)\to a\}.
+=\{a\in E:\exists t_n\ge0,\ t_n\to\infty,\ x(t_n)\to a\}.
 $$
 
 The set $\omega(x_I)$ is nonempty, compact, and connected; the distance
@@ -667,10 +664,8 @@ so the energy conclusions from `din_global_properties_part_ii` apply to $E$. Hen
 
 $$
 E(t)
-=
-k\,\Phi(x(t))
-+
-\frac12\left\|\mathrm{deriv}x(t)+\beta\nabla\Phi(x(t))\right\|^2.
+=k\,\Phi(x(t))
++\frac12\left\|\mathrm{deriv}x(t)+\beta\nabla\Phi(x(t))\right\|^2.
 $$
 
 Since $\Phi(x(t))\to l_\Phi=c_0$ and the residual term tends to $0$, one gets
@@ -775,8 +770,7 @@ Therefore
 
 $$
 e(t)^{1-\theta}\le D(v+g)
-=
-D\bigl(\|\mathrm{deriv}x(t)\|+\|\nabla\Phi(x(t))\|\bigr).
+=D\bigl(\|\mathrm{deriv}x(t)\|+\|\nabla\Phi(x(t))\|\bigr).
 $$
 
 This is the key estimate on the tail $t\ge T$.
@@ -807,10 +801,8 @@ so $E(s)=l_E$ on $[t_0,\infty)$. Hence the derivative of $E$ is zero on that tai
 
 $$
 \mathrm{deriv}E(s)
-=
--\alpha\|\mathrm{deriv}x(s)\|^2
--
-\beta\|\nabla\Phi(x(s))\|^2.
+=-\alpha\|\mathrm{deriv}x(s)\|^2
+-\beta\|\nabla\Phi(x(s))\|^2.
 $$
 
 For $s\ge t_0$, the left-hand side is $0$. Since $\alpha>0$, $\beta>0$, and both squared norms are nonnegative, this forces
@@ -846,8 +838,7 @@ Then $F$ is continuous, and $F(t)\to0$ because $e(t)\to0$ and $\theta>0$. Using 
 
 $$
 \mathrm{deriv}F(t)
-=
-\left(
+=\left(
 -\alpha\|\mathrm{deriv}x(t)\|^2
 -\beta\|\nabla\Phi(x(t))\|^2
 \right)
@@ -887,8 +878,7 @@ $$
 A(v+g)e(t)^{1-\theta}
 \le
 A D(v+g)^2
-=
-\frac{\theta m}{2}(v+g)^2
+=\frac{\theta m}{2}(v+g)^2
 \le
 \theta(\alpha v^2+\beta g^2).
 $$
@@ -897,8 +887,7 @@ But differentiating $F$ gives
 
 $$
 (-\mathrm{deriv}F(t))e(t)^{1-\theta}
-=
-\theta(\alpha v^2+\beta g^2),
+=\theta(\alpha v^2+\beta g^2),
 $$
 
 using $e(t)^{\theta-1}e(t)^{1-\theta}=e(t)^0=1$. Dividing by the positive number $e(t)^{1-\theta}$ yields the desired inequality.

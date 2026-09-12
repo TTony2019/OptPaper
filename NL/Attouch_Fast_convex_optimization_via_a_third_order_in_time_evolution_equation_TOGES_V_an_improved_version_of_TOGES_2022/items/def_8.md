@@ -52,8 +52,7 @@ Third, for every $x\in H$,
 
 $$
 \nabla\bigl(y\mapsto (\mathcal M_\lambda f(y))_{\mathbb R}\bigr)(x)
-=
-\frac{1}{\lambda_{\mathbb R}}\,(x-prox(x)),
+=\frac{1}{\lambda_{\mathbb R}}\,(x-prox(x)),
 $$
 
 where $\mathcal M_\lambda f(y)$ denotes `ERealFunction.moreauEnvelope f lam y`, the Moreau envelope of $f$ with parameter $\lambda$, evaluated at $y$, and the notation $(\mathcal M_\lambda f(y))_{\mathbb R}$ denotes the real value obtained from the extended-real value by `.toReal`. Thus this conjunct identifies the gradient of the real-valued Moreau envelope with the vector $\frac1\lambda(x-prox(x))$.

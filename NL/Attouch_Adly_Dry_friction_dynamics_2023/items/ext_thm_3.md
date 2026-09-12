@@ -25,8 +25,7 @@ The conclusion is that the two iterated Lebesgue integrals of $K$ agree:
 
 $$
 \int_{\alpha}^{-} \left(\int_{\beta}^{-} K(x,y)\,d\nu(y)\right)d\mu(x)
-=
-\int_{\beta}^{-} \left(\int_{\alpha}^{-} K(x,y)\,d\mu(x)\right)d\nu(y).
+=\int_{\beta}^{-} \left(\int_{\alpha}^{-} K(x,y)\,d\mu(x)\right)d\nu(y).
 $$
 
 Thus, on the left one first integrates in $y$ with respect to $\nu$ and then in $x$ with respect to $\mu$; on the right the order is reversed. Since the values are extended nonnegative reals, both iterated integrals are always defined in $\overline{\mathbb{R}}_{\ge 0}$, and no separate integrability hypothesis is required. The equality may therefore hold as $+\infty = +\infty$. This is Tonelli’s theorem in kernel form: for a nonnegative measurable kernel on a product of s-finite measure spaces, the order of iterated integration can be swapped.
@@ -46,8 +45,7 @@ The cited result `MeasureTheory.lintegral_lintegral_swap` is the Mathlib form of
 
 $$
 \int_{\alpha}^{-} \left(\int_{\beta}^{-} K(x,y)\,d\nu(y)\right)d\mu(x)
-=
-\int_{\beta}^{-} \left(\int_{\alpha}^{-} K(x,y)\,d\mu(x)\right)d\nu(y).
+=\int_{\beta}^{-} \left(\int_{\alpha}^{-} K(x,y)\,d\mu(x)\right)d\nu(y).
 $$
 
 Because that is precisely the goal of `fubini_tonelli_nonnegative`, the term closes the proof. The proof uses only the a.e.-measurability consequence of `hK`; the original measurability hypothesis is stronger than what the invoked swap lemma needs.

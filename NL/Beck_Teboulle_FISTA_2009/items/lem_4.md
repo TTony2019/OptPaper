@@ -416,8 +416,7 @@ $$
 F(x_k)-F(x_{k+1})
 \ge
 \frac{L_{k+1}}2\|x_{k+1}-y_{k+1}\|^2
-+
-L_{k+1}\langle y_{k+1}-x_k,x_{k+1}-y_{k+1}\rangle.
++L_{k+1}\langle y_{k+1}-x_k,x_{k+1}-y_{k+1}\rangle.
 $$
 
 Second, with $x=x^\star$, it gets
@@ -426,8 +425,7 @@ $$
 F(x^\star)-F(x_{k+1})
 \ge
 \frac{L_{k+1}}2\|x_{k+1}-y_{k+1}\|^2
-+
-L_{k+1}\langle y_{k+1}-x^\star,x_{k+1}-y_{k+1}\rangle.
++L_{k+1}\langle y_{k+1}-x^\star,x_{k+1}-y_{k+1}\rangle.
 $$
 
 The proof then rewrites these in terms of $v$. Since
@@ -506,8 +504,7 @@ The proof then proves a Pythagoras-type identity for vectors $a,b,c$ in Euclidea
 
 $$
 \|b-a\|^2+2\langle b-a,a-c\rangle
-=
-\|b-c\|^2-\|a-c\|^2.
+=\|b-c\|^2-\|a-c\|^2.
 $$
 
 It sets $w=b-a$ and $v'=a-c$, so that $w+v'=b-c$, and uses the identity
@@ -544,8 +541,7 @@ The proof then uses the vector identity
 
 $$
 ((t-1)(y_{k+1}-x_k))+(y_{k+1}-x^\star)
-=
-t y_{k+1}-(t-1)x_k-x^\star.
+=t y_{k+1}-(t-1)x_k-x^\star.
 $$
 
 Multiplying the first inequality by $t-1$ and adding it to the second gives
@@ -618,8 +614,7 @@ $$
 \frac{2}{L}\bigl(t_k^2v_k-t^2v_{k+1}\bigr)
 \ge
 \|t x_{k+1}-(t-1)x_k-x^\star\|^2
--
-\|t y_{k+1}-(t-1)x_k-x^\star\|^2.
+-\|t y_{k+1}-(t-1)x_k-x^\star\|^2.
 $$
 
 The proof then rewrites the second squared norm using the FISTA $y$-update. From
@@ -638,10 +633,8 @@ Consequently,
 
 $$
 t y_{k+1}-(t-1)x_k-x^\star
-=
-t_k x_k-(t_k-1)x_{k-1}-x^\star
-=
-u_k.
+=t_k x_k-(t_k-1)x_{k-1}-x^\star
+=u_k.
 $$
 
 Also, by definition,

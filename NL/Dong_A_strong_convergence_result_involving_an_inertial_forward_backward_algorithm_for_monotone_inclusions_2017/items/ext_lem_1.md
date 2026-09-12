@@ -99,10 +99,8 @@ Next, `simp only [inner_sub_left, real_inner_smul_left]` expands
 
 $$
 \langle w,v\rangle
-=
-\langle 2(x-y)-z,v\rangle
-=
-2\langle x,v\rangle-2\langle y,v\rangle-\langle z,v\rangle.
+=\langle 2(x-y)-z,v\rangle
+=2\langle x,v\rangle-2\langle y,v\rangle-\langle z,v\rangle.
 $$
 
 After these rewrites, both sides of the claimed equivalence are linear inequalities in the inner products. The tactic line `constructor <;> intro hv <;> linarith` splits the equivalence into two implications and proves each direction by linear arithmetic. In the forward direction, the original inequality yields
@@ -147,8 +145,7 @@ The fourth step proves the set equality
 
 $$
 \{v\in C \mid \|y-v\|^{2}\le \|x-v\|^{2}+\langle z,v\rangle+a\}
-=
-C\cap D.
+=C\cap D.
 $$
 
 The proof uses `ext v`, i.e. set extensionality, so it suffices to prove the equivalence of membership for an arbitrary $v$. After simplifying set-membership notation, membership in the left-hand set means

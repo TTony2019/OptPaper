@@ -25,8 +25,7 @@ More precisely, `IsSemiAlgebraicEReal g` is the proposition that there exists a 
 
 $$
 \mathrm{epigraph}(g)
-=
-\{p \mid \exists s,\; s\in P \land p\in s\}.
+=\{p \mid \exists s,\; s\in P \land p\in s\}.
 $$
 
 The right-hand side is the union

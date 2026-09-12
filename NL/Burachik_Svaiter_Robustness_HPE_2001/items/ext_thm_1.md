@@ -32,8 +32,7 @@ The declaration states a demiclosedness property of the epsilon-enlargement of a
 
    $$
    T^\epsilon(x)
-   =
-   \{\,v\in H:\forall z,w,\ w\in T(z)\Rightarrow
+   =\{\,v\in H:\forall z,w,\ w\in T(z)\Rightarrow
    \langle w-v,z-x\rangle\ge-\epsilon\,\}.
    $$
 
@@ -165,8 +164,7 @@ The proof rewrites the left-hand side using the identity
 
 $$
 \langle w-v_j,z-y_j\rangle
-=
-\langle y_j-z,v_j-w\rangle.
+=\langle y_j-z,v_j-w\rangle.
 $$
 
 This identity follows from bilinearity of the inner product and real symmetry $\langle a,b\rangle=\langle b,a\rangle$. The tactic `simp` applies the subtraction rules for inner products, and `ring` closes the resulting scalar rearrangement. Hence for every $j$,
@@ -261,12 +259,9 @@ The proof then records the algebraic decomposition
 
 $$
 \langle y_j-z,v_j-w\rangle
-=
-\langle y_j-y_\infty,v_j-v_\infty\rangle
-+
-\langle y_\infty-z,v_j-v_\infty\rangle
-+
-\langle y_j-z,v_\infty-w\rangle.
+=\langle y_j-y_\infty,v_j-v_\infty\rangle
++\langle y_\infty-z,v_j-v_\infty\rangle
++\langle y_j-z,v_\infty-w\rangle.
 $$
 
 This comes from writing

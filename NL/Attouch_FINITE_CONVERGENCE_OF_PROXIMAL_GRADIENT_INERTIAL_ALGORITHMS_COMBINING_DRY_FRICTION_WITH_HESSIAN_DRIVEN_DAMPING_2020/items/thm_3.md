@@ -518,8 +518,7 @@ It is obtained by combining several cited facts. The identity `IPAHDDVar_inner_o
 
 $$
 \langle u-w,u\rangle+h\gamma\langle w,u\rangle
-=
-\frac12\|u\|^2
+=\frac12\|u\|^2
 -\frac12(1-h\gamma)^2\|w\|^2
 +\frac12\|u-(1-h\gamma)w\|^2.
 $$
@@ -588,8 +587,7 @@ Since $E_1=E_0$, and by `tsum_subtype_succ_reindex`,
 
 $$
 \sum_{k\ge1}\|x_{k+1}-x_k\|
-=
-\sum_{k=0}^{\infty}\|d_{k+1}\|,
+=\sum_{k=0}^{\infty}\|d_{k+1}\|,
 $$
 
 the proof obtains

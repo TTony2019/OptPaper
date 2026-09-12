@@ -47,8 +47,7 @@ The fields of the structure are the following data and conditions.
 
 $$
 t_{\mathrm{init}}
-=
-\frac{\lVert y_{\mathrm{init}}-z\rVert}
+=\frac{\lVert y_{\mathrm{init}}-z\rVert}
 {\lVert \nabla f(y_{\mathrm{init}})-\nabla f(z)\rVert}.
 $$
 
@@ -111,8 +110,7 @@ $$
 
 $$
 y_{k+1}
-=
-x_k+\frac{w_k-1}{w_{k+1}}
+=x_k+\frac{w_k-1}{w_{k+1}}
 \left(
 x_k-
 \begin{cases}

@@ -44,6 +44,50 @@ BLOCKED_MACROS = [
 ]
 
 
+# A line consisting only of Markdown punctuation is a setext heading underline
+# (``-``, ``=``) or an empty list item; either one splits the display block into
+# a heading/list plus a paragraph, and GitHub then leaves the math unrendered.
+LONE_MARKER = re.compile(r"^\s*[-=*+#]+\s*$")
+# A list marker followed by a space turns the rest of the block into list items.
+LIST_MARKER_SPACE = re.compile(r"^(\s*[-+*])\s+(?=\S)")
+# A line starting with ``>`` opens a block quote, but in these formulas it is
+# just a relation carrying over from the previous line.
+BLOCK_QUOTE_START = re.compile(r"^\s*>")
+
+
+def _reflow_display_block(body: list[str]) -> list[str]:
+    """Return ``body`` reshaped so that it stays a single Markdown paragraph."""
+    reflowed: list[str] = []
+    index = 0
+    while index < len(body):
+        line = body[index]
+        if BLOCK_QUOTE_START.match(line):
+            if reflowed:
+                reflowed[-1] = f"{reflowed[-1].rstrip()} {line.strip()}"
+            elif index + 1 < len(body):
+                reflowed.append(f"{line.strip()}{body[index + 1].strip()}")
+                index += 1
+            else:
+                reflowed.append(line.strip().lstrip("> "))
+            index += 1
+            continue
+        if LONE_MARKER.match(line):
+            marker = line.strip()
+            if index + 1 < len(body):
+                following = body[index + 1]
+                indent = following[: len(following) - len(following.lstrip())]
+                reflowed.append(f"{indent}{marker}{following.strip()}")
+                index += 2
+                continue
+            if reflowed:
+                reflowed[-1] = reflowed[-1].rstrip() + " " + marker
+                index += 1
+                continue
+        reflowed.append(LIST_MARKER_SPACE.sub(r"\1", line))
+        index += 1
+    return reflowed
+
+
 def _rewrite_blocked_macros(tex: str) -> str:
     for pattern, replacement in BLOCKED_MACROS:
         tex = pattern.sub(replacement, tex)
@@ -92,19 +136,23 @@ def normalize_math_delimiters(text: str) -> str:
             output.append(line)
             index += 1
             continue
-        if line.strip() == DISPLAY_OPEN:
+        if line.strip() in (DISPLAY_OPEN, "$$"):
+            closing = "$$" if line.strip() == "$$" else DISPLAY_CLOSE
             indent = line[: len(line) - len(line.lstrip())]
+            index += 1
+            body: list[str] = []
+            while index < len(lines) and lines[index].strip() != closing:
+                # Nested \(\), as emitted by ``\text{\(x\) ...}``, become the
+                # ``$`` switch MathJax understands inside text mode.
+                body.append(_convert_inline(lines[index], pad=False))
+                index += 1
+            index += 1  # drop the closing delimiter, re-emitted below
+            body = _reflow_display_block(body)
             if output and output[-1].strip():
                 output.append("")
             output.append(f"{indent}$$")
-            index += 1
-            while index < len(lines) and lines[index].strip() != DISPLAY_CLOSE:
-                # Nested \(\), as emitted by ``\text{\(x\) ...}``, become the
-                # ``$`` switch that KaTeX understands inside text mode.
-                output.append(_convert_inline(lines[index], pad=False))
-                index += 1
+            output.extend(body)
             output.append(f"{indent}$$")
-            index += 1  # drop the ``\]`` line, replaced by the closing ``$$``
             if index < len(lines) and lines[index].strip():
                 output.append("")
             continue

@@ -14,8 +14,7 @@ The defining body is `(operatorSum A B).zeros`. Thus `operatorSumZeroSet A B` is
 
 $$
 \mathrm{operatorSumZeroSet}(A,B)
-=
-\mathrm{zeros}\bigl(\mathrm{operatorSum}(A,B)\bigr).
+=\mathrm{zeros}\bigl(\mathrm{operatorSum}(A,B)\bigr).
 $$
 
 If $T = \mathrm{operatorSum}(A,B)$, then membership in this set means

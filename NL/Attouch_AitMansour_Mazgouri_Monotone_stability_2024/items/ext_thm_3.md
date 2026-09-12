@@ -77,8 +77,7 @@ The content of that construction is that a lifted curve $t\mapsto (x_\mu(t), \ma
 
 $$
 \frac{d}{dt}\bigl(x_\mu(t),\mathrm{dinAux}_\mu(t)\bigr)
-=
--\mathrm{DINGradientField}\mathrm{grad}\phi\,\beta\,\gamma\,\mu
+=-\mathrm{DINGradientField}\mathrm{grad}\phi\,\beta\,\gamma\,\mu
 \bigl(x_\mu(t),\mathrm{dinAux}_\mu(t)\bigr)
 $$
 
@@ -110,8 +109,7 @@ where
 
 $$
 \mathrm{energyRate}(\beta,\gamma,\delta)
-=
-\frac{\beta\delta+\gamma-\sqrt{(\beta\delta+\gamma)^2-4\delta}}{2}.
+=\frac{\beta\delta+\gamma-\sqrt{(\beta\delta+\gamma)^2-4\delta}}{2}.
 $$
 
 The strong monotonicity hypothesis supplied to `din_tendsto_to_critical` is proved by
@@ -129,8 +127,7 @@ $$
 \bigl(\|p_1-q_1\|^2+\|p_2-q_2\|^2\bigr)
 \le
 \bigl\langle F_\mu(p)_1-F_\mu(q)_1,\ p_1-q_1\bigr\rangle
-+
-\bigl\langle F_\mu(p)_2-F_\mu(q)_2,\ p_2-q_2\bigr\rangle,
++\bigl\langle F_\mu(p)_2-F_\mu(q)_2,\ p_2-q_2\bigr\rangle,
 $$
 
 where $F_\mu=\mathrm{DINGradientField}\mathrm{grad}\phi\,\beta\,\gamma\,\mu$. This is exactly the required strong monotonicity estimate for the lifted field.

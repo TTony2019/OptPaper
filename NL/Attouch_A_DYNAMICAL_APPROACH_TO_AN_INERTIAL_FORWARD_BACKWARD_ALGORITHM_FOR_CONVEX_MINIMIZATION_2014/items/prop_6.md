@@ -284,8 +284,7 @@ Subtracting these two identities and multiplying by $\eta=(1+\lambda b)^{-1}$ yi
 
 $$
 y_{k+1}-y_\infty
-=
-\eta (y_k-y_\infty)+\lambda b\eta (w_k-y_\infty).
+=\eta (y_k-y_\infty)+\lambda b\eta (w_k-y_\infty).
 $$
 
 This is the central estimate used in both parts of the theorem. In Lean, this is the long `have hrec` block, using `convert`, `simp`, `abel`, `field_simp`, and `module` to perform the vector-space algebra.
@@ -316,16 +315,14 @@ which is the content of `weakConvergence_iff_forall_tendsto_inner_right`. For ev
 
 $$
 \langle w_k,v\rangle
-=
-b^{-1}\bigl(a\langle u_{k+1},v\rangle-\langle g(u_{k+1}),v\rangle\bigr)
+=b^{-1}\bigl(a\langle u_{k+1},v\rangle-\langle g(u_{k+1}),v\rangle\bigr)
 $$
 
 tends to
 
 $$
 b^{-1}\bigl(a\langle u_\infty,v\rangle-\langle g(u_\infty),v\rangle\bigr)
-=
-\langle y_\infty,v\rangle.
+=\langle y_\infty,v\rangle.
 $$
 
 Thus, by the same weak-convergence characterization,
@@ -413,8 +410,7 @@ Since $w_k\to y_\infty$, the sequence $\|w_k-y_\infty\|$ tends to $0$, hence $e_
 
 $$
 y_{k+1}-y_\infty
-=
-\eta (y_k-y_\infty)+\lambda b\eta (w_k-y_\infty)
+=\eta (y_k-y_\infty)+\lambda b\eta (w_k-y_\infty)
 $$
 
 and the triangle inequality,
@@ -423,8 +419,7 @@ $$
 p_{k+1}
 \le
 \eta\|y_k-y_\infty\|+\lambda b\eta\|w_k-y_\infty\|
-=
-\eta p_k+e_k.
+=\eta p_k+e_k.
 $$
 
 The proof also verifies that $\lambda b\eta\ge0$, using positivity of $b,\lambda,\eta$. The cited lemma `tendsto_zero_of_contract_nonneg` states that if $0<\eta<1$, if $p_k\ge0$ for all $k$, if $e_k\to0$, and if

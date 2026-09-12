@@ -24,8 +24,7 @@ Let $\partial_L$ denote the limiting, or Mordukhovich, subdifferential, and let 
 
 $$
 \partial_L(f+h)(x)
-=
-\left\{\,v\in\mathbb R^m \;\middle|\; \exists w\in \partial_L f(x),\; v=w+\nabla h(x)\,\right\}.
+=\left\{\,v\in\mathbb R^m \;\middle|\; \exists w\in \partial_L f(x),\; v=w+\nabla h(x)\,\right\}.
 $$
 
 Thus the limiting subgradients of the sum $f+h$ at $x$ are exactly the limiting subgradients of $f$ at $x$, each shifted by the gradient $\nabla h(x)$ of the smooth summand. Since $h$ is finite-valued, adding it does not change effective domains:

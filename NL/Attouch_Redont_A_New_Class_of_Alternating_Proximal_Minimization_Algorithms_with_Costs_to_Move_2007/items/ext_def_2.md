@@ -155,10 +155,8 @@ It computes
 
 $$
 N x-N y
-=
-\bigl(2T(x)-x\bigr)-\bigl(2T(y)-y\bigr)
-=
-2(T x-T y)-(x-y),
+=\bigl(2T(x)-x\bigr)-\bigl(2T(y)-y\bigr)
+=2(T x-T y)-(x-y),
 $$
 
 using `dsimp` to unfold the definition of $N$, `rw` for the scalar subtraction identity, and `abel` to normalize the additive expression. Setting
@@ -189,8 +187,7 @@ These reduce the difference of squares to
 
 $$
 \|2a-b\|^{2}-\|b\|^{2}
-=
-4\bigl(\|a\|^{2}-\langle a,b\rangle\bigr).
+=4\bigl(\|a\|^{2}-\langle a,b\rangle\bigr).
 $$
 
 Since the firm-nonexpansiveness hypothesis says
@@ -223,10 +220,8 @@ Therefore
 
 $$
 \frac12\bigl(x+N x\bigr)
-=
-\frac12\bigl(2T(x)\bigr)
-=
-T(x).
+=\frac12\bigl(2T(x)\bigr)
+=T(x).
 $$
 
 The `calc` block performs exactly this computation: `abel` rearranges the additive terms, `simp` removes the zero term, `mul_smul` uses $(1/2)(2T x)=((1/2)\cdot 2)T x$, and `norm_num` evaluates $(1/2)\cdot 2=1$. The final `exact hcalc.symm` closes the goal.
@@ -253,8 +248,7 @@ The proof first derives the difference formula
 
 $$
 T x-T y
-=
-\frac12\Bigl((x-y)+(N x-N y)\Bigr).
+=\frac12\Bigl((x-y)+(N x-N y)\Bigr).
 $$
 
 This follows by substituting the averaging formula for $T x$ and $T y$, subtracting, and using the linearity of scalar multiplication over subtraction; the tactics `rw`, `smul_sub`, and `abel` perform these operations.
@@ -275,24 +269,21 @@ The key computation is
 
 $$
 \langle T x-T y,\;x-y\rangle-\|T x-T y\|^{2}
-=
-\frac14\bigl(\|a\|^{2}-\|b\|^{2}\bigr).
+=\frac14\bigl(\|a\|^{2}-\|b\|^{2}\bigr).
 $$
 
 To obtain it, the proof uses `inner_smul_left` and `inner_add_left` to compute
 
 $$
 \left\langle \frac12(a+b),\,a\right\rangle
-=
-\frac12\bigl(\|a\|^{2}+\langle b,a\rangle\bigr),
+=\frac12\bigl(\|a\|^{2}+\langle b,a\rangle\bigr),
 $$
 
 where `real_inner_self_eq_norm_sq` identifies $\langle a,a\rangle$ with $\|a\|^{2}$. It uses `norm_smul` and `norm_add_sq` to compute
 
 $$
 \left\|\frac12(a+b)\right\|^{2}
-=
-\frac14\bigl(\|a\|^{2}+2\langle a,b\rangle+\|b\|^{2}\bigr),
+=\frac14\bigl(\|a\|^{2}+2\langle a,b\rangle+\|b\|^{2}\bigr),
 $$
 
 where the identity $\|a+b\|^{2}=\|a\|^{2}+2\langle a,b\rangle+\|b\|^{2}$ is the real inner-product expansion. Symmetry of the real inner product, `real_inner_comm`, gives $\langle b,a\rangle=\langle a,b\rangle$, and the final algebraic simplification is done by `ring`.

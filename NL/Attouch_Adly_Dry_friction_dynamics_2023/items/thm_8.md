@@ -289,8 +289,7 @@ Since a function has at most one derivative at a point, `HasDerivAt.unique` equa
 $$
 \mathrm{hessFstar}(v(s))
 \left(\frac{s}{\alpha-1}\left(ddw(s)+\frac{\alpha}{s}dw(s)\right)\right)
-=
-\frac{s}{\alpha-1}\bigl(p(\tau(s))-v(s)\bigr).
+=\frac{s}{\alpha-1}\bigl(p(\tau(s))-v(s)\bigr).
 $$
 
 Because $\mathrm{hessFstar}(v(s))$ is a continuous linear map, `ContinuousLinearMap.map_smul` rewrites the left side as
@@ -306,8 +305,7 @@ Since $\frac{s}{\alpha-1}\ne0$, the scalar multiplication map $x\mapsto \frac{s}
 $$
 \mathrm{hessFstar}(v(s))
 \left(ddw(s)+\frac{\alpha}{s}dw(s)\right)
-=
-p(\tau(s))-v(s).
+=p(\tau(s))-v(s).
 $$
 
 Now the hypothesis `hpsi` is used with $u=v(s)$ and $q=p(\tau(s))$. The membership `hps` states that $p(\tau(s))$ lies in the friction-ball projector of $v(s)$, so `hpsi` gives

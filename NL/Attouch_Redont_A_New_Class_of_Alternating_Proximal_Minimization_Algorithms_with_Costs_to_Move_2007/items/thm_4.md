@@ -969,8 +969,7 @@ To show $z\in S_x$, the proof must establish `IsINE` for the pair $(z,\tilde y)$
 
 $$
 c_{x,k}
-=
-\alpha_{\chi(k)}\bigl(x_{\chi(k)}-x_{\chi(k)+1}\bigr)
+=\alpha_{\chi(k)}\bigl(x_{\chi(k)}-x_{\chi(k)+1}\bigr)
 +\beta\bigl(y_{\chi(k)}-x_{\chi(k)+1}\bigr).
 $$
 
@@ -985,8 +984,7 @@ The first term of $c_{x,k}$ tends to $0$, because $\alpha$ is bounded in absolut
 
 $$
 y_{\chi(k)}-x_{\chi(k)+1}
-=
-\bigl(y_{\chi(k)}-x_{\chi(k)}\bigr)
+=\bigl(y_{\chi(k)}-x_{\chi(k)}\bigr)
 +\bigl(x_{\chi(k)}-x_{\chi(k)+1}\bigr)
 \to \tilde y-z.
 $$
@@ -1029,8 +1027,7 @@ The $g$-coordinate is handled symmetrically. The proof defines
 
 $$
 c_{y,k}
-=
-\mu\bigl(x_{\chi(k)+1}-y_{\chi(k)+1}\bigr)
+=\mu\bigl(x_{\chi(k)+1}-y_{\chi(k)+1}\bigr)
 +\nu_{\chi(k)}\bigl(y_{\chi(k)}-y_{\chi(k)+1}\bigr).
 $$
 

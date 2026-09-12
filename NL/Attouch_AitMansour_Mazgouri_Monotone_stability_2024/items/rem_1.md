@@ -115,8 +115,7 @@ $$
 \le
 e^{mt}
 \sqrt{\|u_0(\nu)-u_0(\nu')\|^2+\|v_0(\nu)-v_0(\nu')\|^2}
-+
-\frac{\theta_1}{m}
++\frac{\theta_1}{m}
 \left(e^{mt}-1\right)
 \|\nu-\nu'\|^{\theta_2}.
 $$

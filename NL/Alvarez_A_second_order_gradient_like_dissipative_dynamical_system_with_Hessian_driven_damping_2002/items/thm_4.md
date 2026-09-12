@@ -43,8 +43,7 @@ and the initial value $y_0$ is required to satisfy
 
 $$
 y_0
-=
--\Bigl(\beta\,\dot x(0)+\beta^2\,\nabla\Phi(x_0)+\beta a\,x_0\Bigr).
+=-\Bigl(\beta\,\dot x(0)+\beta^2\,\nabla\Phi(x_0)+\beta a\,x_0\Bigr).
 $$
 
 Here $\nabla\Phi$ is the gradient of $\Phi$, and $\dot x(0)=\mathrm{deriv}x(0)$.
@@ -298,8 +297,7 @@ The proof defines the candidate auxiliary curve
 
 $$
 y(t)
-=
--\Bigl(\beta\,\dot x(t)+\beta^2\,\nabla\Phi(x(t))+\beta a\,x(t)\Bigr),
+=-\Bigl(\beta\,\dot x(t)+\beta^2\,\nabla\Phi(x(t))+\beta a\,x(t)\Bigr),
 $$
 
 and also defines
@@ -314,8 +312,7 @@ First, using the chain rule, the proof computes the derivative of $t\mapsto \nab
 
 $$
 \frac{d}{dt}\nabla\Phi(x(t))
-=
-\bigl(D(\nabla\Phi)(x(t))\bigr)\dot x(t).
+=\bigl(D(\nabla\Phi)(x(t))\bigr)\dot x(t).
 $$
 
 This is `hgradx`.
@@ -330,10 +327,8 @@ Substituting the definition of $y$, and using $b=1/\beta$, gives
 
 $$
 b y(t)
-=
-\frac1\beta y(t)
-=
--\Bigl(\dot x(t)+\beta\nabla\Phi(x(t))+a x(t)\Bigr).
+=\frac1\beta y(t)
+=-\Bigl(\dot x(t)+\beta\nabla\Phi(x(t))+a x(t)\Bigr).
 $$
 
 Therefore the sum is zero. The tactics `dsimp`, `rw`, `simp`, and `module` perform this cancellation.
@@ -342,8 +337,7 @@ Next the proof computes the derivative of $y$. Differentiating the definition of
 
 $$
 \dot y(t)
-=
--\Bigl(\beta\ddot x(t)
+=-\Bigl(\beta\ddot x(t)
 +\beta^2\bigl(D(\nabla\Phi)(x(t))\bigr)\dot x(t)
 +\beta a\,\dot x(t)\Bigr).
 $$
@@ -352,8 +346,7 @@ The second-order equation `hEq` says
 
 $$
 \ddot x(t)
-=
--\Bigl(\alpha\dot x(t)
+=-\Bigl(\alpha\dot x(t)
 +\beta\bigl(D(\nabla\Phi)(x(t))\bigr)\dot x(t)
 +\nabla\Phi(x(t))\Bigr).
 $$
@@ -420,8 +413,7 @@ and because this equality holds eventually near $t$ when $t>0$, the derivative o
 
 $$
 \ddot x(t)
-=
--\Bigl(\beta\bigl(D(\nabla\Phi)(x(t))\bigr)\dot x(t)
+=-\Bigl(\beta\bigl(D(\nabla\Phi)(x(t))\bigr)\dot x(t)
 +a\dot x(t)+b\dot y(t)\Bigr).
 $$
 
@@ -456,8 +448,7 @@ It remains to extend this equation to $t=0$. The proof defines
 
 $$
 \mathrm{res}(t)
-=
-\ddot x(t)+\alpha\dot x(t)
+=\ddot x(t)+\alpha\dot x(t)
 +\beta\bigl(D(\nabla\Phi)(x(t))\bigr)\dot x(t)
 +\nabla\Phi(x(t)).
 $$

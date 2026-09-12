@@ -20,8 +20,7 @@ Thus $x^\star$ is a global minimizer of $f$, and it is the unique point at which
 
 $$
 \mathrm{stronglyConvexEnergyConstant}(f,u,x^\star,\mu,t_0,h_{x^\star})
-=
-\mathrm{stronglyConvexLyapunov}(f,u,x^\star,\mu,t_0,h_{x^\star})
+=\mathrm{stronglyConvexLyapunov}(f,u,x^\star,\mu,t_0,h_{x^\star})
 \cdot
 \exp\!\left(\sqrt{\mu}\,t_0\right).
 $$

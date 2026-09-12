@@ -51,8 +51,7 @@ is absolutely continuous on $[0,b]$. Second, for almost every $t\in[0,b]$,
 
 $$
 \mathrm{deriv}\!\left(t\mapsto (\Phi(x(t)):\overline{\mathbb R}).toReal\right)(t)
-=
-\langle v(t), \mathrm{deriv}x(t)\rangle_{\mathbb R}.
+=\langle v(t), \mathrm{deriv}x(t)\rangle_{\mathbb R}.
 $$
 
 Thus the energy $t\mapsto \Phi(x(t))$, viewed as a real-valued function on the interval, is absolutely continuous and satisfies the expected chain rule almost everywhere.
@@ -154,8 +153,7 @@ which follows from
 
 $$
 0\le (\|v(r)\|-\|\mathrm{deriv}x(r)\|)^2
-=
-\|v(r)\|^2-2\|v(r)\|\,\|\mathrm{deriv}x(r)\|+\|\mathrm{deriv}x(r)\|^2.
+=\|v(r)\|^2-2\|v(r)\|\,\|\mathrm{deriv}x(r)\|+\|\mathrm{deriv}x(r)\|^2.
 $$
 
 The proof uses `Integrable.mono'` with this majorant and with the measurability of the product of the norm functions to conclude

@@ -304,8 +304,7 @@ Since $\mathrm{alphaSeq}(k)\ge 0$, the homogeneity lemma `posPart_mul_of_nonneg`
 
 $$
 \mathrm{posPart}\bigl(\mathrm{alphaSeq}(k)\theta(k)\bigr)
-=
-\mathrm{alphaSeq}(k)\mathrm{posPart}(\theta(k)).
+=\mathrm{alphaSeq}(k)\mathrm{posPart}(\theta(k)).
 $$
 
 Finally, because $\mathrm{alphaSeq}(k)\le \mathrm{alphaBar}$ and $\mathrm{posPart}(\theta(k))\ge 0$ by `posPart_nonneg`, multiplication by the nonnegative factor preserves the inequality:
@@ -344,8 +343,7 @@ $$
 \sum_{k=0}^{n-1}\mathrm{posPart}(\theta(k+1))
 \le
 \mathrm{alphaBar}\sum_{k=0}^{n-1}\mathrm{posPart}(\theta(k))
-+
-\sum_{k=0}^{n-1}\delta(k).
++\sum_{k=0}^{n-1}\delta(k).
 $$
 
 The proof uses `Finset.sum_add_distrib` and `Finset.mul_sum` to distribute the finite sum and factor out $\mathrm{alphaBar}$.
@@ -368,10 +366,8 @@ From the summed estimate for $n=m+1$, the left-hand sum is shifted:
 
 $$
 \sum_{k=0}^{m}\mathrm{posPart}(\theta(k+1))
-=
-\sum_{k=0}^{m+1}\mathrm{posPart}(\theta(k))
--
-\mathrm{posPart}(\theta(0)).
+=\sum_{k=0}^{m+1}\mathrm{posPart}(\theta(k))
+-\mathrm{posPart}(\theta(0)).
 $$
 
 Since $\mathrm{posPart}(\theta(0))=0$, this becomes
@@ -430,8 +426,7 @@ Then it computes the difference
 
 $$
 w(k+1)-w(k)
-=
-\theta(k+1)-\mathrm{posPart}(\theta(k+1)).
+=\theta(k+1)-\mathrm{posPart}(\theta(k+1)).
 $$
 
 The lemma `posPart_ge_self` states $t\le \mathrm{posPart}(t)$. Hence
@@ -462,8 +457,7 @@ using the standard property that a finite partial sum of a summable nonnegative 
 
 $$
 w(k)
-=
-\phi(k)-\sum_{j=0}^{k}\mathrm{posPart}(\theta(j))
+=\phi(k)-\sum_{j=0}^{k}\mathrm{posPart}(\theta(j))
 \ge -T.
 $$
 
@@ -491,8 +485,7 @@ Now the identity
 
 $$
 \phi(k)
-=
-w(k)+\sum_{j=0}^{k}\mathrm{posPart}(\theta(j))
+=w(k)+\sum_{j=0}^{k}\mathrm{posPart}(\theta(j))
 $$
 
 shows that $\phi$ is the sum of two convergent sequences. Therefore

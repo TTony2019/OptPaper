@@ -373,8 +373,7 @@ The product rule is applied to the function $z\mapsto z^n u(z)$. The derivative 
 
 $$
 \frac{d}{dz}\bigl(z^n u(z)\bigr)\Big|_{z=t}
-=
-n t^{n-1}u(t)+t^n u'(t).
+=n t^{n-1}u(t)+t^n u'(t).
 $$
 
 Since $h$ is eventually equal to this product near $t$, the derivative of $h$ at $t$ equals the same expression:
@@ -429,10 +428,8 @@ Therefore,
 
 $$
 |h'(t)|
-=
-|t^{n-1}|\,|n u(t)+t u'(t)|
-=
-|t|^{n-1}|n u(t)+t u'(t)|
+=|t^{n-1}|\,|n u(t)+t u'(t)|
+=|t|^{n-1}|n u(t)+t u'(t)|
 \ge |t|^{n-1}B.
 $$
 
@@ -456,10 +453,8 @@ Using the real-power identities, this becomes
 
 $$
 \bigl(|t|^n A\bigr)^{1-\theta}
-=
-|t|^{n(1-\theta)}A^{1-\theta}
-=
-|t|^{n-1}|t|^{1-n\theta}A^{1-\theta}.
+=|t|^{n(1-\theta)}A^{1-\theta}
+=|t|^{n-1}|t|^{1-n\theta}A^{1-\theta}.
 $$
 
 Here one uses
@@ -478,8 +473,7 @@ By the definition of $\eta_1$,
 
 $$
 \eta_1^{1-n\theta}
-=
-\frac{B}{A^{1-\theta}}.
+=\frac{B}{A^{1-\theta}}.
 $$
 
 Hence

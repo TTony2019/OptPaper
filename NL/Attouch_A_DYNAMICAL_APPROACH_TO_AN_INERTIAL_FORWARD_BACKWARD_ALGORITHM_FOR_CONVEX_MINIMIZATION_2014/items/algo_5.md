@@ -24,8 +24,7 @@ The ambient data are:
 
   $$
   \langle A x,z\rangle_K
-  =
-  \langle x,At\,z\rangle_H.
+  =\langle x,At\,z\rangle_H.
   $$
 
   Thus $At$ is the adjoint of $A$ with respect to the real inner products. The leading underscore in the Lean name indicates that this proof is not used in the defining body, but it is still a parameter of the definition.
@@ -36,8 +35,7 @@ The proposition `IsCQTrajectory C hC Q hQ A At _hAt lam u` says precisely that f
 
 $$
 u_{k+1}
-=
-P_C\!\left(
+=P_C\!\left(
   u_k - \lambda\, At\!\left(A u_k - P_Q(A u_k)\right)
 \right),
 $$
@@ -77,8 +75,7 @@ The body of the definition is the proposition
 $$
 \forall k\in\mathbb N,\quad
 u_{k+1}
-=
-\texttt{projectionPoint}\;C\;hC\;
+=\texttt{projectionPoint}\;C\;hC\;
 \left(
   u_k - \lambda \bullet At\left(A u_k - \texttt{projectionPoint}\;Q\;hQ\;(A u_k)\right)
 \right).

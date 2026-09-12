@@ -421,8 +421,7 @@ Subtracting gives
 
 $$
 a_\mu(t)-a_{\mu'}(t)
-=
--\gamma z(t)-\Delta A(t).
+=-\gamma z(t)-\Delta A(t).
 $$
 
 The ball estimates give $\|x_\mu(t)\|\le r$ and $\|x_{\mu'}(t)\|\le r$, so `hdist` applies and yields
@@ -453,8 +452,7 @@ $$
 w(t)^{1-\alpha}
 \le
 w(t_0)^{1-\alpha}e^{\int_{t_0}^t a}
-+
-\int_{t_0}^t e^{\int_s^t a} b(s)\,ds.
++\int_{t_0}^t e^{\int_s^t a} b(s)\,ds.
 $$
 
 The proof specializes this with $t_0=0$, $\alpha=1/2$, $a(t)=2m$, and $b(t)=0$. The hypotheses are verified using the absolute continuity and nonnegativity of $w$, the integrability of the constant function $2m$ on $[0,T]$, and the fact that the zero function is nonnegative. The resulting bound is
@@ -463,8 +461,7 @@ $$
 w(t)^{1/2}
 \le
 w(0)^{1/2}\exp\!\left(\int_0^t 2m\,d\tau\right)
-+
-\int_0^t \exp\!\left(\int_s^t 2m\,d\tau\right)\cdot 0\,ds.
++\int_0^t \exp\!\left(\int_s^t 2m\,d\tau\right)\cdot 0\,ds.
 $$
 
 The second term vanishes, and $\int_0^t 2m\,d\tau=2mt$. Hence

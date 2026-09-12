@@ -84,8 +84,7 @@ $$
 \|x_\mu(t)-x_{\mu'}(t)\|
 \le
 e^{mt}\sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}
-+
-\frac{\theta_1}{m}(e^{mt}-1)\|\mu-\mu'\|^{\theta_2}.
++\frac{\theta_1}{m}(e^{mt}-1)\|\mu-\mu'\|^{\theta_2}.
 $$
 
 Here $x_\mu$ and $x_{\mu'}$ are the given functions from the hypotheses, not the existential functions from part 1. The uniqueness statement in part 1 is what allows the comparison bound from the auxiliary theorem to be transferred to the given solutions.
@@ -302,16 +301,14 @@ Using linearity of the inner product in the second variable, the proof expands
 
 $$
 \langle B_\mu(u)-B_\mu(v),\,u-v\rangle
-=
-\langle a-b,\,(J_\mu(u)-J_\mu(v))+\lambda(a-b)\rangle
+=\langle a-b,\,(J_\mu(u)-J_\mu(v))+\lambda(a-b)\rangle
 $$
 
 as
 
 $$
 \langle a-b,J_\mu(u)-J_\mu(v)\rangle
-+
-\lambda\langle a-b,a-b\rangle.
++\lambda\langle a-b,a-b\rangle.
 $$
 
 By monotonicity, the first term is nonnegative. Since
@@ -361,20 +358,16 @@ Now the proof computes
 
 $$
 B_\mu(u)-B_{\mu'}(u)
-=
-\lambda^{-1}(u-J_\mu(u))
--
-\lambda^{-1}(u-J_{\mu'}(u))
-=
-\lambda^{-1}(J_{\mu'}(u)-J_\mu(u)).
+=\lambda^{-1}(u-J_\mu(u))
+-\lambda^{-1}(u-J_{\mu'}(u))
+=\lambda^{-1}(J_{\mu'}(u)-J_\mu(u)).
 $$
 
 Taking norms and using $\lambda>0$, so that $|\lambda^{-1}|=\lambda^{-1}$, gives
 
 $$
 \|B_\mu(u)-B_{\mu'}(u)\|
-=
-\lambda^{-1}\|J_{\mu'}(u)-J_\mu(u)\|.
+=\lambda^{-1}\|J_{\mu'}(u)-J_\mu(u)\|.
 $$
 
 The lemma `norm_sub_rev` changes the order inside the norm to $\|J_\mu(u)-J_{\mu'}(u)\|$. Thus
@@ -383,8 +376,7 @@ $$
 \|B_\mu(u)-B_{\mu'}(u)\|
 \le
 \lambda^{-1}\cdot \lambda\theta_1\|\mu-\mu'\|^{\theta_2}
-=
-\theta_1\|\mu-\mu'\|^{\theta_2}.
+=\theta_1\|\mu-\mu'\|^{\theta_2}.
 $$
 
 This proves `hC2`.
@@ -431,8 +423,7 @@ $$
 \|y(t)-y'(t)\|
 \le
 e^{mt}\sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}
-+
-\frac{\theta_1}{m}(e^{mt}-1)\|\mu-\mu'\|^{\theta_2}.
++\frac{\theta_1}{m}(e^{mt}-1)\|\mu-\mu'\|^{\theta_2}.
 $$
 
 The hypotheses `hγ`, `hC1`, and `hC2` are exactly what `thm_1` requires for $B$. Since $\alpha(\mu)=\lambda$ is constant, both $m_\mu$ and $m_{\mu'}$ are equal to

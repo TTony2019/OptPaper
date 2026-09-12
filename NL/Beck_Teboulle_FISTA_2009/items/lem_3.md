@@ -205,8 +205,7 @@ The first task is to show that $h_{ab}$ is convex on $\mathbb R$. For $p,q\in\ma
 
 $$
 b+((cp+dq)(a-b))
-=
-c\bigl(b+p(a-b)\bigr)+d\bigl(b+q(a-b)\bigr).
+=c\bigl(b+p(a-b)\bigr)+d\bigl(b+q(a-b)\bigr).
 $$
 
 This uses $c+d=1$ and the algebraic normalization tactics `simp`, `add_smul`, `abel`, and `mul_smul`. Then it applies the convexity inequality of $f$ from `hP.convex_f.2` to the two points $b+p(a-b)$ and $b+q(a-b)$. Since both lie in the whole space, this yields

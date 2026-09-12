@@ -131,24 +131,21 @@ The proof now computes the integral on the left. Linearity of the integral gives
 
 $$
 \int_{(a,b]} (g(s)-m)\,ds
-=
-\left(\int_{(a,b]} g(s)\,ds\right)-\int_{(a,b]} m\,ds .
+=\left(\int_{(a,b]} g(s)\,ds\right)-\int_{(a,b]} m\,ds .
 $$
 
 Also, since the inner product is linear in its second argument, the integral of the inner product equals the inner product with the integral:
 
 $$
 \int_{(a,b]} \langle \nabla f(m), g(s)-m\rangle\,ds
-=
-\left\langle \nabla f(m), \int_{(a,b]} (g(s)-m)\,ds \right\rangle .
+=\left\langle \nabla f(m), \int_{(a,b]} (g(s)-m)\,ds \right\rangle .
 $$
 
 The integral of the constant real function $f(m)$ over $(a,b]$ is $(b-a)f(m)$, and the integral of the constant vector $m$ over $(a,b]$ is $(b-a)\bullet m$. Combining these computations, the integral of the affine lower bound is
 
 $$
 (b-a)f(m)
-+
-\left\langle \nabla f(m),
++\left\langle \nabla f(m),
 \left(\int_{(a,b]} g(s)\,ds\right)-(b-a)\bullet m
 \right\rangle .
 $$
@@ -163,10 +160,8 @@ so
 
 $$
 (b-a)\bullet m
-=
-(b-a)\bullet\left((b-a)^{-1}\bullet \int_a^b g(s)\,ds\right)
-=
-\int_a^b g(s)\,ds.
+=(b-a)\bullet\left((b-a)^{-1}\bullet \int_a^b g(s)\,ds\right)
+=\int_a^b g(s)\,ds.
 $$
 
 Thus the difference inside the inner product is zero, and therefore the inner product is zero. Consequently, the integral on the left reduces to $(b-a)f(m)$, and the earlier monotonicity inequality becomes

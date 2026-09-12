@@ -11,8 +11,7 @@ The declaration introduces a set-valued operation `normalConeSet`. Its ambient t
 
 $$
 \mathrm{normalConeSet}(C,S)
-=
-\bigcup_{\xi \in S} \mathrm{normalCone}(C,\xi).
+=\bigcup_{\xi \in S} \mathrm{normalCone}(C,\xi).
 $$
 
 Here $\mathrm{normalCone}(C,\xi)$ denotes the normal cone of the set $C$ at the point $\xi$, as supplied by the surrounding Mathlib context. The Lean notation $\bigcup_{\xi \in S} \mathrm{normalCone}(C,\xi)$ is the union over all points $\xi$ satisfying $\xi \in S$. Therefore, an element $x\in H$ belongs to $\mathrm{normalConeSet}(C,S)$ exactly when there exists some $\xi\in S$ such that
@@ -33,8 +32,7 @@ There is no separate proof. The Lean declaration is a `def`, so its body is a de
 
 $$
 \mathrm{normalConeSet}(C,S)
-=
-\bigcup_{\xi \in S} \mathrm{normalCone}(C,\xi),
+=\bigcup_{\xi \in S} \mathrm{normalCone}(C,\xi),
 $$
 
 which defines the new set by taking the union of the normal cones at all points $\xi$ belonging to $S$.

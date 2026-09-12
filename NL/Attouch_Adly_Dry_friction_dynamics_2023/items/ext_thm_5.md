@@ -548,11 +548,8 @@ If $y=0$, this is immediate. If $y\ne0$, then $A^{-1}y\ne0$, and using $A(A^{-1}
 
 $$
 \langle A^{-1}y,y\rangle
-=
-\langle A(A^{-1}y),A^{-1}y\rangle
-=
-\langle y,A^{-1}y\rangle
->0.
+=\langle A(A^{-1}y),A^{-1}y\rangle
+=\langle y,A^{-1}y\rangle >0.
 $$
 
 Thus the half-inner-product term is nonnegative.
@@ -581,8 +578,7 @@ $$
 2\eta' M^2
 \le
 2\cdot \frac{\varepsilon}{8(M^2+1)}M^2
-=
-\frac{\varepsilon}{4}\cdot \frac{M^2}{M^2+1}
+=\frac{\varepsilon}{4}\cdot \frac{M^2}{M^2+1}
 <
 \frac{\varepsilon}{4}
 <
@@ -624,8 +620,7 @@ $$
 (f(A^{-1}y))_{\mathbb R}
 <
 \frac12\langle A(A^{-1}y),A^{-1}y\rangle+\eta'\|A^{-1}y\|^2
-=
-\frac12\langle y,A^{-1}y\rangle+\eta'\|A^{-1}y\|^2 .
+=\frac12\langle y,A^{-1}y\rangle+\eta'\|A^{-1}y\|^2 .
 $$
 
 Using

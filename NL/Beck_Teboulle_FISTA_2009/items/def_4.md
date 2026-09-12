@@ -19,8 +19,7 @@ Thus, mathematically,
 
 $$
 \mathrm{subdifferential}(g,x)
-=
-\left\{
+=\left\{
 \gamma \in \mathbb R^n
 \;\middle|\;
 \forall y \in \mathbb R^n,\;

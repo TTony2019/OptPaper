@@ -97,8 +97,7 @@ one has
 
 $$
 \mathrm{liapunovF}(u,y,a,b,\lambda,q,k)
-=
-\frac{a+b}{2\lambda}\|u_k-q\|^2
+=\frac{a+b}{2\lambda}\|u_k-q\|^2
 -\left(\frac1\lambda+b\right)G_{k+1}
 -\delta\sum_{i=2}^{k}\|v_i\|^2
 +2\alpha\langle v_{k+1},u_k-q\rangle,

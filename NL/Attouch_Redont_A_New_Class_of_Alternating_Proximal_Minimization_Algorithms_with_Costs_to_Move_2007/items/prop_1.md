@@ -553,8 +553,7 @@ follows because
 
 $$
 (a_\infty-\eta)(b_\infty-\eta)
-=
-a_\infty b_\infty-\eta(a_\infty+b_\infty-\eta),
+=a_\infty b_\infty-\eta(a_\infty+b_\infty-\eta),
 $$
 
 and $\eta(a_\infty+b_\infty-\eta)<\epsilon$. This last inequality comes from $\eta\le\epsilon/(2d)$, $a_\infty+b_\infty-\eta<d$, and $\epsilon/2<\epsilon$. Since $a_n\to a_\infty$, eventually $a_\infty-\eta<a_n$; by the assumed lower bound for $b_n$, eventually $b_\infty-\eta<b_n$. If $b_\infty-\eta>0$, multiplying the two lower bounds gives

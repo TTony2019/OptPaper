@@ -919,8 +919,7 @@ The proof then chooses the subgradients $s_k$ supplied by the shifted recurrence
 
 $$
 h s_k
-=
-h e_k
+=h e_k
 -\left(v_{k+1}-v_k+\gamma d_{k+1}
 +\beta(\nabla f(x_{k+1})-\nabla f(x_k))
 +h\nabla f(x_{k+1})\right).
@@ -956,8 +955,7 @@ and
 
 $$
 z_k
-=
-\frac1{hD}d_k
+=\frac1{hD}d_k
 -\frac{\beta}{D}(\nabla f(x_{k+1})-\nabla f(x_k))
 -\lambda\nabla f(x_{k+1})
 +\lambda e_k.

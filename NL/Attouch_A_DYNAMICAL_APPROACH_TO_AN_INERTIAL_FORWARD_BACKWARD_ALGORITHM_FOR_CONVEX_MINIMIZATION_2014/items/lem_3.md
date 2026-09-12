@@ -151,10 +151,8 @@ It remains to check that the threshold $q/(1-\eta)$ is strictly below $y$. The p
 
 $$
 \frac{q}{1-\eta}
-=
-\frac{y(1-\eta)/2}{1-\eta}
-=
-\frac y2.
+=\frac{y(1-\eta)/2}{1-\eta}
+=\frac y2.
 $$
 
 This is done by unfolding $q$ with `dsimp [q]` and clearing the denominator with `field_simp`, using the previously established fact that $1-\eta\ne 0$. Since $0<y$, we have $y/2<y$. The proof rewrites $q/(1-\eta)$ to $y/2$ using `rw`, and then `linarith` proves

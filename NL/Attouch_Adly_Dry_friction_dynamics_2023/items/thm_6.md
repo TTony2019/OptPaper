@@ -43,8 +43,7 @@ Second, for every $s\ge s_0$,
 
 $$
 z\!\left(\frac{s^2}{2(\alpha-1)}\right)
-=
-x(s)+\frac{s}{\alpha-1}\mathrm{deriv}x(s).
+=x(s)+\frac{s}{\alpha-1}\mathrm{deriv}x(s).
 $$
 
 Finally, the initial friction condition is
@@ -176,8 +175,7 @@ Next the proof applies `reverse_time_scaling_average`. This theorem assumes $\al
 
 $$
 z\!\left(\frac{s^2}{2(\alpha-1)}\right)
-=
-x(s)+\frac{s}{\alpha-1}\mathrm{deriv}x(s)
+=x(s)+\frac{s}{\alpha-1}\mathrm{deriv}x(s)
 \quad(s\ge s_0).
 $$
 

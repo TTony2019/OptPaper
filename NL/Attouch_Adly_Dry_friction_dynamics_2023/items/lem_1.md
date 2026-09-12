@@ -261,18 +261,15 @@ The comparison integral is then evaluated. Using the power antiderivative formul
 
 $$
 \int_T^s u^{\alpha-2}\,du
-=
-\frac{s^{\alpha-1}-T^{\alpha-1}}{\alpha-1}
-=
-\frac{s^q-T^q}{q}.
+=\frac{s^{\alpha-1}-T^{\alpha-1}}{\alpha-1}
+=\frac{s^q-T^q}{q}.
 $$
 
 Thus
 
 $$
 \int_T^s u^{\alpha-2}\varepsilon\,du
-=
-\varepsilon\frac{s^q-T^q}{q}.
+=\varepsilon\frac{s^q-T^q}{q}.
 $$
 
 Since $T\ge0$, we have $T^q\ge0$, so $s^q-T^q\le s^q$. Dividing by $q>0$ and multiplying by $\varepsilon\ge0$ gives
@@ -281,8 +278,7 @@ $$
 \varepsilon\frac{s^q-T^q}{q}
 \le
 \varepsilon\frac{s^q}{q}
-=
-\frac{\varepsilon}{q}s^q.
+=\frac{\varepsilon}{q}s^q.
 $$
 
 Therefore
@@ -301,8 +297,7 @@ $$
 (s^q)^{-1}\int_T^s f(u)\,du
 \le
 (s^q)^{-1}\frac{\varepsilon}{q}s^q
-=
-\frac{\varepsilon}{q}.
+=\frac{\varepsilon}{q}.
 $$
 
 Since $s>0$, $s^q>0$, so cancellation is valid. Finally, because $\varepsilon=bq/2$ and $q\ne0$,
@@ -323,20 +318,16 @@ The final step splits the integral:
 
 $$
 \int_{s_0}^{s}f(u)\,du
-=
-\int_{s_0}^{T}f(u)\,du
-+
-\int_T^{s}f(u)\,du.
+=\int_{s_0}^{T}f(u)\,du
++\int_T^{s}f(u)\,du.
 $$
 
 This uses `intervalIntegral.integral_add_adjacent_intervals`, for which interval integrability on $s_0..T$ and $T..s$ has already been established. Multiplying by $(s^q)^{-1}$ and distributing gives
 
 $$
 (s^q)^{-1}\int_{s_0}^{s}f(u)\,du
-=
-(s^q)^{-1}\int_{s_0}^{T}f(u)\,du
-+
-(s^q)^{-1}\int_T^{s}f(u)\,du.
+=(s^q)^{-1}\int_{s_0}^{T}f(u)\,du
++(s^q)^{-1}\int_T^{s}f(u)\,du.
 $$
 
 The first summand is strictly less than $b/2$ by `hfixlt`, while the second is at most $b/2$ by `hnormtail`. Hence their sum is less than $b$. The tactic `nlinarith` performs exactly this final arithmetic. Since $q=\alpha-1$ and $f(u)=u^{\alpha-2}a(u)$, this proves the desired eventual upper bound. Together with the earlier eventual lower bound and `tendsto_order`, it proves
@@ -345,7 +336,6 @@ $$
 \lim_{s\to+\infty}
 (s^{\alpha-1})^{-1}
 \int_{s_0}^{s}u^{\alpha-2}a(u)\,du
-=
-0.
+=0.
 $$
 

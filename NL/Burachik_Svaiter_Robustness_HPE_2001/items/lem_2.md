@@ -195,17 +195,13 @@ The `simpa [Function.comp]` steps again convert composition notation into explic
 To show $p=q$, the proof argues by contradiction using `by_contra`. If $p \ne q$, then also $q \ne p$ by `Ne.symm`. The theorem `opial_lemma_paper` is then applied twice. This theorem says that in a complete real inner product space, if a sequence $x_j$ converges weakly to $x_\infty$, and if $z \ne x_\infty$, then
 
 $$
-\liminf_{j} \|x_j - z\|
->
-\liminf_{j} \|x_j - x_\infty\|.
+\liminf_{j} \|x_j - z\| >\liminf_{j} \|x_j - x_\infty\|.
 $$
 
 First it is applied to the subsequence $A.x_{\varphi(j)}$, whose weak limit is $p$, with $z=q$, using $q \ne p$. This yields
 
 $$
-\liminf_j \|A.x_{\varphi(j)} - q\|
->
-\liminf_j \|A.x_{\varphi(j)} - p\|.
+\liminf_j \|A.x_{\varphi(j)} - q\| >\liminf_j \|A.x_{\varphi(j)} - p\|.
 $$
 
 Since the corresponding distance sequences converge to $L_q$ and $L_p$, the rewrites `rw [hdistQφ.liminf_eq, hdistPφ.liminf_eq]` replace the liminf values by their limits, giving
@@ -217,9 +213,7 @@ $$
 Second, `opial_lemma_paper` is applied to $A.x_{\psi(j)}$, whose weak limit is $q$, with $z=p$, using $p \ne q$. This gives
 
 $$
-\liminf_j \|A.x_{\psi(j)} - p\|
->
-\liminf_j \|A.x_{\psi(j)} - q\|.
+\liminf_j \|A.x_{\psi(j)} - p\| >\liminf_j \|A.x_{\psi(j)} - q\|.
 $$
 
 Rewriting with `hdistPψ.liminf_eq` and `hdistQψ.liminf_eq` gives

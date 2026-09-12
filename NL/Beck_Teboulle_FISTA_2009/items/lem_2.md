@@ -48,8 +48,7 @@ The quadratic approximation used in the statement is
 
 $$
 Q(x,y)
-=
-f(y)+\langle \nabla f(y),x-y\rangle
+=f(y)+\langle \nabla f(y),x-y\rangle
 +\frac L2\|x-y\|^2+g(x).
 $$
 
@@ -298,16 +297,14 @@ The proof computes the two differences separately. First,
 
 $$
 \langle \nabla f(y),x_t-y\rangle-\langle \nabla f(y),z-y\rangle
-=
-t\langle \nabla f(y),w-z\rangle,
+=t\langle \nabla f(y),w-z\rangle,
 $$
 
 because $x_t-z=t(w-z)$. This is handled in Lean by rewriting with `inner_sub_right`, `abel`, and `inner_smul_right`. Second,
 
 $$
 \|x_t-y\|^2-\|z-y\|^2
-=
-2t\langle z-y,w-z\rangle+t^2\|w-z\|^2.
+=2t\langle z-y,w-z\rangle+t^2\|w-z\|^2.
 $$
 
 This follows by writing $x_t-y=(z-y)+t(w-z)$ and expanding $\|u+v\|^2$; the proof uses `norm_add_sq_real`, `norm_smul`, and the positivity of $t$ to replace $|t|$ by $t$. Substituting these identities gives
@@ -336,8 +333,7 @@ Combining this with the previous inequality yields
 $$
 0\le t\bigl(\langle a,w-z\rangle+g(w)-g(z)\bigr)
 +\frac L2t^2\|w-z\|^2
-=
-t(D+Ct).
+=t(D+Ct).
 $$
 
 Because $t>0$, this implies $D+Ct\ge0$. The Lean proof packages this nonlinear arithmetic with `nlinarith`.
@@ -352,8 +348,7 @@ and $D\ge0$ becomes
 
 $$
 g(w)-g(z)\ge-\langle a,w-z\rangle
-=
-\langle\gamma,w-z\rangle,
+=\langle\gamma,w-z\rangle,
 $$
 
 which is exactly the subgradient inequality.
@@ -420,8 +415,7 @@ To prove that $z$ minimizes $Q(\cdot,y)$, take an arbitrary $x$. The proof expan
 
 $$
 Q(x,y)-Q(z,y)
-=
-\langle \nabla f(y),x-z\rangle
+=\langle \nabla f(y),x-z\rangle
 +\frac L2\bigl(\|x-y\|^2-\|z-y\|^2\bigr)
 +g(x)-g(z).
 $$
@@ -430,8 +424,7 @@ Next it uses the identity
 
 $$
 \|x-y\|^2-\|z-y\|^2
-=
-\|x-z\|^2+2\langle x-z,z-y\rangle,
+=\|x-z\|^2+2\langle x-z,z-y\rangle,
 $$
 
 obtained by writing $x-y=(x-z)+(z-y)$ and expanding. Substituting this identity and the lower bound for $g(x)-g(z)$, the difference is bounded below by
@@ -452,8 +445,7 @@ we have
 
 $$
 \langle a,x-z\rangle
-=
-\langle \nabla f(y),x-z\rangle
+=\langle \nabla f(y),x-z\rangle
 +L\langle z-y,x-z\rangle,
 $$
 

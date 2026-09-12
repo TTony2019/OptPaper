@@ -230,8 +230,7 @@ Next, the equality $F(s)=F(\bar s)$ is multiplied on the left by the scalar $\bi
 
 $$
 \bigl(s^{\alpha-1}\bigr)^{-1}\cdot F(s)
-=
-\bigl(s^{\alpha-1}\bigr)^{-1}\cdot F(\bar s).
+=\bigl(s^{\alpha-1}\bigr)^{-1}\cdot F(\bar s).
 $$
 
 The resulting equality is called `hdiv`.
@@ -253,8 +252,7 @@ Thus `hdiv` becomes
 $$
 \bigl(s^{\alpha-1}\bigr)^{-1}\cdot
 \left(s^{\alpha-1}\cdot\bigl(x(s)-x_{\mathrm{Limit}}\bigr)\right)
-=
-\bigl(s^{\alpha-1}\bigr)^{-1}\cdot F(\bar s).
+=\bigl(s^{\alpha-1}\bigr)^{-1}\cdot F(\bar s).
 $$
 
 The proof simplifies the left-hand side by rewriting with `smul_smul`, `inv_mul_cancel₀ hpow_ne`, and `one_smul`. The first rewrites associativity of scalar multiplication:
@@ -267,8 +265,7 @@ The second uses $a\neq0$ to simplify $a^{-1}a=1$. The third removes the scalar $
 
 $$
 x(s)-x_{\mathrm{Limit}}
-=
-\bigl(s^{\alpha-1}\bigr)^{-1}\cdot F(\bar s).
+=\bigl(s^{\alpha-1}\bigr)^{-1}\cdot F(\bar s).
 $$
 
 Finally, `exact sub_eq_iff_eq_add'.mp hdiv` applies the elementary equivalence

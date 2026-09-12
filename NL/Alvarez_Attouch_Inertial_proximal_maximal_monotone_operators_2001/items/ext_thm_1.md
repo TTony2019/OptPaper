@@ -222,8 +222,7 @@ so
 
 $$
 \langle us_n,xs_n\rangle
-=
-\langle us_n-u,xs_n\rangle + \langle u,xs_n\rangle.
+=\langle us_n-u,xs_n\rangle + \langle u,xs_n\rangle.
 $$
 
 The first term tends to $0$, and the second term tends to $\langle u,x\rangle$ by the weak-convergence inner-product characterization. Adding limits gives the claimed convergence.

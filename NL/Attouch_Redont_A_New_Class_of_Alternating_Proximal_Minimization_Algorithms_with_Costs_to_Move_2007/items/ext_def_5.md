@@ -12,8 +12,7 @@ The declaration `epsArgmin` introduces a construction that assigns to a function
 
 $$
 \mathrm{epsArgmin}(\varphi,\varepsilon,h_\varepsilon)
-=
-\left\{ x \in X \;\middle|\;
+=\left\{ x \in X \;\middle|\;
 \varphi(x) \le \left(\inf_{\xi \in X} \varphi(\xi)\right) + (\varepsilon : \mathrm{EReal})
 \right\}.
 $$

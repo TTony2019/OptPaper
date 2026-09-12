@@ -1204,8 +1204,7 @@ By this point it has shown that both $E$ and $\Gamma$ converge as $t\to\infty$. 
 
 $$
 E(t)-\Gamma(t)
-=
-2\beta\bigl(\Phi(x(t))+\langle x(t),Bz\rangle\bigr).
+=2\beta\bigl(\Phi(x(t))+\langle x(t),Bz\rangle\bigr).
 $$
 
 Since $2\beta>0$, multiplying the convergent difference by $(2\beta)^{-1}$ yields a limit for $\Phi(x(t))+\langle x(t),Bz\rangle$. The tactic `Tendsto.sub` handles the convergence of $E-\Gamma$, and `Tendsto.const_mul` handles the division by $2\beta$.

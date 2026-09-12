@@ -32,8 +32,7 @@ $$
 \frac{\alpha}{\alpha-\alpha\gamma T-T^2}\bigl(A_0+T B_0+T^2\theta_1 c\bigr)
 \le
 \exp\!\left(T\sqrt{1+2\gamma^2+\frac{2}{\alpha^2}}\right)\sqrt{A_0^2+B_0^2}
-+
-\frac{\theta_1}{\sqrt{1+2\gamma^2+\frac{2}{\alpha^2}}}
++\frac{\theta_1}{\sqrt{1+2\gamma^2+\frac{2}{\alpha^2}}}
 \left(\exp\!\left(T\sqrt{1+2\gamma^2+\frac{2}{\alpha^2}}\right)-1\right)c.
 $$
 
@@ -47,8 +46,7 @@ then the right-hand side is
 
 $$
 \exp(mT)\sqrt{A_0^2+B_0^2}
-+
-\frac{\theta_1}{m}\bigl(\exp(mT)-1\bigr)c.
++\frac{\theta_1}{m}\bigl(\exp(mT)-1\bigr)c.
 $$
 
 The statement says that on a sufficiently small time interval $(0,T_0)$, the factor
@@ -242,8 +240,7 @@ Finally, `Real.sqrt_mul` splits this as
 
 $$
 \sqrt{(1+T^2)(A_0^2+B_0^2)}
-=
-\sqrt{1+T^2}\sqrt{A_0^2+B_0^2},
+=\sqrt{1+T^2}\sqrt{A_0^2+B_0^2},
 $$
 
 valid because $1+T^2\ge0$.
@@ -275,8 +272,7 @@ For the second main bound, the proof rewrites
 
 $$
 \frac{\alpha}{\alpha-\alpha\gamma T-T^2}(T^2\theta_1 c)
-=
-\left(\frac{\alpha}{\alpha-\alpha\gamma T-T^2}T^2\right)(\theta_1 c).
+=\left(\frac{\alpha}{\alpha-\alpha\gamma T-T^2}T^2\right)(\theta_1 c).
 $$
 
 Since $\theta_1\ge0$ and $c\ge0$, the product $\theta_1 c$ is nonnegative. Multiplying the threshold estimate for the $T^2$-term by $\theta_1 c$ with `mul_le_mul_of_nonneg_right` yields
@@ -304,8 +300,7 @@ as the sum of the two separately bounded terms using `ring`. Then `add_le_add` c
 
 $$
 \exp(mT)\sqrt{A_0^2+B_0^2}
-+
-\frac{\theta_1}{m}(\exp(mT)-1)c.
++\frac{\theta_1}{m}(\exp(mT)-1)c.
 $$
 
 The last `rw [hm]` replaces $m$ by

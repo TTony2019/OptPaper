@@ -134,8 +134,7 @@ Using the identity for $x-y$ and bilinearity of the real inner product, the righ
 
 $$
 \langle Jx-Jy,Jx-Jy\rangle
-+
-\lambda\langle Jx-Jy,a-b\rangle.
++\lambda\langle Jx-Jy,a-b\rangle.
 $$
 
 The first term is $\|Jx-Jy\|^{2}$, by the standard real inner-product identity $\langle u,u\rangle=\|u\|^{2}$, applied through `simp`. For the second term, monotonicity of $A$ applied to $a\in A(Jx)$ and $b\in A(Jy)$ gives the monotonicity inequality, and after using `real_inner_comm` the proof obtains
@@ -150,8 +149,7 @@ $$
 \|Jx-Jy\|^{2}
 \le
 \|Jx-Jy\|^{2}
-+
-\lambda\langle Jx-Jy,a-b\rangle,
++\lambda\langle Jx-Jy,a-b\rangle,
 $$
 
 which is exactly the firm inequality. The tactics `inner_add_right`, `real_inner_smul_right`, `mul_nonneg`, and `nlinarith` implement these algebraic and order-theoretic steps.

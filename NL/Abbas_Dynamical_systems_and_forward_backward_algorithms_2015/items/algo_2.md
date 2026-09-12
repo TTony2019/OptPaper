@@ -19,8 +19,7 @@ The conclusion is that for every index $k$,
 
 $$
 x_{k+1}
-=
-\mathrm{Prox}_{\mu f}\bigl(x_k-\mu B(x_k)\bigr),
+=\mathrm{Prox}_{\mu f}\bigl(x_k-\mu B(x_k)\bigr),
 $$
 
 where $\mathrm{Prox}_{\mu f}$ denotes `scaledProximityOperator f hf ⟨mu, alg.mu_pos⟩`. The cited definition says this is the proximity operator of the pointwise scaled function $\gamma f$, where the positive real $\gamma$ is represented by the value $\mu$ together with the proof `alg.mu_pos`. The auxiliary facts in that definition, `smul_mem_gammaZero` and `hasUniqueProxPoint_of_mem_gammaZero`, ensure that positive scaling preserves membership in $\Gamma_0(H)$ and that the scaled function has a unique proximity point. Thus the theorem says that for the unit parameter choice, the next iterate is obtained by first taking the forward step $x_k \mapsto x_k-\mu B(x_k)$ and then applying the proximal map of $\mu f$, i.e. the standard proximal-gradient/backward-forward update.
@@ -46,16 +45,14 @@ First,
 
 $$
 x_{k+1}
-=
-\mathrm{Prox}_{\mu f}\bigl(y_{k+1}\bigr)
+=\mathrm{Prox}_{\mu f}\bigl(y_{k+1}\bigr)
 $$
 
 by `alg.prox_step (k+1)`. The field `alg.prox_step` is the proximal/backward step of the discretization: for every index $n$, it states
 
 $$
 x_{n+1}
-=
-\mathrm{Prox}_{\mu f}\bigl(y_{n+1}\bigr).
+=\mathrm{Prox}_{\mu f}\bigl(y_{n+1}\bigr).
 $$
 
 Specializing to $n=k+1$ gives the first equality. Mathematically, this says that the new $x$-iterate is obtained by applying the proximal map of $\mu f$ to the current $y$-iterate.
@@ -64,8 +61,7 @@ Second, the proof rewrites this expression using `alg.equation_step`. In the pre
 
 $$
 y_{k+1}
-=
-(1-1)\cdot y_k+1\cdot \bigl(x_k-\mu B(x_k)\bigr).
+=(1-1)\cdot y_k+1\cdot \bigl(x_k-\mu B(x_k)\bigr).
 $$
 
 The `rw [alg.equation_step]` tactic performs exactly this replacement inside the argument of the fixed function $\mathrm{Prox}_{\mu f}$. Therefore the middle line of the `calc` block is
@@ -80,12 +76,9 @@ Finally, `simp` simplifies the argument:
 
 $$
 (1-1)\cdot y_k+1\cdot \bigl(x_k-\mu B(x_k)\bigr)
-=
-0\cdot y_k+\bigl(x_k-\mu B(x_k)\bigr)
-=
-0+\bigl(x_k-\mu B(x_k)\bigr)
-=
-x_k-\mu B(x_k).
+=0\cdot y_k+\bigl(x_k-\mu B(x_k)\bigr)
+=0+\bigl(x_k-\mu B(x_k)\bigr)
+=x_k-\mu B(x_k).
 $$
 
 These simplifications use elementary real arithmetic and the vector-space laws for scalar multiplication, such as $1\cdot z=z$ and $0\cdot y=0$. Hence the last line of the `calc` block is

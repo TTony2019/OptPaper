@@ -149,8 +149,7 @@ Next, `h_deriv` computes the derivative of $t\mapsto h(\varphi(t))$. For each $t
 
 $$
 \frac{d}{dt}\Big|_{t=t_0} h(\varphi(t))
-=
-\langle \nabla h(\varphi(t_0)),y-x\rangle.
+=\langle \nabla h(\varphi(t_0)),y-x\rangle.
 $$
 
 The proof uses the differentiability part of `hL`: from `hL.2.1.differentiableAt`, the function $h$ is differentiable at $\varphi(t_0)$. It also invokes `AffineMap.hasDerivAt_lineMap`, which says that the affine line $\varphi$ has derivative $y-x$ at $t_0$. The chain rule, via `comp_hasDerivAt`, then gives the derivative of the composition as
@@ -163,8 +162,7 @@ Finally, `inner_gradient_left` is the lemma relating the Fréchet derivative of 
 
 $$
 (fderiv_{\mathbb R} h(\varphi(t_0)))(y-x)
-=
-\langle \nabla h(\varphi(t_0)),y-x\rangle.
+=\langle \nabla h(\varphi(t_0)),y-x\rangle.
 $$
 
 That gives the stated derivative.
@@ -185,10 +183,8 @@ is $L t\|y-x\|^2$, using `hasDerivAt_pow` for the derivative of $t^2$, then cons
 
 $$
 q'(t)
-=
-\langle \nabla h(\varphi(t))-\nabla h(x),y-x\rangle
--
-L t\|y-x\|^2.
+=\langle \nabla h(\varphi(t))-\nabla h(x),y-x\rangle
+-L t\|y-x\|^2.
 $$
 
 Next, `hq_diff`, `hq_cont`, `hq_contOn`, and `hq_diffOn` use the fact that $q$ has a derivative at every real $t$. Therefore $q$ is differentiable everywhere, hence continuous everywhere, hence continuous on the interval $[0,1]$, and differentiable on the open interval $(0,1)$. In Lean, `continuous_iff_continuousAt.mpr` reduces continuity to continuity at every point, and `DifferentiableAt.continuousAt` supplies continuity at each point.
@@ -247,10 +243,8 @@ The proof destructs this existential with `rcases`, obtaining $c$, the fact $c\i
 
 $$
 q'(c)
-=
-\langle \nabla h(\varphi(c))-\nabla h(x),y-x\rangle
--
-L c\|y-x\|^2.
+=\langle \nabla h(\varphi(c))-\nabla h(x),y-x\rangle
+-L c\|y-x\|^2.
 $$
 
 Since $c\in(0,1)$, in particular $c>0$, and `h_deriv_nonpos` gives $q'(c)\le 0$. The slope equality is rewritten using $1-0=1$, `div_one`, and $q(0)=0$, so it becomes $q'(c)=q(1)$. Therefore $q(1)\le 0$. This is the essential conclusion.

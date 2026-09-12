@@ -62,8 +62,7 @@ The set $\mathrm{normalConeSet}$ is defined by
 
 $$
 \mathrm{normalConeSet}(C,S)
-=
-\bigcup_{\xi \in S} \mathrm{normalCone}(C,\xi).
+=\bigcup_{\xi \in S} \mathrm{normalCone}(C,\xi).
 $$
 
 Hence $Q$ says that for every limit direction $d$ of normalized increments, there exists some $\xi \in -B(x_\infty)$ such that $d$ lies in the normal cone to $A(0)$ at $\xi$. Equivalently, since $\xi \in -B(x_\infty)$ means $\xi = -b$ for some $b \in B(x_\infty)$, every such limit direction lies in the normal cone to $A(0)$ at some point $-b$ with $b \in B(x_\infty)$. The interior condition $R$ says that every negative of an element of the set value $B(x_\infty)$ lies in the interior of the set value $A(0)$.

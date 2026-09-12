@@ -73,8 +73,7 @@ Here
 
 $$
 \mathrm{energyRate}(\beta,\gamma,\delta)
-=
-\frac{(\beta\delta+\gamma)-\sqrt{(\beta\delta+\gamma)^2-4\delta}}{2}.
+=\frac{(\beta\delta+\gamma)-\sqrt{(\beta\delta+\gamma)^2-4\delta}}{2}.
 $$
 
 - For every $\mu$, $\phi_\mu$ is differentiable on $H$.
@@ -168,8 +167,7 @@ is continuous at $\bar\mu$. Here
 
 $$
 \mathrm{dinAuxInitial}(\mathrm{grad}\phi,\beta,\gamma,u_0,v_0,\mu)
-=
--\left(\sqrt{(\gamma-1/\beta)(1/\beta)}\right)^{-1}
+=-\left(\sqrt{(\gamma-1/\beta)(1/\beta)}\right)^{-1}
 \bigl(v_0(\mu)+\beta\,\mathrm{grad}\phi_\mu(u_0(\mu))
 +(\gamma-1/\beta)u_0(\mu)\bigr).
 $$
@@ -375,8 +373,7 @@ The mathematical content is that the second-order DIN trajectory $x(\mu)$ can be
 
 $$
 z(\mu,t)
-=
-\mathrm{dinAux}(\mathrm{grad}\phi,\beta,\gamma,x,dx,\mu,t)
+=\mathrm{dinAux}(\mathrm{grad}\phi,\beta,\gamma,x,dx,\mu,t)
 $$
 
 so that the pair $(x(\mu,t),z(\mu,t))$ solves a first-order gradient flow with field
@@ -433,8 +430,7 @@ The proof then defines
 
 $$
 \delta_{\mathrm{rate}}
-=
-\min\left(1,
+=\min\left(1,
 \left(\frac{\varepsilon c_{\min}}{3\beta k_1}\right)^{1/\gamma_1}
 \right).
 $$
@@ -502,8 +498,7 @@ then
 $$
 \sqrt{
 \|u_0(\mu)-u_0(\bar\mu)\|^2
-+
-\|\mathrm{dinAuxInitial}(\ldots,\mu)
++\|\mathrm{dinAuxInitial}(\ldots,\mu)
 -\mathrm{dinAuxInitial}(\ldots,\bar\mu)\|^2
 }
 \le
@@ -515,8 +510,7 @@ Since $m<\varepsilon/(3\sqrt2)$, this yields
 $$
 \sqrt{
 \|u_0(\mu)-u_0(\bar\mu)\|^2
-+
-\|\mathrm{dinAuxInitial}(\ldots,\mu)
++\|\mathrm{dinAuxInitial}(\ldots,\mu)
 -\mathrm{dinAuxInitial}(\ldots,\bar\mu)\|^2
 }
 <
@@ -532,12 +526,10 @@ $$
 e^{-M t}
 \sqrt{
 \|u_0(\mu)-u_0(\bar\mu)\|^2
-+
-\|z_0(\mu)-z_0(\bar\mu)\|^2
++\|z_0(\mu)-z_0(\bar\mu)\|^2
 }\\
 &\quad
-+
-\frac{\beta k_1}{M}
++\frac{\beta k_1}{M}
 \left(1-e^{-M t}\right)
 \|\mu-\bar\mu\|^{\gamma_1},
 \end{aligned}
@@ -612,8 +604,7 @@ $$
 \|x(\mu,t)-\bar x(\bar\mu)\|
 \le
 \|x(\mu,t)-x(\bar\mu,t)\|
-+
-\|x(\bar\mu,t)-\bar x(\bar\mu)\|.
++\|x(\bar\mu,t)-\bar x(\bar\mu)\|.
 $$
 
 The first summand is $<2\varepsilon/3$, and the second is $<\varepsilon/3$, so the total is $<\varepsilon$. This proves the first conclusion. The tactic `linarith` is used here to combine these linear inequalities.
@@ -639,8 +630,7 @@ $$
 \right)
 \le
 \left\langle F_\mu(p)_1-F_\mu(q)_1,p_1-q_1\right\rangle
-+
-\left\langle F_\mu(p)_2-F_\mu(q)_2,p_2-q_2\right\rangle.
++\left\langle F_\mu(p)_2-F_\mu(q)_2,p_2-q_2\right\rangle.
 $$
 
 This is exactly the strong monotonicity needed by `din_tendsto_to_critical`. The positivity of the constant is supplied by `energyRate_pos`, using $\beta>0$, $\gamma>0$, $\delta(\mu)>0$, and $\beta\gamma>1$. The critical-point condition is `hcrit μ`,

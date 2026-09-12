@@ -22,9 +22,7 @@ $$
 The hypothesis $hz$ says $z\neq x_{\text{Limit}}$. The conclusion is the strict liminf inequality
 
 $$
-\liminf_{j\to\infty}\|x_j-z\|
->
-\liminf_{j\to\infty}\|x_j-x_{\text{Limit}}\|.
+\liminf_{j\to\infty}\|x_j-z\| >\liminf_{j\to\infty}\|x_j-x_{\text{Limit}}\|.
 $$
 
 Thus, if a sequence converges weakly to $x_{\text{Limit}}$, then every different point $z$ has a strictly larger lower limit of distances to the sequence than the weak limit has. This is exactly the Opial property of Hilbert spaces.
@@ -200,8 +198,7 @@ The function $g$ is monotone: if $a\le b$, then $\max(a,0)\le \max(b,0)$, and si
 
 $$
 \liminf q
-=
-\left(\liminf r\right)^2.
+=\left(\liminf r\right)^2.
 $$
 
 The `rw` and `simp` steps perform these simplifications. The proof also shows $q_j\ge0$ by `positivity`, so $q$ is bounded below. Since
@@ -266,8 +263,7 @@ For each $n$, the proof next uses the identity
 
 $$
 x(\varphi(n))-z
-=
-\bigl(x(\varphi(n))-x_{\text{Limit}}\bigr)+d,
+=\bigl(x(\varphi(n))-x_{\text{Limit}}\bigr)+d,
 $$
 
 where $d=x_{\text{Limit}}-z$. The `abel` tactic verifies this additive rearrangement. Then the real Hilbert space identity `norm_add_sq_real`,
@@ -280,24 +276,18 @@ gives
 
 $$
 s(\varphi(n))^2
-=
-q(\varphi(n))
-+
-2\langle x(\varphi(n))-x_{\text{Limit}},d\rangle
-+
-\|d\|^2.
+=q(\varphi(n))
++2\langle x(\varphi(n))-x_{\text{Limit}},d\rangle
++\|d\|^2.
 $$
 
 Equivalently,
 
 $$
 q(\varphi(n))
-=
-s(\varphi(n))^2
--
-2\langle x(\varphi(n))-x_{\text{Limit}},d\rangle
--
-\|d\|^2.
+=s(\varphi(n))^2
+-2\langle x(\varphi(n))-x_{\text{Limit}},d\rangle
+-\|d\|^2.
 $$
 
 Since $s(\varphi(n))\to \liminf s$, squaring is continuous, so

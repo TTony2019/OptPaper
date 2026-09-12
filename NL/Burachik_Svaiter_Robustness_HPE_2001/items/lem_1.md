@@ -130,18 +130,15 @@ Then the proof rewrites
 
 $$
 \mathrm{extragradientStep} A k - x_k
-=
-(x_k-c_kv_k)-x_k
-=
--c_kv_k.
+=(x_k-c_kv_k)-x_k
+=-c_kv_k.
 $$
 
 Using linearity of the inner product in its first argument, this becomes
 
 $$
 \langle -c_kv_k,\,x^\star-y_k\rangle
-=
-c_k\langle -v_k,\,x^\star-y_k\rangle.
+=c_k\langle -v_k,\,x^\star-y_k\rangle.
 $$
 
 The `rw` with `extragradientStep`, `inner_neg_left`, and `real_inner_smul_left` performs these rewrites, and `simpa [mul_neg, neg_mul]` normalizes the signs.
@@ -156,8 +153,7 @@ it gives
 
 $$
 \|x^\star-x_k\|^2-\|x^\star-z_k\|^2
-=
-2\langle z_k-x_k,\,x^\star-y_k\rangle
+=2\langle z_k-x_k,\,x^\star-y_k\rangle
 +\|y_k-x_k\|^2-\|y_k-z_k\|^2.
 $$
 
@@ -203,10 +199,8 @@ so
 
 $$
 y_k-z_k
-=
-y_k-(x_k-c_kv_k)
-=
-c_kv_k+y_k-x_k.
+=y_k-(x_k-c_kv_k)
+=c_kv_k+y_k-x_k.
 $$
 
 The command `simp [extragradientStep]` unfolds the definition of the extragradient step, and `abel` normalizes the additive expression in the abelian group $H$.
@@ -248,12 +242,10 @@ Therefore
 
 $$
 \|y_k-x_k\|^2-\|y_k-z_k\|^2-2c_k\varepsilon_k
-=
-\|y_k-x_k\|^2-\bigl(\|y_k-z_k\|^2+2c_k\varepsilon_k\bigr)
+=\|y_k-x_k\|^2-\bigl(\|y_k-z_k\|^2+2c_k\varepsilon_k\bigr)
 \ge
 \|y_k-x_k\|^2-\bigl(\delta_k+\sigma_k^2\|y_k-x_k\|^2\bigr)
-=
-(1-\sigma_k^2)\|y_k-x_k\|^2-\delta_k.
+=(1-\sigma_k^2)\|y_k-x_k\|^2-\delta_k.
 $$
 
 Combining this with the previous lower bound gives

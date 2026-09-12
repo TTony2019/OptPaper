@@ -412,8 +412,7 @@ If $g(t)\ne0$, then the derivative of the norm is
 
 $$
 \frac{d}{dt}\|g(t)\|
-=
-\frac{\left\langle D(\nabla f)(z(t))[z'(t)],\,g(t)\right\rangle}{\|g(t)\|}.
+=\frac{\left\langle D(\nabla f)(z(t))[z'(t)],\,g(t)\right\rangle}{\|g(t)\|}.
 $$
 
 The proof then shows this quantity is $\le0$. If $\|g(t)\|\le r$, then soft thresholding vanishes:
@@ -484,8 +483,7 @@ Next, the theorem `infDist_frictionBall_eq` gives the exact formula
 
 $$
 \mathrm{infDist}(g(t),B(0,r))
-=
-\max\bigl(\|g(t)\|-r,0\bigr).
+=\max\bigl(\|g(t)\|-r,0\bigr).
 $$
 
 Since $\|g\|$ is antitone and $x\mapsto \max(x-r,0)$ is nondecreasing, the distance
@@ -593,10 +591,8 @@ For $t\ge t_0$, differentiating and using the chain rule gives
 
 $$
 E'(t)
-=
-\langle \nabla f(z(t)),z'(t)\rangle-\langle g_\infty,z'(t)\rangle
-=
-\langle g(t)-g_\infty,z'(t)\rangle.
+=\langle \nabla f(z(t)),z'(t)\rangle-\langle g_\infty,z'(t)\rangle
+=\langle g(t)-g_\infty,z'(t)\rangle.
 $$
 
 Using $z'(t)=p(t)-g(t)$, this becomes
@@ -615,18 +611,15 @@ so
 
 $$
 E'(t)
-=
-\langle g(t)-p(t),p(t)-g(t)\rangle
-+
-\langle p(t)-g_\infty,p(t)-g(t)\rangle.
+=\langle g(t)-p(t),p(t)-g(t)\rangle
++\langle p(t)-g_\infty,p(t)-g(t)\rangle.
 $$
 
 The first term is
 
 $$
 \langle g(t)-p(t),-(g(t)-p(t))\rangle
-=
--\|g(t)-p(t)\|^2\le0.
+=-\|g(t)-p(t)\|^2\le0.
 $$
 
 For the second term, the proof uses the nearest-point variational inequality for the convex closed ball. Since $p(t)$ is a best approximation to $g(t)$ in $B(0,r)$, for every $y\in B(0,r)$,

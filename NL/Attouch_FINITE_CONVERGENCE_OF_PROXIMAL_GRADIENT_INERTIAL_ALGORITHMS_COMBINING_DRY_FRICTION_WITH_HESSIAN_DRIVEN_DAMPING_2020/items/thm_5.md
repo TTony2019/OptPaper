@@ -520,16 +520,14 @@ is handled by `IPAHDDN_inner_sub_self_energy_identity`, which states that for an
 
 $$
 \langle u-v,u\rangle
-=
-\frac12\|u\|^2-\frac12\|v\|^2+\frac12\|u-v\|^2.
+=\frac12\|u\|^2-\frac12\|v\|^2+\frac12\|u-v\|^2.
 $$
 
 Applying this with $u=v_{k+1}$ and $v=v_k$ gives the kinetic difference. The damping term satisfies
 
 $$
 \langle \gamma d_{k+1},v_{k+1}\rangle
-=
-\gamma h\|v_{k+1}\|^2,
+=\gamma h\|v_{k+1}\|^2,
 $$
 
 because $d_{k+1}=h v_{k+1}$. The term involving $h q_k$ becomes $h\langle q_k,v_{k+1}\rangle$, the term involving $\beta$ becomes $\beta$ times the corresponding inner product, and the gradient term becomes $\langle \nabla f(y_k),d_{k+1}\rangle$.
@@ -626,10 +624,8 @@ Applying the smooth descent inequality with $x=x_{k+1}$ and $y=x_{k+2}$, and spl
 
 $$
 \nabla f(x_{k+1})
-=
-\nabla f(y_k)
-+
-\bigl(\nabla f(x_{k+1})-\nabla f(y_k)\bigr),
+=\nabla f(y_k)
++\bigl(\nabla f(x_{k+1})-\nabla f(y_k)\bigr),
 $$
 
 the proof bounds the second part by Lipschitz continuity and obtains
@@ -656,8 +652,7 @@ $$
 \frac{1+h\gamma-\frac{Lh^2}{2}-\frac{3\beta hL}{2}}{2}
 +\frac{\beta hL}{4}
 \right)(a^2+b^2)
--
-\left(1+\frac{Lh^2}{1+h\gamma}\right)ab.
+-\left(1+\frac{Lh^2}{1+h\gamma}\right)ab.
 $$
 
 The hypotheses needed are exactly $h>0$, $\beta>0$, $L\ge0$, $\gamma\ge \frac{3L}{2}(h+\beta)$, and $a,b\ge0$. This quadratic nonnegativity is what allows the proof to absorb the cross terms that appear after applying Young's inequality.
@@ -784,8 +779,7 @@ Taking $a(k)=\|d_k\|$, this gives
 
 $$
 \sum_{k\ge1}\|x_{k+1}-x_k\|
-=
-\sum_{n=0}^{\infty}\|d_{n+1}\|
+=\sum_{n=0}^{\infty}\|d_{n+1}\|
 \le \frac{E_0}{r}.
 $$
 
@@ -805,8 +799,7 @@ E_0=
 $$
 
 $$
-=
-\frac{1}{2h^2}
+=\frac{1}{2h^2}
 \left(1+h\gamma-\frac{Lh^2}{2}\right)
 \|x_1-x_0\|^2
 +f(x_1)-\inf f.

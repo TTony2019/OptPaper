@@ -19,8 +19,7 @@ Let $A_k$ denote the iterate `A.x k`, and let $\alpha_A$ denote the scalar `A.al
 
 $$
 \mathrm{compositeObjective}(f,g)(A_k)
--
-\mathrm{compositeObjective}(f,g)(x_\star)
+-\mathrm{compositeObjective}(f,g)(x_\star)
 \le
 \frac{\alpha_A L_f \|x_0-x_\star\|^2}{2 (k:\mathbb R)}.
 $$
@@ -46,8 +45,7 @@ In the constant branch, $A$ is `ISTARun.constant run`, where `run` is a constant
 
 $$
 \mathrm{compositeObjective}(f,g)(run.x(k))
--
-\mathrm{compositeObjective}(f,g)(x_\star)
+-\mathrm{compositeObjective}(f,g)(x_\star)
 \le
 \frac{L_f \|x_0-x_\star\|^2}{2 (k:\mathbb R)}.
 $$
@@ -58,8 +56,7 @@ In the backtracking branch, $A$ is `ISTARun.backtracking run bounds`. Here `run`
 
 $$
 \mathrm{compositeObjective}(f,g)(run.x(k))
--
-\mathrm{compositeObjective}(f,g)(x_\star)
+-\mathrm{compositeObjective}(f,g)(x_\star)
 \le
 \frac{\eta L_f \|x_0-x_\star\|^2}{2 (k:\mathbb R)},
 $$

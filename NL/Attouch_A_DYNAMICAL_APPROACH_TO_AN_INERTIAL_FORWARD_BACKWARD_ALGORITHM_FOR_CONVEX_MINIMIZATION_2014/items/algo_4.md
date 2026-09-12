@@ -36,24 +36,19 @@ and the two recursions
 
 $$
 u_{k+1}
-=
-P_C\bigl((1-\lambda a)u_k+\lambda b y_k\bigr)
+=P_C\bigl((1-\lambda a)u_k+\lambda b y_k\bigr)
 $$
 
 and
 
 $$
 y_{k+1}
-=
-\frac{1}{1+\lambda b}y_k
-+
-\frac{\lambda a}{1+\lambda b}u_{k+1}
--
-\frac{\lambda}{1+\lambda b}
+=\frac{1}{1+\lambda b}y_k
++\frac{\lambda a}{1+\lambda b}u_{k+1}
+-\frac{\lambda}{1+\lambda b}
 \left(
 u_{k+1}
--
-\sum_{i=1}^{p}\omega_i P_{C_i}(u_{k+1})
+-\sum_{i=1}^{p}\omega_i P_{C_i}(u_{k+1})
 \right)
 $$
 

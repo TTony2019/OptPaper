@@ -101,8 +101,7 @@ Fourth, the proof establishes `hsq`, the law of cosines:
 
 $$
 \|x-y\|^2
-=
-\|x-p\|^2-2\langle x-p,y-p\rangle_{\mathbb R}+\|y-p\|^2.
+=\|x-p\|^2-2\langle x-p,y-p\rangle_{\mathbb R}+\|y-p\|^2.
 $$
 
 The `calc` block first uses `rw [hvec]` to rewrite
@@ -121,8 +120,7 @@ Then it applies `norm_sub_sq_real` to the vectors $u=x-p$ and $v=y-p$. That lemm
 
 $$
 \|u-v\|^2
-=
-\|u\|^2-2\langle u,v\rangle_{\mathbb R}+\|v\|^2.
+=\|u\|^2-2\langle u,v\rangle_{\mathbb R}+\|v\|^2.
 $$
 
 Specializing to $u=x-p$ and $v=y-p$ gives exactly the displayed identity for $\|x-y\|^2$.
@@ -137,8 +135,7 @@ From `hsq` and `hinner`, we have
 
 $$
 \|x-y\|^2
-=
-\|x-p\|^2+\|y-p\|^2-2\langle x-p,y-p\rangle_{\mathbb R}.
+=\|x-p\|^2+\|y-p\|^2-2\langle x-p,y-p\rangle_{\mathbb R}.
 $$
 
 Since $\langle x-p,y-p\rangle_{\mathbb R}\le 0$, the term $-2\langle x-p,y-p\rangle_{\mathbb R}$ is nonnegative. Therefore

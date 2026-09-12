@@ -51,24 +51,18 @@ The conclusion uses the quantities `An` and `Bn`. Here
 
 $$
 A_n
-=
-\alpha_n\mu\|x_n-x\|^2
-+
-\beta(\mu+\nu_n)\|y_n-y\|^2,
+=\alpha_n\mu\|x_n-x\|^2
++\beta(\mu+\nu_n)\|y_n-y\|^2,
 $$
 
 and
 
 $$
 B_n
-=
-\alpha_n\mu\|x_{n+1}-x_n\|^2
-+
-\beta\nu_n\|y_{n+1}-y_n\|^2
-+
-\beta\mu\|y_n-x_{n+1}-y+x\|^2
-+
-\beta\mu\|y_{n+1}-x_{n+1}-y+x\|^2.
+=\alpha_n\mu\|x_{n+1}-x_n\|^2
++\beta\nu_n\|y_{n+1}-y_n\|^2
++\beta\mu\|y_n-x_{n+1}-y+x\|^2
++\beta\mu\|y_{n+1}-x_{n+1}-y+x\|^2.
 $$
 
 The theorem states that, under the above assumptions, there exists a real number $\ell$ such that

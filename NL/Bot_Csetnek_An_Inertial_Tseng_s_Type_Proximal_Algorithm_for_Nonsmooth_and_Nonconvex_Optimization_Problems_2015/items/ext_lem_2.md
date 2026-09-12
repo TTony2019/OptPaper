@@ -133,8 +133,7 @@ the tactic `rw [Finset.sum_range_succ]` rewrites the sum through $n$ as
 
 $$
 \sum_{i=0}^{n} b_i
-=
-\left(\sum_{i=0}^{n-1} b_i\right)+b_n.
+=\left(\sum_{i=0}^{n-1} b_i\right)+b_n.
 $$
 
 The descent hypothesis `hdesc n` gives $a_{n+1}+b_n\le a_n$. Adding $\sum_{i=0}^{n-1} b_i$ to both sides and chaining with the induction hypothesis yields

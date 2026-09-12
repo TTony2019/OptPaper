@@ -444,10 +444,8 @@ Substituting this into the inner product and expanding, using $u_{k+1}-u_{k+2}=-
 
 $$
 \langle g,u_{k+1}-u_{k+2}\rangle
-=
-\frac1\lambda\|u_{k+2}-u_{k+1}\|^2
-+
-\left\langle a u_{k+1}-b y_{k+1},\,u_{k+2}-u_{k+1}\right\rangle.
+=\frac1\lambda\|u_{k+2}-u_{k+1}\|^2
++\left\langle a u_{k+1}-b y_{k+1},\,u_{k+2}-u_{k+1}\right\rangle.
 $$
 
 After taking real parts and rearranging, the proof obtains
@@ -477,8 +475,7 @@ The second update equation rearranges to
 
 $$
 \mathrm{grad}\Psi(u_{k+1})
-=
-a u_{k+1}-b y_{k+1}
+=a u_{k+1}-b y_{k+1}
 -\frac1\lambda(y_{k+1}-y_k).
 $$
 
@@ -487,8 +484,7 @@ Substituting this and expanding the inner product gives
 $$
 \Psi(u_{k+2})-\Psi(u_{k+1})
 -\frac L2\|u_{k+2}-u_{k+1}\|^2
--
-\left\langle a u_{k+1}-b y_{k+1},\,u_{k+2}-u_{k+1}\right\rangle
+-\left\langle a u_{k+1}-b y_{k+1},\,u_{k+2}-u_{k+1}\right\rangle
 \le
 -\frac1\lambda\left\langle y_{k+1}-y_k,\,u_{k+2}-u_{k+1}\right\rangle.
 $$
@@ -497,8 +493,7 @@ The proof then combines the two previous inequalities. Since $\Theta=\Phi+\Psi$,
 
 $$
 (\Theta(u_{k+2}))^{\mathrm{toReal}}
-=
-(\Phi(u_{k+2}))^{\mathrm{toReal}}+\Psi(u_{k+2}),
+=(\Phi(u_{k+2}))^{\mathrm{toReal}}+\Psi(u_{k+2}),
 $$
 
 and similarly at $u_{k+1}$. Adding the $\Phi$-inequality and the $\Psi$-inequality cancels the common inner product term and gives the key energy inequality
@@ -530,8 +525,7 @@ The update equations express $g_0$ and $g_1$ as negatives of the corresponding f
 
 $$
 g_0-g_1
-=
-\frac1\lambda(u_{k+2}-u_{k+1})
+=\frac1\lambda(u_{k+2}-u_{k+1})
 -\frac1\lambda(u_{k+1}-u_k)
 +a(u_{k+1}-u_k)
 -b(y_{k+1}-y_k).
@@ -571,8 +565,7 @@ The following inequality, `h39`, is obtained from the elementary fact
 
 $$
 0\le \|v_1-v_0\|^2
-=
-\|v_0\|^2+\|v_1\|^2-2\langle v_0,v_1\rangle,
+=\|v_0\|^2+\|v_1\|^2-2\langle v_0,v_1\rangle,
 $$
 
 hence
@@ -593,8 +586,7 @@ At this point the proof defines the real sequence
 
 $$
 E_n=\mathrm{toReal}\bigl(\mathcal E_{n+1}\bigr)
-=
-(\Theta(u_{n+1}))^{\mathrm{toReal}}
+=(\Theta(u_{n+1}))^{\mathrm{toReal}}
 +\gamma\|u_{n+1}-u_n\|^2,
 $$
 

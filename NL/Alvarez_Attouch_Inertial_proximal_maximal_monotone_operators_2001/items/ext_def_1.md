@@ -12,8 +12,7 @@ noncomputable def distanceToSet (y : H) (C : Set H) : EReal :=
 
 $$
 \mathrm{distanceToSet}(y,C)
-=
-\inf \left\{\|y-c\| : c \in C\right\},
+=\inf \left\{\|y-c\| : c \in C\right\},
 $$
 
 where each real norm $\|y-c\|$ is coerced into `EReal`. In Lean, the set whose infimum is taken is the image of $C$ under the function

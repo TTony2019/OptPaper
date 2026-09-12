@@ -580,8 +580,7 @@ For the distance convergence, the proof fixes $z\in S$ and applies `proposition_
 
 $$
 \Gamma_z(t)
-=
-\frac12\|x(t)-z\|^2
+=\frac12\|x(t)-z\|^2
 +\lambda^{-1}\Bigl(
 (\Phi(z))_{\mathbb R}-(\Phi(x(t)))_{\mathbb R}
 -\langle z-x(t),v(t)\rangle

@@ -61,8 +61,7 @@ The identity function `id` has type $\alpha \to \alpha$ for any type $\alpha$. H
 
 $$
 \alpha
-=
-\forall xSeq\,x,\; P(xSeq,x)\to Q(xSeq,x)\to R(xSeq,x).
+=\forall xSeq\,x,\; P(xSeq,x)\to Q(xSeq,x)\to R(xSeq,x).
 $$
 
 Thus `id` takes the assumed proof `hKadecKlee` of the universal Kadec–Klee statement and returns that same proof, which is exactly what is needed to prove the implication. In ordinary mathematical terms, the proof is simply “the conclusion is the hypothesis,” so nothing further is derived. The unused hypothesis `_hPhi` and the typeclass assumptions only provide the ambient typing and notation; they play no role in the proof itself.

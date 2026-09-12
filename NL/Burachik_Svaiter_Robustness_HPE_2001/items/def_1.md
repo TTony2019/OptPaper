@@ -19,8 +19,7 @@ For $\varepsilon\ge 0$, the definition `epsilonEnlargement T ε hε` gives the s
 
 $$
 E_\varepsilon(T)(x)
-=
-\{v\in H:\forall z,w,\ w\in Tz \implies
+=\{v\in H:\forall z,w,\ w\in Tz \implies
 \langle w-v,z-x\rangle\ge -\varepsilon\}.
 $$
 
@@ -112,8 +111,7 @@ because the condition is $\langle w-v,z-x\rangle\ge -0$ and $-0=0$. The `have hz
 
 $$
 0\le \langle w-v,z-x\rangle
-=
-\langle v-w,x-z\rangle.
+=\langle v-w,x-z\rangle.
 $$
 
 The equality is justified by rewriting

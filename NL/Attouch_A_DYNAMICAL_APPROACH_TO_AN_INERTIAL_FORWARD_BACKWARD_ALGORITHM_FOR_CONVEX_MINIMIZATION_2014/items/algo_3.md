@@ -38,11 +38,9 @@ and, for every $k\in\mathbb N$,
 
 $$
 u(k+1)
-=
-P_C\!\left(
+=P_C\!\left(
 (1-\lambda)u(k)
-+
-\lambda
++\lambda
 \sum_{i=1}^{p}
 \omega(i)\,P_{C_i}(u(k))
 \right).
@@ -78,11 +76,9 @@ $$
 0<\lambda \;\wedge\; \lambda<2 \;\wedge\;
 \forall k\in\mathbb N,\;
 u(k+1)
-=
-P_C\!\left(
+=P_C\!\left(
 (1-\lambda)u(k)
-+
-\lambda
++\lambda
 \sum_{i=1}^{p}
 \omega(i)\,P_{C_i}(u(k))
 \right).

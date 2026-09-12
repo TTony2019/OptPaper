@@ -18,8 +18,7 @@ is defined, and $T$ is a set-valued operator from $H$ to $H$: for each $y \in H$
 
 $$
 (\mathrm{enlargement} T \epsilon)(x)
-=
-\left\{
+=\left\{
 v \in H :
 \forall y,\ \forall u \in T y,\ 
 -\epsilon \le \langle u-v, y-x\rangle_{\mathbb R}

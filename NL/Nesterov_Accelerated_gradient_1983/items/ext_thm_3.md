@@ -256,12 +256,9 @@ But
 
 $$
 \langle l,q\rangle
-=
-\left\langle l,\frac{1}{\|l\|}l\right\rangle
-=
-\frac{1}{\|l\|}\langle l,l\rangle
-=
-\|l\|.
+=\left\langle l,\frac{1}{\|l\|}l\right\rangle
+=\frac{1}{\|l\|}\langle l,l\rangle
+=\|l\|.
 $$
 
 Therefore $\|l\|\le B$. Thus

@@ -956,8 +956,7 @@ Using the self-adjointness of $\Gamma$, the proof establishes the algebraic iden
 
 $$
 2\gamma(d(x_n,z)-d(x_n,y))
-=
-2\langle \Gamma x_n,y-z\rangle_{\mathbb R}
+=2\langle \Gamma x_n,y-z\rangle_{\mathbb R}
 +\langle \Gamma z,z\rangle_{\mathbb R}-\langle \Gamma y,y\rangle_{\mathbb R}.
 $$
 
@@ -977,8 +976,7 @@ By uniqueness of limits, these two quantities are equal, so
 
 $$
 \langle \Gamma y,y-z\rangle_{\mathbb R}
-=
-\langle \Gamma z,y-z\rangle_{\mathbb R}.
+=\langle \Gamma z,y-z\rangle_{\mathbb R}.
 $$
 
 Using self-adjointness again,

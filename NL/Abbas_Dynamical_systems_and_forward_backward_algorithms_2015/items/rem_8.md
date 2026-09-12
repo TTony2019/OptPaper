@@ -323,9 +323,8 @@ This equality uses $T(z)=z$. Applying `inner_sub_right` and `real_inner_self_eq_
 
 $$
 \left\langle x(t)-z,\ T(x(t))-x(t)\right\rangle
-=
-\left\langle x(t)-z,\ T(x(t))-T(z)\right\rangle
-- \|x(t)-z\|^2.
+=\left\langle x(t)-z,\ T(x(t))-T(z)\right\rangle
+-\|x(t)-z\|^2.
 $$
 
 Substituting the previous upper bound gives
@@ -354,10 +353,8 @@ The product rule with $e^t$ therefore gives
 
 $$
 p'(t)
-=
-e^t \|x(t)-z\|^2
-+
-e^t \cdot 2 \left\langle x(t)-z,\ T(x(t))-x(t)\right\rangle.
+=e^t \|x(t)-z\|^2
++e^t \cdot 2 \left\langle x(t)-z,\ T(x(t))-x(t)\right\rangle.
 $$
 
 This is recorded as `hp`. The proof then shows $p'(t)\le 0$. Indeed, multiplying the energy inequality by the nonnegative factor $e^t$ gives

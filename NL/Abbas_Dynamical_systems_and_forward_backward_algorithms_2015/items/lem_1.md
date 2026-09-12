@@ -68,8 +68,7 @@ establishes
 
 $$
 \mathrm{Real.toNNReal}\!\left(\frac1\beta\right)
-=
-\left\langle \frac1\beta,\; 0\le \frac1\beta\right\rangle
+=\left\langle \frac1\beta,\; 0\le \frac1\beta\right\rangle
 $$
 
 as elements of $\mathbb{R}_{\ge 0}$.

@@ -20,8 +20,7 @@ Let $J_\lambda^A(u)$ denote the value of the resolvent map of $A$ at parameter $
 
 $$
 \mathrm{resolventDistance}(A,B;h_A,h_B,\lambda,\rho;h_\lambda,h_\rho)
-=
-\lambda \cdot \sup \left\{
+=\lambda \cdot \sup \left\{
 q \in \mathbb{R}
 \;\middle|\;
 \exists u \in H,\ \|u\| \le \rho
@@ -29,8 +28,7 @@ q \in \mathbb{R}
 q =
 \left\|
 \lambda^{-1}\cdot(u-J_\lambda^A(u))
--
-\lambda^{-1}\cdot(u-J_\lambda^B(u))
+-\lambda^{-1}\cdot(u-J_\lambda^B(u))
 \right\|
 \right\}.
 $$
@@ -62,8 +60,7 @@ q \in \mathbb{R}
 q =
 \left\|
 \lambda^{-1}\cdot(u-J_\lambda^A(u))
--
-\lambda^{-1}\cdot(u-J_\lambda^B(u))
+-\lambda^{-1}\cdot(u-J_\lambda^B(u))
 \right\|
 \right\}.
 $$

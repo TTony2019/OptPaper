@@ -565,8 +565,7 @@ Next the proof defines the Lyapunov-type function
 
 $$
 E(z,t)
-=
-\frac{1}{2\mu}\|x(t)-z\|^2
+=\frac{1}{2\mu}\|x(t)-z\|^2
 +\Psi(x(t))-\langle \nabla \Psi(z),x(t)-z\rangle-\Psi(z).
 $$
 
@@ -582,8 +581,7 @@ Then the proof computes the derivative of $E(z,\cdot)$. The chain rule is applie
 
 $$
 \frac{d}{dt}E(z,t)
-=
-\mu^{-1}\langle x(t)-z,\dot x(t)\rangle
+=\mu^{-1}\langle x(t)-z,\dot x(t)\rangle
 +\langle \dot x(t),\nabla \Psi(x(t))-\nabla \Psi(z)\rangle.
 $$
 
@@ -622,8 +620,7 @@ From the dynamics, the proof rewrites the derivative as
 
 $$
 \dot x(t)
-=
-\mathrm{prox}_{\mu\Phi}\!\bigl(x(t)-\mu\nabla\Psi(x(t))\bigr)-x(t).
+=\mathrm{prox}_{\mu\Phi}\!\bigl(x(t)-\mu\nabla\Psi(x(t))\bigr)-x(t).
 $$
 
 Using that $x$ is continuous on every $[0,T]$ by absolute continuity, and that the field above is continuous, the proof obtains continuity of $\dot x$ on every $[0,T]$. It also obtains continuity of the dissipation integrand
@@ -645,10 +642,8 @@ for all $t\in[0,T]$. Both sides are interval integrable. The theorem `intervalIn
 
 $$
 -\int_0^T \frac{d}{dt}E(z,t)\,dt
-=
--(E(z,T)-E(z,0))
-=
-E(z,0)-E(z,T).
+=-(E(z,T)-E(z,0))
+=E(z,0)-E(z,T).
 $$
 
 Since $E(z,T)\ge0$, this is at most $E(z,0)$. Therefore
@@ -717,8 +712,7 @@ The theorem `proximal_gradient_field_lipschitz` supplies a nonnegative constant 
 
 $$
 V(u)
-=
-\mathrm{prox}_{\mu\Phi}\!\bigl(u-\mu\nabla\Psi(u)\bigr)-u
+=\mathrm{prox}_{\mu\Phi}\!\bigl(u-\mu\nabla\Psi(u)\bigr)-u
 $$
 
 is Lipschitz with constant $L$. Since $\dot x(t)=V(x(t))$, the proof bounds the velocity by

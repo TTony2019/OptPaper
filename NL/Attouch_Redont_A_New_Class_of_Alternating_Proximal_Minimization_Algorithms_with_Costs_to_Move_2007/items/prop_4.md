@@ -1034,8 +1034,7 @@ The proof then uses the algebraic identity
 
 $$
 \alpha_n\mu\|x_{n+1}-x\|^2+\beta(\mu+\nu_n)\|y_{n+1}-y\|^2
-=
-A_{n+1}
+=A_{n+1}
 -\mu(\alpha_{n+1}-\alpha_n)\|x_{n+1}-x\|^2
 -\beta(\nu_{n+1}-\nu_n)\|y_{n+1}-y\|^2.
 $$
@@ -1172,8 +1171,7 @@ Similarly,
 
 $$
 y_{n+1}-y_n
-=
-\bigl(y_{n+1}-x_{n+1}-(y-x)\bigr)
+=\bigl(y_{n+1}-x_{n+1}-(y-x)\bigr)
 -\bigl(y_n-x_{n+1}-(y-x)\bigr)
 \longrightarrow 0.
 $$
@@ -1182,8 +1180,7 @@ Finally,
 
 $$
 y_n-x_n
-=
-\bigl(y_n-x_{n+1}-(y-x)\bigr)
+=\bigl(y_n-x_{n+1}-(y-x)\bigr)
 +(y-x)
 +\bigl(x_{n+1}-x_n\bigr)
 \longrightarrow y-x.
@@ -1234,8 +1231,7 @@ and expanding the squared norm, it obtains
 
 $$
 A_n
-=
-c_n\|y_n-y\|^2
+=c_n\|y_n-y\|^2
 -2\alpha_n\mu\langle y_n-y,\ y_n-x_n-(y-x)\rangle
 +\alpha_n\mu\|y_n-x_n-(y-x)\|^2.
 $$

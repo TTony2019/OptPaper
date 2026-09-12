@@ -54,8 +54,7 @@ The fields `envelope : H → ℝ` and `prox : H → H` are the variable-metric M
 
 $$
 \mathrm{envelope}(x)
-=
-\mathrm{variableMetricMoreauEnvelope}(f,M,\lambda,h_\lambda,x),
+=\mathrm{variableMetricMoreauEnvelope}(f,M,\lambda,h_\lambda,x),
 $$
 
 with the Lean term also passing the symmetry and positive-definiteness proofs as explicit arguments. This makes the envelope the variable-metric Moreau envelope determined by $f$, $M$, and $\lambda$. The exact definition of `variableMetricMoreauEnvelope` is not part of this declaration.
@@ -64,12 +63,10 @@ The field `prox_minimizes` says that for all $x,\xi\in H$,
 
 $$
 f(\mathrm{prox}(x))
-+
-\frac{\mathrm{metricNormSq}(M,x-\mathrm{prox}(x))}{2\lambda}
++\frac{\mathrm{metricNormSq}(M,x-\mathrm{prox}(x))}{2\lambda}
 \le
 f(\xi)
-+
-\frac{\mathrm{metricNormSq}(M,x-\xi)}{2\lambda}.
++\frac{\mathrm{metricNormSq}(M,x-\xi)}{2\lambda}.
 $$
 
 Thus $\mathrm{prox}(x)$ is a global minimizer of the Moreau objective
@@ -104,8 +101,7 @@ The fields `gradient : H → H` and `gradient_eq` define the gradient map by
 
 $$
 \mathrm{gradient}(x)
-=
-\frac{1}{\lambda}M(x-\mathrm{prox}(x)).
+=\frac{1}{\lambda}M(x-\mathrm{prox}(x)).
 $$
 
 So the gradient is the scaled metric displacement between $x$ and its proximal point.

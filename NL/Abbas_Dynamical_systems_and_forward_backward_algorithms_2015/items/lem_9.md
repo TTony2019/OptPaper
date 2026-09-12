@@ -34,8 +34,7 @@ The subdifferential used here is defined by the subgradient inequality
 
 $$
 \partial f(x)
-=
-\left\{\,u\in H \;\middle|\;
+=\left\{\,u\in H \;\middle|\;
 \forall y\in H,\;
 (\langle y-x,u\rangle_{\mathbb R}:\mathrm{EReal})
 +(f(x):\mathrm{EReal})
@@ -172,8 +171,7 @@ $$
 \mathrm{deriv} v(t),
 \mathrm{deriv} x(t)
 \right\rangle_{\mathbb R}
-=
-\left\langle
+=\left\langle
 \mathrm{deriv} x(t),
 \mathrm{deriv} v(t)
 \right\rangle_{\mathbb R},

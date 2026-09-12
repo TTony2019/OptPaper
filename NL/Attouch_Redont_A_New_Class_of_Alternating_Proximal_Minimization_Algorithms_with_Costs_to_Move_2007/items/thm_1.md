@@ -260,8 +260,7 @@ $$
 S_N=\sum_{n=0}^{N-1}T_n
 \le
 \sum_{n=0}^{N-1}(E_n-E_{n+1})
-=
-E_0-E_N.
+=E_0-E_N.
 $$
 
 The base case $N=0$ is the empty sum $S_0=0$, and $0\le E_0-E_0$. The induction step uses `Finset.sum_range_succ` to write $S_{N+1}=S_N+T_N$, then applies the induction hypothesis and the bound $T_N\le E_N-E_{N+1}$. This is a telescoping estimate.

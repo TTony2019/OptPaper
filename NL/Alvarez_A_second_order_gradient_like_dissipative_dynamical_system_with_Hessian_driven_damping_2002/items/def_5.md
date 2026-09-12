@@ -28,8 +28,8 @@ The predicate `IsEpsilonDINTrajectory ε Φ x₀ v₀ x` is the proposition that
 
 $$
 \varepsilon \cdot \mathrm{deriv}(\mathrm{deriv} x)(t)
-+ \mathrm{fderiv}_{\mathbb R}(\nabla \Phi)(x(t))(\mathrm{deriv} x(t))
-+ \nabla \Phi(x(t)) = 0,
++\mathrm{fderiv}_{\mathbb R}(\nabla \Phi)(x(t))(\mathrm{deriv} x(t))
++\nabla \Phi(x(t)) = 0,
 $$
 
 where $\nabla \Phi$ denotes the gradient of $\Phi$, and the zero on the right is the zero vector of $H$.
@@ -58,8 +58,8 @@ and, for every $t>0$,
 
 $$
 \varepsilon \cdot \mathrm{deriv}(\mathrm{deriv} x)(t)
-+ \mathrm{fderiv}_{\mathbb R}(\nabla \Phi)(x(t))(\mathrm{deriv} x(t))
-+ \nabla \Phi(x(t)) = 0.
++\mathrm{fderiv}_{\mathbb R}(\nabla \Phi)(x(t))(\mathrm{deriv} x(t))
++\nabla \Phi(x(t)) = 0.
 $$
 
 Any later use of this predicate would proceed by unfolding this definition, supplying these conjuncts to prove the predicate or extracting them from a hypothesis that the predicate holds. No additional mathematical reasoning beyond that definitional unfolding is present in this declaration.

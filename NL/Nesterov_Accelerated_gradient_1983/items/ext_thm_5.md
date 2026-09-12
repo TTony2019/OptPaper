@@ -17,8 +17,7 @@ The method $M$ supplies, in the proof, a sequence of steps $M.\text{step} : \mat
 
 $$
 M.\text{step}(k)
-=
-2^{-M.\text{searchIndex}(k)}
+=2^{-M.\text{searchIndex}(k)}
 \cdot
 \begin{cases}
 M.\text{initialStep}, & k=0,\\
@@ -60,8 +59,7 @@ The second subgoal is the proof of `StartsKthSearchFromPreviousStep f M S`. The 
 
 $$
 M.\text{step}(k)
-=
-2^{-M.\text{searchIndex}(k)}
+=2^{-M.\text{searchIndex}(k)}
 \cdot
 \begin{cases}
 M.\text{initialStep}, & k=0,\\

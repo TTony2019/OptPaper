@@ -61,8 +61,7 @@ Let
 
 $$
 d_{\lambda,\rho}(A_\mu,A_{\mu'})
-=
-\sup_{\|u\|\le \rho}
+=\sup_{\|u\|\le \rho}
 \left\|J_\lambda^{A_\mu}u-J_\lambda^{A_{\mu'}}u\right\|
 $$
 
@@ -73,8 +72,7 @@ $$
 \le
 e^{mT}
 \sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}
-+
-(\lambda m)^{-1}(e^{mT}-1)\,d_{\lambda,\rho}(A_\mu,A_{\mu'}).
++(\lambda m)^{-1}(e^{mT}-1)\,d_{\lambda,\rho}(A_\mu,A_{\mu'}).
 $$
 
 So the distance between the two trajectories is controlled by the distance between their initial positions and velocities, plus the resolvent distance between the two operators, with an exponential factor in time.
@@ -289,8 +287,7 @@ Since
 
 $$
 Y u-Y' u
-=
-\lambda^{-1}\bigl(J_\lambda^{A_{\mu'}}u-J_\lambda^{A_\mu}u\bigr),
+=\lambda^{-1}\bigl(J_\lambda^{A_{\mu'}}u-J_\lambda^{A_\mu}u\bigr),
 $$
 
 the quantity $D$ is the supremum of $\|Y u-Y' u\|$ over $\|u\|\le \rho$. The proof first shows that this supremum is finite. It applies `thm_3_cocoercive_lipschitz` to `hco` and to `hco'`. That lemma says that if $a>0$ and
@@ -309,8 +306,7 @@ Taking $a=\lambda$, it follows that both $Y$ and $Y'$ are Lipschitz with constan
 
 $$
 \|Y u-Y' u\|
-=
-\|(Y u-Y0)+(Y0-Y'0)+(Y'0-Y'u)\|
+=\|(Y u-Y0)+(Y0-Y'0)+(Y'0-Y'u)\|
 \le
 \|Y u-Y0\|+\|Y0-Y'0\|+\|Y'0-Y'u\|.
 $$
@@ -357,10 +353,8 @@ Using the derivative of the squared norm, the proof obtains almost everywhere
 
 $$
 w'(t)
-=
-2\langle y(t),z(t)\rangle
-+
-2\langle z(t),ddx_\mu(t)-ddx_{\mu'}(t)\rangle.
+=2\langle y(t),z(t)\rangle
++2\langle z(t),ddx_\mu(t)-ddx_{\mu'}(t)\rangle.
 $$
 
 Next the proof defines
@@ -375,8 +369,7 @@ A key pointwise inequality is then established:
 
 $$
 \langle y,z\rangle
-+
-\left\langle z,-\gamma z-\bigl(Y'(x_\mu)-Y'(x_{\mu'})\bigr)\right\rangle
++\left\langle z,-\gamma z-\bigl(Y'(x_\mu)-Y'(x_{\mu'})\bigr)\right\rangle
 \le
 m w.
 $$
@@ -385,8 +378,7 @@ This uses `thm_3_first_order_sq_bound`. That lemma says that if $A$ is $\alpha$-
 
 $$
 \|v-v'\|^2
-+
-\left\|-\gamma v-A u-(-\gamma v'-A u')\right\|^2
++\left\|-\gamma v-A u-(-\gamma v'-A u')\right\|^2
 \le
 \left(1+2\gamma^2+\frac{2}{\alpha^2}\right)
 \bigl(\|u-u'\|^2+\|v-v'\|^2\bigr).
@@ -431,8 +423,7 @@ one obtains
 
 $$
 ddx_\mu-ddx_{\mu'}
-=
--\gamma z-\bigl(Y'(x_\mu)-Y'(x_{\mu'})\bigr)
+=-\gamma z-\bigl(Y'(x_\mu)-Y'(x_{\mu'})\bigr)
 -\bigl(Y(x_\mu)-Y'(x_\mu)\bigr).
 $$
 
@@ -440,14 +431,11 @@ Substituting this into the formula for $w'$, the proof gets
 
 $$
 w'
-=
-2\left[
+=2\left[
 \langle y,z\rangle
-+
-\left\langle z,-\gamma z-\bigl(Y'(x_\mu)-Y'(x_{\mu'})\bigr)\right\rangle
++\left\langle z,-\gamma z-\bigl(Y'(x_\mu)-Y'(x_{\mu'})\bigr)\right\rangle
 \right]
--
-2\langle z,Y(x_\mu)-Y'(x_\mu)\rangle.
+-2\langle z,Y(x_\mu)-Y'(x_\mu)\rangle.
 $$
 
 Since $\|x_\mu(t)\|\le \rho$ almost everywhere on $[0,T]$, the bound on $Y-Y'$ over the $\rho$-ball gives
@@ -494,8 +482,7 @@ $$
 w(t)^{1-\alpha}
 \le
 w(0)^{1-\alpha}\exp\left(\int_0^t a\right)
-+
-\int_0^t
++\int_0^t
 \exp\left(\int_s^t a\right)b(s)\,ds.
 $$
 
@@ -505,16 +492,14 @@ $$
 \sqrt{w(t)}
 \le
 \sqrt{w(0)}\,e^{mt}
-+
-\int_0^t e^{m(t-s)}D\,ds.
++\int_0^t e^{m(t-s)}D\,ds.
 $$
 
 The cited lemma `thm_3_exp_kernel_integral` evaluates the exponential convolution:
 
 $$
 \int_0^t e^{m(t-s)}D\,ds
-=
-m^{-1}(e^{mt}-1)D.
+=m^{-1}(e^{mt}-1)D.
 $$
 
 Thus
@@ -523,8 +508,7 @@ $$
 \sqrt{w(t)}
 \le
 \sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}\,e^{mt}
-+
-m^{-1}(e^{mt}-1)D.
++m^{-1}(e^{mt}-1)D.
 $$
 
 Finally, since $t\le T$ and $m\ge 0$,
@@ -539,8 +523,7 @@ $$
 \sqrt{w(t)}
 \le
 \sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}\,e^{mT}
-+
-m^{-1}(e^{mT}-1)D.
++m^{-1}(e^{mT}-1)D.
 $$
 
 Since
@@ -553,8 +536,7 @@ and since $D=\lambda^{-1}d_{\lambda,\rho}(A_\mu,A_{\mu'})$, the last term become
 
 $$
 m^{-1}(e^{mT}-1)D
-=
-(\lambda m)^{-1}(e^{mT}-1)d_{\lambda,\rho}(A_\mu,A_{\mu'}).
+=(\lambda m)^{-1}(e^{mT}-1)d_{\lambda,\rho}(A_\mu,A_{\mu'}).
 $$
 
 Reordering the first term gives exactly the claimed estimate. The final `field_simp` uses $\lambda\ne 0$ and $m\ne 0$ to simplify the rational coefficient.

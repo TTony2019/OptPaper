@@ -18,16 +18,14 @@ where $\mathrm{sign}(t)$ is the real sign function, $|t|$ is the absolute value 
 
 $$
 \mathrm{softThreshold}(a,h_a,t)
-=
-\mathrm{sign}(t)\max(|t|-a,0).
+=\mathrm{sign}(t)\max(|t|-a,0).
 $$
 
 Mathematically this is the soft-thresholding operator with threshold $a$. Since $a$ is assumed nonnegative, it can be described piecewise as
 
 $$
 \mathrm{softThreshold}(a,h_a,t)
-=
-\begin{cases}
+=\begin{cases}
 t-a, & t>a,\\
 0, & |t|\le a,\\
 t+a, & t<-a.
@@ -48,8 +46,7 @@ The mathematical content is exactly the defining equality
 
 $$
 \mathrm{softThreshold}(a,h_a,t)
-=
-\mathrm{sign}(t)\max(|t|-a,0).
+=\mathrm{sign}(t)\max(|t|-a,0).
 $$
 
 In Lean, this equality holds by definitional unfolding: any occurrence of `softThreshold a h_a t` can be replaced by the right-hand side. The argument `_ha`, which carries the proof of $0 \le a$, is part of the function signature but is ignored by the body, so the value of the function does not depend on which proof of $0 \le a$ is supplied. The marker `noncomputable` classifies the definition for Lean’s purposes; it does not add any mathematical hypothesis or conclusion. Since no proof is provided, no further mathematical facts are used.

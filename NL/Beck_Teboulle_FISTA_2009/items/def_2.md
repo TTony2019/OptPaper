@@ -13,8 +13,7 @@ The declaration defines the shrinkage operator as a componentwise map on real $n
 
 $$
 (S_\alpha x)_i
-=
-\mathrm{positivePart}(|x_i|-\alpha)\mathrm{sign}(x_i),
+=\mathrm{positivePart}(|x_i|-\alpha)\mathrm{sign}(x_i),
 $$
 
 where $\mathrm{positivePart}(t)=\max(t,0)$. Thus the coordinate is zero unless $|x_i|-\alpha$ is positive and $x_i\neq 0$; otherwise it is $(|x_i|-\alpha)\mathrm{sign}(x_i)$. The factor $\mathrm{sign}(x_i)$ is $1$ when $x_i>0$, $-1$ when $x_i<0$, and $0$ when $x_i=0$. Consequently the formula shrinks the magnitude of each coordinate toward zero by $\alpha$, while preserving its sign. When $\alpha\ge 0$, this is the usual soft-thresholding formula:

@@ -188,8 +188,7 @@ Next the proof inserts the telescoping decomposition
 
 $$
 A_\mu v-A_{\bar\mu}v
-=
-\bigl(A_\mu v-A_\mu(x_{\bar\mu}(s))\bigr)
+=\bigl(A_\mu v-A_\mu(x_{\bar\mu}(s))\bigr)
 +\bigl(A_\mu(x_{\bar\mu}(s))-A_{\bar\mu}(x_{\bar\mu}(s))\bigr)
 +\bigl(A_{\bar\mu}(x_{\bar\mu}(s))-A_{\bar\mu}v\bigr).
 $$
@@ -323,8 +322,7 @@ It remains to squeeze the nonnegative quantity $\mathrm{pathSupNorm}_T(x_\mu-x_{
 
 $$
 \mathrm{pathSupNorm}_T(x_\mu-x_{\bar\mu})
-=
-\sup\{q\in\mathbb R:\exists t\in[0,T],\,
+=\sup\{q\in\mathbb R:\exists t\in[0,T],\,
 q=\|x_\mu(t)-x_{\bar\mu}(t)\|\}.
 $$
 

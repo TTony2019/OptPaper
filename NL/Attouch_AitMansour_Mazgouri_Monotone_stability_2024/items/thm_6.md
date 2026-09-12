@@ -122,8 +122,7 @@ Here
 
 $$
 \mathrm{energyRate}\beta\gamma\delta
-=
-\frac{(\beta\delta+\gamma)-\sqrt{(\beta\delta+\gamma)^2-4\delta}}{2}.
+=\frac{(\beta\delta+\gamma)-\sqrt{(\beta\delta+\gamma)^2-4\delta}}{2}.
 $$
 
 Thus the theorem asserts convergence to the critical points, identifies those critical points as global minimizers, and gives a Hölder/Lipschitz stability estimate for the minimizers as functions of the parameter.
@@ -198,8 +197,7 @@ Mathematically, this is the change-of-variables lemma: it constructs an auxiliar
 
 $$
 \mathrm{dinAuxInitial}\mathrm{grad}\varphi\beta\gamma u_0v_0\mu
-=
--\left(\sqrt{(\gamma-\tfrac1\beta)\tfrac1\beta}\right)^{-1}
+=-\left(\sqrt{(\gamma-\tfrac1\beta)\tfrac1\beta}\right)^{-1}
 \left(
 v_0(\mu)+\beta\mathrm{grad}\varphi_\mu(u_0(\mu))
 +(\gamma-\tfrac1\beta)u_0(\mu)
@@ -227,8 +225,7 @@ $$
 \bigl(\|p_1-q_1\|^2+\|p_2-q_2\|^2\bigr)
 \le
 \langle F_\mu(p)_1-F_\mu(q)_1,\ p_1-q_1\rangle
-+
-\langle F_\mu(p)_2-F_\mu(q)_2,\ p_2-q_2\rangle
++\langle F_\mu(p)_2-F_\mu(q)_2,\ p_2-q_2\rangle
 $$
 
 for all $p,q\in H\times H$. This is exactly the strong-monotonicity hypothesis required by `din_tendsto_to_critical`. The positivity requirement $0<\mathrm{energyRate}\beta\gamma\delta(\mu)$ is supplied by `energyRate_pos`, using $\beta>0$, $\gamma>0$, the positivity of $\delta(\mu)$ coming from strong convexity, and $\beta\gamma>1$. The critical-point hypothesis is exactly `hcrit μ`. Therefore `din_tendsto_to_critical` yields
@@ -268,13 +265,11 @@ $$
 \exp\!\left(-\max(r_\mu,r_{\mu'})\,t\right)
 \sqrt{
 \|u_0(\mu)-u_0(\mu')\|^2
-+
-\|\mathrm{dinAuxInitial}\dots\mu
++\|\mathrm{dinAuxInitial}\dots\mu
 -\mathrm{dinAuxInitial}\dots\mu'\|^2
 }\\
 &\qquad
-+
-\frac{\beta k_1}{\max(r_\mu,r_{\mu'})}
++\frac{\beta k_1}{\max(r_\mu,r_{\mu'})}
 \left(1-\exp\!\left(-\max(r_\mu,r_{\mu'})\,t\right)\right)
 \|\mu-\mu'\|^{\gamma_1}.
 \end{aligned}

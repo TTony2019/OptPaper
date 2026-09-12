@@ -36,12 +36,11 @@ A term of `IPAHDDVar f φ hφ h gamma beta` consists of the following fields:
 
   $$
   x_{k+2}
-  =
-  x_{k+1}
-  + h\,P_{\phi,h}\!\left(
+  =x_{k+1}
+  +h\,P_{\phi,h}\!\left(
       \frac{1-h\gamma}{h}(x_{k+1}-x_k)
-      - \beta\bigl(\nabla f(x_{k+1})-\nabla f(x_k)\bigr)
-      - h\nabla f(x_{k+1})
+      -\beta\bigl(\nabla f(x_{k+1})-\nabla f(x_k)\bigr)
+      -h\nabla f(x_{k+1})
     \right).
   $$
 
@@ -71,8 +70,8 @@ For each $k\in\mathbb N$, the field `update k` asserts the equality defining $x_
 
 $$
 \frac{1-h\gamma}{h}(x_{k+1}-x_k)
-- \beta\bigl(\nabla f(x_{k+1})-\nabla f(x_k)\bigr)
-- h\nabla f(x_{k+1}).
+-\beta\bigl(\nabla f(x_{k+1})-\nabla f(x_k)\bigr)
+-h\nabla f(x_{k+1}).
 $$
 
 The first term is an inertial/momentum contribution involving $x_{k+1}-x_k$. The second is a Hessian-driven damping contribution formed from the difference of gradients. The third is a gradient-descent step at $x_{k+1}$. The scaled proximity operator of $\phi$, with step $h$, is applied to this combined vector. The result is multiplied by $h$ and added to $x_{k+1}$ to produce $x_{k+2}$.

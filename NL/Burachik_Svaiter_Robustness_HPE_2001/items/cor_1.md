@@ -206,8 +206,7 @@ The final part of the proof is a `calc` chain:
 
 $$
 \|A.x_{k+1}-x^\star\|
-=
-\|(A.x_{k+1}-z)+(z-x^\star)\|.
+=\|(A.x_{k+1}-z)+(z-x^\star)\|.
 $$
 
 The equality is obtained by `rw [show A.x (k + 1) - xStar = (A.x (k + 1) - z) + (z - xStar) by abel]`, where `abel` proves the algebraic identity in the additive abelian group. Then the triangle inequality, invoked through `norm_add_le`, gives

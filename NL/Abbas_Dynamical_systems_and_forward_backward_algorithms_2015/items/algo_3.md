@@ -107,10 +107,8 @@ Write $x_n$ for `alg.x n`. The proof defines the forward-backward operator
 
 $$
 T(z)
-=
-\mathrm{Prox}_{h\Phi}\bigl(z-hBz\bigr)
-=
-\texttt{ERealFunction.scaledProximityOperator }\Phi\ h\Phi\ \langle h,\texttt{alg.h\_pos}\rangle
+=\mathrm{Prox}_{h\Phi}\bigl(z-hBz\bigr)
+=\texttt{ERealFunction.scaledProximityOperator }\Phi\ h\Phi\ \langle h,\texttt{alg.h\_pos}\rangle
 \bigl(z-hBz\bigr).
 $$
 

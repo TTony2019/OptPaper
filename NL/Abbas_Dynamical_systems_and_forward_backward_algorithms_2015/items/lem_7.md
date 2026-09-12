@@ -333,8 +333,7 @@ This union is contained in $(0,\infty)$, and the $J_n$ are pairwise disjoint. Th
 
 $$
 \int_U |F(x)|^{p_{\mathrm{toReal}}}\,dx
-=
-\sum_{n=0}^{N-1}
+=\sum_{n=0}^{N-1}
 \int_{J_n}|F(x)|^{p_{\mathrm{toReal}}}\,dx.
 $$
 

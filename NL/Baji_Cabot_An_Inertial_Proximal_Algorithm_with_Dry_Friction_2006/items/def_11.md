@@ -21,14 +21,13 @@ The value produced is a real number. The defining formula is
 
 $$
 \mathrm{secondEnergySeq}(x,\lambda,f,x_\infty,n)
-=
-\mathrm{toReal}\!\left(
+=\mathrm{toReal}\!\left(
   \mathrm{energySeq}\!\left(
     x,\lambda,\left(y \mapsto (f(y):\overline{\mathbb R})\right),n
   \right)
 \right)
-- f(x_\infty)
-- \left\langle \nabla f(x_\infty),\, x_{n+1}-x_\infty \right\rangle_{\mathbb R}.
+-f(x_\infty)
+-\left\langle \nabla f(x_\infty),\, x_{n+1}-x_\infty \right\rangle_{\mathbb R}.
 $$
 
 Here $\overline{\mathbb R}$ denotes the extended real numbers, corresponding to the Lean type `EReal`. The third argument passed to `energySeq` is not $f$ itself but the extended-real-valued function $y \mapsto f(y)$, where each real value of $f$ is coerced into $\overline{\mathbb R}$. Thus `energySeq` produces an extended-real quantity, and `.toReal` converts it back to a real number. The terms subtracted afterward are the value $f(x_\infty)$ of the objective at the reference point and the real inner product of the gradient $\nabla f(x_\infty)$ with the displacement $x_{n+1}-x_\infty$. The source does not display the ambient typeclass assumptions on $H$; they are implicit in the operations used, namely subtraction on $H$, the real inner product $\langle\cdot,\cdot\rangle_{\mathbb R}$, and the gradient $\nabla f(x_\infty)$. Mathematically, the definition takes an already defined energy sequence, extracts its real value at index $n$, recenters it by subtracting $f(x_\infty)$, and removes the first-order inner-product term $\langle \nabla f(x_\infty), x_{n+1}-x_\infty\rangle$. The internal definition of `energySeq` is not provided in the source, so no formula for it is asserted here.

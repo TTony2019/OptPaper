@@ -398,10 +398,8 @@ The first term tends to $l$. The inner-product term tends to $0$: by linearity i
 
 $$
 \langle \nabla\Phi(x(s_n)),p-x(s_n)\rangle
-=
-\langle \nabla\Phi(x(s_n)),p\rangle
--
-\langle \nabla\Phi(x(s_n)),x(s_n)\rangle,
+=\langle \nabla\Phi(x(s_n)),p\rangle
+-\langle \nabla\Phi(x(s_n)),x(s_n)\rangle,
 $$
 
 and both summands tend to $0$, the first because $p$ is constant and bounded and the second as shown above. Hence the left-hand side tends to $l$. Since every term is at most $\Phi(p)$, the limit comparison `le_of_tendsto` yields

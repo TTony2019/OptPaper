@@ -23,10 +23,8 @@ The conclusion is an equality of real numbers. With the side-condition proofs su
 
 $$
 \mathrm{auxiliaryG}(u,y,a,b,\lambda,q,k)
-=
-\left\langle z_k,\; u_k-q\right\rangle
--
-\sum_{i=2}^{k}\left\langle z_i,\; v_i\right\rangle,
+=\left\langle z_k,\; u_k-q\right\rangle
+-\sum_{i=2}^{k}\left\langle z_i,\; v_i\right\rangle,
 $$
 
 where $z_i$ denotes the vector `zSequence` evaluated at $u,y,a,b,\lambda,i$, and $v_i$ denotes the vector `velocity` evaluated at $u,i$, in both cases with the required side-condition proofs attached. The first term uses $z_k$ at the index $k$, whose side condition is supplied from $2\le k$. The sum is over the attached finite set `Finset.Icc 2 k`, which mathematically is the inclusive interval $\{2,3,\dots,k\}$; for each such $i$, the side conditions for `zSequence` and `velocity` are supplied from the lower bound $2\le i$. Thus the theorem states that, for $k\ge 2$, the auxiliary quantity `auxiliaryG` equals the inner product of the $k$-th $z$-term with the displacement $u_k-q$, minus the sum from $i=2$ to $i=k$ of the inner products of the $i$-th $z$-term with the $i$-th velocity term. The definitions of `zSequence` and `velocity` are not included in the provided source, so their internal mathematical content cannot be inferred from this declaration; only their roles as vector-valued auxiliary and velocity sequences appear here. The theorem contains no convexity, minimization, or convergence assumptions; it is simply the defining formula for `auxiliaryG` on the range $k\ge 2$.

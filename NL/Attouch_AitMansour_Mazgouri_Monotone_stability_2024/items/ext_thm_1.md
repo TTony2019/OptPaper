@@ -22,8 +22,7 @@ Let $X$ be a nonempty pseudo-metric space. For a set-valued map $T : X \to \math
 
 $$
 \mathrm{AFix}(T,\varepsilon)
-=
-\left\{x\in X:\ 0\le \varepsilon \ \text{and}\ \mathrm{infEDist}(x,T(x))\le \mathrm{ofReal}\varepsilon\right\}.
+=\left\{x\in X:\ 0\le \varepsilon \ \text{and}\ \mathrm{infEDist}(x,T(x))\le \mathrm{ofReal}\varepsilon\right\}.
 $$
 
 Here $\mathrm{infEDist}(x,T(x))$ is the extended infimum distance from the point $x$ to the set $T(x)$, and $\mathrm{ofReal}$ embeds a real number into the extended nonnegative real numbers $\mathbb R_{\ge 0}\cup\{\infty\}$.
@@ -47,8 +46,7 @@ The conclusion says three things. First, the approximate fixed point set of $T_1
 
 $$
 \mathrm{ofReal}\!\left(\frac{\varepsilon}{1-\lambda}\right)
-+
-\left(1-\mathrm{ofReal}\lambda\right)^{-1}
++\left(1-\mathrm{ofReal}\lambda\right)^{-1}
 \sup_{x\in X} d_H(T_1(x),T_2(x)).
 $$
 
@@ -111,8 +109,7 @@ In the case $D=\infty$, the right-hand side of the desired inequality becomes
 
 $$
 \mathrm{ofReal}\!\left(\frac{\varepsilon}{1-\lambda}\right)
-+
-\left(1-\mathrm{ofReal}\lambda\right)^{-1}\cdot \infty.
++\left(1-\mathrm{ofReal}\lambda\right)^{-1}\cdot \infty.
 $$
 
 The proof first shows that $1-\mathrm{ofReal}\lambda\ne\infty$. This uses `ENNReal.sub_ne_top`, applied to the fact that $1\ne\infty$; subtracting any extended nonnegative real from $1$ cannot produce $\infty$. Hence the inverse $\left(1-\mathrm{ofReal}\lambda\right)^{-1}$ is nonzero, by `ENNReal.inv_ne_zero`. The rewrite rule `ENNReal.mul_top` then turns a nonzero factor times $\infty$ into $\infty$. Therefore the entire right-hand side is $\infty$, and the inequality is closed by `le_top`, since every extended nonnegative real is at most $\infty$.
@@ -153,8 +150,7 @@ $$
 \mathrm{infEDist}(x,\mathrm{AFix}(S,\varepsilon))
 \le
 \mathrm{ofReal}\!\left(\frac{\varepsilon}{1-\lambda}\right)
-+
-\left(1-\mathrm{ofReal}\lambda\right)^{-1}D.
++\left(1-\mathrm{ofReal}\lambda\right)^{-1}D.
 $$
 
 It is applied here with $T=T_1$ and $S=T_2$. The contraction hypothesis for $S$ is the second half of the standing Lipschitz hypothesis, namely the contraction estimate for $T_2$. The uniform closeness hypothesis is exactly $d_H(T_1(x),T_2(x))\le D$. This yields the first required estimate,
@@ -181,8 +177,7 @@ $$
 d_H(\mathrm{AFix}(T_1,\varepsilon),\mathrm{AFix}(T_2,\varepsilon))
 \le
 \mathrm{ofReal}\!\left(\frac{\varepsilon}{1-\lambda}\right)
-+
-\left(1-\mathrm{ofReal}\lambda\right)^{-1}
++\left(1-\mathrm{ofReal}\lambda\right)^{-1}
 \sup_{x\in X} d_H(T_1(x),T_2(x)).
 $$
 

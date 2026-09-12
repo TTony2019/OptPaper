@@ -447,8 +447,7 @@ The cited lemma `epsilon_energy_deriv` applies to $\Phi$, $\nabla\Phi$, $\mathrm
 
 $$
 \frac{d}{ds}U_\epsilon(s)
-=
--\left\langle \mathrm{hess}\Phi(x_\epsilon(s))v_\epsilon(s),v_\epsilon(s)\right\rangle .
+=-\left\langle \mathrm{hess}\Phi(x_\epsilon(s))v_\epsilon(s),v_\epsilon(s)\right\rangle .
 $$
 
 By the Hessian nonnegativity just proved, this derivative is $\le0$. The proof also checks continuity of $U_\epsilon$ and differentiability on the interior of $[0,\infty)$, then invokes `antitoneOn_of_deriv_nonpos`, which says that a continuous function on a convex interval whose derivative is nonpositive on the interior is antitone there. Hence $U_\epsilon$ is nonincreasing on $[0,\infty)$. Evaluating at $0$ and $t$ gives
@@ -618,8 +617,7 @@ and rearranging with `abel` yields
 
 $$
 \nabla\Phi(x_\epsilon(t))-\nabla\Phi(x(t))
-=
-e^{-t}(\epsilon v_0)-\epsilon v_\epsilon(t)
+=e^{-t}(\epsilon v_0)-\epsilon v_\epsilon(t)
 +\int_0^t e^{-(t-r)}\epsilon v_\epsilon(r)\,dr.
 $$
 
@@ -658,8 +656,7 @@ The scalar integral is computed as
 
 $$
 \int_0^t e^{-(t-r)}B\,dr
-=
-B(1-e^{-t})\le B.
+=B(1-e^{-t})\le B.
 $$
 
 Therefore
@@ -689,8 +686,7 @@ Using
 
 $$
 \sqrt{2\epsilon(\alpha-m)}
-=
-\sqrt{\epsilon}\sqrt{2(\alpha-m)}
+=\sqrt{\epsilon}\sqrt{2(\alpha-m)}
 $$
 
 and $\epsilon\le\sqrt{\epsilon}$ for $0<\epsilon\le1$, the right-hand side is at most
@@ -707,8 +703,7 @@ $$
 \frac{\sqrt{\epsilon}K}{\beta}
 \le
 \frac{K+1}{\beta}\sqrt{\epsilon}
-=
-C\sqrt{\epsilon}.
+=C\sqrt{\epsilon}.
 $$
 
 This proves the first conjunct, the uniform $O(\sqrt{\epsilon})$ error estimate. The arithmetic inequalities here are handled by `nlinarith` and `linarith`.
@@ -745,8 +740,7 @@ $$
 C\sqrt{\epsilon}
 <
 C\frac{\delta}{C}
-=
-\delta.
+=\delta.
 $$
 
 Thus the required uniform convergence holds, completing the proof. In Lean, `filter_upwards` implements the “eventually” quantifier over the right-neighborhood of $0$, `rw` and `simp` unfold the metric characterization, and `field_simp` finishes the division by $C>0$.

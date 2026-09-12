@@ -16,10 +16,8 @@ For such data, `auxiliaryA` is defined by
 
 $$
 \mathrm{auxiliaryA}(u,y,a,b,\lambda,q,k,hk)
-=
-\frac{a+b}{2\lambda}\,\|u_k-q\|^2
--
-\left(\frac{1}{\lambda}+b\right)\,
+=\frac{a+b}{2\lambda}\,\|u_k-q\|^2
+-\left(\frac{1}{\lambda}+b\right)\,
 \mathrm{auxiliaryG}(u,y,a,b,\lambda,q,k+1,\text{proof}).
 $$
 

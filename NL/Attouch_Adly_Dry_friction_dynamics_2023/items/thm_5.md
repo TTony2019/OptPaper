@@ -31,8 +31,7 @@ and a relation hypothesis
 $$
 h_{\mathrm{relation}} : \forall s \in \mathrm{Ici}s_0,\quad
 z\!\left(\frac{s^2}{2(\alpha-1)}\right)
-=
-x(s)+\frac{s}{\alpha-1}\cdot \mathrm{deriv}x(s),
+=x(s)+\frac{s}{\alpha-1}\cdot \mathrm{deriv}x(s),
 $$
 
 where $s \in \mathrm{Ici}s_0$ means $s \ge s_0$, and the dot denotes scalar multiplication by the real number $\frac{s}{\alpha-1}$.
@@ -254,16 +253,14 @@ Next the proof invokes the relation hypothesis. `hrel := hrelation s hs` gives
 
 $$
 z\!\left(\frac{s^2}{2(\alpha-1)}\right)
-=
-x(s)+\frac{s}{\alpha-1}\cdot \mathrm{deriv}x(s).
+=x(s)+\frac{s}{\alpha-1}\cdot \mathrm{deriv}x(s).
 $$
 
 The command `dsimp [y, timeScaledTrajectory, τ, dτ] at hrel ⊢` unfolds the local definitions in both `hrel` and the current goal. The goal is therefore the equation
 
 $$
 \mathrm{deriv}x(s)
-+
-\left(\frac{s}{\alpha-1}\right)^{-1}
++\left(\frac{s}{\alpha-1}\right)^{-1}
 \cdot
 \left(
 x(s)-z\!\left(\frac{s^2}{2(\alpha-1)}\right)
@@ -293,16 +290,14 @@ The proof next rewrites this difference using a local equality proved by `abel`:
 
 $$
 x(s)-\left(x(s)+\frac{s}{\alpha-1}\cdot \mathrm{deriv}x(s)\right)
-=
--\left(\frac{s}{\alpha-1}\cdot \mathrm{deriv}x(s)\right).
+=-\left(\frac{s}{\alpha-1}\cdot \mathrm{deriv}x(s)\right).
 $$
 
 The `abel` tactic proves identities in additive abelian groups; here $H$ is an additive commutative group, so it can cancel the common $x(s)$. After this rewrite, the goal becomes
 
 $$
 \mathrm{deriv}x(s)
-+
-\left(\frac{s}{\alpha-1}\right)^{-1}
++\left(\frac{s}{\alpha-1}\right)^{-1}
 \cdot
 \left(
 -\left(\frac{s}{\alpha-1}\cdot \mathrm{deriv}x(s)\right)

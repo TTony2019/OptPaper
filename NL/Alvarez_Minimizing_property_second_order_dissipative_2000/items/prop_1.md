@@ -701,8 +701,7 @@ The cited lemma `scalar_damped_energy_from_zero hPhi sys hvel0 ht` gives, for ev
 $$
 \left(\frac12\|u'(t)\|^2+\Phi(u(t))\right)
 +\gamma\int_0^t \|u'(s)\|^2\,ds
-=
-\frac12\|v_0\|^2+\Phi(u_0).
+=\frac12\|v_0\|^2+\Phi(u_0).
 $$
 
 Using $\Phi(u(t))\ge \inf\Phi(H)$ and the kinetic term $\frac12\|u'(t)\|^2\ge 0$, this implies the bound
@@ -987,10 +986,8 @@ Taking inner product with $z$ and using $Az=0$ together with self-adjointness gi
 
 $$
 \langle \mathrm{gradPhi}(u(t)),z\rangle
-=
-\langle A u(t),z\rangle
-=
-\langle u(t),Az\rangle
+=\langle A u(t),z\rangle
+=\langle u(t),Az\rangle
 =0.
 $$
 

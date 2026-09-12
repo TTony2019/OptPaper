@@ -13,8 +13,7 @@ The declaration `remark_2_unrelaxed_root` is a theorem about one real variable $
 
 $$
 \mathrm{pCoeff}(R_1,R_2,\alpha)
-=
-\frac{1}{R_2}
+=\frac{1}{R_2}
 -\frac{1}{2}
 -\left(\frac{2}{R_1}-\frac{1}{2}\right)\alpha
 -\left(1-\frac{1}{R_2}\right)\alpha^2 .
@@ -38,18 +37,15 @@ $$
 \frac{1}{1}-\frac{1}{2}
 -\left(\frac{2}{1}-\frac{1}{2}\right)\alpha
 -\left(1-\frac{1}{1}\right)\alpha^2
-=
-\frac{1}{2}-\frac{3}{2}\alpha .
+=\frac{1}{2}-\frac{3}{2}\alpha .
 $$
 
 The second equality says that this specialized expression vanishes at $\alpha=\frac{1}{3}$, since
 
 $$
 \frac{1}{2}-\frac{3}{2}\cdot\frac{1}{3}
-=
-\frac{1}{2}-\frac{1}{2}
-=
-0 .
+=\frac{1}{2}-\frac{1}{2}
+=0 .
 $$
 
 Thus, in ordinary language, the theorem states that for every real $\alpha$, the coefficient $\mathrm{pCoeff}(1,1,\alpha)$ is the linear function $\frac{1}{2}-\frac{3}{2}\alpha$, and $\alpha=\frac{1}{3}$ is a root of that unrelaxed coefficient.
@@ -91,8 +87,7 @@ $$
 \frac{1}{1}-\frac{1}{2}
 -\left(\frac{2}{1}-\frac{1}{2}\right)\alpha
 -\left(1-\frac{1}{1}\right)\alpha^2
-=
-\frac{1}{2}-\frac{3}{2}\alpha,
+=\frac{1}{2}-\frac{3}{2}\alpha,
 $$
 
 because $1/1=1$, $2/1=2$, $1-1/1=0$, and $2-\frac{1}{2}=\frac{3}{2}$. This proves the first conjunct.
@@ -109,10 +104,8 @@ Then `ring` simplifies this expression and proves it equals $0$. Concretely, the
 
 $$
 \frac{1}{2}-\frac{3}{2}\cdot\frac{1}{3}
-=
-\frac{1}{2}-\frac{1}{2}
-=
-0.
+=\frac{1}{2}-\frac{1}{2}
+=0.
 $$
 
 This proves the second conjunct. No additional hypotheses or named external theorems are invoked beyond the local definition of `pCoeff`; the proof is a direct calculation using definitional unfolding and algebraic normalization.
