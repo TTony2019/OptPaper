@@ -47,6 +47,34 @@ theorem mem_of_monotonically_related_to_graph
     exact Or.inr ⟨rfl, rfl⟩
   exact hT.2 T' hmono' hsubset hadd
 
+omit [CompleteSpace H] in
+/-- The order-theoretic owner `Maximal IsMonotone A` is equivalent to the textbook criterion that
+`(x, u)` lies in `gra A` exactly when it is monotonically related to every graph point of `A`. -/
+theorem Maximal.mem_iff {A : SetValuedOperator H H} (hA : Maximal IsMonotone A) (x u : H) :
+    u ∈ A x ↔ ∀ ⦃y v : H⦄, v ∈ A y → 0 ≤ inner ℝ (u - v) (x - y) := by
+  have hA' : IsMaximalMonotone A := (isMaximalMonotone_iff_maximal_isMonotone A).2 hA
+  constructor
+  · intro hxu y v hv
+    exact hA'.1 u hxu v hv
+  · intro hrel
+    exact mem_of_monotonically_related_to_graph hA' hrel
+
+omit [CompleteSpace H] in
+/-- A maximally monotone operator on a real Hilbert space has nonempty domain. -/
+theorem dom_nonempty_of_maximal (A : SetValuedOperator H H) (hA : Maximal IsMonotone A) :
+    A.dom.Nonempty := by
+  -- If the domain were empty, the Minty membership criterion would force `(0, 0)` into the graph.
+  by_contra hdom
+  have hdom_empty : A.dom = ∅ := Set.eq_empty_iff_forall_notMem.2 fun x hx ↦ hdom ⟨x, hx⟩
+  have hzero_mem : (0 : H) ∈ A (0 : H) := by
+    -- The monotonicity test is vacuous because no graph point exists when the domain is empty.
+    refine (Maximal.mem_iff hA 0 0).2 ?_
+    intro y v hv
+    have hy_dom : y ∈ A.dom := (mem_dom_iff A y).2 ⟨v, hv⟩
+    simp [hdom_empty] at hy_dom
+  have hzero_dom : (0 : H) ∈ A.dom := (mem_dom_iff A 0).2 ⟨0, hzero_mem⟩
+  exact hdom ⟨0, hzero_dom⟩
+
 /-
 User Hint:
 Follow the proof of Theorem 21.1 in Paper2Lean/reference/Bauschke17 md&tex/Chapter21/Chapter21.md.

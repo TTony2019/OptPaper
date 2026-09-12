@@ -27,6 +27,10 @@ in the canonical mathlib API. -/
 abbrev cone (C : Set E) : Set E :=
   (ConvexCone.hull ℝ C : Set E)
 
+/-- The textbook cone notation is the underlying set of the convex cone hull. -/
+theorem cone_def (C : Set E) : cone C = (ConvexCone.hull ℝ C : Set E) :=
+  rfl
+
 end Cone
 
 section TangentCone
@@ -158,4 +162,3 @@ theorem normalCone_eq (C : Set H) :
 end NormalConeBridge
 
 end Set
-

@@ -1,5 +1,6 @@
 import TheoremLib.Burachik_Svaiter_Robustness_HPE_2001.items.def_3
 import Foundation.SetValued.Minty
+import Foundation.SetValued.MaximalMonotoneSum
 import Foundation.Projection.BestApproximation
 
 namespace BurachikSvaiterRobustnessHPE2001
@@ -62,7 +63,7 @@ private theorem normalCone_maximal {H : Type*} [NormedAddCommGroup H]
   exact (minty_surjective_iff_maximal_monotone (normalCone_monotone C)).2
     (normalCone_minty_surjective C hCnonempty hCclosed hCconvex)
 
-/-! ### External input: the sum theorem for maximal monotone operators
+/-! ### The sum theorem for maximal monotone operators
 
 Lemma 3.4 of the paper invokes the following classical theorem, cited there as
 `Ref. 29, Theorem 1` (R. T. Rockafellar, *On the maximality of sums of nonlinear
@@ -72,17 +73,29 @@ contractions dans les espaces de Hilbert* (1973), Corollaire 2.7, and
 Bauschke--Combettes, *Convex Analysis and Monotone Operator Theory in Hilbert
 Spaces*, Theorem 25.1.
 
-A proof is a deep piece of maximal-monotone operator theory (its standard
-arguments require either the Fitzpatrick machinery of Bauschke--Combettes
-Chapter 25 or a Yosida-approximation argument passing to weak limits, none of
-which is available in `Foundation` yet), so the statement is recorded here and
-left as a `sorry`, exactly in the role that the citation plays in the paper.
-Only `rockafellar_sum_maximal` below depends on it. -/
+The interior qualification point is the second regularity alternative of
+Bauschke--Combettes Corollary 25.5, with the roles of `A` and `B` exchanged, so the
+statement is proved here from the migrated
+`SetValuedOperator.Maximal.add_of_sumRegularity`.  That corollary is itself proved
+modulo the documented `sorry` for Bauschke--Combettes Theorem 25.3 in
+`Foundation/SetValued/MaximalMonotoneSum.lean`; only `rockafellar_sum_maximal` below
+depends on this statement. -/
 theorem sum_maximal_monotone {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     [CompleteSpace H] (A B : SetValuedOperator H H) (hA : A.IsMaximalMonotone)
     (hB : B.IsMaximalMonotone) (hqual : (interior A.dom ∩ B.dom).Nonempty) :
     IsMaximalMonotone (A + B) := by
-  sorry
+  -- Swap the two operators so that the qualification point matches the second alternative of
+  -- Corollary 25.5, then transport the maximality conclusion back along commutativity of `+`.
+  have hA' : Maximal SetValuedOperator.IsMonotone A :=
+    (isMaximalMonotone_iff_maximal_isMonotone A).1 hA
+  have hB' : Maximal SetValuedOperator.IsMonotone B :=
+    (isMaximalMonotone_iff_maximal_isMonotone B).1 hB
+  have hqual' : (B.dom ∩ interior A.dom).Nonempty := by
+    rcases hqual with ⟨x, hxA, hxB⟩
+    exact ⟨x, hxB, hxA⟩
+  have hmax : Maximal SetValuedOperator.IsMonotone (B + A) :=
+    Maximal.add_of_sumRegularity (A := B) (B := A) hB' hA' (Or.inr (Or.inl hqual'))
+  exact (isMaximalMonotone_iff_maximal_isMonotone (A + B)).2 (by simpa [add_comm] using hmax)
 
 /-- Rockafellar's sum theorem specialized to the sum of a maximal monotone
 operator with the normal-cone operator of a nonempty closed convex set: the

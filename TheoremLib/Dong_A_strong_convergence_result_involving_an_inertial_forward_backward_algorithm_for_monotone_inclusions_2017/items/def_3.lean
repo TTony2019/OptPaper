@@ -1,0 +1,8 @@
+import Mathlib.Tactic
+import TheoremLib.Dong_A_strong_convergence_result_involving_an_inertial_forward_backward_algorithm_for_monotone_inclusions_2017.items.def_1
+import Foundation.FixedPoint.Nonexpansive
+
+/-! Definition 2.2: firmly nonexpansive mappings. -/
+
+recall AmbientFirmlyNonexpansiveOn
+recall ambientFirmlyNonexpansiveOn_iff
