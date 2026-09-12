@@ -9,22 +9,30 @@ recall SetValuedOperator.inverse
 ## Statement explanation
 The declaration `recall SetValuedOperator.inverse` is not a theorem with hypotheses and a conclusion. It has no explicit binders, no assumptions, and no goal. It is a recall declaration that refers to the already existing definition named `SetValuedOperator.inverse`. The mathematical content of that recalled definition is the inverse operation for set-valued operators.
 
-If \(T\) is a set-valued operator from a type \(\alpha\) to a type \(\beta\), represented in Lean as a function
-\[
+If $T$ is a set-valued operator from a type $\alpha$ to a type $\beta$, represented in Lean as a function
+
+$$
 T:\alpha\to\mathcal P(\beta),
-\]
-so that each \(x\in\alpha\) is assigned a subset \(T(x)\subseteq\beta\), then its inverse is the set-valued operator
-\[
+$$
+
+so that each $x\in\alpha$ is assigned a subset $T(x)\subseteq\beta$, then its inverse is the set-valued operator
+
+$$
 T^{-1}:\beta\to\mathcal P(\alpha)
-\]
+$$
+
 defined by
-\[
+
+$$
 T^{-1}(y)=\{x\in\alpha : y\in T(x)\}.
-\]
-Thus \(T^{-1}\) sends each \(y\in\beta\) to the set of all \(x\in\alpha\) that are related to \(y\) by \(T\). The defining equivalence is
-\[
+$$
+
+Thus $T^{-1}$ sends each $y\in\beta$ to the set of all $x\in\alpha$ that are related to $y$ by $T$. The defining equivalence is
+
+$$
 x\in T^{-1}(y)\iff y\in T(x).
-\]
+$$
+
 This is the only mathematical content recalled by the declaration; no additional hypothesis or conclusion is asserted.
 
 ## Lean proof

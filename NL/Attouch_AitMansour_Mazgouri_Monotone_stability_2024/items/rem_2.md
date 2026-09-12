@@ -20,60 +20,60 @@ theorem rem_2 {H M : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 ```
 
 ## Statement explanation
-The theorem `rem_2` is a continuous-dependence, or stability, statement for a family of damped second-order problems indexed by a parameter \(\mu\) in a normed additive group \(M\). The state space is a real inner-product space \(H\), assumed complete, so \(H\) is a real Hilbert space. The set \(V\subseteq M\) is the admissible parameter set, and \(\bar\mu\in M\) is the reference parameter near which the limiting behavior is studied.
+The theorem `rem_2` is a continuous-dependence, or stability, statement for a family of damped second-order problems indexed by a parameter $\mu$ in a normed additive group $M$. The state space is a real inner-product space $H$, assumed complete, so $H$ is a real Hilbert space. The set $V\subseteq M$ is the admissible parameter set, and $\bar\mu\in M$ is the reference parameter near which the limiting behavior is studied.
 
-For each parameter \(\mu\), the data are an operator \(A_\mu=A(\mu):H\to H\), a real damping coefficient \(\gamma\), an initial position \(u_0(\mu)\in H\), an initial velocity \(v_0(\mu)\in H\), and three \(H\)-valued time functions \(x(\mu),dx(\mu),ddx(\mu):\mathbb R\to H\). The function \(x(\mu)\) is the trajectory whose stability is being measured; \(dx(\mu)\) and \(ddx(\mu)\) are the first and second derivative-type objects appearing in the solution predicate. The function \(\alpha:M\to\mathbb R\) supplies coercivity constants. The constants \(r,T>0\) are respectively a ball radius and a time horizon.
+For each parameter $\mu$, the data are an operator $A_\mu=A(\mu):H\to H$, a real damping coefficient $\gamma$, an initial position $u_0(\mu)\in H$, an initial velocity $v_0(\mu)\in H$, and three $H$-valued time functions $x(\mu),dx(\mu),ddx(\mu):\mathbb R\to H$. The function $x(\mu)$ is the trajectory whose stability is being measured; $dx(\mu)$ and $ddx(\mu)$ are the first and second derivative-type objects appearing in the solution predicate. The function $\alpha:M\to\mathbb R$ supplies coercivity constants. The constants $r,T>0$ are respectively a ball radius and a time horizon.
 
-The hypothesis `hC₁` says that for every \(\mu\in V\), the number \(\alpha(\mu)\) is positive and the operator \(A_\mu\) satisfies the cocoercivity/monotonicity-type inequality
+The hypothesis `hC₁` says that for every $\mu\in V$, the number $\alpha(\mu)$ is positive and the operator $A_\mu$ satisfies the cocoercivity/monotonicity-type inequality
 
-\[
+$$
 \alpha(\mu)\|A_\mu u-A_\mu v\|^2
 \le
 \langle A_\mu u-A_\mu v,u-v\rangle_{\mathbb R}
-\]
+$$
 
-for all \(u,v\in H\). The hypothesis `hsol` says that for every admissible \(\mu\in V\), the triple \((x(\mu),dx(\mu),ddx(\mu))\) satisfies the predicate `ext_def_2` with operator \(A_\mu\), damping \(\gamma\), and initial data \(u_0(\mu),v_0(\mu)\). The definition of `ext_def_2` is not supplied in the given context, but in the proof it is used to obtain continuity of the first component \(x(\mu)\) on \( [0,T] \).
+for all $u,v\in H$. The hypothesis `hsol` says that for every admissible $\mu\in V$, the triple $(x(\mu),dx(\mu),ddx(\mu))$ satisfies the predicate `ext_def_2` with operator $A_\mu$, damping $\gamma$, and initial data $u_0(\mu),v_0(\mu)$. The definition of `ext_def_2` is not supplied in the given context, but in the proof it is used to obtain continuity of the first component $x(\mu)$ on $[0,T]$.
 
-The hypotheses `hu₀` and `hv₀` state that the initial position and velocity data converge at \(\bar\mu\):
+The hypotheses `hu₀` and `hv₀` state that the initial position and velocity data converge at $\bar\mu$:
 
-\[
+$$
 u_0(\mu)\to u_0(\bar\mu),\qquad
 v_0(\mu)\to v_0(\bar\mu)
-\]
+$$
 
-as \(\mu\to\bar\mu\). The hypothesis `hball` assumes that for every \(\mu\in V\), for almost every \(t\in [0,T]\) with respect to Lebesgue measure,
+as $\mu\to\bar\mu$. The hypothesis `hball` assumes that for every $\mu\in V$, for almost every $t\in [0,T]$ with respect to Lebesgue measure,
 
-\[
+$$
 \|x(\mu)(t)\|\le r.
-\]
+$$
 
-Thus the trajectories are uniformly bounded on the time interval, almost everywhere, by the radius \(r\). The hypothesis `hV` says that \(V\) is a neighborhood of \(\bar\mu\), and `hμbar` says that \(\bar\mu\) itself belongs to \(V\). The hypothesis `hconv_A` says that the discrepancy
+Thus the trajectories are uniformly bounded on the time interval, almost everywhere, by the radius $r$. The hypothesis `hV` says that $V$ is a neighborhood of $\bar\mu$, and `hμbar` says that $\bar\mu$ itself belongs to $V$. The hypothesis `hconv_A` says that the discrepancy
 
-\[
+$$
 \operatorname{def}_6(r,h_r,A_\mu,A_{\bar\mu})
-\]
+$$
 
-tends to \(0\) as \(\mu\to\bar\mu\). Here `def_6` is defined as the supremum discrepancy on the ball of radius \(r\), so this is a convergence assumption on the operators \(A_\mu\) toward \(A_{\bar\mu}\). Finally, `hα_bound` says that eventually near \(\bar\mu\),
+tends to $0$ as $\mu\to\bar\mu$. Here `def_6` is defined as the supremum discrepancy on the ball of radius $r$, so this is a convergence assumption on the operators $A_\mu$ toward $A_{\bar\mu}$. Finally, `hα_bound` says that eventually near $\bar\mu$,
 
-\[
+$$
 \alpha(\bar\mu)\le \alpha(\mu).
-\]
+$$
 
 The conclusion is that
 
-\[
+$$
 \operatorname{pathSupNorm}_T\bigl(t\mapsto x(\mu)(t)-x(\bar\mu)(t)\bigr)\to 0
-\]
+$$
 
-as \(\mu\to\bar\mu\). Since
+as $\mu\to\bar\mu$. Since
 
-\[
+$$
 \operatorname{pathSupNorm}_T f
 =
 \sup\{\|f(t)\|:t\in [0,T]\},
-\]
+$$
 
-this says that the trajectories \(x(\mu)\) converge to the reference trajectory \(x(\bar\mu)\) uniformly on the time interval \( [0,T] \), measured by the path supremum norm.
+this says that the trajectories $x(\mu)$ converge to the reference trajectory $x(\bar\mu)$ uniformly on the time interval $[0,T]$, measured by the path supremum norm.
 
 ## Lean proof
 ```lean
@@ -148,126 +148,126 @@ by
 ## Proof explanation
 The proof begins by introducing the auxiliary constant
 
-\[
+$$
 m_0=\sqrt{1+2\gamma^2+\frac{2}{\alpha(\bar\mu)^2}}.
-\]
+$$
 
-Since \(\bar\mu\in V\), the hypothesis `hC₁` gives \(\alpha(\bar\mu)>0\). The term \(2/\alpha(\bar\mu)^2\) is therefore positive, and \(1+2\gamma^2\) is nonnegative because \(\gamma^2\ge0\). Hence the radicand is positive, and `Real.sqrt_pos.mpr` proves \(m_0>0\). The Lean command `dsimp [m₀]` unfolds the local definition of \(m_0\), `positivity` proves the positivity of \(2/\alpha(\bar\mu)^2\), and `nlinarith [sq_nonneg γ]` combines the nonnegativity of \(\gamma^2\) with the positivity of the other term.
+Since $\bar\mu\in V$, the hypothesis `hC₁` gives $\alpha(\bar\mu)>0$. The term $2/\alpha(\bar\mu)^2$ is therefore positive, and $1+2\gamma^2$ is nonnegative because $\gamma^2\ge0$. Hence the radicand is positive, and `Real.sqrt_pos.mpr` proves $m_0>0$. The Lean command `dsimp [m₀]` unfolds the local definition of $m_0$, `positivity` proves the positivity of $2/\alpha(\bar\mu)^2$, and `nlinarith [sq_nonneg γ]` combines the nonnegativity of $\gamma^2$ with the positivity of the other term.
 
 Next the proof shows that the initial-data term tends to zero. It first proves
 
-\[
+$$
 \|u_0(\mu)-u_0(\bar\mu)\|\to0.
-\]
+$$
 
-Indeed, `hu₀` says \(u_0(\mu)\to u_0(\bar\mu)\). Subtracting the constant map \(\mu\mapsto u_0(\bar\mu)\), whose limit is itself, gives \(u_0(\mu)-u_0(\bar\mu)\to0\). Since the norm map is continuous, the norm of this difference also tends to \(0\). The Lean expression `(hu₀.sub tendsto_const_nhds).norm` packages exactly that argument. The same reasoning with `hv₀` gives
+Indeed, `hu₀` says $u_0(\mu)\to u_0(\bar\mu)$. Subtracting the constant map $\mu\mapsto u_0(\bar\mu)$, whose limit is itself, gives $u_0(\mu)-u_0(\bar\mu)\to0$. Since the norm map is continuous, the norm of this difference also tends to $0$. The Lean expression `(hu₀.sub tendsto_const_nhds).norm` packages exactly that argument. The same reasoning with `hv₀` gives
 
-\[
+$$
 \|v_0(\mu)-v_0(\bar\mu)\|\to0.
-\]
+$$
 
-Then the proof applies the continuous operations \(z\mapsto z^2\), addition, and the square root at \(0\). Thus
+Then the proof applies the continuous operations $z\mapsto z^2$, addition, and the square root at $0$. Thus
 
-\[
+$$
 \sqrt{\|u_0(\mu)-u_0(\bar\mu)\|^2+\|v_0(\mu)-v_0(\bar\mu)\|^2}\to0.
-\]
+$$
 
 This is the auxiliary fact `hsqrt`.
 
 Using `hsqrt` and the hypothesis `hconv_A`, the proof then shows that the whole right-hand side
 
-\[
+$$
 R(\mu)
 =
 e^{m_0T}
 \sqrt{\|u_0(\mu)-u_0(\bar\mu)\|^2+\|v_0(\mu)-v_0(\bar\mu)\|^2}
 +
 m_0^{-1}(e^{m_0T}-1)\operatorname{def}_6(r,h_r,A_\mu,A_{\bar\mu})
-\]
+$$
 
-tends to \(0\). The first summand is a constant multiple of a quantity tending to \(0\), and the second summand is a constant multiple of \(\operatorname{def}_6(r,h_r,A_\mu,A_{\bar\mu})\), which tends to \(0\) by `hconv_A`. The Lean commands `hsqrt.const_mul`, `hconv_A.const_mul`, and `h1.add h2` implement these closure properties of limits. This is the auxiliary fact `hRHS`.
+tends to $0$. The first summand is a constant multiple of a quantity tending to $0$, and the second summand is a constant multiple of $\operatorname{def}_6(r,h_r,A_\mu,A_{\bar\mu})$, which tends to $0$ by `hconv_A`. The Lean commands `hsqrt.const_mul`, `hconv_A.const_mul`, and `h1.add h2` implement these closure properties of limits. This is the auxiliary fact `hRHS`.
 
-The central estimate is `hbound`, which asserts that eventually near \(\bar\mu\),
+The central estimate is `hbound`, which asserts that eventually near $\bar\mu$,
 
-\[
+$$
 \operatorname{pathSupNorm}_T\bigl(t\mapsto x(\mu)(t)-x(\bar\mu)(t)\bigr)
 \le R(\mu).
-\]
+$$
 
-The proof uses `filter_upwards [hV, hα_bound]` to work with a parameter \(\mu\) for which \(\mu\in V\) and \(\alpha(\bar\mu)\le\alpha(\mu)\) hold. For such a \(\mu\), it invokes the previously established result `thm_2`. The supplied statement of `thm_2` is truncated at `let m_μ`, so its full conclusion is not visible here. What is visible and used in this proof is that `thm_2` provides an almost-everywhere pointwise estimate for \(\|x(\mu)(t)-x(\bar\mu)(t)\|\) whose exponential coefficient is the maximum of the two quantities
+The proof uses `filter_upwards [hV, hα_bound]` to work with a parameter $\mu$ for which $\mu\in V$ and $\alpha(\bar\mu)\le\alpha(\mu)$ hold. For such a $\mu$, it invokes the previously established result `thm_2`. The supplied statement of `thm_2` is truncated at `let m_μ`, so its full conclusion is not visible here. What is visible and used in this proof is that `thm_2` provides an almost-everywhere pointwise estimate for $\|x(\mu)(t)-x(\bar\mu)(t)\|$ whose exponential coefficient is the maximum of the two quantities
 
-\[
+$$
 \sqrt{1+2\gamma^2+\frac{2}{\alpha(\mu)^2}}
 \quad\text{and}\quad
 \sqrt{1+2\gamma^2+\frac{2}{\alpha(\bar\mu)^2}},
-\]
+$$
 
-together with the initial-data square-root term and the discrepancy term \(\operatorname{def}_6(r,h_r,A_\mu,A_{\bar\mu})\).
+together with the initial-data square-root term and the discrepancy term $\operatorname{def}_6(r,h_r,A_\mu,A_{\bar\mu})$.
 
-The proof then simplifies that maximum to \(m_0\). From \(\alpha(\bar\mu)\le\alpha(\mu)\) and the positivity of both quantities, it obtains
+The proof then simplifies that maximum to $m_0$. From $\alpha(\bar\mu)\le\alpha(\mu)$ and the positivity of both quantities, it obtains
 
-\[
+$$
 (\alpha(\bar\mu))^2\le(\alpha(\mu))^2.
-\]
+$$
 
 Hence
 
-\[
+$$
 \frac{2}{(\alpha(\mu))^2}\le\frac{2}{(\alpha(\bar\mu))^2},
-\]
+$$
 
-so the radicand depending on \(\mu\) is at most the radicand depending on \(\bar\mu\). Since the square root is monotone on nonnegative reals, the corresponding square roots are ordered, and therefore the maximum equals the one involving \(\bar\mu\), namely \(m_0\). This is the auxiliary equality `hm`.
+so the radicand depending on $\mu$ is at most the radicand depending on $\bar\mu$. Since the square root is monotone on nonnegative reals, the corresponding square roots are ordered, and therefore the maximum equals the one involving $\bar\mu$, namely $m_0$. This is the auxiliary equality `hm`.
 
-The proof also needs continuity of the difference norm on \( [0,T] \). From `hsol μ hμV` and `hsol μbar hμbar`, the solution predicate supplies absolute continuity, hence continuity, of \(x(\mu)\) and \(x(\bar\mu)\) on \( [0,T] \). The Lean code extracts this as `hμac` and `hbarac`, restricts the continuity to the interval \( [0,T] \) using `Set.Icc_subset_uIcc`, subtracts the two continuous functions, and takes the norm. Therefore
+The proof also needs continuity of the difference norm on $[0,T]$. From `hsol μ hμV` and `hsol μbar hμbar`, the solution predicate supplies absolute continuity, hence continuity, of $x(\mu)$ and $x(\bar\mu)$ on $[0,T]$. The Lean code extracts this as `hμac` and `hbarac`, restricts the continuity to the interval $[0,T]$ using `Set.Icc_subset_uIcc`, subtracts the two continuous functions, and takes the norm. Therefore
 
-\[
+$$
 t\mapsto \|x(\mu)(t)-x(\bar\mu)(t)\|
-\]
+$$
 
-is continuous on \( [0,T] \).
+is continuous on $[0,T]$.
 
-Now the proof upgrades the almost-everywhere bound to a pointwise bound. It uses `le_of_ae_le_const_of_continuousOn`: if \(T>0\), if \(f\) is continuous on \( [0,T] \), and if for almost every \(t\), \(t\in [0,T]\) implies \(f(t)\le M\), then for every \(t\in [0,T]\), \(f(t)\le M\). Here \(f(t)=\|x(\mu)(t)-x(\bar\mu)(t)\|\) and \(M=R(\mu)\). The almost-everywhere hypothesis comes from `hpt`, the estimate obtained from `thm_2`, after rewriting the maximum coefficient to \(m_0\) using `hm`. Thus the proof obtains
+Now the proof upgrades the almost-everywhere bound to a pointwise bound. It uses `le_of_ae_le_const_of_continuousOn`: if $T>0$, if $f$ is continuous on $[0,T]$, and if for almost every $t$, $t\in [0,T]$ implies $f(t)\le M$, then for every $t\in [0,T]$, $f(t)\le M$. Here $f(t)=\|x(\mu)(t)-x(\bar\mu)(t)\|$ and $M=R(\mu)$. The almost-everywhere hypothesis comes from `hpt`, the estimate obtained from `thm_2`, after rewriting the maximum coefficient to $m_0$ using `hm`. Thus the proof obtains
 
-\[
+$$
 \forall t\in [0,T],\qquad
 \|x(\mu)(t)-x(\bar\mu)(t)\|\le R(\mu).
-\]
+$$
 
 This is the auxiliary fact `hall`.
 
-Next, the proof converts the pointwise bound into a path-supremum bound. It invokes `pathSupNorm_le_of_forall`: if \(T\ge0\) and \(\|f(t)\|\le C\) for all \(t\in [0,T]\), then
+Next, the proof converts the pointwise bound into a path-supremum bound. It invokes `pathSupNorm_le_of_forall`: if $T\ge0$ and $\|f(t)\|\le C$ for all $t\in [0,T]$, then
 
-\[
+$$
 \operatorname{pathSupNorm}_T f\le C.
-\]
+$$
 
-Here \(T\ge0\) follows from `hT.le`, \(f(t)=x(\mu)(t)-x(\bar\mu)(t)\), and \(C=R(\mu)\). Therefore
+Here $T\ge0$ follows from `hT.le`, $f(t)=x(\mu)(t)-x(\bar\mu)(t)$, and $C=R(\mu)$. Therefore
 
-\[
+$$
 \operatorname{pathSupNorm}_T\bigl(t\mapsto x(\mu)(t)-x(\bar\mu)(t)\bigr)
 \le R(\mu)
-\]
+$$
 
-eventually near \(\bar\mu\). This is `hbound`.
+eventually near $\bar\mu$. This is `hbound`.
 
 Finally, the proof applies the squeeze theorem for filters. The command `refine squeeze_zero' ?_ hbound hRHS` requires three ingredients: eventual nonnegativity of the quantity being bounded, the eventual upper bound `hbound`, and the convergence to zero of the upper bound `hRHS`. The remaining subgoal is that
 
-\[
+$$
 0\le
 \operatorname{pathSupNorm}_T\bigl(t\mapsto x(\mu)(t)-x(\bar\mu)(t)\bigr).
-\]
+$$
 
-The proof proves this for every \(\mu\) using `unfold pathSupNorm`, which expands the definition as a supremum of the set of real numbers
+The proof proves this for every $\mu$ using `unfold pathSupNorm`, which expands the definition as a supremum of the set of real numbers
 
-\[
+$$
 \{q:\exists t\in [0,T],\ q=\|x(\mu)(t)-x(\bar\mu)(t)\|\}.
-\]
+$$
 
-Every element of this set is the norm of some vector, hence is nonnegative. Therefore `Real.sSup_nonneg` gives that the supremum itself is nonnegative. Combining this nonnegativity, the eventual upper bound by \(R(\mu)\), and the fact \(R(\mu)\to0\), the squeeze theorem yields
+Every element of this set is the norm of some vector, hence is nonnegative. Therefore `Real.sSup_nonneg` gives that the supremum itself is nonnegative. Combining this nonnegativity, the eventual upper bound by $R(\mu)$, and the fact $R(\mu)\to0$, the squeeze theorem yields
 
-\[
+$$
 \operatorname{pathSupNorm}_T\bigl(t\mapsto x(\mu)(t)-x(\bar\mu)(t)\bigr)\to0
-\]
+$$
 
-as \(\mu\to\bar\mu\), which is the desired conclusion.
+as $\mu\to\bar\mu$, which is the desired conclusion.
 

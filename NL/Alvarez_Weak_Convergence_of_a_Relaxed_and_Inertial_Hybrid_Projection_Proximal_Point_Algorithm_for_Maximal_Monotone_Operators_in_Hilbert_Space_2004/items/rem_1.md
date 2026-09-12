@@ -27,44 +27,44 @@ theorem remark_1_finite_dimensional_convergence
 ```
 
 ## Statement explanation
-The declaration is a finite-dimensional strong-convergence statement for a relaxed/inertial algorithm. The ambient space is \(H\), which in this file is treated as the real Hilbert/normed space on which norms, scalar multiplication, weak convergence, and set-valued operators are considered. The operator \(A\) is a set-valued operator from \(H\) to \(H\), and the hypothesis \(hA\) says that \(A\) is maximal monotone.
+The declaration is a finite-dimensional strong-convergence statement for a relaxed/inertial algorithm. The ambient space is $H$, which in this file is treated as the real Hilbert/normed space on which norms, scalar multiplication, weak convergence, and set-valued operators are considered. The operator $A$ is a set-valued operator from $H$ to $H$, and the hypothesis $hA$ says that $A$ is maximal monotone.
 
-The sequences are \(x,v,y,z:\mathbb N\to H\), and the scalar sequences are \(\lambda,\rho:\mathbb N\to\mathbb R\). The set `SetValuedOperator.zeros A` is the zero set of \(A\), namely the set of points \(u\) such that \(0\in A u\). Thus \(hS\) says that \(A\) has at least one zero.
+The sequences are $x,v,y,z:\mathbb N\to H$, and the scalar sequences are $\lambda,\rho:\mathbb N\to\mathbb R$. The set `SetValuedOperator.zeros A` is the zero set of $A$, namely the set of points $u$ such that $0\in A u$. Thus $hS$ says that $A$ has at least one zero.
 
 The numerical hypotheses are:
 
-- \(hlam\_sq\_diverges\): the series \(\sum_k (\lambda_k)^2\) is not summable.
-- \(hweighted\): the weighted series \(\sum_k (\lambda_k)^2\|v_k\|^2\) is summable.
-- \(hfinite\): \(H\) is finite-dimensional over \(\mathbb R\).
-- \(hdist\): for every zero \(\bar x\in \operatorname{zeros}(A)\), the real sequence \(\|x_k-\bar x\|\) converges to some limit \(l\).
-- \(hR1\_pos\): there exists \(R_1>0\) such that \(R_1\le \rho_k\) for all \(k\).
-- \(hR2\_lt\_two\): there exists \(R_2<2\) such that \(\rho_k\le R_2\) for all \(k\).
+- $hlam\_sq\_diverges$: the series $\sum_k (\lambda_k)^2$ is not summable.
+- $hweighted$: the weighted series $\sum_k (\lambda_k)^2\|v_k\|^2$ is summable.
+- $hfinite$: $H$ is finite-dimensional over $\mathbb R$.
+- $hdist$: for every zero $\bar x\in \operatorname{zeros}(A)$, the real sequence $\|x_k-\bar x\|$ converges to some limit $l$.
+- $hR1\_pos$: there exists $R_1>0$ such that $R_1\le \rho_k$ for all $k$.
+- $hR2\_lt\_two$: there exists $R_2<2$ such that $\rho_k\le R_2$ for all $k$.
 
 The algorithmic hypotheses involve the auxiliary sequence
 
-\[
+$$
 p_k=(\rho_k)^{-1}z_k+\bigl(1-(\rho_k)^{-1}\bigr)y_k.
-\]
+$$
 
-The condition \(h\_conn\_25\) says
+The condition $h\_conn\_25$ says
 
-\[
+$$
 \bigl\|x_{k+1}-p_k\bigr\|\to 0,
-\]
+$$
 
-so \(x_{k+1}\) is asymptotically close to the relaxed combination \(p_k\). The condition \(h\_incl\_213\) says that for every \(k\),
+so $x_{k+1}$ is asymptotically close to the relaxed combination $p_k$. The condition $h\_incl\_213$ says that for every $k$,
 
-\[
+$$
 (\rho_k)^{-1}v_k\in A(p_k).
-\]
+$$
 
-The conclusion is that there exists a zero \(\hat x\in \operatorname{zeros}(A)\) such that
+The conclusion is that there exists a zero $\hat x\in \operatorname{zeros}(A)$ such that
 
-\[
+$$
 x_k\to \hat x
-\]
+$$
 
-strongly in \(H\). In other words, under maximal monotonicity, existence of a zero, finite dimensionality, the summability/divergence assumptions on \(\lambda\), convergence of the distances to every zero, the asymptotic connection \(x_{k+1}-p_k\to0\), the inclusion condition, and the lower/upper bounds on \(\rho\), the sequence \(x\) converges strongly to some zero of \(A\). The displayed proof unpacks the upper bound \(hR2\_lt\_two\) but does not use it later; the lower bound \(R_1\) is used.
+strongly in $H$. In other words, under maximal monotonicity, existence of a zero, finite dimensionality, the summability/divergence assumptions on $\lambda$, convergence of the distances to every zero, the asymptotic connection $x_{k+1}-p_k\to0$, the inclusion condition, and the lower/upper bounds on $\rho$, the sequence $x$ converges strongly to some zero of $A$. The displayed proof unpacks the upper bound $hR2\_lt\_two$ but does not use it later; the lower bound $R_1$ is used.
 
 ## Lean proof
 ```lean
@@ -175,167 +175,167 @@ by
 ```
 
 ## Proof explanation
-The proof first extracts a zero \(\bar x_0\) from \(hS\) and uses the distance-convergence hypothesis for that zero. From \(hdist\ \bar x_0\ hxbar_0\), it obtains a real number \(l_0\) such that
+The proof first extracts a zero $\bar x_0$ from $hS$ and uses the distance-convergence hypothesis for that zero. From $hdist\ \bar x_0\ hxbar_0$, it obtains a real number $l_0$ such that
 
-\[
+$$
 \|x_k-\bar x_0\|\to l_0.
-\]
+$$
 
-It then applies `bounded_range_of_tendsto_norm` to the sequence \(x_k-\bar x_0\). That lemma says that if the norms of a sequence \(a_k\) converge to a real number \(l\), then the range of \(a\) is bounded. Specialized here, since \(\|x_k-\bar x_0\|\to l_0\), the set
+It then applies `bounded_range_of_tendsto_norm` to the sequence $x_k-\bar x_0$. That lemma says that if the norms of a sequence $a_k$ converge to a real number $l$, then the range of $a$ is bounded. Specialized here, since $\|x_k-\bar x_0\|\to l_0$, the set
 
-\[
+$$
 \{x_k-\bar x_0:k\in\mathbb N\}
-\]
+$$
 
 is bounded.
 
-Next the proof shows that the original sequence \(x\) is bounded. From `isBounded_iff_forall_norm_le.mp hdiff_bdd` it obtains a constant \(C\) such that every \(x_k-\bar x_0\) has norm at most \(C\). For an arbitrary element \(x_k\) it uses the vector identity
+Next the proof shows that the original sequence $x$ is bounded. From `isBounded_iff_forall_norm_le.mp hdiff_bdd` it obtains a constant $C$ such that every $x_k-\bar x_0$ has norm at most $C$. For an arbitrary element $x_k$ it uses the vector identity
 
-\[
+$$
 x_k=(x_k-\bar x_0)+\bar x_0,
-\]
+$$
 
 rewritten by `abel`, and then the triangle inequality
 
-\[
+$$
 \|x_k\|
 \le \|x_k-\bar x_0\|+\|\bar x_0\|
 \le C+\|\bar x_0\|.
-\]
+$$
 
-The `linarith` step closes this arithmetic inequality using the bound \(C\) on \(\|x_k-\bar x_0\|\). Hence the range of \(x\) is bounded, again via `isBounded_iff_forall_norm_le.mpr`.
+The `linarith` step closes this arithmetic inequality using the bound $C$ on $\|x_k-\bar x_0\|$. Hence the range of $x$ is bounded, again via `isBounded_iff_forall_norm_le.mpr`.
 
-The proof then applies `residual_subsequence_of_weighted_summability` to \(hweighted\) and \(hlam\_sq\_diverges\). The mathematical content of that lemma is: if
+The proof then applies `residual_subsequence_of_weighted_summability` to $hweighted$ and $hlam\_sq\_diverges$. The mathematical content of that lemma is: if
 
-\[
+$$
 \sum_k (\lambda_k)^2\|v_k\|^2<\infty
-\]
+$$
 
 but
 
-\[
+$$
 \sum_k (\lambda_k)^2
-\]
+$$
 
-diverges in the sense of not being summable, then there is a strictly increasing subsequence \(\varphi:\mathbb N\to\mathbb N\) along which the residuals vanish:
+diverges in the sense of not being summable, then there is a strictly increasing subsequence $\varphi:\mathbb N\to\mathbb N$ along which the residuals vanish:
 
-\[
+$$
 v_{\varphi(j)}\to 0.
-\]
+$$
 
-The proof therefore obtains a strictly increasing \(\varphi\) and the convergence \(v_{\varphi(j)}\to0\).
+The proof therefore obtains a strictly increasing $\varphi$ and the convergence $v_{\varphi(j)}\to0$.
 
-Because \(hfinite\) says that \(H\) is finite-dimensional over \(\mathbb R\), the proof installs the instance `FiniteDimensional ℝ H` and then uses `FiniteDimensional.proper ℝ H` to get that \(H\) is a proper space. In a proper space, closed balls are compact. From the boundedness of the range of \(x\), the proof obtains \(R\) with \(\|x_k\|\le R\) for all \(k\). Therefore every element \(x_{\varphi(j)+1}\) lies in the closed ball `Metric.closedBall 0 R`. Since that closed ball is compact, `ProperSpace.isCompact_closedBall ... .tendsto_subseq` gives a subsequence \(\psi\) of the indices and a point \(\hat x\) such that
+Because $hfinite$ says that $H$ is finite-dimensional over $\mathbb R$, the proof installs the instance `FiniteDimensional ℝ H` and then uses `FiniteDimensional.proper ℝ H` to get that $H$ is a proper space. In a proper space, closed balls are compact. From the boundedness of the range of $x$, the proof obtains $R$ with $\|x_k\|\le R$ for all $k$. Therefore every element $x_{\varphi(j)+1}$ lies in the closed ball `Metric.closedBall 0 R`. Since that closed ball is compact, `ProperSpace.isCompact_closedBall ... .tendsto_subseq` gives a subsequence $\psi$ of the indices and a point $\hat x$ such that
 
-\[
+$$
 x_{\varphi(\psi(j))+1}\to \hat x.
-\]
+$$
 
 This is the central finite-dimensional step: a bounded sequence in a finite-dimensional normed space has a convergent subsequence.
 
-The proof then converts the norm convergence \(h\_conn\_25\) into vector convergence. Using `tendsto_zero_iff_norm_tendsto_zero.mpr`, it obtains
+The proof then converts the norm convergence $h\_conn\_25$ into vector convergence. Using `tendsto_zero_iff_norm_tendsto_zero.mpr`, it obtains
 
-\[
+$$
 x_{k+1}-p_k\to 0
-\]
+$$
 
-in \(H\). It defines
+in $H$. It defines
 
-\[
+$$
 k_j=\varphi(\psi(j)),
-\]
+$$
 
 which is strictly increasing because it is the composition of two strictly increasing subsequences. Since
 
-\[
+$$
 x_{k_j+1}\to \hat x
-\]
+$$
 
 and
 
-\[
+$$
 x_{k_j+1}-p_{k_j}\to 0,
-\]
+$$
 
 subtracting the second convergence from the first gives
 
-\[
+$$
 p_{k_j}\to \hat x.
-\]
+$$
 
-The proof also uses the subsequence \(\varphi\) to get
+The proof also uses the subsequence $\varphi$ to get
 
-\[
+$$
 v_{k_j}=v_{\varphi(\psi(j))}\to 0.
-\]
+$$
 
-It then uses the lower bound \(R_1\le \rho_k\) with \(R_1>0\). For each \(j\), the scalar \(\rho_{k_j}\) is positive, and
+It then uses the lower bound $R_1\le \rho_k$ with $R_1>0$. For each $j$, the scalar $\rho_{k_j}$ is positive, and
 
-\[
+$$
 \left|(\rho_{k_j})^{-1}\right|
 \le R_1^{-1}.
-\]
+$$
 
 Therefore
 
-\[
+$$
 \left\|(\rho_{k_j})^{-1}v_{k_j}\right\|
 \le R_1^{-1}\|v_{k_j}\|.
-\]
+$$
 
-The right-hand side tends to \(0\) because \(v_{k_j}\to0\). By the squeeze theorem for nonnegative sequences, the norms of the scaled residuals tend to \(0\). Hence
+The right-hand side tends to $0$ because $v_{k_j}\to0$. By the squeeze theorem for nonnegative sequences, the norms of the scaled residuals tend to $0$. Hence
 
-\[
+$$
 (\rho_{k_j})^{-1}v_{k_j}\to 0.
-\]
+$$
 
-Next the proof records that \(p_{k_j}\to\hat x\) weakly. The map \(H\to \text{WeakSpace}\,\mathbb R\,H\) is continuous, so strong convergence \(p_{k_j}\to\hat x\) implies weak convergence
+Next the proof records that $p_{k_j}\to\hat x$ weakly. The map $H\to \text{WeakSpace}\,\mathbb R\,H$ is continuous, so strong convergence $p_{k_j}\to\hat x$ implies weak convergence
 
-\[
+$$
 p_{k_j}\rightharpoonup \hat x.
-\]
+$$
 
-Now the proof applies the cited theorem `weak_strong_closedness_maximal_monotone_graph`. That theorem says that if \(A\) is maximal monotone, if \(xs_i\rightharpoonup x\) weakly, if \(vs_i\to v\) strongly, and if \(vs_i\in A(xs_i)\) for every \(i\), then \(v\in A x\). Here the proof takes
+Now the proof applies the cited theorem `weak_strong_closedness_maximal_monotone_graph`. That theorem says that if $A$ is maximal monotone, if $xs_i\rightharpoonup x$ weakly, if $vs_i\to v$ strongly, and if $vs_i\in A(xs_i)$ for every $i$, then $v\in A x$. Here the proof takes
 
-\[
+$$
 xs_i=p_{k_i},\qquad vs_i=(\rho_{k_i})^{-1}v_{k_i},\qquad x=\hat x,\qquad v=0.
-\]
+$$
 
-The weak convergence of \(xs_i\) to \(\hat x\), the strong convergence of \(vs_i\) to \(0\), and the inclusion \(h\_incl\_213(k_i)\) supply all hypotheses. The conclusion is
+The weak convergence of $xs_i$ to $\hat x$, the strong convergence of $vs_i$ to $0$, and the inclusion $h\_incl\_213(k_i)$ supply all hypotheses. The conclusion is
 
-\[
+$$
 0\in A(\hat x).
-\]
+$$
 
 By the definition of `SetValuedOperator.zeros`, this means
 
-\[
+$$
 \hat x\in \operatorname{zeros}(A).
-\]
+$$
 
-Now the distance-convergence hypothesis \(hdist\) is applied to this zero \(\hat x\), producing a real number \(\hat l\) such that
+Now the distance-convergence hypothesis $hdist$ is applied to this zero $\hat x$, producing a real number $\hat l$ such that
 
-\[
+$$
 \|x_k-\hat x\|\to \hat l.
-\]
+$$
 
-The proof must show \(\hat l=0\). Since \(k_j+1\to\infty\), the subsequence \(\|x_{k_j+1}-\hat x\|\) also converges to \(\hat l\). But \(x_{k_j+1}\to\hat x\), so the same subsequence converges to \(0\). By uniqueness of limits in a Hausdorff space, `tendsto_nhds_unique` gives \(\hat l=0\). Therefore
+The proof must show $\hat l=0$. Since $k_j+1\to\infty$, the subsequence $\|x_{k_j+1}-\hat x\|$ also converges to $\hat l$. But $x_{k_j+1}\to\hat x$, so the same subsequence converges to $0$. By uniqueness of limits in a Hausdorff space, `tendsto_nhds_unique` gives $\hat l=0$. Therefore
 
-\[
+$$
 \|x_k-\hat x\|\to 0.
-\]
+$$
 
-Finally, the proof converts this norm convergence into strong convergence of \(x_k\) to \(\hat x\). Using `tendsto_zero_iff_norm_tendsto_zero.mpr`, it obtains
+Finally, the proof converts this norm convergence into strong convergence of $x_k$ to $\hat x$. Using `tendsto_zero_iff_norm_tendsto_zero.mpr`, it obtains
 
-\[
+$$
 x_k-\hat x\to 0.
-\]
+$$
 
-Adding the constant sequence \(\hat x\) gives
+Adding the constant sequence $\hat x$ gives
 
-\[
+$$
 (x_k-\hat x)+\hat x=x_k\to \hat x.
-\]
+$$
 
-Thus the proof concludes with the witness \(\hat x\), the established fact that \(\hat x\in \operatorname{zeros}(A)\), and the strong convergence \(x_k\to\hat x\).
+Thus the proof concludes with the witness $\hat x$, the established fact that $\hat x\in \operatorname{zeros}(A)$, and the strong convergence $x_k\to\hat x$.
 

@@ -22,49 +22,69 @@ theorem theorem_3_3 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 ```
 
 ## Statement explanation
-The declaration `theorem_3_3` is a theorem about a real inner product space \(H\) that is complete, finite dimensional, and nontrivial. It fixes \(t_0,r\in\mathbb R\) with \(r>0\), a continuous linear operator \(A\colon H\to H\), a function \(f\colon H\to\mathbb R\), and two curves \(g,p\colon \mathbb R\to H\). The operator \(A\) is assumed symmetric, meaning it is self-adjoint for the inner product, and positive definite, meaning
-\[
-\langle Ax,x\rangle>0
-\]
-for every nonzero \(x\in H\). The function \(f\) is assumed to be the associated quadratic form
-\[
-f(x)=\frac12\langle Ax,x\rangle .
-\]
-The curve \(g\) is assumed differentiable. The hypothesis `hdualFlow` says that for every \(t\in\mathbb R\), \(p(t)\) is a friction-ball projection of \(g(t)\) onto the closed ball
-\[
-\operatorname{frictionBall} r=\overline B(0,r)=\{y\in H:\|y\|\le r\},
-\]
-and that the dual-flow equation holds:
-\[
-D\!\left(\nabla \varphi^*\right)(g(t))\bigl[g'(t)\bigr]+g(t)-p(t)=0,
-\]
-where \(\varphi\) is the extended-real version of \(f\) and \(\varphi^*\) is its Fenchel conjugate. In the presence of the quadratic form and positive definiteness, this equation is equivalent to
-\[
-A^{-1}g'(t)+g(t)-p(t)=0,
-\]
-or equivalently
-\[
-g'(t)=A\bigl(p(t)-g(t)\bigr).
-\]
-The initial condition \(r<\|g(t_0)\|\) says that \(g(t_0)\) lies outside the closed ball \(\overline B(0,r)\).
+The declaration `theorem_3_3` is a theorem about a real inner product space $H$ that is complete, finite dimensional, and nontrivial. It fixes $t_0,r\in\mathbb R$ with $r>0$, a continuous linear operator $A\colon H\to H$, a function $f\colon H\to\mathbb R$, and two curves $g,p\colon \mathbb R\to H$. The operator $A$ is assumed symmetric, meaning it is self-adjoint for the inner product, and positive definite, meaning
 
-The conclusion is that there exist positive constants \(C_{\mathrm{upper}},C_{\mathrm{lower}},\mu,\nu\) such that, writing
-\[
+$$
+\langle Ax,x\rangle>0
+$$
+
+for every nonzero $x\in H$. The function $f$ is assumed to be the associated quadratic form
+
+$$
+f(x)=\frac12\langle Ax,x\rangle .
+$$
+
+The curve $g$ is assumed differentiable. The hypothesis `hdualFlow` says that for every $t\in\mathbb R$, $p(t)$ is a friction-ball projection of $g(t)$ onto the closed ball
+
+$$
+\operatorname{frictionBall} r=\overline B(0,r)=\{y\in H:\|y\|\le r\},
+$$
+
+and that the dual-flow equation holds:
+
+$$
+D\!\left(\nabla \varphi^*\right)(g(t))\bigl[g'(t)\bigr]+g(t)-p(t)=0,
+$$
+
+where $\varphi$ is the extended-real version of $f$ and $\varphi^*$ is its Fenchel conjugate. In the presence of the quadratic form and positive definiteness, this equation is equivalent to
+
+$$
+A^{-1}g'(t)+g(t)-p(t)=0,
+$$
+
+or equivalently
+
+$$
+g'(t)=A\bigl(p(t)-g(t)\bigr).
+$$
+
+The initial condition $r<\|g(t_0)\|$ says that $g(t_0)$ lies outside the closed ball $\overline B(0,r)$.
+
+The conclusion is that there exist positive constants $C_{\mathrm{upper}},C_{\mathrm{lower}},\mu,\nu$ such that, writing
+
+$$
 d(t)=\operatorname{infDist}\bigl(g(t),\operatorname{frictionBall} r\bigr),
-\]
-one has for every \(t\ge t_0\)
-\[
+$$
+
+one has for every $t\ge t_0$
+
+$$
 d(t)\le C_{\mathrm{upper}}e^{-\mu t},
-\]
+$$
+
 and
-\[
+
+$$
 C_{\mathrm{lower}}e^{-\nu t}\le d(t),
-\]
+$$
+
 and also
-\[
+
+$$
 g(t)\notin \operatorname{frictionBall} r.
-\]
-Thus the distance from the trajectory \(g(t)\) to the friction ball is bounded above by a decaying exponential and below by another decaying exponential for all future times, and the trajectory never enters the ball. The upper bound expresses exponential convergence to the ball; the lower bound prevents convergence faster than an exponential rate.
+$$
+
+Thus the distance from the trajectory $g(t)$ to the friction ball is bounded above by a decaying exponential and below by another decaying exponential for all future times, and the trajectory never enters the ball. The upper bound expresses exponential convergence to the ball; the lower bound prevents convergence faster than an exponential rate.
 
 ## Lean proof
 ```lean
@@ -299,176 +319,247 @@ by
 ```
 
 ## Proof explanation
-The proof begins by applying `coercive_bounds_of_posdef_finiteDim` to the positive definite operator \(A\). This theorem states that on a finite-dimensional real inner product space, a positive definite continuous linear operator satisfies a two-sided coercivity estimate: there exist \(\mu,\nu>0\) such that for every \(\xi\in H\),
-\[
-\mu\|\xi\|^2\le \langle A\xi,\xi\rangle\le \nu\|\xi\|^2.
-\]
-These constants \(\mu,\nu\) will become the exponents in the upper and lower exponential bounds.
+The proof begins by applying `coercive_bounds_of_posdef_finiteDim` to the positive definite operator $A$. This theorem states that on a finite-dimensional real inner product space, a positive definite continuous linear operator satisfies a two-sided coercivity estimate: there exist $\mu,\nu>0$ such that for every $\xi\in H$,
 
-Next, the proof invokes `isInvertible_of_posdef_finiteDim`, which says that a positive definite continuous linear operator on such a space is invertible. The only concrete consequence used later is that \(A(A^{-1}y)=y\) for every \(y\in H\), allowing the inverse of \(A\) to be cancelled.
+$$
+\mu\|\xi\|^2\le \langle A\xi,\xi\rangle\le \nu\|\xi\|^2.
+$$
+
+These constants $\mu,\nu$ will become the exponents in the upper and lower exponential bounds.
+
+Next, the proof invokes `isInvertible_of_posdef_finiteDim`, which says that a positive definite continuous linear operator on such a space is invertible. The only concrete consequence used later is that $A(A^{-1}y)=y$ for every $y\in H$, allowing the inverse of $A$ to be cancelled.
 
 The proof then uses `hessian_quadratic_conjugate`. This result says that the derivative of the gradient of the conjugate of the quadratic function
-\[
+
+$$
 q\mapsto \frac12\langle Aq,q\rangle
-\]
-is the constant operator \(A^{-1}\). In other words, the Hessian of the conjugate is \(A^{-1}\). Consequently, the dual-flow equation supplied by `hdualFlow` can be rewritten as
-\[
+$$
+
+is the constant operator $A^{-1}$. In other words, the Hessian of the conjugate is $A^{-1}$. Consequently, the dual-flow equation supplied by `hdualFlow` can be rewritten as
+
+$$
 A^{-1}g'(t)+g(t)-p(t)=0.
-\]
-From this, the proof derives the velocity relation. For a fixed \(t\), rearranging gives
-\[
+$$
+
+From this, the proof derives the velocity relation. For a fixed $t$, rearranging gives
+
+$$
 A^{-1}g'(t)=p(t)-g(t).
-\]
-Applying \(A\) to both sides and using \(A(A^{-1}g'(t))=g'(t)\) yields
-\[
+$$
+
+Applying $A$ to both sides and using $A(A^{-1}g'(t))=g'(t)$ yields
+
+$$
 g'(t)=A\bigl(p(t)-g(t)\bigr).
-\]
+$$
+
 This is the central differential relation used throughout the rest of the proof.
 
 The proof then defines the energy
-\[
+
+$$
 E(t)=\frac12\operatorname{infDist}\bigl(g(t),\operatorname{frictionBall} r\bigr)^2.
-\]
-The initial distance is positive: by `frictionBall_not_mem_initial_infDist_pos`, since \(0\le r\) and \(r<\|g(t_0)\|\), we have
-\[
+$$
+
+The initial distance is positive: by `frictionBall_not_mem_initial_infDist_pos`, since $0\le r$ and $r<\|g(t_0)\|$, we have
+
+$$
 0<\operatorname{infDist}\bigl(g(t_0),\operatorname{frictionBall} r\bigr).
-\]
+$$
+
 This positivity will be needed for the constants and for the final non-membership conclusion.
 
-The next major step computes the derivative of \(E\). The proof uses `infDist_frictionBall_eq`, which says that for \(r>0\),
-\[
+The next major step computes the derivative of $E$. The proof uses `infDist_frictionBall_eq`, which says that for $r>0$,
+
+$$
 \operatorname{infDist}\bigl(\xi,\operatorname{frictionBall} r\bigr)
 =\max(\|\xi\|-r,0).
-\]
+$$
+
 Hence
-\[
+
+$$
 E(t)=\frac12\max(\|g(t)\|-r,0)^2.
-\]
-The proof then differentiates this expression. If \(g(t)=0\), continuity of \(g\) and \(r>0\) imply that \(\|g(s)\|<r\) eventually, so \(E\) is locally constant \(0\); the projection condition also gives \(p(t)=0\), so both sides of the derivative formula vanish. If \(g(t)\ne0\), the proof differentiates the norm using
-\[
+$$
+
+The proof then differentiates this expression. If $g(t)=0$, continuity of $g$ and $r>0$ imply that $\|g(s)\|<r$ eventually, so $E$ is locally constant $0$; the projection condition also gives $p(t)=0$, so both sides of the derivative formula vanish. If $g(t)\ne0$, the proof differentiates the norm using
+
+$$
 \frac{d}{ds}\|g(s)\|\Big|_{s=t}
 =\frac{\langle g(t),g'(t)\rangle}{\|g(t)\|}.
-\]
-When \(r<\|g(t)\|\), the point is outside the ball. The proof identifies the projection \(p(t)\) by using the uniqueness part of `frictionBall_isChebyshev`, then `frictionBallProjection_eq_sub_softThresholder` and `softThresholder_apply`. Since \(r<\|g(t)\|\), the soft threshold is
-\[
-\left(1-\frac{r}{\|g(t)\|}\right)g(t),
-\]
-so the projection is
-\[
-p(t)=\frac{r}{\|g(t)\|}g(t).
-\]
-Substituting this into the velocity relation gives
-\[
-g(t)-p(t)=\left(1-\frac{r}{\|g(t)\|}\right)g(t),
-\]
-and a direct chain-rule computation yields
-\[
-E'(t)=-\bigl\langle g(t)-p(t),A(g(t)-p(t))\bigr\rangle.
-\]
-When \(\|g(t)\|\le r\), the proof shows \(p(t)=g(t)\), hence \(g'(t)=0\), and the derivative of \(E\) is again \(0\). At the boundary \(\|g(t)\|=r\), the nonsmooth point of \(\max(u,0)^2\) is handled by `hasDerivAt_max_sq_zero`, which states that if \(u\) is differentiable at \(t\) and \(u(t)=0\), then \(s\mapsto \max(u(s),0)^2\) has derivative \(0\) at \(t\). Thus in all cases,
-\[
-E'(t)=-\bigl\langle g(t)-p(t),A(g(t)-p(t))\bigr\rangle.
-\]
+$$
 
-The proof then combines this derivative formula with the coercive bounds. Since \(p(t)\) is a best approximation in the ball, one has
-\[
+When $r<\|g(t)\|$, the point is outside the ball. The proof identifies the projection $p(t)$ by using the uniqueness part of `frictionBall_isChebyshev`, then `frictionBallProjection_eq_sub_softThresholder` and `softThresholder_apply`. Since $r<\|g(t)\|$, the soft threshold is
+
+$$
+\left(1-\frac{r}{\|g(t)\|}\right)g(t),
+$$
+
+so the projection is
+
+$$
+p(t)=\frac{r}{\|g(t)\|}g(t).
+$$
+
+Substituting this into the velocity relation gives
+
+$$
+g(t)-p(t)=\left(1-\frac{r}{\|g(t)\|}\right)g(t),
+$$
+
+and a direct chain-rule computation yields
+
+$$
+E'(t)=-\bigl\langle g(t)-p(t),A(g(t)-p(t))\bigr\rangle.
+$$
+
+When $\|g(t)\|\le r$, the proof shows $p(t)=g(t)$, hence $g'(t)=0$, and the derivative of $E$ is again $0$. At the boundary $\|g(t)\|=r$, the nonsmooth point of $\max(u,0)^2$ is handled by `hasDerivAt_max_sq_zero`, which states that if $u$ is differentiable at $t$ and $u(t)=0$, then $s\mapsto \max(u(s),0)^2$ has derivative $0$ at $t$. Thus in all cases,
+
+$$
+E'(t)=-\bigl\langle g(t)-p(t),A(g(t)-p(t))\bigr\rangle.
+$$
+
+The proof then combines this derivative formula with the coercive bounds. Since $p(t)$ is a best approximation in the ball, one has
+
+$$
 \|g(t)-p(t)\|=\operatorname{infDist}\bigl(g(t),\operatorname{frictionBall} r\bigr).
-\]
-Applying the lower coercivity bound with \(\xi=g(t)-p(t)\) gives
-\[
+$$
+
+Applying the lower coercivity bound with $\xi=g(t)-p(t)$ gives
+
+$$
 \mu\|g(t)-p(t)\|^2\le \bigl\langle A(g(t)-p(t)),g(t)-p(t)\bigr\rangle.
-\]
+$$
+
 Because
-\[
+
+$$
 E(t)=\frac12\|g(t)-p(t)\|^2,
-\]
+$$
+
 this implies
-\[
+
+$$
 E'(t)+2\mu E(t)\le 0.
-\]
+$$
+
 Similarly, applying the upper coercivity bound gives
-\[
+
+$$
 0\le E'(t)+2\nu E(t).
-\]
+$$
+
 These two differential inequalities are the input to the weighted energy lemmas.
 
-For the upper bound, the proof uses `weighted_energy_antitone`. That theorem says that if \(E\) is differentiable at every point and
-\[
+For the upper bound, the proof uses `weighted_energy_antitone`. That theorem says that if $E$ is differentiable at every point and
+
+$$
 E'(t)+aE(t)\le 0
-\]
-for all \(t\), then
-\[
+$$
+
+for all $t$, then
+
+$$
 t\mapsto e^{at}E(t)
-\]
-is antitone. Taking \(a=2\mu\), for every \(t\ge t_0\) one gets
-\[
+$$
+
+is antitone. Taking $a=2\mu$, for every $t\ge t_0$ one gets
+
+$$
 e^{2\mu t}E(t)\le e^{2\mu t_0}E(t_0),
-\]
+$$
+
 so
-\[
+
+$$
 E(t)\le E(t_0)e^{-2\mu(t-t_0)}.
-\]
+$$
+
 Taking square roots, using nonnegativity of the distance, yields
-\[
+
+$$
 \operatorname{infDist}\bigl(g(t),\operatorname{frictionBall} r\bigr)
 \le \operatorname{infDist}\bigl(g(t_0),\operatorname{frictionBall} r\bigr)e^{-\mu(t-t_0)}.
-\]
+$$
+
 Rewriting the right-hand side as
-\[
+
+$$
 \left(\operatorname{infDist}\bigl(g(t_0),\operatorname{frictionBall} r\bigr)e^{\mu t_0}\right)e^{-\mu t}
-\]
+$$
+
 gives the claimed upper bound with
-\[
+
+$$
 C_{\mathrm{upper}}
 =\operatorname{infDist}\bigl(g(t_0),\operatorname{frictionBall} r\bigr)e^{\mu t_0}.
-\]
+$$
 
-For the lower bound, the proof uses `weighted_energy_monotone`. That theorem says that if \(E\) is differentiable at every point and
-\[
+For the lower bound, the proof uses `weighted_energy_monotone`. That theorem says that if $E$ is differentiable at every point and
+
+$$
 0\le E'(t)+aE(t)
-\]
-for all \(t\), then
-\[
+$$
+
+for all $t$, then
+
+$$
 t\mapsto e^{at}E(t)
-\]
-is monotone. Taking \(a=2\nu\), for every \(t\ge t_0\) one gets
-\[
+$$
+
+is monotone. Taking $a=2\nu$, for every $t\ge t_0$ one gets
+
+$$
 e^{2\nu t_0}E(t_0)\le e^{2\nu t}E(t),
-\]
+$$
+
 hence
-\[
+
+$$
 E(t_0)e^{-2\nu(t-t_0)}\le E(t).
-\]
+$$
+
 Taking square roots gives
-\[
+
+$$
 \operatorname{infDist}\bigl(g(t_0),\operatorname{frictionBall} r\bigr)
 e^{-\nu(t-t_0)}
 \le \operatorname{infDist}\bigl(g(t),\operatorname{frictionBall} r\bigr).
-\]
+$$
+
 Rewriting the left-hand side as
-\[
+
+$$
 \left(\operatorname{infDist}\bigl(g(t_0),\operatorname{frictionBall} r\bigr)e^{\nu t_0}\right)e^{-\nu t}
-\]
+$$
+
 gives the claimed lower bound with
-\[
+
+$$
 C_{\mathrm{lower}}
 =\operatorname{infDist}\bigl(g(t_0),\operatorname{frictionBall} r\bigr)e^{\nu t_0}.
-\]
+$$
 
-Finally, the proof shows that \(g(t)\) never enters the friction ball. If \(g(t)\in\operatorname{frictionBall} r\), then by `Metric.infDist_zero_of_mem` one has
-\[
+Finally, the proof shows that $g(t)$ never enters the friction ball. If $g(t)\in\operatorname{frictionBall} r$, then by `Metric.infDist_zero_of_mem` one has
+
+$$
 \operatorname{infDist}\bigl(g(t),\operatorname{frictionBall} r\bigr)=0.
-\]
+$$
+
 But the lower bound already gives
-\[
+
+$$
 \operatorname{infDist}\bigl(g(t_0),\operatorname{frictionBall} r\bigr)e^{-\nu(t-t_0)}
 \le \operatorname{infDist}\bigl(g(t),\operatorname{frictionBall} r\bigr),
-\]
-and the left-hand side is strictly positive because the initial distance is positive and the exponential is positive. This contradiction yields
-\[
-g(t)\notin \operatorname{frictionBall} r
-\]
-for every \(t\ge t_0\).
+$$
 
-Throughout the proof, tactics such as `intro` introduce a fixed time or a hypothesis \(t\in \text{Set.Ici }t_0\), `rw` rewrites using the velocity relation, the distance formula, and exponential identities, `simp` unfolds definitions and elementary facts, `exact` closes goals by previously established results, and `linarith` or `nlinarith` combine the coercive quadratic inequalities with the energy expression to produce the differential inequalities and the final contradiction.
+and the left-hand side is strictly positive because the initial distance is positive and the exponential is positive. This contradiction yields
+
+$$
+g(t)\notin \operatorname{frictionBall} r
+$$
+
+for every $t\ge t_0$.
+
+Throughout the proof, tactics such as `intro` introduce a fixed time or a hypothesis $t\in \text{Set.Ici }t_0$, `rw` rewrites using the velocity relation, the distance formula, and exponential identities, `simp` unfolds definitions and elementary facts, `exact` closes goals by previously established results, and `linarith` or `nlinarith` combine the coercive quadratic inequalities with the energy expression to produce the differential inequalities and the final contradiction.
 

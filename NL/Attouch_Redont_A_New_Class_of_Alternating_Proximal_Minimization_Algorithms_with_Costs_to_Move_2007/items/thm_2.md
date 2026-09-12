@@ -22,28 +22,33 @@ theorem theorem_2_5 {X Y : Type*} {f : X → ℝ} {g : Y → ℝ}
 ```
 
 ## Statement explanation
-The declaration states a convergence and finite-cost theorem for a two-block alternating proximal minimization algorithm. Let \(X\) and \(Y\) be types, and let
-\[
+The declaration states a convergence and finite-cost theorem for a two-block alternating proximal minimization algorithm. Let $X$ and $Y$ be types, and let
+
+$$
 f:X\to\mathbb R,\qquad g:Y\to\mathbb R,\qquad
 h:X\to X\to\mathbb R,\qquad k:Y\to Y\to\mathbb R,\qquad c:X\to Y\to\mathbb R
-\]
-be real-valued functions. Also let \(\alpha,\beta,\mu,\nu:\mathbb N\to\mathbb R\) be real sequences.
+$$
+
+be real-valued functions. Also let $\alpha,\beta,\mu,\nu:\mathbb N\to\mathbb R$ be real sequences.
 
 The hypothesis `alg : CA2 X Y f g h k c α β μ ν` supplies the algorithm object; in particular it supplies the two sequences
-\[
-x_n = alg.x(n)\in X,\qquad y_n = alg.y(n)\in Y.
-\]
-The hypothesis `hyp : H21toH24 X Y f g h k c α β μ ν` is a bundle of assumptions. The proof uses the following parts of it:
-- \(f\) is bounded below: there is \(inf_f\in\mathbb R\) with \(f(x)\ge inf_f\) for every \(x\in X\).
-- \(g\) is bounded below: there is \(inf_g\in\mathbb R\) with \(g(y)\ge inf_g\) for every \(y\in Y\).
-- \(\beta_n>0\) and \(\mu_n>0\) for every \(n\).
-- \(\alpha_n\ge0\) and \(\nu_n\ge0\) for every \(n\).
-- \(c(x,y)\ge0\) for all \(x,y\).
-- \(h(x,x')\ge0\) for all \(x,x'\).
-- \(k(y,y')\ge0\) for all \(y,y'\).
 
-The parameters `β_behavior` and `μ_behavior` are monotonicity choices for \(\beta\) and \(\mu\). The hypotheses `hβ_prop` and `hμ_prop` assert that \(\beta\) and \(\mu\) have those chosen behaviors. The sequence \(\delta_n = \deltaSeq(\beta,\mu,\beta_{\rm behavior},\mu_{\rm behavior})\) is defined by four cases:
-\[
+$$
+x_n = alg.x(n)\in X,\qquad y_n = alg.y(n)\in Y.
+$$
+
+The hypothesis `hyp : H21toH24 X Y f g h k c α β μ ν` is a bundle of assumptions. The proof uses the following parts of it:
+- $f$ is bounded below: there is $inf_f\in\mathbb R$ with $f(x)\ge inf_f$ for every $x\in X$.
+- $g$ is bounded below: there is $inf_g\in\mathbb R$ with $g(y)\ge inf_g$ for every $y\in Y$.
+- $\beta_n>0$ and $\mu_n>0$ for every $n$.
+- $\alpha_n\ge0$ and $\nu_n\ge0$ for every $n$.
+- $c(x,y)\ge0$ for all $x,y$.
+- $h(x,x')\ge0$ for all $x,x'$.
+- $k(y,y')\ge0$ for all $y,y'$.
+
+The parameters `β_behavior` and `μ_behavior` are monotonicity choices for $\beta$ and $\mu$. The hypotheses `hβ_prop` and `hμ_prop` assert that $\beta$ and $\mu$ have those chosen behaviors. The sequence $\delta_n = \operatorname{deltaSeq}(\beta,\mu,\beta_{\rm behavior},\mu_{\rm behavior})$ is defined by four cases:
+
+$$
 \delta_n=
 \begin{cases}
 1, & \beta \text{ nonincreasing and } \mu \text{ nonincreasing},\\
@@ -51,29 +56,33 @@ The parameters `β_behavior` and `μ_behavior` are monotonicity choices for \(\b
 \beta_n, & \beta \text{ nondecreasing and } \mu \text{ nonincreasing},\\
 \beta_n\mu_n, & \beta \text{ nondecreasing and } \mu \text{ nondecreasing}.
 \end{cases}
-\]
+$$
 
 The theorem uses the weighted energy
-\[
+
+$$
 E_n=
 \frac{\mu_n}{\delta_n}\bigl(f(x_n)-inf_f\bigr)
 +\frac{\beta_n}{\delta_n}\bigl(g(y_n)-inf_g\bigr)
 +\frac{\beta_n\mu_n}{\delta_n}c(x_n,y_n),
-\]
+$$
+
 and the weighted move cost
-\[
+
+$$
 W_n=
 \frac{\mu_n}{\delta_n}\alpha_n h(x_n,x_{n+1})
 +\frac{\beta_n}{\delta_n}\nu_n k(y_n,y_{n+1}).
-\]
-In the Lean statement, the antitone conjunct writes `(fun n => β n)` and `(fun n => μ n)` in place of \(\beta\) and \(\mu\); these are the same functions.
+$$
 
-The conclusion is that there exist real numbers \(inf_f\), \(inf_g\), and \(L\) such that:
-1. \(f(x)\ge inf_f\) for every \(x\in X\).
-2. \(g(y)\ge inf_g\) for every \(y\in Y\).
-3. The sequence \(n\mapsto E_n\) is antitone, i.e. nonincreasing.
-4. \(E_n\to L\) as \(n\to\infty\).
-5. The sequence \(n\mapsto W_n\) is summable, so the total weighted move cost \(\sum_{n=0}^\infty W_n\) is finite.
+In the Lean statement, the antitone conjunct writes `(fun n => β n)` and `(fun n => μ n)` in place of $\beta$ and $\mu$; these are the same functions.
+
+The conclusion is that there exist real numbers $inf_f$, $inf_g$, and $L$ such that:
+1. $f(x)\ge inf_f$ for every $x\in X$.
+2. $g(y)\ge inf_g$ for every $y\in Y$.
+3. The sequence $n\mapsto E_n$ is antitone, i.e. nonincreasing.
+4. $E_n\to L$ as $n\to\infty$.
+5. The sequence $n\mapsto W_n$ is summable, so the total weighted move cost $\sum_{n=0}^\infty W_n$ is finite.
 
 ## Lean proof
 ```lean
@@ -244,53 +253,68 @@ by
 ## Proof explanation
 The proof begins by extracting lower bounds from the hypothesis bundle. The tactic
 `rcases hyp.f_bdd_below with ⟨inf_f, hf⟩`
-produces a real number \(inf_f\) and the inequality \(hf:\forall x,\ f(x)\ge inf_f\). Similarly,
+produces a real number $inf_f$ and the inequality $hf:\forall x,\ f(x)\ge inf_f$. Similarly,
 `rcases hyp.g_bdd_below with ⟨inf_g, hg⟩`
-produces \(inf_g\) and \(hg:\forall y,\ g(y)\ge inf_g\). These are exactly the first two conclusions of the theorem.
+produces $inf_g$ and $hg:\forall y,\ g(y)\ge inf_g$. These are exactly the first two conclusions of the theorem.
 
 Next the proof defines
-\[
-\delta_n=\deltaSeq(\beta,\mu,\beta_{\rm behavior},\mu_{\rm behavior}).
-\]
-It proves `hdelta_pos : ∀ n, 0 < δ_n`. The proof is by cases on the two selected monotonicity behaviors. If both are nonincreasing, then \(\delta_n=1\), so positivity is immediate. If \(\beta\) is nonincreasing and \(\mu\) is nondecreasing, then \(\delta_n=\mu_n\), and `hyp.mu_pos n` gives \(\mu_n>0\). If \(\beta\) is nondecreasing and \(\mu\) is nonincreasing, then \(\delta_n=\beta_n\), and `hyp.beta_pos n` gives \(\beta_n>0\). If both are nondecreasing, then \(\delta_n=\beta_n\mu_n\), and positivity follows from \(\beta_n>0\) and \(\mu_n>0\) by `mul_pos`.
 
-The proof then specializes the three monotonicity lemmas supplied in the context. The lemma `mu_div_delta_nonincreasing` says that, under the positivity and monotonicity assumptions on \(\beta\) and \(\mu\),
-\[
+$$
+\delta_n=\operatorname{deltaSeq}(\beta,\mu,\beta_{\rm behavior},\mu_{\rm behavior}).
+$$
+
+It proves `hdelta_pos : ∀ n, 0 < δ_n`. The proof is by cases on the two selected monotonicity behaviors. If both are nonincreasing, then $\delta_n=1$, so positivity is immediate. If $\beta$ is nonincreasing and $\mu$ is nondecreasing, then $\delta_n=\mu_n$, and `hyp.mu_pos n` gives $\mu_n>0$. If $\beta$ is nondecreasing and $\mu$ is nonincreasing, then $\delta_n=\beta_n$, and `hyp.beta_pos n` gives $\beta_n>0$. If both are nondecreasing, then $\delta_n=\beta_n\mu_n$, and positivity follows from $\beta_n>0$ and $\mu_n>0$ by `mul_pos`.
+
+The proof then specializes the three monotonicity lemmas supplied in the context. The lemma `mu_div_delta_nonincreasing` says that, under the positivity and monotonicity assumptions on $\beta$ and $\mu$,
+
+$$
 \frac{\mu_{n+1}}{\delta_{n+1}}\le \frac{\mu_n}{\delta_n}.
-\]
+$$
+
 This becomes `hμd`. The lemma `beta_div_delta_nonincreasing` gives
-\[
+
+$$
 \frac{\beta_{n+1}}{\delta_{n+1}}\le \frac{\beta_n}{\delta_n},
-\]
+$$
+
 stored as `hβd`. The lemma `betamu_div_delta_nonincreasing` gives
-\[
+
+$$
 \frac{\beta_{n+1}\mu_{n+1}}{\delta_{n+1}}
 \le
 \frac{\beta_n\mu_n}{\delta_n},
-\]
-stored as `hβμd`. These three inequalities are the coefficient monotonicities that later let the proof compare the energy at \(n+1\) with the coefficients at \(n\).
+$$
 
-The proof defines the local abbreviations \(E_n\) for the weighted energy and \(W_n\) for the weighted cost. It first shows `hE_nonneg : ∀ n, 0 ≤ E_n`. For a fixed \(n\), one has
-\[
+stored as `hβμd`. These three inequalities are the coefficient monotonicities that later let the proof compare the energy at $n+1$ with the coefficients at $n$.
+
+The proof defines the local abbreviations $E_n$ for the weighted energy and $W_n$ for the weighted cost. It first shows `hE_nonneg : ∀ n, 0 ≤ E_n`. For a fixed $n$, one has
+
+$$
 f(x_n)-inf_f\ge0,\qquad g(y_n)-inf_g\ge0,\qquad c(x_n,y_n)\ge0.
-\]
-Also, because \(\beta_n>0\), \(\mu_n>0\), and \(\delta_n>0\),
-\[
+$$
+
+Also, because $\beta_n>0$, $\mu_n>0$, and $\delta_n>0$,
+
+$$
 \frac{\mu_n}{\delta_n}\ge0,\qquad
 \frac{\beta_n}{\delta_n}\ge0,\qquad
 \frac{\beta_n\mu_n}{\delta_n}\ge0.
-\]
-Therefore each of the three terms in \(E_n\) is nonnegative, so \(E_n\ge0\).
+$$
+
+Therefore each of the three terms in $E_n$ is nonnegative, so $E_n\ge0$.
 
 Similarly, `hW_nonneg : ∀ n, 0 ≤ W_n` is proved using
-\[
+
+$$
 \alpha_n\ge0,\quad \nu_n\ge0,\quad
 h(x_n,x_{n+1})\ge0,\quad k(y_n,y_{n+1})\ge0,
-\]
-together with nonnegativity of \(\mu_n/\delta_n\) and \(\beta_n/\delta_n\). Hence both summands in \(W_n\) are nonnegative.
+$$
+
+together with nonnegativity of $\mu_n/\delta_n$ and $\beta_n/\delta_n$. Hence both summands in $W_n$ are nonnegative.
 
 The central step is `hE_step : ∀ n, E_{n+1}+W_n\le E_n`. It starts from the cited lemma `lemma_2_3`, applied to `alg` and `hyp`. That lemma gives the raw descent inequality
-\[
+
+$$
 \begin{aligned}
 &\mu_n f(x_{n+1})+\beta_n g(y_{n+1})
 +\beta_n\mu_n c(x_{n+1},y_{n+1})\\
@@ -299,11 +323,13 @@ The central step is `hE_step : ∀ n, E_{n+1}+W_n\le E_n`. It starts from the ci
 &\le
 \mu_n f(x_n)+\beta_n g(y_n)+\beta_n\mu_n c(x_n,y_n).
 \end{aligned}
-\]
+$$
+
 This is the algorithm’s one-step decrease: the new objective values plus the new coupling term plus the move costs are no larger than the old weighted objective and coupling term.
 
-Since \(\delta_n>0\), the proof divides the raw inequality by \(\delta_n\) using `div_le_div_of_nonneg_right`. After clearing denominators with `field_simp` and rearranging with `ring`, it obtains the scaled inequality
-\[
+Since $\delta_n>0$, the proof divides the raw inequality by $\delta_n$ using `div_le_div_of_nonneg_right`. After clearing denominators with `field_simp` and rearranging with `ring`, it obtains the scaled inequality
+
+$$
 \begin{aligned}
 &\frac{\mu_n}{\delta_n} f(x_{n+1})
 +\frac{\beta_n}{\delta_n} g(y_{n+1})
@@ -315,13 +341,17 @@ Since \(\delta_n>0\), the proof divides the raw inequality by \(\delta_n\) using
 +\frac{\beta_n}{\delta_n} g(y_n)
 +\frac{\beta_n\mu_n}{\delta_n} c(x_n,y_n).
 \end{aligned}
-\]
+$$
+
 Subtracting the same quantity
-\[
+
+$$
 \frac{\mu_n}{\delta_n}inf_f+\frac{\beta_n}{\delta_n}inf_g
-\]
+$$
+
 from both sides and rearranging gives the intermediate inequality `hshift`:
-\[
+
+$$
 \begin{aligned}
 &\frac{\mu_n}{\delta_n}(f(x_{n+1})-inf_f)
 +\frac{\beta_n}{\delta_n}(g(y_{n+1})-inf_g)
@@ -329,72 +359,96 @@ from both sides and rearranging gives the intermediate inequality `hshift`:
 +W_n\\
 &\le E_n.
 \end{aligned}
-\]
-Indeed, \(W_n\) is precisely the two move-cost terms in the scaled inequality.
+$$
 
-The proof then compares \(E_{n+1}\) with the first three terms appearing on the left side of `hshift`. Since
-\[
+Indeed, $W_n$ is precisely the two move-cost terms in the scaled inequality.
+
+The proof then compares $E_{n+1}$ with the first three terms appearing on the left side of `hshift`. Since
+
+$$
 \frac{\mu_{n+1}}{\delta_{n+1}}\le\frac{\mu_n}{\delta_n},\quad
 \frac{\beta_{n+1}}{\delta_{n+1}}\le\frac{\beta_n}{\delta_n},\quad
 \frac{\beta_{n+1}\mu_{n+1}}{\delta_{n+1}}
 \le\frac{\beta_n\mu_n}{\delta_n},
-\]
+$$
+
 and since
-\[
+
+$$
 f(x_{n+1})-inf_f\ge0,\quad
 g(y_{n+1})-inf_g\ge0,\quad
 c(x_{n+1},y_{n+1})\ge0,
-\]
-each coefficient at index \(n+1\) can be replaced by the larger or equal coefficient at index \(n\). This yields
-\[
+$$
+
+each coefficient at index $n+1$ can be replaced by the larger or equal coefficient at index $n$. This yields
+
+$$
 E_{n+1}
 \le
 \frac{\mu_n}{\delta_n}(f(x_{n+1})-inf_f)
 +\frac{\beta_n}{\delta_n}(g(y_{n+1})-inf_g)
 +\frac{\beta_n\mu_n}{\delta_n}c(x_{n+1},y_{n+1}).
-\]
-Adding \(W_n\) to both sides and combining with `hshift` gives
-\[
+$$
+
+Adding $W_n$ to both sides and combining with `hshift` gives
+
+$$
 E_{n+1}+W_n\le E_n.
-\]
+$$
 
-Because \(W_n\ge0\), the preceding inequality implies \(E_{n+1}\le E_n\). The proof converts this into `hE_antitone : Antitone E` using `antitone_nat_of_succ_le`, whose visible consequence here is that a sequence on \(\mathbb N\) satisfying \(E_{n+1}\le E_n\) for all \(n\) is nonincreasing.
+Because $W_n\ge0$, the preceding inequality implies $E_{n+1}\le E_n$. The proof converts this into `hE_antitone : Antitone E` using `antitone_nat_of_succ_le`, whose visible consequence here is that a sequence on $\mathbb N$ satisfying $E_{n+1}\le E_n$ for all $n$ is nonincreasing.
 
-It also shows \(E\) is bounded below: since each \(E_n\ge0\), the range of \(E\) has lower bound \(0\). The proof then defines
-\[
+It also shows $E$ is bounded below: since each $E_n\ge0$, the range of $E$ has lower bound $0$. The proof then defines
+
+$$
 L=\inf_n E_n.
-\]
+$$
+
 Using `tendsto_atTop_ciInf hE_antitone hE_bdd`, it obtains
-\[
+
+$$
 E_n\to L \quad \text{as } n\to\infty.
-\]
+$$
+
 Thus the antitone and bounded-below energy sequence converges to its infimum.
 
-Finally the proof handles summability of \(W\). It defines the partial sums
-\[
+Finally the proof handles summability of $W$. It defines the partial sums
+
+$$
 S_N=\sum_{n=0}^{N-1} W_n.
-\]
+$$
+
 First, `hS_mono : Monotone S` is proved by observing that
-\[
+
+$$
 S_{N+1}=S_N+W_N\ge S_N
-\]
-because \(W_N\ge0\). Next, `hS_tel : ∀ N, S_N\le E_0-E_N` is proved by induction. The induction step uses \(E_{N+1}+W_N\le E_N\), which is equivalent to
-\[
+$$
+
+because $W_N\ge0$. Next, `hS_tel : ∀ N, S_N\le E_0-E_N` is proved by induction. The induction step uses $E_{N+1}+W_N\le E_N$, which is equivalent to
+
+$$
 W_N\le E_N-E_{N+1}.
-\]
+$$
+
 Adding this to the induction hypothesis gives
-\[
+
+$$
 S_N+W_N\le (E_0-E_N)+(E_N-E_{N+1})=E_0-E_{N+1}.
-\]
-Since \(E_N\ge0\), it follows that
-\[
+$$
+
+Since $E_N\ge0$, it follows that
+
+$$
 S_N\le E_0
-\]
-for every \(N\). Hence the monotone sequence \(S\) is bounded above by \(E_0\).
+$$
+
+for every $N$. Hence the monotone sequence $S$ is bounded above by $E_0$.
 
 The proof then applies `tendsto_atTop_ciSup hS_mono hS_bdd`, which gives convergence of the partial sums to their supremum:
-\[
+
+$$
 S_N\to \sup_N S_N.
-\]
-Because \(W_n\ge0\) for every \(n\), the lemma `hasSum_iff_tendsto_nat_of_nonneg` allows this convergence of nonnegative partial sums to be converted into summability of \(W\). Finally, the proof assembles the witnesses \(inf_f\), \(inf_g\), and \(L\), together with the lower-bound inequalities, the antitone property of \(E\), the convergence \(E_n\to L\), and the summability of \(W\), yielding the stated theorem.
+$$
+
+Because $W_n\ge0$ for every $n$, the lemma `hasSum_iff_tendsto_nat_of_nonneg` allows this convergence of nonnegative partial sums to be converted into summability of $W$. Finally, the proof assembles the witnesses $inf_f$, $inf_g$, and $L$, together with the lower-bound inequalities, the antitone property of $E$, the convergence $E_n\to L$, and the summability of $W$, yielding the stated theorem.
 

@@ -21,67 +21,88 @@ theorem composite_accelerated_rate {m : ℕ} {E : Type*} [NormedAddCommGroup E] 
 ```
 
 ## Statement explanation
-Let \(E\) be a complete real inner-product space, \(m\) a natural number, \(P\) an extremal problem with \(m\) component functions \(P.f_i:E\to\mathbb R\), and \(P.F\) the objective functional on the vector of component values. For a point \(y\in E\), write
-\[
+Let $E$ be a complete real inner-product space, $m$ a natural number, $P$ an extremal problem with $m$ component functions $P.f_i:E\to\mathbb R$, and $P.F$ the objective functional on the vector of component values. For a point $y\in E$, write
+
+$$
 G(y)=P.F\bigl(\mathrm{WithLp.toLp}\,2\,(i\mapsto P.f_i(y))\bigr),
-\]
-that is, \(P.F\) applied to the vector \((P.f_1(y),\dots,P.f_m(y))\). The theorem concerns a composite accelerated method \(M\) for \(P\) and an auxiliary mapping \(T:E\to\mathbb R\to E\). The fields \(M.x_k\), \(M.y_k\), \(M.A_k\), \(M.weight_k\), \(M.initialA\), \(M.y_0\), and \(M.searchIndex_k\) are respectively the method’s \(k\)-th iterate, auxiliary point, auxiliary coefficient, weight, initial value, initial auxiliary point, and search index.
+$$
 
-The hypotheses are: \(x^*\) is a solution of \(P\), i.e. \(x^*\in P.solutionSet\); for every component index \(i\), \(P.f_i\) satisfies the \(C^{1,1}\)-type condition `IsC11` with constant \(Lbar_i\); the auxiliary mapping \(T\) satisfies the auxiliary estimates `HasAuxiliaryMappingEstimates`; the auxiliary values satisfy the lower bound `HasAuxiliaryValueLowerBound` relative to \(Lbar\); the initial value is positive, \(0<M.initialA\); and \(P.F\) is monotone on nonnegative vectors in the sense that if \(u,v\in\mathbb R^m\), \(u\ge 0\) coordinatewise, and \(u\le v\) coordinatewise, then \(P.F(u)\le P.F(v)\).
+that is, $P.F$ applied to the vector $(P.f_1(y),\dots,P.f_m(y))$. The theorem concerns a composite accelerated method $M$ for $P$ and an auxiliary mapping $T:E\to\mathbb R\to E$. The fields $M.x_k$, $M.y_k$, $M.A_k$, $M.weight_k$, $M.initialA$, $M.y_0$, and $M.searchIndex_k$ are respectively the method’s $k$-th iterate, auxiliary point, auxiliary coefficient, weight, initial value, initial auxiliary point, and search index.
 
-The conclusion is a conjunction. First, for every natural number \(k\),
-\[
+The hypotheses are: $x^*$ is a solution of $P$, i.e. $x^*\in P.solutionSet$; for every component index $i$, $P.f_i$ satisfies the $C^{1,1}$-type condition `IsC11` with constant $Lbar_i$; the auxiliary mapping $T$ satisfies the auxiliary estimates `HasAuxiliaryMappingEstimates`; the auxiliary values satisfy the lower bound `HasAuxiliaryValueLowerBound` relative to $Lbar$; the initial value is positive, $0<M.initialA$; and $P.F$ is monotone on nonnegative vectors in the sense that if $u,v\in\mathbb R^m$, $u\ge 0$ coordinatewise, and $u\le v$ coordinatewise, then $P.F(u)\le P.F(v)$.
+
+The conclusion is a conjunction. First, for every natural number $k$,
+
+$$
 G(M.x_k)-G(x^*)
 \le
 \frac{4\,P.F(Lbar)\,\|M.y_0-x^*\|^2}{(k+2)^2}.
-\]
-This is the accelerated \(O(1/k^2)\) convergence rate for the composite objective values. Second, for every real \(\varepsilon>0\), define
-\[
+$$
+
+This is the accelerated $O(1/k^2)$ convergence rate for the composite objective values. Second, for every real $\varepsilon>0$, define
+
+$$
 NG=\sqrt{\frac{4\,P.F(Lbar)\,\|M.y_0-x^*\|^2}{\varepsilon}},
-\]
-\[
+$$
+
+$$
 D=\left\lceil \max\left(\log_2\!\left(\frac{P.F(Lbar)}{M.initialA}\right),0\right)\right\rceil,
-\]
-\[
+$$
+
+$$
 NA=\lceil NG\rceil+D,\qquad NF=2\lceil NG\rceil+D.
-\]
+$$
+
 Then there exist natural numbers `iterations`, `auxiliarySolves`, `gradientCollections`, and `functionEvaluations` such that the three counts equal the corresponding count functions at `iterations`,
-\[
+
+$$
 \text{auxiliarySolves}=\text{compositeAuxiliarySolveCount}(P,T,M,\text{iterations}),
-\]
-\[
+$$
+
+$$
 \text{gradientCollections}=\text{compositeGradientCollectionCount}(P,T,M,\text{iterations}),
-\]
-\[
+$$
+
+$$
 \text{functionEvaluations}=\text{compositeFunctionEvaluationCount}(P,T,M,\text{iterations}),
-\]
+$$
+
 and they satisfy the bounds
-\[
+
+$$
 \text{auxiliarySolves}\le NA.\mathrm{toNat},\qquad
 \text{gradientCollections}\le (\lceil NG\rceil).\mathrm{toNat},
-\]
-\[
+$$
+
+$$
 \text{functionEvaluations}\le NF.\mathrm{toNat},
-\]
+$$
+
 and finally
-\[
+
+$$
 G(M.x_{\text{iterations}})-G(x^*)\le \varepsilon.
-\]
+$$
+
 The count functions are
-\[
+
+$$
 \text{compositeAuxiliarySolveCount}(n)
 =
 n+\sum_{j=0}^{n-1} M.searchIndex_j,
-\]
-\[
+$$
+
+$$
 \text{compositeGradientCollectionCount}(n)=n,
-\]
-\[
+$$
+
+$$
 \text{compositeFunctionEvaluationCount}(n)
 =
 2n+\sum_{j=0}^{n-1} M.searchIndex_j.
-\]
-Thus the theorem states both a convergence-rate estimate and a complexity estimate: to reach accuracy \(\varepsilon\), the number of iterations is governed by \(\lceil NG\rceil\), while the search-index sum is governed by the logarithmic doubling term \(D\).
+$$
+
+Thus the theorem states both a convergence-rate estimate and a complexity estimate: to reach accuracy $\varepsilon$, the number of iterations is governed by $\lceil NG\rceil$, while the search-index sum is governed by the logarithmic doubling term $D$.
 
 ## Lean proof
 ```lean
@@ -191,178 +212,244 @@ Real.sqrt (4 * P.F Lbar * ‖M.y0 - xstar‖ ^ 2 / ε)
 ```
 
 ## Proof explanation
-The proof first derives an upper bound for the initial value. Using `composite_initialA_le` with the hypotheses \(hC11\) and \(hFmono\), it obtains
-\[
+The proof first derives an upper bound for the initial value. Using `composite_initialA_le` with the hypotheses $hC11$ and $hFmono$, it obtains
+
+$$
 M.initialA\le P.F(Lbar).
-\]
-This says that the method’s initial estimate is at most the objective value at the vector \(Lbar\). The lemma `composite_initialA_le` uses exactly the \(C^{1,1}\)-type component assumptions and the monotonicity of \(P.F\) on nonnegative vectors. The resulting inequality is stored as `hAle` and is later needed both in the Lyapunov inequality and in the search-index bound.
+$$
 
-Next the proof shows that the objective gap is always nonnegative. For each \(k\), it wants
-\[
+This says that the method’s initial estimate is at most the objective value at the vector $Lbar$. The lemma `composite_initialA_le` uses exactly the $C^{1,1}$-type component assumptions and the monotonicity of $P.F$ on nonnegative vectors. The resulting inequality is stored as `hAle` and is later needed both in the Lyapunov inequality and in the search-index bound.
+
+Next the proof shows that the objective gap is always nonnegative. For each $k$, it wants
+
+$$
 0\le G(M.x_k)-G(x^*).
-\]
-To see this, the proof first shows that \(M.x_k\) is feasible, i.e. \(M.x_k\in P.Q\). It rewrites \(M.x_k\) using the method’s update identity `M.update_x k`, identifying \(M.x_k\) with the auxiliary image \(T(M.y_k,M.A_k)\). The first component of the auxiliary estimate hypothesis `hT`, applied to \(M.y_k\) and \(M.A_k\), gives that this image lies in \(P.Q\). Thus \(M.x_k\in P.Q\).
+$$
 
-Then the proof uses \(hstar:x^*\in P.solutionSet\). The characterization `P.solution_iff` says, in particular, that a solution point is feasible and minimizes the objective over the feasible set. Applying this minimality statement to the feasible point \(M.x_k\) gives
-\[
+To see this, the proof first shows that $M.x_k$ is feasible, i.e. $M.x_k\in P.Q$. It rewrites $M.x_k$ using the method’s update identity `M.update_x k`, identifying $M.x_k$ with the auxiliary image $T(M.y_k,M.A_k)$. The first component of the auxiliary estimate hypothesis `hT`, applied to $M.y_k$ and $M.A_k$, gives that this image lies in $P.Q$. Thus $M.x_k\in P.Q$.
+
+Then the proof uses $hstar:x^*\in P.solutionSet$. The characterization `P.solution_iff` says, in particular, that a solution point is feasible and minimizes the objective over the feasible set. Applying this minimality statement to the feasible point $M.x_k$ gives
+
+$$
 G(x^*)\le G(M.x_k).
-\]
+$$
+
 The `linarith` tactic rearranges this to
-\[
+
+$$
 0\le G(M.x_k)-G(x^*).
-\]
+$$
+
 This nonnegativity is used to multiply inequalities by the gap without changing the direction.
 
-The main rate estimate is then proved for each \(k\). Let
-\[
+The main rate estimate is then proved for each $k$. Let
+
+$$
 \mathrm{gap}=G(M.x_k)-G(x^*).
-\]
+$$
+
 The lemma `composite_weight_lower` gives
-\[
+
+$$
 1+\frac{k}{2}\le M.weight_k.
-\]
-Since \(1+\frac{k}{2}\ge0\), also \(M.weight_k\ge0\). Because squaring is monotone on nonnegative reals, this yields
-\[
+$$
+
+Since $1+\frac{k}{2}\ge0$, also $M.weight_k\ge0$. Because squaring is monotone on nonnegative reals, this yields
+
+$$
 \left(1+\frac{k}{2}\right)^2\le M.weight_k^2.
-\]
+$$
+
 Multiplying by the nonnegative gap gives
-\[
+
+$$
 \left(1+\frac{k}{2}\right)^2 \mathrm{gap}
 \le M.weight_k^2\,\mathrm{gap}.
-\]
-The central Lyapunov inequality `composite_lyapunov`, applied with the previously obtained `hAle`, \(hT\), \(hLower\), \(hstar\), \(hApos\), and \(k\), states
-\[
+$$
+
+The central Lyapunov inequality `composite_lyapunov`, applied with the previously obtained `hAle`, $hT$, $hLower$, $hstar$, $hApos$, and $k$, states
+
+$$
 M.weight_k^2\,\mathrm{gap}
 \le P.F(Lbar)\,\|M.y_0-x^*\|^2.
-\]
+$$
+
 Combining these two inequalities gives
-\[
+
+$$
 \left(1+\frac{k}{2}\right)^2 \mathrm{gap}
 \le P.F(Lbar)\,\|M.y_0-x^*\|^2.
-\]
+$$
+
 Since
-\[
+
+$$
 1+\frac{k}{2}=\frac{k+2}{2},
-\]
+$$
+
 this is equivalent to
-\[
+
+$$
 (k+2)^2\,\mathrm{gap}
 \le 4\,P.F(Lbar)\,\|M.y_0-x^*\|^2.
-\]
-The denominator \((k+2)^2\) is positive, so dividing by it yields
-\[
+$$
+
+The denominator $(k+2)^2$ is positive, so dividing by it yields
+
+$$
 \mathrm{gap}
 \le
 \frac{4\,P.F(Lbar)\,\|M.y_0-x^*\|^2}{(k+2)^2}.
-\]
-The proof uses `positivity` to establish positivity of \((k+2)^2\), then `le_div_iff₀` to replace the division goal by the equivalent multiplication inequality, and finally `norm_num` and `nlinarith` to solve the resulting polynomial arithmetic. This proves the first conjunct of the theorem.
+$$
 
-For the second conjunct, fix \(\varepsilon>0\). The proof defines
-\[
+The proof uses `positivity` to establish positivity of $(k+2)^2$, then `le_div_iff₀` to replace the division goal by the equivalent multiplication inequality, and finally `norm_num` and `nlinarith` to solve the resulting polynomial arithmetic. This proves the first conjunct of the theorem.
+
+For the second conjunct, fix $\varepsilon>0$. The proof defines
+
+$$
 NG=\sqrt{\frac{C}{\varepsilon}},
 \qquad
 C=4\,P.F(Lbar)\,\|M.y_0-x^*\|^2,
-\]
+$$
+
 and
-\[
+
+$$
 D=\left\lceil \max\left(\log_2\!\left(\frac{P.F(Lbar)}{M.initialA}\right),0\right)\right\rceil.
-\]
-First it proves \(C\ge0\). It applies `composite_lyapunov` at \(k=0\), obtaining
-\[
+$$
+
+First it proves $C\ge0$. It applies `composite_lyapunov` at $k=0$, obtaining
+
+$$
 M.weight_0^2\bigl(G(M.x_0)-G(x^*)\bigr)
 \le P.F(Lbar)\,\|M.y_0-x^*\|^2.
-\]
-Using the zero-weight identity `M.weight_zero`, this simplifies the left-hand side, and since the gap at \(0\) is nonnegative by the already proved nonnegativity result, the right-hand side must be nonnegative. Hence \(C\ge0\). Consequently \(NG\ge0\), and `Int.ceil_nonneg` gives \(\lceil NG\rceil\ge0\). Also \(D\ge0\), because \(D\) is the ceiling of a maximum that is at least \(0\).
+$$
+
+Using the zero-weight identity `M.weight_zero`, this simplifies the left-hand side, and since the gap at $0$ is nonnegative by the already proved nonnegativity result, the right-hand side must be nonnegative. Hence $C\ge0$. Consequently $NG\ge0$, and `Int.ceil_nonneg` gives $\lceil NG\rceil\ge0$. Also $D\ge0$, because $D$ is the ceiling of a maximum that is at least $0$.
 
 Let
-\[
-\text{iterations}=(\lceil NG\rceil).\mathrm{toNat}.
-\]
-Since \(\lceil NG\rceil\ge0\), this natural number has the same real value as \(\lceil NG\rceil\). The integer ceiling lemma `Int.le_ceil` gives
-\[
-NG\le \lceil NG\rceil,
-\]
-so
-\[
-NG\le \text{iterations}
-\]
-as real numbers. Also, by `Real.sq_sqrt`, since the radicand \(C/\varepsilon\) is nonnegative,
-\[
-NG^2=\frac{C}{\varepsilon}.
-\]
 
-The proof now proves the desired accuracy at `iterations`. From \(NG\le\text{iterations}\) and nonnegativity of both quantities, it obtains
-\[
+$$
+\text{iterations}=(\lceil NG\rceil).\mathrm{toNat}.
+$$
+
+Since $\lceil NG\rceil\ge0$, this natural number has the same real value as $\lceil NG\rceil$. The integer ceiling lemma `Int.le_ceil` gives
+
+$$
+NG\le \lceil NG\rceil,
+$$
+
+so
+
+$$
+NG\le \text{iterations}
+$$
+
+as real numbers. Also, by `Real.sq_sqrt`, since the radicand $C/\varepsilon$ is nonnegative,
+
+$$
+NG^2=\frac{C}{\varepsilon}.
+$$
+
+The proof now proves the desired accuracy at `iterations`. From $NG\le\text{iterations}$ and nonnegativity of both quantities, it obtains
+
+$$
 NG^2\le \text{iterations}^2.
-\]
-Substituting \(NG^2=C/\varepsilon\) gives
-\[
+$$
+
+Substituting $NG^2=C/\varepsilon$ gives
+
+$$
 \frac{C}{\varepsilon}\le \text{iterations}^2.
-\]
-Multiplying by \(\varepsilon>0\) yields
-\[
+$$
+
+Multiplying by $\varepsilon>0$ yields
+
+$$
 C\le \varepsilon\,\text{iterations}^2.
-\]
-Since \(\text{iterations}^2\le(\text{iterations}+2)^2\), it follows that
-\[
+$$
+
+Since $\text{iterations}^2\le(\text{iterations}+2)^2$, it follows that
+
+$$
 C\le \varepsilon\,(\text{iterations}+2)^2.
-\]
-Dividing by the positive number \((\text{iterations}+2)^2\) gives
-\[
+$$
+
+Dividing by the positive number $(\text{iterations}+2)^2$ gives
+
+$$
 \frac{C}{(\text{iterations}+2)^2}\le \varepsilon.
-\]
-The already established rate estimate at \(k=\text{iterations}\) says
-\[
+$$
+
+The already established rate estimate at $k=\text{iterations}$ says
+
+$$
 G(M.x_{\text{iterations}})-G(x^*)
 \le
 \frac{C}{(\text{iterations}+2)^2}.
-\]
+$$
+
 Combining the last two inequalities gives
-\[
+
+$$
 G(M.x_{\text{iterations}})-G(x^*)\le \varepsilon.
-\]
+$$
+
 This is the accuracy part of the existential statement.
 
 Finally the proof supplies the existential witnesses. It chooses
-\[
+
+$$
 \text{auxiliarySolves}=\text{compositeAuxiliarySolveCount}(P,T,M,\text{iterations}),
-\]
-\[
+$$
+
+$$
 \text{gradientCollections}=\text{compositeGradientCollectionCount}(P,T,M,\text{iterations}),
-\]
-\[
+$$
+
+$$
 \text{functionEvaluations}=\text{compositeFunctionEvaluationCount}(P,T,M,\text{iterations}).
-\]
+$$
+
 The three equality conjuncts hold by `rfl`, because these are exactly the chosen terms.
 
 For the auxiliary-solve bound, the definition gives
-\[
+
+$$
 \text{auxiliarySolves}
 =
 \text{iterations}
 +
 \sum_{j=0}^{\text{iterations}-1} M.searchIndex_j.
-\]
-The lemma `composite_searchIndex_sum_le`, applied with \(N=\text{iterations}\), \(hLower\), and \(hApos\), states
-\[
+$$
+
+The lemma `composite_searchIndex_sum_le`, applied with $N=\text{iterations}$, $hLower$, and $hApos$, states
+
+$$
 \sum_{j=0}^{\text{iterations}-1} M.searchIndex_j
 \le
 \left\lceil \max\left(\log_2\!\left(\frac{P.F(Lbar)}{M.initialA}\right),0\right)\right\rceil.\mathrm{toNat}.
-\]
-By definition of \(D\), this is
-\[
+$$
+
+By definition of $D$, this is
+
+$$
 \sum_{j=0}^{\text{iterations}-1} M.searchIndex_j\le D.\mathrm{toNat}.
-\]
-Since \(\lceil NG\rceil\) and \(D\) are nonnegative integers, `Int.toNat_add` gives
-\[
+$$
+
+Since $\lceil NG\rceil$ and $D$ are nonnegative integers, `Int.toNat_add` gives
+
+$$
 (\lceil NG\rceil+D).\mathrm{toNat}
 =
 (\lceil NG\rceil).\mathrm{toNat}+D.\mathrm{toNat}
 =
 \text{iterations}+D.\mathrm{toNat}.
-\]
+$$
+
 Adding `iterations` to both sides of the search-index inequality gives
-\[
+
+$$
 \text{iterations}
 +
 \sum_{j=0}^{\text{iterations}-1} M.searchIndex_j
@@ -370,54 +457,69 @@ Adding `iterations` to both sides of the search-index inequality gives
 \text{iterations}+D.\mathrm{toNat}
 =
 NA.\mathrm{toNat}.
-\]
+$$
+
 This proves the auxiliary-solve bound.
 
 For the gradient-collection bound, the definition gives
-\[
+
+$$
 \text{gradientCollections}=\text{iterations}=(\lceil NG\rceil).\mathrm{toNat}.
-\]
+$$
+
 Therefore the required inequality
-\[
+
+$$
 \text{gradientCollections}\le(\lceil NG\rceil).\mathrm{toNat}
-\]
+$$
+
 is exactly `rfl`.
 
 For the function-evaluation bound, the definition gives
-\[
+
+$$
 \text{functionEvaluations}
 =
 2\,\text{iterations}
 +
 \sum_{j=0}^{\text{iterations}-1} M.searchIndex_j.
-\]
+$$
+
 The proof must show this is at most
-\[
+
+$$
 (2\lceil NG\rceil+D).\mathrm{toNat}.
-\]
-Since \(2\lceil NG\rceil\ge0\) and \(D\ge0\), `Int.toNat_add` splits the natural conversion:
-\[
+$$
+
+Since $2\lceil NG\rceil\ge0$ and $D\ge0$, `Int.toNat_add` splits the natural conversion:
+
+$$
 (2\lceil NG\rceil+D).\mathrm{toNat}
 =
 (2\lceil NG\rceil).\mathrm{toNat}+D.\mathrm{toNat}.
-\]
-Then `Int.toNat_mul` uses nonnegativity of \(2\) and of \(\lceil NG\rceil\) to get
-\[
+$$
+
+Then `Int.toNat_mul` uses nonnegativity of $2$ and of $\lceil NG\rceil$ to get
+
+$$
 (2\lceil NG\rceil).\mathrm{toNat}
 =
 2\,(\lceil NG\rceil).\mathrm{toNat}
 =
 2\,\text{iterations}.
-\]
+$$
+
 Thus the target becomes
-\[
+
+$$
 2\,\text{iterations}
 +
 \sum_{j=0}^{\text{iterations}-1} M.searchIndex_j
 \le
 2\,\text{iterations}+D.\mathrm{toNat}.
-\]
-The same `composite_searchIndex_sum_le` bound as before gives the required inequality for the sum, and `Nat.add_le_add_left` adds \(2\,\text{iterations}\) to both sides. This completes the function-evaluation bound.
+$$
+
+The same `composite_searchIndex_sum_le` bound as before gives the required inequality for the sum, and `Nat.add_le_add_left` adds $2\,\text{iterations}$ to both sides. This completes the function-evaluation bound.
 
 All conjuncts of the existential statement have now been verified, so the proof finishes the second part of the theorem.
 

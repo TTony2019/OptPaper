@@ -21,45 +21,61 @@ theorem semigroup_strong_convergence_remark {H : Type*} [NormedAddCommGroup H]
 ```
 
 ## Statement explanation
-The declaration is a strong-convergence theorem for a continuous forward-backward trajectory in a real Hilbert space \(H\). The space \(H\) is assumed to be a complete real inner product space. The data are a set-valued operator \(A:H\to\mathcal P(H)\), a single-valued map \(B:H\to H\), an extended-real function \(\Phi:H\to \operatorname{Ioi}(\bot)\), a set \(S\subseteq H\), a trajectory \(x:\mathbb R\to H\), and a real number \(\beta\). Here \(\operatorname{Ioi}(\bot)\) means values strictly larger than the bottom extended real element, so \(\Phi\) never takes the value \(-\infty\). The hypothesis \(hPhi\) says that \(\Phi\) belongs to `ERealFunction.gammaZero H`, the admissibility class used by the forward-backward theory; the proof passes this hypothesis directly to `semigroup_convergence`.
+The declaration is a strong-convergence theorem for a continuous forward-backward trajectory in a real Hilbert space $H$. The space $H$ is assumed to be a complete real inner product space. The data are a set-valued operator $A:H\to\mathcal P(H)$, a single-valued map $B:H\to H$, an extended-real function $\Phi:H\to \operatorname{Ioi}(\bot)$, a set $S\subseteq H$, a trajectory $x:\mathbb R\to H$, and a real number $\beta$. Here $\operatorname{Ioi}(\bot)$ means values strictly larger than the bottom extended real element, so $\Phi$ never takes the value $-\infty$. The hypothesis $hPhi$ says that $\Phi$ belongs to `ERealFunction.gammaZero H`, the admissibility class used by the forward-backward theory; the proof passes this hypothesis directly to `semigroup_convergence`.
 
-The hypotheses are as follows. The set \(S\) is nonempty. The number \(\beta\) is positive. The map \(B\) is \(\beta\)-cocoercive on all of \(H\), meaning the Lean predicate `CocoerciveOn beta Set.univ (fun w : Set.univ ↦ B w)` holds. The hypothesis `hsolution` says that for every \(z\),
-\[
+The hypotheses are as follows. The set $S$ is nonempty. The number $\beta$ is positive. The map $B$ is $\beta$-cocoercive on all of $H$, meaning the Lean predicate `CocoerciveOn beta Set.univ (fun w : Set.univ ↦ B w)` holds. The hypothesis `hsolution` says that for every $z$,
+
+$$
 z\in S \iff -B z\in \partial\Phi(z).
-\]
-Equivalently, \(S\) is the set of solutions of \(0\in \partial\Phi(z)+B(z)\). The hypothesis `horbit` says that \(x\) is a forward-backward semigroup orbit for \(\Phi\) and \(B\). The proof uses the associated residual \(r(t)=\operatorname{horbit.residual}(t)\), which satisfies
-\[
-r(t)=-\operatorname{deriv}x(t)
-\]
-and, for \(t\ge0\),
-\[
-r(t)\in \partial\Phi(x(t))+\{B(x(t))\},
-\]
-and whose norm \(t\mapsto \|r(t)\|\) is antitone on \([0,\infty)\).
+$$
 
-The operator \(A\) is linked to \(\Phi\) and \(B\) by
-\[
+Equivalently, $S$ is the set of solutions of $0\in \partial\Phi(z)+B(z)$. The hypothesis `horbit` says that $x$ is a forward-backward semigroup orbit for $\Phi$ and $B$. The proof uses the associated residual $r(t)=\operatorname{horbit.residual}(t)$, which satisfies
+
+$$
+r(t)=-\operatorname{deriv}x(t)
+$$
+
+and, for $t\ge0$,
+
+$$
+r(t)\in \partial\Phi(x(t))+\{B(x(t))\},
+$$
+
+and whose norm $t\mapsto \|r(t)\|$ is antitone on $[0,\infty)$.
+
+The operator $A$ is linked to $\Phi$ and $B$ by
+
+$$
 hA:\quad \forall y,\quad A(y)=\partial\Phi(y)+\{B(y)\}.
-\]
-Thus \(A\) is the set-valued sum of the subdifferential of \(\Phi\) and the singleton operator \(B\). The final hypothesis `hstrongly_monotone` is a disjunction. The first alternative says that \(A\) is \(\rho\)-strongly monotone for some \(\rho>0\): for all \(a,b,u,w\),
-\[
+$$
+
+Thus $A$ is the set-valued sum of the subdifferential of $\Phi$ and the singleton operator $B$. The final hypothesis `hstrongly_monotone` is a disjunction. The first alternative says that $A$ is $\rho$-strongly monotone for some $\rho>0$: for all $a,b,u,w$,
+
+$$
 u\in A(a),\ w\in A(b)\implies
 \rho\|a-b\|^2\le \langle a-b,u-w\rangle.
-\]
-The second alternative says that all sublevel sets of \(\Phi\) with bounded norm are compact, i.e.
-\[
+$$
+
+The second alternative says that all sublevel sets of $\Phi$ with bounded norm are compact, i.e.
+
+$$
 \forall r,a\in\mathbb R,\quad
 \{y\mid \|y\|\le r,\ \Phi(y)\le a\}
-\]
-is compact, and that along the trajectory \(\Phi(x(t))\) is eventually bounded above by some real constant \(a\), i.e.
-\[
+$$
+
+is compact, and that along the trajectory $\Phi(x(t))$ is eventually bounded above by some real constant $a$, i.e.
+
+$$
 \exists a\in\mathbb R,\quad \forall^{\mathrm{eventually}}t,\quad \Phi(x(t))\le a.
-\]
+$$
+
 The conclusion is
-\[
+
+$$
 \exists z\in S,\quad x(t)\to z\quad\text{strongly in }H
-\]
-as \(t\to\infty\). Thus the theorem upgrades the weak convergence obtained from the forward-backward semigroup theory to genuine norm convergence, under either strong monotonicity of \(A\) or compactness of the sublevel sets of \(\Phi\) together with eventual boundedness of \(\Phi\) along the orbit.
+$$
+
+as $t\to\infty$. Thus the theorem upgrades the weak convergence obtained from the forward-backward semigroup theory to genuine norm convergence, under either strong monotonicity of $A$ or compactness of the sublevel sets of $\Phi$ together with eventual boundedness of $\Phi$ along the orbit.
 
 ## Lean proof
 ```lean
@@ -136,126 +152,173 @@ by
 ```
 
 ## Proof explanation
-The proof begins by applying `semigroup_convergence` to \(\Phi\), \(S\), \(B\), \(x\), and \(\beta\), using the hypotheses \(hPhi\), \(hS\), \(hbeta\), \(hB\), \(hsolution\), and \(horbit\). That theorem provides three facts. First, the derivative of the trajectory is square-integrable:
-\[
+The proof begins by applying `semigroup_convergence` to $\Phi$, $S$, $B$, $x$, and $\beta$, using the hypotheses $hPhi$, $hS$, $hbeta$, $hB$, $hsolution$, and $horbit$. That theorem provides three facts. First, the derivative of the trajectory is square-integrable:
+
+$$
 \int_0^\infty \|\operatorname{deriv}x(t)\|^2\,dt<\infty.
-\]
-Second, there is a point \(z\in S\) such that the trajectory converges weakly to \(z\):
-\[
+$$
+
+Second, there is a point $z\in S$ such that the trajectory converges weakly to $z$:
+
+$$
 \operatorname{toWeakSpace}(x(t))\to \operatorname{toWeakSpace}(z).
-\]
-Third, for every solution point, \(B(x(t))\) converges to the corresponding value of \(B\); the proof discards this third part. The `obtain` command destructures the triple into `hdxint`, the weak-limit witness \(\langle z,hz,hxweak\rangle\), and an ignored third component.
+$$
 
-Next the proof shows that the squared norm of the residual is integrable. Since the residual satisfies \(r(t)=-\operatorname{deriv}x(t)\), we have
-\[
+Third, for every solution point, $B(x(t))$ converges to the corresponding value of $B$; the proof discards this third part. The `obtain` command destructures the triple into `hdxint`, the weak-limit witness $\langle z,hz,hxweak\rangle$, and an ignored third component.
+
+Next the proof shows that the squared norm of the residual is integrable. Since the residual satisfies $r(t)=-\operatorname{deriv}x(t)$, we have
+
+$$
 \|r(t)\|^2=\|-\operatorname{deriv}x(t)\|^2=\|\operatorname{deriv}x(t)\|^2.
-\]
-The tactic `Integrable.congr` transfers the integrability of \(t\mapsto \|\operatorname{deriv}x(t)\|^2\) to \(t\mapsto \|r(t)\|^2\), because the two functions agree almost everywhere. The `filter_upwards` and `rw [ht, norm_neg]` steps are exactly this pointwise identification using the orbit identity for the residual.
+$$
 
-The theorem `antitone_norm_sq_integrableOn_Ici_tendsto_zero` is then applied to the residual \(r\). Its mathematical content is: for a normed additive commutative group \(E\) and a function \(r:\mathbb R\to E\), if \(t\mapsto \|r(t)\|\) is antitone on \([0,\infty)\) and \(t\mapsto \|r(t)\|^2\) is integrable on \([0,\infty)\), then
-\[
+The tactic `Integrable.congr` transfers the integrability of $t\mapsto \|\operatorname{deriv}x(t)\|^2$ to $t\mapsto \|r(t)\|^2$, because the two functions agree almost everywhere. The `filter_upwards` and `rw [ht, norm_neg]` steps are exactly this pointwise identification using the orbit identity for the residual.
+
+The theorem `antitone_norm_sq_integrableOn_Ici_tendsto_zero` is then applied to the residual $r$. Its mathematical content is: for a normed additive commutative group $E$ and a function $r:\mathbb R\to E$, if $t\mapsto \|r(t)\|$ is antitone on $[0,\infty)$ and $t\mapsto \|r(t)\|^2$ is integrable on $[0,\infty)$, then
+
+$$
 r(t)\to 0\quad\text{as }t\to\infty.
-\]
-The idea is that a nonincreasing nonnegative function whose square is integrable on a half-line must tend to \(0\); otherwise its square would have positive lower bounds on arbitrarily long intervals. The hypotheses required by the lemma are supplied by `horbit.residual_norm_antitone` and `hressqint`, giving `hreszero`, i.e.
-\[
+$$
+
+The idea is that a nonincreasing nonnegative function whose square is integrable on a half-line must tend to $0$; otherwise its square would have positive lower bounds on arbitrarily long intervals. The hypotheses required by the lemma are supplied by `horbit.residual_norm_antitone` and `hressqint`, giving `hreszero`, i.e.
+
+$$
 r(t)\to 0.
-\]
+$$
 
 The proof now splits on `hstrongly_monotone`.
 
-In the first case, \(A\) is \(\rho\)-strongly monotone for some \(\rho>0\). The proof first shows that \(0\in A(z)\). Since \(z\in S\), the solution hypothesis gives \(-B z\in \partial\Phi(z)\). By `hA`, \(A(z)=\partial\Phi(z)+\{B(z)\}\). The sum of the element \(-B z\in \partial\Phi(z)\) and the singleton element \(B z\in\{B z\}\) is \(0\). The `Set.mem_add.mpr` step constructs this membership, and `abel` verifies \(-B z+B z=0\). Hence \(0\in A(z)\).
+In the first case, $A$ is $\rho$-strongly monotone for some $\rho>0$. The proof first shows that $0\in A(z)$. Since $z\in S$, the solution hypothesis gives $-B z\in \partial\Phi(z)$. By `hA`, $A(z)=\partial\Phi(z)+\{B(z)\}$. The sum of the element $-B z\in \partial\Phi(z)$ and the singleton element $B z\in\{B z\}$ is $0$. The `Set.mem_add.mpr` step constructs this membership, and `abel` verifies $-B z+B z=0$. Hence $0\in A(z)$.
 
-For every \(t\ge0\), the residual satisfies \(r(t)\in A(x(t))\). Indeed, by `hA` it is enough to show
-\[
+For every $t\ge0$, the residual satisfies $r(t)\in A(x(t))$. Indeed, by `hA` it is enough to show
+
+$$
 r(t)\in \partial\Phi(x(t))+\{B(x(t))\},
-\]
+$$
+
 which is exactly the orbit residual membership `horbit.residual_mem t ht`.
 
-Since \(r(t)\to0\), its norm also tends to \(0\). Multiplying by the constant \(\rho^{-1}\) gives
-\[
+Since $r(t)\to0$, its norm also tends to $0$. Multiplying by the constant $\rho^{-1}$ gives
+
+$$
 \rho^{-1}\|r(t)\|\to 0.
-\]
+$$
+
 This is the `hupper` step, obtained from the continuity of the norm and of scalar multiplication.
 
 The proof then shows
-\[
+
+$$
 \|x(t)-z\|\to 0.
-\]
-It uses the metric characterization of convergence: for every \(\varepsilon>0\), one must eventually have \(\|x(t)-z\|<\varepsilon\). Since \(\rho^{-1}\|r(t)\|\to0\), eventually
-\[
+$$
+
+It uses the metric characterization of convergence: for every $\varepsilon>0$, one must eventually have $\|x(t)-z\|<\varepsilon$. Since $\rho^{-1}\|r(t)\|\to0$, eventually
+
+$$
 \rho^{-1}\|r(t)\|<\varepsilon,
-\]
-and also eventually \(t\ge0\). For such a \(t\), apply strong monotonicity of \(A\) with
-\[
+$$
+
+and also eventually $t\ge0$. For such a $t$, apply strong monotonicity of $A$ with
+
+$$
 a=x(t),\quad b=z,\quad u=r(t),\quad w=0.
-\]
-Because \(r(t)\in A(x(t))\) and \(0\in A(z)\), strong monotonicity gives
-\[
+$$
+
+Because $r(t)\in A(x(t))$ and $0\in A(z)$, strong monotonicity gives
+
+$$
 \rho\|x(t)-z\|^2
 \le \langle x(t)-z,\, r(t)-0\rangle
 = \langle x(t)-z,r(t)\rangle.
-\]
+$$
+
 The inequality `real_inner_le_norm` gives the Cauchy-Schwarz bound
-\[
+
+$$
 \langle x(t)-z,r(t)\rangle
 \le \|x(t)-z\|\,\|r(t)\|.
-\]
+$$
+
 Therefore
-\[
+
+$$
 \rho\|x(t)-z\|^2
 \le \|x(t)-z\|\,\|r(t)\|.
-\]
-If \(\|x(t)-z\|=0\), the desired distance bound is immediate. Otherwise \(\|x(t)-z\|>0\), and dividing the inequality by this positive quantity yields
-\[
-\rho\|x(t)-z\|\le \|r(t)\|.
-\]
-Multiplying by \(\rho^{-1}>0\) gives
-\[
-\|x(t)-z\|\le \rho^{-1}\|r(t)\|<\varepsilon.
-\]
-This is the key estimate. The `nlinarith` step performs the division by the positive norm, while `field_simp` and `positivity` handle the factor \(\rho^{-1}\). Thus \(\|x(t)-z\|\to0\), and by `tendsto_iff_norm_sub_tendsto_zero` this is equivalent to
-\[
-x(t)\to z\quad\text{strongly}.
-\]
-The witness \(z\in S\) is already available, so the first disjunct is complete.
+$$
 
-In the second case, the strong monotonicity of \(A\) is replaced by compactness of the sublevel sets of \(\Phi\) and eventual boundedness of \(\Phi\) along the trajectory. The proof has already obtained weak convergence \(x(t)\rightharpoonup z\). The lemma `eventually_norm_le_of_tendsto_weakly_trajectory` now gives a real constant \(C\) such that eventually
-\[
+If $\|x(t)-z\|=0$, the desired distance bound is immediate. Otherwise $\|x(t)-z\|>0$, and dividing the inequality by this positive quantity yields
+
+$$
+\rho\|x(t)-z\|\le \|r(t)\|.
+$$
+
+Multiplying by $\rho^{-1}>0$ gives
+
+$$
+\|x(t)-z\|\le \rho^{-1}\|r(t)\|<\varepsilon.
+$$
+
+This is the key estimate. The `nlinarith` step performs the division by the positive norm, while `field_simp` and `positivity` handle the factor $\rho^{-1}$. Thus $\|x(t)-z\|\to0$, and by `tendsto_iff_norm_sub_tendsto_zero` this is equivalent to
+
+$$
+x(t)\to z\quad\text{strongly}.
+$$
+
+The witness $z\in S$ is already available, so the first disjunct is complete.
+
+In the second case, the strong monotonicity of $A$ is replaced by compactness of the sublevel sets of $\Phi$ and eventual boundedness of $\Phi$ along the trajectory. The proof has already obtained weak convergence $x(t)\rightharpoonup z$. The lemma `eventually_norm_le_of_tendsto_weakly_trajectory` now gives a real constant $C$ such that eventually
+
+$$
 \|x(t)\|\le C.
-\]
+$$
+
 Its mathematical content is that a weakly convergent trajectory in a Hilbert space is eventually bounded in norm.
 
 The proof defines
-\[
+
+$$
 R=\max(1,C)
-\]
+$$
+
 and
-\[
+
+$$
 K=\{y\mid \|y\|\le R,\ \Phi(y)\le a\},
-\]
-where \(a\) is the real bound supplied by the second part of `hstrongly_monotone`. By the compactness assumption, \(K\) is compact. Since eventually \(\|x(t)\|\le C\le R\) and eventually \(\Phi(x(t))\le a\), the trajectory is eventually contained in \(K\). The `filter_upwards` step combines those two eventual properties.
+$$
 
-It remains to upgrade the weak convergence of \(x(t)\) to \(z\) to convergence against every continuous linear functional. For an arbitrary continuous linear functional \(\ell:H\to\mathbb R\), the Riesz representation theorem for real Hilbert spaces gives a vector \(u\in H\) such that
-\[
+where $a$ is the real bound supplied by the second part of `hstrongly_monotone`. By the compactness assumption, $K$ is compact. Since eventually $\|x(t)\|\le C\le R$ and eventually $\Phi(x(t))\le a$, the trajectory is eventually contained in $K$. The `filter_upwards` step combines those two eventual properties.
+
+It remains to upgrade the weak convergence of $x(t)$ to $z$ to convergence against every continuous linear functional. For an arbitrary continuous linear functional $\ell:H\to\mathbb R$, the Riesz representation theorem for real Hilbert spaces gives a vector $u\in H$ such that
+
+$$
 \ell(y)=\langle u,y\rangle=\langle y,u\rangle.
-\]
-The theorem `weakSpace_continuous_inner_right` states that for fixed \(u\), the map on the weak space
-\[
-X\mapsto \left\langle (\operatorname{toWeakSpace})^{-1}X,u\right\rangle
-\]
-is continuous. Composing this continuity with the weak convergence of \(x(t)\) to \(z\) gives
-\[
-\langle x(t),u\rangle\to \langle z,u\rangle.
-\]
-Using the representation of \(\ell\), this becomes
-\[
-\ell(x(t))\to \ell(z)
-\]
-for every continuous linear functional \(\ell\).
+$$
 
-Finally, the theorem `strong_tendsto_of_eventually_compact_and_weak_scalar_convergence` is applied with \(x\), \(x^*=z\), and the compact set \(K\). Its content is: if a trajectory is eventually contained in a compact set \(K\) and every continuous linear functional \(\ell\) satisfies \(\ell(x(t))\to\ell(x^*)\), then \(x(t)\to x^*\) strongly. The hypotheses have just been established: \(K\) is compact, \(x(t)\in K\) eventually, and \(\ell(x(t))\to\ell(z)\) for all \(\ell\). Therefore
-\[
+The theorem `weakSpace_continuous_inner_right` states that for fixed $u$, the map on the weak space
+
+$$
+X\mapsto \left\langle (\operatorname{toWeakSpace})^{-1}X,u\right\rangle
+$$
+
+is continuous. Composing this continuity with the weak convergence of $x(t)$ to $z$ gives
+
+$$
+\langle x(t),u\rangle\to \langle z,u\rangle.
+$$
+
+Using the representation of $\ell$, this becomes
+
+$$
+\ell(x(t))\to \ell(z)
+$$
+
+for every continuous linear functional $\ell$.
+
+Finally, the theorem `strong_tendsto_of_eventually_compact_and_weak_scalar_convergence` is applied with $x$, $x^*=z$, and the compact set $K$. Its content is: if a trajectory is eventually contained in a compact set $K$ and every continuous linear functional $\ell$ satisfies $\ell(x(t))\to\ell(x^*)$, then $x(t)\to x^*$ strongly. The hypotheses have just been established: $K$ is compact, $x(t)\in K$ eventually, and $\ell(x(t))\to\ell(z)$ for all $\ell$. Therefore
+
+$$
 x(t)\to z\quad\text{strongly in }H,
-\]
-with \(z\in S\). This concludes the proof in the second case, and hence the theorem holds under either alternative of `hstrongly_monotone`.
+$$
+
+with $z\in S$. This concludes the proof in the second case, and hence the theorem holds under either alternative of `hstrongly_monotone`.
 

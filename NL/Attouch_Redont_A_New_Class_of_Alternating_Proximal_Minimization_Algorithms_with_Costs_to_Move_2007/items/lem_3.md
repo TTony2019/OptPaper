@@ -20,14 +20,17 @@ theorem lemma_4_3_c {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 ```
 
 ## Statement explanation
-The declaration `lemma_4_3_c` is a theorem about two sequences in a real inner product space \(H\). The ambient assumptions on \(H\) are that it is a normed additive commutative group and a real inner product space, so expressions such as \(\|u-v\|^2\) are squared distances in \(H\). The data are functions \(f,g:H\to\mathbb R\), real parameters \(\beta,\mu\), sequences \(\alpha,\nu:\mathbb N\to\mathbb R\), a bundled hypothesis `hyp : H41toH46 H f g β μ`, reference points \(x,y\in H\), global nonnegativity assumptions \(hα_nonneg:\forall n,\ \alpha_n\ge0\) and \(hν_nonneg:\forall n,\ \nu_n\ge0\), an algorithm/iteration object `alg : CA2 ...`, and an additional bundled condition `hine : IsINE ...`. The object `alg` supplies the two iterate sequences; write
-\[
-x_n:=\operatorname{alg.x}(n),\qquad y_n:=\operatorname{alg.y}(n).
-\]
-The three functions \( (\xi,\eta)\mapsto \|\xi-\eta\|^2/2\) supplied to `CA2` and to `IsINE` are the quadratic move-cost functions used in the hypotheses; the definitions of `H41toH46`, `CA2`, and `IsINE` are not expanded here. From `hyp` the proof uses the positivity fields `hyp.beta_pos` and `hyp.mu_pos`, so the bundled hypothesis supplies \(\beta>0\) and \(\mu>0\).
+The declaration `lemma_4_3_c` is a theorem about two sequences in a real inner product space $H$. The ambient assumptions on $H$ are that it is a normed additive commutative group and a real inner product space, so expressions such as $\|u-v\|^2$ are squared distances in $H$. The data are functions $f,g:H\to\mathbb R$, real parameters $\beta,\mu$, sequences $\alpha,\nu:\mathbb N\to\mathbb R$, a bundled hypothesis `hyp : H41toH46 H f g β μ`, reference points $x,y\in H$, global nonnegativity assumptions $hα_nonneg:\forall n,\ \alpha_n\ge0$ and $hν_nonneg:\forall n,\ \nu_n\ge0$, an algorithm/iteration object `alg : CA2 ...`, and an additional bundled condition `hine : IsINE ...`. The object `alg` supplies the two iterate sequences; write
 
-For every natural number \(n\), the theorem concludes
-\[
+$$
+x_n:=\operatorname{alg.x}(n),\qquad y_n:=\operatorname{alg.y}(n).
+$$
+
+The three functions $(\xi,\eta)\mapsto \|\xi-\eta\|^2/2$ supplied to `CA2` and to `IsINE` are the quadratic move-cost functions used in the hypotheses; the definitions of `H41toH46`, `CA2`, and `IsINE` are not expanded here. From `hyp` the proof uses the positivity fields `hyp.beta_pos` and `hyp.mu_pos`, so the bundled hypothesis supplies $\beta>0$ and $\mu>0$.
+
+For every natural number $n$, the theorem concludes
+
+$$
 \begin{aligned}
 &\alpha_n \mu \|x_{n+1}-x\|^2+\beta(\mu+\nu_n)\|y_{n+1}-y\|^2 \\
 &\le
@@ -37,8 +40,9 @@ For every natural number \(n\), the theorem concludes
 &\quad -\beta \mu \|y_n-x_{n+1}-y+x\|^2
 -\beta \mu \|y_{n+1}-x_{n+1}-y+x\|^2.
 \end{aligned}
-\]
-Mathematically, this is a one-step weighted descent estimate. The left side is a weighted sum of squared distances of the next iterates \(x_{n+1},y_{n+1}\) from the reference points \(x,y\). The right side is the corresponding weighted sum for the current iterates \(x_n,y_n\), minus nonnegative penalty terms: \(\alpha_n\mu\|x_{n+1}-x_n\|^2\) penalizes movement of the \(x\)-sequence, \(\beta\nu_n\|y_{n+1}-y_n\|^2\) penalizes movement of the \(y\)-sequence, and the last two terms penalize the discrepancies \(\|(y_n-y)-(x_{n+1}-x)\|^2\) and \(\|(y_{n+1}-y)-(x_{n+1}-x)\|^2\). The weights in the subtracted terms are nonnegative because \(\alpha_n,\nu_n\ge0\) and \(\beta,\mu>0\).
+$$
+
+Mathematically, this is a one-step weighted descent estimate. The left side is a weighted sum of squared distances of the next iterates $x_{n+1},y_{n+1}$ from the reference points $x,y$. The right side is the corresponding weighted sum for the current iterates $x_n,y_n$, minus nonnegative penalty terms: $\alpha_n\mu\|x_{n+1}-x_n\|^2$ penalizes movement of the $x$-sequence, $\beta\nu_n\|y_{n+1}-y_n\|^2$ penalizes movement of the $y$-sequence, and the last two terms penalize the discrepancies $\|(y_n-y)-(x_{n+1}-x)\|^2$ and $\|(y_{n+1}-y)-(x_{n+1}-x)\|^2$. The weights in the subtracted terms are nonnegative because $\alpha_n,\nu_n\ge0$ and $\beta,\mu>0$.
 
 ## Lean proof
 ```lean
@@ -117,24 +121,31 @@ by
 
 ## Proof explanation
 The proof begins by introducing local abbreviations:
-\[
+
+$$
 x_{n+1}:=\operatorname{alg.x}(n+1),\quad
 x_n:=\operatorname{alg.x}(n),\quad
 y_{n+1}:=\operatorname{alg.y}(n+1),\quad
 y_n:=\operatorname{alg.y}(n).
-\]
-The `set` commands only create notation and do not change the mathematical content. Next, `hyp.beta_pos` and `hyp.mu_pos` give \(\beta>0\) and \(\mu>0\). Specializing the global nonnegativity hypotheses gives \(\alpha_n\ge0\) and \(\nu_n\ge0\). From \(\alpha_n\ge0\) and \(\beta>0\), `linarith` proves
-\[
-\alpha_n+\beta>0.
-\]
-Later `positivity` proves
-\[
-(\mu+\nu_n)(\alpha_n+\beta)>0,
-\]
-using \(\mu>0\), \(\nu_n\ge0\), and \(\alpha_n+\beta>0\).
+$$
 
-The proof then invokes the two previous estimates. The first, `lemma_4_3_a`, with the same hypotheses `hyp`, reference points \(x,y\), global nonnegativity of \(\alpha,\nu\), the same `alg` and `hine`, and the current index \(n\), gives
-\[
+The `set` commands only create notation and do not change the mathematical content. Next, `hyp.beta_pos` and `hyp.mu_pos` give $\beta>0$ and $\mu>0$. Specializing the global nonnegativity hypotheses gives $\alpha_n\ge0$ and $\nu_n\ge0$. From $\alpha_n\ge0$ and $\beta>0$, `linarith` proves
+
+$$
+\alpha_n+\beta>0.
+$$
+
+Later `positivity` proves
+
+$$
+(\mu+\nu_n)(\alpha_n+\beta)>0,
+$$
+
+using $\mu>0$, $\nu_n\ge0$, and $\alpha_n+\beta>0$.
+
+The proof then invokes the two previous estimates. The first, `lemma_4_3_a`, with the same hypotheses `hyp`, reference points $x,y$, global nonnegativity of $\alpha,\nu$, the same `alg` and `hine`, and the current index $n$, gives
+
+$$
 \|x_{n+1}-x\|^2
 \le \frac{1}{\alpha_n+\beta}
 \Bigl(
@@ -142,9 +153,11 @@ The proof then invokes the two previous estimates. The first, `lemma_4_3_a`, wit
 -\alpha_n\|x_{n+1}-x_n\|^2
 -\beta\|y_n-x_{n+1}-y+x\|^2
 \Bigr).
-\]
-This is an upper bound for the squared distance of the new \(x\)-iterate from \(x\), with a denominator \(\alpha_n+\beta\). The second, `lemma_4_3_b`, with the same data and index \(n\), gives
-\[
+$$
+
+This is an upper bound for the squared distance of the new $x$-iterate from $x$, with a denominator $\alpha_n+\beta$. The second, `lemma_4_3_b`, with the same data and index $n$, gives
+
+$$
 \begin{aligned}
 \|y_{n+1}-y\|^2
 &\le \frac{1}{(\mu+\nu_n)(\alpha_n+\beta)}
@@ -159,24 +172,30 @@ This is an upper bound for the squared distance of the new \(x\)-iterate from \(
 -\mu(\alpha_n+\beta)\|y_{n+1}-x_{n+1}-y+x\|^2
 \Bigr).
 \end{aligned}
-\]
-This is the corresponding upper bound for the squared distance of the new \(y\)-iterate from \(y\).
+$$
 
-The next step clears denominators. The proof multiplies the first estimate by the positive scalar \(\alpha_n+\beta\). The tactic `mul_le_mul_of_nonneg_left` is the elementary fact that if \(a\le b\) and \(0\le c\), then \(ca\le cb\); here \(c=\alpha_n+\beta\). Then `field_simp` cancels the nonzero denominator \(1/(\alpha_n+\beta)\). The resulting inequality is
-\[
+This is the corresponding upper bound for the squared distance of the new $y$-iterate from $y$.
+
+The next step clears denominators. The proof multiplies the first estimate by the positive scalar $\alpha_n+\beta$. The tactic `mul_le_mul_of_nonneg_left` is the elementary fact that if $a\le b$ and $0\le c$, then $ca\le cb$; here $c=\alpha_n+\beta$. Then `field_simp` cancels the nonzero denominator $1/(\alpha_n+\beta)$. The resulting inequality is
+
+$$
 \begin{aligned}
 &(\alpha_n+\beta)\|x_{n+1}-x\|^2 \\
 &\le \alpha_n\|x_n-x\|^2+\beta\|y_n-y\|^2
 -\alpha_n\|x_{n+1}-x_n\|^2
 -\beta\|y_n-x_{n+1}-y+x\|^2.
 \end{aligned}
-\]
+$$
+
 Similarly, the proof multiplies the second estimate by the positive scalar
-\[
+
+$$
 D:=(\mu+\nu_n)(\alpha_n+\beta).
-\]
+$$
+
 Again `mul_le_mul_of_nonneg_left` preserves the inequality, and `field_simp` cancels the denominator. This yields
-\[
+
+$$
 \begin{aligned}
 &D\|y_{n+1}-y\|^2 \\
 &\le \mu\alpha_n\|x_n-x\|^2
@@ -188,27 +207,34 @@ Again `mul_le_mul_of_nonneg_left` preserves the inequality, and `field_simp` can
 -\mu\beta\|y_n-x_{n+1}-y+x\|^2
 -\mu(\alpha_n+\beta)\|y_{n+1}-x_{n+1}-y+x\|^2.
 \end{aligned}
-\]
+$$
 
-Now the proof weights the two cleared estimates so that the final factor \(\alpha_n+\beta\) can be canceled. It multiplies the first cleared inequality by \(\alpha_n\mu\). The fact \(0\le \alpha_n\mu\) follows from \(\alpha_n\ge0\) and \(\mu>0\) by `nlinarith`; then `mul_le_mul_of_nonneg_left` multiplies the inequality, and `simpa [mul_assoc]` only reassociates products. The resulting inequality has left side
-\[
+Now the proof weights the two cleared estimates so that the final factor $\alpha_n+\beta$ can be canceled. It multiplies the first cleared inequality by $\alpha_n\mu$. The fact $0\le \alpha_n\mu$ follows from $\alpha_n\ge0$ and $\mu>0$ by `nlinarith`; then `mul_le_mul_of_nonneg_left` multiplies the inequality, and `simpa [mul_assoc]` only reassociates products. The resulting inequality has left side
+
+$$
 \alpha_n\mu(\alpha_n+\beta)\|x_{n+1}-x\|^2
-\]
-and right side equal to \(\alpha_n\mu\) times the bracketed right-hand side of the first cleared inequality. Similarly, the proof multiplies the second cleared inequality by \(\beta\). Since \(\beta>0\), \(\beta\) is nonnegative; `mul_le_mul_of_nonneg_left` preserves the inequality, and `simpa [mul_assoc]` reassociates products, giving a left side
-\[
+$$
+
+and right side equal to $\alpha_n\mu$ times the bracketed right-hand side of the first cleared inequality. Similarly, the proof multiplies the second cleared inequality by $\beta$. Since $\beta>0$, $\beta$ is nonnegative; `mul_le_mul_of_nonneg_left` preserves the inequality, and `simpa [mul_assoc]` reassociates products, giving a left side
+
+$$
 \beta(\mu+\nu_n)(\alpha_n+\beta)\|y_{n+1}-y\|^2.
-\]
+$$
+
 Adding these two weighted inequalities by `nlinarith` gives `h_add`: the sum of the two weighted left sides is bounded above by the sum of the two weighted right sides.
 
-The remaining task is to factor \(\alpha_n+\beta\) from both sides. The proof uses `ring` to verify two polynomial identities, treating each norm-squared expression as an atom. The left side factors as
-\[
+The remaining task is to factor $\alpha_n+\beta$ from both sides. The proof uses `ring` to verify two polynomial identities, treating each norm-squared expression as an atom. The left side factors as
+
+$$
 (\alpha_n+\beta)\Bigl(
 \alpha_n\mu\|x_{n+1}-x\|^2
 +\beta(\mu+\nu_n)\|y_{n+1}-y\|^2
 \Bigr).
-\]
+$$
+
 The right side factors as
-\[
+
+$$
 \begin{aligned}
 &(\alpha_n+\beta)\Bigl(
 \alpha_n\mu\|x_n-x\|^2
@@ -221,10 +247,13 @@ The right side factors as
 -\beta\mu\|y_{n+1}-x_{n+1}-y+x\|^2
 \Bigr).
 \end{aligned}
-\]
+$$
+
 The `rw` command rewrites the two sides of `h_add` using these identities. Thus `h_add` becomes an inequality of the form
-\[
+
+$$
 (\alpha_n+\beta)L\le(\alpha_n+\beta)R,
-\]
-where \(L\) is the left side of the target inequality and \(R\) is its right side. Since \(\alpha_n+\beta>0\), the final command `exact le_of_mul_le_mul_left h_add h_adenom_pos` applies the cancellation rule: for a positive scalar \(c\), \(ca\le cb\) implies \(a\le b\). Therefore \(L\le R\), which is exactly the stated conclusion of `lemma_4_3_c`.
+$$
+
+where $L$ is the left side of the target inequality and $R$ is its right side. Since $\alpha_n+\beta>0$, the final command `exact le_of_mul_le_mul_left h_add h_adenom_pos` applies the cancellation rule: for a positive scalar $c$, $ca\le cb$ implies $a\le b$. Therefore $L\le R$, which is exactly the stated conclusion of `lemma_4_3_c`.
 

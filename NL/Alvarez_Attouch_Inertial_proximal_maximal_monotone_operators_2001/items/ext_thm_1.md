@@ -16,9 +16,9 @@ theorem weak_strong_closedness_maximal_monotone_graph
 ## Statement explanation
 The theorem `weak_strong_closedness_maximal_monotone_graph` says that the graph of a maximal monotone set-valued operator on a real Hilbert space is closed under weak convergence in the first coordinate and strong convergence in the second coordinate.
 
-In the statement, \(H\) is the ambient real Hilbert space, and \(A : H \to \mathcal P(H)\) is a set-valued operator from \(H\) to subsets of \(H\). The hypothesis \(hA\) says that \(A\) is maximal monotone. The points \(x\) and \(u\) lie in \(H\), and the sequences \(xs, us : \mathbb N \to H\) are indexed by natural numbers. The hypothesis \(hxs\) says that \(xs_n\) converges weakly to \(x\), expressed in Lean as convergence of `toWeakSpace ℝ H (xs n)` to `toWeakSpace ℝ H x`. The hypothesis \(hus\) says that \(us_n\) converges strongly, i.e. in norm, to \(u\). The hypothesis \(hmem\) says that for every \(n\), \(us_n \in A(xs_n)\). Thus the pairs \((xs_n,us_n)\) all lie in the graph of \(A\). The conclusion is \(u \in A(x)\), i.e. \((x,u)\) also lies in the graph of \(A\).
+In the statement, $H$ is the ambient real Hilbert space, and $A : H \to \mathcal P(H)$ is a set-valued operator from $H$ to subsets of $H$. The hypothesis $hA$ says that $A$ is maximal monotone. The points $x$ and $u$ lie in $H$, and the sequences $xs, us : \mathbb N \to H$ are indexed by natural numbers. The hypothesis $hxs$ says that $xs_n$ converges weakly to $x$, expressed in Lean as convergence of `toWeakSpace ℝ H (xs n)` to `toWeakSpace ℝ H x`. The hypothesis $hus$ says that $us_n$ converges strongly, i.e. in norm, to $u$. The hypothesis $hmem$ says that for every $n$, $us_n \in A(xs_n)$. Thus the pairs $(xs_n,us_n)$ all lie in the graph of $A$. The conclusion is $u \in A(x)$, i.e. $(x,u)$ also lies in the graph of $A$.
 
-In ordinary mathematical language, the theorem states: if \((xs_n,us_n)\) are points in the graph of a maximal monotone operator \(A\), and if \(xs_n \rightharpoonup x\) weakly while \(us_n \to u\) strongly, then \((x,u)\) is still in the graph of \(A\). This is exactly weak-strong closedness of the maximal monotone graph.
+In ordinary mathematical language, the theorem states: if $(xs_n,us_n)$ are points in the graph of a maximal monotone operator $A$, and if $xs_n \rightharpoonup x$ weakly while $us_n \to u$ strongly, then $(x,u)$ is still in the graph of $A$. This is exactly weak-strong closedness of the maximal monotone graph.
 
 ## Lean proof
 ```lean
@@ -94,112 +94,149 @@ by
 ```
 
 ## Proof explanation
-The proof begins with `classical`, which only permits classical logic and has no mathematical content. The main reduction is the command `apply mem_of_monotonically_related_to_graph hA`. The cited lemma `mem_of_monotonically_related_to_graph` says that if \(T\) is maximal monotone and a pair \((x,u)\) satisfies
-\[
-0 \le \langle u-v, x-y\rangle
-\]
-for every \(y,v\) with \(v \in T(y)\), then \(u \in T(x)\). This is the standard maximality characterization of maximal monotone operators: a pair that is monotonically related to every point of the graph must already lie in the graph. Thus, to prove \(u \in A(x)\), it is enough to prove the monotone relation
-\[
-0 \le \langle u-v, x-y\rangle
-\]
-for every \(y,v\) with \(v \in A(y)\).
+The proof begins with `classical`, which only permits classical logic and has no mathematical content. The main reduction is the command `apply mem_of_monotonically_related_to_graph hA`. The cited lemma `mem_of_monotonically_related_to_graph` says that if $T$ is maximal monotone and a pair $(x,u)$ satisfies
 
-The proof then performs `intro y v hv`, fixing arbitrary \(y,v\) and assuming \(v \in A(y)\). The goal is now
-\[
+$$
+0 \le \langle u-v, x-y\rangle
+$$
+
+for every $y,v$ with $v \in T(y)$, then $u \in T(x)$. This is the standard maximality characterization of maximal monotone operators: a pair that is monotonically related to every point of the graph must already lie in the graph. Thus, to prove $u \in A(x)$, it is enough to prove the monotone relation
+
+$$
+0 \le \langle u-v, x-y\rangle
+$$
+
+for every $y,v$ with $v \in A(y)$.
+
+The proof then performs `intro y v hv`, fixing arbitrary $y,v$ and assuming $v \in A(y)$. The goal is now
+
+$$
 0 \le \langle u-v, x-y\rangle.
-\]
+$$
 
 Next, the proof establishes `hmono_n`, namely
-\[
+
+$$
 \forall n,\quad 0 \le \langle us_n-v, xs_n-y\rangle.
-\]
-This uses `hA.1`, the monotonicity part of the maximal monotonicity hypothesis. Since \(us_n \in A(xs_n)\) by `hmem n` and \(v \in A(y)\) by `hv`, monotonicity gives exactly
-\[
+$$
+
+This uses `hA.1`, the monotonicity part of the maximal monotonicity hypothesis. Since $us_n \in A(xs_n)$ by `hmem n` and $v \in A(y)$ by `hv`, monotonicity gives exactly
+
+$$
 0 \le \langle us_n-v, xs_n-y\rangle.
-\]
+$$
 
-The proof then needs a uniform bound on \(xs_n\). It invokes `bounded_range_of_tendsto_weakly hxs`. That cited lemma says that if \(xs_n\) converges weakly to \(x\), then the ordinary set of values \(\{xs_n : n \in \mathbb N\}\) is bounded in norm. Hence `hxs_bdd` is the assertion that the range of \(xs\) is bounded. Using `isBounded_iff_forall_norm_le`, the proof extracts a constant \(C\) such that
-\[
+The proof then needs a uniform bound on $xs_n$. It invokes `bounded_range_of_tendsto_weakly hxs`. That cited lemma says that if $xs_n$ converges weakly to $x$, then the ordinary set of values $\{xs_n : n \in \mathbb N\}$ is bounded in norm. Hence `hxs_bdd` is the assertion that the range of $xs$ is bounded. Using `isBounded_iff_forall_norm_le`, the proof extracts a constant $C$ such that
+
+$$
 \|xs_n\| \le C
-\]
-for every \(n\). It then defines
-\[
-M = \max(C,0).
-\]
-Since \(C \le \max(C,0)\), the estimate
-\[
-\|xs_n\| \le M
-\]
-holds for every \(n\). This uniform bound will be used to control the cross term \(\langle us_n-u, xs_n\rangle\).
+$$
 
-To pass from weak convergence of \(xs_n\) to convergence of inner products, the proof uses `weakConvergence_iff_forall_tendsto_inner_right`. That theorem says that in a complete real Hilbert space, weak convergence \(xs_n \rightharpoonup x\) is equivalent to
-\[
+for every $n$. It then defines
+
+$$
+M = \max(C,0).
+$$
+
+Since $C \le \max(C,0)$, the estimate
+
+$$
+\|xs_n\| \le M
+$$
+
+holds for every $n$. This uniform bound will be used to control the cross term $\langle us_n-u, xs_n\rangle$.
+
+To pass from weak convergence of $xs_n$ to convergence of inner products, the proof uses `weakConvergence_iff_forall_tendsto_inner_right`. That theorem says that in a complete real Hilbert space, weak convergence $xs_n \rightharpoonup x$ is equivalent to
+
+$$
 \forall z,\quad \langle xs_n,z\rangle \to \langle x,z\rangle.
-\]
+$$
+
 Applying the forward direction to `hxs` gives `hxs_inner`:
-\[
+
+$$
 \forall z,\quad \langle xs_n,z\rangle \to \langle x,z\rangle.
-\]
+$$
+
 In particular, using real symmetry of the inner product via `real_inner_comm`, this also yields
-\[
+
+$$
 \langle u,xs_n\rangle \to \langle u,x\rangle
-\]
+$$
+
 and
-\[
+
+$$
 \langle v,xs_n\rangle \to \langle v,x\rangle.
-\]
+$$
 
 The strong convergence hypothesis `hus` is used to show
-\[
-\|us_n-u\| \to 0.
-\]
-Indeed, \(us_n-u \to u-u=0\), and taking norms gives \(\|us_n-u\| \to 0\). The proof records this as `hus_norm_sub_zero`.
 
-Next, the proof shows that the cross term \(\langle us_n-u, xs_n\rangle\) tends to \(0\). For each \(n\), Cauchy-Schwarz gives
-\[
+$$
+\|us_n-u\| \to 0.
+$$
+
+Indeed, $us_n-u \to u-u=0$, and taking norms gives $\|us_n-u\| \to 0$. The proof records this as `hus_norm_sub_zero`.
+
+Next, the proof shows that the cross term $\langle us_n-u, xs_n\rangle$ tends to $0$. For each $n$, Cauchy-Schwarz gives
+
+$$
 |\langle us_n-u, xs_n\rangle|
 \le \|us_n-u\|\,\|xs_n\|.
-\]
-Using \(\|xs_n\| \le M\), this becomes
-\[
+$$
+
+Using $\|xs_n\| \le M$, this becomes
+
+$$
 |\langle us_n-u, xs_n\rangle|
 \le \|us_n-u\|\,M.
-\]
-Since \(\|us_n-u\| \to 0\), the product \(\|us_n-u\|M\) tends to \(0\). By the squeeze theorem, implemented by `squeeze_zero`, the absolute value \(|\langle us_n-u, xs_n\rangle|\) tends to \(0\). Then, using
-\[
+$$
+
+Since $\|us_n-u\| \to 0$, the product $\|us_n-u\|M$ tends to $0$. By the squeeze theorem, implemented by `squeeze_zero`, the absolute value $|\langle us_n-u, xs_n\rangle|$ tends to $0$. Then, using
+
+$$
 -|\langle us_n-u, xs_n\rangle|
 \le \langle us_n-u, xs_n\rangle
 \le |\langle us_n-u, xs_n\rangle|,
-\]
+$$
+
 the proof concludes that
-\[
+
+$$
 \langle us_n-u, xs_n\rangle \to 0.
-\]
+$$
 
 With this cross term controlled, the proof shows
-\[
+
+$$
 \langle us_n,xs_n\rangle \to \langle u,x\rangle.
-\]
+$$
+
 It writes
-\[
+
+$$
 us_n = (us_n-u)+u,
-\]
+$$
+
 so
-\[
+
+$$
 \langle us_n,xs_n\rangle
 =
 \langle us_n-u,xs_n\rangle + \langle u,xs_n\rangle.
-\]
-The first term tends to \(0\), and the second term tends to \(\langle u,x\rangle\) by the weak-convergence inner-product characterization. Adding limits gives the claimed convergence.
+$$
+
+The first term tends to $0$, and the second term tends to $\langle u,x\rangle$ by the weak-convergence inner-product characterization. Adding limits gives the claimed convergence.
 
 The remaining terms are then handled:
 
-- \(\langle us_n,y\rangle \to \langle u,y\rangle\), using strong convergence \(us_n \to u\) and continuity of the inner product.
-- \(\langle v,xs_n\rangle \to \langle v,x\rangle\), again from the weak-convergence inner-product characterization and real symmetry.
-- The constant sequence \(\langle v,y\rangle\) tends to \(\langle v,y\rangle\).
+- $\langle us_n,y\rangle \to \langle u,y\rangle$, using strong convergence $us_n \to u$ and continuity of the inner product.
+- $\langle v,xs_n\rangle \to \langle v,x\rangle$, again from the weak-convergence inner-product characterization and real symmetry.
+- The constant sequence $\langle v,y\rangle$ tends to $\langle v,y\rangle$.
 
 Combining these limits, the proof obtains convergence of the full expression:
-\[
+
+$$
 \langle us_n,xs_n\rangle
 -\langle us_n,y\rangle
 -\langle v,xs_n\rangle
@@ -209,24 +246,33 @@ Combining these limits, the proof obtains convergence of the full expression:
 -\langle u,y\rangle
 -\langle v,x\rangle
 +\langle v,y\rangle.
-\]
+$$
+
 Using bilinearity of the inner product, specifically `inner_sub_left` and `inner_sub_right`, this expression is equal to
-\[
+
+$$
 \langle us_n-v, xs_n-y\rangle,
-\]
+$$
+
 and its limit is equal to
-\[
+
+$$
 \langle u-v, x-y\rangle.
-\]
+$$
+
 The tactics `convert`, `ext n`, `simp`, and `ring` verify these algebraic identities.
 
 Finally, the proof has shown that
-\[
+
+$$
 \langle us_n-v, xs_n-y\rangle \to \langle u-v, x-y\rangle
-\]
-and that every term \(\langle us_n-v, xs_n-y\rangle\) is nonnegative. The command `Filter.Eventually.of_forall hmono_n` turns the pointwise nonnegativity into eventual nonnegativity. Then `ge_of_tendsto` applies the standard limit inequality: if a sequence tends to a limit and is eventually nonnegative, then its limit is nonnegative. Hence
-\[
+$$
+
+and that every term $\langle us_n-v, xs_n-y\rangle$ is nonnegative. The command `Filter.Eventually.of_forall hmono_n` turns the pointwise nonnegativity into eventual nonnegativity. Then `ge_of_tendsto` applies the standard limit inequality: if a sequence tends to a limit and is eventually nonnegative, then its limit is nonnegative. Hence
+
+$$
 0 \le \langle u-v, x-y\rangle.
-\]
-This is exactly the condition required by `mem_of_monotonically_related_to_graph`. Therefore maximality of \(A\) gives \(u \in A(x)\), completing the proof.
+$$
+
+This is exactly the condition required by `mem_of_monotonically_related_to_graph`. Therefore maximality of $A$ gives $u \in A(x)$, completing the proof.
 

@@ -10,11 +10,13 @@ theorem hpe_unbounded_of_no_zero {H : Type*} [NormedAddCommGroup H]
 ```
 
 ## Statement explanation
-The declaration is stated for a real Hilbert space \(H\), namely a complete real inner product space. The operator \(T\) is a set-valued operator from \(H\) to subsets of \(H\), written \(T:H\to \mathcal P(H)\). The hypothesis \(h_T\) says that \(T\) is maximal monotone: \(T\) is monotone, and its graph is maximal among the graphs of monotone operators. The variable \(A\) is an HPE iterate object for \(T\); in the proof it supplies sequences \(x_k,y_k,v_k\in H\) and real sequences \(c_k,\varepsilon_k,\alpha_k,\delta_k,\sigma_k\), together with the standard HPE error, residual, summability, and enlargement properties used below. The hypothesis \(hzero\) says \(T.\operatorname{zeros}=\varnothing\), meaning that there is no \(x\in H\) such that \(0\in T x\). The conclusion is
-\[
+The declaration is stated for a real Hilbert space $H$, namely a complete real inner product space. The operator $T$ is a set-valued operator from $H$ to subsets of $H$, written $T:H\to \mathcal P(H)$. The hypothesis $h_T$ says that $T$ is maximal monotone: $T$ is monotone, and its graph is maximal among the graphs of monotone operators. The variable $A$ is an HPE iterate object for $T$; in the proof it supplies sequences $x_k,y_k,v_k\in H$ and real sequences $c_k,\varepsilon_k,\alpha_k,\delta_k,\sigma_k$, together with the standard HPE error, residual, summability, and enlargement properties used below. The hypothesis $hzero$ says $T.\operatorname{zeros}=\varnothing$, meaning that there is no $x\in H$ such that $0\in T x$. The conclusion is
+
+$$
 \neg \operatorname{Bornology.IsBounded}\bigl(\operatorname{Set.range} A.x\bigr),
-\]
-which means that the set of iterates \(\{x_k:k\in\mathbb N\}\) is not bounded in the norm topology. Equivalently, if the HPE iterates \(x_k\) are bounded, then \(T\) must have a zero. The proof proves this contrapositive: it assumes boundedness of the iterates and constructs a point \(\bar x\) with \(0\in T\bar x\), contradicting \(T.\operatorname{zeros}=\varnothing\).
+$$
+
+which means that the set of iterates $\{x_k:k\in\mathbb N\}$ is not bounded in the norm topology. Equivalently, if the HPE iterates $x_k$ are bounded, then $T$ must have a zero. The proof proves this contrapositive: it assumes boundedness of the iterates and constructs a point $\bar x$ with $0\in T\bar x$, contradicting $T.\operatorname{zeros}=\varnothing$.
 
 ## Lean proof
 ```lean
@@ -206,157 +208,217 @@ by
 ```
 
 ## Proof explanation
-The proof begins with `intro hxb`, which assumes for contradiction that the range of \(A.x\) is bounded. Using `isBounded_iff_forall_norm_le.mp`, this boundedness is converted into the existence of a real number \(B_x\) such that \(\|x_k\|\le B_x\) for every \(k\). The `rcases` tactic extracts this \(B_x\) and the pointwise bound, and then the proof records \(0\le B_x\), since \(\|x_0\|\ge0\).
+The proof begins with `intro hxb`, which assumes for contradiction that the range of $A.x$ is bounded. Using `isBounded_iff_forall_norm_le.mp`, this boundedness is converted into the existence of a real number $B_x$ such that $\|x_k\|\le B_x$ for every $k$. The `rcases` tactic extracts this $B_x$ and the pointwise bound, and then the proof records $0\le B_x$, since $\|x_0\|\ge0$.
 
-Next the proof applies `nonneg_summable_uniform_bound` to the sequence \(\alpha_k\). That lemma says that if a real sequence is nonnegative and summable, then it is uniformly bounded above by some nonnegative constant. The HPE hypotheses `A.α_nonneg` and `A.summable_alpha` provide exactly these two assumptions, so the proof obtains \(B_\alpha\ge0\) with \(\alpha_k\le B_\alpha\) for all \(k\). The same lemma is applied to \(\delta_k\) using `A.δ_nonneg` and `A.summable_delta`, giving \(B_\delta\ge0\) with \(\delta_k\le B_\delta\) for all \(k\).
+Next the proof applies `nonneg_summable_uniform_bound` to the sequence $\alpha_k$. That lemma says that if a real sequence is nonnegative and summable, then it is uniformly bounded above by some nonnegative constant. The HPE hypotheses `A.α_nonneg` and `A.summable_alpha` provide exactly these two assumptions, so the proof obtains $B_\alpha\ge0$ with $\alpha_k\le B_\alpha$ for all $k$. The same lemma is applied to $\delta_k$ using `A.δ_nonneg` and `A.summable_delta`, giving $B_\delta\ge0$ with $\delta_k\le B_\delta$ for all $k$.
 
-The proof then bounds \(c_kv_k\). It defines the error
-\[
+The proof then bounds $c_kv_k$. It defines the error
+
+$$
 e_k=A.x(k+1)-\bigl(A.x(k)-A.c(k)\cdot A.v(k)\bigr).
-\]
-The HPE update-error field `A.update_error k` gives \(\|e_k\|\le\alpha_k\). Rearranging additively gives
-\[
+$$
+
+The HPE update-error field `A.update_error k` gives $\|e_k\|\le\alpha_k$. Rearranging additively gives
+
+$$
 A.c(k)\cdot A.v(k)=A.x(k)-A.x(k+1)+e_k.
-\]
-Using the triangle inequality, the inequality \(\|a-b\|\le\|a\|+\|b\|\), and the bounds on \(x_k\), the proof obtains
-\[
+$$
+
+Using the triangle inequality, the inequality $\|a-b\|\le\|a\|+\|b\|$, and the bounds on $x_k$, the proof obtains
+
+$$
 \|A.c(k)\cdot A.v(k)\|\le 2B_x+B_\alpha.
-\]
+$$
+
 The constant
-\[
+
+$$
 C=2B_x+B_\alpha
-\]
+$$
+
 is therefore nonnegative.
 
-The proof now uses `A.sigma_bound`. This field provides a real number \(\bar\sigma\) with \(0\le\bar\sigma\), a further inequality on \(\bar\sigma\) which, together with \(0\le\bar\sigma\), makes \(1-\bar\sigma^2>0\), and the bound \(\sigma_k\le\bar\sigma\) for every \(k\). The proof records \(1-\bar\sigma^2>0\) as `hp`.
+The proof now uses `A.sigma_bound`. This field provides a real number $\bar\sigma$ with $0\le\bar\sigma$, a further inequality on $\bar\sigma$ which, together with $0\le\bar\sigma$, makes $1-\bar\sigma^2>0$, and the bound $\sigma_k\le\bar\sigma$ for every $k$. The proof records $1-\bar\sigma^2>0$ as `hp`.
 
-For each \(k\), set
-\[
+For each $k$, set
+
+$$
 q_k=A.c(k)\cdot A.v(k),\qquad b_k=A.y(k)-A.x(k).
-\]
-The lemma `squared_reverse_triangle_bound` states that for vectors \(a,b\) in a real inner product space,
-\[
+$$
+
+The lemma `squared_reverse_triangle_bound` states that for vectors $a,b$ in a real inner product space,
+
+$$
 (\|b\|-\|a\|)^2\le\|a+b\|^2.
-\]
-Applied with \(a=q_k\) and \(b=b_k\), it yields
-\[
+$$
+
+Applied with $a=q_k$ and $b=b_k$, it yields
+
+$$
 (\|b_k\|-\|q_k\|)^2\le\|q_k+b_k\|^2.
-\]
-The HPE residual bound `A.residual_bound k`, together with \(0\le 2A.c(k)A.\varepsilon(k)\), which follows from \(A.c(k)>0\) and \(A.\varepsilon(k)\ge0\), gives the consequence
-\[
+$$
+
+The HPE residual bound `A.residual_bound k`, together with $0\le 2A.c(k)A.\varepsilon(k)$, which follows from $A.c(k)>0$ and $A.\varepsilon(k)\ge0$, gives the consequence
+
+$$
 \|q_k+b_k\|^2\le \delta_k+\sigma_k^2\|b_k\|^2.
-\]
-Since \(0\le\sigma_k\le\bar\sigma\), one has \(\sigma_k^2\le\bar\sigma^2\), hence
-\[
+$$
+
+Since $0\le\sigma_k\le\bar\sigma$, one has $\sigma_k^2\le\bar\sigma^2$, hence
+
+$$
 \sigma_k^2\|b_k\|^2\le\bar\sigma^2\|b_k\|^2.
-\]
-Also \(\|q_k\|=\|A.c(k)\cdot A.v(k)\|\le C\), so
-\[
+$$
+
+Also $\|q_k\|=\|A.c(k)\cdot A.v(k)\|\le C$, so
+
+$$
 2\|q_k\|\|b_k\|\le 2C\|b_k\|.
-\]
-Combining these inequalities with \(\delta_k\le B_\delta\) using `nlinarith`, the proof obtains
-\[
+$$
+
+Combining these inequalities with $\delta_k\le B_\delta$ using `nlinarith`, the proof obtains
+
+$$
 (1-\bar\sigma^2)\|A.y(k)-A.x(k)\|^2
 -2C\|A.y(k)-A.x(k)\|\le B_\delta.
-\]
+$$
 
-Now the quadratic estimate `quadratic_nonneg_root_bound` is applied. It says that if \(p>0\), \(C\ge0\), \(D\ge0\), \(t\ge0\), and
-\[
+Now the quadratic estimate `quadratic_nonneg_root_bound` is applied. It says that if $p>0$, $C\ge0$, $D\ge0$, $t\ge0$, and
+
+$$
 p t^2-2Ct\le D,
-\]
+$$
+
 then
-\[
+
+$$
 t\le \frac{C+\sqrt{C^2+pD}}{p}.
-\]
-Here \(p=1-\bar\sigma^2>0\), \(C=2B_x+B_\alpha\ge0\), \(D=B_\delta\ge0\), and \(t=\|A.y(k)-A.x(k)\|\ge0\). Therefore
-\[
+$$
+
+Here $p=1-\bar\sigma^2>0$, $C=2B_x+B_\alpha\ge0$, $D=B_\delta\ge0$, and $t=\|A.y(k)-A.x(k)\|\ge0$. Therefore
+
+$$
 \|A.y(k)-A.x(k)\|\le R
-\]
-for all \(k\), where
-\[
+$$
+
+for all $k$, where
+
+$$
 R=\frac{C+\sqrt{C^2+(1-\bar\sigma^2)B_\delta}}{1-\bar\sigma^2}.
-\]
-The proof also records \(0\le R\). Defining \(B_y=R+B_x\), the triangle inequality gives
-\[
+$$
+
+The proof also records $0\le R$. Defining $B_y=R+B_x$, the triangle inequality gives
+
+$$
 \|A.y(k)\|=\|(A.y(k)-A.x(k))+A.x(k)\|
 \le \|A.y(k)-A.x(k)\|+\|A.x(k)\|
 \le R+B_x=B_y.
-\]
+$$
 
-The proof then uses `minty_surjective_of_maximal_monotone`. That theorem says that if \(T\) is maximal monotone, then for every \(y\in H\) there exist \(x\in H\) and \(u\in T x\) such that \(y=x+u\). Taking \(y=0\), the proof obtains \(z_0,u_0\) with \(u_0\in T z_0\) and \(0=z_0+u_0\). In particular, using `SetValuedOperator.mem_dom_iff`, the point \(z_0\) lies in \(T.\operatorname{dom}\).
+The proof then uses `minty_surjective_of_maximal_monotone`. That theorem says that if $T$ is maximal monotone, then for every $y\in H$ there exist $x\in H$ and $u\in T x$ such that $y=x+u$. Taking $y=0$, the proof obtains $z_0,u_0$ with $u_0\in T z_0$ and $0=z_0+u_0$. In particular, using `SetValuedOperator.mem_dom_iff`, the point $z_0$ lies in $T.\operatorname{dom}$.
 
 The proof defines
-\[
+
+$$
 M=\max\bigl(\|z_0\|,\max(B_x,B_y)\bigr)+1.
-\]
-Then \(M>0\), and the inequalities \(\|z_0\|<M\), \(\|x_k\|<M\), \(\|y_k\|<M\), and \(B_x<M\) all hold. The definition
-\[
+$$
+
+Then $M>0$, and the inequalities $\|z_0\|<M$, $\|x_k\|<M$, $\|y_k\|<M$, and $B_x<M$ all hold. The definition
+
+$$
 \operatorname{relatedBall}(M)=\operatorname{closedBall}(0,2M)
-\]
-is then used. Since \(\|z_0\|<M<2M\), and similarly for \(x_k\), \(y_k\), and since \(B_x<M<2M\), all these points lie in the open ball of radius \(2M\). The lemma `Metric.ball_subset_interior_closedBall` converts that into membership in the interior of \(\operatorname{relatedBall}(M)\). Also, \(\operatorname{relatedBall}(M)\) is nonempty, closed, and convex, using respectively \(0\in\operatorname{closedBall}(0,2M)\), `Metric.isClosed_closedBall`, and `convex_closedBall`.
+$$
+
+is then used. Since $\|z_0\|<M<2M$, and similarly for $x_k$, $y_k$, and since $B_x<M<2M$, all these points lie in the open ball of radius $2M$. The lemma `Metric.ball_subset_interior_closedBall` converts that into membership in the interior of $\operatorname{relatedBall}(M)$. Also, $\operatorname{relatedBall}(M)$ is nonempty, closed, and convex, using respectively $0\in\operatorname{closedBall}(0,2M)$, `Metric.isClosed_closedBall`, and `convex_closedBall`.
 
 The operator
-\[
+
+$$
 U=\operatorname{relatedOperator}(T,M)=T+N_{\operatorname{relatedBall}(M)}
-\]
-is introduced. To prove \(U\) is maximal monotone, the proof applies `rockafellar_sum_maximal`. This theorem says that if \(T\) is maximal monotone, \(C\) is a nonempty closed convex set, and \(T.\operatorname{dom}\cap\operatorname{int} C\neq\varnothing\), then \(T+N_C\) is maximal monotone. Here \(C=\operatorname{relatedBall}(M)\), and the required nonempty intersection holds because \(z_0\in T.\operatorname{dom}\) and \(z_0\in\operatorname{int}\operatorname{relatedBall}(M)\). Thus \(U\) is maximal monotone.
+$$
 
-Next the proof shows that \(U.\operatorname{dom}\) is bounded. The lemma `related_operator_dom_subset_ball` states that
-\[
+is introduced. To prove $U$ is maximal monotone, the proof applies `rockafellar_sum_maximal`. This theorem says that if $T$ is maximal monotone, $C$ is a nonempty closed convex set, and $T.\operatorname{dom}\cap\operatorname{int} C\neq\varnothing$, then $T+N_C$ is maximal monotone. Here $C=\operatorname{relatedBall}(M)$, and the required nonempty intersection holds because $z_0\in T.\operatorname{dom}$ and $z_0\in\operatorname{int}\operatorname{relatedBall}(M)$. Thus $U$ is maximal monotone.
+
+Next the proof shows that $U.\operatorname{dom}$ is bounded. The lemma `related_operator_dom_subset_ball` states that
+
+$$
 (\operatorname{relatedOperator}(T,M)).\operatorname{dom}\subseteq \operatorname{relatedBall}(M).
-\]
-Since \(\operatorname{relatedBall}(M)\) is a closed ball, it is bounded, and any subset of a bounded set is bounded. Hence \(U.\operatorname{dom}\) is bounded. The theorem `maximal_monotone_surjective_of_bounded_domain` then applies to the maximal monotone operator \(U\) with bounded domain. It gives two conclusions: \(U.\operatorname{range}=H\) and \(U.\operatorname{zeros}\neq\varnothing\). The proof only uses the second part, obtaining some \(x_{\text{zero}}\) with \(0\in U x_{\text{zero}}\).
+$$
 
-The proof then builds HPE iterates for \(U\). It must show
-\[
+Since $\operatorname{relatedBall}(M)$ is a closed ball, it is bounded, and any subset of a bounded set is bounded. Hence $U.\operatorname{dom}$ is bounded. The theorem `maximal_monotone_surjective_of_bounded_domain` then applies to the maximal monotone operator $U$ with bounded domain. It gives two conclusions: $U.\operatorname{range}=H$ and $U.\operatorname{zeros}\neq\varnothing$. The proof only uses the second part, obtaining some $x_{\text{zero}}$ with $0\in U x_{\text{zero}}$.
+
+The proof then builds HPE iterates for $U$. It must show
+
+$$
 A.v(k)\in \operatorname{epsilonEnlargement}(U,A.\varepsilon(k),A.\varepsilon_{\text{nonneg}}(k))(A.y(k)).
-\]
-By definition of `epsilonEnlargement`, this means that for every \(z,w\) with \(w\in U z\),
-\[
+$$
+
+By definition of `epsilonEnlargement`, this means that for every $z,w$ with $w\in U z$,
+
+$$
 -A.\varepsilon(k)\le \langle w-A.v(k),z-A.y(k)\rangle.
-\]
-Since \(U z=T z+N_{\operatorname{relatedBall}(M)}z\), any \(w\in U z\) decomposes as \(w=u+\eta\) with \(u\in T z\) and \(\eta\in N_{\operatorname{relatedBall}(M)}z\). The HPE enlargement property of \(A\) for \(T\) gives
-\[
+$$
+
+Since $U z=T z+N_{\operatorname{relatedBall}(M)}z$, any $w\in U z$ decomposes as $w=u+\eta$ with $u\in T z$ and $\eta\in N_{\operatorname{relatedBall}(M)}z$. The HPE enlargement property of $A$ for $T$ gives
+
+$$
 -A.\varepsilon(k)\le \langle u-A.v(k),z-A.y(k)\rangle.
-\]
-Because \(A.y(k)\) lies in the interior of \(\operatorname{relatedBall}(M)\), the normal-cone inequality for \(\eta\) gives
-\[
+$$
+
+Because $A.y(k)$ lies in the interior of $\operatorname{relatedBall}(M)$, the normal-cone inequality for $\eta$ gives
+
+$$
 \langle A.y(k)-z,\eta\rangle\le0,
-\]
+$$
+
 hence
-\[
+
+$$
 \langle \eta,z-A.y(k)\rangle\ge0.
-\]
+$$
+
 Adding these two inequalities yields
-\[
+
+$$
 -A.\varepsilon(k)\le \langle u+\eta-A.v(k),z-A.y(k)\rangle
 =\langle w-A.v(k),z-A.y(k)\rangle.
-\]
-Thus \(A.v(k)\) belongs to the \(\varepsilon_k\)-enlargement of \(U\) at \(A.y(k)\). Therefore the object \(A_U\), obtained from \(A\) by replacing the enlargement field with this proof, is an HPE iterate for \(U\).
+$$
 
-Now `hpe_weakly_converges_to_zero` is applied to the maximal monotone operator \(U\), the HPE iterates \(A_U\), and the already constructed zero \(x_{\text{zero}}\) of \(U\). This theorem says that a maximal monotone operator with an HPE iteration and at least one zero has an HPE weak limit that is itself a zero. It yields a point \(\bar x\) such that
-\[
+Thus $A.v(k)$ belongs to the $\varepsilon_k$-enlargement of $U$ at $A.y(k)$. Therefore the object $A_U$, obtained from $A$ by replacing the enlargement field with this proof, is an HPE iterate for $U$.
+
+Now `hpe_weakly_converges_to_zero` is applied to the maximal monotone operator $U$, the HPE iterates $A_U$, and the already constructed zero $x_{\text{zero}}$ of $U$. This theorem says that a maximal monotone operator with an HPE iteration and at least one zero has an HPE weak limit that is itself a zero. It yields a point $\bar x$ such that
+
+$$
 0\in U\bar x
-\]
+$$
+
 and
-\[
+
+$$
 A.x(k)\rightharpoonup \bar x
-\]
-weakly as \(k\to\infty\).
+$$
 
-The weak limit \(\bar x\) is then shown to lie in the closed ball of radius \(B_x\). Indeed, each \(A.x(k)\) satisfies \(\|A.x(k)\|\le B_x\), so each lies in \(\operatorname{closedBall}(0,B_x)\). This closed ball is closed and convex. The lemma `mem_of_tendsto_weakly_of_isClosed_convex` states that a weak limit of a sequence in a closed convex set again lies in that set. Hence
-\[
+weakly as $k\to\infty$.
+
+The weak limit $\bar x$ is then shown to lie in the closed ball of radius $B_x$. Indeed, each $A.x(k)$ satisfies $\|A.x(k)\|\le B_x$, so each lies in $\operatorname{closedBall}(0,B_x)$. This closed ball is closed and convex. The lemma `mem_of_tendsto_weakly_of_isClosed_convex` states that a weak limit of a sequence in a closed convex set again lies in that set. Hence
+
+$$
 \bar x\in\operatorname{closedBall}(0,B_x),
-\]
-so \(\|\bar x\|\le B_x\). Since \(B_x<M\), it follows that \(\bar x\) lies in the interior of \(\operatorname{relatedBall}(M)\).
+$$
 
-Finally the proof uses \(0\in U\bar x\). Unfolding \(U=T+N_{\operatorname{relatedBall}(M)}\), this means
-\[
+so $\|\bar x\|\le B_x$. Since $B_x<M$, it follows that $\bar x$ lies in the interior of $\operatorname{relatedBall}(M)$.
+
+Finally the proof uses $0\in U\bar x$. Unfolding $U=T+N_{\operatorname{relatedBall}(M)}$, this means
+
+$$
 0=u+\eta
-\]
-for some \(u\in T\bar x\) and \(\eta\in N_{\operatorname{relatedBall}(M)}\bar x\). Since \(\bar x\) lies in the interior of \(\operatorname{relatedBall}(M)\), the lemma `normalCone_zero_of_interior` applies: if a point is in the interior of a set and a vector is in the normal cone to that set at the point, then that vector is zero. Thus \(\eta=0\). Then \(u=0\), so \(0\in T\bar x\). By `SetValuedOperator.mem_zeros_iff`, this means \(\bar x\in T.\operatorname{zeros}\), contradicting the hypothesis \(T.\operatorname{zeros}=\varnothing\). Therefore the original assumption that the range of \(A.x\) is bounded was false, which proves
-\[
+$$
+
+for some $u\in T\bar x$ and $\eta\in N_{\operatorname{relatedBall}(M)}\bar x$. Since $\bar x$ lies in the interior of $\operatorname{relatedBall}(M)$, the lemma `normalCone_zero_of_interior` applies: if a point is in the interior of a set and a vector is in the normal cone to that set at the point, then that vector is zero. Thus $\eta=0$. Then $u=0$, so $0\in T\bar x$. By `SetValuedOperator.mem_zeros_iff`, this means $\bar x\in T.\operatorname{zeros}$, contradicting the hypothesis $T.\operatorname{zeros}=\varnothing$. Therefore the original assumption that the range of $A.x$ is bounded was false, which proves
+
+$$
 \neg \operatorname{Bornology.IsBounded}\bigl(\operatorname{Set.range} A.x\bigr).
-\]
-The Lean tactics used along the way reflect the mathematical steps: `intro` begins the contradiction; `rcases` extracts witnesses from existential and conjunctive hypotheses; `have` records intermediate inequalities and membership facts; `let` introduces abbreviations such as \(C,R,B_y,U\); `calc` chains equalities and inequalities; `rw`, `simpa`, and `change` unfold definitions such as `relatedOperator`, `relatedBall`, and `epsilonEnlargement`; `apply` and `exact` invoke the cited lemmas; `linarith` and `nlinarith` combine the displayed linear and quadratic inequalities; `positivity` proves nonnegativity of the constants; `gcongr` uses monotonicity of multiplication and addition; `abel` rearranges additive expressions; and `rfl` closes definitional equalities.
+$$
+
+The Lean tactics used along the way reflect the mathematical steps: `intro` begins the contradiction; `rcases` extracts witnesses from existential and conjunctive hypotheses; `have` records intermediate inequalities and membership facts; `let` introduces abbreviations such as $C,R,B_y,U$; `calc` chains equalities and inequalities; `rw`, `simpa`, and `change` unfold definitions such as `relatedOperator`, `relatedBall`, and `epsilonEnlargement`; `apply` and `exact` invoke the cited lemmas; `linarith` and `nlinarith` combine the displayed linear and quadratic inequalities; `positivity` proves nonnegativity of the constants; `gcongr` uses monotonicity of multiplication and addition; `abel` rearranges additive expressions; and `rfl` closes definitional equalities.
 

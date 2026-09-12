@@ -9,15 +9,19 @@ theorem exists_rpow_abs_le_abs_deriv (h : ℝ → ℝ) (h0 : h 0 = 0) (han : Ana
 ```
 
 ## Statement explanation
-The theorem `exists_rpow_abs_le_abs_deriv` is a statement about a real-valued function of one real variable. Its data are a function \(h:\mathbb R\to\mathbb R\), together with the hypotheses \(h(0)=0\) and that \(h\) is real-analytic at \(0\). The conclusion is that there exist real numbers \(\sigma\) and \(\theta\) such that
-\[
+The theorem `exists_rpow_abs_le_abs_deriv` is a statement about a real-valued function of one real variable. Its data are a function $h:\mathbb R\to\mathbb R$, together with the hypotheses $h(0)=0$ and that $h$ is real-analytic at $0$. The conclusion is that there exist real numbers $\sigma$ and $\theta$ such that
+
+$$
 0<\sigma,\qquad 0<\theta,\qquad \theta<\frac12,
-\]
-and for every \(t\in\mathbb R\),
-\[
+$$
+
+and for every $t\in\mathbb R$,
+
+$$
 |t|<\sigma \quad\Longrightarrow\quad |h(t)|^{1-\theta}\le |h'(t)|.
-\]
-Here \(h'(t)\) is Lean's one-dimensional derivative `deriv h t`. Since \(\theta<1/2\), the exponent \(1-\theta\) is greater than \(1/2\), hence positive. Thus the theorem gives a local reverse-Hölder-type estimate saying that, near the origin, a positive real power of \(|h|\) is bounded above by the absolute value of the derivative. The inequality is only asserted inside the small interval \((-\sigma,\sigma)\). If \(h\) vanishes in an entire neighborhood of \(0\), the statement is trivial because both sides vanish; otherwise the proof uses the analytic factorization of \(h\) by its order of vanishing at \(0\).
+$$
+
+Here $h'(t)$ is Lean's one-dimensional derivative `deriv h t`. Since $\theta<1/2$, the exponent $1-\theta$ is greater than $1/2$, hence positive. Thus the theorem gives a local reverse-Hölder-type estimate saying that, near the origin, a positive real power of $|h|$ is bounded above by the absolute value of the derivative. The inequality is only asserted inside the small interval $(-\sigma,\sigma)$. If $h$ vanishes in an entire neighborhood of $0$, the statement is trivial because both sides vanish; otherwise the proof uses the analytic factorization of $h$ by its order of vanishing at $0$.
 
 ## Lean proof
 ```lean
@@ -255,189 +259,260 @@ by
 
 ## Proof explanation
 The proof begins with `by_cases hz`, splitting on whether
-\[
+
+$$
 \forallᶠ z\in \mathcal N(0),\quad h(z)=0,
-\]
-meaning that \(h\) is eventually equal to \(0\) near the origin.
+$$
 
-In the first case, where \(h\) vanishes in a neighborhood of \(0\), the proof uses `Metric.mem_nhds_iff.mp hz` to extract a radius \(\rho>0\) such that \(h(z)=0\) whenever \(\operatorname{dist}(z,0)<\rho\). In ordinary terms, \(h\) is identically zero on the ball \(B(0,\rho)\). The proof chooses
-\[
+meaning that $h$ is eventually equal to $0$ near the origin.
+
+In the first case, where $h$ vanishes in a neighborhood of $0$, the proof uses `Metric.mem_nhds_iff.mp hz` to extract a radius $\rho>0$ such that $h(z)=0$ whenever $\operatorname{dist}(z,0)<\rho$. In ordinary terms, $h$ is identically zero on the ball $B(0,\rho)$. The proof chooses
+
+$$
 \sigma=\rho,\qquad \theta=\frac14.
-\]
-Then \(0<\rho\), \(0<1/4\), and \(1/4<1/2\), verified by `norm_num`. For \(t\) with \(|t|<\rho\), the value \(h(t)\) is zero. To see that the derivative is also zero at such a \(t\), the proof shows that \(h\) is eventually equal to \(0\) near \(t\): because \(t\) lies inside the open ball \(B(0,\rho)\), there is a small neighborhood of \(t\) still contained in that ball, where \(h\) vanishes. The lemma `Filter.EventuallyEq.deriv_eq` then gives
-\[
+$$
+
+Then $0<\rho$, $0<1/4$, and $1/4<1/2$, verified by `norm_num`. For $t$ with $|t|<\rho$, the value $h(t)$ is zero. To see that the derivative is also zero at such a $t$, the proof shows that $h$ is eventually equal to $0$ near $t$: because $t$ lies inside the open ball $B(0,\rho)$, there is a small neighborhood of $t$ still contained in that ball, where $h$ vanishes. The lemma `Filter.EventuallyEq.deriv_eq` then gives
+
+$$
 h'(t)=0,
-\]
-because the derivative depends only on the germ of the function at \(t\), and the zero function has derivative \(0\). The goal becomes
-\[
+$$
+
+because the derivative depends only on the germ of the function at $t$, and the zero function has derivative $0$. The goal becomes
+
+$$
 |0|^{1-1/4}\le |0|.
-\]
-The left side is \(0^{3/4}\), and `Real.zero_rpow` gives \(0^{3/4}=0\) since \(3/4\ne0\). Both sides are \(0\), so the inequality holds.
+$$
 
-In the main case, \(h\) is not eventually zero at \(0\). The analyticity hypothesis `han` is then used through the result `han.exists_eventuallyEq_pow_smul_nonzero_iff.mpr hz`. Specialized to this situation, it says that there exist a natural number \(n\) and a real-valued function \(u\), analytic at \(0\), such that
-\[
+The left side is $0^{3/4}$, and `Real.zero_rpow` gives $0^{3/4}=0$ since $3/4\ne0$. Both sides are $0$, so the inequality holds.
+
+In the main case, $h$ is not eventually zero at $0$. The analyticity hypothesis `han` is then used through the result `han.exists_eventuallyEq_pow_smul_nonzero_iff.mpr hz`. Specialized to this situation, it says that there exist a natural number $n$ and a real-valued function $u$, analytic at $0$, such that
+
+$$
 u(0)\ne0
-\]
-and
-\[
-h(z)=z^n u(z)
-\]
-for all \(z\) in some neighborhood of \(0\). This is the standard factorization of an analytic function according to the order of vanishing at \(0\). The proof extracts a radius \(\rho_1>0\) on which this factorization is valid.
+$$
 
-The proof then shows \(n\ge1\). If \(n=0\), then \(z^n u(z)=u(z)\), so \(h\) is eventually equal to \(u\) near \(0\). Since eventual equality at a point implies equality at that point, one gets \(h(0)=u(0)\). But \(h(0)=0\) and \(u(0)\ne0\), a contradiction. Hence \(n\ge1\).
+and
+
+$$
+h(z)=z^n u(z)
+$$
+
+for all $z$ in some neighborhood of $0$. This is the standard factorization of an analytic function according to the order of vanishing at $0$. The proof extracts a radius $\rho_1>0$ on which this factorization is valid.
+
+The proof then shows $n\ge1$. If $n=0$, then $z^n u(z)=u(z)$, so $h$ is eventually equal to $u$ near $0$. Since eventual equality at a point implies equality at that point, one gets $h(0)=u(0)$. But $h(0)=0$ and $u(0)\ne0$, a contradiction. Hence $n\ge1$.
 
 Next, let
-\[
+
+$$
 c=|u(0)|.
-\]
-Because \(u(0)\ne0\), one has \(c>0\). Continuity of \(u\) at \(0\), obtained from its analyticity, gives a radius \(\delta_u>0\) such that if \(|z|<\delta_u\), then
-\[
+$$
+
+Because $u(0)\ne0$, one has $c>0$. Continuity of $u$ at $0$, obtained from its analyticity, gives a radius $\delta_u>0$ such that if $|z|<\delta_u$, then
+
+$$
 |u(z)-u(0)|<\frac c2.
-\]
-This will later imply both a lower and an upper bound for \(|u(t)|\).
+$$
 
-The proof also needs control of \(u'\) near \(0\). Since \(u\) is analytic at \(0\), its derivative \(u'\) is continuous at \(0\). Using this continuity with the positive number
-\[
+This will later imply both a lower and an upper bound for $|u(t)|$.
+
+The proof also needs control of $u'$ near $0$. Since $u$ is analytic at $0$, its derivative $u'$ is continuous at $0$. Using this continuity with the positive number
+
+$$
 M=|u'(0)|+1,
-\]
-one obtains a radius \(\delta_d>0\) such that if \(|z|<\delta_d\), then
-\[
-|u'(z)-u'(0)|<M.
-\]
-This later yields \(|u'(t)|\le 2M\).
+$$
 
-Because the set of points at which \(u\) is analytic is open, \(u\) is analytic at every \(t\) sufficiently close to \(0\). Hence \(u\) is differentiable at those \(t\). The proof also records that, for \(t\) sufficiently close to \(0\), the factorization \(h(y)=y^n u(y)\) remains valid for all \(y\) sufficiently close to \(t\), by the triangle inequality.
+one obtains a radius $\delta_d>0$ such that if $|z|<\delta_d$, then
+
+$$
+|u'(z)-u'(0)|<M.
+$$
+
+This later yields $|u'(t)|\le 2M$.
+
+Because the set of points at which $u$ is analytic is open, $u$ is analytic at every $t$ sufficiently close to $0$. Hence $u$ is differentiable at those $t$. The proof also records that, for $t$ sufficiently close to $0$, the factorization $h(y)=y^n u(y)$ remains valid for all $y$ sufficiently close to $t$, by the triangle inequality.
 
 The exponent is chosen as
-\[
+
+$$
 \theta=\frac{1}{2(n+1)}.
-\]
-Since \(n\ge1\), this gives \(0<\theta<1/2\). It also gives
-\[
+$$
+
+Since $n\ge1$, this gives $0<\theta<1/2$. It also gives
+
+$$
 n\theta<1,
-\]
-so \(1-n\theta>0\), and certainly \(1-\theta>0\). The proof defines the positive constants
-\[
+$$
+
+so $1-n\theta>0$, and certainly $1-\theta>0$. The proof defines the positive constants
+
+$$
 A=\frac{3c}{2},\qquad B=\frac{nc}{4},
-\]
+$$
+
 and
-\[
+
+$$
 \eta_2=\frac{nc}{8M},\qquad
 \eta_1=\left(\frac{B}{A^{1-\theta}}\right)^{1/(1-n\theta)}.
-\]
-These are all positive: \(A>0\) because \(c>0\), \(B>0\) because \(n\ge1\) and \(c>0\), \(\eta_2>0\) because \(M>0\), and \(\eta_1>0\) by positivity of real powers of positive numbers.
+$$
 
-The proof then gathers the eventual facts: eventually \(|t|<\eta_1\), eventually \(|t|<\eta_2\), eventually \(|u(t)-u(0)|<c/2\), and eventually \(|u'(t)-u'(0)|<M\). The tactic `filter_upwards` combines these eventual statements and introduces a single \(t\) satisfying all of them.
+These are all positive: $A>0$ because $c>0$, $B>0$ because $n\ge1$ and $c>0$, $\eta_2>0$ because $M>0$, and $\eta_1>0$ by positivity of real powers of positive numbers.
 
-For such a \(t\), the proof first treats the case \(t=0\). Then \(h(0)=0\), so the left side is \(0^{1-\theta}\), which is \(0\) because \(1-\theta\ne0\), while the right side is \(|h'(0)|\ge0\). The inequality is immediate.
+The proof then gathers the eventual facts: eventually $|t|<\eta_1$, eventually $|t|<\eta_2$, eventually $|u(t)-u(0)|<c/2$, and eventually $|u'(t)-u'(0)|<M$. The tactic `filter_upwards` combines these eventual statements and introduces a single $t$ satisfying all of them.
 
-Now assume \(t\ne0\), so \(|t|>0\). From the factorization,
-\[
+For such a $t$, the proof first treats the case $t=0$. Then $h(0)=0$, so the left side is $0^{1-\theta}$, which is $0$ because $1-\theta\ne0$, while the right side is $|h'(0)|\ge0$. The inequality is immediate.
+
+Now assume $t\ne0$, so $|t|>0$. From the factorization,
+
+$$
 h(t)=t^n u(t).
-\]
-The product rule is applied to the function \(z\mapsto z^n u(z)\). The derivative of \(z^n\) at \(t\) is \(n t^{n-1}\), and the derivative of \(u\) at \(t\) is \(u'(t)\), so
-\[
+$$
+
+The product rule is applied to the function $z\mapsto z^n u(z)$. The derivative of $z^n$ at $t$ is $n t^{n-1}$, and the derivative of $u$ at $t$ is $u'(t)$, so
+
+$$
 \frac{d}{dz}\bigl(z^n u(z)\bigr)\Big|_{z=t}
 =
 n t^{n-1}u(t)+t^n u'(t).
-\]
-Since \(h\) is eventually equal to this product near \(t\), the derivative of \(h\) at \(t\) equals the same expression:
-\[
-h'(t)=n t^{n-1}u(t)+t^n u'(t).
-\]
-This factors as
-\[
-h'(t)=t^{n-1}\bigl(n u(t)+t u'(t)\bigr).
-\]
+$$
 
-The bounds on \(u(t)\) are obtained from \(|u(t)-u(0)|<c/2\). Since \(c=|u(0)|\), one gets
-\[
+Since $h$ is eventually equal to this product near $t$, the derivative of $h$ at $t$ equals the same expression:
+
+$$
+h'(t)=n t^{n-1}u(t)+t^n u'(t).
+$$
+
+This factors as
+
+$$
+h'(t)=t^{n-1}\bigl(n u(t)+t u'(t)\bigr).
+$$
+
+The bounds on $u(t)$ are obtained from $|u(t)-u(0)|<c/2$. Since $c=|u(0)|$, one gets
+
+$$
 \frac c2\le |u(t)|\le \frac{3c}{2}=A.
-\]
-The bound on \(u'(t)\) is obtained from \(|u'(t)-u'(0)|<M\). Since \(M=|u'(0)|+1\), this gives
-\[
+$$
+
+The bound on $u'(t)$ is obtained from $|u'(t)-u'(0)|<M$. Since $M=|u'(0)|+1$, this gives
+
+$$
 |u'(t)|\le 2M.
-\]
-Together with \(|t|<\eta_2\), this implies
-\[
+$$
+
+Together with $|t|<\eta_2$, this implies
+
+$$
 |t|\,|u'(t)|\le \eta_2(2M)=\frac{nc}{4}.
-\]
+$$
+
 Also,
-\[
+
+$$
 |n u(t)|=n|u(t)|\ge n\frac c2=\frac{nc}{2}.
-\]
+$$
+
 Using the triangle inequality in the form
-\[
+
+$$
 |n u(t)|-|t u'(t)|\le |n u(t)+t u'(t)|,
-\]
+$$
+
 one obtains
-\[
+
+$$
 |n u(t)+t u'(t)|\ge \frac{nc}{2}-\frac{nc}{4}=\frac{nc}{4}=B.
-\]
+$$
+
 Therefore,
-\[
+
+$$
 |h'(t)|
 =
 |t^{n-1}|\,|n u(t)+t u'(t)|
 =
 |t|^{n-1}|n u(t)+t u'(t)|
 \ge |t|^{n-1}B.
-\]
-This is the lower bound on \(|h'(t)|\).
+$$
+
+This is the lower bound on $|h'(t)|$.
 
 For the upper bound, first note that
-\[
+
+$$
 |h(t)|=|t^n u(t)|=|t|^n|u(t)|\le |t|^n A.
-\]
-Since \(1-\theta>0\), the real-power function \(x\mapsto x^{1-\theta}\) is increasing on nonnegative reals, so
-\[
+$$
+
+Since $1-\theta>0$, the real-power function $x\mapsto x^{1-\theta}$ is increasing on nonnegative reals, so
+
+$$
 |h(t)|^{1-\theta}
 \le
 \bigl(|t|^n A\bigr)^{1-\theta}.
-\]
+$$
+
 Using the real-power identities, this becomes
-\[
+
+$$
 \bigl(|t|^n A\bigr)^{1-\theta}
 =
 |t|^{n(1-\theta)}A^{1-\theta}
 =
 |t|^{n-1}|t|^{1-n\theta}A^{1-\theta}.
-\]
+$$
+
 Here one uses
-\[
+
+$$
 n(1-\theta)=(n-1)+(1-n\theta).
-\]
-Because \(|t|<\eta_1\) and \(1-n\theta>0\), monotonicity of real powers gives
-\[
+$$
+
+Because $|t|<\eta_1$ and $1-n\theta>0$, monotonicity of real powers gives
+
+$$
 |t|^{1-n\theta}<\eta_1^{1-n\theta}.
-\]
-By the definition of \(\eta_1\),
-\[
+$$
+
+By the definition of $\eta_1$,
+
+$$
 \eta_1^{1-n\theta}
 =
 \frac{B}{A^{1-\theta}}.
-\]
-Hence
-\[
-|t|^{1-n\theta}A^{1-\theta}\le B.
-\]
-Multiplying by \(|t|^{n-1}\ge0\) yields
-\[
-|h(t)|^{1-\theta}\le |t|^{n-1}B.
-\]
-Combining this with the earlier lower bound
-\[
-|t|^{n-1}B\le |h'(t)|
-\]
-gives exactly
-\[
-|h(t)|^{1-\theta}\le |h'(t)|.
-\]
-Thus the desired inequality holds eventually near \(0\).
+$$
 
-Finally, the proof rewrites the eventual statement using `Metric.eventually_nhds_iff`. This says that an eventually true property near \(0\) is true on some ball \(B(0,\sigma)\) with \(\sigma>0\). The proof extracts this \(\sigma\). The same \(\theta\) from above is used. The final `refine` packages
-\[
+Hence
+
+$$
+|t|^{1-n\theta}A^{1-\theta}\le B.
+$$
+
+Multiplying by $|t|^{n-1}\ge0$ yields
+
+$$
+|h(t)|^{1-\theta}\le |t|^{n-1}B.
+$$
+
+Combining this with the earlier lower bound
+
+$$
+|t|^{n-1}B\le |h'(t)|
+$$
+
+gives exactly
+
+$$
+|h(t)|^{1-\theta}\le |h'(t)|.
+$$
+
+Thus the desired inequality holds eventually near $0$.
+
+Finally, the proof rewrites the eventual statement using `Metric.eventually_nhds_iff`. This says that an eventually true property near $0$ is true on some ball $B(0,\sigma)$ with $\sigma>0$. The proof extracts this $\sigma$. The same $\theta$ from above is used. The final `refine` packages
+
+$$
 \sigma,\quad \theta,\quad 0<\sigma,\quad 0<\theta,\quad \theta<\frac12,
-\]
-and leaves the universal inequality as the remaining goal. The last `intro t ht` introduces an arbitrary real \(t\) satisfying \(|t|<\sigma\), and the eventual ball statement gives the required inequality for that \(t\). This completes the theorem.
+$$
+
+and leaves the universal inequality as the remaining goal. The last `intro t ht` introduces an arbitrary real $t$ satisfying $|t|<\sigma$, and the eventual ball statement gives the required inequality for that $t$. This completes the theorem.
 

@@ -21,58 +21,58 @@ theorem gdin_bounded_asymptotics
 ```
 
 ## Statement explanation
-The theorem `gdin_bounded_asymptotics` is stated for a complete real inner product space \(H\). It involves a function \(\Phi:H\to\mathbb R\), real parameters \(\beta,a,b\), initial vectors \(x_0,y_0\in H\), and curves \(x,y:\mathbb R\to H\). The main hypotheses are:
+The theorem `gdin_bounded_asymptotics` is stated for a complete real inner product space $H$. It involves a function $\Phi:H\to\mathbb R$, real parameters $\beta,a,b$, initial vectors $x_0,y_0\in H$, and curves $x,y:\mathbb R\to H$. The main hypotheses are:
 
-\[
+$$
 \Phi \text{ is } C^1,\qquad
 \Phi \text{ is bounded below},
-\]
+$$
 
-\[
+$$
 \nabla\Phi \text{ is Lipschitz on every bounded subset of } H,
-\]
+$$
 
 and
 
-\[
+$$
 \beta>0,\qquad b>0,\qquad a+b>0.
-\]
+$$
 
-The curves satisfy that \(x\) is \(C^1\) on \([0,\infty)\), that \(y\) is \(C^2\) on \([0,\infty)\), and that the pair \((x,y)\) is a solution of the `gDIN` system with parameters \(\Phi,\beta,a,b\) and initial data \(x_0,y_0\). The proof uses the solution predicate through the following two consequences at each \(t\ge 0\):
+The curves satisfy that $x$ is $C^1$ on $[0,\infty)$, that $y$ is $C^2$ on $[0,\infty)$, and that the pair $(x,y)$ is a solution of the `gDIN` system with parameters $\Phi,\beta,a,b$ and initial data $x_0,y_0$. The proof uses the solution predicate through the following two consequences at each $t\ge 0$:
 
-\[
+$$
 \operatorname{deriv}x(t)+\beta\,\nabla\Phi(x(t))+a x(t)+b y(t)=0,
-\]
+$$
 
 and
 
-\[
+$$
 \operatorname{deriv}y(t)+a x(t)+b y(t)=0.
-\]
+$$
 
-Finally, the hypothesis `hxbounded` says that \(x\) is bounded on \([0,\infty)\), meaning that the image \(x([0,\infty))\) is a bounded subset of \(H\).
+Finally, the hypothesis `hxbounded` says that $x$ is bounded on $[0,\infty)$, meaning that the image $x([0,\infty))$ is a bounded subset of $H$.
 
 The conclusion is a four-part conjunction:
 
-\[
+$$
 \operatorname{deriv}x \text{ is bounded on } [0,\infty),
-\]
+$$
 
-\[
+$$
 t\mapsto \nabla\Phi(x(t)) \text{ is bounded on } [0,\infty),
-\]
+$$
 
-\[
+$$
 \operatorname{deriv}x(t)\to 0 \quad \text{as } t\to\infty,
-\]
+$$
 
 and
 
-\[
+$$
 \nabla\Phi(x(t))\to 0 \quad \text{as } t\to\infty.
-\]
+$$
 
-Here boundedness on \([0,\infty)\) is expressed by `BoundedOnNonnegative`, which means that the image of \([0,\infty)\) under the given function is bounded in the norm of \(H\). Thus the theorem says that both the velocity \(\operatorname{deriv}x\) and the gradient term \(\nabla\Phi(x(t))\) are bounded and asymptotically vanish.
+Here boundedness on $[0,\infty)$ is expressed by `BoundedOnNonnegative`, which means that the image of $[0,\infty)$ under the given function is bounded in the norm of $H$. Thus the theorem says that both the velocity $\operatorname{deriv}x$ and the gradient term $\nabla\Phi(x(t))$ are bounded and asymptotically vanish.
 
 ## Lean proof
 ```lean
@@ -319,223 +319,223 @@ by
 ## Proof explanation
 The proof begins by introducing abbreviations:
 
-\[
+$$
 q(t)=a x(t)+b y(t),\qquad
 v(t)=\operatorname{deriv}x(t),\qquad
 g(t)=\nabla\Phi(x(t)),
-\]
+$$
 
 and the Lyapunov weight
 
-\[
+$$
 \ell=\beta(a+2b).
-\]
+$$
 
-It first checks that this \(\ell\) lies in the admissible interval required by the Lyapunov energy theorem. The identities
+It first checks that this $\ell$ lies in the admissible interval required by the Lyapunov energy theorem. The identities
 
-\[
+$$
 (\sqrt{a+b}\pm \sqrt b)^2
 = a+2b \pm 2\sqrt{a+b}\sqrt b
-\]
+$$
 
-are used after rewriting \(\sqrt{a+b}^2=a+b\) and \(\sqrt b^2=b\), which is legitimate because \(a+b>0\) and \(b>0\). Since \(\sqrt{a+b}\sqrt b\ge 0\), the quantity \(a+2b\) lies between the two squared-root expressions. Multiplying by \(\beta>0\) gives
+are used after rewriting $\sqrt{a+b}^2=a+b$ and $\sqrt b^2=b$, which is legitimate because $a+b>0$ and $b>0$. Since $\sqrt{a+b}\sqrt b\ge 0$, the quantity $a+2b$ lies between the two squared-root expressions. Multiplying by $\beta>0$ gives
 
-\[
+$$
 \beta(\sqrt{a+b}-\sqrt b)^2\le \beta(a+2b)\le \beta(\sqrt{a+b}+\sqrt b)^2.
-\]
+$$
 
-The tactic `nlinarith` closes these inequalities. Also, \(\ell>0\) because \(\beta>0\) and \(a+2b=(a+b)+b>0\), the latter proved by `linarith`.
+The tactic `nlinarith` closes these inequalities. Also, $\ell>0$ because $\beta>0$ and $a+2b=(a+b)+b>0$, the latter proved by `linarith`.
 
-Next the proof applies `gdin_lyapunov_energy_properties`. Specialized to this situation, that theorem says that for every real \(\ell\) satisfying
+Next the proof applies `gdin_lyapunov_energy_properties`. Specialized to this situation, that theorem says that for every real $\ell$ satisfying
 
-\[
+$$
 \beta(\sqrt{a+b}-\sqrt b)^2\le \ell\le \beta(\sqrt{a+b}+\sqrt b)^2,
-\]
+$$
 
 the Lyapunov energy
 
-\[
+$$
 E(t)=\ell\,\Phi(x(t))+\frac12\|q(t)\|^2
 =
 \ell\,\Phi(x(t))+\frac12\|a x(t)+b y(t)\|^2
-\]
+$$
 
-is antitone on \([0,\infty)\), bounded below, and has a finite limit as \(t\to\infty\). The proof uses only the antitone part, obtaining that for every \(t\ge 0\),
+is antitone on $[0,\infty)$, bounded below, and has a finite limit as $t\to\infty$. The proof uses only the antitone part, obtaining that for every $t\ge 0$,
 
-\[
+$$
 E(t)\le E(0).
-\]
+$$
 
-Since \(\Phi\) is bounded below, there is \(m_\Phi\) with \(m_\Phi\le \Phi(z)\) for all \(z\in H\). From the bound on \(x\), using the characterization of bounded sets in a normed group, the proof obtains a constant \(C_x\) such that
+Since $\Phi$ is bounded below, there is $m_\Phi$ with $m_\Phi\le \Phi(z)$ for all $z\in H$. From the bound on $x$, using the characterization of bounded sets in a normed group, the proof obtains a constant $C_x$ such that
 
-\[
+$$
 \|x(t)\|\le C_x
-\]
+$$
 
-for all \(t\ge 0\). The hypothesis `hloclip` is then applied to the bounded set \(x([0,\infty))\). This gives a nonnegative Lipschitz constant \(K\) for \(\nabla\Phi\) on that set, so for \(t\ge 0\),
+for all $t\ge 0$. The hypothesis `hloclip` is then applied to the bounded set $x([0,\infty))$. This gives a nonnegative Lipschitz constant $K$ for $\nabla\Phi$ on that set, so for $t\ge 0$,
 
-\[
+$$
 \|\nabla\Phi(x(t))-\nabla\Phi(x(0))\|\le K\|x(t)-x(0)\|.
-\]
+$$
 
 Using the triangle inequality,
 
-\[
+$$
 \|g(t)\|
 \le \|g(t)-g(0)\|+\|g(0)\|
 \le K\|x(t)-x(0)\|+\|g(0)\|
 \le K(C_x+\|x(0)\|)+\|g(0)\|.
-\]
+$$
 
-Thus \(g\) is bounded on \([0,\infty)\). The tactics `gcongr` and `calc` carry out the chain of norm inequalities.
+Thus $g$ is bounded on $[0,\infty)$. The tactics `gcongr` and `calc` carry out the chain of norm inequalities.
 
-The energy inequality is then used to bound \(q\). Because \(\ell>0\) and \(m_\Phi\le \Phi(x(t))\),
+The energy inequality is then used to bound $q$. Because $\ell>0$ and $m_\Phi\le \Phi(x(t))$,
 
-\[
+$$
 \ell m_\Phi+\frac12\|q(t)\|^2
 \le E(t)
 \le E(0).
-\]
+$$
 
 Hence
 
-\[
+$$
 \|q(t)\|^2\le 2\bigl(E(0)-\ell m_\Phi\bigr).
-\]
+$$
 
 Taking
 
-\[
+$$
 C_q=\max\bigl(2(E(0)-\ell m_\Phi),0\bigr),
-\]
+$$
 
-we get \(\|q(t)\|^2\le C_q\) and therefore \(\|q(t)\|\le \sqrt{C_q}\). So \(q\) is bounded on \([0,\infty)\). This uses the lemma that for nonnegative real numbers \(u,v\), \(u^2\le v^2\) implies \(u\le v\), together with \(\sqrt{C_q}^2=C_q\).
+we get $\|q(t)\|^2\le C_q$ and therefore $\|q(t)\|\le \sqrt{C_q}$. So $q$ is bounded on $[0,\infty)$. This uses the lemma that for nonnegative real numbers $u,v$, $u^2\le v^2$ implies $u\le v$, together with $\sqrt{C_q}^2=C_q$.
 
-From \(q(t)=a x(t)+b y(t)\), the proof also derives
+From $q(t)=a x(t)+b y(t)$, the proof also derives
 
-\[
+$$
 y(t)=\frac1b\bigl(q(t)-a x(t)\bigr).
-\]
+$$
 
-The tactic `field_simp` verifies this algebraic identity using \(b\ne 0\), which follows from \(b>0\). Therefore,
+The tactic `field_simp` verifies this algebraic identity using $b\ne 0$, which follows from $b>0$. Therefore,
 
-\[
+$$
 \|y(t)\|
 \le \frac1b\bigl(\|q(t)\|+\|a x(t)\|\bigr)
 \le \frac1b\bigl(C_q'+|a|C_x\bigr),
-\]
+$$
 
-where \(C_q'\) is a norm bound for \(q\). This proves \(y\) is bounded on \([0,\infty)\), though the later limit argument mainly uses the bounds on \(q\) and \(v\).
+where $C_q'$ is a norm bound for $q$. This proves $y$ is bounded on $[0,\infty)$, though the later limit argument mainly uses the bounds on $q$ and $v$.
 
-Next the proof bounds \(v\). The first solution relation gives
+Next the proof bounds $v$. The first solution relation gives
 
-\[
+$$
 v(t)+\beta g(t)+q(t)=0,
-\]
+$$
 
 so
 
-\[
+$$
 v(t)=-(\beta g(t)+q(t)).
-\]
+$$
 
 Therefore,
 
-\[
+$$
 \|v(t)\|
 \le \beta\|g(t)\|+\|q(t)\|
 \le \beta\max(C_g,0)+\sqrt{C_q}.
-\]
+$$
 
-This proves \(v\) is bounded on \([0,\infty)\), which is the first component of the desired conclusion.
+This proves $v$ is bounded on $[0,\infty)$, which is the first component of the desired conclusion.
 
-The proof then establishes continuity on \([0,\infty)\). Since \(x\) and \(y\) are continuous, the linear combination \(q=a x+b y\) is continuous. The lemma `gdin_grad_continuous` says that because \(\Phi\) is \(C^1\), the gradient \(\nabla\Phi\) is continuous; composing it with the continuous curve \(x\) shows that \(g(t)=\nabla\Phi(x(t))\) is continuous on \([0,\infty)\). Finally, since
+The proof then establishes continuity on $[0,\infty)$. Since $x$ and $y$ are continuous, the linear combination $q=a x+b y$ is continuous. The lemma `gdin_grad_continuous` says that because $\Phi$ is $C^1$, the gradient $\nabla\Phi$ is continuous; composing it with the continuous curve $x$ shows that $g(t)=\nabla\Phi(x(t))$ is continuous on $[0,\infty)$. Finally, since
 
-\[
+$$
 v=-(\beta g+q),
-\]
+$$
 
-and \(\beta g+q\) is continuous, \(v\) is continuous on \([0,\infty)\).
+and $\beta g+q$ is continuous, $v$ is continuous on $[0,\infty)$.
 
-The proof now wants to apply a uniform-continuity lemma, which requires Lipschitz continuity on \((0,\infty)\). It first shows that \(x\) is Lipschitz on \((0,\infty)\). The derivative of \(x\) is \(v\), and \(\|v(t)\|\le C_v\) for all \(t\ge 0\). Using the fact that a differentiable function on the convex interval \((0,\infty)\) whose derivative has norm at most \(C\) is \(C\)-Lipschitz, the proof obtains a Lipschitz constant for \(x\) on \((0,\infty)\).
+The proof now wants to apply a uniform-continuity lemma, which requires Lipschitz continuity on $(0,\infty)$. It first shows that $x$ is Lipschitz on $(0,\infty)$. The derivative of $x$ is $v$, and $\|v(t)\|\le C_v$ for all $t\ge 0$. Using the fact that a differentiable function on the convex interval $(0,\infty)$ whose derivative has norm at most $C$ is $C$-Lipschitz, the proof obtains a Lipschitz constant for $x$ on $(0,\infty)$.
 
-It similarly shows that \(q\) is Lipschitz on \((0,\infty)\). Differentiating \(q=a x+b y\), and using \(\operatorname{deriv}y(t)=-q(t)\), gives
+It similarly shows that $q$ is Lipschitz on $(0,\infty)$. Differentiating $q=a x+b y$, and using $\operatorname{deriv}y(t)=-q(t)$, gives
 
-\[
+$$
 \operatorname{deriv}q(t)=a v(t)-b q(t).
-\]
+$$
 
 Hence
 
-\[
+$$
 \|\operatorname{deriv}q(t)\|
 \le |a|\|v(t)\|+b\|q(t)\|
 \le |a|\max(C_v,0)+b\max(C_q',0).
-\]
+$$
 
-The same derivative-to-Lipschitz lemma gives a Lipschitz constant \(K_q\) for \(q\) on \((0,\infty)\).
+The same derivative-to-Lipschitz lemma gives a Lipschitz constant $K_q$ for $q$ on $(0,\infty)$.
 
-For \(g=\nabla\Phi\circ x\), the proof composes the Lipschitz bound for \(\nabla\Phi\) on \(x([0,\infty))\) with the Lipschitz bound for \(x\) on \((0,\infty)\). This gives that \(g\) is Lipschitz on \((0,\infty)\). For \(v\), the proof uses
+For $g=\nabla\Phi\circ x$, the proof composes the Lipschitz bound for $\nabla\Phi$ on $x([0,\infty))$ with the Lipschitz bound for $x$ on $(0,\infty)$. This gives that $g$ is Lipschitz on $(0,\infty)$. For $v$, the proof uses
 
-\[
+$$
 v=-(\beta g+q).
-\]
+$$
 
-The map \(h\mapsto \beta h\) is continuous linear, so \(t\mapsto \beta g(t)\) is Lipschitz; adding the Lipschitz map \(q\) and taking negatives preserves Lipschitzness. Thus \(v\) is Lipschitz on \((0,\infty)\) as well.
+The map $h\mapsto \beta h$ is continuous linear, so $t\mapsto \beta g(t)$ is Lipschitz; adding the Lipschitz map $q$ and taking negatives preserves Lipschitzness. Thus $v$ is Lipschitz on $(0,\infty)$ as well.
 
-At this point the proof applies `gdin_uniformContinuousOn_Ici_of_lipschitzOn_Ioi`. This lemma says that if a function is Lipschitz on \((0,\infty)\) and continuous on \([0,\infty)\), then it is uniformly continuous on \([0,\infty)\). Applying it to \(g\) and to \(v\) gives uniform continuity of both on \([0,\infty)\).
+At this point the proof applies `gdin_uniformContinuousOn_Ici_of_lipschitzOn_Ioi`. This lemma says that if a function is Lipschitz on $(0,\infty)$ and continuous on $[0,\infty)$, then it is uniformly continuous on $[0,\infty)$. Applying it to $g$ and to $v$ gives uniform continuity of both on $[0,\infty)$.
 
 The proof next uses the square-integrability results. The theorem `gdin_x_derivative_memL2` says, under the standing hypotheses, that
 
-\[
+$$
 t\mapsto \operatorname{deriv}x(t)
-\]
+$$
 
-is in \(L^2\) on \([0,\infty)\). The theorem `gdin_gradient_memL2` says similarly that
+is in $L^2$ on $[0,\infty)$. The theorem `gdin_gradient_memL2` says similarly that
 
-\[
+$$
 t\mapsto \nabla\Phi(x(t))
-\]
+$$
 
-is in \(L^2\) on \([0,\infty)\). From these membership statements the proof extracts integrability of
+is in $L^2$ on $[0,\infty)$. From these membership statements the proof extracts integrability of
 
-\[
+$$
 t\mapsto \|v(t)\|^2
-\]
+$$
 
 and of
 
-\[
+$$
 t\mapsto \|g(t)\|^2
-\]
+$$
 
-on \([0,\infty)\).
+on $[0,\infty)$.
 
-Now the limit conclusion is obtained. The lemma `gdin_uniformContinuousOn_sq_integrable_tendsto_zero` says that if a function on \([0,\infty)\) is uniformly continuous and its squared norm is integrable on \([0,\infty)\), then the function tends to \(0\) at infinity. Applied to \(v\), this gives
+Now the limit conclusion is obtained. The lemma `gdin_uniformContinuousOn_sq_integrable_tendsto_zero` says that if a function on $[0,\infty)$ is uniformly continuous and its squared norm is integrable on $[0,\infty)$, then the function tends to $0$ at infinity. Applied to $v$, this gives
 
-\[
+$$
 \operatorname{deriv}x(t)\to 0 \quad \text{as } t\to\infty.
-\]
+$$
 
-For \(g\), the proof uses `gdin_residual_limit`, which states that
+For $g$, the proof uses `gdin_residual_limit`, which states that
 
-\[
+$$
 \operatorname{deriv}x(t)+\beta\,\nabla\Phi(x(t))\to 0
-\]
+$$
 
-as \(t\to\infty\). Since \(\operatorname{deriv}x(t)\to 0\), subtracting gives
+as $t\to\infty$. Since $\operatorname{deriv}x(t)\to 0$, subtracting gives
 
-\[
+$$
 \beta\,\nabla\Phi(x(t))\to 0.
-\]
+$$
 
-Multiplying by the constant \(\beta^{-1}\), which is valid because \(\beta>0\), yields
+Multiplying by the constant $\beta^{-1}$, which is valid because $\beta>0$, yields
 
-\[
+$$
 \nabla\Phi(x(t))\to 0
-\]
+$$
 
-as \(t\to\infty\).
+as $t\to\infty$.
 
-Finally, the four established facts — boundedness of \(v=\operatorname{deriv}x\), boundedness of \(g=\nabla\Phi(x(\cdot))\), convergence of \(v\) to \(0\), and convergence of \(g\) to \(0\) — are assembled into the required conjunction. The final `simpa` steps unfold the abbreviations \(v\) and \(g\), returning exactly the statement of `gdin_bounded_asymptotics`.
+Finally, the four established facts — boundedness of $v=\operatorname{deriv}x$, boundedness of $g=\nabla\Phi(x(\cdot))$, convergence of $v$ to $0$, and convergence of $g$ to $0$ — are assembled into the required conjunction. The final `simpa` steps unfold the abbreviations $v$ and $g$, returning exactly the statement of `gdin_bounded_asymptotics`.
 

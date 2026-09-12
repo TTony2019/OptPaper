@@ -12,23 +12,29 @@ theorem limitingSubdifferential_smooth_sum_rule {m : Nat}
 ```
 
 ## Statement explanation
-Fix \(m\in\mathbb N\). Let \(f:\mathbb R^m\to \overline{\mathbb R}\) be an extended-real-valued function, let \(h:\mathbb R^m\to \mathbb R\) be real-valued, and let \(x\in\mathbb R^m\). The hypotheses are that \(f\) is proper, that \(f\) is lower semicontinuous, and that \(h\) is continuously differentiable of order \(1\), i.e. \(h\in C^1\). The objective sum is the extended-real-valued function
-\[
-(f+h)(y)=f(y)+h(y),
-\]
-where the real number \(h(y)\) is regarded inside \(\overline{\mathbb R}\); this is the Lean definition `objectiveSum`.
+Fix $m\in\mathbb N$. Let $f:\mathbb R^m\to \overline{\mathbb R}$ be an extended-real-valued function, let $h:\mathbb R^m\to \mathbb R$ be real-valued, and let $x\in\mathbb R^m$. The hypotheses are that $f$ is proper, that $f$ is lower semicontinuous, and that $h$ is continuously differentiable of order $1$, i.e. $h\in C^1$. The objective sum is the extended-real-valued function
 
-Let \(\partial_L\) denote the limiting, or Mordukhovich, subdifferential, and let \(\hat\partial\) denote the Fréchet subdifferential. The theorem states
-\[
+$$
+(f+h)(y)=f(y)+h(y),
+$$
+
+where the real number $h(y)$ is regarded inside $\overline{\mathbb R}$; this is the Lean definition `objectiveSum`.
+
+Let $\partial_L$ denote the limiting, or Mordukhovich, subdifferential, and let $\hat\partial$ denote the Fréchet subdifferential. The theorem states
+
+$$
 \partial_L(f+h)(x)
 =
 \left\{\,v\in\mathbb R^m \;\middle|\; \exists w\in \partial_L f(x),\; v=w+\nabla h(x)\,\right\}.
-\]
-Thus the limiting subgradients of the sum \(f+h\) at \(x\) are exactly the limiting subgradients of \(f\) at \(x\), each shifted by the gradient \(\nabla h(x)\) of the smooth summand. Since \(h\) is finite-valued, adding it does not change effective domains:
-\[
+$$
+
+Thus the limiting subgradients of the sum $f+h$ at $x$ are exactly the limiting subgradients of $f$ at $x$, each shifted by the gradient $\nabla h(x)$ of the smooth summand. Since $h$ is finite-valued, adding it does not change effective domains:
+
+$$
 y\in\operatorname{dom}(f+h) \iff y\in\operatorname{dom} f.
-\]
-The statement includes properness and lower semicontinuity of \(f\), but the formal proof below does not invoke those two hypotheses.
+$$
+
+The statement includes properness and lower semicontinuity of $f$, but the formal proof below does not invoke those two hypotheses.
 
 ## Lean proof
 ```lean
@@ -89,129 +95,178 @@ by
 ```
 
 ## Proof explanation
-This declaration has a proof. It proves the set equality by extensionality. The command `ext v` reduces the goal to showing, for each vector \(v\), that
-\[
+This declaration has a proof. It proves the set equality by extensionality. The command `ext v` reduces the goal to showing, for each vector $v$, that
+
+$$
 v\in \partial_L(f+h)(x)
 \iff
 \exists w\in \partial_L f(x),\; v=w+\nabla h(x).
-\]
+$$
+
 The command `constructor` splits this equivalence into two implications.
 
 First inclusion. Assume
-\[
+
+$$
 v\in \partial_L(f+h)(x).
-\]
-The proof unpacks this assumption as follows: \(x\in\operatorname{dom}(f+h)\), there are sequences \(z_n\) and \(u_n\), one has \(z_n\to x\), \(u_n\to v\), \((f+h)(z_n)\to (f+h)(x)\), and for every \(n\),
-\[
+$$
+
+The proof unpacks this assumption as follows: $x\in\operatorname{dom}(f+h)$, there are sequences $z_n$ and $u_n$, one has $z_n\to x$, $u_n\to v$, $(f+h)(z_n)\to (f+h)(x)$, and for every $n$,
+
+$$
 u_n\in \hat\partial(f+h)(z_n).
-\]
+$$
+
 The Lean names for these data are `hobj_eff`, `zs`, `us`, `hzs`, `hobjVal`, `husFrechet`, and `hus`.
 
-Applying `objectiveSum_effectiveDom_iff` to \(x\) gives
-\[
-x\in\operatorname{dom}(f+h) \iff x\in\operatorname{dom} f.
-\]
-Since \(x\in\operatorname{dom}(f+h)\), the result is \(x\in\operatorname{dom} f\). Similarly, for every \(n\), because \(u_n\in \hat\partial(f+h)(z_n)\), the definition of the Fréchet subdifferential includes \(z_n\in\operatorname{dom}(f+h)\). Applying `objectiveSum_effectiveDom_iff` again gives
-\[
-z_n\in\operatorname{dom} f
-\]
-for every \(n\).
+Applying `objectiveSum_effectiveDom_iff` to $x$ gives
 
-Next, since \(h\) is \(C^1\), it is continuous. The command `(hh.continuous.tendsto x).comp hzs` composes the convergence \(z_n\to x\) with continuity of \(h\) at \(x\), giving
-\[
+$$
+x\in\operatorname{dom}(f+h) \iff x\in\operatorname{dom} f.
+$$
+
+Since $x\in\operatorname{dom}(f+h)$, the result is $x\in\operatorname{dom} f$. Similarly, for every $n$, because $u_n\in \hat\partial(f+h)(z_n)$, the definition of the Fréchet subdifferential includes $z_n\in\operatorname{dom}(f+h)$. Applying `objectiveSum_effectiveDom_iff` again gives
+
+$$
+z_n\in\operatorname{dom} f
+$$
+
+for every $n$.
+
+Next, since $h$ is $C^1$, it is continuous. The command `(hh.continuous.tendsto x).comp hzs` composes the convergence $z_n\to x$ with continuity of $h$ at $x$, giving
+
+$$
 h(z_n)\to h(x).
-\]
-Now apply `objectiveSum_value_tendsto_iff` to the sequences \(z_n\), with the facts \(z_n\in\operatorname{dom} f\), \(x\in\operatorname{dom} f\), and \(h(z_n)\to h(x)\). That theorem states that, under these hypotheses,
-\[
+$$
+
+Now apply `objectiveSum_value_tendsto_iff` to the sequences $z_n$, with the facts $z_n\in\operatorname{dom} f$, $x\in\operatorname{dom} f$, and $h(z_n)\to h(x)$. That theorem states that, under these hypotheses,
+
+$$
 (f+h)(z_n)\to (f+h)(x)
 \iff
 f(z_n)\to f(x).
-\]
-Since \((f+h)(z_n)\to (f+h)(x)\), the proof obtains
-\[
+$$
+
+Since $(f+h)(z_n)\to (f+h)(x)$, the proof obtains
+
+$$
 f(z_n)\to f(x).
-\]
+$$
 
-For each \(n\), the lemma `frechetSubdifferential_objective_forward` is applied to \(h\) and to the membership \(u_n\in \hat\partial(f+h)(z_n)\). Its mathematical content is the Fréchet-level smooth sum rule: if \(h\) is \(C^1\) and \(u\in \hat\partial(f+h)(y)\), then
-\[
+For each $n$, the lemma `frechetSubdifferential_objective_forward` is applied to $h$ and to the membership $u_n\in \hat\partial(f+h)(z_n)$. Its mathematical content is the Fréchet-level smooth sum rule: if $h$ is $C^1$ and $u\in \hat\partial(f+h)(y)$, then
+
+$$
 u-\nabla h(y)\in \hat\partial f(y).
-\]
-Specializing to \(y=z_n\) and \(u=u_n\), this gives
-\[
-u_n-\nabla h(z_n)\in \hat\partial f(z_n)
-\]
-for every \(n\).
+$$
 
-The lemma `gradient_tendsto_of_contDiff_one` says that a \(C^1\) function has continuous gradient along convergent sequences: from \(z_n\to x\) it gives
-\[
+Specializing to $y=z_n$ and $u=u_n$, this gives
+
+$$
+u_n-\nabla h(z_n)\in \hat\partial f(z_n)
+$$
+
+for every $n$.
+
+The lemma `gradient_tendsto_of_contDiff_one` says that a $C^1$ function has continuous gradient along convergent sequences: from $z_n\to x$ it gives
+
+$$
 \nabla h(z_n)\to \nabla h(x).
-\]
-Since \(u_n\to v\) and \(\nabla h(z_n)\to \nabla h(x)\), the continuity of subtraction in \(\mathbb R^m\) yields
-\[
+$$
+
+Since $u_n\to v$ and $\nabla h(z_n)\to \nabla h(x)$, the continuity of subtraction in $\mathbb R^m$ yields
+
+$$
 u_n-\nabla h(z_n)\to v-\nabla h(x).
-\]
+$$
+
 The proof chooses
-\[
+
+$$
 w=v-\nabla h(x).
-\]
-The facts \(x\in\operatorname{dom} f\), \(z_n\to x\), \(f(z_n)\to f(x)\), the Fréchet memberships \(u_n-\nabla h(z_n)\in \hat\partial f(z_n)\), and the convergence \(u_n-\nabla h(z_n)\to w\) together witness
-\[
+$$
+
+The facts $x\in\operatorname{dom} f$, $z_n\to x$, $f(z_n)\to f(x)$, the Fréchet memberships $u_n-\nabla h(z_n)\in \hat\partial f(z_n)$, and the convergence $u_n-\nabla h(z_n)\to w$ together witness
+
+$$
 w\in \partial_L f(x).
-\]
-Finally, the required equality \(v=w+\nabla h(x)\) is the algebraic identity
-\[
+$$
+
+Finally, the required equality $v=w+\nabla h(x)$ is the algebraic identity
+
+$$
 v=(v-\nabla h(x))+\nabla h(x),
-\]
-which is discharged by `simp`. Hence \(v\) belongs to the right-hand set.
+$$
+
+which is discharged by `simp`. Hence $v$ belongs to the right-hand set.
 
 Second inclusion. Assume
-\[
+
+$$
 v\in \left\{\,v \;\middle|\; \exists w\in \partial_L f(x),\; v=w+\nabla h(x)\,\right\}.
-\]
-The proof unpacks this as the existence of \(w\in\partial_L f(x)\) such that \(v=w+\nabla h(x)\). The `rfl` pattern in `rcases` uses this equality to replace \(v\) by \(w+\nabla h(x)\), so it remains to prove
-\[
+$$
+
+The proof unpacks this as the existence of $w\in\partial_L f(x)$ such that $v=w+\nabla h(x)$. The `rfl` pattern in `rcases` uses this equality to replace $v$ by $w+\nabla h(x)$, so it remains to prove
+
+$$
 w+\nabla h(x)\in \partial_L(f+h)(x).
-\]
+$$
 
-The membership \(w\in\partial_L f(x)\) is unpacked as: \(x\in\operatorname{dom} f\), sequences \(z_n\) and \(w_n\), with \(z_n\to x\), \(w_n\to w\), \(f(z_n)\to f(x)\), and for every \(n\),
-\[
+The membership $w\in\partial_L f(x)$ is unpacked as: $x\in\operatorname{dom} f$, sequences $z_n$ and $w_n$, with $z_n\to x$, $w_n\to w$, $f(z_n)\to f(x)$, and for every $n$,
+
+$$
 w_n\in \hat\partial f(z_n).
-\]
-Applying `objectiveSum_effectiveDom_iff` in the reverse direction gives
-\[
-x\in\operatorname{dom}(f+h).
-\]
-For each \(n\), the Fréchet membership \(w_n\in \hat\partial f(z_n)\) includes \(z_n\in\operatorname{dom} f\). As before, continuity of \(h\) and \(z_n\to x\) give
-\[
-h(z_n)\to h(x).
-\]
-Now `objectiveSum_value_tendsto_iff` is used in the reverse direction: from \(f(z_n)\to f(x)\), together with the effective-domain facts and \(h(z_n)\to h(x)\), it gives
-\[
-(f+h)(z_n)\to (f+h)(x).
-\]
+$$
 
-For each \(n\), the lemma `frechetSubdifferential_objective_reverse` is applied to \(h\) and to \(w_n\in\hat\partial f(z_n)\). Its content is the converse Fréchet smooth sum rule: if \(h\) is \(C^1\) and \(w\in\hat\partial f(y)\), then
-\[
+Applying `objectiveSum_effectiveDom_iff` in the reverse direction gives
+
+$$
+x\in\operatorname{dom}(f+h).
+$$
+
+For each $n$, the Fréchet membership $w_n\in \hat\partial f(z_n)$ includes $z_n\in\operatorname{dom} f$. As before, continuity of $h$ and $z_n\to x$ give
+
+$$
+h(z_n)\to h(x).
+$$
+
+Now `objectiveSum_value_tendsto_iff` is used in the reverse direction: from $f(z_n)\to f(x)$, together with the effective-domain facts and $h(z_n)\to h(x)$, it gives
+
+$$
+(f+h)(z_n)\to (f+h)(x).
+$$
+
+For each $n$, the lemma `frechetSubdifferential_objective_reverse` is applied to $h$ and to $w_n\in\hat\partial f(z_n)$. Its content is the converse Fréchet smooth sum rule: if $h$ is $C^1$ and $w\in\hat\partial f(y)$, then
+
+$$
 w+\nabla h(y)\in \hat\partial(f+h)(y).
-\]
-Specializing to \(y=z_n\) and \(w=w_n\), this gives
-\[
+$$
+
+Specializing to $y=z_n$ and $w=w_n$, this gives
+
+$$
 w_n+\nabla h(z_n)\in \hat\partial(f+h)(z_n)
-\]
-for every \(n\).
+$$
+
+for every $n$.
 
 Again `gradient_tendsto_of_contDiff_one` gives
-\[
+
+$$
 \nabla h(z_n)\to \nabla h(x).
-\]
-Since \(w_n\to w\), continuity of addition yields
-\[
+$$
+
+Since $w_n\to w$, continuity of addition yields
+
+$$
 w_n+\nabla h(z_n)\to w+\nabla h(x).
-\]
-The facts \(x\in\operatorname{dom}(f+h)\), \(z_n\to x\), \((f+h)(z_n)\to(f+h)(x)\), the Fréchet memberships \(w_n+\nabla h(z_n)\in\hat\partial(f+h)(z_n)\), and the convergence \(w_n+\nabla h(z_n)\to w+\nabla h(x)\) together witness
-\[
+$$
+
+The facts $x\in\operatorname{dom}(f+h)$, $z_n\to x$, $(f+h)(z_n)\to(f+h)(x)$, the Fréchet memberships $w_n+\nabla h(z_n)\in\hat\partial(f+h)(z_n)$, and the convergence $w_n+\nabla h(z_n)\to w+\nabla h(x)$ together witness
+
+$$
 w+\nabla h(x)\in \partial_L(f+h)(x).
-\]
+$$
+
 This is exactly the goal. The final `exact` supplies the full witness tuple for membership in `limitingSubdifferential`.
 
 Thus both inclusions hold, so the two sets are equal. The proof uses `ext`, `constructor`, `intro`, `rcases`, `have`, `refine`, `exact`, `simp`, and the sequence-continuity operations `.sub` and `.add`; it does not use `rw` or `linarith`.

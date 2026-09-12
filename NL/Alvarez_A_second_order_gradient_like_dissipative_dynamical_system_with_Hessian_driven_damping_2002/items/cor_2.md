@@ -16,28 +16,28 @@ theorem connected_critical_set_lojasiewicz {N : Type*} [Fintype N]
 ```
 
 ## Statement explanation
-The declaration `connected_critical_set_lojasiewicz` is a theorem about a real-valued function \(\Phi\) on a finite-dimensional Euclidean space \(\mathbb{R}^N\), where \(N\) is a finite type. The hypotheses are:
+The declaration `connected_critical_set_lojasiewicz` is a theorem about a real-valued function $\Phi$ on a finite-dimensional Euclidean space $\mathbb{R}^N$, where $N$ is a finite type. The hypotheses are:
 
-- \(\Phi\) is \(C^2\), i.e. twice continuously differentiable.
-- \(\Omega\subseteq\mathbb{R}^N\) is open, and \(\Phi\) is real analytic on \(\Omega\).
-- \(\Phi\) satisfies the global Lojasiewicz gradient inequality, encoded by `hLoj`.
-- \(A\subseteq\Omega\) and \(A\neq\varnothing\).
-- Every point \(a\in A\) is critical for \(\Phi\), meaning \(\nabla\Phi(a)=0\).
-- \(A\) is connected.
+- $\Phi$ is $C^2$, i.e. twice continuously differentiable.
+- $\Omega\subseteq\mathbb{R}^N$ is open, and $\Phi$ is real analytic on $\Omega$.
+- $\Phi$ satisfies the global Lojasiewicz gradient inequality, encoded by `hLoj`.
+- $A\subseteq\Omega$ and $A\neq\varnothing$.
+- Every point $a\in A$ is critical for $\Phi$, meaning $\nabla\Phi(a)=0$.
+- $A$ is connected.
 
-The conclusion has two parts. First, \(\Phi\) is constant on \(A\):
+The conclusion has two parts. First, $\Phi$ is constant on $A$:
 
-\[
+$$
 \exists c\in\mathbb{R},\ \forall a\in A,\ \Phi(a)=c.
-\]
+$$
 
-Second, if \(A\) is compact, then the Lojasiewicz gradient inequality can be made uniform on a whole neighbourhood of \(A\). More precisely, there exist \(\sigma>0\), \(0<\theta<1/2\), and \(c\in\mathbb{R}\) such that \(\Phi(a)=c\) for every \(a\in A\), and for every \(x\in\mathbb{R}^N\) whose distance to the set \(A\) satisfies \(\operatorname{infDist}(x,A)<\sigma\),
+Second, if $A$ is compact, then the Lojasiewicz gradient inequality can be made uniform on a whole neighbourhood of $A$. More precisely, there exist $\sigma>0$, $0<\theta<1/2$, and $c\in\mathbb{R}$ such that $\Phi(a)=c$ for every $a\in A$, and for every $x\in\mathbb{R}^N$ whose distance to the set $A$ satisfies $\operatorname{infDist}(x,A)<\sigma$,
 
-\[
+$$
 |\Phi(x)-c|^{1-\theta}\le \|\nabla\Phi(x)\|.
-\]
+$$
 
-Thus, on a connected set of critical points inside the real-analytic region \(\Omega\), the function is constant; and if that set is compact, the local Lojasiewicz inequality at its points can be replaced by one inequality with a single exponent and a single radius measured by distance to the entire set \(A\).
+Thus, on a connected set of critical points inside the real-analytic region $\Omega$, the function is constant; and if that set is compact, the local Lojasiewicz inequality at its points can be replaced by one inequality with a single exponent and a single radius measured by distance to the entire set $A$.
 
 ## Lean proof
 ```lean
@@ -155,164 +155,164 @@ by
 ```
 
 ## Proof explanation
-The proof starts by decomposing the analyticity hypothesis `hanalytic` and keeping the component `hanalyticOn`, which is the real-analyticity information on \(\Omega\). Later this component is used both to obtain continuity of \(\Phi\) and as the analyticity witness for the local Lojasiewicz theorem.
+The proof starts by decomposing the analyticity hypothesis `hanalytic` and keeping the component `hanalyticOn`, which is the real-analyticity information on $\Omega$. Later this component is used both to obtain continuity of $\Phi$ and as the analyticity witness for the local Lojasiewicz theorem.
 
-The first main step is to prove that at every point \(a\in A\) there is a local Lojasiewicz inequality. The proof defines
+The first main step is to prove that at every point $a\in A$ there is a local Lojasiewicz inequality. The proof defines
 
-\[
+$$
 \texttt{hlocal}:\quad \forall a\in A,\ \exists \sigma,\theta,\ 
 0<\sigma\land 0<\theta\land \theta<\frac12
 \land \forall x,\ \|x-a\|<\sigma\Rightarrow
 |\Phi(x)-\Phi(a)|^{1-\theta}\le \|\nabla\Phi(x)\|.
-\]
+$$
 
-To obtain this, for each \(a\in A\) it invokes the cited theorem `lojasiewicz_gradient_inequality`. That theorem says that if \(\Phi\) is \(C^1\), is real analytic near a point \(a\), has \(\nabla\Phi(a)=0\), and satisfies the global Lojasiewicz gradient inequality, then there exist \(\sigma>0\) and \(0<\theta<1/2\) such that for all \(x\) with \(\|x-a\|<\sigma\),
+To obtain this, for each $a\in A$ it invokes the cited theorem `lojasiewicz_gradient_inequality`. That theorem says that if $\Phi$ is $C^1$, is real analytic near a point $a$, has $\nabla\Phi(a)=0$, and satisfies the global Lojasiewicz gradient inequality, then there exist $\sigma>0$ and $0<\theta<1/2$ such that for all $x$ with $\|x-a\|<\sigma$,
 
-\[
+$$
 |\Phi(x)-\Phi(a)|^{1-\theta}\le \|\nabla\Phi(x)\|.
-\]
+$$
 
-The proof supplies the required \(C^1\) regularity by lowering the given \(C^2\) hypothesis using `_hΦreg.of_le (by norm_num)`; `norm_num` discharges the numerical fact \(1\le 2\). It supplies the analyticity witness \(\Omega\) using `hΩ` and `hanalyticOn`, and it uses \(hAΩ\) to know \(a\in\Omega\). It supplies criticality from `hcritical a ha` and the global hypothesis `hLoj`.
+The proof supplies the required $C^1$ regularity by lowering the given $C^2$ hypothesis using `_hΦreg.of_le (by norm_num)`; `norm_num` discharges the numerical fact $1\le 2$. It supplies the analyticity witness $\Omega$ using `hΩ` and `hanalyticOn`, and it uses $hAΩ$ to know $a\in\Omega$. It supplies criticality from `hcritical a ha` and the global hypothesis `hLoj`.
 
-The next step proves local constancy of \(\Phi\) on \(A\). For \(a\in A\), the proof takes the local Lojasiewicz data \(\sigma,\theta\). If \(x\in A\) and \(\|x-a\|<\sigma\), then \(x\) is also a critical point, so \(\nabla\Phi(x)=0\). The local inequality becomes
+The next step proves local constancy of $\Phi$ on $A$. For $a\in A$, the proof takes the local Lojasiewicz data $\sigma,\theta$. If $x\in A$ and $\|x-a\|<\sigma$, then $x$ is also a critical point, so $\nabla\Phi(x)=0$. The local inequality becomes
 
-\[
+$$
 |\Phi(x)-\Phi(a)|^{1-\theta}\le \|\nabla\Phi(x)\|=0.
-\]
+$$
 
-The left-hand side is nonnegative because it is a real power of an absolute value, so it must be zero. Since \(1-\theta>0\), in particular \(1-\theta\neq0\), the only way the real power can vanish is if the base vanishes. Hence
+The left-hand side is nonnegative because it is a real power of an absolute value, so it must be zero. Since $1-\theta>0$, in particular $1-\theta\neq0$, the only way the real power can vanish is if the base vanishes. Hence
 
-\[
+$$
 |\Phi(x)-\Phi(a)|=0,
-\]
+$$
 
-and therefore \(\Phi(x)=\Phi(a)\). This proves that \(\Phi\) is locally constant on \(A\) near every point of \(A\).
+and therefore $\Phi(x)=\Phi(a)$. This proves that $\Phi$ is locally constant on $A$ near every point of $A$.
 
-The proof then chooses a base point \(a_0\in A\) using `Classical.choose hA` and sets \(c=\Phi(a_0)\). It considers the subset
+The proof then chooses a base point $a_0\in A$ using `Classical.choose hA` and sets $c=\Phi(a_0)$. It considers the subset
 
-\[
+$$
 P=\{x\in A:\Phi(x)=c\}
-\]
+$$
 
-inside the subtype of points of \(A\). The local constancy result shows that \(P\) is open in this subtype: around any \(x\in P\), there is a relative ball in \(A\) on which \(\Phi\) remains equal to \(\Phi(x)=c\). The proof uses `rw [isOpen_iff_mem_nhds]` to reduce openness to the neighbourhood condition and `filter_upwards` to build the required neighbourhood.
+inside the subtype of points of $A$. The local constancy result shows that $P$ is open in this subtype: around any $x\in P$, there is a relative ball in $A$ on which $\Phi$ remains equal to $\Phi(x)=c$. The proof uses `rw [isOpen_iff_mem_nhds]` to reduce openness to the neighbourhood condition and `filter_upwards` to build the required neighbourhood.
 
-The set \(P\) is also closed. Indeed, real analyticity on \(\Omega\) implies continuity of \(\Phi\) on \(\Omega\), hence on \(A\subseteq\Omega\). In the subtype topology on \(A\), the set \(P\) is the preimage of the closed singleton \(\{c\}\) under the continuous restriction of \(\Phi\) to \(A\). Thus \(P\) is closed.
+The set $P$ is also closed. Indeed, real analyticity on $\Omega$ implies continuity of $\Phi$ on $\Omega$, hence on $A\subseteq\Omega$. In the subtype topology on $A$, the set $P$ is the preimage of the closed singleton $\{c\}$ under the continuous restriction of $\Phi$ to $A$. Thus $P$ is closed.
 
-Since \(A\) is connected, the subtype of points of \(A\) is preconnected. In a preconnected space, a nonempty clopen set is the whole space. Here \(P\) is clopen and contains \(a_0\), so \(P\) must be the entire subtype of points of \(A\). Therefore \(\Phi(a)=c\) for every \(a\in A\). This proves the first conjunct,
+Since $A$ is connected, the subtype of points of $A$ is preconnected. In a preconnected space, a nonempty clopen set is the whole space. Here $P$ is clopen and contains $a_0$, so $P$ must be the entire subtype of points of $A$. Therefore $\Phi(a)=c$ for every $a\in A$. This proves the first conjunct,
 
-\[
+$$
 \exists c\in\mathbb{R},\ \forall a\in A,\ \Phi(a)=c,
-\]
+$$
 
 using `constructor` and `exact ⟨c, hconst⟩`.
 
-For the second conjunct, the proof assumes \(A\) is compact. It uses the earlier chosen local Lojasiewicz data \(\sigma(a),\theta(a)\) for each \(a\in A\). The open balls
+For the second conjunct, the proof assumes $A$ is compact. It uses the earlier chosen local Lojasiewicz data $\sigma(a),\theta(a)$ for each $a\in A$. The open balls
 
-\[
+$$
 U_a = B(a,\sigma(a))
-\]
+$$
 
-cover \(A\). By compactness, `elim_finite_subcover` produces a finite subcover indexed by a finite nonempty set \(t\). The nonemptiness of \(t\) follows from \(A\neq\varnothing\) and the fact that \(t\) covers \(A\).
+cover $A$. By compactness, `elim_finite_subcover` produces a finite subcover indexed by a finite nonempty set $t$. The nonemptiness of $t$ follows from $A\neq\varnothing$ and the fact that $t$ covers $A$.
 
 The proof then defines
 
-\[
+$$
 \theta_0=\min_{a\in t}\theta(a)
-\]
+$$
 
-using a finite infimum, written with `Finset.inf'`. Since every \(\theta(a)\) is positive, \(\theta_0>0\). Since \(t\) is nonempty, choosing some \(a_1\in t\) gives \(\theta_0\le\theta(a_1)<1/2\). Hence
+using a finite infimum, written with `Finset.inf'`. Since every $\theta(a)$ is positive, $\theta_0>0$. Since $t$ is nonempty, choosing some $a_1\in t$ gives $\theta_0\le\theta(a_1)<1/2$. Hence
 
-\[
+$$
 0<\theta_0<\frac12.
-\]
+$$
 
-Also, for every \(a\in t\),
+Also, for every $a\in t$,
 
-\[
+$$
 \theta_0\le \theta(a).
-\]
+$$
 
-Next, the proof needs a uniform bound \(|Φ(x)-c|<1\) near each point of \(A\). For each \(a\in A\), analyticity at \(a\) implies continuity at \(a\). Applying the epsilon-delta form of continuity with tolerance \(1\), there exists \(\epsilon(a)>0\) such that if \(\operatorname{dist}(x,a)<\epsilon(a)\), then
+Next, the proof needs a uniform bound $|Φ(x)-c|<1$ near each point of $A$. For each $a\in A$, analyticity at $a$ implies continuity at $a$. Applying the epsilon-delta form of continuity with tolerance $1$, there exists $\epsilon(a)>0$ such that if $\operatorname{dist}(x,a)<\epsilon(a)$, then
 
-\[
+$$
 |\Phi(x)-\Phi(a)|<1.
-\]
+$$
 
-Since \(\Phi(a)=c\) for \(a\in A\), this becomes
+Since $\Phi(a)=c$ for $a\in A$, this becomes
 
-\[
+$$
 |\Phi(x)-c|<1.
-\]
+$$
 
 The balls
 
-\[
+$$
 V_a=B(a,\epsilon(a))
-\]
+$$
 
-cover \(A\), and compactness gives another finite subcover indexed by a finite set \(u\).
+cover $A$, and compactness gives another finite subcover indexed by a finite set $u$.
 
 Now the proof forms the open set
 
-\[
+$$
 W=\left(\bigcup_{a\in t} U_a\right)\cap\left(\bigcup_{a\in u} V_a\right).
-\]
+$$
 
-It is open because it is an intersection of unions of open balls, and it covers \(A\) because both the \(U\)-cover and the \(V\)-cover cover \(A\). Since \(A\) is compact and \(W\) is an open neighbourhood of \(A\), the theorem `exists_thickening_subset_open` gives a positive \(\delta\) such that the \(\delta\)-thickening of \(A\) is contained in \(W\). Thus, whenever
+It is open because it is an intersection of unions of open balls, and it covers $A$ because both the $U$-cover and the $V$-cover cover $A$. Since $A$ is compact and $W$ is an open neighbourhood of $A$, the theorem `exists_thickening_subset_open` gives a positive $\delta$ such that the $\delta$-thickening of $A$ is contained in $W$. Thus, whenever
 
-\[
+$$
 \operatorname{infDist}(x,A)<\delta,
-\]
+$$
 
-the point \(x\) lies in \(W\). The proof uses `Metric.mem_thickening_iff_infDist_lt hA` to convert the distance-to-set condition into membership in the thickening.
+the point $x$ lies in $W$. The proof uses `Metric.mem_thickening_iff_infDist_lt hA` to convert the distance-to-set condition into membership in the thickening.
 
-Finally, fix \(x\) with \(\operatorname{infDist}(x,A)<\delta\). Since \(x\in W\), there are \(a\in t\) with \(x\in U_a\) and \(b\in u\) with \(x\in V_b\). From \(x\in V_b\), we get
+Finally, fix $x$ with $\operatorname{infDist}(x,A)<\delta$. Since $x\in W$, there are $a\in t$ with $x\in U_a$ and $b\in u$ with $x\in V_b$. From $x\in V_b$, we get
 
-\[
+$$
 |\Phi(x)-c|<1.
-\]
+$$
 
-From \(x\in U_a\), the local Lojasiewicz inequality at \(a\) gives
+From $x\in U_a$, the local Lojasiewicz inequality at $a$ gives
 
-\[
+$$
 |\Phi(x)-\Phi(a)|^{1-\theta(a)}\le \|\nabla\Phi(x)\|.
-\]
+$$
 
-But \(\Phi(a)=c\), so this becomes
+But $\Phi(a)=c$, so this becomes
 
-\[
+$$
 |\Phi(x)-c|^{1-\theta(a)}\le \|\nabla\Phi(x)\|.
-\]
+$$
 
-The proof now splits into two cases. If \(|\Phi(x)-c|=0\), then since \(1-\theta_0>0\),
+The proof now splits into two cases. If $|\Phi(x)-c|=0$, then since $1-\theta_0>0$,
 
-\[
+$$
 |\Phi(x)-c|^{1-\theta_0}=0\le \|\nabla\Phi(x)\|.
-\]
+$$
 
-If \(|\Phi(x)-c|\neq0\), then the base \(r=|\Phi(x)-c|\) is positive, and the earlier bound gives \(r\le1\). Since \(\theta_0\le\theta(a)\), we have
+If $|\Phi(x)-c|\neq0$, then the base $r=|\Phi(x)-c|$ is positive, and the earlier bound gives $r\le1$. Since $\theta_0\le\theta(a)$, we have
 
-\[
+$$
 1-\theta(a)\le1-\theta_0.
-\]
+$$
 
-For a base \(0<r\le1\), increasing the exponent decreases the real power, so
+For a base $0<r\le1$, increasing the exponent decreases the real power, so
 
-\[
+$$
 r^{1-\theta_0}\le r^{1-\theta(a)}.
-\]
+$$
 
 This is the content of `Real.rpow_le_rpow_of_exponent_ge`. Combining this with
 
-\[
+$$
 r^{1-\theta(a)}\le \|\nabla\Phi(x)\|
-\]
+$$
 
 yields
 
-\[
+$$
 |\Phi(x)-c|^{1-\theta_0}\le \|\nabla\Phi(x)\|.
-\]
+$$
 
-The linear inequalities on exponents are handled by `linarith`, using the previously established bounds \(0<\theta_0<1/2\) and \(\theta_0\le\theta(a)\). The proof then closes the existential statement by returning \(\delta\), \(\theta_0\), and \(c\), together with the constancy of \(\Phi\) on \(A\) and the uniform Lojasiewicz inequality on the \(\delta\)-neighbourhood of \(A\).
+The linear inequalities on exponents are handled by `linarith`, using the previously established bounds $0<\theta_0<1/2$ and $\theta_0\le\theta(a)$. The proof then closes the existential statement by returning $\delta$, $\theta_0$, and $c$, together with the constancy of $\Phi$ on $A$ and the uniform Lojasiewicz inequality on the $\delta$-neighbourhood of $A$.
 

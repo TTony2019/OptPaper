@@ -17,53 +17,53 @@ theorem theorem_3_1 {X Y : Type*} [MetricSpace X] [MetricSpace Y] [CompleteSpace
 ```
 
 ## Statement explanation
-Let \(X\) and \(Y\) be complete metric spaces. The theorem concerns the following data: functions \(f:X\to\mathbb R\), \(g:Y\to\mathbb R\), \(h:X\times X\to\mathbb R\), \(k:Y\times Y\to\mathbb R\), \(c:X\times Y\to\mathbb R\), and sequences \(\alpha,\beta,\mu,\nu,\varepsilon:\mathbb N\to\mathbb R\). An object `alg : ACA2 X Y f g h k c α β μ ν ε` supplies sequences \(x_n\in X\), \(y_n\in Y\), a strictly positive error sequence \(\varepsilon_n>0\), and the two approximate minimization inequalities
+Let $X$ and $Y$ be complete metric spaces. The theorem concerns the following data: functions $f:X\to\mathbb R$, $g:Y\to\mathbb R$, $h:X\times X\to\mathbb R$, $k:Y\times Y\to\mathbb R$, $c:X\times Y\to\mathbb R$, and sequences $\alpha,\beta,\mu,\nu,\varepsilon:\mathbb N\to\mathbb R$. An object `alg : ACA2 X Y f g h k c α β μ ν ε` supplies sequences $x_n\in X$, $y_n\in Y$, a strictly positive error sequence $\varepsilon_n>0$, and the two approximate minimization inequalities
 
-\[
+$$
 f(x_{n+1})+\alpha_n h(x_n,x_{n+1})+\beta_n c(x_{n+1},y_n)
 \le
 f(\xi)+\alpha_n h(x_n,\xi)+\beta_n c(\xi,y_n)+\varepsilon_n
-\]
+$$
 
-for every \(n\) and every \(\xi\in X\), and
+for every $n$ and every $\xi\in X$, and
 
-\[
+$$
 g(y_{n+1})+\mu_n c(x_{n+1},y_{n+1})+\nu_n k(y_n,y_{n+1})
 \le
 g(\eta)+\mu_n c(x_{n+1},\eta)+\nu_n k(y_n,\eta)+\varepsilon_n
-\]
+$$
 
-for every \(n\) and every \(\eta\in Y\).
+for every $n$ and every $\eta\in Y$.
 
-The hypothesis `hyp : H31toH37 ...` is a bundled list of assumptions. The proof unpacks it into the following concrete requirements: \(f\) and \(g\) are lower semicontinuous; \(c\) is lower semicontinuous on the product \(X\times Y\); \(f\) and \(g\) are bounded below by constants \(M_f,M_g\); \(h,k,c\) are nonnegative; \(h\) and \(k\) vanish on the diagonal; \(h\) and \(k\) are jointly continuous on their product spaces, while \(c\) is separately continuous; the metric distances are controlled by the cost functions, in the sense \(d_X(x,x')\le h(x,x')\) and \(d_Y(y,y')\le k(y,y')\); \(\beta_n>0\) and \(\mu_n>0\) for all \(n\); \(\beta_n\to\beta_\infty\) and \(\mu_n\to\mu_\infty\) for some positive real limits; \(\alpha_n,\nu_n\ge0\); \(\alpha\) and \(\nu\) are bounded above; \(\alpha\) and \(\nu\) have positive eventual lower bounds; and \(\sum_n\varepsilon_n\) is summable.
+The hypothesis `hyp : H31toH37 ...` is a bundled list of assumptions. The proof unpacks it into the following concrete requirements: $f$ and $g$ are lower semicontinuous; $c$ is lower semicontinuous on the product $X\times Y$; $f$ and $g$ are bounded below by constants $M_f,M_g$; $h,k,c$ are nonnegative; $h$ and $k$ vanish on the diagonal; $h$ and $k$ are jointly continuous on their product spaces, while $c$ is separately continuous; the metric distances are controlled by the cost functions, in the sense $d_X(x,x')\le h(x,x')$ and $d_Y(y,y')\le k(y,y')$; $\beta_n>0$ and $\mu_n>0$ for all $n$; $\beta_n\to\beta_\infty$ and $\mu_n\to\mu_\infty$ for some positive real limits; $\alpha_n,\nu_n\ge0$; $\alpha$ and $\nu$ are bounded above; $\alpha$ and $\nu$ have positive eventual lower bounds; and $\sum_n\varepsilon_n$ is summable.
 
-The parameters `beta_mono` and `mu_mono` are monotonicity behaviors for \(\beta\) and \(\mu\), and `hbeta_mono_prop` and `hmu_mono_prop` assert that \(\beta\) and \(\mu\) indeed satisfy those monotonicity properties, either nonincreasing or nondecreasing.
+The parameters `beta_mono` and `mu_mono` are monotonicity behaviors for $\beta$ and $\mu$, and `hbeta_mono_prop` and `hmu_mono_prop` assert that $\beta$ and $\mu$ indeed satisfy those monotonicity properties, either nonincreasing or nondecreasing.
 
-The conclusion is that there exist \(\bar x\in X\), \(\bar y\in Y\), and real numbers \(\beta_\infty,\mu_\infty\) such that
+The conclusion is that there exist $\bar x\in X$, $\bar y\in Y$, and real numbers $\beta_\infty,\mu_\infty$ such that
 
-\[
+$$
 \beta_n\to\beta_\infty,\qquad \mu_n\to\mu_\infty,\qquad x_n\to\bar x,\qquad y_n\to\bar y,
-\]
+$$
 
-and the pair \((\bar x,\bar y)\) satisfies the `IsINE` condition
+and the pair $(\bar x,\bar y)$ satisfies the `IsINE` condition
 
-\[
+$$
 \forall \xi\in X,\quad
 f(\bar x)+\beta_\infty c(\bar x,\bar y)+(\limsup_{n\to\infty}\alpha_n)h(\bar x,\bar x)
 \le
 f(\xi)+\beta_\infty c(\xi,\bar y)+(\limsup_{n\to\infty}\alpha_n)h(\bar x,\xi),
-\]
+$$
 
 and
 
-\[
+$$
 \forall \eta\in Y,\quad
 g(\bar y)+\mu_\infty c(\bar x,\bar y)+(\limsup_{n\to\infty}\nu_n)k(\bar y,\bar y)
 \le
 g(\eta)+\mu_\infty c(\bar x,\eta)+(\limsup_{n\to\infty}\nu_n)k(\bar y,\eta).
-\]
+$$
 
-Since \(h(\bar x,\bar x)=0\) and \(k(\bar y,\bar y)=0\), the diagonal terms vanish, but the definition of `IsINE` includes them. Thus the theorem says that the ACA2 iterates converge to a point satisfying the limiting INE variational inequalities with coefficients \(\limsup\alpha\), \(\beta_\infty\), \(\mu_\infty\), and \(\limsup\nu\).
+Since $h(\bar x,\bar x)=0$ and $k(\bar y,\bar y)=0$, the diagonal terms vanish, but the definition of `IsINE` includes them. Thus the theorem says that the ACA2 iterates converge to a point satisfying the limiting INE variational inequalities with coefficients $\limsup\alpha$, $\beta_\infty$, $\mu_\infty$, and $\limsup\nu$.
 
 ## Lean proof
 ```lean
@@ -406,60 +406,60 @@ by
 ```
 
 ## Proof explanation
-The proof proceeds by first unpacking the bundled hypotheses and the ACA2 algorithm. The command `rcases hyp with ...` splits `H31toH37` into the lower semicontinuity, boundedness, nonnegativity, diagonal, continuity, distance-domination, positivity, convergence, boundedness, eventual-lower-bound, summability, and separate-continuity assumptions listed above. The command `rcases alg with ⟨x, y, heps_pos, hstep_x, hstep_y⟩` extracts the sequences \(x,y\), the positivity \(\varepsilon_n>0\), and the two step inequalities. Then the positive limits \(\beta_\infty,\mu_\infty\) are extracted from the convergence assumptions, the lower bounds \(M_f,M_g\) are extracted from the boundedness assumptions, and a sum \(S\) with `HasSum ε S` is extracted from summability of \(\varepsilon\).
+The proof proceeds by first unpacking the bundled hypotheses and the ACA2 algorithm. The command `rcases hyp with ...` splits `H31toH37` into the lower semicontinuity, boundedness, nonnegativity, diagonal, continuity, distance-domination, positivity, convergence, boundedness, eventual-lower-bound, summability, and separate-continuity assumptions listed above. The command `rcases alg with ⟨x, y, heps_pos, hstep_x, hstep_y⟩` extracts the sequences $x,y$, the positivity $\varepsilon_n>0$, and the two step inequalities. Then the positive limits $\beta_\infty,\mu_\infty$ are extracted from the convergence assumptions, the lower bounds $M_f,M_g$ are extracted from the boundedness assumptions, and a sum $S$ with `HasSum ε S` is extracted from summability of $\varepsilon$.
 
-From `HasSum ε S` the proof forms `hε_summable : Summable ε`, and then uses that a summable real sequence tends to zero: `hε_tendsto0 : Tendsto ε atTop (𝓝 0)`. This is the fact that if \(\sum_n\varepsilon_n\) converges, then \(\varepsilon_n\to0\). It is used later in the limiting INE theorem.
+From `HasSum ε S` the proof forms `hε_summable : Summable ε`, and then uses that a summable real sequence tends to zero: `hε_tendsto0 : Tendsto ε atTop (𝓝 0)`. This is the fact that if $\sum_n\varepsilon_n$ converges, then $\varepsilon_n\to0$. It is used later in the limiting INE theorem.
 
 Next the proof defines
 
-\[
-\delta_n=\operatorname{deltaSeq}(\beta,\mu,\texttt{beta_mono},\texttt{mu_mono}).
-\]
+$$
+\delta_n=\operatorname{deltaSeq}(\beta,\mu,\texttt{beta\_mono},\texttt{mu\_mono}).
+$$
 
-The definition `deltaSeq` is piecewise: if both behaviors are nonincreasing, \(\delta_n=1\); if \(\beta\) is nonincreasing and \(\mu\) is nondecreasing, \(\delta_n=\mu_n\); if \(\beta\) is nondecreasing and \(\mu\) is nonincreasing, \(\delta_n=\beta_n\); and if both are nondecreasing, \(\delta_n=\beta_n\mu_n\). The proof shows `hδ_pos : ∀ n, δ n > 0` by cases on `beta_mono` and `mu_mono`, using positivity of \(\beta_n\) and \(\mu_n\). Consequently \(\delta_n\ge0\), and therefore the ratios
+The definition `deltaSeq` is piecewise: if both behaviors are nonincreasing, $\delta_n=1$; if $\beta$ is nonincreasing and $\mu$ is nondecreasing, $\delta_n=\mu_n$; if $\beta$ is nondecreasing and $\mu$ is nonincreasing, $\delta_n=\beta_n$; and if both are nondecreasing, $\delta_n=\beta_n\mu_n$. The proof shows `hδ_pos : ∀ n, δ n > 0` by cases on `beta_mono` and `mu_mono`, using positivity of $\beta_n$ and $\mu_n$. Consequently $\delta_n\ge0$, and therefore the ratios
 
-\[
+$$
 \frac{\mu_n}{\delta_n},\qquad \frac{\beta_n}{\delta_n},\qquad \frac{\beta_n\mu_n}{\delta_n}
-\]
+$$
 
 are all nonnegative.
 
-The three lemmas `thm3_mu_div_delta_nonincreasing`, `thm3_beta_div_delta_nonincreasing`, and `thm3_betamu_div_delta_nonincreasing` are then applied. Each states that, under positivity of \(\beta,\mu\) and their declared monotonicity behaviors, the corresponding quotient with \(\delta\) is nonincreasing. Thus the proof obtains
+The three lemmas `thm3_mu_div_delta_nonincreasing`, `thm3_beta_div_delta_nonincreasing`, and `thm3_betamu_div_delta_nonincreasing` are then applied. Each states that, under positivity of $\beta,\mu$ and their declared monotonicity behaviors, the corresponding quotient with $\delta$ is nonincreasing. Thus the proof obtains
 
-\[
+$$
 \frac{\mu_{n+1}}{\delta_{n+1}}\le\frac{\mu_n}{\delta_n},\qquad
 \frac{\beta_{n+1}}{\delta_{n+1}}\le\frac{\beta_n}{\delta_n},\qquad
 \frac{\beta_{n+1}\mu_{n+1}}{\delta_{n+1}}\le\frac{\beta_n\mu_n}{\delta_n}.
-\]
+$$
 
 These monotonicities are the key to making the scaled energy decrease.
 
 The proof then defines
 
-\[
+$$
 E_n=
 \frac{\mu_n}{\delta_n}(f(x_n)-M_f)
 +\frac{\beta_n}{\delta_n}(g(y_n)-M_g)
 +\frac{\beta_n\mu_n}{\delta_n}c(x_n,y_n),
-\]
+$$
 
-\[
+$$
 W^H_n=\frac{\mu_n}{\delta_n}\alpha_n h(x_n,x_{n+1}),\qquad
 W^K_n=\frac{\beta_n}{\delta_n}\nu_n k(y_n,y_{n+1}),\qquad
 W_n=W^H_n+W^K_n,
-\]
+$$
 
 and
 
-\[
+$$
 R_n=\left(\frac{\mu_n}{\delta_n}+\frac{\beta_n}{\delta_n}\right)\varepsilon_n.
-\]
+$$
 
-The proof shows \(E_n,W^H_n,W^K_n,W_n,R_n\ge0\) for every \(n\). For \(E_n\), this uses \(f(x_n)-M_f\ge0\), \(g(y_n)-M_g\ge0\), \(c(x_n,y_n)\ge0\), and nonnegativity of the ratios. For \(W^H_n\) and \(W^K_n\), it uses \(\alpha_n,\nu_n\ge0\) and \(h,k\ge0\).
+The proof shows $E_n,W^H_n,W^K_n,W_n,R_n\ge0$ for every $n$. For $E_n$, this uses $f(x_n)-M_f\ge0$, $g(y_n)-M_g\ge0$, $c(x_n,y_n)\ge0$, and nonnegativity of the ratios. For $W^H_n$ and $W^K_n$, it uses $\alpha_n,\nu_n\ge0$ and $h,k\ge0$.
 
-The lemma `thm3_raw_scaled_update` is applied to the step inequalities. Its content, specialized here, is that if \(\delta_n>0\), \(h(x_n,x_n)=0\), \(k(y_n,y_n)=0\), \(\beta_n,\mu_n>0\), and the two ACA2 step inequalities hold, then
+The lemma `thm3_raw_scaled_update` is applied to the step inequalities. Its content, specialized here, is that if $\delta_n>0$, $h(x_n,x_n)=0$, $k(y_n,y_n)=0$, $\beta_n,\mu_n>0$, and the two ACA2 step inequalities hold, then
 
-\[
+$$
 \begin{aligned}
 &\frac{\mu_n}{\delta_n}(f(x_{n+1})-M_f)
 +\frac{\beta_n}{\delta_n}(g(y_{n+1})-M_g)
@@ -472,104 +472,104 @@ The lemma `thm3_raw_scaled_update` is applied to the step inequalities. Its cont
 +\frac{\beta_n\mu_n}{\delta_n}c(x_n,y_n)
 +\left(\frac{\mu_n}{\delta_n}+\frac{\beta_n}{\delta_n}\right)\varepsilon_n.
 \end{aligned}
-\]
+$$
 
-Concretely, this is obtained by taking the \(x\)-step inequality with \(\xi=x_n\) and the \(y\)-step inequality with \(\eta=y_n\), multiplying the first by \(\mu_n/\delta_n\) and the second by \(\beta_n/\delta_n\), and adding. The diagonal terms \(h(x_n,x_n)\) and \(k(y_n,y_n)\) vanish, and the cross terms involving \(c(x_{n+1},y_n)\) cancel. After unfolding the definitions of `RawNext`, \(W\), \(E\), and \(R\), this gives exactly
+Concretely, this is obtained by taking the $x$-step inequality with $\xi=x_n$ and the $y$-step inequality with $\eta=y_n$, multiplying the first by $\mu_n/\delta_n$ and the second by $\beta_n/\delta_n$, and adding. The diagonal terms $h(x_n,x_n)$ and $k(y_n,y_n)$ vanish, and the cross terms involving $c(x_{n+1},y_n)$ cancel. After unfolding the definitions of `RawNext`, $W$, $E$, and $R$, this gives exactly
 
-\[
+$$
 \operatorname{RawNext}_n+W_n\le E_n+R_n.
-\]
+$$
 
-Next, `thm3_descent_from_raw` is applied. That lemma says that if \(f\ge M_f\), \(g\ge M_g\), \(c\ge0\), the three scaled ratios are nonincreasing, the sequences `RawNext` and \(E\) have the displayed definitions, and \(\operatorname{RawNext}_n+W_n\le E_n+R_n\), then
+Next, `thm3_descent_from_raw` is applied. That lemma says that if $f\ge M_f$, $g\ge M_g$, $c\ge0$, the three scaled ratios are nonincreasing, the sequences `RawNext` and $E$ have the displayed definitions, and $\operatorname{RawNext}_n+W_n\le E_n+R_n$, then
 
-\[
+$$
 E_{n+1}+W_n\le E_n+R_n
-\]
+$$
 
-for every \(n\). The reason is that \(E_{n+1}\) is obtained from \(\operatorname{RawNext}_n\) by replacing the coefficients at \(n\) by the smaller coefficients at \(n+1\); since \(f(x_{n+1})-M_f\), \(g(y_{n+1})-M_g\), and \(c(x_{n+1},y_{n+1})\) are nonnegative, this replacement only decreases the value. Thus the raw inequality implies the descent inequality.
+for every $n$. The reason is that $E_{n+1}$ is obtained from $\operatorname{RawNext}_n$ by replacing the coefficients at $n$ by the smaller coefficients at $n+1$; since $f(x_{n+1})-M_f$, $g(y_{n+1})-M_g$, and $c(x_{n+1},y_{n+1})$ are nonnegative, this replacement only decreases the value. Thus the raw inequality implies the descent inequality.
 
-The proof then shows that \(\mu_n/\delta_n\le \mu_0/\delta_0\) and \(\beta_n/\delta_n\le \beta_0/\delta_0\) by induction from the nontrivial monotonicities. Hence
+The proof then shows that $\mu_n/\delta_n\le \mu_0/\delta_0$ and $\beta_n/\delta_n\le \beta_0/\delta_0$ by induction from the nontrivial monotonicities. Hence
 
-\[
+$$
 R_n\le
 \left(\frac{\mu_0}{\delta_0}+\frac{\beta_0}{\delta_0}\right)\varepsilon_n.
-\]
+$$
 
-Since \(\varepsilon\) is summable and \(R\ge0\), the domination criterion for nonnegative sequences implies that \(R\) is summable. The proof uses the standard fact that a nonnegative sequence bounded above by a summable sequence is summable.
+Since $\varepsilon$ is summable and $R\ge0$, the domination criterion for nonnegative sequences implies that $R$ is summable. The proof uses the standard fact that a nonnegative sequence bounded above by a summable sequence is summable.
 
-The lemma `thm3_telescope_summable` is then applied to \(E,W,R\). It states that if \(E,W,R\ge0\), \(R\) is summable, and \(E_{n+1}+W_n\le E_n+R_n\) for all \(n\), then \(W\) is summable. The mathematical reason is telescoping:
+The lemma `thm3_telescope_summable` is then applied to $E,W,R$. It states that if $E,W,R\ge0$, $R$ is summable, and $E_{n+1}+W_n\le E_n+R_n$ for all $n$, then $W$ is summable. The mathematical reason is telescoping:
 
-\[
+$$
 W_n\le E_n-E_{n+1}+R_n,
-\]
+$$
 
-so finite sums of \(W_n\) are bounded by \(E_0-E_{N+1}+\sum_{n\le N}R_n\), and \(E_{N+1}\ge0\). Thus \(W\) is summable. Since \(W=W^H+W^K\) with both summands nonnegative, each of \(W^H\) and \(W^K\) is summable as well.
+so finite sums of $W_n$ are bounded by $E_0-E_{N+1}+\sum_{n\le N}R_n$, and $E_{N+1}\ge0$. Thus $W$ is summable. Since $W=W^H+W^K$ with both summands nonnegative, each of $W^H$ and $W^K$ is summable as well.
 
-The proof next obtains eventual lower and upper bounds for \(\mu\) and \(\beta\). The lemma `thm3_eventually_half_le_of_tendsto_pos` says that if \(L>0\) and \(a_n\to L\), then eventually \(L/2\le a_n\). Applied to \(\mu\) and \(\beta\), it gives eventually \(\mu_\infty/2\le\mu_n\) and \(\beta_\infty/2\le\beta_n\). The lemma `thm3_eventually_le_add_one_of_tendsto` says that if \(a_n\to L\), then eventually \(a_n\le L+1\). Applied to \(\mu\) and \(\beta\), this gives eventually \(\mu_n\le\mu_\infty+1\) and \(\beta_n\le\beta_\infty+1\).
+The proof next obtains eventual lower and upper bounds for $\mu$ and $\beta$. The lemma `thm3_eventually_half_le_of_tendsto_pos` says that if $L>0$ and $a_n\to L$, then eventually $L/2\le a_n$. Applied to $\mu$ and $\beta$, it gives eventually $\mu_\infty/2\le\mu_n$ and $\beta_\infty/2\le\beta_n$. The lemma `thm3_eventually_le_add_one_of_tendsto` says that if $a_n\to L$, then eventually $a_n\le L+1$. Applied to $\mu$ and $\beta$, this gives eventually $\mu_n\le\mu_\infty+1$ and $\beta_n\le\beta_\infty+1$.
 
 Using these eventual bounds, the proof establishes positive eventual lower bounds for the coefficients
 
-\[
+$$
 C^H_n=\frac{\mu_n}{\delta_n}\alpha_n,\qquad
 C^K_n=\frac{\beta_n}{\delta_n}\nu_n.
-\]
+$$
 
-It does this by cases on the four possible pairs of monotonicity behaviors, using the explicit definition of \(\delta_n\). For example, when both are nonincreasing, \(\delta_n=1\), so \(C^H_n=\mu_n\alpha_n\), and the positive eventual lower bounds on \(\mu_n\) and \(\alpha_n\) give a positive constant \(C_H\). The other cases similarly reduce \(C^H_n\) to \(\alpha_n\), to \((\mu_n/\beta_n)\alpha_n\), or to \((1/\beta_n)\alpha_n\), and the eventual upper bounds on \(\beta\) convert the denominator into a positive constant. The same case analysis gives a positive eventual lower bound \(C_K\) for \(C^K_n\).
+It does this by cases on the four possible pairs of monotonicity behaviors, using the explicit definition of $\delta_n$. For example, when both are nonincreasing, $\delta_n=1$, so $C^H_n=\mu_n\alpha_n$, and the positive eventual lower bounds on $\mu_n$ and $\alpha_n$ give a positive constant $C_H$. The other cases similarly reduce $C^H_n$ to $\alpha_n$, to $(\mu_n/\beta_n)\alpha_n$, or to $(1/\beta_n)\alpha_n$, and the eventual upper bounds on $\beta$ convert the denominator into a positive constant. The same case analysis gives a positive eventual lower bound $C_K$ for $C^K_n$.
 
 These lower bounds are used to prove summability of the actual cost increments. Since
 
-\[
+$$
 W^H_n=C^H_n h(x_n,x_{n+1}),
-\]
+$$
 
-and eventually \(C_H\le C^H_n\) with \(h(x_n,x_{n+1})\ge0\), we have eventually
+and eventually $C_H\le C^H_n$ with $h(x_n,x_{n+1})\ge0$, we have eventually
 
-\[
+$$
 h(x_n,x_{n+1})\le \frac1{C_H}W^H_n.
-\]
+$$
 
-The lemma `thm3_summable_of_eventually_le_const_mul` states exactly that if \(u_n\ge0\), \(v\) is summable, \(C\ge0\), and eventually \(u_n\le C v_n\), then \(u\) is summable. Applying it with \(u_n=h(x_n,x_{n+1})\) and \(v_n=W^H_n\) gives
+The lemma `thm3_summable_of_eventually_le_const_mul` states exactly that if $u_n\ge0$, $v$ is summable, $C\ge0$, and eventually $u_n\le C v_n$, then $u$ is summable. Applying it with $u_n=h(x_n,x_{n+1})$ and $v_n=W^H_n$ gives
 
-\[
+$$
 \sum_n h(x_n,x_{n+1})<\infty.
-\]
+$$
 
-The same argument with \(C_K\) and \(W^K_n\) gives
+The same argument with $C_K$ and $W^K_n$ gives
 
-\[
+$$
 \sum_n k(y_n,y_{n+1})<\infty.
-\]
+$$
 
-Because the distances are dominated by the costs, \(d_X(x_n,x_{n+1})\le h(x_n,x_{n+1})\) and \(d_Y(y_n,y_{n+1})\le k(y_n,y_{n+1})\), and the distances are nonnegative, the summability criterion again gives
+Because the distances are dominated by the costs, $d_X(x_n,x_{n+1})\le h(x_n,x_{n+1})$ and $d_Y(y_n,y_{n+1})\le k(y_n,y_{n+1})$, and the distances are nonnegative, the summability criterion again gives
 
-\[
+$$
 \sum_n d_X(x_n,x_{n+1})<\infty,\qquad
 \sum_n d_Y(y_n,y_{n+1})<\infty.
-\]
+$$
 
-The standard lemma `cauchySeq_of_summable_dist` then implies that \(x\) and \(y\) are Cauchy sequences. Since \(X\) and \(Y\) are complete, `cauchySeq_tendsto_of_complete` gives limits \(\bar x\in X\) and \(\bar y\in Y\) with
+The standard lemma `cauchySeq_of_summable_dist` then implies that $x$ and $y$ are Cauchy sequences. Since $X$ and $Y$ are complete, `cauchySeq_tendsto_of_complete` gives limits $\bar x\in X$ and $\bar y\in Y$ with
 
-\[
+$$
 x_n\to\bar x,\qquad y_n\to\bar y.
-\]
+$$
 
-At this point the proof reconstructs an ACA2 object `alg_full` with the same \(x,y,\varepsilon\), and step inequalities, so that it can be passed to the limiting theorem. It also derives separate continuity of \(h\) and \(k\). The hypothesis gives joint continuity of \((u,v)\mapsto h(u,v)\) and \((u,v)\mapsto k(u,v)\). For fixed \(\xi\), the map \(x\mapsto(x,\xi)\) is continuous, so composing with joint continuity gives continuity of \(x\mapsto h(x,\xi)\). For fixed \(x_0\), the map \(y\mapsto(x_0,y)\) is continuous, giving continuity of \(y\mapsto h(x_0,y)\). Hence `IsSeparatelyContinuous h`. The same argument gives `IsSeparatelyContinuous k`. The hypothesis already provides `IsSeparatelyContinuous c`, which is unpacked and repacked.
+At this point the proof reconstructs an ACA2 object `alg_full` with the same $x,y,\varepsilon$, and step inequalities, so that it can be passed to the limiting theorem. It also derives separate continuity of $h$ and $k$. The hypothesis gives joint continuity of $(u,v)\mapsto h(u,v)$ and $(u,v)\mapsto k(u,v)$. For fixed $\xi$, the map $x\mapsto(x,\xi)$ is continuous, so composing with joint continuity gives continuity of $x\mapsto h(x,\xi)$. For fixed $x_0$, the map $y\mapsto(x_0,y)$ is continuous, giving continuity of $y\mapsto h(x_0,y)$. Hence `IsSeparatelyContinuous h`. The same argument gives `IsSeparatelyContinuous k`. The hypothesis already provides `IsSeparatelyContinuous c`, which is unpacked and repacked.
 
-The proof then shows that for every \(r>0\), eventually
+The proof then shows that for every $r>0$, eventually
 
-\[
+$$
 \alpha_n\le \limsup_{n\to\infty}\alpha_n+r,
 \qquad
 \nu_n\le \limsup_{n\to\infty}\nu_n+r.
-\]
+$$
 
-For \(\alpha\), boundedness above supplies an eventual upper bound, and `eventually_lt_of_limsup_lt` gives eventually \(\alpha_n<\limsup\alpha+r\); hence \(\alpha_n\le\limsup\alpha+r\). The same reasoning applies to \(\nu\).
+For $\alpha$, boundedness above supplies an eventual upper bound, and `eventually_lt_of_limsup_lt` gives eventually $\alpha_n<\limsup\alpha+r$; hence $\alpha_n\le\limsup\alpha+r$. The same reasoning applies to $\nu$.
 
-Finally, the theorem `thm3_ACA2_limit_to_INE` is applied. That theorem says that if an ACA2 algorithm has \(x_n\to\bar x\), \(y_n\to\bar y\), \(f,g,c\) are lower semicontinuous in the required senses, \(h,k,c\) are separately continuous, \(h,k,c\ge0\), the coefficient sequences are nonnegative, \(\beta_n\to\beta_\infty\), \(\mu_n\to\mu_\infty\), \(\varepsilon_n\to0\), \(h\) and \(k\) vanish on the diagonal, and \(\alpha,\nu\) have the eventual upper bounds against \(\limsup\alpha,\limsup\nu\), then the limiting point satisfies
+Finally, the theorem `thm3_ACA2_limit_to_INE` is applied. That theorem says that if an ACA2 algorithm has $x_n\to\bar x$, $y_n\to\bar y$, $f,g,c$ are lower semicontinuous in the required senses, $h,k,c$ are separately continuous, $h,k,c\ge0$, the coefficient sequences are nonnegative, $\beta_n\to\beta_\infty$, $\mu_n\to\mu_\infty$, $\varepsilon_n\to0$, $h$ and $k$ vanish on the diagonal, and $\alpha,\nu$ have the eventual upper bounds against $\limsup\alpha,\limsup\nu$, then the limiting point satisfies
 
-\[
+$$
 \operatorname{IsINE}(f,g,h,k,c,\limsup\alpha,\beta_\infty,\mu_\infty,\limsup\nu,\bar x,\bar y).
-\]
+$$
 
-All hypotheses of that theorem are supplied by the previously unpacked assumptions and by the convergence, summability, separate-continuity, and limsup facts just proved. Therefore the proof obtains `hINE`. Finally, `exact ⟨xbar, ybar, β_inf, μ_inf, ⟨hβ_tendsto, hμ_tendsto⟩, ⟨hx_tendsto, hy_tendsto⟩, hINE⟩` packages the four witnesses, the convergence of \(\beta,\mu\), the convergence of the iterates, and the INE conclusion into the existential statement of the theorem.
+All hypotheses of that theorem are supplied by the previously unpacked assumptions and by the convergence, summability, separate-continuity, and limsup facts just proved. Therefore the proof obtains `hINE`. Finally, `exact ⟨xbar, ybar, β_inf, μ_inf, ⟨hβ_tendsto, hμ_tendsto⟩, ⟨hx_tendsto, hy_tendsto⟩, hINE⟩` packages the four witnesses, the convergence of $\beta,\mu$, the convergence of the iterates, and the INE conclusion into the existential statement of the theorem.
 

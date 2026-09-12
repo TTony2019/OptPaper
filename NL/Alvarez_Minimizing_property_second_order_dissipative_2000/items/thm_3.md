@@ -16,46 +16,63 @@ theorem operator_damped_minimizing_property {H : Type*} [NormedAddCommGroup H]
 ```
 
 ## Statement explanation
-Let \(H\) be a complete real inner product space. Let \(\Gamma:H\to H\) be a continuous linear operator, let \(\Phi:H\to\mathbb R\) be a scalar potential, let \(g:H\to H\), and let \(u_0,v_0\in H\). The hypothesis \(h_\Phi\) says that \(\Phi\) satisfies the potential assumption. In the proof this is used to provide that \(\Phi\) is convex, continuous, and bounded below; consequently the infimum
-\[
+Let $H$ be a complete real inner product space. Let $\Gamma:H\to H$ be a continuous linear operator, let $\Phi:H\to\mathbb R$ be a scalar potential, let $g:H\to H$, and let $u_0,v_0\in H$. The hypothesis $h_\Phi$ says that $\Phi$ satisfies the potential assumption. In the proof this is used to provide that $\Phi$ is convex, continuous, and bounded below; consequently the infimum
+
+$$
 \inf \Phi(H)=\operatorname{sInf}(\operatorname{range}\Phi)
-\]
+$$
+
 is a real number, and the set of minimizers
-\[
+
+$$
 \operatorname{argmin}\Phi=\{x\in H:\Phi(x)=\inf \Phi(H)\}
-\]
-is well-defined. The hypothesis \(h_\Gamma\) says that \(\Gamma\) has coercive damping: there exists \(\gamma>0\) such that for every \(x\in H\),
-\[
+$$
+
+is well-defined. The hypothesis $h_\Gamma$ says that $\Gamma$ has coercive damping: there exists $\gamma>0$ such that for every $x\in H$,
+
+$$
 \gamma\|x\|^2\le \langle \Gamma x,x\rangle_{\mathbb R}.
-\]
-The parameter `sys` is an operator dissipative system with damping \(\Gamma\), potential \(\Phi\), gradient \(g\), and initial data \(u_0,v_0\). It supplies the trajectory \(u=\texttt{sys.u}:\mathbb R\to H\) of the system and, in the proof, also the self-adjointness of \(\Gamma\).
+$$
+
+The parameter `sys` is an operator dissipative system with damping $\Gamma$, potential $\Phi$, gradient $g$, and initial data $u_0,v_0$. It supplies the trajectory $u=\texttt{sys.u}:\mathbb R\to H$ of the system and, in the proof, also the self-adjointness of $\Gamma$.
 
 The theorem defines the velocity as
-\[
-u'(t):=\operatorname{fderiv}_{\mathbb R}u(t)(1),
-\]
-so that \(u'(t)\in H\) is the derivative of the trajectory at time \(t\). It then asserts the following four facts.
 
-1. The squared speed is integrable on \([0,\infty)\):
-\[
+$$
+u'(t):=\operatorname{fderiv}_{\mathbb R}u(t)(1),
+$$
+
+so that $u'(t)\in H$ is the derivative of the trajectory at time $t$. It then asserts the following four facts.
+
+1. The squared speed is integrable on $[0,\infty)$:
+
+$$
 \int_0^\infty \|u'(t)\|^2\,dt<\infty.
-\]
+$$
+
 2. The velocity vanishes at infinity:
-\[
+
+$$
 u'(t)\to 0\qquad (t\to\infty).
-\]
+$$
+
 3. The potential along the trajectory converges to the infimum of the potential values:
-\[
+
+$$
 \Phi(u(t))\to \inf \Phi(H)\qquad (t\to\infty).
-\]
-4. If the minimizer set is nonempty, then there exists a minimizer \(u_\ast\in\operatorname{argmin}\Phi\) such that the trajectory converges weakly to \(u_\ast\):
-\[
+$$
+
+4. If the minimizer set is nonempty, then there exists a minimizer $u_\ast\in\operatorname{argmin}\Phi$ such that the trajectory converges weakly to $u_\ast$:
+
+$$
 u(t)\rightharpoonup u_\ast\qquad (t\to\infty),
-\]
+$$
+
 equivalently
-\[
+
+$$
 \texttt{toWeakSpace}(u(t))\to \texttt{toWeakSpace}(u_\ast).
-\]
+$$
 
 Thus the theorem says that the damped second-order system dissipates energy, loses its velocity, drives the potential down to its minimal value, and, when minimizers exist, converges weakly to a minimizer.
 
@@ -563,177 +580,243 @@ by
 ```
 
 ## Proof explanation
-The proof begins by unpacking the coercive damping hypothesis. The tactic `rcases hGamma with ⟨gamma, hgamma, hcoercive⟩` replaces \(h_\Gamma\) by a real number \(\gamma>0\) and the pointwise coercivity inequality
-\[
+The proof begins by unpacking the coercive damping hypothesis. The tactic `rcases hGamma with ⟨gamma, hgamma, hcoercive⟩` replaces $h_\Gamma$ by a real number $\gamma>0$ and the pointwise coercivity inequality
+
+$$
 \gamma\|x\|^2\le \langle \Gamma x,x\rangle_{\mathbb R}
 \qquad (x\in H).
-\]
+$$
 
-The first conjunct is obtained directly from `operator_velocity_sq_integrableOn_Ici_zero`. That result says that under the potential assumption on \(\Phi\), coercive damping for \(\Gamma\), and the operator system `sys`, the function
-\[
+The first conjunct is obtained directly from `operator_velocity_sq_integrableOn_Ici_zero`. That result says that under the potential assumption on $\Phi$, coercive damping for $\Gamma$, and the operator system `sys`, the function
+
+$$
 t\mapsto \|u'(t)\|^2
-\]
-is integrable on \([0,\infty)\). Applying it with the repackaged coercive damping hypothesis proves the first part of the theorem.
+$$
+
+is integrable on $[0,\infty)$. Applying it with the repackaged coercive damping hypothesis proves the first part of the theorem.
 
 Next, `operator_shifted_velocity_sq_integrableOn_Ici_zero` is applied to the previous integrability. It states that if
-\[
-t\mapsto \|u'(t)\|^2
-\]
-is integrable on \([0,\infty)\), then the shifted function
-\[
-s\mapsto \|u'(s+1)\|^2
-\]
-is also integrable on \([0,\infty)\). This is a tail-shift integrability statement and is used to prepare the causal velocity-error estimate.
 
-The lemma `operator_shifted_causal_velocity_error_converges` is then invoked. It gives the existence of a real number \(L\) such that
-\[
+$$
+t\mapsto \|u'(t)\|^2
+$$
+
+is integrable on $[0,\infty)$, then the shifted function
+
+$$
+s\mapsto \|u'(s+1)\|^2
+$$
+
+is also integrable on $[0,\infty)$. This is a tail-shift integrability statement and is used to prepare the causal velocity-error estimate.
+
+The lemma `operator_shifted_causal_velocity_error_converges` is then invoked. It gives the existence of a real number $L$ such that
+
+$$
 \frac32\int_0^t\int_0^\theta
  e^{-\gamma(\theta-s)}\|u'(s+1)\|^2\,ds\,d\theta
 \longrightarrow L
 \qquad (t\to\infty).
-\]
+$$
+
 This is a convergence statement for an exponentially damped double integral of the shifted squared velocity. In the displayed proof this limit is recorded as `velocityErrorLimit`, although the later central energy argument does not directly reuse this particular limit again.
 
-The lemma `operator_energy_converges` is then applied. It says that under the same hypotheses on \(\Phi\), \(\gamma\), and `sys`, the energy
-\[
+The lemma `operator_energy_converges` is then applied. It says that under the same hypotheses on $\Phi$, $\gamma$, and `sys`, the energy
+
+$$
 E(t)=\frac12\|u'(t)\|^2+\Phi(u(t))
-\]
-converges to some real number \(E_\infty\). In the proof this limit is called `energyLimit` and the notation `energy` is introduced for \(E(t)\).
+$$
+
+converges to some real number $E_\infty$. In the proof this limit is called `energyLimit` and the notation `energy` is introduced for $E(t)$.
 
 Two elementary pointwise inequalities are then proved. First, `potential_sInf_le` gives
-\[
+
+$$
 \inf \Phi(H)\le \Phi(u(t))
-\]
-for every \(t\). Since the kinetic term satisfies
-\[
+$$
+
+for every $t$. Since the kinetic term satisfies
+
+$$
 0\le \frac12\|u'(t)\|^2,
-\]
+$$
+
 one obtains
-\[
+
+$$
 \inf \Phi(H)\le E(t).
-\]
+$$
+
 Second, the same nonnegativity of the kinetic term gives
-\[
+
+$$
 \Phi(u(t))\le E(t).
-\]
-Since \(E(t)\to E_\infty\), the inequality \(\inf \Phi(H)\le E(t)\) passed to the limit yields
-\[
+$$
+
+Since $E(t)\to E_\infty$, the inequality $\inf \Phi(H)\le E(t)$ passed to the limit yields
+
+$$
 \inf \Phi(H)\le E_\infty.
-\]
+$$
 
 The proof then introduces an auxiliary comparison coefficient
-\[
+
+$$
 C(t)=\frac{\gamma t-1+e^{-\gamma t}}{\gamma^2}
-\]
-and proves \(C(t)\to+\infty\). This is done by comparing it with
-\[
+$$
+
+and proves $C(t)\to+\infty$. This is done by comparing it with
+
+$$
 \frac{\gamma t-1}{\gamma^2}=\frac1\gamma t-\frac1{\gamma^2},
-\]
-which clearly tends to \(+\infty\), and using
-\[
+$$
+
+which clearly tends to $+\infty$, and using
+
+$$
 \frac{\gamma t-1+e^{-\gamma t}}{\gamma^2}
 \ge \frac{\gamma t-1}{\gamma^2},
-\]
-which follows from \(e^{-\gamma t}\ge0\). This divergence estimate is auxiliary; it is not used later in the displayed proof.
+$$
+
+which follows from $e^{-\gamma t}\ge0$. This divergence estimate is auxiliary; it is not used later in the displayed proof.
 
 The main energy argument now proves
-\[
+
+$$
 E_\infty=\inf \Phi(H).
-\]
-The inequality \(\inf \Phi(H)\le E_\infty\) was already proved. For the reverse inequality, suppose for contradiction that \(E_\infty>\inf \Phi(H)\). Put
-\[
+$$
+
+The inequality $\inf \Phi(H)\le E_\infty$ was already proved. For the reverse inequality, suppose for contradiction that $E_\infty>\inf \Phi(H)$. Put
+
+$$
 \delta=\frac{E_\infty-\inf \Phi(H)}4>0.
-\]
-By the definition of the infimum of a nonempty set, there exists \(x\in H\) such that
-\[
+$$
+
+By the definition of the infimum of a nonempty set, there exists $x\in H$ such that
+
+$$
 \Phi(x)<\inf \Phi(H)+\delta.
-\]
-Since \(E(t)\to E_\infty\), eventually
-\[
+$$
+
+Since $E(t)\to E_\infty$, eventually
+
+$$
 \Phi(x)-E(T+1)\le -\delta.
-\]
+$$
+
 This is the sequence of estimates recorded in `hcx`.
 
-The proof now studies the shifted distance to the fixed point \(x\). It defines
-\[
+The proof now studies the shifted distance to the fixed point $x$. It defines
+
+$$
 q(s)=\|u'(s+1)\|^2,
-\]
-which is integrable on \((0,\infty)\), and sets
-\[
+$$
+
+which is integrable on $(0,\infty)$, and sets
+
+$$
 Q=\int_{(0,\infty)} q(s)\,ds.
-\]
-Because the tail has nonnegative integral, for every \(T\ge0\),
-\[
+$$
+
+Because the tail has nonnegative integral, for every $T\ge0$,
+
+$$
 \int_0^T q(s)\,ds\le Q.
-\]
+$$
 
 It also defines
-\[
+
+$$
 A=\Gamma-\gamma I,\qquad
 \phi(s)=\frac12\|u(s+1)-x\|^2,
-\]
+$$
+
 and
-\[
+
+$$
 \rho(s)=\frac12\langle A(u(s+1)-x),u(s+1)-x\rangle_{\mathbb R}.
-\]
-The derivative of \(\phi\) is computed using `operatorSystem_differentiableAt_pos`, which says that \(u\) is differentiable at every positive time. Since \(T\ge0\) implies \(T+1>0\), the chain rule gives
-\[
+$$
+
+The derivative of $\phi$ is computed using `operatorSystem_differentiableAt_pos`, which says that $u$ is differentiable at every positive time. Since $T\ge0$ implies $T+1>0$, the chain rule gives
+
+$$
 \operatorname{deriv}\phi(T)
 =\langle u'(T+1),u(T+1)-x\rangle_{\mathbb R}.
-\]
-The lemma `operator_damping_remainder_nonnegative` says that if \(\gamma\|y\|^2\le\langle \Gamma y,y\rangle_{\mathbb R}\) for all \(y\), then
-\[
-0\le \langle(\Gamma-\gamma I)y,y\rangle_{\mathbb R}.
-\]
-Applying this to \(y=u(T+1)-x\) gives
-\[
-0\le \rho(T).
-\]
+$$
 
-The energy monotonicity lemma `operator_energy_antitone_pos` is then used. It states that for \(0<a\le b\),
-\[
+The lemma `operator_damping_remainder_nonnegative` says that if $\gamma\|y\|^2\le\langle \Gamma y,y\rangle_{\mathbb R}$ for all $y$, then
+
+$$
+0\le \langle(\Gamma-\gamma I)y,y\rangle_{\mathbb R}.
+$$
+
+Applying this to $y=u(T+1)-x$ gives
+
+$$
+0\le \rho(T).
+$$
+
+The energy monotonicity lemma `operator_energy_antitone_pos` is then used. It states that for $0<a\le b$,
+
+$$
 E(b)\le E(a).
-\]
-Taking \(a=1\) and \(b=T+1\) gives
-\[
+$$
+
+Taking $a=1$ and $b=T+1$ gives
+
+$$
 E(T+1)\le E(1).
-\]
-If \(m\le\Phi(y)\) for all \(y\) is the lower bound supplied by the potential assumption, then
-\[
+$$
+
+If $m\le\Phi(y)$ for all $y$ is the lower bound supplied by the potential assumption, then
+
+$$
 \frac12\|u'(T+1)\|^2\le E(1)-m.
-\]
+$$
+
 Setting
-\[
+
+$$
 K=\frac{E(1)-m}{\gamma},
-\]
+$$
+
 and combining this kinetic bound with Cauchy–Schwarz,
-\[
+
+$$
 \langle u'(T+1),u(T+1)-x\rangle_{\mathbb R}
 \ge -\|u'(T+1)\|\|u(T+1)-x\|,
-\]
+$$
+
 and with the nonnegativity of
-\[
+
+$$
 \bigl(\|u'(T+1)\|-\gamma\|u(T+1)-x\|\bigr)^2,
-\]
+$$
+
 the proof obtains the lower bound
-\[
+
+$$
 -K\le \operatorname{deriv}\phi(T)+\gamma\phi(T)+\rho(T)
-\]
-for all \(T\ge0\).
+$$
+
+for all $T\ge0$.
 
 Let
-\[
+
+$$
 C=\operatorname{deriv}\phi(0)+\gamma\phi(0)+\rho(0).
-\]
-Subtracting \(C\) from the previous lower bound gives
-\[
+$$
+
+Subtracting $C$ from the previous lower bound gives
+
+$$
 -K-C\le
 \operatorname{deriv}\phi(T)-\operatorname{deriv}\phi(0)
 +\gamma(\phi(T)-\phi(0))+\rho(T)-\rho(0).
-\]
+$$
 
-The frozen-distance lemma `operator_shifted_distance_frozen_integral` is invoked with \(a=0\) and the chosen \(T\). The supplied context truncates the full statement of that lemma, but the proof uses the following consequence obtained after unfolding the definitions of \(\phi,\rho,A,E,q\):
-\[
+The frozen-distance lemma `operator_shifted_distance_frozen_integral` is invoked with $a=0$ and the chosen $T$. The supplied context truncates the full statement of that lemma, but the proof uses the following consequence obtained after unfolding the definitions of $\phi,\rho,A,E,q$:
+
+$$
 \begin{aligned}
 &\operatorname{deriv}\phi(T)-\operatorname{deriv}\phi(0)
 +\gamma(\phi(T)-\phi(0))+\rho(T)-\rho(0)\\
@@ -741,174 +824,241 @@ The frozen-distance lemma `operator_shifted_distance_frozen_integral` is invoked
 (\Phi(x)-E(T+1))T
 +\frac32\int_0^T q(s)\,ds.
 \end{aligned}
-\]
-Combining this upper estimate with the eventual inequality
-\[
-\Phi(x)-E(T+1)\le-\delta
-\]
-and with
-\[
-\int_0^T q(s)\,ds\le Q
-\]
-gives
-\[
--K-C\le -\delta T+\frac32 Q.
-\]
-But \(T\) is chosen so large that
-\[
-K+C+\frac32 Q+1<\delta T.
-\]
-This is equivalent to
-\[
--K-C> -\delta T+\frac32 Q+1,
-\]
-contradicting the previous inequality. Hence \(E_\infty\le\inf \Phi(H)\), and therefore
-\[
-E_\infty=\inf \Phi(H).
-\]
+$$
 
-With this equality established, the convergence of the potential follows by the squeeze theorem. For every \(t\),
-\[
+Combining this upper estimate with the eventual inequality
+
+$$
+\Phi(x)-E(T+1)\le-\delta
+$$
+
+and with
+
+$$
+\int_0^T q(s)\,ds\le Q
+$$
+
+gives
+
+$$
+-K-C\le -\delta T+\frac32 Q.
+$$
+
+But $T$ is chosen so large that
+
+$$
+K+C+\frac32 Q+1<\delta T.
+$$
+
+This is equivalent to
+
+$$
+-K-C> -\delta T+\frac32 Q+1,
+$$
+
+contradicting the previous inequality. Hence $E_\infty\le\inf \Phi(H)$, and therefore
+
+$$
+E_\infty=\inf \Phi(H).
+$$
+
+With this equality established, the convergence of the potential follows by the squeeze theorem. For every $t$,
+
+$$
 \inf \Phi(H)\le \Phi(u(t))\le E(t),
-\]
-and both the constant sequence \(\inf \Phi(H)\) and the energy \(E(t)\) tend to \(\inf \Phi(H)\). The lemma `tendsto_of_tendsto_of_tendsto_of_le_of_le` formalizes this squeeze and yields
-\[
+$$
+
+and both the constant sequence $\inf \Phi(H)$ and the energy $E(t)$ tend to $\inf \Phi(H)$. The lemma `tendsto_of_tendsto_of_tendsto_of_le_of_le` formalizes this squeeze and yields
+
+$$
 \Phi(u(t))\to \inf \Phi(H).
-\]
+$$
 
 The velocity convergence is then obtained from `operator_velocity_tendsto_zero_of_energy_potential_tendsto`. That lemma says that if the total energy
-\[
+
+$$
 E(t)=\frac12\|u'(t)\|^2+\Phi(u(t))
-\]
-converges to a limit \(m\) and the potential \(\Phi(u(t))\) also converges to the same \(m\), then the velocity \(u'(t)\) tends to \(0\). Here \(m=\inf \Phi(H)\). Indeed,
-\[
+$$
+
+converges to a limit $m$ and the potential $\Phi(u(t))$ also converges to the same $m$, then the velocity $u'(t)$ tends to $0$. Here $m=\inf \Phi(H)$. Indeed,
+
+$$
 \frac12\|u'(t)\|^2=E(t)-\Phi(u(t))\to0,
-\]
-so \(u'(t)\to0\).
+$$
+
+so $u'(t)\to0$.
 
 It remains to prove the conditional weak convergence statement. The proof assumes that the minimizer set
-\[
+
+$$
 S=\operatorname{argmin}\Phi
-\]
+$$
+
 is nonempty. It defines
-\[
+
+$$
 d(x,z)=\frac1{2\gamma}\langle \Gamma(x-z),x-z\rangle_{\mathbb R}.
-\]
-Coercivity gives \(d(x,z)\ge0\). The lemma `operator_distance_to_minimizer_converges` is applied to each \(z\in S\). It states that under the previously established integrability and velocity convergence, there exists a real number \(l\) such that
-\[
+$$
+
+Coercivity gives $d(x,z)\ge0$. The lemma `operator_distance_to_minimizer_converges` is applied to each $z\in S$. It states that under the previously established integrability and velocity convergence, there exists a real number $l$ such that
+
+$$
 d(u(t),z)\to l\qquad (t\to\infty).
-\]
+$$
 
-The proof then shows that any weak cluster point of a sequence of trajectory values must lie in \(S\). Suppose \(t_n\to\infty\) and \(u(t_n)\to z\) weakly. Since \(\Phi(u(t))\to\inf \Phi(H)\), composing with \(t_n\) gives
-\[
+The proof then shows that any weak cluster point of a sequence of trajectory values must lie in $S$. Suppose $t_n\to\infty$ and $u(t_n)\to z$ weakly. Since $\Phi(u(t))\to\inf \Phi(H)$, composing with $t_n$ gives
+
+$$
 \Phi(u(t_n))\to\inf \Phi(H).
-\]
-For every \(\varepsilon>0\), eventually
-\[
+$$
+
+For every $\varepsilon>0$, eventually
+
+$$
 \Phi(u(t_n))\le \inf \Phi(H)+\varepsilon.
-\]
+$$
+
 The sublevel set
-\[
+
+$$
 \{w\in H:\Phi(w)\le \inf \Phi(H)+\varepsilon\}
-\]
-is closed because \(\Phi\) is continuous, and it is convex because \(\Phi\) is convex. The lemma `mem_of_tendsto_weakly_of_isClosed_convex` says that a weak limit of a sequence in a closed convex set belongs to that set. Hence \(z\) belongs to the sublevel set for every \(\varepsilon>0\), so
-\[
+$$
+
+is closed because $\Phi$ is continuous, and it is convex because $\Phi$ is convex. The lemma `mem_of_tendsto_weakly_of_isClosed_convex` says that a weak limit of a sequence in a closed convex set belongs to that set. Hence $z$ belongs to the sublevel set for every $\varepsilon>0$, so
+
+$$
 \Phi(z)\le \inf \Phi(H).
-\]
+$$
+
 On the other hand, `potential_sInf_le` gives
-\[
+
+$$
 \inf \Phi(H)\le \Phi(z).
-\]
-Thus \(\Phi(z)=\inf \Phi(H)\), so \(z\in S\).
+$$
 
-Next the proof takes an arbitrary sequence of times \(t_n\to\infty\), writes
-\[
+Thus $\Phi(z)=\inf \Phi(H)$, so $z\in S$.
+
+Next the proof takes an arbitrary sequence of times $t_n\to\infty$, writes
+
+$$
 x_n=u(t_n),
-\]
-and proves that the sequence \(x_n\) is bounded. Choose some \(z_0\in S\), possible because \(S\neq\emptyset\). Since \(d(x_n,z_0)\) converges, its range is bounded. Coercivity then bounds \(\|x_n-z_0\|^2\), and the triangle inequality bounds \(\|x_n\|\). Hence the range of \(x_n\) is bounded.
+$$
 
-Any weak sequential cluster point of \(x_n\) lies in \(S\) by the previous paragraph. The proof then proves uniqueness of such weak sequential cluster points. Suppose \(y,z\in S\) are two weak sequential cluster points. Since \(d(x_n,y)\) and \(d(x_n,z)\) converge, say to \(l_y\) and \(l_z\), one has
-\[
+and proves that the sequence $x_n$ is bounded. Choose some $z_0\in S$, possible because $S\neq\emptyset$. Since $d(x_n,z_0)$ converges, its range is bounded. Coercivity then bounds $\|x_n-z_0\|^2$, and the triangle inequality bounds $\|x_n\|$. Hence the range of $x_n$ is bounded.
+
+Any weak sequential cluster point of $x_n$ lies in $S$ by the previous paragraph. The proof then proves uniqueness of such weak sequential cluster points. Suppose $y,z\in S$ are two weak sequential cluster points. Since $d(x_n,y)$ and $d(x_n,z)$ converge, say to $l_y$ and $l_z$, one has
+
+$$
 2\gamma(d(x_n,z)-d(x_n,y))\to 2\gamma(l_z-l_y).
-\]
-Using the self-adjointness of \(\Gamma\), the proof establishes the algebraic identity
-\[
+$$
+
+Using the self-adjointness of $\Gamma$, the proof establishes the algebraic identity
+
+$$
 2\gamma(d(x_n,z)-d(x_n,y))
 =
 2\langle \Gamma x_n,y-z\rangle_{\mathbb R}
 +\langle \Gamma z,z\rangle_{\mathbb R}-\langle \Gamma y,y\rangle_{\mathbb R}.
-\]
-Along a subsequence converging weakly to \(y\), the inner-product term tends to
-\[
+$$
+
+Along a subsequence converging weakly to $y$, the inner-product term tends to
+
+$$
 2\langle \Gamma y,y-z\rangle_{\mathbb R},
-\]
-and along a subsequence converging weakly to \(z\), it tends to
-\[
+$$
+
+and along a subsequence converging weakly to $z$, it tends to
+
+$$
 2\langle \Gamma z,y-z\rangle_{\mathbb R}.
-\]
+$$
+
 By uniqueness of limits, these two quantities are equal, so
-\[
+
+$$
 \langle \Gamma y,y-z\rangle_{\mathbb R}
 =
 \langle \Gamma z,y-z\rangle_{\mathbb R}.
-\]
+$$
+
 Using self-adjointness again,
-\[
+
+$$
 \langle y-z,\Gamma(y-z)\rangle_{\mathbb R}=0.
-\]
+$$
+
 Coercivity gives
-\[
+
+$$
 \gamma\|y-z\|^2\le \langle y-z,\Gamma(y-z)\rangle_{\mathbb R}=0,
-\]
-hence \(y=z\). Thus there is at most one weak sequential cluster point.
+$$
 
-The lemma `weaklyConvergent_iff_bounded_and_atMostOne_weakSequentialClusterPoint` states that for a sequence in a Hilbert space, weak convergence is equivalent to boundedness of its range together with existence of at most one weak sequential cluster point. The proof has established both, so the sequence \(x_n=u(t_n)\) has a weak limit \(z\), and the cluster-point argument shows \(z\in S\).
+hence $y=z$. Thus there is at most one weak sequential cluster point.
 
-Applying this to the sequence of natural times \(t_n=n\) gives a point
-\[
+The lemma `weaklyConvergent_iff_bounded_and_atMostOne_weakSequentialClusterPoint` states that for a sequence in a Hilbert space, weak convergence is equivalent to boundedness of its range together with existence of at most one weak sequential cluster point. The proof has established both, so the sequence $x_n=u(t_n)$ has a weak limit $z$, and the cluster-point argument shows $z\in S$.
+
+Applying this to the sequence of natural times $t_n=n$ gives a point
+
+$$
 u_\ast\in S
-\]
+$$
+
 such that
-\[
+
+$$
 u(n)\rightharpoonup u_\ast
 \qquad (n\to\infty).
-\]
+$$
 
-The proof then upgrades this to every sequence of real times \(t_n\to\infty\). It interleaves the given sequence with the natural numbers by defining
-\[
+The proof then upgrades this to every sequence of real times $t_n\to\infty$. It interleaves the given sequence with the natural numbers by defining
+
+$$
 q_{2n}=n,\qquad q_{2n+1}=t_n.
-\]
-The sequence \(q_n\to\infty\), so the previous result gives a weak limit \(w\in S\) along \(q_n\). The even subsequence gives
-\[
-u(n)\rightharpoonup w,
-\]
-while already \(u(n)\rightharpoonup u_\ast\). Since the map `toWeakSpace` is injective and weak limits are unique, \(w=u_\ast\). The odd subsequence then gives
-\[
-u(t_n)\rightharpoonup u_\ast.
-\]
-Therefore every sequence of times tending to infinity has the same weak limit \(u_\ast\).
+$$
 
-Finally, the proof converts this sequential statement into convergence in the filter sense as \(t\to\infty\). The lemma `weakConvergence_iff_forall_tendsto_inner_right` says that weak convergence is equivalent to convergence of all scalar inner products:
-\[
+The sequence $q_n\to\infty$, so the previous result gives a weak limit $w\in S$ along $q_n$. The even subsequence gives
+
+$$
+u(n)\rightharpoonup w,
+$$
+
+while already $u(n)\rightharpoonup u_\ast$. Since the map `toWeakSpace` is injective and weak limits are unique, $w=u_\ast$. The odd subsequence then gives
+
+$$
+u(t_n)\rightharpoonup u_\ast.
+$$
+
+Therefore every sequence of times tending to infinity has the same weak limit $u_\ast$.
+
+Finally, the proof converts this sequential statement into convergence in the filter sense as $t\to\infty$. The lemma `weakConvergence_iff_forall_tendsto_inner_right` says that weak convergence is equivalent to convergence of all scalar inner products:
+
+$$
 u(t)\rightharpoonup u_\ast
 \iff
 \forall y\in H,\quad
 \langle u(t),y\rangle_{\mathbb R}\to
 \langle u_\ast,y\rangle_{\mathbb R}.
-\]
-The proof proves the right-hand side by contradiction. If some \(y\) failed to have convergent inner products, then there would exist \(\varepsilon>0\) and times \(s_n\to\infty\) with
-\[
+$$
+
+The proof proves the right-hand side by contradiction. If some $y$ failed to have convergent inner products, then there would exist $\varepsilon>0$ and times $s_n\to\infty$ with
+
+$$
 |\langle u(s_n),y\rangle_{\mathbb R}-\langle u_\ast,y\rangle_{\mathbb R}|\ge\varepsilon.
-\]
-But the all-sequences result gives \(u(s_n)\rightharpoonup u_\ast\), and `tendsto_apply_of_tendsto_toWeakSpace` then gives
-\[
+$$
+
+But the all-sequences result gives $u(s_n)\rightharpoonup u_\ast$, and `tendsto_apply_of_tendsto_toWeakSpace` then gives
+
+$$
 \langle u(s_n),y\rangle_{\mathbb R}\to
 \langle u_\ast,y\rangle_{\mathbb R},
-\]
+$$
+
 a contradiction. Hence all inner products converge, and the same equivalence gives
-\[
+
+$$
 u(t)\rightharpoonup u_\ast.
-\]
+$$
+
 This proves the conditional weak-convergence conclusion.
 
 Throughout the proof, `intro` introduces a hypothesis or a pointwise variable, `rcases` and `obtain` unpack existential statements, `refine` assembles the conjunctive conclusions, `rw` and `simp`/`dsimp` unfold definitions and rewrite identities, `exact` and `simpa` apply named lemmas, `positivity` proves nonnegativity of kinetic-type terms, and `linarith` or `nlinarith` close the linear and nonlinear arithmetic inequalities that combine the estimates.

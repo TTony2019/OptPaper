@@ -17,53 +17,66 @@ theorem accelerated_gradient_rate {E : Type*} [NormedAddCommGroup E]
 ## Statement explanation
 The declaration `accelerated_gradient_rate` states a convergence rate and an iteration/evaluation complexity bound for Nesterov’s accelerated gradient method.
 
-The ambient type \(E\) is a real Hilbert space: it is a normed additive commutative group, an inner product space over \(\mathbb R\), and complete. The function \(f:E\to\mathbb R\) is the objective. The real number \(L\) is the parameter of the hypothesis `hC11 : IsC11 f L`, a \(C^{1,1}\)-type regularity assumption for \(f\). In the proof this hypothesis is used through the visible consequences that \(f\) has gradient `gradient f u` at every point \(u\), and that the method’s data imply \(0<L\) with \(1/L\le M.initialStep\). The hypothesis `hconv : ConvexOn ℝ Set.univ f` says that \(f\) is convex on all of \(E\). The term \(M\) is an accelerated gradient method for \(f\); the proof uses its sequences \(M.x_k\), \(M.y_k\), its initial auxiliary point \(M.y_0\), its previous point \(M.x_{-1}\), its step sizes \(M.step_k\), its weights \(M.weight_k\), its initial step \(M.initialStep\), and its line-search trial counts \(M.searchIndex_k\). The point \(x^*\) is a global minimizer of \(f\), because `hmin : ∀ x, f xstar ≤ f x`. The hypothesis `hy0 : M.y 0 = M.y0` identifies the first auxiliary iterate of the method with the initial point \(M.y_0\) used in the estimates.
+The ambient type $E$ is a real Hilbert space: it is a normed additive commutative group, an inner product space over $\mathbb R$, and complete. The function $f:E\to\mathbb R$ is the objective. The real number $L$ is the parameter of the hypothesis `hC11 : IsC11 f L`, a $C^{1,1}$-type regularity assumption for $f$. In the proof this hypothesis is used through the visible consequences that $f$ has gradient `gradient f u` at every point $u$, and that the method’s data imply $0<L$ with $1/L\le M.initialStep$. The hypothesis `hconv : ConvexOn ℝ Set.univ f` says that $f$ is convex on all of $E$. The term $M$ is an accelerated gradient method for $f$; the proof uses its sequences $M.x_k$, $M.y_k$, its initial auxiliary point $M.y_0$, its previous point $M.x_{-1}$, its step sizes $M.step_k$, its weights $M.weight_k$, its initial step $M.initialStep$, and its line-search trial counts $M.searchIndex_k$. The point $x^*$ is a global minimizer of $f$, because `hmin : ∀ x, f xstar ≤ f x`. The hypothesis `hy0 : M.y 0 = M.y0` identifies the first auxiliary iterate of the method with the initial point $M.y_0$ used in the estimates.
 
 The first conclusion is the accelerated rate:
-\[
+
+$$
 \forall k\in\mathbb N,\qquad
 f(M.x_k)-f(x^*)
 \le
 \frac{4L\,\lVert M.y_0-x^*\rVert^2}{(k+2)^2}.
-\]
-Thus the objective gap at the \(k\)-th iterate is bounded by a constant multiple of \((k+2)^{-2}\).
+$$
 
-The second conclusion is a complexity statement. For every \(\varepsilon>0\), define
-\[
+Thus the objective gap at the $k$-th iterate is bounded by a constant multiple of $(k+2)^{-2}$.
+
+The second conclusion is a complexity statement. For every $\varepsilon>0$, define
+
+$$
 NG=\sqrt{\frac{4L\,\lVert M.y_0-x^*\rVert^2}{\varepsilon}},
 \qquad
 NF=2NG+\log_2(2L\,M.initialStep)+1.
-\]
+$$
+
 Then there exist natural numbers `iterations`, `gradientEvaluations`, and `functionEvaluations` such that
-\[
+
+$$
 \text{gradientEvaluations}
 =
 \text{acceleratedGradientEvaluationCount}(f,M,\text{iterations}),
-\]
-\[
+$$
+
+$$
 \text{functionEvaluations}
 =
 \text{acceleratedFunctionEvaluationCount}(f,M,\text{iterations}),
-\]
+$$
+
 and
-\[
+
+$$
 \text{gradientEvaluations}\le \lceil NG\rceil_{\mathbb N},
 \qquad
 \text{functionEvaluations}\le \lceil NF\rceil_{\mathbb N},
 \qquad
 f(M.x_{\text{iterations}})-f(x^*)\le \varepsilon .
-\]
-Here \(\lceil r\rceil_{\mathbb N}\) denotes `(Int.ceil r).toNat`, the natural-number ceiling, valid because the proof establishes that the arguments are nonnegative. The cited definitions give
-\[
+$$
+
+Here $\lceil r\rceil_{\mathbb N}$ denotes `(Int.ceil r).toNat`, the natural-number ceiling, valid because the proof establishes that the arguments are nonnegative. The cited definitions give
+
+$$
 \text{acceleratedGradientEvaluationCount}(f,M,n)=n,
-\]
+$$
+
 so the gradient-evaluation count is just the number of iterations, and
-\[
+
+$$
 \text{acceleratedFunctionEvaluationCount}(f,M,n)
 =
 2n+\sum_{i<n} M.searchIndex_i.
-\]
-Thus the function-evaluation count is \(2n\) plus the total number of rejected line-search trials.
+$$
+
+Thus the function-evaluation count is $2n$ plus the total number of rejected line-search trials.
 
 ## Lean proof
 ```lean
@@ -217,44 +230,53 @@ Real.sqrt (4 * L * ‖M.y0 - xstar‖ ^ 2 / ε)
 
 ## Proof explanation
 The proof first defines the auxiliary sequence
-\[
+
+$$
 p_n
 =
 (M.weight_n-1)\cdot
 \left(
 \left(\text{if }n=0\text{ then }M.x_{-1}\text{ else }M.x_{n-1}\right)-M.x_n
 \right).
-\]
+$$
+
 This is the momentum-like extrapolated point used in the energy estimates. The fact `hp` is proved by `rfl`, because it is exactly the definition just introduced.
 
-Next, the proof obtains \(0<L\) from `initialStep_ge_inv_L`. That theorem states
-\[
+Next, the proof obtains $0<L$ from `initialStep_ge_inv_L`. That theorem states
+
+$$
 0<L
 \qquad\text{and}\qquad
 \frac1L\le M.initialStep.
-\]
-The proof only extracts the first conjunct, \(0<L\), and uses it later for positivity and division arguments.
+$$
+
+The proof only extracts the first conjunct, $0<L$, and uses it later for positivity and division arguments.
 
 The central estimate is the energy bound
-\[
+
+$$
 2 M.step_k M.weight_k^2\bigl(f(M.x_k)-f(x^*)\bigr)
 +
 \lVert p_k-M.x_k+x^*\rVert^2
 \le
 \lVert M.y_0-x^*\rVert^2 .
-\]
-The proof proves this for all \(k\) by induction. The base case \(k=0\) is exactly the conclusion of `accelerated_energy_zero_le`, which, using `hy0`, convexity of \(f\), the gradient hypothesis, and the definition of \(p\), gives
-\[
+$$
+
+The proof proves this for all $k$ by induction. The base case $k=0$ is exactly the conclusion of `accelerated_energy_zero_le`, which, using `hy0`, convexity of $f$, the gradient hypothesis, and the definition of $p$, gives
+
+$$
 2 M.step_0 M.weight_0^2\bigl(f(M.x_0)-f(x^*)\bigr)
 +
 \lVert p_0-M.x_0+x^*\rVert^2
 \le
 \lVert M.y_0-x^*\rVert^2 .
-\]
-The gradient hypothesis supplied to that lemma is `fun u => hC11.hasGradientAt u`: for every point \(u\), the gradient of \(f\) at \(u\) is `gradient f u`.
+$$
+
+The gradient hypothesis supplied to that lemma is `fun u => hC11.hasGradientAt u`: for every point $u$, the gradient of $f$ at $u$ is `gradient f u`.
 
 For the induction step, `accelerated_energy_succ_le` states
-\[
+
+$$
 2 M.step_{k+1} M.weight_{k+1}^2
 \bigl(f(M.x_{k+1})-f(x^*)\bigr)
 +
@@ -264,178 +286,238 @@ For the induction step, `accelerated_energy_succ_le` states
 \bigl(f(M.x_k)-f(x^*)\bigr)
 +
 \lVert p_k-M.x_k+x^*\rVert^2 .
-\]
-So the energy at step \(k+1\) is at most the energy at step \(k\). Composing this with the induction hypothesis gives the desired global bound. This is the mathematical content of the `.trans ih` step.
+$$
+
+So the energy at step $k+1$ is at most the energy at step $k$. Composing this with the induction hypothesis gives the desired global bound. This is the mathematical content of the `.trans ih` step.
 
 From this energy bound, the proof derives the rate
-\[
+
+$$
 f(M.x_k)-f(x^*)
 \le
 \frac{4L\,\lVert M.y_0-x^*\rVert^2}{(k+2)^2}.
-\]
-For fixed \(k\), the gap is nonnegative because \(x^*\) is a global minimizer:
-\[
+$$
+
+For fixed $k$, the gap is nonnegative because $x^*$ is a global minimizer:
+
+$$
 0\le f(M.x_k)-f(x^*),
-\]
+$$
+
 proved by `linarith [hmin (M.x k)]`.
 
 Two lower bounds are then invoked. The theorem `method_step_lower` gives
-\[
+
+$$
 \frac{1}{2L}\le M.step_k,
-\]
+$$
+
 and the theorem `weight_lower` gives
-\[
+
+$$
 1+\frac{k}{2}\le M.weight_k.
-\]
-Since \(1+k/2\ge0\), squaring the weight inequality yields
-\[
+$$
+
+Since $1+k/2\ge0$, squaring the weight inequality yields
+
+$$
 \left(1+\frac{k}{2}\right)^2\le M.weight_k^2.
-\]
+$$
+
 The energy bound also implies, after dropping the nonnegative squared-norm term,
-\[
+
+$$
 2 M.step_k M.weight_k^2\bigl(f(M.x_k)-f(x^*)\bigr)
 \le
 \lVert M.y_0-x^*\rVert^2 .
-\]
-The proof multiplies the lower bounds for \(M.step_k\) and \(M.weight_k^2\) by the nonnegative gap \(f(M.x_k)-f(x^*)\). Together with
-\[
+$$
+
+The proof multiplies the lower bounds for $M.step_k$ and $M.weight_k^2$ by the nonnegative gap $f(M.x_k)-f(x^*)$. Together with
+
+$$
 \left(1+\frac{k}{2}\right)^2=\frac{(k+2)^2}{4},
-\]
+$$
+
 this gives
-\[
+
+$$
 \frac{(k+2)^2}{4L}\bigl(f(M.x_k)-f(x^*)\bigr)
 \le
 \lVert M.y_0-x^*\rVert^2 .
-\]
-The tactics `positivity`, `nlinarith`, `gcongr`, `field_simp`, and `ring` are used here for nonnegativity, algebraic rearrangement, and monotonicity of multiplication by nonnegative factors. Multiplying by \(4L\), using \(L>0\), and dividing by the positive denominator \((k+2)^2\) yields the stated rate.
+$$
 
-The proof then proves the complexity part. Given \(\varepsilon>0\), it defines
-\[
+The tactics `positivity`, `nlinarith`, `gcongr`, `field_simp`, and `ring` are used here for nonnegativity, algebraic rearrangement, and monotonicity of multiplication by nonnegative factors. Multiplying by $4L$, using $L>0$, and dividing by the positive denominator $(k+2)^2$ yields the stated rate.
+
+The proof then proves the complexity part. Given $\varepsilon>0$, it defines
+
+$$
 NG=\sqrt{\frac{4L\lVert M.y_0-x^*\rVert^2}{\varepsilon}}
-\]
+$$
+
 and
-\[
+
+$$
 D=\log_2(2L\,M.initialStep),
-\]
-so that the theorem’s \(NF\) is \(2NG+D+1\). It checks that
-\[
+$$
+
+so that the theorem’s $NF$ is $2NG+D+1$. It checks that
+
+$$
 0\le 4L\lVert M.y_0-x^*\rVert^2,
 \qquad
 0\le NG,
 \qquad
 0\le \lceil NG\rceil,
-\]
+$$
+
 and defines
-\[
+
+$$
 \text{iterations}=(\lceil NG\rceil)_{\mathbb N}.
-\]
-The inequality \(NG\le \text{iterations}\) follows from \(NG\le \lceil NG\rceil\) and the fact that `iterations` is the natural-number version of that ceiling. Also,
-\[
+$$
+
+The inequality $NG\le \text{iterations}$ follows from $NG\le \lceil NG\rceil$ and the fact that `iterations` is the natural-number version of that ceiling. Also,
+
+$$
 NG^2=\frac{4L\lVert M.y_0-x^*\rVert^2}{\varepsilon},
-\]
+$$
+
 using `Real.sq_sqrt` and the nonnegativity of the radicand.
 
-The accuracy estimate \(f(M.x_{\text{iterations}})-f(x^*)\le\varepsilon\) follows from the rate. Since \(NG\le \text{iterations}\), squaring gives
-\[
+The accuracy estimate $f(M.x_{\text{iterations}})-f(x^*)\le\varepsilon$ follows from the rate. Since $NG\le \text{iterations}$, squaring gives
+
+$$
 NG^2\le \text{iterations}^2.
-\]
-Substituting the formula for \(NG^2\) yields
-\[
+$$
+
+Substituting the formula for $NG^2$ yields
+
+$$
 \frac{4L\lVert M.y_0-x^*\rVert^2}{\varepsilon}
 \le
 \text{iterations}^2.
-\]
-Multiplying by \(\varepsilon>0\) gives
-\[
+$$
+
+Multiplying by $\varepsilon>0$ gives
+
+$$
 4L\lVert M.y_0-x^*\rVert^2
 \le
 \varepsilon\,\text{iterations}^2.
-\]
-Since \(\text{iterations}^2\le(\text{iterations}+2)^2\), the rate at \(k=\text{iterations}\) is at most \(\varepsilon\).
+$$
+
+Since $\text{iterations}^2\le(\text{iterations}+2)^2$, the rate at $k=\text{iterations}$ is at most $\varepsilon$.
 
 Next the proof bounds the line-search sum. Let
-\[
+
+$$
 S=\sum_{i<\text{iterations}} M.searchIndex_i.
-\]
-First, `D` is nonnegative. Indeed, applying `search_sum_le_logb` with \(n=0\) gives
-\[
+$$
+
+First, `D` is nonnegative. Indeed, applying `search_sum_le_logb` with $n=0$ gives
+
+$$
 \sum_{i=0}^{0} M.searchIndex_i
 \le
 \log_2(2L\,M.initialStep)=D,
-\]
-and the left-hand side is a natural number cast to \(\mathbb R\), hence nonnegative.
+$$
 
-For the chosen number of iterations, the proof uses that the range of indices below `iterations` is contained in the range of indices below `iterations+1`, and that all terms \(M.searchIndex_i\) are natural numbers, hence nonnegative. Therefore
-\[
+and the left-hand side is a natural number cast to $\mathbb R$, hence nonnegative.
+
+For the chosen number of iterations, the proof uses that the range of indices below `iterations` is contained in the range of indices below `iterations+1`, and that all terms $M.searchIndex_i$ are natural numbers, hence nonnegative. Therefore
+
+$$
 \sum_{i<\text{iterations}} M.searchIndex_i
 \le
 \sum_{i<\text{iterations}+1} M.searchIndex_i.
-\]
-Applying `search_sum_le_logb` with \(n=\text{iterations}\) bounds the right-hand sum by \(D\):
-\[
+$$
+
+Applying `search_sum_le_logb` with $n=\text{iterations}$ bounds the right-hand sum by $D$:
+
+$$
 \sum_{i<\text{iterations}+1} M.searchIndex_i
 \le D.
-\]
-Thus \(S\le D\), and since \(D\ge0\), also
-\[
+$$
+
+Thus $S\le D$, and since $D\ge0$, also
+
+$$
 S\le \lceil D\rceil_{\mathbb N}.
-\]
+$$
 
 The proof now chooses witnesses
-\[
+
+$$
 \text{iterations}=(\lceil NG\rceil)_{\mathbb N},
-\]
-\[
+$$
+
+$$
 \text{gradientEvaluations}
 =
 \text{acceleratedGradientEvaluationCount}(f,M,\text{iterations}),
-\]
-\[
+$$
+
+$$
 \text{functionEvaluations}
 =
 \text{acceleratedFunctionEvaluationCount}(f,M,\text{iterations}).
-\]
+$$
+
 The two defining equalities are closed by `rfl`. The gradient-evaluation bound is also immediate, because
-\[
+
+$$
 \text{acceleratedGradientEvaluationCount}(f,M,\text{iterations})
 =
 \text{iterations}
 =
 (\lceil NG\rceil)_{\mathbb N},
-\]
+$$
+
 so the inequality against `(Int.ceil NG).toNat` is reflexive.
 
 For the function-evaluation bound, the goal becomes
-\[
+
+$$
 2\,\text{iterations}+S
 \le
 \left\lceil 2NG+D+1\right\rceil_{\mathbb N}.
-\]
+$$
+
 The proof first shows the corresponding integer inequality. It uses
-\[
+
+$$
 \text{iterations}=\lceil NG\rceil<\ NG+1,
-\]
-from `Int.ceil_lt_add_one`, and \(S\le D\), together with
-\[
+$$
+
+from `Int.ceil_lt_add_one`, and $S\le D$, together with
+
+$$
 2NG+D+1\le \lceil 2NG+D+1\rceil.
-\]
+$$
+
 Combining these gives the real inequality
-\[
+
+$$
 2\,\text{iterations}+S
 <
 \lceil 2NG+D+1\rceil+1.
-\]
+$$
+
 Since the left-hand side is an integer and the right-hand side is an integer plus one, `Int.lt_add_one_iff` converts this into the integer inequality
-\[
+
+$$
 2\,\text{iterations}+S
 \le
 \lceil 2NG+D+1\rceil.
-\]
+$$
+
 Finally, because the right-hand integer is nonnegative, `Int.le_toNat` converts this into the desired natural-number inequality
-\[
+
+$$
 2\,\text{iterations}+S
 \le
 \left\lceil 2NG+D+1\right\rceil_{\mathbb N}.
-\]
-Together with the already established \(\varepsilon\)-accuracy, this supplies all clauses of the existential complexity statement.
+$$
+
+Together with the already established $\varepsilon$-accuracy, this supplies all clauses of the existential complexity statement.
 

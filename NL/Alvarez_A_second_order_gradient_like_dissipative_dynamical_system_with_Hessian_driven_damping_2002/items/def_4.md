@@ -9,22 +9,22 @@ def StronglyMonotoneOnBoundedSubsets (H : Type*) [NormedAddCommGroup H] [InnerPr
 ```
 
 ## Statement explanation
-The declaration defines a predicate named `StronglyMonotoneOnBoundedSubsets`. Its context consists of a type \(H\), an additive commutative group structure with a norm on \(H\) given by `NormedAddCommGroup H`, and a real inner product space structure on \(H\) given by `InnerProductSpace ℝ H`. Thus \(H\) is equipped with a real inner product \(\langle \cdot,\cdot\rangle\) and an associated norm \(\|\cdot\|\). The statement does not assume completeness of \(H\). The argument \(G\) is an arbitrary map \(G:H\to H\); it is not assumed to be linear, continuous, differentiable, or monotone in any other sense.
+The declaration defines a predicate named `StronglyMonotoneOnBoundedSubsets`. Its context consists of a type $H$, an additive commutative group structure with a norm on $H$ given by `NormedAddCommGroup H`, and a real inner product space structure on $H$ given by `InnerProductSpace ℝ H`. Thus $H$ is equipped with a real inner product $\langle \cdot,\cdot\rangle$ and an associated norm $\|\cdot\|$. The statement does not assume completeness of $H$. The argument $G$ is an arbitrary map $G:H\to H$; it is not assumed to be linear, continuous, differentiable, or monotone in any other sense.
 
 The predicate is the proposition
 
-\[
+$$
 \forall R:\mathbb{R},\; 0<R \to \exists c:\mathbb{R},\; 0<c \wedge \forall x,y:H,\;
 \max(\|x\|,\|y\|)<R \to c\,\|x-y\|^2 \le \langle Gx-Gy,x-y\rangle .
-\]
+$$
 
-In words: for every positive real radius \(R\), there exists a positive real constant \(c\), possibly depending on \(R\), such that for all \(x,y\in H\) satisfying \(\|x\|<R\) and \(\|y\|<R\), equivalently \(\max(\|x\|,\|y\|)<R\), the map \(G\) satisfies the strong monotonicity inequality
+In words: for every positive real radius $R$, there exists a positive real constant $c$, possibly depending on $R$, such that for all $x,y\in H$ satisfying $\|x\|<R$ and $\|y\|<R$, equivalently $\max(\|x\|,\|y\|)<R$, the map $G$ satisfies the strong monotonicity inequality
 
-\[
+$$
 \langle Gx-Gy,x-y\rangle \ge c\,\|x-y\|^2 .
-\]
+$$
 
-Thus \(G\) is strongly monotone with a positive modulus \(c\) on each open ball of radius \(R\) centered at the origin. The constant \(c\) is uniform over all pairs \(x,y\) inside that ball, but it may depend on the ball radius \(R\). Equivalently, the definition requires uniform strong monotonicity on every bounded subset, encoded here by the condition that both \(x\) and \(y\) lie in the open ball of radius \(R\). Since \(c>0\), the inequality says that the inner product \(\langle Gx-Gy,x-y\rangle\) dominates a positive multiple of the squared distance \(\|x-y\|^2\) throughout that bounded region.
+Thus $G$ is strongly monotone with a positive modulus $c$ on each open ball of radius $R$ centered at the origin. The constant $c$ is uniform over all pairs $x,y$ inside that ball, but it may depend on the ball radius $R$. Equivalently, the definition requires uniform strong monotonicity on every bounded subset, encoded here by the condition that both $x$ and $y$ lie in the open ball of radius $R$. Since $c>0$, the inequality says that the inner product $\langle Gx-Gy,x-y\rangle$ dominates a positive multiple of the squared distance $\|x-y\|^2$ throughout that bounded region.
 
 ## Lean proof
 ```lean

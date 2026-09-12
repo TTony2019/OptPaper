@@ -25,41 +25,55 @@ theorem proximal_gradient_gradient_case {H : Type*} [NormedAddCommGroup H] [Inne
 ```
 
 ## Statement explanation
-The theorem `proximal_gradient_gradient_case` is a convergence theorem for a continuous-time proximal-gradient trajectory in a real Hilbert space \(H\), formalized as a complete real inner product space. The extended-real function \(\Phi : H \to \operatorname{Set}_{\operatorname{Ioi}(\bot)}(\mathrm{EReal})\), with hypothesis `hPhi`, belongs to the class \(\Gamma_0(H)\): it is a proper convex lower semicontinuous function with values in \(\mathbb R \cup \{+\infty\}\). The function \(\Psi : H \to \mathbb R\) is convex on all of \(H\), has gradient \(\nabla \Psi\), and its gradient map is \(\beta\)-cocoercive on all of \(H\), meaning that for all \(u,v \in H\),
-\[
+The theorem `proximal_gradient_gradient_case` is a convergence theorem for a continuous-time proximal-gradient trajectory in a real Hilbert space $H$, formalized as a complete real inner product space. The extended-real function $\Phi : H \to \operatorname{Set}_{\operatorname{Ioi}(\bot)}(\mathrm{EReal})$, with hypothesis `hPhi`, belongs to the class $\Gamma_0(H)$: it is a proper convex lower semicontinuous function with values in $\mathbb R \cup \{+\infty\}$. The function $\Psi : H \to \mathbb R$ is convex on all of $H$, has gradient $\nabla \Psi$, and its gradient map is $\beta$-cocoercive on all of $H$, meaning that for all $u,v \in H$,
+
+$$
 \beta \|\nabla \Psi(u)-\nabla \Psi(v)\|^2
 \le \langle u-v,\nabla \Psi(u)-\nabla \Psi(v)\rangle .
-\]
-The set \(S\) is nonempty and is the solution set characterized by
-\[
-z \in S \quad\Longleftrightarrow\quad -\nabla \Psi(z) \in \partial \Phi(z),
-\]
-where \(\partial \Phi\) is the convex subdifferential. Thus \(S\) is the set of critical points of \(\Phi+\Psi\), equivalently the set of zeros of \(\partial \Phi+\nabla \Psi\).
+$$
 
-The parameters satisfy \(\mu>0\) and \(\beta>0\). The trajectory \(x : \mathbb R \to H\) is differentiable on \(t \ge 0\), absolutely continuous on every interval \([0,b]\) with \(b>0\), and satisfies the proximal-gradient differential equation
-\[
+The set $S$ is nonempty and is the solution set characterized by
+
+$$
+z \in S \quad\Longleftrightarrow\quad -\nabla \Psi(z) \in \partial \Phi(z),
+$$
+
+where $\partial \Phi$ is the convex subdifferential. Thus $S$ is the set of critical points of $\Phi+\Psi$, equivalently the set of zeros of $\partial \Phi+\nabla \Psi$.
+
+The parameters satisfy $\mu>0$ and $\beta>0$. The trajectory $x : \mathbb R \to H$ is differentiable on $t \ge 0$, absolutely continuous on every interval $[0,b]$ with $b>0$, and satisfies the proximal-gradient differential equation
+
+$$
 \dot x(t)+x(t)-\operatorname{prox}_{\mu \Phi}\!\bigl(x(t)-\mu \nabla \Psi(x(t))\bigr)=0,
 \qquad t \ge 0,
-\]
-or equivalently
-\[
-\dot x(t)=\operatorname{prox}_{\mu \Phi}\!\bigl(x(t)-\mu \nabla \Psi(x(t))\bigr)-x(t).
-\]
-Here \(\operatorname{prox}_{\mu \Phi}\) denotes the scaled proximity operator of \(\mu \Phi\), as given by `ERealFunction.scaledProximityOperator`.
+$$
 
-The conclusion has three parts. First, there exists \(x_\infty \in S\) such that \(x(t)\) converges weakly to \(x_\infty\) as \(t \to \infty\), formalized by convergence in the weak topology via `toWeakSpace`. Second, for every \(z \in S\), the gradients converge strongly,
-\[
+or equivalently
+
+$$
+\dot x(t)=\operatorname{prox}_{\mu \Phi}\!\bigl(x(t)-\mu \nabla \Psi(x(t))\bigr)-x(t).
+$$
+
+Here $\operatorname{prox}_{\mu \Phi}$ denotes the scaled proximity operator of $\mu \Phi$, as given by `ERealFunction.scaledProximityOperator`.
+
+The conclusion has three parts. First, there exists $x_\infty \in S$ such that $x(t)$ converges weakly to $x_\infty$ as $t \to \infty$, formalized by convergence in the weak topology via `toWeakSpace`. Second, for every $z \in S$, the gradients converge strongly,
+
+$$
 \nabla \Psi(x(t)) \to \nabla \Psi(z),
-\]
-and the squared error is integrable on \((0,\infty)\):
-\[
+$$
+
+and the squared error is integrable on $(0,\infty)$:
+
+$$
 \int_0^\infty \|\nabla \Psi(x(t))-\nabla \Psi(z)\|^2\,dt < \infty.
-\]
+$$
+
 Third, the velocity tends to zero,
-\[
+
+$$
 \dot x(t) \to 0.
-\]
-So the theorem says that, under convexity and cocoercivity of the gradient of \(\Psi\), the proximal-gradient flow converges weakly to a stationary point of \(\Phi+\Psi\), the gradients converge to the corresponding limiting gradient, the squared gradient discrepancy is integrable, and the trajectory slows down to zero velocity.
+$$
+
+So the theorem says that, under convexity and cocoercivity of the gradient of $\Psi$, the proximal-gradient flow converges weakly to a stationary point of $\Phi+\Psi$, the gradients converge to the corresponding limiting gradient, the squared gradient discrepancy is integrable, and the trajectory slows down to zero velocity.
 
 ## Lean proof
 ```lean
@@ -536,236 +550,314 @@ by
 ```
 
 ## Proof explanation
-The proof begins by applying `proximal_gradient_cocoercive_lyapunov` with \(B=\nabla \Psi\). That cited result assumes \(\Phi \in \Gamma_0(H)\), \(B\) is \(\beta\)-cocoercive, \(S\) is characterized by \(z \in S \iff -Bz \in \partial \Phi(z)\), and the trajectory satisfies the same proximal dynamics. It provides the pointwise Lyapunov inequality: for every \(z \in S\) and every \(t \ge 0\),
-\[
+The proof begins by applying `proximal_gradient_cocoercive_lyapunov` with $B=\nabla \Psi$. That cited result assumes $\Phi \in \Gamma_0(H)$, $B$ is $\beta$-cocoercive, $S$ is characterized by $z \in S \iff -Bz \in \partial \Phi(z)$, and the trajectory satisfies the same proximal dynamics. It provides the pointwise Lyapunov inequality: for every $z \in S$ and every $t \ge 0$,
+
+$$
 \frac{d}{dt}\!\left(\frac{1}{2\mu}\|x(t)-z\|^2\right)
 +\frac1\mu\|\dot x(t)\|^2
 +\beta\|\nabla \Psi(x(t))-\nabla \Psi(z)\|^2
 +\langle \dot x(t),\nabla \Psi(x(t))-\nabla \Psi(z)\rangle \le 0.
-\]
-This is the basic energy dissipation inequality. The first term is the derivative of a quadratic distance to the solution \(z\), the second is kinetic energy, the third is the cocoercive dissipation, and the final inner product couples the velocity with the gradient difference.
+$$
+
+This is the basic energy dissipation inequality. The first term is the derivative of a quadratic distance to the solution $z$, the second is kinetic energy, the third is the cocoercive dissipation, and the final inner product couples the velocity with the gradient difference.
 
 Next the proof defines the Lyapunov-type function
-\[
+
+$$
 E(z,t)
 =
 \frac{1}{2\mu}\|x(t)-z\|^2
 +\Psi(x(t))-\langle \nabla \Psi(z),x(t)-z\rangle-\Psi(z).
-\]
-The second line is the Bregman divergence of \(\Psi\) between \(x(t)\) and \(z\), plus a linear correction. The proof shows \(E(z,t)\ge 0\) for all \(z,t\). It uses `convex_supporting_baillon_haddad`, which for a convex differentiable function \(\Psi\) says
-\[
-\Psi(z)+\langle \nabla \Psi(z),u-z\rangle \le \Psi(u).
-\]
-Taking \(u=x(t)\), the Bregman part is nonnegative. The quadratic part is also nonnegative because \(\mu>0\). The tactic `linarith` combines these nonnegativities to prove \(E(z,t)\ge0\).
+$$
 
-Then the proof computes the derivative of \(E(z,\cdot)\). The chain rule is applied to \(t \mapsto \Psi(x(t))\), using `hPsi_grad (x t)` and `hderiv t ht`. The derivative of \(t \mapsto \langle \nabla \Psi(z),x(t)-z\rangle\) is \(\langle \nabla \Psi(z),\dot x(t)\rangle\). The derivative of the quadratic term is \(\mu^{-1}\langle x(t)-z,\dot x(t)\rangle\). Hence
-\[
+The second line is the Bregman divergence of $\Psi$ between $x(t)$ and $z$, plus a linear correction. The proof shows $E(z,t)\ge 0$ for all $z,t$. It uses `convex_supporting_baillon_haddad`, which for a convex differentiable function $\Psi$ says
+
+$$
+\Psi(z)+\langle \nabla \Psi(z),u-z\rangle \le \Psi(u).
+$$
+
+Taking $u=x(t)$, the Bregman part is nonnegative. The quadratic part is also nonnegative because $\mu>0$. The tactic `linarith` combines these nonnegativities to prove $E(z,t)\ge0$.
+
+Then the proof computes the derivative of $E(z,\cdot)$. The chain rule is applied to $t \mapsto \Psi(x(t))$, using `hPsi_grad (x t)` and `hderiv t ht`. The derivative of $t \mapsto \langle \nabla \Psi(z),x(t)-z\rangle$ is $\langle \nabla \Psi(z),\dot x(t)\rangle$. The derivative of the quadratic term is $\mu^{-1}\langle x(t)-z,\dot x(t)\rangle$. Hence
+
+$$
 \frac{d}{dt}E(z,t)
 =
 \mu^{-1}\langle x(t)-z,\dot x(t)\rangle
 +\langle \dot x(t),\nabla \Psi(x(t))-\nabla \Psi(z)\rangle.
-\]
+$$
+
 The Lean commands `convert`, `simp`, and `ring` are used to match the derivative of the sum with this formula and to simplify inner-product algebra.
 
-Substituting this derivative formula into the initial Lyapunov inequality gives: for every \(z \in S\) and \(t \ge 0\),
-\[
+Substituting this derivative formula into the initial Lyapunov inequality gives: for every $z \in S$ and $t \ge 0$,
+
+$$
 \frac{d}{dt}E(z,t)
 +\frac1\mu\|\dot x(t)\|^2
 +\beta\|\nabla \Psi(x(t))-\nabla \Psi(z)\|^2
 \le 0.
-\]
-The proof obtains this by rewriting the derivative of the quadratic term and using `linarith`. Since the last two terms are nonnegative, it follows that
-\[
-\frac{d}{dt}E(z,t)\le 0
-\]
-for all \(t\ge0\). The theorem `antitoneOn_of_deriv_nonpos` then implies that \(E(z,\cdot)\) is antitone on \([0,\infty)\): it is continuous on \([0,\infty)\), differentiable on the interior, and has nonpositive derivative there. Because \(E(z,t)\ge0\), the theorem `tendsto_of_antitone_nonneg_on_Ici` gives a finite limit:
-\[
-E(z,t) \to \ell_z \quad \text{as } t\to\infty.
-\]
-This is a standard fact: a nonnegative antitone real function on \([0,\infty)\) has a limit in \([0,\infty)\).
+$$
 
-The proof next establishes continuity of the relevant fields. The lemma `lipschitzWith_of_cocoercive` says that a cocoercive map is Lipschitz with constant \(\operatorname{toNNReal}(1/\beta)\). Since \(\nabla\Psi\) is cocoercive by `hB`, it is continuous. The theorem `proximal_gradient_field_continuous` then gives continuity of the proximal-gradient field
-\[
+The proof obtains this by rewriting the derivative of the quadratic term and using `linarith`. Since the last two terms are nonnegative, it follows that
+
+$$
+\frac{d}{dt}E(z,t)\le 0
+$$
+
+for all $t\ge0$. The theorem `antitoneOn_of_deriv_nonpos` then implies that $E(z,\cdot)$ is antitone on $[0,\infty)$: it is continuous on $[0,\infty)$, differentiable on the interior, and has nonpositive derivative there. Because $E(z,t)\ge0$, the theorem `tendsto_of_antitone_nonneg_on_Ici` gives a finite limit:
+
+$$
+E(z,t) \to \ell_z \quad \text{as } t\to\infty.
+$$
+
+This is a standard fact: a nonnegative antitone real function on $[0,\infty)$ has a limit in $[0,\infty)$.
+
+The proof next establishes continuity of the relevant fields. The lemma `lipschitzWith_of_cocoercive` says that a cocoercive map is Lipschitz with constant $\operatorname{toNNReal}(1/\beta)$. Since $\nabla\Psi$ is cocoercive by `hB`, it is continuous. The theorem `proximal_gradient_field_continuous` then gives continuity of the proximal-gradient field
+
+$$
 u \mapsto \operatorname{prox}_{\mu\Phi}\!\bigl(u-\mu\nabla\Psi(u)\bigr)-u.
-\]
+$$
+
 From the dynamics, the proof rewrites the derivative as
-\[
+
+$$
 \dot x(t)
 =
 \operatorname{prox}_{\mu\Phi}\!\bigl(x(t)-\mu\nabla\Psi(x(t))\bigr)-x(t).
-\]
-Using that \(x\) is continuous on every \([0,T]\) by absolute continuity, and that the field above is continuous, the proof obtains continuity of \(\dot x\) on every \([0,T]\). It also obtains continuity of the dissipation integrand
-\[
+$$
+
+Using that $x$ is continuous on every $[0,T]$ by absolute continuity, and that the field above is continuous, the proof obtains continuity of $\dot x$ on every $[0,T]$. It also obtains continuity of the dissipation integrand
+
+$$
 t \mapsto \mu^{-1}\|\dot x(t)\|^2
 +\beta\|\nabla\Psi(x(t))-\nabla\Psi(z)\|^2.
-\]
+$$
 
-The proof then derives the crucial finite-energy estimate. For fixed \(z\in S\) and \(T>0\), the Lyapunov inequality gives
-\[
+The proof then derives the crucial finite-energy estimate. For fixed $z\in S$ and $T>0$, the Lyapunov inequality gives
+
+$$
 \mu^{-1}\|\dot x(t)\|^2
 +\beta\|\nabla\Psi(x(t))-\nabla\Psi(z)\|^2
 \le -\frac{d}{dt}E(z,t)
-\]
-for all \(t\in[0,T]\). Both sides are interval integrable. The theorem `intervalIntegral.integral_mono_ae_restrict` allows integrating this almost-everywhere inequality over \([0,T]\). The integral of \(-\frac{d}{dt}E(z,t)\) is
-\[
+$$
+
+for all $t\in[0,T]$. Both sides are interval integrable. The theorem `intervalIntegral.integral_mono_ae_restrict` allows integrating this almost-everywhere inequality over $[0,T]$. The integral of $-\frac{d}{dt}E(z,t)$ is
+
+$$
 -\int_0^T \frac{d}{dt}E(z,t)\,dt
 =
 -(E(z,T)-E(z,0))
 =
 E(z,0)-E(z,T).
-\]
-Since \(E(z,T)\ge0\), this is at most \(E(z,0)\). Therefore
-\[
+$$
+
+Since $E(z,T)\ge0$, this is at most $E(z,0)$. Therefore
+
+$$
 \int_0^T\left(
 \mu^{-1}\|\dot x(t)\|^2
 +\beta\|\nabla\Psi(x(t))-\nabla\Psi(z)\|^2
 \right)dt
 \le E(z,0).
-\]
+$$
 
 From this uniform bound on finite intervals, the proof proves global integrability. It applies `integrableOn_Ici_of_nonneg_interval_bound` to
-\[
+
+$$
 g(t)=\mu^{-1}\|\dot x(t)\|^2.
-\]
-The lemma requires local integrability on intervals \((0,T]\), nonnegativity on \([0,\infty)\), and a uniform bound on the integrals up to \(T\). These hold because of the continuity just established and the finite-energy estimate. Thus
-\[
+$$
+
+The lemma requires local integrability on intervals $(0,T]$, nonnegativity on $[0,\infty)$, and a uniform bound on the integrals up to $T$. These hold because of the continuity just established and the finite-energy estimate. Thus
+
+$$
 \int_0^\infty \mu^{-1}\|\dot x(t)\|^2\,dt < \infty.
-\]
-Multiplying by \(\mu\) and cancelling \(\mu\mu^{-1}=1\) gives
-\[
+$$
+
+Multiplying by $\mu$ and cancelling $\mu\mu^{-1}=1$ gives
+
+$$
 \int_0^\infty \|\dot x(t)\|^2\,dt < \infty.
-\]
+$$
+
 The same argument applied to
-\[
+
+$$
 g(t)=\beta\|\nabla\Psi(x(t))-\nabla\Psi(z)\|^2
-\]
-gives, after multiplying by \(\beta^{-1}\),
-\[
+$$
+
+gives, after multiplying by $\beta^{-1}$,
+
+$$
 \int_0^\infty \|\nabla\Psi(x(t))-\nabla\Psi(z)\|^2\,dt < \infty.
-\]
+$$
+
 This proves the integrability part of the second conclusion.
 
-The proof then shows that the trajectory is bounded. Since \(S\) is nonempty, choose \(z_0\in S\). Again using the convex supporting inequality for \(\Psi\), the Bregman term in \(E(z_0,t)\) is nonnegative. Since \(E(z_0,\cdot)\) is antitone, \(E(z_0,t)\le E(z_0,0)\). Therefore the quadratic part satisfies
-\[
-\frac{1}{2\mu}\|x(t)-z_0\|^2 \le E(z_0,0),
-\]
-so
-\[
-\|x(t)-z_0\|^2 \le 2\mu E(z_0,0).
-\]
-Let
-\[
-R=\sqrt{2\mu E(z_0,0)}.
-\]
-Then \(R\ge0\) and \(\|x(t)-z_0\|\le R\) for all \(t\ge0\). This gives a uniform bound on the trajectory relative to the fixed solution \(z_0\).
+The proof then shows that the trajectory is bounded. Since $S$ is nonempty, choose $z_0\in S$. Again using the convex supporting inequality for $\Psi$, the Bregman term in $E(z_0,t)$ is nonnegative. Since $E(z_0,\cdot)$ is antitone, $E(z_0,t)\le E(z_0,0)$. Therefore the quadratic part satisfies
 
-The theorem `proximal_gradient_field_lipschitz` supplies a nonnegative constant \(L\) such that the field
-\[
+$$
+\frac{1}{2\mu}\|x(t)-z_0\|^2 \le E(z_0,0),
+$$
+
+so
+
+$$
+\|x(t)-z_0\|^2 \le 2\mu E(z_0,0).
+$$
+
+Let
+
+$$
+R=\sqrt{2\mu E(z_0,0)}.
+$$
+
+Then $R\ge0$ and $\|x(t)-z_0\|\le R$ for all $t\ge0$. This gives a uniform bound on the trajectory relative to the fixed solution $z_0$.
+
+The theorem `proximal_gradient_field_lipschitz` supplies a nonnegative constant $L$ such that the field
+
+$$
 V(u)
 =
 \operatorname{prox}_{\mu\Phi}\!\bigl(u-\mu\nabla\Psi(u)\bigr)-u
-\]
-is Lipschitz with constant \(L\). Since \(\dot x(t)=V(x(t))\), the proof bounds the velocity by
-\[
+$$
+
+is Lipschitz with constant $L$. Since $\dot x(t)=V(x(t))$, the proof bounds the velocity by
+
+$$
 \|\dot x(t)\|
 \le \|V(x(t))-V(z_0)\|+\|V(z_0)\|
 \le L\|x(t)-z_0\|+\|V(z_0)\|
 \le LR+\|V(z_0)\|.
-\]
-Thus the derivative of \(x\) is uniformly bounded on \([0,\infty)\). The theorem `lipschitzOnWith_of_nnnorm_deriv_le` for convex domains then implies that \(x\) is Lipschitz on \([0,\infty)\) with constant \(K=LR+\|V(z_0)\|\). In particular, \(x\) is uniformly continuous on \([0,\infty)\).
+$$
 
-Next the proof proves gradient convergence. The theorem `cocoercive_uniformContinuous` says that a cocoercive map is uniformly continuous, so \(\nabla\Psi\) is uniformly continuous. Since \(x\) is Lipschitz on \([0,\infty)\), the composition \(t\mapsto \nabla\Psi(x(t))\) is uniformly continuous on \([0,\infty)\). Subtracting the constant \(\nabla\Psi(z)\) gives uniform continuity of
-\[
+Thus the derivative of $x$ is uniformly bounded on $[0,\infty)$. The theorem `lipschitzOnWith_of_nnnorm_deriv_le` for convex domains then implies that $x$ is Lipschitz on $[0,\infty)$ with constant $K=LR+\|V(z_0)\|$. In particular, $x$ is uniformly continuous on $[0,\infty)$.
+
+Next the proof proves gradient convergence. The theorem `cocoercive_uniformContinuous` says that a cocoercive map is uniformly continuous, so $\nabla\Psi$ is uniformly continuous. Since $x$ is Lipschitz on $[0,\infty)$, the composition $t\mapsto \nabla\Psi(x(t))$ is uniformly continuous on $[0,\infty)$. Subtracting the constant $\nabla\Psi(z)$ gives uniform continuity of
+
+$$
 t\mapsto \nabla\Psi(x(t))-\nabla\Psi(z).
-\]
-Its squared norm is integrable by the earlier integrability result. The theorem `uniformContinuousOn_sq_integrable_tendsto_zero` states that a uniformly continuous function on \([0,\infty)\) whose squared norm is integrable must tend to zero at infinity. Applying it gives
-\[
+$$
+
+Its squared norm is integrable by the earlier integrability result. The theorem `uniformContinuousOn_sq_integrable_tendsto_zero` states that a uniformly continuous function on $[0,\infty)$ whose squared norm is integrable must tend to zero at infinity. Applying it gives
+
+$$
 \nabla\Psi(x(t))-\nabla\Psi(z) \to 0,
-\]
+$$
+
 hence
-\[
+
+$$
 \nabla\Psi(x(t)) \to \nabla\Psi(z).
-\]
+$$
+
 This proves the gradient convergence part of the second conclusion.
 
-Similarly, because \(V\) is Lipschitz and \(x\) is Lipschitz on \([0,\infty)\), the composition \(t\mapsto V(x(t))=\dot x(t)\) is uniformly continuous on \([0,\infty)\). Its squared norm is integrable by the earlier result. Applying `uniformContinuousOn_sq_integrable_tendsto_zero` again gives
-\[
+Similarly, because $V$ is Lipschitz and $x$ is Lipschitz on $[0,\infty)$, the composition $t\mapsto V(x(t))=\dot x(t)$ is uniformly continuous on $[0,\infty)$. Its squared norm is integrable by the earlier result. Applying `uniformContinuousOn_sq_integrable_tendsto_zero` again gives
+
+$$
 \dot x(t)\to 0.
-\]
+$$
+
 This proves the third conclusion.
 
-The remaining and most delicate part is the weak convergence of \(x(t)\). The proof first shows that every weak sequential cluster point of the trajectory is a solution. Suppose \(u:\mathbb N\to\mathbb R\) tends to infinity and \(x(u_n)\rightharpoonup z\) weakly. After shifting the sequence by a large \(N\), one may assume all times are nonnegative. Along this shifted sequence, the gradient converges strongly:
-\[
+The remaining and most delicate part is the weak convergence of $x(t)$. The proof first shows that every weak sequential cluster point of the trajectory is a solution. Suppose $u:\mathbb N\to\mathbb R$ tends to infinity and $x(u_n)\rightharpoonup z$ weakly. After shifting the sequence by a large $N$, one may assume all times are nonnegative. Along this shifted sequence, the gradient converges strongly:
+
+$$
 \nabla\Psi(x(u_{n+N}))\to \nabla\Psi(z_0),
-\]
-because \(z_0\in S\) and the previous strong-gradient convergence applies. Also \(\dot x(u_{n+N})\to0\).
+$$
+
+because $z_0\in S$ and the previous strong-gradient convergence applies. Also $\dot x(u_{n+N})\to0$.
 
 The proof then shows that
-\[
+
+$$
 x(u_{n+N})+\dot x(u_{n+N})\rightharpoonup z
-\]
-weakly. This uses `weakConvergence_iff_forall_tendsto_inner_right`, which says that weak convergence is equivalent to convergence of all inner products. For any vector \(v\), the inner product with \(x(u_{n+N})+\dot x(u_{n+N})\) is the sum of the inner product with \(x(u_{n+N})\), which converges to \(\langle z,v\rangle\), and the inner product with \(\dot x(u_{n+N})\), which tends to zero.
+$$
+
+weakly. This uses `weakConvergence_iff_forall_tendsto_inner_right`, which says that weak convergence is equivalent to convergence of all inner products. For any vector $v$, the inner product with $x(u_{n+N})+\dot x(u_{n+N})$ is the sum of the inner product with $x(u_{n+N})$, which converges to $\langle z,v\rangle$, and the inner product with $\dot x(u_{n+N})$, which tends to zero.
 
 It also shows the strong convergence
-\[
+
+$$
 -\nabla\Psi(x(u_{n+N}))
 -\mu^{-1}\dot x(u_{n+N})
 \to -\nabla\Psi(z_0).
-\]
-For each \(n\), the theorem `proximal_gradient_classical_subgradient` gives the subgradient inclusion
-\[
+$$
+
+For each $n$, the theorem `proximal_gradient_classical_subgradient` gives the subgradient inclusion
+
+$$
 -\nabla\Psi(x(t_n))-\mu^{-1}\dot x(t_n)
 \in
 \partial\Phi\bigl(x(t_n)+\dot x(t_n)\bigr),
-\]
-where \(t_n=u_{n+N}\). This is the classical subgradient identity for proximal-gradient dynamics.
+$$
 
-The theorem `subdifferential_isMaximalMonotone_of_mem_gammaZero` says that since \(\Phi\in\Gamma_0(H)\), the subdifferential operator \(\partial\Phi\) is maximal monotone. The lemma `maximal_monotone_graph_weak_strong_closed` then states that the graph of a maximal monotone operator is closed under weak convergence in the first variable and strong convergence in the second variable. Applying it with \(T=\partial\Phi\), weak limit \(z\), and strong limit \(-\nabla\Psi(z_0)\), the proof obtains
-\[
+where $t_n=u_{n+N}$. This is the classical subgradient identity for proximal-gradient dynamics.
+
+The theorem `subdifferential_isMaximalMonotone_of_mem_gammaZero` says that since $\Phi\in\Gamma_0(H)$, the subdifferential operator $\partial\Phi$ is maximal monotone. The lemma `maximal_monotone_graph_weak_strong_closed` then states that the graph of a maximal monotone operator is closed under weak convergence in the first variable and strong convergence in the second variable. Applying it with $T=\partial\Phi$, weak limit $z$, and strong limit $-\nabla\Psi(z_0)$, the proof obtains
+
+$$
 -\nabla\Psi(z_0)\in \partial\Phi(z).
-\]
-The lemma `cocoercive_weak_strong_closed` is then applied to the cocoercive gradient map: from \(x(u_{n+N})\rightharpoonup z\) and \(\nabla\Psi(x(u_{n+N}))\to\nabla\Psi(z_0)\), it concludes
-\[
-\nabla\Psi(z)=\nabla\Psi(z_0).
-\]
-Substituting this into the subdifferential inclusion gives
-\[
--\nabla\Psi(z)\in\partial\Phi(z),
-\]
-so by the characterization of \(S\), \(z\in S\). Thus every weak sequential cluster point of the trajectory belongs to \(S\).
+$$
 
-The proof then shows uniqueness of such limits. If two sequences tending to infinity produce weak limits \(z_1\) and \(z_2\), then both are in \(S\). The Lyapunov functions \(E(z_1,\cdot)\) and \(E(z_2,\cdot)\) have finite limits. The proof writes
-\[
+The lemma `cocoercive_weak_strong_closed` is then applied to the cocoercive gradient map: from $x(u_{n+N})\rightharpoonup z$ and $\nabla\Psi(x(u_{n+N}))\to\nabla\Psi(z_0)$, it concludes
+
+$$
+\nabla\Psi(z)=\nabla\Psi(z_0).
+$$
+
+Substituting this into the subdifferential inclusion gives
+
+$$
+-\nabla\Psi(z)\in\partial\Phi(z),
+$$
+
+so by the characterization of $S$, $z\in S$. Thus every weak sequential cluster point of the trajectory belongs to $S$.
+
+The proof then shows uniqueness of such limits. If two sequences tending to infinity produce weak limits $z_1$ and $z_2$, then both are in $S$. The Lyapunov functions $E(z_1,\cdot)$ and $E(z_2,\cdot)$ have finite limits. The proof writes
+
+$$
 E(z_1,t)-E(z_2,t)=F(t)+C
-\]
-for an explicit affine-in-\(x(t)\) function \(F\) and a constant \(C\). Taking limits along the two sequences and using the weak convergence of \(x\) gives two limiting values \(q_1\) and \(q_2\). Since both must equal the same limit of \(E(z_1,\cdot)-E(z_2,\cdot)\), one obtains \(q_1=q_2\). Computing \(q_2-q_1\) yields
-\[
+$$
+
+for an explicit affine-in- $x(t)$ function $F$ and a constant $C$. Taking limits along the two sequences and using the weak convergence of $x$ gives two limiting values $q_1$ and $q_2$. Since both must equal the same limit of $E(z_1,\cdot)-E(z_2,\cdot)$, one obtains $q_1=q_2$. Computing $q_2-q_1$ yields
+
+$$
 \mu^{-1}\|z_2-z_1\|^2
 +\langle \nabla\Psi(z_2)-\nabla\Psi(z_1),z_2-z_1\rangle=0.
-\]
-Cocoercivity of \(\nabla\Psi\) gives
-\[
+$$
+
+Cocoercivity of $\nabla\Psi$ gives
+
+$$
 0\le \beta\|\nabla\Psi(z_2)-\nabla\Psi(z_1)\|^2
 \le
 \langle \nabla\Psi(z_2)-\nabla\Psi(z_1),z_2-z_1\rangle.
-\]
-Therefore the second term in the sum is nonnegative, while the first is also nonnegative. Their sum being zero forces both to be zero, hence \(z_2=z_1\). Thus there is at most one weak sequential cluster point.
+$$
 
-Now the proof uses `weaklyConvergent_iff_bounded_and_atMostOne_weakSequentialClusterPoint`. This theorem states that a sequence has a weak limit if and only if its range is bounded and it has at most one weak sequential cluster point. The trajectory along any divergent sequence is bounded by the earlier estimate \(\|x(t)-z_0\|\le R\), and the uniqueness argument just given says there is at most one weak sequential cluster point. Therefore every divergent sequence of times has a weakly convergent subsequence, and in fact the whole shifted sequence has a weak limit. The lemma `tendsto_of_tendsto_add_nat_local` removes the finite shift \(N\). Hence for every sequence \(u_n\to\infty\), there exists \(z\) such that \(x(u_n)\rightharpoonup z\).
+Therefore the second term in the sum is nonnegative, while the first is also nonnegative. Their sum being zero forces both to be zero, hence $z_2=z_1$. Thus there is at most one weak sequential cluster point.
 
-Applying this to the natural sequence \(n\mapsto n\), the proof obtains \(x_\infty\in S\) and \(x(n)\rightharpoonup x_\infty\). To upgrade this to convergence along the continuous parameter \(t\to\infty\), the proof uses `real_tendsto_atTop_of_all_divergent_sequences_local`: if every sequence \(u_n\to\infty\) has \(f(u_n)\to a\), then \(f(t)\to a\) as \(t\to\infty\). For any such sequence, the previous paragraph gives a weak limit \(z\) along \(u_n\), and uniqueness of weak cluster points compared with the natural sequence gives \(z=x_\infty\). Then `weakConvergence_iff_forall_tendsto_inner_right` translates weak convergence along \(u_n\) into convergence of all inner products. Since this holds for every divergent sequence, the theorem gives convergence of each inner product as \(t\to\infty\), and another application of `weakConvergence_iff_forall_tendsto_inner_right` upgrades this to weak convergence
-\[
+Now the proof uses `weaklyConvergent_iff_bounded_and_atMostOne_weakSequentialClusterPoint`. This theorem states that a sequence has a weak limit if and only if its range is bounded and it has at most one weak sequential cluster point. The trajectory along any divergent sequence is bounded by the earlier estimate $\|x(t)-z_0\|\le R$, and the uniqueness argument just given says there is at most one weak sequential cluster point. Therefore every divergent sequence of times has a weakly convergent subsequence, and in fact the whole shifted sequence has a weak limit. The lemma `tendsto_of_tendsto_add_nat_local` removes the finite shift $N$. Hence for every sequence $u_n\to\infty$, there exists $z$ such that $x(u_n)\rightharpoonup z$.
+
+Applying this to the natural sequence $n\mapsto n$, the proof obtains $x_\infty\in S$ and $x(n)\rightharpoonup x_\infty$. To upgrade this to convergence along the continuous parameter $t\to\infty$, the proof uses `real_tendsto_atTop_of_all_divergent_sequences_local`: if every sequence $u_n\to\infty$ has $f(u_n)\to a$, then $f(t)\to a$ as $t\to\infty$. For any such sequence, the previous paragraph gives a weak limit $z$ along $u_n$, and uniqueness of weak cluster points compared with the natural sequence gives $z=x_\infty$. Then `weakConvergence_iff_forall_tendsto_inner_right` translates weak convergence along $u_n$ into convergence of all inner products. Since this holds for every divergent sequence, the theorem gives convergence of each inner product as $t\to\infty$, and another application of `weakConvergence_iff_forall_tendsto_inner_right` upgrades this to weak convergence
+
+$$
 x(t)\rightharpoonup x_\infty.
-\]
+$$
+
 Thus the first conclusion is proved.
 
-Finally, the proof assembles the three conclusions. The first conjunct is the weak convergence to some \(x_\infty\in S\). For the second conjunct, for each \(z\in S\), the already proved strong gradient convergence gives
-\[
+Finally, the proof assembles the three conclusions. The first conjunct is the weak convergence to some $x_\infty\in S$. For the second conjunct, for each $z\in S$, the already proved strong gradient convergence gives
+
+$$
 \nabla\Psi(x(t))\to\nabla\Psi(z),
-\]
-and the earlier integrability result, converted from \([0,\infty)\) to \((0,\infty)\) using `integrableOn_Ici_iff_integrableOn_Ioi`, gives
-\[
+$$
+
+and the earlier integrability result, converted from $[0,\infty)$ to $(0,\infty)$ using `integrableOn_Ici_iff_integrableOn_Ioi`, gives
+
+$$
 \int_0^\infty \|\nabla\Psi(x(t))-\nabla\Psi(z)\|^2\,dt<\infty.
-\]
-The third conjunct is the already proved velocity convergence \(\dot x(t)\to0\). This completes the proof.
+$$
+
+The third conjunct is the already proved velocity convergence $\dot x(t)\to0$. This completes the proof.
 

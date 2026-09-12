@@ -20,52 +20,71 @@ lemma lemma_2_3
 
 ## Statement explanation
 The lemma concerns three real sequences indexed by the natural numbers,
-\[
+
+$$
 \phi : \mathbb N \to \mathbb R,\qquad
 \delta : \mathbb N \to \mathbb R,\qquad
-\alphaSeq : \mathbb N \to \mathbb R,
-\]
-and a real number \(\alphaBar\). The sequence \(\phi\) is assumed nonnegative: for every \(k\in\mathbb N\),
-\[
-0 \le \phi(k).
-\]
-The sequence \(\delta\) is also assumed nonnegative:
-\[
-0 \le \delta(k)
-\]
-for every \(k\), and its series is assumed summable:
-\[
-\sum_{k\in\mathbb N} \delta(k) \ \text{converges}.
-\]
-The recurrence hypothesis says that for every \(k\in\mathbb N\),
-\[
-\phi(k+1)
-\le \phi(k) + \alphaSeq(k)\bigl(\phi(k)-\phi(k-1)\bigr) + \delta(k).
-\]
-Here the expression \(k-1\) is Lean’s natural-number predecessor: for \(k=0\), \(k-1=0\), so at \(k=0\) the term \(\phi(k)-\phi(k-1)\) is \(\phi(0)-\phi(0)=0\); for \(k\ge 1\) it is the usual previous index. Thus the recurrence is an inertial-type inequality controlled by the previous difference \(\phi(k)-\phi(k-1)\), with nonnegative errors \(\delta(k)\).
+\operatorname{alphaSeq} : \mathbb N \to \mathbb R,
+$$
 
-The coefficient sequence is assumed to lie between \(0\) and \(\alphaBar\):
-\[
-0 \le \alphaSeq(k) \le \alphaBar
-\]
-for every \(k\), and the relaxation/inertia parameter is contracted:
-\[
-\alphaBar < 1.
-\]
+and a real number $\mathrm{alphaBar}$. The sequence $\phi$ is assumed nonnegative: for every $k\in\mathbb N$,
+
+$$
+0 \le \phi(k).
+$$
+
+The sequence $\delta$ is also assumed nonnegative:
+
+$$
+0 \le \delta(k)
+$$
+
+for every $k$, and its series is assumed summable:
+
+$$
+\sum_{k\in\mathbb N} \delta(k) \ \text{converges}.
+$$
+
+The recurrence hypothesis says that for every $k\in\mathbb N$,
+
+$$
+\phi(k+1)
+\le \phi(k) + \operatorname{alphaSeq}(k)\bigl(\phi(k)-\phi(k-1)\bigr) + \delta(k).
+$$
+
+Here the expression $k-1$ is Lean’s natural-number predecessor: for $k=0$, $k-1=0$, so at $k=0$ the term $\phi(k)-\phi(k-1)$ is $\phi(0)-\phi(0)=0$; for $k\ge 1$ it is the usual previous index. Thus the recurrence is an inertial-type inequality controlled by the previous difference $\phi(k)-\phi(k-1)$, with nonnegative errors $\delta(k)$.
+
+The coefficient sequence is assumed to lie between $0$ and $\mathrm{alphaBar}$:
+
+$$
+0 \le \operatorname{alphaSeq}(k) \le \mathrm{alphaBar}
+$$
+
+for every $k$, and the relaxation/inertia parameter is contracted:
+
+$$
+\mathrm{alphaBar} < 1.
+$$
 
 The conclusion is a conjunction of two statements. First, the positive parts of the successive differences are summable:
-\[
+
+$$
 \sum_{k\in\mathbb N} \operatorname{posPart}\!\bigl(\phi(k)-\phi(k-1)\bigr)
 \ \text{converges},
-\]
-where \(\operatorname{posPart}(t)=\max(t,0)\). Second, there exists a real number \(\phiStar\) such that
-\[
-0 \le \phiStar
-\]
+$$
+
+where $\operatorname{posPart}(t)=\max(t,0)$. Second, there exists a real number $\mathrm{phiStar}$ such that
+
+$$
+0 \le \mathrm{phiStar}
+$$
+
 and the sequence converges:
-\[
-\phi(k)\to \phiStar.
-\]
+
+$$
+\phi(k)\to \mathrm{phiStar}.
+$$
+
 So the lemma says that under an inertial recurrence with summable nonnegative forcing, a nonnegative sequence has summable positive increments and converges to a finite nonnegative limit.
 
 ## Lean proof
@@ -214,204 +233,279 @@ by
 
 ## Proof explanation
 The proof begins by introducing the abbreviation
-\[
-\theta(k)=\phi(k)-\phi(k-1).
-\]
-The tactic `set` only names this expression; it adds no new mathematical assumption. Because Lean’s subtraction on natural numbers is truncated, \(0-1=0\), so
-\[
-\theta(0)=\phi(0)-\phi(0)=0.
-\]
-The proof records this as `htheta_zero`, and then uses the definition \(\operatorname{posPart}(t)=\max(t,0)\) to get
-\[
-\operatorname{posPart}(\theta(0))=0.
-\]
 
-Next, the proof extracts nonnegativity of \(\alphaBar\) from the coefficient bounds. Since
-\[
-0\le \alphaSeq(0)\le \alphaBar,
-\]
-transitivity gives \(0\le \alphaBar\). Together with \(\alphaBar<1\), the linear-arithmetic tactic `linarith` proves
-\[
-0<1-\alphaBar.
-\]
+$$
+\theta(k)=\phi(k)-\phi(k-1).
+$$
+
+The tactic `set` only names this expression; it adds no new mathematical assumption. Because Lean’s subtraction on natural numbers is truncated, $0-1=0$, so
+
+$$
+\theta(0)=\phi(0)-\phi(0)=0.
+$$
+
+The proof records this as `htheta_zero`, and then uses the definition $\operatorname{posPart}(t)=\max(t,0)$ to get
+
+$$
+\operatorname{posPart}(\theta(0))=0.
+$$
+
+Next, the proof extracts nonnegativity of $\mathrm{alphaBar}$ from the coefficient bounds. Since
+
+$$
+0\le \operatorname{alphaSeq}(0)\le \mathrm{alphaBar},
+$$
+
+transitivity gives $0\le \mathrm{alphaBar}$. Together with $\mathrm{alphaBar}<1$, the linear-arithmetic tactic `linarith` proves
+
+$$
+0<1-\mathrm{alphaBar}.
+$$
+
 This positive denominator will later control the growth of the positive parts.
 
-The recurrence for \(\theta\) is then derived. From
-\[
+The recurrence for $\theta$ is then derived. From
+
+$$
 \phi(k+1)
-\le \phi(k)+\alphaSeq(k)\bigl(\phi(k)-\phi(k-1)\bigr)+\delta(k),
-\]
-subtracting \(\phi(k)\) from both sides gives
-\[
+\le \phi(k)+\operatorname{alphaSeq}(k)\bigl(\phi(k)-\phi(k-1)\bigr)+\delta(k),
+$$
+
+subtracting $\phi(k)$ from both sides gives
+
+$$
 \theta(k+1)=\phi(k+1)-\phi(k)
-\le \alphaSeq(k)\theta(k)+\delta(k).
-\]
+\le \operatorname{alphaSeq}(k)\theta(k)+\delta(k).
+$$
+
 This is the inequality `htheta_rec`.
 
-The key one-step estimate for the positive parts follows by combining the local `posPart` lemmas. First, monotonicity of \(\operatorname{posPart}\), stated by `posPart_mono`, gives
-\[
+The key one-step estimate for the positive parts follows by combining the local `posPart` lemmas. First, monotonicity of $\operatorname{posPart}$, stated by `posPart_mono`, gives
+
+$$
 \operatorname{posPart}(\theta(k+1))
-\le \operatorname{posPart}\bigl(\alphaSeq(k)\theta(k)+\delta(k)\bigr).
-\]
-The lemma `posPart_add_le_add_of_nonneg` says that if \(0\le y\), then
-\[
+\le \operatorname{posPart}\bigl(\operatorname{alphaSeq}(k)\theta(k)+\delta(k)\bigr).
+$$
+
+The lemma `posPart_add_le_add_of_nonneg` says that if $0\le y$, then
+
+$$
 \operatorname{posPart}(x+y)\le \operatorname{posPart}(x)+y.
-\]
-Applying it with \(x=\alphaSeq(k)\theta(k)\) and \(y=\delta(k)\), using \(0\le \delta(k)\), yields
-\[
-\operatorname{posPart}\bigl(\alphaSeq(k)\theta(k)+\delta(k)\bigr)
-\le \operatorname{posPart}\bigl(\alphaSeq(k)\theta(k)\bigr)+\delta(k).
-\]
-Since \(\alphaSeq(k)\ge 0\), the homogeneity lemma `posPart_mul_of_nonneg` gives
-\[
-\operatorname{posPart}\bigl(\alphaSeq(k)\theta(k)\bigr)
+$$
+
+Applying it with $x=\operatorname{alphaSeq}(k)\theta(k)$ and $y=\delta(k)$, using $0\le \delta(k)$, yields
+
+$$
+\operatorname{posPart}\bigl(\operatorname{alphaSeq}(k)\theta(k)+\delta(k)\bigr)
+\le \operatorname{posPart}\bigl(\operatorname{alphaSeq}(k)\theta(k)\bigr)+\delta(k).
+$$
+
+Since $\operatorname{alphaSeq}(k)\ge 0$, the homogeneity lemma `posPart_mul_of_nonneg` gives
+
+$$
+\operatorname{posPart}\bigl(\operatorname{alphaSeq}(k)\theta(k)\bigr)
 =
-\alphaSeq(k)\operatorname{posPart}(\theta(k)).
-\]
-Finally, because \(\alphaSeq(k)\le \alphaBar\) and \(\operatorname{posPart}(\theta(k))\ge 0\) by `posPart_nonneg`, multiplication by the nonnegative factor preserves the inequality:
-\[
-\alphaSeq(k)\operatorname{posPart}(\theta(k))
+\operatorname{alphaSeq}(k)\operatorname{posPart}(\theta(k)).
+$$
+
+Finally, because $\operatorname{alphaSeq}(k)\le \mathrm{alphaBar}$ and $\operatorname{posPart}(\theta(k))\ge 0$ by `posPart_nonneg`, multiplication by the nonnegative factor preserves the inequality:
+
+$$
+\operatorname{alphaSeq}(k)\operatorname{posPart}(\theta(k))
 \le
-\alphaBar\operatorname{posPart}(\theta(k)).
-\]
+\mathrm{alphaBar}\operatorname{posPart}(\theta(k)).
+$$
+
 Combining these inequalities gives
-\[
+
+$$
 \operatorname{posPart}(\theta(k+1))
 \le
-\alphaBar\operatorname{posPart}(\theta(k))+\delta(k).
-\]
+\mathrm{alphaBar}\operatorname{posPart}(\theta(k))+\delta(k).
+$$
 
 The proof then defines
-\[
+
+$$
 D=\sum_{k\in\mathbb N}\delta(k).
-\]
-Since \(\delta(k)\ge 0\) for all \(k\), every finite partial sum is at most the full sum:
-\[
+$$
+
+Since $\delta(k)\ge 0$ for all $k$, every finite partial sum is at most the full sum:
+
+$$
 \sum_{k=0}^{n-1}\delta(k)\le D.
-\]
+$$
+
 This uses the standard finite-sum comparison for nonnegative summable series.
 
-Summing the one-step estimate over \(k=0,\dots,n-1\) gives
-\[
+Summing the one-step estimate over $k=0,\dots,n-1$ gives
+
+$$
 \sum_{k=0}^{n-1}\operatorname{posPart}(\theta(k+1))
 \le
-\alphaBar\sum_{k=0}^{n-1}\operatorname{posPart}(\theta(k))
+\mathrm{alphaBar}\sum_{k=0}^{n-1}\operatorname{posPart}(\theta(k))
 +
 \sum_{k=0}^{n-1}\delta(k).
-\]
-The proof uses `Finset.sum_add_distrib` and `Finset.mul_sum` to distribute the finite sum and factor out \(\alphaBar\).
+$$
 
-The next goal is a uniform bound on the partial sums of the nonnegative sequence \(\operatorname{posPart}(\theta(k))\). The proof shows that for every \(n\),
-\[
+The proof uses `Finset.sum_add_distrib` and `Finset.mul_sum` to distribute the finite sum and factor out $\mathrm{alphaBar}$.
+
+The next goal is a uniform bound on the partial sums of the nonnegative sequence $\operatorname{posPart}(\theta(k))$. The proof shows that for every $n$,
+
+$$
 \sum_{k=0}^{n-1}\operatorname{posPart}(\theta(k))
 \le
-\frac{D}{1-\alphaBar}.
-\]
-The case \(n=0\) is trivial because the sum is \(0\). For \(n=m+1\), the proof writes
-\[
+\frac{D}{1-\mathrm{alphaBar}}.
+$$
+
+The case $n=0$ is trivial because the sum is $0$. For $n=m+1$, the proof writes
+
+$$
 S=\sum_{k=0}^{m}\operatorname{posPart}(\theta(k)).
-\]
-From the summed estimate for \(n=m+1\), the left-hand sum is shifted:
-\[
+$$
+
+From the summed estimate for $n=m+1$, the left-hand sum is shifted:
+
+$$
 \sum_{k=0}^{m}\operatorname{posPart}(\theta(k+1))
 =
 \sum_{k=0}^{m+1}\operatorname{posPart}(\theta(k))
 -
 \operatorname{posPart}(\theta(0)).
-\]
-Since \(\operatorname{posPart}(\theta(0))=0\), this becomes
-\[
+$$
+
+Since $\operatorname{posPart}(\theta(0))=0$, this becomes
+
+$$
 S+\operatorname{posPart}(\theta(m+1)).
-\]
-Dropping the nonnegative term \(\operatorname{posPart}(\theta(m+1))\) gives
-\[
-S\le \alphaBar S+\sum_{k=0}^{m}\delta(k).
-\]
+$$
+
+Dropping the nonnegative term $\operatorname{posPart}(\theta(m+1))$ gives
+
+$$
+S\le \mathrm{alphaBar} S+\sum_{k=0}^{m}\delta(k).
+$$
+
 Rearranging,
-\[
-(1-\alphaBar)S\le \sum_{k=0}^{m}\delta(k)\le D.
-\]
-Because \(1-\alphaBar>0\), division by this positive number yields
-\[
-S\le \frac{D}{1-\alphaBar}.
-\]
-Thus the partial sums of \(\operatorname{posPart}(\theta(k))\) are uniformly bounded.
+
+$$
+(1-\mathrm{alphaBar})S\le \sum_{k=0}^{m}\delta(k)\le D.
+$$
+
+Because $1-\mathrm{alphaBar}>0$, division by this positive number yields
+
+$$
+S\le \frac{D}{1-\mathrm{alphaBar}}.
+$$
+
+Thus the partial sums of $\operatorname{posPart}(\theta(k))$ are uniformly bounded.
 
 The theorem `summable_of_sum_range_le` is then used: a nonnegative sequence whose finite sums over initial intervals are uniformly bounded is summable. Therefore
-\[
+
+$$
 \sum_{k\in\mathbb N}\operatorname{posPart}(\theta(k))
-\]
-converges. Since \(\theta(k)=\phi(k)-\phi(k-1)\), this proves the first part of the conclusion:
-\[
+$$
+
+converges. Since $\theta(k)=\phi(k)-\phi(k-1)$, this proves the first part of the conclusion:
+
+$$
 \sum_{k\in\mathbb N}\operatorname{posPart}\bigl(\phi(k)-\phi(k-1)\bigr)
-\]
+$$
+
 is summable.
 
-For the convergence of \(\phi\), the proof sets
-\[
+For the convergence of $\phi$, the proof sets
+
+$$
 T=\sum_{k\in\mathbb N}\operatorname{posPart}(\theta(k)),
-\]
+$$
+
 which is finite by the previous step, and defines
-\[
+
+$$
 w(k)=\phi(k)-\sum_{j=0}^{k}\operatorname{posPart}(\theta(j)).
-\]
+$$
+
 Then it computes the difference
-\[
+
+$$
 w(k+1)-w(k)
 =
 \theta(k+1)-\operatorname{posPart}(\theta(k+1)).
-\]
-The lemma `posPart_ge_self` states \(t\le \operatorname{posPart}(t)\). Hence
-\[
-\theta(k+1)-\operatorname{posPart}(\theta(k+1))\le 0,
-\]
-so
-\[
-w(k+1)\le w(k).
-\]
-By induction on the inequality \(a\le b\), the proof concludes that \(w\) is antitone:
-\[
-a\le b \implies w(b)\le w(a).
-\]
+$$
 
-Next, \(T\ge 0\), because it is the sum of nonnegative terms. Also, for every \(k\),
-\[
+The lemma `posPart_ge_self` states $t\le \operatorname{posPart}(t)$. Hence
+
+$$
+\theta(k+1)-\operatorname{posPart}(\theta(k+1))\le 0,
+$$
+
+so
+
+$$
+w(k+1)\le w(k).
+$$
+
+By induction on the inequality $a\le b$, the proof concludes that $w$ is antitone:
+
+$$
+a\le b \implies w(b)\le w(a).
+$$
+
+Next, $T\ge 0$, because it is the sum of nonnegative terms. Also, for every $k$,
+
+$$
 \sum_{j=0}^{k}\operatorname{posPart}(\theta(j))\le T,
-\]
-using the standard property that a finite partial sum of a summable nonnegative series is at most the total sum. Since \(\phi(k)\ge 0\), this yields
-\[
+$$
+
+using the standard property that a finite partial sum of a summable nonnegative series is at most the total sum. Since $\phi(k)\ge 0$, this yields
+
+$$
 w(k)
 =
 \phi(k)-\sum_{j=0}^{k}\operatorname{posPart}(\theta(j))
 \ge -T.
-\]
-Therefore the range of \(w\) is bounded below by \(-T\).
+$$
+
+Therefore the range of $w$ is bounded below by $-T$.
 
 The proof lets
-\[
+
+$$
 L=\inf_k w(k).
-\]
-Because \(w\) is antitone and bounded below, the theorem `tendsto_atTop_ciInf` gives
-\[
+$$
+
+Because $w$ is antitone and bounded below, the theorem `tendsto_atTop_ciInf` gives
+
+$$
 w(k)\to L.
-\]
-At the same time, since the series \(\sum_k \operatorname{posPart}(\theta(k))\) is summable with sum \(T\), its partial sums converge to \(T\). Composing the partial-sum convergence with the shift \(k\mapsto k+1\) gives
-\[
+$$
+
+At the same time, since the series $\sum_k \operatorname{posPart}(\theta(k))$ is summable with sum $T$, its partial sums converge to $T$. Composing the partial-sum convergence with the shift $k\mapsto k+1$ gives
+
+$$
 \sum_{j=0}^{k}\operatorname{posPart}(\theta(j))\to T.
-\]
+$$
+
 Now the identity
-\[
+
+$$
 \phi(k)
 =
 w(k)+\sum_{j=0}^{k}\operatorname{posPart}(\theta(j))
-\]
-shows that \(\phi\) is the sum of two convergent sequences. Therefore
-\[
+$$
+
+shows that $\phi$ is the sum of two convergent sequences. Therefore
+
+$$
 \phi(k)\to L+T.
-\]
-Finally, since every \(\phi(k)\ge 0\) and \(\phi(k)\to L+T\), the limit is nonnegative:
-\[
+$$
+
+Finally, since every $\phi(k)\ge 0$ and $\phi(k)\to L+T$, the limit is nonnegative:
+
+$$
 0\le L+T.
-\]
-This is the standard “nonnegative terms have a nonnegative limit” argument, formalized by `ge_of_tendsto` together with the fact that all \(\phi(k)\) are nonnegative. Taking \(\phiStar=L+T\) completes the proof of the existence of a nonnegative limit.
+$$
+
+This is the standard “nonnegative terms have a nonnegative limit” argument, formalized by `ge_of_tendsto` together with the fact that all $\phi(k)$ are nonnegative. Taking $\mathrm{phiStar}=L+T$ completes the proof of the existence of a nonnegative limit.
 

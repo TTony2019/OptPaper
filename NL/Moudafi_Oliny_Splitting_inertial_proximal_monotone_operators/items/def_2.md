@@ -7,25 +7,33 @@ recall SetValuedOperator.IsMaximalMonotone
 ```
 
 ## Statement explanation
-The declaration is a `recall` command rather than a theorem. It asks Lean to retrieve and display the already existing constant `SetValuedOperator.IsMaximalMonotone`; no new variables, hypotheses, or conclusions are introduced by the command itself. The recalled constant is a predicate on set-valued operators on a real inner product space \(E\). A set-valued operator is a map \(T : E \to \mathcal P(E)\), so for each \(x \in E\), the set \(T(x)\) consists of the possible values of the operator at \(x\).
+The declaration is a `recall` command rather than a theorem. It asks Lean to retrieve and display the already existing constant `SetValuedOperator.IsMaximalMonotone`; no new variables, hypotheses, or conclusions are introduced by the command itself. The recalled constant is a predicate on set-valued operators on a real inner product space $E$. A set-valued operator is a map $T : E \to \mathcal P(E)$, so for each $x \in E$, the set $T(x)$ consists of the possible values of the operator at $x$.
 
-The mathematical content of the predicate is that \(T\) is maximal monotone. First, \(T\) must be monotone: for every \(x,y \in E\), every \(u \in T(x)\), and every \(v \in T(y)\),
-\[
+The mathematical content of the predicate is that $T$ is maximal monotone. First, $T$ must be monotone: for every $x,y \in E$, every $u \in T(x)$, and every $v \in T(y)$,
+
+$$
 \langle x-y,u-v\rangle \ge 0 .
-\]
-Second, \(T\) must be maximal for the pointwise inclusion order among monotone set-valued operators. That means if \(S : E \to \mathcal P(E)\) is another monotone set-valued operator and \(T \le S\), i.e.
-\[
+$$
+
+Second, $T$ must be maximal for the pointwise inclusion order among monotone set-valued operators. That means if $S : E \to \mathcal P(E)$ is another monotone set-valued operator and $T \le S$, i.e.
+
+$$
 \forall x \in E,\quad T(x) \subseteq S(x),
-\]
-then necessarily \(S \le T\), i.e.
-\[
+$$
+
+then necessarily $S \le T$, i.e.
+
+$$
 \forall x \in E,\quad S(x) \subseteq T(x).
-\]
+$$
+
 Thus the graph
-\[
+
+$$
 G(T)=\{(x,u): u\in T(x)\}
-\]
-cannot be properly contained in the graph of any other monotone set-valued operator. In ordinary language, `SetValuedOperator.IsMaximalMonotone T` says that \(T\) is a monotone set-valued operator and that it is maximal with respect to inclusion of its graph among all monotone set-valued operators.
+$$
+
+cannot be properly contained in the graph of any other monotone set-valued operator. In ordinary language, `SetValuedOperator.IsMaximalMonotone T` says that $T$ is a monotone set-valued operator and that it is maximal with respect to inclusion of its graph among all monotone set-valued operators.
 
 ## Lean proof
 ```lean

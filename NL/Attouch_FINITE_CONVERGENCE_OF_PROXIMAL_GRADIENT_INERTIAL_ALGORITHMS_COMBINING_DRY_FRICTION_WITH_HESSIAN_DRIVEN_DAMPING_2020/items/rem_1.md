@@ -18,42 +18,50 @@ theorem finiteDimensional_finiteStopping_remark {H : Type*} [NormedAddCommGroup 
 ```
 
 ## Statement explanation
-`finiteDimensional_finiteStopping_remark` is a finite-stopping statement for an inertial proximal-gradient algorithm with dry friction and Hessian-driven damping. Let \(H\) be a finite-dimensional real inner product space, let \(f,\phi:H\to\mathbb R\), and let
-\[
-x_k:=\operatorname{alg.x} k
-\]
-be the iterates of the algorithm `alg`. The parameters \(h,\gamma,\beta,L,r\) are real numbers. The hypothesis `_hdf : DF_r phi r` is a dry-friction condition depending on \(r\); the proof uses its field `_hdf.toEReal_mem_gammaZero`, which says that the extended-real-valued function \(\phi.toEReal\) belongs to \(\Gamma_0(H)\). In the local definition, \(\Gamma_0(H)\) consists of functions into `EReal` that are convex and lower semicontinuous. Thus this hypothesis gives the convexity and lower semicontinuity needed by the proximal subdifferential framework.
+`finiteDimensional_finiteStopping_remark` is a finite-stopping statement for an inertial proximal-gradient algorithm with dry friction and Hessian-driven damping. Let $H$ be a finite-dimensional real inner product space, let $f,\phi:H\to\mathbb R$, and let
 
-The subdifferential used here is, at a point \(x\),
-\[
+$$
+x_k:=\operatorname{alg.x} k
+$$
+
+be the iterates of the algorithm `alg`. The parameters $h,\gamma,\beta,L,r$ are real numbers. The hypothesis `_hdf : DF_r phi r` is a dry-friction condition depending on $r$; the proof uses its field `_hdf.toEReal_mem_gammaZero`, which says that the extended-real-valued function $\phi.toEReal$ belongs to $\Gamma_0(H)$. In the local definition, $\Gamma_0(H)$ consists of functions into `EReal` that are convex and lower semicontinuous. Thus this hypothesis gives the convexity and lower semicontinuity needed by the proximal subdifferential framework.
+
+The subdifferential used here is, at a point $x$,
+
+$$
 \partial\phi(x)
 =
 \left\{u:H\;\middle|\;
 \forall y:H,\;
 \langle y-x,u\rangle_{\mathbb R}+\phi(x)\le \phi(y)
 \right\},
-\]
+$$
+
 with the inequality interpreted after coercion to `EReal`. The hypothesis `hinterior` says
-\[
+
+$$
 -\nabla f(x_\infty)\in \operatorname{int}\bigl(\partial\phi(0)\bigr),
-\]
-so a full neighborhood of \(-\nabla f(x_\infty)\) is contained in the subdifferential of \(\phi\) at \(0\).
+$$
+
+so a full neighborhood of $-\nabla f(x_\infty)$ is contained in the subdifferential of $\phi$ at $0$.
 
 The remaining hypotheses and their roles are:
 
-- `hlimit` says \(x_k\to x_\infty\) along the filter at infinity.
+- `hlimit` says $x_k\to x_\infty$ along the filter at infinity.
 - `hfinite : HasFiniteLength alg.x` says the sequence of iterates has finite length; the proof uses the consequence that the increments tend to zero.
 - `_hcritical : IsDryFrictionCritical phi f xInf` is present in the statement but is not used in the formal proof.
-- `_hL : HasLipschitzGradient (gradient f) L` says \(\nabla f\) has a Lipschitz-gradient property with constant \(L\); it is present but not used in the proof.
-- `hf : ContDiff ℝ 1 f` says \(f\) is \(C^1\). It is used through `continuous_gradient_of_contDiff` to obtain continuity of \(\nabla f\).
-- `_hbelow` says \(f\) is bounded below.
-- `hpositive` says \(h>0\), \(\gamma>0\), and \(\beta>0\).
-- `_hgamma` says \(\gamma\ge L(h/2+\beta)\); it is present but not used in the proof.
+- `_hL : HasLipschitzGradient (gradient f) L` says $\nabla f$ has a Lipschitz-gradient property with constant $L$; it is present but not used in the proof.
+- `hf : ContDiff ℝ 1 f` says $f$ is $C^1$. It is used through `continuous_gradient_of_contDiff` to obtain continuity of $\nabla f$.
+- `_hbelow` says $f$ is bounded below.
+- `hpositive` says $h>0$, $\gamma>0$, and $\beta>0$.
+- `_hgamma` says $\gamma\ge L(h/2+\beta)$; it is present but not used in the proof.
 
-The conclusion is that there exists an index \(N\) such that for every \(k\ge N\),
-\[
+The conclusion is that there exists an index $N$ such that for every $k\ge N$,
+
+$$
 x_{k+1}=x_k.
-\]
+$$
+
 In words, under the given finite-length and interior critical-point assumptions, the algorithm eventually becomes stationary in finite time.
 
 ## Lean proof
@@ -212,70 +220,93 @@ by
 The proof proceeds by analyzing the increments and velocities of the iterates.
 
 1. The proof defines
-\[
-d_k:=x_{k+1}-x_k,\qquad v_k:=\frac1h d_k=\frac1h(x_{k+1}-x_k).
-\]
-It also destructures `hpositive` into \(h>0\), \(\gamma>0\), and \(\beta>0\). From `hf : ContDiff ℝ 1 f`, the cited result `continuous_gradient_of_contDiff` gives continuity of the gradient:
-\[
-\nabla f \text{ is continuous}.
-\]
 
-2. For each \(k\), the proof invokes `rem_1_shifted_recurrence`. That theorem states that if \(\phi.toEReal\in\Gamma_0(H)\), \(h>0\), \(\gamma>0\), and `alg` is the corresponding `IPAHDD`, then for every \(k\) there exists \(q\) such that
-\[
+$$
+d_k:=x_{k+1}-x_k,\qquad v_k:=\frac1h d_k=\frac1h(x_{k+1}-x_k).
+$$
+
+It also destructures `hpositive` into $h>0$, $\gamma>0$, and $\beta>0$. From `hf : ContDiff ℝ 1 f`, the cited result `continuous_gradient_of_contDiff` gives continuity of the gradient:
+
+$$
+\nabla f \text{ is continuous}.
+$$
+
+2. For each $k$, the proof invokes `rem_1_shifted_recurrence`. That theorem states that if $\phi.toEReal\in\Gamma_0(H)$, $h>0$, $\gamma>0$, and `alg` is the corresponding `IPAHDD`, then for every $k$ there exists $q$ such that
+
+$$
 q\in\partial\phi\!\left(\frac1h(x_{k+2}-x_{k+1})\right)
-\]
+$$
+
 and
-\[
+
+$$
 \frac1h(x_{k+2}-x_{k+1})
 -\frac1h(x_{k+1}-x_k)
 +\gamma(x_{k+2}-x_{k+1})
 +h q
 +\beta\bigl(\nabla f(x_{k+1})-\nabla f(x_k)\bigr)
 +h\nabla f(x_{k+1})=0.
-\]
-In the proof this is rewritten using \(d_k\) and \(v_k\). Since \(v_{k+1}=\frac1h(x_{k+2}-x_{k+1})\) and \(d_{k+1}=x_{k+2}-x_{k+1}\), the recurrence becomes
-\[
+$$
+
+In the proof this is rewritten using $d_k$ and $v_k$. Since $v_{k+1}=\frac1h(x_{k+2}-x_{k+1})$ and $d_{k+1}=x_{k+2}-x_{k+1}$, the recurrence becomes
+
+$$
 v_{k+1}-v_k+\gamma d_{k+1}+h q_k
 +\beta\bigl(\nabla f(x_{k+1})-\nabla f(x_k)\bigr)
 +h\nabla f(x_{k+1})=0.
-\]
-The proof supplies `_hdf.toEReal_mem_gammaZero` as the required \(\Gamma_0\) membership, and uses \(h>0\), \(\gamma>0\). The `simpa` step only rewrites indices and definitions.
+$$
+
+The proof supplies `_hdf.toEReal_mem_gammaZero` as the required $\Gamma_0$ membership, and uses $h>0$, $\gamma>0$. The `simpa` step only rewrites indices and definitions.
 
 3. From `hfinite.tendsto_atTop_zero`, the finite-length hypothesis gives
-\[
-\|d_k\|\to0.
-\]
-Using `tendsto_zero_iff_norm_tendsto_zero.mpr`, the proof converts this into
-\[
-d_k\to0.
-\]
-Shifting by one, `Filter.tendsto_add_atTop_nat 1` gives
-\[
-d_{k+1}\to0.
-\]
-Since \(v_k=(1/h)d_k\), scalar multiplication by \(1/h\) gives
-\[
-v_k\to0,\qquad v_{k+1}\to0,
-\]
-and subtracting the two limits gives
-\[
-v_{k+1}-v_k\to0.
-\]
 
-4. The hypothesis \(x_k\to x_\infty\) and continuity of \(\nabla f\) give
-\[
+$$
+\|d_k\|\to0.
+$$
+
+Using `tendsto_zero_iff_norm_tendsto_zero.mpr`, the proof converts this into
+
+$$
+d_k\to0.
+$$
+
+Shifting by one, `Filter.tendsto_add_atTop_nat 1` gives
+
+$$
+d_{k+1}\to0.
+$$
+
+Since $v_k=(1/h)d_k$, scalar multiplication by $1/h$ gives
+
+$$
+v_k\to0,\qquad v_{k+1}\to0,
+$$
+
+and subtracting the two limits gives
+
+$$
+v_{k+1}-v_k\to0.
+$$
+
+4. The hypothesis $x_k\to x_\infty$ and continuity of $\nabla f$ give
+
+$$
 \nabla f(x_k)\to \nabla f(x_\infty),
 \qquad
 \nabla f(x_{k+1})\to \nabla f(x_\infty).
-\]
-Subtracting yields
-\[
-\nabla f(x_{k+1})-\nabla f(x_k)\to0.
-\]
-The terms \(\gamma d_{k+1}\) and \(\beta(\nabla f(x_{k+1})-\nabla f(x_k))\) therefore also tend to \(0\). The term \(h\nabla f(x_{k+1})\) tends to \(h\nabla f(x_\infty)\).
+$$
 
-5. The proof chooses \(q_k\) for each \(k\) using `Classical.choose` applied to the above recurrence. From the recurrence,
-\[
+Subtracting yields
+
+$$
+\nabla f(x_{k+1})-\nabla f(x_k)\to0.
+$$
+
+The terms $\gamma d_{k+1}$ and $\beta(\nabla f(x_{k+1})-\nabla f(x_k))$ therefore also tend to $0$. The term $h\nabla f(x_{k+1})$ tends to $h\nabla f(x_\infty)$.
+
+5. The proof chooses $q_k$ for each $k$ using `Classical.choose` applied to the above recurrence. From the recurrence,
+
+$$
 h q_k
 =
 -\left(
@@ -283,117 +314,163 @@ v_{k+1}-v_k+\gamma d_{k+1}
 +\beta\bigl(\nabla f(x_{k+1})-\nabla f(x_k)\bigr)
 +h\nabla f(x_{k+1})
 \right).
-\]
+$$
+
 This is obtained by `eq_neg_of_add_eq_zero_left`; the auxiliary `ac_rfl` calculation only rearranges the summands to match the recurrence. Passing to the limit in this identity, the right-hand side tends to
-\[
+
+$$
 -h\nabla f(x_\infty).
-\]
+$$
+
 Hence
-\[
+
+$$
 h q_k\to h\bigl(-\nabla f(x_\infty)\bigr).
-\]
-Because \(h>0\), scaling by \(1/h\) gives
-\[
+$$
+
+Because $h>0$, scaling by $1/h$ gives
+
+$$
 q_k\to -\nabla f(x_\infty).
-\]
+$$
 
 6. The interior hypothesis says
-\[
--\nabla f(x_\infty)\in\operatorname{int}\bigl(\partial\phi(0)\bigr).
-\]
-Using `mem_interior_iff_mem_nhds` and `Metric.mem_nhds_iff`, the proof extracts an \(\varepsilon>0\) such that the open ball
-\[
-B\bigl(-\nabla f(x_\infty),\varepsilon\bigr)
-\]
-is contained in \(\partial\phi(0)\). Since \(q_k\to -\nabla f(x_\infty)\), eventually
-\[
-\|q_k-(-\nabla f(x_\infty))\|<\frac\varepsilon2.
-\]
-The proof chooses \(N\) such that this holds for all \(k\ge N\).
 
-7. Now fix \(k\ge N+1\). The proof argues by contradiction and assumes
-\[
+$$
+-\nabla f(x_\infty)\in\operatorname{int}\bigl(\partial\phi(0)\bigr).
+$$
+
+Using `mem_interior_iff_mem_nhds` and `Metric.mem_nhds_iff`, the proof extracts an $\varepsilon>0$ such that the open ball
+
+$$
+B\bigl(-\nabla f(x_\infty),\varepsilon\bigr)
+$$
+
+is contained in $\partial\phi(0)$. Since $q_k\to -\nabla f(x_\infty)$, eventually
+
+$$
+\|q_k-(-\nabla f(x_\infty))\|<\frac\varepsilon2.
+$$
+
+The proof chooses $N$ such that this holds for all $k\ge N$.
+
+7. Now fix $k\ge N+1$. The proof argues by contradiction and assumes
+
+$$
 v_{k-1+1}=v_k\ne0.
-\]
+$$
+
 Let
-\[
+
+$$
 u:=\frac{1}{\|v_k\|}v_k,
-\]
-so \(\|u\|=1\), and define
-\[
+$$
+
+so $\|u\|=1$, and define
+
+$$
 p:=q_{k-1}+\frac\varepsilon2 u.
-\]
-Because \(k-1\ge N\), the chosen \(N\) gives
-\[
+$$
+
+Because $k-1\ge N$, the chosen $N$ gives
+
+$$
 \|q_{k-1}-(-\nabla f(x_\infty))\|<\frac\varepsilon2.
-\]
+$$
+
 Therefore
-\[
+
+$$
 \|p-(-\nabla f(x_\infty))\|
 \le
 \|q_{k-1}-(-\nabla f(x_\infty))\|+\frac\varepsilon2\|u\|
 <
 \frac\varepsilon2+\frac\varepsilon2
 =\varepsilon.
-\]
-Thus \(p\in B(-\nabla f(x_\infty),\varepsilon)\), and since this ball is contained in \(\partial\phi(0)\), we get
-\[
-p\in\partial\phi(0).
-\]
-Also, from the construction of \(q_{k-1}\),
-\[
-q_{k-1}\in\partial\phi(v_k).
-\]
+$$
 
-8. The two subdifferential memberships give two inequalities. Since \(q_{k-1}\in\partial\phi(v_k)\), testing against \(0\) yields
-\[
+Thus $p\in B(-\nabla f(x_\infty),\varepsilon)$, and since this ball is contained in $\partial\phi(0)$, we get
+
+$$
+p\in\partial\phi(0).
+$$
+
+Also, from the construction of $q_{k-1}$,
+
+$$
+q_{k-1}\in\partial\phi(v_k).
+$$
+
+8. The two subdifferential memberships give two inequalities. Since $q_{k-1}\in\partial\phi(v_k)$, testing against $0$ yields
+
+$$
 \langle -v_k,q_{k-1}\rangle+\phi(v_k)\le\phi(0).
-\]
-Since \(p\in\partial\phi(0)\), testing against \(v_k\) yields
-\[
+$$
+
+Since $p\in\partial\phi(0)$, testing against $v_k$ yields
+
+$$
 \langle v_k,p\rangle+\phi(0)\le\phi(v_k).
-\]
-Combining these inequalities cancels \(\phi(v_k)\) and \(\phi(0)\), giving the monotonicity-type inequality
-\[
+$$
+
+Combining these inequalities cancels $\phi(v_k)$ and $\phi(0)$, giving the monotonicity-type inequality
+
+$$
 0\le \langle q_{k-1}-p,v_k\rangle.
-\]
+$$
+
 In the proof, `norm_cast`, `real_inner_comm`, `inner_neg_left`, `inner_sub_left`, and `linarith` are used to convert the `EReal` inequalities into this real inner-product inequality.
 
-On the other hand, by definition of \(p\),
-\[
+On the other hand, by definition of $p$,
+
+$$
 q_{k-1}-p=-\frac\varepsilon2 u
 =-\frac\varepsilon2\frac{1}{\|v_k\|}v_k.
-\]
+$$
+
 Therefore
-\[
+
+$$
 \langle q_{k-1}-p,v_k\rangle
 =
 -\frac\varepsilon2\|v_k\|.
-\]
-Since \(\varepsilon>0\) and \(v_k\ne0\), the right-hand side is strictly negative, contradicting
-\[
-0\le \langle q_{k-1}-p,v_k\rangle.
-\]
-Thus the assumption \(v_k\ne0\) is impossible, so
-\[
-v_k=0.
-\]
-In terms of the original increments,
-\[
-\frac1h(x_{k+1}-x_k)=0.
-\]
-Since \(h\ne0\), `smul_eq_zero.mp` gives
-\[
-x_{k+1}-x_k=0,
-\]
-and hence
-\[
-x_{k+1}=x_k.
-\]
+$$
 
-9. The index \(k\ge N+1\) was arbitrary. Therefore the proof returns the witness \(N+1\) and concludes
-\[
+Since $\varepsilon>0$ and $v_k\ne0$, the right-hand side is strictly negative, contradicting
+
+$$
+0\le \langle q_{k-1}-p,v_k\rangle.
+$$
+
+Thus the assumption $v_k\ne0$ is impossible, so
+
+$$
+v_k=0.
+$$
+
+In terms of the original increments,
+
+$$
+\frac1h(x_{k+1}-x_k)=0.
+$$
+
+Since $h\ne0$, `smul_eq_zero.mp` gives
+
+$$
+x_{k+1}-x_k=0,
+$$
+
+and hence
+
+$$
+x_{k+1}=x_k.
+$$
+
+9. The index $k\ge N+1$ was arbitrary. Therefore the proof returns the witness $N+1$ and concludes
+
+$$
 \exists N,\ \forall k\ge N,\ x_{k+1}=x_k.
-\]
+$$
+
 This is exactly finite stopping: after some finite index, all successive iterates are equal.
 

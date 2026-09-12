@@ -19,48 +19,64 @@ theorem thm_3 {H M : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 ## Statement explanation
 The theorem proves a quantitative stability estimate for two solutions of a second-order differential inclusion after it has been regularized by Yosida approximations of maximal monotone operators.
 
-Let \(H\) be a real Hilbert space and let \(M\) be a parameter type. A parameter is chosen from a set \(V\subseteq M\). For each parameter \(\mu\in V\), the map \(A_\mu:H\to 2^H\) is a set-valued operator which is assumed to be maximal monotone. For \(\lambda>0\), let
-\[
-J_\lambda^{A_\mu}=(I+\lambda A_\mu)^{-1}
-\]
-be the resolvent of \(A_\mu\), and let
-\[
-Y_\mu(u)=\lambda^{-1}\bigl(u-J_\lambda^{A_\mu}u\bigr)
-\]
-be the corresponding Yosida approximation. For each \(\mu\in V\), the theorem is given functions \(x_\mu,dx_\mu,ddx_\mu:\mathbb R\to H\), and initial data \(u_0(\mu),v_0(\mu)\in H\). The hypothesis `hsol` says that the triple \((x_\mu,dx_\mu,ddx_\mu)\) solves, in the sense of `ext_def_2`, the second-order Cauchy problem associated with the regularized operator \(Y_\mu\), namely \(dx_\mu\) is the derivative of \(x_\mu\), \(ddx_\mu\) is the derivative of \(dx_\mu\), the initial conditions are
-\[
-x_\mu(0)=u_0(\mu),\qquad dx_\mu(0)=v_0(\mu),
-\]
-and almost everywhere the differential inclusion becomes the equation
-\[
-ddx_\mu(t)+\gamma\,dx_\mu(t)+Y_\mu(x_\mu(t))=0.
-\]
-The constants satisfy \(\lambda>0\), \(\rho>0\), and \(T>0\). The hypothesis `hball` says that, for almost every \(t\in[0,T]\),
-\[
-\|x_\mu(t)\|\le \rho.
-\]
-Thus both trajectories under comparison are assumed to remain in the closed ball of radius \(\rho\) on the time interval \([0,T]\).
+Let $H$ be a real Hilbert space and let $M$ be a parameter type. A parameter is chosen from a set $V\subseteq M$. For each parameter $\mu\in V$, the map $A_\mu:H\to 2^H$ is a set-valued operator which is assumed to be maximal monotone. For $\lambda>0$, let
 
-The conclusion concerns any two parameters \(\mu,\mu'\in V\). Define
-\[
+$$
+J_\lambda^{A_\mu}=(I+\lambda A_\mu)^{-1}
+$$
+
+be the resolvent of $A_\mu$, and let
+
+$$
+Y_\mu(u)=\lambda^{-1}\bigl(u-J_\lambda^{A_\mu}u\bigr)
+$$
+
+be the corresponding Yosida approximation. For each $\mu\in V$, the theorem is given functions $x_\mu,dx_\mu,ddx_\mu:\mathbb R\to H$, and initial data $u_0(\mu),v_0(\mu)\in H$. The hypothesis `hsol` says that the triple $(x_\mu,dx_\mu,ddx_\mu)$ solves, in the sense of `ext_def_2`, the second-order Cauchy problem associated with the regularized operator $Y_\mu$, namely $dx_\mu$ is the derivative of $x_\mu$, $ddx_\mu$ is the derivative of $dx_\mu$, the initial conditions are
+
+$$
+x_\mu(0)=u_0(\mu),\qquad dx_\mu(0)=v_0(\mu),
+$$
+
+and almost everywhere the differential inclusion becomes the equation
+
+$$
+ddx_\mu(t)+\gamma\,dx_\mu(t)+Y_\mu(x_\mu(t))=0.
+$$
+
+The constants satisfy $\lambda>0$, $\rho>0$, and $T>0$. The hypothesis `hball` says that, for almost every $t\in[0,T]$,
+
+$$
+\|x_\mu(t)\|\le \rho.
+$$
+
+Thus both trajectories under comparison are assumed to remain in the closed ball of radius $\rho$ on the time interval $[0,T]$.
+
+The conclusion concerns any two parameters $\mu,\mu'\in V$. Define
+
+$$
 m=\sqrt{1+2\gamma^2+\frac{2}{\lambda^2}}.
-\]
+$$
+
 Let
-\[
+
+$$
 d_{\lambda,\rho}(A_\mu,A_{\mu'})
 =
 \sup_{\|u\|\le \rho}
 \left\|J_\lambda^{A_\mu}u-J_\lambda^{A_{\mu'}}u\right\|
-\]
-be the resolvent distance `def_7` between the two maximal monotone operators. Then the theorem states that for almost every \(t\in[0,T]\),
-\[
+$$
+
+be the resolvent distance `def_7` between the two maximal monotone operators. Then the theorem states that for almost every $t\in[0,T]$,
+
+$$
 \|x_\mu(t)-x_{\mu'}(t)\|
 \le
 e^{mT}
 \sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}
 +
 (\lambda m)^{-1}(e^{mT}-1)\,d_{\lambda,\rho}(A_\mu,A_{\mu'}).
-\]
+$$
+
 So the distance between the two trajectories is controlled by the distance between their initial positions and velocities, plus the resolvent distance between the two operators, with an exponential factor in time.
 
 ## Lean proof
@@ -223,22 +239,27 @@ Real.sqrt (1 + 2 * γ ^ 2 + 2 / (lam ^ 2))
 ```
 
 ## Proof explanation
-The proof begins with `intro μ hμ μ' hμ'`, which fixes arbitrary parameters \(\mu,\mu'\in V\). The `dsimp` step unfolds the `let` abbreviations in the goal so that the estimate can be proved directly.
+The proof begins with `intro μ hμ μ' hμ'`, which fixes arbitrary parameters $\mu,\mu'\in V$. The `dsimp` step unfolds the `let` abbreviations in the goal so that the estimate can be proved directly.
 
 Next the proof defines the two Yosida approximations
-\[
+
+$$
 Y(u)=\lambda^{-1}\bigl(u-J_\lambda^{A_\mu}u\bigr),
 \qquad
 Y'(u)=\lambda^{-1}\bigl(u-J_\lambda^{A_{\mu'}}u\bigr).
-\]
-The cited theorem `SetValuedOperator.yosida_is_cocoercive` says that if \(T\) is maximal monotone and \(\lambda>0\), then its Yosida approximation \(u\mapsto \lambda^{-1}(u-J_\lambda^T u)\) is cocoercive with constant \(\lambda\):
-\[
+$$
+
+The cited theorem `SetValuedOperator.yosida_is_cocoercive` says that if $T$ is maximal monotone and $\lambda>0$, then its Yosida approximation $u\mapsto \lambda^{-1}(u-J_\lambda^T u)$ is cocoercive with constant $\lambda$:
+
+$$
 \lambda\|Y_\lambda^T u-Y_\lambda^T v\|^2
 \le
 \langle Y_\lambda^T u-Y_\lambda^T v,u-v\rangle.
-\]
-The proof applies this to \(A_\mu\) and \(A_{\mu'}\), obtaining the two inequalities
-\[
+$$
+
+The proof applies this to $A_\mu$ and $A_{\mu'}$, obtaining the two inequalities
+
+$$
 \lambda\|Y u-Y v\|^2
 \le
 \langle Y u-Y v,u-v\rangle,
@@ -246,138 +267,178 @@ The proof applies this to \(A_\mu\) and \(A_{\mu'}\), obtaining the two inequali
 \lambda\|Y' u-Y' v\|^2
 \le
 \langle Y' u-Y' v,u-v\rangle.
-\]
+$$
+
 These are the assumptions `hco` and `hco'`.
 
-The proof then applies `thm_3_solution_data` to the solution hypotheses for \(\mu\) and for \(\mu'\). That cited result extracts from `ext_def_2` the following consequences: \(x_\mu\) and \(dx_\mu\) are absolutely continuous on \([0,T]\), the initial conditions \(x_\mu(0)=u_0(\mu)\) and \(dx_\mu(0)=v_0(\mu)\) hold, almost everywhere the equation
-\[
-ddx_\mu+\gamma\,dx_\mu+Y(x_\mu)=0
-\]
-holds on \(t\ge 0\), and almost everywhere \(x_\mu\) has derivative \(dx_\mu\) while \(dx_\mu\) has derivative \(ddx_\mu\). The same consequences are obtained for \(x_{\mu'},dx_{\mu'},ddx_{\mu'}\), with \(Y'\) in place of \(Y\).
+The proof then applies `thm_3_solution_data` to the solution hypotheses for $\mu$ and for $\mu'$. That cited result extracts from `ext_def_2` the following consequences: $x_\mu$ and $dx_\mu$ are absolutely continuous on $[0,T]$, the initial conditions $x_\mu(0)=u_0(\mu)$ and $dx_\mu(0)=v_0(\mu)$ hold, almost everywhere the equation
 
-The next step controls the Yosida approximation distance over the ball of radius \(\rho\). The proof defines
-\[
+$$
+ddx_\mu+\gamma\,dx_\mu+Y(x_\mu)=0
+$$
+
+holds on $t\ge 0$, and almost everywhere $x_\mu$ has derivative $dx_\mu$ while $dx_\mu$ has derivative $ddx_\mu$. The same consequences are obtained for $x_{\mu'},dx_{\mu'},ddx_{\mu'}$, with $Y'$ in place of $Y$.
+
+The next step controls the Yosida approximation distance over the ball of radius $\rho$. The proof defines
+
+$$
 D=\lambda^{-1}d_{\lambda,\rho}(A_\mu,A_{\mu'}).
-\]
+$$
+
 Since
-\[
+
+$$
 Y u-Y' u
 =
 \lambda^{-1}\bigl(J_\lambda^{A_{\mu'}}u-J_\lambda^{A_\mu}u\bigr),
-\]
-the quantity \(D\) is the supremum of \(\|Y u-Y' u\|\) over \(\|u\|\le \rho\). The proof first shows that this supremum is finite. It applies `thm_3_cocoercive_lipschitz` to `hco` and to `hco'`. That lemma says that if \(a>0\) and
-\[
+$$
+
+the quantity $D$ is the supremum of $\|Y u-Y' u\|$ over $\|u\|\le \rho$. The proof first shows that this supremum is finite. It applies `thm_3_cocoercive_lipschitz` to `hco` and to `hco'`. That lemma says that if $a>0$ and
+
+$$
 a\|B u-B v\|^2\le \langle B u-B v,u-v\rangle,
-\]
+$$
+
 then
-\[
+
+$$
 \|B u-B v\|\le a^{-1}\|u-v\|.
-\]
-Taking \(a=\lambda\), it follows that both \(Y\) and \(Y'\) are Lipschitz with constant \(\lambda^{-1}\). For any \(u\) with \(\|u\|\le \rho\), the triangle inequality gives
-\[
+$$
+
+Taking $a=\lambda$, it follows that both $Y$ and $Y'$ are Lipschitz with constant $\lambda^{-1}$. For any $u$ with $\|u\|\le \rho$, the triangle inequality gives
+
+$$
 \|Y u-Y' u\|
 =
 \|(Y u-Y0)+(Y0-Y'0)+(Y'0-Y'u)\|
 \le
 \|Y u-Y0\|+\|Y0-Y'0\|+\|Y'0-Y'u\|.
-\]
-Using the Lipschitz bounds and \(\|u\|\le \rho\), this is at most
-\[
+$$
+
+Using the Lipschitz bounds and $\|u\|\le \rho$, this is at most
+
+$$
 \lambda^{-1}\rho+\|Y0-Y'0\|+\lambda^{-1}\rho.
-\]
-Therefore the set of values \(\|Y u-Y' u\|\) over the ball is bounded above. The `le_csSup` step then gives, for every \(u\) with \(\|u\|\le \rho\),
-\[
+$$
+
+Therefore the set of values $\|Y u-Y' u\|$ over the ball is bounded above. The `le_csSup` step then gives, for every $u$ with $\|u\|\le \rho$,
+
+$$
 \|Y u-Y' u\|\le D.
-\]
-In particular, taking \(u=0\) shows \(D\ge 0\).
+$$
+
+In particular, taking $u=0$ shows $D\ge 0$.
 
 Now the proof defines the difference functions
-\[
+
+$$
 y(t)=x_\mu(t)-x_{\mu'}(t),
 \qquad
 z(t)=dx_\mu(t)-dx_{\mu'}(t),
 \qquad
 w(t)=\|y(t)\|^2+\|z(t)\|^2.
-\]
-Because \(x_\mu\) and \(x_{\mu'}\) are absolutely continuous, their difference \(y\) is absolutely continuous. Similarly \(z\) is absolutely continuous. The cited lemma `thm_3_ac_norm_sq` says that if a function is absolutely continuous on \([0,T]\), then the square of its norm is also absolutely continuous. Applying this to \(y\) and to \(z\), and then using that sums of absolutely continuous functions are absolutely continuous, gives that \(w\) is absolutely continuous on \([0,T]\). Since \(w\) is a sum of squares, \(w(t)\ge 0\) for every \(t\). The initial value is
-\[
-w(0)=\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2.
-\]
+$$
 
-The proof also computes the derivative of \(w\). Almost everywhere, \(x_\mu\) and \(x_{\mu'}\) have derivatives \(dx_\mu\) and \(dx_{\mu'}\), while \(dx_\mu\) and \(dx_{\mu'}\) have derivatives \(ddx_\mu\) and \(ddx_{\mu'}\). Hence
-\[
+Because $x_\mu$ and $x_{\mu'}$ are absolutely continuous, their difference $y$ is absolutely continuous. Similarly $z$ is absolutely continuous. The cited lemma `thm_3_ac_norm_sq` says that if a function is absolutely continuous on $[0,T]$, then the square of its norm is also absolutely continuous. Applying this to $y$ and to $z$, and then using that sums of absolutely continuous functions are absolutely continuous, gives that $w$ is absolutely continuous on $[0,T]$. Since $w$ is a sum of squares, $w(t)\ge 0$ for every $t$. The initial value is
+
+$$
+w(0)=\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2.
+$$
+
+The proof also computes the derivative of $w$. Almost everywhere, $x_\mu$ and $x_{\mu'}$ have derivatives $dx_\mu$ and $dx_{\mu'}$, while $dx_\mu$ and $dx_{\mu'}$ have derivatives $ddx_\mu$ and $ddx_{\mu'}$. Hence
+
+$$
 y'=z,
 \qquad
 z'=ddx_\mu-ddx_{\mu'}.
-\]
+$$
+
 Using the derivative of the squared norm, the proof obtains almost everywhere
-\[
+
+$$
 w'(t)
 =
 2\langle y(t),z(t)\rangle
 +
 2\langle z(t),ddx_\mu(t)-ddx_{\mu'}(t)\rangle.
-\]
+$$
 
 Next the proof defines
-\[
+
+$$
 m=\sqrt{1+2\gamma^2+\frac{2}{\lambda^2}}.
-\]
-Since the expression under the square root is at least \(1\), one has \(m\ge 1\), hence \(m>0\).
+$$
+
+Since the expression under the square root is at least $1$, one has $m\ge 1$, hence $m>0$.
 
 A key pointwise inequality is then established:
-\[
+
+$$
 \langle y,z\rangle
 +
 \left\langle z,-\gamma z-\bigl(Y'(x_\mu)-Y'(x_{\mu'})\bigr)\right\rangle
 \le
 m w.
-\]
-This uses `thm_3_first_order_sq_bound`. That lemma says that if \(A\) is \(\alpha\)-cocoercive with \(\alpha>0\), then for all \(u,u',v,v'\),
-\[
+$$
+
+This uses `thm_3_first_order_sq_bound`. That lemma says that if $A$ is $\alpha$-cocoercive with $\alpha>0$, then for all $u,u',v,v'$,
+
+$$
 \|v-v'\|^2
 +
 \left\|-\gamma v-A u-(-\gamma v'-A u')\right\|^2
 \le
 \left(1+2\gamma^2+\frac{2}{\alpha^2}\right)
 \bigl(\|u-u'\|^2+\|v-v'\|^2\bigr).
-\]
-The proof applies it with \(A=Y'\), \(\alpha=\lambda\), \(u=x_\mu\), \(u'=x_{\mu'}\), \(v=dx_\mu\), and \(v'=dx_{\mu'}\). Since \(z=dx_\mu-dx_{\mu'}\), this gives
-\[
+$$
+
+The proof applies it with $A=Y'$, $\alpha=\lambda$, $u=x_\mu$, $u'=x_{\mu'}$, $v=dx_\mu$, and $v'=dx_{\mu'}$. Since $z=dx_\mu-dx_{\mu'}$, this gives
+
+$$
 \|z\|^2+
 \left\|-\gamma z-\bigl(Y'(x_\mu)-Y'(x_{\mu'})\bigr)\right\|^2
 \le
 m^2 w.
-\]
+$$
+
 The proof then invokes `thm_3_two_pairing_le`, which is the Cauchy–Schwarz-type inequality
-\[
+
+$$
 \langle a,c\rangle+\langle b,d\rangle
 \le
 \sqrt{\|a\|^2+\|b\|^2}
 \sqrt{\|c\|^2+\|d\|^2}.
-\]
+$$
+
 Taking
-\[
+
+$$
 a=y,\qquad b=z,\qquad c=z,\qquad
 d=-\gamma z-\bigl(Y'(x_\mu)-Y'(x_{\mu'})\bigr),
-\]
-the first square root is \(\sqrt w\), and the second is at most \(m\sqrt w\) by the previous bound. Multiplying gives the desired inequality by \(mw\).
+$$
 
-The proof then derives the differential inequality for \(w\). From the two regularized equations,
-\[
+the first square root is $\sqrt w$, and the second is at most $m\sqrt w$ by the previous bound. Multiplying gives the desired inequality by $mw$.
+
+The proof then derives the differential inequality for $w$. From the two regularized equations,
+
+$$
 ddx_\mu=-\gamma dx_\mu-Y(x_\mu),
 \qquad
 ddx_{\mu'}=-\gamma dx_{\mu'}-Y'(x_{\mu'}),
-\]
+$$
+
 one obtains
-\[
+
+$$
 ddx_\mu-ddx_{\mu'}
 =
 -\gamma z-\bigl(Y'(x_\mu)-Y'(x_{\mu'})\bigr)
 -\bigl(Y(x_\mu)-Y'(x_\mu)\bigr).
-\]
-Substituting this into the formula for \(w'\), the proof gets
-\[
+$$
+
+Substituting this into the formula for $w'$, the proof gets
+
+$$
 w'
 =
 2\left[
@@ -387,89 +448,114 @@ w'
 \right]
 -
 2\langle z,Y(x_\mu)-Y'(x_\mu)\rangle.
-\]
-Since \(\|x_\mu(t)\|\le \rho\) almost everywhere on \([0,T]\), the bound on \(Y-Y'\) over the \(\rho\)-ball gives
-\[
+$$
+
+Since $\|x_\mu(t)\|\le \rho$ almost everywhere on $[0,T]$, the bound on $Y-Y'$ over the $\rho$-ball gives
+
+$$
 \|Y(x_\mu(t))-Y'(x_\mu(t))\|\le D.
-\]
+$$
+
 Using Cauchy–Schwarz,
-\[
+
+$$
 -\langle z,Y(x_\mu)-Y'(x_\mu)\rangle
 \le
 \|z\|\,\|Y(x_\mu)-Y'(x_\mu)\|
 \le
 D\sqrt{w}.
-\]
+$$
+
 Combined with the earlier pointwise inequality, this yields
-\[
+
+$$
 \frac12 w'
 \le
 m w+D w^{1/2}.
-\]
+$$
+
 Equivalently,
-\[
+
+$$
 \left(1-\frac12\right)w'
 \le
 m w+D w^{1/2}.
-\]
+$$
 
-Now the proof applies `ext_lem_1`, the nonlinear Gronwall inequality. Its visible content is: if \(w\) is absolutely continuous, \(w\ge 0\), \(a,b\) are integrable, \(b\ge 0\) almost everywhere, and for almost every \(t\in[0,T]\),
-\[
+Now the proof applies `ext_lem_1`, the nonlinear Gronwall inequality. Its visible content is: if $w$ is absolutely continuous, $w\ge 0$, $a,b$ are integrable, $b\ge 0$ almost everywhere, and for almost every $t\in[0,T]$,
+
+$$
 (1-\alpha)w'(t)\le a(t)w(t)+b(t)w(t)^\alpha,
-\]
-with \(0\le \alpha<1\), then for every \(t\in[0,T]\),
-\[
+$$
+
+with $0\le \alpha<1$, then for every $t\in[0,T]$,
+
+$$
 w(t)^{1-\alpha}
 \le
 w(0)^{1-\alpha}\exp\left(\int_0^t a\right)
 +
 \int_0^t
 \exp\left(\int_s^t a\right)b(s)\,ds.
-\]
-The proof takes \(\alpha=\frac12\), \(a(t)=m\), and \(b(t)=D\). It obtains
-\[
+$$
+
+The proof takes $\alpha=\frac12$, $a(t)=m$, and $b(t)=D$. It obtains
+
+$$
 \sqrt{w(t)}
 \le
 \sqrt{w(0)}\,e^{mt}
 +
 \int_0^t e^{m(t-s)}D\,ds.
-\]
+$$
+
 The cited lemma `thm_3_exp_kernel_integral` evaluates the exponential convolution:
-\[
+
+$$
 \int_0^t e^{m(t-s)}D\,ds
 =
 m^{-1}(e^{mt}-1)D.
-\]
+$$
+
 Thus
-\[
+
+$$
 \sqrt{w(t)}
 \le
 \sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}\,e^{mt}
 +
 m^{-1}(e^{mt}-1)D.
-\]
+$$
 
-Finally, since \(t\le T\) and \(m\ge 0\),
-\[
+Finally, since $t\le T$ and $m\ge 0$,
+
+$$
 e^{mt}\le e^{mT}.
-\]
-Also \(m^{-1}(e^{mt}-1)D\le m^{-1}(e^{mT}-1)D\) because \(m^{-1}D\ge 0\). Therefore
-\[
+$$
+
+Also $m^{-1}(e^{mt}-1)D\le m^{-1}(e^{mT}-1)D$ because $m^{-1}D\ge 0$. Therefore
+
+$$
 \sqrt{w(t)}
 \le
 \sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}\,e^{mT}
 +
 m^{-1}(e^{mT}-1)D.
-\]
+$$
+
 Since
-\[
+
+$$
 \|x_\mu(t)-x_{\mu'}(t)\|=\|y(t)\|\le \sqrt{w(t)},
-\]
-and since \(D=\lambda^{-1}d_{\lambda,\rho}(A_\mu,A_{\mu'})\), the last term becomes
-\[
+$$
+
+and since $D=\lambda^{-1}d_{\lambda,\rho}(A_\mu,A_{\mu'})$, the last term becomes
+
+$$
 m^{-1}(e^{mT}-1)D
 =
 (\lambda m)^{-1}(e^{mT}-1)d_{\lambda,\rho}(A_\mu,A_{\mu'}).
-\]
-Reordering the first term gives exactly the claimed estimate. The final `field_simp` uses \(\lambda\ne 0\) and \(m\ne 0\) to simplify the rational coefficient.
+$$
+
+Reordering the first term gives exactly the claimed estimate. The final `field_simp` uses $\lambda\ne 0$ and $m\ne 0$ to simplify the rational coefficient.
 

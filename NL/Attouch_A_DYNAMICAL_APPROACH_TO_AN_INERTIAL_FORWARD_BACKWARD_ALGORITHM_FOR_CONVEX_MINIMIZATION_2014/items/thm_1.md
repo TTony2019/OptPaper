@@ -21,37 +21,46 @@ theorem theorem1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [C
 ```
 
 ## Statement explanation
-The declaration `theorem1` is stated for a real Hilbert space \(H\), i.e. a complete real inner-product space. The data are two extended-real functions \(\phi,\Theta:H\to\overline{\mathbb R}\) (Lean type `EReal`), a real-valued function \(\psi:H\to\mathbb R\), a map \(\operatorname{gradPsi}:H\to H\), real parameters \(a,b,\lambda,L_\psi\), and two sequences \(u,y:\mathbb N\to H\). The hypothesis `hH` has type `IFBHypothesis phi Θ psi gradPsi a b lam Lpsi` and packages the standing assumptions of the inertial forward-backward problem; the hypothesis `hIFB` has type `IsIFBTrajectory phi psi gradPsi a b lam u y` and says that \((u,y)\) is a trajectory of that method. In the proof the parts of `hH` that are used are that \(a>0\), \(b>0\), \(\lambda>0\), that \(\phi\) and \(\Theta\) have convex epigraphs, that \(\Theta=\phi+\psi\), that \(\psi\) is differentiable with gradient \(\operatorname{gradPsi}\), and that \(\phi\) is proper. The conclusion is a conjunction of three assertions.
+The declaration `theorem1` is stated for a real Hilbert space $H$, i.e. a complete real inner-product space. The data are two extended-real functions $\phi,\Theta:H\to\overline{\mathbb R}$ (Lean type `EReal`), a real-valued function $\psi:H\to\mathbb R$, a map $\operatorname{gradPsi}:H\to H$, real parameters $a,b,\lambda,L_\psi$, and two sequences $u,y:\mathbb N\to H$. The hypothesis `hH` has type `IFBHypothesis phi Θ psi gradPsi a b lam Lpsi` and packages the standing assumptions of the inertial forward-backward problem; the hypothesis `hIFB` has type `IsIFBTrajectory phi psi gradPsi a b lam u y` and says that $(u,y)$ is a trajectory of that method. In the proof the parts of `hH` that are used are that $a>0$, $b>0$, $\lambda>0$, that $\phi$ and $\Theta$ have convex epigraphs, that $\Theta=\phi+\psi$, that $\psi$ is differentiable with gradient $\operatorname{gradPsi}$, and that $\phi$ is proper. The conclusion is a conjunction of three assertions.
 
 First, the objective values converge to the infimum of the objective:
-\[
+
+$$
 \Theta(u_k)\longrightarrow \inf\{\Theta(x):x\in H\}
-\]
-in \(\overline{\mathbb R}\) as \(k\to\infty\). Here \(\inf\) is written `sInf (Set.range Θ)`.
+$$
+
+in $\overline{\mathbb R}$ as $k\to\infty$. Here $\inf$ is written `sInf (Set.range Θ)`.
 
 Second, suppose that the minimizer set
-\[
+
+$$
 S=\operatorname{argmin}\Theta=\{x\in H:\forall y\in H,\ \Theta(x)\le \Theta(y)\}
-\]
+$$
+
 is nonempty and that at least one of four structural alternatives holds:
-- \(S\) is a singleton;
-- \(\phi\) is actually real-valued, say \(\phi(x)=(\phi_{\mathbb R}(x):\overline{\mathbb R})\), with \(\phi_{\mathbb R}:H\to\mathbb R\) differentiable and admitting a gradient field \(g:H\to H\) satisfying \(D\phi_{\mathbb R}(x)h=\langle g(x),h\rangle\), and this \(g\) is weak-to-weak sequentially continuous;
+- $S$ is a singleton;
+- $\phi$ is actually real-valued, say $\phi(x)=(\phi_{\mathbb R}(x):\overline{\mathbb R})$, with $\phi_{\mathbb R}:H\to\mathbb R$ differentiable and admitting a gradient field $g:H\to H$ satisfying $D\phi_{\mathbb R}(x)h=\langle g(x),h\rangle$, and this $g$ is weak-to-weak sequentially continuous;
 - the given map `gradPsi` is weak-to-weak sequentially continuous;
-- the epigraph of the extended-real function \(x\mapsto(\psi(x):\overline{\mathbb R})\),
-  \[
+- the epigraph of the extended-real function $x\mapsto(\psi(x):\overline{\mathbb R})$,
+
+  $$
   \{(x,\xi)\in H\times\mathbb R:(\psi(x):\overline{\mathbb R})\le \xi\},
-  \]
+  $$
+
   is convex.
-Under these assumptions, the theorem asserts that there exists \(q\in S\) such that
-\[
+Under these assumptions, the theorem asserts that there exists $q\in S$ such that
+
+$$
 u_k\rightharpoonup q
-\]
-weakly in \(H\).
+$$
+
+weakly in $H$.
 
 Third, if the minimizer set is empty, then
-\[
+
+$$
 \|u_k\|\longrightarrow +\infty.
-\]
+$$
 
 ## Lean proof
 ```lean
@@ -802,173 +811,231 @@ by
 ```
 
 ## Proof explanation
-The proof begins with the imported result `proposition6`. Applied to \(\phi,\Theta,\psi,\operatorname{gradPsi},a,b,\lambda,L_\psi,u,y\), with hypotheses `hH` and `hIFB`, it yields three conclusions: first, \(\Theta(u_k)\to\inf\Theta\); second, every weak sequential cluster point of \((u_k)\) belongs to \(S=\operatorname{argmin}\Theta\); third, if \(S=\varnothing\), then \(\|u_k\|\to+\infty\). The Lean command `rcases ... with ⟨hobjective, hcluster, hempty⟩` unpacks this conjunction into those three facts. The subsequent `refine ⟨hobjective, ?_, hempty⟩` uses the first and third facts directly for the first and third conjuncts of the target theorem and leaves the middle weak-convergence assertion to be proved.
+The proof begins with the imported result `proposition6`. Applied to $\phi,\Theta,\psi,\operatorname{gradPsi},a,b,\lambda,L_\psi,u,y$, with hypotheses `hH` and `hIFB`, it yields three conclusions: first, $\Theta(u_k)\to\inf\Theta$; second, every weak sequential cluster point of $(u_k)$ belongs to $S=\operatorname{argmin}\Theta$; third, if $S=\varnothing$, then $\|u_k\|\to+\infty$. The Lean command `rcases ... with ⟨hobjective, hcluster, hempty⟩` unpacks this conjunction into those three facts. The subsequent `refine ⟨hobjective, ?_, hempty⟩` uses the first and third facts directly for the first and third conjuncts of the target theorem and leaves the middle weak-convergence assertion to be proved.
 
 The proof then introduces the nonemptiness of the minimizer set and the disjunction of four cases:
 ```lean
 rintro ⟨hS, hcase⟩
 ```
-So from now on \(S\neq\varnothing\), and one of the four alternatives holds. Before treating the cases, the proof records a boundedness and Liapunov-limit package. The local result `theorem1_proposition8_local` says that, under `hH`, `hIFB`, and \(S\neq\varnothing\), the range of \(u\) is bounded and, for every \(q\in S\), the Liapunov quantity
-\[
+So from now on $S\neq\varnothing$, and one of the four alternatives holds. Before treating the cases, the proof records a boundedness and Liapunov-limit package. The local result `theorem1_proposition8_local` says that, under `hH`, `hIFB`, and $S\neq\varnothing$, the range of $u$ is bounded and, for every $q\in S$, the Liapunov quantity
+
+$$
 F_q(k)=\texttt{liapunovF }u\,y\,a\,b\,\lambda\,q\,k
-\]
-has a limit along \(k+1\). The proof extracts exactly these two facts as `hbounded` and `hFlim`. Then `theorem1_auxiliaryA_tendsto` is applied. That result says that if \(u\) is bounded and if \(F_q(k+1)\) has a limit for every \(q\in S\), then for every \(q\in S\) the auxiliary sequence
-\[
+$$
+
+has a limit along $k+1$. The proof extracts exactly these two facts as `hbounded` and `hFlim`. Then `theorem1_auxiliaryA_tendsto` is applied. That result says that if $u$ is bounded and if $F_q(k+1)$ has a limit for every $q\in S$, then for every $q\in S$ the auxiliary sequence
+
+$$
 A_q(k)=\texttt{theorem1AuxiliaryA }u\,y\,a\,b\,\lambda\,q\,k
-\]
+$$
+
 also has a limit. This is recorded as `hAlim`.
 
 The proof now splits on the four alternatives in `hcase`.
 
-In the singleton case, \(S=\{q_0\}\). If \(p\) and \(q\) are two weak sequential cluster points of \((u_k)\), then `hcluster` puts both \(p\) and \(q\) into \(S\), hence both are equal to \(q_0\). Thus there is at most one weak sequential cluster point. The theorem `weaklyConvergent_iff_bounded_and_atMostOne_weakSequentialClusterPoint` states that a sequence in a Hilbert space converges weakly if and only if it is bounded and has at most one weak sequential cluster point. Since boundedness was already obtained from `theorem1_proposition8_local`, the proof applies this criterion and obtains a weak limit \(q\). Finally \(q\) itself is a weak sequential cluster point of the sequence, so `hcluster` gives \(q\in S\). This proves the desired existential statement in the singleton case.
+In the singleton case, $S=\{q_0\}$. If $p$ and $q$ are two weak sequential cluster points of $(u_k)$, then `hcluster` puts both $p$ and $q$ into $S$, hence both are equal to $q_0$. Thus there is at most one weak sequential cluster point. The theorem `weaklyConvergent_iff_bounded_and_atMostOne_weakSequentialClusterPoint` states that a sequence in a Hilbert space converges weakly if and only if it is bounded and has at most one weak sequential cluster point. Since boundedness was already obtained from `theorem1_proposition8_local`, the proof applies this criterion and obtains a weak limit $q$. Finally $q$ itself is a weak sequential cluster point of the sequence, so `hcluster` gives $q\in S$. This proves the desired existential statement in the singleton case.
 
-In the second case, \(\phi\) is real-valued: there are `phiReal : H → ℝ`, a differentiability proof, and a gradient field `gradPhi` with weak-to-weak sequential continuity. The proof first shows that every subgradient of \(\phi\) is actually the gradient. The subdifferential definition gives that \(g\in\partial\phi(x)\) means
-\[
+In the second case, $\phi$ is real-valued: there are `phiReal : H → ℝ`, a differentiability proof, and a gradient field `gradPhi` with weak-to-weak sequential continuity. The proof first shows that every subgradient of $\phi$ is actually the gradient. The subdifferential definition gives that $g\in\partial\phi(x)$ means
+
+$$
 \langle z-x,g\rangle+\phi(x)\le\phi(z)
-\]
-for every \(z\). Since here \(\phi\) is the coercion of a real function \(\phi_{\mathbb R}\), this says that \(x\) minimizes
-\[
+$$
+
+for every $z$. Since here $\phi$ is the coercion of a real function $\phi_{\mathbb R}$, this says that $x$ minimizes
+
+$$
 z\mapsto \phi_{\mathbb R}(z)-\langle g,z\rangle.
-\]
-At a differentiability point of this function, the derivative must vanish. The derivative of \(\phi_{\mathbb R}\) is represented by `gradPhi`, while the derivative of \(z\mapsto\langle g,z\rangle\) is the linear functional \(\langle g,\cdot\rangle\). Evaluating the derivative identity at \(\operatorname{gradPhi}(x)-g\) shows that
-\[
+$$
+
+At a differentiability point of this function, the derivative must vanish. The derivative of $\phi_{\mathbb R}$ is represented by `gradPhi`, while the derivative of $z\mapsto\langle g,z\rangle$ is the linear functional $\langle g,\cdot\rangle$. Evaluating the derivative identity at $\operatorname{gradPhi}(x)-g$ shows that
+
+$$
 \|g-\operatorname{gradPhi}(x)\|^2=0,
-\]
-hence \(g=\operatorname{gradPhi}(x)\). This is the local lemma `hsubgradient_eq`.
+$$
+
+hence $g=\operatorname{gradPhi}(x)$. This is the local lemma `hsubgradient_eq`.
 
 Next the proof obtains from `theorem1_velocity_tendsto_zero` that
-\[
+
+$$
 u_{k+1}-u_k\to 0.
-\]
-Suppose \(p\) and \(q\) are weak sequential cluster points of \((u_k)\), witnessed by strictly increasing subsequences \(t_j\) and \(s_j\). By `hcluster`, both \(p\) and \(q\) lie in \(S\). The result `theorem1_shift_two_weakly` then upgrades the weak limits along the subsequences by two steps: since \(u_{k+1}-u_k\to0\) and \(t_j,s_j\to\infty\), one has
-\[
+$$
+
+Suppose $p$ and $q$ are weak sequential cluster points of $(u_k)$, witnessed by strictly increasing subsequences $t_j$ and $s_j$. By `hcluster`, both $p$ and $q$ lie in $S$. The result `theorem1_shift_two_weakly` then upgrades the weak limits along the subsequences by two steps: since $u_{k+1}-u_k\to0$ and $t_j,s_j\to\infty$, one has
+
+$$
 u_{t_j+2}\rightharpoonup p,\qquad u_{s_j+2}\rightharpoonup q.
-\]
-The weak continuity of `gradPhi` therefore gives weak convergence of the gradient values. The proof also recalls that \(-z_{t_j+2}\in\partial\phi(u_{t_j+2})\) and \(-z_{s_j+2}\in\partial\phi(u_{s_j+2})\), from `theorem1_neg_z_mem_subgradient`; the subgradient equality just proved identifies these with \(\operatorname{gradPhi}\) values. Using the four-term identity `auxiliaryA_four_term` and the limits of \(A_p,A_q\), the proof obtains a sequence expression tending to \(0\), while the inner-product limits give its limit as
-\[
+$$
+
+The weak continuity of `gradPhi` therefore gives weak convergence of the gradient values. The proof also recalls that $-z_{t_j+2}\in\partial\phi(u_{t_j+2})$ and $-z_{s_j+2}\in\partial\phi(u_{s_j+2})$, from `theorem1_neg_z_mem_subgradient`; the subgradient equality just proved identifies these with $\operatorname{gradPhi}$ values. Using the four-term identity `auxiliaryA_four_term` and the limits of $A_p,A_q$, the proof obtains a sequence expression tending to $0$, while the inner-product limits give its limit as
+
+$$
 \frac{a+b}{\lambda}(-\|p-q\|^2)
 -\left(\frac1\lambda+b\right)
 \langle \operatorname{gradPhi}(p)-\operatorname{gradPhi}(q),p-q\rangle .
-\]
-This expression must equal \(0\). Separately, convexity of the real-valued \(\phi\) gives the support inequality
-\[
+$$
+
+This expression must equal $0$. Separately, convexity of the real-valued $\phi$ gives the support inequality
+
+$$
 \phi_{\mathbb R}(x)-\phi_{\mathbb R}(z)
 \le \langle \operatorname{gradPhi}(x),x-z\rangle,
-\]
-which implies
-\[
-\langle \operatorname{gradPhi}(p)-\operatorname{gradPhi}(q),p-q\rangle\ge0.
-\]
-The coefficients \(\frac{a+b}{\lambda}\) and \(\frac1\lambda+b\) are positive, so the equality forces \(\|p-q\|=0\), hence \(p=q\). Thus there is at most one weak sequential cluster point. Applying the boundedness plus uniqueness criterion again gives weak convergence, and `hcluster` identifies the weak limit as an element of \(S\).
+$$
 
-The third case assumes that `gradPsi` is weak-to-weak sequentially continuous. The proof again records \(u_{k+1}-u_k\to0\) from `theorem1_velocity_tendsto_zero`. First it proves that for each \(q\in S\),
-\[
+which implies
+
+$$
+\langle \operatorname{gradPhi}(p)-\operatorname{gradPhi}(q),p-q\rangle\ge0.
+$$
+
+The coefficients $\frac{a+b}{\lambda}$ and $\frac1\lambda+b$ are positive, so the equality forces $\|p-q\|=0$, hence $p=q$. Thus there is at most one weak sequential cluster point. Applying the boundedness plus uniqueness criterion again gives weak convergence, and `hcluster` identifies the weak limit as an element of $S$.
+
+The third case assumes that `gradPsi` is weak-to-weak sequentially continuous. The proof again records $u_{k+1}-u_k\to0$ from `theorem1_velocity_tendsto_zero`. First it proves that for each $q\in S$,
+
+$$
 \left\langle
 z_{k+2}-\operatorname{gradPsi}(u_{k+2}),
 u_{k+2}-q
 \right\rangle\to0.
-\]
-Indeed, `hFlim` gives a limit for \(F_q(k+1)\), and `theorem1_liapunov_shift_tendsto` gives the same limit for \(F_q(k+2)\). The equality in `theorem1_proposition3_local`, together with the residual identity `theorem1_residual_vector`
-\[
+$$
+
+Indeed, `hFlim` gives a limit for $F_q(k+1)$, and `theorem1_liapunov_shift_tendsto` gives the same limit for $F_q(k+2)$. The equality in `theorem1_proposition3_local`, together with the residual identity `theorem1_residual_vector`
+
+$$
 z_{r+2}-\operatorname{gradPsi}(u_{r+2})
 =\left(\frac1\lambda-a\right)v_{r+2}
 +\left(\frac1\lambda+b\right)\zeta_{r+2},
-\]
-shows that the above inner product is \((1/b)(F_q(k+2)-F_q(k+1))\), hence tends to \(0\).
+$$
 
-Now take two weak sequential cluster points \(p,q\), witnessed by subsequences \(t_j,s_j\). As before, `hcluster` puts \(p,q\in S\), and `theorem1_shift_two_weakly` gives
-\[
+shows that the above inner product is $(1/b)(F_q(k+2)-F_q(k+1))$, hence tends to $0$.
+
+Now take two weak sequential cluster points $p,q$, witnessed by subsequences $t_j,s_j$. As before, `hcluster` puts $p,q\in S$, and `theorem1_shift_two_weakly` gives
+
+$$
 u_{t_j+2}\rightharpoonup p,\qquad u_{s_j+2}\rightharpoonup q.
-\]
+$$
+
 The weak continuity of `gradPsi` therefore gives
-\[
+
+$$
 \operatorname{gradPsi}(u_{t_j+2})\rightharpoonup \operatorname{gradPsi}(p),\qquad
 \operatorname{gradPsi}(u_{s_j+2})\rightharpoonup \operatorname{gradPsi}(q).
-\]
+$$
+
 Using the residual-inner-product limit just proved, the proof obtains the corresponding limit for
-\[
+
+$$
 \langle z_{t_j+2}-z_{s_j+2},q-p\rangle.
-\]
-Combining this with `auxiliaryA_four_term` and the fact that \(A_p\) and \(A_q\) have limits gives
-\[
+$$
+
+Combining this with `auxiliaryA_four_term` and the fact that $A_p$ and $A_q$ have limits gives
+
+$$
 0=\frac{a+b}{\lambda}(-\|p-q\|^2)
 -\left(\frac1\lambda+b\right)
 \langle \operatorname{gradPsi}(p)-\operatorname{gradPsi}(q),q-p\rangle .
-\]
-It remains to know that the last inner product is nonnegative. The proof establishes a local fact `hminimizer_subgradient`: if \(x\in S\), then
-\[
+$$
+
+It remains to know that the last inner product is nonnegative. The proof establishes a local fact `hminimizer_subgradient`: if $x\in S$, then
+
+$$
 -\operatorname{gradPsi}(x)\in\partial\phi(x).
-\]
-To see this, it uses \(\Theta=\phi+\psi\) and minimality of \(x\), then differentiates along the line \(t\mapsto x+t(z-x)\). The chord inequality coming from convexity of \(\phi\) gives, for \(0<t<1\),
-\[
+$$
+
+To see this, it uses $\Theta=\phi+\psi$ and minimality of $x$, then differentiates along the line $t\mapsto x+t(z-x)$. The chord inequality coming from convexity of $\phi$ gives, for $0<t<1$,
+
+$$
 -\frac{\psi(x+t(z-x))-\psi(x)}{t}
 \le \phi(z)-\phi(x).
-\]
-Letting \(t\downarrow0\), the differentiability of \(\psi\) with gradient `gradPsi` gives
-\[
+$$
+
+Letting $t\downarrow0$, the differentiability of $\psi$ with gradient `gradPsi` gives
+
+$$
 -\langle \operatorname{gradPsi}(x),z-x\rangle
 \le \phi(z)-\phi(x),
-\]
-which is exactly the subgradient inequality defining \(-\operatorname{gradPsi}(x)\in\partial\phi(x)\). The result `isMonotone_subdifferential` states that the subdifferential of a proper convex function is monotone: if \(x^*\in\partial\phi(x)\) and \(y^*\in\partial\phi(y)\), then
-\[
+$$
+
+which is exactly the subgradient inequality defining $-\operatorname{gradPsi}(x)\in\partial\phi(x)$. The result `isMonotone_subdifferential` states that the subdifferential of a proper convex function is monotone: if $x^*\in\partial\phi(x)$ and $y^*\in\partial\phi(y)$, then
+
+$$
 \langle x^*-y^*,x-y\rangle\ge0.
-\]
-Applying this to \(-\operatorname{gradPsi}(p)\in\partial\phi(p)\) and \(-\operatorname{gradPsi}(q)\in\partial\phi(q)\) gives
-\[
+$$
+
+Applying this to $-\operatorname{gradPsi}(p)\in\partial\phi(p)$ and $-\operatorname{gradPsi}(q)\in\partial\phi(q)$ gives
+
+$$
 \langle \operatorname{gradPsi}(p)-\operatorname{gradPsi}(q),q-p\rangle\ge0.
-\]
-Again positivity of the coefficients forces \(\|p-q\|=0\), so \(p=q\). The uniqueness criterion now yields weak convergence, and `hcluster` identifies the limit as a minimizer.
+$$
 
-The fourth case assumes that the epigraph of \(\psi\) is convex. The proof first converts this into convexity of the real-valued function \(\psi\), then derives the first-order support inequality for convex differentiable \(\psi\):
-\[
+Again positivity of the coefficients forces $\|p-q\|=0$, so $p=q$. The uniqueness criterion now yields weak convergence, and `hcluster` identifies the limit as a minimizer.
+
+The fourth case assumes that the epigraph of $\psi$ is convex. The proof first converts this into convexity of the real-valued function $\psi$, then derives the first-order support inequality for convex differentiable $\psi$:
+
+$$
 \psi(x)-\psi(z)\le \langle \operatorname{gradPsi}(x),x-z\rangle .
-\]
-This is proved by restricting \(\psi\) to the line \(t\mapsto z+t(x-z)\) and comparing the secant slope on \([0,1]\) with the derivative at \(1\).
+$$
 
-Next the proof shows that for every \(j\ge1\), \(\phi(u_j)\) is finite, i.e. neither \(\top\) nor \(\bot\). This uses `theorem1_neg_z_mem_subgradient`, which gives \(-z_j\in\partial\phi(u_j)\), together with `subgradient_value_ne_top` and properness of \(\phi\).
+This is proved by restricting $\psi$ to the line $t\mapsto z+t(x-z)$ and comparing the secant slope on $[0,1]$ with the derivative at $1$.
 
-The proof then uses the subgradient inequalities for \(-z_j\in\partial\phi(u_j)\) and the increment identity `auxiliaryG_increment`
-\[
+Next the proof shows that for every $j\ge1$, $\phi(u_j)$ is finite, i.e. neither $\top$ nor $\bot$. This uses `theorem1_neg_z_mem_subgradient`, which gives $-z_j\in\partial\phi(u_j)$, together with `subgradient_value_ne_top` and properness of $\phi$.
+
+The proof then uses the subgradient inequalities for $-z_j\in\partial\phi(u_j)$ and the increment identity `auxiliaryG_increment`
+
+$$
 G_q(k+2)-G_q(k+1)
 =\langle z_{k+2},u_{k+2}-q\rangle
 -\langle z_{k+1},u_{k+1}-q\rangle
 -\langle z_{k+2},u_{k+2}-u_{k+1}\rangle
-\]
-to prove a telescoping estimate `hGtel`. It says that for \(n\le m\), \(n\ge2\),
-\[
+$$
+
+to prove a telescoping estimate `hGtel`. It says that for $n\le m$, $n\ge2$,
+
+$$
 G_q(n)-G_q(m)-\langle -z_m,u_m-q\rangle
 \le (\phi(q))_{\mathrm{toReal}}-(\phi(u_m))_{\mathrm{toReal}} .
-\]
-Combining this with the residual identity and the support inequality for \(\psi\) gives `hGgap`:
-\[
+$$
+
+Combining this with the residual identity and the support inequality for $\psi$ gives `hGgap`:
+
+$$
 G_q(n)-G_q(m)
 \le (\Theta(q))_{\mathrm{toReal}}-(\Theta(u_m))_{\mathrm{toReal}}
 +\frac1b\bigl(F_q(m-1)-F_q(m)\bigr).
-\]
+$$
+
 Here the conversions from `EReal` to real numbers are justified by the finiteness facts established above.
 
-The proof now fixes \(q\in S\) and derives convergence of the distances \(\|u_k-q\|\). It defines
-\[
+The proof now fixes $q\in S$ and derives convergence of the distances $\|u_k-q\|$. It defines
+
+$$
 c=\frac{a+b}{2\lambda}>0,\qquad
 d_k=\|u_{k+1}-q\|^2,
-\]
+$$
+
 and
-\[
+
+$$
 e_m=\left(\frac1\lambda+b\right)
 \left(
 (\Theta(q))_{\mathrm{toReal}}-(\Theta(u_{m+2}))_{\mathrm{toReal}}
 +\frac1b\bigl(F_q(m+1)-F_q(m+2)\bigr)
 \right).
-\]
-Because \(q\in S\), the first conclusion of `proposition6` gives \(\Theta(u_{m+2})\to\Theta(q)\). The Liapunov limits `hFlim` make the difference \(F_q(m+1)-F_q(m+2)\) tend to \(0\). Hence \(e_m\to0\). From `hGgap` the proof obtains, for \(n\le m\),
-\[
-c\,d_n\le c\,d_m+\bigl(A_q(n)-A_q(m)\bigr)+e_m .
-\]
-Since \(A_q\) has a limit by `hAlim`, the right-hand side tends to \(0\) along the relevant subsequences. The sequence \(d_k\) is bounded because \(u\) is bounded, so it lies in some compact interval \([0,B]\). If \(d\) had two different sequential cluster points, the displayed inequality applied in both orders would force them to be equal. Therefore \(d\) has a unique sequential cluster point. The theorem `tendsto_of_unique_sequential_cluster_point` then gives convergence of \(d\), and taking square roots gives convergence of \(\|u_{k+1}-q\|\), hence of \(\|u_k-q\|\). Thus
-\[
-\exists l\in\mathbb R,\qquad \|u_k-q\|\to l
-\]
-for every \(q\in S\).
+$$
 
-Finally, the proof applies `opial_lemma` with \(C=S\). The lemma states that if \(C\neq\varnothing\), if for every \(z\in C\) the distances \(\|x_n-z\|\) have a limit, and if every weak sequential cluster point of \((x_n)\) lies in \(C\), then \((x_n)\) converges weakly to some point of \(C\). Here \(C=S\) is nonempty by `hS`, the distance-limit condition is exactly the result just proved, and the cluster-point condition is `hcluster` from `proposition6`. Therefore `opial_lemma` produces \(q\in S\) such that \(u_k\rightharpoonup q\), completing the middle conjunct of the theorem in the convex-\(\psi\) case.
+Because $q\in S$, the first conclusion of `proposition6` gives $\Theta(u_{m+2})\to\Theta(q)$. The Liapunov limits `hFlim` make the difference $F_q(m+1)-F_q(m+2)$ tend to $0$. Hence $e_m\to0$. From `hGgap` the proof obtains, for $n\le m$,
+
+$$
+c\,d_n\le c\,d_m+\bigl(A_q(n)-A_q(m)\bigr)+e_m .
+$$
+
+Since $A_q$ has a limit by `hAlim`, the right-hand side tends to $0$ along the relevant subsequences. The sequence $d_k$ is bounded because $u$ is bounded, so it lies in some compact interval $[0,B]$. If $d$ had two different sequential cluster points, the displayed inequality applied in both orders would force them to be equal. Therefore $d$ has a unique sequential cluster point. The theorem `tendsto_of_unique_sequential_cluster_point` then gives convergence of $d$, and taking square roots gives convergence of $\|u_{k+1}-q\|$, hence of $\|u_k-q\|$. Thus
+
+$$
+\exists l\in\mathbb R,\qquad \|u_k-q\|\to l
+$$
+
+for every $q\in S$.
+
+Finally, the proof applies `opial_lemma` with $C=S$. The lemma states that if $C\neq\varnothing$, if for every $z\in C$ the distances $\|x_n-z\|$ have a limit, and if every weak sequential cluster point of $(x_n)$ lies in $C$, then $(x_n)$ converges weakly to some point of $C$. Here $C=S$ is nonempty by `hS`, the distance-limit condition is exactly the result just proved, and the cluster-point condition is `hcluster` from `proposition6`. Therefore `opial_lemma` produces $q\in S$ such that $u_k\rightharpoonup q$, completing the middle conjunct of the theorem in the convex- $\psi$ case.
 

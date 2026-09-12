@@ -12,6 +12,7 @@ from translate_last_declaration import (
     extract_last_declaration,
     load_claude_settings,
     normalize_bare_latex_brackets,
+    normalize_math_delimiters,
     output_path_for,
     render_markdown,
     split_explanations,
@@ -137,7 +138,8 @@ theorem real : True := by trivial
         prompt = build_prompt(declaration, "Paper/items/thm_1.lean")
         self.assertRegex(prompt, r"concrete mathematical\s+content")
         self.assertIn("Never stop at a", prompt)
-        self.assertIn(r"Use `\(...\)`", prompt)
+        self.assertIn("Use `$...$` for short inline mathematics", prompt)
+        self.assertIn("Never use `\\(...\\)` or `\\[...\\]`", prompt)
         self.assertIn("Never use bare square brackets as math delimiters", prompt)
         self.assertIn(r"\operatorname{deriv}", prompt)
         self.assertIn("provided only as reference context", prompt)
@@ -233,6 +235,39 @@ theorem real : True := by trivial
         text = "The conclusion is\n[\n\\operatorname{deriv} f(t) = 0\n]\nfor almost every t."
         expected = "The conclusion is\n\\[\n\\operatorname{deriv} f(t) = 0\n\\]\nfor almost every t."
         self.assertEqual(normalize_bare_latex_brackets(text), expected)
+
+    def test_normalizes_legacy_math_delimiters_to_github_dialect(self):
+        text = "A bound \\(0<L\\) holds:\n\\[\nf(x)\\le L\n\\]\nand that is all."
+        expected = "A bound $0<L$ holds:\n\n$$\nf(x)\\le L\n$$\n\nand that is all."
+        self.assertEqual(normalize_math_delimiters(text), expected)
+
+    def test_normalizer_pads_inline_math_that_follows_a_word_character(self):
+        self.assertEqual(normalize_math_delimiters(r"the step-\(r\) map"), "the step- $r$ map")
+
+    def test_normalizer_merges_formulas_glued_by_a_hyphen(self):
+        self.assertEqual(
+            normalize_math_delimiters(r"an \(\varepsilon\)-\(T\) statement"),
+            r"an $\varepsilon\text{-}T$ statement",
+        )
+
+    def test_normalizer_keeps_code_fences_and_break_commands(self):
+        text = "```lean\n\\(x\\)\n```\n\n$$\na+\\\\[4pt]b\n$$\n"
+        self.assertEqual(normalize_math_delimiters(text), "```lean\n\\(x\\)\n```\n\n$$\na+\\\\[4pt]b\n$$\n")
+
+    def test_normalizer_is_idempotent(self):
+        once = normalize_math_delimiters("inline \\(x\\) then\n\\[\ny\n\\]\ndone")
+        self.assertEqual(normalize_math_delimiters(once), once)
+
+    def test_render_markdown_emits_only_github_math_delimiters(self):
+        declaration = extract_last_declaration("theorem final (n : Nat) : n = n := by rfl\n")
+        assert declaration is not None
+        response = "The value \\(n\\) satisfies\n\\[\nn=n\n\\]\nand the proof is `rfl`.\n===PROOF_EXPLANATION===\nUse \\(rfl\\)."
+        rendered = render_markdown(declaration, "Paper/items/thm_1.lean", response)
+        self.assertNotIn("\\(", rendered)
+        self.assertNotIn("\\[", rendered)
+        self.assertIn("The value $n$ satisfies", rendered)
+        self.assertIn("$$\nn=n\n$$", rendered)
+        self.assertIn("Use $rfl$.", rendered)
 
     def test_split_explanations_without_separator(self):
         statement, proof = split_explanations("Only one explanation")

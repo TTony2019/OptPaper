@@ -22,56 +22,73 @@ theorem theorem_2_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 ## Statement explanation
 This declaration is a convergence and energy-dissipation theorem for a dry-gradient trajectory in a real Hilbert space.
 
-The ambient space \(H\) is a complete real inner-product space, hence a real Hilbert space. The real number \(r\) is the dry-friction/threshold parameter, and the hypothesis \(0<r\) says that this threshold is strictly positive. The real number \(t_0\) is the initial time. The function \(f:H\to\mathbb R\) is a real-valued energy on \(H\), and \(z:\mathbb R\to H\) is a trajectory in \(H\).
+The ambient space $H$ is a complete real inner-product space, hence a real Hilbert space. The real number $r$ is the dry-friction/threshold parameter, and the hypothesis $0<r$ says that this threshold is strictly positive. The real number $t_0$ is the initial time. The function $f:H\to\mathbb R$ is a real-valued energy on $H$, and $z:\mathbb R\to H$ is a trajectory in $H$.
 
-The assumptions on \(f\) and \(z\) are: \(f\) is \(C^1\), expressed by `ContDiff ℝ 1 f`; \(f\) is bounded below, so there exists \(m\in\mathbb R\) such that
-\[
+The assumptions on $f$ and $z$ are: $f$ is $C^1$, expressed by `ContDiff ℝ 1 f`; $f$ is bounded below, so there exists $m\in\mathbb R$ such that
+
+$$
 m\le f(x)\qquad\text{for all }x\in H;
-\]
-the gradient \(\nabla f\) is locally Lipschitz; \(z\) is differentiable; and the initial gradient satisfies
-\[
+$$
+
+the gradient $\nabla f$ is locally Lipschitz; $z$ is differentiable; and the initial gradient satisfies
+
+$$
 r<\|\nabla f(z(t_0))\|.
-\]
-Finally, `IsDrygradTrajectory r f z t₀` says that \(z\) is a dry-gradient trajectory for \(f\) with parameter \(r\) starting at time \(t_0\). In the proof, this hypothesis is used to obtain the velocity relation
-\[
+$$
+
+Finally, `IsDrygradTrajectory r f z t₀` says that $z$ is a dry-gradient trajectory for $f$ with parameter $r$ starting at time $t_0$. In the proof, this hypothesis is used to obtain the velocity relation
+
+$$
 \operatorname{deriv}z(t)=-\operatorname{softThresholder}_r(\nabla f(z(t)))
-\]
-for \(t\ge t_0\).
+$$
+
+for $t\ge t_0$.
 
 The conclusion is a conjunction of four assertions.
 
-First, the energy \(t\mapsto f(z(t))\) is antitone on \([t_0,\infty)\), meaning that it is nonincreasing there: if \(t_0\le s\le t\), then \(f(z(t))\le f(z(s))\).
+First, the energy $t\mapsto f(z(t))$ is antitone on $[t_0,\infty)$, meaning that it is nonincreasing there: if $t_0\le s\le t$, then $f(z(t))\le f(z(s))$.
 
 Second, the squared speed is integrable on the half-line:
-\[
+
+$$
 t\mapsto \|\operatorname{deriv}z(t)\|^2
-\]
-is integrable on \([t_0,\infty)\).
+$$
+
+is integrable on $[t_0,\infty)$.
 
 Third, the speed itself is integrable on the half-line:
-\[
+
+$$
 t\mapsto \|\operatorname{deriv}z(t)\|
-\]
-is integrable on \([t_0,\infty)\).
+$$
 
-Fourth, there exists a limit point \(z_\infty\) such that
-\[
+is integrable on $[t_0,\infty)$.
+
+Fourth, there exists a limit point $z_\infty$ such that
+
+$$
 z(t)\to z_\infty\quad\text{as }t\to\infty,
-\]
-and at that limit the gradient norm equals the threshold:
-\[
-\|\nabla f(z_\infty)\|=r.
-\]
-Moreover, the trajectory has one of two possible asymptotic behaviors: either it stabilizes in finite time, meaning that there exists \(T\ge t_0\) such that
-\[
-z(t)=z_\infty\qquad\text{for all }t\ge T,
-\]
-or the gradient norm remains strictly above the threshold for all time:
-\[
-r<\|\nabla f(z(t))\|\qquad\text{for all }t\ge t_0.
-\]
+$$
 
-In ordinary mathematical language, the theorem says that a dry-gradient trajectory with initial gradient norm above the dry-friction threshold dissipates energy, has integrable speed and squared speed, converges to a limit point where the gradient norm exactly equals the threshold, and either reaches that limit in finite time or never enters the region where the gradient norm is at most \(r\).
+and at that limit the gradient norm equals the threshold:
+
+$$
+\|\nabla f(z_\infty)\|=r.
+$$
+
+Moreover, the trajectory has one of two possible asymptotic behaviors: either it stabilizes in finite time, meaning that there exists $T\ge t_0$ such that
+
+$$
+z(t)=z_\infty\qquad\text{for all }t\ge T,
+$$
+
+or the gradient norm remains strictly above the threshold for all time:
+
+$$
+r<\|\nabla f(z(t))\|\qquad\text{for all }t\ge t_0.
+$$
+
+In ordinary mathematical language, the theorem says that a dry-gradient trajectory with initial gradient norm above the dry-friction threshold dissipates energy, has integrable speed and squared speed, converges to a limit point where the gradient norm exactly equals the threshold, and either reaches that limit in finite time or never enters the region where the gradient norm is at most $r$.
 
 ## Lean proof
 ```lean
@@ -323,190 +340,257 @@ by
 
 ## Proof explanation
 The proof begins by defining the vector field
-\[
+
+$$
 V(x)=-\operatorname{softThresholder}_r(\nabla f(x)).
-\]
+$$
+
 The soft thresholder is
-\[
+
+$$
 \operatorname{softThresholder}_r(x)=
 \begin{cases}
 \left(1-\dfrac r{\|x\|}\right)x, & r<\|x\|,\\
 0, & \|x\|\le r.
 \end{cases}
-\]
-The cited theorem `softThresholder_firmlyNonexpansive` says that for \(r>0\), this map is firmly nonexpansive on all of \(H\). The cited lemma `lipschitzWith_one_of_firmlyNonexpansive` converts firm nonexpansiveness into the Lipschitz bound \(\|S_r(x)-S_r(y)\|\le\|x-y\|\). Hence the proof obtains that \(\operatorname{softThresholder}_r\) is \(1\)-Lipschitz. The negation map \(x\mapsto -x\) is locally Lipschitz, and the assumed local Lipschitzness of \(\nabla f\) implies that the composition
-\[
+$$
+
+The cited theorem `softThresholder_firmlyNonexpansive` says that for $r>0$, this map is firmly nonexpansive on all of $H$. The cited lemma `lipschitzWith_one_of_firmlyNonexpansive` converts firm nonexpansiveness into the Lipschitz bound $\|S_r(x)-S_r(y)\|\le\|x-y\|$. Hence the proof obtains that $\operatorname{softThresholder}_r$ is $1$-Lipschitz. The negation map $x\mapsto -x$ is locally Lipschitz, and the assumed local Lipschitzness of $\nabla f$ implies that the composition
+
+$$
 x\mapsto -\operatorname{softThresholder}_r(\nabla f(x))
-\]
+$$
+
 is locally Lipschitz. This is the assertion `hV_lip`.
 
-Next the proof identifies the zeros of \(V\). It proves
-\[
+Next the proof identifies the zeros of $V$. It proves
+
+$$
 V(x)=0\quad\Longleftrightarrow\quad \|\nabla f(x)\|\le r.
-\]
-Indeed, if \(\|\nabla f(x)\|>r\), then the soft thresholder is a nonzero scalar multiple of the nonzero vector \(\nabla f(x)\), so it cannot vanish after applying the minus sign. Conversely, if \(\|\nabla f(x)\|\le r\), then the soft thresholder is zero by its definition. This equivalence is important because it says that stationary points of the vector field are exactly the points where the gradient norm is at most the dry-friction threshold.
+$$
 
-The trajectory hypothesis is then used through the cited theorem `drygrad_velocity_formula`. That theorem states that if for some \(v,g\in H\) there exists \(u\) in the subdifferential of the dry-friction potential with parameter \(r\) at \(v\), such that
-\[
+Indeed, if $\|\nabla f(x)\|>r$, then the soft thresholder is a nonzero scalar multiple of the nonzero vector $\nabla f(x)$, so it cannot vanish after applying the minus sign. Conversely, if $\|\nabla f(x)\|\le r$, then the soft thresholder is zero by its definition. This equivalence is important because it says that stationary points of the vector field are exactly the points where the gradient norm is at most the dry-friction threshold.
+
+The trajectory hypothesis is then used through the cited theorem `drygrad_velocity_formula`. That theorem states that if for some $v,g\in H$ there exists $u$ in the subdifferential of the dry-friction potential with parameter $r$ at $v$, such that
+
+$$
 v+u+g=0,
-\]
+$$
+
 then
-\[
+
+$$
 v=-\operatorname{softThresholder}_r(g).
-\]
-Specialized to the current setting, the trajectory condition gives the inclusion for \(v=\operatorname{deriv}z(t)\) and \(g=\nabla f(z(t))\), and therefore yields
-\[
+$$
+
+Specialized to the current setting, the trajectory condition gives the inclusion for $v=\operatorname{deriv}z(t)$ and $g=\nabla f(z(t))$, and therefore yields
+
+$$
 \operatorname{deriv}z(t)=V(z(t))
-\]
-for every \(t\ge t_0\). This is the differential equation satisfied by the trajectory.
+$$
 
-The proof then converts the local Lipschitz property of \(V\) into the explicit local form required by the ODE uniqueness theorem. It shows that for each \(x\in H\), there is a neighborhood \(U\) of \(x\) and a constant \(L\ge 0\) such that
-\[
+for every $t\ge t_0$. This is the differential equation satisfied by the trajectory.
+
+The proof then converts the local Lipschitz property of $V$ into the explicit local form required by the ODE uniqueness theorem. It shows that for each $x\in H$, there is a neighborhood $U$ of $x$ and a constant $L\ge 0$ such that
+
+$$
 \|V(y)-V(w)\|\le L\|y-w\|
-\]
-for all \(y,w\in U\).
+$$
 
-This is used to prove that once \(V(z(S))=0\) at some time \(S\ge t_0\), the trajectory is constant from \(S\) onward. First, \(S\) cannot equal \(t_0\), because \(V(z(t_0))=0\) would imply \(\|\nabla f(z(t_0))\|\le r\), contradicting the strict initial hypothesis \(r<\|\nabla f(z(t_0))\|\). Thus \(t_0<S\). For any \(t\ge S\), on the interval \((t_0,t+1)\), both \(z\) and the constant function \(s\mapsto z(S)\) satisfy the same ODE
-\[
+for all $y,w\in U$.
+
+This is used to prove that once $V(z(S))=0$ at some time $S\ge t_0$, the trajectory is constant from $S$ onward. First, $S$ cannot equal $t_0$, because $V(z(t_0))=0$ would imply $\|\nabla f(z(t_0))\|\le r$, contradicting the strict initial hypothesis $r<\|\nabla f(z(t_0))\|$. Thus $t_0<S$. For any $t\ge S$, on the interval $(t_0,t+1)$, both $z$ and the constant function $s\mapsto z(S)$ satisfy the same ODE
+
+$$
 \dot u=V(u).
-\]
-The function \(z\) satisfies it by the velocity formula, and the constant function satisfies it because \(V(z(S))=0\). The cited theorem `ode_eqOn_Ioo_of_locally_lipschitz` says that locally Lipschitz ODEs have unique solutions on an interval: if two functions satisfy \(\dot u=F(u)\) and \(\dot v=F(v)\) on \((a,b)\), and they agree at one point \(t_0\in(a,b)\), then they agree on all of \((a,b)\). Applying this with \(F=V\), \(a=t_0\), \(b=t+1\), and initial point \(S\), the proof concludes \(z(t)=z(S)\) for all \(t\ge S\). This is the finite-time stabilization mechanism.
+$$
 
-The energy monotonicity is obtained directly from the cited theorem `drygrad_energy_antitone`, which says that under the differentiability, positivity, and trajectory assumptions, the function \(t\mapsto f(z(t))\) is antitone on \([t_0,\infty)\). This gives the first conclusion of the theorem.
+The function $z$ satisfies it by the velocity formula, and the constant function satisfies it because $V(z(S))=0$. The cited theorem `ode_eqOn_Ioo_of_locally_lipschitz` says that locally Lipschitz ODEs have unique solutions on an interval: if two functions satisfy $\dot u=F(u)$ and $\dot v=F(v)$ on $(a,b)$, and they agree at one point $t_0\in(a,b)$, then they agree on all of $(a,b)$. Applying this with $F=V$, $a=t_0$, $b=t+1$, and initial point $S$, the proof concludes $z(t)=z(S)$ for all $t\ge S$. This is the finite-time stabilization mechanism.
+
+The energy monotonicity is obtained directly from the cited theorem `drygrad_energy_antitone`, which says that under the differentiability, positivity, and trajectory assumptions, the function $t\mapsto f(z(t))$ is antitone on $[t_0,\infty)$. This gives the first conclusion of the theorem.
 
 Next, the cited theorem `hasDerivAt_comp_gradient` gives the chain rule for the energy:
-\[
+
+$$
 \frac{d}{dt}f(z(t))=\left\langle \nabla f(z(t)),\operatorname{deriv}z(t)\right\rangle.
-\]
-The proof then records the pointwise energy-dissipation inequality from `drygrad_energy_deriv_le`: for every \(t\ge t_0\),
-\[
+$$
+
+The proof then records the pointwise energy-dissipation inequality from `drygrad_energy_deriv_le`: for every $t\ge t_0$,
+
+$$
 \|\operatorname{deriv}z(t)\|^2
 +r\|\operatorname{deriv}z(t)\|
 +\frac{d}{dt}f(z(t))\le 0.
-\]
+$$
+
 Equivalently,
-\[
+
+$$
 \|\operatorname{deriv}z(t)\|^2+r\|\operatorname{deriv}z(t)\|
 \le -\frac{d}{dt}f(z(t)).
-\]
+$$
 
-To integrate this inequality, the proof establishes continuity of the relevant functions on \([t_0,\infty)\). Since \(V\) is continuous and \(z\) is continuous, the composition \(t\mapsto V(z(t))\) is continuous; because \(\operatorname{deriv}z(t)=V(z(t))\) on \([t_0,\infty)\), the derivative \(\operatorname{deriv}z\) is continuous there. Therefore \(t\mapsto \|\operatorname{deriv}z(t)\|\) and \(t\mapsto \|\operatorname{deriv}z(t)\|^2\) are continuous on \([t_0,\infty)\).
+To integrate this inequality, the proof establishes continuity of the relevant functions on $[t_0,\infty)$. Since $V$ is continuous and $z$ is continuous, the composition $t\mapsto V(z(t))$ is continuous; because $\operatorname{deriv}z(t)=V(z(t))$ on $[t_0,\infty)$, the derivative $\operatorname{deriv}z$ is continuous there. Therefore $t\mapsto \|\operatorname{deriv}z(t)\|$ and $t\mapsto \|\operatorname{deriv}z(t)\|^2$ are continuous on $[t_0,\infty)$.
 
-Let \(m\) be the lower bound for \(f\) supplied by `hf_lower`. For every finite \(T\ge t_0\), integration of the pointwise inequality gives
-\[
+Let $m$ be the lower bound for $f$ supplied by `hf_lower`. For every finite $T\ge t_0$, integration of the pointwise inequality gives
+
+$$
 \int_{t_0}^{T}\left(\|\operatorname{deriv}z(t)\|^2
 +r\|\operatorname{deriv}z(t)\|\right)\,dt
 \le \int_{t_0}^{T}-\frac{d}{dt}f(z(t))\,dt.
-\]
+$$
+
 By the fundamental theorem of calculus, the right-hand side is
-\[
+
+$$
 -\bigl(f(z(T))-f(z(t_0))\bigr)
 =f(z(t_0))-f(z(T)).
-\]
-Since \(f(z(T))\ge m\), this is at most
-\[
+$$
+
+Since $f(z(T))\ge m$, this is at most
+
+$$
 f(z(t_0))-m.
-\]
+$$
+
 Thus
-\[
+
+$$
 \int_{t_0}^{T}\left(\|\operatorname{deriv}z(t)\|^2
 +r\|\operatorname{deriv}z(t)\|\right)\,dt
 \le f(z(t_0))-m.
-\]
+$$
 
-Because the integrand is nonnegative, the proof drops the nonnegative term \(r\|\operatorname{deriv}z\|\) and obtains
-\[
+Because the integrand is nonnegative, the proof drops the nonnegative term $r\|\operatorname{deriv}z\|$ and obtains
+
+$$
 \int_{t_0}^{T}\|\operatorname{deriv}z(t)\|^2\,dt
 \le f(z(t_0))-m.
-\]
-Likewise, dropping the nonnegative squared term and using \(r>0\), it obtains
-\[
+$$
+
+Likewise, dropping the nonnegative squared term and using $r>0$, it obtains
+
+$$
 r\int_{t_0}^{T}\|\operatorname{deriv}z(t)\|\,dt
 \le f(z(t_0))-m,
-\]
+$$
+
 hence
-\[
+
+$$
 \int_{t_0}^{T}\|\operatorname{deriv}z(t)\|\,dt
 \le \frac{f(z(t_0))-m}{r}.
-\]
+$$
 
-Now the cited theorem `integrableOn_Ici_of_nonneg_prefix_bound` is applied. It says that if a continuous nonnegative function on \([t_0,\infty)\) has uniformly bounded finite integrals \(\int_{t_0}^{T}g\le B\), then it is integrable on \([t_0,\infty)\). The squared speed and the speed satisfy these hypotheses, so the proof obtains
-\[
+Now the cited theorem `integrableOn_Ici_of_nonneg_prefix_bound` is applied. It says that if a continuous nonnegative function on $[t_0,\infty)$ has uniformly bounded finite integrals $\int_{t_0}^{T}g\le B$, then it is integrable on $[t_0,\infty)$. The squared speed and the speed satisfy these hypotheses, so the proof obtains
+
+$$
 \operatorname{IntegrableOn}(\|\operatorname{deriv}z\|^2,[t_0,\infty))
-\]
+$$
+
 and
-\[
+
+$$
 \operatorname{IntegrableOn}(\|\operatorname{deriv}z\|,[t_0,\infty)).
-\]
+$$
+
 These are the second and third conclusions of the theorem.
 
 For the limit, the proof defines the candidate
-\[
-z_\infty:=\operatorname{Filter.atTop.limUnder}z.
-\]
-It converts integrability on \([t_0,\infty)\) to integrability on \((t_0,\infty)\). Since \(\|\operatorname{deriv}z\|\) is integrable on \((t_0,\infty)\), the integrability of the norm implies the integrability of \(\operatorname{deriv}z\) itself on \((t_0,\infty)\). The proof then invokes `MeasureTheory.tendsto_limUnder_of_hasDerivAt_of_integrableOn_Ioi` with \(z\) as the function, \(\operatorname{deriv}z\) as its derivative, and \(t_0\) as the left endpoint. The visible conclusion is exactly
-\[
-z(t)\to z_\infty\quad\text{as }t\to\infty.
-\]
 
-Because \(V\) is continuous and \(z(t)\to z_\infty\), the proof obtains
-\[
+$$
+z_\infty:=\operatorname{Filter.atTop.limUnder}z.
+$$
+
+It converts integrability on $[t_0,\infty)$ to integrability on $(t_0,\infty)$. Since $\|\operatorname{deriv}z\|$ is integrable on $(t_0,\infty)$, the integrability of the norm implies the integrability of $\operatorname{deriv}z$ itself on $(t_0,\infty)$. The proof then invokes `MeasureTheory.tendsto_limUnder_of_hasDerivAt_of_integrableOn_Ioi` with $z$ as the function, $\operatorname{deriv}z$ as its derivative, and $t_0$ as the left endpoint. The visible conclusion is exactly
+
+$$
+z(t)\to z_\infty\quad\text{as }t\to\infty.
+$$
+
+Because $V$ is continuous and $z(t)\to z_\infty$, the proof obtains
+
+$$
 V(z(t))\to V(z_\infty).
-\]
-It also knows that \(\|V(z(t))\|=\|\operatorname{deriv}z(t)\|\) is integrable on \([t_0,\infty)\). To prove \(V(z_\infty)=0\), the proof argues by contradiction. If \(V(z_\infty)\ne 0\), let
-\[
+$$
+
+It also knows that $\|V(z(t))\|=\|\operatorname{deriv}z(t)\|$ is integrable on $[t_0,\infty)$. To prove $V(z_\infty)=0$, the proof argues by contradiction. If $V(z_\infty)\ne 0$, let
+
+$$
 c=\frac{\|V(z_\infty)\|}{2}>0.
-\]
-Since \(\|V(z(t))\|\to\|V(z_\infty)\|\), eventually \(\|V(z(t))\|>c\). On a tail \([A,\infty)\), the integrable function \(\|V(z(t))\|\) dominates the positive constant \(c\). But the constant function \(c>0\) is not integrable on an infinite half-line. This contradiction forces
-\[
+$$
+
+Since $\|V(z(t))\|\to\|V(z_\infty)\|$, eventually $\|V(z(t))\|>c$. On a tail $[A,\infty)$, the integrable function $\|V(z(t))\|$ dominates the positive constant $c$. But the constant function $c>0$ is not integrable on an infinite half-line. This contradiction forces
+
+$$
 V(z_\infty)=0.
-\]
-From \(V(z_\infty)=0\), the proof also derives
-\[
+$$
+
+From $V(z_\infty)=0$, the proof also derives
+
+$$
 \operatorname{deriv}z(t)\to 0
-\]
-and, using \(\operatorname{deriv}z(t)=V(z(t))\) eventually, again \(V(z(t))\to0\). By uniqueness of limits, this is consistent with \(V(z(t))\to V(z_\infty)\), so \(V(z_\infty)=0\). Applying the earlier equivalence for the zeros of \(V\), the proof obtains
-\[
+$$
+
+and, using $\operatorname{deriv}z(t)=V(z(t))$ eventually, again $V(z(t))\to0$. By uniqueness of limits, this is consistent with $V(z(t))\to V(z_\infty)$, so $V(z_\infty)=0$. Applying the earlier equivalence for the zeros of $V$, the proof obtains
+
+$$
 \|\nabla f(z_\infty)\|\le r.
-\]
-Since \(\nabla f\) is locally Lipschitz, it is continuous, and hence \(x\mapsto \|\nabla f(x)\|\) is continuous. Therefore
-\[
+$$
+
+Since $\nabla f$ is locally Lipschitz, it is continuous, and hence $x\mapsto \|\nabla f(x)\|$ is continuous. Therefore
+
+$$
 \|\nabla f(z(t))\|\to \|\nabla f(z_\infty)\|.
-\]
+$$
 
 The proof now splits into two cases.
 
-In the first case, there exists \(T\ge t_0\) such that
-\[
+In the first case, there exists $T\ge t_0$ such that
+
+$$
 \|\nabla f(z(T))\|\le r.
-\]
-At time \(t_0\), the strict hypothesis gives
-\[
+$$
+
+At time $t_0$, the strict hypothesis gives
+
+$$
 r<\|\nabla f(z(t_0))\|.
-\]
-Thus \(r\) lies between \(\|\nabla f(z(T))\|\) and \(\|\nabla f(z(t_0))\|\). Since \(t\mapsto \|\nabla f(z(t))\|\) is continuous on \([t_0,T]\), the intermediate value theorem gives some \(S\in[t_0,T]\) with
-\[
+$$
+
+Thus $r$ lies between $\|\nabla f(z(T))\|$ and $\|\nabla f(z(t_0))\|$. Since $t\mapsto \|\nabla f(z(t))\|$ is continuous on $[t_0,T]$, the intermediate value theorem gives some $S\in[t_0,T]$ with
+
+$$
 \|\nabla f(z(S))\|=r.
-\]
-Then \(V(z(S))=0\). By the earlier stationary-trajectory argument, \(z(t)=z(S)\) for all \(t\ge S\). Hence \(z(t)\) converges to both \(z_\infty\) and \(z(S)\), so uniqueness of limits gives \(z_\infty=z(S)\). Therefore
-\[
+$$
+
+Then $V(z(S))=0$. By the earlier stationary-trajectory argument, $z(t)=z(S)$ for all $t\ge S$. Hence $z(t)$ converges to both $z_\infty$ and $z(S)$, so uniqueness of limits gives $z_\infty=z(S)$. Therefore
+
+$$
 \|\nabla f(z_\infty)\|=\|\nabla f(z(S))\|=r,
-\]
-and \(z(t)=z_\infty\) for all sufficiently large \(t\). This proves the finite-time stabilization alternative.
+$$
 
-In the second case, there is no \(T\ge t_0\) with \(\|\nabla f(z(T))\|\le r\). Thus for every \(t\ge t_0\),
-\[
+and $z(t)=z_\infty$ for all sufficiently large $t$. This proves the finite-time stabilization alternative.
+
+In the second case, there is no $T\ge t_0$ with $\|\nabla f(z(T))\|\le r$. Thus for every $t\ge t_0$,
+
+$$
 r<\|\nabla f(z(t))\|.
-\]
-It remains to prove that equality holds at the limit. The proof already has \(\|\nabla f(z_\infty)\|\le r\). If instead \(\|\nabla f(z_\infty)\|<r\), then by convergence \(\|\nabla f(z(t))\|<r\) eventually, contradicting the strict inequality \(r<\|\nabla f(z(t))\|\) for all \(t\ge t_0\). Hence
-\[
-r\le \|\nabla f(z_\infty)\|.
-\]
-Together with \(\|\nabla f(z_\infty)\|\le r\), this gives
-\[
-\|\nabla f(z_\infty)\|=r.
-\]
-The strict inequality \(r<\|\nabla f(z(t))\|\) for all \(t\ge t_0\) is exactly the second alternative in the theorem.
+$$
 
-Throughout, tactics such as `intro` introduce variables or assumptions into the local context, `rw` replaces expressions by equal definitions or previously proved equalities, `simp` simplifies definitions such as the soft thresholder and elementary logical reductions, `exact` closes a goal by supplying the required proof term, `linarith` solves linear inequalities, `ring` performs algebraic simplification, `by_contra` begins a proof by contradiction, `rcases` destructs existential or conjunctive hypotheses, `filter_upwards` proves eventually statements along the filter \(\operatorname{atTop}\), and `refine` assembles the final conjunction and existential conclusions.
+It remains to prove that equality holds at the limit. The proof already has $\|\nabla f(z_\infty)\|\le r$. If instead $\|\nabla f(z_\infty)\|<r$, then by convergence $\|\nabla f(z(t))\|<r$ eventually, contradicting the strict inequality $r<\|\nabla f(z(t))\|$ for all $t\ge t_0$. Hence
+
+$$
+r\le \|\nabla f(z_\infty)\|.
+$$
+
+Together with $\|\nabla f(z_\infty)\|\le r$, this gives
+
+$$
+\|\nabla f(z_\infty)\|=r.
+$$
+
+The strict inequality $r<\|\nabla f(z(t))\|$ for all $t\ge t_0$ is exactly the second alternative in the theorem.
+
+Throughout, tactics such as `intro` introduce variables or assumptions into the local context, `rw` replaces expressions by equal definitions or previously proved equalities, `simp` simplifies definitions such as the soft thresholder and elementary logical reductions, `exact` closes a goal by supplying the required proof term, `linarith` solves linear inequalities, `ring` performs algebraic simplification, `by_contra` begins a proof by contradiction, `rcases` destructs existential or conjunctive hypotheses, `filter_upwards` proves eventually statements along the filter $\operatorname{atTop}$, and `refine` assembles the final conjunction and existential conclusions.
 

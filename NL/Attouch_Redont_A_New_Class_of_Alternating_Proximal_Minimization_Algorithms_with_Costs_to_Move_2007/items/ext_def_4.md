@@ -10,25 +10,31 @@ def IsSeparatelyContinuous' {X Y : Type*} [TopologicalSpace X] [TopologicalSpace
 ```
 
 ## Statement explanation
-The declaration defines a binary predicate on a real-valued function of two variables. The variables are two types \(X\) and \(Y\), each equipped with a topological structure through the typeclass assumptions `[TopologicalSpace X]` and `[TopologicalSpace Y]`. The main argument is a function
-\[
+The declaration defines a binary predicate on a real-valued function of two variables. The variables are two types $X$ and $Y$, each equipped with a topological structure through the typeclass assumptions `[TopologicalSpace X]` and `[TopologicalSpace Y]`. The main argument is a function
+
+$$
 F : X \times Y \to \mathbb{R},
-\]
-where \(\mathbb{R}\) is understood with its usual topology. The definition produces a proposition, written `IsSeparatelyContinuous' F`, asserting the conjunction of two conditions:
+$$
 
-1. For every fixed \(y \in Y\), the one-variable section
-\[
+where $\mathbb{R}$ is understood with its usual topology. The definition produces a proposition, written `IsSeparatelyContinuous' F`, asserting the conjunction of two conditions:
+
+1. For every fixed $y \in Y$, the one-variable section
+
+$$
 x \mapsto F(x,y)
-\]
-is a continuous map from \(X\) to \(\mathbb{R}\).
+$$
 
-2. For every fixed \(x \in X\), the one-variable section
-\[
+is a continuous map from $X$ to $\mathbb{R}$.
+
+2. For every fixed $x \in X$, the one-variable section
+
+$$
 y \mapsto F(x,y)
-\]
-is a continuous map from \(Y\) to \(\mathbb{R}\).
+$$
 
-Thus the definition says that \(F\) is continuous in each variable separately: continuity is required only after one of the two inputs is fixed and the resulting function of the remaining variable is considered. The statement does not itself assert any continuity property of the two-variable map \(F : X \times Y \to \mathbb{R}\); it records only the two families of one-variable continuity conditions described above.
+is a continuous map from $Y$ to $\mathbb{R}$.
+
+Thus the definition says that $F$ is continuous in each variable separately: continuity is required only after one of the two inputs is fixed and the resulting function of the remaining variable is considered. The statement does not itself assert any continuity property of the two-variable map $F : X \times Y \to \mathbb{R}$; it records only the two families of one-variable continuity conditions described above.
 
 ## Lean proof
 ```lean

@@ -23,34 +23,46 @@ theorem thm_5_1 (C : Set H) (hC_closed : IsClosed C) (hC_conv : Convex ℝ C)
 ```
 
 ## Statement explanation
-The declaration `thm_5_1` states a geometric-decay result for the successive differences of an inertial proximal algorithm with dry friction, in an ambient real inner product space \(H\).
+The declaration `thm_5_1` states a geometric-decay result for the successive differences of an inertial proximal algorithm with dry friction, in an ambient real inner product space $H$.
 
-The data are as follows. \(C \subseteq H\) is closed, convex, a convex polyhedron, bounded, and contains \(0\) in its interior:
-\[
+The data are as follows. $C \subseteq H$ is closed, convex, a convex polyhedron, bounded, and contains $0$ in its interior:
+
+$$
 0 \in \operatorname{int} C.
-\]
-The map \(A_0 : H \to H\) is \(C^2\), its singleton-valued operator \(x \mapsto \{A_0(x)\}\) on all of \(H\) is maximal monotone, and \(A_0(0)=0\). There is \(m>0\) such that the derivative \(L = DA_0(0)\) is coercive:
-\[
-\langle Lx,x\rangle \ge m\|x\|^2 \qquad \text{for all } x\in H.
-\]
-The set-valued operator \(A\) is
-\[
-A = \partial \sigma_C + A_0,
-\]
-where \(A_0\) is again regarded as the singleton-valued operator, and
-\[
-\sigma_C(y) = \sup_{z\in C} \langle z,y\rangle
-\]
-is the extended-real support function of \(C\). The function \(f : H \to \mathbb R\) is convex on all of \(H\), \(C^1\), bounded below, and strongly convex with parameter \(M\). The operator \(B\) is the singleton-valued gradient operator:
-\[
-B(x) = \{\nabla f(x)\}.
-\]
-Finally, \(\lambda>0\), the sequence \(\lambda_n\) is constantly equal to \(\lambda\), \(x : \mathbb N \to H\) is an `AlgorithmA` sequence for \(A,B,\lambda\), and \(x_n\) converges to some \(x_\infty \in H\).
+$$
 
-The conclusion is that there exist \(n_0 \in \mathbb N\), \(K>0\), and \(q>0\) with \(q<1\) such that for every \(n\ge n_0\),
-\[
+The map $A_0 : H \to H$ is $C^2$, its singleton-valued operator $x \mapsto \{A_0(x)\}$ on all of $H$ is maximal monotone, and $A_0(0)=0$. There is $m>0$ such that the derivative $L = DA_0(0)$ is coercive:
+
+$$
+\langle Lx,x\rangle \ge m\|x\|^2 \qquad \text{for all } x\in H.
+$$
+
+The set-valued operator $A$ is
+
+$$
+A = \partial \sigma_C + A_0,
+$$
+
+where $A_0$ is again regarded as the singleton-valued operator, and
+
+$$
+\sigma_C(y) = \sup_{z\in C} \langle z,y\rangle
+$$
+
+is the extended-real support function of $C$. The function $f : H \to \mathbb R$ is convex on all of $H$, $C^1$, bounded below, and strongly convex with parameter $M$. The operator $B$ is the singleton-valued gradient operator:
+
+$$
+B(x) = \{\nabla f(x)\}.
+$$
+
+Finally, $\lambda>0$, the sequence $\lambda_n$ is constantly equal to $\lambda$, $x : \mathbb N \to H$ is an `AlgorithmA` sequence for $A,B,\lambda$, and $x_n$ converges to some $x_\infty \in H$.
+
+The conclusion is that there exist $n_0 \in \mathbb N$, $K>0$, and $q>0$ with $q<1$ such that for every $n\ge n_0$,
+
+$$
 \|x_{n+1}-x_n\| \le K q^n.
-\]
+$$
+
 Thus the successive differences of the algorithm decay at a geometric, or linear, rate.
 
 ## Lean proof
@@ -501,292 +513,400 @@ by
 ```
 
 ## Proof explanation
-The supplied proof is not complete: it ends with `sorry` after establishing several auxiliary facts. In particular, the final geometric bound \(\|x_{n+1}-x_n\|\le Kq^n\) is not proved in the provided source. The visible proof prepares the main estimates and normal-cone inequalities that one would expect to use in the missing final argument.
+The supplied proof is not complete: it ends with `sorry` after establishing several auxiliary facts. In particular, the final geometric bound $\|x_{n+1}-x_n\|\le Kq^n$ is not proved in the provided source. The visible proof prepares the main estimates and normal-cone inequalities that one would expect to use in the missing final argument.
 
 The proof begins with `classical` and introduces the singleton-valued operator
-\[
+
+$$
 F_{\mathrm{op}} = \operatorname{ofFunction}(\mathrm{univ}, x \mapsto A_0(x)).
-\]
-For every \(z\in H\), this satisfies
-\[
+$$
+
+For every $z\in H$, this satisfies
+
+$$
 F_{\mathrm{op}}(z) = \{A_0(z)\}.
-\]
+$$
+
 The lemma `SetValuedOperator.ofFunction_apply_of_mem` is the reason: on the full domain, the set-valued operator associated to a function has the singleton value of that function at the point.
 
-Next the proof shows that \(A_0\) tends to \(0\) at \(0\). Since \(A_0\) is \(C^2\), it is continuous, hence continuous at \(0\), and \(A_0(0)=0\), so
-\[
+Next the proof shows that $A_0$ tends to $0$ at $0$. Since $A_0$ is $C^2$, it is continuous, hence continuous at $0$, and $A_0(0)=0$, so
+
+$$
 A_0(y) \to 0 \quad \text{as } y\to 0.
-\]
+$$
+
 This is the continuity hypothesis needed for `cor_5_1`.
 
 The proof also records that the constant step sequence is positive and nondecreasing:
-\[
+
+$$
 \lambda_n = \lambda >0, \qquad \lambda_n \le \lambda_{n+1}.
-\]
-Then it rewrites the definition of \(A\),
-\[
+$$
+
+Then it rewrites the definition of $A$,
+
+$$
 A = \partial \sigma_C + F_{\mathrm{op}},
-\]
+$$
+
 into the pointwise membership form
-\[
+
+$$
 v \in A(z)
 \iff
 \exists u \in \partial \sigma_C(z),\ \exists w \in F_{\mathrm{op}}(z),\ v = u+w.
-\]
+$$
+
 This uses the set-addition membership lemma `Set.mem_add` and is exactly the form required by the cited corollary `cor_5_1`.
 
-The local lemma `hcor51_from_bridges` then calls `cor_5_1`. Specialized to the present variables, `cor_5_1` says the following. Under the closed convex polyhedron assumptions on \(C\), the boundedness and interior condition, the maximal monotonicity and continuity of \(A_0\), the representation of \(A\) as \(\partial\sigma_C + A_0\), maximal monotonicity of \(A\), full domain of \(A\), the convex \(C^1\) lower-bounded function \(f\), the identification \(B=\nabla f\), positive nondecreasing step sizes, the `AlgorithmA` relation, and convergence \(x_n\to x_\infty\), there is an index \(n_\star\) such that for all \(n\ge n_\star\),
-\[
+The local lemma `hcor51_from_bridges` then calls `cor_5_1`. Specialized to the present variables, `cor_5_1` says the following. Under the closed convex polyhedron assumptions on $C$, the boundedness and interior condition, the maximal monotonicity and continuity of $A_0$, the representation of $A$ as $\partial\sigma_C + A_0$, maximal monotonicity of $A$, full domain of $A$, the convex $C^1$ lower-bounded function $f$, the identification $B=\nabla f$, positive nondecreasing step sizes, the `AlgorithmA` relation, and convergence $x_n\to x_\infty$, there is an index $n_\star$ such that for all $n\ge n_\star$,
+
+$$
 x_{n+1}-x_n \in N_C(-\nabla f(x_\infty)).
-\]
-Here \(N_C\) is the normal cone to \(C\). This is the key asymptotic normal-cone condition.
+$$
 
-The proof then supplies the two missing hypotheses needed for `cor_5_1`: maximal monotonicity of \(A\) and \(A.\mathrm{dom}=H\).
+Here $N_C$ is the normal cone to $C$. This is the key asymptotic normal-cone condition.
 
-First it treats \(F_{\mathrm{op}}\). Its domain is all of \(H\), because for every \(z\),
-\[
+The proof then supplies the two missing hypotheses needed for `cor_5_1`: maximal monotonicity of $A$ and $A.\mathrm{dom}=H$.
+
+First it treats $F_{\mathrm{op}}$. Its domain is all of $H$, because for every $z$,
+
+$$
 A_0(z)\in F_{\mathrm{op}}(z),
-\]
-so \(F_{\mathrm{op}}(z)\) is nonempty. The lemma `SetValuedOperator.mem_dom_iff` says \(z\in F_{\mathrm{op}}.\mathrm{dom}\) exactly when \(F_{\mathrm{op}}(z)\) is nonempty. Also, \(F_{\mathrm{op}}\) is maximal monotone by the hypothesis `hA0_mono`, since \(F_{\mathrm{op}}\) is precisely the singleton-valued operator associated to \(A_0\).
+$$
+
+so $F_{\mathrm{op}}(z)$ is nonempty. The lemma `SetValuedOperator.mem_dom_iff` says $z\in F_{\mathrm{op}}.\mathrm{dom}$ exactly when $F_{\mathrm{op}}(z)$ is nonempty. Also, $F_{\mathrm{op}}$ is maximal monotone by the hypothesis `hA0_mono`, since $F_{\mathrm{op}}$ is precisely the singleton-valued operator associated to $A_0$.
 
 Next the proof defines
-\[
-S = \partial \sigma_C.
-\]
-It proves that \(S\) is maximal monotone. The first step is finite-dimensionality. The theorem `thm51_finiteDimensional_of_bounded_polyhedron_interior` says that if \(C\) is a bounded convex polyhedron and \(0\in \operatorname{int} C\), then \(H\) is finite-dimensional. This is used so that the closed bounded set \(C\) is compact.
 
-The proof then shows that \(S\) has full domain. Since \(0\in C\), the set \(C\) is nonempty. Since \(C\) is closed and bounded in finite dimension, \(C\) is compact. For any fixed \(z\in H\), the continuous function
-\[
+$$
+S = \partial \sigma_C.
+$$
+
+It proves that $S$ is maximal monotone. The first step is finite-dimensionality. The theorem `thm51_finiteDimensional_of_bounded_polyhedron_interior` says that if $C$ is a bounded convex polyhedron and $0\in \operatorname{int} C$, then $H$ is finite-dimensional. This is used so that the closed bounded set $C$ is compact.
+
+The proof then shows that $S$ has full domain. Since $0\in C$, the set $C$ is nonempty. Since $C$ is closed and bounded in finite dimension, $C$ is compact. For any fixed $z\in H$, the continuous function
+
+$$
 q \mapsto \langle q,z\rangle
-\]
-attains a maximum on \(C\) at some \(c\in C\). Hence
-\[
+$$
+
+attains a maximum on $C$ at some $c\in C$. Hence
+
+$$
 \sigma_C(z) = \langle c,z\rangle.
-\]
-The lemma `thm51_inner_le_supportFunction` says that if \(c\in C\), then
-\[
+$$
+
+The lemma `thm51_inner_le_supportFunction` says that if $c\in C$, then
+
+$$
 \langle c,y\rangle \le \sigma_C(y)
-\]
-for every \(y\). Therefore
-\[
+$$
+
+for every $y$. Therefore
+
+$$
 \sigma_C(y) \ge \langle c,z\rangle + \langle c,y-z\rangle
 = \langle c,y\rangle,
-\]
-which says exactly that \(c\in \partial\sigma_C(z)=S(z)\). Thus every \(S(z)\) is nonempty, so \(S.\mathrm{dom}=H\).
+$$
 
-The proof next establishes monotonicity of \(S\). Suppose \(u\in S(x)\) and \(v\in S(y)\). By definition of subgradient,
-\[
+which says exactly that $c\in \partial\sigma_C(z)=S(z)$. Thus every $S(z)$ is nonempty, so $S.\mathrm{dom}=H$.
+
+The proof next establishes monotonicity of $S$. Suppose $u\in S(x)$ and $v\in S(y)$. By definition of subgradient,
+
+$$
 \sigma_C(y) \ge \sigma_C(x)+\langle u,y-x\rangle,
-\]
-and
-\[
-\sigma_C(x) \ge \sigma_C(y)+\langle v,x-y\rangle.
-\]
-The support function is finite here: `thm51_supportFunction_ne_top_of_bounded` gives \(\sigma_C(\cdot)\ne +\infty\), and `thm51_supportFunction_ne_bot_of_nonempty` gives \(\sigma_C(\cdot)\ne -\infty\). Hence the extended-real inequalities can be converted to real inequalities by applying `toReal`. Adding them yields
-\[
-\langle u,y-x\rangle+\langle v,x-y\rangle \le 0.
-\]
-Equivalently,
-\[
-\langle v-u,x-y\rangle \le 0,
-\]
-and therefore
-\[
-\langle u-v,x-y\rangle \ge 0.
-\]
-This is exactly the set-valued monotonicity of \(S\).
+$$
 
-The proof then proves the resolvent-surjectivity condition for \(S\):
-\[
+and
+
+$$
+\sigma_C(x) \ge \sigma_C(y)+\langle v,x-y\rangle.
+$$
+
+The support function is finite here: `thm51_supportFunction_ne_top_of_bounded` gives $\sigma_C(\cdot)\ne +\infty$, and `thm51_supportFunction_ne_bot_of_nonempty` gives $\sigma_C(\cdot)\ne -\infty$. Hence the extended-real inequalities can be converted to real inequalities by applying `toReal`. Adding them yields
+
+$$
+\langle u,y-x\rangle+\langle v,x-y\rangle \le 0.
+$$
+
+Equivalently,
+
+$$
+\langle v-u,x-y\rangle \le 0,
+$$
+
+and therefore
+
+$$
+\langle u-v,x-y\rangle \ge 0.
+$$
+
+This is exactly the set-valued monotonicity of $S$.
+
+The proof then proves the resolvent-surjectivity condition for $S$:
+
+$$
 \forall z\in H,\ \exists p,q\in H,\ q\in S(p) \text{ and } z=p+q.
-\]
-It uses the projection onto the closed convex set \(C\). Since \(C\) is nonempty, closed, and convex, the theorem `isChebyshev_of_nonempty_isClosed_convex` says \(C\) is Chebyshev, i.e. every point has a unique nearest point in \(C\). Let
-\[
+$$
+
+It uses the projection onto the closed convex set $C$. Since $C$ is nonempty, closed, and convex, the theorem `isChebyshev_of_nonempty_isClosed_convex` says $C$ is Chebyshev, i.e. every point has a unique nearest point in $C$. Let
+
+$$
 q = P_C(z), \qquad p = z-q.
-\]
-The projection point satisfies \(q\in C\), and the variational characterization of projection,
-\[
+$$
+
+The projection point satisfies $q\in C$, and the variational characterization of projection,
+
+$$
 \langle r-q,z-q\rangle \le 0 \qquad \text{for all } r\in C,
-\]
+$$
+
 is supplied by
 `eq_projectionPoint_iff_mem_and_inner_sub_right_nonpos_of_nonempty_isClosed_convex`.
-Since \(p=z-q\), this says
-\[
+Since $p=z-q$, this says
+
+$$
 \langle r,p\rangle \le \langle q,p\rangle \qquad \text{for all } r\in C,
-\]
-so \(q\) maximizes \(r\mapsto \langle r,p\rangle\) on \(C\). Hence
-\[
+$$
+
+so $q$ maximizes $r\mapsto \langle r,p\rangle$ on $C$. Hence
+
+$$
 \sigma_C(p)=\langle q,p\rangle.
-\]
-Using `thm51_inner_le_supportFunction` again, \(\langle q,y\rangle\le \sigma_C(y)\) for all \(y\), so
-\[
+$$
+
+Using `thm51_inner_le_supportFunction` again, $\langle q,y\rangle\le \sigma_C(y)$ for all $y$, so
+
+$$
 \sigma_C(y) \ge \sigma_C(p)+\langle q,y-p\rangle.
-\]
-Thus \(q\in S(p)\), and by construction \(z=p+q\). The theorem
-`thm51_maximal_of_monotone_and_resolvent_surjective` then gives that \(S\), being monotone and resolvent-surjective, is maximal monotone.
+$$
 
-With \(S\) and \(F_{\mathrm{op}}\) both maximal monotone, the proof uses `sum_maximal_monotone`. That theorem says that if \(A\) and \(B\) are maximal monotone and
-\[
+Thus $q\in S(p)$, and by construction $z=p+q$. The theorem
+`thm51_maximal_of_monotone_and_resolvent_surjective` then gives that $S$, being monotone and resolvent-surjective, is maximal monotone.
+
+With $S$ and $F_{\mathrm{op}}$ both maximal monotone, the proof uses `sum_maximal_monotone`. That theorem says that if $A$ and $B$ are maximal monotone and
+
+$$
 (\operatorname{int} A.\mathrm{dom}\cap B.\mathrm{dom})\ne\varnothing,
-\]
-then \(A+B\) is maximal monotone. Here both \(S.\mathrm{dom}\) and \(F_{\mathrm{op}}.\mathrm{dom}\) are all of \(H\), so the intersection condition is witnessed by \(0\). Therefore \(S+F_{\mathrm{op}}\) is maximal monotone, and since \(A=S+F_{\mathrm{op}}\), \(A\) is maximal monotone.
+$$
 
-The proof also proves \(A.\mathrm{dom}=H\). For every \(z\), \(S(z)\) is nonempty, and \(A_0(z)\in F_{\mathrm{op}}(z)\), so \(S(z)+F_{\mathrm{op}}(z)=A(z)\) is nonempty. Thus \(A.\mathrm{dom}=H\).
+then $A+B$ is maximal monotone. Here both $S.\mathrm{dom}$ and $F_{\mathrm{op}}.\mathrm{dom}$ are all of $H$, so the intersection condition is witnessed by $0$. Therefore $S+F_{\mathrm{op}}$ is maximal monotone, and since $A=S+F_{\mathrm{op}}$, $A$ is maximal monotone.
 
-Now the hypotheses of `hcor51_from_bridges` are available, so the proof obtains an index \(n_\star\) such that for all \(n\ge n_\star\),
-\[
+The proof also proves $A.\mathrm{dom}=H$. For every $z$, $S(z)$ is nonempty, and $A_0(z)\in F_{\mathrm{op}}(z)$, so $S(z)+F_{\mathrm{op}}(z)=A(z)$ is nonempty. Thus $A.\mathrm{dom}=H$.
+
+Now the hypotheses of `hcor51_from_bridges` are available, so the proof obtains an index $n_\star$ such that for all $n\ge n_\star$,
+
+$$
 x_{n+1}-x_n \in N_C(-\nabla f(x_\infty)).
-\]
+$$
 
 The proof then turns to the algorithm step. It defines
-\[
+
+$$
 L = DA_0(0), \qquad \xi = -\nabla f(x_\infty),
-\]
-\[
+$$
+
+$$
 v_n = x_{n+2}-x_{n+1}, \qquad
 acc_n = x_{n+2}-2x_{n+1}+x_n, \qquad
 z_n = \lambda^{-1}v_n.
-\]
-The theorem `thm51_algorithm_step_selection` says that for each \(n\) there exist \(a\in A(z_n)\) and \(b\in B(x_{n+2})\) such that
-\[
+$$
+
+The theorem `thm51_algorithm_step_selection` says that for each $n$ there exist $a\in A(z_n)$ and $b\in B(x_{n+2})$ such that
+
+$$
 (\lambda^2)^{-1}acc_n + a + b = 0.
-\]
-Since \(B=\nabla f\), one has
-\[
+$$
+
+Since $B=\nabla f$, one has
+
+$$
 b = \nabla f(x_{n+2}).
-\]
-Since \(a\in A(z_n)=\partial\sigma_C(z_n)+F_{\mathrm{op}}(z_n)\), one can write
-\[
+$$
+
+Since $a\in A(z_n)=\partial\sigma_C(z_n)+F_{\mathrm{op}}(z_n)$, one can write
+
+$$
 a = s + A_0(z_n)
-\]
-with \(s\in \partial\sigma_C(z_n)\). The equation above becomes
-\[
+$$
+
+with $s\in \partial\sigma_C(z_n)$. The equation above becomes
+
+$$
 (\lambda^2)^{-1}acc_n + s + A_0(z_n)+\nabla f(x_{n+2})=0,
-\]
+$$
+
 so
-\[
+
+$$
 s = -\bigl((\lambda^2)^{-1}acc_n + A_0(z_n)+\nabla f(x_{n+2})\bigr).
-\]
+$$
+
 Thus the vector
-\[
+
+$$
 p_n = -\bigl((\lambda^2)^{-1}acc_n + A_0(z_n)+\nabla f(x_{n+2})\bigr)
-\]
-belongs to \(\partial\sigma_C(z_n)=S(z_n)\).
+$$
 
-The proof then applies `thm51_support_subgradient_mem_and_normal`. This lemma says that if \(C\) is a convex polyhedron, \(0\in C\), and \(\xi_0\in \partial\sigma_C(v)\), then
-\[
+belongs to $\partial\sigma_C(z_n)=S(z_n)$.
+
+The proof then applies `thm51_support_subgradient_mem_and_normal`. This lemma says that if $C$ is a convex polyhedron, $0\in C$, and $\xi_0\in \partial\sigma_C(v)$, then
+
+$$
 \xi_0\in C \quad\text{and}\quad v\in N_C(\xi_0).
-\]
-Specializing to \(p_n\in \partial\sigma_C(z_n)\), the proof obtains
-\[
-p_n\in C \quad\text{and}\quad z_n\in N_C(p_n).
-\]
+$$
 
-From \(z_n\in N_C(p_n)\) and \(\xi\in C\), the normal-cone inequality gives
-\[
+Specializing to $p_n\in \partial\sigma_C(z_n)$, the proof obtains
+
+$$
+p_n\in C \quad\text{and}\quad z_n\in N_C(p_n).
+$$
+
+From $z_n\in N_C(p_n)$ and $\xi\in C$, the normal-cone inequality gives
+
+$$
 \langle \xi-p_n,z_n\rangle\le 0.
-\]
-Since \(v_n=\lambda z_n\) and \(\xi-p_n\) equals
-\[
+$$
+
+Since $v_n=\lambda z_n$ and $\xi-p_n$ equals
+
+$$
 ((\lambda^2)^{-1}acc_n + A_0(z_n)+\nabla f(x_{n+2}))-\nabla f(x_\infty),
-\]
+$$
+
 this becomes
-\[
+
+$$
 \left\langle
 ((\lambda^2)^{-1}acc_n + A_0(z_n)+\nabla f(x_{n+2}))
 -\nabla f(x_\infty),\, v_n
 \right\rangle \le 0.
-\]
+$$
+
 This is one of the two central discrete variational inequalities.
 
 The proof next derives a second normal-cone fact for the tail:
-\[
-x_\infty - x_{n+2} \in N_C(\xi) \qquad \text{for all } n\ge n_\star.
-\]
-For any \(y\in C\), set \(d=y-\xi\). For each \(k\ge n_\star\), the corollary gives
-\[
-x_{k+1}-x_k \in N_C(\xi),
-\]
-hence
-\[
-\langle x_{k+1}-x_k,d\rangle \le 0.
-\]
-Summing these inequalities from \(k=n+2\) to \(n+2+K-1\) yields
-\[
-\langle x_{n+2+K}-x_{n+2},d\rangle \le 0.
-\]
-Letting \(K\to\infty\) and using \(x_{n+2+K}\to x_\infty\), the limit preserves the inequality because \((-\infty,0]\) is closed. Therefore
-\[
-\langle x_\infty-x_{n+2},d\rangle \le 0
-\]
-for every \(y\in C\), which is exactly \(x_\infty-x_{n+2}\in N_C(\xi)\).
 
-Using this tail normal vector and the fact that \(p_n\in C\), the proof obtains
-\[
+$$
+x_\infty - x_{n+2} \in N_C(\xi) \qquad \text{for all } n\ge n_\star.
+$$
+
+For any $y\in C$, set $d=y-\xi$. For each $k\ge n_\star$, the corollary gives
+
+$$
+x_{k+1}-x_k \in N_C(\xi),
+$$
+
+hence
+
+$$
+\langle x_{k+1}-x_k,d\rangle \le 0.
+$$
+
+Summing these inequalities from $k=n+2$ to $n+2+K-1$ yields
+
+$$
+\langle x_{n+2+K}-x_{n+2},d\rangle \le 0.
+$$
+
+Letting $K\to\infty$ and using $x_{n+2+K}\to x_\infty$, the limit preserves the inequality because $(-\infty,0]$ is closed. Therefore
+
+$$
+\langle x_\infty-x_{n+2},d\rangle \le 0
+$$
+
+for every $y\in C$, which is exactly $x_\infty-x_{n+2}\in N_C(\xi)$.
+
+Using this tail normal vector and the fact that $p_n\in C$, the proof obtains
+
+$$
 \langle p_n-\xi,x_\infty-x_{n+2}\rangle \le 0.
-\]
+$$
+
 After rearranging inner products, this gives the second discrete variational inequality:
-\[
+
+$$
 \left\langle
 ((\lambda^2)^{-1}acc_n + A_0(z_n)+\nabla f(x_{n+2}))
 -\nabla f(x_\infty),\, x_{n+2}-x_\infty
 \right\rangle \le 0.
-\]
+$$
 
-The proof then records several convergence consequences. Since \(x_n\to x_\infty\),
-\[
+The proof then records several convergence consequences. Since $x_n\to x_\infty$,
+
+$$
 x_{n+1}\to x_\infty, \qquad x_{n+2}\to x_\infty,
-\]
+$$
+
 so
-\[
+
+$$
 v_n = x_{n+2}-x_{n+1}\to 0, \qquad
 z_n = \lambda^{-1}v_n\to 0.
-\]
+$$
+
 Also
-\[
+
+$$
 x_{n+1}-x_\infty\to 0, \qquad
 x_{n+2}-x_\infty\to 0.
-\]
-Consequently, for every \(\varepsilon>0\), eventually
-\[
+$$
+
+Consequently, for every $\varepsilon>0$, eventually
+
+$$
 \|x_{n+2}-x_\infty\|\le \varepsilon, \qquad
 \|v_n\|\le \varepsilon.
-\]
+$$
 
-The proof then uses the quadratic Taylor remainder for \(A_0\). The theorem
-`thm51_A0_quadratic_remainder_eventually` says that if \(A_0\) is \(C^2\) and \(A_0(0)=0\), then there exists \(C_0>0\) such that eventually near \(0\),
-\[
+The proof then uses the quadratic Taylor remainder for $A_0$. The theorem
+`thm51_A0_quadratic_remainder_eventually` says that if $A_0$ is $C^2$ and $A_0(0)=0$, then there exists $C_0>0$ such that eventually near $0$,
+
+$$
 \|A_0(y)-L y\| \le C_0\|y\|^2,
-\]
-where \(L=DA_0(0)\). Since \(z_n\to 0\), this becomes eventually
-\[
+$$
+
+where $L=DA_0(0)$. Since $z_n\to 0$, this becomes eventually
+
+$$
 \|A_0(z_n)-L z_n\| \le C_0\|z_n\|^2.
-\]
-Moreover, because \(z_n=\lambda^{-1}v_n\) and \(\lambda>0\),
-\[
+$$
+
+Moreover, because $z_n=\lambda^{-1}v_n$ and $\lambda>0$,
+
+$$
 \|z_n\|^2 = \lambda^{-2}\|v_n\|^2.
-\]
+$$
 
 Combining this quadratic remainder with Cauchy-Schwarz,
-\[
+
+$$
 |\langle A_0(z_n)-L z_n,w\rangle|
 \le \|A_0(z_n)-L z_n\|\,\|w\|,
-\]
-and the smallness of \(x_{n+2}-x_\infty\) and \(v_n\), the proof establishes the eventual estimates
-\[
+$$
+
+and the smallness of $x_{n+2}-x_\infty$ and $v_n$, the proof establishes the eventual estimates
+
+$$
 |\langle A_0(z_n)-L z_n, x_{n+2}-x_\infty\rangle|
 \le \frac{\eta}{\lambda^2}\|v_n\|^2
-\]
+$$
+
 and
-\[
+
+$$
 |\langle A_0(z_n)-L z_n, v_n\rangle|
 \le \frac{\eta}{\lambda}\|v_n\|^2
-\]
-for every \(\eta>0\), eventually in \(n\). These estimates say that the nonlinear remainder \(A_0(z_n)-L z_n\) is quadratically small in the increment \(v_n\).
+$$
 
-At this point the provided proof ends with `sorry`. The final step, which would combine the two normal-cone inequalities, the strong convexity of \(f\), the coercivity of \(L=DA_0(0)\), and the quadratic remainder estimates to deduce
-\[
+for every $\eta>0$, eventually in $n$. These estimates say that the nonlinear remainder $A_0(z_n)-L z_n$ is quadratically small in the increment $v_n$.
+
+At this point the provided proof ends with `sorry`. The final step, which would combine the two normal-cone inequalities, the strong convexity of $f$, the coercivity of $L=DA_0(0)$, and the quadratic remainder estimates to deduce
+
+$$
 \|x_{n+1}-x_n\|\le K q^n
-\]
-for some \(K>0\), \(0<q<1\), and all large \(n\), is not present in the supplied source. In particular, the hypotheses \(m>0\), `hA0_coercive`, and `hf_strongConv` are not used in the visible part of the proof. Thus the statement of `thm_5_1` is a geometric-decay theorem, but the provided Lean proof leaves its final conclusion unproved.
+$$
+
+for some $K>0$, $0<q<1$, and all large $n$, is not present in the supplied source. In particular, the hypotheses $m>0$, `hA0_coercive`, and `hf_strongConv` are not used in the visible part of the proof. Thus the statement of `thm_5_1` is a geometric-decay theorem, but the provided Lean proof leaves its final conclusion unproved.
 

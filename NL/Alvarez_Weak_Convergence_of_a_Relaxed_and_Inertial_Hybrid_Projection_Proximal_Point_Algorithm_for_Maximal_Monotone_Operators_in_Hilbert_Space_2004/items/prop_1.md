@@ -23,67 +23,95 @@ theorem proposition_2_5
 ```
 
 ## Statement explanation
-The declaration `proposition_2_5` is a theorem about a relaxed inertial hybrid projection/proximal point algorithm applied to a set-valued operator \(A\colon H\rightrightarrows H\), where \(H\) is the ambient real Hilbert space. The data of the statement include sequences
-\[
-\lambda,\ \alpha,\ \rho : \mathbb N \to \mathbb R
-\]
-(written `lam`, `alphaSeq`, and `rho`), real constants \(\sigma,R_1,R_2,\bar\alpha\) (written `sigma`, `R1`, `R2`, and `alphaBar`), and an algorithm object
-\[
-\texttt{alg} : \texttt{RelaxedInertialHPPA}\ A\ \lambda\ \alpha\ \rho\ \sigma .
-\]
-The iterates used in the statement are \(x_k := \texttt{alg.x k}\); the proof also uses the auxiliary sequence \(v_k := \texttt{alg.v k}\).
+The declaration `proposition_2_5` is a theorem about a relaxed inertial hybrid projection/proximal point algorithm applied to a set-valued operator $A\colon H\rightrightarrows H$, where $H$ is the ambient real Hilbert space. The data of the statement include sequences
 
-The hypotheses are as follows. The operator \(A\) is maximal monotone. The relaxation parameter satisfies
-\[
+$$
+\lambda,\ \alpha,\ \rho : \mathbb N \to \mathbb R
+$$
+
+(written `lam`, `alphaSeq`, and `rho`), real constants $\sigma,R_1,R_2,\bar\alpha$ (written `sigma`, `R1`, `R2`, and `alphaBar`), and an algorithm object
+
+$$
+\texttt{alg} : \texttt{RelaxedInertialHPPA}\ A\ \lambda\ \alpha\ \rho\ \sigma .
+$$
+
+The iterates used in the statement are $x_k := \texttt{alg.x k}$; the proof also uses the auxiliary sequence $v_k := \texttt{alg.v k}$.
+
+The hypotheses are as follows. The operator $A$ is maximal monotone. The relaxation parameter satisfies
+
+$$
 0 \le \sigma < 1 .
-\]
-The sequence \(\lambda\) has a positive lower bound, meaning there exists \(\lambda_0>0\) such that
-\[
+$$
+
+The sequence $\lambda$ has a positive lower bound, meaning there exists $\lambda_0>0$ such that
+
+$$
 \lambda_0 \le \lambda_k
-\]
-for every \(k\in\mathbb N\). The sequence \(\alpha\) satisfies
-\[
+$$
+
+for every $k\in\mathbb N$. The sequence $\alpha$ satisfies
+
+$$
 0 \le \alpha_k < 1
-\]
-for every \(k\), and it is nondecreasing:
-\[
+$$
+
+for every $k$, and it is nondecreasing:
+
+$$
 \alpha_k \le \alpha_{k+1}.
-\]
-The hypothesis `hp_pos_alphaBar_R1_R2` says that the Lean quantity `pCoeff R1 R2 alphaBar`, a coefficient depending on \(R_1,R_2,\bar\alpha\), is positive:
-\[
+$$
+
+The hypothesis `hp_pos_alphaBar_R1_R2` says that the Lean quantity `pCoeff R1 R2 alphaBar`, a coefficient depending on $R_1,R_2,\bar\alpha$, is positive:
+
+$$
 \operatorname{pCoeff}(R_1,R_2,\bar\alpha)>0.
-\]
-The number \(\bar\alpha\) satisfies
-\[
+$$
+
+The number $\bar\alpha$ satisfies
+
+$$
 \bar\alpha < 1
-\]
+$$
+
 and bounds the inertial sequence from above:
-\[
+
+$$
 \alpha_k \le \bar\alpha
-\]
-for every \(k\). The sequence \(\rho\) is bounded above and below by positive constants:
-\[
+$$
+
+for every $k$. The sequence $\rho$ is bounded above and below by positive constants:
+
+$$
 R_1>0,\qquad R_1 \le \rho_k,\qquad R_2<2,\qquad \rho_k \le R_2
-\]
-for every \(k\). Finally, \(A\) has a zero:
-\[
+$$
+
+for every $k$. Finally, $A$ has a zero:
+
+$$
 (\texttt{SetValuedOperator.zeros}\ A).\text{Nonempty}.
-\]
-By the definition of `zeros`, \(A.\texttt{zeros}=A.\texttt{inverse}\,0\), and by `mem_zeros_iff`, membership \(x\in A.\texttt{zeros}\) is equivalent to \(0\in A x\). Thus the hypothesis says that there exists some \(x\) with \(0\in A x\).
+$$
+
+By the definition of `zeros`, $A.\texttt{zeros}=A.\texttt{inverse}\,0$, and by `mem_zeros_iff`, membership $x\in A.\texttt{zeros}$ is equivalent to $0\in A x$. Thus the hypothesis says that there exists some $x$ with $0\in A x$.
 
 The conclusion of the theorem is a conjunction. First,
-\[
+
+$$
 \operatorname{Summable}\left(k\mapsto \|x_k-x_{k-1}\|^2\right),
-\]
-so the squared successive differences of the \(x\)-iterates are summable. Here Lean's natural-number subtraction is truncated, so for \(k=0\) the term is \(\|x_0-x_0\|^2=0\). Second, there exists a zero \(\hat x\) of \(A\),
-\[
+$$
+
+so the squared successive differences of the $x$-iterates are summable. Here Lean's natural-number subtraction is truncated, so for $k=0$ the term is $\|x_0-x_0\|^2=0$. Second, there exists a zero $\hat x$ of $A$,
+
+$$
 \hat x \in \texttt{SetValuedOperator.zeros}\ A,
-\]
-such that the iterates converge weakly to \(\hat x\):
-\[
+$$
+
+such that the iterates converge weakly to $\hat x$:
+
+$$
 \texttt{Tendsto}\left(k\mapsto \texttt{toWeakSpace}\,\mathbb R\,H\,(x_k)\right)\ \texttt{atTop}\ \left(\mathcal N(\texttt{toWeakSpace}\,\mathbb R\,H\,\hat x)\right).
-\]
-Equivalently, \(x_k\rightharpoonup \hat x\) in the weak topology as \(k\to\infty\). Thus the theorem asserts squared-summable movement of the iterates and weak convergence of the algorithm to a zero of the maximal monotone operator, under the stated parameter bounds and nonemptiness of the zero set.
+$$
+
+Equivalently, $x_k\rightharpoonup \hat x$ in the weak topology as $k\to\infty$. Thus the theorem asserts squared-summable movement of the iterates and weak convergence of the algorithm to a zero of the maximal monotone operator, under the stated parameter bounds and nonemptiness of the zero set.
 
 ## Lean proof
 ```lean
@@ -139,102 +167,137 @@ by
 ```
 
 ## Proof explanation
-The proof begins with a case split on whether the auxiliary sequence \(v_k\) ever vanishes:
-\[
+The proof begins with a case split on whether the auxiliary sequence $v_k$ ever vanishes:
+
+$$
 \texttt{by\_cases}\ \ hv_{\text{nonzero}} : \forall k:\mathbb N,\ \texttt{alg.v k}\neq 0.
-\]
+$$
+
 The two cases correspond to the nonterminating and terminating behavior of the algorithm.
 
-In the first case, \(v_k\neq 0\) for every \(k\). The proof applies the previously established theorem `proposition_2_5_nonterminating`, passing to it exactly the same operator \(A\), maximal monotonicity hypothesis, parameter \(\sigma\), its bound \(0\le \sigma<1\), the algorithm object `alg`, the nonvanishing hypothesis, and all the remaining hypotheses of the current theorem. That theorem says, under precisely these assumptions plus \(\forall k,\ v_k\neq0\), that
-\[
-\operatorname{Summable}\left(k\mapsto \|x_k-x_{k-1}\|^2\right)
-\]
-and that there exists a zero \(\hat x\in A.\texttt{zeros}\) to which \(x_k\) converges weakly. Therefore `exact proposition_2_5_nonterminating ...` directly proves the desired conjunction in this case.
+In the first case, $v_k\neq 0$ for every $k$. The proof applies the previously established theorem `proposition_2_5_nonterminating`, passing to it exactly the same operator $A$, maximal monotonicity hypothesis, parameter $\sigma$, its bound $0\le \sigma<1$, the algorithm object `alg`, the nonvanishing hypothesis, and all the remaining hypotheses of the current theorem. That theorem says, under precisely these assumptions plus $\forall k,\ v_k\neq0$, that
 
-In the second case, the nonvanishing assertion is false. The tactic `push Not at hv_nonzero` pushes the negation through the universal quantifier, producing an existential statement. Then `rcases hv_nonzero with ⟨K, hvK⟩` extracts an index \(K\in\mathbb N\) and a proof
-\[
+$$
+\operatorname{Summable}\left(k\mapsto \|x_k-x_{k-1}\|^2\right)
+$$
+
+and that there exists a zero $\hat x\in A.\texttt{zeros}$ to which $x_k$ converges weakly. Therefore `exact proposition_2_5_nonterminating ...` directly proves the desired conjunction in this case.
+
+In the second case, the nonvanishing assertion is false. The tactic `push Not at hv_nonzero` pushes the negation through the universal quantifier, producing an existential statement. Then `rcases hv_nonzero with ⟨K, hvK⟩` extracts an index $K\in\mathbb N$ and a proof
+
+$$
 \texttt{alg.v K}=0.
-\]
+$$
+
 Thus at some finite index the auxiliary sequence vanishes.
 
 The proof then invokes
-\[
+
+$$
 \texttt{htail} := \texttt{alg.finite\_stop\_if\_zero}\ K\ hvK.
-\]
-The complete statement of this algorithm property is not present in the supplied context, but the proof uses only the following visible consequence: for every index \(n\) with \(K+1\le n\), the first projection `(htail n ...).1` gives an equality for `alg.x n` identifying it with a common tail value. Consequently, if both \(n\) and \(n-1\) lie in that tail, the two equalities identify \(x_n\) and \(x_{n-1}\), so their difference is zero. This is why the proof only needs the finite-stop statement for indices at least \(K+1\).
+$$
+
+The complete statement of this algorithm property is not present in the supplied context, but the proof uses only the following visible consequence: for every index $n$ with $K+1\le n$, the first projection `(htail n ...).1` gives an equality for `alg.x n` identifying it with a common tail value. Consequently, if both $n$ and $n-1$ lie in that tail, the two equalities identify $x_n$ and $x_{n-1}$, so their difference is zero. This is why the proof only needs the finite-stop statement for indices at least $K+1$.
 
 Next the proof establishes
-\[
+
+$$
 \texttt{hsummable\_sq} :
 \operatorname{Summable}\left(k\mapsto \|x_k-x_{k-1}\|^2\right).
-\]
+$$
+
 It uses `summable_of_hasFiniteSupport`, which says that if a sequence has finite support, then it is summable. The tactic `rw [Function.HasFiniteSupport]` rewrites the goal into the form that the support of the sequence is contained in a finite set. The proof chooses the finite initial segment
-\[
+
+$$
 \{n\in\mathbb N:n<K+2\},
-\]
+$$
+
 provided by `Set.finite_lt_nat (K + 2)`, and uses `refine ... .subset ?_` to reduce to showing that the support is contained in this finite set.
 
-To prove this containment, the proof takes an arbitrary \(n\) in the support of the sequence and argues by contradiction. If it were not true that \(n<K+2\), then \(K+2\le n\). The tactic `omega` derives the arithmetic consequences
-\[
+To prove this containment, the proof takes an arbitrary $n$ in the support of the sequence and argues by contradiction. If it were not true that $n<K+2$, then $K+2\le n$. The tactic `omega` derives the arithmetic consequences
+
+$$
 K+1\le n,\qquad K+1\le n-1.
-\]
-Thus both \(n\) and \(n-1\) are in the stationary tail. Applying `htail` to \(n\) and to \(n-1\) gives the two tail equalities `hxn` and `hxprev`, and `simp [hxn, hxprev]` reduces
-\[
+$$
+
+Thus both $n$ and $n-1$ are in the stationary tail. Applying `htail` to $n$ and to $n-1$ gives the two tail equalities `hxn` and `hxprev`, and `simp [hxn, hxprev]` reduces
+
+$$
 \|x_n-x_{n-1}\|^2
-\]
-to \(0\). Since \(n\) was assumed to lie in the support, the sequence value at \(n\) should be nonzero, but the proof has shown it is zero. The line `exact hn hzero` supplies that contradiction. Hence every support element satisfies \(n<K+2\), so the support is finite. Therefore `hsummable_sq` holds.
+$$
+
+to $0$. Since $n$ was assumed to lie in the support, the sequence value at $n$ should be nonzero, but the proof has shown it is zero. The line `exact hn hzero` supplies that contradiction. Hence every support element satisfies $n<K+2$, so the support is finite. Therefore `hsummable_sq` holds.
 
 The proof then derives a summability statement for the weighted sequence:
-\[
+
+$$
 \texttt{halpha\_summable} :
 \operatorname{Summable}\left(k\mapsto \alpha_k\,\|x_k-x_{k-1}\|^2\right).
-\]
-It uses `hsummable_sq.of_nonneg_of_le`, a comparison principle for summability: if a nonnegative sequence is pointwise bounded above by a summable nonnegative sequence, then it is summable. The nonnegativity proof uses the hypothesis \(0\le \alpha_k\) from `halpha_mem k`, together with the fact that a squared norm is nonnegative. The comparison proof uses \(\alpha_k<1\) from `halpha_mem k`, hence \(\alpha_k\le1\), and the fact that \(\|x_k-x_{k-1}\|^2\ge0\). The lemma `mul_le_of_le_one_left` gives
-\[
+$$
+
+It uses `hsummable_sq.of_nonneg_of_le`, a comparison principle for summability: if a nonnegative sequence is pointwise bounded above by a summable nonnegative sequence, then it is summable. The nonnegativity proof uses the hypothesis $0\le \alpha_k$ from `halpha_mem k`, together with the fact that a squared norm is nonnegative. The comparison proof uses $\alpha_k<1$ from `halpha_mem k`, hence $\alpha_k\le1$, and the fact that $\|x_k-x_{k-1}\|^2\ge0$. The lemma `mul_le_of_le_one_left` gives
+
+$$
 \alpha_k\|x_k-x_{k-1}\|^2 \le \|x_k-x_{k-1}\|^2.
-\]
+$$
+
 Since the right-hand sequence was already proved summable, the weighted sequence is summable as well. This is needed to build the parameter package required by the next theorem.
 
 The proof then constructs
-\[
-\texttt{params} : \texttt{ParameterAssumptions}\ \texttt{alg.x}.
-\]
-The fields are filled with the original sequences and hypotheses: `lam := lam`, `alpha := alphaSeq`, `rho := rho`; the lower bound for `lam` is `hlam_lower`; the membership hypothesis for `alpha` is `halpha_mem`; the upper-bound field for `alpha` is supplied by \(\bar\alpha\), using `halphaBar_lt_one` and `halphaBar_bound`; the summability field is the just-proved `halpha_summable`; the lower and upper bounds for `rho` are supplied by \(R_1\) and \(R_2\), using `hR1_pos`, `hR1_le`, `hR2_lt_two`, and `hR2_ge`. Thus `params` records exactly the parameter assumptions on the algorithm iterates that the next theorem needs.
 
-The proof then establishes the weak-convergence part. It applies `theorem_2_2` with the operator \(A\), its maximal monotonicity, the relaxation parameter \(\sigma\), its bound, the algorithm object `alg`, the freshly constructed `params`, the equalities `rfl`, `rfl`, `rfl`, and the nonemptiness hypothesis `hS`. The three `rfl` proofs are the equalities
-\[
+$$
+\texttt{params} : \texttt{ParameterAssumptions}\ \texttt{alg.x}.
+$$
+
+The fields are filled with the original sequences and hypotheses: `lam := lam`, `alpha := alphaSeq`, `rho := rho`; the lower bound for `lam` is `hlam_lower`; the membership hypothesis for `alpha` is `halpha_mem`; the upper-bound field for `alpha` is supplied by $\bar\alpha$, using `halphaBar_lt_one` and `halphaBar_bound`; the summability field is the just-proved `halpha_summable`; the lower and upper bounds for `rho` are supplied by $R_1$ and $R_2$, using `hR1_pos`, `hR1_le`, `hR2_lt_two`, and `hR2_ge`. Thus `params` records exactly the parameter assumptions on the algorithm iterates that the next theorem needs.
+
+The proof then establishes the weak-convergence part. It applies `theorem_2_2` with the operator $A$, its maximal monotonicity, the relaxation parameter $\sigma$, its bound, the algorithm object `alg`, the freshly constructed `params`, the equalities `rfl`, `rfl`, `rfl`, and the nonemptiness hypothesis `hS`. The three `rfl` proofs are the equalities
+
+$$
 \lambda=\texttt{params.lam},\qquad
 \alpha=\texttt{params.alpha},\qquad
 \rho=\texttt{params.rho},
-\]
+$$
+
 which hold by definition because `params` was constructed with exactly these sequences.
 
-The cited theorem `theorem_2_2` has four conclusions under those assumptions. First, for every zero \(\bar x\) of \(A\), the distance sequence \(\|x_k-\bar x\|\) converges to some real limit. Second,
-\[
+The cited theorem `theorem_2_2` has four conclusions under those assumptions. First, for every zero $\bar x$ of $A$, the distance sequence $\|x_k-\bar x\|$ converges to some real limit. Second,
+
+$$
 \left\|x_{k+1}-\left(\rho_k^{-1}z_k+(1-\rho_k^{-1})y_k\right)\right\| \to 0.
-\]
+$$
+
 Third,
-\[
+
+$$
 \|v_k\|\to 0.
-\]
-Fourth, there exists \(x^\star\in A.\texttt{zeros}\) such that
-\[
+$$
+
+Fourth, there exists $x^\star\in A.\texttt{zeros}$ such that
+
+$$
 x_k\rightharpoonup x^\star
-\]
+$$
+
 weakly. The proof destructs this fourfold conjunction with
-\[
+
+$$
 \texttt{rcases theorem\_2\_2 ... with } \langle \_, \_, \_, \texttt{hweak}\rangle,
-\]
+$$
+
 discarding the first three conclusions and retaining exactly the weak-convergence conclusion as `hweak`. Therefore `hweak` is precisely
-\[
+
+$$
 \exists \hat x\in \texttt{SetValuedOperator.zeros}\ A,\quad
 \texttt{Tendsto}\left(k\mapsto \texttt{toWeakSpace}\,\mathbb R\,H\,(x_k)\right)\ \texttt{atTop}\
 \left(\mathcal N(\texttt{toWeakSpace}\,\mathbb R\,H\,\hat x)\right).
-\]
+$$
 
 Finally, the proof combines the two established parts with
-\[
+
+$$
 \texttt{exact}\ \langle \texttt{hsummable\_sq}, \texttt{hweak}\rangle.
-\]
-This constructs the required conjunction: squared summability of the successive differences and weak convergence of the iterates to a zero of the maximal monotone operator. In the terminating branch, the hypotheses not used for this final combination, such as the positivity of `pCoeff` and the monotonicity of \(\alpha\), are not needed; the finite-stop property and the parameter bounds used to build `params` are enough.
+$$
+
+This constructs the required conjunction: squared summability of the successive differences and weak convergence of the iterates to a zero of the maximal monotone operator. In the terminating branch, the hypotheses not used for this final combination, such as the positivity of `pCoeff` and the monotonicity of $\alpha$, are not needed; the finite-stop property and the parameter bounds used to build `params` are enough.
 

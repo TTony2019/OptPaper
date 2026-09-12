@@ -11,26 +11,32 @@ noncomputable def HasLipschitzContinuousGradient {m : Nat}
 ```
 
 ## Statement explanation
-The declaration defines the predicate `HasLipschitzContinuousGradient`. It takes three parameters: a natural number \(m\), a function \(h:\mathbb R^m\to\mathbb R\) from the \(m\)-dimensional Euclidean space to the real numbers, and a real constant \(L\). It returns a proposition asserting that the gradient of \(h\) is Lipschitz continuous with constant \(L\).
+The declaration defines the predicate `HasLipschitzContinuousGradient`. It takes three parameters: a natural number $m$, a function $h:\mathbb R^m\to\mathbb R$ from the $m$-dimensional Euclidean space to the real numbers, and a real constant $L$. It returns a proposition asserting that the gradient of $h$ is Lipschitz continuous with constant $L$.
 
 The proposition is the conjunction of three conditions:
 
 1. The constant is nonnegative:
-   \[
-   0 \le L.
-   \]
-2. The function \(h\) is differentiable over \(\mathbb R\) as a map \(h:\mathbb R^m\to\mathbb R\).
-3. For every pair of points \(x,y\in\mathbb R^m\),
-   \[
-   \|\nabla h(x)-\nabla h(y)\| \le L\|x-y\|.
-   \]
-   Here \(\nabla h(x)\) denotes the gradient vector of \(h\) at \(x\), and both norms are the Euclidean norms on the relevant Euclidean spaces.
 
-Thus, mathematically, `HasLipschitzContinuousGradient h L` says that \(L\ge 0\), that \(h\) is differentiable, and that the gradient map
-\[
+   $$
+   0 \le L.
+   $$
+
+2. The function $h$ is differentiable over $\mathbb R$ as a map $h:\mathbb R^m\to\mathbb R$.
+3. For every pair of points $x,y\in\mathbb R^m$,
+
+   $$
+   \|\nabla h(x)-\nabla h(y)\| \le L\|x-y\|.
+   $$
+
+   Here $\nabla h(x)$ denotes the gradient vector of $h$ at $x$, and both norms are the Euclidean norms on the relevant Euclidean spaces.
+
+Thus, mathematically, `HasLipschitzContinuousGradient h L` says that $L\ge 0$, that $h$ is differentiable, and that the gradient map
+
+$$
 x\mapsto \nabla h(x)
-\]
-is Lipschitz continuous with Lipschitz constant \(L\). The definition does not assert convexity, stronger smoothness, or that \(L\) is the smallest possible Lipschitz constant. It only records these three requirements as a proposition. The Lean keyword `noncomputable` indicates that the definition is marked as noncomputational, but this does not change its mathematical content.
+$$
+
+is Lipschitz continuous with Lipschitz constant $L$. The definition does not assert convexity, stronger smoothness, or that $L$ is the smallest possible Lipschitz constant. It only records these three requirements as a proposition. The Lean keyword `noncomputable` indicates that the definition is marked as noncomputational, but this does not change its mathematical content.
 
 ## Lean proof
 ```lean
@@ -40,9 +46,11 @@ is Lipschitz continuous with Lipschitz constant \(L\). The definition does not a
 ## Proof explanation
 There is no separate proof part. The declaration is a definition, and the supplied source contains only the defining proposition with a comment indicating that no proof is provided. Consequently, there are no proof steps, no `intro` or `rw` or `simp` or `exact` or `linarith` commands, and no cited lemmas or theorems to explain. No named local result is invoked.
 
-If one wanted to prove that some particular pair \(h,L\) satisfies `HasLipschitzContinuousGradient h L`, one would have to establish each of the three conjuncts: first \(0\le L\), second that \(h\) is differentiable, and third the gradient Lipschitz estimate
-\[
+If one wanted to prove that some particular pair $h,L$ satisfies `HasLipschitzContinuousGradient h L`, one would have to establish each of the three conjuncts: first $0\le L$, second that $h$ is differentiable, and third the gradient Lipschitz estimate
+
+$$
 \|\nabla h(x)-\nabla h(y)\|\le L\|x-y\|
-\]
-for all \(x,y\in\mathbb R^m\). The definition itself simply states that these three conditions are required. Since no proof is supplied in the source, there are no further mathematical proof obligations or tactic applications to describe.
+$$
+
+for all $x,y\in\mathbb R^m$. The definition itself simply states that these three conditions are required. Since no proof is supplied in the source, there are no further mathematical proof obligations or tactic applications to describe.
 

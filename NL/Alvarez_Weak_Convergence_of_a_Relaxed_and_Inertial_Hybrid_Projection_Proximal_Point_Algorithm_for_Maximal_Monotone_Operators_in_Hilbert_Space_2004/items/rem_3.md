@@ -20,62 +20,77 @@ theorem remark_3_condition_33_from_312
 ```
 
 ## Statement explanation
-The declaration is a theorem about sequences in an ambient real normed vector space \(H\). Its data are sequences
-\[
+The declaration is a theorem about sequences in an ambient real normed vector space $H$. Its data are sequences
+
+$$
 x,y,\eta:\mathbb N\to H,\qquad \lambda,\alpha:\mathbb N\to\mathbb R,
-\]
-and a point \(\bar x\in H\). Here \(k-1\) is Lean’s natural-number subtraction, so for \(k=0\) it is simply \(0\).
+$$
+
+and a point $\bar x\in H$. Here $k-1$ is Lean’s natural-number subtraction, so for $k=0$ it is simply $0$.
 
 The hypotheses are as follows.
 
-1. For every \(k\in\mathbb N\),
-\[
+1. For every $k\in\mathbb N$,
+
+$$
 y_k=x_k+\alpha_k(x_k-x_{k-1}).
-\]
-Thus \(y\) is obtained from \(x\) by an inertial or extrapolated correction involving the previous difference \(x_k-x_{k-1}\).
+$$
+
+Thus $y$ is obtained from $x$ by an inertial or extrapolated correction involving the previous difference $x_k-x_{k-1}$.
 
 2. The series
-\[
+
+$$
 \sum_{k=0}^{\infty}\lambda_k\|\eta_k\|
-\]
+$$
+
 converges.
 
 3. The series
-\[
-\sum_{k=0}^{\infty}\alpha_k\|x_k-x_{k-1}\|
-\]
-converges. Note that no sign condition is imposed on \(\alpha_k\).
 
-4. For every \(k\in\mathbb N\),
-\[
+$$
+\sum_{k=0}^{\infty}\alpha_k\|x_k-x_{k-1}\|
+$$
+
+converges. Note that no sign condition is imposed on $\alpha_k$.
+
+4. For every $k\in\mathbb N$,
+
+$$
 \|x_{k+1}-\bar x\|
 \le
 \|x_k-\bar x\|
 +\alpha_k\|x_k-x_{k-1}\|
 +\lambda_k\|\eta_k\|.
-\]
-This controls how much the distance from \(x_k\) to \(\bar x\) can increase from one step to the next.
+$$
 
-5. For every \(k\in\mathbb N\),
-\[
+This controls how much the distance from $x_k$ to $\bar x$ can increase from one step to the next.
+
+5. For every $k\in\mathbb N$,
+
+$$
 0\le \lambda_k.
-\]
+$$
 
 The conclusion is the conjunction of three assertions:
-\[
+
+$$
 \bigl(\exists\,l\in\mathbb R,\ \|x_k-\bar x\|\to l\bigr)
 \;\wedge\;
 \{y_k:k\in\mathbb N\}\text{ is bounded}
 \;\wedge\;
 \sum_{k=0}^{\infty}\lambda_k\|\eta_k\|\,\|y_k\|<\infty.
-\]
-In words: the distance sequence \(\|x_k-\bar x\|\) converges to a finite real limit; the sequence \(y\) has bounded range; and the weighted series involving \(\lambda_k\|\eta_k\|\|y_k\|\) is summable.
+$$
+
+In words: the distance sequence $\|x_k-\bar x\|$ converges to a finite real limit; the sequence $y$ has bounded range; and the weighted series involving $\lambda_k\|\eta_k\|\|y_k\|$ is summable.
 
 The mathematical idea is that the two summable perturbations
-\[
+
+$$
 \alpha_k\|x_k-x_{k-1}\|,\qquad \lambda_k\|\eta_k\|
-\]
-are collectively summable. The inequality says that the distance from \(x_k\) to \(\bar x\) can grow only by the \(k\)-th perturbation term. Therefore the quantity obtained by subtracting the partial sums of the perturbations from \(\|x_k-\bar x\|\) is nonincreasing. Since those partial sums converge, the original distance sequence also converges. The summability of \(\alpha_k\|x_k-x_{k-1}\|\) forces the correction terms \(\alpha_k(x_k-x_{k-1})\) to be bounded, which makes \(y\) bounded. Finally, boundedness of \(y\) lets one compare \(\lambda_k\|\eta_k\|\|y_k\|\) with a constant multiple of the summable series \(\lambda_k\|\eta_k\|\).
+$$
+
+are collectively summable. The inequality says that the distance from $x_k$ to $\bar x$ can grow only by the $k$-th perturbation term. Therefore the quantity obtained by subtracting the partial sums of the perturbations from $\|x_k-\bar x\|$ is nonincreasing. Since those partial sums converge, the original distance sequence also converges. The summability of $\alpha_k\|x_k-x_{k-1}\|$ forces the correction terms $\alpha_k(x_k-x_{k-1})$ to be bounded, which makes $y$ bounded. Finally, boundedness of $y$ lets one compare $\lambda_k\|\eta_k\|\|y_k\|$ with a constant multiple of the summable series $\lambda_k\|\eta_k\|$.
 
 ## Lean proof
 ```lean
@@ -174,119 +189,163 @@ by
 
 ## Proof explanation
 The proof begins by defining
-\[
+
+$$
 d_k=\alpha_k\|x_k-x_{k-1}\|+\lambda_k\|\eta_k\|.
-\]
-The first summability hypothesis gives summability of \(\alpha_k\|x_k-x_{k-1}\|\), and the second gives summability of \(\lambda_k\|\eta_k\|\). The lemma `Summable.add` states that the sum of two summable real sequences is summable, so \(d\) is summable.
+$$
+
+The first summability hypothesis gives summability of $\alpha_k\|x_k-x_{k-1}\|$, and the second gives summability of $\lambda_k\|\eta_k\|$. The lemma `Summable.add` states that the sum of two summable real sequences is summable, so $d$ is summable.
 
 Next the proof defines the partial-sum sequence
-\[
+
+$$
 s_n=\sum_{k=0}^{n-1} d_k.
-\]
-Since \(d\) is summable, the lemma `Summable.hasSum` gives that the finite sums of \(d\) have total sum \(\sum_{k=0}^{\infty}d_k\). Composing this with the map \(n\mapsto\{0,\dots,n-1\}\) via `Filter.tendsto_finset_range` gives
-\[
+$$
+
+Since $d$ is summable, the lemma `Summable.hasSum` gives that the finite sums of $d$ have total sum $\sum_{k=0}^{\infty}d_k$. Composing this with the map $n\mapsto\{0,\dots,n-1\}$ via `Filter.tendsto_finset_range` gives
+
+$$
 s_n\to \sum_{k=0}^{\infty}d_k.
-\]
-Thus the accumulated perturbation \(s_n\) converges to a finite real number.
+$$
+
+Thus the accumulated perturbation $s_n$ converges to a finite real number.
 
 The proof then defines
-\[
+
+$$
 \phi_k=\|x_k-\bar x\|,\qquad \psi_k=\phi_k-s_k.
-\]
-The key monotonicity claim is \(\psi_{k+1}\le \psi_k\). Indeed,
-\[
+$$
+
+The key monotonicity claim is $\psi_{k+1}\le \psi_k$. Indeed,
+
+$$
 \psi_{k+1}=\phi_{k+1}-s_{k+1}
 =\phi_{k+1}-(s_k+d_k),
-\]
-while \(\psi_k=\phi_k-s_k\). Thus \(\psi_{k+1}\le\psi_k\) is equivalent to
-\[
+$$
+
+while $\psi_k=\phi_k-s_k$. Thus $\psi_{k+1}\le\psi_k$ is equivalent to
+
+$$
 \phi_{k+1}\le \phi_k+d_k
 =\phi_k+\alpha_k\|x_k-x_{k-1}\|+\lambda_k\|\eta_k\|,
-\]
-which is exactly the hypothesis `hineq`. In Lean, `Finset.sum_range_succ` rewrites \(s_{k+1}=s_k+d_k\), and `linarith` finishes the arithmetic. The lemma `antitone_nat_of_succ_le` then converts the consecutive inequality \(\psi_{k+1}\le\psi_k\) into the statement that \(\psi\) is antitone, i.e. nonincreasing.
+$$
 
-Because \(s_n\) converges, its range is bounded above; the proof uses `bddAbove_range` and chooses a real number \(B_u\) such that \(s_k\le B_u\) for all \(k\). Since \(\phi_k=\|x_k-\bar x\|\ge0\), it follows that
-\[
+which is exactly the hypothesis `hineq`. In Lean, `Finset.sum_range_succ` rewrites $s_{k+1}=s_k+d_k$, and `linarith` finishes the arithmetic. The lemma `antitone_nat_of_succ_le` then converts the consecutive inequality $\psi_{k+1}\le\psi_k$ into the statement that $\psi$ is antitone, i.e. nonincreasing.
+
+Because $s_n$ converges, its range is bounded above; the proof uses `bddAbove_range` and chooses a real number $B_u$ such that $s_k\le B_u$ for all $k$. Since $\phi_k=\|x_k-\bar x\|\ge0$, it follows that
+
+$$
 \psi_k=\phi_k-s_k\ge -B_u.
-\]
-So \(\psi\) is bounded below. The lemma `tendsto_atTop_ciInf` states that an antitone sequence of real numbers which is bounded below converges to its infimum. The proof sets \(\operatorname{psiInf}=\inf_n \psi_n\) and obtains
-\[
+$$
+
+So $\psi$ is bounded below. The lemma `tendsto_atTop_ciInf` states that an antitone sequence of real numbers which is bounded below converges to its infimum. The proof sets $\operatorname{psiInf}=\inf_n \psi_n$ and obtains
+
+$$
 \psi_k\to \operatorname{psiInf}.
-\]
-Since \(s_k\to \sum_{k=0}^{\infty}d_k\), and since \(\phi=\psi+s\), the addition rule for limits gives
-\[
+$$
+
+Since $s_k\to \sum_{k=0}^{\infty}d_k$, and since $\phi=\psi+s$, the addition rule for limits gives
+
+$$
 \phi_k=\|x_k-\bar x\|\to \operatorname{psiInf}+\sum_{k=0}^{\infty}d_k.
-\]
+$$
+
 This proves the first part of the conclusion: the distance sequence converges.
 
-The proof then records that a convergent sequence is bounded above. Applying this to \(\phi\), it chooses \(M\) with
-\[
+The proof then records that a convergent sequence is bounded above. Applying this to $\phi$, it chooses $M$ with
+
+$$
 \|x_k-\bar x\|=\phi_k\le M
-\]
-for every \(k\).
+$$
+
+for every $k$.
 
 Next it studies the term
-\[
+
+$$
 a_k=\alpha_k\|x_k-x_{k-1}\|.
-\]
-Since \(\sum_k a_k\) is summable, the lemma `Summable.tendsto_atTop_zero` gives
-\[
+$$
+
+Since $\sum_k a_k$ is summable, the lemma `Summable.tendsto_atTop_zero` gives
+
+$$
 a_k\to0.
-\]
+$$
+
 Taking absolute values preserves the limit, so
-\[
+
+$$
 |a_k|\to0.
-\]
-A convergent sequence is bounded above, hence there is \(B_1\) such that
-\[
+$$
+
+A convergent sequence is bounded above, hence there is $B_1$ such that
+
+$$
 |a_k|\le B_1.
-\]
+$$
+
 Because
-\[
+
+$$
 |a_k|
 =
 |\alpha_k\|x_k-x_{k-1}\||
 =
 |\alpha_k|\,\|x_k-x_{k-1}\|,
-\]
-this gives the bound
-\[
-|\alpha_k|\,\|x_k-x_{k-1}\|\le B_1.
-\]
+$$
 
-Now the proof bounds \(y_k\). Using the defining relation \(y_k=x_k+\alpha_k(x_k-x_{k-1})\), the triangle inequality gives
-\[
+this gives the bound
+
+$$
+|\alpha_k|\,\|x_k-x_{k-1}\|\le B_1.
+$$
+
+Now the proof bounds $y_k$. Using the defining relation $y_k=x_k+\alpha_k(x_k-x_{k-1})$, the triangle inequality gives
+
+$$
 \|y_k\|
 \le
 \|x_k\|+\|\alpha_k(x_k-x_{k-1})\|.
-\]
+$$
+
 The norm of a scalar multiple is
-\[
+
+$$
 \|\alpha_k(x_k-x_{k-1})\|
 =
 |\alpha_k|\,\|x_k-x_{k-1}\|.
-\]
-Also,
-\[
-x_k=(x_k-\bar x)+\bar x,
-\]
-so
-\[
-\|x_k\|\le \|x_k-\bar x\|+\|\bar x\|.
-\]
-Combining these inequalities with \(\|x_k-\bar x\|\le M\) and
-\(|\alpha_k|\,\|x_k-x_{k-1}\|\le B_1\), the proof obtains
-\[
-\|y_k\|\le M+\|\bar x\|+B_1.
-\]
-It then sets
-\[
-C=M+\|\bar x\|+B_1.
-\]
-Thus \(\|y_k\|\le C\) for all \(k\).
+$$
 
-To prove that the range of \(y\) is bounded, the proof rewrites boundedness using `Metric.isBounded_iff`. In a metric space this says that a set is bounded exactly when there is a radius bounding all pairwise distances between points of the set. The proof chooses radius \(2C\). For any two indices \(i,j\),
-\[
+Also,
+
+$$
+x_k=(x_k-\bar x)+\bar x,
+$$
+
+so
+
+$$
+\|x_k\|\le \|x_k-\bar x\|+\|\bar x\|.
+$$
+
+Combining these inequalities with $\|x_k-\bar x\|\le M$ and
+$|\alpha_k|\,\|x_k-x_{k-1}\|\le B_1$, the proof obtains
+
+$$
+\|y_k\|\le M+\|\bar x\|+B_1.
+$$
+
+It then sets
+
+$$
+C=M+\|\bar x\|+B_1.
+$$
+
+Thus $\|y_k\|\le C$ for all $k$.
+
+To prove that the range of $y$ is bounded, the proof rewrites boundedness using `Metric.isBounded_iff`. In a metric space this says that a set is bounded exactly when there is a radius bounding all pairwise distances between points of the set. The proof chooses radius $2C$. For any two indices $i,j$,
+
+$$
 \operatorname{dist}(y_i,y_j)
 =
 \|y_i-y_j\|
@@ -294,37 +353,50 @@ To prove that the range of \(y\) is bounded, the proof rewrites boundedness usin
 \|y_i\|+\|y_j\|
 \le
 C+C=2C.
-\]
-The first inequality is the triangle inequality applied to \(y_i+(-y_j)\). Therefore \(\{y_k:k\in\mathbb N\}\) is bounded. This proves the second part of the conclusion.
+$$
+
+The first inequality is the triangle inequality applied to $y_i+(-y_j)$. Therefore $\{y_k:k\in\mathbb N\}$ is bounded. This proves the second part of the conclusion.
 
 Finally the proof handles the summability of
-\[
+
+$$
 u_k=\lambda_k\|\eta_k\|\,\|y_k\|.
-\]
-Since \(\lambda_k\ge0\) and \(\|\eta_k\|\ge0\), we have
-\[
+$$
+
+Since $\lambda_k\ge0$ and $\|\eta_k\|\ge0$, we have
+
+$$
 0\le \lambda_k\|\eta_k\|.
-\]
-Multiplying by the nonnegative number \(\|y_k\|\) gives
-\[
+$$
+
+Multiplying by the nonnegative number $\|y_k\|$ gives
+
+$$
 0\le \lambda_k\|\eta_k\|\,\|y_k\|.
-\]
-Also, from \(\|y_k\|\le C\),
-\[
+$$
+
+Also, from $\|y_k\|\le C$,
+
+$$
 \lambda_k\|\eta_k\|\,\|y_k\|
 \le
 C\bigl(\lambda_k\|\eta_k\|\bigr).
-\]
-The sequence \(C(\lambda_k\|\eta_k\|)\) is summable because the original sequence \(\lambda_k\|\eta_k\|\) is summable and multiplication by a constant preserves summability; in Lean this is `Summable.mul_left`. The comparison test `Summable.of_nonneg_of_le` then says that if \(0\le u_k\le v_k\) for all \(k\) and \(\sum_k v_k\) converges, then \(\sum_k u_k\) converges. Applying it with
-\[
+$$
+
+The sequence $C(\lambda_k\|\eta_k\|)$ is summable because the original sequence $\lambda_k\|\eta_k\|$ is summable and multiplication by a constant preserves summability; in Lean this is `Summable.mul_left`. The comparison test `Summable.of_nonneg_of_le` then says that if $0\le u_k\le v_k$ for all $k$ and $\sum_k v_k$ converges, then $\sum_k u_k$ converges. Applying it with
+
+$$
 u_k=\lambda_k\|\eta_k\|\,\|y_k\|,
 \qquad
 v_k=C(\lambda_k\|\eta_k\|)
-\]
+$$
+
 proves
-\[
+
+$$
 \sum_{k=0}^{\infty}\lambda_k\|\eta_k\|\,\|y_k\|<\infty.
-\]
+$$
+
 This is the third part of the conclusion.
 
 The final `exact ⟨h_goal1, h_range_y_bdd, h_summable_33⟩` simply packages the three proved statements into the conjunction required by the theorem. The reference declarations about set-valued operators are not used in this proof.

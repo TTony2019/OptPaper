@@ -16,38 +16,45 @@ theorem din_weakly_converges_to_argmin {H : Type*} [NormedAddCommGroup H]
 ```
 
 ## Statement explanation
-The declaration `din_weakly_converges_to_argmin` is a theorem about a real Hilbert space \(H\), a real-valued function \(\Phi:H\to\mathbb R\), two real parameters \(\alpha,\beta\), and a curve \(x:\mathbb R\to H\). The hypotheses are:
+The declaration `din_weakly_converges_to_argmin` is a theorem about a real Hilbert space $H$, a real-valued function $\Phi:H\to\mathbb R$, two real parameters $\alpha,\beta$, and a curve $x:\mathbb R\to H$. The hypotheses are:
 
-- \(H\) is a complete real inner-product space, i.e. a real Hilbert space.
-- \(\Phi\) satisfies the standing assumption `AssumptionH H Φ`; in the proof the concrete consequences used are that \(\Phi\) is twice continuously differentiable and bounded below.
-- \(x\) is twice continuously differentiable, \(x\in C^2(\mathbb R,H)\).
-- \(\Phi\) is convex on all of \(H\), in the usual real-valued sense.
+- $H$ is a complete real inner-product space, i.e. a real Hilbert space.
+- $\Phi$ satisfies the standing assumption `AssumptionH H Φ`; in the proof the concrete consequences used are that $\Phi$ is twice continuously differentiable and bounded below.
+- $x$ is twice continuously differentiable, $x\in C^2(\mathbb R,H)$.
+- $\Phi$ is convex on all of $H$, in the usual real-valued sense.
 - The global argmin set
-  \[
+
+  $$
   \operatorname{argminSet}\Phi=\{\,y\in H\mid \forall p,\ \Phi(y)\le \Phi(p)\,\}
-  \]
+  $$
+
   is nonempty.
-- \(x\) is a trajectory of the DIN second-order gradient-like dissipative system with parameters \(\alpha,\beta\). In particular, \(\alpha>0\), \(\beta>0\), and for every \(t\ge0\),
-  \[
+- $x$ is a trajectory of the DIN second-order gradient-like dissipative system with parameters $\alpha,\beta$. In particular, $\alpha>0$, $\beta>0$, and for every $t\ge0$,
+
+  $$
   x''(t)=-\alpha x'(t)-\beta\,\bigl(D\nabla\Phi(x(t))\bigr)x'(t)-\nabla\Phi(x(t)).
-  \]
-  Here \(D\nabla\Phi(x(t))\) denotes the Fréchet derivative of \(\nabla\Phi\) at \(x(t)\), i.e. the Hessian operator.
+  $$
+
+  Here $D\nabla\Phi(x(t))$ denotes the Fréchet derivative of $\nabla\Phi$ at $x(t)$, i.e. the Hessian operator.
 
 The conclusion is a conjunction:
 
-\[
+$$
 \Bigl(\forall z,\ z\in\operatorname{argminSet}\Phi
 \ \Rightarrow\ \exists d\in\mathbb R,\ 
 \|x(t)-z\|\to d\Bigr)
-\]
+$$
+
 and
-\[
+
+$$
 \exists z,\ z\in\operatorname{argminSet}\Phi
 \ \wedge\ x(t)\rightharpoonup z
-\]
-where the weak convergence is written in Lean as convergence of \(t\mapsto \operatorname{toWeakSpace}_{\mathbb R,H}(x(t))\) to \(\operatorname{toWeakSpace}_{\mathbb R,H}(z)\).
+$$
 
-In ordinary language: along every global minimizer \(z\) of \(\Phi\), the distance from the trajectory \(x(t)\) to \(z\) converges to a finite limit as \(t\to\infty\); moreover, the trajectory converges weakly to some global minimizer of \(\Phi\).
+where the weak convergence is written in Lean as convergence of $t\mapsto \operatorname{toWeakSpace}_{\mathbb R,H}(x(t))$ to $\operatorname{toWeakSpace}_{\mathbb R,H}(z)$.
+
+In ordinary language: along every global minimizer $z$ of $\Phi$, the distance from the trajectory $x(t)$ to $z$ converges to a finite limit as $t\to\infty$; moreover, the trajectory converges weakly to some global minimizer of $\Phi$.
 
 ## Lean proof
 ```lean
@@ -573,215 +580,289 @@ by
 ```
 
 ## Proof explanation
-The proof begins by extracting the positivity of the parameters and the differential equation from the hypothesis `hsol : IsDINTrajectory H Φ α β x`. The terms `hsol.1` and `hsol.2.1` give \(0<\alpha\) and \(0<\beta\). Later, `hsol.2.2 t ht` is used as the second-order equation
-\[
+The proof begins by extracting the positivity of the parameters and the differential equation from the hypothesis `hsol : IsDINTrajectory H Φ α β x`. The terms `hsol.1` and `hsol.2.1` give $0<\alpha$ and $0<\beta$. Later, `hsol.2.2 t ht` is used as the second-order equation
+
+$$
 x''(t)=-\alpha x'(t)-\beta\,\bigl(D\nabla\Phi(x(t))\bigr)x'(t)-\nabla\Phi(x(t)),
-\]
-for \(t\ge0\).
+$$
 
-The proof then records differentiability facts. From `hΦ` it obtains that \(\Phi\) is \(C^2\), hence also \(C^1\). For every \(z\in H\), it obtains
-\[
+for $t\ge0$.
+
+The proof then records differentiability facts. From `hΦ` it obtains that $\Phi$ is $C^2$, hence also $C^1$. For every $z\in H$, it obtains
+
+$$
 D\Phi(z)=\langle \nabla\Phi(z),\cdot\rangle,
-\]
-i.e. the Fréchet derivative of \(\Phi\) at \(z\) is the continuous linear functional \(h\mapsto \langle \nabla\Phi(z),h\rangle\). This is the Riesz-representation form of the gradient. The proof also shows that \(\nabla\Phi\) is \(C^1\): since \(\Phi\) is \(C^2\), its Fréchet derivative \(D\Phi\) is \(C^1\), and the Riesz map identifying \(D\Phi\) with \(\nabla\Phi\) preserves smoothness.
+$$
 
-Next, the proof establishes that at any global minimizer \(z\) of \(\Phi\), one has
-\[
+i.e. the Fréchet derivative of $\Phi$ at $z$ is the continuous linear functional $h\mapsto \langle \nabla\Phi(z),h\rangle$. This is the Riesz-representation form of the gradient. The proof also shows that $\nabla\Phi$ is $C^1$: since $\Phi$ is $C^2$, its Fréchet derivative $D\Phi$ is $C^1$, and the Riesz map identifying $D\Phi$ with $\nabla\Phi$ preserves smoothness.
+
+Next, the proof establishes that at any global minimizer $z$ of $\Phi$, one has
+
+$$
 \nabla\Phi(z)=0.
-\]
-Indeed, a global minimizer is a local minimizer. If \(z\) is a local minimizer of \(\Phi\), then \(D\Phi(z)=0\). Since \(D\Phi(z)=\langle \nabla\Phi(z),\cdot\rangle\), the Riesz map is injective, so \(\nabla\Phi(z)=0\). This fact is used repeatedly.
+$$
 
-The main existential theorem `din_forward_internal` is then applied to \(\Phi,\alpha,\beta\) and the initial data \(x(0),x'(0)\). That theorem produces a trajectory \(x_g\), a velocity \(v_g\), and an acceleration \(a_g\) for the same DIN system. The parts used in this proof are:
+Indeed, a global minimizer is a local minimizer. If $z$ is a local minimizer of $\Phi$, then $D\Phi(z)=0$. Since $D\Phi(z)=\langle \nabla\Phi(z),\cdot\rangle$, the Riesz map is injective, so $\nabla\Phi(z)=0$. This fact is used repeatedly.
 
-- \(x_g\) is a DIN trajectory with \(x_g(0)=x(0)\) and \(v_g(0)=x'(0)\).
-- Any \(C^2\) DIN trajectory with the same initial position and velocity agrees with \(x_g\), and its derivative agrees with \(v_g\), for all \(t\ge0\).
-- \(\Phi(x_g(t))\) converges to some real number \(l\) as \(t\to\infty\).
-- \(v_g(t)+\beta\nabla\Phi(x_g(t))\to0\).
-- \(v_g\) and \(\nabla\Phi(x_g(\cdot))\) are square-integrable on \((0,\infty)\).
-- If \(x_g\) is bounded on \(t\ge0\), then \(v_g,a_g,\nabla\Phi(x_g(\cdot))\), and the Hessian along \(x_g\) are bounded, and \(v_g,a_g,\nabla\Phi(x_g(\cdot))\) all tend to \(0\).
+The main existential theorem `din_forward_internal` is then applied to $\Phi,\alpha,\beta$ and the initial data $x(0),x'(0)$. That theorem produces a trajectory $x_g$, a velocity $v_g$, and an acceleration $a_g$ for the same DIN system. The parts used in this proof are:
 
-Using the uniqueness clause, the proof identifies \(x_g(t)=x(t)\) and \(v_g(t)=x'(t)\) for all \(t\ge0\). Therefore
-\[
+- $x_g$ is a DIN trajectory with $x_g(0)=x(0)$ and $v_g(0)=x'(0)$.
+- Any $C^2$ DIN trajectory with the same initial position and velocity agrees with $x_g$, and its derivative agrees with $v_g$, for all $t\ge0$.
+- $\Phi(x_g(t))$ converges to some real number $l$ as $t\to\infty$.
+- $v_g(t)+\beta\nabla\Phi(x_g(t))\to0$.
+- $v_g$ and $\nabla\Phi(x_g(\cdot))$ are square-integrable on $(0,\infty)$.
+- If $x_g$ is bounded on $t\ge0$, then $v_g,a_g,\nabla\Phi(x_g(\cdot))$, and the Hessian along $x_g$ are bounded, and $v_g,a_g,\nabla\Phi(x_g(\cdot))$ all tend to $0$.
+
+Using the uniqueness clause, the proof identifies $x_g(t)=x(t)$ and $v_g(t)=x'(t)$ for all $t\ge0$. Therefore
+
+$$
 \Phi(x(t))\to l
-\]
-for some \(l\in\mathbb R\), and
-\[
-x'(t)+\beta\nabla\Phi(x(t))\to0.
-\]
-The proof then defines the energy
-\[
-E(t)=(\alpha\beta+1)\Phi(x(t))+\frac12\|x'(t)+\beta\nabla\Phi(x(t))\|^2.
-\]
-Since \(\Phi(x(t))\) converges and \(x'(t)+\beta\nabla\Phi(x(t))\to0\), the energy \(E(t)\) also converges to a finite limit.
+$$
 
-The core of the proof is the distance-convergence statement. Fix \(z\in\operatorname{argminSet}\Phi\). First, \(\nabla\Phi(z)=0\). The proof then derives the convexity inequality
-\[
+for some $l\in\mathbb R$, and
+
+$$
+x'(t)+\beta\nabla\Phi(x(t))\to0.
+$$
+
+The proof then defines the energy
+
+$$
+E(t)=(\alpha\beta+1)\Phi(x(t))+\frac12\|x'(t)+\beta\nabla\Phi(x(t))\|^2.
+$$
+
+Since $\Phi(x(t))$ converges and $x'(t)+\beta\nabla\Phi(x(t))\to0$, the energy $E(t)$ also converges to a finite limit.
+
+The core of the proof is the distance-convergence statement. Fix $z\in\operatorname{argminSet}\Phi$. First, $\nabla\Phi(z)=0$. The proof then derives the convexity inequality
+
+$$
 \langle \nabla\Phi(y),y-z\rangle\ge0
 \qquad(y\in H).
-\]
-This is obtained by considering the line \(s\mapsto z+s(y-z)\) and the real function
-\[
+$$
+
+This is obtained by considering the line $s\mapsto z+s(y-z)$ and the real function
+
+$$
 f(s)=\Phi(z+s(y-z)).
-\]
-Because \(\Phi\) is convex, \(f\) is convex. For a convex differentiable function on \(\mathbb R\), the derivative is monotone, so \(f'(0)\le f'(1)\). The chain rule gives
-\[
+$$
+
+Because $\Phi$ is convex, $f$ is convex. For a convex differentiable function on $\mathbb R$, the derivative is monotone, so $f'(0)\le f'(1)$. The chain rule gives
+
+$$
 f'(0)=\langle \nabla\Phi(z),y-z\rangle=0,
 \qquad
 f'(1)=\langle \nabla\Phi(y),y-z\rangle.
-\]
-Hence \(f'(1)\ge0\), which is the displayed inequality.
+$$
+
+Hence $f'(1)\ge0$, which is the displayed inequality.
 
 Now set
-\[
+
+$$
 v(t)=x'(t),\qquad
 g(t)=\nabla\Phi(x(t)),\qquad
 r(t)=v(t)+\beta g(t),\qquad
 u(t)=x(t)-z.
-\]
+$$
+
 Choose
-\[
+
+$$
 \epsilon=\min\left(1,\frac{\alpha}{4(\beta+1)}\right).
-\]
-Then \(0<\epsilon\), \(\epsilon\le1\), and \(\epsilon\le \alpha/(4(\beta+1))\). These imply the auxiliary coefficient inequalities
-\[
+$$
+
+Then $0<\epsilon$, $\epsilon\le1$, and $\epsilon\le \alpha/(4(\beta+1))$. These imply the auxiliary coefficient inequalities
+
+$$
 \alpha-\epsilon-\frac{\epsilon\beta}{2}\ge0,
 \qquad
 \beta\left(1-\frac{\epsilon}{2}\right)\ge0.
-\]
+$$
 
 The proof computes derivatives. From the ODE one gets
-\[
+
+$$
 r'(t)=-\alpha v(t)-g(t),
-\]
-because \(r=x'+\beta\nabla\Phi(x)\) and the Hessian terms cancel. Also \(u'(t)=v(t)\). The energy satisfies
-\[
+$$
+
+because $r=x'+\beta\nabla\Phi(x)$ and the Hessian terms cancel. Also $u'(t)=v(t)$. The energy satisfies
+
+$$
 E'(t)=-\alpha\|v(t)\|^2-\beta\|g(t)\|^2.
-\]
+$$
+
 Indeed,
-\[
+
+$$
 E'=(\alpha\beta+1)\langle g,v\rangle+\langle r,r'\rangle
-\]
-and substituting \(r=v+\beta g\), \(r'=-\alpha v-g\) gives the displayed cancellation.
+$$
+
+and substituting $r=v+\beta g$, $r'=-\alpha v-g$ gives the displayed cancellation.
 
 The proof then introduces the auxiliary Lyapunov function
-\[
+
+$$
 h(t)=E(t)+\epsilon\left(\frac{\alpha}{2}\|u(t)\|^2+\langle r(t),u(t)\rangle\right).
-\]
+$$
+
 A direct differentiation gives
-\[
+
+$$
 h'(t)=-(\alpha-\epsilon)\|v(t)\|^2-\beta\|g(t)\|^2
 -\epsilon\langle g(t),u(t)\rangle
 +\epsilon\beta\langle g(t),v(t)\rangle.
-\]
-The convexity inequality gives \(\langle g(t),u(t)\rangle\ge0\), so the term \(-\epsilon\langle g(t),u(t)\rangle\) is nonpositive. Cauchy–Schwarz and Young’s inequality give
-\[
+$$
+
+The convexity inequality gives $\langle g(t),u(t)\rangle\ge0$, so the term $-\epsilon\langle g(t),u(t)\rangle$ is nonpositive. Cauchy–Schwarz and Young’s inequality give
+
+$$
 \epsilon\beta\langle g(t),v(t)\rangle
 \le \frac{\epsilon\beta}{2}\bigl(\|g(t)\|^2+\|v(t)\|^2\bigr).
-\]
+$$
+
 Therefore
-\[
+
+$$
 h'(t)\le
 -\left(\alpha-\epsilon-\frac{\epsilon\beta}{2}\right)\|v(t)\|^2
 -\beta\left(1-\frac{\epsilon}{2}\right)\|g(t)\|^2\le0.
-\]
-Thus \(h\) is nonincreasing on \([0,\infty)\), by the standard criterion that a differentiable function with nonpositive derivative on an interval is antitone.
+$$
 
-The hypothesis that \(\Phi\) is bounded below gives a real number \(m\) with \(m\le\Phi(y)\) for all \(y\). Hence
-\[
+Thus $h$ is nonincreasing on $[0,\infty)$, by the standard criterion that a differentiable function with nonpositive derivative on an interval is antitone.
+
+The hypothesis that $\Phi$ is bounded below gives a real number $m$ with $m\le\Phi(y)$ for all $y$. Hence
+
+$$
 E(t)\ge(\alpha\beta+1)m.
-\]
+$$
+
 Using Cauchy–Schwarz and Young’s inequality again, the proof obtains the lower bound
-\[
+
+$$
 (\alpha\beta+1)m+\frac{\epsilon\alpha}{4}\|u(t)\|^2\le h(t)
 \qquad(t\ge0).
-\]
-So \(h\) is nonincreasing and bounded below. Defining \(q(t)=h(\max(t,0))\), the function \(q\) is antitone on all of \(\mathbb R\) and bounded below, so it has a limit at \(+\infty\). Therefore \(h(t)\) has a finite limit, say \(l_h\).
+$$
 
-Since \(h(t)\le h(0)\) and the lower bound controls \(\|u(t)\|^2\), the curve \(u(t)=x(t)-z\) is bounded. Also \(r(t)\to0\) from the residual convergence. By Cauchy–Schwarz,
-\[
+So $h$ is nonincreasing and bounded below. Defining $q(t)=h(\max(t,0))$, the function $q$ is antitone on all of $\mathbb R$ and bounded below, so it has a limit at $+\infty$. Therefore $h(t)$ has a finite limit, say $l_h$.
+
+Since $h(t)\le h(0)$ and the lower bound controls $\|u(t)\|^2$, the curve $u(t)=x(t)-z$ is bounded. Also $r(t)\to0$ from the residual convergence. By Cauchy–Schwarz,
+
+$$
 \langle r(t),u(t)\rangle\to0.
-\]
+$$
+
 The identity
-\[
+
+$$
 h(t)-E(t)-\epsilon\langle r(t),u(t)\rangle
 =\frac{\epsilon\alpha}{2}\|u(t)\|^2
-\]
-then shows that \(\|u(t)\|^2\) has a finite limit. Hence \(\|u(t)\|=\|x(t)-z\|\) has a finite limit. This proves the first conjunct of the theorem.
+$$
 
-Next the proof shows that \(x\) is bounded on \(t\ge0\). Choose a minimizer \(z_0\). From the just-proved distance convergence, \(\|x(t)-z_0\|\) converges to some \(d_0\). Hence, for all sufficiently large \(t\),
-\[
+then shows that $\|u(t)\|^2$ has a finite limit. Hence $\|u(t)\|=\|x(t)-z\|$ has a finite limit. This proves the first conjunct of the theorem.
+
+Next the proof shows that $x$ is bounded on $t\ge0$. Choose a minimizer $z_0$. From the just-proved distance convergence, $\|x(t)-z_0\|$ converges to some $d_0$. Hence, for all sufficiently large $t$,
+
+$$
 \|x(t)-z_0\|\le |d_0|+1.
-\]
-On a compact interval \([0,T_0]\), the continuous image of \(x\) is compact, hence bounded. Combining the compact part with the eventual triangle estimate
-\[
+$$
+
+On a compact interval $[0,T_0]$, the continuous image of $x$ is compact, hence bounded. Combining the compact part with the eventual triangle estimate
+
+$$
 \|x(t)\|\le \|x(t)-z_0\|+\|z_0\|
-\]
-shows that \(x\) is bounded on all of \([0,\infty)\).
+$$
 
-Since \(x_g=x\) on \([0,\infty)\), the trajectory \(x_g\) is bounded. Applying the boundedness part of `din_forward_internal` gives
-\[
+shows that $x$ is bounded on all of $[0,\infty)$.
+
+Since $x_g=x$ on $[0,\infty)$, the trajectory $x_g$ is bounded. Applying the boundedness part of `din_forward_internal` gives
+
+$$
 \nabla\Phi(x(t))\to0.
-\]
+$$
 
-The proof then records the supporting hyperplane inequality for convex differentiable functions. The cited theorem `convex_supporting_baillon_haddad` says that if \(f:H\to\mathbb R\) is convex on all of \(H\) and has gradient \(\nabla f\), then for all \(y,p\in H\),
-\[
+The proof then records the supporting hyperplane inequality for convex differentiable functions. The cited theorem `convex_supporting_baillon_haddad` says that if $f:H\to\mathbb R$ is convex on all of $H$ and has gradient $\nabla f$, then for all $y,p\in H$,
+
+$$
 f(y)+\langle \nabla f(y),p-y\rangle\le f(p).
-\]
-Applied to \(\Phi\), this gives
-\[
+$$
+
+Applied to $\Phi$, this gives
+
+$$
 \Phi(y)+\langle \nabla\Phi(y),p-y\rangle\le\Phi(p)
-\]
-for all \(y,p\in H\).
+$$
 
-A small closure lemma is proved: if \(a_n\to0\) strongly and \(b_n\) is bounded, then
-\[
+for all $y,p\in H$.
+
+A small closure lemma is proved: if $a_n\to0$ strongly and $b_n$ is bounded, then
+
+$$
 \langle a_n,b_n\rangle\to0.
-\]
-This follows from Cauchy–Schwarz, \(| \langle a_n,b_n\rangle|\le \|a_n\|\,\|b_n\|\), and the squeeze theorem.
+$$
 
-These tools are used to prove that every weak cluster point is a minimizer. Let \(s_n\to\infty\) be a sequence of times and suppose
-\[
+This follows from Cauchy–Schwarz, $| \langle a_n,b_n\rangle|\le \|a_n\|\,\|b_n\|$, and the squeeze theorem.
+
+These tools are used to prove that every weak cluster point is a minimizer. Let $s_n\to\infty$ be a sequence of times and suppose
+
+$$
 x(s_n)\rightharpoonup z
-\]
-weakly. The range of the sequence \(x(s_n)\) is bounded by `bounded_range_of_tendsto_weakly`, because weakly convergent sequences in a Hilbert space are bounded. Since \(\nabla\Phi(x(t))\to0\), also
-\[
+$$
+
+weakly. The range of the sequence $x(s_n)$ is bounded by `bounded_range_of_tendsto_weakly`, because weakly convergent sequences in a Hilbert space are bounded. Since $\nabla\Phi(x(t))\to0$, also
+
+$$
 \nabla\Phi(x(s_n))\to0.
-\]
+$$
+
 Therefore
-\[
+
+$$
 \langle \nabla\Phi(x(s_n)),x(s_n)\rangle\to0
-\]
-and, for each fixed \(p\),
-\[
+$$
+
+and, for each fixed $p$,
+
+$$
 \langle \nabla\Phi(x(s_n)),p\rangle\to0.
-\]
-Applying the supporting inequality with \(y=x(s_n)\) gives
-\[
+$$
+
+Applying the supporting inequality with $y=x(s_n)$ gives
+
+$$
 \Phi(x(s_n))+\langle \nabla\Phi(x(s_n)),p-x(s_n)\rangle\le\Phi(p).
-\]
-Letting \(n\to\infty\), and using \(\Phi(x(s_n))\to l\), yields
-\[
+$$
+
+Letting $n\to\infty$, and using $\Phi(x(s_n))\to l$, yields
+
+$$
 l\le\Phi(p)
-\]
-for every \(p\in H\). Thus \(l\) is a global lower bound for \(\Phi\).
+$$
 
-To show that \(z\) is itself a minimizer, the proof uses weak lower semicontinuity. It defines \(f(y)=(\Phi(y):\mathbb R_{\pm\infty})\). Since \(\Phi\) is continuous and convex, \(f\) is lower semicontinuous in the norm topology. It is also quasiconvex: by `quasiconvexOn_univ_iff_convex_lowerLevelSet`, quasiconvexity on all of \(H\) is equivalent to convexity of every lower level set
-\[
+for every $p\in H$. Thus $l$ is a global lower bound for $\Phi$.
+
+To show that $z$ is itself a minimizer, the proof uses weak lower semicontinuity. It defines $f(y)=(\Phi(y):\mathbb R_{\pm\infty})$. Since $\Phi$ is continuous and convex, $f$ is lower semicontinuous in the norm topology. It is also quasiconvex: by `quasiconvexOn_univ_iff_convex_lowerLevelSet`, quasiconvexity on all of $H$ is equivalent to convexity of every lower level set
+
+$$
 \{y\mid f(y)\le \xi\}.
-\]
-Using `mem_lowerLevelSet_iff`, membership in this set is equivalent to \(\Phi(y)\le\xi\). Since \(\Phi\) is convex, the set \(\{y\mid \Phi(y)\le\xi\}\) is convex. Hence \(f\) is quasiconvex. The cited result `weaklyLowerSemicontinuous_of_quasiconvexOn_univ` then gives that \(f\), transported to the weak topology, is weakly lower semicontinuous.
+$$
 
-Because \(x(s_n)\rightharpoonup z\) weakly and \(f(x(s_n))\to l\), weak lower semicontinuity gives
-\[
+Using `mem_lowerLevelSet_iff`, membership in this set is equivalent to $\Phi(y)\le\xi$. Since $\Phi$ is convex, the set $\{y\mid \Phi(y)\le\xi\}$ is convex. Hence $f$ is quasiconvex. The cited result `weaklyLowerSemicontinuous_of_quasiconvexOn_univ` then gives that $f$, transported to the weak topology, is weakly lower semicontinuous.
+
+Because $x(s_n)\rightharpoonup z$ weakly and $f(x(s_n))\to l$, weak lower semicontinuity gives
+
+$$
 f(z)\le \liminf_n f(x(s_n))=l.
-\]
-Thus \(\Phi(z)\le l\). Together with \(l\le\Phi(z)\), this gives \(\Phi(z)=l\). Since \(l\le\Phi(p)\) for every \(p\), it follows that
-\[
+$$
+
+Thus $\Phi(z)\le l$. Together with $l\le\Phi(z)$, this gives $\Phi(z)=l$. Since $l\le\Phi(p)$ for every $p$, it follows that
+
+$$
 \Phi(z)\le\Phi(p)
-\]
-for every \(p\). Therefore \(z\in\operatorname{argminSet}\Phi\). This proves the hypothesis needed for Opial’s theorem.
+$$
 
-Finally, the proof applies `opial_continuous_time`. That theorem states that if \(x:\mathbb R\to H\), \(S\subseteq H\) is nonempty, every sequence of weak cluster points of \(x\) along times tending to \(+\infty\) lies in \(S\), and for every \(z\in S\) the distance \(\|x(t)-z\|\) converges, then there exists \(z\in S\) such that \(x(t)\) converges weakly to \(z\). Here \(S=\operatorname{argminSet}\Phi\), nonemptiness is `hmin`, the cluster-point condition is `hcluster`, and the distance-convergence condition is `hdist`. The conclusion gives some \(z\in\operatorname{argminSet}\Phi\) with \(x(t)\rightharpoonup z\). Together with the already-proved distance convergence for every minimizer, this proves the stated conjunction.
+for every $p$. Therefore $z\in\operatorname{argminSet}\Phi$. This proves the hypothesis needed for Opial’s theorem.
 
-Throughout the proof, Lean tactics play concrete mathematical roles. Commands such as `intro` introduce the variables and hypotheses of a subgoal; `obtain` and `rcases` destruct existential or conjunctive hypotheses; `rw` rewrites using definitions such as the ODE, the definitions of \(E,h,u,r\), or algebraic identities; `simp` and `simpa` perform definitional and algebraic simplification; `exact` closes a goal by supplying a theorem or previously proved fact; `apply` reduces a goal to the hypotheses of a lemma; `linarith` and `nlinarith` solve linear and nonlinear arithmetic inequalities; `positivity` proves nonnegativity of expressions; `field_simp` clears denominators; `ring` and `ring_nf` normalize polynomial and rational identities; `module` solves linear equalities in the vector space; `convert` changes a goal to an equivalent form; and `filter_upwards` handles “for all sufficiently large \(t\)” statements. The limit arguments use `tendsto_atTop_ciInf` for the limit of an antitone bounded-below function, `squeeze_zero` and `squeeze_zero_norm'` for limits forced between bounds, and `isBounded_iff_forall_norm_le` for converting boundedness into a uniform norm bound.
+Finally, the proof applies `opial_continuous_time`. That theorem states that if $x:\mathbb R\to H$, $S\subseteq H$ is nonempty, every sequence of weak cluster points of $x$ along times tending to $+\infty$ lies in $S$, and for every $z\in S$ the distance $\|x(t)-z\|$ converges, then there exists $z\in S$ such that $x(t)$ converges weakly to $z$. Here $S=\operatorname{argminSet}\Phi$, nonemptiness is `hmin`, the cluster-point condition is `hcluster`, and the distance-convergence condition is `hdist`. The conclusion gives some $z\in\operatorname{argminSet}\Phi$ with $x(t)\rightharpoonup z$. Together with the already-proved distance convergence for every minimizer, this proves the stated conjunction.
+
+Throughout the proof, Lean tactics play concrete mathematical roles. Commands such as `intro` introduce the variables and hypotheses of a subgoal; `obtain` and `rcases` destruct existential or conjunctive hypotheses; `rw` rewrites using definitions such as the ODE, the definitions of $E,h,u,r$, or algebraic identities; `simp` and `simpa` perform definitional and algebraic simplification; `exact` closes a goal by supplying a theorem or previously proved fact; `apply` reduces a goal to the hypotheses of a lemma; `linarith` and `nlinarith` solve linear and nonlinear arithmetic inequalities; `positivity` proves nonnegativity of expressions; `field_simp` clears denominators; `ring` and `ring_nf` normalize polynomial and rational identities; `module` solves linear equalities in the vector space; `convert` changes a goal to an equivalent form; and `filter_upwards` handles “for all sufficiently large $t$” statements. The limit arguments use `tendsto_atTop_ciInf` for the limit of an antitone bounded-below function, `squeeze_zero` and `squeeze_zero_norm'` for limits forced between bounds, and `isBounded_iff_forall_norm_le` for converting boundedness into a uniform norm bound.
 

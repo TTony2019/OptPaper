@@ -13,7 +13,6 @@ import json
 import os
 import re
 import sys
-from string import Template
 import tempfile
 import time
 import urllib.error
@@ -21,6 +20,8 @@ import urllib.request
 from collections import deque
 from dataclasses import dataclass
 from pathlib import Path
+
+from nl_math_delimiters import normalize_math_delimiters
 
 
 DECLARATION_KEYWORDS = {
@@ -337,9 +338,13 @@ SYSTEM_PROMPT = (
     "You are an expert in mathematics, Lean 4, and Mathlib. "
     "Follow the supplied Lean source exactly and do not add assumptions or conclusions. "
     "Explain the mathematical content of cited results instead of merely naming them. "
-    "Return valid Markdown with every mathematical expression delimited by \\( ... \\) "
-    "or \\[ ... \\]; never use bare square brackets as math delimiters."
+    "Return valid Markdown with every mathematical expression delimited by $ ... $ "
+    "or by $$ ... $$ on lines of their own; never use \\( ... \\), \\[ ... \\] or "
+    "bare square brackets as math delimiters."
 )
+
+
+TEMPLATE_FIELD = re.compile(r"\{\{([a-z_]+)\}\}")
 
 
 def build_prompt(
@@ -348,18 +353,24 @@ def build_prompt(
     related_declarations: str = "No cited theorem statement was provided.",
     prompt_path: Path = PROMPT_PATH,
 ) -> str:
-    """Fill the external English translation prompt with one declaration."""
+    """Fill the external English translation prompt with one declaration.
+
+    Placeholders use ``{{name}}`` rather than ``$name`` so that the prompt can
+    spell out the ``$``/``$$`` math delimiters GitHub renders. Replacement is a
+    single pass, so a value that itself contains ``{{...}}`` is left alone.
+    """
     proof_text = declaration.proof if declaration.proof is not None else "-- No separate proof part."
-    template = Template(prompt_path.read_text(encoding="utf-8"))
-    return template.substitute(
-        relative_path=relative_path,
-        declaration_kind=declaration.kind,
-        declaration_name=declaration.name,
-        statement=declaration.statement,
-        proof=proof_text,
-        related_declarations=related_declarations,
-        separator=PROMPT_SEPARATOR,
-    )
+    template = prompt_path.read_text(encoding="utf-8")
+    fields = {
+        "relative_path": relative_path,
+        "declaration_kind": declaration.kind,
+        "declaration_name": declaration.name,
+        "statement": declaration.statement,
+        "proof": proof_text,
+        "related_declarations": related_declarations,
+        "separator": PROMPT_SEPARATOR,
+    }
+    return TEMPLATE_FIELD.sub(lambda match: fields.get(match.group(1), match.group(0)), template)
 
 
 def split_explanations(response: str) -> tuple[str, str]:
@@ -452,6 +463,10 @@ def render_markdown(declaration: Declaration, relative_path: str, response: str)
     statement_explanation, proof_explanation = split_explanations(response)
     statement_explanation = normalize_bare_latex_brackets(statement_explanation)
     proof_explanation = normalize_bare_latex_brackets(proof_explanation)
+    # GitHub only renders the ``$`` dialect, so translate whatever the model
+    # produced into it as a safety net.
+    statement_explanation = normalize_math_delimiters(statement_explanation)
+    proof_explanation = normalize_math_delimiters(proof_explanation)
     proof_text = declaration.proof if declaration.proof is not None else "-- No separate proof part."
     return f"""## Source file
 `{relative_path}`

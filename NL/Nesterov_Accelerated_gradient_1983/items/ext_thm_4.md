@@ -11,11 +11,11 @@ theorem firstOrder_complexity_lower_bound_reference :
 ## Statement explanation
 The declaration is a `theorem` named `firstOrder_complexity_lower_bound_reference`. It has no parameters, no hypotheses, and no variables bound by binders: its type is a single closed proposition, namely the equality
 
-\[
+$$
 \texttt{citedFirstOrderComplexityLowerBoundSource}
 =
 \text{“A. S. Nemirovskii and D. B. Yudin, Complexity of problems and efficiency of optimization methods, Nauka, Moscow, 1979 (Russian).”}
-\]
+$$
 
 Both sides of this equality are terms of the type `String` (Lean's type of character strings), so the equality is the propositional equality of `String`, not a numerical or set-theoretic statement. The left-hand side is the identifier `citedFirstOrderComplexityLowerBoundSource`, an already-defined constant of the environment; the right-hand side is a string literal, i.e., a concrete element of `String`. Because the declaration has no hypotheses and no universal quantifiers, there is nothing to assume and nothing to instantiate: the statement is simply that the value denoted by the identifier `citedFirstOrderComplexityLowerBoundSource` is that particular bibliographic string.
 
@@ -27,7 +27,7 @@ rfl
 ```
 
 ## Proof explanation
-The proof is the single tactic `rfl`. In Lean, `rfl` is the reflexivity constructor for equality: it proves goals of the form \(a = a\), and when the goal is \(a = b\), the elaborator attempts to unify \(b\) with \(a\) not merely up to propositional equality but up to definitional equality. This means Lean is permitted to unfold definitions of the constants occurring in the two sides (delta reduction), substitute defined values and perform the accompanying beta, iota, and zeta reductions, and then check whether the resulting two terms are syntactically the same.
+The proof is the single tactic `rfl`. In Lean, `rfl` is the reflexivity constructor for equality: it proves goals of the form $a = a$, and when the goal is $a = b$, the elaborator attempts to unify $b$ with $a$ not merely up to propositional equality but up to definitional equality. This means Lean is permitted to unfold definitions of the constants occurring in the two sides (delta reduction), substitute defined values and perform the accompanying beta, iota, and zeta reductions, and then check whether the resulting two terms are syntactically the same.
 
 Consequently, the fact that `rfl` succeeds here is itself the mathematical information supplied by the proof: the constant `citedFirstOrderComplexityLowerBoundSource` definitionally reduces to precisely the string literal displayed on the right-hand side. If the two sides were only propositionally equal but not definitionally equal — for instance if proving the equality required appealing to a decision procedure on strings such as `String.decEq`, or to `simp`, or to a rewriting lemma — then `rfl` alone would not close the goal. The accepted `rfl` therefore certifies that the equality holds by definition, with no auxiliary fact used.
 

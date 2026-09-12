@@ -9,15 +9,19 @@ recall ERealFunction.subdifferential
 ## Statement explanation
 The declaration is a recall item rather than a theorem. It introduces no variables, hypotheses, or conclusion of its own. Its entire content is a reference to the existing object named `ERealFunction.subdifferential`. Mathematically, this object is the subdifferential of an extended-real-valued function.
 
-In the standard mathematical reading of that name, one considers a real inner product space \(E\) and a function
-\[
+In the standard mathematical reading of that name, one considers a real inner product space $E$ and a function
+
+$$
 f : E \to \overline{\mathbb R},
-\]
-where \(\overline{\mathbb R}\) is the extended real line. For a point \(x \in E\), the subdifferential \(\partial f(x)\) is the set of all vectors \(y \in E\) such that
-\[
+$$
+
+where $\overline{\mathbb R}$ is the extended real line. For a point $x \in E$, the subdifferential $\partial f(x)$ is the set of all vectors $y \in E$ such that
+
+$$
 f(x) + \langle y, z - x \rangle \le f(z)
-\]
-for every \(z \in E\). Here the addition and order are those of \(\overline{\mathbb R}\), and \(\langle \cdot, \cdot \rangle\) is the real inner product on \(E\). Thus the recalled declaration specifies the set of subgradients of \(f\) at \(x\).
+$$
+
+for every $z \in E$. Here the addition and order are those of $\overline{\mathbb R}$, and $\langle \cdot, \cdot \rangle$ is the real inner product on $E$. Thus the recalled declaration specifies the set of subgradients of $f$ at $x$.
 
 The provided source does not display the exact Lean signature or body of `ERealFunction.subdifferential`, so the precise typeclass assumptions and the exact Lean notation are not visible in this snippet. The only exact mathematical consequence visible from the source is that the item recalls this subdifferential construction; it adds no new assumptions or goals.
 

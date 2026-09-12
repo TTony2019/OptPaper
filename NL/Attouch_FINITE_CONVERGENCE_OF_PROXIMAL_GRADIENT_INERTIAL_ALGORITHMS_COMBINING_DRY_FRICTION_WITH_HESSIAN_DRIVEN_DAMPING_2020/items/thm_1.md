@@ -23,37 +23,48 @@ theorem IPAHDD_finiteLength_and_critical {H : Type*} [NormedAddCommGroup H] [Inn
 ```
 
 ## Statement explanation
-The theorem is stated in a real Hilbert space \(H\). The data are two functions \(f,\phi:H\to\mathbb R\), real parameters \(h,\gamma,\beta,L,r\), a dry-friction hypothesis `hdf : DF_r phi r`, and an algorithm trajectory `alg : IPAHDD ...`. The hypothesis `DF_r phi r` supplies exactly the facts used later: \(\phi\) extended to extended-real values lies in \(\Gamma_0(H)\), meaning it is convex and lower semicontinuous; \(\phi(0)=0\); \(r>0\); the open ball \(B(0,r)\) is contained in the subdifferential \(\partial\phi(0)\); and \(\phi\) is continuous. The theorem also assumes that \(f\) is \(C^1\), that its gradient is \(L\)-Lipschitz, that \(L\ge0\), that \(f\) is bounded below, that \(h>0\), \(\gamma>0\), \(\beta>0\), and that the damping inequality
-\[
-\gamma \ge L\left(\frac h2+\beta\right)
-\]
-holds. The algorithm `alg` is an IPAHDD trajectory for \(f\) and \(\phi\); the proof below uses only the shifted recurrence supplied by `IPAHDD_shifted_recurrence`.
+The theorem is stated in a real Hilbert space $H$. The data are two functions $f,\phi:H\to\mathbb R$, real parameters $h,\gamma,\beta,L,r$, a dry-friction hypothesis `hdf : DF_r phi r`, and an algorithm trajectory `alg : IPAHDD ...`. The hypothesis `DF_r phi r` supplies exactly the facts used later: $\phi$ extended to extended-real values lies in $\Gamma_0(H)$, meaning it is convex and lower semicontinuous; $\phi(0)=0$; $r>0$; the open ball $B(0,r)$ is contained in the subdifferential $\partial\phi(0)$; and $\phi$ is continuous. The theorem also assumes that $f$ is $C^1$, that its gradient is $L$-Lipschitz, that $L\ge0$, that $f$ is bounded below, that $h>0$, $\gamma>0$, $\beta>0$, and that the damping inequality
 
-The conclusion asserts the existence of a limit point \(x_\infty\) and of a number \(E_1\) such that
-\[
+$$
+\gamma \ge L\left(\frac h2+\beta\right)
+$$
+
+holds. The algorithm `alg` is an IPAHDD trajectory for $f$ and $\phi$; the proof below uses only the shifted recurrence supplied by `IPAHDD_shifted_recurrence`.
+
+The conclusion asserts the existence of a limit point $x_\infty$ and of a number $E_1$ such that
+
+$$
 E_1=\frac12\left\|\frac1h(x_1-x_0)\right\|^2+f(x_1)-\operatorname{sInf}(\operatorname{range}f).
-\]
-Here \(x_k\) denotes the trajectory `alg.x k`, and \(\operatorname{sInf}(\operatorname{range}f)\) is the infimum of \(f\) over \(H\). The theorem then states:
+$$
+
+Here $x_k$ denotes the trajectory `alg.x k`, and $\operatorname{sInf}(\operatorname{range}f)$ is the infimum of $f$ over $H$. The theorem then states:
 
 - the trajectory has finite length, i.e.
-\[
+
+$$
 \sum_{k=0}^{\infty}\|x_{k+1}-x_k\|<\infty;
-\]
-- \(x_k\to x_\infty\);
-- \(x_\infty\) is dry-friction critical, meaning
-\[
+$$
+
+- $x_k\to x_\infty$;
+- $x_\infty$ is dry-friction critical, meaning
+
+$$
 -\nabla f(x_\infty)\in\partial\phi(0);
-\]
-- the total variation after index \(1\) is bounded by
-\[
+$$
+
+- the total variation after index $1$ is bounded by
+
+$$
 \sum_{k=1}^{\infty}\|x_{k+1}-x_k\|
 \le \frac1r\left(E_1+\frac{\beta L}{2h}\|x_1-x_0\|^2\right);
-\]
+$$
+
 - the total squared second difference is bounded by
-\[
+
+$$
 \sum_{k=1}^{\infty}\|x_{k+1}-2x_k+x_{k-1}\|^2
 \le 2h^2\left(E_1+\frac{\beta L}{2h}\|x_1-x_0\|^2\right).
-\]
+$$
 
 Thus the statement says that an IPAHDD trajectory with dry friction and Hessian-driven damping has finite length, converges, has a critical limit, and satisfies explicit quantitative bounds on its total variation and total squared acceleration.
 
@@ -471,235 +482,314 @@ by
 
 ## Proof explanation
 The proof has no `intro` step, because all variables and hypotheses are already explicit in the theorem statement. It begins by defining the discrete velocity and difference sequences
-\[
+
+$$
 d_k=x_{k+1}-x_k,\qquad v_k=\frac1h d_k.
-\]
-The tactic `let` introduces these abbreviations. The hypothesis `hpositive` is split by `rcases` into \(h>0\), \(\gamma>0\), and \(\beta>0\). Several elementary positivity facts are recorded: \(1+h\gamma>0\), \(h/(1+h\gamma)>0\), and
-\[
+$$
+
+The tactic `let` introduces these abbreviations. The hypothesis `hpositive` is split by `rcases` into $h>0$, $\gamma>0$, and $\beta>0$. Several elementary positivity facts are recorded: $1+h\gamma>0$, $h/(1+h\gamma)>0$, and
+
+$$
 c:=\frac{\beta L}{2h}\ge0.
-\]
-The latter follows from \(\beta>0\), \(L\ge0\), and \(h>0\). The proof also records two gradient facts. The theorem `hasFDerivAt_gradient` says that if \(f\) is \(C^1\), then at every \(z\) the Fréchet derivative of \(f\) at \(z\) is the continuous linear functional \(w\mapsto\langle\nabla f(z),w\rangle\). The theorem `continuous_gradient_of_contDiff` says that if \(f\) is \(C^1\), then \(\nabla f\) is continuous; this continuity is used later to pass gradient limits through the convergence of \(x_k\).
+$$
 
-The dry-friction hypothesis is converted into a global linear lower bound. The theorem `subgradient_ball_exact_linear_lower_bound` states that if \(\phi(0)=0\), \(r>0\), and \(B(0,r)\subseteq\partial\phi(0)\), then
-\[
+The latter follows from $\beta>0$, $L\ge0$, and $h>0$. The proof also records two gradient facts. The theorem `hasFDerivAt_gradient` says that if $f$ is $C^1$, then at every $z$ the Fréchet derivative of $f$ at $z$ is the continuous linear functional $w\mapsto\langle\nabla f(z),w\rangle$. The theorem `continuous_gradient_of_contDiff` says that if $f$ is $C^1$, then $\nabla f$ is continuous; this continuity is used later to pass gradient limits through the convergence of $x_k$.
+
+The dry-friction hypothesis is converted into a global linear lower bound. The theorem `subgradient_ball_exact_linear_lower_bound` states that if $\phi(0)=0$, $r>0$, and $B(0,r)\subseteq\partial\phi(0)$, then
+
+$$
 r\|u\|\le \phi(u)\qquad\text{for all }u\in H.
-\]
-The proof applies this using the fields `hdf.value_at_zero`, `hdf.radius_pos`, and `hdf.ball_subset`, obtaining
-\[
-\forall u,\qquad r\|u\|\le\phi(u).
-\]
-Mathematically, the reason is that \(s\in\partial\phi(0)\) means \(\phi(u)\ge\phi(0)+\langle u,s\rangle=\langle u,s\rangle\) for all \(u\); taking the supremum over all \(s\in B(0,r)\) gives the lower bound \(r\|u\|\le\phi(u)\).
+$$
 
-Next the proof invokes the shifted recurrence. The theorem `IPAHDD_shifted_recurrence` gives, for each \(k\), the existence of a vector \(q\) such that
-\[
+The proof applies this using the fields `hdf.value_at_zero`, `hdf.radius_pos`, and `hdf.ball_subset`, obtaining
+
+$$
+\forall u,\qquad r\|u\|\le\phi(u).
+$$
+
+Mathematically, the reason is that $s\in\partial\phi(0)$ means $\phi(u)\ge\phi(0)+\langle u,s\rangle=\langle u,s\rangle$ for all $u$; taking the supremum over all $s\in B(0,r)$ gives the lower bound $r\|u\|\le\phi(u)$.
+
+Next the proof invokes the shifted recurrence. The theorem `IPAHDD_shifted_recurrence` gives, for each $k$, the existence of a vector $q$ such that
+
+$$
 q\in\partial\phi\!\left(v_{k+1}\right)
-\]
+$$
+
 and
-\[
+
+$$
 v_{k+1}-v_k+\gamma d_{k+1}+h q
 +\beta\bigl(\nabla f(x_{k+1})-\nabla f(x_k)\bigr)
 +h\nabla f(x_{k+1})=0.
-\]
-This is exactly the algorithmic recurrence expressed in the variables \(d_k\) and \(v_k\). The tactic `simpa` rewrites the statement from the library lemma into these local abbreviations.
+$$
 
-The descent inequality comes from `smooth_descent_of_fderiv_lipschitz`. It states that if \(f\) is \(C^1\) and \(\nabla f\) is \(L\)-Lipschitz, then
-\[
+This is exactly the algorithmic recurrence expressed in the variables $d_k$ and $v_k$. The tactic `simpa` rewrites the statement from the library lemma into these local abbreviations.
+
+The descent inequality comes from `smooth_descent_of_fderiv_lipschitz`. It states that if $f$ is $C^1$ and $\nabla f$ is $L$-Lipschitz, then
+
+$$
 f(y)\le f(x)+\langle\nabla f(x),y-x\rangle+\frac L2\|y-x\|^2.
-\]
-The proof records this for arbitrary \(x,y\), and later specializes it to \(x=x_{k+1}\), \(y=x_{k+2}\). In that specialization it becomes
-\[
+$$
+
+The proof records this for arbitrary $x,y$, and later specializes it to $x=x_{k+1}$, $y=x_{k+2}$. In that specialization it becomes
+
+$$
 f(x_{k+2})-f(x_{k+1})-\frac L2\|d_{k+1}\|^2
 \le \langle\nabla f(x_{k+1}),d_{k+1}\rangle.
-\]
+$$
 
-The first major energy estimate is called `hraw`. Starting from the recurrence, the proof takes the inner product of both sides with \(v_{k+1}\). The identity `inner_sub_self_energy_identity` gives
-\[
+The first major energy estimate is called `hraw`. Starting from the recurrence, the proof takes the inner product of both sides with $v_{k+1}$. The identity `inner_sub_self_energy_identity` gives
+
+$$
 \langle v_{k+1}-v_k,v_{k+1}\rangle
 =\frac12\|v_{k+1}\|^2-\frac12\|v_k\|^2+\frac12\|v_{k+1}-v_k\|^2.
-\]
-Since \(d_k=h v_k\), the damping term becomes
-\[
+$$
+
+Since $d_k=h v_k$, the damping term becomes
+
+$$
 \langle \gamma d_{k+1},v_{k+1}\rangle
 =\gamma h\|v_{k+1}\|^2.
-\]
-Also \(d_{k+1}=h v_{k+1}\), so
-\[
+$$
+
+Also $d_{k+1}=h v_{k+1}$, so
+
+$$
 \langle h\nabla f(x_{k+1}),v_{k+1}\rangle
 =\langle\nabla f(x_{k+1}),d_{k+1}\rangle.
-\]
-The subgradient membership \(q\in\partial\phi(v_{k+1})\) is used at the point \(0\):
-\[
+$$
+
+The subgradient membership $q\in\partial\phi(v_{k+1})$ is used at the point $0$:
+
+$$
 \langle 0-v_{k+1},q\rangle+\phi(v_{k+1})\le\phi(0)=0,
-\]
+$$
+
 so
-\[
+
+$$
 \phi(v_{k+1})\le\langle q,v_{k+1}\rangle.
-\]
-Multiplying by \(h>0\) gives \(h\phi(v_{k+1})\le h\langle q,v_{k+1}\rangle\). Therefore, replacing the \(h\langle q,v_{k+1}\rangle\) term in the scalar equality by the smaller term \(h\phi(v_{k+1})\), the proof obtains
-\[
+$$
+
+Multiplying by $h>0$ gives $h\phi(v_{k+1})\le h\langle q,v_{k+1}\rangle$. Therefore, replacing the $h\langle q,v_{k+1}\rangle$ term in the scalar equality by the smaller term $h\phi(v_{k+1})$, the proof obtains
+
+$$
 \frac12\|v_{k+1}\|^2-\frac12\|v_k\|^2
 +\frac12\|v_{k+1}-v_k\|^2
 +\gamma h\|v_{k+1}\|^2
 +h\phi(v_{k+1})
-\]
-\[
+$$
+
+$$
 +\beta\langle\nabla f(x_{k+1})-\nabla f(x_k),v_{k+1}\rangle
 +\langle\nabla f(x_{k+1}),d_{k+1}\rangle\le0.
-\]
+$$
+
 This is the estimate `hraw`.
 
 From the dry-friction bound one gets a friction estimate for the difference sequence:
-\[
+
+$$
 r\|d_{k+1}\|\le h\phi(v_{k+1}).
-\]
-Indeed \(r\|v_{k+1}\|\le\phi(v_{k+1})\), and \(d_{k+1}=h v_{k+1}\), so
-\[
+$$
+
+Indeed $r\|v_{k+1}\|\le\phi(v_{k+1})$, and $d_{k+1}=h v_{k+1}$, so
+
+$$
 r\|d_{k+1}\|=r h\|v_{k+1}\|\le h\phi(v_{k+1}).
-\]
+$$
+
 This is `hfric`.
 
-The cross term involving \(\nabla f(x_{k+1})-\nabla f(x_k)\) is bounded above and below. The upper bound `hcross` uses Cauchy–Schwarz,
-\[
+The cross term involving $\nabla f(x_{k+1})-\nabla f(x_k)$ is bounded above and below. The upper bound `hcross` uses Cauchy–Schwarz,
+
+$$
 \langle\nabla f(x_{k+1})-\nabla f(x_k),v_{k+1}\rangle
 \le \|\nabla f(x_{k+1})-\nabla f(x_k)\|\|v_{k+1}\|,
-\]
+$$
+
 and the Lipschitz hypothesis, which gives
-\[
+
+$$
 \|\nabla f(x_{k+1})-\nabla f(x_k)\|
 \le L\|x_{k+1}-x_k\|=L\|d_k\|.
-\]
-Since \(\|v_{k+1}\|=\|d_{k+1}\|/h\), this yields a bound by
-\[
+$$
+
+Since $\|v_{k+1}\|=\|d_{k+1}\|/h$, this yields a bound by
+
+$$
 \frac{\beta L}{h}\|d_k\|\|d_{k+1}\|.
-\]
-Young’s inequality \(2ab\le a^2+b^2\) then gives
-\[
+$$
+
+Young’s inequality $2ab\le a^2+b^2$ then gives
+
+$$
 \beta\langle\nabla f(x_{k+1})-\nabla f(x_k),v_{k+1}\rangle
 \le c(\|d_k\|^2+\|d_{k+1}\|^2),
 \qquad c=\frac{\beta L}{2h}.
-\]
+$$
+
 The lower bound `hcross_lower` is proved similarly, using
-\[
+
+$$
 |\langle u,w\rangle|\le\|u\|\|w\|
-\]
+$$
+
 to get
-\[
+
+$$
 -c(\|d_k\|^2+\|d_{k+1}\|^2)
 \le
 \beta\langle\nabla f(x_{k+1})-\nabla f(x_k),v_{k+1}\rangle.
-\]
+$$
+
 This lower bound is the one used in the Lyapunov inequality.
 
 The proof then defines
-\[
+
+$$
 E_k=\frac12\|v_k\|^2+f(x_{k+1})-\operatorname{sInf}(\operatorname{range}f),
 \qquad
 M_k=E_k+c\|d_k\|^2.
-\]
-The bounded-below hypothesis on \(f\) makes \(\operatorname{range}f\) bounded below, so \(\operatorname{sInf}(\operatorname{range}f)\le f(x_{k+1})\). Hence \(E_k\ge0\), and since \(c\ge0\), also \(M_k\ge0\). The damping condition \(\gamma\ge L(h/2+\beta)\) is rewritten as
-\[
+$$
+
+The bounded-below hypothesis on $f$ makes $\operatorname{range}f$ bounded below, so $\operatorname{sInf}(\operatorname{range}f)\le f(x_{k+1})$. Hence $E_k\ge0$, and since $c\ge0$, also $M_k\ge0$. The damping condition $\gamma\ge L(h/2+\beta)$ is rewritten as
+
+$$
 c\le \frac{\gamma}{h}-\frac L2-c.
-\]
-Indeed, multiplying by \(h>0\), this is equivalent to
-\[
+$$
+
+Indeed, multiplying by $h>0$, this is equivalent to
+
+$$
 \gamma\ge L\left(\frac h2+\beta\right).
-\]
+$$
 
 The proof also expresses the second difference of the trajectory:
-\[
+
+$$
 d_{k+1}-d_k=x_{k+2}-2x_{k+1}+x_k.
-\]
-Since \(v_{k+1}-v_k=(1/h)(d_{k+1}-d_k)\),
-\[
+$$
+
+Since $v_{k+1}-v_k=(1/h)(d_{k+1}-d_k)$,
+
+$$
 \frac12\|v_{k+1}-v_k\|^2
 =
 \frac{1}{2h^2}\|x_{k+2}-2x_{k+1}+x_k\|^2.
-\]
+$$
 
 Combining `hraw`, `hfric`, `hcross_lower`, and the descent inequality gives the intermediate inequality
-\[
+
+$$
 E_{k+1}-E_k+\frac12\|v_{k+1}-v_k\|^2
 +\left(\frac{\gamma}{h}-\frac L2-c\right)\|d_{k+1}\|^2
 +r\|d_{k+1}\|
 \le c\|d_k\|^2.
-\]
-Using \(c\le \gamma/h-L/2-c\), one replaces \(c\|d_{k+1}\|^2\) by the larger coefficient term. The resulting Lyapunov inequality is
-\[
+$$
+
+Using $c\le \gamma/h-L/2-c$, one replaces $c\|d_{k+1}\|^2$ by the larger coefficient term. The resulting Lyapunov inequality is
+
+$$
 M_{k+1}-M_k
 +\frac{1}{2h^2}\|x_{k+2}-2x_{k+1}+x_k\|^2
 +r\|d_{k+1}\|\le0.
-\]
+$$
+
 This is `hstep`.
 
-Summing `hstep` from \(k=0\) to \(N-1\) gives the telescoping estimate
-\[
+Summing `hstep` from $k=0$ to $N-1$ gives the telescoping estimate
+
+$$
 M_N+\sum_{k=0}^{N-1}
 \left(
 \frac{1}{2h^2}\|x_{k+2}-2x_{k+1}+x_k\|^2
 +r\|d_{k+1}\|
 \right)\le M_0.
-\]
-The proof proves this by induction on \(N\), using `Finset.sum_range_succ` and `linarith` to handle the algebraic telescoping. Because both summands are nonnegative, this yields two partial-sum bounds:
-\[
+$$
+
+The proof proves this by induction on $N$, using `Finset.sum_range_succ` and `linarith` to handle the algebraic telescoping. Because both summands are nonnegative, this yields two partial-sum bounds:
+
+$$
 \sum_{k=0}^{N-1}\|d_{k+1}\|\le \frac{M_0}{r},
 \qquad
 \sum_{k=0}^{N-1}
 \|x_{k+2}-2x_{k+1}+x_k\|^2
 \le 2h^2 M_0.
-\]
-The division by \(r\) is legitimate because \(r>0\). The theorem `summable_of_sum_range_le` then gives summability of the nonnegative sequences
-\[
+$$
+
+The division by $r$ is legitimate because $r>0$. The theorem `summable_of_sum_range_le` then gives summability of the nonnegative sequences
+
+$$
 k\mapsto\|d_{k+1}\|,
 \qquad
 k\mapsto\|x_{k+2}-2x_{k+1}+x_k\|^2.
-\]
+$$
+
 The theorem `summable_real_of_summable_real_succ` upgrades the first summability to
-\[
+
+$$
 \sum_{k=0}^{\infty}\|d_k\|<\infty.
-\]
-Since \(d_k=x_{k+1}-x_k\), this is exactly `HasFiniteLength alg.x`. The theorem `finite_length_tendsto` then applies: in a complete normed space, a sequence whose successive differences are absolutely summable converges. Hence there exists \(x_\infty\) with \(x_k\to x_\infty\).
+$$
+
+Since $d_k=x_{k+1}-x_k$, this is exactly `HasFiniteLength alg.x`. The theorem `finite_length_tendsto` then applies: in a complete normed space, a sequence whose successive differences are absolutely summable converges. Hence there exists $x_\infty$ with $x_k\to x_\infty$.
 
 The proof defines
-\[
+
+$$
 E_1=\frac12\left\|\frac1h(x_1-x_0)\right\|^2
 +f(x_1)-\operatorname{sInf}(\operatorname{range}f).
-\]
-This is the same as \(E_0\) in the Lyapunov notation, because \(v_0=(1/h)(x_1-x_0)\). It also observes that
-\[
+$$
+
+This is the same as $E_0$ in the Lyapunov notation, because $v_0=(1/h)(x_1-x_0)$. It also observes that
+
+$$
 M_0=E_1+\frac{\beta L}{2h}\|x_1-x_0\|^2.
-\]
-Using `Real.tsum_le_of_sum_range_le`, the partial-sum bound for \(\|d_{k+1}\|\) becomes an infinite-sum bound:
-\[
+$$
+
+Using `Real.tsum_le_of_sum_range_le`, the partial-sum bound for $\|d_{k+1}\|$ becomes an infinite-sum bound:
+
+$$
 \sum_{k=0}^{\infty}\|d_{k+1}\|\le \frac{M_0}{r}.
-\]
-The theorem `tsum_subtype_succ_reindex` reindexes sums over the subtype \(\{k:\mathbb N\mid 1\le k\}\):
-\[
+$$
+
+The theorem `tsum_subtype_succ_reindex` reindexes sums over the subtype $\{k:\mathbb N\mid 1\le k\}$:
+
+$$
 \sum_{k=1}^{\infty}a_k=\sum_{n=0}^{\infty}a_{n+1}.
-\]
-Applying this with \(a_k=\|d_k\|\) gives
-\[
+$$
+
+Applying this with $a_k=\|d_k\|$ gives
+
+$$
 \sum_{k=1}^{\infty}\|x_{k+1}-x_k\|
 \le \frac{M_0}{r}
 =\frac1r\left(E_1+\frac{\beta L}{2h}\|x_1-x_0\|^2\right).
-\]
+$$
+
 Similarly, the partial-sum bound for the second difference becomes
-\[
+
+$$
 \sum_{k=1}^{\infty}\|x_{k+1}-2x_k+x_{k-1}\|^2
 \le 2h^2 M_0
 =2h^2\left(E_1+\frac{\beta L}{2h}\|x_1-x_0\|^2\right),
-\]
-using the same reindexing theorem and the identity \(k=n+1\).
+$$
 
-Finally the proof establishes criticality of the limit. Since \(\sum\|d_k\|<\infty\), the terms satisfy \(\|d_k\|\to0\), hence \(d_k\to0\). The theorem `tendsto_zero_iff_norm_tendsto_zero` converts the norm convergence to convergence of \(d_k\) to \(0\). Therefore \(v_k=(1/h)d_k\to0\), and also \(v_{k+1}\to0\) and \(v_{k+1}-v_k\to0\). Since \(x_k\to x_\infty\) and \(\nabla f\) is continuous, the gradients satisfy
-\[
+using the same reindexing theorem and the identity $k=n+1$.
+
+Finally the proof establishes criticality of the limit. Since $\sum\|d_k\|<\infty$, the terms satisfy $\|d_k\|\to0$, hence $d_k\to0$. The theorem `tendsto_zero_iff_norm_tendsto_zero` converts the norm convergence to convergence of $d_k$ to $0$. Therefore $v_k=(1/h)d_k\to0$, and also $v_{k+1}\to0$ and $v_{k+1}-v_k\to0$. Since $x_k\to x_\infty$ and $\nabla f$ is continuous, the gradients satisfy
+
+$$
 \nabla f(x_k)\to\nabla f(x_\infty),
 \qquad
 \nabla f(x_{k+1})\to\nabla f(x_\infty),
-\]
-so their difference tends to \(0\).
+$$
 
-For each \(k\), the recurrence provides a subgradient \(q_k\in\partial\phi(v_{k+1})\). The recurrence can be solved for \(h q_k\):
-\[
+so their difference tends to $0$.
+
+For each $k$, the recurrence provides a subgradient $q_k\in\partial\phi(v_{k+1})$. The recurrence can be solved for $h q_k$:
+
+$$
 h q_k
 =
 -\left(
@@ -707,20 +797,27 @@ v_{k+1}-v_k+\gamma d_{k+1}
 +\beta(\nabla f(x_{k+1})-\nabla f(x_k))
 +h\nabla f(x_{k+1})
 \right).
-\]
+$$
+
 Every term on the right tends to the corresponding limit, so the right-hand side tends to
-\[
+
+$$
 -h\nabla f(x_\infty).
-\]
-Dividing by \(h\neq0\) gives
-\[
+$$
+
+Dividing by $h\neq0$ gives
+
+$$
 q_k\to -\nabla f(x_\infty).
-\]
-The theorem `convex_subgradient_limit_at_zero` states that if \(\phi\) is continuous, \(u_n\to0\), \(q_n\to q_0\), and \(q_n\in\partial\phi(u_n)\) for every \(n\), then \(q_0\in\partial\phi(0)\). The proof applies this with \(u_k=v_{k+1}\), \(q_k=q_k\), and \(q_0=-\nabla f(x_\infty)\). Since \(\phi\) is continuous by `hdf.continuous`, and \(v_{k+1}\to0\), it concludes
-\[
+$$
+
+The theorem `convex_subgradient_limit_at_zero` states that if $\phi$ is continuous, $u_n\to0$, $q_n\to q_0$, and $q_n\in\partial\phi(u_n)$ for every $n$, then $q_0\in\partial\phi(0)$. The proof applies this with $u_k=v_{k+1}$, $q_k=q_k$, and $q_0=-\nabla f(x_\infty)$. Since $\phi$ is continuous by `hdf.continuous`, and $v_{k+1}\to0$, it concludes
+
+$$
 -\nabla f(x_\infty)\in\partial\phi(0),
-\]
+$$
+
 which is exactly `IsDryFrictionCritical phi f xInf`.
 
-The final `exact` assembles the limit point \(x_\infty\), the number \(E_1\), the defining equality for \(E_1\), finite length, convergence, dry-friction criticality, and the two quantitative series bounds.
+The final `exact` assembles the limit point $x_\infty$, the number $E_1$, the defining equality for $E_1$, finite length, convergence, dry-friction criticality, and the two quantitative series bounds.
 

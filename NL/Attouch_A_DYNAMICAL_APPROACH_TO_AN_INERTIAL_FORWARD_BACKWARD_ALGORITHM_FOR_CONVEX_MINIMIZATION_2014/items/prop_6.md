@@ -18,48 +18,63 @@ theorem proposition12 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ 
 ```
 
 ## Statement explanation
-Let \(H\) be a complete real inner product space, i.e. a real Hilbert space. The theorem has two real-valued functions and one vector field: \(\phi : H \to \overline{\mathbb R}\) takes values in the extended reals, \(\psi : H \to \mathbb R\) is finite-valued, and \(g := \operatorname{gradPsi} : H \to H\) is the map denoted `gradPsi`. It also has real parameters \(a,b,\lambda\), two sequences \(u=(u_k)_{k\in\mathbb N}\) and \(y=(y_k)_{k\in\mathbb N}\) in \(H\), a point \(u_\infty \in H\), and a continuity hypothesis \(g\) continuous.
+Let $H$ be a complete real inner product space, i.e. a real Hilbert space. The theorem has two real-valued functions and one vector field: $\phi : H \to \overline{\mathbb R}$ takes values in the extended reals, $\psi : H \to \mathbb R$ is finite-valued, and $g := \operatorname{gradPsi} : H \to H$ is the map denoted `gradPsi`. It also has real parameters $a,b,\lambda$, two sequences $u=(u_k)_{k\in\mathbb N}$ and $y=(y_k)_{k\in\mathbb N}$ in $H$, a point $u_\infty \in H$, and a continuity hypothesis $g$ continuous.
 
-The hypothesis `IsIFBTrajectory phi psi gradPsi a b lam u y` says that \((u,y)\) is an inertial forward-backward trajectory associated with \(\phi,\psi,g,a,b,\lambda\). The complete definition of this predicate is not shown, but the proof uses only the following consequences of it: \(b>0\), \(\lambda>0\), and, for every \(k\), the second update equation
-\[
+The hypothesis `IsIFBTrajectory phi psi gradPsi a b lam u y` says that $(u,y)$ is an inertial forward-backward trajectory associated with $\phi,\psi,g,a,b,\lambda$. The complete definition of this predicate is not shown, but the proof uses only the following consequences of it: $b>0$, $\lambda>0$, and, for every $k$, the second update equation
+
+$$
 \frac1\lambda (y_{k+1}-y_k)+g(u_{k+1})-a u_{k+1}+b y_{k+1}=0.
-\]
-The ordinary continuity hypothesis is \(g\) continuous.
+$$
+
+The ordinary continuity hypothesis is $g$ continuous.
 
 The conclusion is a conjunction of two conditional statements.
 
 First, if
-\[
+
+$$
 u_k \rightharpoonup u_\infty
-\]
-weakly, and if \(g\) is weak-to-weak sequentially continuous, then there exists \(y_\infty\in H\) such that
-\[
+$$
+
+weakly, and if $g$ is weak-to-weak sequentially continuous, then there exists $y_\infty\in H$ such that
+
+$$
 y_k \rightharpoonup y_\infty
-\]
+$$
+
 weakly and
-\[
+
+$$
 g(u_\infty)-a u_\infty+b y_\infty=0.
-\]
-Here weak convergence \(u_k\rightharpoonup u_\infty\) is encoded in Lean by convergence of `toWeakSpace ℝ H (u k)` to `toWeakSpace ℝ H uLimit`.
+$$
+
+Here weak convergence $u_k\rightharpoonup u_\infty$ is encoded in Lean by convergence of `toWeakSpace ℝ H (u k)` to `toWeakSpace ℝ H uLimit`.
 
 Second, if
-\[
+
+$$
 u_k \to u_\infty
-\]
-strongly, i.e. in norm, then there exists \(y_\infty\in H\) such that
-\[
+$$
+
+strongly, i.e. in norm, then there exists $y_\infty\in H$ such that
+
+$$
 y_k \to y_\infty
-\]
+$$
+
 strongly and the same limiting equation
-\[
+
+$$
 g(u_\infty)-a u_\infty+b y_\infty=0
-\]
+$$
+
 holds.
 
-Thus the theorem says that either weak convergence of \(u_k\) plus weak-to-weak sequential continuity of \(g\), or strong convergence of \(u_k\) plus ordinary continuity of \(g\), forces the second sequence \(y_k\) to converge in the corresponding topology, and the limit satisfies the limiting first-order condition obtained from the trajectory equation. Since \(b>0\), this equation determines \(y_\infty\) uniquely as
-\[
+Thus the theorem says that either weak convergence of $u_k$ plus weak-to-weak sequential continuity of $g$, or strong convergence of $u_k$ plus ordinary continuity of $g$, forces the second sequence $y_k$ to converge in the corresponding topology, and the limit satisfies the limiting first-order condition obtained from the trajectory equation. Since $b>0$, this equation determines $y_\infty$ uniquely as
+
+$$
 y_\infty=b^{-1}\bigl(a u_\infty-g(u_\infty)\bigr).
-\]
+$$
 
 ## Lean proof
 ```lean
@@ -187,181 +202,250 @@ by
 ```
 
 ## Proof explanation
-The proof begins by extracting the positivity and recurrence information from the trajectory hypothesis. It obtains \(b>0\) and \(\lambda>0\), hence \(b\neq 0\) and \(\lambda\neq 0\). It then defines
-\[
+The proof begins by extracting the positivity and recurrence information from the trajectory hypothesis. It obtains $b>0$ and $\lambda>0$, hence $b\neq 0$ and $\lambda\neq 0$. It then defines
+
+$$
 \eta=(1+\lambda b)^{-1}.
-\]
-Because \(b>0\) and \(\lambda>0\), we have \(1+\lambda b>1\), so
-\[
+$$
+
+Because $b>0$ and $\lambda>0$, we have $1+\lambda b>1$, so
+
+$$
 0<\eta<1.
-\]
-This \(\eta\) is the contraction factor that will be used in the recurrence estimates. In Lean, the positivity of \(1+\lambda b\) is proved by `nlinarith` from \(\lambda b>0\), and the fact that \(\eta<1\) is proved by rewriting with `inv_lt_one₀`.
+$$
+
+This $\eta$ is the contraction factor that will be used in the recurrence estimates. In Lean, the positivity of $1+\lambda b$ is proved by `nlinarith` from $\lambda b>0$, and the fact that $\eta<1$ is proved by rewriting with `inv_lt_one₀`.
 
 Next the proof defines the candidate limit
-\[
+
+$$
 y_\infty=b^{-1}\bigl(a u_\infty-g(u_\infty)\bigr).
-\]
+$$
+
 It then proves the equilibrium relation
-\[
+
+$$
 g(u_\infty)-a u_\infty+b y_\infty=0.
-\]
-Indeed, multiplying \(y_\infty\) by \(b\) gives \(b y_\infty=a u_\infty-g(u_\infty)\), and adding \(g(u_\infty)-a u_\infty\) gives zero. In Lean this algebra is done by expanding the definition of `yLim`, rewriting scalar multiplication, clearing the denominator with `field_simp` using \(b\neq 0\), and solving the resulting linear equation with `module`.
+$$
+
+Indeed, multiplying $y_\infty$ by $b$ gives $b y_\infty=a u_\infty-g(u_\infty)$, and adding $g(u_\infty)-a u_\infty$ gives zero. In Lean this algebra is done by expanding the definition of `yLim`, rewriting scalar multiplication, clearing the denominator with `field_simp` using $b\neq 0$, and solving the resulting linear equation with `module`.
 
 The proof then introduces an auxiliary sequence
-\[
+
+$$
 w_k=b^{-1}\bigl(a u_{k+1}-g(u_{k+1})\bigr).
-\]
+$$
+
 It immediately records that
-\[
+
+$$
 b w_k=a u_{k+1}-g(u_{k+1}),
-\]
+$$
+
 or equivalently
-\[
+
+$$
 g(u_{k+1})-a u_{k+1}=-b w_k.
-\]
-This \(w_k\) is the vector that would be obtained from the limiting equation if \(u_\infty\) were replaced by \(u_{k+1}\).
+$$
+
+This $w_k$ is the vector that would be obtained from the limiting equation if $u_\infty$ were replaced by $u_{k+1}$.
 
 The key recurrence is then derived from the second update equation. Starting from
-\[
+
+$$
 \frac1\lambda (y_{k+1}-y_k)+g(u_{k+1})-a u_{k+1}+b y_{k+1}=0
-\]
-and substituting \(g(u_{k+1})-a u_{k+1}=-b w_k\), one obtains
-\[
+$$
+
+and substituting $g(u_{k+1})-a u_{k+1}=-b w_k$, one obtains
+
+$$
 \frac1\lambda (y_{k+1}-y_k)-b w_k+b y_{k+1}=0.
-\]
-Multiplying by \(\lambda\) gives
-\[
+$$
+
+Multiplying by $\lambda$ gives
+
+$$
 y_{k+1}-y_k+\lambda b(y_{k+1}-w_k)=0,
-\]
+$$
+
 hence
-\[
+
+$$
 (1+\lambda b)y_{k+1}=y_k+\lambda b w_k.
-\]
+$$
+
 Also
-\[
+
+$$
 (1+\lambda b)y_\infty=y_\infty+\lambda b y_\infty.
-\]
-Subtracting these two identities and multiplying by \(\eta=(1+\lambda b)^{-1}\) yields the recurrence
-\[
+$$
+
+Subtracting these two identities and multiplying by $\eta=(1+\lambda b)^{-1}$ yields the recurrence
+
+$$
 y_{k+1}-y_\infty
 =
 \eta (y_k-y_\infty)+\lambda b\eta (w_k-y_\infty).
-\]
+$$
+
 This is the central estimate used in both parts of the theorem. In Lean, this is the long `have hrec` block, using `convert`, `simp`, `abel`, `field_simp`, and `module` to perform the vector-space algebra.
 
 After this, the proof splits the conjunction with `constructor`.
 
 In the first branch, it assumes the pair of hypotheses
-\[
+
+$$
 u_k\rightharpoonup u_\infty
-\]
-and that \(g\) is weak-to-weak sequentially continuous. The proof first shifts the sequence: since \(k\mapsto k+1\) tends to infinity, \(u_{k+1}\rightharpoonup u_\infty\). This uses the lemma `Filter.tendsto_add_atTop_nat 1`. Applying the weak-to-weak sequential continuity hypothesis to this shifted weakly convergent sequence gives
-\[
+$$
+
+and that $g$ is weak-to-weak sequentially continuous. The proof first shifts the sequence: since $k\mapsto k+1$ tends to infinity, $u_{k+1}\rightharpoonup u_\infty$. This uses the lemma `Filter.tendsto_add_atTop_nat 1`. Applying the weak-to-weak sequential continuity hypothesis to this shifted weakly convergent sequence gives
+
+$$
 g(u_{k+1})\rightharpoonup g(u_\infty).
-\]
-The proof then shows that the auxiliary sequence \(w_k\) converges weakly to \(y_\infty\). It uses the characterization
-\[
+$$
+
+The proof then shows that the auxiliary sequence $w_k$ converges weakly to $y_\infty$. It uses the characterization
+
+$$
 \xi_k\rightharpoonup \xi
 \quad\Longleftrightarrow\quad
 \forall v,\ \langle \xi_k,v\rangle \to \langle \xi,v\rangle,
-\]
-which is the content of `weakConvergence_iff_forall_tendsto_inner_right`. For every \(v\in H\), the inner product \(\langle u_{k+1},v\rangle\) tends to \(\langle u_\infty,v\rangle\), and \(\langle g(u_{k+1}),v\rangle\) tends to \(\langle g(u_\infty),v\rangle\). Therefore
-\[
+$$
+
+which is the content of `weakConvergence_iff_forall_tendsto_inner_right`. For every $v\in H$, the inner product $\langle u_{k+1},v\rangle$ tends to $\langle u_\infty,v\rangle$, and $\langle g(u_{k+1}),v\rangle$ tends to $\langle g(u_\infty),v\rangle$. Therefore
+
+$$
 \langle w_k,v\rangle
 =
 b^{-1}\bigl(a\langle u_{k+1},v\rangle-\langle g(u_{k+1}),v\rangle\bigr)
-\]
+$$
+
 tends to
-\[
+
+$$
 b^{-1}\bigl(a\langle u_\infty,v\rangle-\langle g(u_\infty),v\rangle\bigr)
 =
 \langle y_\infty,v\rangle.
-\]
-Thus, by the same weak-convergence characterization,
-\[
-w_k\rightharpoonup y_\infty.
-\]
+$$
 
-To prove that \(y_k\) converges weakly to \(y_\infty\), the proof fixes \(v\in H\) and defines the scalar sequences
-\[
+Thus, by the same weak-convergence characterization,
+
+$$
+w_k\rightharpoonup y_\infty.
+$$
+
+To prove that $y_k$ converges weakly to $y_\infty$, the proof fixes $v\in H$ and defines the scalar sequences
+
+$$
 p_k=\langle y_k-y_\infty,v\rangle,
 \qquad
 e_k=\lambda b\eta\langle w_k-y_\infty,v\rangle.
-\]
-Because \(w_k\rightharpoonup y_\infty\), its inner product with \(v\) converges to \(\langle y_\infty,v\rangle\), so \(\langle w_k-y_\infty,v\rangle\to 0\), and hence
-\[
+$$
+
+Because $w_k\rightharpoonup y_\infty$, its inner product with $v$ converges to $\langle y_\infty,v\rangle$, so $\langle w_k-y_\infty,v\rangle\to 0$, and hence
+
+$$
 e_k\to 0.
-\]
-Taking the inner product of the recurrence for \(y_{k+1}-y_\infty\) with \(v\) gives the exact scalar recurrence
-\[
+$$
+
+Taking the inner product of the recurrence for $y_{k+1}-y_\infty$ with $v$ gives the exact scalar recurrence
+
+$$
 p_{k+1}=\eta p_k+e_k.
-\]
-The cited lemma `tendsto_zero_of_contract_eq` states that if \(0<\eta<1\), if \(e_k\to0\), and if \(p_{k+1}=\eta p_k+e_k\) for all \(k\), then \(p_k\to0\). Applying it gives
-\[
+$$
+
+The cited lemma `tendsto_zero_of_contract_eq` states that if $0<\eta<1$, if $e_k\to0$, and if $p_{k+1}=\eta p_k+e_k$ for all $k$, then $p_k\to0$. Applying it gives
+
+$$
 \langle y_k-y_\infty,v\rangle\to0.
-\]
-Adding the constant \(\langle y_\infty,v\rangle\) gives
-\[
+$$
+
+Adding the constant $\langle y_\infty,v\rangle$ gives
+
+$$
 \langle y_k,v\rangle\to\langle y_\infty,v\rangle.
-\]
-Since this holds for every \(v\), the weak-convergence characterization yields
-\[
+$$
+
+Since this holds for every $v$, the weak-convergence characterization yields
+
+$$
 y_k\rightharpoonup y_\infty.
-\]
+$$
+
 Together with the already established equilibrium relation, this proves the first implication.
 
 In the second branch, the proof assumes strong convergence
-\[
+
+$$
 u_k\to u_\infty.
-\]
-Again shifting gives \(u_{k+1}\to u_\infty\). Since \(g\) is continuous, ordinary continuity gives
-\[
+$$
+
+Again shifting gives $u_{k+1}\to u_\infty$. Since $g$ is continuous, ordinary continuity gives
+
+$$
 g(u_{k+1})\to g(u_\infty).
-\]
+$$
+
 Therefore
-\[
+
+$$
 w_k=b^{-1}\bigl(a u_{k+1}-g(u_{k+1})\bigr)\to
 b^{-1}\bigl(a u_\infty-g(u_\infty)\bigr)=y_\infty
-\]
+$$
+
 in norm.
 
-It remains to prove \(y_k\to y_\infty\) in norm. The proof rewrites this convergence using `tendsto_iff_norm_sub_tendsto_zero`, so it is enough to show
-\[
+It remains to prove $y_k\to y_\infty$ in norm. The proof rewrites this convergence using `tendsto_iff_norm_sub_tendsto_zero`, so it is enough to show
+
+$$
 \|y_k-y_\infty\|\to0.
-\]
+$$
+
 It defines
-\[
+
+$$
 p_k=\|y_k-y_\infty\|,
 \qquad
 e_k=\lambda b\eta\|w_k-y_\infty\|.
-\]
-Since \(w_k\to y_\infty\), the sequence \(\|w_k-y_\infty\|\) tends to \(0\), hence \(e_k\to0\). Also \(p_k\ge0\) for all \(k\). From the recurrence
-\[
+$$
+
+Since $w_k\to y_\infty$, the sequence $\|w_k-y_\infty\|$ tends to $0$, hence $e_k\to0$. Also $p_k\ge0$ for all $k$. From the recurrence
+
+$$
 y_{k+1}-y_\infty
 =
 \eta (y_k-y_\infty)+\lambda b\eta (w_k-y_\infty)
-\]
+$$
+
 and the triangle inequality,
-\[
+
+$$
 p_{k+1}
 \le
 \eta\|y_k-y_\infty\|+\lambda b\eta\|w_k-y_\infty\|
 =
 \eta p_k+e_k.
-\]
-The proof also verifies that \(\lambda b\eta\ge0\), using positivity of \(b,\lambda,\eta\). The cited lemma `tendsto_zero_of_contract_nonneg` states that if \(0<\eta<1\), if \(p_k\ge0\) for all \(k\), if \(e_k\to0\), and if
-\[
+$$
+
+The proof also verifies that $\lambda b\eta\ge0$, using positivity of $b,\lambda,\eta$. The cited lemma `tendsto_zero_of_contract_nonneg` states that if $0<\eta<1$, if $p_k\ge0$ for all $k$, if $e_k\to0$, and if
+
+$$
 p_{k+1}\le \eta p_k+e_k
-\]
-for all \(k\), then \(p_k\to0\). Applying it gives
-\[
+$$
+
+for all $k$, then $p_k\to0$. Applying it gives
+
+$$
 \|y_k-y_\infty\|\to0,
-\]
+$$
+
 which is equivalent to
-\[
+
+$$
 y_k\to y_\infty
-\]
+$$
+
 in norm. Combining this with the equilibrium relation proves the second implication.
 
-Thus the proof constructs one explicit candidate \(y_\infty=b^{-1}(a u_\infty-g(u_\infty))\), proves it always satisfies the limiting equation, and then shows that the trajectory recurrence forces \(y_k\) to converge to that candidate, weakly in the first case and strongly in the second.
+Thus the proof constructs one explicit candidate $y_\infty=b^{-1}(a u_\infty-g(u_\infty))$, proves it always satisfies the limiting equation, and then shows that the trajectory recurrence forces $y_k$ to converge to that candidate, weakly in the first case and strongly in the second.
 

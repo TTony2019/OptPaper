@@ -20,94 +20,94 @@ theorem reverse_time_scaling_average
 ```
 
 ## Statement explanation
-The declaration is a theorem named `reverse_time_scaling_average`. It is stated for a type \(H\) carrying the structures of a real normed additive commutative group, a real inner product space, and a complete space; thus \(H\) is a complete real inner product space, in particular a real normed vector space. The real parameters are \(\alpha\) and \(s_0\), with hypotheses \(h_\alpha : 1 < \alpha\) and \(h_{s_0} : 0 < s_0\). The theorem also takes two curves \(x,z : \mathbb R \to H\). The curve \(x\) is assumed to be twice continuously differentiable, \(h_x : \operatorname{ContDiff}_{\mathbb R}^2 x\). There is an initial matching hypothesis
+The declaration is a theorem named `reverse_time_scaling_average`. It is stated for a type $H$ carrying the structures of a real normed additive commutative group, a real inner product space, and a complete space; thus $H$ is a complete real inner product space, in particular a real normed vector space. The real parameters are $\alpha$ and $s_0$, with hypotheses $h_\alpha : 1 < \alpha$ and $h_{s_0} : 0 < s_0$. The theorem also takes two curves $x,z : \mathbb R \to H$. The curve $x$ is assumed to be twice continuously differentiable, $h_x : \operatorname{ContDiff}_{\mathbb R}^2 x$. There is an initial matching hypothesis
 
-\[
+$$
 h_{\mathrm{initial}} : x(s_0)=z\!\left(\frac{s_0^2}{2(\alpha-1)}\right),
-\]
+$$
 
 and a relation hypothesis
 
-\[
+$$
 h_{\mathrm{relation}} : \forall s \in \operatorname{Ici}s_0,\quad
 z\!\left(\frac{s^2}{2(\alpha-1)}\right)
 =
 x(s)+\frac{s}{\alpha-1}\cdot \operatorname{deriv}x(s),
-\]
+$$
 
-where \(s \in \operatorname{Ici}s_0\) means \(s \ge s_0\), and the dot denotes scalar multiplication by the real number \(\frac{s}{\alpha-1}\).
+where $s \in \operatorname{Ici}s_0$ means $s \ge s_0$, and the dot denotes scalar multiplication by the real number $\frac{s}{\alpha-1}$.
 
-The conclusion asserts the existence of a curve \(y : \mathbb R \to H\) such that
+The conclusion asserts the existence of a curve $y : \mathbb R \to H$ such that
 
-\[
+$$
 y = \operatorname{timeScaledTrajectory} z \left(s \mapsto \frac{s^2}{2(\alpha-1)}\right)
-\]
+$$
 
 and
 
-\[
+$$
 \operatorname{IsWeightedAverageOn}
 \left(s \mapsto \frac{s^2}{2(\alpha-1)}\right)
 \left(s \mapsto \frac{s}{\alpha-1}\right)
 x\ y\ (\operatorname{deriv}x)\ s_0.
-\]
+$$
 
-The cited definition `timeScaledTrajectory` says that for \(z : \mathbb R \to H\) and a time change \(\tau : \mathbb R \to \mathbb R\),
+The cited definition `timeScaledTrajectory` says that for $z : \mathbb R \to H$ and a time change $\tau : \mathbb R \to \mathbb R$,
 
-\[
+$$
 \operatorname{timeScaledTrajectory} z \tau = \bigl(s \mapsto z(\tau(s))\bigr).
-\]
+$$
 
 Thus the first conjunct of the conclusion says precisely that
 
-\[
+$$
 y(s)=z\!\left(\frac{s^2}{2(\alpha-1)}\right)
-\]
+$$
 
-for every real \(s\).
+for every real $s$.
 
 The cited definition `IsWeightedAverageOn` unfolds to the following three requirements, where we write
 
-\[
+$$
 \tau(s)=\frac{s^2}{2(\alpha-1)},\qquad d\tau(s)=\frac{s}{\alpha-1}.
-\]
+$$
 
-First, \(\operatorname{IsIncreasingC1TimeScaleOn}\ \tau\ d\tau\ s_0\) must hold. Second, the initial values must agree:
+First, $\operatorname{IsIncreasingC1TimeScaleOn}\ \tau\ d\tau\ s_0$ must hold. Second, the initial values must agree:
 
-\[
+$$
 x(s_0)=y(s_0).
-\]
+$$
 
-Third, for every \(s \in \operatorname{Ici}s_0\), the curve \(x\) must have derivative \(\operatorname{deriv}x(s)\) at \(s\), and the weighted-average relation
+Third, for every $s \in \operatorname{Ici}s_0$, the curve $x$ must have derivative $\operatorname{deriv}x(s)$ at $s$, and the weighted-average relation
 
-\[
+$$
 \operatorname{deriv}x(s)+ (d\tau(s))^{-1}\cdot (x(s)-y(s))=0
-\]
+$$
 
-must hold. Here \((d\tau(s))^{-1}\) is the reciprocal of the real number \(d\tau(s)\), and the dot is scalar multiplication on \(H\).
+must hold. Here $(d\tau(s))^{-1}$ is the reciprocal of the real number $d\tau(s)$, and the dot is scalar multiplication on $H$.
 
-The cited theorem `quadraticTimeScale_isIncreasingC1TimeScaleOn` provides exactly the first requirement: if \(1<\alpha\) and \(0<s_0\), then
+The cited theorem `quadraticTimeScale_isIncreasingC1TimeScaleOn` provides exactly the first requirement: if $1<\alpha$ and $0<s_0$, then
 
-\[
+$$
 \operatorname{IsIncreasingC1TimeScaleOn}
 \left(s \mapsto \frac{s^2}{2(\alpha-1)}\right)
 \left(s \mapsto \frac{s}{\alpha-1}\right)
 s_0.
-\]
+$$
 
-Its full internal definition of `IsIncreasingC1TimeScaleOn` is not needed beyond this stated consequence. Mathematically, the theorem says that if \(x\) is \(C^2\), and \(z\) is related to \(x\) by the reverse time-scaled formula
+Its full internal definition of `IsIncreasingC1TimeScaleOn` is not needed beyond this stated consequence. Mathematically, the theorem says that if $x$ is $C^2$, and $z$ is related to $x$ by the reverse time-scaled formula
 
-\[
+$$
 z(\tau(s))=x(s)+d\tau(s)\operatorname{deriv}x(s)\qquad (s\ge s_0),
-\]
+$$
 
-with \(x(s_0)=z(\tau(s_0))\), then the curve \(y=z\circ\tau\) satisfies the weighted-average relation
+with $x(s_0)=z(\tau(s_0))$, then the curve $y=z\circ\tau$ satisfies the weighted-average relation
 
-\[
+$$
 \operatorname{deriv}x(s)+d\tau(s)^{-1}(x(s)-y(s))=0.
-\]
+$$
 
-Indeed, this is just the rearrangement of \(y(s)=x(s)+d\tau(s)\operatorname{deriv}x(s)\). The theorem packages this as an existence statement for a curve \(y\) satisfying `IsWeightedAverageOn`.
+Indeed, this is just the rearrangement of $y(s)=x(s)+d\tau(s)\operatorname{deriv}x(s)$. The theorem packages this as an existence statement for a curve $y$ satisfying `IsWeightedAverageOn`.
 
 ## Lean proof
 ```lean
@@ -144,123 +144,123 @@ by
 ## Proof explanation
 The proof begins by introducing local abbreviations. It sets
 
-\[
+$$
 \tau : \mathbb R \to \mathbb R,\qquad
 \tau(s)=\frac{s^2}{2(\alpha-1)},
-\]
+$$
 
-\[
+$$
 d\tau : \mathbb R \to \mathbb R,\qquad
 d\tau(s)=\frac{s}{\alpha-1},
-\]
+$$
 
 and
 
-\[
+$$
 y : \mathbb R \to H,\qquad
 y=\operatorname{timeScaledTrajectory} z \tau.
-\]
+$$
 
 Thus, by the definition of `timeScaledTrajectory`,
 
-\[
+$$
 y(s)=z(\tau(s))=z\!\left(\frac{s^2}{2(\alpha-1)}\right).
-\]
+$$
 
 These `let` declarations do not add new mathematical assumptions; they only name the functions that occur in the conclusion.
 
 Next the proof obtains the time-scale property. It writes
 
-\[
+$$
 h\tau := \text{quadraticTimeScale\_isIncreasingC1TimeScaleOn}\ h_\alpha\ h_{s_0}.
-\]
+$$
 
-The cited theorem `quadraticTimeScale_isIncreasingC1TimeScaleOn` applies because \(1<\alpha\) and \(0<s_0\). Its conclusion is that the pair of functions
+The cited theorem `quadraticTimeScale_isIncreasingC1TimeScaleOn` applies because $1<\alpha$ and $0<s_0$. Its conclusion is that the pair of functions
 
-\[
+$$
 \tau(s)=\frac{s^2}{2(\alpha-1)},\qquad
 d\tau(s)=\frac{s}{\alpha-1}
-\]
+$$
 
-satisfies \(\operatorname{IsIncreasingC1TimeScaleOn}\) at \(s_0\). This is exactly the first conjunct required by `IsWeightedAverageOn`.
+satisfies $\operatorname{IsIncreasingC1TimeScaleOn}$ at $s_0$. This is exactly the first conjunct required by `IsWeightedAverageOn`.
 
-The proof then establishes that \(x\) has derivative \(\operatorname{deriv}x(s)\) at every point \(s\). It defines
+The proof then establishes that $x$ has derivative $\operatorname{deriv}x(s)$ at every point $s$. It defines
 
-\[
+$$
 hxderiv : \forall s,\ \operatorname{HasDerivAt} x (\operatorname{deriv}x(s)) s.
-\]
+$$
 
-To prove this, it fixes an arbitrary \(s\) with `intro s`. Since \(h_x\) says that \(x\) is \(C^2\), in particular \(x\) is differentiable. The invocation `hx.differentiable (by norm_num)` uses that a \(C^2\) function is differentiable, with the numerical side condition \(2\ne 0\) discharged by `norm_num`. Applying the resulting differentiability to the point \(s\) gives differentiability of \(x\) at \(s\). The field access `.hasDerivAt` then gives
+To prove this, it fixes an arbitrary $s$ with `intro s`. Since $h_x$ says that $x$ is $C^2$, in particular $x$ is differentiable. The invocation `hx.differentiable (by norm_num)` uses that a $C^2$ function is differentiable, with the numerical side condition $2\ne 0$ discharged by `norm_num`. Applying the resulting differentiability to the point $s$ gives differentiability of $x$ at $s$. The field access `.hasDerivAt` then gives
 
-\[
+$$
 \operatorname{HasDerivAt} x (\operatorname{deriv}x(s)) s.
-\]
+$$
 
 This supplies the derivative component required in the third conjunct of `IsWeightedAverageOn`.
 
 The main local claim is
 
-\[
+$$
 haverage : \operatorname{IsWeightedAverageOn}\ \tau\ d\tau\ x\ y\ (\operatorname{deriv}x)\ s_0.
-\]
+$$
 
 The proof establishes this by `refine ⟨hτ, ?_, ?_⟩`, splitting the definition into its three conjuncts.
 
-The first conjunct is exactly \(h\tau\), already proved.
+The first conjunct is exactly $h\tau$, already proved.
 
-The second conjunct requires \(x(s_0)=y(s_0)\). The proof uses `dsimp [y, timeScaledTrajectory, τ]` to unfold the definitions. The goal becomes
+The second conjunct requires $x(s_0)=y(s_0)$. The proof uses `dsimp [y, timeScaledTrajectory, τ]` to unfold the definitions. The goal becomes
 
-\[
+$$
 x(s_0)=z\!\left(\frac{s_0^2}{2(\alpha-1)}\right).
-\]
+$$
 
-This is precisely the hypothesis \(h_{\mathrm{initial}}\). The command `exact hinitial` closes the goal.
+This is precisely the hypothesis $h_{\mathrm{initial}}$. The command `exact hinitial` closes the goal.
 
-The third conjunct requires that for every \(s \in \operatorname{Ici}s_0\),
+The third conjunct requires that for every $s \in \operatorname{Ici}s_0$,
 
-\[
+$$
 \operatorname{HasDerivAt} x (\operatorname{deriv}x(s)) s
-\]
+$$
 
 and
 
-\[
+$$
 \operatorname{deriv}x(s)+(d\tau(s))^{-1}\cdot (x(s)-y(s))=0.
-\]
+$$
 
-The proof introduces such an \(s\) with `intro s hs`, where \(hs : s \in \operatorname{Ici}s_0\), i.e. \(s_0 \le s\). Then `refine ⟨hxderiv s, ?_⟩` supplies the first part using \(hxderiv\), and leaves the weighted-average equation as the remaining goal.
+The proof introduces such an $s$ with `intro s hs`, where $hs : s \in \operatorname{Ici}s_0$, i.e. $s_0 \le s$. Then `refine ⟨hxderiv s, ?_⟩` supplies the first part using $hxderiv$, and leaves the weighted-average equation as the remaining goal.
 
-To prove the remaining equation, the proof first shows that \(d\tau(s)\) is nonzero. It establishes
+To prove the remaining equation, the proof first shows that $d\tau(s)$ is nonzero. It establishes
 
-\[
+$$
 hpos : 0<d\tau(s).
-\]
+$$
 
-After unfolding \(d\tau\), this means
+After unfolding $d\tau$, this means
 
-\[
+$$
 0<\frac{s}{\alpha-1}.
-\]
+$$
 
-The proof uses `lt_of_lt_of_le hs₀ hs`: from \(0<s_0\) and \(s_0\le s\), it obtains \(0<s\). It also uses `sub_pos.mpr hα`: from \(1<\alpha\), it obtains \(0<\alpha-1\). Then `div_pos` combines the positive numerator and positive denominator to give
+The proof uses `lt_of_lt_of_le hs₀ hs`: from $0<s_0$ and $s_0\le s$, it obtains $0<s$. It also uses `sub_pos.mpr hα`: from $1<\alpha$, it obtains $0<\alpha-1$. Then `div_pos` combines the positive numerator and positive denominator to give
 
-\[
+$$
 0<\frac{s}{\alpha-1}.
-\]
+$$
 
-Consequently, `hne : dτ(s) \ne 0` is obtained from `ne_of_gt hpos`. This nonzero fact is needed later to cancel \(d\tau(s)\) by its inverse.
+Consequently, `hne : dτ(s) \ne 0` is obtained from `ne_of_gt hpos`. This nonzero fact is needed later to cancel $d\tau(s)$ by its inverse.
 
 Next the proof invokes the relation hypothesis. `hrel := hrelation s hs` gives
 
-\[
+$$
 z\!\left(\frac{s^2}{2(\alpha-1)}\right)
 =
 x(s)+\frac{s}{\alpha-1}\cdot \operatorname{deriv}x(s).
-\]
+$$
 
 The command `dsimp [y, timeScaledTrajectory, τ, dτ] at hrel ⊢` unfolds the local definitions in both `hrel` and the current goal. The goal is therefore the equation
 
-\[
+$$
 \operatorname{deriv}x(s)
 +
 \left(\frac{s}{\alpha-1}\right)^{-1}
@@ -269,37 +269,37 @@ The command `dsimp [y, timeScaledTrajectory, τ, dτ] at hrel ⊢` unfolds the l
 x(s)-z\!\left(\frac{s^2}{2(\alpha-1)}\right)
 \right)
 =0.
-\]
+$$
 
 Then `rw [hrel]` replaces the occurrence of
 
-\[
+$$
 z\!\left(\frac{s^2}{2(\alpha-1)}\right)
-\]
+$$
 
 by
 
-\[
+$$
 x(s)+\frac{s}{\alpha-1}\cdot \operatorname{deriv}x(s).
-\]
+$$
 
 So the inner difference becomes
 
-\[
+$$
 x(s)-\left(x(s)+\frac{s}{\alpha-1}\cdot \operatorname{deriv}x(s)\right).
-\]
+$$
 
 The proof next rewrites this difference using a local equality proved by `abel`:
 
-\[
+$$
 x(s)-\left(x(s)+\frac{s}{\alpha-1}\cdot \operatorname{deriv}x(s)\right)
 =
 -\left(\frac{s}{\alpha-1}\cdot \operatorname{deriv}x(s)\right).
-\]
+$$
 
-The `abel` tactic proves identities in additive abelian groups; here \(H\) is an additive commutative group, so it can cancel the common \(x(s)\). After this rewrite, the goal becomes
+The `abel` tactic proves identities in additive abelian groups; here $H$ is an additive commutative group, so it can cancel the common $x(s)$. After this rewrite, the goal becomes
 
-\[
+$$
 \operatorname{deriv}x(s)
 +
 \left(\frac{s}{\alpha-1}\right)^{-1}
@@ -308,42 +308,42 @@ The `abel` tactic proves identities in additive abelian groups; here \(H\) is an
 -\left(\frac{s}{\alpha-1}\cdot \operatorname{deriv}x(s)\right)
 \right)
 =0.
-\]
+$$
 
 The proof then applies the scalar-multiplication rewrites
 
-\[
+$$
 \text{smul\_neg},\quad \text{smul\_smul},\quad
 \text{inv\_mul\_cancel₀ } hne,\quad \text{one\_smul}.
-\]
+$$
 
 These steps move the negative sign out of the scalar product, reassociate the scalar multiplication, cancel the scalar factor using
 
-\[
+$$
 \left(\frac{s}{\alpha-1}\right)^{-1}\cdot \frac{s}{\alpha-1}=1,
-\]
+$$
 
-which is possible because \(d\tau(s)\ne 0\), and remove the scalar \(1\). The equation reduces to
+which is possible because $d\tau(s)\ne 0$, and remove the scalar $1$. The equation reduces to
 
-\[
+$$
 \operatorname{deriv}x(s)+(-\operatorname{deriv}x(s))=0.
-\]
+$$
 
-The final `abel` closes this additive identity. Thus the weighted-average equation is proved for the arbitrary \(s \ge s_0\). Therefore the local claim `haverage` is established.
+The final `abel` closes this additive identity. Thus the weighted-average equation is proved for the arbitrary $s \ge s_0$. Therefore the local claim `haverage` is established.
 
-Finally, the proof constructs the existential witness. `refine ⟨y, ?_, ?_⟩` chooses \(y\) as the desired curve. The first goal is
+Finally, the proof constructs the existential witness. `refine ⟨y, ?_, ?_⟩` chooses $y$ as the desired curve. The first goal is
 
-\[
+$$
 y=\operatorname{timeScaledTrajectory} z
 \left(s \mapsto \frac{s^2}{2(\alpha-1)}\right).
-\]
+$$
 
-This is closed by `rfl`, because \(y\) was defined as `timeScaledTrajectory z τ` and \(\tau\) was defined as \(s \mapsto s^2/(2(\alpha-1))\); the equality holds by definitional unfolding. The second goal is the `IsWeightedAverageOn` statement with the explicit functions
+This is closed by `rfl`, because $y$ was defined as `timeScaledTrajectory z τ` and $\tau$ was defined as $s \mapsto s^2/(2(\alpha-1))$; the equality holds by definitional unfolding. The second goal is the `IsWeightedAverageOn` statement with the explicit functions
 
-\[
+$$
 s \mapsto \frac{s^2}{2(\alpha-1)},\qquad
 s \mapsto \frac{s}{\alpha-1}.
-\]
+$$
 
-The command `simpa [τ, dτ] using haverage` unfolds the local abbreviations \(\tau\) and \(d\tau\) in the goal and then uses the already established `haverage` to close it. Hence the existence of \(y\) satisfying both required properties is proved.
+The command `simpa [τ, dτ] using haverage` unfolds the local abbreviations $\tau$ and $d\tau$ in the goal and then uses the already established `haverage` to close it. Hence the existence of $y$ satisfying both required properties is proved.
 

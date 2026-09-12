@@ -9,21 +9,21 @@ recall Optimization.argminSet
 ## Statement explanation
 The declaration is not a theorem. Its entire Lean content is `recall Optimization.argminSet`, which recalls the fully qualified identifier `Optimization.argminSet` from the namespace `Optimization`. There are no binders, no variables, no hypotheses, and no conclusion: the declaration does not assert that some point minimizes some function, nor does it prove any inequality or equality. It is a reference to an existing definition or object.
 
-The mathematical content visible from the name is that of an argmin set. In optimization, for an objective function \(f\) on a domain \(X\), or on a feasible subset \(C\subseteq X\), the argmin set is the set of points at which \(f\) attains its minimum:
+The mathematical content visible from the name is that of an argmin set. In optimization, for an objective function $f$ on a domain $X$, or on a feasible subset $C\subseteq X$, the argmin set is the set of points at which $f$ attains its minimum:
 
-\[
+$$
 \operatorname{argmin}_{x\in C} f(x)
 =
 \{x\in C : f(x)=\inf_{y\in C} f(y)\}.
-\]
+$$
 
-When the minimum is attained and comparison is meaningful, this can equivalently be written as the set of \(x\in C\) such that
+When the minimum is attained and comparison is meaningful, this can equivalently be written as the set of $x\in C$ such that
 
-\[
+$$
 \forall y\in C,\quad f(x)\le f(y).
-\]
+$$
 
-If no feasible subset is specified, then \(C=X\). The provided source snippet does not display the exact Lean type or definition body of `Optimization.argminSet`, so it does not determine whether the Lean definition is parameterized by only a function, by a function together with a feasible set, by an extended-valued function, or by some other optimization data. Thus the statement itself introduces no additional mathematical hypotheses; it simply recalls the definition associated with the name `Optimization.argminSet`.
+If no feasible subset is specified, then $C=X$. The provided source snippet does not display the exact Lean type or definition body of `Optimization.argminSet`, so it does not determine whether the Lean definition is parameterized by only a function, by a function together with a feasible set, by an extended-valued function, or by some other optimization data. Thus the statement itself introduces no additional mathematical hypotheses; it simply recalls the definition associated with the name `Optimization.argminSet`.
 
 ## Lean proof
 ```lean

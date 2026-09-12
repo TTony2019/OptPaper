@@ -13,31 +13,43 @@ lemma lemma_2_1
 ```
 
 ## Statement explanation
-The lemma `lemma_2_1` is a purely metric and inner-product estimate. The variables \(u,v,\eta\) all lie in the same ambient type \(H\), on which a norm \(\|\cdot\|\) and a real inner product \(\langle\cdot,\cdot\rangle_{\mathbb R}\) are used. The scalar \(\sigma\in\mathbb R\) is assumed to satisfy
-\[
+The lemma `lemma_2_1` is a purely metric and inner-product estimate. The variables $u,v,\eta$ all lie in the same ambient type $H$, on which a norm $\|\cdot\|$ and a real inner product $\langle\cdot,\cdot\rangle_{\mathbb R}$ are used. The scalar $\sigma\in\mathbb R$ is assumed to satisfy
+
+$$
 0\le \sigma<1.
-\]
+$$
+
 The two vector hypotheses are
-\[
+
+$$
 v=u+\eta
-\]
+$$
+
 and
-\[
+
+$$
 \|\eta\|\le \sigma\max(\|u\|,\|v\|).
-\]
-Thus \(v\) is obtained from \(u\) by adding a perturbation \(\eta\), and the size of this perturbation is controlled by a fraction \(\sigma\) of the larger of the two norms \(\|u\|\) and \(\|v\|\). The conclusion is the conjunction of two inequalities:
-\[
+$$
+
+Thus $v$ is obtained from $u$ by adding a perturbation $\eta$, and the size of this perturbation is controlled by a fraction $\sigma$ of the larger of the two norms $\|u\|$ and $\|v\|$. The conclusion is the conjunction of two inequalities:
+
+$$
 \|v\|\le \frac{\|u\|}{1-\sigma}
-\]
+$$
+
 and
-\[
+
+$$
 (1-\sigma)\|u\|\|v\|\le \langle v,u\rangle_{\mathbb R}.
-\]
-The first inequality says that the norm of \(v\) is not much larger than the norm of \(u\); the factor \(1/(1-\sigma)\) is finite because \(\sigma<1\). The second inequality gives a lower bound for the real inner product \(\langle v,u\rangle_{\mathbb R}\). If \(u\) and \(v\) are nonzero, dividing by \(\|u\|\|v\|\) shows that the cosine of the angle between \(v\) and \(u\) satisfies
-\[
+$$
+
+The first inequality says that the norm of $v$ is not much larger than the norm of $u$; the factor $1/(1-\sigma)$ is finite because $\sigma<1$. The second inequality gives a lower bound for the real inner product $\langle v,u\rangle_{\mathbb R}$. If $u$ and $v$ are nonzero, dividing by $\|u\|\|v\|$ shows that the cosine of the angle between $v$ and $u$ satisfies
+
+$$
 \cos\angle(u,v)\ge 1-\sigma.
-\]
-Since \(1-\sigma>0\), this is a positive alignment estimate between \(u\) and \(v\). In the extreme case \(\sigma=0\), the hypothesis on \(\eta\) forces \(\eta=0\), hence \(v=u\), and both conclusions become equalities. Thus the lemma states a quantitative stability property: a small relative perturbation of \(u\) produces a vector \(v\) whose norm is controlled and whose inner product with \(u\) remains large enough.
+$$
+
+Since $1-\sigma>0$, this is a positive alignment estimate between $u$ and $v$. In the extreme case $\sigma=0$, the hypothesis on $\eta$ forces $\eta=0$, hence $v=u$, and both conclusions become equalities. Thus the lemma states a quantitative stability property: a small relative perturbation of $u$ produces a vector $v$ whose norm is controlled and whose inner product with $u$ remains large enough.
 
 ## Lean proof
 ```lean
@@ -120,116 +132,161 @@ by
 ```
 
 ## Proof explanation
-The proof begins with `rcases hsigma with ⟨hsig0, hsigl1⟩`, which unpacks the hypothesis \(0\le \sigma<1\) into the two facts \(0\le\sigma\) and \(\sigma<1\). From \(\sigma<1\), the proof obtains
-\[
+The proof begins with `rcases hsigma with ⟨hsig0, hsigl1⟩`, which unpacks the hypothesis $0\le \sigma<1$ into the two facts $0\le\sigma$ and $\sigma<1$. From $\sigma<1$, the proof obtains
+
+$$
 0<1-\sigma
-\]
+$$
+
 using `sub_pos.mpr hsigl1`, and then weakens this to
-\[
+
+$$
 0\le 1-\sigma
-\]
-using `le_of_lt hpos`. The positivity of \(1-\sigma\) is essential later because it permits division by \(1-\sigma\).
+$$
+
+using `le_of_lt hpos`. The positivity of $1-\sigma$ is essential later because it permits division by $1-\sigma$.
 
 The first conjunct is proved as `part_i`. The proof splits into two cases via `by_cases hcase : ‖v‖ ≤ ‖u‖`.
 
-In the first case, \(\|v\|\le\|u\|\). The goal is
-\[
+In the first case, $\|v\|\le\|u\|$. The goal is
+
+$$
 \|v\|\le \frac{\|u\|}{1-\sigma}.
-\]
+$$
+
 The proof first shows the equivalent crossed inequality
-\[
+
+$$
 \|v\|(1-\sigma)\le \|u\|.
-\]
-It uses `hle1 : 1-\sigma\le 1`, obtained by `nlinarith` from \(0\le\sigma\). Then `mul_le_mul_of_nonneg_right` is the monotonicity rule for multiplication on the right: if \(a\le b\) and \(0\le c\), then \(ac\le bc\). With \(a=\|v\|\), \(b=\|u\|\), and \(c=1-\sigma\), it gives
-\[
+$$
+
+It uses `hle1 : 1-\sigma\le 1`, obtained by `nlinarith` from $0\le\sigma$. Then `mul_le_mul_of_nonneg_right` is the monotonicity rule for multiplication on the right: if $a\le b$ and $0\le c$, then $ac\le bc$. With $a=\|v\|$, $b=\|u\|$, and $c=1-\sigma$, it gives
+
+$$
 \|v\|(1-\sigma)\le \|u\|(1-\sigma).
-\]
-Next, `mul_le_mul_of_nonneg_left` is the analogous rule on the left: if \(a\le b\) and \(0\le c\), then \(ca\le cb\). With \(a=1-\sigma\), \(b=1\), and \(c=\|u\|\), and using \(\|u\|\ge0\), it gives
-\[
+$$
+
+Next, `mul_le_mul_of_nonneg_left` is the analogous rule on the left: if $a\le b$ and $0\le c$, then $ca\le cb$. With $a=1-\sigma$, $b=1$, and $c=\|u\|$, and using $\|u\|\ge0$, it gives
+
+$$
 \|u\|(1-\sigma)\le \|u\|\cdot 1=\|u\|.
-\]
-Combining these two inequalities by `nlinarith` yields \(\|v\|(1-\sigma)\le\|u\|\). Finally, `le_div_iff₀' hpos` is the equivalence that for a positive denominator \(1-\sigma\),
-\[
+$$
+
+Combining these two inequalities by `nlinarith` yields $\|v\|(1-\sigma)\le\|u\|$. Finally, `le_div_iff₀' hpos` is the equivalence that for a positive denominator $1-\sigma$,
+
+$$
 a\le \frac{b}{1-\sigma}
 \quad\Longleftrightarrow\quad
 a(1-\sigma)\le b.
-\]
-Applying it with \(a=\|v\|\) and \(b=\|u\|\) gives the desired inequality, with `simpa [mul_comm]` reordering the product to match the form expected by the lemma.
+$$
 
-In the second case, \(\|v\|\le\|u\|\) is false, so `lt_of_not_ge` gives \(\|u\|<\|v\|\). Hence `max_eq_right` gives
-\[
+Applying it with $a=\|v\|$ and $b=\|u\|$ gives the desired inequality, with `simpa [mul_comm]` reordering the product to match the form expected by the lemma.
+
+In the second case, $\|v\|\le\|u\|$ is false, so `lt_of_not_ge` gives $\|u\|<\|v\|$. Hence `max_eq_right` gives
+
+$$
 \max(\|u\|,\|v\|)=\|v\|.
-\]
-Substituting this into the hypothesis on \(\eta\) yields
-\[
+$$
+
+Substituting this into the hypothesis on $\eta$ yields
+
+$$
 \|\eta\|\le \sigma\|v\|.
-\]
+$$
+
 The proof then uses the triangle inequality through `norm_add_le u eta`, which states
-\[
+
+$$
 \|u+\eta\|\le \|u\|+\|\eta\|.
-\]
-Since \(v=u+\eta\), this gives
-\[
+$$
+
+Since $v=u+\eta$, this gives
+
+$$
 \|v\|=\|u+\eta\|\le \|u\|+\|\eta\|.
-\]
-Together with \(\|\eta\|\le\sigma\|v\|\), `nlinarith` obtains
-\[
+$$
+
+Together with $\|\eta\|\le\sigma\|v\|$, `nlinarith` obtains
+
+$$
 \|v\|\le \|u\|+\sigma\|v\|,
-\]
+$$
+
 and then rearranges this to
-\[
+
+$$
 \|v\|(1-\sigma)\le \|u\|.
-\]
-The same division lemma `le_div_iff₀'` with positive denominator \(1-\sigma\) converts this into
-\[
+$$
+
+The same division lemma `le_div_iff₀'` with positive denominator $1-\sigma$ converts this into
+
+$$
 \|v\|\le \frac{\|u\|}{1-\sigma}.
-\]
+$$
+
 This completes `part_i`.
 
-The second conjunct is proved as `part_ii`. Again there is a case split on \(\|v\|\le\|u\|\).
+The second conjunct is proved as `part_ii`. Again there is a case split on $\|v\|\le\|u\|$.
 
-In the case \(\|v\|\le\|u\|\), `max_eq_left` gives
-\[
+In the case $\|v\|\le\|u\|$, `max_eq_left` gives
+
+$$
 \max(\|u\|,\|v\|)=\|u\|,
-\]
+$$
+
 so the perturbation bound becomes
-\[
+
+$$
 \|\eta\|\le \sigma\|u\|.
-\]
-The proof then expands the inner product. Because \(v=u+\eta\), and because `inner_add_left` says
-\[
+$$
+
+The proof then expands the inner product. Because $v=u+\eta$, and because `inner_add_left` says
+
+$$
 \langle u+\eta,u\rangle_{\mathbb R}
 =
 \langle u,u\rangle_{\mathbb R}+\langle \eta,u\rangle_{\mathbb R},
-\]
+$$
+
 while `real_inner_self_eq_norm_sq` says
-\[
+
+$$
 \langle u,u\rangle_{\mathbb R}=\|u\|^2,
-\]
+$$
+
 the proof obtains
-\[
+
+$$
 \langle v,u\rangle_{\mathbb R}
 =
 \|u\|^2+\langle \eta,u\rangle_{\mathbb R}.
-\]
+$$
+
 The proof also applies Cauchy–Schwarz in the form `abs_real_inner_le_norm eta u`, which gives
-\[
+
+$$
 |\langle \eta,u\rangle_{\mathbb R}|
 \le \|\eta\|\|u\|.
-\]
+$$
+
 Using `abs_le.mp` on this absolute-value inequality produces the two-sided bound
-\[
+
+$$
 -\|\eta\|\|u\|
 \le \langle \eta,u\rangle_{\mathbb R}
 \le \|\eta\|\|u\|.
-\]
+$$
+
 The first part is used here, yielding
-\[
+
+$$
 -\|\eta\|\|u\|
 \le \langle \eta,u\rangle_{\mathbb R}.
-\]
-After rewriting the goal using the expansion of \(\langle v,u\rangle_{\mathbb R}\), the proof establishes the chain
-\[
+$$
+
+After rewriting the goal using the expansion of $\langle v,u\rangle_{\mathbb R}$, the proof establishes the chain
+
+$$
 (1-\sigma)\|u\|\|v\|
 \le (1-\sigma)\|u\|^2
 =
@@ -238,49 +295,66 @@ After rewriting the goal using the expansion of \(\langle v,u\rangle_{\mathbb R}
 \|u\|^2-\|\eta\|\|u\|
 \le
 \|u\|^2+\langle \eta,u\rangle_{\mathbb R}.
-\]
-The first inequality follows from \(\|v\|\le\|u\|\) and the nonnegativity of \((1-\sigma)\|u\|\), via `mul_le_mul_of_nonneg_left`. The two equalities are algebraic rearrangements performed by `ring`. The third inequality uses \(\|\eta\|\le\sigma\|u\|\) and \(\|u\|\ge0\), which imply \(\|\eta\|\|u\|\le\sigma\|u\|^2\), hence \(-\sigma\|u\|^2\le-\|\eta\|\|u\|\). The final inequality uses \(-\|\eta\|\|u\|\le\langle \eta,u\rangle_{\mathbb R}\). Thus
-\[
+$$
+
+The first inequality follows from $\|v\|\le\|u\|$ and the nonnegativity of $(1-\sigma)\|u\|$, via `mul_le_mul_of_nonneg_left`. The two equalities are algebraic rearrangements performed by `ring`. The third inequality uses $\|\eta\|\le\sigma\|u\|$ and $\|u\|\ge0$, which imply $\|\eta\|\|u\|\le\sigma\|u\|^2$, hence $-\sigma\|u\|^2\le-\|\eta\|\|u\|$. The final inequality uses $-\|\eta\|\|u\|\le\langle \eta,u\rangle_{\mathbb R}$. Thus
+
+$$
 (1-\sigma)\|u\|\|v\|
 \le
 \langle v,u\rangle_{\mathbb R}.
-\]
+$$
 
-In the remaining case, \(\|v\|\le\|u\|\) is false, so \(\|u\|<\|v\|\). Then
-\[
+In the remaining case, $\|v\|\le\|u\|$ is false, so $\|u\|<\|v\|$. Then
+
+$$
 \max(\|u\|,\|v\|)=\|v\|,
-\]
+$$
+
 and the perturbation bound becomes
-\[
+
+$$
 \|\eta\|\le\sigma\|v\|.
-\]
-The proof rewrites \(u\) as
-\[
+$$
+
+The proof rewrites $u$ as
+
+$$
 u=v-\eta.
-\]
-Indeed, since \(v=u+\eta\), one has \(u=(u+\eta)-\eta=v-\eta\); this additive rearrangement is performed by `abel`. Then `inner_sub_right` gives
-\[
+$$
+
+Indeed, since $v=u+\eta$, one has $u=(u+\eta)-\eta=v-\eta$; this additive rearrangement is performed by `abel`. Then `inner_sub_right` gives
+
+$$
 \langle v,v-\eta\rangle_{\mathbb R}
 =
 \langle v,v\rangle_{\mathbb R}-\langle v,\eta\rangle_{\mathbb R},
-\]
-and `real_inner_self_eq_norm_sq` gives \(\langle v,v\rangle_{\mathbb R}=\|v\|^2\). Hence
-\[
+$$
+
+and `real_inner_self_eq_norm_sq` gives $\langle v,v\rangle_{\mathbb R}=\|v\|^2$. Hence
+
+$$
 \langle v,u\rangle_{\mathbb R}
 =
 \|v\|^2-\langle v,\eta\rangle_{\mathbb R}.
-\]
+$$
+
 Cauchy–Schwarz `abs_real_inner_le_norm v eta` gives
-\[
+
+$$
 |\langle v,\eta\rangle_{\mathbb R}|
 \le \|v\|\|\eta\|.
-\]
+$$
+
 Using the upper half of this absolute-value inequality, the proof obtains
-\[
+
+$$
 \langle v,\eta\rangle_{\mathbb R}\le \|v\|\|\eta\|.
-\]
-After rewriting the goal using the expansion of \(\langle v,u\rangle_{\mathbb R}\), it proves the chain
-\[
+$$
+
+After rewriting the goal using the expansion of $\langle v,u\rangle_{\mathbb R}$, it proves the chain
+
+$$
 (1-\sigma)\|u\|\|v\|
 \le (1-\sigma)\|v\|^2
 =
@@ -289,13 +363,15 @@ After rewriting the goal using the expansion of \(\langle v,u\rangle_{\mathbb R}
 \|v\|^2-\|v\|\|\eta\|
 \le
 \|v\|^2-\langle v,\eta\rangle_{\mathbb R}.
-\]
-The first inequality follows from \(\|u\|\le\|v\|\) and the nonnegativity of \((1-\sigma)\|v\|\), again via multiplication by a nonnegative factor; `simpa` is used to reorder the products. The two equalities are obtained by `ring`. The third inequality uses \(\|\eta\|\le\sigma\|v\|\) and \(\|v\|\ge0\), giving \(\|v\|\|\eta\|\le\sigma\|v\|^2\), hence \(-\sigma\|v\|^2\le-\|v\|\|\eta\|\). The final inequality uses \(\langle v,\eta\rangle_{\mathbb R}\le\|v\|\|\eta\|\), which after negation gives \(-\|v\|\|\eta\|\le-\langle v,\eta\rangle_{\mathbb R}\). Therefore
-\[
+$$
+
+The first inequality follows from $\|u\|\le\|v\|$ and the nonnegativity of $(1-\sigma)\|v\|$, again via multiplication by a nonnegative factor; `simpa` is used to reorder the products. The two equalities are obtained by `ring`. The third inequality uses $\|\eta\|\le\sigma\|v\|$ and $\|v\|\ge0$, giving $\|v\|\|\eta\|\le\sigma\|v\|^2$, hence $-\sigma\|v\|^2\le-\|v\|\|\eta\|$. The final inequality uses $\langle v,\eta\rangle_{\mathbb R}\le\|v\|\|\eta\|$, which after negation gives $-\|v\|\|\eta\|\le-\langle v,\eta\rangle_{\mathbb R}$. Therefore
+
+$$
 (1-\sigma)\|u\|\|v\|
 \le
 \langle v,u\rangle_{\mathbb R}.
-\]
+$$
 
 Finally, `exact ⟨part_i, part_ii⟩` packages the two established inequalities as the required conjunction. No separate local cited theorem statement is used; the proof relies on standard norm, real inner-product, maximum, Cauchy–Schwarz, and ordered-field facts appearing through the named lemmas above.
 

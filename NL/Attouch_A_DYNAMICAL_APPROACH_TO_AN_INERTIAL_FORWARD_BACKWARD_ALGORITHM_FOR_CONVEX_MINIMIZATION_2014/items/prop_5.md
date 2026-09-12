@@ -16,71 +16,95 @@ theorem proposition8 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H
 ```
 
 ## Statement explanation
-The theorem `proposition8` is set in a real inner product space \(H\), with norm \(\|\cdot\|\) and inner product \(\langle \cdot,\cdot\rangle\). It takes extended-real-valued functions
-\[
-\phi,\Theta:H\to \overline{\mathbb R},
-\]
-a real-valued function
-\[
-\psi:H\to\mathbb R,
-\]
-a map
-\[
-\operatorname{gradPsi}:H\to H,
-\]
-two sequences
-\[
-u,y:\mathbb N\to H,
-\]
-and real parameters \(a,b,\lambda,L_{\psi}\).
+The theorem `proposition8` is set in a real inner product space $H$, with norm $\|\cdot\|$ and inner product $\langle \cdot,\cdot\rangle$. It takes extended-real-valued functions
 
-The hypothesis `hH : IFBHypothesis phi Θ psi gradPsi a b lam Lpsi` is the structural assumption on the convex/forward-backward problem. The proof uses from it only that \(a>0\), \(b>0\), \(0<\lambda\), a step-size bound from which \(\lambda<1/a\) is extracted, and convexity of \(\operatorname{epigraph}\Theta\). The hypothesis `hIFB : IsIFBTrajectory phi psi gradPsi a b lam u y` says that \((u,y)\) is an inertial forward-backward trajectory for the given data. The hypothesis
-\[
+$$
+\phi,\Theta:H\to \overline{\mathbb R},
+$$
+
+a real-valued function
+
+$$
+\psi:H\to\mathbb R,
+$$
+
+a map
+
+$$
+\operatorname{gradPsi}:H\to H,
+$$
+
+two sequences
+
+$$
+u,y:\mathbb N\to H,
+$$
+
+and real parameters $a,b,\lambda,L_{\psi}$.
+
+The hypothesis `hH : IFBHypothesis phi Θ psi gradPsi a b lam Lpsi` is the structural assumption on the convex/forward-backward problem. The proof uses from it only that $a>0$, $b>0$, $0<\lambda$, a step-size bound from which $\lambda<1/a$ is extracted, and convexity of $\operatorname{epigraph}\Theta$. The hypothesis `hIFB : IsIFBTrajectory phi psi gradPsi a b lam u y` says that $(u,y)$ is an inertial forward-backward trajectory for the given data. The hypothesis
+
+$$
 hS : (\operatorname{argminSet}\Theta).\text{Nonempty}
-\]
-says that the set of global minimizers of \(\Theta\),
-\[
+$$
+
+says that the set of global minimizers of $\Theta$,
+
+$$
 \operatorname{argminSet}(\Theta)=\{x\in H:\forall y\in H,\ \Theta(x)\le \Theta(y)\},
-\]
+$$
+
 is nonempty.
 
 The conclusion is the conjunction of two statements.
 
 First,
-\[
+
+$$
 \operatorname{Bornology.IsBounded}(\{u_k:k\in\mathbb N\}),
-\]
-meaning that the range of the sequence \(u\) is a bounded subset of \(H\).
+$$
+
+meaning that the range of the sequence $u$ is a bounded subset of $H$.
 
 Second, for every minimizer
-\[
-q\in \operatorname{argminSet}(\Theta),
-\]
-there exists a real number \(l\) such that the sequence
-\[
-k\mapsto \operatorname{liapunovF}(u,y,a,b,\lambda,q,k+1)
-\]
-converges to \(l\) as \(k\to\infty\).
 
-Here `liapunovF` is the Liapunov-type function built from \(u,y,a,b,\lambda,q\). For \(k\ge 1\), writing
-\[
+$$
+q\in \operatorname{argminSet}(\Theta),
+$$
+
+there exists a real number $l$ such that the sequence
+
+$$
+k\mapsto \operatorname{liapunovF}(u,y,a,b,\lambda,q,k+1)
+$$
+
+converges to $l$ as $k\to\infty$.
+
+Here `liapunovF` is the Liapunov-type function built from $u,y,a,b,\lambda,q$. For $k\ge 1$, writing
+
+$$
 v_i:=\operatorname{velocity}(u,i)=u_i-u_{i-1}\qquad(i\ge 1),
-\]
+$$
+
 and setting
-\[
+
+$$
 \alpha=\frac{1+b\lambda}{2\lambda^2},\qquad
 \delta=\frac{2+(b-a)\lambda}{2\lambda^2},
-\]
+$$
+
 one has
-\[
+
+$$
 \operatorname{liapunovF}(u,y,a,b,\lambda,q,k)
 =
 \frac{a+b}{2\lambda}\|u_k-q\|^2
 -\left(\frac1\lambda+b\right)G_{k+1}
 -\delta\sum_{i=2}^{k}\|v_i\|^2
 +2\alpha\langle v_{k+1},u_k-q\rangle,
-\]
-where \(G_{k+1}=\operatorname{auxiliaryG}(u,y,a,b,\lambda,q,k+1)\). Thus the theorem says that any inertial forward-backward trajectory has bounded iterates, and the Liapunov sequence associated with any minimizer \(q\) of \(\Theta\) has a finite limit.
+$$
+
+where $G_{k+1}=\operatorname{auxiliaryG}(u,y,a,b,\lambda,q,k+1)$. Thus the theorem says that any inertial forward-backward trajectory has bounded iterates, and the Liapunov sequence associated with any minimizer $q$ of $\Theta$ has a finite limit.
 
 ## Lean proof
 ```lean
@@ -242,286 +266,385 @@ by
 ```
 
 ## Proof explanation
-The proof begins by extracting a minimizer from \(hS\). Since \(hS\) is the nonemptiness of \(\operatorname{argminSet}(\Theta)\), the pattern
+The proof begins by extracting a minimizer from $hS$. Since $hS$ is the nonemptiness of $\operatorname{argminSet}(\Theta)$, the pattern
 `obtain ⟨q₀, hq₀⟩ := hS`
-introduces a point \(q_0\in H\) together with the assertion
-\[
+introduces a point $q_0\in H$ together with the assertion
+
+$$
 q_0\in \operatorname{argminSet}(\Theta).
-\]
+$$
 
 Next, the proof invokes `proposition2` with the full data and trajectory hypotheses:
-\[
+
+$$
 \texttt{proposition2}\ \phi\ \Theta\ \psi\ \operatorname{gradPsi}\ a\ b\ \lambda\ L_{\psi}\ u\ y\ hH\ hIFB.
-\]
-That result states three things: the mechanical energy is nonincreasing along the trajectory, the series of squared successive differences is summable, and the mechanical energy and \(\Theta(u_{k+1})\) converge to a common extended-real limit. The proof uses only the summability part, extracting it by
+$$
+
+That result states three things: the mechanical energy is nonincreasing along the trajectory, the series of squared successive differences is summable, and the mechanical energy and $\Theta(u_{k+1})$ converge to a common extended-real limit. The proof uses only the summability part, extracting it by
 `obtain ⟨_, hsq, _⟩ := ...`.
 Thus
-\[
+
+$$
 hsq:\quad \sum_{n=0}^{\infty}\|u_{n+1}-u_n\|^2<\infty,
-\]
+$$
+
 or in Lean terms, the function
-\[
+
+$$
 n\mapsto \|u_{n+1}-u_n\|^2
-\]
+$$
+
 is summable.
 
 The proof then defines the total velocity energy
-\[
+
+$$
 S:=\sum_{n=0}^{\infty}\|u_{n+1}-u_n\|^2.
-\]
+$$
+
 Using `tsum_nonneg` and `sq_nonneg`, it proves
-\[
+
+$$
 0\le S.
-\]
-Then, for each \(n\), it proves
-\[
+$$
+
+Then, for each $n$, it proves
+
+$$
 \|u_{n+1}-u_n\|^2\le S.
-\]
-This uses `hsq.sum_le_tsum` applied to the singleton finite set \(\{n\}\): for a summable nonnegative series, every finite sub-sum is at most the total sum. In this case the finite sum is just the single nonnegative term \(\|u_{n+1}-u_n\|^2\).
+$$
+
+This uses `hsq.sum_le_tsum` applied to the singleton finite set $\{n\}$: for a summable nonnegative series, every finite sub-sum is at most the total sum. In this case the finite sum is just the single nonnegative term $\|u_{n+1}-u_n\|^2$.
 
 The proof introduces abbreviations for important coefficients:
-\[
+
+$$
 A=\frac{a+b}{2\lambda},\qquad
 c=\frac1\lambda+b,\qquad
 \alpha=\frac{1+b\lambda}{2\lambda^2},\qquad
 \delta=\frac{2+(b-a)\lambda}{2\lambda^2}.
-\]
+$$
+
 These match the coefficients appearing in `liapunovF`.
 
 It proves the positivity of these coefficients:
 
-- \(A>0\): since \(a>0\), \(b>0\), and \(\lambda>0\), both \(a+b\) and \(2\lambda\) are positive.
-- \(c>0\): since \(1/\lambda>0\) and \(b>0\).
-- \(\alpha>0\): the numerator \(1+b\lambda\) is positive because \(b\lambda>0\), and the denominator \(2\lambda^2\) is positive.
-- \(\delta>0\): the proof uses the step-size hypothesis to get \(\lambda<1/a\), hence \(\lambda a<1\). Therefore
-\[
+- $A>0$: since $a>0$, $b>0$, and $\lambda>0$, both $a+b$ and $2\lambda$ are positive.
+- $c>0$: since $1/\lambda>0$ and $b>0$.
+- $\alpha>0$: the numerator $1+b\lambda$ is positive because $b\lambda>0$, and the denominator $2\lambda^2$ is positive.
+- $\delta>0$: the proof uses the step-size hypothesis to get $\lambda<1/a$, hence $\lambda a<1$. Therefore
+
+$$
 2+(b-a)\lambda=2+b\lambda-a\lambda>0,
-\]
-and the denominator \(2\lambda^2\) is positive.
+$$
+
+and the denominator $2\lambda^2$ is positive.
 
 The central intermediate result is `hsqdist`. For every minimizer
-\[
+
+$$
 q\in \operatorname{argminSet}(\Theta),
-\]
-it proves that there exists a real bound \(B\) with \(B\ge 0\) such that
-\[
+$$
+
+it proves that there exists a real bound $B$ with $B\ge 0$ such that
+
+$$
 \forall k\in\mathbb N,\qquad \|u_k-q\|^2\le B.
-\]
+$$
+
 This is proved as follows.
 
-First, the proof applies `minimizer_mem_phi_dom`. This lemma says that if \(q\) is a minimizer of \(\Theta\) and the hypothesis `hH` holds, then \(q\) lies in the domain of \(\phi\):
-\[
+First, the proof applies `minimizer_mem_phi_dom`. This lemma says that if $q$ is a minimizer of $\Theta$ and the hypothesis `hH` holds, then $q$ lies in the domain of $\phi$:
+
+$$
 q\in \operatorname{dom}\phi.
-\]
+$$
+
 This is needed to apply `proposition4`.
 
-Next, `proposition4` is invoked with \(q\) and the fact \(q\in\operatorname{dom}\phi\). It gives the existence of a real number \(M\) such that for every \(j\ge 2\),
-\[
+Next, `proposition4` is invoked with $q$ and the fact $q\in\operatorname{dom}\phi$. It gives the existence of a real number $M$ such that for every $j\ge 2$,
+
+$$
 \operatorname{auxiliaryG}(u,y,a,b,\lambda,q,j)\le M.
-\]
-The proof chooses such an \(M\) by `Classical.choose` and records its defining property by `Classical.choose_spec`, obtaining
-\[
+$$
+
+The proof chooses such an $M$ by `Classical.choose` and records its defining property by `Classical.choose_spec`, obtaining
+
+$$
 \operatorname{auxiliaryG}(u,y,a,b,\lambda,q,j)\le M
-\]
-for every \(j\ge 2\).
+$$
+
+for every $j\ge 2$.
 
 Then the proof defines
-\[
+
+$$
 F_n:=\operatorname{liapunovF}(u,y,a,b,\lambda,q,n+1).
-\]
-For each \(n\), it proves
-\[
+$$
+
+For each $n$, it proves
+
+$$
 F_{n+1}\le F_n.
-\]
-This comes from `proposition3`. For \(k\ge 1\), with convexity of \(\operatorname{epigraph}\Theta\) supplied by `hH.theta_convex`, `proposition3` states in particular that if \(q\in\operatorname{argminSet}(\Theta)\), then
-\[
+$$
+
+This comes from `proposition3`. For $k\ge 1$, with convexity of $\operatorname{epigraph}\Theta$ supplied by `hH.theta_convex`, `proposition3` states in particular that if $q\in\operatorname{argminSet}(\Theta)$, then
+
+$$
 \operatorname{liapunovF}(u,y,a,b,\lambda,q,k+1)
 \le
 \operatorname{liapunovF}(u,y,a,b,\lambda,q,k).
-\]
-Taking \(k=n+1\) gives the successor inequality \(F_{n+1}\le F_n\). The lemma `liapunovF_le_proof_irrel` is used here because `liapunovF` carries a proof argument that the index is at least \(1\); this lemma says that the inequality does not depend on which proof of the index bound is used.
+$$
 
-From the successor inequality, the library lemma `antitone_nat_of_succ_le` gives that \(F\) is antitone, meaning
-\[
+Taking $k=n+1$ gives the successor inequality $F_{n+1}\le F_n$. The lemma `liapunovF_le_proof_irrel` is used here because `liapunovF` carries a proof argument that the index is at least $1$; this lemma says that the inequality does not depend on which proof of the index bound is used.
+
+From the successor inequality, the library lemma `antitone_nat_of_succ_le` gives that $F$ is antitone, meaning
+
+$$
 m\le n\implies F_n\le F_m.
-\]
-In particular, for every \(k\),
-\[
+$$
+
+In particular, for every $k$,
+
+$$
 F_k\le F_0=\operatorname{liapunovF}(u,y,a,b,\lambda,q,1).
-\]
+$$
 
 The proof then defines
-\[
+
+$$
 C:=\operatorname{liapunovF}(u,y,a,b,\lambda,q,1)+cM+\delta S+\frac{2\alpha^2}{A}S.
-\]
-It proves that for every \(k\),
-\[
+$$
+
+It proves that for every $k$,
+
+$$
 \|u_{k+1}-q\|^2\le \max\left(0,\frac{2C}{A}\right).
-\]
+$$
+
 The key estimates are the following.
 
-From `liapunov_velocity_sum_le_tsum`, applied with \(k+1\), one has
-\[
+From `liapunov_velocity_sum_le_tsum`, applied with $k+1$, one has
+
+$$
 \sum_{i=2}^{k+1}\|\operatorname{velocity}(u,i)\|^2\le S.
-\]
+$$
+
 Also, using `velocity_eq_sub_of_one_le`,
-\[
+
+$$
 \operatorname{velocity}(u,k+2)=u_{k+2}-u_{k+1},
-\]
+$$
+
 so the earlier singleton estimate gives
-\[
+
+$$
 \|\operatorname{velocity}(u,k+2)\|^2\le S.
-\]
+$$
 
-Since \(c>0\) and
-\[
+Since $c>0$ and
+
+$$
 \operatorname{auxiliaryG}(u,y,a,b,\lambda,q,k+2)\le M,
-\]
-one obtains
-\[
--cM\le -c\operatorname{auxiliaryG}(u,y,a,b,\lambda,q,k+2).
-\]
-Similarly, since \(\delta>0\),
-\[
--\delta S\le -\delta\sum_{i=2}^{k+1}\|\operatorname{velocity}(u,i)\|^2.
-\]
+$$
 
-The cross term is controlled by `liapunov_cross_young`. That lemma states that if \(A>0\), \(\alpha\ge 0\), and \(v,d\in H\), then
-\[
+one obtains
+
+$$
+-cM\le -c\operatorname{auxiliaryG}(u,y,a,b,\lambda,q,k+2).
+$$
+
+Similarly, since $\delta>0$,
+
+$$
+-\delta S\le -\delta\sum_{i=2}^{k+1}\|\operatorname{velocity}(u,i)\|^2.
+$$
+
+The cross term is controlled by `liapunov_cross_young`. That lemma states that if $A>0$, $\alpha\ge 0$, and $v,d\in H$, then
+
+$$
 -2\alpha\langle v,d\rangle
 \le
 \frac A2\|d\|^2+\frac{2\alpha^2}{A}\|v\|^2.
-\]
+$$
+
 Applying it with
-\[
+
+$$
 v=\operatorname{velocity}(u,k+2),\qquad d=u_{k+1}-q
-\]
+$$
+
 and rearranging gives
-\[
+
+$$
 -\frac A2\|u_{k+1}-q\|^2
 -\frac{2\alpha^2}{A}\|\operatorname{velocity}(u,k+2)\|^2
 \le
 2\alpha\langle \operatorname{velocity}(u,k+2),u_{k+1}-q\rangle.
-\]
+$$
+
 Together with
-\[
+
+$$
 \|\operatorname{velocity}(u,k+2)\|^2\le S,
-\]
+$$
+
 this bounds the cross term from below by
-\[
+
+$$
 -\frac A2\|u_{k+1}-q\|^2-\frac{2\alpha^2}{A}S.
-\]
+$$
 
 Using these inequalities and unfolding `liapunovF`, the proof establishes
-\[
+
+$$
 \frac A2\|u_{k+1}-q\|^2-cM-\delta S-\frac{2\alpha^2}{A}S
 \le F_k.
-\]
-Since \(F_k\le F_0\), this implies
-\[
+$$
+
+Since $F_k\le F_0$, this implies
+
+$$
 \frac A2\|u_{k+1}-q\|^2\le C.
-\]
-Because \(A>0\), division gives
-\[
+$$
+
+Because $A>0$, division gives
+
+$$
 \|u_{k+1}-q\|^2\le \frac{2C}{A},
-\]
+$$
+
 and hence also
-\[
+
+$$
 \|u_{k+1}-q\|^2\le \max\left(0,\frac{2C}{A}\right).
-\]
+$$
 
 The proof then sets
-\[
+
+$$
 B:=\max\left(\max\left(0,\frac{2C}{A}\right),\|u_0-q\|^2\right).
-\]
-It verifies \(B\ge 0\), and then checks the two cases \(k=0\) and \(k=k'+1\). For \(k=0\), the bound is immediate from the second component of the maximum. For \(k=k'+1\), the estimate above gives the desired bound. This completes `hsqdist`.
+$$
 
-With `hsqdist` available for the initial minimizer \(q_0\), the proof establishes boundedness of the range of \(u\). It uses `bounded_nonnegative_real_range` to convert the uniform bound
-\[
+It verifies $B\ge 0$, and then checks the two cases $k=0$ and $k=k'+1$. For $k=0$, the bound is immediate from the second component of the maximum. For $k=k'+1$, the estimate above gives the desired bound. This completes `hsqdist`.
+
+With `hsqdist` available for the initial minimizer $q_0$, the proof establishes boundedness of the range of $u$. It uses `bounded_nonnegative_real_range` to convert the uniform bound
+
+$$
 \forall k,\ \|u_k-q_0\|^2\le B
-\]
-into boundedness of the range of the real sequence
-\[
-k\mapsto \|u_k-q_0\|^2.
-\]
-The lemma requires exactly that the sequence is nonnegative and bounded above. Then it applies `bounded_iterates_of_bounded_sq_distance` with \(q=q_0\). That lemma says that if the range of the squared distances \(\|u_k-q_0\|^2\) is bounded, then the range of \(u\) itself is bounded. This proves the first conjunct.
+$$
 
-It remains to prove the convergence statement for an arbitrary minimizer \(q\in\operatorname{argminSet}(\Theta)\). The proof reintroduces \(q\), obtains the squared-distance bound from `hsqdist`, applies `minimizer_mem_phi_dom` to get \(q\in\operatorname{dom}\phi\), and again uses `proposition4` to obtain a real \(M\) such that
-\[
+into boundedness of the range of the real sequence
+
+$$
+k\mapsto \|u_k-q_0\|^2.
+$$
+
+The lemma requires exactly that the sequence is nonnegative and bounded above. Then it applies `bounded_iterates_of_bounded_sq_distance` with $q=q_0$. That lemma says that if the range of the squared distances $\|u_k-q_0\|^2$ is bounded, then the range of $u$ itself is bounded. This proves the first conjunct.
+
+It remains to prove the convergence statement for an arbitrary minimizer $q\in\operatorname{argminSet}(\Theta)$. The proof reintroduces $q$, obtains the squared-distance bound from `hsqdist`, applies `minimizer_mem_phi_dom` to get $q\in\operatorname{dom}\phi$, and again uses `proposition4` to obtain a real $M$ such that
+
+$$
 \operatorname{auxiliaryG}(u,y,a,b,\lambda,q,j)\le M
-\]
-for all \(j\ge 2\).
+$$
+
+for all $j\ge 2$.
 
 It again defines
-\[
-F_n:=\operatorname{liapunovF}(u,y,a,b,\lambda,q,n+1)
-\]
-and proves \(F_{n+1}\le F_n\) in the same way as before, using `proposition3` and `liapunovF_le_proof_irrel`. Hence \(F\) is antitone.
 
-Now the goal is to show that \(F\) is bounded below. The proof defines
-\[
+$$
+F_n:=\operatorname{liapunovF}(u,y,a,b,\lambda,q,n+1)
+$$
+
+and proves $F_{n+1}\le F_n$ in the same way as before, using `proposition3` and `liapunovF_le_proof_irrel`. Hence $F$ is antitone.
+
+Now the goal is to show that $F$ is bounded below. The proof defines
+
+$$
 L:=-cM-\delta S-2\alpha\sqrt S\sqrt B.
-\]
-It proves for every \(k\),
-\[
+$$
+
+It proves for every $k$,
+
+$$
 L\le F_k.
-\]
+$$
+
 The ingredients are similar to the previous estimate, but the cross term is bounded below by Cauchy–Schwarz instead of Young's inequality.
 
 Indeed, from
-\[
+
+$$
 \|\operatorname{velocity}(u,k+2)\|^2\le S,
 \qquad
 \|u_{k+1}-q\|^2\le B,
-\]
+$$
+
 and the nonnegativity of norms and square roots, the proof obtains
-\[
+
+$$
 \|\operatorname{velocity}(u,k+2)\|\le\sqrt S,
 \qquad
 \|u_{k+1}-q\|\le\sqrt B.
-\]
-Here it uses `Real.sq_sqrt`, which says that for nonnegative \(x\), \((\sqrt x)^2=x\).
+$$
+
+Here it uses `Real.sq_sqrt`, which says that for nonnegative $x$, $(\sqrt x)^2=x$.
 
 The inequality `abs_real_inner_le_norm` is the Cauchy–Schwarz bound
-\[
+
+$$
 |\langle v,d\rangle|\le \|v\|\|d\|.
-\]
-Applied to \(v=\operatorname{velocity}(u,k+2)\) and \(d=u_{k+1}-q\), it gives
-\[
+$$
+
+Applied to $v=\operatorname{velocity}(u,k+2)$ and $d=u_{k+1}-q$, it gives
+
+$$
 -\|\operatorname{velocity}(u,k+2)\|\|u_{k+1}-q\|
 \le
 \langle \operatorname{velocity}(u,k+2),u_{k+1}-q\rangle.
-\]
-Since \(\alpha>0\), multiplying by \(2\alpha\) preserves the inequality, and using the square-root bounds yields
-\[
+$$
+
+Since $\alpha>0$, multiplying by $2\alpha$ preserves the inequality, and using the square-root bounds yields
+
+$$
 -2\alpha\sqrt S\sqrt B
 \le
 2\alpha\langle \operatorname{velocity}(u,k+2),u_{k+1}-q\rangle.
-\]
+$$
 
 Together with the previous bounds
-\[
--cM\le -c\operatorname{auxiliaryG}(u,y,a,b,\lambda,q,k+2),
-\]
-\[
--\delta S\le -\delta\sum_{i=2}^{k+1}\|\operatorname{velocity}(u,i)\|^2,
-\]
-and the fact that
-\[
-A\|u_{k+1}-q\|^2\ge 0,
-\]
-unfolding `liapunovF` gives
-\[
-L\le F_k.
-\]
-Thus \(L\) is a lower bound for the range of \(F\), so
-\[
-\operatorname{BddBelow}(\{F_k:k\in\mathbb N\}).
-\]
 
-Finally, since \(F\) is antitone and bounded below, the proof applies `tendsto_atTop_ciInf`. This theorem states that an antitone sequence of real numbers that is bounded below converges to its infimum. In Lean notation, the limit is
-\[
+$$
+-cM\le -c\operatorname{auxiliaryG}(u,y,a,b,\lambda,q,k+2),
+$$
+
+$$
+-\delta S\le -\delta\sum_{i=2}^{k+1}\|\operatorname{velocity}(u,i)\|^2,
+$$
+
+and the fact that
+
+$$
+A\|u_{k+1}-q\|^2\ge 0,
+$$
+
+unfolding `liapunovF` gives
+
+$$
+L\le F_k.
+$$
+
+Thus $L$ is a lower bound for the range of $F$, so
+
+$$
+\operatorname{BddBelow}(\{F_k:k\in\mathbb N\}).
+$$
+
+Finally, since $F$ is antitone and bounded below, the proof applies `tendsto_atTop_ciInf`. This theorem states that an antitone sequence of real numbers that is bounded below converges to its infimum. In Lean notation, the limit is
+
+$$
 \bigwedge_{k}F_k,
-\]
-written `⨅ k, F k`. The final `refine ⟨⨅ k, F k, ?_⟩` chooses this infimum as the required limit \(l\), and `tendsto_atTop_ciInf hFanti hbelow` supplies the convergence proof. This completes the second conjunct and hence the theorem.
+$$
+
+written `⨅ k, F k`. The final `refine ⟨⨅ k, F k, ?_⟩` chooses this infimum as the required limit $l$, and `tendsto_atTop_ciInf hFanti hbelow` supplies the convergence proof. This completes the second conjunct and hence the theorem.
 

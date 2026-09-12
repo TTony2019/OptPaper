@@ -18,30 +18,38 @@ theorem epsilon_din_uniform_error {H : Type*} [NormedAddCommGroup H] [InnerProdu
 ```
 
 ## Statement explanation
-The declaration is stated for a complete real inner product space \(H\), a function \(\Phi:H\to\mathbb R\), two initial vectors \(x_0,v_0\in H\), a two-parameter family of curves \(x_\epsilon(t)=xε\,\epsilon\,t\), and a curve \(x:\mathbb R\to H\). It assumes:
+The declaration is stated for a complete real inner product space $H$, a function $\Phi:H\to\mathbb R$, two initial vectors $x_0,v_0\in H$, a two-parameter family of curves $x_\epsilon(t)=xε\,\epsilon\,t$, and a curve $x:\mathbb R\to H$. It assumes:
 
-- `AssumptionH H Φ`: a package of hypotheses on \(\Phi\). The proof uses from it that \(\Phi\) is twice continuously differentiable and that \(\Phi\) is bounded below, so there exists \(m\in\mathbb R\) with \(m\le \Phi(z)\) for all \(z\in H\).
-- `hcoercive`: for every real level \(A\), there is \(R>0\) such that every \(z\) with \(\Phi(z)\le A\) satisfies \(\|z\|<R\). Thus sublevel sets of \(\Phi\) are bounded.
-- `hstrong`: the gradient \(\nabla\Phi\) is strongly monotone on bounded subsets of \(H\). In the proof this is used on a ball of radius \(R\): for some \(\beta>0\), any two points \(u,v\) with \(\max(\|u\|,\|v\|)<R\) satisfy
-  \[
+- `AssumptionH H Φ`: a package of hypotheses on $\Phi$. The proof uses from it that $\Phi$ is twice continuously differentiable and that $\Phi$ is bounded below, so there exists $m\in\mathbb R$ with $m\le \Phi(z)$ for all $z\in H$.
+- `hcoercive`: for every real level $A$, there is $R>0$ such that every $z$ with $\Phi(z)\le A$ satisfies $\|z\|<R$. Thus sublevel sets of $\Phi$ are bounded.
+- `hstrong`: the gradient $\nabla\Phi$ is strongly monotone on bounded subsets of $H$. In the proof this is used on a ball of radius $R$: for some $\beta>0$, any two points $u,v$ with $\max(\|u\|,\|v\|)<R$ satisfy
+
+  $$
   \beta\|u-v\|^2\le \langle \nabla\Phi(u)-\nabla\Phi(v),u-v\rangle .
-  \]
-- `hε`: for every \(\epsilon>0\), the curve \(x_\epsilon=xε\,\epsilon\) is an \(\epsilon\)-DIN trajectory. The proof extracts from this that \(x_\epsilon(0)=x_0\), \(\dot x_\epsilon(0)=v_0\), and, writing \(v_\epsilon=\dot x_\epsilon\) and \(a_\epsilon=\ddot x_\epsilon\), that for every \(s>0\),
-  \[
+  $$
+
+- `hε`: for every $\epsilon>0$, the curve $x_\epsilon=xε\,\epsilon$ is an $\epsilon$-DIN trajectory. The proof extracts from this that $x_\epsilon(0)=x_0$, $\dot x_\epsilon(0)=v_0$, and, writing $v_\epsilon=\dot x_\epsilon$ and $a_\epsilon=\ddot x_\epsilon$, that for every $s>0$,
+
+  $$
   \epsilon a_\epsilon(s)+\operatorname{Hess}\Phi(x_\epsilon(s))v_\epsilon(s)+\nabla\Phi(x_\epsilon(s))=0.
-  \]
-- `hcn`: \(x\) is a continuous Newton trajectory. The proof extracts \(x(0)=x_0\) and the Newton equation
-  \[
+  $$
+
+- `hcn`: $x$ is a continuous Newton trajectory. The proof extracts $x(0)=x_0$ and the Newton equation
+
+  $$
   \operatorname{Hess}\Phi(x(s))\dot x(s)+\nabla\Phi(x(s))=0
   \qquad(s>0).
-  \]
-- `hεreg` and `hx`: differentiability assumptions ensuring that \(x_\epsilon\), its derivative, and \(x\) have the derivatives used in the proof.
+  $$
 
-The conclusion has two parts. First, there exists a constant \(C>0\) such that for every \(\epsilon\) with \(0<\epsilon\le1\) and every \(t\ge0\),
-\[
+- `hεreg` and `hx`: differentiability assumptions ensuring that $x_\epsilon$, its derivative, and $x$ have the derivatives used in the proof.
+
+The conclusion has two parts. First, there exists a constant $C>0$ such that for every $\epsilon$ with $0<\epsilon\le1$ and every $t\ge0$,
+
+$$
 \|x_\epsilon(t)-x(t)\|\le C\sqrt{\epsilon}.
-\]
-Second, the family \(x_\epsilon\) converges uniformly to \(x\) on \([0,\infty)\) as \(\epsilon\to0^+\), i.e. in the filter `nhdsWithin 0 (Set.Ioi 0)`. Thus the \(\epsilon\)-DIN trajectories approximate the continuous Newton trajectory with uniform error \(O(\sqrt{\epsilon})\).
+$$
+
+Second, the family $x_\epsilon$ converges uniformly to $x$ on $[0,\infty)$ as $\epsilon\to0^+$, i.e. in the filter `nhdsWithin 0 (Set.Ioi 0)`. Thus the $\epsilon$-DIN trajectories approximate the continuous Newton trajectory with uniform error $O(\sqrt{\epsilon})$.
 
 ## Lean proof
 ```lean
@@ -379,233 +387,321 @@ by
 
 ## Proof explanation
 The proof first fixes abbreviations
-\[
+
+$$
 \operatorname{grad}\Phi=\nabla\Phi,\qquad
 \operatorname{hess}\Phi=D(\nabla\Phi),
-\]
-where the derivative is the Fréchet derivative over \(\mathbb R\). From `AssumptionH`, the proof obtains that \(\Phi\) is \(C^1\). It also shows that \(\nabla\Phi\) is \(C^1\): the derivative \(D\Phi\) is \(C^1\) because \(\Phi\) is \(C^2\), and the gradient is obtained from \(D\Phi\) through the Riesz isomorphism \(H\to H^*\). Consequently, for every \(z\), \(\Phi\) has gradient \(\nabla\Phi(z)\) at \(z\), and
-\[
-D(\nabla\Phi)(z)=\operatorname{hess}\Phi(z)
-\]
-as a continuous linear map \(H\to H\). These facts are used later to apply the energy and variation-of-constants lemmas.
+$$
 
-Next the proof unfolds the trajectory hypotheses. For each \(\epsilon>0\), it defines
-\[
+where the derivative is the Fréchet derivative over $\mathbb R$. From `AssumptionH`, the proof obtains that $\Phi$ is $C^1$. It also shows that $\nabla\Phi$ is $C^1$: the derivative $D\Phi$ is $C^1$ because $\Phi$ is $C^2$, and the gradient is obtained from $D\Phi$ through the Riesz isomorphism $H\to H^*$. Consequently, for every $z$, $\Phi$ has gradient $\nabla\Phi(z)$ at $z$, and
+
+$$
+D(\nabla\Phi)(z)=\operatorname{hess}\Phi(z)
+$$
+
+as a continuous linear map $H\to H$. These facts are used later to apply the energy and variation-of-constants lemmas.
+
+Next the proof unfolds the trajectory hypotheses. For each $\epsilon>0$, it defines
+
+$$
 v_\epsilon(s)=\dot x_\epsilon(s),\qquad a_\epsilon(s)=\ddot x_\epsilon(s).
-\]
+$$
+
 From `hε` and `hεreg` it records
-\[
+
+$$
 x_\epsilon(0)=x_0,\qquad v_\epsilon(0)=v_0,
-\]
-that \(x_\epsilon'=v_\epsilon\) and \(v_\epsilon'=a_\epsilon\), and the second-order equation
-\[
+$$
+
+that $x_\epsilon'=v_\epsilon$ and $v_\epsilon'=a_\epsilon$, and the second-order equation
+
+$$
 \epsilon a_\epsilon(s)+\operatorname{hess}\Phi(x_\epsilon(s))v_\epsilon(s)
 +\nabla\Phi(x_\epsilon(s))=0
-\]
-for \(s>0\). From `hcn` it records
-\[
+$$
+
+for $s>0$. From `hcn` it records
+
+$$
 x(0)=x_0,\qquad
 \operatorname{hess}\Phi(x(s))\dot x(s)+\nabla\Phi(x(s))=0
-\]
-for \(s>0\). Here `intro`, `rcases`, and `exact` are used to expose and specialize these hypotheses; `simpa` rewrites definitions such as \(v_\epsilon=\dot x_\epsilon\).
+$$
 
-A key consequence of strong monotonicity is then established. The cited result `strong_mono_hessian_nonneg` says that if \(\nabla\Phi\) is strongly monotone on bounded subsets and \(\operatorname{hess}\Phi\) is its derivative, then for all \(z,w\in H\),
-\[
+for $s>0$. Here `intro`, `rcases`, and `exact` are used to expose and specialize these hypotheses; `simpa` rewrites definitions such as $v_\epsilon=\dot x_\epsilon$.
+
+A key consequence of strong monotonicity is then established. The cited result `strong_mono_hessian_nonneg` says that if $\nabla\Phi$ is strongly monotone on bounded subsets and $\operatorname{hess}\Phi$ is its derivative, then for all $z,w\in H$,
+
+$$
 0\le \langle \operatorname{hess}\Phi(z)w,w\rangle .
-\]
-The proof applies this with \(z\) and \(w\) arbitrary, using `hstrong` and the previously proved derivative formula for \(\nabla\Phi\). This nonnegativity is the source of the monotonicity of the energy and potential below.
+$$
 
-For the \(\epsilon\)-trajectory, define the energy
-\[
+The proof applies this with $z$ and $w$ arbitrary, using `hstrong` and the previously proved derivative formula for $\nabla\Phi$. This nonnegativity is the source of the monotonicity of the energy and potential below.
+
+For the $\epsilon$-trajectory, define the energy
+
+$$
 U_\epsilon(s)=\frac{\epsilon}{2}\|v_\epsilon(s)\|^2+\Phi(x_\epsilon(s)).
-\]
-The cited lemma `epsilon_energy_deriv` applies to \(\Phi\), \(\nabla\Phi\), \(\operatorname{hess}\Phi\), the trajectory \(x_\epsilon\), its velocity \(v_\epsilon\), its acceleration \(a_\epsilon\), and the \(\epsilon\)-DIN equation. It states that for every \(s>0\),
-\[
+$$
+
+The cited lemma `epsilon_energy_deriv` applies to $\Phi$, $\nabla\Phi$, $\operatorname{hess}\Phi$, the trajectory $x_\epsilon$, its velocity $v_\epsilon$, its acceleration $a_\epsilon$, and the $\epsilon$-DIN equation. It states that for every $s>0$,
+
+$$
 \frac{d}{ds}U_\epsilon(s)
 =
 -\left\langle \operatorname{hess}\Phi(x_\epsilon(s))v_\epsilon(s),v_\epsilon(s)\right\rangle .
-\]
-By the Hessian nonnegativity just proved, this derivative is \(\le0\). The proof also checks continuity of \(U_\epsilon\) and differentiability on the interior of \([0,\infty)\), then invokes `antitoneOn_of_deriv_nonpos`, which says that a continuous function on a convex interval whose derivative is nonpositive on the interior is antitone there. Hence \(U_\epsilon\) is nonincreasing on \([0,\infty)\). Evaluating at \(0\) and \(t\) gives
-\[
+$$
+
+By the Hessian nonnegativity just proved, this derivative is $\le0$. The proof also checks continuity of $U_\epsilon$ and differentiability on the interior of $[0,\infty)$, then invokes `antitoneOn_of_deriv_nonpos`, which says that a continuous function on a convex interval whose derivative is nonpositive on the interior is antitone there. Hence $U_\epsilon$ is nonincreasing on $[0,\infty)$. Evaluating at $0$ and $t$ gives
+
+$$
 \frac{\epsilon}{2}\|v_\epsilon(t)\|^2+\Phi(x_\epsilon(t))
 \le
 \frac{\epsilon}{2}\|v_0\|^2+\Phi(x_0).
-\]
+$$
 
 The same idea is applied to the Newton trajectory with
-\[
+
+$$
 V(s)=\Phi(x(s)).
-\]
+$$
+
 The chain rule gives
-\[
+
+$$
 V'(s)=\langle \nabla\Phi(x(s)),\dot x(s)\rangle .
-\]
+$$
+
 Using the Newton equation,
-\[
+
+$$
 \operatorname{hess}\Phi(x(s))\dot x(s)=-\nabla\Phi(x(s)),
-\]
+$$
+
 so
-\[
+
+$$
 V'(s)=-\langle \operatorname{hess}\Phi(x(s))\dot x(s),\dot x(s)\rangle\le0.
-\]
-Thus \(V\) is nonincreasing on \([0,\infty)\), and therefore
-\[
+$$
+
+Thus $V$ is nonincreasing on $[0,\infty)$, and therefore
+
+$$
 \Phi(x(t))\le \Phi(x_0)
 \qquad(t\ge0).
-\]
+$$
 
 Next the proof introduces
-\[
-\alpha=\frac{\|v_0\|^2}{2}+\Phi(x_0).
-\]
-Since \(\epsilon\le1\),
-\[
-\frac{\epsilon}{2}\|v_0\|^2+\Phi(x_0)\le\alpha,
-\]
-so the energy inequality yields
-\[
-\Phi(x_\epsilon(t))\le\alpha.
-\]
-Using the lower bound \(m\le\Phi\), this also gives
-\[
-(\epsilon\|v_\epsilon(t)\|)^2\le 2\epsilon(\alpha-m),
-\]
-hence
-\[
-\epsilon\|v_\epsilon(t)\|\le \sqrt{2\epsilon(\alpha-m)}.
-\]
-The coercivity hypothesis `hcoercive` is then applied at level \(\alpha\). It supplies \(R>0\) such that \(\Phi(z)\le\alpha\) implies \(\|z\|<R\). Using the bound for \(x_\epsilon(t)\) and the monotonicity \(\Phi(x(t))\le\Phi(x_0)\le\alpha\), the proof obtains
-\[
-\max(\|x_\epsilon(t)\|,\|x(t)\|)<R
-\]
-for all \(0<\epsilon\le1\) and \(t\ge0\). Thus both curves remain in the ball where strong monotonicity is available.
 
-Applying `hstrong` to radius \(R\) gives \(\beta>0\) such that
-\[
+$$
+\alpha=\frac{\|v_0\|^2}{2}+\Phi(x_0).
+$$
+
+Since $\epsilon\le1$,
+
+$$
+\frac{\epsilon}{2}\|v_0\|^2+\Phi(x_0)\le\alpha,
+$$
+
+so the energy inequality yields
+
+$$
+\Phi(x_\epsilon(t))\le\alpha.
+$$
+
+Using the lower bound $m\le\Phi$, this also gives
+
+$$
+(\epsilon\|v_\epsilon(t)\|)^2\le 2\epsilon(\alpha-m),
+$$
+
+hence
+
+$$
+\epsilon\|v_\epsilon(t)\|\le \sqrt{2\epsilon(\alpha-m)}.
+$$
+
+The coercivity hypothesis `hcoercive` is then applied at level $\alpha$. It supplies $R>0$ such that $\Phi(z)\le\alpha$ implies $\|z\|<R$. Using the bound for $x_\epsilon(t)$ and the monotonicity $\Phi(x(t))\le\Phi(x_0)\le\alpha$, the proof obtains
+
+$$
+\max(\|x_\epsilon(t)\|,\|x(t)\|)<R
+$$
+
+for all $0<\epsilon\le1$ and $t\ge0$. Thus both curves remain in the ball where strong monotonicity is available.
+
+Applying `hstrong` to radius $R$ gives $\beta>0$ such that
+
+$$
 \beta\|u-v\|^2\le
 \langle \nabla\Phi(u)-\nabla\Phi(v),u-v\rangle
-\]
-for \(u,v\) in that ball. The cited lemma `distance_le_grad_difference` then says that if
-\[
+$$
+
+for $u,v$ in that ball. The cited lemma `distance_le_grad_difference` then says that if
+
+$$
 \beta\|d\|^2\le \langle g,d\rangle,
-\]
+$$
+
 then
-\[
+
+$$
 \beta\|d\|\le \|g\|.
-\]
+$$
+
 It is applied with
-\[
+
+$$
 d=x_\epsilon(t)-x(t),\qquad
 g=\nabla\Phi(x_\epsilon(t))-\nabla\Phi(x(t)).
-\]
+$$
+
 Therefore
-\[
+
+$$
 \beta\|x_\epsilon(t)-x(t)\|
 \le
 \|\nabla\Phi(x_\epsilon(t))-\nabla\Phi(x(t))\|.
-\]
+$$
 
-The next main step is an exact integral representation of the gradient difference. The cited lemma `variation_of_constants` states that if \(q\) and \(f\) are continuous and
-\[
+The next main step is an exact integral representation of the gradient difference. The cited lemma `variation_of_constants` states that if $q$ and $f$ are continuous and
+
+$$
 q'(r)=-q(r)+f(r)\qquad(r>0),
-\]
-then for every \(s\ge0\),
-\[
+$$
+
+then for every $s\ge0$,
+
+$$
 q(s)=e^{-s}q(0)+\int_0^s e^{-(s-r)}f(r)\,dr.
-\]
+$$
+
 The proof first applies it to
-\[
+
+$$
 q(s)=\nabla\Phi(x(s)),\qquad f=0.
-\]
-The Newton equation gives \(q'(r)=-\nabla\Phi(x(r))=-q(r)\). Hence
-\[
+$$
+
+The Newton equation gives $q'(r)=-\nabla\Phi(x(r))=-q(r)$. Hence
+
+$$
 \nabla\Phi(x(t))=e^{-t}\nabla\Phi(x_0).
-\]
+$$
+
 Then it defines
-\[
+
+$$
 \omega(s)=\epsilon v_\epsilon(s)+\nabla\Phi(x_\epsilon(s)).
-\]
-Using the \(\epsilon\)-DIN equation,
-\[
+$$
+
+Using the $\epsilon$-DIN equation,
+
+$$
 \omega'(r)
 =\epsilon a_\epsilon(r)+\operatorname{hess}\Phi(x_\epsilon(r))v_\epsilon(r)
 =-\nabla\Phi(x_\epsilon(r))
 =-\omega(r)+\epsilon v_\epsilon(r).
-\]
-So variation of constants with \(f(r)=\epsilon v_\epsilon(r)\) gives
-\[
+$$
+
+So variation of constants with $f(r)=\epsilon v_\epsilon(r)$ gives
+
+$$
 \omega(t)
 =e^{-t}\omega(0)+\int_0^t e^{-(t-r)}\epsilon v_\epsilon(r)\,dr,
-\]
-and \(\omega(0)=\epsilon v_0+\nabla\Phi(x_0)\). Subtracting
-\[
+$$
+
+and $\omega(0)=\epsilon v_0+\nabla\Phi(x_0)$. Subtracting
+
+$$
 \nabla\Phi(x(t))=e^{-t}\nabla\Phi(x_0)
-\]
+$$
+
 and rearranging with `abel` yields
-\[
+
+$$
 \nabla\Phi(x_\epsilon(t))-\nabla\Phi(x(t))
 =
 e^{-t}(\epsilon v_0)-\epsilon v_\epsilon(t)
 +\int_0^t e^{-(t-r)}\epsilon v_\epsilon(r)\,dr.
-\]
+$$
 
 This representation is then bounded. Put
-\[
+
+$$
 B=\sqrt{2\epsilon(\alpha-m)}.
-\]
+$$
+
 The first term satisfies
-\[
+
+$$
 \|e^{-t}(\epsilon v_0)\|\le \epsilon\|v_0\|
-\]
-because \(e^{-t}\le1\). The second term satisfies
-\[
+$$
+
+because $e^{-t}\le1$. The second term satisfies
+
+$$
 \|\epsilon v_\epsilon(t)\|\le B
-\]
+$$
+
 by the velocity estimate. For the integral, the proof uses the norm-integral inequality
-\[
+
+$$
 \left\|\int_0^t F(r)\,dr\right\|\le \int_0^t \|F(r)\|\,dr,
-\]
+$$
+
 then `integral_mono_on` with the pointwise bound
-\[
+
+$$
 \|e^{-(t-r)}\epsilon v_\epsilon(r)\|
 \le e^{-(t-r)}B.
-\]
+$$
+
 The scalar integral is computed as
-\[
+
+$$
 \int_0^t e^{-(t-r)}B\,dr
 =
 B(1-e^{-t})\le B.
-\]
+$$
+
 Therefore
-\[
+
+$$
 \|\nabla\Phi(x_\epsilon(t))-\nabla\Phi(x(t))\|
 \le
 \epsilon\|v_0\|+2\sqrt{2\epsilon(\alpha-m)}.
-\]
+$$
 
 Now set
-\[
+
+$$
 K=\|v_0\|+2\sqrt{2(\alpha-m)},\qquad
 C=\frac{K+1}{\beta}.
-\]
-Since \(\beta>0\), one has \(C>0\). Combining the strong-monotonicity lower bound with the gradient bound gives
-\[
+$$
+
+Since $\beta>0$, one has $C>0$. Combining the strong-monotonicity lower bound with the gradient bound gives
+
+$$
 \beta\|x_\epsilon(t)-x(t)\|
 \le
 \epsilon\|v_0\|+2\sqrt{2\epsilon(\alpha-m)}.
-\]
+$$
+
 Using
-\[
+
+$$
 \sqrt{2\epsilon(\alpha-m)}
 =
 \sqrt{\epsilon}\sqrt{2(\alpha-m)}
-\]
-and \(\epsilon\le\sqrt{\epsilon}\) for \(0<\epsilon\le1\), the right-hand side is at most
-\[
+$$
+
+and $\epsilon\le\sqrt{\epsilon}$ for $0<\epsilon\le1$, the right-hand side is at most
+
+$$
 \sqrt{\epsilon}\,K.
-\]
+$$
+
 Hence
-\[
+
+$$
 \|x_\epsilon(t)-x(t)\|
 \le
 \frac{\sqrt{\epsilon}K}{\beta}
@@ -613,27 +709,37 @@ Hence
 \frac{K+1}{\beta}\sqrt{\epsilon}
 =
 C\sqrt{\epsilon}.
-\]
-This proves the first conjunct, the uniform \(O(\sqrt{\epsilon})\) error estimate. The arithmetic inequalities here are handled by `nlinarith` and `linarith`.
+$$
 
-Finally, the proof proves uniform convergence. It rewrites the goal using `Metric.tendstoUniformlyOn_iff`, which says that \(x_\epsilon\to x\) uniformly on \([0,\infty)\) as \(\epsilon\to0^+\) is equivalent to: for every \(\delta>0\), eventually for \(\epsilon\) near \(0\) from the right and for every \(t\ge0\),
-\[
+This proves the first conjunct, the uniform $O(\sqrt{\epsilon})$ error estimate. The arithmetic inequalities here are handled by `nlinarith` and `linarith`.
+
+Finally, the proof proves uniform convergence. It rewrites the goal using `Metric.tendstoUniformlyOn_iff`, which says that $x_\epsilon\to x$ uniformly on $[0,\infty)$ as $\epsilon\to0^+$ is equivalent to: for every $\delta>0$, eventually for $\epsilon$ near $0$ from the right and for every $t\ge0$,
+
+$$
 \|x_\epsilon(t)-x(t)\|<\delta.
-\]
-Given \(\delta>0\), choose
-\[
+$$
+
+Given $\delta>0$, choose
+
+$$
 \eta=\min\left(1,\left(\frac{\delta}{C}\right)^2\right)>0.
-\]
-Eventually \(\epsilon\in(0,\eta)\). Then \(\epsilon\le1\) and
-\[
+$$
+
+Eventually $\epsilon\in(0,\eta)$. Then $\epsilon\le1$ and
+
+$$
 \epsilon<\left(\frac{\delta}{C}\right)^2,
-\]
+$$
+
 so
-\[
+
+$$
 \sqrt{\epsilon}<\frac{\delta}{C}.
-\]
+$$
+
 Using the already proved estimate,
-\[
+
+$$
 \|x_\epsilon(t)-x(t)\|
 \le
 C\sqrt{\epsilon}
@@ -641,6 +747,7 @@ C\sqrt{\epsilon}
 C\frac{\delta}{C}
 =
 \delta.
-\]
-Thus the required uniform convergence holds, completing the proof. In Lean, `filter_upwards` implements the “eventually” quantifier over the right-neighborhood of \(0\), `rw` and `simp` unfold the metric characterization, and `field_simp` finishes the division by \(C>0\).
+$$
+
+Thus the required uniform convergence holds, completing the proof. In Lean, `filter_upwards` implements the “eventually” quantifier over the right-neighborhood of $0$, `rw` and `simp` unfold the metric characterization, and `field_simp` finishes the division by $C>0$.
 

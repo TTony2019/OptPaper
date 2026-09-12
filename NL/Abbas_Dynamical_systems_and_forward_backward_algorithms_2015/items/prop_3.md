@@ -40,48 +40,65 @@ theorem proposition_2_16 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace �
 ```
 
 ## Statement explanation
-The theorem concerns a complete real inner product space \(H\), a set \(S\subseteq H\), a point \(z\in S\), a function
-\[
-\Phi:H\to (-\infty,\infty]
-\]
-modeled as \(H\to \{r\in \overline{\mathbb R}: r>-\infty\}\), a map \(B:H\to H\), curves \(x,v:\mathbb R\to H\), and positive parameters \(\lambda,\mu,\beta\) with \(\mu\lambda=1\). The hypothesis \(\Phi\in\operatorname{gammaZero}(H)\) says that \(\Phi\) belongs to the class \(\Gamma_0(H)\), and the hypothesis on \(B\) says that \(B\) is \(\beta\)-cocoercive on all of \(H\), i.e. for all \(u,w\in H\),
-\[
-\beta\|Bu-Bw\|^2\le \langle u-w,Bu-Bw\rangle .
-\]
+The theorem concerns a complete real inner product space $H$, a set $S\subseteq H$, a point $z\in S$, a function
 
-The theorem assumes that \(x\) and \(v\) are absolutely continuous on every interval \([0,T]\) with \(T>0\), that they are differentiable almost everywhere there with derivatives \(\dot x\) and \(\dot v\), and that
-\[
+$$
+\Phi:H\to (-\infty,\infty]
+$$
+
+modeled as $H\to \{r\in \overline{\mathbb R}: r>-\infty\}$, a map $B:H\to H$, curves $x,v:\mathbb R\to H$, and positive parameters $\lambda,\mu,\beta$ with $\mu\lambda=1$. The hypothesis $\Phi\in\operatorname{gammaZero}(H)$ says that $\Phi$ belongs to the class $\Gamma_0(H)$, and the hypothesis on $B$ says that $B$ is $\beta$-cocoercive on all of $H$, i.e. for all $u,w\in H$,
+
+$$
+\beta\|Bu-Bw\|^2\le \langle u-w,Bu-Bw\rangle .
+$$
+
+The theorem assumes that $x$ and $v$ are absolutely continuous on every interval $[0,T]$ with $T>0$, that they are differentiable almost everywhere there with derivatives $\dot x$ and $\dot v$, and that
+
+$$
 v(t)\in \partial\Phi(x(t))
-\]
-for every \(t\ge 0\). It also assumes local \(L^2\) bounds for \(v\) and \(\dot x\) on \([0,T]\), and that almost everywhere on \([0,\infty)\),
-\[
+$$
+
+for every $t\ge 0$. It also assumes local $L^2$ bounds for $v$ and $\dot x$ on $[0,T]$, and that almost everywhere on $[0,\infty)$,
+
+$$
 \lambda\dot x(t)+\dot v(t)+v(t)+B(x(t))=0.
-\]
-The set \(S\) is a solution set: for every \(w\in S\),
-\[
+$$
+
+The set $S$ is a solution set: for every $w\in S$,
+
+$$
 -Bw\in \partial\Phi(w),
-\]
-equivalently \(0\in Bw+\partial\Phi(w)\). The effective-domain hypotheses say that \(x(t)\in\operatorname{dom}\Phi\) for all \(t\ge 0\), and that every \(w\in S\) lies in \(\operatorname{dom}\Phi\). Finally, the weak-convergence hypothesis says that there exists \(x_\infty\in S\) such that
-\[
+$$
+
+equivalently $0\in Bw+\partial\Phi(w)$. The effective-domain hypotheses say that $x(t)\in\operatorname{dom}\Phi$ for all $t\ge 0$, and that every $w\in S$ lies in $\operatorname{dom}\Phi$. Finally, the weak-convergence hypothesis says that there exists $x_\infty\in S$ such that
+
+$$
 x(t)\rightharpoonup x_\infty
-\]
-in the weak topology as \(t\to\infty\).
+$$
+
+in the weak topology as $t\to\infty$.
 
 The conclusion is threefold. First, the function
-\[
+
+$$
 F(t)=(\Phi(x(t)))_{\mathbb R}-(\Phi z)_{\mathbb R}
 +\langle Bz,x(t)-z\rangle
-\]
-is integrable on \([0,\infty)\). Second,
-\[
+$$
+
+is integrable on $[0,\infty)$. Second,
+
+$$
 F(t)\to 0
 \qquad (t\to\infty).
-\]
-Third, there exists \(x_\infty\in S\) such that \(x(t)\rightharpoonup x_\infty\) and, in addition,
-\[
+$$
+
+Third, there exists $x_\infty\in S$ such that $x(t)\rightharpoonup x_\infty$ and, in addition,
+
+$$
 (\Phi(x(t)))_{\mathbb R}\to(\Phi(x_\infty))_{\mathbb R}.
-\]
-The weak-convergence part of the third conclusion is already present in the hypothesis; the new information is the convergence of the real values of \(\Phi\) along the curve.
+$$
+
+The weak-convergence part of the third conclusion is already present in the hypothesis; the new information is the convergence of the real values of $\Phi$ along the curve.
 
 ## Lean proof
 ```lean
@@ -446,265 +463,358 @@ by
 
 ## Proof explanation
 The proof first invokes `proposition_2_12` with exactly the same data. That theorem supplies several facts. Let
-\[
+
+$$
 \Gamma(t)=\frac12\|x(t)-z\|^2+\mu\Bigl(
 (\Phi z)_{\mathbb R}-(\Phi(x(t)))_{\mathbb R}
 -\langle z-x(t),v(t)\rangle\Bigr).
-\]
-The cited proposition says that \(\Gamma\) is nonincreasing on \([0,\infty)\), that \(\Gamma(t)\) has a finite limit as \(t\to\infty\), that \(\|B(x(t))-Bz\|^2\) is integrable on \([0,\infty)\), that \(\|x(t)\|\) is bounded, that \(\|\dot x(t)\|^2\), \(\|\dot v(t)+v(t)+Bz\|^2\), and \(\|\dot v(t)\|^2\) are integrable on \([0,\infty)\), that \(\|v(t)\|\) is bounded, and that
-\[
+$$
+
+The cited proposition says that $\Gamma$ is nonincreasing on $[0,\infty)$, that $\Gamma(t)$ has a finite limit as $t\to\infty$, that $\|B(x(t))-Bz\|^2$ is integrable on $[0,\infty)$, that $\|x(t)\|$ is bounded, that $\|\dot x(t)\|^2$, $\|\dot v(t)+v(t)+Bz\|^2$, and $\|\dot v(t)\|^2$ are integrable on $[0,\infty)$, that $\|v(t)\|$ is bounded, and that
+
+$$
 (\Phi(x(t)))_{\mathbb R}+\langle x(t),Bz\rangle
-\]
-has a finite limit as \(t\to\infty\). The last fact is recorded in the proof but is not used later.
+$$
+
+has a finite limit as $t\to\infty$. The last fact is recorded in the proof but is not used later.
 
 The proof then defines
-\[
+
+$$
 F(t)=(\Phi(x(t)))_{\mathbb R}-(\Phi z)_{\mathbb R}
 +\langle Bz,x(t)-z\rangle.
-\]
-It first shows \(F(t)\ge 0\) for every \(t\ge 0\). For this it uses the subgradient inequality `subgradient_ineq_toReal_of_mem_gammaZero`. Since \(-Bz\in\partial\Phi(z)\), since \(x(t)\in\operatorname{dom}\Phi\), and since \(\Phi\in\Gamma_0(H)\), that inequality gives
-\[
+$$
+
+It first shows $F(t)\ge 0$ for every $t\ge 0$. For this it uses the subgradient inequality `subgradient_ineq_toReal_of_mem_gammaZero`. Since $-Bz\in\partial\Phi(z)$, since $x(t)\in\operatorname{dom}\Phi$, and since $\Phi\in\Gamma_0(H)$, that inequality gives
+
+$$
 (\Phi(x(t)))_{\mathbb R}
 \ge (\Phi z)_{\mathbb R}+\langle -Bz,x(t)-z\rangle.
-\]
-Using symmetry of the real inner product and \(\langle -Bz,x(t)-z\rangle=-\langle Bz,x(t)-z\rangle\), this rearranges to \(F(t)\ge 0\).
+$$
+
+Using symmetry of the real inner product and $\langle -Bz,x(t)-z\rangle=-\langle Bz,x(t)-z\rangle$, this rearranges to $F(t)\ge 0$.
 
 Next the proof establishes that the scalar function
-\[
+
+$$
 t\mapsto (\Phi(x(t)))_{\mathbb R}
-\]
-is absolutely continuous on each \([0,T]\), and that, almost everywhere on \([0,T]\),
-\[
+$$
+
+is absolutely continuous on each $[0,T]$, and that, almost everywhere on $[0,T]$,
+
+$$
 \frac{d}{dt}(\Phi(x(t)))_{\mathbb R}
 =\langle v(t),\dot x(t)\rangle.
-\]
-This is exactly the conclusion of `subgradient_chain_rule`, applied with \(b=T\). Its hypotheses are supplied as follows: \(\Phi\in\Gamma_0(H)\), \(x\) is absolutely continuous on \([0,T]\), \(v(t)\in\partial\Phi(x(t))\) for almost every \(t\in[0,T]\), \(x(t)\in\operatorname{dom}\Phi\) on \([0,T]\), \(x\) is differentiable almost everywhere, and \(v,\dot x\in L^2([0,T])\).
+$$
 
-The proof then defines the same auxiliary function \(\Gamma\) from `proposition_2_12` and proves that it is absolutely continuous on every \([0,T]\). It uses three closure facts. First, `prop216_inner_ac` says that the real inner product of two absolutely continuous curves is absolutely continuous. Applying it to \(z-x(t)\) and \(v(t)\), and using
-\[
+This is exactly the conclusion of `subgradient_chain_rule`, applied with $b=T$. Its hypotheses are supplied as follows: $\Phi\in\Gamma_0(H)$, $x$ is absolutely continuous on $[0,T]$, $v(t)\in\partial\Phi(x(t))$ for almost every $t\in[0,T]$, $x(t)\in\operatorname{dom}\Phi$ on $[0,T]$, $x$ is differentiable almost everywhere, and $v,\dot x\in L^2([0,T])$.
+
+The proof then defines the same auxiliary function $\Gamma$ from `proposition_2_12` and proves that it is absolutely continuous on every $[0,T]$. It uses three closure facts. First, `prop216_inner_ac` says that the real inner product of two absolutely continuous curves is absolutely continuous. Applying it to $z-x(t)$ and $v(t)$, and using
+
+$$
 \langle z-x(t),v(t)\rangle=-\langle x(t)-z,v(t)\rangle,
-\]
-shows that \(t\mapsto\langle z-x(t),v(t)\rangle\) is absolutely continuous. Second, `prop216_sqdist_ac` says that if \(x\) is absolutely continuous, then so is
-\[
+$$
+
+shows that $t\mapsto\langle z-x(t),v(t)\rangle$ is absolutely continuous. Second, `prop216_sqdist_ac` says that if $x$ is absolutely continuous, then so is
+
+$$
 t\mapsto \frac12\|x(t)-z\|^2.
-\]
-Third, absolutely continuous functions are closed under addition, subtraction, and multiplication by constants. Therefore \(\Gamma\) is absolutely continuous on \([0,T]\).
+$$
 
-The central estimate is that, for every \(T>0\), almost everywhere on \([0,T]\),
-\[
+Third, absolutely continuous functions are closed under addition, subtraction, and multiplication by constants. Therefore $\Gamma$ is absolutely continuous on $[0,T]$.
+
+The central estimate is that, for every $T>0$, almost everywhere on $[0,T]$,
+
+$$
 \Gamma'(t)+\mu F(t)+\mu\beta\|B(x(t))-Bz\|^2\le 0.
-\]
-To prove this, the proof first uses `isMonotone_subdifferential`. Since \(\Phi\in\Gamma_0(H)\), the cited `isProper_of_mem_gammaZero` gives that the extended-real function \(y\mapsto(\Phi y)_{\mathbb R}\) is proper, and then `isMonotone_subdifferential` gives that \(\partial\Phi\) is monotone as a set-valued operator: whenever \(u\in\partial\Phi(a)\) and \(w\in\partial\Phi(b)\),
-\[
+$$
+
+To prove this, the proof first uses `isMonotone_subdifferential`. Since $\Phi\in\Gamma_0(H)$, the cited `isProper_of_mem_gammaZero` gives that the extended-real function $y\mapsto(\Phi y)_{\mathbb R}$ is proper, and then `isMonotone_subdifferential` gives that $\partial\Phi$ is monotone as a set-valued operator: whenever $u\in\partial\Phi(a)$ and $w\in\partial\Phi(b)$,
+
+$$
 0\le \langle u-w,a-b\rangle.
-\]
+$$
 
-From monotonicity of \(\partial\Phi\) and differentiability of \(x\) and \(v\), the proof obtains almost everywhere on \([0,T]\)
-\[
+From monotonicity of $\partial\Phi$ and differentiability of $x$ and $v$, the proof obtains almost everywhere on $[0,T]$
+
+$$
 0\le \langle \dot x(t),\dot v(t)\rangle.
-\]
-This is the content of `prop216_inner_deriv_nonneg`, applied to the monotone operator \(\partial\Phi\), the membership \(v(t)\in\partial\Phi(x(t))\), and the derivatives of \(x\) and \(v\) at \(t\). The almost-everywhere statement is first proved on \((0,T]\) and then transferred to \([0,T]\), since the endpoint \(0\) has measure zero.
+$$
 
-For almost every \(t\in[0,T]\), the proof collects the following facts: \(x\) and \(v\) are differentiable at \(t\); the derivative of \((\Phi(x(t)))_{\mathbb R}\) is \(\langle v(t),\dot x(t)\rangle\); the orbit equation
-\[
+This is the content of `prop216_inner_deriv_nonneg`, applied to the monotone operator $\partial\Phi$, the membership $v(t)\in\partial\Phi(x(t))$, and the derivatives of $x$ and $v$ at $t$. The almost-everywhere statement is first proved on $(0,T]$ and then transferred to $[0,T]$, since the endpoint $0$ has measure zero.
+
+For almost every $t\in[0,T]$, the proof collects the following facts: $x$ and $v$ are differentiable at $t$; the derivative of $(\Phi(x(t)))_{\mathbb R}$ is $\langle v(t),\dot x(t)\rangle$; the orbit equation
+
+$$
 \lambda\dot x(t)+\dot v(t)+v(t)+B(x(t))=0
-\]
-holds; and \(0\le\langle \dot x(t),\dot v(t)\rangle\).
+$$
+
+holds; and $0\le\langle \dot x(t),\dot v(t)\rangle$.
 
 It then computes derivatives. The derivative of
-\[
+
+$$
 t\mapsto \frac12\|x(t)-z\|^2
-\]
+$$
+
 is
-\[
+
+$$
 \langle x(t)-z,\dot x(t)\rangle.
-\]
+$$
+
 The derivative of
-\[
+
+$$
 t\mapsto \langle z-x(t),v(t)\rangle
-\]
+$$
+
 is
-\[
+
+$$
 \langle z-x(t),\dot v(t)\rangle-\langle \dot x(t),v(t)\rangle.
-\]
-Therefore the derivative of \(\Gamma\) is
-\[
+$$
+
+Therefore the derivative of $\Gamma$ is
+
+$$
 \Gamma'(t)
 =\langle x(t)-z,\dot x(t)\rangle
 +\mu\langle x(t)-z,\dot v(t)\rangle.
-\]
+$$
 
-The proof next uses three inequalities. First, monotonicity of \(\partial\Phi\) applied to \(v(t)\in\partial\Phi(x(t))\) and \(-Bz\in\partial\Phi(z)\) gives
-\[
+The proof next uses three inequalities. First, monotonicity of $\partial\Phi$ applied to $v(t)\in\partial\Phi(x(t))$ and $-Bz\in\partial\Phi(z)$ gives
+
+$$
 0\le \langle v(t)+Bz,x(t)-z\rangle
 =\langle x(t)-z,v(t)+Bz\rangle.
-\]
-Multiplying by \(\mu>0\),
-\[
+$$
+
+Multiplying by $\mu>0$,
+
+$$
 0\le \mu\bigl(\langle x(t)-z,v(t)\rangle
 +\langle x(t)-z,Bz\rangle\bigr).
-\]
+$$
 
-Second, cocoercivity of \(B\) gives
-\[
+Second, cocoercivity of $B$ gives
+
+$$
 \beta\|B(x(t))-Bz\|^2
 \le \langle x(t)-z,B(x(t))-Bz\rangle.
-\]
-Multiplying by \(\mu>0\),
-\[
+$$
+
+Multiplying by $\mu>0$,
+
+$$
 \mu\beta\|B(x(t))-Bz\|^2
 \le \mu\langle x(t)-z,B(x(t))-Bz\rangle.
-\]
+$$
 
-Third, the subgradient inequality with \(v(t)\in\partial\Phi(x(t))\) and \(z\in\operatorname{dom}\Phi\) gives
-\[
+Third, the subgradient inequality with $v(t)\in\partial\Phi(x(t))$ and $z\in\operatorname{dom}\Phi$ gives
+
+$$
 (\Phi z)_{\mathbb R}
 \ge (\Phi(x(t)))_{\mathbb R}
 +\langle v(t),z-x(t)\rangle.
-\]
+$$
+
 Equivalently,
-\[
+
+$$
 (\Phi(x(t)))_{\mathbb R}-(\Phi z)_{\mathbb R}
 \le \langle x(t)-z,v(t)\rangle,
-\]
-and hence
-\[
-F(t)\le \langle x(t)-z,v(t)\rangle+\langle x(t)-z,Bz\rangle.
-\]
-Multiplying by \(\mu>0\) preserves the inequality.
+$$
 
-Finally, the proof uses `prop216_orbit_inner_identity`. Since \(\mu\lambda=1\) and
-\[
+and hence
+
+$$
+F(t)\le \langle x(t)-z,v(t)\rangle+\langle x(t)-z,Bz\rangle.
+$$
+
+Multiplying by $\mu>0$ preserves the inequality.
+
+Finally, the proof uses `prop216_orbit_inner_identity`. Since $\mu\lambda=1$ and
+
+$$
 \lambda\dot x(t)+\dot v(t)+v(t)+B(x(t))=0,
-\]
-with \(a=x(t)-z\) and \(q=v(t)+B(x(t))\), one obtains
-\[
+$$
+
+with $a=x(t)-z$ and $q=v(t)+B(x(t))$, one obtains
+
+$$
 \langle x(t)-z,\dot x(t)\rangle
 +\mu\langle x(t)-z,\dot v(t)+v(t)+B(x(t))\rangle=0.
-\]
+$$
+
 Splitting
-\[
+
+$$
 B(x(t))=Bz+(B(x(t))-Bz),
-\]
+$$
+
 this becomes
-\[
+
+$$
 \Gamma'(t)
 +\mu\langle x(t)-z,v(t)+Bz\rangle
 +\mu\langle x(t)-z,B(x(t))-Bz\rangle=0.
-\]
+$$
+
 Combining this identity with the three inequalities above, `linarith` proves
-\[
+
+$$
 \Gamma'(t)+\mu F(t)+\mu\beta\|B(x(t))-Bz\|^2\le 0.
-\]
+$$
 
 The proof next defines
-\[
-q(t)=\mu F(t)+\mu\beta\|B(x(t))-Bz\|^2.
-\]
-It shows \(q\) is integrable on every finite interval \((0,T]\). Indeed, \(x\) is continuous on \([0,T]\) because it is absolutely continuous there; the map \(t\mapsto(\Phi(x(t)))_{\mathbb R}\) is continuous on \([0,T]\) by the absolute-continuity conclusion from the chain rule; \(B\) is continuous because `lipschitzWith_of_cocoercive` turns the cocoercivity of \(B\) into a Lipschitz estimate, hence in particular continuity. Therefore \(F\) and \(\|B(x(t))-Bz\|^2\) are continuous on \([0,T]\), so their combination \(q\) is continuous and hence integrable on \([0,T]\), and therefore also on \((0,T]\).
 
-The proof then applies `prop216_dissipation_on_Ici` with \(F\) replaced by \(\Gamma\), \(q\) as above, and lower bound \(L=0\). The lemma says that if \(\Gamma\) is absolutely continuous on every \([0,T]\), \(q\) is integrable on every \((0,T]\), \(q\ge0\) on \([0,\infty)\), \(\Gamma\ge0\) on \([0,\infty)\), and almost everywhere on \([0,T]\)
-\[
+$$
+q(t)=\mu F(t)+\mu\beta\|B(x(t))-Bz\|^2.
+$$
+
+It shows $q$ is integrable on every finite interval $(0,T]$. Indeed, $x$ is continuous on $[0,T]$ because it is absolutely continuous there; the map $t\mapsto(\Phi(x(t)))_{\mathbb R}$ is continuous on $[0,T]$ by the absolute-continuity conclusion from the chain rule; $B$ is continuous because `lipschitzWith_of_cocoercive` turns the cocoercivity of $B$ into a Lipschitz estimate, hence in particular continuity. Therefore $F$ and $\|B(x(t))-Bz\|^2$ are continuous on $[0,T]$, so their combination $q$ is continuous and hence integrable on $[0,T]$, and therefore also on $(0,T]$.
+
+The proof then applies `prop216_dissipation_on_Ici` with $F$ replaced by $\Gamma$, $q$ as above, and lower bound $L=0$. The lemma says that if $\Gamma$ is absolutely continuous on every $[0,T]$, $q$ is integrable on every $(0,T]$, $q\ge0$ on $[0,\infty)$, $\Gamma\ge0$ on $[0,\infty)$, and almost everywhere on $[0,T]$
+
+$$
 \Gamma'(t)+q(t)\le0,
-\]
-then \(q\) is integrable on \([0,\infty)\). All hypotheses are available: \(\Gamma\ge0\) follows from the same subgradient inequality as before together with \(\frac12\|x(t)-z\|^2\ge0\) and \(\mu>0\); \(q\ge0\) follows from \(F\ge0\), \(\mu>0\), \(\beta>0\), and nonnegativity of the square. Thus \(q\) is integrable on \([0,\infty)\).
+$$
+
+then $q$ is integrable on $[0,\infty)$. All hypotheses are available: $\Gamma\ge0$ follows from the same subgradient inequality as before together with $\frac12\|x(t)-z\|^2\ge0$ and $\mu>0$; $q\ge0$ follows from $F\ge0$, $\mu>0$, $\beta>0$, and nonnegativity of the square. Thus $q$ is integrable on $[0,\infty)$.
 
 Since
-\[
+
+$$
 q(t)=\mu F(t)+\mu\beta\|B(x(t))-Bz\|^2
-\]
-and \(\|B(x(t))-Bz\|^2\) is integrable by `proposition_2_12`, the proof subtracts to obtain integrability of \(\mu F\), then multiplies by \(1/\mu\) to obtain integrability of \(F\) on \([0,\infty)\). This proves the first conclusion.
+$$
 
-To prove \(F(t)\to0\), the proof uses the boundedness of \(v\) supplied by `proposition_2_12`: there is \(C\ge0\) with
-\[
+and $\|B(x(t))-Bz\|^2$ is integrable by `proposition_2_12`, the proof subtracts to obtain integrability of $\mu F$, then multiplies by $1/\mu$ to obtain integrability of $F$ on $[0,\infty)$. This proves the first conclusion.
+
+To prove $F(t)\to0$, the proof uses the boundedness of $v$ supplied by `proposition_2_12`: there is $C\ge0$ with
+
+$$
 \|v(t)\|\le C\qquad(t\ge0).
-\]
-It defines
-\[
-G(t)=(C+\|Bz\|)\|\dot x(t)\|.
-\]
-Since \(\|\dot x\|^2\) is integrable on \([0,\infty)\), the function \(G\) is in \(L^2([0,\infty))\). The proof also verifies that \(F\) is absolutely continuous on every \([0,T]\), using `prop216_inner_ac` for the term \(\langle Bz,x(t)-z\rangle\) and the already established absolute continuity of \((\Phi(x(t)))_{\mathbb R}\).
+$$
 
-For almost every \(t\ge0\), it computes
-\[
+It defines
+
+$$
+G(t)=(C+\|Bz\|)\|\dot x(t)\|.
+$$
+
+Since $\|\dot x\|^2$ is integrable on $[0,\infty)$, the function $G$ is in $L^2([0,\infty))$. The proof also verifies that $F$ is absolutely continuous on every $[0,T]$, using `prop216_inner_ac` for the term $\langle Bz,x(t)-z\rangle$ and the already established absolute continuity of $(\Phi(x(t)))_{\mathbb R}$.
+
+For almost every $t\ge0$, it computes
+
+$$
 F'(t)=\langle v(t),\dot x(t)\rangle+\langle Bz,\dot x(t)\rangle.
-\]
-Using the Cauchy–Schwarz bound \(|\langle u,w\rangle|\le\|u\|\|w\|\), this is bounded by
-\[
+$$
+
+Using the Cauchy–Schwarz bound $|\langle u,w\rangle|\le\|u\|\|w\|$, this is bounded by
+
+$$
 (\|v(t)\|+\|Bz\|)\|\dot x(t)\|
 \le (C+\|Bz\|)\|\dot x(t)\|=G(t).
-\]
-Thus \(F'(t)\le G(t)\) almost everywhere on \([0,\infty)\).
+$$
 
-Now the proof applies `prop216_limit_zero_of_memLp_deriv_bound_Ici`. That lemma states: if \(F\ge0\) on \([0,\infty)\), \(F\) is absolutely continuous on every \([0,b]\) with \(b>0\), \(F\in L^p([0,\infty))\), \(G\in L^r([0,\infty))\), \(1\le p,r\) and \(p\neq\infty\), and \(F'\le G\) almost everywhere on \([0,\infty)\), then \(F(t)\to0\). Taking \(p=1\) and \(r=2\), and using that integrability of \(F\) is equivalent to \(F\in L^1\), gives
-\[
+Thus $F'(t)\le G(t)$ almost everywhere on $[0,\infty)$.
+
+Now the proof applies `prop216_limit_zero_of_memLp_deriv_bound_Ici`. That lemma states: if $F\ge0$ on $[0,\infty)$, $F$ is absolutely continuous on every $[0,b]$ with $b>0$, $F\in L^p([0,\infty))$, $G\in L^r([0,\infty))$, $1\le p,r$ and $p\neq\infty$, and $F'\le G$ almost everywhere on $[0,\infty)$, then $F(t)\to0$. Taking $p=1$ and $r=2$, and using that integrability of $F$ is equivalent to $F\in L^1$, gives
+
+$$
 F(t)\to0.
-\]
+$$
+
 This proves the second conclusion.
 
-For the third conclusion, the proof uses the weak limit \(x_\infty\in S\) supplied by the hypothesis. It first shows \(Bx_\infty=Bz\). Monotonicity of \(\partial\Phi\) applied to \(-Bx_\infty\in\partial\Phi(x_\infty)\) and \(-Bz\in\partial\Phi(z)\) gives
-\[
+For the third conclusion, the proof uses the weak limit $x_\infty\in S$ supplied by the hypothesis. It first shows $Bx_\infty=Bz$. Monotonicity of $\partial\Phi$ applied to $-Bx_\infty\in\partial\Phi(x_\infty)$ and $-Bz\in\partial\Phi(z)$ gives
+
+$$
 0\le \langle -Bx_\infty+Bz,x_\infty-z\rangle,
-\]
+$$
+
 hence
-\[
+
+$$
 \langle x_\infty-z,Bx_\infty-Bz\rangle\le0.
-\]
+$$
+
 Cocoercivity gives
-\[
+
+$$
 \beta\|Bx_\infty-Bz\|^2
 \le \langle x_\infty-z,Bx_\infty-Bz\rangle\le0.
-\]
-Since \(\beta>0\), this forces \(\|Bx_\infty-Bz\|=0\), so \(Bx_\infty=Bz\).
+$$
 
-Next, `weakConvergence_iff_forall_tendsto_inner_right` converts the assumed weak convergence \(x(t)\rightharpoonup x_\infty\) into convergence of all inner products:
-\[
+Since $\beta>0$, this forces $\|Bx_\infty-Bz\|=0$, so $Bx_\infty=Bz$.
+
+Next, `weakConvergence_iff_forall_tendsto_inner_right` converts the assumed weak convergence $x(t)\rightharpoonup x_\infty$ into convergence of all inner products:
+
+$$
 \langle x(t),u\rangle\to\langle x_\infty,u\rangle
-\]
-for every \(u\in H\). Taking \(u=Bz\) and using symmetry of the real inner product gives
-\[
-\langle Bz,x(t)-z\rangle\to\langle Bz,x_\infty-z\rangle
-\]
-and also
-\[
-\langle Bz,x(t)-x_\infty\rangle\to0.
-\]
+$$
 
-The proof then applies the subgradient inequality twice. From \(-Bz\in\partial\Phi(z)\) and \(x_\infty\in\operatorname{dom}\Phi\),
-\[
+for every $u\in H$. Taking $u=Bz$ and using symmetry of the real inner product gives
+
+$$
+\langle Bz,x(t)-z\rangle\to\langle Bz,x_\infty-z\rangle
+$$
+
+and also
+
+$$
+\langle Bz,x(t)-x_\infty\rangle\to0.
+$$
+
+The proof then applies the subgradient inequality twice. From $-Bz\in\partial\Phi(z)$ and $x_\infty\in\operatorname{dom}\Phi$,
+
+$$
 (\Phi(x_\infty))_{\mathbb R}
 \ge (\Phi z)_{\mathbb R}-\langle Bz,x_\infty-z\rangle.
-\]
-From \(-Bx_\infty\in\partial\Phi(x_\infty)\) and \(z\in\operatorname{dom}\Phi\), together with the already proved \(Bx_\infty=Bz\),
-\[
+$$
+
+From $-Bx_\infty\in\partial\Phi(x_\infty)$ and $z\in\operatorname{dom}\Phi$, together with the already proved $Bx_\infty=Bz$,
+
+$$
 (\Phi z)_{\mathbb R}
 \ge (\Phi(x_\infty))_{\mathbb R}+\langle Bz,x_\infty-z\rangle.
-\]
+$$
+
 These two inequalities force
-\[
+
+$$
 (\Phi(x_\infty))_{\mathbb R}-(\Phi z)_{\mathbb R}
 +\langle Bz,x_\infty-z\rangle=0.
-\]
+$$
 
-Since \(F(t)\to0\) and \(\langle Bz,x(t)-z\rangle\to\langle Bz,x_\infty-z\rangle\), the expression
-\[
+Since $F(t)\to0$ and $\langle Bz,x(t)-z\rangle\to\langle Bz,x_\infty-z\rangle$, the expression
+
+$$
 F(t)+(\Phi z)_{\mathbb R}-\langle Bz,x(t)-z\rangle
-\]
+$$
+
 converges to
-\[
+
+$$
 (\Phi z)_{\mathbb R}-\langle Bz,x_\infty-z\rangle
 =(\Phi(x_\infty))_{\mathbb R}.
-\]
-But by the definition of \(F\),
-\[
+$$
+
+But by the definition of $F$,
+
+$$
 F(t)+(\Phi z)_{\mathbb R}-\langle Bz,x(t)-z\rangle
 =(\Phi(x(t)))_{\mathbb R}
-\]
-for every \(t\). Therefore
-\[
+$$
+
+for every $t$. Therefore
+
+$$
 (\Phi(x(t)))_{\mathbb R}\to(\Phi(x_\infty))_{\mathbb R}.
-\]
-Combining this with the weak convergence \(x(t)\rightharpoonup x_\infty\) and \(x_\infty\in S\) gives the final existential conclusion.
+$$
+
+Combining this with the weak convergence $x(t)\rightharpoonup x_\infty$ and $x_\infty\in S$ gives the final existential conclusion.
 
 Throughout the proof, `filter_upwards` is used to combine several almost-everywhere statements into one exceptional set of measure zero; `rw`, `simp`, and `simpa` replace definitions and algebraic identities by equivalent forms; `convert` identifies limits or derivatives up to a pointwise equality; `rcases` and `refine` decompose and assemble conjunctions and existential statements; and `linarith` or `nlinarith` close the final scalar inequalities after all analytic hypotheses have been converted into explicit inequalities.
 

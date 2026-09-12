@@ -16,34 +16,42 @@ theorem epsilon_enlargement_demiclosed {H : Type*} [NormedAddCommGroup H]
 ```
 
 ## Statement explanation
-The declaration states a demiclosedness property of the epsilon-enlargement of a maximal monotone operator on a real Hilbert space. The space \(H\) is assumed to be a complete real inner product space, so it is a Hilbert space. The operator \(T\colon H\rightrightarrows H\) is a set-valued operator from \(H\) to subsets of \(H\), and it is assumed to be maximal monotone. There are sequences \(y\colon\mathbb N\to H\), \(v\colon\mathbb N\to H\), and \(\epsilon\colon\mathbb N\to\mathbb R\), together with limit points \(y_\infty,v_\infty\in H\). The hypotheses are:
+The declaration states a demiclosedness property of the epsilon-enlargement of a maximal monotone operator on a real Hilbert space. The space $H$ is assumed to be a complete real inner product space, so it is a Hilbert space. The operator $T\colon H\rightrightarrows H$ is a set-valued operator from $H$ to subsets of $H$, and it is assumed to be maximal monotone. There are sequences $y\colon\mathbb N\to H$, $v\colon\mathbb N\to H$, and $\epsilon\colon\mathbb N\to\mathbb R$, together with limit points $y_\infty,v_\infty\in H$. The hypotheses are:
 
-1. \(y_j\) converges weakly to \(y_\infty\). Formally this is expressed by convergence in the weak space of the images of \(y_j\) to the image of \(y_\infty\).
-2. \(v_j\) converges strongly, i.e. in norm, to \(v_\infty\).
-3. \(\epsilon_j\to0\).
-4. \(\epsilon_j\ge0\) for every \(j\).
-5. For every \(j\),
-   \[
+1. $y_j$ converges weakly to $y_\infty$. Formally this is expressed by convergence in the weak space of the images of $y_j$ to the image of $y_\infty$.
+2. $v_j$ converges strongly, i.e. in norm, to $v_\infty$.
+3. $\epsilon_j\to0$.
+4. $\epsilon_j\ge0$ for every $j$.
+5. For every $j$,
+
+   $$
    v_j\in T^{\epsilon_j}(y_j),
-   \]
-   where \(T^\epsilon\) is the epsilon-enlargement of \(T\), defined by
-   \[
+   $$
+
+   where $T^\epsilon$ is the epsilon-enlargement of $T$, defined by
+
+   $$
    T^\epsilon(x)
    =
    \{\,v\in H:\forall z,w,\ w\in T(z)\Rightarrow
    \langle w-v,z-x\rangle\ge-\epsilon\,\}.
-   \]
-   Equivalently,
-   \[
-   \langle w-v_j,z-y_j\rangle\ge-\epsilon_j
-   \]
-   for every \(z\) and every \(w\in T(z)\).
+   $$
 
-The conclusion is that the limit point \(v_\infty\) belongs to the original operator at the weak limit point:
-\[
+   Equivalently,
+
+   $$
+   \langle w-v_j,z-y_j\rangle\ge-\epsilon_j
+   $$
+
+   for every $z$ and every $w\in T(z)$.
+
+The conclusion is that the limit point $v_\infty$ belongs to the original operator at the weak limit point:
+
+$$
 v_\infty\in T(y_\infty).
-\]
-Thus, if points \(v_j\) are approximately in \(T(y_j)\) with nonnegative enlargement parameters tending to \(0\), and if \(y_j\) converges weakly while \(v_j\) converges strongly, then the strong limit \(v_\infty\) is exactly in \(T(y_\infty)\). This is precisely the statement that the graph of the epsilon-enlargement is demiclosed with respect to weak convergence in the first variable and strong convergence in the second variable.
+$$
+
+Thus, if points $v_j$ are approximately in $T(y_j)$ with nonnegative enlargement parameters tending to $0$, and if $y_j$ converges weakly while $v_j$ converges strongly, then the strong limit $v_\infty$ is exactly in $T(y_\infty)$. This is precisely the statement that the graph of the epsilon-enlargement is demiclosed with respect to weak convergence in the first variable and strong convergence in the second variable.
 
 ## Lean proof
 ```lean
@@ -131,95 +139,127 @@ by
 ```
 
 ## Proof explanation
-The proof begins by applying the maximal-monotonicity characterization `mem_of_monotonically_related_to_graph` to the hypothesis that \(T\) is maximal monotone. That result says that if a point \(u\) is monotonically related to every graph pair of \(T\), meaning
-\[
+The proof begins by applying the maximal-monotonicity characterization `mem_of_monotonically_related_to_graph` to the hypothesis that $T$ is maximal monotone. That result says that if a point $u$ is monotonically related to every graph pair of $T$, meaning
+
+$$
 \forall z,w,\quad w\in T(z)\Rightarrow
 \langle u-w,x-z\rangle\ge0,
-\]
-then \(u\in T(x)\). Applying this with \(u=v_\infty\) and \(x=y_\infty\) reduces the goal to proving
-\[
+$$
+
+then $u\in T(x)$. Applying this with $u=v_\infty$ and $x=y_\infty$ reduces the goal to proving
+
+$$
 \forall z,w,\quad w\in T(z)\Rightarrow
 \langle v_\infty-w,y_\infty-z\rangle\ge0.
-\]
-The command `intro z w hw` fixes arbitrary \(z,w\in H\) and assumes \(w\in T(z)\).
+$$
 
-For each \(j\), the hypothesis \(v_j\in T^{\epsilon_j}(y_j)\) says, after unfolding the definition of the epsilon-enlargement, that
-\[
+The command `intro z w hw` fixes arbitrary $z,w\in H$ and assumes $w\in T(z)$.
+
+For each $j$, the hypothesis $v_j\in T^{\epsilon_j}(y_j)$ says, after unfolding the definition of the epsilon-enlargement, that
+
+$$
 \langle w-v_j,z-y_j\rangle\ge-\epsilon_j.
-\]
+$$
+
 The proof rewrites the left-hand side using the identity
-\[
+
+$$
 \langle w-v_j,z-y_j\rangle
 =
 \langle y_j-z,v_j-w\rangle.
-\]
-This identity follows from bilinearity of the inner product and real symmetry \(\langle a,b\rangle=\langle b,a\rangle\). The tactic `simp` applies the subtraction rules for inner products, and `ring` closes the resulting scalar rearrangement. Hence for every \(j\),
-\[
--\epsilon_j\le \langle y_j-z,v_j-w\rangle.
-\]
+$$
 
-Next the proof needs a uniform bound on the weakly convergent sequence \(y_j\). It invokes `bounded_range_of_tendsto_weakly` on the weak convergence hypothesis \(y_j\rightharpoonup y_\infty\). That lemma states that a weakly convergent sequence in a Hilbert space has bounded range. Therefore the set \(\{y_j:j\in\mathbb N\}\) is bounded. Since a set in a normed space is bounded exactly when some \(M\) bounds the norms of all its elements, the proof extracts \(M\) such that
-\[
+This identity follows from bilinearity of the inner product and real symmetry $\langle a,b\rangle=\langle b,a\rangle$. The tactic `simp` applies the subtraction rules for inner products, and `ring` closes the resulting scalar rearrangement. Hence for every $j$,
+
+$$
+-\epsilon_j\le \langle y_j-z,v_j-w\rangle.
+$$
+
+Next the proof needs a uniform bound on the weakly convergent sequence $y_j$. It invokes `bounded_range_of_tendsto_weakly` on the weak convergence hypothesis $y_j\rightharpoonup y_\infty$. That lemma states that a weakly convergent sequence in a Hilbert space has bounded range. Therefore the set $\{y_j:j\in\mathbb N\}$ is bounded. Since a set in a normed space is bounded exactly when some $M$ bounds the norms of all its elements, the proof extracts $M$ such that
+
+$$
 \|y_j\|\le M
-\]
-for every \(j\). Then it proves
-\[
+$$
+
+for every $j$. Then it proves
+
+$$
 \|y_j-y_\infty\|\le M+\|y_\infty\|,
-\]
+$$
+
 using the triangle inequality
-\[
+
+$$
 \|y_j-y_\infty\|\le \|y_j\|+\|y_\infty\|
-\]
+$$
+
 and monotonicity of addition. The tactic `gcongr` is used for that monotone inequality step.
 
-From the strong convergence \(v_j\to v_\infty\), the proof also obtains
-\[
+From the strong convergence $v_j\to v_\infty$, the proof also obtains
+
+$$
 \|v_j-v_\infty\|\to0.
-\]
-First \(v_j-v_\infty\to0\) by subtracting the constant \(v_\infty\), and then the equivalence between convergence of a sequence to \(0\) and convergence of its norms to \(0\) gives the stated norm convergence.
+$$
+
+First $v_j-v_\infty\to0$ by subtracting the constant $v_\infty$, and then the equivalence between convergence of a sequence to $0$ and convergence of its norms to $0$ gives the stated norm convergence.
 
 The next step is the limit
-\[
+
+$$
 \langle y_j-y_\infty,v_j-v_\infty\rangle\to0.
-\]
-For each \(j\), Cauchy–Schwarz gives
-\[
+$$
+
+For each $j$, Cauchy–Schwarz gives
+
+$$
 |\langle y_j-y_\infty,v_j-v_\infty\rangle|
 \le
 \|y_j-y_\infty\|\,\|v_j-v_\infty\|.
-\]
-Using the bound \(\|y_j-y_\infty\|\le M+\|y_\infty\|\), this is at most
-\[
+$$
+
+Using the bound $\|y_j-y_\infty\|\le M+\|y_\infty\|$, this is at most
+
+$$
 (M+\|y_\infty\|)\,\|v_j-v_\infty\|.
-\]
-The right-hand side tends to \(0\) because \(\|v_j-v_\infty\|\to0\) and \(M+\|y_\infty\|\) is a constant. The squeeze theorem for norms, `squeeze_zero_norm`, then yields
-\[
+$$
+
+The right-hand side tends to $0$ because $\|v_j-v_\infty\|\to0$ and $M+\|y_\infty\|$ is a constant. The squeeze theorem for norms, `squeeze_zero_norm`, then yields
+
+$$
 \langle y_j-y_\infty,v_j-v_\infty\rangle\to0.
-\]
+$$
 
 The proof also shows
-\[
-\langle y_\infty-z,v_j-v_\infty\rangle\to0.
-\]
-Indeed, for fixed first argument \(y_\infty-z\), the inner product is continuous in its second argument. Since \(v_j-v_\infty\to0\), the values tend to \(\langle y_\infty-z,0\rangle=0\).
 
-To handle the term involving \(y_j\) and the fixed vector \(v_\infty-w\), the proof uses `weakSpace_continuous_inner_right`. That theorem says that for each fixed \(c\in H\), the function
-\[
+$$
+\langle y_\infty-z,v_j-v_\infty\rangle\to0.
+$$
+
+Indeed, for fixed first argument $y_\infty-z$, the inner product is continuous in its second argument. Since $v_j-v_\infty\to0$, the values tend to $\langle y_\infty-z,0\rangle=0$.
+
+To handle the term involving $y_j$ and the fixed vector $v_\infty-w$, the proof uses `weakSpace_continuous_inner_right`. That theorem says that for each fixed $c\in H$, the function
+
+$$
 x\mapsto \langle x,c\rangle
-\]
-is continuous for the weak topology. Taking \(c=v_\infty-w\) and composing with \(y_j\rightharpoonup y_\infty\) gives
-\[
+$$
+
+is continuous for the weak topology. Taking $c=v_\infty-w$ and composing with $y_j\rightharpoonup y_\infty$ gives
+
+$$
 \langle y_j,v_\infty-w\rangle\to
 \langle y_\infty,v_\infty-w\rangle.
-\]
-Subtracting the constant \(\langle z,v_\infty-w\rangle\), which is valid by bilinearity, yields
-\[
+$$
+
+Subtracting the constant $\langle z,v_\infty-w\rangle$, which is valid by bilinearity, yields
+
+$$
 \langle y_j-z,v_\infty-w\rangle\to
 \langle y_\infty-z,v_\infty-w\rangle.
-\]
+$$
 
 The proof then records the algebraic decomposition
-\[
+
+$$
 \langle y_j-z,v_j-w\rangle
 =
 \langle y_j-y_\infty,v_j-v_\infty\rangle
@@ -227,36 +267,49 @@ The proof then records the algebraic decomposition
 \langle y_\infty-z,v_j-v_\infty\rangle
 +
 \langle y_j-z,v_\infty-w\rangle.
-\]
+$$
+
 This comes from writing
-\[
+
+$$
 v_j-w=(v_j-v_\infty)+(v_\infty-w),
 \qquad
 y_j-z=(y_j-y_\infty)+(y_\infty-z)
-\]
+$$
+
 and expanding the inner product by bilinearity. The rewrites `inner_add_right` and `inner_add_left` perform these additions inside the inner product.
 
 Adding the three established limits gives
-\[
+
+$$
 \langle y_j-z,v_j-w\rangle
 \to
 \langle y_\infty-z,v_\infty-w\rangle.
-\]
-At the same time, \(\epsilon_j\to0\) implies \(-\epsilon_j\to0\). Since for every \(j\),
-\[
+$$
+
+At the same time, $\epsilon_j\to0$ implies $-\epsilon_j\to0$. Since for every $j$,
+
+$$
 -\epsilon_j\le \langle y_j-z,v_j-w\rangle,
-\]
+$$
+
 the order-limit theorem `le_of_tendsto_of_tendsto` implies
-\[
+
+$$
 0\le \langle y_\infty-z,v_\infty-w\rangle.
-\]
+$$
+
 Finally, real symmetry of the inner product converts this to
-\[
+
+$$
 0\le \langle v_\infty-w,y_\infty-z\rangle,
-\]
-which is exactly the required monotone-relatedness condition for arbitrary \(z,w\) with \(w\in T(z)\). Therefore the characterization `mem_of_monotonically_related_to_graph` applies and gives
-\[
+$$
+
+which is exactly the required monotone-relatedness condition for arbitrary $z,w$ with $w\in T(z)$. Therefore the characterization `mem_of_monotonically_related_to_graph` applies and gives
+
+$$
 v_\infty\in T(y_\infty).
-\]
+$$
+
 That is the desired demiclosedness conclusion.
 

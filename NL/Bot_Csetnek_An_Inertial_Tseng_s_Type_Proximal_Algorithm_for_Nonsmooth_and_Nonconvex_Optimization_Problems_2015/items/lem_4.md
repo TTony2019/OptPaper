@@ -13,51 +13,66 @@ theorem lemma_3_4_decrease {m : Nat} {P : ProblemData m} (A : AlgorithmData P)
 ```
 
 ## Statement explanation
-The theorem is set in a Euclidean space of dimension \(m\). The data \(P\) provide the objective function \(P.objective : \mathbb R^m \to \overline{\mathbb R}\), where \(\overline{\mathbb R}\) is the extended real line. The data \(A\) provide two sequences, written here as
-\[
-x_n = A.x(n), \qquad p_n = A.p(n),
-\]
-together with the algorithm parameters such as \(A.\lambda(n)\), \(A.\lambdaUpper\), \(A.\lambdaLower\), and the constants \(A.M1(\nu,\mu)\), \(A.M2(\nu,\mu)\). The real parameters \(\nu\) and \(\mu\) are assumed to satisfy the hypotheses encoded by `chosenAsInLemma33 A nu mu`. In the proof this hypothesis is unpacked into the components that are visible there: \(0<\nu\), \(0<\mu\), an additional strict condition which is not used, and the inequality
-\[
-A.M2(\nu,\mu) < A.M1(\nu,\mu).
-\]
-The second hypothesis says that the objective is bounded below by some real constant \(C\):
-\[
-(C : \overline{\mathbb R}) \le P.objective(x) \qquad\text{for every }x\in \mathbb R^m.
-\]
-This is a lower bound in the extended-real sense; no finiteness of \(P.objective\) is assumed by the statement itself.
+The theorem is set in a Euclidean space of dimension $m$. The data $P$ provide the objective function $P.objective : \mathbb R^m \to \overline{\mathbb R}$, where $\overline{\mathbb R}$ is the extended real line. The data $A$ provide two sequences, written here as
 
-For a real number \(M\), the proof uses the auxiliary quadratic perturbation
-\[
+$$
+x_n = A.x(n), \qquad p_n = A.p(n),
+$$
+
+together with the algorithm parameters such as $A.\lambda(n)$, $A.\mathrm{lambdaUpper}$, $A.\mathrm{lambdaLower}$, and the constants $A.M1(\nu,\mu)$, $A.M2(\nu,\mu)$. The real parameters $\nu$ and $\mu$ are assumed to satisfy the hypotheses encoded by `chosenAsInLemma33 A nu mu`. In the proof this hypothesis is unpacked into the components that are visible there: $0<\nu$, $0<\mu$, an additional strict condition which is not used, and the inequality
+
+$$
+A.M2(\nu,\mu) < A.M1(\nu,\mu).
+$$
+
+The second hypothesis says that the objective is bounded below by some real constant $C$:
+
+$$
+(C : \overline{\mathbb R}) \le P.objective(x) \qquad\text{for every }x\in \mathbb R^m.
+$$
+
+This is a lower bound in the extended-real sense; no finiteness of $P.objective$ is assumed by the statement itself.
+
+For a real number $M$, the proof uses the auxiliary quadratic perturbation
+
+$$
 Q_M(z,w) = P.objective(z) \oplus M\|z-w\|^2,
-\]
-where \(\oplus\) denotes addition in the extended reals. When \(z\) lies in the effective domain of \(P.objective\), meaning that \(P.objective(z)\) is neither \(+\infty\) nor \(-\infty\), this quantity is finite and satisfies
-\[
+$$
+
+where $\oplus$ denotes addition in the extended reals. When $z$ lies in the effective domain of $P.objective$, meaning that $P.objective(z)$ is neither $+\infty$ nor $-\infty$, this quantity is finite and satisfies
+
+$$
 Q_M(z,w) = \bigl((P.objective(z)).\operatorname{toReal} + M\|z-w\|^2 : \overline{\mathbb R}\bigr),
-\]
+$$
+
 and consequently
-\[
+
+$$
 (Q_M(z,w)).\operatorname{toReal}
 =
 (P.objective(z)).\operatorname{toReal} + M\|z-w\|^2.
-\]
+$$
+
 These are exactly the contents of the cited lemmas `objectiveWithQuadratic_eq_coe` and `objectiveWithQuadratic_toReal_eq`.
 
 The conclusion of the theorem is the conjunction of three statements:
 
-\[
+$$
 \sum_{n=0}^{\infty}\|x_n-p_n\|^2 < \infty,
-\]
-\[
+$$
+
+$$
 \sum_{n=0}^{\infty}\|x_{n+1}-x_n\|^2 < \infty,
-\]
-and there exists some extended real \(l\in\overline{\mathbb R}\) such that
-\[
+$$
+
+and there exists some extended real $l\in\overline{\mathbb R}$ such that
+
+$$
 P.objective(p_n) \longrightarrow l
 \qquad\text{in }\overline{\mathbb R}.
-\]
+$$
 
-Thus the theorem says that, under the parameter choice from Lemma 3.3 and a global real lower bound on the objective, the distances between the two algorithm sequences \(x_n\) and \(p_n\) are square-summable, the successive differences of the sequence \(x_n\) are also square-summable, and the objective values along the auxiliary sequence \(p_n\) converge in the extended-real topology.
+Thus the theorem says that, under the parameter choice from Lemma 3.3 and a global real lower bound on the objective, the distances between the two algorithm sequences $x_n$ and $p_n$ are square-summable, the successive differences of the sequence $x_n$ are also square-summable, and the objective values along the auxiliary sequence $p_n$ converge in the extended-real topology.
 
 ## Lean proof
 ```lean
@@ -273,95 +288,129 @@ by
 ```
 
 ## Proof explanation
-The proof begins by unpacking the hypothesis `hchosen` with `rcases`. This gives the positivity assumptions \(0<\nu\) and \(0<\mu\), an unused strict condition, and the inequality
-\[
+The proof begins by unpacking the hypothesis `hchosen` with `rcases`. This gives the positivity assumptions $0<\nu$ and $0<\mu$, an unused strict condition, and the inequality
+
+$$
 A.M2(\nu,\mu) < A.M1(\nu,\mu).
-\]
+$$
+
 Then `let` introduces the abbreviations
-\[
+
+$$
 M_1 = A.M1(\nu,\mu), \qquad M_2 = A.M2(\nu,\mu), \qquad D = M_1-M_2.
-\]
-From \(M_2<M_1\), the tactic `nlinarith` proves
-\[
+$$
+
+From $M_2<M_1$, the tactic `nlinarith` proves
+
+$$
 0<D.
-\]
+$$
+
 The cited result `m2_nonneg A hnu hmu` is then used to obtain
-\[
+
+$$
 0\le M_2.
-\]
-This is the concrete content of `m2_nonneg`: for positive \(\nu,\mu\), the algorithm constant \(M_2\) is nonnegative.
+$$
+
+This is the concrete content of `m2_nonneg`: for positive $\nu,\mu$, the algorithm constant $M_2$ is nonnegative.
 
 Next the proof defines two real sequences:
-\[
+
+$$
 a_k = (Q_{M_2}(p_{k+2},x_{k+2})).\operatorname{toReal},
-\]
-\[
+$$
+
+$$
 b_k = D\|x_{k+3}-p_{k+3}\|^2.
-\]
-The nonnegativity of \(b\) follows immediately from \(D>0\) and the fact that a square is nonnegative. This is the step `hb_nonneg`, where `intro k` introduces an arbitrary index and `nlinarith`/simplification verify the inequality.
+$$
+
+The nonnegativity of $b$ follows immediately from $D>0$ and the fact that a square is nonnegative. This is the step `hb_nonneg`, where `intro k` introduces an arbitrary index and `nlinarith`/simplification verify the inequality.
 
 The proof then specializes Lemma 3.2, cited as `lemma_3_2_descent`. That lemma gives the descent inequality
-\[
+
+$$
 Q_{M_1}(p_n,x_n) \le Q_{M_2}(p_{n-1},x_{n-1})
 \qquad (n\ge 2).
-\]
-In the proof this is stored as `h32`. It is the decisive relation that compares the quadratic objective with parameter \(M_1\) at the new point to the quadratic objective with parameter \(M_2\) at the previous point.
+$$
 
-The next step is to show that \(a\) is bounded below. The hypothesis `hbounded` supplies a real \(C\) such that
-\[
+In the proof this is stored as `h32`. It is the decisive relation that compares the quadratic objective with parameter $M_1$ at the new point to the quadratic objective with parameter $M_2$ at the previous point.
+
+The next step is to show that $a$ is bounded below. The hypothesis `hbounded` supplies a real $C$ such that
+
+$$
 (C:\overline{\mathbb R}) \le P.objective(x)
-\]
-for every \(x\). For each \(k\), the cited result `p_objective_effectiveDom` gives
-\[
+$$
+
+for every $x$. For each $k$, the cited result `p_objective_effectiveDom` gives
+
+$$
 p_{k+2} \in \operatorname{effectiveDom}(P.objective),
-\]
-because \(k+2\ge 1\). Membership in the effective domain means, by `ERealFunction.mem_effectiveDom_iff`, that
-\[
+$$
+
+because $k+2\ge 1$. Membership in the effective domain means, by `ERealFunction.mem_effectiveDom_iff`, that
+
+$$
 P.objective(p_{k+2}) \neq \top
 \quad\text{and}\quad
 P.objective(p_{k+2}) \neq \bot.
-\]
+$$
+
 The extended-real lemma `EReal.coe_toReal` then yields
-\[
+
+$$
 P.objective(p_{k+2})
 =
 \bigl((P.objective(p_{k+2})).\operatorname{toReal} : \overline{\mathbb R}\bigr).
-\]
-Using the lower bound \(C\le P.objective(p_{k+2})\) and the lemma `EReal.coe_le_coe_iff`, the proof extracts the real inequality
-\[
+$$
+
+Using the lower bound $C\le P.objective(p_{k+2})$ and the lemma `EReal.coe_le_coe_iff`, the proof extracts the real inequality
+
+$$
 C \le (P.objective(p_{k+2})).\operatorname{toReal}.
-\]
-Since \(0\le M_2\) and \(\|p_{k+2}-x_{k+2}\|^2\ge 0\), the quadratic term
-\[
+$$
+
+Since $0\le M_2$ and $\|p_{k+2}-x_{k+2}\|^2\ge 0$, the quadratic term
+
+$$
 M_2\|p_{k+2}-x_{k+2}\|^2
-\]
-is nonnegative. Rewriting \(a_k\) using `objectiveWithQuadratic_toReal_eq`, namely
-\[
+$$
+
+is nonnegative. Rewriting $a_k$ using `objectiveWithQuadratic_toReal_eq`, namely
+
+$$
 a_k
 =
 (P.objective(p_{k+2})).\operatorname{toReal}
 +
 M_2\|p_{k+2}-x_{k+2}\|^2,
-\]
-the proof concludes
-\[
-C\le a_k.
-\]
-Thus the whole range of \(a\) is bounded below by \(C\), which is the assertion `BddBelow (Set.range a)`.
+$$
 
-The proof now establishes the key descent inequality for \(a\) and \(b\):
-\[
+the proof concludes
+
+$$
+C\le a_k.
+$$
+
+Thus the whole range of $a$ is bounded below by $C$, which is the assertion `BddBelow (Set.range a)`.
+
+The proof now establishes the key descent inequality for $a$ and $b$:
+
+$$
 a_{k+1}+b_k \le a_k
 \qquad\text{for every }k.
-\]
-For a fixed \(k\), it applies the descent inequality `h32` at \(n=k+3\):
-\[
+$$
+
+For a fixed $k$, it applies the descent inequality `h32` at $n=k+3$:
+
+$$
 Q_{M_1}(p_{k+3},x_{k+3})
 \le
 Q_{M_2}(p_{k+2},x_{k+2}).
-\]
-Both \(p_{k+3}\) and \(p_{k+2}\) lie in the effective domain of \(P.objective\), again by `p_objective_effectiveDom`. Therefore the cited lemma `objectiveWithQuadratic_eq_coe` rewrites both sides as extended-real coercions of real numbers. The inequality becomes
-\[
+$$
+
+Both $p_{k+3}$ and $p_{k+2}$ lie in the effective domain of $P.objective$, again by `p_objective_effectiveDom`. Therefore the cited lemma `objectiveWithQuadratic_eq_coe` rewrites both sides as extended-real coercions of real numbers. The inequality becomes
+
+$$
 \bigl((P.objective(p_{k+3})).\operatorname{toReal}
 +
 M_1\|p_{k+3}-x_{k+3}\|^2 : \overline{\mathbb R}\bigr)
@@ -369,9 +418,11 @@ M_1\|p_{k+3}-x_{k+3}\|^2 : \overline{\mathbb R}\bigr)
 \bigl((P.objective(p_{k+2})).\operatorname{toReal}
 +
 M_2\|p_{k+2}-x_{k+2}\|^2 : \overline{\mathbb R}\bigr).
-\]
+$$
+
 Applying `EReal.coe_le_coe_iff` removes the coercions and gives the corresponding real inequality:
-\[
+
+$$
 (P.objective(p_{k+3})).\operatorname{toReal}
 +
 M_1\|p_{k+3}-x_{k+3}\|^2
@@ -379,169 +430,234 @@ M_1\|p_{k+3}-x_{k+3}\|^2
 (P.objective(p_{k+2})).\operatorname{toReal}
 +
 M_2\|p_{k+2}-x_{k+2}\|^2.
-\]
-Now the proof unfolds the definitions of \(a\) and \(b\), uses `objectiveWithQuadratic_toReal_eq`, uses the symmetry of the norm \(\|x_{k+3}-p_{k+3}\|=\|p_{k+3}-x_{k+3}\|\), and rewrites \(D=M_1-M_2\). The left side \(a_{k+1}+b_k\) becomes exactly
-\[
+$$
+
+Now the proof unfolds the definitions of $a$ and $b$, uses `objectiveWithQuadratic_toReal_eq`, uses the symmetry of the norm $\|x_{k+3}-p_{k+3}\|=\|p_{k+3}-x_{k+3}\|$, and rewrites $D=M_1-M_2$. The left side $a_{k+1}+b_k$ becomes exactly
+
+$$
 (P.objective(p_{k+3})).\operatorname{toReal}
 +
 M_1\|p_{k+3}-x_{k+3}\|^2,
-\]
-while \(a_k\) is
-\[
+$$
+
+while $a_k$ is
+
+$$
 (P.objective(p_{k+2})).\operatorname{toReal}
 +
 M_2\|p_{k+2}-x_{k+2}\|^2.
-\]
-Thus `nlinarith` closes the goal \(a_{k+1}+b_k\le a_k\).
+$$
 
-At this point the abstract descent lemma `lemma_2_2_descent_summable` is applied to \(a\) and \(b\). Its statement says that if \(b_k\ge 0\) for all \(k\), if \(a\) is bounded below, and if
-\[
+Thus `nlinarith` closes the goal $a_{k+1}+b_k\le a_k$.
+
+At this point the abstract descent lemma `lemma_2_2_descent_summable` is applied to $a$ and $b$. Its statement says that if $b_k\ge 0$ for all $k$, if $a$ is bounded below, and if
+
+$$
 a_{k+1}+b_k\le a_k
-\]
-for all \(k\), then \(a\) is antitone, \(a\) converges to some real limit, and \(b\) is summable. The proof invokes it and obtains
-\[
+$$
+
+for all $k$, then $a$ is antitone, $a$ converges to some real limit, and $b$ is summable. The proof invokes it and obtains
+
+$$
 a_k \longrightarrow l_a
-\]
-for some real \(l_a\), and
-\[
+$$
+
+for some real $l_a$, and
+
+$$
 \sum_k b_k < \infty.
-\]
+$$
+
 The antitonicity conclusion is kept only implicitly.
 
-From the summability of \(b\), the proof derives the first summability claim. Since
-\[
+From the summability of $b$, the proof derives the first summability claim. Since
+
+$$
 b_k = D\|x_{k+3}-p_{k+3}\|^2
-\]
-and \(D>0\), multiplying the summable series by \(D^{-1}\) gives
-\[
+$$
+
+and $D>0$, multiplying the summable series by $D^{-1}$ gives
+
+$$
 \sum_k \|x_{k+3}-p_{k+3}\|^2 < \infty.
-\]
-This is done using `hb_summable.mul_left D⁻¹` and `field_simp`, which uses \(D\neq 0\). Then the cited result `summable_of_tail3_summable` removes the three-index shift: if
-\[
+$$
+
+This is done using `hb_summable.mul_left D⁻¹` and `field_simp`, which uses $D\neq 0$. Then the cited result `summable_of_tail3_summable` removes the three-index shift: if
+
+$$
 \sum_k \|x_{k+3}-p_{k+3}\|^2
-\]
+$$
+
 is finite, then
-\[
+
+$$
 \sum_n \|x_n-p_n\|^2
-\]
+$$
+
 is finite. This proves the first conjunct of the theorem.
 
 The proof next establishes the second summability claim,
-\[
+
+$$
 \sum_n \|x_{n+1}-x_n\|^2 < \infty.
-\]
-It begins by proving a one-step estimate. Let \(L=P.Lgrad_h\) and
-\[
-C_{\text{step}} = (1+A.\lambdaUpper\cdot L)^2.
-\]
-For each \(k\), the cited relation `relation14_norm_step` at \(n=k+1\) gives
-\[
+$$
+
+It begins by proving a one-step estimate. Let $L=P.Lgrad_h$ and
+
+$$
+C_{\text{step}} = (1+A.\mathrm{lambdaUpper}\cdot L)^2.
+$$
+
+For each $k$, the cited relation `relation14_norm_step` at $n=k+1$ gives
+
+$$
 \|x_{k+2}-x_{k+1}\|
 \le
 (1+\lambda_{k+1}L)\|x_{k+1}-p_{k+1}\|.
-\]
-The proof also uses `A.lambda_bounds (k+1)`, whose visible consequences are that \(\lambda_{k+1}\) lies between the algorithm’s lower and upper bounds; in particular the proof uses
-\[
-\lambdaLower \le \lambda_{k+1},
+$$
+
+The proof also uses `A.lambda_bounds (k+1)`, whose visible consequences are that $\lambda_{k+1}$ lies between the algorithm’s lower and upper bounds; in particular the proof uses
+
+$$
+\mathrm{lambdaLower} \le \lambda_{k+1},
 \qquad
-\lambda_{k+1}\le \lambdaUpper.
-\]
-Since \(A.\lambdaLower>0\), \(A.\lambdaUpper>0\), and \(L\ge 0\) from `P.h_lipschitz_gradient.1`, it follows that
-\[
+\lambda_{k+1}\le \mathrm{lambdaUpper}.
+$$
+
+Since $A.\mathrm{lambdaLower}>0$, $A.\mathrm{lambdaUpper}>0$, and $L\ge 0$ from `P.h_lipschitz_gradient.1`, it follows that
+
+$$
 0\le 1+\lambda_{k+1}L
-\]
+$$
+
 and
-\[
-0\le 1+\lambdaUpper L.
-\]
-Moreover, because \(\lambda_{k+1}\le \lambdaUpper\) and \(L\ge 0\),
-\[
-1+\lambda_{k+1}L \le 1+\lambdaUpper L.
-\]
+
+$$
+0\le 1+\mathrm{lambdaUpper} L.
+$$
+
+Moreover, because $\lambda_{k+1}\le \mathrm{lambdaUpper}$ and $L\ge 0$,
+
+$$
+1+\lambda_{k+1}L \le 1+\mathrm{lambdaUpper} L.
+$$
+
 Squaring the relation (14) inequality and using nonnegativity gives
-\[
+
+$$
 \|x_{k+2}-x_{k+1}\|^2
 \le
 \bigl((1+\lambda_{k+1}L)\|x_{k+1}-p_{k+1}\|\bigr)^2.
-\]
+$$
+
 Then the factor comparison yields
-\[
+
+$$
 \bigl((1+\lambda_{k+1}L)\|x_{k+1}-p_{k+1}\|\bigr)^2
 \le
-\bigl((1+\lambdaUpper L)\|x_{k+1}-p_{k+1}\|\bigr)^2.
-\]
+\bigl((1+\mathrm{lambdaUpper} L)\|x_{k+1}-p_{k+1}\|\bigr)^2.
+$$
+
 By `ring`, the right-hand side is
-\[
+
+$$
 C_{\text{step}}\|x_{k+1}-p_{k+1}\|^2.
-\]
-Hence for every \(k\),
-\[
+$$
+
+Hence for every $k$,
+
+$$
 \|x_{k+2}-x_{k+1}\|^2
 \le
 C_{\text{step}}\|x_{k+1}-p_{k+1}\|^2.
-\]
-Since the sequence \(\|x_n-p_n\|^2\) is summable, its shift \(\|x_{k+1}-p_{k+1}\|^2\) is summable by `summable_nat_add_iff`. Multiplying by the constant \(C_{\text{step}}\) preserves summability, so
-\[
+$$
+
+Since the sequence $\|x_n-p_n\|^2$ is summable, its shift $\|x_{k+1}-p_{k+1}\|^2$ is summable by `summable_nat_add_iff`. Multiplying by the constant $C_{\text{step}}$ preserves summability, so
+
+$$
 \sum_k C_{\text{step}}\|x_{k+1}-p_{k+1}\|^2 < \infty.
-\]
+$$
+
 The comparison test `Summable.of_nonneg_of_le` then implies
-\[
+
+$$
 \sum_k \|x_{k+2}-x_{k+1}\|^2 < \infty.
-\]
+$$
+
 Finally, `summable_nat_add_iff` once more removes the one-index shift and gives
-\[
+
+$$
 \sum_n \|x_{n+1}-x_n\|^2 < \infty.
-\]
+$$
+
 This is the second conjunct.
 
-The last part proves convergence of the objective values along \(p_n\). From the summability of
-\[
-\|x_n-p_n\|^2
-\]
-the terms tend to zero:
-\[
-\|x_n-p_n\|^2 \longrightarrow 0.
-\]
-This uses `Summable.tendsto_atTop_zero`. Shifting by two gives
-\[
-\|x_{k+2}-p_{k+2}\|^2 \longrightarrow 0,
-\]
-using the fact that shifting a sequence does not change its limit at infinity. Multiplying by \(M_2\) gives
-\[
-M_2\|p_{k+2}-x_{k+2}\|^2 \longrightarrow 0,
-\]
-where the norm symmetry \(\|p_{k+2}-x_{k+2}\|=\|x_{k+2}-p_{k+2}\|\) is used.
+The last part proves convergence of the objective values along $p_n$. From the summability of
 
-Recall that \(a_k\to l_a\). By the definition of \(a_k\) and the effective-domain rewrite,
-\[
+$$
+\|x_n-p_n\|^2
+$$
+
+the terms tend to zero:
+
+$$
+\|x_n-p_n\|^2 \longrightarrow 0.
+$$
+
+This uses `Summable.tendsto_atTop_zero`. Shifting by two gives
+
+$$
+\|x_{k+2}-p_{k+2}\|^2 \longrightarrow 0,
+$$
+
+using the fact that shifting a sequence does not change its limit at infinity. Multiplying by $M_2$ gives
+
+$$
+M_2\|p_{k+2}-x_{k+2}\|^2 \longrightarrow 0,
+$$
+
+where the norm symmetry $\|p_{k+2}-x_{k+2}\|=\|x_{k+2}-p_{k+2}\|$ is used.
+
+Recall that $a_k\to l_a$. By the definition of $a_k$ and the effective-domain rewrite,
+
+$$
 a_k
 =
 (P.objective(p_{k+2})).\operatorname{toReal}
 +
 M_2\|p_{k+2}-x_{k+2}\|^2.
-\]
+$$
+
 Subtracting the vanishing quadratic term gives
-\[
+
+$$
 (P.objective(p_{k+2})).\operatorname{toReal}
 \longrightarrow l_a.
-\]
-This uses continuity of subtraction in the reals: the difference of the convergent sequence \(a_k\) and the null sequence of quadratic terms converges to \(l_a\). The proof uses `convert` and `ring` here to identify the difference pointwise with the real part of the objective.
+$$
 
-Since each \(p_{k+2}\) is in the effective domain of \(P.objective\), the extended-real value \(P.objective(p_{k+2})\) is exactly the coercion of its real part:
-\[
+This uses continuity of subtraction in the reals: the difference of the convergent sequence $a_k$ and the null sequence of quadratic terms converges to $l_a$. The proof uses `convert` and `ring` here to identify the difference pointwise with the real part of the objective.
+
+Since each $p_{k+2}$ is in the effective domain of $P.objective$, the extended-real value $P.objective(p_{k+2})$ is exactly the coercion of its real part:
+
+$$
 P.objective(p_{k+2})
 =
 \bigl((P.objective(p_{k+2})).\operatorname{toReal} : \overline{\mathbb R}\bigr).
-\]
+$$
+
 Therefore `EReal.tendsto_coe` upgrades the real convergence to extended-real convergence:
-\[
+
+$$
 P.objective(p_{k+2}) \longrightarrow (l_a : \overline{\mathbb R})
-\]
-in \(\overline{\mathbb R}\). Finally, the cited result `tendsto_of_tail2_tendsto` removes the two-index shift and yields
-\[
+$$
+
+in $\overline{\mathbb R}$. Finally, the cited result `tendsto_of_tail2_tendsto` removes the two-index shift and yields
+
+$$
 P.objective(p_n) \longrightarrow (l_a : \overline{\mathbb R}).
-\]
+$$
+
 Thus the required extended-real limit exists.
 
-The final line `exact ⟨hxp, hinc, hobj⟩` assembles the three conclusions: summability of \(\|x_n-p_n\|^2\), summability of \(\|x_{n+1}-x_n\|^2\), and convergence of \(P.objective(p_n)\) in the extended reals.
+The final line `exact ⟨hxp, hinc, hobj⟩` assembles the three conclusions: summability of $\|x_n-p_n\|^2$, summability of $\|x_{n+1}-x_n\|^2$, and convergence of $P.objective(p_n)$ in the extended reals.
 

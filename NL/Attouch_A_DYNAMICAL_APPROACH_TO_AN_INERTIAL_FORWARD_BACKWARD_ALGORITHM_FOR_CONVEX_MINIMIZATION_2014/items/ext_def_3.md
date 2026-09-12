@@ -9,19 +9,19 @@ recall IsWeakToWeakSequentiallyContinuous
 ## Statement explanation
 The Lean source contains only the declaration
 
-\[
+$$
 \texttt{recall IsWeakToWeakSequentiallyContinuous}.
-\]
+$$
 
 This is not a theorem or lemma with a displayed type. In this context `recall` is a reference command: it points back to a previously introduced definition or predicate named `IsWeakToWeakSequentiallyContinuous`. The snippet does not reproduce that definition, so it supplies no explicit variables, no domain or codomain, no topological or vector-space structure, no sequence variable, no hypotheses, and no conclusion. Therefore the Lean declaration itself does not assert a new mathematical proposition.
 
-The mathematical notion indicated by the name is weak-to-weak sequential continuity. In ordinary usage, if \(X\) and \(Y\) are spaces equipped with weak topologies and \(T : X \to Y\), then \(T\) is called weak-to-weak sequentially continuous when, for every sequence \((x_n)\) in \(X\) and every \(x \in X\),
+The mathematical notion indicated by the name is weak-to-weak sequential continuity. In ordinary usage, if $X$ and $Y$ are spaces equipped with weak topologies and $T : X \to Y$, then $T$ is called weak-to-weak sequentially continuous when, for every sequence $(x_n)$ in $X$ and every $x \in X$,
 
-\[
+$$
 x_n \rightharpoonup x \quad \text{implies} \quad T(x_n) \rightharpoonup T(x),
-\]
+$$
 
-where \(\rightharpoonup\) denotes weak convergence. Equivalently, \(T\) sends weakly convergent sequences to weakly convergent sequences and preserves the weak limit. However, this precise formulation is only the conventional meaning suggested by the identifier; the supplied Lean source does not include the actual definition, so its exact domain, codomain, and quantifier structure cannot be determined from this snippet alone. No further hypotheses or conclusions should be attributed to the declaration.
+where $\rightharpoonup$ denotes weak convergence. Equivalently, $T$ sends weakly convergent sequences to weakly convergent sequences and preserves the weak limit. However, this precise formulation is only the conventional meaning suggested by the identifier; the supplied Lean source does not include the actual definition, so its exact domain, codomain, and quantifier structure cannot be determined from this snippet alone. No further hypotheses or conclusions should be attributed to the declaration.
 
 ## Lean proof
 ```lean

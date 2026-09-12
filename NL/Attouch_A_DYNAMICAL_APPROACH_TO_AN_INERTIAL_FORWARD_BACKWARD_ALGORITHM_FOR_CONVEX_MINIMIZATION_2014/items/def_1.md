@@ -21,44 +21,56 @@ structure IFBHypothesis {H : Type*} [NormedAddCommGroup H] [InnerProductSpace �
 ```
 
 ## Statement explanation
-The declaration introduces a proposition-valued structure named `IFBHypothesis`. Its parameters are a real inner product space \(H\), two extended-real-valued functions \(\varphi,\theta:H\to\mathrm{EReal}\), a real-valued function \(\psi:H\to\mathbb R\), a map \(g:H\to H\), and four real parameters \(a,b,\lambda,L_\psi\). Here \(H\) is assumed to be a normed additive commutative group and an inner product space over \(\mathbb R\), so it carries a norm \(\lVert\cdot\rVert\) and an inner product \(\langle\cdot,\cdot\rangle\). The structure does not assert that such objects exist; rather, an inhabitant of `IFBHypothesis` is a package of all the following hypotheses.
+The declaration introduces a proposition-valued structure named `IFBHypothesis`. Its parameters are a real inner product space $H$, two extended-real-valued functions $\varphi,\theta:H\to\mathrm{EReal}$, a real-valued function $\psi:H\to\mathbb R$, a map $g:H\to H$, and four real parameters $a,b,\lambda,L_\psi$. Here $H$ is assumed to be a normed additive commutative group and an inner product space over $\mathbb R$, so it carries a norm $\lVert\cdot\rVert$ and an inner product $\langle\cdot,\cdot\rangle$. The structure does not assert that such objects exist; rather, an inhabitant of `IFBHypothesis` is a package of all the following hypotheses.
 
-- `phi_proper` records that \(\varphi\) is a proper extended-real function in the sense of `ERealFunction.IsProper`.
-- `phi_lower_semicontinuous` states that the epigraph of \(\varphi\), as encoded by `ERealFunction.epigraph`, is closed. For extended-real functions this is the closed-epigraph formulation of lower semicontinuity of \(\varphi\).
-- `phi_convex` states that the epigraph of \(\varphi\) is convex over \(\mathbb R\). This is the epigraphical formulation of convexity of \(\varphi\).
-- `psi_differentiable` states that \(\psi\) is differentiable over \(\mathbb R\).
-- `psi_gradient` states that for every \(x\in H\) and every \(h\in H\),
-  \[
+- `phi_proper` records that $\varphi$ is a proper extended-real function in the sense of `ERealFunction.IsProper`.
+- `phi_lower_semicontinuous` states that the epigraph of $\varphi$, as encoded by `ERealFunction.epigraph`, is closed. For extended-real functions this is the closed-epigraph formulation of lower semicontinuity of $\varphi$.
+- `phi_convex` states that the epigraph of $\varphi$ is convex over $\mathbb R$. This is the epigraphical formulation of convexity of $\varphi$.
+- `psi_differentiable` states that $\psi$ is differentiable over $\mathbb R$.
+- `psi_gradient` states that for every $x\in H$ and every $h\in H$,
+
+  $$
   D\psi(x)(h)=\langle g(x),h\rangle,
-  \]
-  where \(D\psi(x)\) is the Fréchet derivative of \(\psi\) at \(x\). Thus the derivative linear functional is represented by the vector \(g(x)\) through the inner product, so \(g\) is a gradient field for \(\psi\).
-- `psi_lipschitz` states that for all \(x,y\in H\),
-  \[
-  \lVert g(x)-g(y)\rVert\le L_\psi\lVert x-y\rVert.
-  \]
-  Thus \(g\) is Lipschitz with constant \(L_\psi\). Together with the previous field, this says that \(\psi\) has a Lipschitz gradient represented by \(g\).
-- `a_pos`, `b_pos`, and `step_pos` state respectively that
-  \[
-  0<a,\qquad 0<b,\qquad 0<\lambda.
-  \]
-- `step_lt` imposes the strict step-size bound
-  \[
-  \lambda<\min\left(\frac{1}{a},\frac{2(a+b)}{bL_\psi}\right).
-  \]
-  This is a parameter restriction involving the two positive parameters \(a,b\), the step size \(\lambda\), and the Lipschitz constant \(L_\psi\).
-- `theta_eq` states that for every \(x\in H\),
-  \[
-  \theta(x)=\varphi(x)+(\psi(x))_{\mathrm{EReal}},
-  \]
-  where \(\psi(x)\in\mathbb R\) is regarded as an element of \(\mathrm{EReal}\). Thus \(\theta\) is the extended-real sum of the nonsmooth part \(\varphi\) and the finite smooth part \(\psi\).
-- `theta_convex` states that the epigraph of \(\theta\) is convex over \(\mathbb R\), i.e. that \(\theta\) is convex in the epigraphical sense.
-- `theta_bounded_below` states that there exists a real number \(m\) such that for every \(x\in H\),
-  \[
-  (m)_{\mathrm{EReal}}\le \theta(x).
-  \]
-  Thus \(\theta\) has a finite lower bound.
+  $$
 
-In summary, `IFBHypothesis` is not a convergence theorem or an algorithm statement. It is a structure that bundles the standing assumptions for an inertial forward-backward setting: a proper, closed, convex extended-real function \(\varphi\); a differentiable real-valued function \(\psi\) whose gradient is the map \(g\) and is Lipschitz with constant \(L_\psi\); positive parameters \(a,b,\lambda\) satisfying the displayed step-size bound; and a convex, bounded-below composite function \(\theta=\varphi+\psi\).
+  where $D\psi(x)$ is the Fréchet derivative of $\psi$ at $x$. Thus the derivative linear functional is represented by the vector $g(x)$ through the inner product, so $g$ is a gradient field for $\psi$.
+- `psi_lipschitz` states that for all $x,y\in H$,
+
+  $$
+  \lVert g(x)-g(y)\rVert\le L_\psi\lVert x-y\rVert.
+  $$
+
+  Thus $g$ is Lipschitz with constant $L_\psi$. Together with the previous field, this says that $\psi$ has a Lipschitz gradient represented by $g$.
+- `a_pos`, `b_pos`, and `step_pos` state respectively that
+
+  $$
+  0<a,\qquad 0<b,\qquad 0<\lambda.
+  $$
+
+- `step_lt` imposes the strict step-size bound
+
+  $$
+  \lambda<\min\left(\frac{1}{a},\frac{2(a+b)}{bL_\psi}\right).
+  $$
+
+  This is a parameter restriction involving the two positive parameters $a,b$, the step size $\lambda$, and the Lipschitz constant $L_\psi$.
+- `theta_eq` states that for every $x\in H$,
+
+  $$
+  \theta(x)=\varphi(x)+(\psi(x))_{\mathrm{EReal}},
+  $$
+
+  where $\psi(x)\in\mathbb R$ is regarded as an element of $\mathrm{EReal}$. Thus $\theta$ is the extended-real sum of the nonsmooth part $\varphi$ and the finite smooth part $\psi$.
+- `theta_convex` states that the epigraph of $\theta$ is convex over $\mathbb R$, i.e. that $\theta$ is convex in the epigraphical sense.
+- `theta_bounded_below` states that there exists a real number $m$ such that for every $x\in H$,
+
+  $$
+  (m)_{\mathrm{EReal}}\le \theta(x).
+  $$
+
+  Thus $\theta$ has a finite lower bound.
+
+In summary, `IFBHypothesis` is not a convergence theorem or an algorithm statement. It is a structure that bundles the standing assumptions for an inertial forward-backward setting: a proper, closed, convex extended-real function $\varphi$; a differentiable real-valued function $\psi$ whose gradient is the map $g$ and is Lipschitz with constant $L_\psi$; positive parameters $a,b,\lambda$ satisfying the displayed step-size bound; and a convex, bounded-below composite function $\theta=\varphi+\psi$.
 
 ## Lean proof
 ```lean

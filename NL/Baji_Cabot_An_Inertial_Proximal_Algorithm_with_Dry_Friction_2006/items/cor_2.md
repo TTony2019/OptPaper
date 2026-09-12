@@ -28,45 +28,61 @@ theorem cor_4_1 [FiniteDimensional ℝ H] (C : Set H) (hC_closed : IsClosed C) (
 ```
 
 ## Statement explanation
-The theorem `cor_4_1` is a convergence result for an inertial proximal algorithm with dry friction, stated in a finite-dimensional real inner product space \(H\). It combines a finite-termination alternative with geometric lower and upper tail estimates.
+The theorem `cor_4_1` is a convergence result for an inertial proximal algorithm with dry friction, stated in a finite-dimensional real inner product space $H$. It combines a finite-termination alternative with geometric lower and upper tail estimates.
 
-The data and hypotheses are as follows. The set \(C\subseteq H\) is closed, convex, bounded, and contains \(0\) in its interior. The map \(A0:H\to H\) is single-valued, but it is regarded as the set-valued operator
-\[
+The data and hypotheses are as follows. The set $C\subseteq H$ is closed, convex, bounded, and contains $0$ in its interior. The map $A0:H\to H$ is single-valued, but it is regarded as the set-valued operator
+
+$$
 F(x)=\{A0(x)\}
-\]
-on all of \(H\), and this \(F\) is assumed maximal monotone. The constants satisfy \(\eta>0\), \(\alpha\ge 0\), and the local linear-growth condition
-\[
-\|A0(x)\|\le \alpha\|x\|\qquad\text{whenever }\|x\|\le \eta .
-\]
-The set-valued operator \(A\) is assumed to be
-\[
-A=\partial\sigma_C+F,
-\]
-where \(\sigma_C\) is the support function of \(C\),
-\[
-\sigma_C(y)=\sup_{z\in C}\langle z,y\rangle,
-\]
-and \(\partial\sigma_C\) is the subderivative of this extended-real-valued support function. Thus
-\[
-A(x)=\partial\sigma_C(x)+\{A0(x)\}.
-\]
+$$
 
-The function \(f:H\to\mathbb R\) is \(C^{1,1}\), bounded below, and \(M\)-strongly convex. Here \(M\)-strong convexity includes \(M>0\), \(C^1\)-regularity, and the gradient inequality
-\[
+on all of $H$, and this $F$ is assumed maximal monotone. The constants satisfy $\eta>0$, $\alpha\ge 0$, and the local linear-growth condition
+
+$$
+\|A0(x)\|\le \alpha\|x\|\qquad\text{whenever }\|x\|\le \eta .
+$$
+
+The set-valued operator $A$ is assumed to be
+
+$$
+A=\partial\sigma_C+F,
+$$
+
+where $\sigma_C$ is the support function of $C$,
+
+$$
+\sigma_C(y)=\sup_{z\in C}\langle z,y\rangle,
+$$
+
+and $\partial\sigma_C$ is the subderivative of this extended-real-valued support function. Thus
+
+$$
+A(x)=\partial\sigma_C(x)+\{A0(x)\}.
+$$
+
+The function $f:H\to\mathbb R$ is $C^{1,1}$, bounded below, and $M$-strongly convex. Here $M$-strong convexity includes $M>0$, $C^1$-regularity, and the gradient inequality
+
+$$
 \langle \nabla f(x)-\nabla f(y),x-y\rangle\ge M\|x-y\|^2 .
-\]
-The operator \(B\) is the gradient operator
-\[
+$$
+
+The operator $B$ is the gradient operator
+
+$$
 B(x)=\{\nabla f(x)\}.
-\]
-The positive number \(\lambda>0\) is the constant step size, since \(\lambda_n=\lambda\) for every \(n\). The sequence \(x:\mathbb N\to H\) is assumed to satisfy the algorithm relation `AlgorithmA A B x lam_seq`, and it converges to \(x_\infty\in H\). Finally, the smoothness hypothesis is
-\[
+$$
+
+The positive number $\lambda>0$ is the constant step size, since $\lambda_n=\lambda$ for every $n$. The sequence $x:\mathbb N\to H$ is assumed to satisfy the algorithm relation `AlgorithmA A B x lam_seq`, and it converges to $x_\infty\in H$. Finally, the smoothness hypothesis is
+
+$$
 \operatorname{IsSmoothAt}\bigl(C,-\nabla f(x_\infty)\bigr),
-\]
-meaning that \(-\nabla f(x_\infty)\in C\) and the normal cone of \(C\) at that point is a single ray.
+$$
+
+meaning that $-\nabla f(x_\infty)\in C$ and the normal cone of $C$ at that point is a single ray.
 
 The conclusion is the conjunction
-\[
+
+$$
 \Bigl(
 (\exists N,\ \forall n\ge N,\ x_n=x_N)
 \ \lor
@@ -74,24 +90,33 @@ The conclusion is the conjunction
 \Bigr)
 \ \land
 \Bigl(\alpha^2<M\ \Longrightarrow\ \exists N,\ \forall n\ge N,\ x_n=x_N\Bigr).
-\]
-The second estimate is described explicitly as follows. For every \(q_1\) with
-\[
+$$
+
+The second estimate is described explicitly as follows. For every $q_1$ with
+
+$$
 0<q_1<1,\qquad q_1<\frac{1}{\alpha\lambda+1},
-\]
-there is \(C_1>0\) such that
-\[
+$$
+
+there is $C_1>0$ such that
+
+$$
 \|x_n-x_\infty\|\ge C_1 q_1^n
-\]
-for all sufficiently large \(n\). This is a lower bound, so convergence cannot be faster than the geometric rate \(1/(\alpha\lambda+1)\). Likewise, for every \(q_2\) with
-\[
+$$
+
+for all sufficiently large $n$. This is a lower bound, so convergence cannot be faster than the geometric rate $1/(\alpha\lambda+1)$. Likewise, for every $q_2$ with
+
+$$
 0<q_2<1,\qquad q_2>\frac{\alpha}{\alpha+M\lambda},
-\]
-there is \(C_2>0\) such that
-\[
+$$
+
+there is $C_2>0$ such that
+
+$$
 \sum_{k\ge 0}\|x_{n+k}-x_\infty\|\le C_2 q_2^n
-\]
-for all sufficiently large \(n\). This bounds the tail sum from above, giving an upper geometric decay rate. Finally, if \(\alpha^2<M\), the sequence is eventually constant.
+$$
+
+for all sufficiently large $n$. This bounds the tail sum from above, giving an upper geometric decay rate. Finally, if $\alpha^2<M$, the sequence is eventually constant.
 
 ## Lean proof
 ```lean
@@ -468,262 +493,371 @@ by
 
 ## Proof explanation
 The proof begins with `classical`, allowing classical logic, and then introduces three abbreviations. First,
-\[
-S=\partial\sigma_C
-\]
-is the subderivative of the support function of \(C\). Second,
-\[
-F(x)=\{A0(x)\}
-\]
-is the single-valued operator \(A0\) viewed as a set-valued operator. Third,
-\[
-f_E(x)=(f(x):\mathbb R\cup\{\pm\infty\})
-\]
-is the extended-real-valued version of \(f\). The hypothesis `hA` says precisely that \(A=S+F\).
 
-The first auxiliary fact is \(A0(0)=0\). Since \(0\le \eta\), the local growth hypothesis applies at \(x=0\) and gives
-\[
+$$
+S=\partial\sigma_C
+$$
+
+is the subderivative of the support function of $C$. Second,
+
+$$
+F(x)=\{A0(x)\}
+$$
+
+is the single-valued operator $A0$ viewed as a set-valued operator. Third,
+
+$$
+f_E(x)=(f(x):\mathbb R\cup\{\pm\infty\})
+$$
+
+is the extended-real-valued version of $f$. The hypothesis `hA` says precisely that $A=S+F$.
+
+The first auxiliary fact is $A0(0)=0$. Since $0\le \eta$, the local growth hypothesis applies at $x=0$ and gives
+
+$$
 \|A0(0)\|\le \alpha\|0\|=0.
-\]
-Because norms are nonnegative, \(\|A0(0)\|=0\), hence \(A0(0)=0\).
+$$
+
+Because norms are nonnegative, $\|A0(0)\|=0$, hence $A0(0)=0$.
 
 Next the proof establishes
-\[
+
+$$
 S(0)=C.
-\]
-The point \(0\in C\) comes from `hC_int`, since an interior point belongs to the set. The cited lemma `cor41_supportFunction_zero` gives
-\[
+$$
+
+The point $0\in C$ comes from `hC_int`, since an interior point belongs to the set. The cited lemma `cor41_supportFunction_zero` gives
+
+$$
 \sigma_C(0)=0
-\]
-because \(0\in C\). For the inclusion \(S(0)\subseteq C\), suppose \(v\in S(0)\) but \(v\notin C\). The separation theorem
-\[
+$$
+
+because $0\in C$. For the inclusion $S(0)\subseteq C$, suppose $v\in S(0)$ but $v\notin C$. The separation theorem
+
+$$
 \texttt{exists\_nonzero\_innerSupremumOn\_lt\_inner\_of\_nonempty\_isClosed\_convex\_of\_not\_mem}
-\]
-applies to the nonempty closed convex set \(C\) and the point \(v\notin C\). It provides a nonzero \(u\) with
-\[
+$$
+
+applies to the nonempty closed convex set $C$ and the point $v\notin C$. It provides a nonzero $u$ with
+
+$$
 \operatorname{innerSupremumOn}_C(u)<\langle v,u\rangle.
-\]
-Since \(\operatorname{innerSupremumOn}_C(u)=\sigma_C(u)\), this is a strict separation inequality. On the other hand, \(v\in S(0)\) means that for every \(y\),
-\[
+$$
+
+Since $\operatorname{innerSupremumOn}_C(u)=\sigma_C(u)$, this is a strict separation inequality. On the other hand, $v\in S(0)$ means that for every $y$,
+
+$$
 \sigma_C(y)\ge \sigma_C(0)+\langle v,y\rangle.
-\]
-Using \(\sigma_C(0)=0\) and taking \(y=u\), this gives
-\[
+$$
+
+Using $\sigma_C(0)=0$ and taking $y=u$, this gives
+
+$$
 \langle v,u\rangle\le \sigma_C(u),
-\]
-contradicting the strict separation. Thus \(S(0)\subseteq C\). For the reverse inclusion, if \(v\in C\), then for every \(y\) the cited lemma `cor41_inner_le_supportFunction` gives
-\[
+$$
+
+contradicting the strict separation. Thus $S(0)\subseteq C$. For the reverse inclusion, if $v\in C$, then for every $y$ the cited lemma `cor41_inner_le_supportFunction` gives
+
+$$
 \langle v,y\rangle\le \sigma_C(y).
-\]
-Again \(\sigma_C(0)=0\), so
-\[
+$$
+
+Again $\sigma_C(0)=0$, so
+
+$$
 \sigma_C(y)\ge \sigma_C(0)+\langle v,y\rangle,
-\]
-which is exactly the condition \(v\in S(0)\). Hence \(S(0)=C\).
+$$
+
+which is exactly the condition $v\in S(0)$. Hence $S(0)=C$.
 
 The proof next shows
-\[
+
+$$
 S(z)\subseteq C\qquad\text{for every }z.
-\]
-Take \(v\in S(z)\). The subgradient inequality at \(z\) gives, for every \(y\),
-\[
+$$
+
+Take $v\in S(z)$. The subgradient inequality at $z$ gives, for every $y$,
+
+$$
 \sigma_C(z)+\langle v,y\rangle
 \le \sigma_C(z+y).
-\]
-The cited lemma `cor41_supportFunction_add_le` gives the subadditivity
-\[
-\sigma_C(z+y)\le \sigma_C(z)+\sigma_C(y).
-\]
-The support-function values are finite here: `cor41_supportFunction_ne_top_of_bounded` gives \(\sigma_C(y)\neq \top\), and `cor41_supportFunction_ne_bot_of_nonempty` gives \(\sigma_C(y)\neq \bot\). Therefore the extended-real inequality can be converted to an ordinary real inequality and \(\sigma_C(z)\) can be canceled, yielding
-\[
-\langle v,y\rangle\le \sigma_C(y).
-\]
-This says \(v\in S(0)\), and since \(S(0)=C\), we get \(v\in C\). Thus \(S(z)\subseteq C\).
+$$
 
-The domain of \(S\) is then shown to be all of \(H\). Since \(C\) is closed and bounded in finite dimension, it is compact. For fixed \(z\), the continuous function
-\[
+The cited lemma `cor41_supportFunction_add_le` gives the subadditivity
+
+$$
+\sigma_C(z+y)\le \sigma_C(z)+\sigma_C(y).
+$$
+
+The support-function values are finite here: `cor41_supportFunction_ne_top_of_bounded` gives $\sigma_C(y)\neq \top$, and `cor41_supportFunction_ne_bot_of_nonempty` gives $\sigma_C(y)\neq \bot$. Therefore the extended-real inequality can be converted to an ordinary real inequality and $\sigma_C(z)$ can be canceled, yielding
+
+$$
+\langle v,y\rangle\le \sigma_C(y).
+$$
+
+This says $v\in S(0)$, and since $S(0)=C$, we get $v\in C$. Thus $S(z)\subseteq C$.
+
+The domain of $S$ is then shown to be all of $H$. Since $C$ is closed and bounded in finite dimension, it is compact. For fixed $z$, the continuous function
+
+$$
 q\mapsto \langle q,z\rangle
-\]
-attains a maximum on \(C\) at some point \(c\in C\). Hence
-\[
+$$
+
+attains a maximum on $C$ at some point $c\in C$. Hence
+
+$$
 \sigma_C(z)=\langle c,z\rangle.
-\]
-For any \(y\), the definition of the support function and \(c\in C\) give
-\[
+$$
+
+For any $y$, the definition of the support function and $c\in C$ give
+
+$$
 \sigma_C(y)\ge \langle c,y\rangle
 =\langle c,z\rangle+\langle c,y-z\rangle
 =\sigma_C(z)+\langle c,y-z\rangle.
-\]
-Therefore \(c\in S(z)\), so every \(z\) belongs to the domain of \(S\). Thus \(S.\operatorname{dom}=H\).
+$$
 
-The proof then proves that \(S\) is maximal monotone. First it proves monotonicity. If \(u\in S(x)\) and \(v\in S(y)\), the subgradient inequalities are
-\[
+Therefore $c\in S(z)$, so every $z$ belongs to the domain of $S$. Thus $S.\operatorname{dom}=H$.
+
+The proof then proves that $S$ is maximal monotone. First it proves monotonicity. If $u\in S(x)$ and $v\in S(y)$, the subgradient inequalities are
+
+$$
 \sigma_C(y)\ge \sigma_C(x)+\langle u,y-x\rangle,
-\]
-\[
+$$
+
+$$
 \sigma_C(x)\ge \sigma_C(y)+\langle v,x-y\rangle.
-\]
+$$
+
 After converting to real inequalities and canceling the finite support-function values, adding these gives
-\[
+
+$$
 \langle u,y-x\rangle+\langle v,x-y\rangle\le 0.
-\]
-Since \(y-x=-(x-y)\), this is
-\[
+$$
+
+Since $y-x=-(x-y)$, this is
+
+$$
 \langle v-u,x-y\rangle\le 0,
-\]
+$$
+
 equivalently
-\[
+
+$$
 0\le \langle u-v,x-y\rangle.
-\]
-So \(S\) is monotone.
+$$
+
+So $S$ is monotone.
 
 Second, the proof establishes the resolvent-surjectivity condition
-\[
+
+$$
 \forall z,\ \exists p,q,\quad q\in S(p)\ \land\ z=p+q.
-\]
-For a given \(z\), let
-\[
+$$
+
+For a given $z$, let
+
+$$
 q=\operatorname{proj}_C(z)
-\]
-be the projection of \(z\) onto \(C\). The existence and uniqueness of this projection come from `isChebyshev_of_nonempty_isClosed_convex`, applied to the nonempty closed convex set \(C\). The projection characterization
-\[
+$$
+
+be the projection of $z$ onto $C$. The existence and uniqueness of this projection come from `isChebyshev_of_nonempty_isClosed_convex`, applied to the nonempty closed convex set $C$. The projection characterization
+
+$$
 q\in C\quad\text{and}\quad
 \forall r\in C,\ \langle r-q,z-q\rangle\le 0
-\]
+$$
+
 comes from
-\[
+
+$$
 \texttt{eq\_projectionPoint\_iff\_mem\_and\_inner\_sub\_right\_nonpos\_of\_nonempty\_isClosed\_convex}.
-\]
-Set \(p=z-q\). The projection inequality says
-\[
+$$
+
+Set $p=z-q$. The projection inequality says
+
+$$
 \langle r-q,p\rangle\le 0
-\]
-for every \(r\in C\), hence
-\[
+$$
+
+for every $r\in C$, hence
+
+$$
 \langle r,p\rangle\le \langle q,p\rangle.
-\]
-Thus \(q\) maximizes the linear functional \(r\mapsto \langle r,p\rangle\) over \(C\), so
-\[
+$$
+
+Thus $q$ maximizes the linear functional $r\mapsto \langle r,p\rangle$ over $C$, so
+
+$$
 \sigma_C(p)=\langle q,p\rangle.
-\]
-For any \(y\), `cor41_inner_le_supportFunction` gives
-\[
+$$
+
+For any $y$, `cor41_inner_le_supportFunction` gives
+
+$$
 \langle q,y\rangle\le \sigma_C(y).
-\]
+$$
+
 But
-\[
+
+$$
 \langle q,y\rangle
 =\langle q,p\rangle+\langle q,y-p\rangle
 =\sigma_C(p)+\langle q,y-p\rangle.
-\]
+$$
+
 Therefore
-\[
+
+$$
 \sigma_C(y)\ge \sigma_C(p)+\langle q,y-p\rangle,
-\]
-which is precisely \(q\in S(p)\). Since \(z=p+q\), the resolvent-surjectivity condition holds. The cited theorem
-\[
+$$
+
+which is precisely $q\in S(p)$. Since $z=p+q$, the resolvent-surjectivity condition holds. The cited theorem
+
+$$
 \texttt{cor41\_maximal\_of\_monotone\_and\_resolvent\_surjective}
-\]
-says that a monotone operator \(B\) for which every \(z\) can be written as \(z=p+q\) with \(q\in B(p)\) is maximal monotone. Hence \(S\) is maximal monotone.
+$$
 
-The operator \(F\) has domain all of \(H\), because \(F(x)=\{A0(x)\}\) is nonempty for every \(x\). Its maximal monotonicity is exactly the hypothesis `hA0_mono`.
+says that a monotone operator $B$ for which every $z$ can be written as $z=p+q$ with $q\in B(p)$ is maximal monotone. Hence $S$ is maximal monotone.
 
-Now the proof shows that \(A\) is maximal monotone. Since \(A=S+F\), the cited theorem
-\[
+The operator $F$ has domain all of $H$, because $F(x)=\{A0(x)\}$ is nonempty for every $x$. Its maximal monotonicity is exactly the hypothesis `hA0_mono`.
+
+Now the proof shows that $A$ is maximal monotone. Since $A=S+F$, the cited theorem
+
+$$
 \texttt{sum\_maximal\_monotone}
-\]
-applies to \(S\) and \(F\). Its hypotheses are that both operators are maximal monotone and that
-\[
+$$
+
+applies to $S$ and $F$. Its hypotheses are that both operators are maximal monotone and that
+
+$$
 \operatorname{int}(\operatorname{dom}S)\cap \operatorname{dom}F\neq\emptyset.
-\]
-Here both domains are all of \(H\), so this intersection is nonempty. Therefore \(S+F\) is maximal monotone, and by `hA`, so is \(A\).
+$$
 
-The proof also records that \(A.\operatorname{dom}=H\), that
-\[
+Here both domains are all of $H$, so this intersection is nonempty. Therefore $S+F$ is maximal monotone, and by `hA`, so is $A$.
+
+The proof also records that $A.\operatorname{dom}=H$, that
+
+$$
 A(0)=S(0)+F(0)=C+\{0\}=C,
-\]
-and that therefore
-\[
-0\in \operatorname{interior}(A(0)).
-\]
-The equality \(A(0)=C\) uses \(S(0)=C\) and \(A0(0)=0\).
+$$
 
-Next the proof verifies the linear-growth condition needed by the main theorems. For \(\|z\|\le\eta\), it proves
-\[
+and that therefore
+
+$$
+0\in \operatorname{interior}(A(0)).
+$$
+
+The equality $A(0)=C$ uses $S(0)=C$ and $A0(0)=0$.
+
+Next the proof verifies the linear-growth condition needed by the main theorems. For $\|z\|\le\eta$, it proves
+
+$$
 \operatorname{excess}(A(z),A(0))\le \alpha\|z\|.
-\]
-If \(w\in A(z)\), then \(w=s+A0(z)\) with \(s\in S(z)\). Since \(S(z)\subseteq C=A(0)\), the distance from \(w\) to \(A(0)\) is at most the distance from \(w\) to \(s\), and
-\[
+$$
+
+If $w\in A(z)$, then $w=s+A0(z)$ with $s\in S(z)$. Since $S(z)\subseteq C=A(0)$, the distance from $w$ to $A(0)$ is at most the distance from $w$ to $s$, and
+
+$$
 \operatorname{dist}(w,s)=\|A0(z)\|.
-\]
+$$
+
 Thus
-\[
+
+$$
 \operatorname{infDist}(w,A(0))\le \|A0(z)\|.
-\]
-Taking the supremum over all \(w\in A(z)\), and using the definition
-\[
+$$
+
+Taking the supremum over all $w\in A(z)$, and using the definition
+
+$$
 \operatorname{excess}(A(z),A(0))
 =\sup_{w\in A(z)}\operatorname{infDist}(w,A(0)),
-\]
-gives
-\[
-\operatorname{excess}(A(z),A(0))\le \|A0(z)\|.
-\]
-The local growth hypothesis `h_A0_growth` then gives \(\|A0(z)\|\le\alpha\|z\|\), so the required excess bound follows.
+$$
 
-The proof then passes from the real-valued \(f\) to the extended-real-valued \(f_E\). Since \(f\) takes values in \(\mathbb R\), the values of \(f_E\) are finite, never \(\top\) or \(\bot\). The hypotheses `hf_C11`, `hinf`, `hf_strongConv`, and `hB_eq_grad` are transferred unchanged to \(f_E\) and its real-valued version \((f_E).\operatorname{toReal}\). The smoothness hypothesis is also transferred: since \(A(0)=C\), the statement `IsSmoothAt C (-gradient f xInf)` becomes
-\[
+gives
+
+$$
+\operatorname{excess}(A(z),A(0))\le \|A0(z)\|.
+$$
+
+The local growth hypothesis `h_A0_growth` then gives $\|A0(z)\|\le\alpha\|z\|$, so the required excess bound follows.
+
+The proof then passes from the real-valued $f$ to the extended-real-valued $f_E$. Since $f$ takes values in $\mathbb R$, the values of $f_E$ are finite, never $\top$ or $\bot$. The hypotheses `hf_C11`, `hinf`, `hf_strongConv`, and `hB_eq_grad` are transferred unchanged to $f_E$ and its real-valued version $(f_E).\operatorname{toReal}$. The smoothness hypothesis is also transferred: since $A(0)=C$, the statement `IsSmoothAt C (-gradient f xInf)` becomes
+
+$$
 \operatorname{IsSmoothAt}(A(0),-\nabla f_E(x_\infty)).
-\]
+$$
+
 These transfers are needed because the cited Baji-Cabot theorems are stated for extended-real functions.
 
-The finite-convergence theorem `thm_4_1_finite_of_alpha_sq_lt` is then applied to \(A,B,f_E\) and the sequence \(x\). It says that under exactly the assembled hypotheses, if
-\[
+The finite-convergence theorem `thm_4_1_finite_of_alpha_sq_lt` is then applied to $A,B,f_E$ and the sequence $x$. It says that under exactly the assembled hypotheses, if
+
+$$
 \alpha^2<M,
-\]
-then there exists \(N\) such that for every \(n\ge N\),
-\[
+$$
+
+then there exists $N$ such that for every $n\ge N$,
+
+$$
 x_n=x_N.
-\]
+$$
+
 This gives the implication `hfinite_of_alpha`.
 
 The proof now splits by cases on whether the sequence is eventually constant.
 
 If
-\[
+
+$$
 \exists N,\ \forall n\ge N,\ x_n=x_N,
-\]
-then the first conjunct of the conclusion is immediate, using the left disjunct. The second conjunct is also satisfied by the same eventual constancy, because \(\alpha^2<M\) implies it trivially once eventual constancy is already known.
+$$
+
+then the first conjunct of the conclusion is immediate, using the left disjunct. The second conjunct is also satisfied by the same eventual constancy, because $\alpha^2<M$ implies it trivially once eventual constancy is already known.
 
 If the sequence is not eventually constant, the proof applies two more cited theorems:
-\[
-\texttt{thm\_4\_1\_lower\_rate\_of\_not\_finite}
-\]
-and
-\[
-\texttt{thm\_4\_1\_tail\_rate\_of\_not\_finite}.
-\]
-The first gives an \(n_{\text{lower}}\) such that for every \(q_1\) with \(0<q_1<1\) and
-\[
-q_1<\frac{1}{\alpha\lambda+1},
-\]
-there exists \(C_1>0\) such that for all \(n\ge n_{\text{lower}}\),
-\[
-\|x_n-x_\infty\|\ge C_1 q_1^n.
-\]
-The second gives an \(n_{\text{tail}}\) such that for every \(q_2\) with \(0<q_2<1\) and
-\[
-q_2>\frac{\alpha}{\alpha+M\lambda},
-\]
-there exists \(C_2>0\) such that for all \(n\ge n_{\text{tail}}\),
-\[
-\sum_{k\ge 0}\|x_{n+k}-x_\infty\|\le C_2 q_2^n.
-\]
-The proof sets
-\[
-n_0=\max(n_{\text{lower}},n_{\text{tail}}).
-\]
-Then any index \(n\ge n_0\) also satisfies \(n\ge n_{\text{lower}}\), so the lower estimate from the first theorem applies, and similarly \(n\ge n_{\text{tail}}\), so the tail estimate from the second theorem applies. Thus the right-hand disjunct is established with this common \(n_0\). Combining this with the previously proved implication `hfinite_of_alpha` gives the full conclusion.
 
-The Lean commands reflect these steps. `intro` introduces hypotheses and variables; `let` creates local abbreviations; `have` records intermediate mathematical facts; `ext` proves set equalities by extensionality; `constructor` splits conjunctions and iff-statements; `by_contra` proves the missing inclusion \(S(0)\subseteq C\) by contradiction using the separation theorem; `rcases` destructs existential and conjunctive hypotheses; `refine` supplies witnesses such as the projection point or the common \(n_0=\max(n_{\text{lower}},n_{\text{tail}})\); `rw`, `simp`, `simpa`, and `unfold` rewrite definitions and cited lemmas; `change` replaces a goal by its definitional unfolding; `linarith` and `nlinarith` close the real and nonlinear numeric inequalities obtained after canceling finite extended-real terms; and `by_cases` performs the case split on eventual constancy. The extended-real lemmas such as `EReal.toReal_add`, `EReal.toReal_le_toReal`, and the finiteness lemmas for support functions are used only to justify that the relevant support-function inequalities are finite and may be treated as ordinary real inequalities.
+$$
+\texttt{thm\_4\_1\_lower\_rate\_of\_not\_finite}
+$$
+
+and
+
+$$
+\texttt{thm\_4\_1\_tail\_rate\_of\_not\_finite}.
+$$
+
+The first gives an $n_{\text{lower}}$ such that for every $q_1$ with $0<q_1<1$ and
+
+$$
+q_1<\frac{1}{\alpha\lambda+1},
+$$
+
+there exists $C_1>0$ such that for all $n\ge n_{\text{lower}}$,
+
+$$
+\|x_n-x_\infty\|\ge C_1 q_1^n.
+$$
+
+The second gives an $n_{\text{tail}}$ such that for every $q_2$ with $0<q_2<1$ and
+
+$$
+q_2>\frac{\alpha}{\alpha+M\lambda},
+$$
+
+there exists $C_2>0$ such that for all $n\ge n_{\text{tail}}$,
+
+$$
+\sum_{k\ge 0}\|x_{n+k}-x_\infty\|\le C_2 q_2^n.
+$$
+
+The proof sets
+
+$$
+n_0=\max(n_{\text{lower}},n_{\text{tail}}).
+$$
+
+Then any index $n\ge n_0$ also satisfies $n\ge n_{\text{lower}}$, so the lower estimate from the first theorem applies, and similarly $n\ge n_{\text{tail}}$, so the tail estimate from the second theorem applies. Thus the right-hand disjunct is established with this common $n_0$. Combining this with the previously proved implication `hfinite_of_alpha` gives the full conclusion.
+
+The Lean commands reflect these steps. `intro` introduces hypotheses and variables; `let` creates local abbreviations; `have` records intermediate mathematical facts; `ext` proves set equalities by extensionality; `constructor` splits conjunctions and iff-statements; `by_contra` proves the missing inclusion $S(0)\subseteq C$ by contradiction using the separation theorem; `rcases` destructs existential and conjunctive hypotheses; `refine` supplies witnesses such as the projection point or the common $n_0=\max(n_{\text{lower}},n_{\text{tail}})$; `rw`, `simp`, `simpa`, and `unfold` rewrite definitions and cited lemmas; `change` replaces a goal by its definitional unfolding; `linarith` and `nlinarith` close the real and nonlinear numeric inequalities obtained after canceling finite extended-real terms; and `by_cases` performs the case split on eventual constancy. The extended-real lemmas such as `EReal.toReal_add`, `EReal.toReal_le_toReal`, and the finiteness lemmas for support functions are used only to justify that the relevant support-function inequalities are finite and may be treated as ordinary real inequalities.
 

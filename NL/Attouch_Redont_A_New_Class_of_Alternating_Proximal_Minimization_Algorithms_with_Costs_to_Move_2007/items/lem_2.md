@@ -11,58 +11,58 @@ theorem lemma_4_2 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 ```
 
 ## Statement explanation
-Let \(H\) be a real inner product space, let \(f,g:H\to\mathbb R\), let \(\beta,\mu\in\mathbb R\), and let \(xbar,ybar\in H\). The theorem is stated under a bundled hypothesis `hyp : H41toH45 H f g β μ`. The supplied source does not define this bundle. In the proof, the only parts of it that are used are \(\beta>0\), \(\mu>0\), and the convexity of \(f\) and \(g\) on all of \(H\), the latter being passed to `subgrad_of_convex_min` as hypotheses of the form \(f\) and \(g\) are convex on \(H\).
+Let $H$ be a real inner product space, let $f,g:H\to\mathbb R$, let $\beta,\mu\in\mathbb R$, and let $xbar,ybar\in H$. The theorem is stated under a bundled hypothesis `hyp : H41toH45 H f g β μ`. The supplied source does not define this bundle. In the proof, the only parts of it that are used are $\beta>0$, $\mu>0$, and the convexity of $f$ and $g$ on all of $H$, the latter being passed to `subgrad_of_convex_min` as hypotheses of the form $f$ and $g$ are convex on $H$.
 
 The definition `L_beta_mu` used in the statement is
 
-\[
+$$
 L_{\beta,\mu}(f,g)(\xi,\eta)
 =
 \mu f(\xi)+\beta g(\eta)+\frac{\beta\mu}{2}\|\xi-\eta\|^2.
-\]
+$$
 
-The theorem compares the predicate `IsINE` applied to \(f,g\), the three copies of the same cost function
+The theorem compares the predicate `IsINE` applied to $f,g$, the three copies of the same cost function
 
-\[
+$$
 c(\xi,\eta)=\frac{\|\xi-\eta\|^2}{2},
-\]
+$$
 
-the indicated zero parameters, the parameters \(\beta,\mu\), and the points \(xbar,ybar\), with the condition that \((xbar,ybar)\) globally minimizes \(L_{\beta,\mu}\). In the proof, the left side is unfolded as the conjunction of the following two minimization properties:
+the indicated zero parameters, the parameters $\beta,\mu$, and the points $xbar,ybar$, with the condition that $(xbar,ybar)$ globally minimizes $L_{\beta,\mu}$. In the proof, the left side is unfolded as the conjunction of the following two minimization properties:
 
-\[
+$$
 \forall \xi\in H,\qquad
 f(xbar)+\frac{\beta}{2}\|xbar-ybar\|^2
 \le
 f(\xi)+\frac{\beta}{2}\|\xi-ybar\|^2,
-\]
+$$
 
-meaning that \(xbar\) minimizes
+meaning that $xbar$ minimizes
 
-\[
+$$
 \xi\mapsto f(\xi)+\frac{\beta}{2}\|\xi-ybar\|^2,
-\]
+$$
 
 and
 
-\[
+$$
 \forall \eta\in H,\qquad
 g(ybar)+\frac{\mu}{2}\|xbar-ybar\|^2
 \le
 g(\eta)+\frac{\mu}{2}\|xbar-\eta\|^2,
-\]
+$$
 
-meaning that \(ybar\) minimizes
+meaning that $ybar$ minimizes
 
-\[
+$$
 \eta\mapsto g(\eta)+\frac{\mu}{2}\|xbar-\eta\|^2.
-\]
+$$
 
-Thus the theorem says: under the positivity and convexity hypotheses used in the proof, \((xbar,ybar)\) is a pair of exact proximal minimizers in this alternating sense if and only if it is a global minimizer of the coupled function
+Thus the theorem says: under the positivity and convexity hypotheses used in the proof, $(xbar,ybar)$ is a pair of exact proximal minimizers in this alternating sense if and only if it is a global minimizer of the coupled function
 
-\[
+$$
 (\xi,\eta)\mapsto
 \mu f(\xi)+\beta g(\eta)+\frac{\beta\mu}{2}\|\xi-\eta\|^2.
-\]
+$$
 
 ## Lean proof
 ```lean
@@ -194,180 +194,180 @@ by
 ## Proof explanation
 The proof begins by extracting the positivity assumptions:
 
-\[
+$$
 \beta>0,\qquad \mu>0.
-\]
+$$
 
 These are used throughout to justify multiplying or dividing inequalities by positive scalars. The proof then splits the equivalence into two implications using `constructor`.
 
-For the forward implication, assume the left-hand side, namely the `IsINE` predicate. The pattern `rintro ⟨hx_opt, hy_opt⟩ ξ η` destructs this predicate into its two minimizer inequalities and introduces arbitrary \(\xi,\eta\in H\). The first inequality is rewritten by `simpa` as
+For the forward implication, assume the left-hand side, namely the `IsINE` predicate. The pattern `rintro ⟨hx_opt, hy_opt⟩ ξ η` destructs this predicate into its two minimizer inequalities and introduces arbitrary $\xi,\eta\in H$. The first inequality is rewritten by `simpa` as
 
-\[
+$$
 \forall \xi',\qquad
 f(xbar)+\beta\frac{\|xbar-ybar\|^2}{2}
 \le
 f(\xi')+\beta\frac{\|\xi'-ybar\|^2}{2}.
-\]
+$$
 
 The second one is first rewritten as
 
-\[
+$$
 \forall \eta',\qquad
 g(ybar)+\mu\frac{\|xbar-ybar\|^2}{2}
 \le
 g(\eta')+\mu\frac{\|xbar-\eta'\|^2}{2}.
-\]
+$$
 
-Then `norm_sub_rev`, which says \(\|a-b\|=\|b-a\|\), is used to replace the norms by their reversed versions, producing
+Then `norm_sub_rev`, which says $\|a-b\|=\|b-a\|$, is used to replace the norms by their reversed versions, producing
 
-\[
+$$
 \forall \eta',\qquad
 g(ybar)+\mu\frac{\|ybar-xbar\|^2}{2}
 \le
 g(\eta')+\mu\frac{\|\eta'-xbar\|^2}{2}.
-\]
+$$
 
-This is the form needed to apply `subgrad_of_convex_min` with \(g\) in place of \(f\), \(ybar\) in place of \(xbar\), \(xbar\) in place of \(ybar\), and \(\mu\) in place of \(\beta\).
+This is the form needed to apply `subgrad_of_convex_min` with $g$ in place of $f$, $ybar$ in place of $xbar$, $xbar$ in place of $ybar$, and $\mu$ in place of $\beta$.
 
-The lemma `subgrad_of_convex_min` says the following. If \(f\) is convex on all of \(H\), if \(\beta>0\), and if \(xbar\) minimizes
+The lemma `subgrad_of_convex_min` says the following. If $f$ is convex on all of $H$, if $\beta>0$, and if $xbar$ minimizes
 
-\[
+$$
 \xi\mapsto f(\xi)+\frac{\beta}{2}\|\xi-ybar\|^2,
-\]
+$$
 
 so that
 
-\[
+$$
 f(xbar)+\beta\frac{\|xbar-ybar\|^2}{2}
 \le
 f(\xi)+\beta\frac{\|\xi-ybar\|^2}{2}
-\]
+$$
 
-for every \(\xi\), then for every \(z\in H\),
+for every $\xi$, then for every $z\in H$,
 
-\[
+$$
 f(z)
 \ge
 f(xbar)+\left\langle \beta(ybar-xbar),\,z-xbar\right\rangle.
-\]
+$$
 
-Applying this to \(f\) with \(z=\xi\) gives
+Applying this to $f$ with $z=\xi$ gives
 
-\[
+$$
 f(\xi)
 \ge
 f(xbar)+\left\langle \beta(ybar-xbar),\,\xi-xbar\right\rangle.
-\]
+$$
 
-Applying it to \(g\) with \(z=\eta\), \(\mu\) in place of \(\beta\), and the swapped roles of \(xbar\) and \(ybar\), gives
+Applying it to $g$ with $z=\eta$, $\mu$ in place of $\beta$, and the swapped roles of $xbar$ and $ybar$, gives
 
-\[
+$$
 g(\eta)
 \ge
 g(ybar)+\left\langle \mu(xbar-ybar),\,\eta-ybar\right\rangle.
-\]
+$$
 
 These are the two subgradient inequalities.
 
 Next the proof introduces abbreviations
 
-\[
+$$
 p=\xi-xbar,\qquad q=\eta-ybar,\qquad d=xbar-ybar.
-\]
+$$
 
-Multiplying the first subgradient inequality by \(\mu>0\) and the second by \(\beta>0\), and using `inner_smul_left`, which says
+Multiplying the first subgradient inequality by $\mu>0$ and the second by $\beta>0$, and using `inner_smul_left`, which says
 
-\[
+$$
 \langle r u,v\rangle=r\langle u,v\rangle
-\]
+$$
 
-for real scalars \(r\), gives
+for real scalars $r$, gives
 
-\[
+$$
 \mu f(\xi)
 \ge
 \mu f(xbar)+\beta\mu\langle ybar-xbar,p\rangle
-\]
+$$
 
 and
 
-\[
+$$
 \beta g(\eta)
 \ge
 \beta g(ybar)+\beta\mu\langle d,q\rangle.
-\]
+$$
 
 Adding these yields
 
-\[
+$$
 \mu f(\xi)+\beta g(\eta)
 \ge
 \mu f(xbar)+\beta g(ybar)
 +\beta\mu\bigl(\langle ybar-xbar,p\rangle+\langle d,q\rangle\bigr).
-\]
+$$
 
 The tactic `nlinarith` performs this nonlinear arithmetic after the scalar identities have been established.
 
 The next step is to expand the squared norm. Since
 
-\[
+$$
 \xi-\eta=(p+d)-q,
-\]
+$$
 
 the proof uses `norm_sub_sq_real`, which says
 
-\[
+$$
 \|a-b\|^2=\|a\|^2-2\langle a,b\rangle+\|b\|^2,
-\]
+$$
 
-with \(a=p+d\) and \(b=q\), then `norm_add_sq_real`, which says
+with $a=p+d$ and $b=q$, then `norm_add_sq_real`, which says
 
-\[
+$$
 \|a+b\|^2=\|a\|^2+2\langle a,b\rangle+\|b\|^2,
-\]
+$$
 
 and `inner_add_left`, which says
 
-\[
+$$
 \langle a+b,c\rangle=\langle a,c\rangle+\langle b,c\rangle.
-\]
+$$
 
-Using also `real_inner_comm`, which says \(\langle a,b\rangle=\langle b,a\rangle\) in a real inner product space, the proof obtains
+Using also `real_inner_comm`, which says $\langle a,b\rangle=\langle b,a\rangle$ in a real inner product space, the proof obtains
 
-\[
+$$
 \|\xi-\eta\|^2
 =
 \|d\|^2+\|p\|^2+\|q\|^2
 +2\langle d,p\rangle
 -2\langle p,q\rangle
 -2\langle d,q\rangle.
-\]
+$$
 
-Combining this expansion with the earlier inequality and the definition of \(L_{\beta,\mu}\) gives
+Combining this expansion with the earlier inequality and the definition of $L_{\beta,\mu}$ gives
 
-\[
+$$
 L_{\beta,\mu}(\xi,\eta)
 \ge
 L_{\beta,\mu}(xbar,ybar)
 +\beta\mu\bigl(\langle ybar-xbar,p\rangle+\langle d,q\rangle\bigr)
 +\frac{\beta\mu}{2}
 \bigl(\|\xi-\eta\|^2-\|xbar-ybar\|^2\bigr).
-\]
+$$
 
-Since \(xbar-ybar=d\), subtracting \(\|d\|^2\) from the expansion of \(\|\xi-\eta\|^2\) gives
+Since $xbar-ybar=d$, subtracting $\|d\|^2$ from the expansion of $\|\xi-\eta\|^2$ gives
 
-\[
+$$
 \|\xi-\eta\|^2-\|xbar-ybar\|^2
 =
 \|p\|^2+\|q\|^2
 +2\langle d,p\rangle
 -2\langle p,q\rangle
 -2\langle d,q\rangle.
-\]
+$$
 
 Substituting this into the previous inequality yields
 
-\[
+$$
 L_{\beta,\mu}(\xi,\eta)
 \ge
 L_{\beta,\mu}(xbar,ybar)
@@ -379,23 +379,23 @@ L_{\beta,\mu}(xbar,ybar)
 -2\langle p,q\rangle
 -2\langle d,q\rangle
 \bigr).
-\]
+$$
 
-Now \(ybar-xbar=-(xbar-ybar)=-d\), so `inner_neg_left`, which says
+Now $ybar-xbar=-(xbar-ybar)=-d$, so `inner_neg_left`, which says
 
-\[
+$$
 \langle -u,v\rangle=-\langle u,v\rangle,
-\]
+$$
 
 gives
 
-\[
+$$
 \langle ybar-xbar,p\rangle=-\langle d,p\rangle.
-\]
+$$
 
 After rewriting with this identity, the cross terms cancel algebraically. The relevant identity is
 
-\[
+$$
 \beta\mu\bigl(-\langle d,p\rangle+\langle d,q\rangle\bigr)
 +
 \frac{\beta\mu}{2}
@@ -407,91 +407,91 @@ After rewriting with this identity, the cross terms cancel algebraically. The re
 \bigr)
 =
 \frac{\beta\mu}{2}\|p-q\|^2.
-\]
+$$
 
 The proof first uses `ring` to reduce the left side to
 
-\[
+$$
 \frac{\beta\mu}{2}\bigl(\|p\|^2+\|q\|^2-2\langle p,q\rangle\bigr),
-\]
+$$
 
-and then uses `norm_sub_sq_real` again, now for \(p-q\), to identify this with
+and then uses `norm_sub_sq_real` again, now for $p-q$, to identify this with
 
-\[
+$$
 \frac{\beta\mu}{2}\|p-q\|^2.
-\]
+$$
 
 Therefore
 
-\[
+$$
 L_{\beta,\mu}(\xi,\eta)
 \ge
 L_{\beta,\mu}(xbar,ybar)
 +\frac{\beta\mu}{2}\|p-q\|^2.
-\]
+$$
 
-Since \(\beta>0\) and \(\mu>0\), the coefficient \(\frac{\beta\mu}{2}\) is nonnegative. Also `sq_nonneg` gives \(\|p-q\|^2\ge 0\). Hence the added term is nonnegative, and `nlinarith` concludes
+Since $\beta>0$ and $\mu>0$, the coefficient $\frac{\beta\mu}{2}$ is nonnegative. Also `sq_nonneg` gives $\|p-q\|^2\ge 0$. Hence the added term is nonnegative, and `nlinarith` concludes
 
-\[
+$$
 L_{\beta,\mu}(xbar,ybar)\le L_{\beta,\mu}(\xi,\eta).
-\]
+$$
 
-Because \(\xi,\eta\) were arbitrary, this proves the forward implication.
+Because $\xi,\eta$ were arbitrary, this proves the forward implication.
 
 For the reverse implication, assume
 
-\[
+$$
 \forall \xi,\eta,\qquad
 L_{\beta,\mu}(xbar,ybar)\le L_{\beta,\mu}(\xi,\eta).
-\]
+$$
 
 The proof uses `constructor` twice to rebuild the two components of `IsINE`.
 
-For the first component, take an arbitrary \(\xi\). Applying the assumed minimizing property to \((\xi,ybar)\) gives
+For the first component, take an arbitrary $\xi$. Applying the assumed minimizing property to $(\xi,ybar)$ gives
 
-\[
+$$
 L_{\beta,\mu}(xbar,ybar)\le L_{\beta,\mu}(\xi,ybar).
-\]
+$$
 
 After unfolding `L_beta_mu`, this is
 
-\[
+$$
 \mu f(xbar)+\beta g(ybar)+\frac{\beta\mu}{2}\|xbar-ybar\|^2
 \le
 \mu f(\xi)+\beta g(ybar)+\frac{\beta\mu}{2}\|\xi-ybar\|^2.
-\]
+$$
 
-The common term \(\beta g(ybar)\) cancels. Since \(\mu>0\), dividing by \(\mu\) gives
+The common term $\beta g(ybar)$ cancels. Since $\mu>0$, dividing by $\mu$ gives
 
-\[
+$$
 f(xbar)+\frac{\beta}{2}\|xbar-ybar\|^2
 \le
 f(\xi)+\frac{\beta}{2}\|\xi-ybar\|^2.
-\]
+$$
 
 This is exactly the first minimizer property. The arithmetic is performed by `nlinarith`, and `simpa` matches the target form.
 
-For the second component, take an arbitrary \(\eta\). Applying the assumed minimizing property to \((xbar,\eta)\) gives
+For the second component, take an arbitrary $\eta$. Applying the assumed minimizing property to $(xbar,\eta)$ gives
 
-\[
+$$
 L_{\beta,\mu}(xbar,ybar)\le L_{\beta,\mu}(xbar,\eta).
-\]
+$$
 
 After unfolding `L_beta_mu`, this is
 
-\[
+$$
 \mu f(xbar)+\beta g(ybar)+\frac{\beta\mu}{2}\|xbar-ybar\|^2
 \le
 \mu f(xbar)+\beta g(\eta)+\frac{\beta\mu}{2}\|xbar-\eta\|^2.
-\]
+$$
 
-The common term \(\mu f(xbar)\) cancels. Since \(\beta>0\), dividing by \(\beta\) gives
+The common term $\mu f(xbar)$ cancels. Since $\beta>0$, dividing by $\beta$ gives
 
-\[
+$$
 g(ybar)+\frac{\mu}{2}\|xbar-ybar\|^2
 \le
 g(\eta)+\frac{\mu}{2}\|xbar-\eta\|^2.
-\]
+$$
 
 This is the second minimizer property. Again `nlinarith` handles the rearrangement and `simpa` closes the goal.
 

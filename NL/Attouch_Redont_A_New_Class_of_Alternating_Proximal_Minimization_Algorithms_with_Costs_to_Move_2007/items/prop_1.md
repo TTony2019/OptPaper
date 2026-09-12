@@ -16,68 +16,88 @@ theorem proposition_2_1 {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
 ```
 
 ## Statement explanation
-The declaration says the following. Let \(X\) and \(Y\) be topological spaces. There are real-valued functions
-\[
+The declaration says the following. Let $X$ and $Y$ be topological spaces. There are real-valued functions
+
+$$
 f:X\to\mathbb R,\qquad g:Y\to\mathbb R,
-\]
+$$
+
 and two-variable real-valued functions
-\[
+
+$$
 h:X\times X\to\mathbb R,\qquad k:Y\times Y\to\mathbb R,\qquad c:X\times Y\to\mathbb R,
-\]
-where the Lean type \(X\to X\to\mathbb R\) is the curried form of a function on \(X\times X\). There are also four sequences of real numbers
-\[
+$$
+
+where the Lean type $X\to X\to\mathbb R$ is the curried form of a function on $X\times X$. There are also four sequences of real numbers
+
+$$
 \alpha,\beta,\mu,\nu:\mathbb N\to\mathbb R.
-\]
+$$
+
 The hypothesis `alg : CA2 X Y f g h k c α β μ ν` supplies an alternating scheme whose state sequences are denoted by
-\[
+
+$$
 x_n:=\text{alg.x}(n)\in X,\qquad y_n:=\text{alg.y}(n)\in Y.
-\]
-The visible step inequalities from `alg` used in the proof are, for every \(n\in\mathbb N\), every \(\xi\in X\), and every \(\eta\in Y\),
-\[
+$$
+
+The visible step inequalities from `alg` used in the proof are, for every $n\in\mathbb N$, every $\xi\in X$, and every $\eta\in Y$,
+
+$$
 f(x_{n+1})+\alpha_n h(x_n,x_{n+1})+\beta_n c(x_{n+1},y_n)
 \le
 f(\xi)+\alpha_n h(x_n,\xi)+\beta_n c(\xi,y_n),
-\]
+$$
+
 and
-\[
+
+$$
 g(y_{n+1})+\mu_n c(x_{n+1},y_{n+1})+\nu_n k(y_n,y_{n+1})
 \le
 g(\eta)+\mu_n c(x_{n+1},\eta)+\nu_n k(y_n,\eta).
-\]
+$$
+
 The hypothesis `hyp : H11toH14 ...` is unpacked in the proof into lower semicontinuity, boundedness, separate continuity, and nonnegativity assumptions. The components actually used are:
 
-- \(f\) is lower semicontinuous at \(\bar x\), and \(g\) is lower semicontinuous at \(\bar y\);
-- \(h\) is lower semicontinuous at \((\bar x,\bar x)\), \(k\) at \((\bar y,\bar y)\), and \(c\) at \((\bar x,\bar y)\);
-- the partial maps \(x\mapsto h(x,\xi)\), \(y\mapsto k(y,\eta)\), \(x\mapsto c(x,\eta)\), and \(y\mapsto c(\xi,y)\) are continuous;
-- \(h,k,c\) are nonnegative everywhere;
-- the sequences \(\alpha,\beta,\mu,\nu\) are nonnegative.
+- $f$ is lower semicontinuous at $\bar x$, and $g$ is lower semicontinuous at $\bar y$;
+- $h$ is lower semicontinuous at $(\bar x,\bar x)$, $k$ at $(\bar y,\bar y)$, and $c$ at $(\bar x,\bar y)$;
+- the partial maps $x\mapsto h(x,\xi)$, $y\mapsto k(y,\eta)$, $x\mapsto c(x,\eta)$, and $y\mapsto c(\xi,y)$ are continuous;
+- $h,k,c$ are nonnegative everywhere;
+- the sequences $\alpha,\beta,\mu,\nu$ are nonnegative.
 
 The components `f_bdd` and `g_bdd`, as well as the two final ignored components of `hyp`, are not used in the proof.
 
 The convergence hypotheses are
-\[
+
+$$
 x_n\to \bar x,\qquad y_n\to \bar y,
-\]
+$$
+
 and
-\[
+
+$$
 \alpha_n\to \alpha_\infty,\qquad
 \beta_n\to \beta_\infty,\qquad
 \mu_n\to \mu_\infty,\qquad
 \nu_n\to \nu_\infty.
-\]
+$$
+
 The conclusion `IsINE f g h k c α_inf β_inf μ_inf ν_inf xbar ybar` is, as revealed by the final two goals, the conjunction of the two limiting inequalities
-\[
+
+$$
 f(\bar x)+\beta_\infty c(\bar x,\bar y)+\alpha_\infty h(\bar x,\bar x)
 \le
 f(\xi)+\alpha_\infty h(\bar x,\xi)+\beta_\infty c(\xi,\bar y)
-\]
-for every \(\xi\in X\), and
-\[
+$$
+
+for every $\xi\in X$, and
+
+$$
 g(\bar y)+\mu_\infty c(\bar x,\bar y)+\nu_\infty k(\bar y,\bar y)
 \le
 g(\eta)+\mu_\infty c(\bar x,\eta)+\nu_\infty k(\bar y,\eta)
-\]
-for every \(\eta\in Y\). Thus the theorem says that if the alternating scheme converges and the parameter sequences converge, then the limit pair \((\bar x,\bar y)\) satisfies the limiting versions of the two optimality inequalities.
+$$
+
+for every $\eta\in Y$. Thus the theorem says that if the alternating scheme converges and the parameter sequences converge, then the limit pair $(\bar x,\bar y)$ satisfies the limiting versions of the two optimality inequalities.
 
 ## Lean proof
 ```lean
@@ -409,167 +429,229 @@ by
 ```
 
 ## Proof explanation
-The proof begins with `rcases hyp with ...`, which destructs the hypothesis `H11toH14` into its component assumptions: lower semicontinuity of \(f,g,h,k,c\), separate continuity of \(h,k,c\), nonnegativity of \(h,k,c\), and nonnegativity of \(\alpha,\beta,\mu,\nu\). It then further splits the separate-continuity hypotheses into their first- and second-variable parts. The proof does not use every component of `hyp`; only the lower semicontinuity, separate continuity, and nonnegativity parts are needed.
+The proof begins with `rcases hyp with ...`, which destructs the hypothesis `H11toH14` into its component assumptions: lower semicontinuity of $f,g,h,k,c$, separate continuity of $h,k,c$, nonnegativity of $h,k,c$, and nonnegativity of $\alpha,\beta,\mu,\nu$. It then further splits the separate-continuity hypotheses into their first- and second-variable parts. The proof does not use every component of `hyp`; only the lower semicontinuity, separate continuity, and nonnegativity parts are needed.
 
-Next the proof builds shifted and paired convergence statements. From \(x_n\to\bar x\), the sequence \(x_{n+1}\to\bar x\), because the map \(n\mapsto n+1\) tends to infinity on \(\mathbb N\). The lemma `tendsto_add_atTop_nat 1` supplies precisely this fact, and composing it with `hx` gives `hx_succ`. Similarly, `hy_succ` gives \(y_{n+1}\to\bar y\). The lemma `Filter.Tendsto.prodMk_nhds` says that if two sequences converge in their respective topological spaces, then the paired sequence converges in the product topology to the pair of limits. Thus the proof obtains
-\[
+Next the proof builds shifted and paired convergence statements. From $x_n\to\bar x$, the sequence $x_{n+1}\to\bar x$, because the map $n\mapsto n+1$ tends to infinity on $\mathbb N$. The lemma `tendsto_add_atTop_nat 1` supplies precisely this fact, and composing it with `hx` gives `hx_succ`. Similarly, `hy_succ` gives $y_{n+1}\to\bar y$. The lemma `Filter.Tendsto.prodMk_nhds` says that if two sequences converge in their respective topological spaces, then the paired sequence converges in the product topology to the pair of limits. Thus the proof obtains
+
+$$
 (x_n,x_{n+1})\to(\bar x,\bar x),\qquad
 (y_n,y_{n+1})\to(\bar y,\bar y),
-\]
+$$
+
 and
-\[
+
+$$
 (x_{n+1},y_n)\to(\bar x,\bar y),\qquad
 (x_{n+1},y_{n+1})\to(\bar x,\bar y).
-\]
-These are exactly the inputs needed to apply lower semicontinuity of \(h,k,c\) at the limit pairs.
+$$
 
-The proof then shows that the limiting parameter values are nonnegative. For example, since \(\alpha_n\ge0\) for every \(n\), the sequence \(\alpha_n\) is eventually nonnegative, and because \(\alpha_n\to\alpha_\infty\), the lemma `ge_of_tendsto` gives \(\alpha_\infty\ge0\). The same reasoning gives
-\[
+These are exactly the inputs needed to apply lower semicontinuity of $h,k,c$ at the limit pairs.
+
+The proof then shows that the limiting parameter values are nonnegative. For example, since $\alpha_n\ge0$ for every $n$, the sequence $\alpha_n$ is eventually nonnegative, and because $\alpha_n\to\alpha_\infty$, the lemma `ge_of_tendsto` gives $\alpha_\infty\ge0$. The same reasoning gives
+
+$$
 \beta_\infty\ge0,\qquad \mu_\infty\ge0,\qquad \nu_\infty\ge0.
-\]
-Directly from the nonnegativity assumptions for the two-variable functions, the proof also has
-\[
-h(\bar x,\bar x)\ge0,\qquad k(\bar y,\bar y)\ge0,\qquad c(\bar x,\bar y)\ge0.
-\]
+$$
 
-The lower semicontinuity hypotheses are then converted into eventual lower bounds along the algorithm. The definition of lower semicontinuity at a point says that if \(u\) is a lower semicontinuity point of a function \(\phi\), then for every real threshold \(r<\phi(u)\), we have \(\phi(z)>r\) for all \(z\) sufficiently close to \(u\). Taking \(r=\phi(u)-\epsilon\) with \(\epsilon>0\), this becomes: eventually near \(u\),
-\[
+Directly from the nonnegativity assumptions for the two-variable functions, the proof also has
+
+$$
+h(\bar x,\bar x)\ge0,\qquad k(\bar y,\bar y)\ge0,\qquad c(\bar x,\bar y)\ge0.
+$$
+
+The lower semicontinuity hypotheses are then converted into eventual lower bounds along the algorithm. The definition of lower semicontinuity at a point says that if $u$ is a lower semicontinuity point of a function $\phi$, then for every real threshold $r<\phi(u)$, we have $\phi(z)>r$ for all $z$ sufficiently close to $u$. Taking $r=\phi(u)-\epsilon$ with $\epsilon>0$, this becomes: eventually near $u$,
+
+$$
 \phi(u)-\epsilon<\phi(z).
-\]
-Applying this to \(f\) at \(\bar x\) along \(x_{n+1}\to\bar x\) gives eventually
-\[
+$$
+
+Applying this to $f$ at $\bar x$ along $x_{n+1}\to\bar x$ gives eventually
+
+$$
 f(\bar x)-\epsilon<f(x_{n+1}).
-\]
+$$
+
 Similarly the proof obtains eventually
-\[
+
+$$
 g(\bar y)-\epsilon<g(y_{n+1}),
-\]
-\[
+$$
+
+$$
 h(\bar x,\bar x)-\epsilon<h(x_n,x_{n+1}),
-\]
-\[
+$$
+
+$$
 k(\bar y,\bar y)-\epsilon<k(y_n,y_{n+1}),
-\]
-\[
+$$
+
+$$
 c(\bar x,\bar y)-\epsilon<c(x_{n+1},y_n),
-\]
+$$
+
 and
-\[
+
+$$
 c(\bar x,\bar y)-\epsilon<c(x_{n+1},y_{n+1}).
-\]
+$$
+
 The `filter_upwards` tactic is used repeatedly to pass from a neighborhood statement in the limit to the corresponding eventual statement along the convergent sequence.
 
-Similarly, from convergence of the parameter sequences, the proof records that for every \(\delta>0\), eventually
-\[
-\alpha_\infty-\delta<\alpha_n,
-\]
-and similarly for \(\beta,\mu,\nu\). This is proved by observing that the interval \((\alpha_\infty-\delta,\infty)\) is open and contains \(\alpha_\infty\), hence is a neighborhood of \(\alpha_\infty\); convergence of \(\alpha_n\) to \(\alpha_\infty\) therefore eventually puts \(\alpha_n\) inside that interval. The lemma `isOpen_Ioi` states that intervals of the form \(\{x:\alpha_\infty-\delta<x\}\) are open, and `h_open.mem_nhds` turns membership into a neighborhood condition.
+Similarly, from convergence of the parameter sequences, the proof records that for every $\delta>0$, eventually
 
-The proof next establishes convergence of the right-hand sides appearing in the step inequalities. For fixed \(\xi\in X\), separate continuity of \(h\) in the first variable gives \(h(x_n,\xi)\to h(\bar x,\xi)\), and separate continuity of \(c\) in the second variable gives \(c(\xi,y_n)\to c(\xi,\bar y)\). Multiplying by the convergent sequences \(\alpha_n\) and \(\beta_n\) uses `Filter.Tendsto.mul`, which says that the product of two convergent real sequences converges to the product of the limits. Adding a constant sequence and using the sum rule for limits gives
-\[
+$$
+\alpha_\infty-\delta<\alpha_n,
+$$
+
+and similarly for $\beta,\mu,\nu$. This is proved by observing that the interval $(\alpha_\infty-\delta,\infty)$ is open and contains $\alpha_\infty$, hence is a neighborhood of $\alpha_\infty$; convergence of $\alpha_n$ to $\alpha_\infty$ therefore eventually puts $\alpha_n$ inside that interval. The lemma `isOpen_Ioi` states that intervals of the form $\{x:\alpha_\infty-\delta<x\}$ are open, and `h_open.mem_nhds` turns membership into a neighborhood condition.
+
+The proof next establishes convergence of the right-hand sides appearing in the step inequalities. For fixed $\xi\in X$, separate continuity of $h$ in the first variable gives $h(x_n,\xi)\to h(\bar x,\xi)$, and separate continuity of $c$ in the second variable gives $c(\xi,y_n)\to c(\xi,\bar y)$. Multiplying by the convergent sequences $\alpha_n$ and $\beta_n$ uses `Filter.Tendsto.mul`, which says that the product of two convergent real sequences converges to the product of the limits. Adding a constant sequence and using the sum rule for limits gives
+
+$$
 f(\xi)+\alpha_n h(x_n,\xi)+\beta_n c(\xi,y_n)
 \to
 f(\xi)+\alpha_\infty h(\bar x,\xi)+\beta_\infty c(\xi,\bar y).
-\]
-This is `hRHS_x`. The symmetric statement `hRHS_y` gives, for fixed \(\eta\in Y\),
-\[
+$$
+
+This is `hRHS_x`. The symmetric statement `hRHS_y` gives, for fixed $\eta\in Y$,
+
+$$
 g(\eta)+\mu_n c(x_{n+1},\eta)+\nu_n k(y_n,\eta)
 \to
 g(\eta)+\mu_\infty c(\bar x,\eta)+\nu_\infty k(\bar y,\eta),
-\]
-using the convergence \(x_{n+1}\to\bar x\), \(y_n\to\bar y\) and the separate continuity of \(c\) and \(k\).
+$$
 
-A central auxiliary lemma is `h_prod_ev_lower`. It states that if \(a_n,b_n\ge0\), \(a_n\to a_\infty\), \(b_\infty\ge0\), and for every \(\delta>0\) eventually \(b_\infty-\delta<b_n\), then for every \(\epsilon>0\), eventually
-\[
+using the convergence $x_{n+1}\to\bar x$, $y_n\to\bar y$ and the separate continuity of $c$ and $k$.
+
+A central auxiliary lemma is `h_prod_ev_lower`. It states that if $a_n,b_n\ge0$, $a_n\to a_\infty$, $b_\infty\ge0$, and for every $\delta>0$ eventually $b_\infty-\delta<b_n$, then for every $\epsilon>0$, eventually
+
+$$
 a_\infty b_\infty-\epsilon<a_n b_n.
-\]
-The proof first derives \(a_\infty\ge0\) by `ge_of_tendsto`. If \(a_\infty=0\), then \(a_\infty b_\infty=0\), and since \(a_nb_n\ge0> -\epsilon\), the desired inequality is immediate. If \(a_\infty>0\), the proof sets
-\[
+$$
+
+The proof first derives $a_\infty\ge0$ by `ge_of_tendsto`. If $a_\infty=0$, then $a_\infty b_\infty=0$, and since $a_nb_n\ge0> -\epsilon$, the desired inequality is immediate. If $a_\infty>0$, the proof sets
+
+$$
 d=a_\infty+b_\infty+1>0
-\]
+$$
+
 and
-\[
+
+$$
 \eta=\min\left(\frac{a_\infty}{2},\frac{\epsilon}{2d}\right)>0.
-\]
-Then \(\eta<a_\infty\). The elementary product estimate
-\[
+$$
+
+Then $\eta<a_\infty$. The elementary product estimate
+
+$$
 a_\infty b_\infty-\epsilon
 <
 (a_\infty-\eta)(b_\infty-\eta)
-\]
+$$
+
 follows because
-\[
+
+$$
 (a_\infty-\eta)(b_\infty-\eta)
 =
 a_\infty b_\infty-\eta(a_\infty+b_\infty-\eta),
-\]
-and \(\eta(a_\infty+b_\infty-\eta)<\epsilon\). This last inequality comes from \(\eta\le\epsilon/(2d)\), \(a_\infty+b_\infty-\eta<d\), and \(\epsilon/2<\epsilon\). Since \(a_n\to a_\infty\), eventually \(a_\infty-\eta<a_n\); by the assumed lower bound for \(b_n\), eventually \(b_\infty-\eta<b_n\). If \(b_\infty-\eta>0\), multiplying the two lower bounds gives
-\[
-(a_\infty-\eta)(b_\infty-\eta)<a_nb_n.
-\]
-If \(b_\infty-\eta\le0\), then \((a_\infty-\eta)(b_\infty-\eta)\le0\le a_nb_n\), so the same conclusion holds. This lemma is used to handle products such as \(\alpha_n h(x_n,x_{n+1})\), \(\beta_n c(x_{n+1},y_n)\), \(\mu_n c(x_{n+1},y_{n+1})\), and \(\nu_n k(y_n,y_{n+1})\), where one factor converges and the other only has eventual lower bounds from lower semicontinuity.
+$$
 
-The \(x\)-inequality is proved as follows. For fixed \(\xi\in X\), define
-\[
+and $\eta(a_\infty+b_\infty-\eta)<\epsilon$. This last inequality comes from $\eta\le\epsilon/(2d)$, $a_\infty+b_\infty-\eta<d$, and $\epsilon/2<\epsilon$. Since $a_n\to a_\infty$, eventually $a_\infty-\eta<a_n$; by the assumed lower bound for $b_n$, eventually $b_\infty-\eta<b_n$. If $b_\infty-\eta>0$, multiplying the two lower bounds gives
+
+$$
+(a_\infty-\eta)(b_\infty-\eta)<a_nb_n.
+$$
+
+If $b_\infty-\eta\le0$, then $(a_\infty-\eta)(b_\infty-\eta)\le0\le a_nb_n$, so the same conclusion holds. This lemma is used to handle products such as $\alpha_n h(x_n,x_{n+1})$, $\beta_n c(x_{n+1},y_n)$, $\mu_n c(x_{n+1},y_{n+1})$, and $\nu_n k(y_n,y_{n+1})$, where one factor converges and the other only has eventual lower bounds from lower semicontinuity.
+
+The $x$-inequality is proved as follows. For fixed $\xi\in X$, define
+
+$$
 L=f(\bar x)+\alpha_\infty h(\bar x,\bar x)+\beta_\infty c(\bar x,\bar y)
-\]
+$$
+
 and
-\[
+
+$$
 R=f(\xi)+\alpha_\infty h(\bar x,\xi)+\beta_\infty c(\xi,\bar y).
-\]
-The goal is \(L\le R\). The proof uses `le_of_forall_pos_lt_add`: it is enough to show \(L<R+\epsilon\) for every \(\epsilon>0\). Fix such an \(\epsilon\). From `hRHS_x`, eventually the right-hand side of the \(x\)-step inequality is less than \(R+\epsilon/2\). From lower semicontinuity and the product lemma, eventually each of the three terms on the left-hand side of the \(x\)-step inequality is larger than its limiting value minus \(\epsilon/6\):
-\[
+$$
+
+The goal is $L\le R$. The proof uses `le_of_forall_pos_lt_add`: it is enough to show $L<R+\epsilon$ for every $\epsilon>0$. Fix such an $\epsilon$. From `hRHS_x`, eventually the right-hand side of the $x$-step inequality is less than $R+\epsilon/2$. From lower semicontinuity and the product lemma, eventually each of the three terms on the left-hand side of the $x$-step inequality is larger than its limiting value minus $\epsilon/6$:
+
+$$
 f(\bar x)-\frac{\epsilon}{6}<f(x_{n+1}),
-\]
-\[
+$$
+
+$$
 \alpha_\infty h(\bar x,\bar x)-\frac{\epsilon}{6}<\alpha_n h(x_n,x_{n+1}),
-\]
-\[
+$$
+
+$$
 \beta_\infty c(\bar x,\bar y)-\frac{\epsilon}{6}<\beta_n c(x_{n+1},y_n).
-\]
+$$
+
 Combining these three eventual inequalities gives eventually
-\[
+
+$$
 L-\frac{\epsilon}{2}
 <
 f(x_{n+1})+\alpha_n h(x_n,x_{n+1})+\beta_n c(x_{n+1},y_n).
-\]
-But the \(x\)-step inequality of the algorithm says the right-hand side is at most
-\[
-f(\xi)+\alpha_n h(x_n,\xi)+\beta_n c(\xi,y_n),
-\]
-and by the convergence bound this is eventually less than \(R+\epsilon/2\). Since finitely many eventual statements hold simultaneously, `Filter.Eventually.exists` chooses an actual index \(n\) satisfying all of them. Chaining the inequalities gives
-\[
-L-\frac{\epsilon}{2}<R+\frac{\epsilon}{2},
-\]
-hence \(L<R+\epsilon\). Since \(\epsilon>0\) was arbitrary, \(L\le R\). The final `simpa` only reorders additions using commutativity and associativity to match the exact form of `IsINE`.
+$$
 
-The \(y\)-inequality is proved in exactly the same way. For fixed \(\eta\in Y\), set
-\[
+But the $x$-step inequality of the algorithm says the right-hand side is at most
+
+$$
+f(\xi)+\alpha_n h(x_n,\xi)+\beta_n c(\xi,y_n),
+$$
+
+and by the convergence bound this is eventually less than $R+\epsilon/2$. Since finitely many eventual statements hold simultaneously, `Filter.Eventually.exists` chooses an actual index $n$ satisfying all of them. Chaining the inequalities gives
+
+$$
+L-\frac{\epsilon}{2}<R+\frac{\epsilon}{2},
+$$
+
+hence $L<R+\epsilon$. Since $\epsilon>0$ was arbitrary, $L\le R$. The final `simpa` only reorders additions using commutativity and associativity to match the exact form of `IsINE`.
+
+The $y$-inequality is proved in exactly the same way. For fixed $\eta\in Y$, set
+
+$$
 L'=g(\bar y)+\mu_\infty c(\bar x,\bar y)+\nu_\infty k(\bar y,\bar y)
-\]
+$$
+
 and
-\[
+
+$$
 R'=g(\eta)+\mu_\infty c(\bar x,\eta)+\nu_\infty k(\bar y,\eta).
-\]
+$$
+
 The convergence `hRHS_y` gives eventually
-\[
+
+$$
 g(\eta)+\mu_n c(x_{n+1},\eta)+\nu_n k(y_n,\eta)<R'+\frac{\epsilon}{2}.
-\]
+$$
+
 Lower semicontinuity gives eventually
-\[
+
+$$
 g(\bar y)-\frac{\epsilon}{6}<g(y_{n+1}),
-\]
+$$
+
 and the product lemma gives eventually
-\[
+
+$$
 \mu_\infty c(\bar x,\bar y)-\frac{\epsilon}{6}
 <\mu_n c(x_{n+1},y_{n+1}),
-\]
-\[
+$$
+
+$$
 \nu_\infty k(\bar y,\bar y)-\frac{\epsilon}{6}
 <\nu_n k(y_n,y_{n+1}).
-\]
-Together with the \(y\)-step inequality of `alg`, these imply eventually
-\[
+$$
+
+Together with the $y$-step inequality of `alg`, these imply eventually
+
+$$
 L'-\frac{\epsilon}{2}
 <
 g(y_{n+1})+\mu_n c(x_{n+1},y_{n+1})+\nu_n k(y_n,y_{n+1})
@@ -577,6 +659,7 @@ g(y_{n+1})+\mu_n c(x_{n+1},y_{n+1})+\nu_n k(y_n,y_{n+1})
 g(\eta)+\mu_n c(x_{n+1},\eta)+\nu_n k(y_n,\eta)
 <
 R'+\frac{\epsilon}{2}.
-\]
-Thus \(L'<R'+\epsilon\) for every \(\epsilon>0\), so \(L'\le R'\). The final `refine ⟨?_, ?_⟩` splits the conjunction `IsINE` into these two inequalities, and the two `simpa` commands identify the proved inequalities with the exact order of additions in the target statement.
+$$
+
+Thus $L'<R'+\epsilon$ for every $\epsilon>0$, so $L'\le R'$. The final `refine ⟨?_, ?_⟩` splits the conjunction `IsINE` into these two inequalities, and the two `simpa` commands identify the proved inequalities with the exact order of additions in the target statement.
 

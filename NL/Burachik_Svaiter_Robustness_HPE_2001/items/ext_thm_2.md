@@ -13,17 +13,21 @@ theorem opial_lemma_paper {H : Type*} [NormedAddCommGroup H] [InnerProductSpace 
 ```
 
 ## Statement explanation
-The theorem `opial_lemma_paper` is stated for a real Hilbert space, encoded as a type \(H\) with a real inner product, a normed additive group structure, and completeness. It takes a sequence \(x:\mathbb N\to H\), a point \(x_{\text{Limit}}\in H\), and another point \(z\in H\). The hypothesis \(hx\) says that the canonical images of \(x_j\) in the weak space converge to the image of \(x_{\text{Limit}}\). In ordinary mathematical language this is weak convergence:
-\[
+The theorem `opial_lemma_paper` is stated for a real Hilbert space, encoded as a type $H$ with a real inner product, a normed additive group structure, and completeness. It takes a sequence $x:\mathbb N\to H$, a point $x_{\text{Limit}}\in H$, and another point $z\in H$. The hypothesis $hx$ says that the canonical images of $x_j$ in the weak space converge to the image of $x_{\text{Limit}}$. In ordinary mathematical language this is weak convergence:
+
+$$
 x_j \rightharpoonup x_{\text{Limit}}.
-\]
-The hypothesis \(hz\) says \(z\neq x_{\text{Limit}}\). The conclusion is the strict liminf inequality
-\[
+$$
+
+The hypothesis $hz$ says $z\neq x_{\text{Limit}}$. The conclusion is the strict liminf inequality
+
+$$
 \liminf_{j\to\infty}\|x_j-z\|
 >
 \liminf_{j\to\infty}\|x_j-x_{\text{Limit}}\|.
-\]
-Thus, if a sequence converges weakly to \(x_{\text{Limit}}\), then every different point \(z\) has a strictly larger lower limit of distances to the sequence than the weak limit has. This is exactly the Opial property of Hilbert spaces.
+$$
+
+Thus, if a sequence converges weakly to $x_{\text{Limit}}$, then every different point $z$ has a strictly larger lower limit of distances to the sequence than the weak limit has. This is exactly the Opial property of Hilbert spaces.
 
 ## Lean proof
 ```lean
@@ -138,105 +142,143 @@ by
 
 ## Proof explanation
 The proof begins by introducing abbreviations
-\[
+
+$$
 r_j=\|x_j-x_{\text{Limit}}\|,\qquad
 s_j=\|x_j-z\|,\qquad
 q_j=r_j^2,\qquad
 d=x_{\text{Limit}}-z.
-\]
+$$
+
 The `let` commands only name these expressions; they add no new hypotheses.
 
-First, `bounded_range_of_tendsto_weakly hx` is applied. This lemma says that if a sequence converges weakly to a limit, then its range is norm-bounded. Applied to \(hx\), it gives
-\[
+First, `bounded_range_of_tendsto_weakly hx` is applied. This lemma says that if a sequence converges weakly to a limit, then its range is norm-bounded. Applied to $hx$, it gives
+
+$$
 \operatorname{Bornology.IsBounded}(\operatorname{Set.range} x).
-\]
-Then `isBounded_iff_forall_norm_le.mp` converts this boundedness into an explicit real number \(R\) such that
-\[
+$$
+
+Then `isBounded_iff_forall_norm_le.mp` converts this boundedness into an explicit real number $R$ such that
+
+$$
 \|x_j\|\le R
-\]
-for every \(j\in\mathbb N\). The `rcases` tactic destructs this existential statement into \(R\) and the proof `hR`.
+$$
+
+for every $j\in\mathbb N$. The `rcases` tactic destructs this existential statement into $R$ and the proof `hR`.
 
 Using the triangle inequality `norm_sub_le`, the proof obtains
-\[
-r_j=\|x_j-x_{\text{Limit}}\|\le \|x_j\|+\|x_{\text{Limit}}\|\le R+\|x_{\text{Limit}}\|,
-\]
-and similarly
-\[
-s_j=\|x_j-z\|\le \|x_j\|+\|z\|\le R+\|z\|.
-\]
-The `dsimp`, `simpa`, `exact`, and `rw` commands unfold the local definitions, apply `norm_sub_le`, and rearrange the additive inequalities. Since norms are nonnegative, the proof also records
-\[
-0\le r_j,\qquad 0\le s_j
-\]
-for all \(j\). The lemma `Filter.isBoundedUnder_of_eventually_ge` turns this eventual nonnegativity into the statement that \(r\) and \(s\) are eventually bounded below with respect to the order relation \((\cdot\ge\cdot)\). The lemma `isCoboundedUnder_ge_of_le` turns the upper bounds for \(r\) and \(s\) into the coboundedness hypotheses needed by the liminf API. Then `Filter.le_liminf_of_le` gives
-\[
-0\le \liminf r.
-\]
 
-Next, the proof studies the square of \(r\). It defines
-\[
+$$
+r_j=\|x_j-x_{\text{Limit}}\|\le \|x_j\|+\|x_{\text{Limit}}\|\le R+\|x_{\text{Limit}}\|,
+$$
+
+and similarly
+
+$$
+s_j=\|x_j-z\|\le \|x_j\|+\|z\|\le R+\|z\|.
+$$
+
+The `dsimp`, `simpa`, `exact`, and `rw` commands unfold the local definitions, apply `norm_sub_le`, and rearrange the additive inequalities. Since norms are nonnegative, the proof also records
+
+$$
+0\le r_j,\qquad 0\le s_j
+$$
+
+for all $j$. The lemma `Filter.isBoundedUnder_of_eventually_ge` turns this eventual nonnegativity into the statement that $r$ and $s$ are eventually bounded below with respect to the order relation $(\cdot\ge\cdot)$. The lemma `isCoboundedUnder_ge_of_le` turns the upper bounds for $r$ and $s$ into the coboundedness hypotheses needed by the liminf API. Then `Filter.le_liminf_of_le` gives
+
+$$
+0\le \liminf r.
+$$
+
+Next, the proof studies the square of $r$. It defines
+
+$$
 g(t)=\max(t,0)^2.
-\]
-The function \(g\) is monotone: if \(a\le b\), then \(\max(a,0)\le \max(b,0)\), and since both are nonnegative, squaring preserves the inequality. The proof of `hg_mono` uses `intro` to introduce \(a,b\), then applies monotonicity of `max` and of squaring. The continuity statement `hg_cont` follows because \(t\mapsto \max(t,0)\) is continuous and squaring is continuous. Applying `Monotone.map_liminf_of_continuousAt` to \(r\) gives an equality between the liminf of \(g\circ r\) and \(g\) applied to the liminf of \(r\). Because \(r_j\ge0\) and \(\liminf r\ge0\), this simplifies to
-\[
+$$
+
+The function $g$ is monotone: if $a\le b$, then $\max(a,0)\le \max(b,0)$, and since both are nonnegative, squaring preserves the inequality. The proof of `hg_mono` uses `intro` to introduce $a,b$, then applies monotonicity of `max` and of squaring. The continuity statement `hg_cont` follows because $t\mapsto \max(t,0)$ is continuous and squaring is continuous. Applying `Monotone.map_liminf_of_continuousAt` to $r$ gives an equality between the liminf of $g\circ r$ and $g$ applied to the liminf of $r$. Because $r_j\ge0$ and $\liminf r\ge0$, this simplifies to
+
+$$
 \liminf q
 =
 \left(\liminf r\right)^2.
-\]
-The `rw` and `simp` steps perform these simplifications. The proof also shows \(q_j\ge0\) by `positivity`, so \(q\) is bounded below. Since
-\[
-0\le r_j\le R+\|x_{\text{Limit}}\|,
-\]
-squaring gives
-\[
-q_j\le \left(R+\|x_{\text{Limit}}\|\right)^2,
-\]
-so \(q\) is cobounded as well.
+$$
 
-The proof then extracts a subsequence along which \(s\) attains its liminf. The lemma `exists_seq_tendsto_liminf`, applied to \(s\) using its coboundedness and bounded-belowness, produces an index map \(\varphi:\mathbb N\to\mathbb N\) with \(\varphi(n)\to\infty\) and
-\[
+The `rw` and `simp` steps perform these simplifications. The proof also shows $q_j\ge0$ by `positivity`, so $q$ is bounded below. Since
+
+$$
+0\le r_j\le R+\|x_{\text{Limit}}\|,
+$$
+
+squaring gives
+
+$$
+q_j\le \left(R+\|x_{\text{Limit}}\|\right)^2,
+$$
+
+so $q$ is cobounded as well.
+
+The proof then extracts a subsequence along which $s$ attains its liminf. The lemma `exists_seq_tendsto_liminf`, applied to $s$ using its coboundedness and bounded-belowness, produces an index map $\varphi:\mathbb N\to\mathbb N$ with $\varphi(n)\to\infty$ and
+
+$$
 s(\varphi(n))\longrightarrow \liminf s.
-\]
-The properties returned are used as `hφs`, the convergence of \(s\circ\varphi\), and `hφ`, the fact that \(\varphi\) tends to `atTop`. Since \(x_j\) converges weakly to \(x_{\text{Limit}}\), composing with the subsequence preserves weak convergence:
-\[
+$$
+
+The properties returned are used as `hφs`, the convergence of $s\circ\varphi$, and `hφ`, the fact that $\varphi$ tends to `atTop`. Since $x_j$ converges weakly to $x_{\text{Limit}}$, composing with the subsequence preserves weak convergence:
+
+$$
 x(\varphi(n))\rightharpoonup x_{\text{Limit}}.
-\]
+$$
+
 This is the result of `hx.comp hφ`.
 
-Now the cited theorem `weakConvergence_iff_forall_tendsto_inner_right` is used. In a complete real inner product space, weak convergence of a sequence \(\xi(n)\) to a point \(x\) is equivalent to the convergence
-\[
+Now the cited theorem `weakConvergence_iff_forall_tendsto_inner_right` is used. In a complete real inner product space, weak convergence of a sequence $\xi(n)$ to a point $x$ is equivalent to the convergence
+
+$$
 \langle \xi(n),u\rangle \longrightarrow \langle x,u\rangle
-\]
-for every \(u\). Here the proof applies it to \(\xi(n)=x(\varphi(n))\), \(x=x_{\text{Limit}}\), and \(u=d\). This gives
-\[
+$$
+
+for every $u$. Here the proof applies it to $\xi(n)=x(\varphi(n))$, $x=x_{\text{Limit}}$, and $u=d$. This gives
+
+$$
 \langle x(\varphi(n)),d\rangle
 \longrightarrow
 \langle x_{\text{Limit}},d\rangle.
-\]
-Subtracting the constant sequence \(\langle x_{\text{Limit}},d\rangle\) and using linearity of the inner product in its first argument, `inner_sub_left`, yields
-\[
+$$
+
+Subtracting the constant sequence $\langle x_{\text{Limit}},d\rangle$ and using linearity of the inner product in its first argument, `inner_sub_left`, yields
+
+$$
 \langle x(\varphi(n))-x_{\text{Limit}},d\rangle
 \longrightarrow 0.
-\]
-Multiplying by \(2\), the proof obtains
-\[
+$$
+
+Multiplying by $2$, the proof obtains
+
+$$
 2\langle x(\varphi(n))-x_{\text{Limit}},d\rangle
 \longrightarrow 0.
-\]
+$$
+
 The tactics `simpa`, `exact`, and `const_mul` implement these steps.
 
-For each \(n\), the proof next uses the identity
-\[
+For each $n$, the proof next uses the identity
+
+$$
 x(\varphi(n))-z
 =
 \bigl(x(\varphi(n))-x_{\text{Limit}}\bigr)+d,
-\]
-where \(d=x_{\text{Limit}}-z\). The `abel` tactic verifies this additive rearrangement. Then the real Hilbert space identity `norm_add_sq_real`,
-\[
+$$
+
+where $d=x_{\text{Limit}}-z$. The `abel` tactic verifies this additive rearrangement. Then the real Hilbert space identity `norm_add_sq_real`,
+
+$$
 \|a+b\|^2=\|a\|^2+2\langle a,b\rangle+\|b\|^2,
-\]
+$$
+
 gives
-\[
+
+$$
 s(\varphi(n))^2
 =
 q(\varphi(n))
@@ -244,9 +286,11 @@ q(\varphi(n))
 2\langle x(\varphi(n))-x_{\text{Limit}},d\rangle
 +
 \|d\|^2.
-\]
+$$
+
 Equivalently,
-\[
+
+$$
 q(\varphi(n))
 =
 s(\varphi(n))^2
@@ -254,55 +298,75 @@ s(\varphi(n))^2
 2\langle x(\varphi(n))-x_{\text{Limit}},d\rangle
 -
 \|d\|^2.
-\]
-Since \(s(\varphi(n))\to \liminf s\), squaring is continuous, so
-\[
+$$
+
+Since $s(\varphi(n))\to \liminf s$, squaring is continuous, so
+
+$$
 s(\varphi(n))^2\longrightarrow \left(\liminf s\right)^2.
-\]
-The inner product term tends to \(0\). Therefore
-\[
+$$
+
+The inner product term tends to $0$. Therefore
+
+$$
 q(\varphi(n))\longrightarrow \left(\liminf s\right)^2-\|d\|^2.
-\]
+$$
+
 The `convert` and `ring_nf` commands reconcile the algebraic rearrangement with the previous identity.
 
-Because \(q\circ\varphi\) is cobounded by the same upper bound as \(q\), the subsequence comparison lemma `liminf_le_liminf_comp` gives
-\[
+Because $q\circ\varphi$ is cobounded by the same upper bound as $q$, the subsequence comparison lemma `liminf_le_liminf_comp` gives
+
+$$
 \liminf q\le \liminf(q\circ\varphi).
-\]
-Since \(q\circ\varphi\) converges, its liminf equals its limit. Hence
-\[
+$$
+
+Since $q\circ\varphi$ converges, its liminf equals its limit. Hence
+
+$$
 \liminf q\le \left(\liminf s\right)^2-\|d\|^2.
-\]
+$$
+
 The `calc` block records exactly this chain.
 
-The proof now checks that \(d\neq0\). If \(d=0\), then \(x_{\text{Limit}}-z=0\), so \(x_{\text{Limit}}=z\), contradicting \(hz:z\neq x_{\text{Limit}}\). Thus \(d\neq0\). Therefore \(\|d\|>0\), and by positivity of squares,
-\[
+The proof now checks that $d\neq0$. If $d=0$, then $x_{\text{Limit}}-z=0$, so $x_{\text{Limit}}=z$, contradicting $hz:z\neq x_{\text{Limit}}$. Thus $d\neq0$. Therefore $\|d\|>0$, and by positivity of squares,
+
+$$
 \|d\|^2>0.
-\]
+$$
 
 Combining the earlier equality
-\[
+
+$$
 \liminf q=\left(\liminf r\right)^2
-\]
+$$
+
 with the inequality
-\[
+
+$$
 \liminf q\le \left(\liminf s\right)^2-\|d\|^2
-\]
+$$
+
 gives
-\[
+
+$$
 \left(\liminf r\right)^2
 <
 \left(\liminf s\right)^2.
-\]
-The tactic `nlinarith` closes this nonlinear arithmetic goal using the strict positivity of \(\|d\|^2\). The proof also establishes \(0\le \liminf s\) from the nonnegativity of \(s\) and the coboundedness hypothesis, using `Filter.le_liminf_of_le`. Finally, for nonnegative real numbers \(a,b\), the lemma `sq_lt_sq₀` states that \(a^2<b^2\) implies \(a<b\). Applying it with \(a=\liminf r\) and \(b=\liminf s\) yields
-\[
+$$
+
+The tactic `nlinarith` closes this nonlinear arithmetic goal using the strict positivity of $\|d\|^2$. The proof also establishes $0\le \liminf s$ from the nonnegativity of $s$ and the coboundedness hypothesis, using `Filter.le_liminf_of_le`. Finally, for nonnegative real numbers $a,b$, the lemma `sq_lt_sq₀` states that $a^2<b^2$ implies $a<b$. Applying it with $a=\liminf r$ and $b=\liminf s$ yields
+
+$$
 \liminf r<\liminf s,
-\]
+$$
+
 which is exactly
-\[
+
+$$
 \liminf \|x_j-z\| >
 \liminf \|x_j-x_{\text{Limit}}\|.
-\]
+$$
+
 Thus the Opial inequality is proved.
 
 The Lean commands used along the way play the following roles: `intro` introduces variables in subgoals, `dsimp` unfolds local definitions, `rw` rewrites with equalities, `simp` and `simpa` simplify and close goals, `exact` supplies a required proof term, `rcases` and `obtain` destruct existential or conjunctive hypotheses, `calc` chains equalities and inequalities, `convert` changes a goal up to a supplied equality, and `ring_nf`, `abel`, `positivity`, and `nlinarith` perform algebraic normalization, additive rearrangement, nonnegativity proofs, and nonlinear arithmetic. No `linarith` step occurs in this particular proof.

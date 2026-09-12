@@ -19,54 +19,71 @@ theorem quadratic_potential_limit_remark {H : Type*} [NormedAddCommGroup H]
 ```
 
 ## Statement explanation
-The declaration is set in a real Hilbert space \(H\). It concerns a potential \(\Phi : H \to \mathbb{R}\), a continuous linear operator \(A : H \to H\), real parameters \(\alpha,\beta\), and a trajectory \(x : \mathbb{R} \to H\). The hypotheses are:
+The declaration is set in a real Hilbert space $H$. It concerns a potential $\Phi : H \to \mathbb{R}$, a continuous linear operator $A : H \to H$, real parameters $\alpha,\beta$, and a trajectory $x : \mathbb{R} \to H$. The hypotheses are:
 
-- \(\Phi\) satisfies the standing regularity hypothesis `AssumptionH H Φ`; its exact content is not unfolded in this proof.
-- \(\Phi\) is the quadratic potential
-  \[
+- $\Phi$ satisfies the standing regularity hypothesis `AssumptionH H Φ`; its exact content is not unfolded in this proof.
+- $\Phi$ is the quadratic potential
+
+  $$
   \Phi(u)=\frac12\langle Au,u\rangle
-  \]
-  for every \(u\in H\).
-- \(A\) is self-adjoint:
-  \[
+  $$
+
+  for every $u\in H$.
+- $A$ is self-adjoint:
+
+  $$
   \langle Au,v\rangle=\langle u,Av\rangle
-  \]
-  for all \(u,v\in H\).
-- \(A\) is positive semidefinite:
-  \[
+  $$
+
+  for all $u,v\in H$.
+- $A$ is positive semidefinite:
+
+  $$
   0\le \langle Au,u\rangle
-  \]
-  for every \(u\in H\).
-- \(x\) is a trajectory of the second-order dissipative gradient-like system encoded by `IsDINTrajectory H Φ α β x`. The proof uses from this hypothesis that \(\alpha>0\), that \(\beta>0\), and that the associated differential equation holds at nonnegative times.
-- \(x\) is twice continuously differentiable, \(x\in C^2\).
+  $$
+
+  for every $u\in H$.
+- $x$ is a trajectory of the second-order dissipative gradient-like system encoded by `IsDINTrajectory H Φ α β x`. The proof uses from this hypothesis that $\alpha>0$, that $\beta>0$, and that the associated differential equation holds at nonnegative times.
+- $x$ is twice continuously differentiable, $x\in C^2$.
 - The parameters satisfy
-  \[
+
+  $$
   \alpha\beta\le 1.
-  \]
+  $$
 
 The conclusion has two parts. First,
-\[
+
+$$
 \operatorname{argminSet}\Phi=\ker A,
-\]
-where \(\operatorname{argminSet}\Phi\) is the set of global minimizers of \(\Phi\), i.e.
-\[
+$$
+
+where $\operatorname{argminSet}\Phi$ is the set of global minimizers of $\Phi$, i.e.
+
+$$
 \operatorname{argminSet}\Phi=\{u\in H:\forall y\in H,\ \Phi(u)\le \Phi(y)\}.
-\]
-Second, there exists \(p\in\ker A\) such that
-\[
+$$
+
+Second, there exists $p\in\ker A$ such that
+
+$$
 \left\|x(0)+\alpha^{-1}\dot x(0)-p\right\|
 =
 \operatorname{infDist}\!\left(x(0)+\alpha^{-1}\dot x(0),\ker A\right),
-\]
+$$
+
 and
-\[
+
+$$
 x(t)\to p\quad\text{as }t\to\infty.
-\]
-Thus the quadratic potential has exactly the kernel of \(A\) as its minimizer set, and every trajectory satisfying the stated DIn hypotheses converges to a point of that kernel. Moreover, the limit point \(p\) is a nearest point, hence the metric projection, of the initial shifted vector
-\[
+$$
+
+Thus the quadratic potential has exactly the kernel of $A$ as its minimizer set, and every trajectory satisfying the stated DIn hypotheses converges to a point of that kernel. Moreover, the limit point $p$ is a nearest point, hence the metric projection, of the initial shifted vector
+
+$$
 q=x(0)+\alpha^{-1}\dot x(0)
-\]
-onto the closed convex set \(\ker A\).
+$$
+
+onto the closed convex set $\ker A$.
 
 ## Lean proof
 ```lean
@@ -238,184 +255,249 @@ by
 ```
 
 ## Proof explanation
-The proof first establishes the equality \(\operatorname{argminSet}\Phi=\ker A\). It uses `ext u`, the extensionality principle for sets, to reduce the equality to proving, for an arbitrary \(u\in H\), that \(u\in\operatorname{argminSet}\Phi\) if and only if \(u\in\ker A\).
+The proof first establishes the equality $\operatorname{argminSet}\Phi=\ker A$. It uses `ext u`, the extensionality principle for sets, to reduce the equality to proving, for an arbitrary $u\in H$, that $u\in\operatorname{argminSet}\Phi$ if and only if $u\in\ker A$.
 
-For the forward direction, assume \(u\in\operatorname{argminSet}\Phi\). Then by definition of the argmin set, \(\Phi(u)\le \Phi(y)\) for every \(y\), in particular for \(y=0\), so \(\Phi(u)\le\Phi(0)\). Using the quadratic formula and the fact that \(A0=0\), the value at \(0\) is
-\[
+For the forward direction, assume $u\in\operatorname{argminSet}\Phi$. Then by definition of the argmin set, $\Phi(u)\le \Phi(y)$ for every $y$, in particular for $y=0$, so $\Phi(u)\le\Phi(0)$. Using the quadratic formula and the fact that $A0=0$, the value at $0$ is
+
+$$
 \Phi(0)=\frac12\langle A0,0\rangle=0.
-\]
+$$
+
 Hence
-\[
+
+$$
 \frac12\langle Au,u\rangle=\Phi(u)\le 0.
-\]
-On the other hand, positivity of \(A\) gives \(0\le \langle Au,u\rangle\). Therefore \(\langle Au,u\rangle=0\). The lemma `quadratic_form_zero_iff_mem_ker` says exactly that, for a self-adjoint positive operator \(A\), one has
-\[
+$$
+
+On the other hand, positivity of $A$ gives $0\le \langle Au,u\rangle$. Therefore $\langle Au,u\rangle=0$. The lemma `quadratic_form_zero_iff_mem_ker` says exactly that, for a self-adjoint positive operator $A$, one has
+
+$$
 \langle Au,u\rangle=0 \iff u\in\ker A.
-\]
-Applying it with the hypotheses `hselfadjoint` and `hpositive` gives \(u\in\ker A\). The tactic `nlinarith` is used to combine the inequalities and the identity \(\Phi(u)=\frac12\langle Au,u\rangle\) to force \(\langle Au,u\rangle=0\).
+$$
 
-For the reverse direction, assume \(u\in\ker A\), so \(Au=0\). To show that \(u\) minimizes \(\Phi\), fix any \(v\in H\). Rewriting by the quadratic formula gives
-\[
+Applying it with the hypotheses `hselfadjoint` and `hpositive` gives $u\in\ker A$. The tactic `nlinarith` is used to combine the inequalities and the identity $\Phi(u)=\frac12\langle Au,u\rangle$ to force $\langle Au,u\rangle=0$.
+
+For the reverse direction, assume $u\in\ker A$, so $Au=0$. To show that $u$ minimizes $\Phi$, fix any $v\in H$. Rewriting by the quadratic formula gives
+
+$$
 \Phi(u)=\frac12\langle Au,u\rangle=0
-\]
-and
-\[
-\Phi(v)=\frac12\langle Av,v\rangle.
-\]
-Since \(A\) is positive, \(\langle Av,v\rangle\ge 0\), and since \(\frac12\ge 0\), we get \(\Phi(v)\ge 0=\Phi(u)\). Thus \(u\in\operatorname{argminSet}\Phi\). The proof uses `mul_nonneg` for the product \(\frac12\langle Av,v\rangle\ge 0\) and `norm_num` to verify \(\frac12\ge0\).
+$$
 
-Next, the proof uses `quadratic_potential_convex`. That result states that if \(\Phi(u)=\frac12\langle Au,u\rangle\), \(A\) is self-adjoint, and \(A\) is positive, then \(\Phi\) is convex on all of \(H\). Concretely, this means that for all \(u,v\in H\) and \(0<\lambda<1\),
-\[
+and
+
+$$
+\Phi(v)=\frac12\langle Av,v\rangle.
+$$
+
+Since $A$ is positive, $\langle Av,v\rangle\ge 0$, and since $\frac12\ge 0$, we get $\Phi(v)\ge 0=\Phi(u)$. Thus $u\in\operatorname{argminSet}\Phi$. The proof uses `mul_nonneg` for the product $\frac12\langle Av,v\rangle\ge 0$ and `norm_num` to verify $\frac12\ge0$.
+
+Next, the proof uses `quadratic_potential_convex`. That result states that if $\Phi(u)=\frac12\langle Au,u\rangle$, $A$ is self-adjoint, and $A$ is positive, then $\Phi$ is convex on all of $H$. Concretely, this means that for all $u,v\in H$ and $0<\lambda<1$,
+
+$$
 \Phi(\lambda u+(1-\lambda)v)
 \le
 \lambda\Phi(u)+(1-\lambda)\Phi(v).
-\]
+$$
+
 This convexity is one of the hypotheses needed for the convergence theorem.
 
-The proof then shows that \(\operatorname{argminSet}\Phi\) is nonempty. Since it has already proved \(\operatorname{argminSet}\Phi=\ker A\), and \(0\in\ker A\), the element \(0\) belongs to the argmin set. This supplies the hypothesis `hmin` required by the strong convergence theorem.
+The proof then shows that $\operatorname{argminSet}\Phi$ is nonempty. Since it has already proved $\operatorname{argminSet}\Phi=\ker A$, and $0\in\ker A$, the element $0$ belongs to the argmin set. This supplies the hypothesis `hmin` required by the strong convergence theorem.
 
-The convergence theorem `din_strong_convergence_of_even_potential` is then applied. Its mathematical content is: if \(\Phi\) satisfies the standing assumptions, is convex on \(H\), has a nonempty argmin set, \(x\) is a DIn trajectory for \(\Phi,\alpha,\beta\), \(x\in C^2\), \(\alpha\beta\le1\), and \(\Phi\) is even, i.e.
-\[
+The convergence theorem `din_strong_convergence_of_even_potential` is then applied. Its mathematical content is: if $\Phi$ satisfies the standing assumptions, is convex on $H$, has a nonempty argmin set, $x$ is a DIn trajectory for $\Phi,\alpha,\beta$, $x\in C^2$, $\alpha\beta\le1$, and $\Phi$ is even, i.e.
+
+$$
 \Phi(y)=\Phi(-y)
-\]
-for every \(y\), then there exists \(z\in\operatorname{argminSet}\Phi\) such that
-\[
+$$
+
+for every $y$, then there exists $z\in\operatorname{argminSet}\Phi$ such that
+
+$$
 x(t)\to z\quad\text{as }t\to\infty.
-\]
+$$
+
 Here evenness follows from the quadratic formula:
-\[
+
+$$
 \Phi(-u)=\frac12\langle A(-u),-u\rangle
 =\frac12\langle Au,u\rangle
 =\Phi(u).
-\]
-The proof supplies this explicitly by rewriting with `hquadratic` and simplifying. The theorem yields a point \(p\in\operatorname{argminSet}\Phi\) and the convergence \(x(t)\to p\). Since \(\operatorname{argminSet}\Phi=\ker A\), the proof converts \(p\in\operatorname{argminSet}\Phi\) into \(p\in\ker A\).
+$$
 
-The rest of the proof identifies this limit \(p\) as the metric projection of
-\[
+The proof supplies this explicitly by rewriting with `hquadratic` and simplifying. The theorem yields a point $p\in\operatorname{argminSet}\Phi$ and the convergence $x(t)\to p$. Since $\operatorname{argminSet}\Phi=\ker A$, the proof converts $p\in\operatorname{argminSet}\Phi$ into $p\in\ker A$.
+
+The rest of the proof identifies this limit $p$ as the metric projection of
+
+$$
 q=x(0)+\alpha^{-1}\dot x(0)
-\]
-onto the kernel \(K=\ker A\). First it records that \(K\) is nonempty, because \(0\in K\), that \(K\) is closed, because the kernel of a continuous linear map is closed, and that \(K\) is convex, because the kernel of a linear map is convex. The theorem `isChebyshev_of_nonempty_isClosed_convex` then shows that every nonempty closed convex subset of a Hilbert space is Chebyshev, meaning that every point of \(H\) has a unique nearest point in the set. Therefore the projection point `projectionPoint K hCheb q` is available.
+$$
 
-The key step is to prove that for every \(z\in K\),
-\[
+onto the kernel $K=\ker A$. First it records that $K$ is nonempty, because $0\in K$, that $K$ is closed, because the kernel of a continuous linear map is closed, and that $K$ is convex, because the kernel of a linear map is convex. The theorem `isChebyshev_of_nonempty_isClosed_convex` then shows that every nonempty closed convex subset of a Hilbert space is Chebyshev, meaning that every point of $H$ has a unique nearest point in the set. Therefore the projection point `projectionPoint K hCheb q` is available.
+
+The key step is to prove that for every $z\in K$,
+
+$$
 \langle q-p,z\rangle=0.
-\]
-This says that \(q-p\) is orthogonal to the entire kernel \(K\). To prove it, the proof first uses `quadratic_gradient_eq`. That lemma states that if \(\Phi(u)=\frac12\langle Au,u\rangle\), \(A\) is self-adjoint, and \(\Phi\) satisfies the standing assumptions, then the gradient of \(\Phi\) is exactly \(A\):
-\[
+$$
+
+This says that $q-p$ is orthogonal to the entire kernel $K$. To prove it, the proof first uses `quadratic_gradient_eq`. That lemma states that if $\Phi(u)=\frac12\langle Au,u\rangle$, $A$ is self-adjoint, and $\Phi$ satisfies the standing assumptions, then the gradient of $\Phi$ is exactly $A$:
+
+$$
 \nabla\Phi=A.
-\]
-Consequently the Hessian of \(\Phi\) is also \(A\), since the derivative of the continuous linear map \(A\) is \(A\) itself:
-\[
+$$
+
+Consequently the Hessian of $\Phi$ is also $A$, since the derivative of the continuous linear map $A$ is $A$ itself:
+
+$$
 \operatorname{fderiv}_{\mathbb R}(\nabla\Phi)(u)=A
-\]
-for every \(u\).
+$$
 
-The proof then establishes that \(x\) is bounded on \([0,\infty)\). Since \(x(t)\to p\), there is \(T\) such that
-\[
+for every $u$.
+
+The proof then establishes that $x$ is bounded on $[0,\infty)$. Since $x(t)\to p$, there is $T$ such that
+
+$$
 \operatorname{dist}(x(t),p)<1
-\]
-for all \(t\ge T\). Let \(T_0=\max(T,0)\). For \(t\ge T_0\), the triangle inequality gives
-\[
-\|x(t)\|\le \|p\|+1.
-\]
-On the compact interval \([0,T_0]\), the continuous image \(x([0,T_0])\) is compact, hence bounded. Combining the bounded initial segment with the bounded tail gives that the whole set \(x([0,\infty))\) is bounded. This is needed to apply `din_global_properties_part_iii`.
+$$
 
-The theorem `din_global_properties_part_iii` states that if \(x\) is a DIn trajectory for positive \(\alpha,\beta\), is \(C^2\), and has bounded position on \([0,\infty)\), then the velocity, acceleration, gradient \(\nabla\Phi(x(t))\), and derivative \operatorname{fderiv}_{\mathbb R}(\nabla\Phi)(x(t)) are bounded, and moreover
-\[
+for all $t\ge T$. Let $T_0=\max(T,0)$. For $t\ge T_0$, the triangle inequality gives
+
+$$
+\|x(t)\|\le \|p\|+1.
+$$
+
+On the compact interval $[0,T_0]$, the continuous image $x([0,T_0])$ is compact, hence bounded. Combining the bounded initial segment with the bounded tail gives that the whole set $x([0,\infty))$ is bounded. This is needed to apply `din_global_properties_part_iii`.
+
+The theorem `din_global_properties_part_iii` states that if $x$ is a DIn trajectory for positive $\alpha,\beta$, is $C^2$, and has bounded position on $[0,\infty)$, then the velocity, acceleration, gradient $\nabla\Phi(x(t))$, and derivative \operatorname{fderiv}_{\mathbb R}(\nabla\Phi)(x(t)) are bounded, and moreover
+
+$$
 \dot x(t)\to0,\qquad
 \ddot x(t)\to0,\qquad
 \nabla\Phi(x(t))\to0
-\]
-as \(t\to\infty\). The proof uses this theorem to obtain in particular
-\[
-\dot x(t)\to0.
-\]
+$$
 
-Now fix \(z\in K\) and define
-\[
+as $t\to\infty$. The proof uses this theorem to obtain in particular
+
+$$
+\dot x(t)\to0.
+$$
+
+Now fix $z\in K$ and define
+
+$$
 f(t)=\langle \dot x(t)+\alpha x(t),z\rangle.
-\]
-The proof shows that \(f\) is constant on \([0,\infty)\). For \(t\ge0\), the differential equation component `hsol.2.2 t ht` is used. After replacing \(\nabla\Phi\) by \(A\) and the Hessian of \(\Phi\) by \(A\), the DIn equation contains terms involving \(A\dot x(t)\) and \(A x(t)\). Since \(z\in\ker A\) and \(A\) is self-adjoint,
-\[
+$$
+
+The proof shows that $f$ is constant on $[0,\infty)$. For $t\ge0$, the differential equation component `hsol.2.2 t ht` is used. After replacing $\nabla\Phi$ by $A$ and the Hessian of $\Phi$ by $A$, the DIn equation contains terms involving $A\dot x(t)$ and $A x(t)$. Since $z\in\ker A$ and $A$ is self-adjoint,
+
+$$
 \langle A\dot x(t),z\rangle
 =
 \langle \dot x(t),Az\rangle
 =0,
-\]
+$$
+
 and
-\[
+
+$$
 \langle A x(t),z\rangle
 =
 \langle x(t),Az\rangle
 =0.
-\]
-Therefore, taking the inner product of the DIn equation with \(z\), those terms vanish and one obtains
-\[
-\langle \ddot x(t)+\alpha\dot x(t),z\rangle=0.
-\]
-But this is precisely the derivative of \(f\), because the derivative of \(\dot x+\alpha x\) is \(\ddot x+\alpha\dot x\) and \(z\) is constant. Thus \(f'(t)=0\) for every \(t\ge0\). Since \([0,\infty)\) is convex and the derivative of \(f\) within this interval is everywhere zero, the mean-value/convexity fact `convex_Ici ... .is_const_of_fderivWithin_eq_zero` implies
-\[
-f(t)=f(0)
-\]
-for every \(t\ge0\).
+$$
 
-On the other hand, since \(\dot x(t)\to0\) and \(x(t)\to p\), we have
-\[
+Therefore, taking the inner product of the DIn equation with $z$, those terms vanish and one obtains
+
+$$
+\langle \ddot x(t)+\alpha\dot x(t),z\rangle=0.
+$$
+
+But this is precisely the derivative of $f$, because the derivative of $\dot x+\alpha x$ is $\ddot x+\alpha\dot x$ and $z$ is constant. Thus $f'(t)=0$ for every $t\ge0$. Since $[0,\infty)$ is convex and the derivative of $f$ within this interval is everywhere zero, the mean-value/convexity fact `convex_Ici ... .is_const_of_fderivWithin_eq_zero` implies
+
+$$
+f(t)=f(0)
+$$
+
+for every $t\ge0$.
+
+On the other hand, since $\dot x(t)\to0$ and $x(t)\to p$, we have
+
+$$
 \dot x(t)+\alpha x(t)\to 0+\alpha p.
-\]
-Taking inner products with the fixed vector \(z\) gives
-\[
+$$
+
+Taking inner products with the fixed vector $z$ gives
+
+$$
 f(t)\to \langle 0+\alpha p,z\rangle.
-\]
-But since \(f(t)=f(0)\) for all sufficiently large \(t\), also \(f(t)\to f(0)\). By uniqueness of limits,
-\[
+$$
+
+But since $f(t)=f(0)$ for all sufficiently large $t$, also $f(t)\to f(0)$. By uniqueness of limits,
+
+$$
 f(0)=\langle 0+\alpha p,z\rangle.
-\]
-Unfolding \(f(0)\),
-\[
+$$
+
+Unfolding $f(0)$,
+
+$$
 \langle \dot x(0),z\rangle+\alpha\langle x(0),z\rangle
 =
 \alpha\langle p,z\rangle.
-\]
-Rearranging and using \(q=x(0)+\alpha^{-1}\dot x(0)\) gives
-\[
-\alpha\langle q-p,z\rangle=0.
-\]
-Because \(\alpha>0\), this implies
-\[
-\langle q-p,z\rangle=0.
-\]
-Thus \(q-p\) is orthogonal to every \(z\in K\).
+$$
 
-The proof now applies the variational characterization of the metric projection, `eq_projectionPoint_iff_mem_and_inner_sub_right_nonpos`. For a Chebyshev convex set \(K\), this theorem says that
-\[
+Rearranging and using $q=x(0)+\alpha^{-1}\dot x(0)$ gives
+
+$$
+\alpha\langle q-p,z\rangle=0.
+$$
+
+Because $\alpha>0$, this implies
+
+$$
+\langle q-p,z\rangle=0.
+$$
+
+Thus $q-p$ is orthogonal to every $z\in K$.
+
+The proof now applies the variational characterization of the metric projection, `eq_projectionPoint_iff_mem_and_inner_sub_right_nonpos`. For a Chebyshev convex set $K$, this theorem says that
+
+$$
 r=\operatorname{projectionPoint} K h_{\mathrm{Cheb}} q
-\]
-if and only if \(r\in K\) and
-\[
+$$
+
+if and only if $r\in K$ and
+
+$$
 \langle z-r,q-r\rangle\le0
-\]
-for every \(z\in K\). The proof has \(p\in K\). From \(\langle q-p,z\rangle=0\) for every \(z\in K\), it follows in particular with \(z=p\) that \(\langle q-p,p\rangle=0\). By symmetry of the real inner product, \(\langle p,q-p\rangle=0\), and also \(\langle z,q-p\rangle=0\). Therefore
-\[
+$$
+
+for every $z\in K$. The proof has $p\in K$. From $\langle q-p,z\rangle=0$ for every $z\in K$, it follows in particular with $z=p$ that $\langle q-p,p\rangle=0$. By symmetry of the real inner product, $\langle p,q-p\rangle=0$, and also $\langle z,q-p\rangle=0$. Therefore
+
+$$
 \langle z-p,q-p\rangle
 =
 \langle z,q-p\rangle-\langle p,q-p\rangle
 =
 0\le0.
-\]
-So \(p\) satisfies the projection variational inequality. Hence
-\[
+$$
+
+So $p$ satisfies the projection variational inequality. Hence
+
+$$
 p=\operatorname{projectionPoint} K h_{\mathrm{Cheb}} q.
-\]
+$$
 
 Finally, `projectionPoint_isBestApproximation` states that the chosen projection point is a best approximation, so
-\[
+
+$$
 \operatorname{dist}(q,\operatorname{projectionPoint} K h_{\mathrm{Cheb}} q)
 =
 \operatorname{infDist}(q,K).
-\]
-Using \(p=\operatorname{projectionPoint} K h_{\mathrm{Cheb}} q\), the proof obtains
-\[
+$$
+
+Using $p=\operatorname{projectionPoint} K h_{\mathrm{Cheb}} q$, the proof obtains
+
+$$
 \|q-p\|
 =
 \operatorname{dist}(q,p)
@@ -423,12 +505,15 @@ Using \(p=\operatorname{projectionPoint} K h_{\mathrm{Cheb}} q\), the proof obta
 \operatorname{dist}(q,\operatorname{projectionPoint} K h_{\mathrm{Cheb}} q)
 =
 \operatorname{infDist}(q,K).
-\]
-Substituting \(q=x(0)+\alpha^{-1}\dot x(0)\) and \(K=\ker A\) gives exactly the claimed equality
-\[
+$$
+
+Substituting $q=x(0)+\alpha^{-1}\dot x(0)$ and $K=\ker A$ gives exactly the claimed equality
+
+$$
 \left\|x(0)+\alpha^{-1}\dot x(0)-p\right\|
 =
 \operatorname{infDist}\!\left(x(0)+\alpha^{-1}\dot x(0),\ker A\right).
-\]
-Together with the earlier equality \(\operatorname{argminSet}\Phi=\ker A\), the inclusion \(p\in\ker A\), and the convergence \(x(t)\to p\), this completes the proof.
+$$
+
+Together with the earlier equality $\operatorname{argminSet}\Phi=\ker A$, the inclusion $p\in\ker A$, and the convergence $x(t)\to p$, this completes the proof.
 

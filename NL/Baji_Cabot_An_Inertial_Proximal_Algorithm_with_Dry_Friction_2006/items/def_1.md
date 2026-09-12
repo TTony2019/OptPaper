@@ -7,19 +7,19 @@ recall Metric.infDist
 ```
 
 ## Statement explanation
-The declaration `recall Metric.infDist` is not a theorem or lemma with hypotheses and a conclusion; it is a recall of an existing Mathlib definition. In the ambient (pseudo)metric space, for a point \(x\) and a set \(s\), the function `Metric.infDist` assigns the real number
+The declaration `recall Metric.infDist` is not a theorem or lemma with hypotheses and a conclusion; it is a recall of an existing Mathlib definition. In the ambient (pseudo)metric space, for a point $x$ and a set $s$, the function `Metric.infDist` assigns the real number
 
-\[
+$$
 \operatorname{infDist}(x,s)=\inf\{\operatorname{dist}(x,y)\mid y\in s\}.
-\]
+$$
 
-More formally in Lean, it is the infimum of the image of \(s\) under the map \(y\mapsto \operatorname{dist}(x,y)\), i.e.
+More formally in Lean, it is the infimum of the image of $s$ under the map $y\mapsto \operatorname{dist}(x,y)$, i.e.
 
-\[
+$$
 \operatorname{infDist}(x,s)=\operatorname{sInf}\bigl((\operatorname{dist} x)''s\bigr).
-\]
+$$
 
-The parameters of the recalled definition are an ambient type equipped with a metric or pseudometric structure, a point \(x:\alpha\), and a set \(s\subseteq\alpha\). The value lies in \(\mathbb R\). There are no logical hypotheses and no conclusion in this declaration, because `recall` merely brings the definition into scope. Mathematically, \(\operatorname{infDist}(x,s)\) is the greatest lower bound of the distances from \(x\) to points of \(s\); it need not be attained. If \(s\) is nonempty, this is the usual infimum of a nonempty set of nonnegative real numbers. If \(s\) is empty, the value is determined by Lean’s convention for `sInf` on the empty subset of \(\mathbb R\).
+The parameters of the recalled definition are an ambient type equipped with a metric or pseudometric structure, a point $x:\alpha$, and a set $s\subseteq\alpha$. The value lies in $\mathbb R$. There are no logical hypotheses and no conclusion in this declaration, because `recall` merely brings the definition into scope. Mathematically, $\operatorname{infDist}(x,s)$ is the greatest lower bound of the distances from $x$ to points of $s$; it need not be attained. If $s$ is nonempty, this is the usual infimum of a nonempty set of nonnegative real numbers. If $s$ is empty, the value is determined by Lean’s convention for `sInf` on the empty subset of $\mathbb R$.
 
 ## Lean proof
 ```lean
@@ -27,5 +27,5 @@ The parameters of the recalled definition are an ambient type equipped with a me
 ```
 
 ## Proof explanation
-There is no separate proof. The source explicitly has no proof part, so the declaration is only the recall of the definition `Metric.infDist`. Consequently there are no tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` to explain, and no named lemmas or previously established facts are invoked. The role of the declaration is definitional: it makes available the mathematical object \(\operatorname{infDist}(x,s)\), the infimum of distances from a point \(x\) to a set \(s\), for later statements and proofs.
+There is no separate proof. The source explicitly has no proof part, so the declaration is only the recall of the definition `Metric.infDist`. Consequently there are no tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` to explain, and no named lemmas or previously established facts are invoked. The role of the declaration is definitional: it makes available the mathematical object $\operatorname{infDist}(x,s)$, the infimum of distances from a point $x$ to a set $s$, for later statements and proofs.
 

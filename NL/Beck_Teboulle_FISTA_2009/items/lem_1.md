@@ -10,18 +10,23 @@ theorem quadratic_upper_bound_C11 {n : ℕ} {f : EuclideanSpace ℝ (Fin n) → 
 ```
 
 ## Statement explanation
-The theorem `quadratic_upper_bound_C11` states the following. For a natural number \(n\), let \(f:\mathbb R^n\to\mathbb R\), where \(\mathbb R^n\) is the Euclidean space `EuclideanSpace ℝ (Fin n)`. Let \(L_f\) and \(L\) be real numbers, assume \(hf:\texttt{IsC11 } f L_f\), and assume \(L_f\le L\). Then for every \(x,y\in\mathbb R^n\),
-\[
+The theorem `quadratic_upper_bound_C11` states the following. For a natural number $n$, let $f:\mathbb R^n\to\mathbb R$, where $\mathbb R^n$ is the Euclidean space `EuclideanSpace ℝ (Fin n)`. Let $L_f$ and $L$ be real numbers, assume $hf:\texttt{IsC11 } f L_f$, and assume $L_f\le L$. Then for every $x,y\in\mathbb R^n$,
+
+$$
 f(x)\le f(y)+\langle \nabla f(y),x-y\rangle+\frac{L}{2}\|x-y\|^2 .
-\]
-The hypothesis `IsC11 f Lf` is the bundled \(C^1\)-with-Lipschitz-gradient assumption. In the proof it is used to supply three concrete facts: \(L_f>0\), that \(f\) is continuously differentiable, and that the gradient of \(f\) is \(L_f\)-Lipschitz:
-\[
+$$
+
+The hypothesis `IsC11 f Lf` is the bundled $C^1$-with-Lipschitz-gradient assumption. In the proof it is used to supply three concrete facts: $L_f>0$, that $f$ is continuously differentiable, and that the gradient of $f$ is $L_f$-Lipschitz:
+
+$$
 \|\nabla f(u)-\nabla f(v)\|\le L_f\|u-v\|.
-\]
-Thus the theorem is a quadratic upper bound, or descent lemma: if the gradient is Lipschitz with constant \(L_f\), then any larger constant \(L\ge L_f\) gives the global upper estimate
-\[
+$$
+
+Thus the theorem is a quadratic upper bound, or descent lemma: if the gradient is Lipschitz with constant $L_f$, then any larger constant $L\ge L_f$ gives the global upper estimate
+
+$$
 f(x)\le f(y)+\langle \nabla f(y),x-y\rangle+\frac L2\|x-y\|^2 .
-\]
+$$
 
 ## Lean proof
 ```lean
@@ -148,131 +153,180 @@ by
 ```
 
 ## Proof explanation
-The proof begins by extracting the positivity of \(L_f\):
-\[
+The proof begins by extracting the positivity of $L_f$:
+
+$$
 0<L_f
-\]
-from `hf.hL_pos`. This is used later when converting a nonnegative real Lipschitz coefficient back to the real number \(L_f\).
+$$
 
-It then defines the line segment from \(y\) to \(x\),
-\[
+from `hf.hL_pos`. This is used later when converting a nonnegative real Lipschitz coefficient back to the real number $L_f$.
+
+It then defines the line segment from $y$ to $x$,
+
+$$
 \phi(t)=y+t(x-y),
-\]
+$$
+
 and the pullback functions
-\[
+
+$$
 h(t)=f(\phi(t)),
-\]
+$$
+
 and
-\[
+
+$$
 g(t)=h(t)-h(0)-t\langle \nabla f(y),x-y\rangle-\frac{L_f}{2}t^2\|x-y\|^2.
-\]
-At \(t=0\), one has \(\phi(0)=y\), hence \(h(0)=f(y)\), and the definition gives \(g(0)=0\). The proof checks this by unfolding the local definitions with `dsimp` and simplifying with `simp`.
+$$
 
-Next the proof computes the derivative of \(h\). For every \(t_0\in\mathbb R\), it proves
-\[
+At $t=0$, one has $\phi(0)=y$, hence $h(0)=f(y)$, and the definition gives $g(0)=0$. The proof checks this by unfolding the local definitions with `dsimp` and simplifying with `simp`.
+
+Next the proof computes the derivative of $h$. For every $t_0\in\mathbb R$, it proves
+
+$$
 h'(t_0)=\langle \nabla f(\phi(t_0)),x-y\rangle .
-\]
-The argument is as follows. Since `hf.contDiff` says \(f\) is \(C^1\), \(f\) is differentiable everywhere; the proof uses this to get differentiability at \(\phi(t_0)\). For a differentiable function, the line derivative in direction \(x-y\) is the Fréchet derivative applied to \(x-y\):
-\[
+$$
+
+The argument is as follows. Since `hf.contDiff` says $f$ is $C^1$, $f$ is differentiable everywhere; the proof uses this to get differentiability at $\phi(t_0)$. For a differentiable function, the line derivative in direction $x-y$ is the Fréchet derivative applied to $x-y$:
+
+$$
 \operatorname{lineDeriv} f(\phi(t_0))(x-y)=Df(\phi(t_0))(x-y).
-\]
+$$
+
 The lemma `inner_gradient_left` then identifies this directional derivative with the inner product of the gradient:
-\[
+
+$$
 Df(\phi(t_0))(x-y)=\langle \nabla f(\phi(t_0)),x-y\rangle .
-\]
+$$
+
 The definition of `HasLineDerivAt` says that the function
-\[
+
+$$
 s\mapsto f(\phi(t_0)+s(x-y))
-\]
-has derivative equal to this inner product at \(s=0\). Since
-\[
+$$
+
+has derivative equal to this inner product at $s=0$. Since
+
+$$
 \phi(t_0)+s(x-y)=y+(t_0+s)(x-y)=\phi(t_0+s),
-\]
-the same function is \(s\mapsto h(t_0+s)\). Finally, the translation rule for derivatives, invoked through `HasDerivAt.comp_add_const`, turns the derivative at \(0\) of \(s\mapsto h(t_0+s)\) into the derivative at \(t_0\) of \(h\). Thus \(h'(t_0)\) is exactly the stated inner product.
+$$
 
-Then the proof computes the derivative of \(g\). For every \(t\),
-\[
+the same function is $s\mapsto h(t_0+s)$. Finally, the translation rule for derivatives, invoked through `HasDerivAt.comp_add_const`, turns the derivative at $0$ of $s\mapsto h(t_0+s)$ into the derivative at $t_0$ of $h$. Thus $h'(t_0)$ is exactly the stated inner product.
+
+Then the proof computes the derivative of $g$. For every $t$,
+
+$$
 g'(t)=\langle \nabla f(\phi(t))-\nabla f(y),x-y\rangle-L_f\,t\,\|x-y\|^2 .
-\]
-This is obtained by combining four derivative facts:
-- \(h'(t)=\langle \nabla f(\phi(t)),x-y\rangle\), already proved;
-- the derivative of the constant \(h(0)\) is \(0\);
-- the derivative of \(t\mapsto t\langle \nabla f(y),x-y\rangle\) is \(\langle \nabla f(y),x-y\rangle\);
-- the derivative of
-  \[
-  t\mapsto \frac{L_f}{2}t^2\|x-y\|^2
-  \]
-  is \(L_f\,t\,\|x-y\|^2\).
+$$
 
-For the last item, the proof sets \(C=(L_f/2)\|x-y\|^2\) and uses the derivative of \(t^2\), namely \(2t\), together with the constant-multiple rule. This gives derivative \(C(2t)=L_f\,t\,\|x-y\|^2\). The subtraction of these derivatives gives
-\[
+This is obtained by combining four derivative facts:
+- $h'(t)=\langle \nabla f(\phi(t)),x-y\rangle$, already proved;
+- the derivative of the constant $h(0)$ is $0$;
+- the derivative of $t\mapsto t\langle \nabla f(y),x-y\rangle$ is $\langle \nabla f(y),x-y\rangle$;
+- the derivative of
+
+  $$
+  t\mapsto \frac{L_f}{2}t^2\|x-y\|^2
+  $$
+
+  is $L_f\,t\,\|x-y\|^2$.
+
+For the last item, the proof sets $C=(L_f/2)\|x-y\|^2$ and uses the derivative of $t^2$, namely $2t$, together with the constant-multiple rule. This gives derivative $C(2t)=L_f\,t\,\|x-y\|^2$. The subtraction of these derivatives gives
+
+$$
 \langle \nabla f(\phi(t)),x-y\rangle
 -\langle \nabla f(y),x-y\rangle
 -L_f\,t\,\|x-y\|^2,
-\]
+$$
+
 and linearity of the inner product in its first argument rewrites the first two terms as
-\[
+
+$$
 \langle \nabla f(\phi(t))-\nabla f(y),x-y\rangle.
-\]
+$$
+
 The algebraic identities are closed by `ring`, and the final form by `simpa`.
 
-From the explicit derivative formula, the proof knows \(g\) is differentiable at every point, hence continuous at every point, hence continuous on \( [0,1] \). It is also differentiable on the open interval \( (0,1) \). The continuity conclusion uses `continuous_iff_continuousAt`: a function is continuous if and only if it is continuous at each point.
+From the explicit derivative formula, the proof knows $g$ is differentiable at every point, hence continuous at every point, hence continuous on $[0,1]$. It is also differentiable on the open interval $(0,1)$. The continuity conclusion uses `continuous_iff_continuousAt`: a function is continuous if and only if it is continuous at each point.
 
-The central estimate is that for \(t>0\),
-\[
+The central estimate is that for $t>0$,
+
+$$
 \langle \nabla f(\phi(t))-\nabla f(y),x-y\rangle-L_f\,t\,\|x-y\|^2\le 0.
-\]
+$$
+
 To prove this, the proof uses Cauchy–Schwarz for the real inner product:
-\[
+
+$$
 \langle u,v\rangle\le \|u\|\|v\|,
-\]
-with \(u=\nabla f(\phi(t))-\nabla f(y)\) and \(v=x-y\). The Lipschitz-gradient hypothesis supplies
-\[
+$$
+
+with $u=\nabla f(\phi(t))-\nabla f(y)$ and $v=x-y$. The Lipschitz-gradient hypothesis supplies
+
+$$
 \|\nabla f(\phi(t))-\nabla f(y)\|\le L_f\|\phi(t)-y\|.
-\]
-Because \(\phi(t)-y=t(x-y)\), and \(t>0\),
-\[
+$$
+
+Because $\phi(t)-y=t(x-y)$, and $t>0$,
+
+$$
 \|\phi(t)-y\|=\|t(x-y)\|=t\|x-y\|.
-\]
+$$
+
 Combining these inequalities gives
-\[
+
+$$
 \langle \nabla f(\phi(t))-\nabla f(y),x-y\rangle
 \le L_f\,t\,\|x-y\|^2.
-\]
+$$
+
 Subtracting the same quantity on the right yields the desired nonpositivity. The proof uses `nlinarith` and `ring` here to combine the norm estimates and rewrite the final polynomial expression.
 
-Next, the mean value theorem is applied to \(g\) on \( [0,1] \). The lemma `exists_deriv_eq_slope` gives a point \(c\in(0,1)\) such that
-\[
-g'(c)=\frac{g(1)-g(0)}{1-0}.
-\]
-Since \(g(0)=0\), this simplifies to
-\[
-g'(c)=g(1).
-\]
-Because \(c>0\), the previously proved nonpositivity of the derivative at positive points gives \(g'(c)\le 0\). Therefore \(g(1)\le 0\).
+Next, the mean value theorem is applied to $g$ on $[0,1]$. The lemma `exists_deriv_eq_slope` gives a point $c\in(0,1)$ such that
 
-Finally, the proof expands \(g(1)\le 0\). Since
-\[
+$$
+g'(c)=\frac{g(1)-g(0)}{1-0}.
+$$
+
+Since $g(0)=0$, this simplifies to
+
+$$
+g'(c)=g(1).
+$$
+
+Because $c>0$, the previously proved nonpositivity of the derivative at positive points gives $g'(c)\le 0$. Therefore $g(1)\le 0$.
+
+Finally, the proof expands $g(1)\le 0$. Since
+
+$$
 \phi(1)=y+(x-y)=x,\qquad \phi(0)=y,
-\]
-one has \(h(1)=f(x)\) and \(h(0)=f(y)\). Thus
-\[
+$$
+
+one has $h(1)=f(x)$ and $h(0)=f(y)$. Thus
+
+$$
 g(1)=f(x)-f(y)-\langle \nabla f(y),x-y\rangle-\frac{L_f}{2}\|x-y\|^2\le 0.
-\]
+$$
+
 Rearranging gives
-\[
+
+$$
 f(x)\le f(y)+\langle \nabla f(y),x-y\rangle+\frac{L_f}{2}\|x-y\|^2.
-\]
+$$
+
 The proof uses `linarith` to perform this rearrangement.
 
-To pass from \(L_f\) to the larger constant \(L\), the proof uses \(L_f\le L\) and \(\|x-y\|^2\ge 0\) to obtain
-\[
+To pass from $L_f$ to the larger constant $L$, the proof uses $L_f\le L$ and $\|x-y\|^2\ge 0$ to obtain
+
+$$
 \frac{L_f}{2}\|x-y\|^2\le \frac{L}{2}\|x-y\|^2.
-\]
-Combining this with the bound involving \(L_f\), again by `linarith`, yields the claimed inequality with \(L\):
-\[
+$$
+
+Combining this with the bound involving $L_f$, again by `linarith`, yields the claimed inequality with $L$:
+
+$$
 f(x)\le f(y)+\langle \nabla f(y),x-y\rangle+\frac{L}{2}\|x-y\|^2.
-\]
+$$
 
 No `intro` tactic occurs in this proof, because the variables and hypotheses are already parameters of the theorem statement and are therefore already in the context. The commands `rw`, `simp`, `dsimp`, `ring`, `nlinarith`, and `linarith` are used to rewrite definitions, simplify arithmetic, prove polynomial identities, and combine inequalities.
 

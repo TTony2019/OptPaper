@@ -17,33 +17,43 @@ theorem constrained_din_weakly_converges_to_argmin {H : Type*} [NormedAddCommGro
 ```
 
 ## Statement explanation
-The theorem `constrained_din_weakly_converges_to_argmin` is stated for a complete real inner product space \(H\), a set \(C\subseteq H\), and a function \(\Phi:H\to\mathbb R\). The hypothesis `hC : ConstrainedHypothesis C Φ` supplies, as used in the proof, that \(C\) is nonempty, closed, and convex, that \(\Phi\) is continuously differentiable on some open neighborhood of \(C\), and that \(\Phi\) is bounded below on \(C\). The parameters satisfy \(\beta>0\), \(a\ne0\), \(b>0\), and \(b+a>0\). The hypothesis `hconvex : ConvexOn ℝ C Φ` says that \(C\) is convex and that \(\Phi\) is convex on \(C\); in particular, the restriction of \(\Phi\) to every segment inside \(C\) is convex. The hypothesis `hmin` says that \(\operatorname{argminSet}\Phi\cap C\ne\varnothing\), where by definition
-\[
-\operatorname{argminSet}\Phi=\{x\mid \forall y,\ \Phi(x)\le \Phi(y)\}.
-\]
-Thus there is at least one global minimizer of \(\Phi\) lying in \(C\).
+The theorem `constrained_din_weakly_converges_to_argmin` is stated for a complete real inner product space $H$, a set $C\subseteq H$, and a function $\Phi:H\to\mathbb R$. The hypothesis `hC : ConstrainedHypothesis C Φ` supplies, as used in the proof, that $C$ is nonempty, closed, and convex, that $\Phi$ is continuously differentiable on some open neighborhood of $C$, and that $\Phi$ is bounded below on $C$. The parameters satisfy $\beta>0$, $a\ne0$, $b>0$, and $b+a>0$. The hypothesis `hconvex : ConvexOn ℝ C Φ` says that $C$ is convex and that $\Phi$ is convex on $C$; in particular, the restriction of $\Phi$ to every segment inside $C$ is convex. The hypothesis `hmin` says that $\operatorname{argminSet}\Phi\cap C\ne\varnothing$, where by definition
 
-The data \(x_0,y_0\in H\) and \(x,y:\mathbb R\to H\) satisfy `IsConstrainedDINTrajectory C Φ hC β a b x₀ y₀ x y`. The parts of this predicate used below are that \(x_0\in C\) and that, for \(t\ge0\),
-\[
+$$
+\operatorname{argminSet}\Phi=\{x\mid \forall y,\ \Phi(x)\le \Phi(y)\}.
+$$
+
+Thus there is at least one global minimizer of $\Phi$ lying in $C$.
+
+The data $x_0,y_0\in H$ and $x,y:\mathbb R\to H$ satisfy `IsConstrainedDINTrajectory C Φ hC β a b x₀ y₀ x y`. The parts of this predicate used below are that $x_0\in C$ and that, for $t\ge0$,
+
+$$
 \dot x(t)+x(t)=P_C\bigl(x(t)-\beta\nabla\Phi(x(t))-a x(t)-b y(t)\bigr),
 \qquad
 \dot y(t)+a x(t)+b y(t)=0,
-\]
-where \(P_C\) is the constrained projection associated with \(C\) and \(\Phi\). The regularity hypothesis `hreg` says that \(x\) is \(C^1\) on \([0,\infty)\) and \(y\) is \(C^2\) on \([0,\infty)\).
+$$
 
-The conclusion is that there exists \(z\in H\) such that
-\[
+where $P_C$ is the constrained projection associated with $C$ and $\Phi$. The regularity hypothesis `hreg` says that $x$ is $C^1$ on $[0,\infty)$ and $y$ is $C^2$ on $[0,\infty)$.
+
+The conclusion is that there exists $z\in H$ such that
+
+$$
 z\in C,\qquad z\in\operatorname{argminSet}\Phi,
-\]
+$$
+
 and
-\[
+
+$$
 x(t)\rightharpoonup z \quad\text{weakly as }t\to\infty,
-\]
+$$
+
 formally,
-\[
+
+$$
 \operatorname{Tendsto}\bigl(t\mapsto \operatorname{toWeakSpace}_{\mathbb R,H}(x(t))\bigr)\ \operatorname{atTop}\ \bigl(\operatorname{nhds}(\operatorname{toWeakSpace}_{\mathbb R,H}(z))\bigr).
-\]
-So the trajectory \(x\) converges weakly to some global minimizer of \(\Phi\) that lies in \(C\).
+$$
+
+So the trajectory $x$ converges weakly to some global minimizer of $\Phi$ that lies in $C$.
 
 ## Lean proof
 ```lean
@@ -840,265 +850,364 @@ by
 
 ## Proof explanation
 The proof begins with `classical`, allowing classical logic for the arguments that follow. From the constrained trajectory hypothesis it extracts
-\[
+
+$$
 x_0\in C
-\]
-using the component `hxy.2.2.2.2.2.1`. It then applies `constrained_din_global_properties_part_i` to \(C,\Phi,\beta,a,b,x_0,y_0\). That theorem gives the existence of global regular trajectories \(x_g,y_g\), the viability property \(x_g(t)\in C\) for \(t\ge0\), and a uniqueness statement: any other regular constrained DIN trajectory from the same initial data agrees with \(x_g,y_g\) on \([0,\infty)\). Since the given \(x,y\) satisfy the same trajectory and regularity hypotheses, the uniqueness part yields
-\[
+$$
+
+using the component `hxy.2.2.2.2.2.1`. It then applies `constrained_din_global_properties_part_i` to $C,\Phi,\beta,a,b,x_0,y_0$. That theorem gives the existence of global regular trajectories $x_g,y_g$, the viability property $x_g(t)\in C$ for $t\ge0$, and a uniqueness statement: any other regular constrained DIN trajectory from the same initial data agrees with $x_g,y_g$ on $[0,\infty)$. Since the given $x,y$ satisfy the same trajectory and regularity hypotheses, the uniqueness part yields
+
+$$
 x(t)=x_g(t),\qquad y(t)=y_g(t)
-\]
-for all \(t\ge0\). Therefore, by the viability of \(x_g\), the proof obtains
-\[
+$$
+
+for all $t\ge0$. Therefore, by the viability of $x_g$, the proof obtains
+
+$$
 x(t)\in C\qquad(t\ge0).
-\]
+$$
+
 The Lean steps `intro t ht`, `rw [hxy_eq.1 ht]`, and `exact hviable t ht` are exactly this reduction.
 
-Next the proof applies `constrained_din_global_properties_part_ii`. This theorem says, among other things, that for every real \(\ell\) in the interval
-\[
+Next the proof applies `constrained_din_global_properties_part_ii`. This theorem says, among other things, that for every real $\ell$ in the interval
+
+$$
 \beta\bigl(\sqrt b-\sqrt{b+a}\bigr)^2\le \ell\le \beta\bigl(\sqrt b+\sqrt{b+a}\bigr)^2,
-\]
+$$
+
 the constrained energy
-\[
+
+$$
 E_\ell(t)=\ell\,\Phi(x(t))+\frac12\|a x(t)+b y(t)\|^2
-\]
-is antitone on \([0,\infty)\), bounded below on its range, and has a limit as \(t\to\infty\). It also gives that \(\dot x\) and \(\dot y\) are square-integrable on \((0,\infty)\), that \(\Phi(x(t))\) has a real limit, and that \(\dot y(t)\to0\). The proof uses the last two facts immediately:
-\[
+$$
+
+is antitone on $[0,\infty)$, bounded below on its range, and has a limit as $t\to\infty$. It also gives that $\dot x$ and $\dot y$ are square-integrable on $(0,\infty)$, that $\Phi(x(t))$ has a real limit, and that $\dot y(t)\to0$. The proof uses the last two facts immediately:
+
+$$
 \exists l_\Phi,\quad \Phi(x(t))\to l_\Phi,
 \qquad
 \dot y(t)\to0.
-\]
-It then verifies that \(\ell=\beta(a+2b)\) lies in the above interval. Indeed,
-\[
+$$
+
+It then verifies that $\ell=\beta(a+2b)$ lies in the above interval. Indeed,
+
+$$
 \bigl(\sqrt b-\sqrt{b+a}\bigr)^2
 = a+2b-2\sqrt b\sqrt{b+a},
-\]
+$$
+
 and
-\[
+
+$$
 \bigl(\sqrt b+\sqrt{b+a}\bigr)^2
 = a+2b+2\sqrt b\sqrt{b+a},
-\]
-so the middle term \(a+2b\) lies between them because the product \(\sqrt b\sqrt{b+a}\) is nonnegative. The tactics `nlinarith` and `positivity` are used to verify these inequalities. Hence, with
-\[
+$$
+
+so the middle term $a+2b$ lies between them because the product $\sqrt b\sqrt{b+a}$ is nonnegative. The tactics `nlinarith` and `positivity` are used to verify these inequalities. Hence, with
+
+$$
 A(t)=\operatorname{constrainedEnergy}\Phi\,a\,b\,\bigl(\beta(a+2b)\bigr)(x(t),y(t)),
-\]
-the proof obtains that \(A\) is antitone, bounded below, and convergent to some \(l_E\).
+$$
+
+the proof obtains that $A$ is antitone, bounded below, and convergent to some $l_E$.
 
 The proof then chooses a minimizer
-\[
-z_0\in \operatorname{argminSet}\Phi\cap C,
-\]
-so \(z_0\in C\) and \(\Phi(z_0)\le \Phi(w)\) for every \(w\in H\). From the constrained hypothesis it extracts an open neighborhood \(U\) of \(C\) on which \(\Phi\) is \(C^1\), and proves that for every \(q\in C\),
-\[
-\Phi \text{ has gradient } \nabla\Phi(q) \text{ at } q,
-\]
-i.e. `HasGradientAt Φ (gradient Φ q) q`. This is used later to differentiate \(t\mapsto \Phi(x(t))\).
 
-For \(t>0\), the regularity assumptions imply
-\[
+$$
+z_0\in \operatorname{argminSet}\Phi\cap C,
+$$
+
+so $z_0\in C$ and $\Phi(z_0)\le \Phi(w)$ for every $w\in H$. From the constrained hypothesis it extracts an open neighborhood $U$ of $C$ on which $\Phi$ is $C^1$, and proves that for every $q\in C$,
+
+$$
+\Phi \text{ has gradient } \nabla\Phi(q) \text{ at } q,
+$$
+
+i.e. `HasGradientAt Φ (gradient Φ q) q`. This is used later to differentiate $t\mapsto \Phi(x(t))$.
+
+For $t>0$, the regularity assumptions imply
+
+$$
 x'(t)=\dot x(t),\qquad y'(t)=\dot y(t).
-\]
-The proof sets \(Y(t)=(x(t),y(t))\). Using the trajectory equations and `constrainedDINProjection_eq_self`, which says \(P_C(q)=q\) whenever \(q\in C\), it shows that the constrained DIN phase field at \(Y(t)\) is exactly \((\dot x(t),\dot y(t))\). Therefore
-\[
+$$
+
+The proof sets $Y(t)=(x(t),y(t))$. Using the trajectory equations and `constrainedDINProjection_eq_self`, which says $P_C(q)=q$ whenever $q\in C$, it shows that the constrained DIN phase field at $Y(t)$ is exactly $(\dot x(t),\dot y(t))$. Therefore
+
+$$
 Y'(t)=\text{constrainedDINPhaseField}(Y(t)).
-\]
+$$
+
 Then it invokes `constrainedDIN_energy_dissipation_at`. Specialized to the present variables, that theorem gives both
-\[
+
+$$
 A'(t)
 =\beta(a+2b)\langle \nabla\Phi(x(t)),\dot x(t)\rangle
 -a\langle \dot x(t),\dot y(t)\rangle
 -b\|\dot y(t)\|^2
-\]
+$$
+
 and the dissipation inequality
-\[
+
+$$
 \beta(a+2b)\langle \nabla\Phi(x(t)),\dot x(t)\rangle
 -a\langle \dot x(t),\dot y(t)\rangle
 -b\|\dot y(t)\|^2
 +(a+b)\|\dot x(t)\|^2
 +b\|\dot x(t)-\dot y(t)\|^2\le0.
-\]
+$$
+
 This is the main energy estimate used to construct the Lyapunov function later.
 
-The proof next establishes a first-order supporting inequality for the convex function \(\Phi\). For \(p,r\in C\), it proves
-\[
-\Phi(p)+\langle \nabla\Phi(p),r-p\rangle\le \Phi(r).
-\]
-The argument restricts \(\Phi\) to the line segment \(g(s)=\operatorname{lineMap}(p,r)(s)\), which stays in \(C\) by convexity. Since \(\Phi\) is convex on \(C\), the composite \(s\mapsto \Phi(g(s))\) is convex on \([0,1]\). Its derivative at \(0\) is \(\langle \nabla\Phi(p),r-p\rangle\), and the convexity inequality for derivatives gives
-\[
-\langle \nabla\Phi(p),r-p\rangle\le \Phi(r)-\Phi(p).
-\]
-The cited lemma `le_slope_of_hasDerivAt` supplies exactly this derivative-versus-slope inequality. Taking \(p=x(t)\) and \(r=z_0\) gives
-\[
-\Phi(x(t))+\langle \nabla\Phi(x(t)),z_0-x(t)\rangle\le \Phi(z_0)
-\]
-for \(t>0\).
+The proof next establishes a first-order supporting inequality for the convex function $\Phi$. For $p,r\in C$, it proves
 
-The proof also uses the variational characterization of metric projection. The cited theorem `eq_projectionPoint_iff_mem_and_inner_sub_right_nonpos_of_nonempty_isClosed_convex` states that for a nonempty closed convex set \(C\),
-\[
+$$
+\Phi(p)+\langle \nabla\Phi(p),r-p\rangle\le \Phi(r).
+$$
+
+The argument restricts $\Phi$ to the line segment $g(s)=\operatorname{lineMap}(p,r)(s)$, which stays in $C$ by convexity. Since $\Phi$ is convex on $C$, the composite $s\mapsto \Phi(g(s))$ is convex on $[0,1]$. Its derivative at $0$ is $\langle \nabla\Phi(p),r-p\rangle$, and the convexity inequality for derivatives gives
+
+$$
+\langle \nabla\Phi(p),r-p\rangle\le \Phi(r)-\Phi(p).
+$$
+
+The cited lemma `le_slope_of_hasDerivAt` supplies exactly this derivative-versus-slope inequality. Taking $p=x(t)$ and $r=z_0$ gives
+
+$$
+\Phi(x(t))+\langle \nabla\Phi(x(t)),z_0-x(t)\rangle\le \Phi(z_0)
+$$
+
+for $t>0$.
+
+The proof also uses the variational characterization of metric projection. The cited theorem `eq_projectionPoint_iff_mem_and_inner_sub_right_nonpos_of_nonempty_isClosed_convex` states that for a nonempty closed convex set $C$,
+
+$$
 p=P_C(x)
 \iff
 p\in C \ \text{and}\ \forall y\in C,\ \langle y-p,x-p\rangle\le0.
-\]
+$$
+
 Applying this to
-\[
+
+$$
 p=x(t)+\dot x(t),\qquad
 x=x(t)-\beta\nabla\Phi(x(t))-a x(t)-b y(t),
-\]
+$$
+
 and using the trajectory equation, the proof obtains
-\[
+
+$$
 \bigl\langle z_0-(x(t)+\dot x(t)),\,
 x(t)-\beta\nabla\Phi(x(t))-a x(t)-b y(t)-(x(t)+\dot x(t))\bigr\rangle\le0.
-\]
-Using \(a x(t)+b y(t)=-\dot y(t)\), this is rewritten as the key inequality
-\[
+$$
+
+Using $a x(t)+b y(t)=-\dot y(t)$, this is rewritten as the key inequality
+
+$$
 \langle z_0-x(t),\dot y(t)-\dot x(t)\rangle
 +\beta\langle \dot x(t),\nabla\Phi(x(t))\rangle
 \le
 \beta\langle z_0-x(t),\nabla\Phi(x(t))\rangle
 +\langle \dot x(t),\dot y(t)\rangle
 -\|\dot x(t)\|^2.
-\]
+$$
 
 Now the proof defines the auxiliary scalar function
-\[
+
+$$
 F(t)
 =
 \langle z_0-x(t),q(t)\rangle
 +\frac{a+b}{2}\|z_0-x(t)\|^2
 +b\beta\Phi(x(t)),
-\]
-where \(q(t)=a x(t)+b y(t)=-\dot y(t)\). Differentiating \(F\) and using the key inequality, the Cauchy–Schwarz inequality, and Young’s inequality
-\[
+$$
+
+where $q(t)=a x(t)+b y(t)=-\dot y(t)$. Differentiating $F$ and using the key inequality, the Cauchy–Schwarz inequality, and Young’s inequality
+
+$$
 2\langle \dot x,\dot y-\dot x\rangle
 \le \|\dot x\|^2+\|\dot y-\dot x\|^2,
-\]
+$$
+
 yields the estimate
-\[
+
+$$
 F'(t)\le \frac{b+3}{2}\|\dot x(t)\|^2
 +\frac{b+1}{2}\|\dot y(t)-\dot x(t)\|^2.
-\]
-The global minimality of \(z_0\) is used to know
-\[
+$$
+
+The global minimality of $z_0$ is used to know
+
+$$
 \langle \nabla\Phi(x(t)),z_0-x(t)\rangle\le0.
-\]
+$$
+
 The tactics `nlinarith` and `ring_nf` close these algebraic inequalities after expanding inner products.
 
 The proof then chooses
-\[
+
+$$
 \varepsilon=\min\left(\frac{a+b}{2(b+3)},\frac{b}{2(b+1)}\right)>0.
-\]
+$$
+
 It has
-\[
+
+$$
 \varepsilon(b+3)\le a+b,\qquad \varepsilon(b+1)\le b.
-\]
+$$
+
 Define
-\[
+
+$$
 H(t)=A(t)+\varepsilon F(t).
-\]
-Using the energy dissipation inequality for \(A'\) and the upper bound for \(F'\), the proof shows
-\[
+$$
+
+Using the energy dissipation inequality for $A'$ and the upper bound for $F'$, the proof shows
+
+$$
 H'(t)\le0\qquad(t>0).
-\]
-Since \(H\) is continuous on \([0,\infty)\), differentiable on the interior, and has nonpositive derivative there, the lemma `antitoneOn_of_deriv_nonpos` implies that \(H\) is antitone on \([0,\infty)\). Hence
-\[
+$$
+
+Since $H$ is continuous on $[0,\infty)$, differentiable on the interior, and has nonpositive derivative there, the lemma `antitoneOn_of_deriv_nonpos` implies that $H$ is antitone on $[0,\infty)$. Hence
+
+$$
 H(t)\le H(0)\qquad(t\ge0).
-\]
+$$
 
-From the bounded-below hypothesis on \(\Phi\), let \(m\le \Phi(x(t))\) for \(x(t)\in C\). Using this and Cauchy–Schwarz to bound the cross term in \(H\), the proof obtains a lower bound of the form
-\[
+From the bounded-below hypothesis on $\Phi$, let $m\le \Phi(x(t))$ for $x(t)\in C$. Using this and Cauchy–Schwarz to bound the cross term in $H$, the proof obtains a lower bound of the form
+
+$$
 H(t)\ge K m+\frac{\varepsilon((a+b)-\varepsilon)}{4}\|z_0-x(t)\|^2,
-\]
-where \(K=\beta(a+2b)+\varepsilon b\beta>0\). Combining this lower bound with the upper bound \(H(t)\le H(0)\), the proof concludes that
-\[
-\|z_0-x(t)\|^2\le Q
-\]
-for some \(Q\ge0\), hence \(\|z_0-x(t)\|\le R\) for all \(t\ge0\). Therefore \(x\) is bounded on \([0,\infty)\).
+$$
 
-At this point the proof applies `constrained_din_global_properties_part_iii` to the boundedness of \(x\). That theorem gives:
-\[
+where $K=\beta(a+2b)+\varepsilon b\beta>0$. Combining this lower bound with the upper bound $H(t)\le H(0)$, the proof concludes that
+
+$$
+\|z_0-x(t)\|^2\le Q
+$$
+
+for some $Q\ge0$, hence $\|z_0-x(t)\|\le R$ for all $t\ge0$. Therefore $x$ is bounded on $[0,\infty)$.
+
+At this point the proof applies `constrained_din_global_properties_part_iii` to the boundedness of $x$. That theorem gives:
+
+$$
 \nabla\Phi(x(t))\text{ is bounded on }[0,\infty),
 \qquad
 y(t)\text{ is bounded on }[0,\infty),
 \qquad
 \dot x(t)\text{ is bounded on }[0,\infty),
-\]
+$$
+
 and
-\[
+
+$$
 \dot x(t)\to0.
-\]
-Together with the earlier \(\dot y(t)\to0\), this yields several inner-product limits. For example, since \(\dot x(t)\to0\) and \(\nabla\Phi(x(t))\) is bounded, Cauchy–Schwarz gives
-\[
+$$
+
+Together with the earlier $\dot y(t)\to0$, this yields several inner-product limits. For example, since $\dot x(t)\to0$ and $\nabla\Phi(x(t))$ is bounded, Cauchy–Schwarz gives
+
+$$
 \langle \dot x(t),\nabla\Phi(x(t))\rangle\to0.
-\]
-Similarly, since \(\dot y(t)\to0\) and \(\dot x(t)\) is bounded,
-\[
+$$
+
+Similarly, since $\dot y(t)\to0$ and $\dot x(t)$ is bounded,
+
+$$
 \langle \dot x(t),\dot y(t)\rangle\to0,
-\]
-and since \(\dot y(t)-\dot x(t)\to0\) while \(z_0-x(t)\) is bounded,
-\[
+$$
+
+and since $\dot y(t)-\dot x(t)\to0$ while $z_0-x(t)$ is bounded,
+
+$$
 \langle z_0-x(t),\dot y(t)-\dot x(t)\rangle\to0.
-\]
+$$
+
 The tactic `squeeze_zero_norm'` is used to convert norm bounds and convergence to these inner-product limits.
 
-The proof now shows that the limit \(l_\Phi\) of \(\Phi(x(t))\) is at most \(\Phi(z_0)\). It starts from the supporting inequality
-\[
+The proof now shows that the limit $l_\Phi$ of $\Phi(x(t))$ is at most $\Phi(z_0)$. It starts from the supporting inequality
+
+$$
 \Phi(x(t))+\langle \nabla\Phi(x(t)),z_0-x(t)\rangle\le \Phi(z_0)
-\]
-and rewrites the inner-product term using the key inequality. The resulting extra term tends to \(0\), so taking limits along \(t\to\infty\) gives
-\[
+$$
+
+and rewrites the inner-product term using the key inequality. The resulting extra term tends to $0$, so taking limits along $t\to\infty$ gives
+
+$$
 l_\Phi\le \Phi(z_0).
-\]
+$$
 
 Next the proof verifies the distance hypothesis needed for Opial’s lemma. Let
-\[
+
+$$
 S=\operatorname{argminSet}\Phi\cap C.
-\]
-For an arbitrary \(z\in S\), the same argument as for \(z_0\) is repeated with \(z\) in place of \(z_0\). This produces a modified auxiliary function \(H_z(t)\) whose derivative is nonpositive, hence \(H_z\) is antitone; the same lower and upper bounds show that \(\|z-x(t)\|\) is bounded. Since \(q(t)\to0\), the cross term \(\langle z-x(t),q(t)\rangle\to0\). Because \(A(t)\to l_E\), \(H_z(t)\) has a limit, and \(\Phi(x(t))\to l_\Phi\), the proof solves for the limit of \(\|z-x(t)\|^2\). Thus
-\[
+$$
+
+For an arbitrary $z\in S$, the same argument as for $z_0$ is repeated with $z$ in place of $z_0$. This produces a modified auxiliary function $H_z(t)$ whose derivative is nonpositive, hence $H_z$ is antitone; the same lower and upper bounds show that $\|z-x(t)\|$ is bounded. Since $q(t)\to0$, the cross term $\langle z-x(t),q(t)\rangle\to0$. Because $A(t)\to l_E$, $H_z(t)$ has a limit, and $\Phi(x(t))\to l_\Phi$, the proof solves for the limit of $\|z-x(t)\|^2$. Thus
+
+$$
 \exists L_z,\qquad \|z-x(t)\|^2\to L_z.
-\]
-Since the square is nonnegative, \(L_z\ge0\), and by continuity of the square root,
-\[
+$$
+
+Since the square is nonnegative, $L_z\ge0$, and by continuity of the square root,
+
+$$
 \|z-x(t)\|\to \sqrt{L_z}.
-\]
-Therefore, for every \(z\in S\), the distance \(\|z-x(t)\|\) has a real limit as \(t\to\infty\). This is exactly the hypothesis required by Opial’s continuous-time lemma.
+$$
 
-The proof then verifies the weak-cluster-point hypothesis. Let \(s_n\to\infty\) and suppose that
-\[
+Therefore, for every $z\in S$, the distance $\|z-x(t)\|$ has a real limit as $t\to\infty$. This is exactly the hypothesis required by Opial’s continuous-time lemma.
+
+The proof then verifies the weak-cluster-point hypothesis. Let $s_n\to\infty$ and suppose that
+
+$$
 x(s_n)\rightharpoonup z
-\]
-weakly. Set \(s'_n=\max(s_n,0)\), so that \(s'_n\to\infty\) and all times are nonnegative. Since \(x(s'_n)\in C\) and \(C\) is closed and convex, the cited theorem `mem_of_tendsto_weakly_of_isClosed_convex` implies
-\[
+$$
+
+weakly. Set $s'_n=\max(s_n,0)$, so that $s'_n\to\infty$ and all times are nonnegative. Since $x(s'_n)\in C$ and $C$ is closed and convex, the cited theorem `mem_of_tendsto_weakly_of_isClosed_convex` implies
+
+$$
 z\in C.
-\]
-This theorem states that a closed convex subset of a Hilbert space is weakly sequentially closed: if a sequence in \(C\) converges weakly to \(z\), then \(z\in C\).
+$$
 
-To show that \(z\) is actually a global minimizer, the proof uses the continuity of the weak topology on inner products. The cited result `weakSpace_continuous_inner_right (gradient Φ z)` says that the map
-\[
+This theorem states that a closed convex subset of a Hilbert space is weakly sequentially closed: if a sequence in $C$ converges weakly to $z$, then $z\in C$.
+
+To show that $z$ is actually a global minimizer, the proof uses the continuity of the weak topology on inner products. The cited result `weakSpace_continuous_inner_right (gradient Φ z)` says that the map
+
+$$
 x\mapsto \langle x,\nabla\Phi(z)\rangle
-\]
-is continuous on the weak space. Hence weak convergence \(x(s'_n)\rightharpoonup z\) gives
-\[
+$$
+
+is continuous on the weak space. Hence weak convergence $x(s'_n)\rightharpoonup z$ gives
+
+$$
 \langle x(s'_n),\nabla\Phi(z)\rangle\to \langle z,\nabla\Phi(z)\rangle,
-\]
+$$
+
 and therefore
-\[
+
+$$
 \langle \nabla\Phi(z),x(s'_n)-z\rangle\to0.
-\]
-Since \(z\in C\) and \(x(s'_n)\in C\), the supporting inequality gives
-\[
+$$
+
+Since $z\in C$ and $x(s'_n)\in C$, the supporting inequality gives
+
+$$
 \Phi(z)+\langle \nabla\Phi(z),x(s'_n)-z\rangle\le \Phi(x(s'_n)).
-\]
-Taking limits along \(n\to\infty\), using \(\Phi(x(s'_n))\to l_\Phi\), yields
-\[
+$$
+
+Taking limits along $n\to\infty$, using $\Phi(x(s'_n))\to l_\Phi$, yields
+
+$$
 \Phi(z)\le l_\Phi.
-\]
-But earlier the proof obtained \(l_\Phi\le \Phi(z_0)\), and \(z_0\) is a global minimizer, so \(\Phi(z_0)\le \Phi(z)\). Thus
-\[
+$$
+
+But earlier the proof obtained $l_\Phi\le \Phi(z_0)$, and $z_0$ is a global minimizer, so $\Phi(z_0)\le \Phi(z)$. Thus
+
+$$
 \Phi(z)\le l_\Phi\le \Phi(z_0)\le \Phi(z),
-\]
-so equality holds and \(z\) is also a global minimizer. Therefore \(z\in\operatorname{argminSet}\Phi\cap C=S\). This proves that every weak sequential cluster point of \(x\) at infinity lies in \(S\).
+$$
 
-Finally, \(S\) is nonempty because \(z_0\in S\). The proof applies `opial_continuous_time` to the trajectory \(x\), the set \(S\), the weak-cluster-point hypothesis just proved, and the distance-convergence hypothesis for every \(z\in S\). Opial’s lemma states that if \(S\) is nonempty, every weak cluster point of \(x(t)\) as \(t\to\infty\) lies in \(S\), and for every \(z\in S\) the distance \(\|x(t)-z\|\) has a limit, then there exists \(z\in S\) such that \(x(t)\rightharpoonup z\) weakly as \(t\to\infty\). Applying it gives \(z\in S\) with weak convergence of \(x(t)\) to \(z\). Unpacking \(z\in S\) yields \(z\in C\) and \(z\in\operatorname{argminSet}\Phi\), which is exactly the stated conclusion.
+so equality holds and $z$ is also a global minimizer. Therefore $z\in\operatorname{argminSet}\Phi\cap C=S$. This proves that every weak sequential cluster point of $x$ at infinity lies in $S$.
 
-Throughout the proof, `intro` introduces the arbitrary variables or hypotheses in a universal statement, `rw` and `simp` unfold definitions and rewrite equalities such as the trajectory equations, `exact` supplies the named theorem or the already established fact, and `linarith` and `nlinarith` combine linear and nonlinear arithmetic inequalities. The tactics `field_simp`, `ring`, and `ring_nf` normalize algebraic expressions, `positivity` proves the positivity of constants such as \(\varepsilon\) and \(K\), and `filter_upwards` converts pointwise estimates into eventual statements as \(t\to\infty\).
+Finally, $S$ is nonempty because $z_0\in S$. The proof applies `opial_continuous_time` to the trajectory $x$, the set $S$, the weak-cluster-point hypothesis just proved, and the distance-convergence hypothesis for every $z\in S$. Opial’s lemma states that if $S$ is nonempty, every weak cluster point of $x(t)$ as $t\to\infty$ lies in $S$, and for every $z\in S$ the distance $\|x(t)-z\|$ has a limit, then there exists $z\in S$ such that $x(t)\rightharpoonup z$ weakly as $t\to\infty$. Applying it gives $z\in S$ with weak convergence of $x(t)$ to $z$. Unpacking $z\in S$ yields $z\in C$ and $z\in\operatorname{argminSet}\Phi$, which is exactly the stated conclusion.
+
+Throughout the proof, `intro` introduces the arbitrary variables or hypotheses in a universal statement, `rw` and `simp` unfold definitions and rewrite equalities such as the trajectory equations, `exact` supplies the named theorem or the already established fact, and `linarith` and `nlinarith` combine linear and nonlinear arithmetic inequalities. The tactics `field_simp`, `ring`, and `ring_nf` normalize algebraic expressions, `positivity` proves the positivity of constants such as $\varepsilon$ and $K$, and `filter_upwards` converts pointwise estimates into eventual statements as $t\to\infty$.
 

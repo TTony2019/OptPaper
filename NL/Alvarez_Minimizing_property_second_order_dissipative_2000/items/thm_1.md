@@ -16,35 +16,45 @@ theorem scalar_damped_minimizing_property {H : Type*} [NormedAddCommGroup H]
 ```
 
 ## Statement explanation
-The declaration concerns a real Hilbert space \(H\), a potential \(\Phi:H\to\mathbb R\), a damping coefficient \(\gamma\), a gradient field `gradPhi`, and initial data \(u_0,v_0\in H\). The object `sys : DissipativeSystem gamma Phi gradPhi u0 v0` supplies the trajectory \(u(t)=\mathrm{sys}.u(t)\) of a damped second-order dissipative system. The proof uses the field `sys.gamma_pos`, which gives \(0<\gamma\), and the smoothness of the trajectory through `sys.contDiff`. The hypothesis `hPhi : HasPotentialAssumption Phi` is the potential-theoretic assumption on \(\Phi\); in the proof it is used through consequences such as boundedness below of \(\Phi\), the inequality \(\inf \Phi(H)\le \Phi(x)\), convexity of sublevel sets of \(\Phi\), and continuity of \(\Phi\).
+The declaration concerns a real Hilbert space $H$, a potential $\Phi:H\to\mathbb R$, a damping coefficient $\gamma$, a gradient field `gradPhi`, and initial data $u_0,v_0\in H$. The object `sys : DissipativeSystem gamma Phi gradPhi u0 v0` supplies the trajectory $u(t)=\mathrm{sys}.u(t)$ of a damped second-order dissipative system. The proof uses the field `sys.gamma_pos`, which gives $0<\gamma$, and the smoothness of the trajectory through `sys.contDiff`. The hypothesis `hPhi : HasPotentialAssumption Phi` is the potential-theoretic assumption on $\Phi$; in the proof it is used through consequences such as boundedness below of $\Phi$, the inequality $\inf \Phi(H)\le \Phi(x)$, convexity of sublevel sets of $\Phi$, and continuity of $\Phi$.
 
-The Lean expression `fderiv ℝ sys.u t 1` denotes the derivative \(u'(t)\) of the trajectory, viewed as the continuous linear map \(\mathbb R\to H\) evaluated at \(1\). Thus \(\|u'(t)\|^2\) is the squared speed. The value `sInf (Set.range Phi)` is the infimum of the set of all potential values, written below as \(\inf \Phi(H)\). The set `argmin Phi (potential_range_bddBelow hPhi)` is the set of global minimizers of \(\Phi\), namely
-\[
+The Lean expression `fderiv ℝ sys.u t 1` denotes the derivative $u'(t)$ of the trajectory, viewed as the continuous linear map $\mathbb R\to H$ evaluated at $1$. Thus $\|u'(t)\|^2$ is the squared speed. The value `sInf (Set.range Phi)` is the infimum of the set of all potential values, written below as $\inf \Phi(H)$. The set `argmin Phi (potential_range_bddBelow hPhi)` is the set of global minimizers of $\Phi$, namely
+
+$$
 \operatorname{argmin}\Phi
 =
 \left\{x\in H:\Phi(x)=\inf\Phi(H)\right\}.
-\]
+$$
+
 The argument `potential_range_bddBelow hPhi` is only the proof that this infimum is well-behaved; mathematically the set is just the minimizer set.
 
-The conclusion is a four-part conjunction. First, the squared speed is integrable on \([0,\infty)\):
-\[
+The conclusion is a four-part conjunction. First, the squared speed is integrable on $[0,\infty)$:
+
+$$
 \int_0^\infty \|u'(t)\|^2\,dt<\infty.
-\]
+$$
+
 Second, the velocity converges strongly to zero:
-\[
+
+$$
 u'(t)\to 0
 \qquad (t\to\infty).
-\]
+$$
+
 Third, the potential along the trajectory converges to its infimum:
-\[
+
+$$
 \Phi(u(t))\to \inf\Phi(H)
 \qquad (t\to\infty).
-\]
-Fourth, if the minimizer set is nonempty, then there is a minimizer \(\hat u\in \operatorname{argmin}\Phi\) such that the trajectory converges weakly to \(\hat u\):
-\[
+$$
+
+Fourth, if the minimizer set is nonempty, then there is a minimizer $\hat u\in \operatorname{argmin}\Phi$ such that the trajectory converges weakly to $\hat u$:
+
+$$
 u(t)\rightharpoonup \hat u
 \qquad (t\to\infty).
-\]
+$$
+
 The weak convergence is expressed in Lean by convergence in the weak topology, via `toWeakSpace ℝ H`.
 
 ## Lean proof
@@ -545,180 +555,251 @@ by
 
 ## Proof explanation
 The proof first establishes the squared-speed integrability and then studies the energy and the causal velocity error. The cited result `scalar_velocity_sq_integrableOn_Ioi_zero hPhi sys` gives integrability of
-\[
+
+$$
 t\mapsto \|u'(t)\|^2
-\]
-on \((0,\infty)\). The Lean lemma `integrableOn_Ici_iff_integrableOn_Ioi` converts this to integrability on \([0,\infty)\), which is the first conjunct.
+$$
+
+on $(0,\infty)$. The Lean lemma `integrableOn_Ici_iff_integrableOn_Ioi` converts this to integrability on $[0,\infty)$, which is the first conjunct.
 
 Next, `scalar_energy_converges hPhi sys` provides a real number `energyLimit` such that
-\[
+
+$$
 E(t)=\frac12\|u'(t)\|^2+\Phi(u(t))
-\]
-converges to `energyLimit` as \(t\to\infty\). Independently, `scalar_causal_velocity_error_converges sys hvelIci` uses the already proved integrability of \(\|u'(t)\|^2\) on \([0,\infty)\) to provide a real number `errorLimit` such that
-\[
+$$
+
+converges to `energyLimit` as $t\to\infty$. Independently, `scalar_causal_velocity_error_converges sys hvelIci` uses the already proved integrability of $\|u'(t)\|^2$ on $[0,\infty)$ to provide a real number `errorLimit` such that
+
+$$
 \frac32\int_1^t\int_0^\theta
 e^{-\gamma(\theta-s)}\|u'(s)\|^2\,ds\,d\theta
-\]
+$$
+
 converges to `errorLimit`. In the proof these two functions are named `energy` and `error`; the `simpa` steps simply unfold those local definitions so that the convergence statements match the definitions.
 
-The inequality `potential_sInf_le_scalar_energy hPhi sys t` gives, for every \(t\),
-\[
+The inequality `potential_sInf_le_scalar_energy hPhi sys t` gives, for every $t$,
+
+$$
 \inf\Phi(H)\le \frac12\|u'(t)\|^2+\Phi(u(t))=E(t).
-\]
-Since \(E(t)\to\text{energyLimit}\), the limit comparison rule `ge_of_tendsto` yields
-\[
+$$
+
+Since $E(t)\to\text{energyLimit}$, the limit comparison rule `ge_of_tendsto` yields
+
+$$
 \inf\Phi(H)\le \text{energyLimit}.
-\]
+$$
+
 The proof then defines the coefficient
-\[
+
+$$
 A(t)=\frac{\gamma(t-1)-1+e^{-\gamma(t-1)}}{\gamma^2}.
-\]
-It proves that \(A(t)>0\) eventually, using \(t\ge 1+2/\gamma\) and \(\gamma>0\), and that \(A(t)\ge 0\) for \(t\ge 1\), using the cited lemma `scalar_frozen_energy_coefficient_nonneg`. These are preparatory coefficient facts; in the visible continuation of the proof the main contradiction argument proceeds without explicitly invoking them again.
+$$
+
+It proves that $A(t)>0$ eventually, using $t\ge 1+2/\gamma$ and $\gamma>0$, and that $A(t)\ge 0$ for $t\ge 1$, using the cited lemma `scalar_frozen_energy_coefficient_nonneg`. These are preparatory coefficient facts; in the visible continuation of the proof the main contradiction argument proceeds without explicitly invoking them again.
 
 The key step is proving
-\[
+
+$$
 \text{energyLimit}=\inf\Phi(H).
-\]
-The inequality \(\inf\Phi(H)\le\text{energyLimit}\) has already been obtained. For the reverse inequality, the proof argues by contradiction and assumes \(\text{energyLimit}>\inf\Phi(H)\). It sets
-\[
+$$
+
+The inequality $\inf\Phi(H)\le\text{energyLimit}$ has already been obtained. For the reverse inequality, the proof argues by contradiction and assumes $\text{energyLimit}>\inf\Phi(H)$. It sets
+
+$$
 d=\frac{\text{energyLimit}-\inf\Phi(H)}4>0.
-\]
-Using the definition of infimum, it chooses \(x\in H\) with
-\[
+$$
+
+Using the definition of infimum, it chooses $x\in H$ with
+
+$$
 \Phi(x)<\inf\Phi(H)+d.
-\]
-Since \(E(t)\to\text{energyLimit}\) and \(\text{energyLimit}>\inf\Phi(H)+3d\), eventually
-\[
+$$
+
+Since $E(t)\to\text{energyLimit}$ and $\text{energyLimit}>\inf\Phi(H)+3d$, eventually
+
+$$
 E(t)>\inf\Phi(H)+3d,
-\]
-and therefore, because \(\Phi(x)\le \inf\Phi(H)+d\), eventually
-\[
+$$
+
+and therefore, because $\Phi(x)\le \inf\Phi(H)+d$, eventually
+
+$$
 \Phi(x)-E(t)\le -2d.
-\]
+$$
+
 The proof also notes that the initial exponential term
-\[
+
+$$
 e^{-\gamma(t-1)}p_x'(1),
 \qquad
 p_x(r)=\frac12\|u(r)-x\|^2,
-\]
-tends to \(0\), so eventually it is at most \(d e^{-\gamma}\). Finally, because the error function converges, it is eventually bounded by some real number \(M\ge 0\).
+$$
 
-The proof then chooses \(a\ge 2\) satisfying these eventual estimates at \(a\), and then chooses \(T>a\) satisfying them at \(T\), with additionally
-\[
+tends to $0$, so eventually it is at most $d e^{-\gamma}$. Finally, because the error function converges, it is eventually bounded by some real number $M\ge 0$.
+
+The proof then chooses $a\ge 2$ satisfying these eventual estimates at $a$, and then chooses $T>a$ satisfying them at $T$, with additionally
+
+$$
 T>a+1
-\]
+$$
+
 and
-\[
+
+$$
 T>a+\frac{2(M+p_x(a)+1)}{d e^{-\gamma}}.
-\]
-For \(s\in(a,T)\), the cited lemma `scalar_frozen_energy_first_integral` gives
-\[
+$$
+
+For $s\in(a,T)$, the cited lemma `scalar_frozen_energy_first_integral` gives
+
+$$
 p_x'(s)\le
 e^{-\gamma(s-1)}p_x'(1)
 +
 \int_1^s e^{-\gamma(s-r)}
 \left(\Phi(x)-E(T)+\frac32\|u'(r)\|^2\right)dr.
-\]
-Using \(\Phi(x)-E(T)\le -2d\), nonnegativity of \(\|u'(r)\|^2\), and the lower bound
-\[
+$$
+
+Using $\Phi(x)-E(T)\le -2d$, nonnegativity of $\|u'(r)\|^2$, and the lower bound
+
+$$
 \int_1^s e^{-\gamma(s-r)}\,dr\ge e^{-\gamma},
-\]
+$$
+
 the proof deduces
-\[
+
+$$
 p_x'(s)\le
 e^{-\gamma(s-1)}p_x'(1)-2d e^{-\gamma}+\frac32 R(s),
-\]
-where
-\[
-R(s)=\int_0^s e^{-\gamma(s-r)}\|u'(r)\|^2\,dr.
-\]
-The integrability of \(R\) on \([0,\infty)\) comes from `scalar_causal_exp_convolution_integrable`, applied to \(g(r)=\|u'(r)\|^2\) and \(\gamma>0\).
+$$
 
-Now the proof integrates the pointwise inequality from \(a\) to \(T\). The fundamental theorem of calculus, `intervalIntegral.integral_deriv_of_contDiffOn_Icc`, gives
-\[
+where
+
+$$
+R(s)=\int_0^s e^{-\gamma(s-r)}\|u'(r)\|^2\,dr.
+$$
+
+The integrability of $R$ on $[0,\infty)$ comes from `scalar_causal_exp_convolution_integrable`, applied to $g(r)=\|u'(r)\|^2$ and $\gamma>0$.
+
+Now the proof integrates the pointwise inequality from $a$ to $T$. The fundamental theorem of calculus, `intervalIntegral.integral_deriv_of_contDiffOn_Icc`, gives
+
+$$
 \int_a^T p_x'(s)\,ds=p_x(T)-p_x(a).
-\]
-The first exponential term is bounded using the eventual inequality at \(a\), yielding
-\[
+$$
+
+The first exponential term is bounded using the eventual inequality at $a$, yielding
+
+$$
 \int_a^T e^{-\gamma(s-1)}p_x'(1)\,ds
 \le d e^{-\gamma}(T-a).
-\]
-The \(R\)-term is bounded using the fact that \(R\ge 0\) and
-\[
+$$
+
+The $R$-term is bounded using the fact that $R\ge 0$ and
+
+$$
 \frac32\int_1^T R(s)\,ds=\text{error}(T)\le M,
-\]
+$$
+
 so
-\[
+
+$$
 \frac32\int_a^T R(s)\,ds\le M.
-\]
+$$
+
 Combining these estimates gives
-\[
+
+$$
 p_x(T)-p_x(a)
 \le -d e^{-\gamma}(T-a)+M.
-\]
-But \(T\) was chosen so large that
-\[
+$$
+
+But $T$ was chosen so large that
+
+$$
 d e^{-\gamma}(T-a)>2(p_x(a)+M+1),
-\]
+$$
+
 hence
-\[
+
+$$
 p_x(T)
 \le p_x(a)-d e^{-\gamma}(T-a)+M<0.
-\]
+$$
+
 This contradicts the definition
-\[
+
+$$
 p_x(T)=\frac12\|u(T)-x\|^2\ge 0.
-\]
-Therefore the assumption \(\text{energyLimit}>\inf\Phi(H)\) is impossible, and
-\[
+$$
+
+Therefore the assumption $\text{energyLimit}>\inf\Phi(H)$ is impossible, and
+
+$$
 \text{energyLimit}=\inf\Phi(H).
-\]
+$$
 
-Once this equality is known, the potential convergence follows by squeezing. For every \(t\),
-\[
+Once this equality is known, the potential convergence follows by squeezing. For every $t$,
+
+$$
 \inf\Phi(H)\le \Phi(u(t))\le E(t),
-\]
-where the lower bound is `potential_sInf_le hPhi (sys.u t)` and the upper bound follows from the definition of \(E(t)\). Since both the lower bound and \(E(t)\) tend to \(\inf\Phi(H)\), the squeeze theorem `tendsto_of_tendsto_of_tendsto_of_le_of_le` gives
-\[
+$$
+
+where the lower bound is `potential_sInf_le hPhi (sys.u t)` and the upper bound follows from the definition of $E(t)$. Since both the lower bound and $E(t)$ tend to $\inf\Phi(H)$, the squeeze theorem `tendsto_of_tendsto_of_tendsto_of_le_of_le` gives
+
+$$
 \Phi(u(t))\to \inf\Phi(H).
-\]
+$$
 
-The velocity convergence is then immediate from the cited result `scalar_velocity_tendsto_zero_of_energy_potential_tendsto`. That lemma says that if the total energy tends to some \(m\) and the potential \(\Phi(u(t))\) also tends to the same \(m\), then \(u'(t)\to 0\). Here both limits are \(\inf\Phi(H)\), so
-\[
+The velocity convergence is then immediate from the cited result `scalar_velocity_tendsto_zero_of_energy_potential_tendsto`. That lemma says that if the total energy tends to some $m$ and the potential $\Phi(u(t))$ also tends to the same $m$, then $u'(t)\to 0$. Here both limits are $\inf\Phi(H)$, so
+
+$$
 u'(t)\to 0.
-\]
+$$
 
-For the minimizer statement, the proof first shows that for every \(z\in\operatorname{argmin}\Phi\), the distance \(\|u(t)-z\|\) has a limit as \(t\to\infty\). This is exactly the content of `scalar_distance_to_minimizer_converges`, applied to \(z\), the minimizer hypothesis \(z\in\operatorname{argmin}\Phi\), and the already established integrability of \(\|u'(t)\|^2\) on \([0,\infty)\).
+For the minimizer statement, the proof first shows that for every $z\in\operatorname{argmin}\Phi$, the distance $\|u(t)-z\|$ has a limit as $t\to\infty$. This is exactly the content of `scalar_distance_to_minimizer_converges`, applied to $z$, the minimizer hypothesis $z\in\operatorname{argmin}\Phi$, and the already established integrability of $\|u'(t)\|^2$ on $[0,\infty)$.
 
-Finally the proof assumes the minimizer set is nonempty. It must show that some minimizer is the weak limit of \(u(t)\). First it proves that every weak sequential cluster point of the trajectory is a minimizer. Suppose a sequence of times \(u_n\to\infty\) and \(u(u_n)\) converges weakly to some \(z\), meaning that for every continuous linear functional \(f:H\to\mathbb R\),
-\[
+Finally the proof assumes the minimizer set is nonempty. It must show that some minimizer is the weak limit of $u(t)$. First it proves that every weak sequential cluster point of the trajectory is a minimizer. Suppose a sequence of times $u_n\to\infty$ and $u(u_n)$ converges weakly to some $z$, meaning that for every continuous linear functional $f:H\to\mathbb R$,
+
+$$
 f(u(u_n))\to f(z).
-\]
-Composing the already proved potential convergence with \(u_n\to\infty\), the proof obtains
-\[
-\Phi(u(u_n))\to \inf\Phi(H).
-\]
-For any \(\varepsilon>0\), eventually
-\[
-\Phi(u(u_n))\le \inf\Phi(H)+\varepsilon.
-\]
-The set
-\[
-C_\varepsilon=\{w\in H:\Phi(w)\le \inf\Phi(H)+\varepsilon\}
-\]
-is closed because \(\Phi\) is continuous and convex because \(\Phi\) is convex. The cited lemma `mem_of_tendsto_weakly_of_isClosed_convex` says that a weakly convergent sequence whose terms lie in a closed convex set has its weak limit in that set. Applying it to a tail of the sequence shows \(z\in C_\varepsilon\). Since this holds for every \(\varepsilon>0\), one gets
-\[
-\Phi(z)\le \inf\Phi(H).
-\]
-The reverse inequality \(\inf\Phi(H)\le \Phi(z)\) is `potential_sInf_le hPhi z`. Hence \(\Phi(z)=\inf\Phi(H)\), so \(z\in\operatorname{argmin}\Phi\).
+$$
 
-The proof now applies Opial’s lemma in the form `opial_lemma_continuous_weak`. Its hypotheses are: the minimizer set is nonempty; for every minimizer \(z\), the distance \(\|u(t)-z\|\) has a limit; and every weak sequential cluster point of the trajectory lies in the minimizer set. Its conclusion is that there exists a minimizer \(\hat u\) such that for every continuous linear functional \(f\),
-\[
+Composing the already proved potential convergence with $u_n\to\infty$, the proof obtains
+
+$$
+\Phi(u(u_n))\to \inf\Phi(H).
+$$
+
+For any $\varepsilon>0$, eventually
+
+$$
+\Phi(u(u_n))\le \inf\Phi(H)+\varepsilon.
+$$
+
+The set
+
+$$
+C_\varepsilon=\{w\in H:\Phi(w)\le \inf\Phi(H)+\varepsilon\}
+$$
+
+is closed because $\Phi$ is continuous and convex because $\Phi$ is convex. The cited lemma `mem_of_tendsto_weakly_of_isClosed_convex` says that a weakly convergent sequence whose terms lie in a closed convex set has its weak limit in that set. Applying it to a tail of the sequence shows $z\in C_\varepsilon$. Since this holds for every $\varepsilon>0$, one gets
+
+$$
+\Phi(z)\le \inf\Phi(H).
+$$
+
+The reverse inequality $\inf\Phi(H)\le \Phi(z)$ is `potential_sInf_le hPhi z`. Hence $\Phi(z)=\inf\Phi(H)$, so $z\in\operatorname{argmin}\Phi$.
+
+The proof now applies Opial’s lemma in the form `opial_lemma_continuous_weak`. Its hypotheses are: the minimizer set is nonempty; for every minimizer $z$, the distance $\|u(t)-z\|$ has a limit; and every weak sequential cluster point of the trajectory lies in the minimizer set. Its conclusion is that there exists a minimizer $\hat u$ such that for every continuous linear functional $f$,
+
+$$
 f(u(t))\to f(\hat u).
-\]
-Finally, the lemma `weakConvergence_iff_forall_tendsto_inner_right` converts this functional convergence into weak convergence. For each \(y\in H\), take the continuous linear functional \(f_y(x)=\langle x,y\rangle\). The functional convergence gives
-\[
+$$
+
+Finally, the lemma `weakConvergence_iff_forall_tendsto_inner_right` converts this functional convergence into weak convergence. For each $y\in H$, take the continuous linear functional $f_y(x)=\langle x,y\rangle$. The functional convergence gives
+
+$$
 \langle u(t),y\rangle\to \langle \hat u,y\rangle.
-\]
-Since this holds for every \(y\), the trajectory converges weakly to \(\hat u\). Thus the last conjunct of the theorem is proved.
+$$
+
+Since this holds for every $y$, the trajectory converges weakly to $\hat u$. Thus the last conjunct of the theorem is proved.
 
