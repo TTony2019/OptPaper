@@ -11,11 +11,11 @@ theorem positive_part_integrable_of_damped_inequality (omega g : ℝ → ℝ) (g
 ```
 
 ## Statement explanation
-The declaration states the following. Let $\omega:\mathbb R\to\mathbb R$, $g:\mathbb R\to\mathbb R$, and $\gamma\in\mathbb R$. Assume that $\omega$ is $C^1$ on the ray $[0,\infty)$, in the sense of one-sided differentiability on that set; that $\gamma>0$; that for every $t\ge 0$,
+The declaration states the following. Let $\omega:\mathbb R\to\mathbb R$, $g:\mathbb R\to\mathbb R$, and $\gamma\in\mathbb R$. Assume that $\omega$ is $C^1$ on the ray $[0,\infty)$, in the sense of one-sided differentiability on that set; that $\gamma\gt 0$; that for every $t\ge 0$,
 
-$$
+```math
 \mathrm{deriv}\omega(t)+\gamma\,\omega(t)\le g(t);
-$$
+```
 
 and that $g$ is Lebesgue integrable on $[0,\infty)$. The conclusion is that the positive part of $\omega$,
 
@@ -25,7 +25,7 @@ $$
 
 is integrable on $[0,\infty)$.
 
-Mathematically, this says that a function satisfying a first-order damped differential inequality with right-hand side bounded above by an integrable function has an integrable positive part. No integrability of $\omega$ itself is assumed. The damping term $\gamma>0$ is essential: it produces exponential decay in the comparison estimates, which makes both the initial exponential factor and the causal convolution of $|g|$ integrable. The proof first converts the inequality against $g$ into an inequality against $|g|$, then applies a damped Gronwall-type comparison estimate to bound $\omega(t)$, and finally dominates $\max(\omega(t),0)$ by an explicit integrable majorant.
+Mathematically, this says that a function satisfying a first-order damped differential inequality with right-hand side bounded above by an integrable function has an integrable positive part. No integrability of $\omega$ itself is assumed. The damping term $\gamma\gt 0$ is essential: it produces exponential decay in the comparison estimates, which makes both the initial exponential factor and the causal convolution of $|g|$ integrable. The proof first converts the inequality against $g$ into an inequality against $|g|$, then applies a damped Gronwall-type comparison estimate to bound $\omega(t)$, and finally dominates $\max(\omega(t),0)$ by an explicit integrable majorant.
 
 ## Lean proof
 ```lean
@@ -93,42 +93,42 @@ First, the proof records that $|g|$ is integrable on $[0,\infty)$. Indeed, if $g
 
 Next, the hypothesis
 
-$$
+```math
 \mathrm{deriv}\omega(t)+\gamma\,\omega(t)\le g(t)
-$$
+```
 
 is strengthened to
 
-$$
+```math
 \mathrm{deriv}\omega(t)+\gamma\,\omega(t)\le |g(t)|
-$$
+```
 
 for every $t\ge 0$. This uses the elementary inequality $g(t)\le |g(t)|$. The proof introduces an arbitrary $t\ge0$, applies the assumed inequality at $t$, and then transits to $|g(t)|$. The resulting hypothesis is exactly the absolute-value form required by the damped comparison lemma.
 
 The damped comparison lemma is then applied with $\omega$, $g$, and $\gamma$. Its content, specialized here, is: if $\omega$ is $C^1$ on $[0,\infty)$, if
 
-$$
+```math
 \mathrm{deriv}\omega(t)+\gamma\,\omega(t)\le |g(t)|
-$$
+```
 
 for all $t\ge0$, and if $g$ is integrable on $[0,\infty)$, then for every $t\ge0$,
 
-$$
+```math
 \omega(t)\le e^{-\gamma t}\omega(0)
 +\int_0^t e^{-\gamma(t-s)}|g(s)|\,ds.
-$$
+```
 
 This is the damped Gronwall estimate: the value $\omega(t)$ is bounded by the exponentially decayed initial value plus the causal convolution of the absolute forcing. It supplies a pointwise upper bound on $\omega(t)$.
 
-The causal-convolution integrability lemma is applied next. Its content, specialized to $g$ and $\gamma$, is: if $\gamma>0$ and $g$ is integrable on $[0,\infty)$, then
+The causal-convolution integrability lemma is applied next. Its content, specialized to $g$ and $\gamma$, is: if $\gamma\gt 0$ and $g$ is integrable on $[0,\infty)$, then
 
-$$
+```math
 t\mapsto \int_0^t e^{-\gamma(t-s)}|g(s)|\,ds
-$$
+```
 
 is integrable on $[0,\infty)$. Thus the convolution part of the comparison estimate is itself an integrable function of $t$.
 
-The proof then shows that the exponential decay factor $t\mapsto e^{-\gamma t}$ is integrable on $[0,\infty)$. It first rewrites integrability on the closed ray $[0,\infty)$ as integrability on the open ray $(0,\infty)$, since the single point $0$ has Lebesgue measure zero. Then it uses the standard fact that for $a<0$, the function $x\mapsto e^{a x}$ is integrable on a ray $(b,\infty)$. Here $a=-\gamma$, and $a<0$ follows from $\gamma>0$ by linear arithmetic. Taking $b=0$ gives integrability of $t\mapsto e^{-\gamma t}$ on $(0,\infty)$, hence on $[0,\infty)$.
+The proof then shows that the exponential decay factor $t\mapsto e^{-\gamma t}$ is integrable on $[0,\infty)$. It first rewrites integrability on the closed ray $[0,\infty)$ as integrability on the open ray $(0,\infty)$, since the single point $0$ has Lebesgue measure zero. Then it uses the standard fact that for $a\lt 0$, the function $x\mapsto e^{a x}$ is integrable on a ray $(b,\infty)$. Here $a=-\gamma$, and $a\lt 0$ follows from $\gamma\gt 0$ by linear arithmetic. Taking $b=0$ gives integrability of $t\mapsto e^{-\gamma t}$ on $(0,\infty)$, hence on $[0,\infty)$.
 
 Multiplying this integrable function by the constant $\max(\omega(0),0)$ gives another integrable function:
 
@@ -140,18 +140,18 @@ The simplification only rewrites $(-\gamma)t$ as $-\gamma t$. This is the initia
 
 Adding the integrable initial term and the integrable causal convolution gives the majorant
 
-$$
+```math
 M(t)=e^{-\gamma t}\max(\omega(0),0)
 +\int_0^t e^{-\gamma(t-s)}|g(s)|\,ds,
-$$
+```
 
 which is integrable on $[0,\infty)$. This function is the explicit dominating function for the positive part of $\omega$.
 
 The proof also verifies that the convolution term is nonnegative for every $t\ge0$:
 
-$$
+```math
 0\le \int_0^t e^{-\gamma(t-s)}|g(s)|\,ds.
-$$
+```
 
 Indeed, for $s\in[0,t]$, the exponential factor is positive and $|g(s)|\ge0$, so the integrand is nonnegative. Since $t\ge0$, the interval integral from $0$ to $t$ is therefore nonnegative. This fact is used to show that the majorant $M(t)$ is nonnegative.
 
@@ -163,17 +163,17 @@ $$
 
 for every $t\ge0$. To prove an inequality of the form $\max(a,0)\le B$, it suffices to prove both $a\le B$ and $0\le B$. The first part follows from the comparison estimate:
 
-$$
+```math
 \omega(t)\le e^{-\gamma t}\omega(0)
 +\int_0^t e^{-\gamma(t-s)}|g(s)|\,ds.
-$$
+```
 
 Since $\omega(0)\le \max(\omega(0),0)$ and $e^{-\gamma t}\ge0$, the product increases when $\omega(0)$ is replaced by $\max(\omega(0),0)$. The convolution term is unchanged. Hence
 
-$$
+```math
 \omega(t)\le e^{-\gamma t}\max(\omega(0),0)
 +\int_0^t e^{-\gamma(t-s)}|g(s)|\,ds=M(t).
-$$
+```
 
 The second part, $0\le M(t)$, follows because both summands are nonnegative: the product $e^{-\gamma t}\max(\omega(0),0)$ is nonnegative, and the convolution integral was shown to be nonnegative. Therefore the maximum is at most $M(t)$.
 
@@ -181,15 +181,15 @@ Next, the proof establishes the measurability requirement for the positive part.
 
 The pointwise estimate is then upgraded to an almost-everywhere norm estimate. For almost every $t$ with respect to the restricted measure, one has $t\in[0,\infty)$. At such $t$,
 
-$$
+```math
 \|\max(\omega(t),0)\|=\max(\omega(t),0),
-$$
+```
 
 because the maximum is nonnegative. The proof rewrites the norm as an absolute value and uses nonnegativity of $\max(\omega(t),0)$. Combining this with the pointwise estimate gives
 
-$$
+```math
 \|\max(\omega(t),0)\|\le M(t)
-$$
+```
 
 almost everywhere on $[0,\infty)$.
 

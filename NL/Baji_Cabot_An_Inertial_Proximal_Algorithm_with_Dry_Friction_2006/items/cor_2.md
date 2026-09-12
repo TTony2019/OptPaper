@@ -32,15 +32,15 @@ The theorem `cor_4_1` is a convergence result for an inertial proximal algorithm
 
 The data and hypotheses are as follows. The set $C\subseteq H$ is closed, convex, bounded, and contains $0$ in its interior. The map $A0:H\to H$ is single-valued, but it is regarded as the set-valued operator
 
-$$
+```math
 F(x)=\{A0(x)\}
-$$
+```
 
-on all of $H$, and this $F$ is assumed maximal monotone. The constants satisfy $\eta>0$, $\alpha\ge 0$, and the local linear-growth condition
+on all of $H$, and this $F$ is assumed maximal monotone. The constants satisfy $\eta\gt 0$, $\alpha\ge 0$, and the local linear-growth condition
 
-$$
+```math
 \|A0(x)\|\le \alpha\|x\|\qquad\text{whenever }\|x\|\le \eta .
-$$
+```
 
 The set-valued operator $A$ is assumed to be
 
@@ -56,23 +56,23 @@ $$
 
 and $\partial\sigma_C$ is the subderivative of this extended-real-valued support function. Thus
 
-$$
+```math
 A(x)=\partial\sigma_C(x)+\{A0(x)\}.
-$$
+```
 
-The function $f:H\to\mathbb R$ is $C^{1,1}$, bounded below, and $M$-strongly convex. Here $M$-strong convexity includes $M>0$, $C^1$-regularity, and the gradient inequality
+The function $f:H\to\mathbb R$ is $C^{1,1}$, bounded below, and $M$-strongly convex. Here $M$-strong convexity includes $M\gt 0$, $C^1$-regularity, and the gradient inequality
 
-$$
+```math
 \langle \nabla f(x)-\nabla f(y),x-y\rangle\ge M\|x-y\|^2 .
-$$
+```
 
 The operator $B$ is the gradient operator
 
-$$
+```math
 B(x)=\{\nabla f(x)\}.
-$$
+```
 
-The positive number $\lambda>0$ is the constant step size, since $\lambda_n=\lambda$ for every $n$. The sequence $x:\mathbb N\to H$ is assumed to satisfy the algorithm relation `AlgorithmA A B x lam_seq`, and it converges to $x_\infty\in H$. Finally, the smoothness hypothesis is
+The positive number $\lambda\gt 0$ is the constant step size, since $\lambda_n=\lambda$ for every $n$. The sequence $x:\mathbb N\to H$ is assumed to satisfy the algorithm relation `AlgorithmA A B x lam_seq`, and it converges to $x_\infty\in H$. Finally, the smoothness hypothesis is
 
 $$
 \mathrm{IsSmoothAt}\bigl(C,-\nabla f(x_\infty)\bigr),
@@ -98,11 +98,11 @@ $$
 0<q_1<1,\qquad q_1<\frac{1}{\alpha\lambda+1},
 $$
 
-there is $C_1>0$ such that
+there is $C_1\gt 0$ such that
 
-$$
+```math
 \|x_n-x_\infty\|\ge C_1 q_1^n
-$$
+```
 
 for all sufficiently large $n$. This is a lower bound, so convergence cannot be faster than the geometric rate $1/(\alpha\lambda+1)$. Likewise, for every $q_2$ with
 
@@ -110,13 +110,13 @@ $$
 0<q_2<1,\qquad q_2>\frac{\alpha}{\alpha+M\lambda},
 $$
 
-there is $C_2>0$ such that
+there is $C_2\gt 0$ such that
 
-$$
+```math
 \sum_{k\ge 0}\|x_{n+k}-x_\infty\|\le C_2 q_2^n
-$$
+```
 
-for all sufficiently large $n$. This bounds the tail sum from above, giving an upper geometric decay rate. Finally, if $\alpha^2<M$, the sequence is eventually constant.
+for all sufficiently large $n$. This bounds the tail sum from above, giving an upper geometric decay rate. Finally, if $\alpha^2\lt M$, the sequence is eventually constant.
 
 ## Lean proof
 ```lean
@@ -500,25 +500,25 @@ $$
 
 is the subderivative of the support function of $C$. Second,
 
-$$
+```math
 F(x)=\{A0(x)\}
-$$
+```
 
 is the single-valued operator $A0$ viewed as a set-valued operator. Third,
 
-$$
+```math
 f_E(x)=(f(x):\mathbb R\cup\{\pm\infty\})
-$$
+```
 
 is the extended-real-valued version of $f$. The hypothesis `hA` says precisely that $A=S+F$.
 
 The first auxiliary fact is $A0(0)=0$. Since $0\le \eta$, the local growth hypothesis applies at $x=0$ and gives
 
-$$
+```math
 \|A0(0)\|\le \alpha\|0\|=0.
-$$
+```
 
-Because norms are nonnegative, $\|A0(0)\|=0$, hence $A0(0)=0$.
+Because norms are nonnegative, $`\|A0(0)\|=0`$, hence$A0(0)=0$.
 
 Next the proof establishes
 
@@ -534,9 +534,9 @@ $$
 
 because $0\in C$. For the inclusion $S(0)\subseteq C$, suppose $v\in S(0)$ but $v\notin C$. The separation theorem
 
-$$
+```math
 \texttt{exists\_nonzero\_innerSupremumOn\_lt\_inner\_of\_nonempty\_isClosed\_convex\_of\_not\_mem}
-$$
+```
 
 applies to the nonempty closed convex set $C$ and the point $v\notin C$. It provides a nonzero $u$ with
 
@@ -670,9 +670,9 @@ $$
 
 comes from
 
-$$
+```math
 \texttt{eq\_projectionPoint\_iff\_mem\_and\_inner\_sub\_right\_nonpos\_of\_nonempty\_isClosed\_convex}.
-$$
+```
 
 Set $p=z-q$. The projection inequality says
 
@@ -714,19 +714,19 @@ $$
 
 which is precisely $q\in S(p)$. Since $z=p+q$, the resolvent-surjectivity condition holds. The cited theorem
 
-$$
+```math
 \texttt{cor41\_maximal\_of\_monotone\_and\_resolvent\_surjective}
-$$
+```
 
 says that a monotone operator $B$ for which every $z$ can be written as $z=p+q$ with $q\in B(p)$ is maximal monotone. Hence $S$ is maximal monotone.
 
-The operator $F$ has domain all of $H$, because $F(x)=\{A0(x)\}$ is nonempty for every $x$. Its maximal monotonicity is exactly the hypothesis `hA0_mono`.
+The operator $F$ has domain all of $H$, because $`F(x)=\{A0(x)\}`$is nonempty for every$x$. Its maximal monotonicity is exactly the hypothesis `hA0_mono`.
 
 Now the proof shows that $A$ is maximal monotone. Since $A=S+F$, the cited theorem
 
-$$
+```math
 \texttt{sum\_maximal\_monotone}
-$$
+```
 
 applies to $S$ and $F$. Its hypotheses are that both operators are maximal monotone and that
 
@@ -738,9 +738,9 @@ Here both domains are all of $H$, so this intersection is nonempty. Therefore $S
 
 The proof also records that $A.\mathrm{dom}=H$, that
 
-$$
+```math
 A(0)=S(0)+F(0)=C+\{0\}=C,
-$$
+```
 
 and that therefore
 
@@ -750,23 +750,23 @@ $$
 
 The equality $A(0)=C$ uses $S(0)=C$ and $A0(0)=0$.
 
-Next the proof verifies the linear-growth condition needed by the main theorems. For $\|z\|\le\eta$, it proves
+Next the proof verifies the linear-growth condition needed by the main theorems. For $`\|z\|\le\eta`$, it proves
 
-$$
+```math
 \mathrm{excess}(A(z),A(0))\le \alpha\|z\|.
-$$
+```
 
 If $w\in A(z)$, then $w=s+A0(z)$ with $s\in S(z)$. Since $S(z)\subseteq C=A(0)$, the distance from $w$ to $A(0)$ is at most the distance from $w$ to $s$, and
 
-$$
+```math
 \mathrm{dist}(w,s)=\|A0(z)\|.
-$$
+```
 
 Thus
 
-$$
+```math
 \mathrm{infDist}(w,A(0))\le \|A0(z)\|.
-$$
+```
 
 Taking the supremum over all $w\in A(z)$, and using the definition
 
@@ -777,11 +777,11 @@ $$
 
 gives
 
-$$
+```math
 \mathrm{excess}(A(z),A(0))\le \|A0(z)\|.
-$$
+```
 
-The local growth hypothesis `h_A0_growth` then gives $\|A0(z)\|\le\alpha\|z\|$, so the required excess bound follows.
+The local growth hypothesis `h_A0_growth` then gives $`\|A0(z)\|\le\alpha\|z\|`$, so the required excess bound follows.
 
 The proof then passes from the real-valued $f$ to the extended-real-valued $f_E$. Since $f$ takes values in $\mathbb R$, the values of $f_E$ are finite, never $\top$ or $\bot$. The hypotheses `hf_C11`, `hinf`, `hf_strongConv`, and `hB_eq_grad` are transferred unchanged to $f_E$ and its real-valued version $(f_E).\mathrm{toReal}$. The smoothness hypothesis is also transferred: since $A(0)=C$, the statement `IsSmoothAt C (-gradient f xInf)` becomes
 
@@ -813,43 +813,43 @@ $$
 \exists N,\ \forall n\ge N,\ x_n=x_N,
 $$
 
-then the first conjunct of the conclusion is immediate, using the left disjunct. The second conjunct is also satisfied by the same eventual constancy, because $\alpha^2<M$ implies it trivially once eventual constancy is already known.
+then the first conjunct of the conclusion is immediate, using the left disjunct. The second conjunct is also satisfied by the same eventual constancy, because $\alpha^2\lt M$ implies it trivially once eventual constancy is already known.
 
 If the sequence is not eventually constant, the proof applies two more cited theorems:
 
-$$
+```math
 \texttt{thm\_4\_1\_lower\_rate\_of\_not\_finite}
-$$
+```
 
 and
 
-$$
+```math
 \texttt{thm\_4\_1\_tail\_rate\_of\_not\_finite}.
-$$
+```
 
-The first gives an $n_{\text{lower}}$ such that for every $q_1$ with $0<q_1<1$ and
+The first gives an $n_{\text{lower}}$ such that for every $q_1$ with $0\lt q_1\lt 1$ and
 
 $$
 q_1<\frac{1}{\alpha\lambda+1},
 $$
 
-there exists $C_1>0$ such that for all $n\ge n_{\text{lower}}$,
+there exists $C_1\gt 0$ such that for all $n\ge n_{\text{lower}}$,
 
-$$
+```math
 \|x_n-x_\infty\|\ge C_1 q_1^n.
-$$
+```
 
-The second gives an $n_{\text{tail}}$ such that for every $q_2$ with $0<q_2<1$ and
+The second gives an $n_{\text{tail}}$ such that for every $q_2$ with $0\lt q_2\lt 1$ and
 
 $$
 q_2>\frac{\alpha}{\alpha+M\lambda},
 $$
 
-there exists $C_2>0$ such that for all $n\ge n_{\text{tail}}$,
+there exists $C_2\gt 0$ such that for all $n\ge n_{\text{tail}}$,
 
-$$
+```math
 \sum_{k\ge 0}\|x_{n+k}-x_\infty\|\le C_2 q_2^n.
-$$
+```
 
 The proof sets
 

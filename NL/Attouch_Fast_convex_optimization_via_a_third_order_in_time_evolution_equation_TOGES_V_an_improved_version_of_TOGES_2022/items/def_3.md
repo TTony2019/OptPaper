@@ -18,11 +18,11 @@ The declaration `IsTOGESVH` defines a predicate on a real Hilbert space $H$. The
 
 The intended time variable is $t\in\mathbb R$. The predicate `IsTOGESVH u alpha beta f t0` says that for every real $t$ with $t\ge t_0$, the following vector equation in $H$ holds:
 
-$$
+```math
 u'''(t)+\frac{\alpha+7}{t}u''(t)+\frac{5(\alpha+1)}{t^{2}}u'(t)
 +\beta\,D(\nabla f)\!\left(u(t)+\frac{t}{4}u'(t)\right)\!\left(\frac54u'(t)+\frac{t}{4}u''(t)\right)
 +\nabla f\!\left(u(t)+\frac{t}{4}u'(t)\right)=0.
-$$
+```
 
 Here $u'$, $u''$, and $u'''$ denote the first, second, and third derivatives of the curve $u$, as formalized by the Lean operators $\mathrm{deriv}u$, $\mathrm{deriv}(\mathrm{deriv}u)$, and $\mathrm{deriv}(\mathrm{deriv}(\mathrm{deriv}u))$. The expression $\nabla f$ is the gradient of $f$, and $D(\nabla f)$ is the Fréchet derivative of the gradient field, so $D(\nabla f)(z)(w)$ is the directional derivative of $\nabla f$ at the point $z$ in the direction $w$. Thus the last two terms use the gradient and its derivative at the shifted point
 

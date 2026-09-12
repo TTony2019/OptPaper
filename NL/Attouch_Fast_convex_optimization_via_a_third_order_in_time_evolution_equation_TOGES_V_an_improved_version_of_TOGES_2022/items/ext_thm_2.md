@@ -13,15 +13,15 @@ theorem integral_jensen_inequality {H : Type*} [NormedAddCommGroup H] [InnerProd
 ```
 
 ## Statement explanation
-The theorem `integral_jensen_inequality` is stated for a real Hilbert space $H$, namely a type equipped with a normed additive commutative group structure, a real inner product space structure, and completeness. The main data are a bundled convex differentiable objective $F$, real numbers $a,b$, and a function $g:\mathbb R\to H$. Writing $f=F.f$ for the scalar-valued objective and $\nabla f$ for the gradient supplied by $F$, the assumptions are that $a<b$, that $g$ is interval integrable on $[a,b]$ with respect to Lebesgue measure, and that the composite $f\circ g$ is interval integrable on $[a,b]$. The conclusion is
+The theorem `integral_jensen_inequality` is stated for a real Hilbert space $H$, namely a type equipped with a normed additive commutative group structure, a real inner product space structure, and completeness. The main data are a bundled convex differentiable objective $F$, real numbers $a,b$, and a function $g:\mathbb R\to H$. Writing $f=F.f$ for the scalar-valued objective and $\nabla f$ for the gradient supplied by $F$, the assumptions are that $a\lt b$, that $g$ is interval integrable on $[a,b]$ with respect to Lebesgue measure, and that the composite $f\circ g$ is interval integrable on $[a,b]$. The conclusion is
 
-$$
+```math
 f\left((b-a)^{-1}\bullet \int_a^b g(s)\,ds\right)
 \le
 (b-a)^{-1}\int_a^b f(g(s))\,ds .
-$$
+```
 
-Here $(b-a)^{-1}\bullet \int_a^b g(s)\,ds$ is the average of the $H$-valued function $g$ over $[a,b]$, while $(b-a)^{-1}\int_a^b f(g(s))\,ds$ is the average of the real-valued function $f\circ g$. Thus the theorem says that the value of the convex objective $f$ at the integral average of $g$ is at most the integral average of the values $f(g(s))$. This is the integral form of Jensen’s inequality for a convex differentiable function on a real Hilbert space.
+Here $`(b-a)^{-1}\bullet \int_a^b g(s)\,ds`$is the average of the$H$-valued function$g$over$[a,b]$, while$`(b-a)^{-1}\int_a^b f(g(s))\,ds`$is the average of the real-valued function$f\circ g$. Thus the theorem says that the value of the convex objective$f$at the integral average of$g$is at most the integral average of the values$f(g(s))$. This is the integral form of Jensen’s inequality for a convex differentiable function on a real Hilbert space.
 
 ## Lean proof
 ```lean
@@ -85,13 +85,13 @@ by
 ## Proof explanation
 The proof begins by defining the average point
 
-$$
+```math
 m := (b-a)^{-1}\bullet \int_a^b g(s)\,ds .
-$$
+```
 
-The goal is then to prove $f(m)\le (b-a)^{-1}\int_a^b f(g(s))\,ds$, which is exactly the original statement after unfolding $m$.
+The goal is then to prove $`f(m)\le (b-a)^{-1}\int_a^b f(g(s))\,ds`$, which is exactly the original statement after unfolding$m$.
 
-First, the proof records elementary consequences of $a<b$: $b-a>0$, hence $b-a\neq 0$, and also $a\le b$. The positivity is used later to divide by $b-a$ and to multiply an inequality by the nonnegative number $(b-a)^{-1}$.
+First, the proof records elementary consequences of $a\lt b$: $b-a\gt 0$, hence $b-a\neq 0$, and also $a\le b$. The positivity is used later to divide by $b-a$ and to multiply an inequality by the nonnegative number $(b-a)^{-1}$.
 
 Next, the interval-integrability hypotheses are converted to integrability on the half-open set $(a,b]$. The lemma `intervalIntegrable_iff_integrableOn_Ioc_of_le` says that, when $a\le b$, interval integrability over $a..b$ is equivalent to integrability over $(a,b]$ with respect to Lebesgue measure. Applying this equivalence to $hg$ gives that $g$ is integrable on $(a,b]$, and applying it to $hFg$ gives that $f\circ g$ is integrable on $(a,b]$. This is useful because the monotonicity and linearity lemmas used below are stated for integrals over a set.
 
@@ -121,56 +121,56 @@ This is the supporting-hyperplane inequality for the convex differentiable funct
 
 Because the left-hand function is integrable, $f\circ g$ is integrable on $(a,b]$, and the pointwise inequality holds everywhere, the integral monotonicity lemma `integral_mono` yields
 
-$$
+```math
 \int_{(a,b]} \left(f(m)+\langle \nabla f(m), g(s)-m\rangle\right)\,ds
 \le
 \int_{(a,b]} f(g(s))\,ds .
-$$
+```
 
 The proof now computes the integral on the left. Linearity of the integral gives
 
-$$
+```math
 \int_{(a,b]} (g(s)-m)\,ds
 =\left(\int_{(a,b]} g(s)\,ds\right)-\int_{(a,b]} m\,ds .
-$$
+```
 
 Also, since the inner product is linear in its second argument, the integral of the inner product equals the inner product with the integral:
 
-$$
+```math
 \int_{(a,b]} \langle \nabla f(m), g(s)-m\rangle\,ds
 =\left\langle \nabla f(m), \int_{(a,b]} (g(s)-m)\,ds \right\rangle .
-$$
+```
 
 The integral of the constant real function $f(m)$ over $(a,b]$ is $(b-a)f(m)$, and the integral of the constant vector $m$ over $(a,b]$ is $(b-a)\bullet m$. Combining these computations, the integral of the affine lower bound is
 
-$$
+```math
 (b-a)f(m)
 +\left\langle \nabla f(m),
 \left(\int_{(a,b]} g(s)\,ds\right)-(b-a)\bullet m
 \right\rangle .
-$$
+```
 
 The inner-product term is zero. Indeed, by definition of $m$,
 
-$$
+```math
 m=(b-a)^{-1}\bullet \int_a^b g(s)\,ds,
-$$
+```
 
 so
 
-$$
+```math
 (b-a)\bullet m
 =(b-a)\bullet\left((b-a)^{-1}\bullet \int_a^b g(s)\,ds\right)
 =\int_a^b g(s)\,ds.
-$$
+```
 
 Thus the difference inside the inner product is zero, and therefore the inner product is zero. Consequently, the integral on the left reduces to $(b-a)f(m)$, and the earlier monotonicity inequality becomes
 
-$$
+```math
 (b-a)f(m)\le \int_{(a,b]} f(g(s))\,ds .
-$$
+```
 
-The proof then multiplies this inequality by the nonnegative scalar $(b-a)^{-1}$. The lemma `mul_le_mul_of_nonneg_left` is used here: if $c\ge 0$ and $x\le y$, then $cx\le cy$. Since $b-a>0$, its inverse is nonnegative. After this multiplication, the left-hand side is
+The proof then multiplies this inequality by the nonnegative scalar $(b-a)^{-1}$. The lemma `mul_le_mul_of_nonneg_left` is used here: if $c\ge 0$ and $x\le y$, then $cx\le cy$. Since $b-a\gt 0$, its inverse is nonnegative. After this multiplication, the left-hand side is
 
 $$
 (b-a)^{-1}\bigl((b-a)f(m)\bigr)=f(m),
@@ -178,23 +178,23 @@ $$
 
 because $b-a\neq 0$. The right-hand side becomes
 
-$$
+```math
 (b-a)^{-1}\int_{(a,b]} f(g(s))\,ds .
-$$
+```
 
 Rewriting the integral over $(a,b]$ back to the interval integral over $a..b$, using the same relation between interval integrals and integrals over $(a,b]$, gives
 
-$$
+```math
 f(m)\le (b-a)^{-1}\int_a^b f(g(s))\,ds .
-$$
+```
 
 Finally, `simpa [m] using hfinal` unfolds the definition of $m$, converting this inequality into the exact stated conclusion
 
-$$
+```math
 f\left((b-a)^{-1}\bullet \int_a^b g(s)\,ds\right)
 \le
 (b-a)^{-1}\int_a^b f(g(s))\,ds .
-$$
+```
 
 The tactic `field_simp [hlen_ne]` is used in the final simplification to clear the denominator $b-a$, justified by $b-a\neq 0$. The commands `rw` rewrite goals or hypotheses using equalities, `simp` simplifies arithmetic and inner-product identities, `dsimp` unfolds local definitions, `convert` changes a goal into an equivalent one up to definitional simplification, and `exact` closes a goal by precisely supplying the required term.
 

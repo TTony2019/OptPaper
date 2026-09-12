@@ -78,10 +78,10 @@ $$
 
 Next, the proof unfolds the definition of `SetValuedOperator.identityAddScaled`. By definition,
 
-$$
+```math
 A.\mathrm{identityAddScaled}(\lambda)(y)
 =\{\,y+\lambda\bullet a \mid a \in A(y)\,\}.
-$$
+```
 
 So after `dsimp`, the hypothesis says that $x$ belongs to this set. The tactic `rcases` then unpacks the existential witness. It produces an element $a$, a proof `ha : a ∈ A y`, and an equality `hx_eq` expressing that $x$ is the corresponding element of the set, namely, up to orientation,
 

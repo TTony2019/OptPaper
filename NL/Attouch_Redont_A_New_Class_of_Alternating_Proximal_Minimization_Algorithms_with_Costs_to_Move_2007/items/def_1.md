@@ -66,9 +66,9 @@ The declaration itself imposes no additional hypotheses on $f,g,h,k,c,\alpha,\be
 ## Proof explanation
 There is no separate proof part. The declaration is a definition, not a theorem, so Lean does not produce or require a proof term for a proposition. Instead, the body of the definition is a set-builder term:
 
-$$
+```math
 \{p \mid \mathrm{IsINE}(f,g,h,k,c,\alpha,\beta,\mu,\nu,p.1,p.2)\}.
-$$
+```
 
 This term has type $\mathcal P(X\times Y)$, i.e. it is a subset of $X\times Y$. Consequently, the only mathematical content is the definitional equivalence that for every $p\in X\times Y$,
 

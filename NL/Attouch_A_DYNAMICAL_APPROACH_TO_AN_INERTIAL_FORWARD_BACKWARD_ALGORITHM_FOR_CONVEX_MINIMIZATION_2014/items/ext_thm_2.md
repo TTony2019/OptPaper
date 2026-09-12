@@ -16,25 +16,25 @@ The theorem `descent_lemma` is a real-inner-product-space form of the standard d
 - $\psi$ is differentiable over $\mathbb R$ at every point of $H$.
 - For every $x\in H$ and every direction $h\in H$,
 
-  $$
-  D\psi(x)h=\langle g(x),h\rangle,
-  $$
+$$
+D\psi(x)h=\langle g(x),h\rangle,
+$$
 
   so $g(x)$ is the gradient vector representing the Fréchet derivative of $\psi$ at $x$.
 - The gradient map $g$ is Lipschitz with constant $L$:
 
-  $$
-  \|g(x)-g(y)\|\le L\|x-y\|
-  $$
+```math
+\|g(x)-g(y)\|\le L\|x-y\|
+```
 
   for all $x,y\in H$.
 - $x$ and $v$ are arbitrary points of $H$.
 
 The conclusion is the quadratic upper bound
 
-$$
+```math
 \psi(v)\le \psi(x)+\langle g(x),v-x\rangle+\frac{L}{2}\|v-x\|^2.
-$$
+```
 
 Thus the value at $v$ is bounded above by the first-order Taylor expansion of $\psi$ at $x$, plus the usual quadratic error term controlled by the Lipschitz constant of the gradient. No separate hypothesis $L\ge 0$ appears in the statement.
 
@@ -132,9 +132,9 @@ In this vector-space setting, $\phi(t)$ is the affine interpolation between $x$ 
 
 The proof then defines the remainder function
 
-$$
+```math
 r(t)=\psi(\phi(t))-\psi(x)-t\langle g(x),v-x\rangle-\frac{L}{2}t^2\|v-x\|^2.
-$$
+```
 
 This is the error between $\psi(\phi(t))$ and its first-order approximation at $t=0$, corrected by the quadratic term. At $t=0$, all terms except $\psi(x)-\psi(x)$ vanish, so `hr0` states
 
@@ -163,66 +163,66 @@ The proof then differentiates $r$. It differentiates each term separately:
 - The term $t\mapsto t\langle g(x),v-x\rangle$ has derivative $\langle g(x),v-x\rangle$, using the fact that the identity function has derivative $1$ and multiplying by a constant multiplies the derivative by that constant.
 - The term
 
-  $$
-  t\mapsto \frac{L}{2}t^2\|v-x\|^2
-  $$
+```math
+t\mapsto \frac{L}{2}t^2\|v-x\|^2
+```
 
   has derivative
 
-  $$
-  L t\|v-x\|^2,
-  $$
+```math
+L t\|v-x\|^2,
+```
 
-  using the derivative of $t^2$, namely $2t$, together with multiplication by the constants $\frac{L}{2}$ and $\|v-x\|^2$.
+  using the derivative of $t^2$, namely $2t$, together with multiplication by the constants $\frac{L}{2}$ and $`\|v-x\|^2`$.
 
 Subtracting these derivatives gives
 
-$$
+```math
 r'(t)
 =\langle g(\phi(t))-g(x),v-x\rangle
 -L t\|v-x\|^2.
-$$
+```
 
 The identity $\langle a-b,c\rangle=\langle a,c\rangle-\langle b,c\rangle$, invoked as `inner_sub_left`, is used to combine the two inner-product terms into this single inner product.
 
 Since $r$ has a derivative at every $t$, `hr_diff` records that $r$ is differentiable at every point. Consequently `hr_cont` gives that $r$ is continuous. Restricting these facts to the interval $[0,1]$, the proof obtains continuity of $r$ on $[0,1]$ and differentiability of $r$ on $(0,1)$.
 
-The key sign estimate is `hr_deriv_nonpos`. For $t>0$, the proof shows
+The key sign estimate is `hr_deriv_nonpos`. For $t\gt 0$, the proof shows
 
-$$
+```math
 \langle g(\phi(t))-g(x),v-x\rangle
 -L t\|v-x\|^2\le 0.
-$$
+```
 
 Indeed, by Cauchy-Schwarz in the form `real_inner_le_norm`,
 
-$$
+```math
 \langle g(\phi(t))-g(x),v-x\rangle
 \le
 \|g(\phi(t))-g(x)\|\,\|v-x\|.
-$$
+```
 
 By the Lipschitz hypothesis,
 
-$$
+```math
 \|g(\phi(t))-g(x)\|\le L\|\phi(t)-x\|.
-$$
+```
 
 Since $\phi(t)=x+t(v-x)$, its distance from $x$ is
 
-$$
+```math
 \|\phi(t)-x\|=t\|v-x\|
-$$
+```
 
-for $t>0$. This is obtained from `dist_left_lineMap`, which says that the distance from $x$ to the line-map point is $\|t\|$ times the distance from $x$ to $v$, together with $\|t\|=t$ because $t>0$. Multiplying the Lipschitz inequality by the nonnegative factor $\|v-x\|$ and substituting the distance formula yields
+for $t\gt 0$. This is obtained from `dist_left_lineMap`, which says that the distance from $x$ to the line-map point is $`\|t\|`$times the distance from$x$to$v$, together with$`\|t\|=t`$because$t>0$. Multiplying the Lipschitz inequality by the nonnegative factor$`\|v-x\|`$ and substituting the distance formula yields
 
-$$
+```math
 \langle g(\phi(t))-g(x),v-x\rangle
 \le
 L t\|v-x\|^2.
-$$
+```
 
-Therefore the derivative formula for $r'(t)$ is nonpositive whenever $t>0$.
+Therefore the derivative formula for $r'(t)$ is nonpositive whenever $t\gt 0$.
 
 The proof now applies the mean value theorem via `exists_deriv_eq_slope`. Since $r$ is continuous on $[0,1]$ and differentiable on $(0,1)$, there exists $c\in(0,1)$ such that
 
@@ -230,7 +230,7 @@ $$
 r'(c)=\frac{r(1)-r(0)}{1-0}.
 $$
 
-Using the formula already computed for $r'(c)$, and using $c>0$, the proof obtains
+Using the formula already computed for $r'(c)$, and using $c\gt 0$, the proof obtains
 
 $$
 r'(c)\le 0.
@@ -250,24 +250,24 @@ $$
 
 Finally, the proof expands $r(1)$. Since $\phi(1)=v$, the definition of $r$ gives
 
-$$
+```math
 r(1)
 =\psi(v)-\psi(x)-\langle g(x),v-x\rangle-\frac{L}{2}\|v-x\|^2.
-$$
+```
 
 The inequality $r(1)\le 0$ therefore becomes
 
-$$
+```math
 \psi(v)-\psi(x)-\langle g(x),v-x\rangle-\frac{L}{2}\|v-x\|^2\le 0.
-$$
+```
 
 Rearranging this inequality, which is exactly what the final `linarith` step does, yields
 
-$$
+```math
 \psi(v)
 \le
 \psi(x)+\langle g(x),v-x\rangle+\frac{L}{2}\|v-x\|^2.
-$$
+```
 
 This is the desired descent lemma.
 

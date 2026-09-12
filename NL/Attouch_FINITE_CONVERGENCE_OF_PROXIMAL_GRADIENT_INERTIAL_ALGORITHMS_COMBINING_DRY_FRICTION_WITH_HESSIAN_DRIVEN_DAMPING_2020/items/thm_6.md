@@ -39,50 +39,50 @@ The declaration `IPAHDDNonsmooth_finiteLength` is a convergence theorem for a no
 
 - a function $F:H\to(-\infty,+\infty]$ which is proper, convex, and lower semicontinuous, encoded by $F\in\Gamma_0(H)$;
 - a real-valued dry-friction function $\phi:H\to\mathbb R$, together with a dry-friction hypothesis `DF_r phi r`;
-- real parameters $h,\gamma,\beta,\lambda,r$, with $h>0$, $\gamma>0$, $\beta>0$, $\lambda>0$, and
+- real parameters $h,\gamma,\beta,\lambda,r$, with $h\gt 0$, $\gamma\gt 0$, $\beta\gt 0$, $\lambda\gt 0$, and
 
-  $$
-  \gamma \ge \frac{h/2+\beta}{\lambda};
-  $$
+$$
+\gamma \ge \frac{h/2+\beta}{\lambda};
+$$
 
 - the real-valued Moreau envelope
 
-  $$
-  f_\lambda = \mathrm{moreauEnvelopeReal} F \langle \lambda,h_\lambda\rangle,
-  $$
+$$
+f_\lambda = \mathrm{moreauEnvelopeReal} F \langle \lambda,h_\lambda\rangle,
+$$
 
-  where $h_\lambda$ is the proof that $\lambda>0$;
+  where $h_\lambda$ is the proof that $\lambda\gt 0$;
 - a nonsmooth IPAHDD trajectory `alg` for $F$, $\phi$, and parameters $h,\gamma,\beta,\lambda$, whose iterates are denoted by $x_k=\text{alg.x }k$;
 - a lower bound on $F$: there exists $c\in\mathbb R$ such that $c\le F(x)$ for every $x$.
 
 The theorem asserts the existence of $x_\infty$, $p_\infty$, and an initial energy $E_1$ such that:
 
-$$
+```math
 E_1=\frac12\left\|\frac1h(x_1-x_0)\right\|^2
 +f_\lambda(x_1)-\inf_{y\in H} f_\lambda(y).
-$$
+```
 
 The sequence $x_k$ has finite length, meaning
 
-$$
+```math
 \sum_{k=0}^\infty \|x_{k+1}-x_k\|<\infty,
-$$
+```
 
 and it converges to $x_\infty$. Moreover,
 
-$$
+```math
 \sum_{k\ge 1}\|x_{k+1}-x_k\|
 \le
 \frac1r\left(E_1+\frac{\beta}{2h\lambda}\|x_1-x_0\|^2\right),
-$$
+```
 
 and the squared acceleration terms satisfy
 
-$$
+```math
 \sum_{k\ge 1}\|x_{k+1}-2x_k+x_{k-1}\|^2
 \le
 2h^2\left(E_1+\frac{\beta}{2h\lambda}\|x_1-x_0\|^2\right).
-$$
+```
 
 At the limit, the dry-friction criticality condition holds:
 
@@ -114,25 +114,25 @@ $$
 q=\left(1+\frac{2h(\gamma\lambda-\beta)}{\lambda+\beta h}\right)^{-1/2},
 $$
 
-one has $0<q<1$ and, for some $k_0$, for all $k\ge k_0$,
+one has $0\lt q\lt 1$ and, for some $k_0$, for all $k\ge k_0$,
 
-$$
+```math
 \|x_{k+1}-x_k\|\le q^{k-k_0}\|x_{k_0+1}-x_{k_0}\|,
-$$
+```
 
 and
 
-$$
+```math
 \|x_k-x_\infty\|\le \frac{q^{k-k_0}}{1-q}\|x_{k_0+1}-x_{k_0}\|.
-$$
+```
 
 If instead
 
-$$
+```math
 \|\nabla f_\lambda(x_\infty)\|<r
 \quad\text{and}\quad
 B_H(0,r)\subseteq \partial\phi(0),
-$$
+```
 
 then the sequence $x_k$ is finitely convergent, meaning it becomes eventually constant.
 
@@ -297,13 +297,13 @@ $$
 
 so $P$ is the scaled proximity operator $\mathrm{Prox}_{\lambda F}$. It then proves that $P$ is firmly nonexpansive. For this, it applies `proximityOperator_firmlyNonexpansive_of_mem_gammaZero` to the function $\lambda F$. The cited result says that if a function belongs to $\Gamma_0(H)$, then its proximity operator is firmly nonexpansive. The hypothesis $\lambda F\in\Gamma_0(H)$ is supplied by `smul_mem_gammaZero`, which states that a positive scalar multiple of a $\Gamma_0(H)$ function remains in $\Gamma_0(H)$. Since firm nonexpansiveness implies $1$-Lipschitz continuity by `lipschitzWith_one_of_firmlyNonexpansive`, the proof obtains
 
-$$
+```math
 \|P x-P y\|\le \|x-y\|
-$$
+```
 
 for all $x,y$.
 
-Next, the proof uses `hasFDerivAt_moreauEnvelopeReal`. This theorem says that for $F\in\Gamma_0(H)$ and $\gamma>0$, the Moreau envelope $x\mapsto \mathrm{moreauEnvelopeReal} F \gamma(x)$ is Fréchet differentiable at $x$, with derivative equal to the continuous linear functional
+Next, the proof uses `hasFDerivAt_moreauEnvelopeReal`. This theorem says that for $F\in\Gamma_0(H)$ and $\gamma\gt 0$, the Moreau envelope $x\mapsto \mathrm{moreauEnvelopeReal} F \gamma(x)$ is Fréchet differentiable at $x$, with derivative equal to the continuous linear functional
 
 $$
 v\mapsto \left\langle \gamma^{-1}\bigl(x-\mathrm{Prox}_{\gamma F}(x)\bigr),v\right\rangle.
@@ -311,10 +311,10 @@ $$
 
 With $\gamma=\lambda$, this gives
 
-$$
+```math
 D f_\lambda(x)
 =\left\langle \frac1\lambda(x-Px),\,\cdot\,\right\rangle.
-$$
+```
 
 Thus the Riesz gradient is
 
@@ -326,10 +326,10 @@ The proof records this by defining `moreauGrad` and proving `gradient fLam = mor
 
 It also applies `lipschitzWith_gradient_moreauEnvelopeReal`, which states that the gradient of the Moreau envelope is Lipschitz with constant $\gamma^{-1}$. For $\gamma=\lambda$, this gives that $\nabla f_\lambda$ is Lipschitz with constant $1/\lambda$. After converting the nonnegative real constant from `NNReal` to `ℝ`, the proof obtains
 
-$$
+```math
 \|\nabla f_\lambda(x)-\nabla f_\lambda(y)\|
 \le \frac1\lambda\|x-y\|,
-$$
+```
 
 i.e. `HasLipschitzGradient (gradient fLam) (1/lam)`.
 
@@ -358,14 +358,14 @@ $$
 \frac1\lambda(y-Py)\in \partial F(Py).
 $$
 
-Hence $Py$ lies in the domain of the subdifferential of $F$. By `SetValuedOperator.mem_dom_iff`, this means $(\partial F)(Py)$ is nonempty, so $F$ is subdifferentiable at $Py$. Since $F$ is proper by `isProper_of_mem_gammaZero`, subdifferentiability implies that $Py$ belongs to the effective domain, i.e. $F(Py)<+\infty$. Because $F$ already never takes $-\infty$, this means $F(Py)$ is finite.
+Hence $Py$ lies in the domain of the subdifferential of $F$. By `SetValuedOperator.mem_dom_iff`, this means $(\partial F)(Py)$ is nonempty, so $F$ is subdifferentiable at $Py$. Since $F$ is proper by `isProper_of_mem_gammaZero`, subdifferentiability implies that $Py$ belongs to the effective domain, i.e. $F(Py)\lt +\infty$. Because $F$ already never takes $-\infty$, this means $F(Py)$ is finite.
 
 Then the proof uses `moreauEnvelope_eq_proxValue_add_scaled_sqDist_of_mem_gammaZero`, which gives the extended-real identity
 
-$$
+```math
 ({}^\lambda F)(x)
 =F(Px)+\frac{\|x-Px\|^2}{2\lambda}.
-$$
+```
 
 Since $F(Px)$ is finite and $F$ is bounded below by $c$, one has
 
@@ -375,14 +375,14 @@ $$
 
 The squared-distance term is nonnegative. Converting the extended-real identity to real numbers gives
 
-$$
+```math
 f_\lambda(x)
 =F(Px)_{\mathrm{toReal}}+\frac{\|x-Px\|^2}{2\lambda}.
-$$
+```
 
 Therefore $c\le f_\lambda(x)$ for all $x$, proving that $f_\lambda$ is bounded below.
 
-The proof then applies `IPAHDD_finiteLength_and_critical` to $f_\lambda$, $\phi$, and $L=1/\lambda$. The hypotheses of that theorem are satisfied: $f_\lambda$ is $C^1$, its gradient is Lipschitz with constant $1/\lambda$, $f_\lambda$ is bounded below, $h,\gamma,\beta>0$, and
+The proof then applies `IPAHDD_finiteLength_and_critical` to $f_\lambda$, $\phi$, and $L=1/\lambda$. The hypotheses of that theorem are satisfied: $f_\lambda$ is $C^1$, its gradient is Lipschitz with constant $1/\lambda$, $f_\lambda$ is bounded below, $h,\gamma,\beta\gt 0$, and
 
 $$
 \gamma\ge \frac{h/2+\beta}{\lambda}
@@ -393,15 +393,15 @@ The smooth theorem yields $x_\infty$, $E_1$, finite length of the smooth iterate
 
 Next, the proof shows that the proximal sequence $P(x_k)$ has finite length. Since $P$ is $1$-Lipschitz,
 
-$$
+```math
 \|P(x_{k+1})-P(x_k)\|\le \|x_{k+1}-x_k\|.
-$$
+```
 
 The comparison test for nonnegative series, invoked by `Summable.of_nonneg_of_le`, then gives
 
-$$
+```math
 \sum_{k=0}^\infty \|P(x_{k+1})-P(x_k)\|<\infty.
-$$
+```
 
 The proof also proves that $P$ is continuous using the same $1$-Lipschitz estimate, and then uses continuity to pass limits: because $x_k\to x_\infty$, it follows that
 
@@ -445,9 +445,9 @@ This algebraic identity is proved by `congr 2` followed by `field_simp`. Since t
 
 For finite convergence, the proof uses the second consequence `hgeo.2` of `IPAHDD_geometric_and_finite`. Given
 
-$$
+```math
 \|\nabla f_\lambda(x_\infty)\|<r,
-$$
+```
 
 it obtains some $k_0$ such that the smooth iterates satisfy
 

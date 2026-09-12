@@ -17,11 +17,11 @@ theorem weak_weighted_cesaro_convergence {H : Type*} [NormedAddCommGroup H]
 ## Statement explanation
 The theorem `weak_weighted_cesaro_convergence` is a weak-convergence weighted Cesàro averaging statement in a complete real inner product space $H$. The data are a function $v:\mathbb R\to H$, a limit vector $v_\infty\in H$, a real weight function $w:\mathbb R\to\mathbb R$, and a starting time $t_0\in\mathbb R$. Write
 
-$$
+```math
 W(t)=\int_{t_0}^{t} w(s)\,ds,
 \qquad
 A(t)=W(t)^{-1}\cdot \int_{t_0}^{t} w(s)\cdot v(s)\,ds,
-$$
+```
 
 where the second integral is the $H$-valued interval integral of the vector-valued function $s\mapsto w(s)\cdot v(s)$.
 
@@ -29,19 +29,19 @@ The hypotheses are:
 
 - $v(t)$ converges to $v_\infty$ in the weak topology as $t\to+\infty$, expressed by
 
-  $$
-  \mathrm{toWeakSpace}_{\mathbb R,H}(v(t))\to
-  \mathrm{toWeakSpace}_{\mathbb R,H}(v_\infty).
-  $$
+$$
+\mathrm{toWeakSpace}_{\mathbb R,H}(v(t))\to
+\mathrm{toWeakSpace}_{\mathbb R,H}(v_\infty).
+$$
 
 - The weight is eventually nonnegative: $w(t)\ge 0$ for every $t\ge t_0$.
 - For every real $a,b$, the scalar function $w$ is interval integrable on the interval with endpoints $a$ and $b$ with respect to Lebesgue measure.
 - For every real $a,b$, the vector-valued function $s\mapsto w(s)\cdot v(s)$ is interval integrable on the interval with endpoints $a$ and $b$.
 - The cumulative weight diverges:
 
-  $$
-  W(t)=\int_{t_0}^{t} w(s)\,ds \to +\infty
-  $$
+```math
+W(t)=\int_{t_0}^{t} w(s)\,ds \to +\infty
+```
 
   as $t\to+\infty$.
 
@@ -54,9 +54,9 @@ $$
 
 In ordinary mathematical language: if a curve $v(t)$ converges weakly to $v_\infty$, and $w$ is an eventually nonnegative integrable weight whose cumulative integral tends to infinity, then the weighted Cesàro mean
 
-$$
+```math
 \frac{\int_{t_0}^{t} w(s)v(s)\,ds}{\int_{t_0}^{t} w(s)\,ds}
-$$
+```
 
 also converges weakly to $v_\infty$.
 
@@ -189,11 +189,11 @@ $$
 
 It applies the continuous linear functional $x\mapsto \langle x,u\rangle$ to the interval-integrable vector-valued function $s\mapsto w(s)\cdot(v(s)-v_\infty)$. A continuous linear functional preserves integrability, so the composition is integrable. Then the scalar is pulled out of the inner product using real bilinearity, yielding the stated scalar integrand. This is exactly the integrability hypothesis needed for the scalar weighted Cesàro theorem.
 
-The cited scalar result `weighted_cesaro_real_tendsto_zero` says that if $g:\mathbb R\to\mathbb R$ satisfies $g(t)\to 0$, $w\ge 0$ eventually, $w$ and $w g$ are interval integrable, and $W(t)=\int_{t_0}^{t}w(s)\,ds\to+\infty$, then
+The cited scalar result `weighted_cesaro_real_tendsto_zero` says that if $g:\mathbb R\to\mathbb R$ satisfies $g(t)\to 0$, $w\ge 0$ eventually, $w$ and $w g$ are interval integrable, and $`W(t)=\int_{t_0}^{t}w(s)\,ds\to+\infty`$, then
 
-$$
+```math
 W(t)^{-1}\int_{t_0}^{t} w(s)g(s)\,ds \to 0.
-$$
+```
 
 The proof applies this with
 
@@ -203,19 +203,19 @@ $$
 
 All hypotheses have just been verified: $g\to 0$, $w\ge0$ eventually, $w$ is interval integrable, $w g$ is interval integrable by the previous step, and $W(t)\to+\infty$ is exactly `hW`. Therefore
 
-$$
+```math
 W(t)^{-1}\int_{t_0}^{t} w(s)\langle v(s)-v_\infty,u\rangle\,ds \to 0.
-$$
+```
 
 The proof next records that $W(t)\neq 0$ eventually. Since $W(t)\to+\infty$, the filter characterization of convergence to $+\infty$ gives that eventually $1\le W(t)$. Hence $W(t)\neq 0$ eventually. The tactic `linarith` closes this arithmetic implication.
 
 The main algebraic step is an eventual identity for the scalar coordinate of the weighted average:
 
-$$
+```math
 \langle A(t),u\rangle
 =\langle v_\infty,u\rangle
 +W(t)^{-1}\int_{t_0}^{t} w(s)\langle v(s)-v_\infty,u\rangle\,ds.
-$$
+```
 
 This is proved for all sufficiently large $t$ with $W(t)\neq 0$. First, the vector-valued integrand is decomposed pointwise:
 
@@ -226,35 +226,35 @@ $$
 
 Integrating both sides uses additivity of the interval integral, justified by interval integrability of the two summands. Then
 
-$$
+```math
 \int_{t_0}^{t} w(s)\cdot v_\infty\,ds
 =\left(\int_{t_0}^{t} w(s)\,ds\right)\cdot v_\infty
 =W(t)\cdot v_\infty.
-$$
+```
 
 For the remaining integral, the continuous linear functional $x\mapsto \langle x,u\rangle$ commutes with the interval integral:
 
-$$
+```math
 \left\langle \int_{t_0}^{t} w(s)\cdot(v(s)-v_\infty)\,ds,u\right\rangle
 =\int_{t_0}^{t}
 \left\langle w(s)\cdot(v(s)-v_\infty),u\right\rangle\,ds
 =\int_{t_0}^{t}
 w(s)\langle v(s)-v_\infty,u\rangle\,ds.
-$$
+```
 
 Thus, after multiplying by $W(t)^{-1}$, the inner product of the weighted average with $u$ becomes
 
-$$
+```math
 W(t)^{-1}\left\langle W(t)\cdot v_\infty
 +\int_{t_0}^{t} w(s)\cdot(v(s)-v_\infty)\,ds,u\right\rangle.
-$$
+```
 
 Using linearity of the inner product and the fact that $W(t)\neq0$, this simplifies exactly to
 
-$$
+```math
 \langle v_\infty,u\rangle
 +W(t)^{-1}\int_{t_0}^{t} w(s)\langle v(s)-v_\infty,u\rangle\,ds.
-$$
+```
 
 The tactic `field_simp [ht]` performs this final simplification using $W(t)\neq0$.
 

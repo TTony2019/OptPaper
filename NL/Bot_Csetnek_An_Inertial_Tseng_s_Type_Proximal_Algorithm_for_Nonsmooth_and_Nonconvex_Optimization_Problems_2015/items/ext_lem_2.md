@@ -19,9 +19,9 @@ $$
 
 so $b$ is nonnegative;
 
-$$
+```math
 \mathrm{BddBelow}(\{a_n:n\in\mathbb N\}),
-$$
+```
 
 meaning there exists $L\in\mathbb R$ such that $L\le a_n$ for every $n$; and
 
@@ -88,7 +88,7 @@ by
 ```
 
 ## Proof explanation
-The proof begins by renaming the bounded-below hypothesis as `hbdd` and then unpacking it with `obtain ⟨L, hL⟩ := ha_bddBelow`. Since `BddBelow (Set.range a)` means that the set of values $\{a_n:n\in\mathbb N\}$ has a lower bound, this step produces a real number $L$ such that every element of that range is at least $L$. Thus $hL$ is the assertion that for every $n$, the value $a_n$ lies above $L$, which later is used in the form $L\le a_n$.
+The proof begins by renaming the bounded-below hypothesis as `hbdd` and then unpacking it with `obtain ⟨L, hL⟩ := ha_bddBelow`. Since `BddBelow (Set.range a)` means that the set of values $`\{a_n:n\in\mathbb N\}`$has a lower bound, this step produces a real number$L$such that every element of that range is at least$L$. Thus$hL$is the assertion that for every$n$, the value$a_n$lies above$L$, which later is used in the form$L\le a_n$.
 
 Next the proof establishes the one-step monotonicity statement
 

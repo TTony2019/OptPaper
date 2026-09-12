@@ -12,16 +12,16 @@ The declaration defines the distance from a point to a set in a pseudometric spa
 
 The body of the definition takes each element $v$ of the subtype $C$, coerces it to the underlying point of $H$, computes the ordinary pseudometric distance $d(x,v)$, and then coerces that real number into $\overline{\mathbb{R}}$. The term `Set.range` collects all these values, so it forms the set
 
-$$
+```math
 D_{x,C} = \{\, d(x,v) : v \in C \,\} \subseteq \overline{\mathbb{R}}.
-$$
+```
 
 Finally, `sInf` takes the infimum of this set in the order on $\overline{\mathbb{R}}$. Thus the declaration defines
 
-$$
+```math
 \mathrm{distanceToSet}(x,C)
 = \inf \{\, d(x,v) : v \in C \,\},
-$$
+```
 
 where the infimum is understood in the extended-real order.
 
@@ -37,9 +37,9 @@ There is no separate proof. This declaration is a definition, not a theorem, and
 
 The definitional body constructs the distance-to-set value in three mathematical stages. First, $v$ ranges over the subtype $C$, meaning $v$ is an element of $C$ together with its inclusion into $H$. The expression `dist x v` evaluates the pseudometric distance $d(x,v)$ in the real numbers. Second, the coercion `(dist x v : EReal)` embeds that real distance into the extended real line $\overline{\mathbb{R}}$. Third, `Set.range` collects the images of all such $v$, producing the subset
 
-$$
+```math
 \{\, d(x,v) : v \in C \,\}
-$$
+```
 
 of $\overline{\mathbb{R}}$. Finally, `sInf` takes the greatest lower bound of that subset in the extended-real order.
 

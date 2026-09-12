@@ -21,9 +21,9 @@ denotes the metric projection of $x$ onto $C$, implemented by `projectionPoint C
 
 The conclusion is the Pythagorean inequality for this metric projection:
 
-$$
+```math
 \|y-p\|^2+\|x-p\|^2\le \|x-y\|^2,
-$$
+```
 
 where $p=\mathrm{proj}_C(x)$. In words, if $p$ is the nearest point of $C$ to $x$, then for every $y\in C$, the squared distance from $y$ to $p$ plus the squared distance from $x$ to $p$ is at most the squared distance from $x$ to $y$. This is the usual obtuse-angle or Pythagorean inequality for projection onto a closed convex set: the vector $x-p$ has nonpositive inner product with every vector $y-p$ with $y\in C$, so the angle at $p$ between $x-p$ and $y-p$ is at least a right angle. The law of cosines then gives the displayed inequality.
 
@@ -99,52 +99,52 @@ This is `hvec`, proved by `abel_nf`, which normalizes addition and subtraction i
 
 Fourth, the proof establishes `hsq`, the law of cosines:
 
-$$
+```math
 \|x-y\|^2
 =\|x-p\|^2-2\langle x-p,y-p\rangle_{\mathbb R}+\|y-p\|^2.
-$$
+```
 
 The `calc` block first uses `rw [hvec]` to rewrite
 
-$$
+```math
 \|x-y\|^2
-$$
+```
 
 as
 
-$$
+```math
 \|(x-p)-(y-p)\|^2.
-$$
+```
 
 Then it applies `norm_sub_sq_real` to the vectors $u=x-p$ and $v=y-p$. That lemma states that in a real inner product space,
 
-$$
+```math
 \|u-v\|^2
 =\|u\|^2-2\langle u,v\rangle_{\mathbb R}+\|v\|^2.
-$$
+```
 
-Specializing to $u=x-p$ and $v=y-p$ gives exactly the displayed identity for $\|x-y\|^2$.
+Specializing to $u=x-p$ and $v=y-p$ gives exactly the displayed identity for $`\|x-y\|^2`$.
 
 Finally, the proof proves the desired inequality in terms of the local abbreviation $p$ and then unfolds $p$. The temporary `show` changes the goal to
 
-$$
+```math
 \|y-p\|^2+\|x-p\|^2\le \|x-y\|^2.
-$$
+```
 
 From `hsq` and `hinner`, we have
 
-$$
+```math
 \|x-y\|^2
 =\|x-p\|^2+\|y-p\|^2-2\langle x-p,y-p\rangle_{\mathbb R}.
-$$
+```
 
 Since $\langle x-p,y-p\rangle_{\mathbb R}\le 0$, the term $-2\langle x-p,y-p\rangle_{\mathbb R}$ is nonnegative. Therefore
 
-$$
+```math
 \|x-y\|^2
 \ge
 \|x-p\|^2+\|y-p\|^2,
-$$
+```
 
 which is the desired inequality after commuting the two summands. The tactic `nlinarith` performs this arithmetic deduction from the equality `hsq` and the inequality `hinner`. The final `simpa only [p]` unfolds the local abbreviation $p$ back to the original projection point expression, so the proved inequality becomes precisely the conclusion stated in the theorem.
 

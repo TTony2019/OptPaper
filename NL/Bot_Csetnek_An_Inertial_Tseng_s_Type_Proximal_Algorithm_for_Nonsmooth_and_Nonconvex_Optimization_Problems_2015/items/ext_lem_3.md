@@ -12,17 +12,17 @@ theorem lemma_3_1_descent {m : Nat} (h : EuclideanSpace m -> Real) (L : Real)
 ## Statement explanation
 The declaration `lemma_3_1_descent` is a theorem about a real-valued function $h$ on a finite-dimensional Euclidean space. The natural number $m$ gives the dimension: `EuclideanSpace m` abbreviates the real Euclidean space $\mathbb R^m$, modeled in Lean as functions from `Fin m` to $\mathbb R$. The function is $h:\mathbb R^m\to\mathbb R$, and $L$ is a real constant. The hypothesis `hL : HasLipschitzContinuousGradient h L` says that $h$ has an $L$-Lipschitz continuous gradient. In the proof this hypothesis is used through two concrete consequences: first, $h$ is differentiable at points, and second, for all $u,v\in\mathbb R^m$,
 
-$$
+```math
 \|\nabla h(u)-\nabla h(v)\|\le L\|u-v\|.
-$$
+```
 
 The conclusion is that for every $x,y\in\mathbb R^m$,
 
-$$
+```math
 h(y)\le h(x)+\langle \nabla h(x),y-x\rangle+\frac{L}{2}\|y-x\|^2.
-$$
+```
 
-This is the standard descent lemma: the value of $h$ at $y$ is bounded above by the first-order Taylor polynomial of $h$ at $x$, plus a quadratic correction term determined by the Lipschitz constant of the gradient. The inner product is the real inner product on $\mathbb R^m$, and $\|\cdot\|$ is the associated Euclidean norm.
+This is the standard descent lemma: the value of $h$ at $y$ is bounded above by the first-order Taylor polynomial of $h$ at $x$, plus a quadratic correction term determined by the Lipschitz constant of the gradient. The inner product is the real inner product on $\mathbb R^m$, and $`\|\cdot\|`$ is the associated Euclidean norm.
 
 ## Lean proof
 ```lean
@@ -127,15 +127,15 @@ $$
 
 which is the straight segment from $x$ to $y$, and the auxiliary real-valued function
 
-$$
+```math
 q(t)=h(\varphi(t))-h(x)-t\langle \nabla h(x),y-x\rangle-\frac{L}{2}t^2\|y-x\|^2.
-$$
+```
 
 The purpose of $q$ is to measure the difference between the left-hand side and the desired upper bound along the line. At $t=1$, we have $\varphi(1)=y$, and
 
-$$
+```math
 q(1)=h(y)-h(x)-\langle \nabla h(x),y-x\rangle-\frac{L}{2}\|y-x\|^2.
-$$
+```
 
 Thus the desired inequality is equivalent to $q(1)\le 0$. The rest of the proof establishes exactly this.
 
@@ -175,21 +175,21 @@ $$
 
 is $\langle \nabla h(x),y-x\rangle$, using `hasDerivAt_id` and multiplication by a constant. The derivative of
 
-$$
+```math
 t\mapsto \frac{L}{2}t^2\|y-x\|^2
-$$
+```
 
-is $L t\|y-x\|^2$, using `hasDerivAt_pow` for the derivative of $t^2$, then constant multiplication and simplification with `ring`. Combining these derivatives by subtraction and using `inner_sub_left`, which is linearity of the inner product in its first argument, gives
+is $`L t\|y-x\|^2`$, using `hasDerivAt_pow` for the derivative of $t^2$, then constant multiplication and simplification with `ring`. Combining these derivatives by subtraction and using `inner_sub_left`, which is linearity of the inner product in its first argument, gives
 
-$$
+```math
 q'(t)
 =\langle \nabla h(\varphi(t))-\nabla h(x),y-x\rangle
 -L t\|y-x\|^2.
-$$
+```
 
 Next, `hq_diff`, `hq_cont`, `hq_contOn`, and `hq_diffOn` use the fact that $q$ has a derivative at every real $t$. Therefore $q$ is differentiable everywhere, hence continuous everywhere, hence continuous on the interval $[0,1]$, and differentiable on the open interval $(0,1)$. In Lean, `continuous_iff_continuousAt.mpr` reduces continuity to continuity at every point, and `DifferentiableAt.continuousAt` supplies continuity at each point.
 
-The key estimate is `h_deriv_nonpos`. For any real $t>0$, it proves
+The key estimate is `h_deriv_nonpos`. For any real $t\gt 0$, it proves
 
 $$
 q'(t)\le 0.
@@ -197,41 +197,41 @@ $$
 
 The argument is as follows. By `real_inner_le_norm`, the real Cauchy–Schwarz inequality,
 
-$$
+```math
 \langle \nabla h(\varphi(t))-\nabla h(x),y-x\rangle
 \le
 \|\nabla h(\varphi(t))-\nabla h(x)\|\,\|y-x\|.
-$$
+```
 
 By the Lipschitz-gradient hypothesis `hL.2.2` applied to $\varphi(t)$ and $x$,
 
-$$
+```math
 \|\nabla h(\varphi(t))-\nabla h(x)\|
 \le
 L\|\varphi(t)-x\|.
-$$
+```
 
-The proof then computes $\|\varphi(t)-x\|$. Using `dist_left_lineMap`, the distance from $x$ to $\varphi(t)=\mathrm{lineMap}_{x,y}(t)$ is
+The proof then computes $`\|\varphi(t)-x\|`$. Using `dist_left_lineMap`, the distance from $x$ to $\varphi(t)=\mathrm{lineMap}_{x,y}(t)$ is
 
 $$
 \mathrm{dist}(x,\varphi(t))=|t|\mathrm{dist}(x,y).
 $$
 
-Since $t>0$, $|t|=t$, and therefore
+Since $t\gt 0$, $|t|=t$, and therefore
 
-$$
+```math
 \|\varphi(t)-x\|=t\|y-x\|.
-$$
+```
 
 Combining these inequalities yields
 
-$$
+```math
 \langle \nabla h(\varphi(t))-\nabla h(x),y-x\rangle
 \le
 L t\|y-x\|^2.
-$$
+```
 
-Subtracting $L t\|y-x\|^2$ gives $q'(t)\le 0$. The tactic `nlinarith` is used to combine the Cauchy–Schwarz bound, the Lipschitz bound, and the nonnegativity of $\|y-x\|$.
+Subtracting $`L t\|y-x\|^2`$gives$q'(t)\le 0$. The tactic `nlinarith` is used to combine the Cauchy–Schwarz bound, the Lipschitz bound, and the nonnegativity of $`\|y-x\|`$.
 
 The mean value theorem is then applied through `exists_deriv_eq_slope`. Since $q$ is continuous on $[0,1]$ and differentiable on $(0,1)$, there exists $c\in(0,1)$ such that
 
@@ -241,25 +241,25 @@ $$
 
 The proof destructs this existential with `rcases`, obtaining $c$, the fact $c\in(0,1)$, and the slope equality. It then rewrites $q'(c)$ using `hq_deriv c`:
 
-$$
+```math
 q'(c)
 =\langle \nabla h(\varphi(c))-\nabla h(x),y-x\rangle
 -L c\|y-x\|^2.
-$$
+```
 
-Since $c\in(0,1)$, in particular $c>0$, and `h_deriv_nonpos` gives $q'(c)\le 0$. The slope equality is rewritten using $1-0=1$, `div_one`, and $q(0)=0$, so it becomes $q'(c)=q(1)$. Therefore $q(1)\le 0$. This is the essential conclusion.
+Since $c\in(0,1)$, in particular $c\gt 0$, and `h_deriv_nonpos` gives $q'(c)\le 0$. The slope equality is rewritten using $1-0=1$, `div_one`, and $q(0)=0$, so it becomes $q'(c)=q(1)$. Therefore $q(1)\le 0$. This is the essential conclusion.
 
 Finally, `simp [q, φ] at hq1_nonpos` simplifies $q(1)$. Since $\varphi(1)=y$, the inequality $q(1)\le 0$ becomes
 
-$$
+```math
 h(y)-h(x)-\langle \nabla h(x),y-x\rangle-\frac{L}{2}\|y-x\|^2\le 0.
-$$
+```
 
 The tactic `linarith` rearranges this linear inequality into
 
-$$
+```math
 h(y)\le h(x)+\langle \nabla h(x),y-x\rangle+\frac{L}{2}\|y-x\|^2,
-$$
+```
 
 which is exactly the desired conclusion for the arbitrary fixed $x,y$. Thus the theorem is proved.
 

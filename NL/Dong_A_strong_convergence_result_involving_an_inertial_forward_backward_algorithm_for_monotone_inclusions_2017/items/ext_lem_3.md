@@ -15,13 +15,13 @@ theorem browder_demiclosedness_lemma
 ```
 
 ## Statement explanation
-The declaration `browder_demiclosedness_lemma` is a theorem about a subset $C$ of an ambient space $H$, a map $T : H \to H$, and a sequence $x_n$ in $H$. The notation $\|T a - T b\|$ indicates that $H$ carries a norm, and the map to the weak space over $\mathbb R$ is used to express weak convergence. The fixed-point set $\mathrm{fixedPointSetOn} C T$ is the set of points of $C$ that are fixed by $T$.
+The declaration `browder_demiclosedness_lemma` is a theorem about a subset $C$ of an ambient space $H$, a map $T : H \to H$, and a sequence $x_n$ in $H$. The notation $`\|T a - T b\|`$indicates that$H$carries a norm, and the map to the weak space over$\mathbb R$is used to express weak convergence. The fixed-point set$\mathrm{fixedPointSetOn} C T$is the set of points of$C$that are fixed by$T$.
 
 The hypotheses are as follows. First, $C$ is assumed nonempty, closed, and convex over $\mathbb R$. The map $T$ is assumed to send $C$ into itself: $T(C) \subseteq C$. It is also assumed to be nonexpansive on $C$, meaning that for all $a,b \in C$,
 
-$$
+```math
 \|T a - T b\| \le \|a-b\|.
-$$
+```
 
 There is an additional assumption that $T$ has at least one fixed point in $C$, i.e. $\mathrm{fixedPointSetOn} C T$ is nonempty. The sequence $x_n$ satisfies $x_n \in C$ for every $n$. It is assumed to converge weakly to $x$, encoded by convergence of the image of $x_n$ under the weak-space map to the image of $x$. Finally, the residuals $x_n - T x_n$ are assumed to converge in the ordinary topology to $y$.
 
@@ -61,9 +61,9 @@ The proof begins by establishing a sequential-closedness property for the weak i
 
 Next, the proof converts the pointwise nonexpansiveness hypothesis into a bundled Lipschitz condition. The hypothesis `hT` says that for all $a,b \in C$,
 
-$$
+```math
 \|T a - T b\| \le \|a-b\|.
-$$
+```
 
 The cited result `isNonexpansiveOn_restrict_iff_lipschitzOnWith_one` supplies the direction from this pointwise inequality to the statement that $T$ is Lipschitz on $C$ with constant $1$. Thus `hT_lipschitz` states that $T$ satisfies `LipschitzOnWith 1 T C`, i.e. the same inequality with Lipschitz constant $1$ on the set $C$. This is the Lipschitz hypothesis required by Browder’s principle.
 

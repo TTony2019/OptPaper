@@ -14,14 +14,14 @@ theorem lemma13 (p ε : ℕ → ℝ) (η : ℝ) (k₀ : ℕ)
 ## Statement explanation
 The declaration `lemma13` concerns two real sequences $p:\mathbb N\to\mathbb R$ and $\varepsilon:\mathbb N\to\mathbb R$, a real number $\eta$, and a natural number $k_0$. Its hypotheses are:
 
-- $0<\eta<1$, so $\eta$ is a contraction factor strictly between $0$ and $1$.
+- $0\lt \eta\lt 1$, so $\eta$ is a contraction factor strictly between $0$ and $1$.
 - $\displaystyle \limsup_{k\to\infty}\varepsilon(k)\le 0$.
 - $\varepsilon$ is eventually bounded above: there exists some real $M$ such that $\varepsilon(k)\le M$ for all sufficiently large $k$. In Lean this is expressed by `Filter.IsBoundedUnder (· ≤ ·) Filter.atTop ε`.
 - For every $k\ge k_0$,
 
-  $$
-  p(k+1)\le \eta p(k)+\varepsilon(k).
-  $$
+$$
+p(k+1)\le \eta p(k)+\varepsilon(k).
+$$
 
 The conclusion is
 
@@ -67,7 +67,7 @@ by
 ```
 
 ## Proof explanation
-The proof begins by splitting the hypothesis $0<\eta\land \eta<1$ via `rcases hη with ⟨hη_pos, hη_lt_one⟩`. Thus we obtain $0<\eta$ and $\eta<1$. From $0<\eta$, the proof records $0\le \eta$ using `hη_pos.le`; this nonnegativity is later required by the contraction recurrence lemma. From $\eta<1$, it records
+The proof begins by splitting the hypothesis $0\lt \eta\land \eta\lt 1$ via `rcases hη with ⟨hη_pos, hη_lt_one⟩`. Thus we obtain $0\lt \eta$ and $\eta\lt 1$. From $0\lt \eta$, the proof records $0\le \eta$ using `hη_pos.le`; this nonnegativity is later required by the contraction recurrence lemma. From $\eta\lt 1$, it records
 
 $$
 0<1-\eta
@@ -93,13 +93,13 @@ $$
 \forall y>0,\ \text{eventually } p(n)<y.
 $$
 
-Accordingly, the proof introduces an arbitrary real $y$ together with the hypothesis $0<y$ by `intro y hy`. It then defines the auxiliary quantity
+Accordingly, the proof introduces an arbitrary real $y$ together with the hypothesis $0\lt y$ by `intro y hy`. It then defines the auxiliary quantity
 
 $$
 q=\frac{y(1-\eta)}2.
 $$
 
-Because $y>0$ and $1-\eta>0$, we have $q>0$. The proof checks this using `positivity`, after unfolding the local definition of $q$ with `dsimp [q]`.
+Because $y\gt 0$ and $1-\eta\gt 0$, we have $q\gt 0$. The proof checks this using `positivity`, after unfolding the local definition of $q$ with `dsimp [q]`.
 
 The next step derives an eventual upper bound for $\varepsilon$. The invocation of `Filter.eventually_lt_add_pos_of_limsup_le` uses the eventual boundedness hypothesis `hε_bdd`, the hypothesis $\limsup \varepsilon\le 0$, and the positivity of $q$. In this context it provides the eventual strict inequality
 
@@ -107,7 +107,7 @@ $$
 \varepsilon(k)<0+q=q.
 $$
 
-The tactic `filter_upwards` turns this into the desired eventual statement, and `simpa using hk.le` converts the strict inequality $\varepsilon(k)<q$ into $\varepsilon(k)\le q$. Thus the proof has established
+The tactic `filter_upwards` turns this into the desired eventual statement, and `simpa using hk.le` converts the strict inequality $\varepsilon(k)\lt q$ into $\varepsilon(k)\le q$. Thus the proof has established
 
 $$
 \text{eventually } \varepsilon(k)\le q.
@@ -155,13 +155,13 @@ $$
 =\frac y2.
 $$
 
-This is done by unfolding $q$ with `dsimp [q]` and clearing the denominator with `field_simp`, using the previously established fact that $1-\eta\ne 0$. Since $0<y$, we have $y/2<y$. The proof rewrites $q/(1-\eta)$ to $y/2$ using `rw`, and then `linarith` proves
+This is done by unfolding $q$ with `dsimp [q]` and clearing the denominator with `field_simp`, using the previously established fact that $1-\eta\ne 0$. Since $0\lt y$, we have $y/2\lt y$. The proof rewrites $q/(1-\eta)$ to $y/2$ using `rw`, and then `linarith` proves
 
 $$
 \frac{q}{1-\eta}<y.
 $$
 
-Finally, the proof applies the cited theorem `eventually_lt_of_contract_recurrence`. Its content is exactly the following: if $p$ is a real sequence, $0\le \eta$, $\eta<1$, $q>0$, and for all $k\ge N$,
+Finally, the proof applies the cited theorem `eventually_lt_of_contract_recurrence`. Its content is exactly the following: if $p$ is a real sequence, $0\le \eta$, $\eta\lt 1$, $q\gt 0$, and for all $k\ge N$,
 
 $$
 p(k+1)\le \eta p(k)+q,
@@ -179,13 +179,13 @@ $$
 p(n)<r.
 $$
 
-Here this is specialized to the same sequence $p$, the same $\eta$, the auxiliary $q$, the threshold $N$, and the value $r=y$. The hypotheses supplied are $0\le\eta$, $\eta<1$, $q>0$, the modified recurrence, and $q/(1-\eta)<y$. The conclusion is exactly the remaining goal:
+Here this is specialized to the same sequence $p$, the same $\eta$, the auxiliary $q$, the threshold $N$, and the value $r=y$. The hypotheses supplied are $0\le\eta$, $\eta\lt 1$, $q\gt 0$, the modified recurrence, and $q/(1-\eta)\lt y$. The conclusion is exactly the remaining goal:
 
 $$
 \text{eventually } p(n)<y.
 $$
 
-Since $y>0$ was arbitrary, this proves the premise required by `limsup_le_zero_of_eventually_lt_pos`, and therefore the desired conclusion
+Since $y\gt 0$ was arbitrary, this proves the premise required by `limsup_le_zero_of_eventually_lt_pos`, and therefore the desired conclusion
 
 $$
 \limsup_{k\to\infty}p(k)\le 0

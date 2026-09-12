@@ -25,15 +25,15 @@ $$
 T(x)=(1-\alpha)x+\alpha R(x)
 $$
 
-for every $x\in D$. Thus $T$ is a convex combination, with weight $\alpha$, of the identity and a nonexpansive map. The definition `IsAveragedOperator T α hα` is the whole-space version of this condition, where $D$ is the universal subset of $H$. The proof argument $hα$ records $0<\alpha<1$, although the definition itself is just the corresponding `AveragedWith` statement on the whole space.
+for every $x\in D$. Thus $T$ is a convex combination, with weight $\alpha$, of the identity and a nonexpansive map. The definition `IsAveragedOperator T α hα` is the whole-space version of this condition, where $D$ is the universal subset of $H$. The proof argument $hα$ records $0\lt \alpha\lt 1$, although the definition itself is just the corresponding `AveragedWith` statement on the whole space.
 
 The conclusion introduces
 
-$$
+```math
 \delta=\frac12+\frac12\min\!\left(\frac1{\alpha_1},\frac1{\alpha_2}\right),
 \qquad
 \alpha=\frac1\delta,
-$$
+```
 
 and asserts that the composition $T_1\circ T_2$ is an $\alpha$-averaged operator. Equivalently,
 
@@ -130,31 +130,31 @@ $$
 \alpha=\frac1{\frac12+\frac12\min(1/\alpha_1,1/\alpha_2)}
 $$
 
-lies in $(0,1)$. The nested proof uses `change` to replace the let-bound expression for $\alpha$ by the explicit reciprocal. Since $0<\alpha_1<1$, the lemma `one_lt_div` applied with the positive denominator $\alpha_1$ gives the equivalence
+lies in $(0,1)$. The nested proof uses `change` to replace the let-bound expression for $\alpha$ by the explicit reciprocal. Since $0\lt \alpha_1\lt 1$, the lemma `one_lt_div` applied with the positive denominator $\alpha_1$ gives the equivalence
 
 $$
 1<\frac1{\alpha_1}\iff \alpha_1<1,
 $$
 
-so the hypothesis $\alpha_1<1$ yields $1<1/\alpha_1$. Similarly, from $0<\alpha_2<1$, one obtains $1<1/\alpha_2$. The lemma `lt_min` then gives
+so the hypothesis $\alpha_1\lt 1$ yields $1\lt 1/\alpha_1$. Similarly, from $0\lt \alpha_2\lt 1$, one obtains $1\lt 1/\alpha_2$. The lemma `lt_min` then gives
 
-$$
+```math
 1<\min\!\left(\frac1{\alpha_1},\frac1{\alpha_2}\right).
-$$
+```
 
 Therefore
 
-$$
+```math
 \delta=\frac12+\frac12\min\!\left(\frac1{\alpha_1},\frac1{\alpha_2}\right)>1,
-$$
+```
 
-which `nlinarith` verifies. Hence also $\delta>0$, and then `one_div_pos` gives $0<1/\delta$, while `div_lt_one`, using positivity of $\delta$, gives
+which `nlinarith` verifies. Hence also $\delta\gt 0$, and then `one_div_pos` gives $0\lt 1/\delta$, while `div_lt_one`, using positivity of $\delta$, gives
 
 $$
 \frac1\delta<1 \iff 1<\delta.
 $$
 
-Thus $0<\alpha<1$. The main proof repeats the same reciprocal, minimum, and positivity estimates to obtain the fact named `halpha`.
+Thus $0\lt \alpha\lt 1$. The main proof repeats the same reciprocal, minimum, and positivity estimates to obtain the fact named `halpha`.
 
 Next the proof passes from whole-space maps to maps on the universal subtype. It defines
 
@@ -162,7 +162,7 @@ $$
 U_1(x)=T_1(x),\qquad U_2(x)=T_2(x)
 $$
 
-for $x$ in the subtype `Set.univ` of $H$. The equivalence `isAveragedOperator_iff_averagedWith` states that for a map $T:H\to H$ and a parameter $\alpha$ with $0<\alpha<1$, being an averaged operator on all of $H$ is equivalent to being $\alpha$-averaged as a map on the universal subset. Applying this equivalence to `hT1` and `hT2` gives
+for $x$ in the subtype `Set.univ` of $H$. The equivalence `isAveragedOperator_iff_averagedWith` states that for a map $T:H\to H$ and a parameter $\alpha$ with $0\lt \alpha\lt 1$, being an averaged operator on all of $H$ is equivalent to being $\alpha$-averaged as a map on the universal subset. Applying this equivalence to `hT1` and `hT2` gives
 
 $$
 \text{`AveragedWith` }\alpha_1\ U_1,\qquad
@@ -184,7 +184,7 @@ $$
 1-\alpha_1\alpha_2>0,
 $$
 
-which follows from $0<\alpha_i<1$; `nlinarith` derives it from the four inequalities $0<\alpha_1$, $\alpha_1<1$, $0<\alpha_2$, $\alpha_2<1$. This positivity is needed because $c$ has denominator $1-\alpha_1\alpha_2$.
+which follows from $0\lt \alpha_i\lt 1$; `nlinarith` derives it from the four inequalities $0\lt \alpha_1$, $\alpha_1\lt 1$, $0\lt \alpha_2$, $\alpha_2\lt 1$. This positivity is needed because $c$ has denominator $1-\alpha_1\alpha_2$.
 
 The main comparison to be proved is
 
@@ -194,7 +194,7 @@ $$
 
 The proof splits into the two cases $\alpha_1\le\alpha_2$ and $\alpha_2\le\alpha_1$, using `le_total`.
 
-If $\alpha_1\le\alpha_2$, then since $\alpha_1>0$, reciprocals reverse the inequality, so
+If $\alpha_1\le\alpha_2$, then since $\alpha_1\gt 0$, reciprocals reverse the inequality, so
 
 $$
 \frac1{\alpha_2}\le\frac1{\alpha_1}.
@@ -207,7 +207,7 @@ $$
 =\frac{2\alpha_2}{1+\alpha_2}.
 $$
 
-The lemma `field_simp` clears denominators in this algebraic identity, using $\alpha_2>0$ and $1+\alpha_2>0$. To prove
+The lemma `field_simp` clears denominators in this algebraic identity, using $\alpha_2\gt 0$ and $1+\alpha_2\gt 0$. To prove
 
 $$
 \frac{\alpha_1+\alpha_2-2\alpha_1\alpha_2}{1-\alpha_1\alpha_2}
@@ -227,7 +227,7 @@ $$
 (\alpha_2-\alpha_1)(1-\alpha_2),
 $$
 
-which is nonnegative because $\alpha_1\le\alpha_2$ and $\alpha_2<1$. This nonnegativity is `hnonneg`, and `nlinarith` closes the inequality.
+which is nonnegative because $\alpha_1\le\alpha_2$ and $\alpha_2\lt 1$. This nonnegativity is `hnonneg`, and `nlinarith` closes the inequality.
 
 The case $\alpha_2\le\alpha_1$ is symmetric. Then
 
@@ -248,7 +248,7 @@ $$
 (\alpha_1-\alpha_2)(1-\alpha_1)\ge 0,
 $$
 
-again because $\alpha_2\le\alpha_1$ and $\alpha_1<1$. Hence $c\le\alpha$ in both cases.
+again because $\alpha_2\le\alpha_1$ and $\alpha_1\lt 1$. Hence $c\le\alpha$ in both cases.
 
 Once the estimate $c\le\alpha$ is available, the proof applies `averagedWith_mono_parameter`. That lemma says that if a map is $a$-averaged, if $b\in(0,1)$, and if $a\le b$, then the same map is also $b$-averaged. Here $a=c$, $b=\alpha=1/\delta$, and the earlier facts give $c\le\alpha$ and $\alpha\in(0,1)$. Therefore $U_1\circ U_2$ is averaged with parameter $\alpha$, yielding `hpaper`.
 

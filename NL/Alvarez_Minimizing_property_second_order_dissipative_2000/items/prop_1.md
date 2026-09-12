@@ -36,9 +36,9 @@ theorem projection_estimate_for_scalar_damped_limit {H : Type*} [NormedAddCommGr
 ## Statement explanation
 The declaration is a theorem about a damped second-order dissipative system in a complete real inner product space $H$, i.e. a real Hilbert space. The data are a damping coefficient $\gamma \in \mathbb{R}$, a potential $\Phi : H \to \mathbb{R}$, a gradient field $\mathrm{gradPhi} : H \to H$, initial position $u_0 \in H$, initial velocity $v_0 \in H$, a weak limit $\hat u \in H$, and a minimizer $x \in H$. Let
 
-$$
+```math
 S=\{q\in H:\Phi(q)=\inf \Phi(H)\}
-$$
+```
 
 be the set of global minimizers of $\Phi$, represented in Lean by `argmin Phi (potential_range_bddBelow hPhi)`. The definition of `argmin` says that $q \in S$ exactly when $\Phi(q)=\mathrm{sInf}(\mathrm{range}\Phi)$, i.e. exactly when $\Phi(q)$ is the infimum of the values of $\Phi$.
 
@@ -47,23 +47,23 @@ The hypotheses are:
 - `hPhi : HasPotentialAssumption Phi`: a potential-theoretic hypothesis on $\Phi$. The proof uses visible consequences of it: $\Phi$ is convex, its range is bounded below, and $\mathrm{sInf}(\mathrm{range}\Phi)\le \Phi(q)$ for every $q$.
 - `sys : DissipativeSystem gamma Phi gradPhi u0 v0`: the dissipative system. It supplies the trajectory $u=\texttt{sys.u}$, the gradient relation between $\mathrm{gradPhi}$ and $\Phi$, and the differential equation. In the proof the equation is used in the form
 
-  $$
-  u''(t)+\gamma u'(t)+\mathrm{gradPhi}(u(t))=0.
-  $$
+$$
+u''(t)+\gamma u'(t)+\mathrm{gradPhi}(u(t))=0.
+$$
 
 - `hgamma : 0 < gamma`: the damping coefficient is positive.
 - `hvel0`: the initial velocity has right limit $v_0$, namely
 
-  $$
-  u'(t)\to v_0 \quad\text{as } t\to 0^+.
-  $$
+$$
+u'(t)\to v_0 \quad\text{as } t\to 0^+.
+$$
 
 - `hhat : uhat ∈ S`: the point $\hat u$ is a minimizer of $\Phi$.
 - `hWeak`: the trajectory converges weakly to $\hat u$:
 
-  $$
-  u(t)\rightharpoonup \hat u \quad\text{as } t\to\infty.
-  $$
+$$
+u(t)\rightharpoonup \hat u \quad\text{as } t\to\infty.
+$$
 
 - `hS_cheb : IsChebyshev S`: the minimizer set is Chebyshev, meaning every point of $H$ has a unique best approximation in $S$.
 - `x : H` and `hx : x ∈ S`: an arbitrary minimizer.
@@ -78,26 +78,26 @@ $$
 
 Also write $P_S(y)$ for the Chebyshev projection point of $y$ onto $S$, i.e. `projectionPoint (argmin Phi …) hS_cheb (u0 + gamma⁻¹ • v0)`. The four conclusions are:
 
-1. $\|\hat u-x\|\le \|y-x\|+c$. Thus the weak limit is controlled in norm by the projected initial “damped” point $y$ and by the energy gap $\Delta$.
-2. $\|\hat u-P_S(y)\|\le \mathrm{infDist}(y,S)+c$. This is the same estimate after replacing $x$ by the projection of $y$ onto $S$.
+1. $`\|\hat u-x\|\le \|y-x\|+c`$. Thus the weak limit is controlled in norm by the projected initial “damped” point$y$and by the energy gap$\Delta$.
+2. $`\|\hat u-P_S(y)\|\le \mathrm{infDist}(y,S)+c`$. This is the same estimate after replacing$x$by the projection of$y$onto$S$.
 3. If $S$ happens to be an affine subspace of $H$, then the stronger bound
 
-   $$
-   \|\hat u-P_S(y)\|\le c
-   $$
+```math
+\|\hat u-P_S(y)\|\le c
+```
 
    holds, with no $\mathrm{infDist}(y,S)$ term.
 4. If $\Phi$ is quadratic, i.e. there is a self-adjoint positive semidefinite continuous linear operator $A:H\to H$ such that
 
-   $$
-   \Phi(q)=\frac12\langle Aq,q\rangle
-   $$
+$$
+\Phi(q)=\frac12\langle Aq,q\rangle
+$$
 
    for all $q$, then the trajectory converges strongly to the projection point:
 
-   $$
-   u(t)\to P_S(y)\quad\text{as }t\to\infty.
-   $$
+$$
+u(t)\to P_S(y)\quad\text{as }t\to\infty.
+$$
 
 ## Lean proof
 ```lean
@@ -684,9 +684,9 @@ This nonnegativity is needed whenever the proof takes square roots such as $\sqr
 
 The cited theorem `scalar_damped_minimizing_property hPhi sys` gives a conjunction of four facts: the squared velocity is integrable on $[0,\infty)$, the velocity tends to $0$ at infinity, the potential values tend to the infimum of the range of $\Phi$, and, if the minimizer set is nonempty, there is weak convergence to some minimizer. The proof uses its first component to obtain
 
-$$
+```math
 \int_0^\infty \|u'(t)\|^2\,dt<\infty,
-$$
+```
 
 and its second component to obtain
 
@@ -698,39 +698,39 @@ The weak convergence hypothesis `hWeak` is supplied separately.
 
 The cited lemma `scalar_damped_energy_from_zero hPhi sys hvel0 ht` gives, for every $t\ge 0$,
 
-$$
+```math
 \left(\frac12\|u'(t)\|^2+\Phi(u(t))\right)
 +\gamma\int_0^t \|u'(s)\|^2\,ds
 =\frac12\|v_0\|^2+\Phi(u_0).
-$$
+```
 
-Using $\Phi(u(t))\ge \inf\Phi(H)$ and the kinetic term $\frac12\|u'(t)\|^2\ge 0$, this implies the bound
+Using $\Phi(u(t))\ge \inf\Phi(H)$ and the kinetic term $`\frac12\|u'(t)\|^2\ge 0`$, this implies the bound
 
-$$
+```math
 \int_0^t \|u'(s)\|^2\,ds
 \le
 \gamma^{-1}\left(\frac12\|v_0\|^2+\Phi(u_0)-\inf\Phi(H)\right)
-$$
+```
 
 for every $t\ge 0$. This is the integral estimate `hq_bound` used later to control the accumulated dissipation.
 
 The next major step is the pointwise estimate. For a minimizer $z\in S$, the cited theorem `scalar_distance_to_minimizer_converges hPhi sys hvelocity_integrable z hz` gives that the scalar distance function
 
-$$
+```math
 t\mapsto \|u(t)-z\|
-$$
+```
 
 has a finite limit as $t\to\infty$. For the fixed minimizer $x$, this produces a limit `distanceLimit` with
 
-$$
+```math
 \|u(t)-x\|\to \texttt{distanceLimit}.
-$$
+```
 
 The proof defines
 
-$$
+```math
 p(t)=\frac12\|u(t)-x\|^2.
-$$
+```
 
 Using `dissipativeSystem_differentiableAt_pos sys ht`, which says that $u$ is differentiable at every positive time $t$, the proof obtains
 
@@ -738,32 +738,32 @@ $$
 p'(t)=\langle u'(t),u(t)-x\rangle
 $$
 
-eventually for large positive $t$. Since $u'(t)\to 0$ and $\|u(t)-x\|$ is eventually bounded by some constant $M$, Cauchy–Schwarz gives
+eventually for large positive $t$. Since $u'(t)\to 0$ and $`\|u(t)-x\|`$is eventually bounded by some constant$M$, Cauchy–Schwarz gives
 
-$$
+```math
 |p'(t)|\le \|u'(t)\|\,\|u(t)-x\|\le M\|u'(t)\|.
-$$
+```
 
 Therefore $p'(t)\to 0$. This is an important auxiliary fact: the derivative of the half-squared distance to a minimizer vanishes at infinity.
 
-A similar argument is repeated for an arbitrary minimizer $z\in S$. The cited theorem `scalar_damped_distance_integrated_bound hPhi sys hgamma hvel0 hz hvelocity_integrable` gives, for every $t>0$,
+A similar argument is repeated for an arbitrary minimizer $z\in S$. The cited theorem `scalar_damped_distance_integrated_bound hPhi sys hgamma hvel0 hz hvelocity_integrable` gives, for every $t\gt 0$,
 
-$$
+```math
 \frac{d}{dt}\left(\frac12\|u(t)-z\|^2\right)
 +\gamma\left(\frac12\|u(t)-z\|^2\right)
 \le
 \langle v_0,u_0-z\rangle
 +\gamma\left(\frac12\|u_0-z\|^2\right)
 +\int_0^t \|u'(s)\|^2\,ds.
-$$
+```
 
 Let
 
-$$
+```math
 p_z(t)=\frac12\|u(t)-z\|^2.
-$$
+```
 
-The proof proves $p_z'(t)\to 0$ by the same bounded-distance and vanishing-velocity argument as for $p$. Combining the differential inequality with the integral bound `hq_bound`, and using that $p_z'\to 0$, it shows that for every $\varepsilon>0$, eventually
+The proof proves $p_z'(t)\to 0$ by the same bounded-distance and vanishing-velocity argument as for $p$. Combining the differential inequality with the integral bound `hq_bound`, and using that $p_z'\to 0$, it shows that for every $\varepsilon\gt 0$, eventually
 
 $$
 p_z(t)\le K+\varepsilon,
@@ -771,57 +771,57 @@ $$
 
 where
 
-$$
+```math
 K=\frac12\|u_0+\gamma^{-1}v_0-z\|^2+\gamma^{-2}\Delta.
-$$
+```
 
 The algebra here uses the expansion of
 
-$$
+```math
 \|u_0+\gamma^{-1}v_0-z\|^2
-$$
+```
 
 and the identity
 
-$$
+```math
 \frac{1}{\gamma}\left(\langle v_0,u_0-z\rangle+\gamma\frac12\|u_0-z\|^2
 +\int_0^t\|u'\|^2\right)
-$$
+```
 
 to rewrite the differential inequality in the form involving $K+\varepsilon$. The tactics `rw`, `field_simp`, `ring`, and `nlinarith` are used to perform these scalar rearrangements.
 
 From $p_z(t)\le K+\varepsilon$ eventually, the proof obtains
 
-$$
+```math
 \|u(t)-z\|\le \sqrt{2(K+\varepsilon)}
-$$
+```
 
-eventually. The cited lemma `weak_norm_sub_le_of_tendsto hWeak hnorm_event` then applies: if $u(t)$ converges weakly to $\hat u$ and eventually $\|u(t)-z\|\le B$, then
+eventually. The cited lemma `weak_norm_sub_le_of_tendsto hWeak hnorm_event` then applies: if $u(t)$ converges weakly to $\hat u$ and eventually $`\|u(t)-z\|\le B`$, then
 
-$$
+```math
 \|\hat u-z\|\le B.
-$$
+```
 
 Thus
 
-$$
+```math
 \|\hat u-z\|\le \sqrt{2(K+\varepsilon)}
-$$
+```
 
-for every $\varepsilon>0$. Letting $\varepsilon\to 0^+$ along the positive reals, using continuity of the square root, gives
+for every $\varepsilon\gt 0$. Letting $\varepsilon\to 0^+$ along the positive reals, using continuity of the square root, gives
 
-$$
+```math
 \|\hat u-z\|\le \sqrt{2K}.
-$$
+```
 
 Finally,
 
-$$
+```math
 \sqrt{2K}
 \le
 \|u_0+\gamma^{-1}v_0-z\|
 +\gamma^{-1}\sqrt{2\Delta}
-$$
+```
 
 by the elementary inequality
 
@@ -831,26 +831,26 @@ $$
 
 or, equivalently, by subadditivity of the square root applied to the two nonnegative summands. This proves the pointwise bound
 
-$$
+```math
 \|\hat u-z\|
 \le
 \|u_0+\gamma^{-1}v_0-z\|
 +\gamma^{-1}\sqrt{2\Delta}
-$$
+```
 
 for every $z\in S$. Taking $z=x$ gives the first conclusion.
 
 For the second conclusion, the cited theorem `projection_metric_estimate_of_pointwise hS_cheb hpointwise` is applied. It says that if $S$ is Chebyshev and
 
-$$
+```math
 \|\hat u-z\|\le \|y-z\|+d
-$$
+```
 
 for every $z\in S$, then
 
-$$
+```math
 \|\hat u-P_S(y)\|\le \mathrm{infDist}(y,S)+d.
-$$
+```
 
 Here $y=u_0+\gamma^{-1}v_0$ and $d=\gamma^{-1}\sqrt{2\Delta}$. This is exactly the second conjunct.
 
@@ -864,9 +864,9 @@ $$
 
 The cited theorem `projectionPoint_isBestApproximation` gives that $p$ is a best approximation to $y$ in $S$, so
 
-$$
+```math
 \|y-p\|=d.
-$$
+```
 
 The cited characterization of projections onto closed affine subspaces,
 `eq_projectionPoint_iff_mem_and_inner_sub_eq_zero_of_nonempty_isClosed_affineSubspace`,
@@ -890,29 +890,29 @@ $$
 e\in L.\mathrm{direction}.
 $$
 
-If $e=0$, then $\|e\|\le c$ is immediate because $c\ge 0$. Otherwise, the proof uses the unit vector $e/\|e\|$ and moves from $p$ in the direction $-e$ by distance $rd$. For each $r\ge 0$, the point
+If $e=0$, then $`\|e\|\le c`$is immediate because$c\ge 0$. Otherwise, the proof uses the unit vector$`e/\|e\|`$and moves from$p$in the direction$-e$by distance$rd$. For each$r\ge 0$, the point
 
-$$
+```math
 q_r=p-(rd)\frac{e}{\|e\|}
-$$
+```
 
 lies in $S=L$. Orthogonality of $e$ and $y-p$ gives
 
-$$
+```math
 \|y-q_r\|=\sqrt{1+r^2}\,d,
-$$
+```
 
 while
 
-$$
+```math
 \|\hat u-q_r\|=\|e\|+rd.
-$$
+```
 
 The already proved pointwise estimate applied to $q_r\in S$ yields
 
-$$
+```math
 \|e\|\le (\sqrt{1+r^2}-r)d+c.
-$$
+```
 
 Taking $r=n\in\mathbb N$ and letting $n\to\infty$, the identity
 
@@ -922,9 +922,9 @@ $$
 
 gives
 
-$$
+```math
 \|e\|\le c.
-$$
+```
 
 This is precisely the affine-subspace conclusion.
 
@@ -970,7 +970,7 @@ $$
 g_z(t)=\langle u'(t)-v_0,z\rangle+\gamma\langle u(t)-u_0,z\rangle.
 $$
 
-Using `dissipativeSystem_differentiableAt_pos` and `dissipativeSystem_velocity_hasDerivAt_pos`, it shows for $t>0$
+Using `dissipativeSystem_differentiableAt_pos` and `dissipativeSystem_velocity_hasDerivAt_pos`, it shows for $t\gt 0$
 
 $$
 g_z'(t)=\langle u''(t),z\rangle+\gamma\langle u'(t),z\rangle.
@@ -991,13 +991,13 @@ $$
 =0.
 $$
 
-Therefore $g_z'(t)=0$ for all $t>0$. Since $g_z$ has zero derivative on the interval $(0,\infty)$, which is convex, it is constant there. Its right-hand limit at $0$ is $0$: indeed $u(t)\to u_0$ and $u'(t)\to v_0$, so both inner products in the definition of $g_z(t)$ tend to $0$. Hence
+Therefore $g_z'(t)=0$ for all $t\gt 0$. Since $g_z$ has zero derivative on the interval $(0,\infty)$, which is convex, it is constant there. Its right-hand limit at $0$ is $0$: indeed $u(t)\to u_0$ and $u'(t)\to v_0$, so both inner products in the definition of $g_z(t)$ tend to $0$. Hence
 
 $$
 g_z(t)=0
 $$
 
-for all $t>0$, and therefore $g_z(t)\to 0$ as $t\to\infty$.
+for all $t\gt 0$, and therefore $g_z(t)\to 0$ as $t\to\infty$.
 
 On the other hand, as $t\to\infty$, the velocity tends to $0$, so
 

@@ -30,9 +30,9 @@ The non-type parameters are:
 
 There is a hypothesis `_hAt` saying that for every $x \in n \to \mathbb{R}$ and every $z \in K$,
 
-$$
+```math
 \langle A x, z\rangle_K = \sum_{i \in n} x_i\,(\mathrm{At} z)_i .
-$$
+```
 
 This is an adjoint-pairing identity: the inner product in $K$ between $A x$ and $z$ equals the Euclidean dot product in $\mathbb{R}^n$ between $x$ and $\mathrm{At} z$. It does not by itself assert that $A$ or $\mathrm{At}$ is linear; it states this pairing identity for all $x$ and $z$.
 

@@ -21,9 +21,9 @@ theorem cauchy_lipschitz_continuation {X : Type*} [NormedAddCommGroup X] [Normed
 ## Statement explanation
 Let $X$ be a complete real normed vector space, let $F:X\to X$ be a vector field, and let $Y_0\in X$ be an initial value. The hypothesis `hF` says that $F$ is locally Lipschitz in the following pointwise-neighborhood sense: for every $x\in X$, there is a neighborhood $U$ of $x$ and a constant $L\ge 0$ such that
 
-$$
+```math
 \|F(y)-F(z)\|\le L\|y-z\|
-$$
+```
 
 for all $y,z\in U$. No global Lipschitz constant is assumed.
 
@@ -37,13 +37,13 @@ together with uniqueness and a continuation criterion at a finite maximal time.
 
 Concretely, a set $I\subseteq \mathbb R$ and a curve $Y:\mathbb R\to X$ form a classical solution on $I$ when $0\in I$, $Y(0)=Y_0$, and for every $t\in I$, $Y$ has derivative $F(Y(t))$ at $t$. This is the content of `IsClassicalSolutionOn`.
 
-The predicate `IsMaximalClassicalSolution F Y₀ Tmax Y` says that $0<T_{\max}$, that $Y$ is a classical solution on
+The predicate `IsMaximalClassicalSolution F Y₀ Tmax Y` says that $0\lt T_{\max}$, that $Y$ is a classical solution on
 
-$$
+```math
 D_{T_{\max}}=\{t\in\mathbb R:0\le t,\ t<T_{\max}\},
-$$
+```
 
-where $t<T_{\max}$ is understood in $\mathbb R\cup\{+\infty\}$, and that no forward extension is possible. More precisely, if $I$ is an order-connected subset of $\mathbb R$ containing $0$, if $Z$ is a classical solution on $I$, if $D_{T_{\max}}\subseteq I$, and if $Z$ agrees with $Y$ on $D_{T_{\max}}$, then
+where $t\lt T_{\max}$ is understood in $`\mathbb R\cup\{+\infty\}`$, and that no forward extension is possible. More precisely, if$I$is an order-connected subset of$\mathbb R$containing$0$, if$Z$is a classical solution on$I$, if$D_{T_{\max}}\subseteq I$, and if$Z$agrees with$Y$on$D_{T_{\max}}$, then
 
 $$
 I\cap[0,\infty)\subseteq D_{T_{\max}}.
@@ -51,11 +51,11 @@ $$
 
 Thus the solution cannot be extended to any larger forward interval.
 
-The theorem `cauchy_lipschitz_continuation` concludes that there exist $T_{\max}:\mathrm{WithTop}\,\mathbb R$ and $Y:\mathbb R\to X$ such that:
+The theorem `cauchy_lipschitz_continuation` concludes that there exist $`T_{\max}:\mathrm{WithTop}\,\mathbb R`$and$Y:\mathbb R\to X$ such that:
 
 1. $Y$ is a maximal classical solution with maximal time $T_{\max}$.
 
-2. Any other maximal classical solution $Y'$ with maximal time $T_{\max}'$ has $T_{\max}'=T_{\max}$, and agrees with $Y$ at every $t$ with $0\le t<T_{\max}$.
+2. Any other maximal classical solution $Y'$ with maximal time $T_{\max}'$ has $T_{\max}'=T_{\max}$, and agrees with $Y$ at every $t$ with $0\le t\lt T_{\max}$.
 
 3. If $T_{\max}$ is finite, say $T_{\max}=T\in\mathbb R$, and if
 
@@ -63,7 +63,7 @@ $$
 Y(t)\to l
 $$
 
-as $t\to T$ from the left within the forward solution domain $\{t:0\le t<T_{\max}\}$, then there exists $S>T$ and a classical solution $Z$ on $\{t:0\le t<S\}$ which agrees with $Y$ on $\{t:0\le t<T\}$.
+as $t\to T$ from the left within the forward solution domain $`\{t:0\le t<T_{\max}\}`$, then there exists$S>T$and a classical solution$Z$on$`\{t:0\le t<S\}`$which agrees with$Y$on$`\{t:0\le t<T\}`$.
 
 So a finite maximal time cannot occur together with a finite left limit of the solution. If such a limit exists, the solution extends past that time.
 
@@ -234,25 +234,25 @@ by
 ## Proof explanation
 The proof begins with `classical`, which only permits classical logic and has no mathematical content. It then uses Zorn’s lemma. The auxiliary order is the extension order on pointed solutions of the ODE. The cited lemma `pointedSolution_chain_upper_bound F hF Y₀` states that every chain in this order is bounded above. Applying `zorn_le` therefore produces a maximal pointed solution $p$, with maximality meaning that if $p\le q$, then $q\le p$. In mathematical terms, $p$ is a local solution that cannot be extended any further within the pointed-solution order.
 
-Next, `forward_endpoint_of_open_preconnected` is applied to the domain of $p$. The lemma says that if $D$ is open, preconnected, and contains $0$, then there is $T_{\max}:\mathrm{WithTop}\,\mathbb R$ such that $0<T_{\max}$ and
+Next, `forward_endpoint_of_open_preconnected` is applied to the domain of $p$. The lemma says that if $D$ is open, preconnected, and contains $0$, then there is $`T_{\max}:\mathrm{WithTop}\,\mathbb R`$such that$0<T_{\max}$ and
 
-$$
+```math
 D\cap[0,\infty)=\{t\in\mathbb R:0\le t,\ t<T_{\max}\}.
-$$
+```
 
 This is the standard fact that an open preconnected subset of $\mathbb R$ has interval-like forward part. Applying it to $p.\mathrm{dom}$, the proof obtains $T_{\max}$ and the equality
 
-$$
+```math
 p.\mathrm{dom}\cap[0,\infty)=\{t:0\le t,\ t<T_{\max}\}.
-$$
+```
 
 The proof then sets
 
-$$
+```math
 D=\{t\in\mathbb R:0\le t,\ t<T_{\max}\}.
-$$
+```
 
-The curve $p.\mathrm{curve}$ is shown to be a classical solution on $D$. The initial condition $0\in D$ follows from $0\in p.\mathrm{dom}$ and $0\ge 0$. The condition $p.\mathrm{curve}(0)=Y_0$ is exactly $p.\mathrm{initial}$. For $t\in D$, the equality $D=p.\mathrm{dom}\cap[0,\infty)$ gives $t\in p.\mathrm{dom}$, and $p.\mathrm{ode}\,t$ gives the required derivative
+The curve $p.\mathrm{curve}$ is shown to be a classical solution on $D$. The initial condition $0\in D$ follows from $0\in p.\mathrm{dom}$ and $0\ge 0$. The condition $p.\mathrm{curve}(0)=Y_0$ is exactly $p.\mathrm{initial}$. For $t\in D$, the equality $D=p.\mathrm{dom}\cap[0,\infty)$ gives $t\in p.\mathrm{dom}$, and $`p.\mathrm{ode}\,t`$ gives the required derivative
 
 $$
 p.\mathrm{curve}'(t)=F(p.\mathrm{curve}(t)).
@@ -262,29 +262,29 @@ Thus `hpclassical` is established.
 
 The proof then establishes `hmaxp`, namely that $T_{\max},p.\mathrm{curve}$ is a maximal classical solution. The maximality condition is proved by splitting on whether $T_{\max}=\top$ or $T_{\max}$ is a finite real number $T$.
 
-If $T_{\max}=\top$, then $D=\{t:0\le t\}$ is all of $[0,\infty)$. Therefore $I\cap[0,\infty)\subseteq D$ is immediate, and the proof finishes this case by showing membership in $D$ from $0\le t$.
+If $T_{\max}=\top$, then $`D=\{t:0\le t\}`$is all of$[0,\infty)$. Therefore$I\cap[0,\infty)\subseteq D$is immediate, and the proof finishes this case by showing membership in$D$from$0\le t$.
 
 If $T_{\max}=T$ is finite, the proof converts the forward domain to
 
-$$
+```math
 p.\mathrm{dom}\cap[0,\infty)=\{t:0\le t<T\}
-$$
+```
 
-and applies `pointedSolution_forward_maximal_of_ordConnected`. That lemma says: if $F$ is locally Lipschitz, $p$ is a maximal pointed solution, $T>0$, the forward domain of $p$ is $\{t:0\le t<T\}$, $I$ is order-connected and contains $0$, $Z$ is a classical solution on $I$, $\{t:0\le t<T\}\subseteq I$, and $p.\mathrm{curve}=Z$ on $\{t:0\le t<T\}$, then
+and applies `pointedSolution_forward_maximal_of_ordConnected`. That lemma says: if $F$ is locally Lipschitz, $p$ is a maximal pointed solution, $T\gt 0$, the forward domain of $p$ is $`\{t:0\le t<T\}`$,$I$is order-connected and contains$0$,$Z$is a classical solution on$I$,$`\{t:0\le t<T\}\subseteq I`$, and$p.\mathrm{curve}=Z$on$`\{t:0\le t<T\}`$, then
 
-$$
+```math
 I\cap[0,\infty)\subseteq\{t:0\le t<T\}.
-$$
+```
 
-This is exactly the maximality condition needed for `IsMaximalClassicalSolution`. The `simpa` at the end just rewrites the finite $T_{\max}$ and the coercions between $\mathbb R$ and $\mathrm{WithTop}\,\mathbb R$.
+This is exactly the maximality condition needed for `IsMaximalClassicalSolution`. The `simpa` at the end just rewrites the finite $T_{\max}$ and the coercions between $\mathbb R$ and $`\mathrm{WithTop}\,\mathbb R`$.
 
 The uniqueness part then begins. Let $T_{\max}',Y'$ be another maximal classical solution. Define
 
-$$
+```math
 D'=\{t:0\le t,\ t<T_{\max}'\}.
-$$
+```
 
-The cited lemma `classicalSolution_eq_of_below_both` is the forward uniqueness theorem for locally Lipschitz ODEs. It says that if $Y_1$ is a classical solution on $\{0\le t<T_1\}$ and $Y_2$ is a classical solution on $\{0\le t<T_2\}$, both with initial value $Y_0$, then for every $t$ with $0\le t<T_1$ and $0\le t<T_2$,
+The cited lemma `classicalSolution_eq_of_below_both` is the forward uniqueness theorem for locally Lipschitz ODEs. It says that if $Y_1$ is a classical solution on $`\{0\le t<T_1\}`$and$Y_2$is a classical solution on$`\{0\le t<T_2\}`$, both with initial value$Y_0$, then for every$t$with$0\le t<T_1$and$0\le t<T_2$,
 
 $$
 Y_1(t)=Y_2(t).
@@ -298,25 +298,25 @@ $$
 p.\mathrm{curve}(t)=Y'(t).
 $$
 
-The proof then compares the endpoints $T_{\max}$ and $T_{\max}'$. It notes that $D$ is order-connected because $p.\mathrm{dom}$ is preconnected and intersecting with $[0,\infty)$ preserves that property. Similarly $D'$ is order-connected: if $T_{\max}'=\top$, it is $[0,\infty)$; if $T_{\max}'=T'$ is finite, it is $\{t:0\le t<T'\}$, which is an order-connected interval.
+The proof then compares the endpoints $T_{\max}$ and $T_{\max}'$. It notes that $D$ is order-connected because $p.\mathrm{dom}$ is preconnected and intersecting with $[0,\infty)$ preserves that property. Similarly $D'$ is order-connected: if $T_{\max}'=\top$, it is $[0,\infty)$; if $T_{\max}'=T'$ is finite, it is $`\{t:0\le t<T'\}`$, which is an order-connected interval.
 
-To prove $T_{\max}\le T_{\max}'$, the proof argues by contradiction. If $T_{\max}'<T_{\max}$, then $D'\subseteq D$. It applies the maximality property of the already assumed maximal solution $Y'$ with $I=D$ and $Z=p.\mathrm{curve}$. The conditions are satisfied: $D$ is order-connected, contains $0$, $p.\mathrm{curve}$ is a classical solution on $D$, $D'\subseteq D$, and the two curves agree on $D'$ by the common-interval uniqueness just obtained. The maximality of $Y'$ therefore gives
+To prove $T_{\max}\le T_{\max}'$, the proof argues by contradiction. If $T_{\max}'\lt T_{\max}$, then $D'\subseteq D$. It applies the maximality property of the already assumed maximal solution $Y'$ with $I=D$ and $Z=p.\mathrm{curve}$. The conditions are satisfied: $D$ is order-connected, contains $0$, $p.\mathrm{curve}$ is a classical solution on $D$, $D'\subseteq D$, and the two curves agree on $D'$ by the common-interval uniqueness just obtained. The maximality of $Y'$ therefore gives
 
 $$
 D\cap[0,\infty)=D\subseteq D',
 $$
 
-so every $t\in D$ satisfies $t<T_{\max}'$. The lemma `withTop_le_of_forward_subset` converts this pointwise statement into $T_{\max}\le T_{\max}'$. It says that if $0<A$ and every finite $t\ge 0$ with $t<A$ also satisfies $t<B$, then $A\le B$. This contradicts $T_{\max}'<T_{\max}$, so $T_{\max}\le T_{\max}'$.
+so every $t\in D$ satisfies $t\lt T_{\max}'$. The lemma `withTop_le_of_forward_subset` converts this pointwise statement into $T_{\max}\le T_{\max}'$. It says that if $0\lt A$ and every finite $t\ge 0$ with $t\lt A$ also satisfies $t\lt B$, then $A\le B$. This contradicts $T_{\max}'\lt T_{\max}$, so $T_{\max}\le T_{\max}'$.
 
-The reverse inequality is proved similarly: if $T_{\max}<T_{\max}'$, then $D\subseteq D'$, and one applies the maximality property of $p$ with $I=D'$ and $Z=Y'$. The same `withTop_le_of_forward_subset` argument gives $T_{\max}'\le T_{\max}$. Hence
+The reverse inequality is proved similarly: if $T_{\max}\lt T_{\max}'$, then $D\subseteq D'$, and one applies the maximality property of $p$ with $I=D'$ and $Z=Y'$. The same `withTop_le_of_forward_subset` argument gives $T_{\max}'\le T_{\max}$. Hence
 
 $$
 T_{\max}'=T_{\max}.
 $$
 
-Finally the common-interval equality gives $Y'(t)=p.\mathrm{curve}(t)=Y(t)$ for every $0\le t<T_{\max}$.
+Finally the common-interval equality gives $Y'(t)=p.\mathrm{curve}(t)=Y(t)$ for every $0\le t\lt T_{\max}$.
 
-The continuation part begins with the assumption that $T_{\max}=T$ is finite. The proof first derives $T>0$. It then restricts the given limit to the smaller left interval $(T/2,T)$. Since this interval is contained in $D$, the limit remains valid. Rewriting the neighborhood filter on $(T/2,T)$ at $T$ as the left-neighborhood filter at $T$ gives
+The continuation part begins with the assumption that $T_{\max}=T$ is finite. The proof first derives $T\gt 0$. It then restricts the given limit to the smaller left interval $(T/2,T)$. Since this interval is contained in $D$, the limit remains valid. Rewriting the neighborhood filter on $(T/2,T)$ at $T$ as the left-neighborhood filter at $T$ gives
 
 $$
 p.\mathrm{curve}(t)\to l
@@ -324,13 +324,13 @@ $$
 
 as $t\to T$ from the left.
 
-Next the proof invokes `local_classical_solution_of_locally_lipschitz`, the local Picard–Lindelöf existence theorem: for locally Lipschitz $F$, for every $t_0$ and $x$, there exist $\varepsilon>0$ and a curve $\alpha$ such that $\alpha(t_0)=x$ and
+Next the proof invokes `local_classical_solution_of_locally_lipschitz`, the local Picard–Lindelöf existence theorem: for locally Lipschitz $F$, for every $t_0$ and $x$, there exist $\varepsilon\gt 0$ and a curve $\alpha$ such that $\alpha(t_0)=x$ and
 
 $$
 \alpha'(t)=F(\alpha(t))
 $$
 
-for all $t\in(t_0-\varepsilon,t_0+\varepsilon)$. Applying this with $t_0=T$ and $x=l$, the proof obtains $\varepsilon>0$, a curve $\alpha$, the value $\alpha(T)=l$, and the ODE on $(T-\varepsilon,T+\varepsilon)$.
+for all $t\in(t_0-\varepsilon,t_0+\varepsilon)$. Applying this with $t_0=T$ and $x=l$, the proof obtains $\varepsilon\gt 0$, a curve $\alpha$, the value $\alpha(T)=l$, and the ODE on $(T-\varepsilon,T+\varepsilon)$.
 
 It then sets
 
@@ -338,9 +338,9 @@ $$
 \varepsilon_0=\min(\varepsilon,T/2).
 $$
 
-Thus $\varepsilon_0>0$, $\varepsilon_0\le\varepsilon$, and $\varepsilon_0\le T/2$. The curve $\alpha$ solves the ODE on $(T-\varepsilon_0,T+\varepsilon_0)$, and $p.\mathrm{curve}$ solves the ODE on $(T-\varepsilon_0,T)$.
+Thus $\varepsilon_0\gt 0$, $\varepsilon_0\le\varepsilon$, and $\varepsilon_0\le T/2$. The curve $\alpha$ solves the ODE on $(T-\varepsilon_0,T+\varepsilon_0)$, and $p.\mathrm{curve}$ solves the ODE on $(T-\varepsilon_0,T)$.
 
-Now `ode_eqOn_left_of_tendsto` is applied. This lemma states that if two curves $u,v$ solve the ODE on overlapping left intervals around $T$, if $u$ tends to $l$ as $t\to T$ from the left, and if $v(T)=l$, then $u=v$ on some interval $(T-\rho,T)$ with $0<\rho<\varepsilon$. Applied with $u=p.\mathrm{curve}$ and $v=\alpha$, it gives $\rho>0$, $\rho<\varepsilon_0$, and
+Now `ode_eqOn_left_of_tendsto` is applied. This lemma states that if two curves $u,v$ solve the ODE on overlapping left intervals around $T$, if $u$ tends to $l$ as $t\to T$ from the left, and if $v(T)=l$, then $u=v$ on some interval $(T-\rho,T)$ with $0\lt \rho\lt \varepsilon$. Applied with $u=p.\mathrm{curve}$ and $v=\alpha$, it gives $\rho\gt 0$, $\rho\lt \varepsilon_0$, and
 
 $$
 p.\mathrm{curve}=\alpha
@@ -348,7 +348,7 @@ $$
 
 on $(T-\rho,T)$.
 
-The proof then upgrades this equality to $p.\mathrm{dom}\cap(T-\rho,T+\varepsilon_0)$. For a point $r$ in this intersection, it shows $r<T$ by contradiction: if $T\le r$, then $r\in D$, so $r<T_{\max}=T$, impossible. Hence the earlier left-hand equality applies and gives $p.\mathrm{curve}(r)=\alpha(r)$.
+The proof then upgrades this equality to $p.\mathrm{dom}\cap(T-\rho,T+\varepsilon_0)$. For a point $r$ in this intersection, it shows $r\lt T$ by contradiction: if $T\le r$, then $r\in D$, so $r\lt T_{\max}=T$, impossible. Hence the earlier left-hand equality applies and gives $p.\mathrm{curve}(r)=\alpha(r)$.
 
 To glue the local solution $\alpha$ onto $p$, the proof chooses
 
@@ -362,7 +362,7 @@ $$
 c\in(T-\rho,T+\varepsilon_0).
 $$
 
-Then it applies `pointedSolution_extend_of_eqOn`. This lemma says that if $p$ is a pointed solution, $a<b$, $\alpha$ solves the ODE on $(a,b)$, $\alpha$ agrees with $p.\mathrm{curve}$ on $p.\mathrm{dom}\cap(a,b)$, and there is some point $c\in p.\mathrm{dom}\cap(a,b)$, then there exists a pointed solution $q$ extending $p$, with $(a,b)\subseteq q.\mathrm{dom}$, and with $q.\mathrm{curve}=\alpha$ on $(a,b)$. Here $a=T-\rho$ and $b=T+\varepsilon_0$, so the lemma produces a solution $q$ extending $p$ beyond $T$.
+Then it applies `pointedSolution_extend_of_eqOn`. This lemma says that if $p$ is a pointed solution, $a\lt b$, $\alpha$ solves the ODE on $(a,b)$, $\alpha$ agrees with $p.\mathrm{curve}$ on $p.\mathrm{dom}\cap(a,b)$, and there is some point $c\in p.\mathrm{dom}\cap(a,b)$, then there exists a pointed solution $q$ extending $p$, with $(a,b)\subseteq q.\mathrm{dom}$, and with $q.\mathrm{curve}=\alpha$ on $(a,b)$. Here $a=T-\rho$ and $b=T+\varepsilon_0$, so the lemma produces a solution $q$ extending $p$ beyond $T$.
 
 Finally the proof sets
 
@@ -370,13 +370,13 @@ $$
 S=T+\frac{\rho}{2}.
 $$
 
-Since $\rho>0$, $S>T$. It claims that $q.\mathrm{curve}$ is a classical solution on $\{t:0\le t<S\}$. Indeed, $0\in\{t:0\le t<S\}$ because $S>0$. The initial condition follows from $q$ extending $p$ and from $p.\mathrm{curve}(0)=Y_0$. For the derivative, it splits $t<S$ into two cases. If $t<T$, then $t\in p.\mathrm{dom}$, and since $q$ extends $p$, $t\in q.\mathrm{dom}$, so $q.\mathrm{ode}$ gives the derivative. If $T\le t<S$, then $t\in(T-\rho,T+\varepsilon_0)$, because $S=T+\rho/2<T+\varepsilon_0$ since $\rho<\varepsilon_0$. Hence $t\in q.\mathrm{dom}$, and $q.\mathrm{ode}$ again gives the derivative.
+Since $\rho\gt 0$, $S\gt T$. It claims that $q.\mathrm{curve}$ is a classical solution on $`\{t:0\le t<S\}`$. Indeed,$`0\in\{t:0\le t<S\}`$because$S>0$. The initial condition follows from$q$extending$p$and from$p.\mathrm{curve}(0)=Y_0$. For the derivative, it splits$t<S$into two cases. If$t<T$, then$t\in p.\mathrm{dom}$, and since$q$extends$p$,$t\in q.\mathrm{dom}$, so$q.\mathrm{ode}$gives the derivative. If$T\le t<S$, then$t\in(T-\rho,T+\varepsilon_0)$, because$S=T+\rho/2<T+\varepsilon_0$since$\rho<\varepsilon_0$. Hence$t\in q.\mathrm{dom}$, and$q.\mathrm{ode}$ again gives the derivative.
 
-Finally, for $0\le t<T$, the extension $q$ of $p$ gives
+Finally, for $0\le t\lt T$, the extension $q$ of $p$ gives
 
 $$
 q.\mathrm{curve}(t)=p.\mathrm{curve}(t)=Y(t).
 $$
 
-Thus the maximal solution is extended past the finite endpoint $T$, completing the continuation criterion. The tactic `linarith` handles the many linear inequalities among $T,\rho,\varepsilon_0,S$, and `simpa` performs the necessary simplification of coercions into $\mathrm{WithTop}\,\mathbb R$ and of interval membership.
+Thus the maximal solution is extended past the finite endpoint $T$, completing the continuation criterion. The tactic `linarith` handles the many linear inequalities among $T,\rho,\varepsilon_0,S$, and `simpa` performs the necessary simplification of coercions into $`\mathrm{WithTop}\,\mathbb R`$ and of interval membership.
 

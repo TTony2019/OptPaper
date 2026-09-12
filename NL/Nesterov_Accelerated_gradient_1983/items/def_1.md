@@ -30,9 +30,9 @@ The fields record the following data and properties.
 
 - $F:\mathbb R^m\to\mathbb R$, written in Lean as `EuclideanSpace ℝ (Fin m) → ℝ`, is the objective function on the space of values of the component functions. The field `F_convex` says that $F$ is convex on all of $\mathbb R^m$:
 
-  $$
-  F(t y+(1-t)z)\le tF(y)+(1-t)F(z)
-  $$
+$$
+F(t y+(1-t)z)\le tF(y)+(1-t)F(z)
+$$
 
   for all $y,z\in\mathbb R^m$ and $t\in[0,1]$. The field `F_homogeneous` says that $F$ is positively homogeneous, i.e. scaling the argument by a nonnegative real scalar scales the value by the same scalar.
 
@@ -42,50 +42,50 @@ The fields record the following data and properties.
 
 - The field `solution_iff` gives the exact characterization of the solution set: for every $x\in E$,
 
-  $$
-  x\in S
-  \iff
-  x\in Q
-  \ \text{and}\ 
-  \forall z\in Q,\quad
-  F\bigl((f_i(x))_{i\in\mathrm{Fin} m}\bigr)
-  \le
-  F\bigl((f_i(z))_{i\in\mathrm{Fin} m}\bigr).
-  $$
+$$
+x\in S
+\iff
+x\in Q
+\ \text{and}\
+\forall z\in Q,\quad
+F\bigl((f_i(x))_{i\in\mathrm{Fin} m}\bigr)
+\le
+F\bigl((f_i(z))_{i\in\mathrm{Fin} m}\bigr).
+$$
 
   Here `WithLp.toLp 2 (fun i => f i x)` is the Euclidean vector in $\mathbb R^m$ whose $i$-th coordinate is $f_i(x)$. Thus $S$ is exactly the set of feasible points $x\in Q$ that globally minimize the composite objective
 
-  $$
-  x\mapsto F\bigl((f_i(x))_{i\in\mathrm{Fin} m}\bigr)
-  $$
+$$
+x\mapsto F\bigl((f_i(x))_{i\in\mathrm{Fin} m}\bigr)
+$$
 
   over $Q$.
 
 - The field `negative_multiplier_linear` concerns the subdifferential at the origin of the extended-real-valued function
 
-  $$
-  y\mapsto (F(y):\overline{\mathbb R}),
-  $$
+$$
+y\mapsto (F(y):\overline{\mathbb R}),
+$$
 
   where $\overline{\mathbb R}$ is `EReal`, the extended real line. In the inner-product setting, membership
 
-  $$
-  l\in \partial\bigl(y\mapsto (F(y):\overline{\mathbb R})\bigr)(0)
-  $$
+$$
+l\in \partial\bigl(y\mapsto (F(y):\overline{\mathbb R})\bigr)(0)
+$$
 
   means that $l\in\mathbb R^m$ is a subgradient at the origin, i.e. it satisfies the subgradient inequality
 
-  $$
-  (F(0):\overline{\mathbb R})+\langle l,y\rangle
-  \le
-  (F(y):\overline{\mathbb R})
-  $$
+$$
+(F(0):\overline{\mathbb R})+\langle l,y\rangle
+\le
+(F(y):\overline{\mathbb R})
+$$
 
-  for all $y\in\mathbb R^m$, interpreted in the extended-real order. The field says that for every such subgradient $l$, for every index $i$, if the $i$-th coordinate satisfies $l_i<0$, then the corresponding function $f_i$ is linear:
+  for all $y\in\mathbb R^m$, interpreted in the extended-real order. The field says that for every such subgradient $l$, for every index $i$, if the $i$-th coordinate satisfies $l_i\lt 0$, then the corresponding function $f_i$ is linear:
 
-  $$
-  \exists\, g:E\to\mathbb R\ \ \mathbb R\text{-linear, such that}\ \forall x\in E,\ f_i(x)=g(x).
-  $$
+```math
+\exists\, g:E\to\mathbb R\ \ \mathbb R\text{-linear, such that}\ \forall x\in E,\ f_i(x)=g(x).
+```
 
   In other words, a negative multiplier coordinate forces the associated component function to be a linear functional on $E$. The field itself records only the existence of an algebraic real-linear map $g$; it does not separately state continuity of $g$.
 

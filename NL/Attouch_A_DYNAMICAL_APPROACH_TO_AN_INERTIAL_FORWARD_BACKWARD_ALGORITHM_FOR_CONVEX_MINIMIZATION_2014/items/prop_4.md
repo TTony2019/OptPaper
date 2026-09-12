@@ -14,7 +14,7 @@ theorem proposition6 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H
 ```
 
 ## Statement explanation
-`proposition6` is a theorem about a complete real inner product space $H$, i.e. a real Hilbert space. The data are two extended-real-valued functions $\phi,\Theta:H\to\overline{\mathbb R}$, a real-valued function $\psi:H\to\mathbb R$, a map $\mathrm{gradPsi}:H\to H$, real parameters $a,b,\lambda,L_\psi$, and two sequences $u,y:\mathbb N\to H$. The hypotheses `hH : IFBHypothesis phi Θ psi gradPsi a b lam Lpsi` and `hIFB : IsIFBTrajectory phi psi gradPsi a b lam u y` are the standing assumptions of the inertial forward-backward method. The proof uses in particular that $\Theta$ has convex epigraph, that $\Theta$ is bounded below by a real constant, that $\Theta$ is related to $\phi$ and $\psi$ by the identity encoded in `hH.theta_eq`, and that $b>0$ and $\lambda>0$.
+`proposition6` is a theorem about a complete real inner product space $H$, i.e. a real Hilbert space. The data are two extended-real-valued functions $\phi,\Theta:H\to\overline{\mathbb R}$, a real-valued function $\psi:H\to\mathbb R$, a map $\mathrm{gradPsi}:H\to H$, real parameters $a,b,\lambda,L_\psi$, and two sequences $u,y:\mathbb N\to H$. The hypotheses `hH : IFBHypothesis phi Θ psi gradPsi a b lam Lpsi` and `hIFB : IsIFBTrajectory phi psi gradPsi a b lam u y` are the standing assumptions of the inertial forward-backward method. The proof uses in particular that $\Theta$ has convex epigraph, that $\Theta$ is bounded below by a real constant, that $\Theta$ is related to $\phi$ and $\psi$ by the identity encoded in `hH.theta_eq`, and that $b\gt 0$ and $\lambda\gt 0$.
 
 The conclusion is a conjunction of three statements.
 
@@ -45,10 +45,10 @@ $$
 
 then the norms of the iterates diverge to infinity:
 
-$$
+```math
 \|u_k\|\longrightarrow +\infty
 \quad\text{as } k\to\infty .
-$$
+```
 
 Thus the proposition says that, under the inertial forward-backward hypotheses, the objective values converge to the infimum of the objective, every weak limit point of the trajectory is already a minimizer, and if no minimizer exists then the trajectory must escape to infinity in norm.
 
@@ -214,9 +214,9 @@ $$
 
 the squared velocity increments are summable,
 
-$$
+```math
 \sum_k \|u_{k+1}-u_k\|^2<\infty,
-$$
+```
 
 and there exists an extended real number $e$ such that both the shifted mechanical energies and the shifted objective values converge to $e$:
 
@@ -234,10 +234,10 @@ $$
 
 so that
 
-$$
+```math
 \mathcal E_k
 =\Theta(u_k)+\gamma(a,b,\lambda)\,\|u_k-u_{k-1}\|^2 .
-$$
+```
 
 The Lean tactic `rcases` destructs this conjunction into `henergy_mono`, `hsq`, and the limiting data.
 
@@ -249,10 +249,10 @@ $$
 
 The proof then defines
 
-$$
+```math
 E_k=\mathcal E_{k+1}
 =\Theta(u_{k+1})+\gamma(a,b,\lambda)\|u_{k+1}-u_k\|^2 .
-$$
+```
 
 From `proposition2`, $E_k\to e$, and from the monotonicity of the mechanical energy, $E_{k+1}\le E_k$. The lemma `energy_limit_le_local` then gives
 
@@ -264,9 +264,9 @@ for every $k$. This is a standard fact for a nonincreasing sequence in the exten
 
 The proof also records that the sequence
 
-$$
+```math
 \varepsilon_k=(b\gamma(a,b,\lambda))\|u_{k+1}-u_k\|^2
-$$
+```
 
 is summable, using `Summable.mul_left`, since multiplying a summable real sequence by the constant $b\gamma(a,b,\lambda)$ preserves summability.
 
@@ -292,16 +292,16 @@ $$
 e\le \inf(\mathrm{range}\Theta),
 $$
 
-the proof uses `le_csInf`: it suffices to show that $e$ is below every element of the range. So take an arbitrary value $\Theta(q)$. If $\Theta(q)=\top$, then $e\le\top$ is trivial. Otherwise, `theta_ne_bot` gives $\Theta(q)\ne\bot$. To apply the Liapunov estimate, the proof needs $q\in \mathrm{dom}\phi$, meaning $\phi(q)<\top$. Using `ERealFunction.mem_dom_iff`, this is reduced to showing $\phi(q)\ne\top$. If $\phi(q)=\top$, then the identity in `hH.theta_eq` together with the fact that $\psi(q)$ is a real number, hence not $\bot$, would imply $\Theta(q)=\top$, contradicting the case assumption. Therefore $q\in\mathrm{dom}\phi$.
+the proof uses `le_csInf`: it suffices to show that $e$ is below every element of the range. So take an arbitrary value $\Theta(q)$. If $\Theta(q)=\top$, then $e\le\top$ is trivial. Otherwise, `theta_ne_bot` gives $\Theta(q)\ne\bot$. To apply the Liapunov estimate, the proof needs $q\in \mathrm{dom}\phi$, meaning $\phi(q)\lt \top$. Using `ERealFunction.mem_dom_iff`, this is reduced to showing $\phi(q)\ne\top$. If $\phi(q)=\top$, then the identity in `hH.theta_eq` together with the fact that $\psi(q)$ is a real number, hence not $\bot$, would imply $\Theta(q)=\top$, contradicting the case assumption. Therefore $q\in\mathrm{dom}\phi$.
 
 At this point the cited lemma `liapunov_distance_increment_le` is applied. It provides a constant $C$ such that for every $k\ge 1$,
 
-$$
+```math
 \frac{1+b\lambda}{2\lambda^2}\|u_{k+1}-q\|^2
 -\frac{1+b\lambda}{2\lambda^2}\|u_k-q\|^2
 \le
 \mathrm{liapunovF}(u,y,a,b,\lambda,q,k)-C.
-$$
+```
 
 Thus the Liapunov function controls the increment of the squared distance to $q$, up to the constant $C$. The proof denotes
 
@@ -311,13 +311,13 @@ $$
 
 and defines
 
-$$
+```math
 aF_k=\mathrm{liapunovF}(u,y,a,b,\lambda,q,k+1)-C,
 \qquad
 bDist_k=\alpha\|u_{k+1}-q\|^2,
 \qquad
 \varepsilon_k=(b\gamma(a,b,\lambda))\|u_{k+1}-u_k\|^2,
-$$
+```
 
 and
 
@@ -350,20 +350,20 @@ $$
 
 Combining this with the earlier inequality $e\le E_k$, i.e.
 
-$$
+```math
 e\le \Theta(u_{k+1})+\gamma(a,b,\lambda)\|u_{k+1}-u_k\|^2,
-$$
+```
 
 and converting it to real numbers using the finiteness of the relevant extended reals gives
 
-$$
+```math
 e_{\mathbb R}
 \le
 (\Theta(u_{k+1}))_{\mathbb R}
 +\gamma(a,b,\lambda)\|u_{k+1}-u_k\|^2.
-$$
+```
 
-Multiplication by $b>0$ and elementary real arithmetic then yield
+Multiplication by $b\gt 0$ and elementary real arithmetic then yield
 
 $$
 aF_k-aF_{k-1}
@@ -383,9 +383,9 @@ $$
 \alpha=\frac{1+b\lambda}{2\lambda^2}>0,
 $$
 
-using $b>0$ and $\lambda>0$ from `hH`, and because a square is nonnegative. The tactic `nlinarith` discharges these real arithmetic inequalities.
+using $b\gt 0$ and $\lambda\gt 0$ from `hH`, and because a square is nonnegative. The tactic `nlinarith` discharges these real arithmetic inequalities.
 
-Applying `lemma5` gives $\theta\ge 0$. Since $b>0$, this implies
+Applying `lemma5` gives $\theta\ge 0$. Since $b\gt 0$, this implies
 
 $$
 e_{\mathbb R}\le (\Theta(q))_{\mathbb R}.
@@ -447,7 +447,7 @@ $$
 \inf(\mathrm{range}\Theta)<(r:\overline{\mathbb R})<\Theta(q).
 $$
 
-Because $\Theta(u_{\sigma(n)})\to \inf(\mathrm{range}\Theta)$ and $\inf(\mathrm{range}\Theta)<r$, eventually
+Because $\Theta(u_{\sigma(n)})\to \inf(\mathrm{range}\Theta)$ and $\inf(\mathrm{range}\Theta)\lt r$, eventually
 
 $$
 \Theta(u_{\sigma(n)})<r.
@@ -455,9 +455,9 @@ $$
 
 Thus, after shifting the subsequence by some $N$, all terms $u_{\sigma(n+N)}$ belong to the lower level set
 
-$$
+```math
 L_r=\{x\in H:\Theta(x)\le r\}.
-$$
+```
 
 Now `theta_lowerSemicontinuous` gives that $\Theta$ is lower semicontinuous. The cited equivalence `lowerSemicontinuous_iff_isClosed_lowerLevelSet` says that lower semicontinuity of $\Theta$ is equivalent to closedness of every real lower level set $L_r$. Hence $L_r$ is closed. Also, `convex_lowerLevelSet_theta` says that if the epigraph of $\Theta$ is convex, then the lower level set $L_r$ is convex. Since `hH.theta_convex` supplies the convexity of the epigraph, $L_r$ is convex.
 
@@ -473,7 +473,7 @@ $$
 \Theta(q)\le r.
 $$
 
-This contradicts the choice $r<\Theta(q)$. Therefore
+This contradicts the choice $r\lt \Theta(q)$. Therefore
 
 $$
 \Theta(q)\le \inf(\mathrm{range}\Theta).
@@ -507,9 +507,9 @@ $$
 
 The proof applies `tendsto_norm_atTop_of_no_weak_cluster`. This theorem states that, in a complete space, if a sequence has no weak sequential cluster point, then its norm tends to $+\infty$. To verify its hypothesis, suppose $q$ were a weak sequential cluster point of $(u_k)$. By the just-proved second conjunct, $q\in\mathrm{argmin}\Theta$. But the argmin set is assumed empty, a contradiction. Therefore no such $q$ exists, and `tendsto_norm_atTop_of_no_weak_cluster` yields
 
-$$
+```math
 \|u_k\|\longrightarrow +\infty.
-$$
+```
 
 This proves the third conjunct and completes the theorem.
 

@@ -24,20 +24,20 @@ Thus every step size is strictly positive. In particular, the reciprocal quantit
 
 The second field, `step`, requires for every $n\in\mathbb N$ that
 
-$$
+```math
 0_H \in
 \left\{((\lambda_n)^2)^{-1}(x_{n+2}-2x_{n+1}+x_n)\right\}
 +A\!\left(\lambda_n^{-1}(x_{n+2}-x_{n+1})\right)
 +B(x_{n+2}).
-$$
+```
 
 Here the plus signs are pointwise sums of subsets of $H$, and the first summand is the singleton set containing the scaled second difference. Unfolding this membership gives the equivalent existential condition
 
-$$
-\exists a\in A\!\left(\lambda_n^{-1}(x_{n+2}-x_{n+1})\right),\ 
+```math
+\exists a\in A\!\left(\lambda_n^{-1}(x_{n+2}-x_{n+1})\right),\
 \exists b\in B(x_{n+2}),\quad
 ((\lambda_n)^2)^{-1}(x_{n+2}-2x_{n+1}+x_n)+a+b=0_H.
-$$
+```
 
 So the proposition says that for every $n$, the zero vector can be written as the sum of the scaled second difference and one element chosen from each of the two operator values. The expression $x_{n+2}-2x_{n+1}+x_n$ is the discrete second difference of the sequence $x$ at index $n$, and the argument of $A$ is the scaled forward difference $\lambda_n^{-1}(x_{n+2}-x_{n+1})$. The declaration does not assert uniqueness of $a$ or $b$, nor any additional property of $A$, $B$, $x$, or $\lambda$.
 
@@ -49,12 +49,12 @@ So the proposition says that for every $n$, the zero vector can be written as th
 ## Proof explanation
 There is no separate proof part. The source contains only the structure declaration and the comment `-- No separate proof part.` Therefore no tactic proof, no `intro`, `rw`, `simp`, `exact`, or `linarith` occurs, and no named theorem or lemma is invoked.
 
-Mathematically, the declaration defines the proof obligations for a term of type `AlgorithmA`. To establish an element of the proposition `AlgorithmA` for the given parameters, one must supply exactly the two fields. The field `lam_pos` is a proof of the universal statement $\forall n,\ \lambda_n>0$. The field `step` is a proof of the universal statement that for every $n$, $0_H$ belongs to the pointwise set sum. A proof of that membership would unfold the set sum into an existential: there must be
+Mathematically, the declaration defines the proof obligations for a term of type `AlgorithmA`. To establish an element of the proposition `AlgorithmA` for the given parameters, one must supply exactly the two fields. The field `lam_pos` is a proof of the universal statement $\forall n,\ \lambda_n\gt 0$. The field `step` is a proof of the universal statement that for every $n$, $0_H$ belongs to the pointwise set sum. A proof of that membership would unfold the set sum into an existential: there must be
 
-$$
+```math
 a\in A\!\left(\lambda_n^{-1}(x_{n+2}-x_{n+1})\right),\qquad
 b\in B(x_{n+2})
-$$
+```
 
 such that
 

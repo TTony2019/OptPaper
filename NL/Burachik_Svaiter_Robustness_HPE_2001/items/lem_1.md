@@ -11,18 +11,18 @@ theorem hpe_descent {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 ```
 
 ## Statement explanation
-The declaration `hpe_descent` states a one-step descent inequality for an HPE-type iteration associated with a set-valued operator $T$. The ambient space $H$ is a real inner product space, so it carries a norm $\|\cdot\|$ and a real inner product $\langle\cdot,\cdot\rangle$. The operator $T$ is a set-valued operator on $H$, and $A$ is an `HPEIterates H T`, i.e. a record of iterates and parameters attached to $T$. For each natural number $k$, write
+The declaration `hpe_descent` states a one-step descent inequality for an HPE-type iteration associated with a set-valued operator $T$. The ambient space $H$ is a real inner product space, so it carries a norm $`\|\cdot\|`$and a real inner product$\langle\cdot,\cdot\rangle$. The operator$T$is a set-valued operator on$H$, and$A$ is an `HPEIterates H T`, i.e. a record of iterates and parameters attached to $T$. For each natural number $k$, write
 
-$$
+```math
 x_k = A.x\,k,\qquad y_k = A.y\,k,\qquad v_k = A.v\,k,
-$$
+```
 
 and for the real parameters
 
-$$
+```math
 c_k = A.c\,k,\qquad \varepsilon_k = A.\varepsilon\,k,\qquad
 \delta_k = A.\delta\,k,\qquad \sigma_k = A.\sigma\,k.
-$$
+```
 
 The extragradient step is defined by
 
@@ -32,28 +32,28 @@ $$
 
 The point $x^\star$ is assumed to be a zero of $T$ in the precise sense that $0 \in T x^\star$. The conclusion is
 
-$$
+```math
 \|x^\star-x_k\|^2-\|x^\star-z_k\|^2
 \ge
 (1-\sigma_k^2)\|y_k-x_k\|^2-\delta_k.
-$$
+```
 
-Thus the squared distance from $x^\star$ to the current iterate $x_k$, minus the squared distance from $x^\star$ to the extragradient point $z_k$, is bounded below by a residual term $(1-\sigma_k^2)\|y_k-x_k\|^2$ minus the parameter $\delta_k$. In ordinary language, this says that the extragradient step $z_k$ makes at least the prescribed amount of progress toward the zero $x^\star$, up to the correction term $\delta_k$.
+Thus the squared distance from $x^\star$ to the current iterate $x_k$, minus the squared distance from $x^\star$ to the extragradient point $z_k$, is bounded below by a residual term $`(1-\sigma_k^2)\|y_k-x_k\|^2`$minus the parameter$\delta_k$. In ordinary language, this says that the extragradient step$z_k$makes at least the prescribed amount of progress toward the zero$x^\star$, up to the correction term$\delta_k$.
 
-The proof uses several properties packaged inside the HPE iteration $A$. First, $c_k>0$, hence $c_k\ge0$, which is needed to multiply an inequality by $c_k$ without changing its direction. Second, $v_k$ belongs to the $\varepsilon_k$-enlargement of $T$ at $y_k$: by definition of `epsilonEnlargement`, this means that for every $z$ and every $w$,
+The proof uses several properties packaged inside the HPE iteration $A$. First, $c_k\gt 0$, hence $c_k\ge0$, which is needed to multiply an inequality by $c_k$ without changing its direction. Second, $v_k$ belongs to the $\varepsilon_k$-enlargement of $T$ at $y_k$: by definition of `epsilonEnlargement`, this means that for every $z$ and every $w$,
 
-$$
+```math
 w\in Tz \quad\Longrightarrow\quad
 \langle w-v_k,\,z-y_k\rangle \ge -\varepsilon_k.
-$$
+```
 
 Third, the residual bound for the HPE iteration says, in the form used after rewriting, that
 
-$$
+```math
 \|y_k-z_k\|^2+2c_k\varepsilon_k
 \le
 \delta_k+\sigma_k^2\|y_k-x_k\|^2.
-$$
+```
 
 These are not extra hypotheses written explicitly in the theorem statement; they are the facts about `A` that the proof invokes.
 
@@ -89,21 +89,21 @@ by
 ## Proof explanation
 The proof begins with `have hm := A.enlargement_mem k`. This extracts the membership fact that $v_k$ lies in the $\varepsilon_k$-enlargement of $T$ at $y_k$. By the definition of `epsilonEnlargement`, such a membership is a universal statement: for every $z$ and every $w$, if $w\in Tz$, then
 
-$$
+```math
 \langle w-v_k,\,z-y_k\rangle \ge -\varepsilon_k.
-$$
+```
 
 Next, the proof forms
 
-$$
+```math
 \texttt{hmem}:\quad -\varepsilon_k \le \langle 0-v_k,\,x^\star-y_k\rangle.
-$$
+```
 
 It does this by applying `hm` to $z=x^\star$ and $w=0$, using the hypothesis `hxStar : (0 : H) ∈ T xStar`. The command `simpa [epsilonEnlargement]` unfolds the definition of `epsilonEnlargement` and simplifies the resulting inequality to the displayed form. Since $0-v_k=-v_k$, this inequality says
 
-$$
+```math
 -\varepsilon_k \le \langle -v_k,\,x^\star-y_k\rangle.
-$$
+```
 
 So the known zero $x^\star$ is used as the test point for the enlargement condition.
 
@@ -111,20 +111,20 @@ The proof then records `hc0 : 0 ≤ A.c k` from `A.c_pos k` via `le_of_lt`. In w
 
 The next step is
 
-$$
+```math
 \texttt{hinner}:\quad -c_k\varepsilon_k
 \le
 \langle \mathrm{extragradientStep} A k - x_k,\,
 x^\star-y_k\rangle.
-$$
+```
 
 It is obtained by multiplying the previous inequality by $c_k\ge0$. The command `mul_le_mul_of_nonneg_left hmem hc0` gives
 
-$$
+```math
 -c_k\varepsilon_k
 \le
 c_k\langle -v_k,\,x^\star-y_k\rangle.
-$$
+```
 
 Then the proof rewrites
 
@@ -136,10 +136,10 @@ $$
 
 Using linearity of the inner product in its first argument, this becomes
 
-$$
+```math
 \langle -c_kv_k,\,x^\star-y_k\rangle
 =c_k\langle -v_k,\,x^\star-y_k\rangle.
-$$
+```
 
 The `rw` with `extragradientStep`, `inner_neg_left`, and `real_inner_smul_left` performs these rewrites, and `simpa [mul_neg, neg_mul]` normalizes the signs.
 
@@ -151,35 +151,35 @@ $$
 
 it gives
 
-$$
+```math
 \|x^\star-x_k\|^2-\|x^\star-z_k\|^2
 =2\langle z_k-x_k,\,x^\star-y_k\rangle
 +\|y_k-x_k\|^2-\|y_k-z_k\|^2.
-$$
+```
 
 This is an exact algebraic identity for the real inner product space. Combining it with `hinner`, which says
 
-$$
+```math
 -c_k\varepsilon_k
 \le
 \langle z_k-x_k,\,x^\star-y_k\rangle,
-$$
+```
 
 yields
 
-$$
+```math
 2\langle z_k-x_k,\,x^\star-y_k\rangle
 \ge
 -2c_k\varepsilon_k.
-$$
+```
 
 Hence
 
-$$
+```math
 \|x^\star-x_k\|^2-\|x^\star-z_k\|^2
 \ge
 \|y_k-x_k\|^2-\|y_k-z_k\|^2-2c_k\varepsilon_k.
-$$
+```
 
 This is the intermediate inequality called `hfirst`. The tactic `nlinarith [hnorm, hinner]` verifies this real arithmetic combination.
 
@@ -207,54 +207,54 @@ The command `simp [extragradientStep]` unfolds the definition of the extragradie
 
 The proof then invokes the residual bound of the HPE iteration. After rewriting $y_k-z_k$ as above, the statement
 
-$$
+```math
 \texttt{hres}:
 \|y_k-z_k\|^2+2c_k\varepsilon_k
 \le
 \delta_k+\sigma_k^2\|y_k-x_k\|^2
-$$
+```
 
 is exactly the consequence supplied by `A.residual_bound k`. The `rw [hyz]` rewrites the left-hand squared norm into
 
-$$
+```math
 \|c_kv_k+y_k-x_k\|^2,
-$$
+```
 
 and then `exact A.residual_bound k` closes the goal. This residual bound controls the size of the HPE residual $c_kv_k+y_k-x_k$ together with the enlargement term $2c_k\varepsilon_k$.
 
 Finally, the proof combines `hfirst` and `hres` using `nlinarith [hfirst, hres]`. From `hfirst`,
 
-$$
+```math
 \|x^\star-x_k\|^2-\|x^\star-z_k\|^2
 \ge
 \|y_k-x_k\|^2-\|y_k-z_k\|^2-2c_k\varepsilon_k.
-$$
+```
 
 From `hres`,
 
-$$
+```math
 \|y_k-z_k\|^2+2c_k\varepsilon_k
 \le
 \delta_k+\sigma_k^2\|y_k-x_k\|^2.
-$$
+```
 
 Therefore
 
-$$
+```math
 \|y_k-x_k\|^2-\|y_k-z_k\|^2-2c_k\varepsilon_k
 =\|y_k-x_k\|^2-\bigl(\|y_k-z_k\|^2+2c_k\varepsilon_k\bigr)
 \ge
 \|y_k-x_k\|^2-\bigl(\delta_k+\sigma_k^2\|y_k-x_k\|^2\bigr)
 =(1-\sigma_k^2)\|y_k-x_k\|^2-\delta_k.
-$$
+```
 
 Combining this with the previous lower bound gives
 
-$$
+```math
 \|x^\star-x_k\|^2-\|x^\star-z_k\|^2
 \ge
 (1-\sigma_k^2)\|y_k-x_k\|^2-\delta_k,
-$$
+```
 
 which is precisely the claimed descent inequality.
 

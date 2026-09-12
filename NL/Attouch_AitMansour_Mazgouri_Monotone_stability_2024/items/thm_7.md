@@ -62,8 +62,8 @@ The data are:
 
 The assumptions are:
 
-- $\beta\gamma>1$, $\beta>0$, and $\gamma>0$.
-- $c_{\min}>0$, and for every $\mu$,
+- $\beta\gamma\gt 1$, $\beta\gt 0$, and $\gamma\gt 0$.
+- $c_{\min}\gt 0$, and for every $\mu$,
 
 $$
 c_{\min} \le \mathrm{energyRate}(\beta,\gamma,\delta(\mu)).
@@ -79,7 +79,7 @@ $$
 - For every $\mu$, $\phi_\mu$ is differentiable on $H$.
 - For every $\mu$ and every $q\in H$, $\mathrm{grad}\phi(\mu,q)$ is a gradient of $\phi_\mu$ at $q$.
 - For every $\mu$, $\phi_\mu$ is strongly convex with modulus $\delta(\mu)$.
-- $k_1>0$, $0<\gamma_1$, and $\gamma_1\le 1$.
+- $k_1\gt 0$, $0\lt \gamma_1$, and $\gamma_1\le 1$.
 - For every $\mu$, the triple $(x(\mu),dx(\mu),ddx(\mu))$ satisfies the DIN system
 
 $$
@@ -96,11 +96,11 @@ $$
 
 absolute continuity on compact intervals, and almost everywhere the second-order equation
 
-$$
+```math
 ddx(\mu,t)+\gamma\,dx(\mu,t)
 +\beta\,\mathrm{hess}\phi_\mu(x(\mu,t))(dx(\mu,t))
 +\mathrm{grad}\phi_\mu(x(\mu,t))=0.
-$$
+```
 
 - For every $\mu$, almost every $t\in[0,\infty)$,
 
@@ -121,13 +121,13 @@ L(v)=\mathrm{hess}\phi_\mu(q)(v).
 $$
 
 Thus $\mathrm{hess}\phi_\mu(q)$ is the derivative of the gradient map.
-- For every $\mu$ and every $T'>0$, the map $\mathrm{grad}\phi_\mu$ is Lipschitz on the image $x(\mu)([0,T'])$.
+- For every $\mu$ and every $T'\gt 0$, the map $\mathrm{grad}\phi_\mu$ is Lipschitz on the image $x(\mu)([0,T'])$.
 - For every $x_0\in H$ and all $\mu,\mu'\in M$,
 
-$$
+```math
 \|\mathrm{grad}\phi_\mu(x_0)-\mathrm{grad}\phi_{\mu'}(x_0)\|
 \le k_1\,\|\mu-\mu'\|^{\gamma_1}.
-$$
+```
 
 So the gradient depends Hölder continuously on the parameter.
 - For every $\mu$,
@@ -137,23 +137,23 @@ $$
 $$
 
 Thus each $\bar x(\mu)$ is a critical point.
-- The Lyapunov hypothesis `hlyap` says: for every $\varepsilon>0$ there exists $\eta>0$ such that
+- The Lyapunov hypothesis `hlyap` says: for every $\varepsilon\gt 0$ there exists $\eta\gt 0$ such that
 
-$$
+```math
 \|u_0(\bar\mu)-\bar x(\bar\mu)\|<\eta,\qquad \|v_0(\bar\mu)\|<\eta,
-$$
+```
 
 and for every $z_0,w_0\in H$ satisfying
 
-$$
+```math
 \|z_0-\bar x(\bar\mu)\|<\eta,\qquad \|w_0\|<\eta,
-$$
+```
 
 and every DIN trajectory $z,dz,ddz$ for the base parameter $\bar\mu$, if $z$ has derivative $dz$ almost everywhere on $[0,\infty)$, then for every $t\ge 0$,
 
-$$
+```math
 \|z(t)-\bar x(\bar\mu)\|<\varepsilon.
-$$
+```
 
 This is a local Lyapunov stability assumption at the base parameter.
 - The initial-continuity hypothesis `hconv_init` says that the lifted initial data map
@@ -165,28 +165,28 @@ $$
 
 is continuous at $\bar\mu$. Here
 
-$$
+```math
 \mathrm{dinAuxInitial}(\mathrm{grad}\phi,\beta,\gamma,u_0,v_0,\mu)
 =-\left(\sqrt{(\gamma-1/\beta)(1/\beta)}\right)^{-1}
 \bigl(v_0(\mu)+\beta\,\mathrm{grad}\phi_\mu(u_0(\mu))
 +(\gamma-1/\beta)u_0(\mu)\bigr).
-$$
+```
 
 The conclusion is a conjunction of two statements.
 
-First, for every $\varepsilon>0$ there exists $\delta>0$ such that for every $\mu\in M$, if
+First, for every $\varepsilon\gt 0$ there exists $\delta\gt 0$ such that for every $\mu\in M$, if
 
-$$
+```math
 \mathrm{dist}(\mu,\bar\mu)<\delta
 \quad\text{and}\quad
 \|u_0(\mu)-\bar x(\bar\mu)\|<\delta,
-$$
+```
 
 then for every $t\ge 0$,
 
-$$
+```math
 \|x(\mu,t)-\bar x(\bar\mu)\|<\varepsilon.
-$$
+```
 
 So trajectories with nearby parameters and nearby initial positions remain uniformly close to the base critical point. In the proof, the second smallness condition on $u_0(\mu)$ is actually not used.
 
@@ -210,11 +210,11 @@ $$
 
 and in addition
 
-$$
+```math
 \|\bar x(\mu)-\bar x(\bar\mu)\|
 \le
 \frac{\beta k_1}{c_{\min}}\,\mathrm{dist}(\mu,\bar\mu)^{\gamma_1}.
-$$
+```
 
 Thus the limiting critical point depends Hölder continuously on the parameter with exponent $\gamma_1$.
 
@@ -363,7 +363,7 @@ by
 ```
 
 ## Proof explanation
-The proof begins by constructing the lifted first-order formulation. It calls `dinGradientLift_of_DIN` with the hypotheses $\beta>0$, $\beta\gamma>1$, the DIN assumptions for all $\mu$, the almost everywhere derivative assumptions, the Hessian assumption, and the local Lipschitz assumption. The result is
+The proof begins by constructing the lifted first-order formulation. It calls `dinGradientLift_of_DIN` with the hypotheses $\beta\gt 0$, $\beta\gamma\gt 1$, the DIN assumptions for all $\mu$, the almost everywhere derivative assumptions, the Hessian assumption, and the local Lipschitz assumption. The result is
 
 $$
 \mathrm{DINGradientLift}(\mathrm{grad}\phi,x,u_0,v_0,\beta,\gamma).
@@ -388,26 +388,26 @@ $$
 (u_0(\mu),\mathrm{dinAuxInitial}(\mathrm{grad}\phi,\beta,\gamma,u_0,v_0,\mu)).
 $$
 
-The proof of `dinGradientLift_of_DIN` verifies three things: the lifted initial condition, absolute continuity on compact intervals, and the first-order differential equation almost everywhere. The assumptions $\beta>0$ and $\beta\gamma>1$ ensure $\gamma-1/\beta>0$ and $1/\beta>0$, so the square roots appearing in the auxiliary coordinate are real and positive.
+The proof of `dinGradientLift_of_DIN` verifies three things: the lifted initial condition, absolute continuity on compact intervals, and the first-order differential equation almost everywhere. The assumptions $\beta\gt 0$ and $\beta\gamma\gt 1$ ensure $\gamma-1/\beta\gt 0$ and $1/\beta\gt 0$, so the square roots appearing in the auxiliary coordinate are real and positive.
 
 Then `constructor` splits the conclusion into the two main parts.
 
-For the first part, the proof fixes $\varepsilon>0$. It applies the Lyapunov hypothesis `hlyap` with $\varepsilon/3$. This produces an $\eta>0$, smallness of the base initial data,
+For the first part, the proof fixes $\varepsilon\gt 0$. It applies the Lyapunov hypothesis `hlyap` with $\varepsilon/3$. This produces an $\eta\gt 0$, smallness of the base initial data,
 
-$$
+```math
 \|u_0(\bar\mu)-\bar x(\bar\mu)\|<\eta,\qquad
 \|v_0(\bar\mu)\|<\eta,
-$$
+```
 
 and the trajectory bound
 
-$$
+```math
 \|x(\bar\mu,t)-\bar x(\bar\mu)\|<\varepsilon/3
-$$
+```
 
 for every $t\ge 0$, applied to the base DIN trajectory.
 
-Next, the proof uses `hconv_init`, the continuity at $\bar\mu$ of the lifted initial data. The Tendsto statement is converted, via the metric characterization of convergence in a neighborhood filter, into the existence of a radius $\delta_1>0$ such that if
+Next, the proof uses `hconv_init`, the continuity at $\bar\mu$ of the lifted initial data. The Tendsto statement is converted, via the metric characterization of convergence in a neighborhood filter, into the existence of a radius $\delta_1\gt 0$ such that if
 
 $$
 \mathrm{dist}(\mu,\bar\mu)<\delta_1,
@@ -415,14 +415,14 @@ $$
 
 then
 
-$$
+```math
 \mathrm{dist}\!\left(
 (u_0(\mu),\mathrm{dinAuxInitial}(\ldots,\mu)),
 (u_0(\bar\mu),\mathrm{dinAuxInitial}(\ldots,\bar\mu))
 \right)
 <
 \frac{\varepsilon}{3\sqrt2}.
-$$
+```
 
 This controls the difference of the lifted initial data for $\mu$ and $\bar\mu$.
 
@@ -435,7 +435,7 @@ $$
 \right).
 $$
 
-Its purpose is to make the parameter-perturbation term smaller than $\varepsilon/3$. Since $\gamma_1>0$, the real-power monotonicity and the identity
+Its purpose is to make the parameter-perturbation term smaller than $\varepsilon/3$. Since $\gamma_1\gt 0$, the real-power monotonicity and the identity
 
 $$
 \left(a^{1/\gamma_1}\right)^{\gamma_1}=a
@@ -443,13 +443,13 @@ $$
 
 give
 
-$$
+```math
 \frac{\beta k_1}{c_{\min}}\,\delta_{\mathrm{rate}}^{\gamma_1}
 \le
 \frac{\varepsilon}{3}.
-$$
+```
 
-The positivity of $\delta_{\mathrm{rate}}$ follows from $c_{\min}>0$, $k_1>0$, $\beta>0$, and $\varepsilon>0$.
+The positivity of $\delta_{\mathrm{rate}}$ follows from $c_{\min}\gt 0$, $k_1\gt 0$, $\beta\gt 0$, and $\varepsilon\gt 0$.
 
 The final stability radius is chosen as
 
@@ -457,7 +457,7 @@ $$
 \delta=\min(\min(\delta_1,\eta),\delta_{\mathrm{rate}}).
 $$
 
-Now fix $\mu$ with $\mathrm{dist}(\mu,\bar\mu)<\delta$, and fix $t\ge 0$. The proof obtains
+Now fix $\mu$ with $\mathrm{dist}(\mu,\bar\mu)\lt \delta$, and fix $t\ge 0$. The proof obtains
 
 $$
 \mathrm{dist}(\mu,\bar\mu)<\delta_1,\qquad
@@ -467,35 +467,35 @@ $$
 
 The base trajectory bound gives
 
-$$
+```math
 \|x(\bar\mu,t)-\bar x(\bar\mu)\|<\varepsilon/3.
-$$
+```
 
 The initial lifted distance is then controlled. From the choice of $\delta_1$,
 
-$$
+```math
 \mathrm{dist}\!\left(
 (u_0(\mu),\mathrm{dinAuxInitial}(\ldots,\mu)),
 (u_0(\bar\mu),\mathrm{dinAuxInitial}(\ldots,\bar\mu))
 \right)
 <
 \frac{\varepsilon}{3\sqrt2}.
-$$
+```
 
 The product distance is rewritten using the product metric and the norm. If
 
-$$
+```math
 m=
 \max\left(
 \|u_0(\mu)-u_0(\bar\mu)\|,
 \|\mathrm{dinAuxInitial}(\ldots,\mu)
 -\mathrm{dinAuxInitial}(\ldots,\bar\mu)\|
 \right),
-$$
+```
 
 then
 
-$$
+```math
 \sqrt{
 \|u_0(\mu)-u_0(\bar\mu)\|^2
 +\|\mathrm{dinAuxInitial}(\ldots,\mu)
@@ -503,11 +503,11 @@ $$
 }
 \le
 \sqrt2\,m.
-$$
+```
 
-Since $m<\varepsilon/(3\sqrt2)$, this yields
+Since $m\lt \varepsilon/(3\sqrt2)$, this yields
 
-$$
+```math
 \sqrt{
 \|u_0(\mu)-u_0(\bar\mu)\|^2
 +\|\mathrm{dinAuxInitial}(\ldots,\mu)
@@ -515,11 +515,11 @@ $$
 }
 <
 \frac{\varepsilon}{3}.
-$$
+```
 
 The proof then applies `thm_5_estimate_all` to the two parameters $\mu$ and $\bar\mu$. The exact consequence used is the estimate
 
-$$
+```math
 \begin{aligned}
 \|x(\mu,t)-x(\bar\mu,t)\|
 &\le
@@ -533,7 +533,7 @@ e^{-M t}
 \left(1-e^{-M t}\right)
 \|\mu-\bar\mu\|^{\gamma_1},
 \end{aligned}
-$$
+```
 
 where
 
@@ -554,7 +554,7 @@ $$
 
 This estimate is the quantitative stability comparison between the two DIN trajectories.
 
-The proof bounds the first term using $e^{-Mt}\le 1$, which follows because $M>0$ and $t\ge 0$. Hence the exponential factor is at most $1$, and the first term is at most the initial lifted distance, already shown to be $<\varepsilon/3$.
+The proof bounds the first term using $e^{-Mt}\le 1$, which follows because $M\gt 0$ and $t\ge 0$. Hence the exponential factor is at most $1$, and the first term is at most the initial lifted distance, already shown to be $\lt \varepsilon/3$.
 
 For the second term, the proof uses the lower bound on the decay rates. Since
 
@@ -570,44 +570,44 @@ $$
 
 Also $0\le 1-e^{-Mt}\le 1$. Thus the second term is at most
 
-$$
+```math
 \frac{\beta k_1}{c_{\min}}\|\mu-\bar\mu\|^{\gamma_1}.
-$$
+```
 
-Since $\mathrm{dist}(\mu,\bar\mu)<\delta_{\mathrm{rate}}$, monotonicity of the real power gives
+Since $\mathrm{dist}(\mu,\bar\mu)\lt \delta_{\mathrm{rate}}$, monotonicity of the real power gives
 
-$$
+```math
 \|\mu-\bar\mu\|^{\gamma_1}
 <
 \delta_{\mathrm{rate}}^{\gamma_1},
-$$
+```
 
 and the choice of $\delta_{\mathrm{rate}}$ gives
 
-$$
+```math
 \frac{\beta k_1}{c_{\min}}\|\mu-\bar\mu\|^{\gamma_1}
 <
 \frac{\varepsilon}{3}.
-$$
+```
 
 Combining the two bounds yields
 
-$$
+```math
 \|x(\mu,t)-x(\bar\mu,t)\|
 <
 \frac{\varepsilon}{3}+\frac{\varepsilon}{3}.
-$$
+```
 
 Finally the triangle inequality gives
 
-$$
+```math
 \|x(\mu,t)-\bar x(\bar\mu)\|
 \le
 \|x(\mu,t)-x(\bar\mu,t)\|
 +\|x(\bar\mu,t)-\bar x(\bar\mu)\|.
-$$
+```
 
-The first summand is $<2\varepsilon/3$, and the second is $<\varepsilon/3$, so the total is $<\varepsilon$. This proves the first conclusion. The tactic `linarith` is used here to combine these linear inequalities.
+The first summand is $\lt 2\varepsilon/3$, and the second is $\lt \varepsilon/3$, so the total is $\lt \varepsilon$. This proves the first conclusion. The tactic `linarith` is used here to combine these linear inequalities.
 
 For the second part, the proof ignores the hypothesis that the initial data are independent of $\mu$, because the argument below proves the convergence assertion for each $\mu$ directly. For a fixed $\mu$, the proof applies `din_tendsto_to_critical` with the decay rate
 
@@ -623,7 +623,7 @@ $$
 
 satisfies, for all $p,q\in H\times H$,
 
-$$
+```math
 \mathrm{energyRate}(\beta,\gamma,\delta(\mu))
 \left(
 \|p_1-q_1\|^2+\|p_2-q_2\|^2
@@ -631,9 +631,9 @@ $$
 \le
 \left\langle F_\mu(p)_1-F_\mu(q)_1,p_1-q_1\right\rangle
 +\left\langle F_\mu(p)_2-F_\mu(q)_2,p_2-q_2\right\rangle.
-$$
+```
 
-This is exactly the strong monotonicity needed by `din_tendsto_to_critical`. The positivity of the constant is supplied by `energyRate_pos`, using $\beta>0$, $\gamma>0$, $\delta(\mu)>0$, and $\beta\gamma>1$. The critical-point condition is `hcrit μ`,
+This is exactly the strong monotonicity needed by `din_tendsto_to_critical`. The positivity of the constant is supplied by `energyRate_pos`, using $\beta\gt 0$, $\gamma\gt 0$, $\delta(\mu)\gt 0$, and $\beta\gamma\gt 1$. The critical-point condition is `hcrit μ`,
 
 $$
 \mathrm{grad}\phi_\mu(\bar x(\mu))=0.
@@ -647,7 +647,7 @@ $$
 
 Finally, the proof needs the estimate comparing $\bar x(\mu)$ and $\bar x(\bar\mu)$. It invokes `thm_6`, whose conclusion includes, among other facts, the Hölder estimate
 
-$$
+```math
 \|\bar x(\mu)-\bar x(\mu')\|
 \le
 \frac{\beta k_1}{
@@ -656,11 +656,11 @@ $$
 \mathrm{energyRate}(\beta,\gamma,\delta(\mu'))
 \right)}
 \|\mu-\mu'\|^{\gamma_1}.
-$$
+```
 
 Applying the third conjunct of `thm_6` to $\mu$ and $\bar\mu$ gives
 
-$$
+```math
 \|\bar x(\mu)-\bar x(\bar\mu)\|
 \le
 \frac{\beta k_1}{
@@ -669,7 +669,7 @@ $$
 \mathrm{energyRate}(\beta,\gamma,\delta(\bar\mu))
 \right)}
 \|\mu-\bar\mu\|^{\gamma_1}.
-$$
+```
 
 Since
 
@@ -694,14 +694,14 @@ $$
 \frac{\beta k_1}{c_{\min}}.
 $$
 
-Multiplying by the nonnegative factor $\|\mu-\bar\mu\|^{\gamma_1}$ yields
+Multiplying by the nonnegative factor $`\|\mu-\bar\mu\|^{\gamma_1}`$ yields
 
-$$
+```math
 \|\bar x(\mu)-\bar x(\bar\mu)\|
 \le
 \frac{\beta k_1}{c_{\min}}
 \|\mu-\bar\mu\|^{\gamma_1}.
-$$
+```
 
-The final rewrite uses $\mathrm{dist}(\mu,\bar\mu)=\|\mu-\bar\mu\|$, giving the stated estimate with $\mathrm{dist}(\mu,\bar\mu)^{\gamma_1}$.
+The final rewrite uses $`\mathrm{dist}(\mu,\bar\mu)=\|\mu-\bar\mu\|`$, giving the stated estimate with$\mathrm{dist}(\mu,\bar\mu)^{\gamma_1}$.
 

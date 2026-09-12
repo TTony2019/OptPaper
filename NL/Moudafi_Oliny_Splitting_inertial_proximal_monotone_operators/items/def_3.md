@@ -17,11 +17,11 @@ $$
 
 Explicitly, for $x \in E$,
 
-$$
+```math
 J_{\lambda T}(x)
 = \{ y \in E \mid x \in (I + \lambda T)(y) \}
 = \{ y \in E \mid x \in y + \lambda T(y) \}.
-$$
+```
 
 Thus $y \in J_{\lambda T}(x)$ exactly when there exists $z \in T(y)$ such that $x = y + \lambda z$. Equivalently, $y$ is in the resolvent image of $x$ precisely when $x$ can be decomposed as $y$ plus a scalar multiple of some element of $T(y)$. The declaration itself does not assert any property of this resolvent, such as single-valuedness, smoothness, or nonexpansiveness. The snippet also does not show whether $\lambda$ is required to be positive, nor does it display the underlying space $E$ or the scalar type of $\lambda$.
 

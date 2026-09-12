@@ -10,9 +10,9 @@ def omega {X : Type*} [TopologicalSpace X] (z : Nat -> X) : Set X :=
 ## Statement explanation
 The declaration `omega` is a definition. It is parameterized by an arbitrary type $X$ equipped with a topology, expressed in Lean by the typeclass parameter `TopologicalSpace X`, and by a sequence $z : \mathbb{N} \to X$. The notation `Type*` means that $X$ may lie in any universe. The result of the definition is a subset of $X$, namely an element of the type of sets over $X$. Its defining equation is
 
-$$
+```math
 \omega(z) = \{\, x \in X \mid \mathrm{IsSequentialClusterPt}(z,x) \,\}.
-$$
+```
 
 Thus a point $x \in X$ belongs to $\omega(z)$ exactly when $x$ satisfies the predicate `IsSequentialClusterPt z x`. Mathematically, $\omega(z)$ is the set of sequential cluster points of the sequence $z$, using the notion of sequential cluster point encoded by `IsSequentialClusterPt`. The topology on $X$ is what makes that notion meaningful. The definition introduces no further assumptions and asserts no further properties of $\omega(z)$: it does not claim that $\omega(z)$ is nonempty, closed, compact, or has any other special property.
 

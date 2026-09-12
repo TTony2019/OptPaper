@@ -91,11 +91,11 @@ then $T$ is maximal monotone. The proof applies this with $T = \partial f$. The 
 
 The proof therefore fixes an arbitrary $y \in H$ using `intro y`. It then defines an auxiliary function
 
-$$
+```math
 g(z) = f(z) + \frac12 \|z-y\|^2,
-$$
+```
 
-as an extended-real-valued function. It proves `hg_proper` that $g$ is proper: the value $g(z)$ is never $-\infty$, because $f(z) \neq -\infty$ and the real quadratic term is not $-\infty$; and the effective domain is nonempty, because $f$ has a point $z$ with $f(z) < +\infty$, and adding a finite real number keeps the value below $+\infty$. This auxiliary function $g$ and the fact `hg_proper` are not used later in the proof; the existence of the needed point is obtained instead from the proximal-point theorem below.
+as an extended-real-valued function. It proves `hg_proper` that $g$ is proper: the value $g(z)$ is never $-\infty$, because $f(z) \neq -\infty$ and the real quadratic term is not $-\infty$; and the effective domain is nonempty, because $f$ has a point $z$ with $f(z) \lt  +\infty$, and adding a finite real number keeps the value below $+\infty$. This auxiliary function $g$ and the fact `hg_proper` are not used later in the proof; the existence of the needed point is obtained instead from the proximal-point theorem below.
 
 Next, the proof derives lower semicontinuity of $f$. It uses `lowerSemicontinuous_iff_isClosed_epigraph f`, whose mathematical content is that $f$ is lower semicontinuous if and only if its epigraph is closed. The `.2` direction applies the closedness hypothesis `hclosed` and yields `h_lsc : LowerSemicontinuous f`.
 

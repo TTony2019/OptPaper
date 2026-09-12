@@ -18,9 +18,9 @@ The declaration `weak_strong_closedness_maximal_monotone_graph` concerns a set-v
 
 - $hxs$: the sequence $xs$ converges weakly to $x$, i.e.
 
-  $$
-  \mathrm{toWeakSpace}_{\mathbb R,H}(xs_i)\to \mathrm{toWeakSpace}_{\mathbb R,H}(x)
-  $$
+$$
+\mathrm{toWeakSpace}_{\mathbb R,H}(xs_i)\to \mathrm{toWeakSpace}_{\mathbb R,H}(x)
+$$
 
   as $i\to\infty$. Equivalently, $xs_i\rightharpoonup x$.
 - $hvs$: the sequence $vs$ converges strongly to $v$, i.e. $vs_i\to v$ in norm.
@@ -105,15 +105,15 @@ by
 ## Proof explanation
 The proof begins with `classical`, which only enables classical logic and has no mathematical content. It then applies the cited result `alvarez2004_mem_of_monotonically_related_to_graph`. That lemma says that if $T$ is maximal monotone and a point $u$ is monotonically related to every point of the graph of $T$, in the sense that
 
-$$
+```math
 \forall y\,w,\quad w\in T y \implies 0\le \langle u-w,x-y\rangle,
-$$
+```
 
 then $u\in T x$. In the present application, $T=A$, the lemma’s $u$ is the target point $v$, and the lemma’s $x$ is the target point $x$. Therefore the goal $v\in A x$ reduces to proving
 
-$$
+```math
 \forall y\,w,\quad w\in A y \implies 0\le \langle v-w,x-y\rangle.
-$$
+```
 
 The command `intro y w hw` fixes an arbitrary $y\in H$ and an arbitrary $w\in A y$.
 
@@ -127,15 +127,15 @@ This is the statement of `hmono_i`. Mathematically, it says that the pairs $(xs_
 
 The proof then needs to pass this inequality to the limit. To do so, it first obtains boundedness of the weakly convergent sequence $xs$. The cited lemma `bounded_range_of_tendsto_weakly` says that if a sequence converges weakly, then its range is bounded. Applied to $hxs$, it gives `hxs_bdd : Bornology.IsBounded (Set.range xs)`. Using `isBounded_iff_forall_norm_le`, this boundedness is unpacked as the existence of a real constant $C$ such that
 
-$$
+```math
 \|xs_i\|\le C
-$$
+```
 
 for every $i$. The proof then defines $M=\max(C,0)$, so that $M$ is a nonnegative upper bound and
 
-$$
+```math
 \|xs_i\|\le M
-$$
+```
 
 for all $i$.
 
@@ -157,11 +157,11 @@ This will be used with $u=v$ and with $u=w$.
 
 From the strong convergence $hvs$, the proof obtains
 
-$$
+```math
 \|vs_i-v\|\to 0.
-$$
+```
 
-Indeed, $vs_i-v\to 0$ by subtracting the constant sequence $v$, and the norm is continuous, so its norm tends to $\|0\|=0$. This is `hvs_norm_sub_zero`.
+Indeed, $vs_i-v\to 0$ by subtracting the constant sequence $v$, and the norm is continuous, so its norm tends to $`\|0\|=0`$. This is `hvs_norm_sub_zero`.
 
 The key cross term is
 
@@ -171,16 +171,16 @@ $$
 
 The proof shows that this tends to $0$. By Cauchy–Schwarz, implemented by `norm_inner_le_norm`,
 
-$$
+```math
 |\langle vs_i-v,xs_i\rangle|
 \le \|vs_i-v\|\,\|xs_i\|.
-$$
+```
 
-Since $\|xs_i\|\le M$, this is bounded above by
+Since $`\|xs_i\|\le M`$, this is bounded above by
 
-$$
+```math
 \|vs_i-v\|\,M,
-$$
+```
 
 and the latter tends to $0\cdot M=0$. The proof uses `squeeze_zero` to conclude that
 

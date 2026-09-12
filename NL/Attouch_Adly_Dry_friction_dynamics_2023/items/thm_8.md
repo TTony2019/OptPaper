@@ -38,7 +38,7 @@ theorem theorem_5_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 ```
 
 ## Statement explanation
-The theorem is set in a complete real inner product space $H$. It fixes real parameters $r,s_0,\alpha$ with $r>0$, $s_0>0$, and $\alpha>1$, an initial vector $x_0\in H$, curves $z,g,v,w,dw,ddw:\mathbb R\to H$, a function $f:H\to\mathbb R$, maps $\mathrm{gradFstar},\mathrm{gradPsiStar}:H\to H$, and a map $\mathrm{hessFstar}:H\to H\to_L H$ whose values are continuous linear maps from $H$ to $H$.
+The theorem is set in a complete real inner product space $H$. It fixes real parameters $r,s_0,\alpha$ with $r\gt 0$, $s_0\gt 0$, and $\alpha\gt 1$, an initial vector $x_0\in H$, curves $z,g,v,w,dw,ddw:\mathbb R\to H$, a function $f:H\to\mathbb R$, maps $\mathrm{gradFstar},\mathrm{gradPsiStar}:H\to H$, and a map $\mathrm{hessFstar}:H\to H\to_L H$ whose values are continuous linear maps from $H$ to $H$.
 
 The hypothesis `hgradFstar` says that if $F^*$ denotes the real-valued function obtained by taking the extended-real Fenchel conjugate of $f$ and converting back to a real number, then for all $q,v\in H$,
 
@@ -99,11 +99,11 @@ $$
 
 The decay hypotheses `hv_decay` and `hw_decay` say that
 
-$$
+```math
 \lim_{s\to\infty}s\,\mathrm{infDist}(v(s),\mathrm{frictionBall}r)=0,
 \qquad
 \lim_{s\to\infty}s\,\mathrm{infDist}(w(s),\mathrm{frictionBall}r)=0.
-$$
+```
 
 Finally, `hpsi` says that whenever $q\in\mathrm{frictionBallProjector}_r(u)$,
 
@@ -115,12 +115,12 @@ Thus $\mathrm{gradPsiStar}$ is identified with the residual of the friction-ball
 
 The conclusion has three parts. The first part is
 
-$$
+```math
 \mathrm{IsDryStarDualInertial}
   r\,\alpha\,s_0\,F^*
   \mathrm{gradFstar}\mathrm{hessFstar}\mathrm{gradPsiStar}
   hgradFstar\,hhessFstar\,w\,dw\,ddw.
-$$
+```
 
 By the supplied definition, this means that for every $s\ge s_0$,
 
@@ -130,25 +130,25 @@ $$
 
 and
 
-$$
+```math
 \mathrm{hessFstar}\!\left(w(s)+\frac{s}{\alpha-1}dw(s)\right)
 \left(ddw(s)+\frac{\alpha}{s}dw(s)\right)
 +\mathrm{gradPsiStar}\!\left(w(s)+\frac{s}{\alpha-1}dw(s)\right)=0.
-$$
+```
 
 In the definition as given, the parameters $r$, $F^*$, $\mathrm{gradFstar}$ and the two gradient-consistency hypotheses are arguments to the definition, but the displayed body only uses $\alpha$, $s_0$, $\mathrm{hessFstar}$, $\mathrm{gradPsiStar}$, and the curves $w,dw,ddw$.
 
 The second and third conclusions are the two asymptotic decay statements
 
-$$
+```math
 \lim_{s\to\infty}s\,\mathrm{infDist}\!\left(w(s)+\frac{s}{\alpha-1}dw(s),\mathrm{frictionBall}r\right)=0
-$$
+```
 
 and
 
-$$
+```math
 \lim_{s\to\infty}s\,\mathrm{infDist}(w(s),\mathrm{frictionBall}r)=0.
-$$
+```
 
 Thus the theorem transfers the scaled dry-gradient dynamics to a star-dual inertial equation for $w$, with $\mathrm{gradPsiStar}$ supplied by the projected residual, and it concludes the corresponding scale-invariant decay of the residuals.
 
@@ -197,13 +197,13 @@ The proof begins with `constructor`, splitting the conclusion into the first con
 
 For the first conjunct, the proof executes `unfold IsDryStarDualInertial` and then `intro s hs`, fixing an arbitrary $s$ with $s\in\mathrm{Set.Ici}s_0$, i.e. $s\ge s_0$. The definition of `IsDryStarDualInertial` requires three facts at this $s$: differentiability of $w$ with derivative $dw(s)$, differentiability of $dw$ with derivative $ddw(s)$, and the second-order equation. The proof uses `refine` with
 
-$$
+```math
 (hscale\,s\,hs).2.1,\qquad (hscale\,s\,hs).2.2.1,\qquad ?_,
-$$
+```
 
 so the first two differentiability requirements are exactly the corresponding components of `hscale`, specialized to $s\ge s_0$. The remaining goal is the second-order equation.
 
-To prove that equation, the proof first applies the cited private theorem `scaled_point_eq_v`. Its concrete content is as follows: if $0<s_0$, $\alpha>1$, $s\ge s_0$, and
+To prove that equation, the proof first applies the cited private theorem `scaled_point_eq_v`. Its concrete content is as follows: if $0\lt s_0$, $\alpha\gt 1$, $s\ge s_0$, and
 
 $$
 dw(s)+\frac{\alpha-1}{s}\bigl(w(s)-v(s)\bigr)=0,
@@ -229,13 +229,13 @@ $$
 
 This is the key identification that replaces the scaled point in the dual inertial equation by $v(s)$.
 
-The proof then records $s>0$ because $s\ge s_0>0$, and
+The proof then records $s\gt 0$ because $s\ge s_0\gt 0$, and
 
 $$
 \frac{s}{\alpha-1}>0
 $$
 
-because $s>0$ and $\alpha-1>0$. Therefore
+because $s\gt 0$ and $\alpha-1\gt 0$. Therefore
 
 $$
 \frac{s}{\alpha-1}\ne 0.
@@ -294,11 +294,11 @@ $$
 
 Because $\mathrm{hessFstar}(v(s))$ is a continuous linear map, `ContinuousLinearMap.map_smul` rewrites the left side as
 
-$$
+```math
 \frac{s}{\alpha-1}\,
 \mathrm{hessFstar}(v(s))
 \left(ddw(s)+\frac{\alpha}{s}dw(s)\right).
-$$
+```
 
 Since $\frac{s}{\alpha-1}\ne0$, the scalar multiplication map $x\mapsto \frac{s}{\alpha-1}\cdot x$ is injective. The lemma `smul_right_injective H hτne` applies this cancellation and yields the key identity
 
@@ -316,11 +316,11 @@ $$
 
 The goal for the second-order equation originally has the form
 
-$$
+```math
 \mathrm{hessFstar}\!\left(w(s)+\frac{s}{\alpha-1}dw(s)\right)
 \left(ddw(s)+\frac{\alpha}{s}dw(s)\right)
 +\mathrm{gradPsiStar}\!\left(w(s)+\frac{s}{\alpha-1}dw(s)\right)=0.
-$$
+```
 
 The proof rewrites the scaled point by `hv_eq`, replaces the Hessian term by the identity just obtained, and replaces the $\mathrm{gradPsiStar}$ term by $v(s)-p(\tau(s))$. The goal then becomes
 
@@ -332,9 +332,9 @@ The `abel` tactic closes this additive cancellation in the abelian group $H$. Th
 
 For the second conjunct, the proof must show
 
-$$
+```math
 \lim_{s\to\infty}s\,\mathrm{infDist}\!\left(w(s)+\frac{s}{\alpha-1}dw(s),\mathrm{frictionBall}r\right)=0.
-$$
+```
 
 It starts from `hv_decay`, which is the same limit with $v(s)$ in place of the scaled point. The command `apply hv_decay.congr'` invokes the congruence property of limits: if a function tends to a limit and another function is eventually equal to it, then the second function has the same limit. The proof then uses `filter_upwards [Filter.eventually_ge_atTop s₀]` to reduce the eventual equality to an arbitrary $s\ge s_0$. For such $s$, the theorem `scaled_point_eq_v` again gives
 
@@ -342,19 +342,19 @@ $$
 w(s)+\frac{s}{\alpha-1}dw(s)=v(s).
 $$
 
-Hence the two functions $s\mapsto s\,\mathrm{infDist}(v(s),\mathrm{frictionBall}r)$ and
+Hence the two functions $`s\mapsto s\,\mathrm{infDist}(v(s),\mathrm{frictionBall}r)`$ and
 
-$$
+```math
 s\mapsto s\,\mathrm{infDist}\!\left(w(s)+\frac{s}{\alpha-1}dw(s),\mathrm{frictionBall}r\right)
-$$
+```
 
 agree eventually, so the decay for $v$ transfers to the scaled point.
 
 The third conjunct is
 
-$$
+```math
 \lim_{s\to\infty}s\,\mathrm{infDist}(w(s),\mathrm{frictionBall}r)=0,
-$$
+```
 
 which is exactly the hypothesis `hw_decay`. The proof therefore finishes with `exact hw_decay`.
 

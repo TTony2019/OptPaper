@@ -15,13 +15,13 @@ theorem bregmanDistance_quadratic_bounds {m : Nat} (u : EuclideanSpace m -> Real
 ## Statement explanation
 The theorem `bregmanDistance_quadratic_bounds` states the following. For a natural number $m$, a function $u:\mathbb R^m\to\mathbb R$, and real parameters $\sigma$ and $L$, written in Lean as `sigma` and `Lgrad_u`, assume that $u$ is $\sigma$-strongly convex, `hstrong : StronglyConvexWith sigma u`, and that $u$ has $L$-Lipschitz continuous gradient, `hgrad : HasLipschitzContinuousGradient u Lgrad_u`. Then for every pair $x,y\in\mathbb R^m$, the Bregman distance of $u$ satisfies the two-sided quadratic bound
 
-$$
+```math
 \frac{\sigma}{2}\|x-y\|^2
 \;\le\;
 D_u(x,y)
 \;\le\;
 \frac{L}{2}\|x-y\|^2,
-$$
+```
 
 where the Bregman distance is defined by
 
@@ -32,11 +32,11 @@ $$
 
 Here `EuclideanSpace m` is the finite-dimensional real Euclidean space $\mathbb R^m$, `gradient u y` is the gradient $\nabla u(y)$, and `inner Real` is the real inner product $\langle \cdot,\cdot\rangle$.
 
-The lower bound is the quadratic growth estimate coming from strong convexity: it says that the Bregman distance, whose gradient is taken at the second argument $y$, is bounded below by $(\sigma/2)\|x-y\|^2$. The upper bound is the smoothness estimate coming from the Lipschitz continuity of the gradient: it says that the same Bregman distance is bounded above by $(L/2)\|x-y\|^2$. The proof uses the second component `hstrong.2` of strong convexity to know that
+The lower bound is the quadratic growth estimate coming from strong convexity: it says that the Bregman distance, whose gradient is taken at the second argument $y$, is bounded below by $`(\sigma/2)\|x-y\|^2`$. The upper bound is the smoothness estimate coming from the Lipschitz continuity of the gradient: it says that the same Bregman distance is bounded above by$`(L/2)\|x-y\|^2`$. The proof uses the second component `hstrong.2` of strong convexity to know that
 
-$$
+```math
 G(z)=u(z)-\frac{\sigma}{2}\|z\|^2
-$$
+```
 
 is convex. It uses the first component `hstrong.1` only as an auxiliary real inequality about $\sigma$ in the final arithmetic. It uses `hgrad.2.1` to extract global differentiability of $u$, and it uses the full Lipschitz-gradient hypothesis through the descent lemma in the upper-bound part.
 
@@ -104,9 +104,9 @@ The proof begins with `intro x y`, introducing arbitrary points $x,y\in\mathbb R
 
 For the lower bound, the proof defines
 
-$$
+```math
 G(z)=u(z)-\frac{\sigma}{2}\|z\|^2,
-$$
+```
 
 and then composes $G$ with the affine line
 
@@ -122,7 +122,7 @@ $$
 (1-\lambda)\phi(s)+\lambda\phi(t)
 $$
 
-for all $s,t\in\mathbb R$ and all $0<\lambda<1$.
+for all $s,t\in\mathbb R$ and all $0\lt \lambda\lt 1$.
 
 Next the proof obtains differentiability. From `hgrad.2.1` it gets `hu_diff : Differentiable Real u`, so $u$ is differentiable everywhere. This is needed for the chain rule and for identifying the Fréchet derivative with the gradient.
 
@@ -152,7 +152,7 @@ $$
 
 This is `hu_line`.
 
-The proof also computes the derivative of $t\mapsto \|y+t(x-y)\|^2$ at $0$. The result `AffineMap.hasDerivAt_lineMap` gives that the line $t\mapsto y+t(x-y)$ has derivative $x-y$ at $0$. The `.norm_sq` lemma for derivatives says that if a curve $c$ has derivative $v$ at $t$, then $t\mapsto \|c(t)\|^2$ has derivative
+The proof also computes the derivative of $`t\mapsto \|y+t(x-y)\|^2`$at$0$. The result `AffineMap.hasDerivAt_lineMap` gives that the line $t\mapsto y+t(x-y)$ has derivative $x-y$ at $0$. The `.norm_sq` lemma for derivatives says that if a curve $c$ has derivative $v$ at $t$, then $`t\mapsto \|c(t)\|^2`$ has derivative
 
 $$
 2\langle c(t),v\rangle .
@@ -168,11 +168,11 @@ This is `hnorm_line`.
 
 Combining these two derivative computations with the subtraction rule and constant multiplication gives
 
-$$
+```math
 \phi'(0)
 =\langle \nabla u(y),x-y\rangle
 -\frac{\sigma}{2}\,2\langle y,x-y\rangle .
-$$
+```
 
 The proof records this as `hφ_deriv`, then converts it to the equality `hderiv_eq` for `deriv φ 0`, and notes `hφ_diff : DifferentiableAt Real φ 0`.
 
@@ -186,11 +186,11 @@ This is exactly the inequality `hslope`.
 
 After rewriting the derivative and unfolding `slope`, `φ`, `G`, and `bregmanDistance`, the proof simplifies the endpoints:
 
-$$
+```math
 \phi(0)=G(y)=u(y)-\frac{\sigma}{2}\|y\|^2,
 \qquad
 \phi(1)=G(x)=u(x)-\frac{\sigma}{2}\|x\|^2.
-$$
+```
 
 The endpoint evaluations are justified by rewriting
 
@@ -201,67 +201,67 @@ $$
 
 After `norm_num`, the slope inequality becomes
 
-$$
+```math
 \langle \nabla u(y),x-y\rangle-\sigma\langle y,x-y\rangle
 \le
 u(x)-u(y)-\frac{\sigma}{2}\bigl(\|x\|^2-\|y\|^2\bigr).
-$$
+```
 
 The proof then uses the elementary real inner-product identity
 
-$$
+```math
 \|a+b\|^2=\|a\|^2+2\langle a,b\rangle+\|b\|^2,
-$$
+```
 
 specialized through `norm_add_sq_real y (x-y)` to
 
-$$
+```math
 \|x\|^2
 =\|y\|^2+2\langle y,x-y\rangle+\|x-y\|^2.
-$$
+```
 
 This identity is `hnorm_id`. Substituting it into the previous inequality and cancelling the common term $-\sigma\langle y,x-y\rangle$ yields
 
-$$
+```math
 \langle \nabla u(y),x-y\rangle
 \le
 u(x)-u(y)-\frac{\sigma}{2}\|x-y\|^2,
-$$
+```
 
 which is equivalent to
 
-$$
+```math
 \frac{\sigma}{2}\|x-y\|^2
 \le
 u(x)-u(y)-\langle \nabla u(y),x-y\rangle
 =D_u(x,y).
-$$
+```
 
 The final nonlinear arithmetic is closed by `nlinarith [hnorm_id, hstrong.1]`. The call to `nlinarith` performs this algebraic combination involving the squared norms and the scalar $\sigma$. The extra hypothesis `hstrong.1` is the scalar inequality about $\sigma$ supplied by the strong-convexity structure; it is used as auxiliary real arithmetic information in this final step.
 
 For the upper bound, the proof invokes `descent_of_hasLipschitzContinuousGradient u Lgrad_u hgrad y x`. That cited descent lemma says that if $u$ has $L$-Lipschitz continuous gradient, then for all $a,b$,
 
-$$
+```math
 u(b)
 \le
 u(a)+\langle \nabla u(a),b-a\rangle+\frac{L}{2}\|b-a\|^2.
-$$
+```
 
 With $a=y$ and $b=x$, it gives
 
-$$
+```math
 u(x)
 \le
 u(y)+\langle \nabla u(y),x-y\rangle+\frac{L}{2}\|x-y\|^2.
-$$
+```
 
 The proof then uses `dsimp [bregmanDistance] at hdescent ⊢` to unfold the definition of Bregman distance in both the hypothesis and the goal. The goal at that point is
 
-$$
+```math
 u(x)-u(y)-\langle \nabla u(y),x-y\rangle
 \le
 \frac{L}{2}\|x-y\|^2.
-$$
+```
 
 This is a direct linear rearrangement of the descent inequality: subtracting $u(y)+\langle \nabla u(y),x-y\rangle$ from both sides gives exactly the desired upper bound. The tactic `linarith` closes this linear arithmetic goal.
 

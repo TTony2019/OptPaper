@@ -15,7 +15,7 @@ $$
 f : E \to \overline{\mathbb R},
 $$
 
-where $\overline{\mathbb R} = \mathbb R \cup \{-\infty,+\infty\}$, and a point $x \in E$. The subdifferential $\partial f(x)$ is defined as the set of continuous linear functionals $p : E \to \mathbb R$, equivalently elements $p \in E^*$, such that for every $y \in E$,
+where $`\overline{\mathbb R} = \mathbb R \cup \{-\infty,+\infty\}`$, and a point$x \in E$. The subdifferential$\partial f(x)$is defined as the set of continuous linear functionals$p : E \to \mathbb R$, equivalently elements$p \in E^*$, such that for every$y \in E$,
 
 $$
 f(x) + p(y-x) \le f(y).

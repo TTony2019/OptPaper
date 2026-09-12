@@ -11,17 +11,17 @@ theorem descent_lemma {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ 
 ## Statement explanation
 The declaration `descent_lemma` is a theorem about a complete real inner product space $E$. The assumptions say that $E$ is a normed additive commutative group, is an inner product space over $\mathbb R$, and is complete; together these make $E$ a real Hilbert space. The theorem takes a function $f:E\to\mathbb R$, a real constant $L$, a hypothesis $h:\mathrm{IsC11} f L$, and two points $x,y\in E$. In the proof, the hypothesis $h$ is used through two concrete consequences: first, at each point $u$, $f$ has a gradient $\nabla f(u)$, so that the gradient is available in a chain rule; second, for all points $u,v$, the gradient is $L$-Lipschitz in the sense
 
-$$
+```math
 \|\nabla f(u)-\nabla f(v)\|\le L\|u-v\|.
-$$
+```
 
 Thus `IsC11 f L` supplies the $C^1$-with- $L$-Lipschitz-gradient regularity needed for the descent lemma. The conclusion is the quadratic upper bound
 
-$$
+```math
 f(y)\le f(x)+\langle \nabla f(x),y-x\rangle+\frac L2\|y-x\|^2,
-$$
+```
 
-where $\langle\cdot,\cdot\rangle$ is the real inner product and $\nabla f(x)$ is the gradient of $f$ at $x$. Mathematically, this says that if the gradient of $f$ is $L$-Lipschitz, then $f(y)$ is bounded above by its first-order Taylor approximation at $x$ plus the quadratic term $\frac L2\|y-x\|^2$. No sign condition on $L$ is separately listed in the statement; the Lipschitz estimate used in the proof is exactly the one supplied by $h$.
+where $\langle\cdot,\cdot\rangle$ is the real inner product and $\nabla f(x)$ is the gradient of $f$ at $x$. Mathematically, this says that if the gradient of $f$ is $L$-Lipschitz, then $f(y)$ is bounded above by its first-order Taylor approximation at $x$ plus the quadratic term $`\frac L2\|y-x\|^2`$. No sign condition on$L$is separately listed in the statement; the Lipschitz estimate used in the proof is exactly the one supplied by$h$.
 
 ## Lean proof
 ```lean
@@ -114,9 +114,9 @@ $$
 
 so that $\phi(0)=x$, $\phi(1)=y$, and $\phi'(t)=y-x$. It then defines the auxiliary function
 
-$$
+```math
 r(t)=f(\phi(t))-f(x)-t\langle \nabla f(x),y-x\rangle-\frac L2 t^2\|y-x\|^2.
-$$
+```
 
 This $r$ measures the difference between $f$ along the segment and its quadratic model based at $x$. The first step `have hr0 : r 0 = 0` uses `simp` with the definitions of $r$ and $\phi$: at $t=0$, $\phi(0)=x$, and the terms involving $t$ and $t^2$ vanish.
 
@@ -142,15 +142,15 @@ $$
 
 as $\langle \nabla f(x),y-x\rangle$, using `hasDerivAt_id` and `mul_const`. Fourth, $h_4$ computes the derivative of
 
-$$
+```math
 t\mapsto \frac L2 t^2\|y-x\|^2
-$$
+```
 
-as $Lt\|y-x\|^2$, using the derivative of $t^2$, constant multiplication, and `ring` to simplify the coefficient. Subtracting these derivatives gives
+as $`Lt\|y-x\|^2`$, using the derivative of$t^2$, constant multiplication, and `ring` to simplify the coefficient. Subtracting these derivatives gives
 
-$$
+```math
 r'(t)=\langle \nabla f(\phi(t))-\nabla f(x),y-x\rangle-Lt\|y-x\|^2.
-$$
+```
 
 The simplification uses `inner_sub_left`, the linearity of the inner product in its first argument, to combine
 
@@ -166,36 +166,36 @@ $$
 
 The derivative formula implies $r$ is differentiable at every $t$. The proof records this in `hr_diff`, then obtains continuity of $r$ from differentiability in `hr_cont`, continuity on $[0,1]$ in `hr_contOn`, and differentiability on $(0,1)$ in `hr_diffOn`. These are exactly the regularity hypotheses needed for the mean value theorem on the interval $[0,1]$.
 
-The key estimate is `hr_deriv_nonpos`. For $t>0$, it proves
+The key estimate is `hr_deriv_nonpos`. For $t\gt 0$, it proves
 
-$$
+```math
 \langle \nabla f(\phi(t))-\nabla f(x),y-x\rangle-Lt\|y-x\|^2\le 0.
-$$
+```
 
 The proof uses Cauchy–Schwarz in the form `real_inner_le_norm`, giving
 
-$$
+```math
 \langle \nabla f(\phi(t))-\nabla f(x),y-x\rangle
 \le
 \|\nabla f(\phi(t))-\nabla f(x)\|\,\|y-x\|.
-$$
+```
 
 It then uses the Lipschitz estimate `h.lipschitz (φ t) x`, which gives
 
-$$
+```math
 \|\nabla f(\phi(t))-\nabla f(x)\|\le L\|\phi(t)-x\|.
-$$
+```
 
-Finally, because $\phi(t)$ lies on the segment from $x$ to $y$, the distance from $x$ to $\phi(t)$ is $t\|y-x\|$ when $t>0$. This is obtained from `dist_left_lineMap`, the fact $\|t\|=t$ for $t>0$ via `abs_of_pos`, and norm-distance conversions. Combining these inequalities yields
+Finally, because $\phi(t)$ lies on the segment from $x$ to $y$, the distance from $x$ to $\phi(t)$ is $`t\|y-x\|`$when$t>0$. This is obtained from `dist_left_lineMap`, the fact $`\|t\|=t`$for$t>0$ via `abs_of_pos`, and norm-distance conversions. Combining these inequalities yields
 
-$$
+```math
 \langle \nabla f(\phi(t))-\nabla f(x),y-x\rangle
 \le Lt\|y-x\|^2.
-$$
+```
 
-Subtracting the same quantity $Lt\|y-x\|^2$ from both sides gives the desired nonpositivity. The tactics `nlinarith`, `ring`, and `linarith` are used to multiply the Lipschitz estimate by the nonnegative factor $\|y-x\|$, simplify algebraic identities, and finish the inequality.
+Subtracting the same quantity $`Lt\|y-x\|^2`$ from both sides gives the desired nonpositivity. The tactics `nlinarith`, `ring`, and `linarith` are used to multiply the Lipschitz estimate by the nonnegative factor $`\|y-x\|`$, simplify algebraic identities, and finish the inequality.
 
-Next, the proof applies the mean value theorem through `exists_deriv_eq_slope`. The hypotheses supplied are $0<1$, continuity of $r$ on $[0,1]$, and differentiability of $r$ on $(0,1)$. The conclusion is that there exists $c\in(0,1)$ such that
+Next, the proof applies the mean value theorem through `exists_deriv_eq_slope`. The hypotheses supplied are $0\lt 1$, continuity of $r$ on $[0,1]$, and differentiability of $r$ on $(0,1)$. The conclusion is that there exists $c\in(0,1)$ such that
 
 $$
 r'(c)=\frac{r(1)-r(0)}{1-0}.
@@ -203,23 +203,23 @@ $$
 
 The proof destructs this existence statement with `rcases`, obtaining $c$, the membership $c\in(0,1)$, and the equality above. Then `h_deriv_c` identifies $r'(c)$ with the explicit derivative formula
 
-$$
+```math
 r'(c)=\langle \nabla f(\phi(c))-\nabla f(x),y-x\rangle-Lc\|y-x\|^2.
-$$
+```
 
-Because $c>0$, the earlier estimate `hr_deriv_nonpos` applies to $c$, giving $r'(c)\le 0$.
+Because $c\gt 0$, the earlier estimate `hr_deriv_nonpos` applies to $c$, giving $r'(c)\le 0$.
 
 The proof rewrites the mean value theorem equality: $1-0=1$, so dividing by $1$ is harmless, and $r(0)=0$, so the right-hand side becomes $r(1)$. Hence $r'(c)=r(1)$. Since $r'(c)\le 0$, linear arithmetic gives $r(1)\le 0$. Finally, `simp [r, φ] at hr1_nonpos` evaluates $r(1)$ and $\phi(1)=y$, producing
 
-$$
+```math
 f(y)-f(x)-\langle \nabla f(x),y-x\rangle-\frac L2\|y-x\|^2\le 0.
-$$
+```
 
 The final `linarith` rearranges this inequality into
 
-$$
+```math
 f(y)\le f(x)+\langle \nabla f(x),y-x\rangle+\frac L2\|y-x\|^2,
-$$
+```
 
 which is exactly the claimed descent lemma.
 

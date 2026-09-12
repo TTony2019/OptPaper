@@ -23,11 +23,11 @@ $$
 
 so $P$ says that the sequence $x$ is eventually constant, i.e. the algorithm terminates finitely. Let
 
-$$
+```math
 Q := \mathrm{normalizedIncrementLimitPoints}(x)
 \subseteq
 \mathrm{normalConeSet}\bigl(A(0),\, -B(x_\infty)\bigr),
-$$
+```
 
 and let
 
@@ -48,7 +48,7 @@ The set $\mathrm{normalizedIncrementLimitPoints}(x)$ is defined by saying that $
 $$
 d \in \mathrm{normalizedIncrementLimitPoints}(x)
 \iff
-\exists \varphi,\ 
+\exists \varphi,\
 \mathrm{StrictMono}(\varphi)
 \land
 \bigl(\forall n,\ \varphi(n) \notin \mathrm{stationaryIndices}(x)\bigr)
@@ -94,17 +94,17 @@ $$
 
 The proof then uses
 
-$$
+```math
 \texttt{theorem31\_limit\_directions\_normal\_cone}
-$$
+```
 
 with the arguments $A,B,f,\lambda,x,h,x_\infty,hxInf,hFinite$. The cited theorem states that, under the finite-dimensionality assumption, the standing assumptions `Theorem31Assumptions A B f lam x`, the convergence $x_n \to x_\infty$, and the non-eventual-constancy hypothesis $\neg P$, one obtains exactly
 
-$$
+```math
 \mathrm{normalizedIncrementLimitPoints}(x)
 \subseteq
 \mathrm{normalConeSet}\bigl(A(0),\, -B(x_\infty)\bigr),
-$$
+```
 
 which is $Q$. The proof wraps this conclusion with `Or.inr`, thereby proving $P \lor Q$ by selecting the right disjunct. This completes the first conjunct.
 
@@ -124,25 +124,25 @@ and changes the goal to `False`.
 
 Next, the proof introduces an intermediate fact `hDirections` by invoking again
 
-$$
+```math
 \texttt{theorem31\_limit\_directions\_normal\_cone}
-$$
+```
 
 with the same data and with `hnotFinite`. Since the hypotheses of that theorem are exactly the standing assumptions, convergence $x_n \to x_\infty$, and non-eventual constancy $\neg P$, the theorem yields the inclusion
 
-$$
+```math
 \mathrm{normalizedIncrementLimitPoints}(x)
 \subseteq
 \mathrm{normalConeSet}\bigl(A(0),\, -B(x_\infty)\bigr).
-$$
+```
 
 This is precisely the statement $Q$.
 
 Finally, the proof applies
 
-$$
+```math
 \texttt{theorem31\_interior\_condition\_forces\_finite}
-$$
+```
 
 with the arguments $A,B,f,\lambda,x,h,x_\infty,hxInf,hInterior,hDirections,hnotFinite$. The cited theorem states that, under the same finite-dimensional setting and standing assumptions, if $x_n \to x_\infty$, the interior condition $R$ holds, the normal-cone inclusion $Q$ holds, and the sequence is not eventually constant $\neg P$, then the conclusion is `False`. The proof supplies exactly those hypotheses, and the resulting contradiction matches the current goal `False`. Thus the assumption $\neg P$ is impossible under $R$, so $P$ must hold, proving $R \to P$.
 

@@ -21,7 +21,7 @@ $$
 |t|<\sigma \quad\Longrightarrow\quad |h(t)|^{1-\theta}\le |h'(t)|.
 $$
 
-Here $h'(t)$ is Lean's one-dimensional derivative `deriv h t`. Since $\theta<1/2$, the exponent $1-\theta$ is greater than $1/2$, hence positive. Thus the theorem gives a local reverse-Hölder-type estimate saying that, near the origin, a positive real power of $|h|$ is bounded above by the absolute value of the derivative. The inequality is only asserted inside the small interval $(-\sigma,\sigma)$. If $h$ vanishes in an entire neighborhood of $0$, the statement is trivial because both sides vanish; otherwise the proof uses the analytic factorization of $h$ by its order of vanishing at $0$.
+Here $h'(t)$ is Lean's one-dimensional derivative `deriv h t`. Since $\theta\lt 1/2$, the exponent $1-\theta$ is greater than $1/2$, hence positive. Thus the theorem gives a local reverse-Hölder-type estimate saying that, near the origin, a positive real power of $|h|$ is bounded above by the absolute value of the derivative. The inequality is only asserted inside the small interval $(-\sigma,\sigma)$. If $h$ vanishes in an entire neighborhood of $0$, the statement is trivial because both sides vanish; otherwise the proof uses the analytic factorization of $h$ by its order of vanishing at $0$.
 
 ## Lean proof
 ```lean
@@ -266,13 +266,13 @@ $$
 
 meaning that $h$ is eventually equal to $0$ near the origin.
 
-In the first case, where $h$ vanishes in a neighborhood of $0$, the proof uses `Metric.mem_nhds_iff.mp hz` to extract a radius $\rho>0$ such that $h(z)=0$ whenever $\mathrm{dist}(z,0)<\rho$. In ordinary terms, $h$ is identically zero on the ball $B(0,\rho)$. The proof chooses
+In the first case, where $h$ vanishes in a neighborhood of $0$, the proof uses `Metric.mem_nhds_iff.mp hz` to extract a radius $\rho\gt 0$ such that $h(z)=0$ whenever $\mathrm{dist}(z,0)\lt \rho$. In ordinary terms, $h$ is identically zero on the ball $B(0,\rho)$. The proof chooses
 
 $$
 \sigma=\rho,\qquad \theta=\frac14.
 $$
 
-Then $0<\rho$, $0<1/4$, and $1/4<1/2$, verified by `norm_num`. For $t$ with $|t|<\rho$, the value $h(t)$ is zero. To see that the derivative is also zero at such a $t$, the proof shows that $h$ is eventually equal to $0$ near $t$: because $t$ lies inside the open ball $B(0,\rho)$, there is a small neighborhood of $t$ still contained in that ball, where $h$ vanishes. The lemma `Filter.EventuallyEq.deriv_eq` then gives
+Then $0\lt \rho$, $0\lt 1/4$, and $1/4\lt 1/2$, verified by `norm_num`. For $t$ with $|t|\lt \rho$, the value $h(t)$ is zero. To see that the derivative is also zero at such a $t$, the proof shows that $h$ is eventually equal to $0$ near $t$: because $t$ lies inside the open ball $B(0,\rho)$, there is a small neighborhood of $t$ still contained in that ball, where $h$ vanishes. The lemma `Filter.EventuallyEq.deriv_eq` then gives
 
 $$
 h'(t)=0,
@@ -298,7 +298,7 @@ $$
 h(z)=z^n u(z)
 $$
 
-for all $z$ in some neighborhood of $0$. This is the standard factorization of an analytic function according to the order of vanishing at $0$. The proof extracts a radius $\rho_1>0$ on which this factorization is valid.
+for all $z$ in some neighborhood of $0$. This is the standard factorization of an analytic function according to the order of vanishing at $0$. The proof extracts a radius $\rho_1\gt 0$ on which this factorization is valid.
 
 The proof then shows $n\ge1$. If $n=0$, then $z^n u(z)=u(z)$, so $h$ is eventually equal to $u$ near $0$. Since eventual equality at a point implies equality at that point, one gets $h(0)=u(0)$. But $h(0)=0$ and $u(0)\ne0$, a contradiction. Hence $n\ge1$.
 
@@ -308,7 +308,7 @@ $$
 c=|u(0)|.
 $$
 
-Because $u(0)\ne0$, one has $c>0$. Continuity of $u$ at $0$, obtained from its analyticity, gives a radius $\delta_u>0$ such that if $|z|<\delta_u$, then
+Because $u(0)\ne0$, one has $c\gt 0$. Continuity of $u$ at $0$, obtained from its analyticity, gives a radius $\delta_u\gt 0$ such that if $|z|\lt \delta_u$, then
 
 $$
 |u(z)-u(0)|<\frac c2.
@@ -322,7 +322,7 @@ $$
 M=|u'(0)|+1,
 $$
 
-one obtains a radius $\delta_d>0$ such that if $|z|<\delta_d$, then
+one obtains a radius $\delta_d\gt 0$ such that if $|z|\lt \delta_d$, then
 
 $$
 |u'(z)-u'(0)|<M.
@@ -338,13 +338,13 @@ $$
 \theta=\frac{1}{2(n+1)}.
 $$
 
-Since $n\ge1$, this gives $0<\theta<1/2$. It also gives
+Since $n\ge1$, this gives $0\lt \theta\lt 1/2$. It also gives
 
 $$
 n\theta<1,
 $$
 
-so $1-n\theta>0$, and certainly $1-\theta>0$. The proof defines the positive constants
+so $1-n\theta\gt 0$, and certainly $1-\theta\gt 0$. The proof defines the positive constants
 
 $$
 A=\frac{3c}{2},\qquad B=\frac{nc}{4},
@@ -357,13 +357,13 @@ $$
 \eta_1=\left(\frac{B}{A^{1-\theta}}\right)^{1/(1-n\theta)}.
 $$
 
-These are all positive: $A>0$ because $c>0$, $B>0$ because $n\ge1$ and $c>0$, $\eta_2>0$ because $M>0$, and $\eta_1>0$ by positivity of real powers of positive numbers.
+These are all positive: $A\gt 0$ because $c\gt 0$, $B\gt 0$ because $n\ge1$ and $c\gt 0$, $\eta_2\gt 0$ because $M\gt 0$, and $\eta_1\gt 0$ by positivity of real powers of positive numbers.
 
-The proof then gathers the eventual facts: eventually $|t|<\eta_1$, eventually $|t|<\eta_2$, eventually $|u(t)-u(0)|<c/2$, and eventually $|u'(t)-u'(0)|<M$. The tactic `filter_upwards` combines these eventual statements and introduces a single $t$ satisfying all of them.
+The proof then gathers the eventual facts: eventually $|t|\lt \eta_1$, eventually $|t|\lt \eta_2$, eventually $|u(t)-u(0)|\lt c/2$, and eventually $|u'(t)-u'(0)|\lt M$. The tactic `filter_upwards` combines these eventual statements and introduces a single $t$ satisfying all of them.
 
 For such a $t$, the proof first treats the case $t=0$. Then $h(0)=0$, so the left side is $0^{1-\theta}$, which is $0$ because $1-\theta\ne0$, while the right side is $|h'(0)|\ge0$. The inequality is immediate.
 
-Now assume $t\ne0$, so $|t|>0$. From the factorization,
+Now assume $t\ne0$, so $|t|\gt 0$. From the factorization,
 
 $$
 h(t)=t^n u(t).
@@ -388,23 +388,23 @@ $$
 h'(t)=t^{n-1}\bigl(n u(t)+t u'(t)\bigr).
 $$
 
-The bounds on $u(t)$ are obtained from $|u(t)-u(0)|<c/2$. Since $c=|u(0)|$, one gets
+The bounds on $u(t)$ are obtained from $|u(t)-u(0)|\lt c/2$. Since $c=|u(0)|$, one gets
 
 $$
 \frac c2\le |u(t)|\le \frac{3c}{2}=A.
 $$
 
-The bound on $u'(t)$ is obtained from $|u'(t)-u'(0)|<M$. Since $M=|u'(0)|+1$, this gives
+The bound on $u'(t)$ is obtained from $|u'(t)-u'(0)|\lt M$. Since $M=|u'(0)|+1$, this gives
 
 $$
 |u'(t)|\le 2M.
 $$
 
-Together with $|t|<\eta_2$, this implies
+Together with $|t|\lt \eta_2$, this implies
 
-$$
+```math
 |t|\,|u'(t)|\le \eta_2(2M)=\frac{nc}{4}.
-$$
+```
 
 Also,
 
@@ -426,12 +426,12 @@ $$
 
 Therefore,
 
-$$
+```math
 |h'(t)|
 =|t^{n-1}|\,|n u(t)+t u'(t)|
 =|t|^{n-1}|n u(t)+t u'(t)|
 \ge |t|^{n-1}B.
-$$
+```
 
 This is the lower bound on $|h'(t)|$.
 
@@ -441,7 +441,7 @@ $$
 |h(t)|=|t^n u(t)|=|t|^n|u(t)|\le |t|^n A.
 $$
 
-Since $1-\theta>0$, the real-power function $x\mapsto x^{1-\theta}$ is increasing on nonnegative reals, so
+Since $1-\theta\gt 0$, the real-power function $x\mapsto x^{1-\theta}$ is increasing on nonnegative reals, so
 
 $$
 |h(t)|^{1-\theta}
@@ -463,7 +463,7 @@ $$
 n(1-\theta)=(n-1)+(1-n\theta).
 $$
 
-Because $|t|<\eta_1$ and $1-n\theta>0$, monotonicity of real powers gives
+Because $|t|\lt \eta_1$ and $1-n\theta\gt 0$, monotonicity of real powers gives
 
 $$
 |t|^{1-n\theta}<\eta_1^{1-n\theta}.
@@ -502,11 +502,11 @@ $$
 
 Thus the desired inequality holds eventually near $0$.
 
-Finally, the proof rewrites the eventual statement using `Metric.eventually_nhds_iff`. This says that an eventually true property near $0$ is true on some ball $B(0,\sigma)$ with $\sigma>0$. The proof extracts this $\sigma$. The same $\theta$ from above is used. The final `refine` packages
+Finally, the proof rewrites the eventual statement using `Metric.eventually_nhds_iff`. This says that an eventually true property near $0$ is true on some ball $B(0,\sigma)$ with $\sigma\gt 0$. The proof extracts this $\sigma$. The same $\theta$ from above is used. The final `refine` packages
 
 $$
 \sigma,\quad \theta,\quad 0<\sigma,\quad 0<\theta,\quad \theta<\frac12,
 $$
 
-and leaves the universal inequality as the remaining goal. The last `intro t ht` introduces an arbitrary real $t$ satisfying $|t|<\sigma$, and the eventual ball statement gives the required inequality for that $t$. This completes the theorem.
+and leaves the universal inequality as the remaining goal. The last `intro t ht` introduces an arbitrary real $t$ satisfying $|t|\lt \sigma$, and the eventual ball statement gives the required inequality for that $t$. This completes the theorem.
 

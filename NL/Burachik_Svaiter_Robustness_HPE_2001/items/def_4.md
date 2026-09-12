@@ -13,11 +13,11 @@ The declaration defines a new set-valued operator `relatedOperator` from a given
 
 Let $C_M$ denote the set written in Lean as `relatedBall (H := H) M`, i.e. the set associated with the parameter $M$. The right-hand side is the pointwise sum of the operator $T$ with the normal-cone operator $N_{C_M}$ of that set. Thus, for each $x \in H$,
 
-$$
+```math
 (\mathrm{relatedOperator} T M)(x)
 = T(x) + N_{C_M}(x)
 = \{\, y+z \mid y \in T(x), \ z \in N_{C_M}(x) \,\}.
-$$
+```
 
 If either $T(x)$ or $N_{C_M}(x)$ is empty, this pointwise sum is empty. Mathematically, the definition adjoins to the value of $T$ at $x$ all vectors lying in the normal cone to the related set $C_M$ at $x$. The exact definition of `relatedBall` is not restated in this declaration, so the declaration itself only specifies that this set is the one whose normal-cone operator is being added to $T$.
 

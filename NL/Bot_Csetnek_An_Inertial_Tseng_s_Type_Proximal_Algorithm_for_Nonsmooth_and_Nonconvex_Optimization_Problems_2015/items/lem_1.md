@@ -20,12 +20,12 @@ The theorem concerns two real sequences $\xi=(\xi_n)_{n\in\mathbb N}$ and $\vare
 - $\varepsilon_n\ge 0$ for every $n$, i.e. the sequence $\varepsilon$ is nonnegative.
 - $\varepsilon$ is summable, meaning that $\sum_{n=0}^{\infty}\varepsilon_n$ converges.
 - $b\ge 0$.
-- $a+b<1$.
+- $a+b\lt 1$.
 - For every $n\ge 1$,
 
-  $$
-  \xi_{n+1}\le a\xi_n+b\xi_{n-1}+\varepsilon_n.
-  $$
+$$
+\xi_{n+1}\le a\xi_n+b\xi_{n-1}+\varepsilon_n.
+$$
 
 The conclusion is that $\xi$ itself is summable, i.e.
 
@@ -35,7 +35,7 @@ $$
 
 converges.
 
-Mathematically, this is a summability criterion for a nonnegative sequence satisfying a two-step linear recurrence inequality with a nonnegative summable forcing term. The coefficient condition $a+b<1$ and the assumption $b\ge0$ are enough to force the partial sums of $\xi$ to be bounded, and hence, since all terms are nonnegative, the series $\sum \xi_n$ converges. The proof obtains an explicit uniform upper bound for every finite partial sum.
+Mathematically, this is a summability criterion for a nonnegative sequence satisfying a two-step linear recurrence inequality with a nonnegative summable forcing term. The coefficient condition $a+b\lt 1$ and the assumption $b\ge0$ are enough to force the partial sums of $\xi$ to be bounded, and hence, since all terms are nonnegative, the series $\sum \xi_n$ converges. The proof obtains an explicit uniform upper bound for every finite partial sum.
 
 ## Lean proof
 ```lean
@@ -159,13 +159,13 @@ by
 ```
 
 ## Proof explanation
-The proof begins by noting that $a+b<1$ implies
+The proof begins by noting that $a+b\lt 1$ implies
 
 $$
 0<1-a-b.
 $$
 
-This is the local fact `hden_pos`, proved by `linarith` from the hypothesis $a+b<1$. The positivity of $1-a-b$ will later allow division by this quantity.
+This is the local fact `hden_pos`, proved by `linarith` from the hypothesis $a+b\lt 1$. The positivity of $1-a-b$ will later allow division by this quantity.
 
 Next the proof defines
 
@@ -293,7 +293,7 @@ $$
 (1-a)\xi_0+\xi_1+\sum_{n=0}^{\infty}\varepsilon_n
 $$
 
-is nonnegative. Indeed, $1-a\ge0$ follows from $0<1-a-b$ and $b\ge0$, and $1-a$ times $\xi_0$ is nonnegative because $\xi_0\ge0$. Also $\xi_1\ge0$, and $\sum \varepsilon_n\ge0$ by `tsum_nonneg` applied to the nonnegativity of $\varepsilon$. Then `div_nonneg` gives $0\le C$ because the denominator $1-a-b$ is positive.
+is nonnegative. Indeed, $1-a\ge0$ follows from $0\lt 1-a-b$ and $b\ge0$, and $1-a$ times $\xi_0$ is nonnegative because $\xi_0\ge0$. Also $\xi_1\ge0$, and $\sum \varepsilon_n\ge0$ by `tsum_nonneg` applied to the nonnegativity of $\varepsilon$. Then `div_nonneg` gives $0\le C$ because the denominator $1-a-b$ is positive.
 
 Second, for $n=1$, the partial sum is $\xi_0$. The proof shows
 

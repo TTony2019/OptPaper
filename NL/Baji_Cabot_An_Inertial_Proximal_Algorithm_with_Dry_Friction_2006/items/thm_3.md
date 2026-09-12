@@ -31,11 +31,11 @@ $$
 0 \in \mathrm{int} C.
 $$
 
-The map $A_0 : H \to H$ is $C^2$, its singleton-valued operator $x \mapsto \{A_0(x)\}$ on all of $H$ is maximal monotone, and $A_0(0)=0$. There is $m>0$ such that the derivative $L = DA_0(0)$ is coercive:
+The map $A_0 : H \to H$ is $C^2$, its singleton-valued operator $`x \mapsto \{A_0(x)\}`$on all of$H$is maximal monotone, and$A_0(0)=0$. There is$m>0$such that the derivative$L = DA_0(0)$ is coercive:
 
-$$
+```math
 \langle Lx,x\rangle \ge m\|x\|^2 \qquad \text{for all } x\in H.
-$$
+```
 
 The set-valued operator $A$ is
 
@@ -51,17 +51,17 @@ $$
 
 is the extended-real support function of $C$. The function $f : H \to \mathbb R$ is convex on all of $H$, $C^1$, bounded below, and strongly convex with parameter $M$. The operator $B$ is the singleton-valued gradient operator:
 
-$$
+```math
 B(x) = \{\nabla f(x)\}.
-$$
+```
 
-Finally, $\lambda>0$, the sequence $\lambda_n$ is constantly equal to $\lambda$, $x : \mathbb N \to H$ is an `AlgorithmA` sequence for $A,B,\lambda$, and $x_n$ converges to some $x_\infty \in H$.
+Finally, $\lambda\gt 0$, the sequence $\lambda_n$ is constantly equal to $\lambda$, $x : \mathbb N \to H$ is an `AlgorithmA` sequence for $A,B,\lambda$, and $x_n$ converges to some $x_\infty \in H$.
 
-The conclusion is that there exist $n_0 \in \mathbb N$, $K>0$, and $q>0$ with $q<1$ such that for every $n\ge n_0$,
+The conclusion is that there exist $n_0 \in \mathbb N$, $K\gt 0$, and $q\gt 0$ with $q\lt 1$ such that for every $n\ge n_0$,
 
-$$
+```math
 \|x_{n+1}-x_n\| \le K q^n.
-$$
+```
 
 Thus the successive differences of the algorithm decay at a geometric, or linear, rate.
 
@@ -513,7 +513,7 @@ by
 ```
 
 ## Proof explanation
-The supplied proof is not complete: it ends with `sorry` after establishing several auxiliary facts. In particular, the final geometric bound $\|x_{n+1}-x_n\|\le Kq^n$ is not proved in the provided source. The visible proof prepares the main estimates and normal-cone inequalities that one would expect to use in the missing final argument.
+The supplied proof is not complete: it ends with `sorry` after establishing several auxiliary facts. In particular, the final geometric bound $`\|x_{n+1}-x_n\|\le Kq^n`$ is not proved in the provided source. The visible proof prepares the main estimates and normal-cone inequalities that one would expect to use in the missing final argument.
 
 The proof begins with `classical` and introduces the singleton-valued operator
 
@@ -523,9 +523,9 @@ $$
 
 For every $z\in H$, this satisfies
 
-$$
+```math
 F_{\mathrm{op}}(z) = \{A_0(z)\}.
-$$
+```
 
 The lemma `SetValuedOperator.ofFunction_apply_of_mem` is the reason: on the full domain, the set-valued operator associated to a function has the singleton value of that function at the point.
 
@@ -777,12 +777,12 @@ $$
 
 this becomes
 
-$$
+```math
 \left\langle
 ((\lambda^2)^{-1}acc_n + A_0(z_n)+\nabla f(x_{n+2}))
 -\nabla f(x_\infty),\, v_n
 \right\rangle \le 0.
-$$
+```
 
 This is one of the two central discrete variational inequalities.
 
@@ -826,12 +826,12 @@ $$
 
 After rearranging inner products, this gives the second discrete variational inequality:
 
-$$
+```math
 \left\langle
 ((\lambda^2)^{-1}acc_n + A_0(z_n)+\nabla f(x_{n+2}))
 -\nabla f(x_\infty),\, x_{n+2}-x_\infty
 \right\rangle \le 0.
-$$
+```
 
 The proof then records several convergence consequences. Since $x_n\to x_\infty$,
 
@@ -853,60 +853,60 @@ x_{n+1}-x_\infty\to 0, \qquad
 x_{n+2}-x_\infty\to 0.
 $$
 
-Consequently, for every $\varepsilon>0$, eventually
+Consequently, for every $\varepsilon\gt 0$, eventually
 
-$$
+```math
 \|x_{n+2}-x_\infty\|\le \varepsilon, \qquad
 \|v_n\|\le \varepsilon.
-$$
+```
 
 The proof then uses the quadratic Taylor remainder for $A_0$. The theorem
-`thm51_A0_quadratic_remainder_eventually` says that if $A_0$ is $C^2$ and $A_0(0)=0$, then there exists $C_0>0$ such that eventually near $0$,
+`thm51_A0_quadratic_remainder_eventually` says that if $A_0$ is $C^2$ and $A_0(0)=0$, then there exists $C_0\gt 0$ such that eventually near $0$,
 
-$$
+```math
 \|A_0(y)-L y\| \le C_0\|y\|^2,
-$$
+```
 
 where $L=DA_0(0)$. Since $z_n\to 0$, this becomes eventually
 
-$$
+```math
 \|A_0(z_n)-L z_n\| \le C_0\|z_n\|^2.
-$$
+```
 
-Moreover, because $z_n=\lambda^{-1}v_n$ and $\lambda>0$,
+Moreover, because $z_n=\lambda^{-1}v_n$ and $\lambda\gt 0$,
 
-$$
+```math
 \|z_n\|^2 = \lambda^{-2}\|v_n\|^2.
-$$
+```
 
 Combining this quadratic remainder with Cauchy-Schwarz,
 
-$$
+```math
 |\langle A_0(z_n)-L z_n,w\rangle|
 \le \|A_0(z_n)-L z_n\|\,\|w\|,
-$$
+```
 
 and the smallness of $x_{n+2}-x_\infty$ and $v_n$, the proof establishes the eventual estimates
 
-$$
+```math
 |\langle A_0(z_n)-L z_n, x_{n+2}-x_\infty\rangle|
 \le \frac{\eta}{\lambda^2}\|v_n\|^2
-$$
+```
 
 and
 
-$$
+```math
 |\langle A_0(z_n)-L z_n, v_n\rangle|
 \le \frac{\eta}{\lambda}\|v_n\|^2
-$$
+```
 
-for every $\eta>0$, eventually in $n$. These estimates say that the nonlinear remainder $A_0(z_n)-L z_n$ is quadratically small in the increment $v_n$.
+for every $\eta\gt 0$, eventually in $n$. These estimates say that the nonlinear remainder $A_0(z_n)-L z_n$ is quadratically small in the increment $v_n$.
 
 At this point the provided proof ends with `sorry`. The final step, which would combine the two normal-cone inequalities, the strong convexity of $f$, the coercivity of $L=DA_0(0)$, and the quadratic remainder estimates to deduce
 
-$$
+```math
 \|x_{n+1}-x_n\|\le K q^n
-$$
+```
 
-for some $K>0$, $0<q<1$, and all large $n$, is not present in the supplied source. In particular, the hypotheses $m>0$, `hA0_coercive`, and `hf_strongConv` are not used in the visible part of the proof. Thus the statement of `thm_5_1` is a geometric-decay theorem, but the provided Lean proof leaves its final conclusion unproved.
+for some $K\gt 0$, $0\lt q\lt 1$, and all large $n$, is not present in the supplied source. In particular, the hypotheses $m\gt 0$, `hA0_coercive`, and `hf_strongConv` are not used in the visible part of the proof. Thus the statement of `thm_5_1` is a geometric-decay theorem, but the provided Lean proof leaves its final conclusion unproved.
 

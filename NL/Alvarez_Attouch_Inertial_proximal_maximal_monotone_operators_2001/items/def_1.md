@@ -11,9 +11,9 @@ The declaration is a recall item for the previously defined Lean name `SetValued
 
 Mathematically, the name indicates the graph associated with a set-valued operator. In the standard convention, if $T$ is a set-valued operator acting on a space $X$, then its graph is the set of ordered pairs
 
-$$
+```math
 \mathrm{gra} T = \{(x,y) : y \in T(x)\}.
-$$
+```
 
 This is the object that identifies the set-valued operator with a relation on $X$. However, the supplied source does not include the exact type signature, underlying type, or defining equation of `SetValuedOperator.graph`. Therefore the only precise claim that can be extracted from this file is that it recalls that existing graph component or definition. It supplies no additional assumptions and has no conclusion.
 

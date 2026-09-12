@@ -30,9 +30,9 @@ The fields of the structure are as follows.
 
 - `x` is a sequence
 
-  $$
-  x : \mathbb N \to \mathbb R^n,
-  $$
+$$
+x : \mathbb N \to \mathbb R^n,
+$$
 
   so $x_k$ denotes the $k$-th iterate.
 
@@ -40,44 +40,44 @@ The fields of the structure are as follows.
 
 - `init0` is the equality
 
-  $$
-  x_0 = a_0.
-  $$
+$$
+x_0 = a_0.
+$$
 
 - `init1` is the equality
 
-  $$
-  x_1 = a_1.
-  $$
+$$
+x_1 = a_1.
+$$
 
 - `threshold_nonneg` is a proof of the inequality
 
-  $$
-  0 \le \frac{h r}{1+h\gamma}.
-  $$
+$$
+0 \le \frac{h r}{1+h\gamma}.
+$$
 
   Thus the structure requires that this scalar threshold be nonnegative.
 
 - `update` is a dependent function assigning to every natural number $k$ a proof of the recurrence
 
-  $$
-  x_{k+2}
-  =x_{k+1}
-  +h\,\mathrm{softThresholdVector}\!\left(
-    \frac{h r}{1+h\gamma},\,
-    \pi,\,
-    z_k
-  \right),
-  $$
+```math
+x_{k+2}
+=x_{k+1}
++h\,\mathrm{softThresholdVector}\!\left(
+  \frac{h r}{1+h\gamma},\,
+  \pi,\,
+  z_k
+\right),
+```
 
   where $\pi$ is the proof supplied by `threshold_nonneg`, and
 
-  $$
-  z_k
-  =\frac{1}{h(1+h\gamma)}(x_{k+1}-x_k)
-  -\frac{\beta}{1+h\gamma}\bigl(\nabla f(x_{k+1})-\nabla f(x_k)\bigr)
-  -\frac{h}{1+h\gamma}\nabla f(x_{k+1}).
-  $$
+$$
+z_k
+=\frac{1}{h(1+h\gamma)}(x_{k+1}-x_k)
+-\frac{\beta}{1+h\gamma}\bigl(\nabla f(x_{k+1})-\nabla f(x_k)\bigr)
+-\frac{h}{1+h\gamma}\nabla f(x_{k+1}).
+$$
 
   Here $\nabla f$ denotes the gradient of $f$ in the Euclidean space, and `softThresholdVector` is the named vector-valued soft-thresholding operation appearing in the update. Its internal formula is not expanded in the provided source; only its role as a function taking the threshold $\frac{h r}{1+h\gamma}$, the proof that this threshold is nonnegative, and the vector $z_k$, and returning the vector that is added to $x_{k+1}$, is visible.
 
@@ -99,7 +99,7 @@ $$
 
 This proof is then passed as the second argument to `softThresholdVector` inside the update field, so the recurrence depends on it as a formal argument. The field `update` is a dependent function that, for each $k\in\mathbb N$, supplies a proof of
 
-$$
+```math
 x_{k+2}
 =x_{k+1}
 +h\,\mathrm{softThresholdVector}\!\left(
@@ -107,7 +107,7 @@ x_{k+2}
   \pi,\,
   z_k
 \right),
-$$
+```
 
 with $z_k$ as displayed above and $\pi$ the proof from `threshold_nonneg`.
 

@@ -17,13 +17,13 @@ theorem theorem_3_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 ```
 
 ## Statement explanation
-The declaration `theorem_3_1` states the following. Let $H$ be a complete real inner product space. Let $t_0,r\in\mathbb R$ with $r>0$. Let $f:H\to\mathbb R$ be a function that is $C^2$, convex on all of $H$, bounded below, and whose gradient $\nabla f$ is locally Lipschitz. Let $z:\mathbb R\to H$ be a $C^2$ curve which is a dry-gradient trajectory with friction coefficient $r$ starting at time $t_0$. Assume the initial condition $r<\|\nabla f(z(t_0))\|$. The conclusion is two-fold: the speed function
+The declaration `theorem_3_1` states the following. Let $H$ be a complete real inner product space. Let $t_0,r\in\mathbb R$ with $r\gt 0$. Let $f:H\to\mathbb R$ be a function that is $C^2$, convex on all of $H$, bounded below, and whose gradient $\nabla f$ is locally Lipschitz. Let $z:\mathbb R\to H$ be a $C^2$ curve which is a dry-gradient trajectory with friction coefficient $r$ starting at time $t_0$. Assume the initial condition $`r<\|\nabla f(z(t_0))\|`$. The conclusion is two-fold: the speed function
 
-$$
+```math
 t\mapsto \|z'(t)\|
-$$
+```
 
-is nonincreasing on $[t_0,\infty)$, and the product $t\|z'(t)\|$ tends to $0$ as $t\to+\infty$. Here $\nabla f$ is the Riesz gradient of $f$, $z'(t)$ is the derivative of $z$ at $t$, and the dry-gradient trajectory hypothesis is used in the proof in the following form: for every $t\ge t_0$, there exists a vector $u$ in the subdifferential of the dry friction potential $x\mapsto r\|x\|$ at $z'(t)$ such that the balance equation $z'(t)+u+\nabla f(z(t))=0$ holds.
+is nonincreasing on $[t_0,\infty)$, and the product $`t\|z'(t)\|`$tends to$0$as$t\to+\infty$. Here$\nabla f$is the Riesz gradient of$f$,$z'(t)$is the derivative of$z$at$t$, and the dry-gradient trajectory hypothesis is used in the proof in the following form: for every$t\ge t_0$, there exists a vector$u$in the subdifferential of the dry friction potential$`x\mapsto r\|x\|`$at$z'(t)$such that the balance equation$z'(t)+u+\nabla f(z(t))=0$ holds.
 
 ## Lean proof
 ```lean
@@ -149,49 +149,49 @@ $$
 
 This is the monotonicity of the gradient of a convex function, expressed as the nonnegativity of the Hessian quadratic form along the velocity.
 
-Next the proof invokes `theorem_2_1`. Its statement gives, among other conclusions, that under the hypotheses $r>0$, $f$ is $C^1$, lower bounded, with locally Lipschitz gradient, and $z$ is a differentiable dry-gradient trajectory starting at $t_0$ with $r<\|\nabla f(z(t_0))\|$, the functions
+Next the proof invokes `theorem_2_1`. Its statement gives, among other conclusions, that under the hypotheses $r\gt 0$, $f$ is $C^1$, lower bounded, with locally Lipschitz gradient, and $z$ is a differentiable dry-gradient trajectory starting at $t_0$ with $`r<\|\nabla f(z(t_0))\|`$, the functions
 
-$$
+```math
 t\mapsto \|z'(t)\|^2
 \qquad\text{and}\qquad
 t\mapsto \|z'(t)\|
-$$
+```
 
 are integrable on $[t_0,\infty)$. The proof only needs the third conclusion, extracted by `rcases` as `hL1`:
 
-$$
+```math
 \int_{t_0}^{\infty}\|z'(t)\|\,dt<\infty.
-$$
+```
 
 The command `hf.of_le` lowers the $C^2$ assumption on $f$ to the $C^1$ assumption required by `theorem_2_1`.
 
-The key structural property of the dry-gradient trajectory is then extracted in `hradial`. For $t\ge t_0$, the hypothesis `hsol t ht` supplies a vector $u$ and an equality expressing the dry-gradient balance. The membership $u\in\partial(r\|\cdot\|)(z'(t))$ is converted, using `ERealFunction.mem_subdifferential_iff`, into the subgradient inequality
+The key structural property of the dry-gradient trajectory is then extracted in `hradial`. For $t\ge t_0$, the hypothesis `hsol t ht` supplies a vector $u$ and an equality expressing the dry-gradient balance. The membership $`u\in\partial(r\|\cdot\|)(z'(t))`$ is converted, using `ERealFunction.mem_subdifferential_iff`, into the subgradient inequality
 
-$$
+```math
 r\|z'(t)\|+\langle u,y-z'(t)\rangle\le r\|y\|
-$$
+```
 
-for every $y\in H$. The lemma `drygrad_subgradient_eq_radial`, applied with $r>0$, $v=z'(t)\neq0$, and this inequality, gives
+for every $y\in H$. The lemma `drygrad_subgradient_eq_radial`, applied with $r\gt 0$, $v=z'(t)\neq0$, and this inequality, gives
 
-$$
+```math
 u=\frac{r}{\|z'(t)\|}\,z'(t).
-$$
+```
 
 Substituting this into the balance equation yields `hradial`:
 
-$$
+```math
 z'(t)+\frac{r}{\|z'(t)\|}\,z'(t)+\nabla f(z(t))=0
-$$
+```
 
 for every $t\ge t_0$ with $z'(t)\neq0$.
 
-The proof then establishes the acceleration inequality `hacc`: for every $t>t_0$,
+The proof then establishes the acceleration inequality `hacc`: for every $t\gt t_0$,
 
 $$
 \langle z''(t),z'(t)\rangle\le0.
 $$
 
-If $z'(t)=0$, this is immediate because the second factor is zero. Otherwise write $v=z'(t)$, $a=z''(t)$, $c=\|v\|$, and $q=\langle a,v\rangle$. The proof differentiates the radial equation on a neighborhood of $t$ where the speed is nonzero. The lemma `HasDerivAt.norm_sq.sqrt` gives that $s\mapsto\|z'(s)\|$ has derivative $q/c$ at $t$, because the derivative of $\|z'(s)\|^2$ is $2\langle z'(s),z''(s)\rangle$ and the chain rule for the square root contributes $1/(2\|z'(t)\|)$. The quotient rule then gives the derivative of $s\mapsto r/\|z'(s)\|$ as
+If $z'(t)=0$, this is immediate because the second factor is zero. Otherwise write $v=z'(t)$, $a=z''(t)$, $`c=\|v\|`$, and$q=\langle a,v\rangle$. The proof differentiates the radial equation on a neighborhood of$t$ where the speed is nonzero. The lemma `HasDerivAt.norm_sq.sqrt` gives that $`s\mapsto\|z'(s)\|`$has derivative$q/c$at$t$, because the derivative of$`\|z'(s)\|^2`$is$2\langle z'(s),z''(s)\rangle$and the chain rule for the square root contributes$`1/(2\|z'(t)\|)`$. The quotient rule then gives the derivative of$`s\mapsto r/\|z'(s)\|`$ as
 
 $$
 -\frac{r(q/c)}{c^2}.
@@ -199,13 +199,13 @@ $$
 
 Using `hz_second_deriv` for the derivative of $z'$, the scalar multiplication rule, and `hgrad_deriv` for the derivative of $\nabla f(z(s))$, the proof obtains the derivative of the whole left-hand side
 
-$$
+```math
 E(s)=z'(s)+\frac{r}{\|z'(s)\|}\,z'(s)+\nabla f(z(s))
-$$
+```
 
 at $t$. Because $t$ is in the interior of $[t_0,\infty)$, points near $t$ still lie in $[t_0,\infty)$; by continuity and the assumption $z'(t)\neq0$, they also satisfy $z'(s)\neq0$ near $t$. Hence `hradial` says $E(s)=0$ eventually near $t$. The tactic `filter_upwards` combines the eventual conditions, and `congr_of_eventuallyEq` transfers the derivative computation to the zero function. Uniqueness of the derivative then gives $E'(t)=0$.
 
-Taking the inner product of the equation $E'(t)=0$ with $v=z'(t)$ and simplifying inner products, the terms involving $r$ cancel because $\langle v,v\rangle=\|v\|^2=c^2$. The result is
+Taking the inner product of the equation $E'(t)=0$ with $v=z'(t)$ and simplifying inner products, the terms involving $r$ cancel because $`\langle v,v\rangle=\|v\|^2=c^2`$. The result is
 
 $$
 q+\langle D\nabla f(z(t))(v),v\rangle=0.
@@ -213,27 +213,27 @@ $$
 
 By `hHessian_nonneg`, the second term is nonnegative. Therefore $q\le0$, which is exactly $\langle z''(t),z'(t)\rangle\le0$. This is the mathematical content of `hacc`: along the trajectory, the acceleration has nonpositive inner product with the velocity, so the speed cannot increase.
 
-From this acceleration inequality, the proof shows that the squared speed is antitone. The function $s\mapsto\|z'(s)\|^2$ is continuous on $[t_0,\infty)$ and differentiable on its interior, with derivative
+From this acceleration inequality, the proof shows that the squared speed is antitone. The function $`s\mapsto\|z'(s)\|^2`$is continuous on$[t_0,\infty)$ and differentiable on its interior, with derivative
 
 $$
 2\langle z'(t),z''(t)\rangle.
 $$
 
-Using symmetry of the inner product and `hacc`, this derivative is $2\langle z''(t),z'(t)\rangle\le0$ on the interior. The theorem `antitoneOn_of_deriv_nonpos` then gives `hsq_anti`: the function $t\mapsto\|z'(t)\|^2$ is nonincreasing on $[t_0,\infty)$. Passing from squared speed to speed uses only nonnegativity: if $s\le t$, then $\|z'(s)\|^2\ge\|z'(t)\|^2$, and since both norms are nonnegative, $\|z'(s)\|\ge\|z'(t)\|$. The `nlinarith` tactic performs this nonlinear arithmetic, giving `hspeed`, the nonincreasing property of $t\mapsto\|z'(t)\|$.
+Using symmetry of the inner product and `hacc`, this derivative is $2\langle z''(t),z'(t)\rangle\le0$ on the interior. The theorem `antitoneOn_of_deriv_nonpos` then gives `hsq_anti`: the function $`t\mapsto\|z'(t)\|^2`$is nonincreasing on$[t_0,\infty)$. Passing from squared speed to speed uses only nonnegativity: if$s\le t$, then$`\|z'(s)\|^2\ge\|z'(t)\|^2`$, and since both norms are nonnegative,$`\|z'(s)\|\ge\|z'(t)\|`$. The `nlinarith` tactic performs this nonlinear arithmetic, giving `hspeed`, the nonincreasing property of $`t\mapsto\|z'(t)\|`$.
 
-Finally, the proof applies `lemma_3_1` to the function $h(t)=\|z'(t)\|$. The hypotheses of that lemma are: $h$ is nonnegative on $[t_0,\infty)$, which follows from `norm_nonneg`; $h$ is antitone on $[t_0,\infty)$, which is `hspeed`; and $h$ is integrable on $[t_0,\infty)$, which is `hL1`. The conclusion of `lemma_3_1` is
+Finally, the proof applies `lemma_3_1` to the function $`h(t)=\|z'(t)\|`$. The hypotheses of that lemma are:$h$is nonnegative on$[t_0,\infty)$, which follows from `norm_nonneg`; $h$ is antitone on $[t_0,\infty)$, which is `hspeed`; and $h$ is integrable on $[t_0,\infty)$, which is `hL1`. The conclusion of `lemma_3_1` is
 
-$$
+```math
 t\,h(t)\to0
 \qquad(t\to+\infty),
-$$
+```
 
 so
 
-$$
+```math
 t\|z'(t)\|\to0
 \qquad(t\to+\infty).
-$$
+```
 
 The final `exact` packages `hspeed` and this limit into the required conjunction.
 

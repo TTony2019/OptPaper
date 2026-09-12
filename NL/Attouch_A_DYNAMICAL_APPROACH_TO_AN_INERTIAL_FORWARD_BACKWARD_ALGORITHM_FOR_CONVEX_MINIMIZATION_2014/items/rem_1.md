@@ -56,7 +56,7 @@ $$
 \left(\mathrm{nhds}\left(\mathrm{sInf}(\mathrm{range}\Theta)\right)\right),
 $$
 
-so the values $\Theta(u_k)$ tend to the infimum of the range of $\Theta$. Second, it says that if $\mathrm{argminSet}\Theta$ is nonempty and at least one of four regularity alternatives holds, then there is a minimizer $q$ of $\Theta$ to which $u_k$ converges weakly. Third, it says that if $\mathrm{argminSet}\Theta$ is empty, then $\|u_k\|\to\infty$.
+so the values $\Theta(u_k)$ tend to the infimum of the range of $\Theta$. Second, it says that if $\mathrm{argminSet}\Theta$ is nonempty and at least one of four regularity alternatives holds, then there is a minimizer $q$ of $\Theta$ to which $u_k$ converges weakly. Third, it says that if $\mathrm{argminSet}\Theta$ is empty, then $`\|u_k\|\to\infty`$.
 
 The four regularity alternatives in the middle conditional are:
 

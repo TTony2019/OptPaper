@@ -22,7 +22,7 @@ theorem theorem_3_2 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 ```
 
 ## Statement explanation
-Let $H$ be a complete real inner product space, i.e. a real Hilbert space. Let $t_0,r\in\mathbb R$ with $r>0$, let $f:H\to\mathbb R$, and let $z:\mathbb R\to H$. The theorem assumes:
+Let $H$ be a complete real inner product space, i.e. a real Hilbert space. Let $t_0,r\in\mathbb R$ with $r\gt 0$, let $f:H\to\mathbb R$, and let $z:\mathbb R\to H$. The theorem assumes:
 
 - $f$ is $C^2$ over the reals;
 - $f$ is convex on all of $H$;
@@ -77,10 +77,10 @@ $$
 
 Third, the distance to the friction ball decays in the following weighted sense:
 
-$$
+```math
 \sqrt{t}\,d(t)\longrightarrow 0
 \qquad\text{as }t\to\infty.
-$$
+```
 
 Equivalently $d(t)=o(1/\sqrt t)$.
 
@@ -320,7 +320,7 @@ $$
 f \text{ is differentiable over } \mathbb R.
 $$
 
-The proof then uses that the Fréchet derivative of $f$, namely $\mathrm{fderiv}\,\mathbb R f$, is $C^1$. Indeed, the theorem `contDiff_succ_iff_fderiv` is applied to $f$ of class $C^{1+1}=C^2$, giving that $\mathrm{fderiv}\,\mathbb R f$ is $C^1$. Composing with the Riesz isomorphism between $H$ and its dual gives that the gradient $\nabla f$ is $C^1$, hence differentiable. Therefore $g=\nabla f\circ z$ is differentiable as a composition of differentiable maps.
+The proof then uses that the Fréchet derivative of $f$, namely $`\mathrm{fderiv}\,\mathbb R f`$, is$C^1$. Indeed, the theorem `contDiff_succ_iff_fderiv` is applied to $f$ of class $C^{1+1}=C^2$, giving that $`\mathrm{fderiv}\,\mathbb R f`$is$C^1$. Composing with the Riesz isomorphism between$H$and its dual gives that the gradient$\nabla f$is$C^1$, hence differentiable. Therefore$g=\nabla f\circ z$ is differentiable as a composition of differentiable maps.
 
 For every $t$, the chain rule for $g=\nabla f\circ z$ gives
 
@@ -334,9 +334,9 @@ $$
 \texttt{fderiv ℝ (gradient f) (z t) (deriv z t)}.
 $$
 
-This identity is used later in computing the derivative of $\|g(t)\|$.
+This identity is used later in computing the derivative of $`\|g(t)\|`$.
 
-Next, the proof records the projection properties of $p(t)$. The theorem `frictionBall_isChebyshev` says that in a complete real Hilbert space, every point has a unique best approximation in the closed ball of radius $r$ when $r\ge0$. Since $0<r$, the projection is well-defined. From the defining choice of `frictionBallProjection`, the proof obtains
+Next, the proof records the projection properties of $p(t)$. The theorem `frictionBall_isChebyshev` says that in a complete real Hilbert space, every point has a unique best approximation in the closed ball of radius $r$ when $r\ge0$. Since $0\lt r$, the projection is well-defined. From the defining choice of `frictionBallProjection`, the proof obtains
 
 $$
 p(t)\in \mathrm{frictionBallProjector}_r(g(t)).
@@ -351,13 +351,13 @@ $$
 
 The proof also uses the relation between ball projection and soft thresholding. The soft thresholder is
 
-$$
+```math
 S_r(x)=
 \begin{cases}
 \left(1-\dfrac r{\|x\|}\right)x, & r<\|x\|,\\[4pt]
 0, & r\ge \|x\|.
 \end{cases}
-$$
+```
 
 The theorem `frictionBallProjection_eq_sub_softThresholder` gives
 
@@ -402,38 +402,38 @@ $$
 z'(t)=p(t)-\nabla f(z(t)).
 $$
 
-The next main step is to show that $\|g(t)\|$ is nonincreasing. The proof computes the derivative of $s\mapsto \|g(s)\|$. If $g(t)=0$, then the velocity formula forces $z'(t)=0$, and hence $g'(t)=0$, so
+The next main step is to show that $`\|g(t)\|`$is nonincreasing. The proof computes the derivative of$`s\mapsto \|g(s)\|`$. If$g(t)=0$, then the velocity formula forces$z'(t)=0$, and hence$g'(t)=0$, so
 
-$$
+```math
 \frac{d}{dt}\|g(t)\|=0.
-$$
+```
 
 If $g(t)\ne0$, then the derivative of the norm is
 
-$$
+```math
 \frac{d}{dt}\|g(t)\|
 =\frac{\left\langle D(\nabla f)(z(t))[z'(t)],\,g(t)\right\rangle}{\|g(t)\|}.
-$$
+```
 
-The proof then shows this quantity is $\le0$. If $\|g(t)\|\le r$, then soft thresholding vanishes:
+The proof then shows this quantity is $\le0$. If $`\|g(t)\|\le r`$, then soft thresholding vanishes:
 
 $$
 S_r(g(t))=0.
 $$
 
-Therefore $z'(t)=p(t)-g(t)=0$, and the numerator in the derivative formula is $0$, so the derivative of $\|g(t)\|$ is $0$.
+Therefore $z'(t)=p(t)-g(t)=0$, and the numerator in the derivative formula is $0$, so the derivative of $`\|g(t)\|`$is$0$.
 
-If $r<\|g(t)\|$, then
+If $`r<\|g(t)\|`$, then
 
-$$
+```math
 \alpha:=1-\frac r{\|g(t)\|}>0,
-$$
+```
 
 and the velocity formula gives
 
-$$
+```math
 z'(t)=-\alpha\,g(t).
-$$
+```
 
 The proof invokes `gradient_derivative_inner_nonnegative`. That result says that for a convex differentiable function $f$, if $x$ is differentiable at $t$ with derivative $dx$, and if $\nabla f\circ x$ is differentiable at $t$ with derivative $dv$, then
 
@@ -453,7 +453,7 @@ $$
 0\le -\alpha\left\langle g(t),D(\nabla f)(z(t))[z'(t)]\right\rangle.
 $$
 
-Since $\alpha>0$, this implies
+Since $\alpha\gt 0$, this implies
 
 $$
 \left\langle g(t),D(\nabla f)(z(t))[z'(t)]\right\rangle\le0.
@@ -465,28 +465,28 @@ $$
 \left\langle D(\nabla f)(z(t))[z'(t)],g(t)\right\rangle\le0.
 $$
 
-Dividing by $\|g(t)\|>0$ shows that the derivative of $\|g(t)\|$ is $\le0$. Thus the derivative of $\|g\|$ is nonpositive on the interior of $[t_0,\infty)$.
+Dividing by $`\|g(t)\|>0`$shows that the derivative of$`\|g(t)\|`$is$\le0$. Thus the derivative of$`\|g\|`$is nonpositive on the interior of$[t_0,\infty)$.
 
-Continuity of $t\mapsto \|g(t)\|$ follows from continuity of $z$ and the local Lipschitz continuity of $\nabla f$. The proof applies `antitoneOn_of_deriv_nonpos`: a continuous function on a convex interval whose derivative is nonpositive on the interior is antitone. Therefore
+Continuity of $`t\mapsto \|g(t)\|`$follows from continuity of$z$and the local Lipschitz continuity of$\nabla f$. The proof applies `antitoneOn_of_deriv_nonpos`: a continuous function on a convex interval whose derivative is nonpositive on the interior is antitone. Therefore
 
-$$
+```math
 t\mapsto \|g(t)\|
-$$
+```
 
 is antitone on $[t_0,\infty)$. So for $t_0\le s\le t$,
 
-$$
+```math
 \|g(t)\|\le\|g(s)\|.
-$$
+```
 
 Next, the theorem `infDist_frictionBall_eq` gives the exact formula
 
-$$
+```math
 \mathrm{infDist}(g(t),B(0,r))
 =\max\bigl(\|g(t)\|-r,0\bigr).
-$$
+```
 
-Since $\|g\|$ is antitone and $x\mapsto \max(x-r,0)$ is nondecreasing, the distance
+Since $`\|g\|`$is antitone and$x\mapsto \max(x-r,0)$ is nondecreasing, the distance
 
 $$
 d(t)=\mathrm{infDist}(g(t),B(0,r))
@@ -508,76 +508,76 @@ $$
 
 It splits into two cases.
 
-If $r<\|g(t_0)\|$, then the gradient starts outside the friction ball. The proof applies `theorem_2_1`. That theorem, under the same convexity and regularity hypotheses, with $z$ differentiable, $r<\|\nabla f(z(t_0))\|$, and $z$ a Drygrad trajectory, concludes among other things that
+If $`r<\|g(t_0)\|`$, then the gradient starts outside the friction ball. The proof applies `theorem_2_1`. That theorem, under the same convexity and regularity hypotheses, with $z$ differentiable, $`r<\|\nabla f(z(t_0))\|`$, and$z$ a Drygrad trajectory, concludes among other things that
 
-$$
+```math
 t\mapsto \|z'(t)\|^2
-$$
+```
 
 is integrable on $[t_0,\infty)$. The proof also establishes that for $t\ge t_0$,
 
-$$
+```math
 d(t)=\|z'(t)\|.
-$$
+```
 
 Indeed, since $p(t)$ is a best approximation,
 
-$$
+```math
 d(t)=\mathrm{dist}(g(t),p(t))=\|g(t)-p(t)\|=\|p(t)-g(t)\|=\|z'(t)\|.
-$$
+```
 
-Therefore $d(t)^2=\|z'(t)\|^2$, so $d^2$ is integrable. Dividing by the constant $2$ gives integrability of $d(t)^2/2$.
+Therefore $`d(t)^2=\|z'(t)\|^2`$, so$d^2$is integrable. Dividing by the constant$2$gives integrability of$d(t)^2/2$.
 
-If $r\ge\|g(t_0)\|$, then by monotonicity of $\|g(t)\|$, for every $t\ge t_0$,
+If $`r\ge\|g(t_0)\|`$, then by monotonicity of$`\|g(t)\|`$, for every$t\ge t_0$,
 
-$$
+```math
 \|g(t)\|\le\|g(t_0)\|\le r.
-$$
+```
 
 Thus
 
-$$
+```math
 d(t)=\max(\|g(t)\|-r,0)=0.
-$$
+```
 
 Hence $d(t)^2/2=0$ for all $t\ge t_0$, which is certainly integrable.
 
 The function $h(t)=d(t)^2/2$ is nonnegative, antitone, and integrable on $[t_0,\infty)$. The proof applies `lemma_3_1`. That lemma states that if $h$ is nonnegative on $[t_0,\infty)$, antitone on $[t_0,\infty)$, and integrable on $[t_0,\infty)$, then
 
-$$
+```math
 t\,h(t)\longrightarrow 0
 \qquad\text{as }t\to\infty.
-$$
+```
 
 Therefore
 
-$$
+```math
 t\,\frac{d(t)^2}{2}\longrightarrow 0.
-$$
+```
 
 Multiplying by $2$ gives
 
-$$
+```math
 t\,d(t)^2\longrightarrow 0.
-$$
+```
 
 Since the square root is continuous at $0$,
 
-$$
+```math
 \sqrt{t\,d(t)^2}\longrightarrow 0.
-$$
+```
 
 For $t\ge0$, and using $d(t)\ge0$,
 
-$$
+```math
 \sqrt{t\,d(t)^2}=\sqrt t\,d(t).
-$$
+```
 
 Thus
 
-$$
+```math
 \sqrt t\,d(t)\longrightarrow 0.
-$$
+```
 
 This proves the third conclusion.
 
@@ -617,10 +617,10 @@ $$
 
 The first term is
 
-$$
+```math
 \langle g(t)-p(t),-(g(t)-p(t))\rangle
 =-\|g(t)-p(t)\|^2\le0.
-$$
+```
 
 For the second term, the proof uses the nearest-point variational inequality for the convex closed ball. Since $p(t)$ is a best approximation to $g(t)$ in $B(0,r)$, for every $y\in B(0,r)$,
 
@@ -654,5 +654,5 @@ $$
 
 is antitone on $[t_0,\infty)$. This proves the fourth conclusion.
 
-At the end, the proof assembles the results. It returns the function $p$ and uses the projection property $p(t)\in\mathrm{frictionBallProjector}_r(g(t))$ together with the velocity identity to obtain the derivative statement. The previously proved antitone statement for $d(t)^2$, the weighted limit $\sqrt t\,d(t)\to0$, and the Bregman-energy monotonicity are then exactly the remaining conclusions of `theorem_3_2`. The Lean tactics `intro`, `rw`, and `simp` introduce variables and hypotheses and perform the algebraic rewrites, while `exact` supplies the named results and `linarith` or `nlinarith` combines the resulting inequalities.
+At the end, the proof assembles the results. It returns the function $p$ and uses the projection property $p(t)\in\mathrm{frictionBallProjector}_r(g(t))$ together with the velocity identity to obtain the derivative statement. The previously proved antitone statement for $d(t)^2$, the weighted limit $`\sqrt t\,d(t)\to0`$, and the Bregman-energy monotonicity are then exactly the remaining conclusions of `theorem_3_2`. The Lean tactics `intro`, `rw`, and `simp` introduce variables and hypotheses and perform the algebraic rewrites, while `exact` supplies the named results and `linarith` or `nlinarith` combines the resulting inequalities.
 

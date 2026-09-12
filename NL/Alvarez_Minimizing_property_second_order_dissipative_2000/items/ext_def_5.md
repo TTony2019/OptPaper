@@ -15,13 +15,13 @@ The declaration defines a predicate named `IsWeakLimitPoint`. It takes a type $H
 
 Formally, the predicate is defined by
 
-$$
+```math
 \mathrm{IsWeakLimitPoint}(u,y) :=
 \exists t:\mathbb{N}\to\mathbb{R},\;
 \mathrm{Tendsto}\bigl(t,\mathrm{atTop},\mathrm{atTop}\bigr)
 \wedge
 \mathrm{Tendsto}\!\left(k\mapsto \mathrm{toWeakSpace}_{\mathbb{R} H}(u(t_k)),\mathrm{atTop},\mathrm{nhds}\!\left(\mathrm{toWeakSpace}_{\mathbb{R} H}(y)\right)\right).
-$$
+```
 
 The first `Tendsto` condition is between the filter `Filter.atTop` on the index type $\mathbb{N}$ and the filter `Filter.atTop` on $\mathbb{R}$. It says exactly that $t_k \to +\infty$ as $k\to\infty$: for every real $a$, all sufficiently large $k$ satisfy $t_k \ge a$. The second `Tendsto` condition is between `Filter.atTop` on $\mathbb{N}$ and the neighborhood filter `nhds` of the weak-space image of $y$. It says that the sequence of weak-space images $\mathrm{toWeakSpace}_{\mathbb{R} H}(u(t_k))$ converges, in the weak topology, to $\mathrm{toWeakSpace}_{\mathbb{R} H}(y)$. The map `toWeakSpace ℝ H` is the canonical passage from $H$ to the weak-topology version of $H$, so this is convergence in the weak topology rather than in the norm topology.
 

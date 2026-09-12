@@ -20,7 +20,7 @@ theorem variable_relaxation_convergence {H : Type*} [NormedAddCommGroup H] [Inne
 ```
 
 ## Statement explanation
-The theorem is set in a complete real inner product space $H$, i.e. a real Hilbert space. It is given an extended-real-valued function $\Phi$ on $H$, whose values are required to lie above the bottom element of $\mathbb{EReal}$, together with a proof `hPhi` that $\Phi$ belongs to the class $\Gamma_0(H)$, the proper convex lower semicontinuous extended-real functions. The set $S\subseteq H$ is a candidate solution set, $B:H\to H$ is a single-valued operator, $\mu$ is a positive scalar satisfying $\mu<2\beta$, and $h:\mathbb N\to\mathbb R$ is a variable relaxation sequence. The object `VariableRelaxationBackwardForwardAlgorithm Phi hPhi B mu h` packages the algorithm iterates and update equations. The real parameters $\delta$ and $\varepsilon$ satisfy $\varepsilon>0$, the inequalities
+The theorem is set in a complete real inner product space $H$, i.e. a real Hilbert space. It is given an extended-real-valued function $\Phi$ on $H$, whose values are required to lie above the bottom element of $\mathbb{EReal}$, together with a proof `hPhi` that $\Phi$ belongs to the class $\Gamma_0(H)$, the proper convex lower semicontinuous extended-real functions. The set $S\subseteq H$ is a candidate solution set, $B:H\to H$ is a single-valued operator, $\mu$ is a positive scalar satisfying $\mu\lt 2\beta$, and $h:\mathbb N\to\mathbb R$ is a variable relaxation sequence. The object `VariableRelaxationBackwardForwardAlgorithm Phi hPhi B mu h` packages the algorithm iterates and update equations. The real parameters $\delta$ and $\varepsilon$ satisfy $\varepsilon\gt 0$, the inequalities
 
 $$
 \varepsilon\le h_k\le \delta-\varepsilon
@@ -131,21 +131,21 @@ $$
 
 The map $T$ is the fixed-point map associated with the backward-forward step.
 
-The first important fact is that $P$ is firmly nonexpansive. To see this, Lean uses `smul_mem_gammaZero`, which says that if $\Phi\in\Gamma_0(H)$ and $\mu>0$, then $\mu\Phi\in\Gamma_0(H)$. The proof `hmu.1` supplies $0<\mu$. Then it applies `proximityOperator_firmlyNonexpansive_of_mem_gammaZero`, which states that if $f\in\Gamma_0(H)$, then the proximity operator $\mathrm{Prox}_f$ is firmly nonexpansive. Specialized here, $\mathrm{Prox}_{\mu\Phi}$ is firmly nonexpansive, because $\mu\Phi\in\Gamma_0(H)$. In Hilbert-space form, firm nonexpansiveness of $P$ means
+The first important fact is that $P$ is firmly nonexpansive. To see this, Lean uses `smul_mem_gammaZero`, which says that if $\Phi\in\Gamma_0(H)$ and $\mu\gt 0$, then $\mu\Phi\in\Gamma_0(H)$. The proof `hmu.1` supplies $0\lt \mu$. Then it applies `proximityOperator_firmlyNonexpansive_of_mem_gammaZero`, which states that if $f\in\Gamma_0(H)$, then the proximity operator $\mathrm{Prox}_f$ is firmly nonexpansive. Specialized here, $\mathrm{Prox}_{\mu\Phi}$ is firmly nonexpansive, because $\mu\Phi\in\Gamma_0(H)$. In Hilbert-space form, firm nonexpansiveness of $P$ means
 
-$$
+```math
 \|P(x)-P(y)\|^2\le \langle P(x)-P(y),x-y\rangle
-$$
+```
 
 for all $x,y\in H$. The Lean step `simpa [P, ERealFunction.scaledProximityOperator]` unfolds the definition of the scaled proximity operator so that the cited theorem applies exactly to $P$.
 
-Next the proof shows that $T$ is $1$-Lipschitz. It uses `forward_step_lipschitz_one_local`, which says that if $0<\mu<2\beta$ and $B$ is $\beta$-cocoercive on all of $H$, then the forward map
+Next the proof shows that $T$ is $1$-Lipschitz. It uses `forward_step_lipschitz_one_local`, which says that if $0\lt \mu\lt 2\beta$ and $B$ is $\beta$-cocoercive on all of $H$, then the forward map
 
 $$
 x\mapsto x-\mu B(x)
 $$
 
-is $1$-Lipschitz. The hypothesis `hmu` supplies $0<\mu<2\beta$, and `hB` supplies cocoercivity. Also, by `lipschitzWith_one_of_firmlyNonexpansive`, the firmly nonexpansive map $P$ is $1$-Lipschitz. The composition of the two $1$-Lipschitz maps gives the $1$-Lipschitz property of
+is $1$-Lipschitz. The hypothesis `hmu` supplies $0\lt \mu\lt 2\beta$, and `hB` supplies cocoercivity. Also, by `lipschitzWith_one_of_firmlyNonexpansive`, the firmly nonexpansive map $P$ is $1$-Lipschitz. The composition of the two $1$-Lipschitz maps gives the $1$-Lipschitz property of
 
 $$
 y\mapsto P(y)-\mu B(P(y))=T(y).
@@ -159,7 +159,7 @@ $$
 -Bz\in\partial\Phi(z).
 $$
 
-Now `fixed_backward_forward_solution_implies_fixed_local` applies: if $\Phi\in\Gamma_0(H)$, $\mu>0$, and $-Bz\in\partial\Phi(z)$, then
+Now `fixed_backward_forward_solution_implies_fixed_local` applies: if $\Phi\in\Gamma_0(H)$, $\mu\gt 0$, and $-Bz\in\partial\Phi(z)$, then
 
 $$
 P(z-\mu Bz)=z.
@@ -187,7 +187,7 @@ $$
 
 The proof calls this `hupdate`.
 
-The main convergence input is `variable_relaxation_distance_and_residual_tendsto_local`. Its content is: if $P$ is firmly nonexpansive, $B$ is $\beta$-cocoercive, $0<\mu<2\beta$, the relaxation parameters satisfy $\varepsilon\le h_k\le \delta-\varepsilon$ with $\delta=\frac12+\min(1,\beta/\mu)$, and the iterates satisfy
+The main convergence input is `variable_relaxation_distance_and_residual_tendsto_local`. Its content is: if $P$ is firmly nonexpansive, $B$ is $\beta$-cocoercive, $0\lt \mu\lt 2\beta$, the relaxation parameters satisfy $\varepsilon\le h_k\le \delta-\varepsilon$ with $\delta=\frac12+\min(1,\beta/\mu)$, and the iterates satisfy
 
 $$
 x_{k+1}=(1-h_k)x_k+h_k\bigl(P(x_k)-\mu B(P(x_k))\bigr),
@@ -195,9 +195,9 @@ $$
 
 then for every fixed point $p$ of $T(y)=P(y)-\mu B(P(y))$ one has both
 
-$$
+```math
 \exists l\in\mathbb R,\quad \|x_k-p\|\to l
-$$
+```
 
 and
 
@@ -205,11 +205,11 @@ $$
 x_k-T(x_k)\to 0.
 $$
 
-The proof applies this theorem with $x_k=y_k$ and with the fixed point $p_0$. The equality $T(p_0)=p_0$ is converted into $P(p_0)-\mu B(P(p_0))=p_0$ by `simpa [T]`. The resulting pair of conclusions is `hseq₀`: the distances $\|y_k-p_0\|$ converge, and the residuals $y_k-T(y_k)$ converge to $0$.
+The proof applies this theorem with $x_k=y_k$ and with the fixed point $p_0$. The equality $T(p_0)=p_0$ is converted into $P(p_0)-\mu B(P(p_0))=p_0$ by `simpa [T]`. The resulting pair of conclusions is `hseq₀`: the distances $`\|y_k-p_0\|`$converge, and the residuals$y_k-T(y_k)$converge to$0$.
 
-From the convergence of $\|y_k-p_0\|$, the proof uses `bounded_range_of_convergent_distance_to_point`, which says that if the distances from a sequence $x_k$ to some point $z$ converge, then the range of $x_k$ is bounded. Applied here, the set of all iterates $y_k$ is bounded. This is the fact `hbounded : Bornology.IsBounded (Set.range alg.y)`.
+From the convergence of $`\|y_k-p_0\|`$, the proof uses `bounded_range_of_convergent_distance_to_point`, which says that if the distances from a sequence $x_k$ to some point $z$ converge, then the range of $x_k$ is bounded. Applied here, the set of all iterates $y_k$ is bounded. This is the fact `hbounded : Bornology.IsBounded (Set.range alg.y)`.
 
-The proof then prepares the hypotheses of Opial’s lemma. First it shows that for every fixed point $z$ of $T$, the distances $\|y_k-z\|$ converge to some real limit. This again uses `variable_relaxation_distance_and_residual_tendsto_local`, now applied to the fixed point $z$, and then takes the first component of its conclusion. This produces `hdist`.
+The proof then prepares the hypotheses of Opial’s lemma. First it shows that for every fixed point $z$ of $T$, the distances $`\|y_k-z\|`$ converge to some real limit. This again uses `variable_relaxation_distance_and_residual_tendsto_local`, now applied to the fixed point $z$, and then takes the first component of its conclusion. This produces `hdist`.
 
 Second, the proof shows that every weak sequential cluster point of the sequence $y_k$ is a fixed point of $T$. Suppose $z$ is such a cluster point. By definition of `IsSequentialClusterPt`, there is a strictly increasing sequence $\varphi:\mathbb N\to\mathbb N$ such that
 
@@ -223,15 +223,15 @@ $$
 y_{\varphi(n)}-T(y_{\varphi(n)})\to0.
 $$
 
-The boundedness of the range of $y_k$ gives a constant $C$ such that $\|y_k\|\le C$ for all $k$. For the subsequence, the triangle inequality and the bound on the range give
+The boundedness of the range of $y_k$ gives a constant $C$ such that $`\|y_k\|\le C`$for all$k$. For the subsequence, the triangle inequality and the bound on the range give
 
-$$
+```math
 \|y_{\varphi(n)}-z\|\le \|y_{\varphi(n)}\|+\|z\|\le C+\|z\|.
-$$
+```
 
 Thus the subsequence is bounded relative to $z$. Now the proof applies `nonexpansive_eq_of_tendsto_weakly_of_residual_tendsto_zero_local`. This theorem states that if $T$ is $1$-Lipschitz, $u_n$ converges weakly to $z$, $u_n-T(u_n)\to0$, and $u_n$ is bounded relative to $z$, then $T(z)=z$. Here $u_n=y_{\varphi(n)}$, so the theorem gives $T(z)=z$, i.e. $z\in\mathrm{Fix}(T)$. This is the cluster-point condition `hcluster`.
 
-At this point all hypotheses of `opial_lemma` are available: the set $\mathrm{Fix}(T)$ is nonempty, for every point in it the distances $\|y_k-z\|$ converge, and every weak sequential cluster point of $y_k$ lies in it. The Opial lemma concludes that there exists $\bar y\in\mathrm{Fix}(T)$ such that
+At this point all hypotheses of `opial_lemma` are available: the set $\mathrm{Fix}(T)$ is nonempty, for every point in it the distances $`\|y_k-z\|`$converge, and every weak sequential cluster point of$y_k$lies in it. The Opial lemma concludes that there exists$\bar y\in\mathrm{Fix}(T)$ such that
 
 $$
 y_k\rightharpoonup \bar y.

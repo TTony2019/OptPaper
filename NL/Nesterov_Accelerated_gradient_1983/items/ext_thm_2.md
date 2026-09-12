@@ -102,22 +102,22 @@ $$
 
 The crucial convexity estimate is
 
-$$
+```math
 \texttt{hslope} := \texttt{hφconvex.le\_slope\_of\_hasDerivAt}.
-$$
+```
 
-This theorem says that for a convex real function $\varphi$, if $0<1$, then the derivative of $\varphi$ at the left endpoint $0$ is bounded above by the secant slope from $0$ to $1$:
+This theorem says that for a convex real function $\varphi$, if $0\lt 1$, then the derivative of $\varphi$ at the left endpoint $0$ is bounded above by the secant slope from $0$ to $1$:
 
-$$
+```math
 \varphi'(0) \le \mathrm{slope} \varphi\,0\,1.
-$$
+```
 
-The two `by simp` arguments prove that $0$ and $1$ lie in the domain `Set.univ`, and `zero_lt_one` supplies the inequality $0<1$. Together with `hφderiv`, this yields
+The two `by simp` arguments prove that $0$ and $1$ lie in the domain `Set.univ`, and `zero_lt_one` supplies the inequality $0\lt 1$. Together with `hφderiv`, this yields
 
-$$
+```math
 \langle \mathrm{gradient} f u, v-u\rangle
   \le \mathrm{slope} \varphi\,0\,1.
-$$
+```
 
 The step `hdir` simplifies this slope. Since
 
@@ -127,11 +127,11 @@ $$
 
 the slope is
 
-$$
+```math
 \mathrm{slope} \varphi\,0\,1
 = \frac{\varphi(1)-\varphi(0)}{1-0}
 = f(v)-f(u).
-$$
+```
 
 Thus `hdir` states
 

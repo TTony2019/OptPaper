@@ -27,33 +27,33 @@ The theorem `cor_5_1` is a finite-time activation statement for an inertial prox
 
 - A set $C\subseteq H$ that is closed, convex, a convex polyhedron, bounded, and contains the origin in its interior: $0\in \mathrm{int} C$. The polyhedron condition means concretely that there are finitely many vectors $a_i\in H$ and real numbers $b_i$ such that
 
-  $$
-  C=\{x\in H:\langle a_i,x\rangle\le b_i\ \text{for all }i\}.
-  $$
+```math
+C=\{x\in H:\langle a_i,x\rangle\le b_i\ \text{for all }i\}.
+```
 
-- A single-valued map $A0:H\to H$. Its associated singleton-valued operator $x\mapsto\{A0(x)\}$ is assumed maximal monotone. Also, $A0$ has limit $0$ at $0$, i.e.
+- A single-valued map $A0:H\to H$. Its associated singleton-valued operator $`x\mapsto\{A0(x)\}`$is assumed maximal monotone. Also,$A0$has limit$0$at$0$, i.e.
 
-  $$
-  A0(x)\to 0 \quad\text{as } x\to 0.
-  $$
+$$
+A0(x)\to 0 \quad\text{as } x\to 0.
+$$
 
 - A set-valued operator $A:H\to 2^H$ satisfying, for every $x\in H$,
 
-  $$
-  A(x)=\{\,u+A0(x): u\in \partial\sigma_C(x)\,\},
-  $$
+```math
+A(x)=\{\,u+A0(x): u\in \partial\sigma_C(x)\,\},
+```
 
   where $\sigma_C$ is the support function of $C$,
 
-  $$
-  \sigma_C(x)=\sup_{z\in C}\langle z,x\rangle,
-  $$
+$$
+\sigma_C(x)=\sup_{z\in C}\langle z,x\rangle,
+$$
 
   and $\partial\sigma_C(x)$ is its subderivative:
 
-  $$
-  \partial\sigma_C(x)=\{\,v\in H:\forall y\in H,\ \sigma_C(y)\ge \sigma_C(x)+\langle v,y-x\rangle\,\}.
-  $$
+```math
+\partial\sigma_C(x)=\{\,v\in H:\forall y\in H,\ \sigma_C(y)\ge \sigma_C(x)+\langle v,y-x\rangle\,\}.
+```
 
   Thus $A$ is the sum of the subdifferential operator of the support function of $C$ and the single-valued perturbation $A0$. The operator $A$ is also assumed maximal monotone and to have domain all of $H$.
 
@@ -61,19 +61,19 @@ The theorem `cor_5_1` is a finite-time activation statement for an inertial prox
 
 - An operator $B$ that is exactly the gradient operator of $f$:
 
-  $$
-  B(x)=\{\nabla f(x)\}
-  $$
+```math
+B(x)=\{\nabla f(x)\}
+```
 
   for every $x\in H$.
 
-- A sequence of step sizes $\lambda:\mathbb N\to\mathbb R$ satisfying $\lambda_n>0$ and $\lambda_n\le \lambda_{n+1}$ for all $n$.
+- A sequence of step sizes $\lambda:\mathbb N\to\mathbb R$ satisfying $\lambda_n\gt 0$ and $\lambda_n\le \lambda_{n+1}$ for all $n$.
 
 - A sequence $x:\mathbb N\to H$ that is an Algorithm A sequence for $A$, $B$, and $\lambda$, and that converges to some point $x_\infty$:
 
-  $$
-  x_n\to x_\infty \quad\text{as } n\to\infty.
-  $$
+$$
+x_n\to x_\infty \quad\text{as } n\to\infty.
+$$
 
 The conclusion is that there exists an index $n_\star\in\mathbb N$ such that for every $n\ge n_\star$,
 
@@ -133,9 +133,9 @@ The proof reduces the corollary to the cited result `prop_5_1`. It first identif
 
    The cited result `cor51_A_zero_eq_C` says: if $C$ is a convex polyhedron, $0\in C$, $A0(0)=0$, and $A$ has the sum decomposition
 
-   $$
-   A(x)=\{\,u+A0(x):u\in\partial\sigma_C(x)\,\},
-   $$
+```math
+A(x)=\{\,u+A0(x):u\in\partial\sigma_C(x)\,\},
+```
 
    then $A(0)=C$. So the value of the composite operator at the origin is exactly the set $C$. This is the key identification used throughout the rest of the proof.
 
@@ -163,15 +163,15 @@ The proof reduces the corollary to the cited result `prop_5_1`. It first identif
 
    The cited result `cor51_excess_condition` states that, under the sum decomposition for $A$, full domain $A.\mathrm{dom}=H$, the equality $A(0)=C$, and the condition $A0(x)\to0$ as $x\to0$, the excess
 
-   $$
-   \mathrm{excess}\!\left(A(z),\ \partial\sigma_{A(0)}(z)\right)
-   $$
+```math
+\mathrm{excess}\!\left(A(z),\ \partial\sigma_{A(0)}(z)\right)
+```
 
    tends to $0$ as $z\to0$. Here the `excess` is the one-sided quantity
 
-   $$
-   \mathrm{excess}(S,T)=\sup_{s\in S}\mathrm{dist}(s,T).
-   $$
+$$
+\mathrm{excess}(S,T)=\sup_{s\in S}\mathrm{dist}(s,T).
+$$
 
    Thus the conclusion says that, near $0$, every point of $A(z)$ is arbitrarily close to the subdifferential of the support function of $A(0)$ at $z$. This is exactly the quantitative `h_condition` hypothesis required by `prop_5_1`.
 
@@ -183,9 +183,9 @@ The proof reduces the corollary to the cited result `prop_5_1`. It first identif
 
    The cited theorem `prop_5_1` says, specialized to the current variables: if $A$ is maximal monotone, has full domain, $0\in\mathrm{int}(A(0))$, $A(0)$ is a convex polyhedron, the excess condition above holds, $f$ is convex, $C^1$, and bounded below, $B$ is the gradient operator of $f$, the step sizes $\lambda_n$ are positive and nondecreasing, $x$ is an Algorithm A sequence for $A,B,\lambda$, and $x_n\to x_\infty$, then there exists $n_\star$ such that for all $n\ge n_\star$,
 
-   $$
-   x_{n+1}-x_n \in N_{A(0)}\bigl(-\nabla f(x_\infty)\bigr).
-   $$
+$$
+x_{n+1}-x_n \in N_{A(0)}\bigl(-\nabla f(x_\infty)\bigr).
+$$
 
    The `rcases` command eliminates the existential quantifier, giving the witness `n_star` and the property `hn`.
 
@@ -211,9 +211,9 @@ The proof reduces the corollary to the cited result `prop_5_1`. It first identif
 
    gives the membership
 
-   $$
-   x_{n+1}-x_n \in N_{A(0)}\bigl(-\nabla f(x_\infty)\bigr).
-   $$
+$$
+x_{n+1}-x_n \in N_{A(0)}\bigl(-\nabla f(x_\infty)\bigr).
+$$
 
 10. Finally,
 
@@ -223,9 +223,9 @@ The proof reduces the corollary to the cited result `prop_5_1`. It first identif
 
     rewrites $A(0)$ to $C$ using the equality `hA_zero : A(0)=C`. The membership becomes
 
-    $$
-    x_{n+1}-x_n \in N_C\bigl(-\nabla f(x_\infty)\bigr),
-    $$
+$$
+x_{n+1}-x_n \in N_C\bigl(-\nabla f(x_\infty)\bigr),
+$$
 
     which is precisely the conclusion of `cor_5_1`.
 

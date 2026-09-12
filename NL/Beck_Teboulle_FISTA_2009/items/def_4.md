@@ -17,7 +17,7 @@ $$
 
 Thus, mathematically,
 
-$$
+```math
 \mathrm{subdifferential}(g,x)
 =\left\{
 \gamma \in \mathbb R^n
@@ -25,7 +25,7 @@ $$
 \forall y \in \mathbb R^n,\;
 g(x) + \langle \gamma, y - x \rangle \le g(y)
 \right\}.
-$$
+```
 
 Here $\langle \cdot, \cdot \rangle$ is the real inner product on $\mathbb R^n$. The inequality says that the affine function
 
@@ -43,12 +43,12 @@ lies below the graph of $g$ everywhere. The vector $\gamma$ is the slope of this
 ## Proof explanation
 There is no separate proof part. The declaration is a definition, so its mathematical content is exactly the set-builder condition
 
-$$
+```math
 \gamma \in \mathrm{subdifferential}(g,x)
 \iff
 \forall y \in \mathbb R^n,\;
 g(x) + \langle \gamma, y - x \rangle \le g(y).
-$$
+```
 
 No named lemma or theorem is invoked, and no tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` appear. The only definitional step is unfolding membership in `subdifferential`: to establish that a vector $\gamma$ belongs to the set, one must prove the displayed inequality for every $y \in \mathbb R^n$; conversely, if one has a proof of that inequality for all $y$, then it directly yields membership of $\gamma$ in the set.
 

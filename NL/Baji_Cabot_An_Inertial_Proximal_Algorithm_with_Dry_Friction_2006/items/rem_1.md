@@ -18,7 +18,7 @@ $$
 g(tx+(1-t)y)\le t g(x)+(1-t)g(y)
 $$
 
-for all $x,y\in H$ and $t\in[0,1]$. Lower semicontinuity means that, for example, every superlevel set $\{x:g(x)>a\}$ is open, equivalently every sublevel set $\{x:g(x)\le a\}$ is closed.
+for all $x,y\in H$ and $t\in[0,1]$. Lower semicontinuity means that, for example, every superlevel set $`\{x:g(x)>a\}`$is open, equivalently every sublevel set$`\{x:g(x)\le a\}`$ is closed.
 
 The conclusion is that for every $x\in H$, two inequalities hold. Let
 
@@ -76,9 +76,9 @@ The proof is a short structural argument.
 
 1. The goal after the theorem statement is
 
-$$
+```math
 \forall x,\; P(x)\land Q(x),
-$$
+```
 
 where $P(x)$ is the first inequality and $Q(x)$ is the second inequality. The tactic `intro x` introduces an arbitrary $x:H$ and reduces the goal to proving the conjunction $P(x)\land Q(x)$ for that fixed $x$.
 
@@ -98,9 +98,9 @@ $$
 
 The proof then uses
 
-$$
+```math
 \texttt{rem21\_subderivative\_phi\_lower }g\ x.
-$$
+```
 
 Specialized to the current $g$ and $x$, that helper lemma says exactly
 
@@ -130,9 +130,9 @@ $$
 
 The proof uses
 
-$$
+```math
 \texttt{rem21\_support\_subderivative\_zero\_upper }g\ x.
-$$
+```
 
 Specialized to the current $g$ and $x$, this helper lemma states
 

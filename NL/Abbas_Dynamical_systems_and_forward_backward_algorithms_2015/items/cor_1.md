@@ -39,21 +39,21 @@ theorem strong_convex_solution_unique_and_convergent {H : Type*} [NormedAddCommG
 ## Statement explanation
 The declaration is a theorem in a real Hilbert space $H$, meaning that $H$ is a complete normed additive commutative group equipped with a real inner product. The function $\Phi : H \to \mathrm{EReal}$ takes values strictly greater than $\bot$, where $\bot$ is the bottom element of the extended reals, so $\Phi$ never takes the value $-\infty$. The hypothesis $hPhi$ says that $\Phi$ belongs to `ERealFunction.gammaZero H`. The provided excerpt defines the ambient class $\Gamma(H)$ as the convex, lower semicontinuous functions; the zero-class is the corresponding properness/domain class used by the subgradient theory. The proof itself only passes this hypothesis unchanged to `proposition_2_16`.
 
-The other objects are a single-valued operator $B : H \to H$, a nonempty set $S \subseteq H$ of candidate solutions, two trajectories $x,v : \mathbb R \to H$, and real parameters $\lambda,\mu,\beta$. The assumptions on the parameters are $0<\lambda$, $0<\mu$, $\mu\lambda=1$, and $0<\beta$. The hypothesis $hB$ says that $B$ is $\beta$-cocoercive on all of $H$. In the proof this is used in the form that for any $y,z\in H$,
+The other objects are a single-valued operator $B : H \to H$, a nonempty set $S \subseteq H$ of candidate solutions, two trajectories $x,v : \mathbb R \to H$, and real parameters $\lambda,\mu,\beta$. The assumptions on the parameters are $0\lt \lambda$, $0\lt \mu$, $\mu\lambda=1$, and $0\lt \beta$. The hypothesis $hB$ says that $B$ is $\beta$-cocoercive on all of $H$. In the proof this is used in the form that for any $y,z\in H$,
 
-$$
+```math
 \beta\|By-Bz\|^2 \le \langle y-z, By-Bz\rangle,
-$$
+```
 
 so in particular the inner product $\langle y-z, By-Bz\rangle$ is nonnegative.
 
-The trajectory hypotheses say that $x$ and $v$ are absolutely continuous on every $[0,b]$ with $b>0$, and that for every $T>0$, almost every $t\in[0,T]$ satisfies
+The trajectory hypotheses say that $x$ and $v$ are absolutely continuous on every $[0,b]$ with $b\gt 0$, and that for every $T\gt 0$, almost every $t\in[0,T]$ satisfies
 
-$$
+```math
 \mathrm{HasDerivAt}\, x\,(\mathrm{deriv} x(t))\,t,
 \qquad
 \mathrm{HasDerivAt}\, v\,(\mathrm{deriv} v(t))\,t.
-$$
+```
 
 Thus $x$ and $v$ are locally absolutely continuous and almost everywhere differentiable with the stated derivatives. The hypotheses $hvL2$ and $hdxL2$ say that $v$ and $\mathrm{deriv} x$ are in $L^2$ on every finite interval $[0,b]$. The hypothesis $hsubgradient$ says that for every $t\ge 0$,
 
@@ -69,30 +69,30 @@ $$
 
 equivalently $0\in Bz+\partial\Phi(z)$. The orbit equation $horbit$ says that for almost every $t\in[0,\infty)$,
 
-$$
+```math
 v(t)\in \partial\Phi(x(t))
 \quad\text{and}\quad
 \lambda\,\dot x(t)+\dot v(t)+v(t)+B(x(t))=0.
-$$
+```
 
-Finally, $hstrong_support$ is a strong-convexity hypothesis on $\Phi$: there exists $m>0$ such that for all $a,u,y\in H$, if $u\in\partial\Phi(a)$ and $y\in\mathrm{dom}\Phi$, then
+Finally, $hstrong_support$ is a strong-convexity hypothesis on $\Phi$: there exists $m\gt 0$ such that for all $a,u,y\in H$, if $u\in\partial\Phi(a)$ and $y\in\mathrm{dom}\Phi$, then
 
-$$
+```math
 \frac m2\|y-a\|^2
 \le
 (\Phi y)_{\mathbb R}-(\Phi a)_{\mathbb R}
 -\langle u,y-a\rangle.
-$$
+```
 
 Here $(\Phi y)_{\mathbb R}$ denotes the real part of the extended-real value $\Phi y$. This is the subgradient form of strong convexity with modulus $m$.
 
 The conclusion is that there exists $z$ such that
 
-$$
+```math
 S=\{z\}
 \quad\text{and}\quad
 x(t)\to z \text{ strongly in }H \text{ as }t\to\infty.
-$$
+```
 
 Thus the theorem says that, under the dynamical system, cocoercivity, and strong convexity assumptions, the solution set is a singleton and the trajectory $x$ converges strongly to that unique solution.
 
@@ -174,55 +174,55 @@ by
 ```
 
 ## Proof explanation
-The proof begins by using `rcases hS with ⟨z, hz⟩` to choose an element $z\in S$, and `rcases hstrong_support with ⟨m, hm, hsupp⟩` to choose the strong-convexity modulus $m>0$ together with the inequality $hsupp$.
+The proof begins by using `rcases hS with ⟨z, hz⟩` to choose an element $z\in S$, and `rcases hstrong_support with ⟨m, hm, hsupp⟩` to choose the strong-convexity modulus $m\gt 0$ together with the inequality $hsupp$.
 
-First the proof shows that $S$ is the singleton $\{z\}$. It applies `Set.eq_singleton_iff_unique_mem.mpr`, which reduces the goal $S=\{z\}$ to proving two things: that $z\in S$, supplied by $hz$, and that every $y\in S$ is equal to $z$. The command `intro y hy` introduces an arbitrary $y\in S$ and the proof `hy` of membership.
+First the proof shows that $S$ is the singleton $`\{z\}`$. It applies `Set.eq_singleton_iff_unique_mem.mpr`, which reduces the goal $`S=\{z\}`$to proving two things: that$z\in S$, supplied by$hz$, and that every$y\in S$is equal to$z$. The command `intro y hy` introduces an arbitrary $y\in S$ and the proof `hy` of membership.
 
 For this arbitrary $y\in S$, the proof applies the strong-convexity inequality $hsupp$ twice. First, with $a=z$, $u=-Bz$, and the second variable equal to $y$, using $hsolution z hz$ to know that $-Bz\in\partial\Phi(z)$ and $hdom.2 y hy$ to know that $y\in\mathrm{dom}\Phi$. This gives
 
-$$
+```math
 \frac m2\|y-z\|^2
 \le
 (\Phi y)_{\mathbb R}-(\Phi z)_{\mathbb R}
 -\langle -Bz,y-z\rangle.
-$$
+```
 
 Using $\langle -Bz,y-z\rangle=-\langle Bz,y-z\rangle=-\langle y-z,Bz\rangle$, the proof rewrites this as
 
-$$
+```math
 \frac m2\|y-z\|^2
 \le
 (\Phi y)_{\mathbb R}-(\Phi z)_{\mathbb R}
 +\langle y-z,Bz\rangle.
-$$
+```
 
 Second, with $a=y$, $u=-By$, and the second variable equal to $z$, using $hsolution y hy$ to know that $-By\in\partial\Phi(y)$ and $hdom.2 z hz$ to know that $z\in\mathrm{dom}\Phi$, the proof obtains
 
-$$
+```math
 \frac m2\|z-y\|^2
 \le
 (\Phi z)_{\mathbb R}-(\Phi y)_{\mathbb R}
 -\langle -By,z-y\rangle.
-$$
+```
 
-The proof rewrites the inner product term using $\langle -By,z-y\rangle=-\langle By,z-y\rangle$, then uses $\langle By,z-y\rangle=-\langle y-z,By\rangle$, and replaces $\|z-y\|$ by $\|y-z\|$. The result is
+The proof rewrites the inner product term using $\langle -By,z-y\rangle=-\langle By,z-y\rangle$, then uses $\langle By,z-y\rangle=-\langle y-z,By\rangle$, and replaces $`\|z-y\|`$by$`\|y-z\|`$. The result is
 
-$$
+```math
 \frac m2\|y-z\|^2
 \le
 (\Phi z)_{\mathbb R}-(\Phi y)_{\mathbb R}
 -\langle y-z,By\rangle.
-$$
+```
 
 Next the proof uses cocoercivity. The call `hB.ineq` gives the inequality
 
-$$
+```math
 \beta\|By-Bz\|^2
 \le
 \langle y-z,By-Bz\rangle.
-$$
+```
 
-Because $\beta>0$ and $\|By-Bz\|^2\ge 0$, the left-hand side is nonnegative, so the inner product on the right is nonnegative:
+Because $\beta\gt 0$ and $`\|By-Bz\|^2\ge 0`$, the left-hand side is nonnegative, so the inner product on the right is nonnegative:
 
 $$
 0\le \langle y-z,By-Bz\rangle.
@@ -237,19 +237,19 @@ $$
 
 the proof obtains
 
-$$
+```math
 m\|y-z\|^2
 \le
 -\langle y-z,By-Bz\rangle.
-$$
+```
 
 Since the inner product is nonnegative, the right-hand side is nonpositive, hence
 
-$$
+```math
 m\|y-z\|^2\le 0.
-$$
+```
 
-Because $m>0$ and $\|y-z\|^2\ge 0$, the proof concludes that $\|y-z\|^2=0$. Therefore $\|y-z\|=0$, then $y-z=0$, and finally $y=z$. This proves uniqueness of the element of $S$, so $S=\{z\}$.
+Because $m\gt 0$ and $`\|y-z\|^2\ge 0`$, the proof concludes that$`\|y-z\|^2=0`$. Therefore$`\|y-z\|=0`$, then$y-z=0$, and finally$y=z$. This proves uniqueness of the element of$S$, so$`S=\{z\}`$.
 
 The proof then invokes `proposition_2_16`. This proposition applies to the same Hilbert space, the same $\Phi$, $B$, $S$, $x$, $v$, and parameters, with the chosen element $z\in S$. Its conclusion includes the statement that the function
 
@@ -277,27 +277,27 @@ $$
 \gamma=\frac m2.
 $$
 
-Since $m>0$, `linarith` proves $\gamma>0$. The goal is to prove
+Since $m\gt 0$, `linarith` proves $\gamma\gt 0$. The goal is to prove
 
-$$
+```math
 \|x(t)-z\|\to 0.
-$$
+```
 
 The proof first proves the squared norm converges to zero by a squeeze argument. For $t\ge 0$, applying the strong-convexity inequality $hsupp$ with $a=z$, $u=-Bz$, and the second variable equal to $x(t)$, using $hsolution z hz$ and $hdom.1 t ht$, gives
 
-$$
+```math
 \gamma\|x(t)-z\|^2
 \le
 F(t).
-$$
+```
 
 The left-hand side is nonnegative, so $F(t)\ge 0$. Since $\gamma^{-1}\ge 0$, multiplying by $\gamma^{-1}$ gives
 
-$$
+```math
 0\le \|x(t)-z\|^2
 \le
 \gamma^{-1}F(t)
-$$
+```
 
 eventually. The command `filter_upwards [eventually_ge_atTop (0 : ℝ)]` makes the argument eventual in $t$, because the strong-convexity inequality is available only for $t\ge 0$. Since $F(t)\to 0$, the scalar multiple satisfies
 
@@ -307,21 +307,21 @@ $$
 
 The theorem `squeeze_zero'` then yields
 
-$$
+```math
 \|x(t)-z\|^2\to 0.
-$$
+```
 
 Finally, the proof converts convergence of the square of the norm into convergence of the norm itself. The square-root function is continuous at $0$, and for a nonnegative norm,
 
-$$
+```math
 \sqrt{\|x(t)-z\|^2}=\|x(t)-z\|.
-$$
+```
 
-Thus composing continuity of $\sqrt{\cdot}$ at $0$ with $\|x(t)-z\|^2\to 0$ gives
+Thus composing continuity of $\sqrt{\cdot}$ at $0$ with $`\|x(t)-z\|^2\to 0`$ gives
 
-$$
+```math
 \|x(t)-z\|\to 0.
-$$
+```
 
 The lemma `tendsto_zero_iff_norm_tendsto_zero.mpr` then gives
 
@@ -335,11 +335,11 @@ $$
 x(t)\to z.
 $$
 
-Together with the already established equality $S=\{z\}$, this proves the desired conclusion
+Together with the already established equality $`S=\{z\}`$, this proves the desired conclusion
 
-$$
+```math
 \exists z,\quad S=\{z\}
 \quad\text{and}\quad
 x(t)\to z \text{ strongly as }t\to\infty.
-$$
+```
 

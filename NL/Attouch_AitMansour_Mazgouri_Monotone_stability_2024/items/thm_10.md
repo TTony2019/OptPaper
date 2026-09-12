@@ -21,13 +21,13 @@ theorem approxSolutions_painleve_kuratowski {H M : Type*} [NormedAddCommGroup H]
 ```
 
 ## Statement explanation
-The declaration `approxSolutions_painleve_kuratowski` is a convergence theorem for approximate solutions of a parameterized damped second-order equation. The space $H$ is a real Hilbert space, and $M$ is a normed additive commutative group whose elements are parameters. The set $V\subseteq M$ is the admissible parameter set. For each parameter $\mu\in M$, the operator $A_\mu=A\mu$ maps $H$ to $H$, the curve $x_\mu=x\mu:\mathbb R\to H$ is a candidate exact trajectory, $dx_\mu$ and $ddx_\mu$ are auxiliary trajectories, and $u_{0,\mu},v_{0,\mu}\in H$ are initial data. The real parameters are $\alpha,\gamma,T$, with $\alpha>0$ and $T>0$. The hypothesis $hcoco$ states that for every $\mu\in V$, $A_\mu$ is $\alpha$-cocoercive on all of $H$; the subtype notation `Set.univ` is only the Lean encoding of the whole space. The hypothesis $hsol$ states that for every $\mu\in V$, the tuple $(x_\mu,dx_\mu,ddx_\mu)$ satisfies the extended solution condition `ext_def_2` for the damped system with operator $A_\mu$, damping $\gamma$, and initial data $u_{0,\mu},v_{0,\mu}$. The source does not expand `ext_def_2`, but the proof uses that it implies $\gamma>0$, that $x_\mu$ is continuous on $[0,T]$, and that $x_\mu$ is a fixed point of the centered integral map at nonnegative times. The smallness condition $hγT$ is
+The declaration `approxSolutions_painleve_kuratowski` is a convergence theorem for approximate solutions of a parameterized damped second-order equation. The space $H$ is a real Hilbert space, and $M$ is a normed additive commutative group whose elements are parameters. The set $V\subseteq M$ is the admissible parameter set. For each parameter $\mu\in M$, the operator $A_\mu=A\mu$ maps $H$ to $H$, the curve $x_\mu=x\mu:\mathbb R\to H$ is a candidate exact trajectory, $dx_\mu$ and $ddx_\mu$ are auxiliary trajectories, and $u_{0,\mu},v_{0,\mu}\in H$ are initial data. The real parameters are $\alpha,\gamma,T$, with $\alpha\gt 0$ and $T\gt 0$. The hypothesis $hcoco$ states that for every $\mu\in V$, $A_\mu$ is $\alpha$-cocoercive on all of $H$; the subtype notation `Set.univ` is only the Lean encoding of the whole space. The hypothesis $hsol$ states that for every $\mu\in V$, the tuple $(x_\mu,dx_\mu,ddx_\mu)$ satisfies the extended solution condition `ext_def_2` for the damped system with operator $A_\mu$, damping $\gamma$, and initial data $u_{0,\mu},v_{0,\mu}$. The source does not expand `ext_def_2`, but the proof uses that it implies $\gamma\gt 0$, that $x_\mu$ is continuous on $[0,T]$, and that $x_\mu$ is a fixed point of the centered integral map at nonnegative times. The smallness condition $hγT$ is
 
 $$
 \gamma T+\frac{T^2}{\alpha}<1.
 $$
 
-Together with $\alpha>0$, this makes the denominator
+Together with $\alpha\gt 0$, this makes the denominator
 
 $$
 D=\alpha-\alpha\gamma T-T^2
@@ -35,9 +35,9 @@ $$
 
 positive. The set $\mathrm{approxSolutions}(A,\gamma,u_0,v_0,T,\epsilon,\mu)$ is the set of approximate solutions at tolerance $\epsilon$ for parameter $\mu$. Its full definition is not shown, but the proof uses that membership entails continuity on $[0,T]$ and a tolerance condition involving the centered integral map. The path-sup norm is
 
-$$
+```math
 \mathrm{pathSupNorm}_T(f)=\sup\{\|f(t)\|: t\in [0,T] \}.
-$$
+```
 
 The conclusion is a conjunction of two statements. The first is sequential: for every $\mu\in V$, every sequence $(\varepsilon_n)$ of positive reals with $\varepsilon_n\to0$, and every sequence of curves $(y_n)$ such that
 
@@ -57,7 +57,7 @@ $$
 \mathrm{pathSupNorm}_T(y_n-x_\mu)\to0.
 $$
 
-The second statement is epsilon-delta: for every $\mu\in V$ and every $\eta>0$, there exists $\epsilon>0$ such that for every $\epsilon'\in(0,\epsilon)$ there is a curve
+The second statement is epsilon-delta: for every $\mu\in V$ and every $\eta\gt 0$, there exists $\epsilon\gt 0$ such that for every $\epsilon'\in(0,\epsilon)$ there is a curve
 
 $$
 y\in \mathrm{approxSolutions}(A,\gamma,u_0,v_0,T,\epsilon',\mu)
@@ -120,7 +120,7 @@ by
 ```
 
 ## Proof explanation
-The proof begins with two auxiliary facts. First, it proves that for every $\mu\in V$, the exact curve $x_\mu$ is continuous on $[0,T]$. This is `hxcont`, defined by `continuousOn_of_solution hT (hsol μ hμ).2`. The term $hsol μ hμ$ is the extended solution hypothesis; its second component is the solution condition `def_3`. The cited lemma `continuousOn_of_solution` says that if $T>0$ and $(x,dx,ddx)$ satisfies `def_3 A γ u0 v0 x dx ddx`, then $x$ is continuous on $[0,T]$. Applied to $\mu$, it gives $\mathrm{ContinuousOn}(x_\mu,[0,T])$.
+The proof begins with two auxiliary facts. First, it proves that for every $\mu\in V$, the exact curve $x_\mu$ is continuous on $[0,T]$. This is `hxcont`, defined by `continuousOn_of_solution hT (hsol μ hμ).2`. The term $hsol μ hμ$ is the extended solution hypothesis; its second component is the solution condition `def_3`. The cited lemma `continuousOn_of_solution` says that if $T\gt 0$ and $(x,dx,ddx)$ satisfies `def_3 A γ u0 v0 x dx ddx`, then $x$ is continuous on $[0,T]$. Applied to $\mu$, it gives $\mathrm{ContinuousOn}(x_\mu,[0,T])$.
 
 Second, the proof establishes the quantitative error estimate `hbound`: for every $\mu\in V$, every real $\epsilon$, and every $y\in\mathrm{approxSolutions}(A,\gamma,u_0,v_0,T,\epsilon,\mu)$,
 
@@ -128,7 +128,7 @@ $$
 \mathrm{pathSupNorm}_T(y-x_\mu)\le \frac{\epsilon\alpha}{D}.
 $$
 
-This is exactly what `approxSolutions_pathSupNorm_le` provides. That theorem requires $\alpha>0$, $\gamma>0$, $T>0$, the cocoercivity hypothesis, the solution hypothesis, and the smallness condition $hγT$. The proof supplies $\alpha>0$ from $hα$, $\gamma>0$ from the first component of $hsol μ hμ$, $T>0$ from $hT$, and the remaining hypotheses directly. Its conclusion is the displayed uniform bound. This estimate is the main quantitative ingredient: it controls the whole path-sup error by the tolerance $\epsilon$.
+This is exactly what `approxSolutions_pathSupNorm_le` provides. That theorem requires $\alpha\gt 0$, $\gamma\gt 0$, $T\gt 0$, the cocoercivity hypothesis, the solution hypothesis, and the smallness condition $hγT$. The proof supplies $\alpha\gt 0$ from $hα$, $\gamma\gt 0$ from the first component of $hsol μ hμ$, $T\gt 0$ from $hT$, and the remaining hypotheses directly. Its conclusion is the displayed uniform bound. This estimate is the main quantitative ingredient: it controls the whole path-sup error by the tolerance $\epsilon$.
 
 To prove the first conjunct of the conclusion, the proof splits the conjunction with `constructor` and works on the sequential statement. It introduces $\mu\in V$, a sequence $\varepsilon_n$, a sequence of curves $y_n$, the positivity hypothesis on $\varepsilon_n$ (which is discarded with `_` and not used), the limit hypothesis $\varepsilon_n\to0$, and the hypothesis that
 
@@ -174,12 +174,12 @@ $$
 
 For each $n$, `hb` proves
 
-$$
+```math
 \mathrm{dist}(y_n(t),x_\mu(t))
 =\|y_n(t)-x_\mu(t)\|
 \le \mathrm{pathSupNorm}_T(y_n-x_\mu)
 \le U_n.
-$$
+```
 
 The first equality is `dist_eq_norm`. The next inequality is `norm_le_pathSupNorm_of_continuousOn` applied to the continuous curve $y_n-x_\mu$ and the point $t\in [0,T]$. That lemma says that for a curve continuous on $[0,T]$, its value at any point of $[0,T]$ has norm at most the path-sup norm. The last inequality is `hsup n`.
 
@@ -211,7 +211,7 @@ $$
 
 This completes the first conjunct.
 
-The second conjunct is proved by `intro μ hμ η hη`, then `refine ⟨η, hη, ?_⟩`, so the proof chooses $\epsilon=\eta$. It must show that for every $\epsilon'\in(0,\eta)$ there exists an approximate solution at level $\epsilon'$ with path-sup error less than $\eta$. Fix $\epsilon'$ with $0<\epsilon'<\eta$. The proof chooses $y=x_\mu$ with `refine ⟨x μ, ?_, ?_⟩`.
+The second conjunct is proved by `intro μ hμ η hη`, then `refine ⟨η, hη, ?_⟩`, so the proof chooses $\epsilon=\eta$. It must show that for every $\epsilon'\in(0,\eta)$ there exists an approximate solution at level $\epsilon'$ with path-sup error less than $\eta$. Fix $\epsilon'$ with $0\lt \epsilon'\lt \eta$. The proof chooses $y=x_\mu$ with `refine ⟨x μ, ?_, ?_⟩`.
 
 First it shows that
 
@@ -227,10 +227,10 @@ $$
 
 where $\Gamma$ is the centered integral map, the Picard operator described in the source by
 
-$$
+```math
 \Gamma_{A,u_0,v_0}(x)(t)
 =u_0+t v_0+\int_0^t (s-t)\bigl(\gamma\dot x(s)+A x(s)\bigr)\,ds.
-$$
+```
 
 The equality says that the exact solution $x_\mu$ is a fixed point of the Picard operator at all nonnegative times. Rewriting with `rw [hfix, sub_self, norm_zero]` changes the tolerance goal into $0\le\epsilon'$, which is exactly the positivity part of $hε'$. Hence $x_\mu$ satisfies the approximate-solution condition at level $\epsilon'$.
 
@@ -242,15 +242,15 @@ $$
 
 Using `pathSupNorm_le_of_forall` with $T\ge0$, it is enough to observe that for every $t\in [0,T]$,
 
-$$
+```math
 \|x_\mu(t)-x_\mu(t)\|=0\le\frac{\eta}{2}.
-$$
+```
 
-The equality is `sub_self` and `norm_zero`; the inequality is `positivity` from $\eta>0$. Thus `hzero` gives
+The equality is `sub_self` and `norm_zero`; the inequality is `positivity` from $\eta\gt 0$. Thus `hzero` gives
 
 $$
 \mathrm{pathSupNorm}_T(x_\mu-x_\mu)\le\frac{\eta}{2}.
 $$
 
-Since $\eta>0$, we have $\eta/2<\eta$, and `linarith` concludes the strict inequality. Therefore, with $\epsilon=\eta$, every $\epsilon'\in(0,\eta)$ has an approximate solution $x_\mu$ whose path-sup error from $x_\mu$ is less than $\eta$, completing the second conjunct and the theorem.
+Since $\eta\gt 0$, we have $\eta/2\lt \eta$, and `linarith` concludes the strict inequality. Therefore, with $\epsilon=\eta$, every $\epsilon'\in(0,\eta)$ has an approximate solution $x_\mu$ whose path-sup error from $x_\mu$ is less than $\eta$, completing the second conjunct and the theorem.
 

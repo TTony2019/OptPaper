@@ -16,10 +16,10 @@ The declaration `bregmanDistance` defines a real-valued function associated with
 
 The value returned is the real number
 
-$$
+```math
 \mathrm{bregmanDistance}(F,gradF,a,b)
 = F(b)-F(a)-\langle gradF(a),\, b-a\rangle,
-$$
+```
 
 where $\langle\cdot,\cdot\rangle$ is the real inner product on $H$. In words, it takes the change $F(b)-F(a)$ in the values of $F$ and subtracts the linear quantity obtained by pairing $gradF(a)$ with the displacement $b-a$. Equivalently, it is
 

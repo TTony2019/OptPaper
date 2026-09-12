@@ -55,17 +55,17 @@ $$
 
 Seventh, `equation` is the differential equation satisfied by $u$ for every $t \ge 0$:
 
-$$
+```math
 fderiv ℝ \bigl(fun s \mapsto fderiv ℝ u s 1\bigr) t\, 1
 +\Gamma\bigl(fderiv ℝ u t\, 1\bigr)
 +\mathrm{gradPhi}(u(t)) = 0.
-$$
+```
 
-Here $fderiv ℝ u t\, 1$ is the velocity $u'(t)$, and
+Here $`fderiv ℝ u t\, 1`$is the velocity$u'(t)$, and
 
-$$
+```math
 fderiv ℝ \bigl(fun s \mapsto fderiv ℝ u s 1\bigr) t\, 1
-$$
+```
 
 is the acceleration $u''(t)$. Thus the field states that for all $t \ge 0$,
 

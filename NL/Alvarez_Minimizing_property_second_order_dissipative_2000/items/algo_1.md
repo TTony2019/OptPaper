@@ -34,9 +34,9 @@ In addition, the structure requires the following propositional fields. The fiel
 
 The numerical parameter fields are:
 
-- `eps_pos`: for every $k$, $0<\varepsilon_k$;
-- `lam_pos`: for every $k$, $0<\lambda_k$;
-- `alpha_range`: for every $k$, $0\le \alpha_k<1$.
+- `eps_pos`: for every $k$, $0\lt \varepsilon_k$;
+- `lam_pos`: for every $k$, $0\lt \lambda_k$;
+- `alpha_range`: for every $k$, $0\le \alpha_k\lt 1$.
 
 The final field is the update condition. Let $\partial_{\varepsilon} f(x)$ denote the $\varepsilon$-subdifferential of $f$ at $x$, as encoded by `epsilonSubdifferential f ε x`. This is the set of vectors $p\in H$ satisfying the usual approximate subgradient inequality: $p\in \partial_\epsilon f(x)$ means that for all $y\in H$,
 
@@ -44,16 +44,16 @@ $$
 f(y)\ge f(x)+\langle p,y-x\rangle-\varepsilon .
 $$
 
-The update field says that for every natural number $k$ with $0<k$,
+The update field says that for every natural number $k$ with $0\lt k$,
 
-$$
+```math
 0\in
 \left\{
 \lambda_k^{-1}\left(u_{k+1}-(1+\alpha_k)u_k+\alpha_k u_{k-1}\right)+p
 \;\middle|\;
 p\in \partial_{\varepsilon_k} f(u_{k+1})
 \right\}.
-$$
+```
 
 The set on the right is the image of the $\varepsilon_k$-subdifferential under the translation $p\mapsto c_k+p$, where
 
@@ -109,5 +109,5 @@ This is exactly the approximate proximal inclusion for $u_{k+1}$ from the inerti
 ## Proof explanation
 There is no separate proof part. The source is only a `structure` declaration, and the Lean proof block is empty, with the comment `-- No separate proof part.` Therefore no tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` occur, and no named theorem or local lemma is invoked.
 
-In Lean, a `structure` declares a record type rather than proving a theorem. To inhabit `InertialProximalMethod f`, one must provide the four data fields $u,\varepsilon,\lambda,\alpha$ together with proofs of all the propositional fields. The fields `proper`, `closed_epigraph`, and `convex` are assumptions on the objective $f$. The fields `eps_pos`, `lam_pos`, and `alpha_range` are the parameter restrictions. The field `update` is the single dynamical condition: for each $k$ with $0<k$, it requires the approximate proximal inclusion described above. Since there are no proof steps, the mathematical content is exactly the collection of data and obligations listed in the structure.
+In Lean, a `structure` declares a record type rather than proving a theorem. To inhabit `InertialProximalMethod f`, one must provide the four data fields $u,\varepsilon,\lambda,\alpha$ together with proofs of all the propositional fields. The fields `proper`, `closed_epigraph`, and `convex` are assumptions on the objective $f$. The fields `eps_pos`, `lam_pos`, and `alpha_range` are the parameter restrictions. The field `update` is the single dynamical condition: for each $k$ with $0\lt k$, it requires the approximate proximal inclusion described above. Since there are no proof steps, the mathematical content is exactly the collection of data and obligations listed in the structure.
 

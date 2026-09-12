@@ -21,9 +21,9 @@ and second, no pair $(x,u)$ outside the graph can be added without violating thi
 
 The hypothesis `hdom : Bornology.IsBounded U.dom` says that the domain of $U$,
 
-$$
+```math
 U.\mathrm{dom}=\{x\in H: U x\ne \varnothing\},
-$$
+```
 
 is bounded in the norm topology of $H$. The conclusion is the conjunction
 
@@ -154,11 +154,11 @@ $$
 
 This is obtained by applying Minty’s surjectivity theorem to the scaled operator
 
-$$
+```math
 T_n(x)=\{c_n u:u\in U x\}.
-$$
+```
 
-The cited lemma `positive_scaled_maximal_monotone_local` states that if $U$ is maximal monotone and $c_n>0$, then the operator $x\mapsto c_n\cdot U x$ is again maximal monotone. Hence `minty_surjective_of_maximal_monotone` applies to $T_n$. That Minty theorem says that for a maximal monotone operator $T$ on $H$, for every $y\in H$ there exist $x$ and $q\in T x$ such that
+The cited lemma `positive_scaled_maximal_monotone_local` states that if $U$ is maximal monotone and $c_n\gt 0$, then the operator $x\mapsto c_n\cdot U x$ is again maximal monotone. Hence `minty_surjective_of_maximal_monotone` applies to $T_n$. That Minty theorem says that for a maximal monotone operator $T$ on $H$, for every $y\in H$ there exist $x$ and $q\in T x$ such that
 
 $$
 y=x+q.
@@ -188,11 +188,11 @@ $$
 
 Therefore $x_n\in U.\mathrm{dom}$ for every $n$. Since $U.\mathrm{dom}$ is bounded, the range of the sequence $x_n$ is bounded. The proof records this as `hxbounded`.
 
-The proof then shows that $c_n^{-1}\to 0$. Indeed, $(n:\mathbb R)\to\infty$, hence $(n:\mathbb R)+1\to\infty$, and therefore the reciprocal tends to $0$. This is `hinv`. Using the boundedness of the $x_n$, the proof writes $\|x_n\|\le M$ for all $n$. Then
+The proof then shows that $c_n^{-1}\to 0$. Indeed, $(n:\mathbb R)\to\infty$, hence $(n:\mathbb R)+1\to\infty$, and therefore the reciprocal tends to $0$. This is `hinv`. Using the boundedness of the $x_n$, the proof writes $`\|x_n\|\le M`$for all$n$. Then
 
-$$
+```math
 \|c_n^{-1}x_n\|=c_n^{-1}\|x_n\|\le c_n^{-1}M.
-$$
+```
 
 Since $c_n^{-1}M\to 0$, the squeeze theorem for norms, invoked as `squeeze_zero_norm`, gives
 

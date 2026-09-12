@@ -19,24 +19,24 @@ $$
 
 It assumes a hypothesis `hν`, namely that for every real number $t$,
 
-$$
+```math
 4\,t^{\,4-1}\,\nu(t)
 =\mathrm{deriv}\!\left(s \mapsto s^{4}u(s)\right)(t).
-$$
+```
 
 Here $\mathrm{deriv}$ denotes Lean’s derivative operator, applied to the function $s \mapsto s^{4}u(s)$ and evaluated at the point $t$. The left-hand side is the product of $4$, the power $t^{4-1}$, and the value $\nu(t)$. The exponent is written as $4-1$ in the source rather than being simplified to $3$, but arithmetically it is $4t^{3}\nu(t)$.
 
 The conclusion of the theorem is exactly the same statement:
 
-$$
+```math
 \forall t : \mathbb R,\quad
 4\,t^{\,4-1}\,\nu(t)
 =\mathrm{deriv}\!\left(s \mapsto s^{4}u(s)\right)(t).
-$$
+```
 
 Thus, as a whole, the theorem says:
 
-$$
+```math
 \forall u,\nu : \mathbb R \to \mathbb R,\;
 \left(\forall t : \mathbb R,\;
 4\,t^{\,4-1}\,\nu(t)
@@ -45,7 +45,7 @@ $$
 \left(\forall t : \mathbb R,\;
 4\,t^{\,4-1}\,\nu(t)
 =\mathrm{deriv}\!\left(s \mapsto s^{4}u(s)\right)(t)\right).
-$$
+```
 
 So the formal content is a logical restatement: if the differential relation holds for all real $t$, then the same differential relation holds for all real $t$. The theorem does not assert that such functions $u$ or $\nu$ exist, nor does it assert differentiability of $s \mapsto s^{4}u(s)$. It only passes from the assumed universal equality to the identical universal equality. Despite the name, the statement itself does not compare two different parameters or prove an inequality.
 
@@ -57,11 +57,11 @@ hν
 ## Proof explanation
 The proof is simply the term `hν`. After the two function arguments $u$ and $\nu$ and the hypothesis `hν` are introduced, the remaining goal is exactly the type of `hν`:
 
-$$
+```math
 \forall t : \mathbb R,\quad
 4\,t^{\,4-1}\,\nu(t)
 =\mathrm{deriv}\!\left(s \mapsto s^{4}u(s)\right)(t).
-$$
+```
 
 The hypothesis `hν` is precisely a proof of this universal statement. In dependent type theory, `hν` is therefore a function that accepts any real number $t$ and returns a proof of the corresponding equality at that $t$. Supplying `hν` as the proof term closes the goal, because the desired conclusion is already assumed.
 

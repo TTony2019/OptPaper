@@ -13,15 +13,15 @@ The declaration states that a self-map $T$ of a real inner product space $H$ is 
 
 In the proof, the predicate `IsFirmlyNonexpansive` is used in the concrete form
 
-$$
+```math
 \forall x,y\in H,\qquad \|T x-T y\|^{2}\le \langle T x-T y,\;x-y\rangle .
-$$
+```
 
 The right-hand side of the equivalence says that there exists a map $N:H\to H$ such that $N$ is nonexpansive,
 
-$$
+```math
 \forall x,y\in H,\qquad \|N x-N y\|\le \|x-y\|,
-$$
+```
 
 and such that for every $x\in H$,
 
@@ -147,9 +147,9 @@ It then uses `refine` to provide this $N$ and to produce the two required proper
 
 First it proves that $N$ is nonexpansive. For arbitrary $x,y\in H$, it applies the firm-nonexpansiveness hypothesis to obtain
 
-$$
+```math
 \|T x-T y\|^{2}\le \langle T x-T y,\;x-y\rangle .
-$$
+```
 
 It computes
 
@@ -167,9 +167,9 @@ $$
 
 the goal becomes
 
-$$
+```math
 \|2a-b\|\le \|b\|.
-$$
+```
 
 The proof establishes the squared inequality instead. It uses the identity for the squared norm of a difference, `norm_sub_sq`, together with `inner_smul_left`, which gives
 
@@ -179,36 +179,36 @@ $$
 
 and `norm_smul`, which gives
 
-$$
+```math
 \|2a\|=2\|a\|.
-$$
+```
 
 These reduce the difference of squares to
 
-$$
+```math
 \|2a-b\|^{2}-\|b\|^{2}
 =4\bigl(\|a\|^{2}-\langle a,b\rangle\bigr).
-$$
+```
 
 Since the firm-nonexpansiveness hypothesis says
 
-$$
+```math
 \|a\|^{2}\le \langle a,b\rangle,
-$$
+```
 
 the right-hand side is nonpositive. The tactic `nlinarith` uses this inequality to conclude
 
-$$
+```math
 \|2a-b\|^{2}\le \|b\|^{2}.
-$$
+```
 
 Because both norms are nonnegative, the proof then uses `nlinarith` again to pass from the square inequality to
 
-$$
+```math
 \|2a-b\|\le \|b\|.
-$$
+```
 
-This is exactly $\|N x-N y\|\le \|x-y\|$, so $N$ is nonexpansive.
+This is exactly $`\|N x-N y\|\le \|x-y\|`$, so$N$ is nonexpansive.
 
 Second, the proof verifies the averaging identity. For arbitrary $x$, the definition of $N$ gives
 
@@ -234,15 +234,15 @@ $$
 
 for every $x$. It must show that $T$ is firmly nonexpansive, i.e. for arbitrary $x,y$,
 
-$$
+```math
 \|T x-T y\|^{2}\le \langle T x-T y,\;x-y\rangle .
-$$
+```
 
 The hypothesis that $N$ is nonexpansive gives
 
-$$
+```math
 \|N x-N y\|\le \|x-y\|.
-$$
+```
 
 The proof first derives the difference formula
 
@@ -267,44 +267,44 @@ $$
 
 The key computation is
 
-$$
+```math
 \langle T x-T y,\;x-y\rangle-\|T x-T y\|^{2}
 =\frac14\bigl(\|a\|^{2}-\|b\|^{2}\bigr).
-$$
+```
 
 To obtain it, the proof uses `inner_smul_left` and `inner_add_left` to compute
 
-$$
+```math
 \left\langle \frac12(a+b),\,a\right\rangle
 =\frac12\bigl(\|a\|^{2}+\langle b,a\rangle\bigr),
-$$
+```
 
-where `real_inner_self_eq_norm_sq` identifies $\langle a,a\rangle$ with $\|a\|^{2}$. It uses `norm_smul` and `norm_add_sq` to compute
+where `real_inner_self_eq_norm_sq` identifies $\langle a,a\rangle$ with $`\|a\|^{2}`$. It uses `norm_smul` and `norm_add_sq` to compute
 
-$$
+```math
 \left\|\frac12(a+b)\right\|^{2}
 =\frac14\bigl(\|a\|^{2}+2\langle a,b\rangle+\|b\|^{2}\bigr),
-$$
+```
 
-where the identity $\|a+b\|^{2}=\|a\|^{2}+2\langle a,b\rangle+\|b\|^{2}$ is the real inner-product expansion. Symmetry of the real inner product, `real_inner_comm`, gives $\langle b,a\rangle=\langle a,b\rangle$, and the final algebraic simplification is done by `ring`.
+where the identity $`\|a+b\|^{2}=\|a\|^{2}+2\langle a,b\rangle+\|b\|^{2}`$ is the real inner-product expansion. Symmetry of the real inner product, `real_inner_comm`, gives $\langle b,a\rangle=\langle a,b\rangle$, and the final algebraic simplification is done by `ring`.
 
-Since $N$ is nonexpansive, $\|b\|\le \|a\|$. Because both are nonnegative, their squares satisfy
+Since $N$ is nonexpansive, $`\|b\|\le \|a\|`$. Because both are nonnegative, their squares satisfy
 
-$$
+```math
 \|b\|^{2}\le \|a\|^{2}.
-$$
+```
 
 The tactic `nlinarith` uses this to show that the right-hand side of the key identity is nonnegative, hence
 
-$$
+```math
 0\le \langle T x-T y,\;x-y\rangle-\|T x-T y\|^{2}.
-$$
+```
 
 Finally, `sub_nonneg.mp` converts this nonnegativity of a difference into
 
-$$
+```math
 \|T x-T y\|^{2}\le \langle T x-T y,\;x-y\rangle,
-$$
+```
 
 which is precisely the firm-nonexpansiveness condition for $T$. This completes the reverse implication and therefore the proof of the equivalence.
 

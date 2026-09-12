@@ -27,11 +27,11 @@ $$
 
 defined by
 
-$$
+```math
 F(x) = \frac{1}{2}\|A x - b\|^2 + g(x),
-$$
+```
 
-where $A x$ is the matrix-vector product `A.mulVec x`, $\|A x - b\|$ is the norm of the residual in $m \to \mathbb{R}$, the squared real least-squares term is embedded into $\overline{\mathbb{R}}$, and the final addition is addition in $\overline{\mathbb{R}}$. Thus the declaration packages the usual objective consisting of a half-squared data-fidelity term plus a general extended-real regularizer $g$. The hypotheses are present to describe the admissible regularizer, but they are not used to compute the value of $F$.
+where $A x$ is the matrix-vector product `A.mulVec x`, $`\|A x - b\|`$is the norm of the residual in$m \to \mathbb{R}$, the squared real least-squares term is embedded into$\overline{\mathbb{R}}$, and the final addition is addition in$\overline{\mathbb{R}}$. Thus the declaration packages the usual objective consisting of a half-squared data-fidelity term plus a general extended-real regularizer$g$. The hypotheses are present to describe the admissible regularizer, but they are not used to compute the value of$F$.
 
 ## Lean proof
 ```lean
@@ -41,9 +41,9 @@ where $A x$ is the matrix-vector product `A.mulVec x`, $\|A x - b\|$ is the norm
 ## Proof explanation
 There is no separate proof, because the declaration is a definition. Its body is the expression
 
-$$
+```math
 \text{fun } x \mapsto \left(\frac{1}{2}\|A.\mathrm{mulVec}(x)-b\|^{2} : \mathbb{R}\right) + g(x).
-$$
+```
 
-The `fun x ↦` binder introduces an arbitrary vector $x \in \mathbb{R}^n$. The subexpression `A.mulVec x` computes the matrix-vector product $A x \in \mathbb{R}^m$. Then `A.mulVec x - b` forms the residual $A x - b \in \mathbb{R}^m$. The norm $\|A x - b\|$ is taken in the finite-dimensional space $m \to \mathbb{R}$, and the following `^ 2` squares this norm. The factor `(1 / 2 : ℝ)` multiplies the squared norm, and the type annotation `: ℝ` ensures that this entire first term is treated as a real number before it is coerced into $\overline{\mathbb{R}}$. Finally, `g x` is the extended-real regularizer value, and the `+` is the addition operation in $\overline{\mathbb{R}}$. No named theorem, lemma, or local result is invoked, and no tactic such as `intro`, `rw`, `simp`, `exact`, or `linarith` appears. The hypotheses `_hmn`, `_hconvex`, `_hlsc`, and `_hproper` are marked with underscores and do not occur in the definition body; they only constrain the intended mathematical setting.
+The `fun x ↦` binder introduces an arbitrary vector $x \in \mathbb{R}^n$. The subexpression `A.mulVec x` computes the matrix-vector product $A x \in \mathbb{R}^m$. Then `A.mulVec x - b` forms the residual $A x - b \in \mathbb{R}^m$. The norm $`\|A x - b\|`$is taken in the finite-dimensional space$m \to \mathbb{R}$, and the following `^ 2` squares this norm. The factor `(1 / 2 : ℝ)` multiplies the squared norm, and the type annotation `: ℝ` ensures that this entire first term is treated as a real number before it is coerced into $\overline{\mathbb{R}}$. Finally, `g x` is the extended-real regularizer value, and the `+` is the addition operation in $\overline{\mathbb{R}}$. No named theorem, lemma, or local result is invoked, and no tactic such as `intro`, `rw`, `simp`, `exact`, or `linarith` appears. The hypotheses `_hmn`, `_hconvex`, `_hlsc`, and `_hproper` are marked with underscores and do not occur in the definition body; they only constrain the intended mathematical setting.
 

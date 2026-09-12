@@ -39,7 +39,7 @@ $$
 f:\mathbb R^n\to\mathbb R,
 $$
 
-every real number $Lf$, every hypothesis $hf : \texttt{IsC11 } f\, Lf$, every real number $L$ with $Lf\le L$, and every pair of points $x,y\in\mathbb R^n$, it concludes
+every real number $Lf$, every hypothesis $`hf : \texttt{IsC11 } f\, Lf`$, every real number$L$with$Lf\le L$, and every pair of points$x,y\in\mathbb R^n$, it concludes
 
 $$
 f(x)\le f(y)+\langle \nabla f(y),x-y\rangle+\frac{L}{2}\lVert x-y\rVert^2 .

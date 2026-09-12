@@ -35,28 +35,28 @@ is an operator on $H$. The real number $\gamma$ is positive and plays the role o
 
 The first main hypothesis is that for every $\mu\in V$, the constant $\alpha(\mu)$ is positive and $A_\mu$ satisfies the cocoercive inequality
 
-$$
+```math
 \alpha(\mu)\|A_\mu u-A_\mu v\|^2
 \le
 \langle A_\mu u-A_\mu v,\;u-v\rangle
 \qquad\text{for all }u,v\in H.
-$$
+```
 
-The second main hypothesis says that $0<\theta_1$, $0<\theta_2$, $\theta_2\le 1$, and that for every $u\in H$ and $\mu,\mu'\in V$,
+The second main hypothesis says that $0\lt \theta_1$, $0\lt \theta_2$, $\theta_2\le 1$, and that for every $u\in H$ and $\mu,\mu'\in V$,
 
-$$
+```math
 \|A_\mu u-A_{\mu'}u\|
 \le
 \theta_1\|\mu-\mu'\|^{\theta_2}.
-$$
+```
 
 Thus the operators depend Hölder-continuously on the parameter with exponent $\theta_2$.
 
 The conclusion is a conjunction. First, for every $\mu\in V$, there exists a solution triple $x,dx,ddx$ of the project’s solution predicate
 
-$$
+```math
 \texttt{ext\_def\_2}(A_\mu,\gamma,u_0(\mu),v_0(\mu),x,dx,ddx),
-$$
+```
 
 and this solution is unique on the interval $[0,\infty)$ among such solutions: if $y,dy,ddy$ is any other solution for the same operator, damping, and initial data, then $x(t)=y(t)$ for every $t\ge 0$.
 
@@ -70,12 +70,12 @@ $$
 
 Then there exist a solution $x$ for $\mu$ and a solution $x'$ for $\mu'$ such that, for almost every $t$ with respect to Lebesgue measure, if $t\ge 0$, then
 
-$$
+```math
 \|x(t)-x'(t)\|
 \le
 e^{mt}\sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}
 +\frac{\theta_1}{m}\bigl(e^{mt}-1\bigr)\|\mu-\mu'\|^{\theta_2}.
-$$
+```
 
 In fact the proof establishes the inequality pointwise for every $t\ge 0$, so the almost-everywhere formulation is immediate.
 
@@ -128,33 +128,33 @@ by
 ## Proof explanation
 The proof begins with `constructor`, which splits the conjunction into the existence/uniqueness statement and the two-parameter stability statement.
 
-For the first conjunct, the proof introduces an arbitrary $\mu\in V$ by `intro μ hμ`. It then invokes `exists_damped_solution_of_cocoercive`. That cited theorem says that if $H$ is complete, $\gamma>0$, $\alpha>0$, and an operator $A:H\to H$ satisfies
+For the first conjunct, the proof introduces an arbitrary $\mu\in V$ by `intro μ hμ`. It then invokes `exists_damped_solution_of_cocoercive`. That cited theorem says that if $H$ is complete, $\gamma\gt 0$, $\alpha\gt 0$, and an operator $A:H\to H$ satisfies
 
-$$
+```math
 \alpha\|A u-A v\|^2\le \langle A u-A v,u-v\rangle
-$$
+```
 
 for all $u,v$, then there exists a solution triple $x,dx,ddx$ satisfying `ext_def_2 A γ u₀ v₀ x dx ddx`. Here it is instantiated with $A=A_\mu$, $u_0=u_0(\mu)$, $v_0=v_0(\mu)$, and $\alpha=\alpha(\mu)$. The positivity of $\alpha(\mu)$ comes from `(hC₁ μ hμ).1`, and the cocoercivity inequality for $A_\mu$ comes from `(hC₁ μ hμ).2`. Thus `obtain` extracts a triple $x,dx,ddx$ and a proof `hx` that it solves the damped system for $A_\mu$.
 
 To prove uniqueness, the proof fixes another solution $y,dy,ddy$ and a time $t\ge 0$, via `intro y dy ddy hy t ht`, and then applies `damped_solution_stability` with both operators equal to $A_\mu$, both initial data equal to $u_0(\mu),v_0(\mu)$, both cocoercivity constants equal to $\alpha(\mu)$, and the uniform distance bound $D=0$. The hypotheses required by `damped_solution_stability` are supplied as follows: positivity of $\alpha(\mu)$ twice from `(hC₁ μ hμ).1`; cocoercivity twice from `(hC₁ μ hμ).2`; the nonnegativity $0\le 0$ by `norm_num`; and the bound
 
-$$
+```math
 \|A_\mu u-A_\mu u\|\le 0
-$$
+```
 
 by `fun u => by simp`, since the left-hand side is the norm of zero. The stability estimate therefore applies to the two solutions `hx` and `hy`.
 
 Because the two operators, the two initial data, and the perturbation bound $D$ are all identical or zero, the right-hand side of the stability estimate collapses to $0$. The command `simpa using hbound` simplifies the resulting inequality to
 
-$$
+```math
 \|x(t)-y(t)\|\le 0.
-$$
+```
 
-Together with `norm_nonneg _`, which gives $0\le \|x(t)-y(t)\|$, the tactic `apply le_antisymm` proves
+Together with `norm_nonneg _`, which gives $`0\le \|x(t)-y(t)\|`$, the tactic `apply le_antisymm` proves
 
-$$
+```math
 \|x(t)-y(t)\|=0.
-$$
+```
 
 Then `norm_eq_zero.mp` converts this into $x(t)-y(t)=0$, and `sub_eq_zero.mp` converts that into $x(t)=y(t)$. Since $t\ge 0$ was arbitrary, this proves `Set.EqOn x y (Set.Ici 0)`, i.e. equality on $[0,\infty)$.
 
@@ -162,52 +162,52 @@ For the second conjunct, the proof introduces arbitrary $\mu,\mu'\in V$. The com
 
 The proof then defines
 
-$$
+```math
 D=\theta_1\|\mu-\mu'\|^{\theta_2}
-$$
+```
 
 as the uniform bound between $A_\mu$ and $A_{\mu'}$. To show $D\ge 0$, it unfolds $D$, uses `hC₂.1.le` to get $0\le \theta_1$, and uses `Real.rpow_nonneg (norm_nonneg _) _` to get
 
-$$
+```math
 0\le \|\mu-\mu'\|^{\theta_2}.
-$$
+```
 
 Then `mul_nonneg` proves $0\le D$. Next, the proof proves
 
-$$
+```math
 \|A_\mu u-A_{\mu'}u\|\le D
-$$
+```
 
 for every $u\in H$. This is exactly the Hölder-continuity hypothesis: the fourth conjunct of `hC₂` gives
 
-$$
+```math
 \|A_\mu u-A_{\mu'}u\|\le \theta_1\|\mu-\mu'\|^{\theta_2},
-$$
+```
 
 and `simpa [D]` rewrites the right-hand side as $D$.
 
 The proof now supplies the two solution triples as witnesses and uses `apply Filter.Eventually.of_forall`. This reduces the almost-everywhere assertion
 
-$$
+```math
 \forall^{\mathrm{a.e.}} t,\; 0\le t\to \|x(t)-x'(t)\|\le\cdots
-$$
+```
 
 to the stronger pointwise assertion for every real $t$. After `intro t ht`, it applies `damped_solution_stability` with $A=A_\mu$, $B=A_{\mu'}$, initial data $u_0(\mu),v_0(\mu)$ and $u_0(\mu'),v_0(\mu')$, cocoercivity constants $\alpha(\mu),\alpha(\mu')$, and the uniform bound $D$. The hypotheses are supplied by the positivity and cocoercivity parts of `hC₁`, the nonnegativity `hD0`, the bound `hD`, and the two solution proofs `hx` and `hx'`.
 
 The resulting stability estimate is
 
-$$
+```math
 \|x(t)-x'(t)\|
 \le
 e^{mt}\sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}
 +\frac{D}{m}\bigl(e^{mt}-1\bigr),
-$$
+```
 
-with the same $m=\max(m_\mu,m_{\mu'})$. The command `dsimp only at hstable` unfolds the `let` definition of $m$ inside this stability statement. Then `convert hstable using 1` aligns the estimate produced by `damped_solution_stability` with the exact right-hand side required by `thm_1`. The remaining difference is that `hstable` contains $D$, whereas the target contains $\theta_1\|\mu-\mu'\|^{\theta_2}$. After `dsimp [D]`, the tactic `ring` proves the required algebraic identity, using that
+with the same $m=\max(m_\mu,m_{\mu'})$. The command `dsimp only at hstable` unfolds the `let` definition of $m$ inside this stability statement. Then `convert hstable using 1` aligns the estimate produced by `damped_solution_stability` with the exact right-hand side required by `thm_1`. The remaining difference is that `hstable` contains $D$, whereas the target contains $`\theta_1\|\mu-\mu'\|^{\theta_2}`$. After `dsimp [D]`, the tactic `ring` proves the required algebraic identity, using that
 
-$$
+```math
 D=\theta_1\|\mu-\mu'\|^{\theta_2}
-$$
+```
 
 and commutativity/associativity of multiplication in $\mathbb R$. Thus the stability inequality matches the conclusion of the theorem. Since $t\ge 0$ was arbitrary, the pointwise estimate implies the stated almost-everywhere estimate. There is no use of `rw` or `linarith` in this proof; the arithmetic and algebraic simplifications are handled by `norm_num`, `simp`, `simpa`, `convert`, and `ring`.
 

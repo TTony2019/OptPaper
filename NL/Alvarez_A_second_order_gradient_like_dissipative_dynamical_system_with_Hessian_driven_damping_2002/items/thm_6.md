@@ -25,20 +25,20 @@ The hypotheses are:
 
 - $\Phi$ is bounded below: there exists $m\in\mathbb R$ such that $m\le \Phi(u)$ for every $u\in H$.
 - $\Phi$ is $C^1$: `hΦ : ContDiff ℝ 1 Φ`.
-- The gradient $\nabla\Phi$ is locally Lipschitz on bounded balls: for every radius $R$, there exists $L$ such that whenever $\|u\|\le R$ and $\|v\|\le R$,
+- The gradient $\nabla\Phi$ is locally Lipschitz on bounded balls: for every radius $R$, there exists $L$ such that whenever $`\|u\|\le R`$and$`\|v\|\le R`$,
 
-  $$
-  \|\nabla\Phi(u)-\nabla\Phi(v)\|\le L\|u-v\|.
-  $$
+```math
+\|\nabla\Phi(u)-\nabla\Phi(v)\|\le L\|u-v\|.
+```
 
-- The parameters satisfy $\beta>0$, $b>0$, and $b+a>0$.
+- The parameters satisfy $\beta\gt 0$, $b\gt 0$, and $b+a\gt 0$.
 - $\Phi$ is convex on the whole space: `hconvex : ConvexOn ℝ Set.univ Φ`.
 - The curve $x$ is $C^1$ on $[0,\infty)$, and the auxiliary curve $y$ is $C^2$ on $[0,\infty)$.
 - The set of global minimizers of $\Phi$,
 
-  $$
-  \mathrm{argminSet}\Phi=\{u\in H\mid \forall v\in H,\ \Phi(u)\le \Phi(v)\},
-  $$
+```math
+\mathrm{argminSet}\Phi=\{u\in H\mid \forall v\in H,\ \Phi(u)\le \Phi(v)\},
+```
 
   is nonempty.
 - The pair $(x,y)$ is a solution of the gDIN system with potential $\Phi$, parameters $\beta,a,b$, and initial data $x_0,y_0$, expressed by the predicate `IsSolution_gDIN`. The exact differential equations of that predicate are not defined in the supplied source; the proof only passes this hypothesis to the cited gDIN results.
@@ -224,27 +224,27 @@ by
 ## Proof explanation
 The proof proceeds by verifying the hypotheses of the continuous-time Opial lemma and then applying it.
 
-First, the proof derives $\,0<a+b\,$ from the hypothesis $\,0<b+a\,$ by commutativity of addition. The tactic `linarith` closes this linear arithmetic goal. This variant is needed because some cited results state positivity as $0<a+b$.
+First, the proof derives $`\,0<a+b\,`$from the hypothesis$`\,0<b+a\,`$ by commutativity of addition. The tactic `linarith` closes this linear arithmetic goal. This variant is needed because some cited results state positivity as $0\lt a+b$.
 
 Next, the hypothesis `hloclip`, saying that $\nabla\Phi$ is Lipschitz on every bounded ball, is converted into the global-on-bounded-sets property `LipschitzOnBoundedSets (gradient Φ)`. The cited theorem `gdin_grad_lipschitzOnBounded_thm6` states exactly this implication: if a map $g:H\to H$ satisfies, for every radius $R$, an estimate
 
-$$
+```math
 \|g(u)-g(v)\|\le L\|u-v\|
-$$
+```
 
-whenever $\|u\|\le R$ and $\|v\|\le R$, then for every bounded set $S\subseteq H$ there is a nonnegative constant $K$ such that $g$ is $K$-Lipschitz on $S$. Applied to $g=\nabla\Phi$, this gives `hgrad_lip`.
+whenever $`\|u\|\le R`$and$`\|v\|\le R`$, then for every bounded set$S\subseteq H$there is a nonnegative constant$K$such that$g$is$K$-Lipschitz on$S$. Applied to$g=\nabla\Phi$, this gives `hgrad_lip`.
 
 The proof then defines the distance-limit property `hdist`: for every global minimizer $z$ of $\Phi$, the real-valued function
 
-$$
+```math
 t\mapsto \|x(t)-z\|
-$$
+```
 
 has a finite limit as $t\to\infty$. This is obtained from the cited theorem `gdin_distance_limit`. That theorem says that, under the same boundedness, $C^1$, local-Lipschitz-gradient, positivity, convexity, regularity, and solution assumptions, if $z\in\mathrm{argminSet}\Phi$, then there exists $d\in\mathbb R$ such that
 
-$$
+```math
 \|x(t)-z\|\to d.
-$$
+```
 
 The proof invokes it for an arbitrary minimizer $z$, using `intro z hz` to introduce the arbitrary point and its minimizer property, and then `exact` to supply precisely the required instance.
 
@@ -258,50 +258,50 @@ This is supplied by the cited result `gdin_phi_limit`, invoked with the data and
 
 The next major step is to prove that the trajectory is bounded on $[0,\infty)$. The proof chooses a minimizer $z_0$ from `hmin`. Using `hdist z₀ hz₀`, it obtains a real number $d_0$ and the convergence
 
-$$
+```math
 \|x(t)-z_0\|\to d_0.
-$$
+```
 
 The characterization `Metric.tendsto_atTop` converts this into an $\varepsilon\text{-}T$ statement. Taking $\varepsilon=1$, the proof obtains a time $T$ such that for all $t\ge T$,
 
-$$
+```math
 \mathrm{dist}\bigl(\|x(t)-z_0\|,d_0\bigr)<1.
-$$
+```
 
 Since distance on $\mathbb R$ is absolute value, this says
 
-$$
+```math
 \bigl|\|x(t)-z_0\|-d_0\bigr|<1.
-$$
+```
 
 Letting $T_0=\max(T,0)$, the proof shows for all $t\ge T_0$,
 
-$$
+```math
 \|x(t)-z_0\|\le |d_0|+1.
-$$
+```
 
-Indeed, from the absolute-value inequality one gets $\|x(t)-z_0\|\le d_0+1$, and then $d_0+1\le |d_0|+1$. The tactics `simpa [Real.dist_eq]`, `nlinarith`, and the standard inequality $a\le |a|$ handle these estimates.
+Indeed, from the absolute-value inequality one gets $`\|x(t)-z_0\|\le d_0+1`$, and then$d_0+1\le |d_0|+1$. The tactics `simpa [Real.dist_eq]`, `nlinarith`, and the standard inequality $a\le |a|$ handle these estimates.
 
 On the compact interval $[0,T_0]$, the curve $x$ is continuous because `hxy.1` gives $C^1$ regularity on $[0,\infty)$. The proof uses `isCompact_Icc.image_of_continuousOn` to conclude that the image $x''[0,T_0]$ is compact. A compact subset of a normed space is bounded, so `isBounded_iff_forall_norm_le` gives a uniform norm bound $R_0$:
 
-$$
+```math
 \|x(t)\|\le R_0\qquad\text{for }0\le t\le T_0.
-$$
+```
 
-For times $t>T_0$, the proof uses the tail estimate and the triangle inequality:
+For times $t\gt T_0$, the proof uses the tail estimate and the triangle inequality:
 
-$$
+```math
 \|x(t)\|
 =\|(x(t)-z_0)+z_0\|
 \le \|x(t)-z_0\|+\|z_0\|
 \le |d_0|+1+\|z_0\|.
-$$
+```
 
 Therefore the entire image $x''[0,\infty)$ is bounded by
 
-$$
+```math
 \max\bigl(R_0,\ |d_0|+1+\|z_0\|\bigr).
-$$
+```
 
 This establishes `hx_bounded`, the boundedness of $x$ on nonnegative times.
 
@@ -348,13 +348,13 @@ $$
 \langle a_n,b_n\rangle\to 0.
 $$
 
-The proof uses the boundedness of $b_n$ to get a constant $M\ge0$ with $\|b_n\|\le M$. Cauchy–Schwarz gives
+The proof uses the boundedness of $b_n$ to get a constant $M\ge0$ with $`\|b_n\|\le M`$. Cauchy–Schwarz gives
 
-$$
+```math
 |\langle a_n,b_n\rangle|\le \|a_n\|\|b_n\|\le \|a_n\|M.
-$$
+```
 
-Since $\|a_n\|\to0$, the product $\|a_n\|M\to0$. The squeeze theorem `squeeze_zero` gives $|\langle a_n,b_n\rangle|\to0$, and then the two-sided bounds
+Since $`\|a_n\|\to0`$, the product$`\|a_n\|M\to0`$. The squeeze theorem `squeeze_zero` gives $|\langle a_n,b_n\rangle|\to0$, and then the two-sided bounds
 
 $$
 -|\langle a_n,b_n\rangle|\le \langle a_n,b_n\rangle\le |\langle a_n,b_n\rangle|
@@ -418,9 +418,9 @@ $$
 
 Since the coercion $\mathbb R\to\mathrm{EReal}$ is continuous and $\Phi$ is continuous, $f$ is lower semicontinuous. The proof also shows that $f$ is quasiconvex. The cited equivalence `quasiconvexOn_univ_iff_convex_lowerLevelSet` says that quasiconvexity of $f$ on all of $H$ is equivalent to convexity of every lower level set
 
-$$
+```math
 \mathrm{lowerLevelSet} f \xi=\{u\in H\mid f(u)\le (\xi:\mathrm{EReal})\}.
-$$
+```
 
 The proof checks this convexity directly. If $a,b$ satisfy $\Phi(a)\le \xi$ and $\Phi(b)\le \xi$, then for positive weights $w_a,w_b$ with $w_a+w_b=1$, convexity of $\Phi$ gives
 
@@ -468,7 +468,7 @@ $$
 
 Thus $z\in\mathrm{argminSet}\Phi$. This completes the proof of `hcluster`.
 
-Finally, the proof applies the cited continuous-time Opial theorem `opial_continuous_time`. That theorem says: if $S\subseteq H$ is nonempty, if every weak cluster point of a curve $x(t)$ along sequences $t_n\to\infty$ lies in $S$, and if for every $z\in S$ the distance $\|x(t)-z\|$ has a limit as $t\to\infty$, then there exists $z\in S$ such that $x(t)\rightharpoonup z$. The proof instantiates this with
+Finally, the proof applies the cited continuous-time Opial theorem `opial_continuous_time`. That theorem says: if $S\subseteq H$ is nonempty, if every weak cluster point of a curve $x(t)$ along sequences $t_n\to\infty$ lies in $S$, and if for every $z\in S$ the distance $`\|x(t)-z\|`$has a limit as$t\to\infty$, then there exists$z\in S$such that$x(t)\rightharpoonup z$. The proof instantiates this with
 
 $$
 S=\mathrm{argminSet}\Phi.

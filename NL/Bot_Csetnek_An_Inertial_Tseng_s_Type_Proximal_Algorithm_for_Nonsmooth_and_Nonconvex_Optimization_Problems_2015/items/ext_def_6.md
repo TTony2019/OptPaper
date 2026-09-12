@@ -23,10 +23,10 @@ More precisely, `IsSemiAlgebraicEReal g` is the proposition that there exists a 
 1. Every member $s\in P$ satisfies `BasicSemialgebraicSet s`; that is, each piece $s$ is a basic semialgebraic subset of $\mathbb R^m \times \mathbb R$.
 2. The epigraph of $g$, denoted `ERealFunction.epigraph g`, is exactly the union of the pieces:
 
-$$
+```math
 \mathrm{epigraph}(g)
 =\{p \mid \exists s,\; s\in P \land p\in s\}.
-$$
+```
 
 The right-hand side is the union
 

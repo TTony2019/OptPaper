@@ -60,9 +60,9 @@ $$
 
 assumed to be proper, lower semicontinuous, and convex, encoded by convexity of its epigraph. The parameter $\lambda$ is a positive real parameter (Lean type `ERealFunction.PosReal`), and $e_\lambda f$ denotes the Moreau envelope of $f$ with parameter $\lambda$:
 
-$$
+```math
 e_\lambda f(x)=\inf_{y\in H}\left(f(y)+\frac{1}{2\lambda}\|x-y\|^2\right).
-$$
+```
 
 The map $\mathrm{prox}:H\to H$ is a proximal selection. The hypothesis `hProx` says that for every $x$, $\mathrm{prox}(x)$ is a proximal point of $f$ with parameter $\lambda$ at $x$. The trajectory is
 
@@ -70,7 +70,7 @@ $$
 u:\mathbb R\to H,
 $$
 
-and it is assumed to be $C^3$, i.e. three times continuously differentiable. The number $\alpha\in\mathbb R$ is the order parameter, and $t_0>0$ is the initial time.
+and it is assumed to be $C^3$, i.e. three times continuously differentiable. The number $\alpha\in\mathbb R$ is the order parameter, and $t_0\gt 0$ is the initial time.
 
 Write
 
@@ -84,11 +84,11 @@ $$
 \inf_{x\in H} F(x)=\left(\inf_{x\in H} f(x)\right).toReal .
 $$
 
-There is also an auxiliary asymptotic hypothesis: if $3<\alpha$, then there exists $v_\infty\in H$ such that
+There is also an auxiliary asymptotic hypothesis: if $3\lt \alpha$, then there exists $v_\infty\in H$ such that
 
-$$
+```math
 F\!\left(u(t)+\frac t4 \dot u(t)\right)-\inf F=o(t^{-3}),
-$$
+```
 
 the shifted trajectory converges weakly,
 
@@ -128,7 +128,7 @@ $$
 \le \frac{C}{t^3}.
 $$
 
-Second, if $\alpha>3$, then there exists $u_\infty\in H$ such that all four corresponding differences are $o(t^{-3})$, the trajectory converges weakly,
+Second, if $\alpha\gt 3$, then there exists $u_\infty\in H$ such that all four corresponding differences are $o(t^{-3})$, the trajectory converges weakly,
 
 $$
 u(t)\rightharpoonup u_\infty,
@@ -140,7 +140,7 @@ $$
 f(u_\infty)=\inf f.
 $$
 
-Thus the theorem gives a cubic $O(t^{-3})$ rate in the critical case $\alpha\ge 3$, and a faster little- $o$ cubic rate together with weak convergence to a minimizer in the supercritical case $\alpha>3$.
+Thus the theorem gives a cubic $O(t^{-3})$ rate in the critical case $\alpha\ge 3$, and a faster little- $o$ cubic rate together with weak convergence to a minimizer in the supercritical case $\alpha\gt 3$.
 
 ## Lean proof
 ```lean
@@ -184,17 +184,17 @@ The proof is a reduction to the previously established core theorem `togesVR_rat
 
 First, the proof invokes `proximal_point_data` with the given objective $f$, parameter $\lambda$, proximal map $\mathrm{prox}$, and the hypotheses that $f$ is proper, lower semicontinuous, convex, and that $\mathrm{prox}$ is a proximal selection. This lemma produces two facts:
 
-$$
+```math
 \mathrm{prox}(x)\in \mathrm{resolvent}\bigl(\lambda\,\partial f\bigr)(x)
-$$
+```
 
 for every $x$, and
 
-$$
+```math
 f(\mathrm{prox}(x))+
 \frac{1}{2\lambda}\|x-\mathrm{prox}(x)\|^2
 =e_\lambda f(x)
-$$
+```
 
 for every $x$. The proof unpacks this conjunction as `hres` and `hformula`. The first fact is the standard proximal first-order/resolvent relation for $\lambda\partial f$. The second is the exact Moreau-envelope formula expressing the envelope value at $x$ in terms of the value at the proximal point and the quadratic penalty.
 
@@ -256,21 +256,21 @@ Finally, the proof applies the core theorem `togesVR_rate_and_weak_convergence_c
 - the derivative regularity facts `hRegularity.1`, `hRegularity.2.1`, and `hRegularity.2.2`,
 - the compatibility condition between the chosen derivative functions and the derivatives of $u$, supplied by
 
-  $$
-  \langle \mathrm{rfl},\mathrm{rfl},\mathrm{rfl}\rangle,
-  $$
+$$
+\langle \mathrm{rfl},\mathrm{rfl},\mathrm{rfl}\rangle,
+$$
 
   which proves the equalities
 
-  $$
-  \dot u(t)=\dot u(t),\qquad
-  \ddot u(t)=\ddot u(t),\qquad
-  \dddot u(t)=\dddot u(t)
-  $$
+$$
+\dot u(t)=\dot u(t),\qquad
+\ddot u(t)=\ddot u(t),\qquad
+\dddot u(t)=\dddot u(t)
+$$
 
   by reflexivity,
 - the auxiliary asymptotic hypothesis `hAuxiliaryStrict`,
 - the TOGES-V trajectory hypothesis `hTrajectory`.
 
-The core theorem already has exactly the desired conclusion: for $\alpha\ge 3$, a constant $C\ge 0$ giving the four $O(t^{-3})$ bounds; for $\alpha>3$, four $o(t^{-3})$ bounds, weak convergence of $u(t)$ to some $u_\infty$, and the minimizer identity $f(u_\infty)=\inf f$. Therefore the final `exact` command closes the target theorem by directly providing the core theorem’s specialized conclusion. No `rw` or `linarith` step occurs in this proof; the only simplification is the `simpa` conversion of the gradient representation into the corresponding Fréchet derivative.
+The core theorem already has exactly the desired conclusion: for $\alpha\ge 3$, a constant $C\ge 0$ giving the four $O(t^{-3})$ bounds; for $\alpha\gt 3$, four $o(t^{-3})$ bounds, weak convergence of $u(t)$ to some $u_\infty$, and the minimizer identity $f(u_\infty)=\inf f$. Therefore the final `exact` command closes the target theorem by directly providing the core theorem’s specialized conclusion. No `rw` or `linarith` step occurs in this proof; the only simplification is the `simpa` conversion of the gradient representation into the corresponding Fréchet derivative.
 

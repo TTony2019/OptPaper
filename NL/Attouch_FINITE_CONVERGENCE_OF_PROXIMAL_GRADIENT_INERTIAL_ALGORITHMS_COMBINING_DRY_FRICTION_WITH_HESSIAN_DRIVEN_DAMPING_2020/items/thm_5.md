@@ -26,7 +26,7 @@ $$
 f:H\to\mathbb R,\qquad \phi:H\to\mathbb R,
 $$
 
-and the real parameters are $h,\gamma,\beta,L,r$. The assumption `hdf : DF_r phi r` is a dry-friction hypothesis on $\phi$ with radius $r$. The proof uses from it that $\phi(0)=0$, that $r>0$, that the ball of radius $r$ around $0$ is contained in the subdifferential $\partial\phi(0)$, that $\phi$ is continuous, and that the $\mathbb R$-valued extension of $\phi$ belongs to $\Gamma_0(H)$. The assumption
+and the real parameters are $h,\gamma,\beta,L,r$. The assumption `hdf : DF_r phi r` is a dry-friction hypothesis on $\phi$ with radius $r$. The proof uses from it that $\phi(0)=0$, that $r\gt 0$, that the ball of radius $r$ around $0$ is contained in the subdifferential $\partial\phi(0)$, that $\phi$ is continuous, and that the $\mathbb R$-valued extension of $\phi$ belongs to $\Gamma_0(H)$. The assumption
 
 $$
 \text{`alg : IPAHDDN ...`}
@@ -74,9 +74,9 @@ $$
 
 The conclusion asserts the existence of a point $x_\infty\in H$ such that five things hold. First, the sequence $x_k=\text{`alg.x` }k$ has finite length:
 
-$$
+```math
 \sum_{k=0}^{\infty}\|x_{k+1}-x_k\|<\infty.
-$$
+```
 
 Second,
 
@@ -86,7 +86,7 @@ $$
 
 Third, there is a quantitative bound on the tail length:
 
-$$
+```math
 \sum_{k=1}^{\infty}\|x_{k+1}-x_k\|
 \le
 \frac1r\left(
@@ -94,7 +94,7 @@ $$
 \|x_1-x_0\|^2
 +f(x_1)-\inf f
 \right),
-$$
+```
 
 where $\inf f$ denotes the infimum of the range of $f$. Fourth, the limit point is dry-friction critical:
 
@@ -102,7 +102,7 @@ $$
 -\nabla f(x_\infty)\in \partial\phi(0).
 $$
 
-Fifth, the auxiliary sequence $y_k=\text{`alg.y` }k$ also converges to $x_\infty$.
+Fifth, the auxiliary sequence $y_k=\text{`alg.y` }k$also converges to$x_\infty$.
 
 Thus the theorem says that under a small-step condition, a positive damping condition, a lower bound on $f$, and a lower bound on the damping parameter $\gamma$, the IPAHDDN iterates have summable successive distances, converge to a limit, satisfy a quantitative finite-length estimate, and the limit is a stationary point of the dry-friction inclusion. The same limit also attracts the extrapolated sequence $y_k$.
 
@@ -472,13 +472,13 @@ $$
 d_k=x_{k+1}-x_k,\qquad v_k=\frac1h d_k=\frac1h(x_{k+1}-x_k).
 $$
 
-Thus $d_k=h v_k$. Since $h>0$, this equality also gives
+Thus $d_k=h v_k$. Since $h\gt 0$, this equality also gives
 
-$$
+```math
 \|d_k\|=h\|v_k\|.
-$$
+```
 
-The hypothesis `hpositive` is decomposed into $h>0$, $\gamma>0$, and $\beta>0$. From `hf`, the lemma `continuous_gradient_of_contDiff` gives that $\nabla f$ is continuous. From `hasFDerivAt_gradient`, the proof records that at every point $z$, the Fréchet derivative of $f$ at $z$ is the linear functional
+The hypothesis `hpositive` is decomposed into $h\gt 0$, $\gamma\gt 0$, and $\beta\gt 0$. From `hf`, the lemma `continuous_gradient_of_contDiff` gives that $\nabla f$ is continuous. From `hasFDerivAt_gradient`, the proof records that at every point $z$, the Fréchet derivative of $f$ at $z$ is the linear functional
 
 $$
 u\mapsto \langle \nabla f(z),u\rangle,
@@ -492,7 +492,7 @@ $$
 1+h\gamma>0,
 $$
 
-because $h\gamma>0$. Hence $1+h\gamma\neq 0$, which is needed when using the extrapolation relation.
+because $h\gamma\gt 0$. Hence $1+h\gamma\neq 0$, which is needed when using the extrapolation relation.
 
 The shifted recurrence is imported from `IPAHDDN_shifted_recurrence`. In the current notation it says that for every $k$, there exists $q_k\in H$ such that
 
@@ -508,7 +508,7 @@ v_{k+1}-v_k+\gamma d_{k+1}+h q_k
 +h\nabla f(y_k)=0.
 $$
 
-This is exactly the algorithmic subgradient recurrence expressed in the $v$-variables. The hypotheses supplied to the cited lemma are $h>0$, $\gamma>0$, and the fact that $\phi$'s $\mathbb R$-valued extension lies in $\Gamma_0(H)$, which comes from `hdf`.
+This is exactly the algorithmic subgradient recurrence expressed in the $v$-variables. The hypotheses supplied to the cited lemma are $h\gt 0$, $\gamma\gt 0$, and the fact that $\phi$'s $\mathbb R$-valued extension lies in $\Gamma_0(H)$, which comes from `hdf`.
 
 Next, the proof derives the basic energy inequality `hraw`. It takes the inner product of the shifted recurrence with $v_{k+1}$. The term
 
@@ -518,17 +518,17 @@ $$
 
 is handled by `IPAHDDN_inner_sub_self_energy_identity`, which states that for any $u,v$,
 
-$$
+```math
 \langle u-v,u\rangle
 =\frac12\|u\|^2-\frac12\|v\|^2+\frac12\|u-v\|^2.
-$$
+```
 
 Applying this with $u=v_{k+1}$ and $v=v_k$ gives the kinetic difference. The damping term satisfies
 
-$$
+```math
 \langle \gamma d_{k+1},v_{k+1}\rangle
 =\gamma h\|v_{k+1}\|^2,
-$$
+```
 
 because $d_{k+1}=h v_{k+1}$. The term involving $h q_k$ becomes $h\langle q_k,v_{k+1}\rangle$, the term involving $\beta$ becomes $\beta$ times the corresponding inner product, and the gradient term becomes $\langle \nabla f(y_k),d_{k+1}\rangle$.
 
@@ -544,12 +544,12 @@ $$
 \phi(v_{k+1})\le \langle q_k,v_{k+1}\rangle.
 $$
 
-Multiplying by $h>0$ and combining with the inner-product identity yields
+Multiplying by $h\gt 0$ and combining with the inner-product identity yields
 
-$$
+```math
 \frac12\|v_{k+1}\|^2-\frac12\|v_k\|^2+\frac12\|v_{k+1}-v_k\|^2
 +\gamma h\|v_{k+1}\|^2+h\phi(v_{k+1})
-$$
+```
 
 $$
 +\beta\langle \nabla f(x_{k+1})-\nabla f(x_k),v_{k+1}\rangle
@@ -562,49 +562,49 @@ $$
 \mathrm{ball}(0,r)\subseteq \partial\phi(0),
 $$
 
-along with $\phi(0)=0$ and $r>0$. The cited theorem `subgradient_ball_exact_linear_lower_bound` then gives
+along with $\phi(0)=0$ and $r\gt 0$. The cited theorem `subgradient_ball_exact_linear_lower_bound` then gives
 
-$$
+```math
 r\|u\|\le \phi(u)
-$$
+```
 
-for every $u\in H$. Applying this to $u=v_{k+1}$ and multiplying by $h>0$ gives
+for every $u\in H$. Applying this to $u=v_{k+1}$ and multiplying by $h\gt 0$ gives
 
-$$
+```math
 r\|d_{k+1}\|=rh\|v_{k+1}\|\le h\phi(v_{k+1}).
-$$
+```
 
 Thus the subgradient term controls the successive distance term.
 
 The smooth descent estimate is obtained from `IPAHDDN_smooth_descent_of_fderiv_lipschitz`, which says that if $f$ is $C^1$ and $\nabla f$ is $L$-Lipschitz, then for all $x,y$,
 
-$$
+```math
 f(y)\le f(x)+\langle \nabla f(x),y-x\rangle+\frac L2\|y-x\|^2.
-$$
+```
 
 This is the standard descent inequality following from integrating the Lipschitz bound on the gradient.
 
 Two cross-term estimates are then proved. From the Lipschitz property,
 
-$$
+```math
 \|\nabla f(x_{k+1})-\nabla f(x_k)\|\le L\|d_k\|.
-$$
+```
 
 Using Cauchy-Schwarz and then Young's inequality $2ab\le a^2+b^2$, the proof obtains
 
-$$
+```math
 \beta\langle \nabla f(x_{k+1})-\nabla f(x_k),v_{k+1}\rangle
 \le
 \frac{\beta hL}{2}\bigl(\|v_k\|^2+\|v_{k+1}\|^2\bigr).
-$$
+```
 
 It also obtains the corresponding upper bound for the negative of that inner product:
 
-$$
+```math
 -\beta\langle \nabla f(x_{k+1})-\nabla f(x_k),v_{k+1}\rangle
 \le
 \frac{\beta hL}{2}\bigl(\|v_k\|^2+\|v_{k+1}\|^2\bigr).
-$$
+```
 
 The second version is needed because the energy difference will contain the cross term with a sign that must be dominated by a positive quantity.
 
@@ -616,9 +616,9 @@ $$
 
 Therefore
 
-$$
+```math
 \|x_{k+1}-y_k\|=\frac{\|d_k\|}{1+h\gamma}.
-$$
+```
 
 Applying the smooth descent inequality with $x=x_{k+1}$ and $y=x_{k+2}$, and splitting
 
@@ -630,19 +630,19 @@ $$
 
 the proof bounds the second part by Lipschitz continuity and obtains
 
-$$
+```math
 f(x_{k+2})-f(x_{k+1})
 -\frac L2\|d_{k+1}\|^2
 -\frac{L}{1+h\gamma}\|d_k\|\|d_{k+1}\|
 \le
 \langle \nabla f(y_k),d_{k+1}\rangle.
-$$
+```
 
 A key algebraic input is `IPAHDDN_parameter_quadratic_nonneg`. Applied with
 
-$$
+```math
 a=\|v_{k+1}\|,\qquad b=\|v_k\|,
-$$
+```
 
 it states that
 
@@ -655,35 +655,35 @@ $$
 -\left(1+\frac{Lh^2}{1+h\gamma}\right)ab.
 $$
 
-The hypotheses needed are exactly $h>0$, $\beta>0$, $L\ge0$, $\gamma\ge \frac{3L}{2}(h+\beta)$, and $a,b\ge0$. This quadratic nonnegativity is what allows the proof to absorb the cross terms that appear after applying Young's inequality.
+The hypotheses needed are exactly $h\gt 0$, $\beta\gt 0$, $L\ge0$, $\gamma\ge \frac{3L}{2}(h+\beta)$, and $a,b\ge0$. This quadratic nonnegativity is what allows the proof to absorb the cross terms that appear after applying Young's inequality.
 
 The proof then defines the energy
 
-$$
+```math
 E_k=
 \frac{1+h\gamma-\frac{Lh^2}{2}}{2}\|v_k\|^2
 +f(x_{k+1})-\inf f,
-$$
+```
 
 where $\inf f$ is the infimum of the range of $f$. Using the previously collected estimates, together with the triangle inequality for norms,
 
-$$
+```math
 \bigl|\|v_{k+1}\|-\|v_k\|\bigr|\le \|v_{k+1}-v_k\|,
-$$
+```
 
 and hence
 
-$$
+```math
 \|v_{k+1}\|^2+\|v_k\|^2-2\|v_{k+1}\|\|v_k\|
 \le
 \|v_{k+1}-v_k\|^2,
-$$
+```
 
 the proof obtains
 
-$$
+```math
 E_{k+1}-E_k+r\|d_{k+1}\|\le 0.
-$$
+```
 
 The tactic `ring_nf` expands and normalizes the algebraic expressions, and `nlinarith` then combines the inequalities linearly and nonlinearly.
 
@@ -705,7 +705,7 @@ $$
 \gamma\ge \frac{3L}{2}(h+\beta)
 $$
 
-and $h>0$, one has
+and $h\gt 0$, one has
 
 $$
 h\gamma\ge \frac{3L}{2}h(h+\beta),
@@ -721,33 +721,33 @@ Therefore every term in $E_k$ is nonnegative.
 
 Using the inequality
 
-$$
+```math
 E_{k+1}-E_k+r\|d_{k+1}\|\le0
-$$
+```
 
 and telescoping, the proof obtains for every $N$,
 
-$$
+```math
 E_N+\sum_{k=0}^{N-1}r\|d_{k+1}\|\le E_0.
-$$
+```
 
 Since $E_N\ge0$, this gives
 
-$$
+```math
 \sum_{k=0}^{N-1}\|d_{k+1}\|\le \frac{E_0}{r}.
-$$
+```
 
 Because the summands are nonnegative and all partial sums are bounded by $E_0/r$, the standard summability criterion `summable_of_sum_range_le` yields
 
-$$
+```math
 \sum_{k=0}^{\infty}\|d_{k+1}\|<\infty.
-$$
+```
 
-Then `IPAHDDN_summable_of_summable_succ` removes the shift: if $\sum_k a(k+1)$ converges, then $\sum_k a(k)$ converges. Applying this to $a(k)=\|d_k\|$, the proof gets
+Then `IPAHDDN_summable_of_summable_succ` removes the shift: if $\sum_k a(k+1)$ converges, then $\sum_k a(k)$ converges. Applying this to $`a(k)=\|d_k\|`$, the proof gets
 
-$$
+```math
 \sum_{k=0}^{\infty}\|d_k\|<\infty.
-$$
+```
 
 By the definition of `HasFiniteLength`, this is exactly
 
@@ -765,23 +765,23 @@ Its mathematical content is that a sequence whose successive distances are summa
 
 The quantitative bound on the total variation is obtained by passing from partial sums to the full sum. The theorem `Real.tsum_le_of_sum_range_le` is used with the already established partial-sum bound to get
 
-$$
+```math
 \sum_{k=0}^{\infty}\|d_{k+1}\|\le \frac{E_0}{r}.
-$$
+```
 
-Then `tsum_subtype_succ_reindex` is applied to reindex the sum over the subtype $\{k\in\mathbb N:1\le k\}$. It states that
+Then `tsum_subtype_succ_reindex` is applied to reindex the sum over the subtype $`\{k\in\mathbb N:1\le k\}`$. It states that
 
 $$
 \sum_{k\ge1} a(k)=\sum_{n=0}^{\infty}a(n+1).
 $$
 
-Taking $a(k)=\|d_k\|$, this gives
+Taking $`a(k)=\|d_k\|`$, this gives
 
-$$
+```math
 \sum_{k\ge1}\|x_{k+1}-x_k\|
 =\sum_{n=0}^{\infty}\|d_{n+1}\|
 \le \frac{E_0}{r}.
-$$
+```
 
 Finally the proof expands $E_0$. Since
 
@@ -791,33 +791,33 @@ $$
 
 we have
 
-$$
+```math
 E_0=
 \frac{1+h\gamma-\frac{Lh^2}{2}}{2}
 \left\|\frac1h(x_1-x_0)\right\|^2
 +f(x_1)-\inf f
-$$
+```
 
-$$
+```math
 =\frac{1}{2h^2}
 \left(1+h\gamma-\frac{Lh^2}{2}\right)
 \|x_1-x_0\|^2
 +f(x_1)-\inf f.
-$$
+```
 
-Division by $r>0$ gives the displayed bound in the theorem.
+Division by $r\gt 0$ gives the displayed bound in the theorem.
 
 The proof next studies convergence of the differences and of the auxiliary sequence. Since
 
-$$
+```math
 \sum_k\|d_k\|<\infty,
-$$
+```
 
 the terms tend to zero:
 
-$$
+```math
 \|d_k\|\to0.
-$$
+```
 
 Hence $d_k\to0$, and therefore $d_{k+1}\to0$. Since $v_k=\frac1h d_k$, also
 
@@ -882,7 +882,7 @@ $$
 h q_k\to -h\nabla f(x_\infty).
 $$
 
-Multiplying by the scalar $1/h$, using $h>0$, gives
+Multiplying by the scalar $1/h$, using $h\gt 0$, gives
 
 $$
 q_k\to -\nabla f(x_\infty).

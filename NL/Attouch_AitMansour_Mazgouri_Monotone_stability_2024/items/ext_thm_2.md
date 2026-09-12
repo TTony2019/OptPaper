@@ -16,7 +16,7 @@ theorem ext_thm_2 {X : Type*} [MetricSpace X] [CompleteSpace X]
 ```
 
 ## Statement explanation
-This declaration, `ext_thm_2`, is a stability theorem for fixed point sets of set-valued contractions in a complete metric space. Let $X$ be a complete metric space. Let $T_1,T_2:X\to \mathcal P(X)$ be set-valued maps, and let $\lambda$ be a real number with $0\le \lambda$ and $\lambda<1$. For each $x\in X$, both $T_1(x)$ and $T_2(x)$ are assumed to be closed and nonempty. The hypothesis `hlip` says that for every $x,y\in X$,
+This declaration, `ext_thm_2`, is a stability theorem for fixed point sets of set-valued contractions in a complete metric space. Let $X$ be a complete metric space. Let $T_1,T_2:X\to \mathcal P(X)$ be set-valued maps, and let $\lambda$ be a real number with $0\le \lambda$ and $\lambda\lt 1$. For each $x\in X$, both $T_1(x)$ and $T_2(x)$ are assumed to be closed and nonempty. The hypothesis `hlip` says that for every $x,y\in X$,
 
 $$
 d_H(T_1(x),T_1(y))\le \mathrm{ENNReal.ofReal}\lambda \cdot \mathrm{edist}(x,y)
@@ -32,9 +32,9 @@ Here $d_H$ denotes `Metric.hausdorffEDist`, the Hausdorff distance between sets 
 
 The Lean definition `fixedPoints T` is
 
-$$
+```math
 \mathrm{fixedPoints}(T)=\{x\in X\mid x\in T(x)\}.
-$$
+```
 
 For a set-valued map, this is the set of points contained in their own image under $T$. The conclusion of `ext_thm_2` is
 
@@ -46,7 +46,7 @@ d_H\bigl(\mathrm{fixedPoints}(T_1),\mathrm{fixedPoints}(T_2)\bigr)
 \sup_{x\in X} d_H(T_1(x),T_2(x)).
 $$
 
-The supremum is the uniform pointwise Hausdorff discrepancy between the two set-valued maps. Thus the theorem says that if two set-valued $\lambda$-contractions with closed nonempty values are uniformly close by $D$, then their fixed point sets are close by the contraction amplification factor $(1-\lambda)^{-1}$ times $D$. The hypothesis $0\le\lambda$ is part of the statement, although the supplied proof only explicitly uses $\lambda<1$.
+The supremum is the uniform pointwise Hausdorff discrepancy between the two set-valued maps. Thus the theorem says that if two set-valued $\lambda$-contractions with closed nonempty values are uniformly close by $D$, then their fixed point sets are close by the contraction amplification factor $(1-\lambda)^{-1}$ times $D$. The hypothesis $0\le\lambda$ is part of the statement, although the supplied proof only explicitly uses $\lambda\lt 1$.
 
 ## Lean proof
 ```lean
@@ -99,11 +99,11 @@ $$
 D:=\sup_{x\in X} d_H(T_1(x),T_2(x)).
 $$
 
-These are the Lean local definitions `K` and `D`. The first step is to prove $K<1$. The proof uses `ENNReal.ofReal_lt_one.2 hlam₂`. The theorem `ENNReal.ofReal_lt_one` says that a real number is less than $1$ exactly when its image in the extended nonnegative reals is less than $1$. Applying it to $\lambda<1$ gives $\mathrm{ENNReal.ofReal}\lambda<1$, and `simpa [K]` converts this to $K<1$.
+These are the Lean local definitions `K` and `D`. The first step is to prove $K\lt 1$. The proof uses `ENNReal.ofReal_lt_one.2 hlam₂`. The theorem `ENNReal.ofReal_lt_one` says that a real number is less than $1$ exactly when its image in the extended nonnegative reals is less than $1$. Applying it to $\lambda\lt 1$ gives $\mathrm{ENNReal.ofReal}\lambda\lt 1$, and `simpa [K]` converts this to $K\lt 1$.
 
 Next the proof splits by cases on whether $D=\top$.
 
-In the case $D=\top$, the right-hand side is infinite. The proof first records that $1-K\ne0$. Since $K<1$, the extended-real fact `tsub_pos_iff_lt` gives $0<1-K$, and `ne_of_gt` turns this positivity into $1-K\ne0$. Then the proof shows
+In the case $D=\top$, the right-hand side is infinite. The proof first records that $1-K\ne0$. Since $K\lt 1$, the extended-real fact `tsub_pos_iff_lt` gives $0\lt 1-K$, and `ne_of_gt` turns this positivity into $1-K\ne0$. Then the proof shows
 
 $$
 (1-K)^{-1}D=\top.
@@ -140,7 +140,7 @@ $$
 \le (1-K)^{-1}D.
 $$
 
-This auxiliary claim is proved by `intro` and then by applying the cited theorem `one_sided_lims_bound`. That theorem is precisely the one-sided contraction stability estimate: in a complete metric space, if two closed nonempty set-valued maps $S,U$ are both $K$-contractions with $K<1$, if $D\ne\top$, and if $d_H(S(x),U(x))\le D$ for all $x$, then every fixed point of $S$ lies within extended distance $(1-K)^{-1}D$ of the fixed point set of $U$. The proof of `hside` supplies exactly those hypotheses and obtains exactly that conclusion.
+This auxiliary claim is proved by `intro` and then by applying the cited theorem `one_sided_lims_bound`. That theorem is precisely the one-sided contraction stability estimate: in a complete metric space, if two closed nonempty set-valued maps $S,U$ are both $K$-contractions with $K\lt 1$, if $D\ne\top$, and if $d_H(S(x),U(x))\le D$ for all $x$, then every fixed point of $S$ lies within extended distance $(1-K)^{-1}D$ of the fixed point set of $U$. The proof of `hside` supplies exactly those hypotheses and obtains exactly that conclusion.
 
 With `hside` available, the main goal is proved by applying `Metric.hausdorffEDist_le_of_infEDist`. This lemma reduces a bound on the Hausdorff distance between two sets to two one-sided point-to-set bounds: it is enough to show that every point of the first set has `infEDist` at most $(1-K)^{-1}D$ from the second set, and every point of the second set has `infEDist` at most $(1-K)^{-1}D$ from the first set.
 

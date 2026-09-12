@@ -26,13 +26,13 @@ $$
 x_n:=\mathrm{alg.x}(n),\qquad y_n:=\mathrm{alg.y}(n)
 $$
 
-be the two sequences produced by the algorithm. The ambient space $H$ is a real inner product space, hence a normed additive commutative group, with norm $\|\cdot\|$ and inner product $\langle\cdot,\cdot\rangle$. The functions $f,g:H\to\mathbb R$ are the two objective functions, $\beta,\mu\in\mathbb R$ are real parameters, and $\alpha,\nu:\mathbb N\to\mathbb R$ are real sequences. The costs used in the algorithm are the half-squared-distance costs
+be the two sequences produced by the algorithm. The ambient space $H$ is a real inner product space, hence a normed additive commutative group, with norm $`\|\cdot\|`$and inner product$\langle\cdot,\cdot\rangle$. The functions$f,g:H\to\mathbb R$are the two objective functions,$\beta,\mu\in\mathbb R$are real parameters, and$\alpha,\nu:\mathbb N\to\mathbb R$ are real sequences. The costs used in the algorithm are the half-squared-distance costs
 
-$$
+```math
 (\xi,\eta)\mapsto \frac{\|\xi-\eta\|^2}{2}.
-$$
+```
 
-The hypotheses are as follows. The hypothesis `h41toh46` is the bundled assumption $H41toH46(H,f,g,\beta,\mu)$ from the paper; in this proof its only explicitly used consequences are $\beta>0$ and $\mu>0$, extracted through the fields `beta_pos` and `mu_pos`. The same bundle is passed unchanged to the three cited inequalities of Lemma 4.3. The hypotheses `hα_nonneg` and `hν_nonneg` say
+The hypotheses are as follows. The hypothesis `h41toh46` is the bundled assumption $H41toH46(H,f,g,\beta,\mu)$ from the paper; in this proof its only explicitly used consequences are $\beta\gt 0$ and $\mu\gt 0$, extracted through the fields `beta_pos` and `mu_pos`. The same bundle is passed unchanged to the three cited inequalities of Lemma 4.3. The hypotheses `hα_nonneg` and `hν_nonneg` say
 
 $$
 \alpha_n\ge 0,\qquad \nu_n\ge 0
@@ -59,15 +59,15 @@ $$
 
 as $n\to\infty$ in $H$. Second, the distances to the reference points converge:
 
-$$
+```math
 \exists l_x\in\mathbb R,\quad \|x_{n+1}-x\|\longrightarrow l_x,
-$$
+```
 
 and
 
-$$
+```math
 \exists l_y\in\mathbb R,\quad \|y_{n+1}-y\|\longrightarrow l_y.
-$$
+```
 
 Thus the declaration says that the difference of the two iterates tends to the difference of the reference points, the consecutive increments of each iterate vanish asymptotically, and the norms of the next iterates relative to $x$ and $y$ converge, though not necessarily to $0$.
 
@@ -925,13 +925,13 @@ by
 ## Proof explanation
 Write $x_n=\mathrm{alg.x}(n)$, $y_n=\mathrm{alg.y}(n)$, $\alpha_n=\alpha(n)$, $\nu_n=\nu(n)$, and $a^+:=\max(a,0)$. The proof proceeds in several stages.
 
-First, the proof extracts the positivity of the parameters and splits the summability hypothesis. The command `have hβpos : β > 0 := h41toh46.beta_pos` and the corresponding line for $\mu$ give $\beta>0$ and $\mu>0$. The command `rcases h47 with ⟨h_summable_alpha, h_summable_nu⟩` separates $H47(\alpha,\nu)$ into the summability of the positive parts of the $\alpha$-increments and of the $\nu$-increments.
+First, the proof extracts the positivity of the parameters and splits the summability hypothesis. The command `have hβpos : β > 0 := h41toh46.beta_pos` and the corresponding line for $\mu$ give $\beta\gt 0$ and $\mu\gt 0$. The command `rcases h47 with ⟨h_summable_alpha, h_summable_nu⟩` separates $H47(\alpha,\nu)$ into the summability of the positive parts of the $\alpha$-increments and of the $\nu$-increments.
 
 Second, the proof establishes uniform boundedness of the squared distances. It defines
 
-$$
+```math
 M:=\max\bigl(\|x_0-x\|^2,\|y_0-y\|^2\bigr).
-$$
+```
 
 It then proves the elementary convex-combination fact that if $p,q\ge 0$, $p+q=1$, then
 
@@ -941,7 +941,7 @@ $$
 
 This is used with the weights from Lemma 4.3(a) and Lemma 4.3(b). The first cited inequality, `lemma_4_3_a`, states
 
-$$
+```math
 \|x_{n+1}-x\|^2
 \le \frac{1}{\alpha_n+\beta}
 \Bigl(
@@ -949,26 +949,26 @@ $$
 -\alpha_n\|x_{n+1}-x_n\|^2
 -\beta\|y_n-x_{n+1}-y+x\|^2
 \Bigr).
-$$
+```
 
 The proof drops the two nonnegative subtracted terms, multiplies by the positive factor $1/(\alpha_n+\beta)$, and rewrites the result as
 
-$$
+```math
 \|x_{n+1}-x\|^2
 \le \frac{\alpha_n}{\alpha_n+\beta}\|x_n-x\|^2
 +\frac{\beta}{\alpha_n+\beta}\|y_n-y\|^2.
-$$
+```
 
 The weights are nonnegative and sum to $1$, so the convex-combination bound gives
 
-$$
+```math
 \|x_{n+1}-x\|^2
 \le \max\bigl(\|x_n-x\|^2,\|y_n-y\|^2\bigr).
-$$
+```
 
 Similarly, `lemma_4_3_b` states
 
-$$
+```math
 \|y_{n+1}-y\|^2
 \le \frac{1}{(\mu+\nu_n)(\alpha_n+\beta)}
 \Bigl(
@@ -979,85 +979,85 @@ $$
 -\mu\beta\|y_n-x_{n+1}-y+x\|^2
 -\mu(\alpha_n+\beta)\|y_{n+1}-x_{n+1}-y+x\|^2
 \Bigr).
-$$
+```
 
 After dropping the nonnegative subtracted terms, the two remaining coefficients have nonnegative weights summing to $1$, so
 
-$$
+```math
 \|y_{n+1}-y\|^2
 \le \max\bigl(\|x_n-x\|^2,\|y_n-y\|^2\bigr).
-$$
+```
 
 Therefore the sequence
 
-$$
+```math
 m_n:=\max\bigl(\|x_n-x\|^2,\|y_n-y\|^2\bigr)
-$$
+```
 
 is nonincreasing, and by induction $m_n\le M$ for every $n$. Hence
 
-$$
+```math
 \|x_n-x\|^2\le M,\qquad \|y_n-y\|^2\le M
-$$
+```
 
 for all $n$, and also for $n+1$.
 
 Third, the proof introduces the quantities used to telescope Lemma 4.3(c). It defines
 
-$$
+```math
 A_n:=\alpha_n\mu\|x_n-x\|^2+\beta(\mu+\nu_n)\|y_n-y\|^2
-$$
+```
 
 and
 
-$$
+```math
 B_n:=\alpha_n\mu\|x_{n+1}-x_n\|^2
 +\beta\nu_n\|y_{n+1}-y_n\|^2
 +\beta\mu\|y_n-x_{n+1}-y+x\|^2
 +\beta\mu\|y_{n+1}-x_{n+1}-y+x\|^2.
-$$
+```
 
 All terms of $B_n$ are nonnegative. The cited inequality `lemma_4_3_c` gives
 
-$$
+```math
 \alpha_n\mu\|x_{n+1}-x\|^2+\beta(\mu+\nu_n)\|y_{n+1}-y\|^2
 \le A_n-B_n.
-$$
+```
 
 Equivalently,
 
-$$
+```math
 B_n\le A_n-\bigl(\alpha_n\mu\|x_{n+1}-x\|^2+\beta(\mu+\nu_n)\|y_{n+1}-y\|^2\bigr).
-$$
+```
 
 The proof then uses the algebraic identity
 
-$$
+```math
 \alpha_n\mu\|x_{n+1}-x\|^2+\beta(\mu+\nu_n)\|y_{n+1}-y\|^2
 =A_{n+1}
 -\mu(\alpha_{n+1}-\alpha_n)\|x_{n+1}-x\|^2
 -\beta(\nu_{n+1}-\nu_n)\|y_{n+1}-y\|^2.
-$$
+```
 
 Substituting this into the previous inequality yields
 
-$$
+```math
 B_n\le A_n-A_{n+1}
 +\mu(\alpha_{n+1}-\alpha_n)\|x_{n+1}-x\|^2
 +\beta(\nu_{n+1}-\nu_n)\|y_{n+1}-y\|^2.
-$$
+```
 
 Since $a-b\le (a-b)^+$ and since the squared norms are bounded by $M$, the two correction terms are bounded by
 
-$$
+```math
 \mu(\alpha_{n+1}-\alpha_n)\|x_{n+1}-x\|^2
 \le \mu(\alpha_{n+1}-\alpha_n)^+M,
-$$
+```
 
-$$
+```math
 \beta(\nu_{n+1}-\nu_n)\|y_{n+1}-y\|^2
 \le \beta(\nu_{n+1}-\nu_n)^+M.
-$$
+```
 
 Thus, with
 
@@ -1124,20 +1124,20 @@ $$
 
 Fifth, the proof extracts the individual cross-term convergences from $B_n\to 0$. Since $B_n$ is a sum of nonnegative terms, each term is at most $B_n$. In particular,
 
-$$
+```math
 \beta\mu\|y_n-x_{n+1}-y+x\|^2\le B_n,
-$$
+```
 
-$$
+```math
 \beta\mu\|y_{n+1}-x_{n+1}-y+x\|^2\le B_n.
-$$
+```
 
-Because $\beta\mu>0$, these squared norms tend to $0$. Using continuity of the square root at $0$, the proof converts this into
+Because $\beta\mu\gt 0$, these squared norms tend to $0$. Using continuity of the square root at $0$, the proof converts this into
 
-$$
+```math
 \|y_n-x_{n+1}-y+x\|\longrightarrow 0,\qquad
 \|y_{n+1}-x_{n+1}-y+x\|\longrightarrow 0.
-$$
+```
 
 Since the distance from a vector to $0$ is its norm, this gives the vector limits
 
@@ -1219,9 +1219,9 @@ $$
 c_{\lim}:=\alpha_{\lim}\mu+\beta(\mu+\nu_{\lim}).
 $$
 
-Because $\beta>0$, $\mu>0$, and $\nu_{\lim}\ge 0$, one has $c_{\lim}>0$, and $c_n\to c_{\lim}$.
+Because $\beta\gt 0$, $\mu\gt 0$, and $\nu_{\lim}\ge 0$, one has $c_{\lim}\gt 0$, and $c_n\to c_{\lim}$.
 
-The proof next relates $A_n$ to $\|y_n-y\|^2$. Using
+The proof next relates $A_n$ to $`\|y_n-y\|^2`$. Using
 
 $$
 x_n-x=(y_n-y)-\bigl(y_n-x_n-(y-x)\bigr)
@@ -1229,12 +1229,12 @@ $$
 
 and expanding the squared norm, it obtains
 
-$$
+```math
 A_n
 =c_n\|y_n-y\|^2
 -2\alpha_n\mu\langle y_n-y,\ y_n-x_n-(y-x)\rangle
 +\alpha_n\mu\|y_n-x_n-(y-x)\|^2.
-$$
+```
 
 Let
 
@@ -1242,31 +1242,31 @@ $$
 v_n:=y_n-x_n-(y-x).
 $$
 
-From the first conjunct, $v_n\to 0$. Also $\|y_n-y\|^2\le M$, so $\|y_n-y\|\le \sqrt M$. By Cauchy-Schwarz,
+From the first conjunct, $v_n\to 0$. Also $`\|y_n-y\|^2\le M`$, so$`\|y_n-y\|\le \sqrt M`$. By Cauchy-Schwarz,
 
-$$
+```math
 |\langle y_n-y,v_n\rangle|
 \le \|y_n-y\|\,\|v_n\|
 \le \sqrt M\,\|v_n\|\longrightarrow 0.
-$$
+```
 
-Since $\alpha_n\mu$ has a finite limit and $\|v_n\|^2\to 0$, the correction term in the displayed identity tends to $0$. Therefore
+Since $\alpha_n\mu$ has a finite limit and $`\|v_n\|^2\to 0`$, the correction term in the displayed identity tends to$0$. Therefore
 
-$$
+```math
 c_n\|y_n-y\|^2\longrightarrow LD+SC.
-$$
+```
 
-Because $c_n\to c_{\lim}>0$, division gives
+Because $c_n\to c_{\lim}\gt 0$, division gives
 
-$$
+```math
 \|y_n-y\|^2\longrightarrow \frac{LD+SC}{c_{\lim}}.
-$$
+```
 
 The limit is nonnegative because it is the limit of nonnegative squared norms. Then continuity of the square root gives
 
-$$
+```math
 \|y_n-y\|\longrightarrow \sqrt{\frac{LD+SC}{c_{\lim}}}.
-$$
+```
 
 Finally, since
 
@@ -1274,14 +1274,14 @@ $$
 x_n-x=(y_n-y)-v_n
 $$
 
-and $\|v_n\|\to 0$, the reverse triangle inequality yields
+and $`\|v_n\|\to 0`$, the reverse triangle inequality yields
 
-$$
+```math
 \bigl|\|x_n-x\|-\|y_n-y\|\bigr|
 \le \|v_n\|\longrightarrow 0.
-$$
+```
 
-Thus $\|x_n-x\|$ converges to the same limit as $\|y_n-y\|$. Shifting the index by one gives the required existences of limits for $\|x_{n+1}-x\|$ and $\|y_{n+1}-y\|$.
+Thus $`\|x_n-x\|`$converges to the same limit as$`\|y_n-y\|`$. Shifting the index by one gives the required existences of limits for$`\|x_{n+1}-x\|`$and$`\|y_{n+1}-y\|`$.
 
-Throughout the proof, the Lean tactics play the following mathematical roles. `intro` introduces a universally quantified variable or a hypothesis into the local context. `rw` rewrites the goal using a previously established equality or definition, such as the definition of $A$, $B$, $C$, or $D$. `simp` performs definitional and arithmetic simplification, often closing elementary side conditions. `exact` supplies a previously proved result or a constructed term to finish a goal. `linarith` and `nlinarith` discharge linear and nonlinear real inequalities, respectively, such as bounds obtained after dropping nonnegative terms or after telescoping. `ring` and `field_simp` normalize polynomial and rational identities, such as the identities relating $A_n$, $A_{n+1}$, and the correction terms. `rcases` splits conjunctions and existential hypotheses. `set` gives names to expressions, making the telescoping arguments readable. `calc` chains equalities and inequalities. `squeeze_zero` applies the squeeze theorem to sequences trapped between $0$ and a sequence tending to $0$. The `Tendsto` combinators and lemmas such as `Tendsto.add`, `Tendsto.sub`, `Tendsto.div`, and composition with `tendsto_add_atTop_nat` are used to pass limits through sums, differences, quotients, and index shifts. Finally, `norm_inner_le_norm` supplies the Cauchy-Schwarz bound, and `abs_norm_sub_norm_le` supplies the reverse triangle inequality used to compare $\|x_n-x\|$ with $\|y_n-y\|$.
+Throughout the proof, the Lean tactics play the following mathematical roles. `intro` introduces a universally quantified variable or a hypothesis into the local context. `rw` rewrites the goal using a previously established equality or definition, such as the definition of $A$, $B$, $C$, or $D$. `simp` performs definitional and arithmetic simplification, often closing elementary side conditions. `exact` supplies a previously proved result or a constructed term to finish a goal. `linarith` and `nlinarith` discharge linear and nonlinear real inequalities, respectively, such as bounds obtained after dropping nonnegative terms or after telescoping. `ring` and `field_simp` normalize polynomial and rational identities, such as the identities relating $A_n$, $A_{n+1}$, and the correction terms. `rcases` splits conjunctions and existential hypotheses. `set` gives names to expressions, making the telescoping arguments readable. `calc` chains equalities and inequalities. `squeeze_zero` applies the squeeze theorem to sequences trapped between $0$ and a sequence tending to $0$. The `Tendsto` combinators and lemmas such as `Tendsto.add`, `Tendsto.sub`, `Tendsto.div`, and composition with `tendsto_add_atTop_nat` are used to pass limits through sums, differences, quotients, and index shifts. Finally, `norm_inner_le_norm` supplies the Cauchy-Schwarz bound, and `abs_norm_sub_norm_le` supplies the reverse triangle inequality used to compare $`\|x_n-x\|`$with$`\|y_n-y\|`$.
 

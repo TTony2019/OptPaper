@@ -22,7 +22,7 @@ theorem theorem_3_3 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 ```
 
 ## Statement explanation
-The declaration `theorem_3_3` is a theorem about a real inner product space $H$ that is complete, finite dimensional, and nontrivial. It fixes $t_0,r\in\mathbb R$ with $r>0$, a continuous linear operator $A\colon H\to H$, a function $f\colon H\to\mathbb R$, and two curves $g,p\colon \mathbb R\to H$. The operator $A$ is assumed symmetric, meaning it is self-adjoint for the inner product, and positive definite, meaning
+The declaration `theorem_3_3` is a theorem about a real inner product space $H$ that is complete, finite dimensional, and nontrivial. It fixes $t_0,r\in\mathbb R$ with $r\gt 0$, a continuous linear operator $A\colon H\to H$, a function $f\colon H\to\mathbb R$, and two curves $g,p\colon \mathbb R\to H$. The operator $A$ is assumed symmetric, meaning it is self-adjoint for the inner product, and positive definite, meaning
 
 $$
 \langle Ax,x\rangle>0
@@ -36,15 +36,15 @@ $$
 
 The curve $g$ is assumed differentiable. The hypothesis `hdualFlow` says that for every $t\in\mathbb R$, $p(t)$ is a friction-ball projection of $g(t)$ onto the closed ball
 
-$$
+```math
 \mathrm{frictionBall} r=\overline B(0,r)=\{y\in H:\|y\|\le r\},
-$$
+```
 
 and that the dual-flow equation holds:
 
-$$
+```math
 D\!\left(\nabla \varphi^*\right)(g(t))\bigl[g'(t)\bigr]+g(t)-p(t)=0,
-$$
+```
 
 where $\varphi$ is the extended-real version of $f$ and $\varphi^*$ is its Fenchel conjugate. In the presence of the quadratic form and positive definiteness, this equation is equivalent to
 
@@ -58,7 +58,7 @@ $$
 g'(t)=A\bigl(p(t)-g(t)\bigr).
 $$
 
-The initial condition $r<\|g(t_0)\|$ says that $g(t_0)$ lies outside the closed ball $\overline B(0,r)$.
+The initial condition $`r<\|g(t_0)\|`$says that$g(t_0)$lies outside the closed ball$\overline B(0,r)$.
 
 The conclusion is that there exist positive constants $C_{\mathrm{upper}},C_{\mathrm{lower}},\mu,\nu$ such that, writing
 
@@ -319,11 +319,11 @@ by
 ```
 
 ## Proof explanation
-The proof begins by applying `coercive_bounds_of_posdef_finiteDim` to the positive definite operator $A$. This theorem states that on a finite-dimensional real inner product space, a positive definite continuous linear operator satisfies a two-sided coercivity estimate: there exist $\mu,\nu>0$ such that for every $\xi\in H$,
+The proof begins by applying `coercive_bounds_of_posdef_finiteDim` to the positive definite operator $A$. This theorem states that on a finite-dimensional real inner product space, a positive definite continuous linear operator satisfies a two-sided coercivity estimate: there exist $\mu,\nu\gt 0$ such that for every $\xi\in H$,
 
-$$
+```math
 \mu\|\xi\|^2\le \langle A\xi,\xi\rangle\le \nu\|\xi\|^2.
-$$
+```
 
 These constants $\mu,\nu$ will become the exponents in the upper and lower exponential bounds.
 
@@ -361,7 +361,7 @@ $$
 E(t)=\frac12\mathrm{infDist}\bigl(g(t),\mathrm{frictionBall} r\bigr)^2.
 $$
 
-The initial distance is positive: by `frictionBall_not_mem_initial_infDist_pos`, since $0\le r$ and $r<\|g(t_0)\|$, we have
+The initial distance is positive: by `frictionBall_not_mem_initial_infDist_pos`, since $0\le r$ and $`r<\|g(t_0)\|`$, we have
 
 $$
 0<\mathrm{infDist}\bigl(g(t_0),\mathrm{frictionBall} r\bigr).
@@ -369,43 +369,43 @@ $$
 
 This positivity will be needed for the constants and for the final non-membership conclusion.
 
-The next major step computes the derivative of $E$. The proof uses `infDist_frictionBall_eq`, which says that for $r>0$,
+The next major step computes the derivative of $E$. The proof uses `infDist_frictionBall_eq`, which says that for $r\gt 0$,
 
-$$
+```math
 \mathrm{infDist}\bigl(\xi,\mathrm{frictionBall} r\bigr)
 =\max(\|\xi\|-r,0).
-$$
+```
 
 Hence
 
-$$
+```math
 E(t)=\frac12\max(\|g(t)\|-r,0)^2.
-$$
+```
 
-The proof then differentiates this expression. If $g(t)=0$, continuity of $g$ and $r>0$ imply that $\|g(s)\|<r$ eventually, so $E$ is locally constant $0$; the projection condition also gives $p(t)=0$, so both sides of the derivative formula vanish. If $g(t)\ne0$, the proof differentiates the norm using
+The proof then differentiates this expression. If $g(t)=0$, continuity of $g$ and $r\gt 0$ imply that $`\|g(s)\|<r`$eventually, so$E$is locally constant$0$; the projection condition also gives$p(t)=0$, so both sides of the derivative formula vanish. If$g(t)\ne0$, the proof differentiates the norm using
 
-$$
+```math
 \frac{d}{ds}\|g(s)\|\Big|_{s=t}
 =\frac{\langle g(t),g'(t)\rangle}{\|g(t)\|}.
-$$
+```
 
-When $r<\|g(t)\|$, the point is outside the ball. The proof identifies the projection $p(t)$ by using the uniqueness part of `frictionBall_isChebyshev`, then `frictionBallProjection_eq_sub_softThresholder` and `softThresholder_apply`. Since $r<\|g(t)\|$, the soft threshold is
+When $`r<\|g(t)\|`$, the point is outside the ball. The proof identifies the projection$p(t)$ by using the uniqueness part of `frictionBall_isChebyshev`, then `frictionBallProjection_eq_sub_softThresholder` and `softThresholder_apply`. Since $`r<\|g(t)\|`$, the soft threshold is
 
-$$
+```math
 \left(1-\frac{r}{\|g(t)\|}\right)g(t),
-$$
+```
 
 so the projection is
 
-$$
+```math
 p(t)=\frac{r}{\|g(t)\|}g(t).
-$$
+```
 
 Substituting this into the velocity relation gives
 
-$$
+```math
 g(t)-p(t)=\left(1-\frac{r}{\|g(t)\|}\right)g(t),
-$$
+```
 
 and a direct chain-rule computation yields
 
@@ -413,7 +413,7 @@ $$
 E'(t)=-\bigl\langle g(t)-p(t),A(g(t)-p(t))\bigr\rangle.
 $$
 
-When $\|g(t)\|\le r$, the proof shows $p(t)=g(t)$, hence $g'(t)=0$, and the derivative of $E$ is again $0$. At the boundary $\|g(t)\|=r$, the nonsmooth point of $\max(u,0)^2$ is handled by `hasDerivAt_max_sq_zero`, which states that if $u$ is differentiable at $t$ and $u(t)=0$, then $s\mapsto \max(u(s),0)^2$ has derivative $0$ at $t$. Thus in all cases,
+When $`\|g(t)\|\le r`$, the proof shows$p(t)=g(t)$, hence$g'(t)=0$, and the derivative of$E$is again$0$. At the boundary$`\|g(t)\|=r`$, the nonsmooth point of$\max(u,0)^2$ is handled by `hasDerivAt_max_sq_zero`, which states that if $u$ is differentiable at $t$ and $u(t)=0$, then $s\mapsto \max(u(s),0)^2$ has derivative $0$ at $t$. Thus in all cases,
 
 $$
 E'(t)=-\bigl\langle g(t)-p(t),A(g(t)-p(t))\bigr\rangle.
@@ -421,21 +421,21 @@ $$
 
 The proof then combines this derivative formula with the coercive bounds. Since $p(t)$ is a best approximation in the ball, one has
 
-$$
+```math
 \|g(t)-p(t)\|=\mathrm{infDist}\bigl(g(t),\mathrm{frictionBall} r\bigr).
-$$
+```
 
 Applying the lower coercivity bound with $\xi=g(t)-p(t)$ gives
 
-$$
+```math
 \mu\|g(t)-p(t)\|^2\le \bigl\langle A(g(t)-p(t)),g(t)-p(t)\bigr\rangle.
-$$
+```
 
 Because
 
-$$
+```math
 E(t)=\frac12\|g(t)-p(t)\|^2,
-$$
+```
 
 this implies
 

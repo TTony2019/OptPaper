@@ -30,9 +30,9 @@ structure IPAHDDNonsmooth {H : Type*} [NormedAddCommGroup H] [InnerProductSpace 
 ## Statement explanation
 The declaration introduces a structure named `IPAHDDNonsmooth`. It is not a theorem with a conclusion; it packages data and equations describing one kind of inertial proximal-gradient algorithm. The ambient object is a type $H$ equipped with the assumptions that make it a complete real inner product space. The parameters are two functions
 
-$$
+```math
 f,\varphi : H \to \{r : \mathrm{EReal} \mid \bot < r\},
-$$
+```
 
 so their values are extended-real numbers strictly above the bottom element $\bot$ of $\mathrm{EReal}$, together with proofs $f\in\Gamma_0(H)$ and $\varphi\in\Gamma_0(H)$. The statement does not expand the definition of $\Gamma_0(H)$; it only records membership in that class. The real parameters are $h,\gamma,\beta,\lambda$, written in Lean as `h`, `gamma`, `beta`, and `lam`.
 
@@ -58,9 +58,9 @@ Here $P_{\lambda,f}(z)$ abbreviates the term
 namely the scaled proximity operator of $f$ applied with the positive scale $\lambda$. The exact definition of that operator is not expanded in the statement; only its use with $f$, the proof $hf$, the positive scale $\lambda$, and a point $z$ is visible.
 - `update (k : ℕ)`, which for every $k\in\mathbb N$ asserts
 
-$$
+```math
 x_{k+2}=x_{k+1}+h\,P_{\frac{h}{1+h\gamma},\varphi}(y_k),
-$$
+```
 
 where $P_{\frac{h}{1+h\gamma},\varphi}$ abbreviates
 `ERealFunction.scaledProximityOperator φ hφ ⟨h / (1 + h * gamma), ...⟩`.
@@ -82,11 +82,11 @@ $$
 
 The source proves this is positive by introducing a local proof
 `hden : 0 < 1 + h * gamma`
-using `nlinarith [mul_pos h_pos gamma_pos]`. The expression `mul_pos h_pos gamma_pos` is the fact that a product of positive real numbers is positive, so it gives $0<h\gamma$. From that, `nlinarith` derives $0<1+h\gamma$. Then the command `exact div_pos h_pos hden` applies the lemma that a quotient of positive real numbers is positive, with numerator $h$ and denominator $1+h\gamma$, to conclude
+using `nlinarith [mul_pos h_pos gamma_pos]`. The expression `mul_pos h_pos gamma_pos` is the fact that a product of positive real numbers is positive, so it gives $0\lt h\gamma$. From that, `nlinarith` derives $0\lt 1+h\gamma$. Then the command `exact div_pos h_pos hden` applies the lemma that a quotient of positive real numbers is positive, with numerator $h$ and denominator $1+h\gamma$, to conclude
 
 $$
 0<\frac{h}{1+h\gamma}.
 $$
 
-That positivity proof is exactly what is needed to build the subtype element $\langle h/(1+h\gamma),\ldots\rangle$ passed as the scale argument to `ERealFunction.scaledProximityOperator`. It does not add any mathematical assumption beyond the already present facts $0<h$ and $0<\gamma$. No separate use of `intro`, `rw`, `simp`, `linarith`, or any named local theorem occurs, and no named local result is cited.
+That positivity proof is exactly what is needed to build the subtype element $\langle h/(1+h\gamma),\ldots\rangle$ passed as the scale argument to `ERealFunction.scaledProximityOperator`. It does not add any mathematical assumption beyond the already present facts $0\lt h$ and $0\lt \gamma$. No separate use of `intro`, `rw`, `simp`, `linarith`, or any named local theorem occurs, and no named local result is cited.
 

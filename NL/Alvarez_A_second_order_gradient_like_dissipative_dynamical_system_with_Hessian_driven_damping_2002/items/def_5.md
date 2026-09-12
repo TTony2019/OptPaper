@@ -21,10 +21,10 @@ The ambient type $H$ is assumed to be a complete real inner product space: it is
 - $x : \mathbb R \to H$, a trajectory depending on a real time variable.
 
 The predicate `IsEpsilonDINTrajectory ε Φ x₀ v₀ x` is the proposition that the following four conditions all hold:
-1. $0 < \varepsilon$;
+1. $0 \lt  \varepsilon$;
 2. $x(0) = x_0$;
 3. $\mathrm{deriv} x(0) = v_0$;
-4. for every real $t$ with $t > 0$,
+4. for every real $t$ with $t \gt  0$,
 
 $$
 \varepsilon \cdot \mathrm{deriv}(\mathrm{deriv} x)(t)
@@ -54,7 +54,7 @@ x(0)=x_0,\qquad
 \mathrm{deriv} x(0)=v_0,
 $$
 
-and, for every $t>0$,
+and, for every $t\gt 0$,
 
 $$
 \varepsilon \cdot \mathrm{deriv}(\mathrm{deriv} x)(t)

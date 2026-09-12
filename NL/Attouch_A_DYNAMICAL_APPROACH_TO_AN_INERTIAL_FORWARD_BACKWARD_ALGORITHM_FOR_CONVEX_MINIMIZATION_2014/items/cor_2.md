@@ -109,13 +109,13 @@ $$
 
 The rest of the proof is devoted to showing that the original sequence $u_k$ converges to this particular minimizer $q$.
 
-Next, the proof extracts a point where $\phi$ is not infinite above. The command `obtain ⟨x0, hx0⟩ := hH.phi_proper.2` uses the properness part of the `IFBHypothesis` package to obtain $x_0$ and a proof $hx_0$, used in the form $\phi(x_0)<\top$. The block proving `hx0top` shows
+Next, the proof extracts a point where $\phi$ is not infinite above. The command `obtain ⟨x0, hx0⟩ := hH.phi_proper.2` uses the properness part of the `IFBHypothesis` package to obtain $x_0$ and a proof $hx_0$, used in the form $\phi(x_0)\lt \top$. The block proving `hx0top` shows
 
 $$
 \Theta(x_0)<\top.
 $$
 
-It uses `hH.theta_eq`, which identifies $\Theta$ with the sum of $\phi$ and the real-valued function $\psi$ coerced into $\overline{\mathbb R}$. Then `EReal.add_lt_top` is applied: since $hx_0$ implies $\phi(x_0)\neq\top$, and since a real number coerced to $\overline{\mathbb R}$ is never $\top$ by `EReal.coe_ne_top`, their sum is $<\top$. Hence $\Theta(x_0)<\top$.
+It uses `hH.theta_eq`, which identifies $\Theta$ with the sum of $\phi$ and the real-valued function $\psi$ coerced into $\overline{\mathbb R}$. Then `EReal.add_lt_top` is applied: since $hx_0$ implies $\phi(x_0)\neq\top$, and since a real number coerced to $\overline{\mathbb R}$ is never $\top$ by `EReal.coe_ne_top`, their sum is $\lt \top$. Hence $\Theta(x_0)\lt \top$.
 
 The next step proves `hqtop`, namely
 
@@ -141,7 +141,7 @@ $$
 \inf(\mathrm{range}\Theta)\le \Theta(x_0).
 $$
 
-Together with $\Theta(x_0)<\top$, this yields $\Theta(q)<\top$. The proof then converts this into membership in the extended-real domain: `hqdom` uses `ERealFunction.mem_dom_iff`, which states that
+Together with $\Theta(x_0)\lt \top$, this yields $\Theta(q)\lt \top$. The proof then converts this into membership in the extended-real domain: `hqdom` uses `ERealFunction.mem_dom_iff`, which states that
 
 $$
 q\in \mathrm{dom}\Theta \iff \Theta(q)<\top.
@@ -169,7 +169,7 @@ $$
 u_{k+1}\in \mathrm{dom}\Theta,
 $$
 
-equivalently $\Theta(u_{k+1})<\top$. Also, `hbot k` applies `theta_ne_bot` again, giving
+equivalently $\Theta(u_{k+1})\lt \top$. Also, `hbot k` applies `theta_ne_bot` again, giving
 
 $$
 \Theta(u_{k+1})\neq \bot.
@@ -177,10 +177,10 @@ $$
 
 The central quantitative estimate is `hgrowth`. It is obtained by applying `strongConvex_midpoint_growth` to $\Theta$, $\rho$, the strong-convexity hypothesis `hstrong`, the minimizer $q$, the domain memberships of $q$ and $u_{k+1}$, and the non-bottom facts for $\Theta(q)$ and $\Theta(u_{k+1})$. The lemma gives, for every $k$,
 
-$$
+```math
 \Theta(q)+\left(\frac{\rho}{4}\|u_{k+1}-q\|^2:\overline{\mathbb R}\right)
 \le \Theta(u_{k+1}).
-$$
+```
 
 Thus strong convexity supplies a quadratic lower bound for $\Theta(u_{k+1})$ in terms of its distance from the minimizer $q$.
 
@@ -196,7 +196,7 @@ $$
 \Theta(u_k)\to \inf(\mathrm{range}\Theta);
 $$
 
-second, that every sequential weak cluster point of $u_k$ is a minimizer of $\Theta$; and third, that if the argmin set of $\Theta$ is empty, then $\|u_k\|\to\infty$. Only the first conclusion is used here. Combining it with $\Theta(q)=\inf(\mathrm{range}\Theta)$, the proof obtains
+second, that every sequential weak cluster point of $u_k$ is a minimizer of $\Theta$; and third, that if the argmin set of $\Theta$ is empty, then $`\|u_k\|\to\infty`$. Only the first conclusion is used here. Combining it with$\Theta(q)=\inf(\mathrm{range}\Theta)$, the proof obtains
 
 $$
 \Theta(u_k)\to \Theta(q).
@@ -208,19 +208,19 @@ $$
 \Theta(u_{k+1})\to \Theta(q).
 $$
 
-This is the convergence that will be used to force the distance $\|u_{k+1}-q\|$ to tend to zero.
+This is the convergence that will be used to force the distance $`\|u_{k+1}-q\|`$ to tend to zero.
 
 The proof of `hnorm` is the main analytic step. It shows
 
-$$
+```math
 \|u_{k+1}-q\|\to 0.
-$$
+```
 
-The command `rw [Metric.tendsto_atTop]` converts the goal into the usual $\varepsilon\text{-}N$ formulation: for every $\varepsilon>0$, there is $N$ such that for every $k\ge N$,
+The command `rw [Metric.tendsto_atTop]` converts the goal into the usual $\varepsilon\text{-}N$ formulation: for every $\varepsilon\gt 0$, there is $N$ such that for every $k\ge N$,
 
-$$
+```math
 \mathrm{dist}\bigl(\|u_{k+1}-q\|,0\bigr)<\varepsilon.
-$$
+```
 
 The command `intro` introduces an arbitrary $\varepsilon$ and its positivity hypothesis. Let
 
@@ -228,7 +228,7 @@ $$
 c=\frac{\rho}{4}\varepsilon^2.
 $$
 
-The proof shows $c>0$. This uses `hstrong.1`, the part of the strong-convexity hypothesis giving positivity of $\rho$, together with positivity of $\varepsilon^2$. The proof then establishes
+The proof shows $c\gt 0$. This uses `hstrong.1`, the part of the strong-convexity hypothesis giving positivity of $\rho$, together with positivity of $\varepsilon^2$. The proof then establishes
 
 $$
 \Theta(q)<\Theta(q)+c
@@ -242,7 +242,7 @@ $$
 (\Theta(q))_{\mathrm{toReal}}+\frac{\rho}{4}\varepsilon^2,
 $$
 
-which follows from $c>0$ by `linarith`.
+which follows from $c\gt 0$ by `linarith`.
 
 Because $\Theta(u_{k+1})\to \Theta(q)$, and because the interval below $\Theta(q)+c$ is a neighborhood of $\Theta(q)$, eventually
 
@@ -254,37 +254,37 @@ The proof converts this eventual statement into an index $N$ via `Filter.eventua
 
 It argues by contradiction using `by_contra`. After simplifying the distance to
 
-$$
+```math
 \|u_{k+1}-q\|,
-$$
+```
 
 suppose the desired inequality fails. Then
 
-$$
+```math
 \varepsilon\le \|u_{k+1}-q\|.
-$$
+```
 
 Squaring gives
 
-$$
+```math
 \varepsilon^2\le \|u_{k+1}-q\|^2.
-$$
+```
 
 This is proved by `nlinarith` using nonnegativity of a square. Multiplying by the nonnegative quantity $\rho/4$ gives
 
-$$
+```math
 \frac{\rho}{4}\varepsilon^2
 \le
 \frac{\rho}{4}\|u_{k+1}-q\|^2.
-$$
+```
 
 The nonnegativity of $\rho/4$ again comes from `hstrong.1`. Coercing this real inequality into $\overline{\mathbb R}$ via `EReal.coe_le_coe_iff` and adding $\Theta(q)$ to both sides gives
 
-$$
+```math
 \Theta(q)+c
 \le
 \Theta(q)+\left(\frac{\rho}{4}\|u_{k+1}-q\|^2:\overline{\mathbb R}\right).
-$$
+```
 
 Combining this with the strong-convexity growth estimate `hgrowth k` yields
 
@@ -300,11 +300,11 @@ $$
 
 These contradict each other. Therefore the assumption that the norm is at least $\varepsilon$ was false, so
 
-$$
+```math
 \|u_{k+1}-q\|<\varepsilon.
-$$
+```
 
-Since $\varepsilon>0$ was arbitrary, this proves `hnorm`, namely $\|u_{k+1}-q\|\to 0$.
+Since $\varepsilon\gt 0$ was arbitrary, this proves `hnorm`, namely $`\|u_{k+1}-q\|\to 0`$.
 
 Finally, the proof converts this norm convergence into convergence of the shifted sequence. The theorem `tendsto_iff_norm_sub_tendsto_zero` says that convergence to $q$ is equivalent to the norm of the difference tending to zero. Applying it with `hnorm` gives
 

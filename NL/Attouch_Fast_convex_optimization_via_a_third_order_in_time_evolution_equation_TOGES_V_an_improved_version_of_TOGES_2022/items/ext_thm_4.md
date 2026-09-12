@@ -20,9 +20,9 @@ $$
 
 The conclusion is that for every $t\ge t_0$,
 
-$$
+```math
 E(t)\le e^{-a(t-t_0)}E(t_0)+\int_{t_0}^{t} e^{-a(t-s)}b(s)\,ds.
-$$
+```
 
 Thus, if $E$ satisfies the differential inequality $E'+aE\le b$, then $E(t)$ is bounded above by the explicit solution formula for the equality case $E'+aE=b$ with initial value $E(t_0)$. This is the usual Gronwall-type comparison estimate in the scalar linear case.
 
@@ -98,18 +98,18 @@ by
 ```
 
 ## Proof explanation
-The proof fixes an arbitrary $t\ge t_0$ using `intro t ht`. It then splits into the case $t=t_0$ and the case $t_0<t$ using `rcases ht.eq_or_lt with rfl | htlt`.
+The proof fixes an arbitrary $t\ge t_0$ using `intro t ht`. It then splits into the case $t=t_0$ and the case $t_0\lt t$ using `rcases ht.eq_or_lt with rfl | htlt`.
 
 In the equality case $t=t_0$, the tactic `simp` proves the desired inequality. The right-hand side becomes
 
-$$
+```math
 e^{0}E(t_0)+\int_{t_0}^{t_0} e^{-a(t_0-s)}b(s)\,ds
 = E(t_0)+0,
-$$
+```
 
 because $e^0=1$ and the interval integral over a single point is zero. Hence the conclusion reduces to $E(t_0)\le E(t_0)$.
 
-From now on assume $t_0<t$. The proof introduces three auxiliary functions:
+From now on assume $t_0\lt t$. The proof introduces three auxiliary functions:
 
 $$
 w(s)=e^{a(s-t_0)},\qquad q(s)=w(s)E(s),\qquad \varphi(s)=w(s)b(s).
@@ -125,7 +125,7 @@ $$
 s\mapsto e^{a(s-t_0)}b(s)
 $$
 
-is also interval integrable on $[t_0,t]$. Here this is applied with the given $b,t_0,t,a$, the inequality $t_0\le t$ from $t_0<t$, and the hypothesis `hIntegrable t htlt.le`. Thus $\varphi$ is interval integrable. The proof then converts interval integrability into integrability on the closed interval $Icc(t_0,t)=[t_0,t]$ using `intervalIntegrable_iff_integrableOn_Icc_of_le`, which is valid because $t_0\le t$. This gives $\varphi$ integrable on $[t_0,t]$, and in particular the negative function $-\varphi$ is integrable there.
+is also interval integrable on $[t_0,t]$. Here this is applied with the given $b,t_0,t,a$, the inequality $t_0\le t$ from $t_0\lt t$, and the hypothesis `hIntegrable t htlt.le`. Thus $\varphi$ is interval integrable. The proof then converts interval integrability into integrability on the closed interval $Icc(t_0,t)=[t_0,t]$ using `intervalIntegrable_iff_integrableOn_Icc_of_le`, which is valid because $t_0\le t$. This gives $\varphi$ integrable on $[t_0,t]$, and in particular the negative function $-\varphi$ is integrable there.
 
 The next step computes the derivative of $q$. For $s\in(t_0,t)$, the proof shows that
 
@@ -182,10 +182,10 @@ $$
 
 The hypotheses supplied are: $t_0\le t$; $g$ is continuous on $[t_0,t]$; $g$ has the stated right derivative on $(t_0,t)$; $\phi$ is integrable on $[t_0,t]$; and $\phi\le g'$ on $(t_0,t)$. Its conclusion in this situation is
 
-$$
+```math
 \int_{t_0}^{t} -w(s)b(s)\,ds
 \le (-q)(t)-(-q)(t_0).
-$$
+```
 
 This is the inequality named `hcmp`.
 
@@ -203,16 +203,16 @@ $$
 
 the inequality becomes
 
-$$
+```math
 -\int_{t_0}^{t}w(s)b(s)\,ds
 \le -w(t)E(t)+E(t_0).
-$$
+```
 
 Rearranging by `linarith` yields
 
-$$
+```math
 w(t)E(t)\le E(t_0)+\int_{t_0}^{t}w(s)b(s)\,ds.
-$$
+```
 
 This intermediate inequality is `hweighted`.
 
@@ -224,11 +224,11 @@ $$
 
 Using `mul_le_mul_of_nonneg_left`, it obtains
 
-$$
+```math
 e^{-a(t-t_0)}w(t)E(t)
 \le e^{-a(t-t_0)}
 \left(E(t_0)+\int_{t_0}^{t}w(s)b(s)\,ds\right).
-$$
+```
 
 Since
 
@@ -241,20 +241,20 @@ $$
 
 and the right-hand side distributes, this becomes
 
-$$
+```math
 E(t)\le e^{-a(t-t_0)}E(t_0)
 +e^{-a(t-t_0)}\int_{t_0}^{t}w(s)b(s)\,ds.
-$$
+```
 
 This is `hresult`.
 
 Finally, the proof identifies the remaining integral. It uses `intervalIntegral.integral_const_mul` to move the constant $e^{-a(t-t_0)}$ inside the integral:
 
-$$
+```math
 e^{-a(t-t_0)}\int_{t_0}^{t}w(s)b(s)\,ds
 =\int_{t_0}^{t}
 e^{-a(t-t_0)}w(s)b(s)\,ds.
-$$
+```
 
 For each $s$, the cited identity `scalar_differential_kernel_identity` gives
 
@@ -271,17 +271,17 @@ $$
 
 Thus, by `intervalIntegral.integral_congr`,
 
-$$
+```math
 e^{-a(t-t_0)}\int_{t_0}^{t}w(s)b(s)\,ds
 =\int_{t_0}^{t}e^{-a(t-s)}b(s)\,ds.
-$$
+```
 
 Substituting this equality into `hresult` and applying `linarith` gives exactly the claimed bound
 
-$$
+```math
 E(t)\le e^{-a(t-t_0)}E(t_0)
 +\int_{t_0}^{t}e^{-a(t-s)}b(s)\,ds.
-$$
+```
 
 This completes the proof for arbitrary $t\ge t_0$.
 

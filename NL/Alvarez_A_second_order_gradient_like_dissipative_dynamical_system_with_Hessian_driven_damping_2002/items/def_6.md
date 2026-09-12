@@ -17,7 +17,7 @@ $$
 x(0)=x_0
 $$
 
-together with the condition that, for every real $t$ with $t>0$,
+together with the condition that, for every real $t$ with $t\gt 0$,
 
 $$
 D(\nabla\Phi)(x(t))\bigl(\dot x(t)\bigr)+\nabla\Phi(x(t))=0,
@@ -41,7 +41,7 @@ $$
 \nabla^2\Phi(x(t))\dot x(t)=-\nabla\Phi(x(t)),
 $$
 
-when the Hessian is represented by the derivative of $\nabla\Phi$. The equation is imposed only for strictly positive times $t>0$, while the initial condition $x(0)=x_0$ is imposed separately at time $0$. Therefore the definition packages exactly the statement that $x$ starts at $x_0$ and satisfies the continuous Newton equation for all positive times.
+when the Hessian is represented by the derivative of $\nabla\Phi$. The equation is imposed only for strictly positive times $t\gt 0$, while the initial condition $x(0)=x_0$ is imposed separately at time $0$. Therefore the definition packages exactly the statement that $x$ starts at $x_0$ and satisfies the continuous Newton equation for all positive times.
 
 ## Lean proof
 ```lean
@@ -49,5 +49,5 @@ when the Hessian is represented by the derivative of $\nabla\Phi$. The equation 
 ```
 
 ## Proof explanation
-There is no separate proof. The declaration is a definition, and the supplied proof field consists only of the comment indicating that there is no proof part. Consequently, no tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` occur, and no theorem, lemma, or local result is invoked. Mathematically, the definition simply packages the two conditions described above as a proposition: to prove `IsContinuousNewtonTrajectory x₀ x Φ` one would have to establish $x(0)=x_0$ and prove the continuous Newton equation for every $t>0$; conversely, assuming `IsContinuousNewtonTrajectory x₀ x Φ` gives exactly those two facts. This is the entire content recorded by the source.
+There is no separate proof. The declaration is a definition, and the supplied proof field consists only of the comment indicating that there is no proof part. Consequently, no tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` occur, and no theorem, lemma, or local result is invoked. Mathematically, the definition simply packages the two conditions described above as a proposition: to prove `IsContinuousNewtonTrajectory x₀ x Φ` one would have to establish $x(0)=x_0$ and prove the continuous Newton equation for every $t\gt 0$; conversely, assuming `IsContinuousNewtonTrajectory x₀ x Φ` gives exactly those two facts. This is the entire content recorded by the source.
 

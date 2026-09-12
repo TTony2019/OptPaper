@@ -10,9 +10,9 @@ theorem velocity_eq_sub_of_one_le {H : Type*} [Sub H] (u : ℕ → H) (k : ℕ) 
 ## Statement explanation
 The declaration `velocity_eq_sub_of_one_le` is stated for an arbitrary type $H$ carrying a subtraction operation, expressed in Lean by the typeclass `Sub H`. It takes a sequence $u : \mathbb{N} \to H$, a natural number $k : \mathbb{N}$, and a proof `_hk` of the hypothesis $1 \le k$. Its conclusion is
 
-$$
+```math
 \mathrm{velocity}(u,k,\_hk) = u(k) - u(k-1).
-$$
+```
 
 Here $u(k)$ and $u(k-1)$ are elements of $H$, and the subtraction is the binary operation supplied by `Sub H`; no group, module, vector-space, or topological structure on $H$ is assumed. The index $k$ is positive because of the hypothesis $1 \le k$, so $k-1$ is the predecessor of $k$. Thus the theorem says that the `velocity` function applied to the sequence $u$ at time $k$, together with the positivity proof, is definitionally the backward difference between the $k$-th term and the immediately preceding term of $u$. The proof `_hk` is an argument to `velocity` and is what allows the expression to be formed for positive indices.
 
@@ -32,9 +32,9 @@ $$
 
 Therefore the goal
 
-$$
+```math
 \mathrm{velocity}(u,k,\_hk) = u(k) - u(k-1)
-$$
+```
 
 is a reflexive equality after definitional unfolding, and `rfl` closes it immediately.
 

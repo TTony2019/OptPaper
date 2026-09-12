@@ -17,41 +17,41 @@ theorem cor_2_1 (f : H → ℝ) (α : ℝ) (hα : α ≥ 1) (A : SetValuedOperat
 ## Statement explanation
 The declaration concerns a real inner product space $H$, a real-valued function $f:H\to\mathbb R$, a real number $\alpha$, two set-valued operators $A,B$ from $H$ to $H$, a sequence of positive nondecreasing parameters $\lambda:\mathbb N\to\mathbb R$, and a sequence $x:\mathbb N\to H$.
 
-The hypotheses say the following. First, $\alpha\ge 1$. Second, for every $u\in H$, the set $A u$ is exactly the subdifferential of the function $z\mapsto \|z\|^\alpha$ at $u$:
+The hypotheses say the following. First, $\alpha\ge 1$. Second, for every $u\in H$, the set $A u$ is exactly the subdifferential of the function $`z\mapsto \|z\|^\alpha`$at$u$:
 
-$$
+```math
 A u=\left\{v\in H:\ \forall y\in H,\ \|y\|^\alpha\ge \|u\|^\alpha+\langle v,y-u\rangle\right\}.
-$$
+```
 
 Third, for every $u\in H$, the set $B u$ is exactly the subdifferential of $f$ at $u$:
 
-$$
+```math
 B u=\left\{v\in H:\ \forall y\in H,\ f(y)\ge f(u)+\langle v,y-u\rangle\right\}.
-$$
+```
 
-Fourth, $f$ is convex on all of $H$, lower semicontinuous, its domain-like operator $B$ has nonempty domain, and $f$ is bounded below by some real number $m$. Fifth, every $\lambda_n>0$ and the sequence $\lambda$ is nondecreasing: $\lambda_n\le \lambda_{n+1}$. Finally, $x$ satisfies the algorithmic relation `AlgorithmA A B x lam`. The proof shows that the only part of that relation used is the step relation
+Fourth, $f$ is convex on all of $H$, lower semicontinuous, its domain-like operator $B$ has nonempty domain, and $f$ is bounded below by some real number $m$. Fifth, every $\lambda_n\gt 0$ and the sequence $\lambda$ is nondecreasing: $\lambda_n\le \lambda_{n+1}$. Finally, $x$ satisfies the algorithmic relation `AlgorithmA A B x lam`. The proof shows that the only part of that relation used is the step relation
 
-$$
+```math
 0\in \left\{\lambda_n^{-2}\bigl(x_{n+2}-2x_{n+1}+x_n\bigr)\right\}
 +A\!\left(\lambda_n^{-1}(x_{n+2}-x_{n+1})\right)
 +B(x_{n+2})
-$$
+```
 
 for every $n$.
 
 The conclusion is that there exists a real number $C$ such that
 
-$$
+```math
 \sum_{n=0}^{N}\left\|\lambda_n^{-1}\bigl(x_{n+2}-x_{n+1}\bigr)\right\|^\alpha
 \longrightarrow C
 \qquad (N\to\infty).
-$$
+```
 
 Thus the partial sums of the residuals
 
-$$
+```math
 \left\|\lambda_n^{-1}\bigl(x_{n+2}-x_{n+1}\bigr)\right\|^\alpha
-$$
+```
 
 converge; equivalently, the series of these nonnegative residuals is summable. The proof actually exhibits $C$ as the infinite sum of those terms. The assumptions that $f$ is convex, lower semicontinuous, and that $B$ has nonempty domain are present in the statement, but the displayed proof does not use them.
 
@@ -262,17 +262,17 @@ by
 ## Proof explanation
 The proof begins with `classical`, which only permits classical logic and does not affect the mathematics. It then introduces four auxiliary sequences:
 
-$$
+```math
 v_n:=\lambda_n^{-1}\bigl(x_{n+2}-x_{n+1}\bigr),
 \qquad
 t_n:=\|v_n\|^\alpha,
-$$
+```
 
-$$
+```math
 w_n:=\lambda_n t_n,
 \qquad
 E_n:=\frac{1}{2\lambda_n^2}\|x_{n+1}-x_n\|^2+f(x_{n+1}).
-$$
+```
 
 Here $E_n$ is an energy or Lyapunov quantity. The main goal is to prove that the $t_n$ are summable.
 
@@ -299,15 +299,15 @@ $$
 
 The algorithmic step for this $n$ gives
 
-$$
+```math
 0\in \{\mathrm{acc}\}+A v+B(x_{n+2}).
-$$
+```
 
 The proof rewrites membership in a Minkowski sum using `Set.mem_add`. This membership says that a point belongs to $S+T$ exactly when it is the sum of one point of $S$ and one point of $T$. Applying this twice decomposes the algorithmic inclusion into the existence of
 
-$$
+```math
 p\in \{\mathrm{acc}\}+A v,\qquad b\in B(x_{n+2}),\qquad p+b=0,
-$$
+```
 
 and then into the existence of
 
@@ -315,7 +315,7 @@ $$
 y\in A v,\qquad \mathrm{acc}+y=p.
 $$
 
-Because $p\in\{\mathrm{acc}\}+A v$, the singleton-membership lemma `Set.mem_singleton_iff` gives the first summand as $\mathrm{acc}$, after which `subst` replaces it. Hence
+Because $`p\in\{\mathrm{acc}\}+A v`$, the singleton-membership lemma `Set.mem_singleton_iff` gives the first summand as $\mathrm{acc}$, after which `subst` replaces it. Hence
 
 $$
 \mathrm{acc}+y+b=0.
@@ -339,7 +339,7 @@ $$
 f(x_{n+2})-f(x_{n+1})\le \langle b,d_2\rangle.
 $$
 
-The proof also compares the kinetic coefficients. Since $\lambda_n>0$ and $\lambda_n\le \lambda_{n+1}$, we have
+The proof also compares the kinetic coefficients. Since $\lambda_n\gt 0$ and $\lambda_n\le \lambda_{n+1}$, we have
 
 $$
 0<2\lambda_n^2\le 2\lambda_{n+1}^2,
@@ -351,40 +351,40 @@ $$
 \frac{1}{2\lambda_{n+1}^2}\le \frac{1}{2\lambda_n^2}.
 $$
 
-Multiplying by the nonnegative quantity $\|d_2\|^2$ gives
+Multiplying by the nonnegative quantity $`\|d_2\|^2`$ gives
 
-$$
+```math
 \frac{1}{2\lambda_{n+1}^2}\|d_2\|^2
 \le
 \frac{1}{2\lambda_n^2}\|d_2\|^2.
-$$
+```
 
 Combining this with the previous subgradient estimate yields
 
-$$
+```math
 E_{n+1}-E_n
 \le
 \frac{1}{2\lambda_n^2}\bigl(\|d_2\|^2-\|d_1\|^2\bigr)
 +\langle b,d_2\rangle.
-$$
+```
 
 This is the step where the proof uses `linarith` to combine the two inequalities after unfolding the definition of $E$.
 
-Next the proof estimates the difference of squared norms. From the nonnegativity of $\|d_2-d_1\|^2$, expanding the square and rewriting the real inner product by symmetry gives
+Next the proof estimates the difference of squared norms. From the nonnegativity of $`\|d_2-d_1\|^2`$, expanding the square and rewriting the real inner product by symmetry gives
 
-$$
+```math
 \|d_2\|^2-\|d_1\|^2
 \le
 2\langle d_2-d_1,d_2\rangle.
-$$
+```
 
 The Lean proof uses `norm_sub_sq_real`, `real_inner_comm`, `inner_sub_left`, and `real_inner_self_eq_norm_sq`, then finishes with `nlinarith`. Multiplying by the nonnegative factor $\frac{1}{2\lambda_n^2}$ gives
 
-$$
+```math
 \frac{1}{2\lambda_n^2}\bigl(\|d_2\|^2-\|d_1\|^2\bigr)
 \le
 \frac{1}{\lambda_n^2}\langle d_2-d_1,d_2\rangle.
-$$
+```
 
 But
 
@@ -432,30 +432,30 @@ $$
 
 It remains to bound $\langle y,v\rangle$ from below. Since $y\in A v$, the definition of $A$ gives
 
-$$
+```math
 \forall z\in H,\qquad
 \|z\|^\alpha\ge \|v\|^\alpha+\langle y,z-v\rangle.
-$$
+```
 
-Taking $z=0$, and using $\alpha>0$ from $\alpha\ge1$, we have $0^\alpha=0$. Therefore
+Taking $z=0$, and using $\alpha\gt 0$ from $\alpha\ge1$, we have $0^\alpha=0$. Therefore
 
-$$
+```math
 0\ge \|v\|^\alpha-\langle y,v\rangle,
-$$
+```
 
 so
 
-$$
+```math
 \langle y,v\rangle\ge \|v\|^\alpha.
-$$
+```
 
 Multiplying by the negative number $-\lambda_n$ reverses the inequality:
 
-$$
+```math
 -\lambda_n\langle y,v\rangle
 \le
 -\lambda_n\|v\|^\alpha.
-$$
+```
 
 Since $v=\lambda_n^{-1}(x_{n+2}-x_{n+1})$, the right-hand side is exactly $-w_n$. Combining all inequalities gives
 
@@ -471,9 +471,9 @@ $$
 
 Since $f\ge m$, and the kinetic term is nonnegative,
 
-$$
+```math
 E_N=\frac{1}{2\lambda_N^2}\|x_{N+1}-x_N\|^2+f(x_{N+1})\ge m.
-$$
+```
 
 Summing the inequality $w_n\le E_n-E_{n+1}$ over $n=0,\dots,N-1$ and using telescoping, the proof gets
 
@@ -488,13 +488,13 @@ $$
 
 Here `Finset.sum_range_sub'` is the telescoping-sum identity.
 
-Next the proof compares $t_n$ with $w_n$. Since $\lambda$ is nondecreasing and $\lambda_0>0$, induction gives $\lambda_0\le \lambda_n$ for every $n$. Because $t_n\ge0$,
+Next the proof compares $t_n$ with $w_n$. Since $\lambda$ is nondecreasing and $\lambda_0\gt 0$, induction gives $\lambda_0\le \lambda_n$ for every $n$. Because $t_n\ge0$,
 
 $$
 \lambda_0 t_n\le \lambda_n t_n=w_n.
 $$
 
-Multiplying by $\lambda_0^{-1}>0$ gives
+Multiplying by $\lambda_0^{-1}\gt 0$ gives
 
 $$
 t_n\le \lambda_0^{-1}w_n.
@@ -532,13 +532,13 @@ $$
 
 Finally, unfolding the definitions of $t_n$ and $v_n$ turns this into exactly the desired convergence:
 
-$$
+```math
 \sum_{n=0}^{N}
 \left\|
 \lambda_n^{-1}\bigl(x_{n+2}-x_{n+1}\bigr)
 \right\|^\alpha
 \longrightarrow C.
-$$
+```
 
 This is the conclusion of the theorem.
 

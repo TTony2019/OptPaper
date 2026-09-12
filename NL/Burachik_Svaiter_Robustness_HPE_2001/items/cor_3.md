@@ -22,11 +22,11 @@ $$
 
 so $x^*$ is a zero of the set-valued operator $T$. Under this hypothesis, the theorem concludes the conjunction of five asymptotic statements:
 
-1. the range $\{x_k:k\in\mathbb N\}$ is bounded;
-2. $\displaystyle \|y_k-x_k\|\to 0$ as $k\to\infty$;
+1. the range $`\{x_k:k\in\mathbb N\}`$ is bounded;
+2. $`\displaystyle \|y_k-x_k\|\to 0`$as$k\to\infty$;
 3. $\displaystyle \varepsilon_k\to 0$;
-4. $\displaystyle \|v_k\|\to 0$;
-5. $\displaystyle \|c_k v_k\|\to 0$.
+4. $`\displaystyle \|v_k\|\to 0`$;
+5. $`\displaystyle \|c_k v_k\|\to 0`$.
 
 Thus the HPE iterates are bounded, and several natural residual or error quantities vanish asymptotically: the displacement between $y_k$ and $x_k$, the scalar error $\varepsilon_k$, the vector $v_k$, and its scaled version $c_k v_k$. The statement does not assert convergence of the sequence $x_k$ itself, only boundedness of its range.
 
@@ -163,9 +163,9 @@ The proof proceeds by extracting the assumed zero $x^*$, obtaining convergence o
 
 1. The hypothesis $hzero$ is destructed by `rcases hzero with ⟨xStar, hxStar⟩`, producing a point $x^*$ and the membership $0\in T x^*$. The theorem `hpe_distance_converges` is then applied to $A$ and $x^*$. Its content is that for an HPE iterate $A$ for $T$ and a zero $x^*$ of $T$, there exists $L\ge 0$ such that
 
-$$
+```math
 \|x_k-x^*\|\to L.
-$$
+```
 
 The proof therefore obtains $L$, the inequality $0\le L$, and the convergence `hDist`.
 
@@ -177,20 +177,20 @@ $$
 
 These are the error-type scalar sequences appearing in the HPE inequalities.
 
-3. To prove boundedness of $\{x_k\}$, the proof uses the fact that a convergent sequence has bounded range. From `hDist`, the real sequence $k\mapsto \|x_k-x^*\|$ is bounded. The lemma `Metric.isBounded_range_of_tendsto` supplies boundedness of this range, and `isBounded_iff_forall_norm_le` converts that into a constant $C$ such that
+3. To prove boundedness of $`\{x_k\}`$, the proof uses the fact that a convergent sequence has bounded range. From `hDist`, the real sequence $`k\mapsto \|x_k-x^*\|`$ is bounded. The lemma `Metric.isBounded_range_of_tendsto` supplies boundedness of this range, and `isBounded_iff_forall_norm_le` converts that into a constant $C$ such that
 
-$$
+```math
 \|x_k-x^*\|\le C
-$$
+```
 
 for every $k$. Then for any $x_k$ in the range,
 
-$$
+```math
 \|x_k\|
 = \|(x_k-x^*)+x^*\|
 \le \|x_k-x^*\|+\|x^*\|
 \le C+\|x^*\|.
-$$
+```
 
 The `calc` block carries out exactly this chain, using the triangle inequality `norm_add_le` and monotonicity of addition. Hence the range of $x$ is bounded.
 
@@ -200,34 +200,34 @@ $$
 \mathrm{extragradientStep} A k=x_k-c_k v_k.
 $$
 
-The sequence $k\mapsto \|x_{k+1}-x^*\|$ still tends to $L$, by shifting the index by $1$ using `Filter.tendsto_add_atTop_nat 1`.
+The sequence $`k\mapsto \|x_{k+1}-x^*\|`$still tends to$L$, by shifting the index by$1$ using `Filter.tendsto_add_atTop_nat 1`.
 
 The HPE field `A.update_error k` says that the next iterate approximates the extragradient step within $\alpha_k$:
 
-$$
+```math
 \|(x_k-c_k v_k)-x_{k+1}\|\le \alpha_k.
-$$
+```
 
 Using the reverse triangle inequality `abs_norm_sub_norm_le`, the proof obtains
 
-$$
+```math
 \left|\|x_k-c_kv_k-x^*\|-\|x_{k+1}-x^*\|\right|
 \le \|(x_k-c_kv_k)-x_{k+1}\|
 \le \alpha_k.
-$$
+```
 
 Since both $-\alpha_k\to 0$ and $\alpha_k\to 0$, the squeeze lemma
 `tendsto_of_tendsto_of_tendsto_of_le_of_le` gives
 
-$$
+```math
 \|x_k-c_kv_k-x^*\|-\|x_{k+1}-x^*\|\to 0.
-$$
+```
 
 Adding the convergence of the shifted sequence yields
 
-$$
+```math
 \|x_k-c_kv_k-x^*\|\to L.
-$$
+```
 
 This is the convergence `hExactDist`.
 
@@ -243,14 +243,14 @@ $$
 q=1-\bar\sigma^2.
 $$
 
-Since $0<\bar\sigma<1$, we have $q>0$.
+Since $0\lt \bar\sigma\lt 1$, we have $q\gt 0$.
 
 6. The lemma `hpe_descent` has the following content: for every $k$,
 
-$$
+```math
 \|x^*-x_k\|^2-\|x^*-(x_k-c_kv_k)\|^2
 \ge (1-\sigma_k^2)\|y_k-x_k\|^2-\delta_k.
-$$
+```
 
 Because $\sigma_k^2\le \bar\sigma^2$, we have
 
@@ -258,64 +258,64 @@ $$
 q=1-\bar\sigma^2\le 1-\sigma_k^2.
 $$
 
-Multiplying by the nonnegative quantity $\|y_k-x_k\|^2$ and combining with the descent inequality gives
+Multiplying by the nonnegative quantity $`\|y_k-x_k\|^2`$ and combining with the descent inequality gives
 
-$$
+```math
 q\|y_k-x_k\|^2
 \le
 \|x^*-x_k\|^2-\|x^*-(x_k-c_kv_k)\|^2+\delta_k.
-$$
+```
 
 The proof packages this as `hdispSqLe`; the arithmetic is handled by `nlinarith`.
 
 7. The right-hand side of that inequality tends to $0$. Indeed, `hDist` and `hExactDist` show that
 
-$$
+```math
 \|x^*-x_k\|^2\to L^2,\qquad
 \|x^*-(x_k-c_kv_k)\|^2\to L^2.
-$$
+```
 
 Their difference therefore tends to $0$, and adding $\delta_k\to 0$ gives
 
-$$
+```math
 \|x^*-x_k\|^2-\|x^*-(x_k-c_kv_k)\|^2+\delta_k\to 0.
-$$
+```
 
 This is `hright0`.
 
-8. To deduce $\|y_k-x_k\|\to 0$, the proof applies `hpe_tendsto_norm_of_sq_le`. That lemma says: if $u_k\ge 0$, $b_k\to 0$, and $u_k^2\le b_k$, then $u_k\to 0$. Here the proof takes
+8. To deduce $`\|y_k-x_k\|\to 0`$, the proof applies `hpe_tendsto_norm_of_sq_le`. That lemma says: if $u_k\ge 0$, $b_k\to 0$, and $u_k^2\le b_k$, then $u_k\to 0$. Here the proof takes
 
-$$
+```math
 u_k=\|y_k-x_k\|,
 \qquad
 b_k=\frac{\|x^*-x_k\|^2-\|x^*-(x_k-c_kv_k)\|^2+\delta_k}{q}.
-$$
+```
 
-Since $q>0$, $b_k\to 0$. The inequality from `hdispSqLe` is $q u_k^2\le \text{right-hand side}$, which is equivalent to $u_k^2\le b_k$. Hence $u_k\to 0$, i.e.
+Since $q\gt 0$, $b_k\to 0$. The inequality from `hdispSqLe` is $q u_k^2\le \text{right-hand side}$, which is equivalent to $u_k^2\le b_k$. Hence $u_k\to 0$, i.e.
 
-$$
+```math
 \|y_k-x_k\|\to 0.
-$$
+```
 
 This is `hdisp`.
 
 9. Next the proof shows
 
-$$
+```math
 \sigma_k^2\|y_k-x_k\|^2\to 0.
-$$
+```
 
-Since $\|y_k-x_k\|\to 0$, its square tends to $0$. Also $0\le \sigma_k^2\le \bar\sigma^2$, so
+Since $`\|y_k-x_k\|\to 0`$, its square tends to$0$. Also$0\le \sigma_k^2\le \bar\sigma^2$, so
 
-$$
+```math
 0\le \sigma_k^2\|y_k-x_k\|^2\le \bar\sigma^2\|y_k-x_k\|^2.
-$$
+```
 
 The upper bound tends to $0$, so the squeeze theorem gives the desired convergence. Consequently,
 
-$$
+```math
 b_k:=\delta_k+\sigma_k^2\|y_k-x_k\|^2\to 0.
-$$
+```
 
 This is `hb0`.
 
@@ -327,33 +327,33 @@ $$
 
 Equivalently, $R_k=y_k-(x_k-c_kv_k)$, the difference between $y_k$ and the extragradient step. The HPE field `A.residual_bound k` is used in the form
 
-$$
+```math
 \|R_k\|^2+2c_k\varepsilon_k
 \le
 \delta_k+\sigma_k^2\|y_k-x_k\|^2.
-$$
+```
 
 Since $c_k\varepsilon_k\ge 0$, this implies
 
-$$
+```math
 \|R_k\|^2\le \delta_k+\sigma_k^2\|y_k-x_k\|^2=b_k.
-$$
+```
 
-Applying `hpe_tendsto_norm_of_sq_le` with $u_k=\|R_k\|$ and the same $b_k\to 0$ gives
+Applying `hpe_tendsto_norm_of_sq_le` with $`u_k=\|R_k\|`$and the same$b_k\to 0$ gives
 
-$$
+```math
 \|R_k\|\to 0.
-$$
+```
 
 This is `hR0`.
 
-11. To prove $\varepsilon_k\to 0$, the proof uses `A.c_lower_bound`, which supplies $\bar c>0$ such that
+11. To prove $\varepsilon_k\to 0$, the proof uses `A.c_lower_bound`, which supplies $\bar c\gt 0$ such that
 
 $$
 \bar c\le c_k
 $$
 
-for every $k$. From the residual bound, dropping the nonnegative term $\|R_k\|^2$, we get
+for every $k$. From the residual bound, dropping the nonnegative term $`\|R_k\|^2`$, we get
 
 $$
 2c_k\varepsilon_k\le b_k.
@@ -361,11 +361,11 @@ $$
 
 Since $\bar c\le c_k$ and $\varepsilon_k\ge 0$, it follows that
 
-$$
+```math
 2\bar c\,\varepsilon_k\le 2c_k\varepsilon_k\le b_k.
-$$
+```
 
-The lemma `hpe_tendsto_of_le_div_const` says: if $c>0$, $u_k\ge 0$, $b_k\to 0$, and $c u_k\le b_k$, then $u_k\to 0$. Applying it with $c=2\bar c$, $u_k=\varepsilon_k$, and $b_k\to 0$ gives
+The lemma `hpe_tendsto_of_le_div_const` says: if $c\gt 0$, $u_k\ge 0$, $b_k\to 0$, and $c u_k\le b_k$, then $u_k\to 0$. Applying it with $c=2\bar c$, $u_k=\varepsilon_k$, and $b_k\to 0$ gives
 
 $$
 \varepsilon_k\to 0.
@@ -373,7 +373,7 @@ $$
 
 This is `hε0`.
 
-12. To prove $\|c_kv_k\|\to 0$, the proof rearranges
+12. To prove $`\|c_kv_k\|\to 0`$, the proof rearranges
 
 $$
 R_k=c_kv_k+y_k-x_k
@@ -387,37 +387,37 @@ $$
 
 The triangle inequality gives
 
-$$
+```math
 \|c_kv_k\|\le \|R_k\|+\|y_k-x_k\|.
-$$
+```
 
-Both terms on the right tend to $0$, so their sum tends to $0$. Since $\|c_kv_k\|\ge 0$, the squeeze theorem gives
+Both terms on the right tend to $0$, so their sum tends to $0$. Since $`\|c_kv_k\|\ge 0`$, the squeeze theorem gives
 
-$$
+```math
 \|c_kv_k\|\to 0.
-$$
+```
 
 This is `hcv0`.
 
-13. Finally, to prove $\|v_k\|\to 0$, the proof again applies `hpe_tendsto_of_le_div_const`, now with $c=\bar c$, $u_k=\|v_k\|$, and $b_k=\|c_kv_k\|$. Since $c_k>0$,
+13. Finally, to prove $`\|v_k\|\to 0`$, the proof again applies `hpe_tendsto_of_le_div_const`, now with $c=\bar c$, $`u_k=\|v_k\|`$, and$`b_k=\|c_kv_k\|`$. Since$c_k>0$,
 
-$$
+```math
 \|c_kv_k\|=|c_k|\,\|v_k\|=c_k\|v_k\|.
-$$
+```
 
-Because $\bar c\le c_k$ and $\|v_k\|\ge 0$,
+Because $\bar c\le c_k$ and $`\|v_k\|\ge 0`$,
 
-$$
+```math
 \bar c\|v_k\|\le c_k\|v_k\|=\|c_kv_k\|.
-$$
+```
 
-Since $\|c_kv_k\|\to 0$, the lemma gives
+Since $`\|c_kv_k\|\to 0`$, the lemma gives
 
-$$
+```math
 \|v_k\|\to 0.
-$$
+```
 
 This is `hv0`.
 
-14. The final `exact ⟨hxBounded, hdisp, hε0, hv0, hcv0⟩` assembles the five previously proved facts into the conjunction required by the theorem: boundedness of the $x$-range, convergence of $\|y_k-x_k\|$, convergence of $\varepsilon_k$, convergence of $\|v_k\|$, and convergence of $\|c_kv_k\|$.
+14. The final `exact ⟨hxBounded, hdisp, hε0, hv0, hcv0⟩` assembles the five previously proved facts into the conjunction required by the theorem: boundedness of the $x$-range, convergence of $`\|y_k-x_k\|`$, convergence of$\varepsilon_k$, convergence of$`\|v_k\|`$, and convergence of$`\|c_kv_k\|`$.
 

@@ -29,7 +29,7 @@ The declaration `lemma_2_1_uniformized_KL` states the following. Let $m\in\mathb
 - $f$ is constant on $\Omega$: for all $x,y\in\Omega$, $f(x)=f(y)$.
 - $f$ has the Kurdyka–Łojasiewicz property at every point of $\Omega$.
 
-The conclusion is that there exist real numbers $\varepsilon>0$, $\eta>0$, and a function $\phi:\mathbb R\to\mathbb R$ such that $\phi$ is a desingularizing function for $\eta$, and such that for every $\bar x\in\Omega$ and every $x\in E$, if
+The conclusion is that there exist real numbers $\varepsilon\gt 0$, $\eta\gt 0$, and a function $\phi:\mathbb R\to\mathbb R$ such that $\phi$ is a desingularizing function for $\eta$, and such that for every $\bar x\in\Omega$ and every $x\in E$, if
 
 $$
 d(x,\Omega)<\varepsilon,\qquad f(\bar x)<f(x),\qquad f(x)<f(\bar x)+\eta,
@@ -37,9 +37,9 @@ $$
 
 then
 
-$$
+```math
 1\le \phi'\!\left((f(x))_{\mathbb R}-(f(\bar x))_{\mathbb R}\right)\, d\!\left(0,\partial f(x)\right).
-$$
+```
 
 Here $d(x,\Omega)$ is the distance from $x$ to $\Omega$, $(f(x))_{\mathbb R}$ denotes the real value of $f(x)$ when it is finite, and $\partial f(x)$ is the limiting subdifferential of $f$ at $x$. The expression $f(\bar x)+\eta$ is extended-real addition of the real number $\eta$ to $f(\bar x)$.
 
@@ -61,9 +61,9 @@ Thus the theorem says that, under compactness, constancy of $f$ on $\Omega$, and
 
 The distance $d(x,\Omega)$ is `distToSet x Omega`, defined as the metric infimum distance from $x$ to $\Omega$, namely
 
-$$
+```math
 d(x,\Omega)=\inf_{y\in\Omega}\|x-y\|.
-$$
+```
 
 The set $\partial f(x)$ is the limiting subdifferential: morally, it consists of limits of Fréchet subgradients along sequences $x_k\to x$ for which $f(x_k)\to f(x)$. The term $d(0,\partial f(x))$ is therefore the distance from the origin to that limiting subdifferential set.
 
@@ -233,7 +233,7 @@ by
 ## Proof explanation
 The proof begins with `classical`, putting the argument in classical logic, and then splits into two cases: $\Omega$ nonempty and $\Omega$ empty.
 
-In the nonempty case, for each $z\in\Omega$, the local KL hypothesis $hKL\,z\,hz$ is destructured. Its first component is later used to know that $z$ belongs to the subdifferential domain of $f$. Its second component provides local data: a positive number $\eta_{\mathrm{loc}}(z)$, a neighborhood $U_{\mathrm{loc}}(z)$ of $z$, and a function $\phi_{\mathrm{loc}}(z)$ such that $\phi_{\mathrm{loc}}(z)$ is desingularizing for $\eta_{\mathrm{loc}}(z)$, and such that for all $x\in U_{\mathrm{loc}}(z)$,
+In the nonempty case, for each $z\in\Omega$, the local KL hypothesis $`hKL\,z\,hz`$is destructured. Its first component is later used to know that$z$belongs to the subdifferential domain of$f$. Its second component provides local data: a positive number$\eta_{\mathrm{loc}}(z)$, a neighborhood$U_{\mathrm{loc}}(z)$of$z$, and a function$\phi_{\mathrm{loc}}(z)$such that$\phi_{\mathrm{loc}}(z)$is desingularizing for$\eta_{\mathrm{loc}}(z)$, and such that for all$x\in U_{\mathrm{loc}}(z)$,
 
 $$
 f(z)<f(x),\qquad f(x)<f(z)+\eta_{\mathrm{loc}}(z)
@@ -241,14 +241,14 @@ $$
 
 imply
 
-$$
+```math
 1\le \phi_{\mathrm{loc}}(z)'\!\left((f(x))_{\mathbb R}-(f(z))_{\mathbb R}\right)\,
    d\!\left(0,\partial f(x)\right).
-$$
+```
 
 The tactic `choose` turns these pointwise existential statements into choice functions, and the subsequent `intro` steps unpack the components: positivity of $\eta_{\mathrm{loc}}$, membership of $U_{\mathrm{loc}}$ in the neighborhood filter of $z$, the desingularizing property of $\phi_{\mathrm{loc}}$, and the local KL inequality.
 
-Next, for each $z\in\Omega$, since $U_{\mathrm{loc}}(z)$ is a neighborhood of $z$, the metric neighborhood characterization `Metric.mem_nhds_iff` gives a radius $\rho_{\mathrm{loc}}(z)>0$ such that
+Next, for each $z\in\Omega$, since $U_{\mathrm{loc}}(z)$ is a neighborhood of $z$, the metric neighborhood characterization `Metric.mem_nhds_iff` gives a radius $\rho_{\mathrm{loc}}(z)\gt 0$ such that
 
 $$
 B(z,\rho_{\mathrm{loc}}(z))\subseteq U_{\mathrm{loc}}(z).
@@ -256,9 +256,9 @@ $$
 
 The proof then defines a cover indexed by points of $E$: for $z\in\Omega$, the covering set is the smaller ball
 
-$$
+```math
 B\!\left(z,\frac{\rho_{\mathrm{loc}}(z)}2\right),
-$$
+```
 
 and for $z\notin\Omega$ it is the whole space. For $z\in\Omega$, this smaller ball is a neighborhood of $z$ because its radius is positive. Compactness is then used through `hcompact.elim_nhds_subcover`, which extracts a finite subset $t\subseteq\Omega$ such that the sets indexed by $t$ cover $\Omega$. This is the standard finite subcover step.
 
@@ -286,7 +286,7 @@ $$
 \Phi(s)=\sum_{i\in t}\phi_i(s).
 $$
 
-The finite infimum positivity lemma `finset_inf'_pos` shows that $\varepsilon>0$ and $\eta>0$, because $t$ is nonempty and all $\rho_i,\eta_i$ are positive. The standard finite infimum property `Finset.inf'_le` gives
+The finite infimum positivity lemma `finset_inf'_pos` shows that $\varepsilon\gt 0$ and $\eta\gt 0$, because $t$ is nonempty and all $\rho_i,\eta_i$ are positive. The standard finite infimum property `Finset.inf'_le` gives
 
 $$
 \varepsilon\le \rho_i,\qquad \eta\le \eta_i
@@ -294,7 +294,7 @@ $$
 
 for every $i\in t$.
 
-The finite-sum desingularizing lemma `desingularizingFunction_finset_sum_restrict` is then applied. Its mathematical content is: if $t$ is nonempty, $\eta>0$, $\eta\le \eta_i$ for every $i\in t$, and each $\phi_i$ is desingularizing for $\eta_i$, then the sum
+The finite-sum desingularizing lemma `desingularizingFunction_finset_sum_restrict` is then applied. Its mathematical content is: if $t$ is nonempty, $\eta\gt 0$, $\eta\le \eta_i$ for every $i\in t$, and each $\phi_i$ is desingularizing for $\eta_i$, then the sum
 
 $$
 \Phi(s)=\sum_{i\in t}\phi_i(s)
@@ -308,7 +308,7 @@ $$
 d(x,\Omega)<\varepsilon,\qquad f(\bar x)<f(x),\qquad f(x)<f(\bar x)+\eta.
 $$
 
-First, the proof shows that $\Omega$ is covered by the balls $B(i,\rho_i)$. This was already obtained from the finite subcover: for every $y\in\Omega$, there is $i\in t$ with $d(y,i)<\rho_i$. Then it applies `tube_cover_of_infDist_lt_finset_inf`. That lemma says: if $\Omega$ is covered by balls $B(c_i,r_i)$, all radii $r_i$ are positive, $\varepsilon\le r_i$ for all $i$, and $d(x,\Omega)<\varepsilon$, then $x$ lies in some doubled ball $B(c_i,2r_i)$. Here the centers are $c_i=i$, the radii are $r_i=\rho_i$, and the conclusion gives some $i\in t$ with
+First, the proof shows that $\Omega$ is covered by the balls $B(i,\rho_i)$. This was already obtained from the finite subcover: for every $y\in\Omega$, there is $i\in t$ with $d(y,i)\lt \rho_i$. Then it applies `tube_cover_of_infDist_lt_finset_inf`. That lemma says: if $\Omega$ is covered by balls $B(c_i,r_i)$, all radii $r_i$ are positive, $\varepsilon\le r_i$ for all $i$, and $d(x,\Omega)\lt \varepsilon$, then $x$ lies in some doubled ball $B(c_i,2r_i)$. Here the centers are $c_i=i$, the radii are $r_i=\rho_i$, and the conclusion gives some $i\in t$ with
 
 $$
 d(x,i)<2\rho_i=\rho_{\mathrm{loc}}(i).
@@ -320,7 +320,7 @@ $$
 x\in U_{\mathrm{loc}}(i).
 $$
 
-The arithmetic step $d(x,i)<\rho_{\mathrm{loc}}(i)$ from $d(x,i)<2(\rho_{\mathrm{loc}}(i)/2)$ is discharged by `nlinarith`.
+The arithmetic step $d(x,i)\lt \rho_{\mathrm{loc}}(i)$ from $d(x,i)\lt 2(\rho_{\mathrm{loc}}(i)/2)$ is discharged by `nlinarith`.
 
 Now use the constancy of $f$ on $\Omega$. Since $\bar x\in\Omega$ and $i\in t\subseteq\Omega$, we have
 
@@ -328,7 +328,7 @@ $$
 f(\bar x)=f(i).
 $$
 
-Therefore the hypotheses $f(\bar x)<f(x)$ and $f(x)<f(\bar x)+\eta$ become
+Therefore the hypotheses $f(\bar x)\lt f(x)$ and $f(x)\lt f(\bar x)+\eta$ become
 
 $$
 f(i)<f(x),\qquad f(x)<f(i)+\eta.
@@ -348,17 +348,17 @@ $$
 
 Thus the local KL inequality at $i$ applies to $x$, yielding
 
-$$
+```math
 1\le \phi_i'\!\left((f(x))_{\mathbb R}-(f(i))_{\mathbb R}\right)\,
    d\!\left(0,\partial f(x)\right).
-$$
+```
 
 The proof sets
 
-$$
+```math
 s=(f(x))_{\mathbb R}-(f(i))_{\mathbb R},\qquad
 D=d\!\left(0,\partial f(x)\right),
-$$
+```
 
 so the local inequality reads
 
@@ -368,13 +368,13 @@ $$
 
 Next, the proof needs finiteness of $f(i)$. It uses `(hKL i hi).1` to know that $i$ lies in the subdifferential domain of $f$, and then applies `effective_finite_of_subdifferentialDomain`. That lemma says that if $z$ belongs to the subdifferential domain of $f$, then $f(z)\neq +\infty$ and $f(z)\neq -\infty$, i.e. $f(z)$ is finite. Specialized here, it gives that $f(i)$ is neither $+\infty$ nor $-\infty$.
 
-With that finiteness, the theorem `toReal_sub_mem_Ioo_of_ereal_window` applies. Its content is: if $0<\eta$, $a$ is finite, $a<b$, and $b<a+\eta$ in extended reals, then
+With that finiteness, the theorem `toReal_sub_mem_Ioo_of_ereal_window` applies. Its content is: if $0\lt \eta$, $a$ is finite, $a\lt b$, and $b\lt a+\eta$ in extended reals, then
 
 $$
 b_{\mathbb R}-a_{\mathbb R}\in(0,\eta).
 $$
 
-Taking $a=f(i)$ and $b=f(x)$, the hypotheses $f(i)<f(x)$ and $f(x)<f(i)+\eta$ give
+Taking $a=f(i)$ and $b=f(x)$, the hypotheses $f(i)\lt f(x)$ and $f(x)\lt f(i)+\eta$ give
 
 $$
 s=(f(x))_{\mathbb R}-(f(i))_{\mathbb R}\in(0,\eta).
@@ -414,10 +414,10 @@ $$
 
 Finally, rewriting $s$ and $D$ and replacing $f(i)$ by $f(\bar x)$ using $f(\bar x)=f(i)$ gives exactly the desired inequality
 
-$$
+```math
 1\le \Phi'\!\left((f(x))_{\mathbb R}-(f(\bar x))_{\mathbb R}\right)\,
    d\!\left(0,\partial f(x)\right).
-$$
+```
 
 In the empty case $\Omega=\varnothing$, the proof chooses
 
@@ -425,5 +425,5 @@ $$
 \varepsilon=1,\qquad \eta=1,\qquad \phi(s)=s.
 $$
 
-The inequalities $0<1$ are verified by `norm_num`. The lemma `desingularizingFunction_id` states that the identity function is desingularizing for $\eta=1$: it is concave and continuous on $[0,1]$, differentiable on $(0,1)$, satisfies $\phi(0)=0$, and has derivative $1>0$ on $(0,1)$. The universal KL inequality is then vacuous: if $\bar x\in\Omega$ were assumed, this would contradict $\Omega=\varnothing$, so `False.elim` closes that case. Thus the theorem is proved in both cases.
+The inequalities $0\lt 1$ are verified by `norm_num`. The lemma `desingularizingFunction_id` states that the identity function is desingularizing for $\eta=1$: it is concave and continuous on $[0,1]$, differentiable on $(0,1)$, satisfies $\phi(0)=0$, and has derivative $1\gt 0$ on $(0,1)$. The universal KL inequality is then vacuous: if $\bar x\in\Omega$ were assumed, this would contradict $\Omega=\varnothing$, so `False.elim` closes that case. Thus the theorem is proved in both cases.
 

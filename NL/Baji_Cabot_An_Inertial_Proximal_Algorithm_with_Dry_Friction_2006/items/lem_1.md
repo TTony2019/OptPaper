@@ -15,22 +15,22 @@ theorem lem_2_1 (A : SetValuedOperator H H) (h_mono : IsMonotone A) (h_dom : A.d
 ## Statement explanation
 The declaration `lem_2_1` concerns a set-valued operator $A$ on a real inner-product space $H$. For each point $x\in H$, $A(x)$ is a subset of $H$. The statement uses two extended-real quantities. The first is
 
-$$
+```math
 \Phi_A(x)=\inf\bigl\{\langle y,x\rangle_{\overline{\mathbb R}} \mid y\in A(x)\bigr\},
-$$
+```
 
 where each real inner product $\langle y,x\rangle$ is viewed as an element of the extended real line $\overline{\mathbb R}$. The second is the support function of the particular set $A(0)$:
 
-$$
+```math
 S(x)=\mathrm{supportFunction}(A(0),x)
 =\sup\bigl\{\langle z,x\rangle_{\overline{\mathbb R}} \mid z\in A(0)\bigr\}.
-$$
+```
 
 The hypotheses are that $A$ is monotone, that its domain is all of $H$, and that $0\in A(0)$. In the proof, monotonicity is used in the following concrete form: if $y\in A(x)$ and $z\in A(0)$, then
 
-$$
+```math
 0\le \langle y-z,\,x-0\rangle.
-$$
+```
 
 Since $x-0=x$, this says the vector $y-z$ has nonnegative inner product with $x$. The hypothesis $A.\mathrm{dom}=\mathrm{univ}$ is present in the statement but is not invoked in the displayed proof. The hypothesis $0\in A(0)$ is used to show the support function is nonnegative.
 
@@ -44,11 +44,11 @@ $$
 
 Thus the infimum over $A(x)$ of the inner products $\langle y,x\rangle$ dominates the supremum over $A(0)$ of the inner products $\langle z,x\rangle$, and that supremum is nonnegative. Second, if $0$ lies in the interior of the set $A(0)$, then there exists a positive real number $\alpha$ such that for every $x$,
 
-$$
+```math
 \Phi_A(x)\ge (\alpha\|x\|)_{\overline{\mathbb R}},
-$$
+```
 
-where again the real number $\alpha\|x\|$ is embedded into $\overline{\mathbb R}$. So a local interior-point condition at $0\in A(0)$ forces a global linear lower bound on $\Phi_A$.
+where again the real number $`\alpha\|x\|`$is embedded into$\overline{\mathbb R}$. So a local interior-point condition at$0\in A(0)$forces a global linear lower bound on$\Phi_A$.
 
 ## Lean proof
 ```lean
@@ -180,11 +180,11 @@ $$
 0\in \mathrm{interior}(A(0)).
 $$
 
-The lemma `mem_interior_iff_mem_nhds.mp` converts this into the statement that $A(0)$ is a neighborhood of $0$. Then `Metric.mem_nhds_iff.mp` produces a radius $\epsilon>0$ such that the open ball
+The lemma `mem_interior_iff_mem_nhds.mp` converts this into the statement that $A(0)$ is a neighborhood of $0$. Then `Metric.mem_nhds_iff.mp` produces a radius $\epsilon\gt 0$ such that the open ball
 
-$$
+```math
 B(0,\epsilon)=\{u\in H\mid \|u\|<\epsilon\}
-$$
+```
 
 is contained in $A(0)$. The proof defines
 
@@ -192,57 +192,57 @@ $$
 \alpha=\frac{\epsilon}{2}.
 $$
 
-The tactic `positivity` proves $\alpha>0$, and `linarith` proves $\alpha<\epsilon$ from $\epsilon>0$.
+The tactic `positivity` proves $\alpha\gt 0$, and `linarith` proves $\alpha\lt \epsilon$ from $\epsilon\gt 0$.
 
 It remains to prove
 
-$$
+```math
 (\alpha\|x\|)_{\overline{\mathbb R}}\le \Phi_A(x)
-$$
+```
 
 for every $x$. Since already $S(x)\le \Phi_A(x)$, it is enough to prove
 
-$$
+```math
 (\alpha\|x\|)_{\overline{\mathbb R}}\le S(x).
-$$
+```
 
 The proof therefore establishes this auxiliary inequality.
 
-If $x=0$, then $\alpha\|x\|=0$, and the already proved nonnegativity $0\le S(0)$ gives the result. If $x\ne 0$, then $\|x\|>0$ by `norm_pos_iff`. The proof defines
+If $x=0$, then $`\alpha\|x\|=0`$, and the already proved nonnegativity$0\le S(0)$gives the result. If$x\ne 0$, then$`\|x\|>0`$ by `norm_pos_iff`. The proof defines
 
-$$
+```math
 z=\frac{\alpha}{\|x\|}x.
-$$
+```
 
-Using `norm_smul`, `Real.norm_eq_abs`, and the fact that $\alpha/\|x\|\ge 0$, it computes
+Using `norm_smul`, `Real.norm_eq_abs`, and the fact that $`\alpha/\|x\|\ge 0`$, it computes
 
-$$
+```math
 \|z\|=\alpha.
-$$
+```
 
-Since $\alpha<\epsilon$, this gives $z\in B(0,\epsilon)$. Because $B(0,\epsilon)\subseteq A(0)$, it follows that $z\in A(0)$.
+Since $\alpha\lt \epsilon$, this gives $z\in B(0,\epsilon)$. Because $B(0,\epsilon)\subseteq A(0)$, it follows that $z\in A(0)$.
 
 The proof then computes the inner product:
 
-$$
+```math
 \langle z,x\rangle
 =\left\langle \frac{\alpha}{\|x\|}x,x\right\rangle
 =\frac{\alpha}{\|x\|}\langle x,x\rangle
 =\frac{\alpha}{\|x\|}\|x\|^2
 =\alpha\|x\|.
-$$
+```
 
-The lemmas used here are `real_inner_smul_left`, which pulls the scalar out of the first argument of the real inner product, and `real_inner_self_eq_norm_sq`, which states $\langle x,x\rangle=\|x\|^2$. Since $z\in A(0)$, the number $\langle z,x\rangle=\alpha\|x\|$ is one of the values over which the supremum $S(x)$ is taken. Therefore `le_sSup` yields
+The lemmas used here are `real_inner_smul_left`, which pulls the scalar out of the first argument of the real inner product, and `real_inner_self_eq_norm_sq`, which states $`\langle x,x\rangle=\|x\|^2`$. Since$z\in A(0)$, the number$`\langle z,x\rangle=\alpha\|x\|`$is one of the values over which the supremum$S(x)$ is taken. Therefore `le_sSup` yields
 
-$$
+```math
 (\alpha\|x\|)_{\overline{\mathbb R}}\le S(x).
-$$
+```
 
 Finally `le_trans` composes this with $S(x)\le \Phi_A(x)$, giving
 
-$$
+```math
 (\alpha\|x\|)_{\overline{\mathbb R}}\le \Phi_A(x).
-$$
+```
 
-This proves the required existence of $\alpha>0$ and completes the theorem.
+This proves the required existence of $\alpha\gt 0$ and completes the theorem.
 

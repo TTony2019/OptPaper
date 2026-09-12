@@ -34,19 +34,19 @@ structure IPAHDDLasso {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ 
 ## Statement explanation
 The declaration defines a `structure` named `IPAHDDLasso`. It is not a theorem; rather, it packages the data and equations that describe one run of an algorithm. The structure is parameterized by a complete real inner product space $H$, functions
 
-$$
+```math
 \Phi, G : H \to \{r : \mathrm{EReal} \mid \bot < r\},
-$$
+```
 
 proofs $h_\Phi : \Phi \in \Gamma_0(H)$ and $h_G : G \in \Gamma_0(H)$, continuous linear operators $A, M : H \to H$, a vector $b \in H$, and real parameters $\lambda, h, \gamma, \beta \in \mathbb R$. The typeclass assumptions make $H$ a real Hilbert space, so adjoints and proximal operators are available.
 
 The fields of the structure impose the following requirements on any inhabitant of the type.
 
-- Positivity: $h>0$, $\gamma>0$, and $\lambda>0$. There is no positivity assumption on $\beta$.
+- Positivity: $h\gt 0$, $\gamma\gt 0$, and $\lambda\gt 0$. There is no positivity assumption on $\beta$.
 - Sequences: $x, y, z : \mathbb N \to H$.
 - Initial vectors: vectors $x_0, x_1 \in H$, recorded by the fields `initial0` and `initial1`, together with the equations $x_0 = \text{initial0}$ and $x_1 = \text{initial1}$.
 - Metric operator: $M = I - \lambda A^* A$, where $I$ is the identity operator on $H$, $A^*$ is the adjoint of $A$, and $A^*A$ means $A^* \circ A$.
-- Norm condition: $0 < \lambda \|A\|^2 < 1$, where $\|A\|$ is the operator norm of $A$.
+- Norm condition: $`0 < \lambda \|A\|^2 < 1`$, where$`\|A\|`$is the operator norm of$A$.
 - Definition of $z$: for every $k \in \mathbb N$,
 
 $$
@@ -64,13 +64,13 @@ $$
 
 - Update for $x$: for every $k \in \mathbb N$,
 
-$$
+```math
 x_{k+2} = x_{k+1} + h\,\mathrm{prox}_{\frac{h}{1+h\gamma}\Phi}(y_k),
-$$
+```
 
 where $\mathrm{prox}_{\frac{h}{1+h\gamma}\Phi}$ is the scaled proximal operator of $\Phi$ with scale $h/(1+h\gamma)$.
 
-Thus the structure says: a valid `IPAHDDLasso` run consists of two initial points, three sequences, positive step/damping parameters $h,\gamma,\lambda$, the operator identity $M=I-\lambda A^*A$, the smallness condition $\lambda\|A\|^2<1$, and the pointwise recurrences above. It does not assert existence of such a run, nor convergence, nor any algorithmic theorem.
+Thus the structure says: a valid `IPAHDDLasso` run consists of two initial points, three sequences, positive step/damping parameters $h,\gamma,\lambda$, the operator identity $M=I-\lambda A^*A$, the smallness condition $`\lambda\|A\|^2<1`$, and the pointwise recurrences above. It does not assert existence of such a run, nor convergence, nor any algorithmic theorem.
 
 ## Lean proof
 ```lean
@@ -88,7 +88,7 @@ $$
 
 The proof proceeds as follows.
 
-First, `have hden : 0 < 1 + h * gamma := by nlinarith [mul_pos h_pos gamma_pos]` introduces a local proof named `hden`. The lemma `mul_pos` is applied to `h_pos`, which says $0<h$, and `gamma_pos`, which says $0<\gamma$, giving $0<h\gamma$. The tactic `nlinarith` is a nonlinear arithmetic tactic; using the fact $0<h\gamma$, it proves the goal $0<1+h\gamma$. This is valid because $h\gamma>0$, hence $1+h\gamma>1>0$.
+First, `have hden : 0 < 1 + h * gamma := by nlinarith [mul_pos h_pos gamma_pos]` introduces a local proof named `hden`. The lemma `mul_pos` is applied to `h_pos`, which says $0\lt h$, and `gamma_pos`, which says $0\lt \gamma$, giving $0\lt h\gamma$. The tactic `nlinarith` is a nonlinear arithmetic tactic; using the fact $0\lt h\gamma$, it proves the goal $0\lt 1+h\gamma$. This is valid because $h\gamma\gt 0$, hence $1+h\gamma\gt 1\gt 0$.
 
 Next, `exact div_pos h_pos hden` uses the lemma `div_pos`, which states that if the numerator and denominator are positive, then their quotient is positive. Here the numerator is $h$, positive by `h_pos`, and the denominator is $1+h\gamma$, positive by `hden`. Therefore `div_pos` proves
 

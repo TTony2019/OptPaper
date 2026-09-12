@@ -25,9 +25,9 @@ The declaration fixes a real inner product space $H$. The typeclass assumptions 
 
 It takes a function
 
-$$
+```math
 \Phi : H \to \{y \in \overline{\mathbb R} : y > \bot\},
-$$
+```
 
 where $\bot$ is the bottom element of the extended real numbers, corresponding to $-\infty$. Thus each value $\Phi(x)$ is an extended real number that is not $-\infty$; when occurring in the convergence statements, it is coerced to an element of `EReal`. The declaration also includes the hypothesis `_hPhi`, saying that $\Phi$ belongs to `ERealFunction.gammaZero H`. No definition of this class is used in the proof, so mathematically it is only an extra assumed membership.
 
@@ -49,20 +49,20 @@ The proof is the single term `id`. There are no tactics such as `intro`, `rw`, `
 
 After the parameters $H$, $\Phi$, and `_hPhi` have been supplied, the type of the theorem is an implication
 
-$$
+```math
 \bigl(\forall xSeq\,x,\; P(xSeq,x)\to Q(xSeq,x)\to R(xSeq,x)\bigr)
 \to
 \bigl(\forall xSeq\,x,\; P(xSeq,x)\to Q(xSeq,x)\to R(xSeq,x)\bigr),
-$$
+```
 
-where $P(xSeq,x)$ is weak convergence of $xSeq$ to $x$, $Q(xSeq,x)$ is convergence of $\Phi(xSeq\,k)$ to $\Phi(x)$ in `EReal`, and $R(xSeq,x)$ is convergence of $\lVert xSeq\,k-x\rVert$ to $0$. The antecedent and consequent are syntactically identical.
+where $P(xSeq,x)$ is weak convergence of $xSeq$ to $x$, $Q(xSeq,x)$ is convergence of $`\Phi(xSeq\,k)`$to$\Phi(x)$ in `EReal`, and $R(xSeq,x)$ is convergence of $`\lVert xSeq\,k-x\rVert`$to$0$. The antecedent and consequent are syntactically identical.
 
 The identity function `id` has type $\alpha \to \alpha$ for any type $\alpha$. Here it is instantiated with
 
-$$
+```math
 \alpha
 =\forall xSeq\,x,\; P(xSeq,x)\to Q(xSeq,x)\to R(xSeq,x).
-$$
+```
 
 Thus `id` takes the assumed proof `hKadecKlee` of the universal Kadec–Klee statement and returns that same proof, which is exactly what is needed to prove the implication. In ordinary mathematical terms, the proof is simply “the conclusion is the hypothesis,” so nothing further is derived. The unused hypothesis `_hPhi` and the typeclass assumptions only provide the ambient typing and notation; they play no role in the proof itself.
 

@@ -37,31 +37,31 @@ $$
 
 and, for $t\ge0$,
 
-$$
+```math
 r(t)\in \partial\Phi(x(t))+\{B(x(t))\},
-$$
+```
 
-and whose norm $t\mapsto \|r(t)\|$ is antitone on $[0,\infty)$.
+and whose norm $`t\mapsto \|r(t)\|`$is antitone on$[0,\infty)$.
 
 The operator $A$ is linked to $\Phi$ and $B$ by
 
-$$
+```math
 hA:\quad \forall y,\quad A(y)=\partial\Phi(y)+\{B(y)\}.
-$$
+```
 
-Thus $A$ is the set-valued sum of the subdifferential of $\Phi$ and the singleton operator $B$. The final hypothesis `hstrongly_monotone` is a disjunction. The first alternative says that $A$ is $\rho$-strongly monotone for some $\rho>0$: for all $a,b,u,w$,
+Thus $A$ is the set-valued sum of the subdifferential of $\Phi$ and the singleton operator $B$. The final hypothesis `hstrongly_monotone` is a disjunction. The first alternative says that $A$ is $\rho$-strongly monotone for some $\rho\gt 0$: for all $a,b,u,w$,
 
-$$
+```math
 u\in A(a),\ w\in A(b)\implies
 \rho\|a-b\|^2\le \langle a-b,u-w\rangle.
-$$
+```
 
 The second alternative says that all sublevel sets of $\Phi$ with bounded norm are compact, i.e.
 
-$$
+```math
 \forall r,a\in\mathbb R,\quad
 \{y\mid \|y\|\le r,\ \Phi(y)\le a\}
-$$
+```
 
 is compact, and that along the trajectory $\Phi(x(t))$ is eventually bounded above by some real constant $a$, i.e.
 
@@ -154,9 +154,9 @@ by
 ## Proof explanation
 The proof begins by applying `semigroup_convergence` to $\Phi$, $S$, $B$, $x$, and $\beta$, using the hypotheses $hPhi$, $hS$, $hbeta$, $hB$, $hsolution$, and $horbit$. That theorem provides three facts. First, the derivative of the trajectory is square-integrable:
 
-$$
+```math
 \int_0^\infty \|\mathrm{deriv}x(t)\|^2\,dt<\infty.
-$$
+```
 
 Second, there is a point $z\in S$ such that the trajectory converges weakly to $z$:
 
@@ -168,13 +168,13 @@ Third, for every solution point, $B(x(t))$ converges to the corresponding value 
 
 Next the proof shows that the squared norm of the residual is integrable. Since the residual satisfies $r(t)=-\mathrm{deriv}x(t)$, we have
 
-$$
+```math
 \|r(t)\|^2=\|-\mathrm{deriv}x(t)\|^2=\|\mathrm{deriv}x(t)\|^2.
-$$
+```
 
-The tactic `Integrable.congr` transfers the integrability of $t\mapsto \|\mathrm{deriv}x(t)\|^2$ to $t\mapsto \|r(t)\|^2$, because the two functions agree almost everywhere. The `filter_upwards` and `rw [ht, norm_neg]` steps are exactly this pointwise identification using the orbit identity for the residual.
+The tactic `Integrable.congr` transfers the integrability of $`t\mapsto \|\mathrm{deriv}x(t)\|^2`$to$`t\mapsto \|r(t)\|^2`$, because the two functions agree almost everywhere. The `filter_upwards` and `rw [ht, norm_neg]` steps are exactly this pointwise identification using the orbit identity for the residual.
 
-The theorem `antitone_norm_sq_integrableOn_Ici_tendsto_zero` is then applied to the residual $r$. Its mathematical content is: for a normed additive commutative group $E$ and a function $r:\mathbb R\to E$, if $t\mapsto \|r(t)\|$ is antitone on $[0,\infty)$ and $t\mapsto \|r(t)\|^2$ is integrable on $[0,\infty)$, then
+The theorem `antitone_norm_sq_integrableOn_Ici_tendsto_zero` is then applied to the residual $r$. Its mathematical content is: for a normed additive commutative group $E$ and a function $r:\mathbb R\to E$, if $`t\mapsto \|r(t)\|`$is antitone on$[0,\infty)$and$`t\mapsto \|r(t)\|^2`$is integrable on$[0,\infty)$, then
 
 $$
 r(t)\to 0\quad\text{as }t\to\infty.
@@ -188,35 +188,35 @@ $$
 
 The proof now splits on `hstrongly_monotone`.
 
-In the first case, $A$ is $\rho$-strongly monotone for some $\rho>0$. The proof first shows that $0\in A(z)$. Since $z\in S$, the solution hypothesis gives $-B z\in \partial\Phi(z)$. By `hA`, $A(z)=\partial\Phi(z)+\{B(z)\}$. The sum of the element $-B z\in \partial\Phi(z)$ and the singleton element $B z\in\{B z\}$ is $0$. The `Set.mem_add.mpr` step constructs this membership, and `abel` verifies $-B z+B z=0$. Hence $0\in A(z)$.
+In the first case, $A$ is $\rho$-strongly monotone for some $\rho\gt 0$. The proof first shows that $0\in A(z)$. Since $z\in S$, the solution hypothesis gives $-B z\in \partial\Phi(z)$. By `hA`, $`A(z)=\partial\Phi(z)+\{B(z)\}`$. The sum of the element$-B z\in \partial\Phi(z)$and the singleton element$`B z\in\{B z\}`$is$0$. The `Set.mem_add.mpr` step constructs this membership, and `abel` verifies $-B z+B z=0$. Hence $0\in A(z)$.
 
 For every $t\ge0$, the residual satisfies $r(t)\in A(x(t))$. Indeed, by `hA` it is enough to show
 
-$$
+```math
 r(t)\in \partial\Phi(x(t))+\{B(x(t))\},
-$$
+```
 
 which is exactly the orbit residual membership `horbit.residual_mem t ht`.
 
 Since $r(t)\to0$, its norm also tends to $0$. Multiplying by the constant $\rho^{-1}$ gives
 
-$$
+```math
 \rho^{-1}\|r(t)\|\to 0.
-$$
+```
 
 This is the `hupper` step, obtained from the continuity of the norm and of scalar multiplication.
 
 The proof then shows
 
-$$
+```math
 \|x(t)-z\|\to 0.
-$$
+```
 
-It uses the metric characterization of convergence: for every $\varepsilon>0$, one must eventually have $\|x(t)-z\|<\varepsilon$. Since $\rho^{-1}\|r(t)\|\to0$, eventually
+It uses the metric characterization of convergence: for every $\varepsilon\gt 0$, one must eventually have $`\|x(t)-z\|<\varepsilon`$. Since$`\rho^{-1}\|r(t)\|\to0`$, eventually
 
-$$
+```math
 \rho^{-1}\|r(t)\|<\varepsilon,
-$$
+```
 
 and also eventually $t\ge0$. For such a $t$, apply strong monotonicity of $A$ with
 
@@ -226,39 +226,39 @@ $$
 
 Because $r(t)\in A(x(t))$ and $0\in A(z)$, strong monotonicity gives
 
-$$
+```math
 \rho\|x(t)-z\|^2
 \le \langle x(t)-z,\, r(t)-0\rangle
 = \langle x(t)-z,r(t)\rangle.
-$$
+```
 
 The inequality `real_inner_le_norm` gives the Cauchy-Schwarz bound
 
-$$
+```math
 \langle x(t)-z,r(t)\rangle
 \le \|x(t)-z\|\,\|r(t)\|.
-$$
+```
 
 Therefore
 
-$$
+```math
 \rho\|x(t)-z\|^2
 \le \|x(t)-z\|\,\|r(t)\|.
-$$
+```
 
-If $\|x(t)-z\|=0$, the desired distance bound is immediate. Otherwise $\|x(t)-z\|>0$, and dividing the inequality by this positive quantity yields
+If $`\|x(t)-z\|=0`$, the desired distance bound is immediate. Otherwise$`\|x(t)-z\|>0`$, and dividing the inequality by this positive quantity yields
 
-$$
+```math
 \rho\|x(t)-z\|\le \|r(t)\|.
-$$
+```
 
-Multiplying by $\rho^{-1}>0$ gives
+Multiplying by $\rho^{-1}\gt 0$ gives
 
-$$
+```math
 \|x(t)-z\|\le \rho^{-1}\|r(t)\|<\varepsilon.
-$$
+```
 
-This is the key estimate. The `nlinarith` step performs the division by the positive norm, while `field_simp` and `positivity` handle the factor $\rho^{-1}$. Thus $\|x(t)-z\|\to0$, and by `tendsto_iff_norm_sub_tendsto_zero` this is equivalent to
+This is the key estimate. The `nlinarith` step performs the division by the positive norm, while `field_simp` and `positivity` handle the factor $\rho^{-1}$. Thus $`\|x(t)-z\|\to0`$, and by `tendsto_iff_norm_sub_tendsto_zero` this is equivalent to
 
 $$
 x(t)\to z\quad\text{strongly}.
@@ -268,9 +268,9 @@ The witness $z\in S$ is already available, so the first disjunct is complete.
 
 In the second case, the strong monotonicity of $A$ is replaced by compactness of the sublevel sets of $\Phi$ and eventual boundedness of $\Phi$ along the trajectory. The proof has already obtained weak convergence $x(t)\rightharpoonup z$. The lemma `eventually_norm_le_of_tendsto_weakly_trajectory` now gives a real constant $C$ such that eventually
 
-$$
+```math
 \|x(t)\|\le C.
-$$
+```
 
 Its mathematical content is that a weakly convergent trajectory in a Hilbert space is eventually bounded in norm.
 
@@ -282,11 +282,11 @@ $$
 
 and
 
-$$
+```math
 K=\{y\mid \|y\|\le R,\ \Phi(y)\le a\},
-$$
+```
 
-where $a$ is the real bound supplied by the second part of `hstrongly_monotone`. By the compactness assumption, $K$ is compact. Since eventually $\|x(t)\|\le C\le R$ and eventually $\Phi(x(t))\le a$, the trajectory is eventually contained in $K$. The `filter_upwards` step combines those two eventual properties.
+where $a$ is the real bound supplied by the second part of `hstrongly_monotone`. By the compactness assumption, $K$ is compact. Since eventually $`\|x(t)\|\le C\le R`$and eventually$\Phi(x(t))\le a$, the trajectory is eventually contained in$K$. The `filter_upwards` step combines those two eventual properties.
 
 It remains to upgrade the weak convergence of $x(t)$ to $z$ to convergence against every continuous linear functional. For an arbitrary continuous linear functional $\ell:H\to\mathbb R$, the Riesz representation theorem for real Hilbert spaces gives a vector $u\in H$ such that
 

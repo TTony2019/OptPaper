@@ -42,15 +42,15 @@ $$
 The sequence $u_k$ is the iterated sequence produced by the method, $\lambda_k$ is the proximal step size, $\alpha_k$ is the inertial parameter, and $\varepsilon_k$ is the allowed error in the proximal subproblem at step $k$. The theorem assumes:
 
 - $f$ is proper: it is never $-\infty$, and it is finite somewhere. In the proof, `hProper.1` rules out $f(x)=-\infty$, while `hProper.2` supplies a point where $f$ is not $+\infty$.
-- The epigraph $\mathrm{epi} f=\{(x,r): f(x)\le r\}$ is closed.
+- The epigraph $`\mathrm{epi} f=\{(x,r): f(x)\le r\}`$ is closed.
 - The epigraph of $f$ is convex, so $f$ is a convex extended-real function.
 - $f$ is bounded below by a finite real number: there exists $m\in\mathbb R$ such that $(m:\overline{\mathbb R})\le f(x)$ for every $x$.
 - The errors are nonnegative: $\varepsilon_k\ge 0$ for all $k$.
 - The inertial parameters lie in $[0,1]$: $0\le \alpha_k\le 1$ for all $k$.
-- The step sizes are bounded below by a positive constant: there is $c>0$ with $c\le \lambda_k$ for all $k$.
+- The step sizes are bounded below by a positive constant: there is $c\gt 0$ with $c\le \lambda_k$ for all $k$.
 - The ratio $\alpha_k/\lambda_k$ is nonincreasing in $k$.
 - The sequence $\lambda_k\varepsilon_k$ is summable.
-- The proximal/update condition holds: for every $k>0$,
+- The proximal/update condition holds: for every $k\gt 0$,
 
 $$
 0\in (\lambda_k)^{-1}\bigl(u_{k+1}-(1+\alpha_k)u_k+\alpha_k u_{k-1}\bigr)
@@ -71,7 +71,7 @@ p\in\partial_{\varepsilon} f(x)
 \forall y,\quad f(y)\ge f(x)+\langle p,y-x\rangle-\varepsilon.
 $$
 
-The set $\mathrm{argmin} f$ is $\{x: f(x)=\inf f\}$, with the infimum taken in $\overline{\mathbb R}$.
+The set $\mathrm{argmin} f$ is $`\{x: f(x)=\inf f\}`$, with the infimum taken in$\overline{\mathbb R}$.
 
 The conclusion is a conjunction of three statements. First, the residual sequence tends strongly to zero:
 
@@ -85,7 +85,7 @@ $$
 \mathrm{dist}\bigl(0,\partial_{\varepsilon_k} f(u_{k+1})\bigr)\to 0.
 $$
 
-Third, under additional conditions, the iterates converge weakly to a minimizer of $f$. The additional conditions are: the set of minimizers is nonempty; the inertial parameters are bounded above by some $\mathrm{alphaBar}<1$ with $\mathrm{alphaBar}>0$; and if some $\alpha_k$ is positive, then the step sizes $\lambda_k$ are bounded above. Under these hypotheses, there exists
+Third, under additional conditions, the iterates converge weakly to a minimizer of $f$. The additional conditions are: the set of minimizers is nonempty; the inertial parameters are bounded above by some $\mathrm{alphaBar}\lt 1$ with $\mathrm{alphaBar}\gt 0$; and if some $\alpha_k$ is positive, then the step sizes $\lambda_k$ are bounded above. Under these hypotheses, there exists
 
 $$
 \hat u\in\mathrm{argmin} f
@@ -665,7 +665,7 @@ by
 ```
 
 ## Proof explanation
-The proof begins by extracting the finite lower bound $m$ from `hBoundedBelow`. This gives that the range of $f$ is bounded below in the extended-real sense, so the infimum used in `argmin f` is meaningful. From `hLamLower` the proof extracts $c>0$ and the inequalities $c\le \lambda_k$. The command `linarith` then immediately gives $\lambda_k>0$ for every $k$, hence $\lambda_k\ne0$. This positivity is used repeatedly to clear denominators and to divide by $\lambda_k$.
+The proof begins by extracting the finite lower bound $m$ from `hBoundedBelow`. This gives that the range of $f$ is bounded below in the extended-real sense, so the infimum used in `argmin f` is meaningful. From `hLamLower` the proof extracts $c\gt 0$ and the inequalities $c\le \lambda_k$. The command `linarith` then immediately gives $\lambda_k\gt 0$ for every $k$, hence $\lambda_k\ne0$. This positivity is used repeatedly to clear denominators and to divide by $\lambda_k$.
 
 The proof records the pointwise consequences of the hypotheses: $\alpha_k\ge0$, $\alpha_k\le1$, and $\varepsilon_k\ge0$. It then proves that the error sequence itself is summable. Since $c\le\lambda_k$ and $\varepsilon_k\ge0$,
 
@@ -673,15 +673,15 @@ $$
 c\varepsilon_k\le \lambda_k\varepsilon_k.
 $$
 
-Multiplying by $c^{-1}>0$ gives
+Multiplying by $c^{-1}\gt 0$ gives
 
 $$
 \varepsilon_k=c^{-1}(c\varepsilon_k)\le c^{-1}(\lambda_k\varepsilon_k).
 $$
 
-Because $\lambda_k\varepsilon_k$ is summable by `hErrors`, multiplying by the constant $c^{-1}$ preserves summability. The comparison test for nonnegative sequences, invoked through `Summable.of_nonneg_of_le`, gives $\sum \varepsilon_k<\infty$. This is later used to get $\varepsilon_k\to0$ and to handle the case where all $\alpha_k$ vanish.
+Because $\lambda_k\varepsilon_k$ is summable by `hErrors`, multiplying by the constant $c^{-1}$ preserves summability. The comparison test for nonnegative sequences, invoked through `Summable.of_nonneg_of_le`, gives $\sum \varepsilon_k\lt \infty$. This is later used to get $\varepsilon_k\to0$ and to handle the case where all $\alpha_k$ vanish.
 
-Next, the update condition `hUpdate` is converted into a concrete witness. For $k>0$, the statement that $0$ lies in the translated $\varepsilon_k$-subdifferential means precisely that there exists
+Next, the update condition `hUpdate` is converted into a concrete witness. For $k\gt 0$, the statement that $0$ lies in the translated $\varepsilon_k$-subdifferential means precisely that there exists
 
 $$
 p_k\in\partial_{\varepsilon_k} f(u_{k+1})
@@ -707,7 +707,7 @@ $$
 
 This is the central optimality relation of the proximal step.
 
-The proof then shows that $f(u_{k+1})<+\infty$ whenever $k>0$. If $f(u_{k+1})=+\infty$, then evaluating the $\varepsilon_k$-subgradient inequality at a point $y$ where $f(y)\ne+\infty$, supplied by properness, would force $f(y)=+\infty$, a contradiction. This finiteness is used constantly to pass between the extended-real value $f(x)$ and its real part $(f(x))_{\mathbb R}$, via `EReal.coe_toReal`.
+The proof then shows that $f(u_{k+1})\lt +\infty$ whenever $k\gt 0$. If $f(u_{k+1})=+\infty$, then evaluating the $\varepsilon_k$-subgradient inequality at a point $y$ where $f(y)\ne+\infty$, supplied by properness, would force $f(y)=+\infty$, a contradiction. This finiteness is used constantly to pass between the extended-real value $f(x)$ and its real part $(f(x))_{\mathbb R}$, via `EReal.coe_toReal`.
 
 Using the witness $p_k$, the proof derives the descent inequality
 
@@ -725,9 +725,9 @@ $$
 
 Substituting $p_k=-(\lambda_k)^{-1}R_k$ and using $u_k-u_{k+1}=-(u_{k+1}-u_k)$ turns this into the displayed real inequality after converting the finite extended-real values to real numbers. The command `norm_cast` handles the coercion from $\mathbb R$ back to `EReal`, and `linarith` finishes the rearrangement.
 
-With this descent inequality, the proof applies `alvarez_energy_step`. That lemma takes the hypotheses $0\le\alpha_k\le1$, $\lambda_k>0$, antitone $\alpha_k/\lambda_k$, and the above descent inequality. Its conclusion, specialized to the present variables, is the energy estimate
+With this descent inequality, the proof applies `alvarez_energy_step`. That lemma takes the hypotheses $0\le\alpha_k\le1$, $\lambda_k\gt 0$, antitone $\alpha_k/\lambda_k$, and the above descent inequality. Its conclusion, specialized to the present variables, is the energy estimate
 
-$$
+```math
 \begin{aligned}
 &\frac{\alpha_k}{2\lambda_k}\|u_{k+1}-u_k\|^2+(f(u_{k+1}))_{\mathbb R}\\
 &\le
@@ -739,22 +739,22 @@ $$
 \right)
 +\varepsilon_k.
 \end{aligned}
-$$
+```
 
 This is the discrete energy decrease inequality for the second-order dissipative inertial method.
 
 The proof shifts indices to apply a telescoping summability lemma. It defines
 
-$$
+```math
 E_n=
 \frac{\alpha_{n+1}}{2\lambda_{n+1}}\|u_{n+2}-u_{n+1}\|^2+(f(u_{n+2}))_{\mathbb R},
-$$
+```
 
-$$
+```math
 W_n=
 \frac{\alpha_{n+2}}{2\lambda_{n+2}}\|u_{n+3}-2u_{n+2}+u_{n+1}\|^2
 +\frac{1-\alpha_{n+2}}{\lambda_{n+2}}\|u_{n+3}-u_{n+2}\|^2,
-$$
+```
 
 and
 
@@ -776,15 +776,15 @@ $$
 
 The proof splits $W=A+B$, where
 
-$$
+```math
 A_n=
 \frac{\alpha_{n+2}}{2\lambda_{n+2}}\|u_{n+3}-2u_{n+2}+u_{n+1}\|^2,
-$$
+```
 
-$$
+```math
 B_n=
 \frac{1-\alpha_{n+2}}{\lambda_{n+2}}\|u_{n+3}-u_{n+2}\|^2.
-$$
+```
 
 Both are nonnegative and bounded above by $W_n$, so both are summable by comparison. Since nonnegative summable sequences tend to zero, the proof obtains
 
@@ -799,7 +799,7 @@ $$
 \bigl(u_{n+3}-2u_{n+2}+u_{n+1}\bigr)\to0.
 $$
 
-It applies `alvarez_tendsto_zero_of_sq_le`, which states that if $q\to0$, $C\ge0$, and $\|v_n\|^2\le Cq_n$ for all $n$, then $v_n\to0$. Here $q=A$ and $C=2/c$. The required bound follows from $\alpha_k\le1$, $\lambda_k\ge c$, hence $\alpha_k/\lambda_k\le1/c$, and then
+It applies `alvarez_tendsto_zero_of_sq_le`, which states that if $q\to0$, $C\ge0$, and $`\|v_n\|^2\le Cq_n`$for all$n$, then$v_n\to0$. Here$q=A$and$C=2/c$. The required bound follows from$\alpha_k\le1$,$\lambda_k\ge c$, hence$\alpha_k/\lambda_k\le1/c$, and then
 
 $$
 \left(\frac{\alpha_k}{\lambda_k}\right)^2
@@ -844,13 +844,13 @@ $$
 
 This proves the first part of the conclusion.
 
-For the second part, the proof uses the witness $p_k=-(\lambda_k)^{-1}R_k$. Since $p_k$ belongs to $\partial_{\varepsilon_k}f(u_{k+1})$, the distance from $0$ to that subdifferential is at most $\|p_k\|$:
+For the second part, the proof uses the witness $p_k=-(\lambda_k)^{-1}R_k$. Since $p_k$ belongs to $\partial_{\varepsilon_k}f(u_{k+1})$, the distance from $0$ to that subdifferential is at most $`\|p_k\|`$:
 
-$$
+```math
 \mathrm{dist}\bigl(0,\partial_{\varepsilon_k}f(u_{k+1})\bigr)
 \le \|p_k\|
 =\|(\lambda_k)^{-1}R_k\|.
-$$
+```
 
 The right-hand side tends to zero by the first conclusion. The proof first shifts by one index and then shifts back using `alvarez_tendsto_of_nat_add`. The squeeze theorem for nonnegative quantities gives
 
@@ -864,9 +864,9 @@ The rest of the proof establishes the conditional weak convergence. The proof as
 
 First, the proof converts the closed epigraph hypothesis into lower semicontinuity of $f$. It uses `lowerSemicontinuous_iff_isClosed_epigraph`, which says that $f$ is lower semicontinuous exactly when its epigraph is closed. Since `hClosed` gives closedness of the epigraph, $f$ is lower semicontinuous. Then `lowerSemicontinuous_iff_isClosed_lowerLevelSet` gives that every lower level set
 
-$$
+```math
 \mathrm{lowerLevelSet} f(r)=\{x:f(x)\le (r:\overline{\mathbb R})\}
-$$
+```
 
 is closed. Next, `alvarez_lower_level_convex` states that convexity of the epigraph of $f$ implies convexity of each lower level set. Therefore every lower level set is closed and convex.
 
@@ -884,7 +884,7 @@ $$
 
 The proof then applies `alvarez_phi_recurrence_of_inner`. That lemma takes $\alpha_k\ge0$ and the above inner inequality and produces the recurrence
 
-$$
+```math
 \begin{aligned}
 &\frac12\|u_{k+1}-z\|^2
 -(1+\alpha_k)\frac12\|u_k-z\|^2
@@ -894,20 +894,20 @@ $$
 +\frac{\alpha_k}{2}\|u_{k+1}-u_k\|^2
 +\lambda_k\varepsilon_k.
 \end{aligned}
-$$
+```
 
 The right-hand side is exactly the sequence $\delta_k$ defined in the proof:
 
-$$
+```math
 \delta_k=
 \alpha_k\|u_k-u_{k-1}\|^2
 +\frac{\alpha_k}{2}\|u_{k+1}-u_k\|^2
 +\lambda_k\varepsilon_k.
-$$
+```
 
 The proof checks that $\delta_k\ge0$ for every $k$.
 
-It remains to show that $\delta$ is summable. The proof splits into two cases. If there is no $k$ with $\alpha_k>0$, then $\alpha_k=0$ for all $k$, so $\delta_k=\lambda_k\varepsilon_k$, and summability follows from `hErrors`. If some $\alpha_k$ is positive, then the assumed upper bound on $\lambda_k$ gives $\lambda_k\le L_0$. The proof sets $L=\max(L_0,1)>0$ and
+It remains to show that $\delta$ is summable. The proof splits into two cases. If there is no $k$ with $\alpha_k\gt 0$, then $\alpha_k=0$ for all $k$, so $\delta_k=\lambda_k\varepsilon_k$, and summability follows from `hErrors`. If some $\alpha_k$ is positive, then the assumed upper bound on $\lambda_k$ gives $\lambda_k\le L_0$. The proof sets $L=\max(L_0,1)\gt 0$ and
 
 $$
 q=\frac{1-\mathrm{alphaBar}}{L}>0.
@@ -921,25 +921,25 @@ $$
 
 Since
 
-$$
+```math
 B_n=
 \frac{1-\alpha_{n+2}}{\lambda_{n+2}}
 \|u_{n+3}-u_{n+2}\|^2
-$$
+```
 
-is summable and $q>0$, this forces
+is summable and $q\gt 0$, this forces
 
-$$
+```math
 \sum_n \|u_{n+3}-u_{n+2}\|^2<\infty.
-$$
+```
 
-Shifting the index gives summability of $\|u_{k+1}-u_k\|^2$ and of $\|u_k-u_{k-1}\|^2$. Because $0\le\alpha_k\le1$, the two first terms of $\delta_k$ are bounded by constant multiples of these summable squared differences. The last term $\lambda_k\varepsilon_k$ is summable by `hErrors`. Hence $\delta$ is summable.
+Shifting the index gives summability of $`\|u_{k+1}-u_k\|^2`$and of$`\|u_k-u_{k-1}\|^2`$. Because$0\le\alpha_k\le1$, the two first terms of$\delta_k$are bounded by constant multiples of these summable squared differences. The last term$\lambda_k\varepsilon_k$ is summable by `hErrors`. Hence $\delta$ is summable.
 
-Now `alvarez_norm_converges_of_recurrence` is applied to $u$, any minimizer $z$, the sequences $\alpha$ and $\delta$, and the bound $\mathrm{alphaBar}$. Its hypotheses are exactly $0\le\alpha_k$, $\alpha_k\le\mathrm{alphaBar}$, $\mathrm{alphaBar}<1$, $\delta_k\ge0$, $\sum\delta_k<\infty$, and the recurrence above. Its conclusion is that for each minimizer $z$ there exists a real number $l$ such that
+Now `alvarez_norm_converges_of_recurrence` is applied to $u$, any minimizer $z$, the sequences $\alpha$ and $\delta$, and the bound $\mathrm{alphaBar}$. Its hypotheses are exactly $0\le\alpha_k$, $\alpha_k\le\mathrm{alphaBar}$, $\mathrm{alphaBar}\lt 1$, $\delta_k\ge0$, $\sum\delta_k\lt \infty$, and the recurrence above. Its conclusion is that for each minimizer $z$ there exists a real number $l$ such that
 
-$$
+```math
 \|u_k-z\|\to l.
-$$
+```
 
 This is a key stability property of the inertial method: the distance to every minimizer converges.
 
@@ -949,7 +949,7 @@ $$
 u_{\phi(n)}\rightharpoonup z
 $$
 
-weakly. Choose any minimizer $z_0$. Since $\|u_k-z_0\|$ converges by the previous step, `bounded_range_of_convergent_distance_to_point` implies that the range of $u$ is bounded. Using this boundedness and the already-proved residual convergence, `alvarez_inner_tendsto_zero_of_bounded` gives
+weakly. Choose any minimizer $z_0$. Since $`\|u_k-z_0\|`$ converges by the previous step, `bounded_range_of_convergent_distance_to_point` implies that the range of $u$ is bounded. Using this boundedness and the already-proved residual convergence, `alvarez_inner_tendsto_zero_of_bounded` gives
 
 $$
 \langle (\lambda_k)^{-1}R_k,u_k-z_0\rangle\to0
@@ -990,7 +990,7 @@ $$
 (f(u_{\phi(n)}))_{\mathbb R}-(f(z_0))_{\mathbb R}\to0.
 $$
 
-Now fix $d>0$. Since the above gap tends to zero, eventually
+Now fix $d\gt 0$. Since the above gap tends to zero, eventually
 
 $$
 (f(u_{\phi(n)}))_{\mathbb R}-(f(z_0))_{\mathbb R}<d.
@@ -1022,7 +1022,7 @@ $$
 
 Letting $d\downarrow0$ gives $f(z)\le f(z_0)$. Since $z_0$ is a minimizer, $z$ is also a minimizer. Thus every weak sequential cluster point of $u$ lies in $\mathrm{argmin} f$.
 
-Finally, the proof applies `opial_lemma`. In a complete real inner product space, if $C$ is nonempty, if for every $z\in C$ the distance $\|u_k-z\|$ converges, and if every weak sequential cluster point of $u$ belongs to $C$, then there exists $z\in C$ such that $u_k\rightharpoonup z$. Here $C=\mathrm{argmin} f$. The nonemptiness hypothesis is `hArgmin`, the distance-convergence hypothesis is provided by `hdist`, and the cluster-point hypothesis is provided by `hcluster`. The conclusion is exactly
+Finally, the proof applies `opial_lemma`. In a complete real inner product space, if $C$ is nonempty, if for every $z\in C$ the distance $`\|u_k-z\|`$converges, and if every weak sequential cluster point of$u$belongs to$C$, then there exists$z\in C$such that$u_k\rightharpoonup z$. Here$C=\mathrm{argmin} f$. The nonemptiness hypothesis is `hArgmin`, the distance-convergence hypothesis is provided by `hdist`, and the cluster-point hypothesis is provided by `hcluster`. The conclusion is exactly
 
 $$
 \exists \hat u\in\mathrm{argmin} f,\qquad

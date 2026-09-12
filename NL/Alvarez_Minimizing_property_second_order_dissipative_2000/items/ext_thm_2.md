@@ -31,9 +31,9 @@ whose position trajectory is denoted by $\mathrm{sys.u}$. The theorem assumes th
 
 The minimizer set is written using the local definition of $\mathrm{argmin}$. For a bounded-below function $F$,
 
-$$
+```math
 \mathrm{argmin} F = \left\{x \mid F(x)=\inf F(H)\right\},
-$$
+```
 
 where the Lean statement uses $\mathrm{sInf}(\mathrm{Set.range} F)$. Thus membership in $\mathrm{argmin}\Phi$ means exactly that $\Phi(x)$ equals the infimum of the values of $\Phi$.
 
@@ -618,14 +618,14 @@ $$
 hBdd : \mathrm{BddBelow}(\mathrm{Set.range}\Phi)
 $$
 
-by witnessing the lower bound with this same $m$. This is exactly the statement that the range $\{\Phi(x)\mid x\in H\}$ is bounded below.
+by witnessing the lower bound with this same $m$. This is exactly the statement that the range $`\{\Phi(x)\mid x\in H\}`$ is bounded below.
 
 Next the proof proves that $0$ is already a global minimizer. It invokes `even_convex_zero_mem_argmin`, whose mathematical content is: if $\Phi$ is convex on all of $H$, even, and bounded below, then $0\in \mathrm{argmin}\Phi$. The convex-even argument is that convexity gives
 
-$$
+```math
 \Phi(0)=\Phi\!\left(\frac{x+(-x)}2\right)
 \le \frac{\Phi(x)+\Phi(-x)}2=\Phi(x),
-$$
+```
 
 using evenness in the last equality. Hence $0$ attains the global minimum. The proof records this as
 
@@ -643,9 +643,9 @@ $$
 
 The visible construction is from global $C^1$-ness of $\Phi$, convexity on all of $H$, and bounded-belowness. This package is the hypothesis required by the cited theorem `scalar_damped_minimizing_property`. The proof again uses proof irrelevance to identify
 
-$$
+```math
 \mathrm{potential\_range\_bddBelow}(hPhi)
-$$
+```
 
 with the previously defined `hBdd`, and transfers the nonemptiness statement accordingly. This gives a nonempty minimizer set for the form required by the scalar minimizing property.
 
@@ -653,22 +653,22 @@ The proof then applies `scalar_damped_minimizing_property` to `hPhi` and `sys`. 
 
 1. the squared velocity is integrable on the positive half-line,
 
-   $$
-   t\mapsto \left\|\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(t)(1)\right\|^2
-   \in L^1([0,\infty));
-   $$
+```math
+t\mapsto \left\|\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(t)(1)\right\|^2
+\in L^1([0,\infty));
+```
 
 2. the velocity tends to zero,
 
-   $$
-   \mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(t)(1)\to 0;
-   $$
+$$
+\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(t)(1)\to 0;
+$$
 
 3. the potential values converge to the global minimum,
 
-   $$
-   \Phi(\mathrm{sys.u}(t))\to \inf \Phi(H);
-   $$
+$$
+\Phi(\mathrm{sys.u}(t))\to \inf \Phi(H);
+$$
 
 4. if the minimizer set is nonempty, then the trajectory converges weakly to some global minimizer $\hat u$.
 
@@ -688,15 +688,15 @@ $$
 \Phi(\hat u)=\inf \Phi(H).
 $$
 
-The next step derives a differential inequality for the distance to $\hat u$. The proof applies `even_distance_damped_ineq`, whose statement, specialized here, says that for $x\in H$ and $t>0$,
+The next step derives a differential inequality for the distance to $\hat u$. The proof applies `even_distance_damped_ineq`, whose statement, specialized here, says that for $x\in H$ and $t\gt 0$,
 
-$$
+```math
 \frac{d^2}{dt^2}\left(\frac12\|\mathrm{sys.u}(t)-x\|^2\right)
 +\gamma \frac{d}{dt}\left(\frac12\|\mathrm{sys.u}(t)-x\|^2\right)
 \le
 \Phi(x)-\Phi(\mathrm{sys.u}(t))
 +\left\|\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(t)(1)\right\|^2.
-$$
+```
 
 Taking $x=\hat u$, the proof uses $\Phi(\hat u)=\inf\Phi(H)$ and `potential_sInf_le`, which says that the infimum of the range of $\Phi$ is at most $\Phi(y)$ for every $y$. Hence
 
@@ -707,12 +707,12 @@ $$
 
 Therefore the potential-difference term can be dropped, yielding
 
-$$
+```math
 \frac{d^2}{dt^2}\left(\frac12\|\mathrm{sys.u}(t)-\hat u\|^2\right)
 +\gamma \frac{d}{dt}\left(\frac12\|\mathrm{sys.u}(t)-\hat u\|^2\right)
 \le
 \left\|\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(t)(1)\right\|^2.
-$$
+```
 
 This is the first important damped differential inequality.
 
@@ -724,58 +724,58 @@ $$
 
 Using `potential_sInf_le` again to bound $\inf\Phi(H)-\Phi(\mathrm{sys.u}(t))\le 0$, the proof obtains
 
-$$
+```math
 \frac{d^2}{dt^2}\left(\frac12\|\mathrm{sys.u}(t)\|^2\right)
 +\gamma \frac{d}{dt}\left(\frac12\|\mathrm{sys.u}(t)\|^2\right)
 \le
 \left\|\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(t)(1)\right\|^2.
-$$
+```
 
 This will be used after shifting time by $1$, so that the scalar convergence lemmas can be applied on the interval $[0,\infty)$, avoiding the one-sided endpoint $0$ of the trajectory.
 
 The proof now defines the shifted scalar function
 
-$$
+```math
 \theta(t)=\frac12\|\mathrm{sys.u}(t+1)\|^2.
-$$
+```
 
-It establishes that $\theta$ is $C^2$ on $[0,\infty)$. This uses the smoothness of the trajectory supplied by the dissipative system and the fact that $t+1>0$ for $t\ge 0$, together with the smoothness of the squared norm. It also proves differentiability of $\theta$ at every $t\ge 0$, using `dissipativeSystem_differentiableAt_pos`, which states that $\mathrm{sys.u}$ is differentiable at every positive time. Since $t+1>0$, this applies.
+It establishes that $\theta$ is $C^2$ on $[0,\infty)$. This uses the smoothness of the trajectory supplied by the dissipative system and the fact that $t+1\gt 0$ for $t\ge 0$, together with the smoothness of the squared norm. It also proves differentiability of $\theta$ at every $t\ge 0$, using `dissipativeSystem_differentiableAt_pos`, which states that $\mathrm{sys.u}$ is differentiable at every positive time. Since $t+1\gt 0$, this applies.
 
-The proof then computes derivatives of $\theta$. For $s>-1$,
+The proof then computes derivatives of $\theta$. For $s\gt -1$,
 
-$$
+```math
 \theta'(s)
 =\frac{d}{dr}\left(\frac12\|\mathrm{sys.u}(r)\|^2\right)\bigg|_{r=s+1}.
-$$
+```
 
 This is the chain rule for the shift $r\mapsto r+1$. It also proves that for $s\ge 0$,
 
-$$
+```math
 \theta''(s)
 =\frac{d^2}{dr^2}\left(\frac12\|\mathrm{sys.u}(r)\|^2\right)\bigg|_{r=s+1}.
-$$
+```
 
 These identities are used to transfer the damped differential inequality from the original time variable to the shifted variable.
 
 The integrability of the shifted force term is also obtained:
 
-$$
+```math
 s\mapsto
 \left\|\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(s+1)(1)\right\|^2
 \in L^1([0,\infty)).
-$$
+```
 
 This follows from `hvel2` by the measure-preserving translation $s\mapsto s+1$.
 
 Combining the derivative identities with the damped inequality for the distance to $0$ gives, for every $s\ge 0$,
 
-$$
+```math
 \theta''(s)+\gamma \theta'(s)
 \le
 \left\|\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(s+1)(1)\right\|^2.
-$$
+```
 
-Now the proof applies `positive_part_integrable_of_damped_inequality`. That theorem says that if $\omega$ is $C^1$ on $[0,\infty)$, $\gamma>0$, and
+Now the proof applies `positive_part_integrable_of_damped_inequality`. That theorem says that if $\omega$ is $C^1$ on $[0,\infty)$, $\gamma\gt 0$, and
 
 $$
 \omega'(t)+\gamma \omega(t)\le g(t)
@@ -783,9 +783,9 @@ $$
 
 with $g\in L^1([0,\infty))$, then the positive part $t\mapsto \max(\omega(t),0)$ is integrable on $[0,\infty)$. Here the proof takes $\omega=\theta'$ and
 
-$$
+```math
 g(s)=\left\|\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(s+1)(1)\right\|^2.
-$$
+```
 
 The required $C^1$-ness of $\theta'$ comes from the $C^2$-ness of $\theta$, and the inequality was just established. Since the shifted force term is integrable, the conclusion is that
 
@@ -795,7 +795,7 @@ $$
 
 is integrable on $[0,\infty)$.
 
-The proof then invokes `converges_of_integrable_positive_derivative`. That theorem says that if a scalar function $\theta$ is $C^1$ on $[0,\infty)$, bounded below, and its positive derivative part $\max(\theta',0)$ is integrable, then $\theta$ converges to a finite limit at infinity. Here $\theta(t)=\frac12\|\mathrm{sys.u}(t+1)\|^2\ge 0$, so it is bounded below by $0$. The positive-part integrability was just proved. Hence there exists a real number `normTailLimit` such that
+The proof then invokes `converges_of_integrable_positive_derivative`. That theorem says that if a scalar function $\theta$ is $C^1$ on $[0,\infty)$, bounded below, and its positive derivative part $\max(\theta',0)$ is integrable, then $\theta$ converges to a finite limit at infinity. Here $`\theta(t)=\frac12\|\mathrm{sys.u}(t+1)\|^2\ge 0`$, so it is bounded below by$0$. The positive-part integrability was just proved. Hence there exists a real number `normTailLimit` such that
 
 $$
 \theta(t)\to \text{normTailLimit}.
@@ -803,28 +803,28 @@ $$
 
 Multiplying by $2$, this gives
 
-$$
+```math
 \|\mathrm{sys.u}(t+1)\|^2\to 2\cdot \text{normTailLimit}.
-$$
+```
 
 Shifting back by $t\mapsto t-1$, the proof obtains
 
-$$
+```math
 \|\mathrm{sys.u}(t)\|^2\to L
-$$
+```
 
 where $L=2\cdot \text{normTailLimit}$.
 
 At this point the proof turns to the causal error term from the paper. It applies `even_causal_error_converges`, whose statement says that if the squared velocity is integrable on $[0,\infty)$, then there exists a real number `Herr` such that
 
-$$
+```math
 r\mapsto
 \frac32
 \int_1^r \int_0^\theta
 e^{-\gamma(\theta-s)}
 \left\|\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(s)(1)\right\|^2
 \,ds\,d\theta
-$$
+```
 
 converges to `Herr` as $r\to\infty$. The proof defines this function as `Herror`, so that
 
@@ -832,9 +832,9 @@ $$
 \mathrm{Herror}(r)\to \mathrm{Herr}.
 $$
 
-Next the proof uses `eventually_bounded_even_endpoint_deriv`. That theorem says that if the squared norm $\|\mathrm{sys.u}(T)\|^2$ converges as $T\to\infty$, then there exist $C\ge 0$ such that eventually in $T$,
+Next the proof uses `eventually_bounded_even_endpoint_deriv`. That theorem says that if the squared norm $`\|\mathrm{sys.u}(T)\|^2`$converges as$T\to\infty$, then there exist$C\ge 0$such that eventually in$T$,
 
-$$
+```math
 \left|
 \frac{d}{dr}
 \left(
@@ -843,9 +843,9 @@ $$
 \right)\bigg|_{r=1}
 \right|
 \le C.
-$$
+```
 
-Here the convergence $\|\mathrm{sys.u}(T)\|^2\to L$ has just been proved, so the theorem applies and gives a nonnegative constant $C$ together with an eventual bound on the derivative at $r=1$ of the moving-endpoint function.
+Here the convergence $`\|\mathrm{sys.u}(T)\|^2\to L`$has just been proved, so the theorem applies and gives a nonnegative constant$C$together with an eventual bound on the derivative at$r=1$ of the moving-endpoint function.
 
 The proof then establishes an estimate for the coefficient of that derivative in the two-time integral bound. For $1\le t\le T$, it proves
 
@@ -853,9 +853,9 @@ $$
 \frac{e^{-\gamma(t-1)}-e^{-\gamma(T-1)}}{\gamma}\ge 0,
 $$
 
-using $\gamma>0$ and monotonicity of the exponential. It also proves that eventually in $T$,
+using $\gamma\gt 0$ and monotonicity of the exponential. It also proves that eventually in $T$,
 
-$$
+```math
 \frac{e^{-\gamma(t-1)}-e^{-\gamma(T-1)}}{\gamma}
 \cdot
 \frac{d}{dr}
@@ -866,17 +866,17 @@ $$
 \le
 \frac{e^{-\gamma(t-1)}-e^{-\gamma(T-1)}}{\gamma}
 \cdot C.
-$$
+```
 
 This follows because the coefficient is nonnegative and the derivative is eventually bounded above by $C$ in absolute value.
 
 The proof then defines
 
-$$
+```math
 vfun(s)=\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(s)(1),
 \qquad
 qfun(s)=\frac32\|vfun(s)\|^2.
-$$
+```
 
 It proves that $vfun$ is continuous on $[1,\infty)$, using the smoothness of the trajectory at positive times, and hence that $qfun$ is continuous on $[1,\infty)$. It extends both functions to all of $\mathbb R$ by
 
@@ -886,19 +886,19 @@ $$
 
 On $[1,\infty)$ these extensions agree with $vfun$ and $qfun$. This extension is used to prove interval integrability of the nested integral
 
-$$
+```math
 \theta\mapsto \int_1^\theta e^{-\gamma(\theta-s)}qfun(s)\,ds
-$$
+```
 
 on every interval $[t,T]$ with $1\le t\le T$. The proof obtains this by a continuous parametric interval-integral argument: $qext$ is continuous, so the parametric integral is continuous, hence interval integrable on compact intervals, and then it is identified with the integral using $qfun$ on the relevant interval.
 
 The proof also verifies smoothness of the moving-endpoint function
 
-$$
+```math
 G_T(r)=
 \|\mathrm{sys.u}(r)\|^2-\|\mathrm{sys.u}(T)\|^2
 -\frac12\|\mathrm{sys.u}(r)-\mathrm{sys.u}(T)\|^2.
-$$
+```
 
 It shows that for every $T$, $G_T$ is $C^2$ on $[1,\infty)$, and that its derivative is $C^1$ on $[1,\infty)$. These are the differentiability hypotheses needed for the two-time integral bound.
 
@@ -910,7 +910,7 @@ g(r)=G_T(r),
 q(s)=qfun(s),
 $$
 
-and $t,T$ with $1\le t\le T$. The lemma requires $g$ and $g'$ to be $C^1$ on $[1,\infty)$, $q$ continuous on $[1,T]$, the nested integral of $e^{-\gamma(\theta-s)}q(s)$ to be interval integrable on $[t,T]$, $\gamma>0$, and the differential inequality
+and $t,T$ with $1\le t\le T$. The lemma requires $g$ and $g'$ to be $C^1$ on $[1,\infty)$, $q$ continuous on $[1,T]$, the nested integral of $e^{-\gamma(\theta-s)}q(s)$ to be interval integrable on $[t,T]$, $\gamma\gt 0$, and the differential inequality
 
 $$
 g''(s)+\gamma g'(s)\le q(s)
@@ -918,24 +918,24 @@ $$
 
 for $s\in(1,T)$. The latter is provided by `even_moving_endpoint_damped_ineq`, whose statement, specialized to the even potential $\Phi$, says that for $T\ge 1$ and $s\in(1,T]$,
 
-$$
+```math
 G_T''(s)+\gamma G_T'(s)
 \le
 \frac32\|\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(s)(1)\|^2
 =qfun(s).
-$$
+```
 
 Thus all hypotheses of `damped_two_time_integral_bound` are satisfied.
 
 The conclusion of that bound is
 
-$$
+```math
 G_T(T)-G_T(t)
 \le
 \frac{e^{-\gamma(t-1)}-e^{-\gamma(T-1)}}{\gamma}G_T'(1)
 +\int_t^T\int_1^\theta
 e^{-\gamma(\theta-s)}qfun(s)\,ds\,d\theta.
-$$
+```
 
 Since
 
@@ -945,35 +945,35 @@ $$
 
 this rearranges to the key estimate
 
-$$
+```math
 \frac12\|\mathrm{sys.u}(t)-\mathrm{sys.u}(T)\|^2
 \le
 \|\mathrm{sys.u}(t)\|^2-\|\mathrm{sys.u}(T)\|^2
 +\frac{e^{-\gamma(t-1)}-e^{-\gamma(T-1)}}{\gamma}G_T'(1)
 +\int_t^T\int_1^\theta
 e^{-\gamma(\theta-s)}qfun(s)\,ds\,d\theta.
-$$
+```
 
-The proof also needs to compare the nested integral appearing here with the causal error function `Herror`. It applies `causal_exp_convolution_integrable_local` to the function $s\mapsto \|vfun(s)\|^2$. Since `hvel2` gives integrability of this squared velocity on $[0,\infty)$, that lemma gives integrability on $[0,\infty)$ of
+The proof also needs to compare the nested integral appearing here with the causal error function `Herror`. It applies `causal_exp_convolution_integrable_local` to the function $`s\mapsto \|vfun(s)\|^2`$. Since `hvel2` gives integrability of this squared velocity on $[0,\infty)$, that lemma gives integrability on $[0,\infty)$ of
 
-$$
+```math
 \theta\mapsto
 \int_0^\theta e^{-\gamma(\theta-s)}\|vfun(s)\|^2\,ds.
-$$
+```
 
 The proof then restricts this integrability to compact intervals $[t,T]$ with $1\le t\le T$. This is needed to split the integral defining `Herror`.
 
-Using nonnegativity of the integrand $e^{-\gamma(\theta-s)}\|vfun(s)\|^2$ on $[0,1]$, the proof shows that for $1\le t\le T$,
+Using nonnegativity of the integrand $`e^{-\gamma(\theta-s)}\|vfun(s)\|^2`$on$[0,1]$, the proof shows that for$1\le t\le T$,
 
-$$
+```math
 \int_t^T\int_1^\theta e^{-\gamma(\theta-s)}qfun(s)\,ds\,d\theta
 \le
 \mathrm{Herror}(T)-\mathrm{Herror}(t).
-$$
+```
 
-Indeed, $qfun(s)=\frac32\|vfun(s)\|^2$, and on each slice $\theta$, the integral over $1\le s\le\theta$ is at most the integral over $0\le s\le\theta$ after multiplying by $\frac32$, because the contribution over $[0,1]$ is nonnegative. Integrating over $\theta\in[t,T]$ and using additivity of the integral gives the difference of `Herror` values.
+Indeed, $`qfun(s)=\frac32\|vfun(s)\|^2`$, and on each slice$\theta$, the integral over$1\le s\le\theta$is at most the integral over$0\le s\le\theta$after multiplying by$\frac32$, because the contribution over$[0,1]$is nonnegative. Integrating over$\theta\in[t,T]$ and using additivity of the integral gives the difference of `Herror` values.
 
-Now the proof turns to the uniform Cauchy estimate. It wants to show that for every $\varepsilon>0$, there exists $N$ such that for all $s,t\ge N$,
+Now the proof turns to the uniform Cauchy estimate. It wants to show that for every $\varepsilon\gt 0$, there exists $N$ such that for all $s,t\ge N$,
 
 $$
 \mathrm{dist}(\mathrm{sys.u}(s),\mathrm{sys.u}(t))<\varepsilon.
@@ -985,21 +985,21 @@ $$
 \delta=\frac{\varepsilon^2}{12}.
 $$
 
-Since $\delta>0$, the proof uses the convergence $\|\mathrm{sys.u}(t)\|^2\to L$ and `Herror(t)→Herr` to choose thresholds $Nnorm$ and $Nerr$ such that beyond them,
+Since $\delta\gt 0$, the proof uses the convergence $`\|\mathrm{sys.u}(t)\|^2\to L`$ and `Herror(t)→Herr` to choose thresholds $Nnorm$ and $Nerr$ such that beyond them,
 
-$$
+```math
 \left|\|\mathrm{sys.u}(t)\|^2-L\right|<\delta,
 \qquad
 \left|\mathrm{Herror}(t)-\mathrm{Herr}\right|<\delta.
-$$
+```
 
-It also uses $\gamma>0$ to show
+It also uses $\gamma\gt 0$ to show
 
 $$
 e^{-\gamma(r-1)}\to 0
 $$
 
-as $r\to\infty$, because $-\gamma<0$. Consequently,
+as $r\to\infty$, because $-\gamma\lt 0$. Consequently,
 
 $$
 \frac{C}{\gamma}e^{-\gamma(r-1)}\to 0.
@@ -1019,17 +1019,17 @@ $$
 
 Now take $s,t\ge N$ with $s\le t$. The proof proves the estimate first in the ordered case and then swaps $s,t$ for the other order. Since both points are beyond $Nnorm$,
 
-$$
+```math
 \left|\|\mathrm{sys.u}(s)\|^2-L\right|<\delta,
 \qquad
 \left|\|\mathrm{sys.u}(t)\|^2-L\right|<\delta.
-$$
+```
 
 By the triangle inequality for absolute values,
 
-$$
+```math
 \left|\|\mathrm{sys.u}(s)\|^2-\|\mathrm{sys.u}(t)\|^2\right|<2\delta.
-$$
+```
 
 Similarly, since both points are beyond $Nerr$,
 
@@ -1061,12 +1061,12 @@ using $s\ge Nexp$.
 
 Combining these estimates with the key two-time inequality gives
 
-$$
+```math
 \frac12\|\mathrm{sys.u}(s)-\mathrm{sys.u}(t)\|^2
 <
 2\delta+\delta+2\delta
 =5\delta.
-$$
+```
 
 Since $\delta=\varepsilon^2/12$,
 
@@ -1076,20 +1076,20 @@ $$
 
 Thus
 
-$$
+```math
 \frac12\|\mathrm{sys.u}(s)-\mathrm{sys.u}(t)\|^2
 <\frac{\varepsilon^2}{2},
-$$
+```
 
 and therefore
 
-$$
+```math
 \|\mathrm{sys.u}(s)-\mathrm{sys.u}(t)\|<\varepsilon.
-$$
+```
 
 This proves the uniform Cauchy statement for the tail of the trajectory. The reverse order $t\le s$ is handled by symmetry of the distance.
 
-The proof then upgrades this uniform Cauchy estimate to existence of a strong limit. It applies `cauchy_map_iff_exists_tendsto.mp`. In a complete space, a filter is Cauchy if and only if it converges. The proof uses `Metric.cauchy_iff` and the uniform estimate to show that the filter generated by the map $t\mapsto \mathrm{sys.u}(t)$ at infinity is Cauchy. Concretely, for every $\varepsilon>0$, the image $\mathrm{sys.u}''[N,\infty)$ is a set in the image filter, and any two of its points are within $\varepsilon$. Hence the map is Cauchy. Since $H$ is complete, there exists $w\in H$ such that
+The proof then upgrades this uniform Cauchy estimate to existence of a strong limit. It applies `cauchy_map_iff_exists_tendsto.mp`. In a complete space, a filter is Cauchy if and only if it converges. The proof uses `Metric.cauchy_iff` and the uniform estimate to show that the filter generated by the map $t\mapsto \mathrm{sys.u}(t)$ at infinity is Cauchy. Concretely, for every $\varepsilon\gt 0$, the image $\mathrm{sys.u}''[N,\infty)$ is a set in the image filter, and any two of its points are within $\varepsilon$. Hence the map is Cauchy. Since $H$ is complete, there exists $w\in H$ such that
 
 $$
 \mathrm{sys.u}(t)\to w

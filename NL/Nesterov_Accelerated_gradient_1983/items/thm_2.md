@@ -23,31 +23,31 @@ theorem composite_accelerated_rate {m : ℕ} {E : Type*} [NormedAddCommGroup E] 
 ## Statement explanation
 Let $E$ be a complete real inner-product space, $m$ a natural number, $P$ an extremal problem with $m$ component functions $P.f_i:E\to\mathbb R$, and $P.F$ the objective functional on the vector of component values. For a point $y\in E$, write
 
-$$
+```math
 G(y)=P.F\bigl(\mathrm{WithLp.toLp}\,2\,(i\mapsto P.f_i(y))\bigr),
-$$
+```
 
 that is, $P.F$ applied to the vector $(P.f_1(y),\dots,P.f_m(y))$. The theorem concerns a composite accelerated method $M$ for $P$ and an auxiliary mapping $T:E\to\mathbb R\to E$. The fields $M.x_k$, $M.y_k$, $M.A_k$, $M.weight_k$, $M.initialA$, $M.y_0$, and $M.searchIndex_k$ are respectively the method’s $k$-th iterate, auxiliary point, auxiliary coefficient, weight, initial value, initial auxiliary point, and search index.
 
-The hypotheses are: $x^*$ is a solution of $P$, i.e. $x^*\in P.solutionSet$; for every component index $i$, $P.f_i$ satisfies the $C^{1,1}$-type condition `IsC11` with constant $Lbar_i$; the auxiliary mapping $T$ satisfies the auxiliary estimates `HasAuxiliaryMappingEstimates`; the auxiliary values satisfy the lower bound `HasAuxiliaryValueLowerBound` relative to $Lbar$; the initial value is positive, $0<M.initialA$; and $P.F$ is monotone on nonnegative vectors in the sense that if $u,v\in\mathbb R^m$, $u\ge 0$ coordinatewise, and $u\le v$ coordinatewise, then $P.F(u)\le P.F(v)$.
+The hypotheses are: $x^*$ is a solution of $P$, i.e. $x^*\in P.solutionSet$; for every component index $i$, $P.f_i$ satisfies the $C^{1,1}$-type condition `IsC11` with constant $Lbar_i$; the auxiliary mapping $T$ satisfies the auxiliary estimates `HasAuxiliaryMappingEstimates`; the auxiliary values satisfy the lower bound `HasAuxiliaryValueLowerBound` relative to $Lbar$; the initial value is positive, $0\lt M.initialA$; and $P.F$ is monotone on nonnegative vectors in the sense that if $u,v\in\mathbb R^m$, $u\ge 0$ coordinatewise, and $u\le v$ coordinatewise, then $P.F(u)\le P.F(v)$.
 
 The conclusion is a conjunction. First, for every natural number $k$,
 
-$$
+```math
 G(M.x_k)-G(x^*)
 \le
 \frac{4\,P.F(Lbar)\,\|M.y_0-x^*\|^2}{(k+2)^2}.
-$$
+```
 
-This is the accelerated $O(1/k^2)$ convergence rate for the composite objective values. Second, for every real $\varepsilon>0$, define
+This is the accelerated $O(1/k^2)$ convergence rate for the composite objective values. Second, for every real $\varepsilon\gt 0$, define
 
-$$
+```math
 NG=\sqrt{\frac{4\,P.F(Lbar)\,\|M.y_0-x^*\|^2}{\varepsilon}},
-$$
+```
 
-$$
+```math
 D=\left\lceil \max\left(\log_2\!\left(\frac{P.F(Lbar)}{M.initialA}\right),0\right)\right\rceil,
-$$
+```
 
 $$
 NA=\lceil NG\rceil+D,\qquad NF=2\lceil NG\rceil+D.
@@ -260,24 +260,24 @@ $$
 
 Multiplying by the nonnegative gap gives
 
-$$
+```math
 \left(1+\frac{k}{2}\right)^2 \mathrm{gap}
 \le M.weight_k^2\,\mathrm{gap}.
-$$
+```
 
 The central Lyapunov inequality `composite_lyapunov`, applied with the previously obtained `hAle`, $hT$, $hLower$, $hstar$, $hApos$, and $k$, states
 
-$$
+```math
 M.weight_k^2\,\mathrm{gap}
 \le P.F(Lbar)\,\|M.y_0-x^*\|^2.
-$$
+```
 
 Combining these two inequalities gives
 
-$$
+```math
 \left(1+\frac{k}{2}\right)^2 \mathrm{gap}
 \le P.F(Lbar)\,\|M.y_0-x^*\|^2.
-$$
+```
 
 Since
 
@@ -287,41 +287,41 @@ $$
 
 this is equivalent to
 
-$$
+```math
 (k+2)^2\,\mathrm{gap}
 \le 4\,P.F(Lbar)\,\|M.y_0-x^*\|^2.
-$$
+```
 
 The denominator $(k+2)^2$ is positive, so dividing by it yields
 
-$$
+```math
 \mathrm{gap}
 \le
 \frac{4\,P.F(Lbar)\,\|M.y_0-x^*\|^2}{(k+2)^2}.
-$$
+```
 
 The proof uses `positivity` to establish positivity of $(k+2)^2$, then `le_div_iff₀` to replace the division goal by the equivalent multiplication inequality, and finally `norm_num` and `nlinarith` to solve the resulting polynomial arithmetic. This proves the first conjunct of the theorem.
 
-For the second conjunct, fix $\varepsilon>0$. The proof defines
+For the second conjunct, fix $\varepsilon\gt 0$. The proof defines
 
-$$
+```math
 NG=\sqrt{\frac{C}{\varepsilon}},
 \qquad
 C=4\,P.F(Lbar)\,\|M.y_0-x^*\|^2,
-$$
+```
 
 and
 
-$$
+```math
 D=\left\lceil \max\left(\log_2\!\left(\frac{P.F(Lbar)}{M.initialA}\right),0\right)\right\rceil.
-$$
+```
 
 First it proves $C\ge0$. It applies `composite_lyapunov` at $k=0$, obtaining
 
-$$
+```math
 M.weight_0^2\bigl(G(M.x_0)-G(x^*)\bigr)
 \le P.F(Lbar)\,\|M.y_0-x^*\|^2.
-$$
+```
 
 Using the zero-weight identity `M.weight_zero`, this simplifies the left-hand side, and since the gap at $0$ is nonnegative by the already proved nonnegativity result, the right-hand side must be nonnegative. Hence $C\ge0$. Consequently $NG\ge0$, and `Int.ceil_nonneg` gives $\lceil NG\rceil\ge0$. Also $D\ge0$, because $D$ is the ceiling of a maximum that is at least $0$.
 
@@ -361,17 +361,17 @@ $$
 \frac{C}{\varepsilon}\le \text{iterations}^2.
 $$
 
-Multiplying by $\varepsilon>0$ yields
+Multiplying by $\varepsilon\gt 0$ yields
 
-$$
+```math
 C\le \varepsilon\,\text{iterations}^2.
-$$
+```
 
 Since $\text{iterations}^2\le(\text{iterations}+2)^2$, it follows that
 
-$$
+```math
 C\le \varepsilon\,(\text{iterations}+2)^2.
-$$
+```
 
 Dividing by the positive number $(\text{iterations}+2)^2$ gives
 
@@ -421,11 +421,11 @@ $$
 
 The lemma `composite_searchIndex_sum_le`, applied with $N=\text{iterations}$, $hLower$, and $hApos$, states
 
-$$
+```math
 \sum_{j=0}^{\text{iterations}-1} M.searchIndex_j
 \le
 \left\lceil \max\left(\log_2\!\left(\frac{P.F(Lbar)}{M.initialA}\right),0\right)\right\rceil.\mathrm{toNat}.
-$$
+```
 
 By definition of $D$, this is
 
@@ -469,11 +469,11 @@ is exactly `rfl`.
 
 For the function-evaluation bound, the definition gives
 
-$$
+```math
 \text{functionEvaluations}
 =2\,\text{iterations}
 +\sum_{j=0}^{\text{iterations}-1} M.searchIndex_j.
-$$
+```
 
 The proof must show this is at most
 
@@ -490,22 +490,22 @@ $$
 
 Then `Int.toNat_mul` uses nonnegativity of $2$ and of $\lceil NG\rceil$ to get
 
-$$
+```math
 (2\lceil NG\rceil).\mathrm{toNat}
 =2\,(\lceil NG\rceil).\mathrm{toNat}
 =2\,\text{iterations}.
-$$
+```
 
 Thus the target becomes
 
-$$
+```math
 2\,\text{iterations}
 +\sum_{j=0}^{\text{iterations}-1} M.searchIndex_j
 \le
 2\,\text{iterations}+D.\mathrm{toNat}.
-$$
+```
 
-The same `composite_searchIndex_sum_le` bound as before gives the required inequality for the sum, and `Nat.add_le_add_left` adds $2\,\text{iterations}$ to both sides. This completes the function-evaluation bound.
+The same `composite_searchIndex_sum_le` bound as before gives the required inequality for the sum, and `Nat.add_le_add_left` adds $`2\,\text{iterations}`$ to both sides. This completes the function-evaluation bound.
 
 All conjuncts of the existential statement have now been verified, so the proof finishes the second part of the theorem.
 

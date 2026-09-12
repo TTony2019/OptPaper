@@ -15,21 +15,21 @@ The ambient object is a real inner product space $E$ that is complete, i.e. a re
 2. $C$ is closed in the norm topology of $E$.
 3. $C$ is convex: for every $x,y \in C$ and every $t \in [0,1]$,
 
-   $$
-   t x + (1-t)y \in C.
-   $$
+$$
+t x + (1-t)y \in C.
+$$
 
 The conclusion is that $C$ is Chebyshev. Equivalently, for every point $x \in E$, there is a unique point $y \in C$ that is closest to $x$ among all points of $C$. In formulas, there exists a unique $y \in C$ such that
 
-$$
+```math
 \|x-y\|=\inf_{z\in C}\|x-z\|,
-$$
+```
 
 or equivalently
 
-$$
+```math
 \|x-y\|\le \|x-z\|
-$$
+```
 
 for all $z \in C$. This unique $y$ is the metric projection of $x$ onto $C$. Thus the theorem says that nonemptiness, closedness, and convexity are sufficient to guarantee existence and uniqueness of nearest points in a Hilbert space.
 

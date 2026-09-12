@@ -43,12 +43,12 @@ Equivalently, $\Gamma$ is nonincreasing.
 
 The conclusion is the conjunction
 
-$$
+```math
 \Bigl(\forall t \in \mathbb R,\ \Gamma(t)=\frac12\lVert x(t)-z\rVert^2
 +\mu\bigl(\Phi(z)-\Phi(x(t))-\langle z-x(t),v(t)\rangle\bigr)\Bigr)
 \;\wedge\;
 \mathrm{Antitone}(\Gamma).
-$$
+```
 
 Thus the theorem says: under the assumptions that $\Gamma$ is defined by that formula at every $t$ and that $\Gamma$ is antitone, both of those facts hold together. It does not derive any further inequality or identity; it packages the two hypotheses into the corresponding conjunction.
 

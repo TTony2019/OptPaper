@@ -39,7 +39,7 @@ where the proof $hk'$ is supplied as the final argument. Since no definition of 
 
 The value of `liapunovF` at these arguments is the real number
 
-$$
+```math
 \begin{aligned}
 &\mathrm{liapunovF}(u,y,a,b,\lambda,q,k,hk)\\
 &=
@@ -48,9 +48,9 @@ $$
 -\delta\sum_{i=2}^{k}\|\mathrm{velocity}(u,i)\|^{2}
 +2\alpha\left\langle \mathrm{velocity}(u,k+1),\,u_k-q\right\rangle_{\mathbb R}.
 \end{aligned}
-$$
+```
 
-Here $\|u_k-q\|^{2}$ is the squared distance from the $k$-th term of $u$ to $q$. The sum runs over the finite set $i\in\{2,\dots,k\}$; if $k<2$, the sum is empty. The expression also contains the squared norms of the vectors returned by `velocity` at the indices $i$ from $2$ to $k$, and a final real inner-product term between the velocity at index $k+1$ and the vector $u_k-q$. There is no assumption that $\lambda\ne0$; in Lean the divisions by $\lambda$ and $\lambda^2$ are total, so the formula is well-formed even when $\lambda=0$. Mathematically, the declaration packages a real-valued Lyapunov-type expression attached to the sequences and parameters, but it does not assert any property of that expression.
+Here $`\|u_k-q\|^{2}`$is the squared distance from the$k$-th term of$u$to$q$. The sum runs over the finite set$`i\in\{2,\dots,k\}`$; if$k<2$, the sum is empty. The expression also contains the squared norms of the vectors returned by `velocity` at the indices $i$ from $2$ to $k$, and a final real inner-product term between the velocity at index $k+1$ and the vector $u_k-q$. There is no assumption that $\lambda\ne0$; in Lean the divisions by $\lambda$ and $\lambda^2$ are total, so the formula is well-formed even when $\lambda=0$. Mathematically, the declaration packages a real-valued Lyapunov-type expression attached to the sequences and parameters, but it does not assert any property of that expression.
 
 ## Lean proof
 ```lean
@@ -92,15 +92,15 @@ $$
 
 The summation term is
 
-$$
+```math
 \sum_{i\in(\mathrm{Finset.Icc}\,2\,k).\mathrm{attach}}\|\mathrm{velocity}(u,i)\|^{2}.
-$$
+```
 
-The finset $\mathrm{Finset.Icc}\,2\,k$ is the finite set of natural numbers $i$ satisfying $2\le i\le k$. The operation `attach` tags each element with a proof of its membership in that interval. For each such tagged element $i$, the proof `i.property` says that the underlying natural number lies in $2\le i\le k$. The call
+The finset $`\mathrm{Finset.Icc}\,2\,k`$is the finite set of natural numbers$i$satisfying$2\le i\le k$. The operation `attach` tags each element with a proof of its membership in that interval. For each such tagged element $i$, the proof `i.property` says that the underlying natural number lies in $2\le i\le k$. The call
 
-$$
+```math
 \mathrm{Finset.mem\_Icc.mp}(i.property)
-$$
+```
 
 turns this membership statement into the conjunction
 
@@ -112,20 +112,20 @@ The projection `.1` extracts the lower bound $2\le i$. That lower bound is exact
 
 The last term is
 
-$$
+```math
 2\alpha\left\langle \mathrm{velocity}(u,k+1),\,u_k-q\right\rangle_{\mathbb R}.
-$$
+```
 
 The proof argument to `velocity u (k+1)` is again produced by `omega`, using $hk:1\le k$ to prove $2\le k+1$. The inner product $\langle\cdot,\cdot\rangle_{\mathbb R}$ is the real inner product on $H$, and its first argument is the velocity vector at index $k+1$, while its second argument is $u_k-q$.
 
 Finally, the whole expression is assembled in $\mathbb R$ using subtraction and addition:
 
-$$
+```math
 \frac{a+b}{2\lambda}\|u_k-q\|^{2}
 -\left(\frac1\lambda+b\right)G_k
 -\delta\sum_{i=2}^{k}\|\mathrm{velocity}(u,i)\|^{2}
 +2\alpha\left\langle \mathrm{velocity}(u,k+1),\,u_k-q\right\rangle_{\mathbb R}.
-$$
+```
 
 No named local theorem or lemma is invoked in a separate proof. The only proof tactic used is `omega`, and the tactics `intro`, `rw`, `simp`, `exact`, and `linarith` do not occur in the definition body.
 

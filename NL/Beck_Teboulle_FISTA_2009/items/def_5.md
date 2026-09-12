@@ -17,11 +17,11 @@ $$
 
 where Lean writes the domain as `EuclideanSpace ℝ (Fin n)`, the $n$-dimensional real Euclidean space. There are no additional hypotheses: no convexity, continuity, differentiability, coercivity, or existence assumption is part of the declaration. The definition produces a subset of $\mathbb{R}^n$, namely
 
-$$
+```math
 \mathrm{solutionSet}(f,g)
 =\{x \in \mathbb{R}^n \mid
 \mathrm{IsMinOn}(\mathrm{compositeObjective}(f,g),\mathbb{R}^n,x)\}.
-$$
+```
 
 Here `compositeObjective f g` is the real-valued function on $\mathbb{R}^n$ built from $f$ and $g$ in the surrounding development; this declaration does not expose its formula. The identifier `univ` denotes the whole domain $\mathbb{R}^n$.
 
@@ -66,7 +66,7 @@ $$
 x \in \mathrm{solutionSet}(f,g)
 \iff
 \bigl(
-\forall y \in \mathbb{R}^n,\ 
+\forall y \in \mathbb{R}^n,\
 (\mathrm{compositeObjective}(f,g))(x)
 \le
 (\mathrm{compositeObjective}(f,g))(y)

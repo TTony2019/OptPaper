@@ -459,7 +459,7 @@ $$
 h(\bar x,\bar x)\ge0,\qquad k(\bar y,\bar y)\ge0,\qquad c(\bar x,\bar y)\ge0.
 $$
 
-The lower semicontinuity hypotheses are then converted into eventual lower bounds along the algorithm. The definition of lower semicontinuity at a point says that if $u$ is a lower semicontinuity point of a function $\phi$, then for every real threshold $r<\phi(u)$, we have $\phi(z)>r$ for all $z$ sufficiently close to $u$. Taking $r=\phi(u)-\epsilon$ with $\epsilon>0$, this becomes: eventually near $u$,
+The lower semicontinuity hypotheses are then converted into eventual lower bounds along the algorithm. The definition of lower semicontinuity at a point says that if $u$ is a lower semicontinuity point of a function $\phi$, then for every real threshold $r\lt \phi(u)$, we have $\phi(z)\gt r$ for all $z$ sufficiently close to $u$. Taking $r=\phi(u)-\epsilon$ with $\epsilon\gt 0$, this becomes: eventually near $u$,
 
 $$
 \phi(u)-\epsilon<\phi(z).
@@ -497,13 +497,13 @@ $$
 
 The `filter_upwards` tactic is used repeatedly to pass from a neighborhood statement in the limit to the corresponding eventual statement along the convergent sequence.
 
-Similarly, from convergence of the parameter sequences, the proof records that for every $\delta>0$, eventually
+Similarly, from convergence of the parameter sequences, the proof records that for every $\delta\gt 0$, eventually
 
 $$
 \alpha_\infty-\delta<\alpha_n,
 $$
 
-and similarly for $\beta,\mu,\nu$. This is proved by observing that the interval $(\alpha_\infty-\delta,\infty)$ is open and contains $\alpha_\infty$, hence is a neighborhood of $\alpha_\infty$; convergence of $\alpha_n$ to $\alpha_\infty$ therefore eventually puts $\alpha_n$ inside that interval. The lemma `isOpen_Ioi` states that intervals of the form $\{x:\alpha_\infty-\delta<x\}$ are open, and `h_open.mem_nhds` turns membership into a neighborhood condition.
+and similarly for $\beta,\mu,\nu$. This is proved by observing that the interval $(\alpha_\infty-\delta,\infty)$ is open and contains $\alpha_\infty$, hence is a neighborhood of $\alpha_\infty$; convergence of $\alpha_n$ to $\alpha_\infty$ therefore eventually puts $\alpha_n$ inside that interval. The lemma `isOpen_Ioi` states that intervals of the form $`\{x:\alpha_\infty-\delta<x\}`$ are open, and `h_open.mem_nhds` turns membership into a neighborhood condition.
 
 The proof next establishes convergence of the right-hand sides appearing in the step inequalities. For fixed $\xi\in X$, separate continuity of $h$ in the first variable gives $h(x_n,\xi)\to h(\bar x,\xi)$, and separate continuity of $c$ in the second variable gives $c(\xi,y_n)\to c(\xi,\bar y)$. Multiplying by the convergent sequences $\alpha_n$ and $\beta_n$ uses `Filter.Tendsto.mul`, which says that the product of two convergent real sequences converges to the product of the limits. Adding a constant sequence and using the sum rule for limits gives
 
@@ -523,13 +523,13 @@ $$
 
 using the convergence $x_{n+1}\to\bar x$, $y_n\to\bar y$ and the separate continuity of $c$ and $k$.
 
-A central auxiliary lemma is `h_prod_ev_lower`. It states that if $a_n,b_n\ge0$, $a_n\to a_\infty$, $b_\infty\ge0$, and for every $\delta>0$ eventually $b_\infty-\delta<b_n$, then for every $\epsilon>0$, eventually
+A central auxiliary lemma is `h_prod_ev_lower`. It states that if $a_n,b_n\ge0$, $a_n\to a_\infty$, $b_\infty\ge0$, and for every $\delta\gt 0$ eventually $b_\infty-\delta\lt b_n$, then for every $\epsilon\gt 0$, eventually
 
 $$
 a_\infty b_\infty-\epsilon<a_n b_n.
 $$
 
-The proof first derives $a_\infty\ge0$ by `ge_of_tendsto`. If $a_\infty=0$, then $a_\infty b_\infty=0$, and since $a_nb_n\ge0> -\epsilon$, the desired inequality is immediate. If $a_\infty>0$, the proof sets
+The proof first derives $a_\infty\ge0$ by `ge_of_tendsto`. If $a_\infty=0$, then $a_\infty b_\infty=0$, and since $a_nb_n\ge0\gt  -\epsilon$, the desired inequality is immediate. If $a_\infty\gt 0$, the proof sets
 
 $$
 d=a_\infty+b_\infty+1>0
@@ -541,7 +541,7 @@ $$
 \eta=\min\left(\frac{a_\infty}{2},\frac{\epsilon}{2d}\right)>0.
 $$
 
-Then $\eta<a_\infty$. The elementary product estimate
+Then $\eta\lt a_\infty$. The elementary product estimate
 
 $$
 a_\infty b_\infty-\epsilon
@@ -556,7 +556,7 @@ $$
 =a_\infty b_\infty-\eta(a_\infty+b_\infty-\eta),
 $$
 
-and $\eta(a_\infty+b_\infty-\eta)<\epsilon$. This last inequality comes from $\eta\le\epsilon/(2d)$, $a_\infty+b_\infty-\eta<d$, and $\epsilon/2<\epsilon$. Since $a_n\to a_\infty$, eventually $a_\infty-\eta<a_n$; by the assumed lower bound for $b_n$, eventually $b_\infty-\eta<b_n$. If $b_\infty-\eta>0$, multiplying the two lower bounds gives
+and $\eta(a_\infty+b_\infty-\eta)\lt \epsilon$. This last inequality comes from $\eta\le\epsilon/(2d)$, $a_\infty+b_\infty-\eta\lt d$, and $\epsilon/2\lt \epsilon$. Since $a_n\to a_\infty$, eventually $a_\infty-\eta\lt a_n$; by the assumed lower bound for $b_n$, eventually $b_\infty-\eta\lt b_n$. If $b_\infty-\eta\gt 0$, multiplying the two lower bounds gives
 
 $$
 (a_\infty-\eta)(b_\infty-\eta)<a_nb_n.
@@ -576,7 +576,7 @@ $$
 R=f(\xi)+\alpha_\infty h(\bar x,\xi)+\beta_\infty c(\xi,\bar y).
 $$
 
-The goal is $L\le R$. The proof uses `le_of_forall_pos_lt_add`: it is enough to show $L<R+\epsilon$ for every $\epsilon>0$. Fix such an $\epsilon$. From `hRHS_x`, eventually the right-hand side of the $x$-step inequality is less than $R+\epsilon/2$. From lower semicontinuity and the product lemma, eventually each of the three terms on the left-hand side of the $x$-step inequality is larger than its limiting value minus $\epsilon/6$:
+The goal is $L\le R$. The proof uses `le_of_forall_pos_lt_add`: it is enough to show $L\lt R+\epsilon$ for every $\epsilon\gt 0$. Fix such an $\epsilon$. From `hRHS_x`, eventually the right-hand side of the $x$-step inequality is less than $R+\epsilon/2$. From lower semicontinuity and the product lemma, eventually each of the three terms on the left-hand side of the $x$-step inequality is larger than its limiting value minus $\epsilon/6$:
 
 $$
 f(\bar x)-\frac{\epsilon}{6}<f(x_{n+1}),
@@ -610,7 +610,7 @@ $$
 L-\frac{\epsilon}{2}<R+\frac{\epsilon}{2},
 $$
 
-hence $L<R+\epsilon$. Since $\epsilon>0$ was arbitrary, $L\le R$. The final `simpa` only reorders additions using commutativity and associativity to match the exact form of `IsINE`.
+hence $L\lt R+\epsilon$. Since $\epsilon\gt 0$ was arbitrary, $L\le R$. The final `simpa` only reorders additions using commutativity and associativity to match the exact form of `IsINE`.
 
 The $y$-inequality is proved in exactly the same way. For fixed $\eta\in Y$, set
 
@@ -660,5 +660,5 @@ g(\eta)+\mu_n c(x_{n+1},\eta)+\nu_n k(y_n,\eta)
 R'+\frac{\epsilon}{2}.
 $$
 
-Thus $L'<R'+\epsilon$ for every $\epsilon>0$, so $L'\le R'$. The final `refine ⟨?_, ?_⟩` splits the conjunction `IsINE` into these two inequalities, and the two `simpa` commands identify the proved inequalities with the exact order of additions in the target statement.
+Thus $L'\lt R'+\epsilon$ for every $\epsilon\gt 0$, so $L'\le R'$. The final `refine ⟨?_, ?_⟩` splits the conjunction `IsINE` into these two inequalities, and the two `simpa` commands identify the proved inequalities with the exact order of additions in the target statement.
 

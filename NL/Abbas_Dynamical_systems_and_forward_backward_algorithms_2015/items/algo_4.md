@@ -23,7 +23,7 @@ $$
 \Phi : H \to (-\infty,\infty],
 $$
 
-meaning a function whose values are extended reals strictly larger than the bottom element $-\infty$, together with a proof that $\Phi$ belongs to the class denoted $\Gamma_0(H)$. A single-valued operator $B:H\to H$, a subset $S\subseteq H$, and real parameters $\mu,h,\beta$ are also given. The object `alg` is a relaxed forward-backward algorithm for $\Phi,B,\mu,h$; it supplies a sequence $x_k$ (written `alg.x`), a proof `alg.update` that it follows the relaxed forward-backward recursion, and a proof `alg.mu_pos` that $\mu>0$.
+meaning a function whose values are extended reals strictly larger than the bottom element $-\infty$, together with a proof that $\Phi$ belongs to the class denoted $\Gamma_0(H)$. A single-valued operator $B:H\to H$, a subset $S\subseteq H$, and real parameters $\mu,h,\beta$ are also given. The object `alg` is a relaxed forward-backward algorithm for $\Phi,B,\mu,h$; it supplies a sequence $x_k$ (written `alg.x`), a proof `alg.update` that it follows the relaxed forward-backward recursion, and a proof `alg.mu_pos` that $\mu\gt 0$.
 
 The explicit numerical hypotheses are that
 
@@ -156,7 +156,7 @@ $$
 P=\mathrm{Prox}_{\mu\Phi}
 $$
 
-is firmly nonexpansive. It first applies the cited theorem `smul_mem_gammaZero`: since $\Phi\in\Gamma_0(H)$ and $\mu>0$, the scaled function $\mu\Phi$ again lies in $\Gamma_0(H)$. Then it applies the cited theorem `proximityOperator_firmlyNonexpansive_of_mem_gammaZero`, which says that if a function lies in $\Gamma_0(H)$, then its proximity operator is firmly nonexpansive. Specialized here, this gives that $\mathrm{Prox}_{\mu\Phi}$ is firmly nonexpansive. The `simpa` command unfolds the definition of the scaled proximity operator to identify $\mathrm{Prox}_{\mu\Phi}$ with the operator appearing in the theorem.
+is firmly nonexpansive. It first applies the cited theorem `smul_mem_gammaZero`: since $\Phi\in\Gamma_0(H)$ and $\mu\gt 0$, the scaled function $\mu\Phi$ again lies in $\Gamma_0(H)$. Then it applies the cited theorem `proximityOperator_firmlyNonexpansive_of_mem_gammaZero`, which says that if a function lies in $\Gamma_0(H)$, then its proximity operator is firmly nonexpansive. Specialized here, this gives that $\mathrm{Prox}_{\mu\Phi}$ is firmly nonexpansive. The `simpa` command unfolds the definition of the scaled proximity operator to identify $\mathrm{Prox}_{\mu\Phi}$ with the operator appearing in the theorem.
 
 The forward step
 
@@ -164,7 +164,7 @@ $$
 F(z)=z-\mu Bz
 $$
 
-is then shown to be $1$-Lipschitz by the cited result `forward_step_lipschitz_one`. That result uses exactly the hypotheses $0<\mu<2\beta$ and the $\beta$-cocoercivity of $B$ on all of $H$. It concludes that $F$ is Lipschitz with constant $1$, i.e. nonexpansive.
+is then shown to be $1$-Lipschitz by the cited result `forward_step_lipschitz_one`. That result uses exactly the hypotheses $0\lt \mu\lt 2\beta$ and the $\beta$-cocoercivity of $B$ on all of $H$. It concludes that $F$ is Lipschitz with constant $1$, i.e. nonexpansive.
 
 The proof next combines these two facts to show that $T=P\circ F$ is also $1$-Lipschitz. The cited lemma `lipschitzWith_one_of_firmlyNonexpansive` says that firm nonexpansiveness implies Lipschitz constant $1$. Hence $P$ is $1$-Lipschitz, and $F$ is $1$-Lipschitz. The composition of two $1$-Lipschitz maps is again $1$-Lipschitz, so $T=P\circ F$ is $1$-Lipschitz. This will be used later to identify weak cluster points as fixed points.
 
@@ -180,11 +180,11 @@ $$
 \mathrm{Prox}_{\mu\Phi}(p_0-\mu Bp_0)=p_0.
 $$
 
-The main convergence lemma `forward_backward_distance_and_residual_tendsto` is now applied to the proximity operator $P=\mathrm{Prox}_{\mu\Phi}$, the operator $B$, the parameters $\beta,\mu,h$, the sequence $x_k$, the update rule supplied by `alg.update`, and the fixed point $p_0$. Its hypotheses are the step-size range $0<\mu<2\beta$, the relaxation range $0<h\le 1$, the $\beta$-cocoercivity of $B$, the firm nonexpansiveness of $P$, the forward-backward recursion for $x_k$, and the fixed-point equation for $p_0$. Its conclusion is twofold:
+The main convergence lemma `forward_backward_distance_and_residual_tendsto` is now applied to the proximity operator $P=\mathrm{Prox}_{\mu\Phi}$, the operator $B$, the parameters $\beta,\mu,h$, the sequence $x_k$, the update rule supplied by `alg.update`, and the fixed point $p_0$. Its hypotheses are the step-size range $0\lt \mu\lt 2\beta$, the relaxation range $0\lt h\le 1$, the $\beta$-cocoercivity of $B$, the firm nonexpansiveness of $P$, the forward-backward recursion for $x_k$, and the fixed-point equation for $p_0$. Its conclusion is twofold:
 
-$$
+```math
 \exists l\in\mathbb R,\qquad \|x_k-p_0\|\to l,
-$$
+```
 
 and
 
@@ -200,19 +200,19 @@ $$
 
 Thus the distances from the iterates to the fixed point $p_0$ converge, and the residual against $T$ tends to zero.
 
-From the convergence of $\|x_k-p_0\|$, the cited lemma `bounded_range_of_convergent_distance_to_point` gives that the range of the sequence $x_k$ is bounded. The proof then extracts a uniform norm bound $C$ such that
+From the convergence of $`\|x_k-p_0\|`$, the cited lemma `bounded_range_of_convergent_distance_to_point` gives that the range of the sequence $x_k$ is bounded. The proof then extracts a uniform norm bound $C$ such that
 
-$$
+```math
 \|x_k\|\le C
-$$
+```
 
 for all $k$.
 
 The proof also records a stronger distance-convergence fact: for every fixed point $z\in\mathrm{Fix}(T)$, the same convergence lemma applied with $p=z$ gives
 
-$$
+```math
 \exists l\in\mathbb R,\qquad \|x_k-z\|\to l.
-$$
+```
 
 This is the hypothesis `hdist` needed for Opial’s lemma. The `intro` command introduces an arbitrary $z$ and its fixed-point hypothesis, and the cited convergence result supplies the required limit.
 
@@ -230,15 +230,15 @@ $$
 
 The boundedness of the original sequence gives a uniform bound for the subsequence relative to $z$:
 
-$$
+```math
 \|x_{\varphi(k)}-z\|\le \|x_{\varphi(k)}\|+\|z\|\le C+\|z\|.
-$$
+```
 
-This uses the triangle inequality and the previously extracted bound on $\|x_{\varphi(k)}\|$.
+This uses the triangle inequality and the previously extracted bound on $`\|x_{\varphi(k)}\|`$.
 
 Now the cited result `nonexpansive_eq_of_tendsto_weakly_of_residual_tendsto_zero` is applied. Its content is: if $T$ is $1$-Lipschitz, if a sequence $u_k$ converges weakly to a point $z$, if the residual $u_k-T(u_k)$ tends to $0$, and if $u_k-z$ is bounded, then $T(z)=z$. Here $u_k=x_{\varphi(k)}$. Therefore $z\in\mathrm{Fix}(T)$. This proves the cluster-point hypothesis `hcluster`.
 
-Finally, the proof applies Opial’s lemma. The cited statement says that if $C$ is a nonempty set, if for every $z\in C$ the distances $\|x_k-z\|$ converge, and if every weak sequential cluster point of $x_k$ lies in $C$, then the whole sequence $x_k$ converges weakly to some point $z\in C$. The proof uses
+Finally, the proof applies Opial’s lemma. The cited statement says that if $C$ is a nonempty set, if for every $z\in C$ the distances $`\|x_k-z\|`$converge, and if every weak sequential cluster point of$x_k$lies in$C$, then the whole sequence$x_k$converges weakly to some point$z\in C$. The proof uses
 
 $$
 C=\mathrm{Fix}(T).

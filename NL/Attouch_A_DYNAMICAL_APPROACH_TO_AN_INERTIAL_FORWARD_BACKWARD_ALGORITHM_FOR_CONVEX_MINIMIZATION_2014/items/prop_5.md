@@ -16,7 +16,7 @@ theorem proposition8 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H
 ```
 
 ## Statement explanation
-The theorem `proposition8` is set in a real inner product space $H$, with norm $\|\cdot\|$ and inner product $\langle \cdot,\cdot\rangle$. It takes extended-real-valued functions
+The theorem `proposition8` is set in a real inner product space $H$, with norm $`\|\cdot\|`$and inner product$\langle \cdot,\cdot\rangle$. It takes extended-real-valued functions
 
 $$
 \phi,\Theta:H\to \overline{\mathbb R},
@@ -42,7 +42,7 @@ $$
 
 and real parameters $a,b,\lambda,L_{\psi}$.
 
-The hypothesis `hH : IFBHypothesis phi Θ psi gradPsi a b lam Lpsi` is the structural assumption on the convex/forward-backward problem. The proof uses from it only that $a>0$, $b>0$, $0<\lambda$, a step-size bound from which $\lambda<1/a$ is extracted, and convexity of $\mathrm{epigraph}\Theta$. The hypothesis `hIFB : IsIFBTrajectory phi psi gradPsi a b lam u y` says that $(u,y)$ is an inertial forward-backward trajectory for the given data. The hypothesis
+The hypothesis `hH : IFBHypothesis phi Θ psi gradPsi a b lam Lpsi` is the structural assumption on the convex/forward-backward problem. The proof uses from it only that $a\gt 0$, $b\gt 0$, $0\lt \lambda$, a step-size bound from which $\lambda\lt 1/a$ is extracted, and convexity of $\mathrm{epigraph}\Theta$. The hypothesis `hIFB : IsIFBTrajectory phi psi gradPsi a b lam u y` says that $(u,y)$ is an inertial forward-backward trajectory for the given data. The hypothesis
 
 $$
 hS : (\mathrm{argminSet}\Theta).\text{Nonempty}
@@ -50,9 +50,9 @@ $$
 
 says that the set of global minimizers of $\Theta$,
 
-$$
+```math
 \mathrm{argminSet}(\Theta)=\{x\in H:\forall y\in H,\ \Theta(x)\le \Theta(y)\},
-$$
+```
 
 is nonempty.
 
@@ -60,9 +60,9 @@ The conclusion is the conjunction of two statements.
 
 First,
 
-$$
+```math
 \mathrm{Bornology.IsBounded}(\{u_k:k\in\mathbb N\}),
-$$
+```
 
 meaning that the range of the sequence $u$ is a bounded subset of $H$.
 
@@ -95,13 +95,13 @@ $$
 
 one has
 
-$$
+```math
 \mathrm{liapunovF}(u,y,a,b,\lambda,q,k)
 =\frac{a+b}{2\lambda}\|u_k-q\|^2
 -\left(\frac1\lambda+b\right)G_{k+1}
 -\delta\sum_{i=2}^{k}\|v_i\|^2
 +2\alpha\langle v_{k+1},u_k-q\rangle,
-$$
+```
 
 where $G_{k+1}=\mathrm{auxiliaryG}(u,y,a,b,\lambda,q,k+1)$. Thus the theorem says that any inertial forward-backward trajectory has bounded iterates, and the Liapunov sequence associated with any minimizer $q$ of $\Theta$ has a finite limit.
 
@@ -283,23 +283,23 @@ That result states three things: the mechanical energy is nonincreasing along th
 `obtain ⟨_, hsq, _⟩ := ...`.
 Thus
 
-$$
+```math
 hsq:\quad \sum_{n=0}^{\infty}\|u_{n+1}-u_n\|^2<\infty,
-$$
+```
 
 or in Lean terms, the function
 
-$$
+```math
 n\mapsto \|u_{n+1}-u_n\|^2
-$$
+```
 
 is summable.
 
 The proof then defines the total velocity energy
 
-$$
+```math
 S:=\sum_{n=0}^{\infty}\|u_{n+1}-u_n\|^2.
-$$
+```
 
 Using `tsum_nonneg` and `sq_nonneg`, it proves
 
@@ -309,11 +309,11 @@ $$
 
 Then, for each $n$, it proves
 
-$$
+```math
 \|u_{n+1}-u_n\|^2\le S.
-$$
+```
 
-This uses `hsq.sum_le_tsum` applied to the singleton finite set $\{n\}$: for a summable nonnegative series, every finite sub-sum is at most the total sum. In this case the finite sum is just the single nonnegative term $\|u_{n+1}-u_n\|^2$.
+This uses `hsq.sum_le_tsum` applied to the singleton finite set $`\{n\}`$: for a summable nonnegative series, every finite sub-sum is at most the total sum. In this case the finite sum is just the single nonnegative term$`\|u_{n+1}-u_n\|^2`$.
 
 The proof introduces abbreviations for important coefficients:
 
@@ -328,10 +328,10 @@ These match the coefficients appearing in `liapunovF`.
 
 It proves the positivity of these coefficients:
 
-- $A>0$: since $a>0$, $b>0$, and $\lambda>0$, both $a+b$ and $2\lambda$ are positive.
-- $c>0$: since $1/\lambda>0$ and $b>0$.
-- $\alpha>0$: the numerator $1+b\lambda$ is positive because $b\lambda>0$, and the denominator $2\lambda^2$ is positive.
-- $\delta>0$: the proof uses the step-size hypothesis to get $\lambda<1/a$, hence $\lambda a<1$. Therefore
+- $A\gt 0$: since $a\gt 0$, $b\gt 0$, and $\lambda\gt 0$, both $a+b$ and $2\lambda$ are positive.
+- $c\gt 0$: since $1/\lambda\gt 0$ and $b\gt 0$.
+- $\alpha\gt 0$: the numerator $1+b\lambda$ is positive because $b\lambda\gt 0$, and the denominator $2\lambda^2$ is positive.
+- $\delta\gt 0$: the proof uses the step-size hypothesis to get $\lambda\lt 1/a$, hence $\lambda a\lt 1$. Therefore
 
 $$
 2+(b-a)\lambda=2+b\lambda-a\lambda>0,
@@ -347,9 +347,9 @@ $$
 
 it proves that there exists a real bound $B$ with $B\ge 0$ such that
 
-$$
+```math
 \forall k\in\mathbb N,\qquad \|u_k-q\|^2\le B.
-$$
+```
 
 This is proved as follows.
 
@@ -417,17 +417,17 @@ $$
 
 It proves that for every $k$,
 
-$$
+```math
 \|u_{k+1}-q\|^2\le \max\left(0,\frac{2C}{A}\right).
-$$
+```
 
 The key estimates are the following.
 
 From `liapunov_velocity_sum_le_tsum`, applied with $k+1$, one has
 
-$$
+```math
 \sum_{i=2}^{k+1}\|\mathrm{velocity}(u,i)\|^2\le S.
-$$
+```
 
 Also, using `velocity_eq_sub_of_one_le`,
 
@@ -437,11 +437,11 @@ $$
 
 so the earlier singleton estimate gives
 
-$$
+```math
 \|\mathrm{velocity}(u,k+2)\|^2\le S.
-$$
+```
 
-Since $c>0$ and
+Since $c\gt 0$ and
 
 $$
 \mathrm{auxiliaryG}(u,y,a,b,\lambda,q,k+2)\le M,
@@ -453,19 +453,19 @@ $$
 -cM\le -c\mathrm{auxiliaryG}(u,y,a,b,\lambda,q,k+2).
 $$
 
-Similarly, since $\delta>0$,
+Similarly, since $\delta\gt 0$,
 
-$$
+```math
 -\delta S\le -\delta\sum_{i=2}^{k+1}\|\mathrm{velocity}(u,i)\|^2.
-$$
+```
 
-The cross term is controlled by `liapunov_cross_young`. That lemma states that if $A>0$, $\alpha\ge 0$, and $v,d\in H$, then
+The cross term is controlled by `liapunov_cross_young`. That lemma states that if $A\gt 0$, $\alpha\ge 0$, and $v,d\in H$, then
 
-$$
+```math
 -2\alpha\langle v,d\rangle
 \le
 \frac A2\|d\|^2+\frac{2\alpha^2}{A}\|v\|^2.
-$$
+```
 
 Applying it with
 
@@ -475,71 +475,71 @@ $$
 
 and rearranging gives
 
-$$
+```math
 -\frac A2\|u_{k+1}-q\|^2
 -\frac{2\alpha^2}{A}\|\mathrm{velocity}(u,k+2)\|^2
 \le
 2\alpha\langle \mathrm{velocity}(u,k+2),u_{k+1}-q\rangle.
-$$
+```
 
 Together with
 
-$$
+```math
 \|\mathrm{velocity}(u,k+2)\|^2\le S,
-$$
+```
 
 this bounds the cross term from below by
 
-$$
+```math
 -\frac A2\|u_{k+1}-q\|^2-\frac{2\alpha^2}{A}S.
-$$
+```
 
 Using these inequalities and unfolding `liapunovF`, the proof establishes
 
-$$
+```math
 \frac A2\|u_{k+1}-q\|^2-cM-\delta S-\frac{2\alpha^2}{A}S
 \le F_k.
-$$
+```
 
 Since $F_k\le F_0$, this implies
 
-$$
+```math
 \frac A2\|u_{k+1}-q\|^2\le C.
-$$
+```
 
-Because $A>0$, division gives
+Because $A\gt 0$, division gives
 
-$$
+```math
 \|u_{k+1}-q\|^2\le \frac{2C}{A},
-$$
+```
 
 and hence also
 
-$$
+```math
 \|u_{k+1}-q\|^2\le \max\left(0,\frac{2C}{A}\right).
-$$
+```
 
 The proof then sets
 
-$$
+```math
 B:=\max\left(\max\left(0,\frac{2C}{A}\right),\|u_0-q\|^2\right).
-$$
+```
 
 It verifies $B\ge 0$, and then checks the two cases $k=0$ and $k=k'+1$. For $k=0$, the bound is immediate from the second component of the maximum. For $k=k'+1$, the estimate above gives the desired bound. This completes `hsqdist`.
 
 With `hsqdist` available for the initial minimizer $q_0$, the proof establishes boundedness of the range of $u$. It uses `bounded_nonnegative_real_range` to convert the uniform bound
 
-$$
+```math
 \forall k,\ \|u_k-q_0\|^2\le B
-$$
+```
 
 into boundedness of the range of the real sequence
 
-$$
+```math
 k\mapsto \|u_k-q_0\|^2.
-$$
+```
 
-The lemma requires exactly that the sequence is nonnegative and bounded above. Then it applies `bounded_iterates_of_bounded_sq_distance` with $q=q_0$. That lemma says that if the range of the squared distances $\|u_k-q_0\|^2$ is bounded, then the range of $u$ itself is bounded. This proves the first conjunct.
+The lemma requires exactly that the sequence is nonnegative and bounded above. Then it applies `bounded_iterates_of_bounded_sq_distance` with $q=q_0$. That lemma says that if the range of the squared distances $`\|u_k-q_0\|^2`$is bounded, then the range of$u$ itself is bounded. This proves the first conjunct.
 
 It remains to prove the convergence statement for an arbitrary minimizer $q\in\mathrm{argminSet}(\Theta)$. The proof reintroduces $q$, obtains the squared-distance bound from `hsqdist`, applies `minimizer_mem_phi_dom` to get $q\in\mathrm{dom}\phi$, and again uses `proposition4` to obtain a real $M$ such that
 
@@ -573,37 +573,37 @@ The ingredients are similar to the previous estimate, but the cross term is boun
 
 Indeed, from
 
-$$
+```math
 \|\mathrm{velocity}(u,k+2)\|^2\le S,
 \qquad
 \|u_{k+1}-q\|^2\le B,
-$$
+```
 
 and the nonnegativity of norms and square roots, the proof obtains
 
-$$
+```math
 \|\mathrm{velocity}(u,k+2)\|\le\sqrt S,
 \qquad
 \|u_{k+1}-q\|\le\sqrt B.
-$$
+```
 
 Here it uses `Real.sq_sqrt`, which says that for nonnegative $x$, $(\sqrt x)^2=x$.
 
 The inequality `abs_real_inner_le_norm` is the Cauchy–Schwarz bound
 
-$$
+```math
 |\langle v,d\rangle|\le \|v\|\|d\|.
-$$
+```
 
 Applied to $v=\mathrm{velocity}(u,k+2)$ and $d=u_{k+1}-q$, it gives
 
-$$
+```math
 -\|\mathrm{velocity}(u,k+2)\|\|u_{k+1}-q\|
 \le
 \langle \mathrm{velocity}(u,k+2),u_{k+1}-q\rangle.
-$$
+```
 
-Since $\alpha>0$, multiplying by $2\alpha$ preserves the inequality, and using the square-root bounds yields
+Since $\alpha\gt 0$, multiplying by $2\alpha$ preserves the inequality, and using the square-root bounds yields
 
 $$
 -2\alpha\sqrt S\sqrt B
@@ -617,15 +617,15 @@ $$
 -cM\le -c\mathrm{auxiliaryG}(u,y,a,b,\lambda,q,k+2),
 $$
 
-$$
+```math
 -\delta S\le -\delta\sum_{i=2}^{k+1}\|\mathrm{velocity}(u,i)\|^2,
-$$
+```
 
 and the fact that
 
-$$
+```math
 A\|u_{k+1}-q\|^2\ge 0,
-$$
+```
 
 unfolding `liapunovF` gives
 
@@ -635,9 +635,9 @@ $$
 
 Thus $L$ is a lower bound for the range of $F$, so
 
-$$
+```math
 \mathrm{BddBelow}(\{F_k:k\in\mathbb N\}).
-$$
+```
 
 Finally, since $F$ is antitone and bounded below, the proof applies `tendsto_atTop_ciInf`. This theorem states that an antitone sequence of real numbers that is bounded below converges to its infimum. In Lean notation, the limit is
 

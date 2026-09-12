@@ -15,23 +15,23 @@ theorem hpe_main_theorem {H : Type*} [NormedAddCommGroup H]
 ## Statement explanation
 The declaration `hpe_main_theorem` concerns a complete real inner product space $H$, hence a real Hilbert space, and a set-valued operator $T:H\to 2^H$. It assumes that $T$ is maximal monotone and that $A$ is an `HPEIterates H T` object, whose sequence component is written $A.x=(A.x_k)_{k\in\mathbb N}$. The zero set of $T$ is the set of points $x$ for which $0$ belongs to the value $T(x)$:
 
-$$
+```math
 T.\mathrm{zeros}=\{x\in H:\ 0\in T(x)\}.
-$$
+```
 
 The conclusion is the following dichotomy:
 
 $$
-\left(\exists x^\star\in H,\ 0\in T(x^\star)\ \text{and}\ 
+\left(\exists x^\star\in H,\ 0\in T(x^\star)\ \text{and}\
 \iota(A.x_k)\to \iota(x^\star)\ \text{weakly as }k\to\infty\right)
 $$
 
 or
 
-$$
-\left(T.\mathrm{zeros}=\emptyset\ \text{and}\ 
+```math
+\left(T.\mathrm{zeros}=\emptyset\ \text{and}\
 \neg\mathrm{Bornology.IsBounded}\bigl(\{A.x_k:k\in\mathbb N\}\bigr)\right).
-$$
+```
 
 Here $\iota=\mathrm{toWeakSpace}_{\mathbb R,H}$ is the map to the weak space, so the convergence in the first alternative is convergence in the weak topology. Thus the theorem says that for a maximal monotone operator $T$ and an associated HPE iteration $A$, either there is a zero of $T$ and the HPE iterates converge weakly to some zero of $T$, or $T$ has no zero at all and the range of the HPE iterates is unbounded.
 

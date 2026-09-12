@@ -20,22 +20,22 @@ $$
 
 where $\cdot$ is scalar multiplication. The cited theorem `hpe_descent` says that if $0\in T(x^\star)$, then
 
-$$
+```math
 \|x^\star-A.x_k\|^2-\|x^\star-\mathrm{extragradientStep}(A,k)\|^2
 \ge
 (1-(A.\sigma_k)^2)\|A.y_k-A.x_k\|^2-A.\delta_k.
-$$
+```
 
-Thus the squared distance to $x^\star$ decreases by at least a penalty term involving $\|A.y_k-A.x_k\|^2$, minus the error $A.\delta_k$, provided the coefficient $1-(A.\sigma_k)^2$ is nonnegative.
+Thus the squared distance to $x^\star$ decreases by at least a penalty term involving $`\|A.y_k-A.x_k\|^2`$, minus the error$A.\delta_k$, provided the coefficient$1-(A.\sigma_k)^2$ is nonnegative.
 
 The theorem concludes the ordinary-language bound
 
-$$
+```math
 \|A.x_{k+1}-x^\star\|
 \le
 A.\alpha_k+
 \sqrt{\|A.x_k-x^\star\|^2+A.\delta_k}.
-$$
+```
 
 So the next iterate is no farther from $x^\star$ than the sum of the step error $A.\alpha_k$ and the square root of the previous squared distance plus the error $A.\delta_k$. This is a robustness or stability estimate: it controls the distance from the next iterate to the solution in terms of the previous distance and the method’s error parameters.
 
@@ -82,9 +82,9 @@ $$
 
 This lets the rest of the proof refer to that intermediate point concisely. The first auxiliary claim is
 
-$$
+```math
 hupdate : \|A.x_{k+1}-z\|\le A.\alpha_k.
-$$
+```
 
 It is obtained by `simpa [z] using A.update_error k`. The exact consequence visible here is that the update-error property of the HPE iterates, after unfolding $z$ as the extragradient step, gives that the next iterate $A.x_{k+1}$ is within $A.\alpha_k$ of $z$. This is the part of the estimate that contributes the additive term $A.\alpha_k$.
 
@@ -112,7 +112,7 @@ $$
 0 \le A.\sigma_k.
 $$
 
-Combining $0\le A.\sigma_k$, $A.\sigma_k\le \bar\sigma$, and $\bar\sigma<1$ by `nlinarith` yields
+Combining $0\le A.\sigma_k$, $A.\sigma_k\le \bar\sigma$, and $\bar\sigma\lt 1$ by `nlinarith` yields
 
 $$
 (A.\sigma_k)^2 \le 1.
@@ -128,33 +128,33 @@ $$
 
 using `sub_nonneg.mpr`. This is just the equivalence $0\le a-b$ iff $b\le a$. Then it proves
 
-$$
+```math
 0 \le (1-(A.\sigma_k)^2)\|A.y_k-A.x_k\|^2
-$$
+```
 
 using `mul_nonneg hcoeff (sq_nonneg _)`. The reason is that $1-(A.\sigma_k)^2$ is nonnegative and every squared norm is nonnegative. This nonnegativity of the penalty term is essential for turning the descent inequality into an upper bound on the squared distance to $z$.
 
 The proof then applies the cited descent theorem:
 
-$$
+```math
 hdescent := \texttt{hpe\_descent } A\ hxStar\ k.
-$$
+```
 
 In concrete terms, this gives
 
-$$
+```math
 \|x^\star-A.x_k\|^2-\|x^\star-z\|^2
 \ge
 (1-(A.\sigma_k)^2)\|A.y_k-A.x_k\|^2-A.\delta_k,
-$$
+```
 
 because $z$ is the extragradient step. Let
 
-$$
+```math
 D=\|x^\star-A.x_k\|^2,\qquad
 E=\|x^\star-z\|^2,\qquad
 P=(1-(A.\sigma_k)^2)\|A.y_k-A.x_k\|^2.
-$$
+```
 
 The descent inequality says $D-E\ge P-A.\delta_k$, and the preceding nonnegativity result says $P\ge 0$. Hence $D-E\ge -A.\delta_k$, which rearranges to
 
@@ -164,81 +164,81 @@ $$
 
 This is exactly the auxiliary claim
 
-$$
+```math
 hsq : \|x^\star-z\|^2\le \|x^\star-A.x_k\|^2+A.\delta_k.
-$$
+```
 
 The proof obtains it by unfolding $z$ with `simp only [z]` and then using `nlinarith` with the hypotheses `hdescent` and `hpenalty`.
 
 Next the proof converts the squared inequality into an inequality for norms. It wants
 
-$$
+```math
 hz\_sqrt : \|z-x^\star\|
 \le
 \sqrt{\|A.x_k-x^\star\|^2+A.\delta_k}.
-$$
+```
 
-First it proves the version with $\|x^\star-z\|$ on the left:
+First it proves the version with $`\|x^\star-z\|`$ on the left:
 
-$$
+```math
 hroot : \|x^\star-z\|
 \le
 \sqrt{\|x^\star-A.x_k\|^2+A.\delta_k}.
-$$
+```
 
 The proof uses the calculation
 
-$$
+```math
 \|x^\star-z\|=\sqrt{\|x^\star-z\|^2}.
-$$
+```
 
-This equality follows from `Real.sqrt_sq (norm_nonneg _)`: for a nonnegative real number $r$, one has $\sqrt{r^2}=r$, and the norm $\|x^\star-z\|$ is nonnegative. Then it applies monotonicity of the square root via `Real.sqrt_le_sqrt hsq`, using the previously established inequality $hsq$, to get
+This equality follows from `Real.sqrt_sq (norm_nonneg _)`: for a nonnegative real number $r$, one has $\sqrt{r^2}=r$, and the norm $`\|x^\star-z\|`$ is nonnegative. Then it applies monotonicity of the square root via `Real.sqrt_le_sqrt hsq`, using the previously established inequality $hsq$, to get
 
-$$
+```math
 \sqrt{\|x^\star-z\|^2}
 \le
 \sqrt{\|x^\star-A.x_k\|^2+A.\delta_k}.
-$$
+```
 
-Combining these gives $hroot$. Finally, `simpa only [norm_sub_rev] using hroot` rewrites $\|x^\star-z\|$ as $\|z-x^\star\|$ and rewrites $\|x^\star-A.x_k\|$ as $\|A.x_k-x^\star\|$, since $\|a-b\|=\|b-a\|$. This yields $hz\_sqrt$.
+Combining these gives $hroot$. Finally, `simpa only [norm_sub_rev] using hroot` rewrites $`\|x^\star-z\|`$as$`\|z-x^\star\|`$and rewrites$`\|x^\star-A.x_k\|`$as$`\|A.x_k-x^\star\|`$, since$`\|a-b\|=\|b-a\|`$. This yields$`hz\_sqrt`$.
 
 The final part of the proof is a `calc` chain:
 
-$$
+```math
 \|A.x_{k+1}-x^\star\|
 =\|(A.x_{k+1}-z)+(z-x^\star)\|.
-$$
+```
 
 The equality is obtained by `rw [show A.x (k + 1) - xStar = (A.x (k + 1) - z) + (z - xStar) by abel]`, where `abel` proves the algebraic identity in the additive abelian group. Then the triangle inequality, invoked through `norm_add_le`, gives
 
-$$
+```math
 \|(A.x_{k+1}-z)+(z-x^\star)\|
 \le
 \|A.x_{k+1}-z\|+\|z-x^\star\|.
-$$
+```
 
 Finally, `add_le_add hupdate hz_sqrt` adds the two estimates
 
-$$
+```math
 \|A.x_{k+1}-z\|\le A.\alpha_k
-$$
+```
 
 and
 
-$$
+```math
 \|z-x^\star\|
 \le
 \sqrt{\|A.x_k-x^\star\|^2+A.\delta_k}
-$$
+```
 
 to obtain
 
-$$
+```math
 \|A.x_{k+1}-x^\star\|
 \le
 A.\alpha_k+
 \sqrt{\|A.x_k-x^\star\|^2+A.\delta_k}.
-$$
+```
 
 That is exactly the claimed distance bound. There is no separate `intro` or terminal `exact` in this proof; the theorem’s parameters are already in context, and the result is produced by the local `have` statements and the final `calc` block.
 

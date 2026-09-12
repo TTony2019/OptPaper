@@ -21,9 +21,9 @@ $$
 
 The hypothesis $hz$ says $z\neq x_{\text{Limit}}$. The conclusion is the strict liminf inequality
 
-$$
+```math
 \liminf_{j\to\infty}\|x_j-z\| >\liminf_{j\to\infty}\|x_j-x_{\text{Limit}}\|.
-$$
+```
 
 Thus, if a sequence converges weakly to $x_{\text{Limit}}$, then every different point $z$ has a strictly larger lower limit of distances to the sequence than the weak limit has. This is exactly the Opial property of Hilbert spaces.
 
@@ -141,12 +141,12 @@ by
 ## Proof explanation
 The proof begins by introducing abbreviations
 
-$$
+```math
 r_j=\|x_j-x_{\text{Limit}}\|,\qquad
 s_j=\|x_j-z\|,\qquad
 q_j=r_j^2,\qquad
 d=x_{\text{Limit}}-z.
-$$
+```
 
 The `let` commands only name these expressions; they add no new hypotheses.
 
@@ -158,23 +158,23 @@ $$
 
 Then `isBounded_iff_forall_norm_le.mp` converts this boundedness into an explicit real number $R$ such that
 
-$$
+```math
 \|x_j\|\le R
-$$
+```
 
 for every $j\in\mathbb N$. The `rcases` tactic destructs this existential statement into $R$ and the proof `hR`.
 
 Using the triangle inequality `norm_sub_le`, the proof obtains
 
-$$
+```math
 r_j=\|x_j-x_{\text{Limit}}\|\le \|x_j\|+\|x_{\text{Limit}}\|\le R+\|x_{\text{Limit}}\|,
-$$
+```
 
 and similarly
 
-$$
+```math
 s_j=\|x_j-z\|\le \|x_j\|+\|z\|\le R+\|z\|.
-$$
+```
 
 The `dsimp`, `simpa`, `exact`, and `rw` commands unfold the local definitions, apply `norm_sub_le`, and rearrange the additive inequalities. Since norms are nonnegative, the proof also records
 
@@ -203,15 +203,15 @@ $$
 
 The `rw` and `simp` steps perform these simplifications. The proof also shows $q_j\ge0$ by `positivity`, so $q$ is bounded below. Since
 
-$$
+```math
 0\le r_j\le R+\|x_{\text{Limit}}\|,
-$$
+```
 
 squaring gives
 
-$$
+```math
 q_j\le \left(R+\|x_{\text{Limit}}\|\right)^2,
-$$
+```
 
 so $q$ is cobounded as well.
 
@@ -268,27 +268,27 @@ $$
 
 where $d=x_{\text{Limit}}-z$. The `abel` tactic verifies this additive rearrangement. Then the real Hilbert space identity `norm_add_sq_real`,
 
-$$
+```math
 \|a+b\|^2=\|a\|^2+2\langle a,b\rangle+\|b\|^2,
-$$
+```
 
 gives
 
-$$
+```math
 s(\varphi(n))^2
 =q(\varphi(n))
 +2\langle x(\varphi(n))-x_{\text{Limit}},d\rangle
 +\|d\|^2.
-$$
+```
 
 Equivalently,
 
-$$
+```math
 q(\varphi(n))
 =s(\varphi(n))^2
 -2\langle x(\varphi(n))-x_{\text{Limit}},d\rangle
 -\|d\|^2.
-$$
+```
 
 Since $s(\varphi(n))\to \liminf s$, squaring is continuous, so
 
@@ -298,9 +298,9 @@ $$
 
 The inner product term tends to $0$. Therefore
 
-$$
+```math
 q(\varphi(n))\longrightarrow \left(\liminf s\right)^2-\|d\|^2.
-$$
+```
 
 The `convert` and `ring_nf` commands reconcile the algebraic rearrangement with the previous identity.
 
@@ -312,17 +312,17 @@ $$
 
 Since $q\circ\varphi$ converges, its liminf equals its limit. Hence
 
-$$
+```math
 \liminf q\le \left(\liminf s\right)^2-\|d\|^2.
-$$
+```
 
 The `calc` block records exactly this chain.
 
-The proof now checks that $d\neq0$. If $d=0$, then $x_{\text{Limit}}-z=0$, so $x_{\text{Limit}}=z$, contradicting $hz:z\neq x_{\text{Limit}}$. Thus $d\neq0$. Therefore $\|d\|>0$, and by positivity of squares,
+The proof now checks that $d\neq0$. If $d=0$, then $x_{\text{Limit}}-z=0$, so $x_{\text{Limit}}=z$, contradicting $hz:z\neq x_{\text{Limit}}$. Thus $d\neq0$. Therefore $`\|d\|>0`$, and by positivity of squares,
 
-$$
+```math
 \|d\|^2>0.
-$$
+```
 
 Combining the earlier equality
 
@@ -332,9 +332,9 @@ $$
 
 with the inequality
 
-$$
+```math
 \liminf q\le \left(\liminf s\right)^2-\|d\|^2
-$$
+```
 
 gives
 
@@ -344,7 +344,7 @@ $$
 \left(\liminf s\right)^2.
 $$
 
-The tactic `nlinarith` closes this nonlinear arithmetic goal using the strict positivity of $\|d\|^2$. The proof also establishes $0\le \liminf s$ from the nonnegativity of $s$ and the coboundedness hypothesis, using `Filter.le_liminf_of_le`. Finally, for nonnegative real numbers $a,b$, the lemma `sq_lt_sq₀` states that $a^2<b^2$ implies $a<b$. Applying it with $a=\liminf r$ and $b=\liminf s$ yields
+The tactic `nlinarith` closes this nonlinear arithmetic goal using the strict positivity of $`\|d\|^2`$. The proof also establishes$0\le \liminf s$from the nonnegativity of$s$ and the coboundedness hypothesis, using `Filter.le_liminf_of_le`. Finally, for nonnegative real numbers $a,b$, the lemma `sq_lt_sq₀` states that $a^2\lt b^2$ implies $a\lt b$. Applying it with $a=\liminf r$ and $b=\liminf s$ yields
 
 $$
 \liminf r<\liminf s,
@@ -352,10 +352,10 @@ $$
 
 which is exactly
 
-$$
+```math
 \liminf \|x_j-z\| >
 \liminf \|x_j-x_{\text{Limit}}\|.
-$$
+```
 
 Thus the Opial inequality is proved.
 

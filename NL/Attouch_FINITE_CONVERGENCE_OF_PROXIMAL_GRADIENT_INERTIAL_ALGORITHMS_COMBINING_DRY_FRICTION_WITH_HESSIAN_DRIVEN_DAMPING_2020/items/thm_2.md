@@ -17,15 +17,15 @@ theorem IPAHDD_geometric_and_finite {H : Type*} [NormedAddCommGroup H] [InnerPro
 ```
 
 ## Statement explanation
-The theorem is a convergence and finite-termination result for the IPAHDD algorithm in a real Hilbert space $H$. The space $H$ is assumed to be a complete real inner product space, so that gradients, inner products, norms, limits, and proximal operators behave as in Hilbert-space convex analysis. The functions are $f:H\to\mathbb R$ and $\phi:H\to\mathbb R$. The real parameters are $h,\gamma,\beta,L,r$. The hypothesis `hdf : DF_r phi r` is a bundled condition on $\phi$ and $r$; in the proof it is used through the visible consequences that $\phi$ viewed as an extended-real function belongs to the class $\Gamma_0(H)$, that the value of $\phi$ at $0$ is treated as $0$, and that every point of norm $<r$ belongs to the subdifferential $\partial\phi(0)$. The object `alg : IPAHDD f phi.toEReal hdf.toEReal_mem_gammaZero h gamma beta` is the IPAHDD algorithm, with iterate sequence denoted $x_k=\text{alg.x}(k)$, and $x_\infty$ is a point of $H$.
+The theorem is a convergence and finite-termination result for the IPAHDD algorithm in a real Hilbert space $H$. The space $H$ is assumed to be a complete real inner product space, so that gradients, inner products, norms, limits, and proximal operators behave as in Hilbert-space convex analysis. The functions are $f:H\to\mathbb R$ and $\phi:H\to\mathbb R$. The real parameters are $h,\gamma,\beta,L,r$. The hypothesis `hdf : DF_r phi r` is a bundled condition on $\phi$ and $r$; in the proof it is used through the visible consequences that $\phi$ viewed as an extended-real function belongs to the class $\Gamma_0(H)$, that the value of $\phi$ at $0$ is treated as $0$, and that every point of norm $\lt r$ belongs to the subdifferential $\partial\phi(0)$. The object `alg : IPAHDD f phi.toEReal hdf.toEReal_mem_gammaZero h gamma beta` is the IPAHDD algorithm, with iterate sequence denoted $x_k=\text{alg.x}(k)$, and $x_\infty$ is a point of $H$.
 
 The analytic hypotheses are: $f$ is $C^1$ (`hf : ContDiff ℝ 1 f`); the gradient of $f$ is Lipschitz with constant $L$, meaning
 
-$$
+```math
 \|\nabla f(x)-\nabla f(y)\|\le L\|x-y\|
-$$
+```
 
-for all $x,y$, and $L\ge 0$; $f$ is bounded below; $h>0$, $\gamma>0$, $\beta>0$; and
+for all $x,y$, and $L\ge 0$; $f$ is bounded below; $h\gt 0$, $\gamma\gt 0$, $\beta\gt 0$; and
 
 $$
 \gamma\ge L\left(\frac h2+\beta\right).
@@ -51,23 +51,23 @@ $$
 -\nabla f(x_\infty)\in \mathrm{interior}\bigl(\partial\phi(0)\bigr),
 $$
 
-then $0<q<1$ and there exists $k_0$ such that for every $k\ge k_0$,
+then $0\lt q\lt 1$ and there exists $k_0$ such that for every $k\ge k_0$,
 
-$$
+```math
 \|x_{k+1}-x_k\|\le q^{k-k_0}\|x_{k_0+1}-x_{k_0}\|,
-$$
+```
 
 and
 
-$$
+```math
 \|x_k-x_\infty\|\le \frac{q^{k-k_0}}{1-q}\|x_{k_0+1}-x_{k_0}\|.
-$$
+```
 
 Thus the algorithm converges geometrically to $x_\infty$ at an explicit rate $q$. Second, if
 
-$$
+```math
 \|\nabla f(x_\infty)\|<r,
-$$
+```
 
 then there exists a stopping index $k_{\mathrm{Stop}}$ such that for every $k\ge k_{\mathrm{Stop}}$,
 
@@ -496,19 +496,19 @@ $$
 \frac{1}{\sqrt{1+\frac{2h(\gamma-\beta L)}{1+\beta h L}}}.
 $$
 
-Then `rcases hpositive with ⟨hh, hg, hb⟩` extracts $h>0$, $\gamma>0$, and $\beta>0$. The line
+Then `rcases hpositive with ⟨hh, hg, hb⟩` extracts $h\gt 0$, $\gamma\gt 0$, and $\beta\gt 0$. The line
 `have hC1 : Continuous (gradient f) := continuous_gradient_of_contDiff hf`
 uses the cited result `continuous_gradient_of_contDiff`: since $f$ is $C^1$, its gradient $\nabla f$ is continuous. This is later used to pass limits through gradients when $x_k\to x_\infty$.
 
 Next,
 `have hq := ipahdd_rate_mem_Ioo h gamma beta L hh hg hb hL_nonneg hgamma`
-applies the cited rate lemma. Its statement is exactly that, under $h>0$, $\gamma>0$, $\beta>0$, $L\ge0$, and $\gamma\ge L(h/2+\beta)$, the number
+applies the cited rate lemma. Its statement is exactly that, under $h\gt 0$, $\gamma\gt 0$, $\beta\gt 0$, $L\ge0$, and $\gamma\ge L(h/2+\beta)$, the number
 
 $$
 \frac{1}{\sqrt{1+\frac{2h(\gamma-\beta L)}{1+\beta h L}}}
 $$
 
-satisfies $0<q<1$. This supplies the first two conjuncts of the first implication.
+satisfies $0\lt q\lt 1$. This supplies the first two conjuncts of the first implication.
 
 The proof then uses `constructor` to split the conjunction into two goals.
 
@@ -538,17 +538,17 @@ This is the first-order optimality relation for the IPAHDD update, expressed in 
 
 The proof then forms `hraw` by taking the inner product of this recurrence with $v_{k+1}$. The cited identity `inner_sub_self_energy_identity_local` says that for all $u,v\in H$,
 
-$$
+```math
 \langle u-v,u\rangle
 =\frac12\|u\|^2-\frac12\|v\|^2+\frac12\|u-v\|^2.
-$$
+```
 
 Applied with $u=v_{k+1}$ and $v=v_k$, it expands the first inner product. The proof also computes
 
-$$
+```math
 \langle \gamma d_{k+1},v_{k+1}\rangle
 =\gamma h\|v_{k+1}\|^2,
-$$
+```
 
 uses linearity of the inner product for the $h s$, $\beta$-gradient-difference, and $h\nabla f(x_{k+1})$ terms, and replaces $\langle h\nabla f(x_{k+1}),v_{k+1}\rangle$ by $\langle \nabla f(x_{k+1}),d_{k+1}\rangle$. From $s\in\partial\phi(v_{k+1})$, evaluated at $0$, and using the visible consequence $\phi(0)=0$, the proof obtains
 
@@ -556,16 +556,16 @@ $$
 \phi(v_{k+1})\le \langle s,v_{k+1}\rangle.
 $$
 
-Multiplying by $h>0$ and replacing $h\langle s,v_{k+1}\rangle$ by the smaller quantity $h\phi(v_{k+1})$ in the recurrence identity yields the inequality
+Multiplying by $h\gt 0$ and replacing $h\langle s,v_{k+1}\rangle$ by the smaller quantity $h\phi(v_{k+1})$ in the recurrence identity yields the inequality
 
-$$
+```math
 \frac12\|v_{k+1}\|^2-\frac12\|v_k\|^2+\frac12\|v_{k+1}-v_k\|^2
 +\gamma h\|v_{k+1}\|^2+h\phi(v_{k+1})
 +\beta\langle \nabla f(x_{k+1})-\nabla f(x_k),v_{k+1}\rangle
 +\langle \nabla f(x_{k+1}),d_{k+1}\rangle\le 0.
-$$
+```
 
-Next, the interior hypothesis is converted into a ball condition. The proof uses `Metric.mem_nhds_iff.mp` and `mem_interior_iff_mem_nhds.mp` to obtain a radius $\rho>0$ such that the ball around $-\nabla f(x_\infty)$ of radius $\rho$ is contained in $\partial\phi(0)$. It sets
+Next, the interior hypothesis is converted into a ball condition. The proof uses `Metric.mem_nhds_iff.mp` and `mem_interior_iff_mem_nhds.mp` to obtain a radius $\rho\gt 0$ such that the ball around $-\nabla f(x_\infty)$ of radius $\rho$ is contained in $\partial\phi(0)$. It sets
 
 $$
 \varepsilon=\frac{\rho}{2}>0.
@@ -579,11 +579,11 @@ $$
 
 Hence eventually
 
-$$
+```math
 \|\nabla f(x_k)-\nabla f(x_\infty)\|<\varepsilon.
-$$
+```
 
-Let $k_0$ be such an index. For every $k\ge k_0$ and every $u\in H$ with $\|u\|\le1$, the point
+Let $k_0$ be such an index. For every $k\ge k_0$ and every $u\in H$ with $`\|u\|\le1`$, the point
 
 $$
 -\nabla f(x_{k+1})+\varepsilon u
@@ -593,49 +593,49 @@ lies in the ball of radius $\rho$ around $-\nabla f(x_\infty)$, hence in $\parti
 
 The proof then derives the friction lower bound `hfricInterior`:
 
-$$
+```math
 \varepsilon\|v_{k+1}\|
 \le \phi(v_{k+1})+\langle \nabla f(x_{k+1}),v_{k+1}\rangle.
-$$
+```
 
 If $v_{k+1}=0$, this is immediate. Otherwise let
 
-$$
+```math
 u=\frac{1}{\|v_{k+1}\|}v_{k+1}.
-$$
+```
 
-Then $\|u\|\le1$, and the subgradient inequality for $-\nabla f(x_{k+1})+\varepsilon u\in\partial\phi(0)$, evaluated at $v_{k+1}$, gives
+Then $`\|u\|\le1`$, and the subgradient inequality for$-\nabla f(x_{k+1})+\varepsilon u\in\partial\phi(0)$, evaluated at$v_{k+1}$, gives
 
 $$
 \langle v_{k+1},-\nabla f(x_{k+1})+\varepsilon u\rangle+\phi(0)
 \le \phi(v_{k+1}).
 $$
 
-Using $\phi(0)=0$ and $\langle u,v_{k+1}\rangle=\|v_{k+1}\|$, this rearranges to the displayed friction bound.
+Using $\phi(0)=0$ and $`\langle u,v_{k+1}\rangle=\|v_{k+1}\|`$, this rearranges to the displayed friction bound.
 
 A separate estimate `hcross_lower` controls the gradient-difference term. From the Lipschitz gradient hypothesis,
 
-$$
+```math
 \|\nabla f(x_{k+1})-\nabla f(x_k)\|\le L\|d_k\|.
-$$
+```
 
 Together with Cauchy–Schwarz and Young’s inequality $2ab\le a^2+b^2$, the proof obtains
 
-$$
+```math
 -\frac{\beta L}{2h}\bigl(\|d_k\|^2+\|d_{k+1}\|^2\bigr)
 \le
 \beta\langle \nabla f(x_{k+1})-\nabla f(x_k),v_{k+1}\rangle.
-$$
+```
 
 Combining `hraw`, `hfricInterior`, and `hcross_lower` yields the squared contraction inequality `hsq_contract`:
 
-$$
+```math
 \bigl(1+\beta hL+2h(\gamma-\beta L)\bigr)\|d_{k+1}\|^2
 \le
 (1+\beta hL)\|d_k\|^2.
-$$
+```
 
-The proof then proves $\gamma-\beta L>0$ in `hgap`: if $L=0$, this follows from $\gamma>0$; if $L>0$, the lower bound on $\gamma$ and $h,\beta>0$ force $\beta L<L(h/2+\beta)\le\gamma$. Hence
+The proof then proves $\gamma-\beta L\gt 0$ in `hgap`: if $L=0$, this follows from $\gamma\gt 0$; if $L\gt 0$, the lower bound on $\gamma$ and $h,\beta\gt 0$ force $\beta L\lt L(h/2+\beta)\le\gamma$. Hence
 
 $$
 B=1+\beta hL>0,\qquad
@@ -650,19 +650,19 @@ $$
 
 This is `hq_sq`. Using it in the squared contraction inequality gives
 
-$$
+```math
 \|d_{k+1}\|\le q\|d_k\|.
-$$
+```
 
 So the consecutive differences contract geometrically.
 
 By induction, `hgeom` proves
 
-$$
+```math
 \|d_{k_0+n}\|\le q^n\|d_{k_0}\|.
-$$
+```
 
-The cited lemma `geometric_range_sum_le_local` states that for $0\le q<1$,
+The cited lemma `geometric_range_sum_le_local` states that for $0\le q\lt 1$,
 
 $$
 \sum_{i=0}^{p-1}q^{n+i}\le \frac{q^n}{1-q}.
@@ -677,27 +677,27 @@ $$
 
 as `htel`. Taking norms, applying the triangle inequality for sums, and using the geometric bound and `hsum`, the proof obtains the tail estimate
 
-$$
+```math
 \|x_{k_0+n}-x_{k_0+n+p}\|
 \le
 \frac{q^n}{1-q}\|d_{k_0}\|.
-$$
+```
 
 Letting $p\to\infty$ and using $x_k\to x_\infty$ replaces $x_{k_0+n+p}$ by $x_\infty$. Thus
 
-$$
+```math
 \|x_{k_0+n}-x_\infty\|
 \le
 \frac{q^n}{1-q}\|d_{k_0}\|.
-$$
+```
 
 Reindexing with $k=k_0+n$ gives exactly the two geometric inequalities required in the first implication.
 
 For the second implication, the proof introduces `hmargin`, the hypothesis
 
-$$
+```math
 \|\nabla f(x_\infty)\|<r.
-$$
+```
 
 It defines
 
@@ -714,7 +714,7 @@ z_k=
 -\lambda \nabla f(x_{k+1}).
 $$
 
-The proof shows $D>0$ and $\lambda>0$. Since $x_{k+1}\to x_\infty$, the differences $x_{k+1}-x_k\to0$; since $\nabla f$ is continuous, the gradient differences also tend to $0$. Therefore
+The proof shows $D\gt 0$ and $\lambda\gt 0$. Since $x_{k+1}\to x_\infty$, the differences $x_{k+1}-x_k\to0$; since $\nabla f$ is continuous, the gradient differences also tend to $0$. Therefore
 
 $$
 z_k\to \lambda\bigl(-\nabla f(x_\infty)\bigr),
@@ -726,11 +726,11 @@ $$
 \lambda^{-1}z_k\to -\nabla f(x_\infty).
 $$
 
-Because $\|\nabla f(x_\infty)\|<r$, eventually
+Because $`\|\nabla f(x_\infty)\|<r`$, eventually
 
-$$
+```math
 \|\lambda^{-1}z_k\|<r.
-$$
+```
 
 Let $k_{\mathrm{Stop}}$ be such an index.
 
@@ -740,13 +740,13 @@ $$
 \lambda^{-1}z_j\in\partial\phi(0).
 $$
 
-Since $\lambda>0$, this means that $0$ is a proximal point of $\phi$ at $z_j$ with parameter $\lambda$, i.e.
+Since $\lambda\gt 0$, this means that $0$ is a proximal point of $\phi$ at $z_j$ with parameter $\lambda$, i.e.
 
 $$
 \mathrm{IsProximalPoint}(\phi,\lambda,z_j,0).
 $$
 
-The definition of `IsProximalPoint` is precisely that $0<\lambda$ and $\lambda^{-1}(z_j-0)\in\partial\phi(0)$.
+The definition of `IsProximalPoint` is precisely that $0\lt \lambda$ and $\lambda^{-1}(z_j-0)\in\partial\phi(0)$.
 
 On the other hand, the cited theorem `scaledProximityOperator_residual_mem` says that the true scaled proximal point
 

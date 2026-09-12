@@ -36,9 +36,9 @@ The theorem is stated in a real Hilbert space $H$, with a real-valued objective 
 - `hStrong` says that the extended-real-valued function $x\mapsto f(x)$ is strongly convex with parameter $\mu$. The internal formula of `IsStronglyConvexWith` is not expanded in the supplied source; this hypothesis is the strong-convexity input.
 - `hxStar` says that $x^\star$ is a global minimizer of $f$ and is unique: for every $x\in H$,
 
-  $$
-  f(x^\star)\le f(x),
-  $$
+$$
+f(x^\star)\le f(x),
+$$
 
   and if $f(x)=f(x^\star)$, then $x=x^\star$.
 - `hTrajectory` says that $u$ is a strongly convex third-order evolution trajectory for $\mu$ and $f$. The exact differential inclusion/equation behind `IsStronglyConvexThirdOrderEvolution` is not shown in the excerpt; in the proof it is passed unchanged to the core lemma.
@@ -63,14 +63,14 @@ The exact definitions of these three constants are not included in the supplied 
 
 1. an exponential decay bound for the objective gap at the shifted point $u(t)+(\sqrt{\mu})^{-1}\dot u(t)$:
 
-$$
+```math
 f\!\left(u(t)+(\sqrt{\mu})^{-1}\dot u(t)\right)-\inf_{x\in H} f(x)
 \le L\,e^{-\sqrt{\mu}(t-t_0)};
-$$
+```
 
 2. a bound for the objective gap along the trajectory itself:
 
-$$
+```math
 f(u(t))-\inf_{x\in H} f(x)
 \le
 \left(
@@ -79,11 +79,11 @@ E\sqrt{\mu}\,t
 -E\sqrt{\mu}\,t_0
 \right)
 e^{-\sqrt{\mu}t};
-$$
+```
 
 3. an exponential decay bound for the squared distance of the shifted point to the minimizer:
 
-$$
+```math
 \left\|u(t)+(\sqrt{\mu})^{-1}\dot u(t)-x^\star\right\|^2
 \le
 \frac{e^{\sqrt{\mu}t_0}}{\sqrt{\mu}}
@@ -92,11 +92,11 @@ $$
 +2L(t-t_0)
 \right)
 e^{-\sqrt{\mu}t};
-$$
+```
 
 4. an exponential decay bound for the squared distance of $u(t)$ to $x^\star$:
 
-$$
+```math
 \|u(t)-x^\star\|^2
 \le
 \frac{2}{\mu}
@@ -106,7 +106,7 @@ E\sqrt{\mu}\,t
 -E\sqrt{\mu}\,t_0
 \right)
 e^{-\sqrt{\mu}t}.
-$$
+```
 
 Thus the theorem says that, under strong convexity, uniqueness of the minimizer, the third-order evolution assumption, and regularity of $f$ and $u$, the objective gaps and squared distances to the minimizer obey explicit exponential decay estimates of the type associated with TOGES/third-order in time evolution equations.
 
@@ -151,9 +151,9 @@ $$
 
 For a fixed $x$, the hypothesis `hFContDiff` gives differentiability of $f$ at $x$. The expression
 
-$$
+```math
 \texttt{(hFContDiff.differentiable (by norm\_num) x).hasGradientAt.hasFDerivAt}
-$$
+```
 
 uses the fact that differentiability of a real-valued function on a Hilbert space yields a gradient `gradient f x`, and that the corresponding Fréchet derivative is the continuous linear functional `innerSL ℝ (gradient f x)`. The `simpa [innerSL_apply_apply]` step rewrites this functional into the standard inner-product form: for $y\in H$,
 
@@ -195,9 +195,9 @@ The tactic `refine ⟨?_, ?_, ?_⟩` splits the conjunction into three goals. In
 
 Finally, the proof applies the core lemma:
 
-$$
+```math
 \texttt{strongly\_convex\_third\_order\_exponential\_estimates\_core}.
-$$
+```
 
 It instantiates the core lemma's abstract derivative functions as
 

@@ -17,23 +17,23 @@ The declaration `energySeq` defines an extended-real-valued energy expression as
 
 The definition returns an element of `EReal`, namely
 
-$$
+```math
 \mathrm{energySeq}(x,\lambda,f,n)
 =\left(\left(2(\lambda_n)^2\right)^{-1}\left\|x_{n+1}-x_n\right\|^2\right)
 +f(x_{n+1}).
-$$
+```
 
 The first summand is explicitly forced to be a real number by the type ascription $: \mathbb{R}$. Thus Lean computes
 
-$$
+```math
 \left(2(\lambda_n)^2\right)^{-1}\left\|x_{n+1}-x_n\right\|^2
-$$
+```
 
 as real arithmetic, and then this real number is regarded as an extended real in order to be added to $f(x_{n+1})$. Mathematically, when $\lambda_n \neq 0$, this real term is
 
-$$
+```math
 \frac{1}{2\lambda_n^2}\left\|x_{n+1}-x_n\right\|^2.
-$$
+```
 
 Lean's real inverse is total, so if $\lambda_n = 0$, the value of $\left(2(\lambda_n)^2\right)^{-1}$ is $0$ in the real numbers rather than an undefined reciprocal. No nonzero hypothesis is included. The definition also imposes no finiteness, convexity, differentiability, or minimization assumption on $f$. It simply packages the weighted squared displacement between consecutive iterates together with the objective value at the next iterate. The keyword `noncomputable` indicates that Lean treats this as a noncomputable definition rather than executable data.
 
@@ -45,10 +45,10 @@ Lean's real inverse is total, so if $\lambda_n = 0$, the value of $\left(2(\lamb
 ## Proof explanation
 There is no separate proof part. The source states that there is no proof, and the declaration is a `def`, so its mathematical content is exactly the defining equation displayed above. There are no tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` to explain, because no proof script is present. No named theorem, lemma, or previously established local result is invoked. Unfolding `energySeq` with arguments $x$, $\lambda$, $f$, and $n$ simply replaces $\mathrm{energySeq}(x,\lambda,f,n)$ by
 
-$$
+```math
 \left(\left(2(\lambda_n)^2\right)^{-1}\left\|x_{n+1}-x_n\right\|^2\right)
 +f(x_{n+1}),
-$$
+```
 
 with the first term understood as a real number and the whole expression understood in the extended reals. Thus the declaration is a notational and structural definition of an energy quantity, not a theorem requiring proof.
 

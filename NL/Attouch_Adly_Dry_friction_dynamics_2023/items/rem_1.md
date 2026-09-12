@@ -28,9 +28,9 @@ The hypotheses are:
 - `hlsc`: $f$ is lower semicontinuous as an extended-real-valued function.
 - `hconjugate`: $f^*$ is the Fenchel conjugate of $f$, so for every $u\in\mathbb R^n$,
 
-  $$
-  f^*(u)=\sup_{z\in\mathbb R^n}\bigl(\langle u,z\rangle-f(z)\bigr).
-  $$
+$$
+f^*(u)=\sup_{z\in\mathbb R^n}\bigl(\langle u,z\rangle-f(z)\bigr).
+$$
 
 The conclusion is the conjunction of two biconditionals. First,
 

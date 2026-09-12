@@ -16,7 +16,7 @@ $$
 \neg \mathrm{Bornology.IsBounded}\bigl(\mathrm{Set.range} A.x\bigr),
 $$
 
-which means that the set of iterates $\{x_k:k\in\mathbb N\}$ is not bounded in the norm topology. Equivalently, if the HPE iterates $x_k$ are bounded, then $T$ must have a zero. The proof proves this contrapositive: it assumes boundedness of the iterates and constructs a point $\bar x$ with $0\in T\bar x$, contradicting $T.\mathrm{zeros}=\varnothing$.
+which means that the set of iterates $`\{x_k:k\in\mathbb N\}`$is not bounded in the norm topology. Equivalently, if the HPE iterates$x_k$are bounded, then$T$must have a zero. The proof proves this contrapositive: it assumes boundedness of the iterates and constructs a point$\bar x$with$0\in T\bar x$, contradicting$T.\mathrm{zeros}=\varnothing$.
 
 ## Lean proof
 ```lean
@@ -208,7 +208,7 @@ by
 ```
 
 ## Proof explanation
-The proof begins with `intro hxb`, which assumes for contradiction that the range of $A.x$ is bounded. Using `isBounded_iff_forall_norm_le.mp`, this boundedness is converted into the existence of a real number $B_x$ such that $\|x_k\|\le B_x$ for every $k$. The `rcases` tactic extracts this $B_x$ and the pointwise bound, and then the proof records $0\le B_x$, since $\|x_0\|\ge0$.
+The proof begins with `intro hxb`, which assumes for contradiction that the range of $A.x$ is bounded. Using `isBounded_iff_forall_norm_le.mp`, this boundedness is converted into the existence of a real number $B_x$ such that $`\|x_k\|\le B_x`$for every$k$. The `rcases` tactic extracts this $B_x$ and the pointwise bound, and then the proof records $0\le B_x$, since $`\|x_0\|\ge0`$.
 
 Next the proof applies `nonneg_summable_uniform_bound` to the sequence $\alpha_k$. That lemma says that if a real sequence is nonnegative and summable, then it is uniformly bounded above by some nonnegative constant. The HPE hypotheses `A.α_nonneg` and `A.summable_alpha` provide exactly these two assumptions, so the proof obtains $B_\alpha\ge0$ with $\alpha_k\le B_\alpha$ for all $k$. The same lemma is applied to $\delta_k$ using `A.δ_nonneg` and `A.summable_delta`, giving $B_\delta\ge0$ with $\delta_k\le B_\delta$ for all $k$.
 
@@ -218,17 +218,17 @@ $$
 e_k=A.x(k+1)-\bigl(A.x(k)-A.c(k)\cdot A.v(k)\bigr).
 $$
 
-The HPE update-error field `A.update_error k` gives $\|e_k\|\le\alpha_k$. Rearranging additively gives
+The HPE update-error field `A.update_error k` gives $`\|e_k\|\le\alpha_k`$. Rearranging additively gives
 
 $$
 A.c(k)\cdot A.v(k)=A.x(k)-A.x(k+1)+e_k.
 $$
 
-Using the triangle inequality, the inequality $\|a-b\|\le\|a\|+\|b\|$, and the bounds on $x_k$, the proof obtains
+Using the triangle inequality, the inequality $`\|a-b\|\le\|a\|+\|b\|`$, and the bounds on$x_k$, the proof obtains
 
-$$
+```math
 \|A.c(k)\cdot A.v(k)\|\le 2B_x+B_\alpha.
-$$
+```
 
 The constant
 
@@ -238,7 +238,7 @@ $$
 
 is therefore nonnegative.
 
-The proof now uses `A.sigma_bound`. This field provides a real number $\bar\sigma$ with $0\le\bar\sigma$, a further inequality on $\bar\sigma$ which, together with $0\le\bar\sigma$, makes $1-\bar\sigma^2>0$, and the bound $\sigma_k\le\bar\sigma$ for every $k$. The proof records $1-\bar\sigma^2>0$ as `hp`.
+The proof now uses `A.sigma_bound`. This field provides a real number $\bar\sigma$ with $0\le\bar\sigma$, a further inequality on $\bar\sigma$ which, together with $0\le\bar\sigma$, makes $1-\bar\sigma^2\gt 0$, and the bound $\sigma_k\le\bar\sigma$ for every $k$. The proof records $1-\bar\sigma^2\gt 0$ as `hp`.
 
 For each $k$, set
 
@@ -248,42 +248,42 @@ $$
 
 The lemma `squared_reverse_triangle_bound` states that for vectors $a,b$ in a real inner product space,
 
-$$
+```math
 (\|b\|-\|a\|)^2\le\|a+b\|^2.
-$$
+```
 
 Applied with $a=q_k$ and $b=b_k$, it yields
 
-$$
+```math
 (\|b_k\|-\|q_k\|)^2\le\|q_k+b_k\|^2.
-$$
+```
 
-The HPE residual bound `A.residual_bound k`, together with $0\le 2A.c(k)A.\varepsilon(k)$, which follows from $A.c(k)>0$ and $A.\varepsilon(k)\ge0$, gives the consequence
+The HPE residual bound `A.residual_bound k`, together with $0\le 2A.c(k)A.\varepsilon(k)$, which follows from $A.c(k)\gt 0$ and $A.\varepsilon(k)\ge0$, gives the consequence
 
-$$
+```math
 \|q_k+b_k\|^2\le \delta_k+\sigma_k^2\|b_k\|^2.
-$$
+```
 
 Since $0\le\sigma_k\le\bar\sigma$, one has $\sigma_k^2\le\bar\sigma^2$, hence
 
-$$
+```math
 \sigma_k^2\|b_k\|^2\le\bar\sigma^2\|b_k\|^2.
-$$
+```
 
-Also $\|q_k\|=\|A.c(k)\cdot A.v(k)\|\le C$, so
+Also $`\|q_k\|=\|A.c(k)\cdot A.v(k)\|\le C`$, so
 
-$$
+```math
 2\|q_k\|\|b_k\|\le 2C\|b_k\|.
-$$
+```
 
 Combining these inequalities with $\delta_k\le B_\delta$ using `nlinarith`, the proof obtains
 
-$$
+```math
 (1-\bar\sigma^2)\|A.y(k)-A.x(k)\|^2
 -2C\|A.y(k)-A.x(k)\|\le B_\delta.
-$$
+```
 
-Now the quadratic estimate `quadratic_nonneg_root_bound` is applied. It says that if $p>0$, $C\ge0$, $D\ge0$, $t\ge0$, and
+Now the quadratic estimate `quadratic_nonneg_root_bound` is applied. It says that if $p\gt 0$, $C\ge0$, $D\ge0$, $t\ge0$, and
 
 $$
 p t^2-2Ct\le D,
@@ -295,11 +295,11 @@ $$
 t\le \frac{C+\sqrt{C^2+pD}}{p}.
 $$
 
-Here $p=1-\bar\sigma^2>0$, $C=2B_x+B_\alpha\ge0$, $D=B_\delta\ge0$, and $t=\|A.y(k)-A.x(k)\|\ge0$. Therefore
+Here $p=1-\bar\sigma^2\gt 0$, $C=2B_x+B_\alpha\ge0$, $D=B_\delta\ge0$, and $`t=\|A.y(k)-A.x(k)\|\ge0`$. Therefore
 
-$$
+```math
 \|A.y(k)-A.x(k)\|\le R
-$$
+```
 
 for all $k$, where
 
@@ -309,27 +309,27 @@ $$
 
 The proof also records $0\le R$. Defining $B_y=R+B_x$, the triangle inequality gives
 
-$$
+```math
 \|A.y(k)\|=\|(A.y(k)-A.x(k))+A.x(k)\|
 \le \|A.y(k)-A.x(k)\|+\|A.x(k)\|
 \le R+B_x=B_y.
-$$
+```
 
 The proof then uses `minty_surjective_of_maximal_monotone`. That theorem says that if $T$ is maximal monotone, then for every $y\in H$ there exist $x\in H$ and $u\in T x$ such that $y=x+u$. Taking $y=0$, the proof obtains $z_0,u_0$ with $u_0\in T z_0$ and $0=z_0+u_0$. In particular, using `SetValuedOperator.mem_dom_iff`, the point $z_0$ lies in $T.\mathrm{dom}$.
 
 The proof defines
 
-$$
+```math
 M=\max\bigl(\|z_0\|,\max(B_x,B_y)\bigr)+1.
-$$
+```
 
-Then $M>0$, and the inequalities $\|z_0\|<M$, $\|x_k\|<M$, $\|y_k\|<M$, and $B_x<M$ all hold. The definition
+Then $M\gt 0$, and the inequalities $`\|z_0\|<M`$,$`\|x_k\|<M`$,$`\|y_k\|<M`$, and$B_x<M$ all hold. The definition
 
 $$
 \mathrm{relatedBall}(M)=\mathrm{closedBall}(0,2M)
 $$
 
-is then used. Since $\|z_0\|<M<2M$, and similarly for $x_k$, $y_k$, and since $B_x<M<2M$, all these points lie in the open ball of radius $2M$. The lemma `Metric.ball_subset_interior_closedBall` converts that into membership in the interior of $\mathrm{relatedBall}(M)$. Also, $\mathrm{relatedBall}(M)$ is nonempty, closed, and convex, using respectively $0\in\mathrm{closedBall}(0,2M)$, `Metric.isClosed_closedBall`, and `convex_closedBall`.
+is then used. Since $`\|z_0\|<M<2M`$, and similarly for$x_k$,$y_k$, and since$B_x<M<2M$, all these points lie in the open ball of radius$2M$. The lemma `Metric.ball_subset_interior_closedBall` converts that into membership in the interior of $\mathrm{relatedBall}(M)$. Also, $\mathrm{relatedBall}(M)$ is nonempty, closed, and convex, using respectively $0\in\mathrm{closedBall}(0,2M)$, `Metric.isClosed_closedBall`, and `convex_closedBall`.
 
 The operator
 
@@ -400,13 +400,13 @@ $$
 
 weakly as $k\to\infty$.
 
-The weak limit $\bar x$ is then shown to lie in the closed ball of radius $B_x$. Indeed, each $A.x(k)$ satisfies $\|A.x(k)\|\le B_x$, so each lies in $\mathrm{closedBall}(0,B_x)$. This closed ball is closed and convex. The lemma `mem_of_tendsto_weakly_of_isClosed_convex` states that a weak limit of a sequence in a closed convex set again lies in that set. Hence
+The weak limit $\bar x$ is then shown to lie in the closed ball of radius $B_x$. Indeed, each $A.x(k)$ satisfies $`\|A.x(k)\|\le B_x`$, so each lies in$\mathrm{closedBall}(0,B_x)$. This closed ball is closed and convex. The lemma `mem_of_tendsto_weakly_of_isClosed_convex` states that a weak limit of a sequence in a closed convex set again lies in that set. Hence
 
 $$
 \bar x\in\mathrm{closedBall}(0,B_x),
 $$
 
-so $\|\bar x\|\le B_x$. Since $B_x<M$, it follows that $\bar x$ lies in the interior of $\mathrm{relatedBall}(M)$.
+so $`\|\bar x\|\le B_x`$. Since$B_x<M$, it follows that$\bar x$lies in the interior of$\mathrm{relatedBall}(M)$.
 
 Finally the proof uses $0\in U\bar x$. Unfolding $U=T+N_{\mathrm{relatedBall}(M)}$, this means
 

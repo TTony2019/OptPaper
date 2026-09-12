@@ -15,11 +15,11 @@ theorem ext_thm_6_painleve_kuratowski {X : Type*} [PseudoMetricSpace X]
 ```
 
 ## Statement explanation
-The declaration `ext_thm_6_painleve_kuratowski` is a theorem about a self-map $T:X\to X$ of a type $X$ equipped with a pseudo-metric-space structure. Let $d$ denote `dist`. The theorem takes a real coefficient $c$, a point $x_\star\in X$, and assumes $c<1$, the contraction-type inequality
+The declaration `ext_thm_6_painleve_kuratowski` is a theorem about a self-map $T:X\to X$ of a type $X$ equipped with a pseudo-metric-space structure. Let $d$ denote `dist`. The theorem takes a real coefficient $c$, a point $x_\star\in X$, and assumes $c\lt 1$, the contraction-type inequality
 
-$$
+```math
 d(Tx,Ty)\le c\,d(x,y)\qquad\text{for all }x,y\in X,
-$$
+```
 
 and the fixed-point equation
 
@@ -27,9 +27,9 @@ $$
 T x_\star=x_\star.
 $$
 
-No lower bound such as $0\le c$ is assumed; the only numerical hypothesis is $c<1$.
+No lower bound such as $0\le c$ is assumed; the only numerical hypothesis is $c\lt 1$.
 
-The conclusion is a conjunction of two statements. The first is a stability statement for approximate fixed points. It says that for every sequence of real errors $\varepsilon_n$ and every sequence $y_n\in X$, if each $\varepsilon_n>0$, if $\varepsilon_n\to0$, and if each $y_n$ is an $\varepsilon_n$-approximate fixed point of $T$, meaning
+The conclusion is a conjunction of two statements. The first is a stability statement for approximate fixed points. It says that for every sequence of real errors $\varepsilon_n$ and every sequence $y_n\in X$, if each $\varepsilon_n\gt 0$, if $\varepsilon_n\to0$, and if each $y_n$ is an $\varepsilon_n$-approximate fixed point of $T$, meaning
 
 $$
 d(y_n,T y_n)\le \varepsilon_n
@@ -82,11 +82,11 @@ $$
 
 This is obtained by applying the cited result `epsilon_fix_dist_le` separately for each $n$. That result states, for a pseudo-metric space, a map $T$, a real number $c$, a point $x_\star$, a contraction-type inequality
 
-$$
+```math
 d(Tx,Ty)\le c\,d(x,y),
-$$
+```
 
-the assumptions $c<1$ and $T x_\star=x_\star$, and a point $y$ satisfying
+the assumptions $c\lt 1$ and $T x_\star=x_\star$, and a point $y$ satisfying
 
 $$
 d(y,T y)\le\varepsilon,
@@ -118,7 +118,7 @@ $$
 \frac{0}{1-c}=0.
 $$
 
-The tactic `simpa` performs the simplification needed to turn the resulting limit expression into the stated target that this quotient sequence tends to $0$. Since $c<1$, the denominator $1-c$ is not zero, though the intended conclusion is simply that division by the fixed constant preserves the limit.
+The tactic `simpa` performs the simplification needed to turn the resulting limit expression into the stated target that this quotient sequence tends to $0$. Since $c\lt 1$, the denominator $1-c$ is not zero, though the intended conclusion is simply that division by the fixed constant preserves the limit.
 
 At this point the proof has:
 

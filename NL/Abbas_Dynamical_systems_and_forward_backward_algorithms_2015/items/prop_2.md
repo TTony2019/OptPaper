@@ -31,7 +31,7 @@ theorem subgradient_gap_tendsto_zero {H : Type*} [NormedAddCommGroup H] [InnerPr
 ## Statement explanation
 The declaration `subgradient_gap_tendsto_zero` is a convergence theorem for a continuous-time dynamical system in a real Hilbert space $H$. The data are a set $S\subseteq H$, a point $z\in S$, an extended-real function $\Phi:H\to\mathrm{EReal}$ whose values lie above the bottom element of $\mathrm{EReal}$, a map $B:H\to H$, two trajectories $x,v:\mathbb R\to H$, and positive parameters $\lambda,\mu,\beta$ satisfying $\mu\lambda=1$.
 
-The hypotheses say the following. The set $S$ is nonempty and $z\in S$. The function $\Phi$ belongs to the class `ERealFunction.gammaZero H`; in the proof this membership is used exactly as the hypothesis that permits the cited subgradient inequality for $\Phi$. The map $B$ is $\beta$-cocoercive on all of $H$. The trajectories $x$ and $v$ are absolutely continuous on every interval $[0,b]$ with $b>0$, their derivatives exist almost everywhere on every $[0,T]$ with $T>0$, and $v$ and $\mathrm{deriv} x$ are $L^2$ on every such interval. For every $t\ge 0$, the vector $v(t)$ is a subgradient of $\Phi$ at $x(t)$, i.e.
+The hypotheses say the following. The set $S$ is nonempty and $z\in S$. The function $\Phi$ belongs to the class `ERealFunction.gammaZero H`; in the proof this membership is used exactly as the hypothesis that permits the cited subgradient inequality for $\Phi$. The map $B$ is $\beta$-cocoercive on all of $H$. The trajectories $x$ and $v$ are absolutely continuous on every interval $[0,b]$ with $b\gt 0$, their derivatives exist almost everywhere on every $[0,T]$ with $T\gt 0$, and $v$ and $\mathrm{deriv} x$ are $L^2$ on every such interval. For every $t\ge 0$, the vector $v(t)$ is a subgradient of $\Phi$ at $x(t)$, i.e.
 
 $$
 v(t)\in \partial \Phi(x(t)).
@@ -176,9 +176,9 @@ $$
 
 This is the almost-everywhere conjunction required by `proposition_2_12`; the tactic `filter_upwards` performs the passage from the separate almost-everywhere facts to the combined one.
 
-The proof then invokes `proposition_2_12`. The hypotheses supplied are the nonemptiness of $S$, the membership $z\in S$, the positivity and product condition $\lambda>0$, $\mu>0$, $\mu\lambda=1$, $\beta>0$, the cocoercivity of $B$, the absolute continuity and a.e. differentiability of $x$ and $v$, the $L^2$ assumptions, the subgradient condition $v(t)\in \partial \Phi(x(t))$, the almost-everywhere orbit equation, the implication $w\in S\Rightarrow -B(w)\in \partial \Phi(w)$, and the domain assumptions for $x(t)$ and for points of $S$. The conclusion of `proposition_2_12` is a long conjunction. It says that the function
+The proof then invokes `proposition_2_12`. The hypotheses supplied are the nonemptiness of $S$, the membership $z\in S$, the positivity and product condition $\lambda\gt 0$, $\mu\gt 0$, $\mu\lambda=1$, $\beta\gt 0$, the cocoercivity of $B$, the absolute continuity and a.e. differentiability of $x$ and $v$, the $L^2$ assumptions, the subgradient condition $v(t)\in \partial \Phi(x(t))$, the almost-everywhere orbit equation, the implication $w\in S\Rightarrow -B(w)\in \partial \Phi(w)$, and the domain assumptions for $x(t)$ and for points of $S$. The conclusion of `proposition_2_12` is a long conjunction. It says that the function
 
-$$
+```math
 t\mapsto
 \frac12\|x(t)-z\|^2
 +\mu\left(
@@ -186,14 +186,14 @@ t\mapsto
 -(\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}
 -\langle z-x(t),v(t)\rangle
 \right)
-$$
+```
 
 is antitone on $[0,\infty)$, that it has a finite limit at $+\infty$, and it also gives several integrability and boundedness conclusions. The proof extracts from this conjunction the assertion that there exists a real constant $C$ such that
 
-$$
+```math
 \|x(t)\|\le C
 \qquad\text{for all }t\ge 0.
-$$
+```
 
 This is the component `hLyapunov.2.2.2.1`, destructed as `⟨C, hC⟩`.
 
@@ -205,9 +205,9 @@ $$
 
 That theorem concludes, among other things, that
 
-$$
+```math
 \|v(t)+B(x(t))\|\to 0,
-$$
+```
 
 that for every $w\in S$, $B(x(t))\to B(w)$, that for every $w\in S$, $v(t)\to -B(w)$, and that some weak limit of $x(t)$ lies in $S$. The proof uses the third component with the fixed point $z\in S$, obtaining
 
@@ -225,17 +225,17 @@ This is the statement `hvlim`.
 
 From this convergence, the proof derives that the bounding factor
 
-$$
+```math
 \|v(t)+B(z)\|(C+\|z\|)
-$$
+```
 
 also tends to $0$. Indeed, taking norms gives
 
-$$
+```math
 \|v(t)+B(z)\|\to 0,
-$$
+```
 
-and multiplying by the constant $C+\|z\|$, which tends to itself, gives limit $0\cdot(C+\|z\|)=0$. The tactics `hvlim.norm.mul hconst` and `simpa` implement this limit argument.
+and multiplying by the constant $`C+\|z\|`$, which tends to itself, gives limit$`0\cdot(C+\|z\|)=0`$. The tactics `hvlim.norm.mul hconst` and `simpa` implement this limit argument.
 
 The proof then converts the pointwise nonnegativity of the gap to eventual nonnegativity at $+\infty$. Since $t\ge 0$ eventually as $t\to\infty$, the earlier fact `hnonneg` yields
 
@@ -248,7 +248,7 @@ $$
 
 eventually. This is `hnonneg'`.
 
-The main remaining step is to prove an eventual upper bound for the same gap by $\|v(t)+B(z)\|(C+\|z\|)$. For eventually $t\ge 0$, the proof uses the second direction of the subgradient inequality. Since $z\in S$, the equivalence `hsolution` gives
+The main remaining step is to prove an eventual upper bound for the same gap by $`\|v(t)+B(z)\|(C+\|z\|)`$. For eventually$t\ge 0$, the proof uses the second direction of the subgradient inequality. Since$z\in S$, the equivalence `hsolution` gives
 
 $$
 -B(z)\in \partial \Phi(z).
@@ -285,33 +285,33 @@ This is `hzineq'`.
 
 The proof then bounds the norm difference $x(t)-z$. By `norm_sub_le`,
 
-$$
+```math
 \|x(t)-z\|\le \|x(t)\|+\|z\|,
-$$
+```
 
 and by the bound $hC$,
 
-$$
+```math
 \|x(t)\|\le C.
-$$
+```
 
 Hence
 
-$$
+```math
 \|x(t)-z\|\le C+\|z\|.
-$$
+```
 
 Next, the real inner product is bounded by the product of norms. The proof uses the chain
 
-$$
+```math
 \langle v(t)+B(z),x(t)-z\rangle
 \le
 \|v(t)+B(z)\|\,\|x(t)-z\|
 \le
 \|v(t)+B(z)\|(C+\|z\|),
-$$
+```
 
-where the first inequality combines $a\le |a|$ with the standard estimate $|\langle u,w\rangle|\le \|u\|\|w\|$, and the second uses multiplication by the nonnegative factor $\|v(t)+B(z)\|$.
+where the first inequality combines $a\le |a|$ with the standard estimate $`|\langle u,w\rangle|\le \|u\|\|w\|`$, and the second uses multiplication by the nonnegative factor$`\|v(t)+B(z)\|`$.
 
 Finally, the proof algebraically compares the gap expression with this inner product. Since
 
@@ -343,9 +343,9 @@ $$
 =\langle v(t)+B(z),x(t)-z\rangle,
 $$
 
-and this in turn is at most $\|v(t)+B(z)\|(C+\|z\|)$. The rewrites `inner_neg_right` and `inner_add_left` justify the algebra of the inner product, and `linarith [hzineq']` closes the inequality. This proves the eventual upper bound `hupper`.
+and this in turn is at most $`\|v(t)+B(z)\|(C+\|z\|)`$. The rewrites `inner_neg_right` and `inner_add_left` justify the algebra of the inner product, and `linarith [hzineq']` closes the inequality. This proves the eventual upper bound `hupper`.
 
-At this point the proof has three facts: the gap is eventually nonnegative, it is eventually bounded above by $\|v(t)+B(z)\|(C+\|z\|)$, and that upper bounding function tends to $0$. The final command `exact squeeze_zero' hnonneg' hupper hupperlim` applies the squeeze theorem for filters: if $0\le f(t)$ eventually, if $f(t)\le g(t)$ eventually, and if $g(t)\to 0$, then $f(t)\to 0$. With
+At this point the proof has three facts: the gap is eventually nonnegative, it is eventually bounded above by $`\|v(t)+B(z)\|(C+\|z\|)`$, and that upper bounding function tends to$0$. The final command `exact squeeze_zero' hnonneg' hupper hupperlim` applies the squeeze theorem for filters: if $0\le f(t)$ eventually, if $f(t)\le g(t)$ eventually, and if $g(t)\to 0$, then $f(t)\to 0$. With
 
 $$
 f(t)=
@@ -356,9 +356,9 @@ $$
 
 and
 
-$$
+```math
 g(t)=\|v(t)+B(z)\|(C+\|z\|),
-$$
+```
 
 this yields exactly the desired conclusion
 

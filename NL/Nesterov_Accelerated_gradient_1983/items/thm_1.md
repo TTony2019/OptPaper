@@ -17,26 +17,26 @@ theorem accelerated_gradient_rate {E : Type*} [NormedAddCommGroup E]
 ## Statement explanation
 The declaration `accelerated_gradient_rate` states a convergence rate and an iteration/evaluation complexity bound for Nesterov’s accelerated gradient method.
 
-The ambient type $E$ is a real Hilbert space: it is a normed additive commutative group, an inner product space over $\mathbb R$, and complete. The function $f:E\to\mathbb R$ is the objective. The real number $L$ is the parameter of the hypothesis `hC11 : IsC11 f L`, a $C^{1,1}$-type regularity assumption for $f$. In the proof this hypothesis is used through the visible consequences that $f$ has gradient `gradient f u` at every point $u$, and that the method’s data imply $0<L$ with $1/L\le M.initialStep$. The hypothesis `hconv : ConvexOn ℝ Set.univ f` says that $f$ is convex on all of $E$. The term $M$ is an accelerated gradient method for $f$; the proof uses its sequences $M.x_k$, $M.y_k$, its initial auxiliary point $M.y_0$, its previous point $M.x_{-1}$, its step sizes $M.step_k$, its weights $M.weight_k$, its initial step $M.initialStep$, and its line-search trial counts $M.searchIndex_k$. The point $x^*$ is a global minimizer of $f$, because `hmin : ∀ x, f xstar ≤ f x`. The hypothesis `hy0 : M.y 0 = M.y0` identifies the first auxiliary iterate of the method with the initial point $M.y_0$ used in the estimates.
+The ambient type $E$ is a real Hilbert space: it is a normed additive commutative group, an inner product space over $\mathbb R$, and complete. The function $f:E\to\mathbb R$ is the objective. The real number $L$ is the parameter of the hypothesis `hC11 : IsC11 f L`, a $C^{1,1}$-type regularity assumption for $f$. In the proof this hypothesis is used through the visible consequences that $f$ has gradient `gradient f u` at every point $u$, and that the method’s data imply $0\lt L$ with $1/L\le M.initialStep$. The hypothesis `hconv : ConvexOn ℝ Set.univ f` says that $f$ is convex on all of $E$. The term $M$ is an accelerated gradient method for $f$; the proof uses its sequences $M.x_k$, $M.y_k$, its initial auxiliary point $M.y_0$, its previous point $M.x_{-1}$, its step sizes $M.step_k$, its weights $M.weight_k$, its initial step $M.initialStep$, and its line-search trial counts $M.searchIndex_k$. The point $x^*$ is a global minimizer of $f$, because `hmin : ∀ x, f xstar ≤ f x`. The hypothesis `hy0 : M.y 0 = M.y0` identifies the first auxiliary iterate of the method with the initial point $M.y_0$ used in the estimates.
 
 The first conclusion is the accelerated rate:
 
-$$
+```math
 \forall k\in\mathbb N,\qquad
 f(M.x_k)-f(x^*)
 \le
 \frac{4L\,\lVert M.y_0-x^*\rVert^2}{(k+2)^2}.
-$$
+```
 
 Thus the objective gap at the $k$-th iterate is bounded by a constant multiple of $(k+2)^{-2}$.
 
-The second conclusion is a complexity statement. For every $\varepsilon>0$, define
+The second conclusion is a complexity statement. For every $\varepsilon\gt 0$, define
 
-$$
+```math
 NG=\sqrt{\frac{4L\,\lVert M.y_0-x^*\rVert^2}{\varepsilon}},
 \qquad
 NF=2NG+\log_2(2L\,M.initialStep)+1.
-$$
+```
 
 Then there exist natural numbers `iterations`, `gradientEvaluations`, and `functionEvaluations` such that
 
@@ -238,7 +238,7 @@ $$
 
 This is the momentum-like extrapolated point used in the energy estimates. The fact `hp` is proved by `rfl`, because it is exactly the definition just introduced.
 
-Next, the proof obtains $0<L$ from `initialStep_ge_inv_L`. That theorem states
+Next, the proof obtains $0\lt L$ from `initialStep_ge_inv_L`. That theorem states
 
 $$
 0<L
@@ -246,7 +246,7 @@ $$
 \frac1L\le M.initialStep.
 $$
 
-The proof only extracts the first conjunct, $0<L$, and uses it later for positivity and division arguments.
+The proof only extracts the first conjunct, $0\lt L$, and uses it later for positivity and division arguments.
 
 The central estimate is the energy bound
 
@@ -284,11 +284,11 @@ So the energy at step $k+1$ is at most the energy at step $k$. Composing this wi
 
 From this energy bound, the proof derives the rate
 
-$$
+```math
 f(M.x_k)-f(x^*)
 \le
 \frac{4L\,\lVert M.y_0-x^*\rVert^2}{(k+2)^2}.
-$$
+```
 
 For fixed $k$, the gap is nonnegative because $x^*$ is a global minimizer:
 
@@ -338,9 +338,9 @@ $$
 \lVert M.y_0-x^*\rVert^2 .
 $$
 
-The tactics `positivity`, `nlinarith`, `gcongr`, `field_simp`, and `ring` are used here for nonnegativity, algebraic rearrangement, and monotonicity of multiplication by nonnegative factors. Multiplying by $4L$, using $L>0$, and dividing by the positive denominator $(k+2)^2$ yields the stated rate.
+The tactics `positivity`, `nlinarith`, `gcongr`, `field_simp`, and `ring` are used here for nonnegativity, algebraic rearrangement, and monotonicity of multiplication by nonnegative factors. Multiplying by $4L$, using $L\gt 0$, and dividing by the positive denominator $(k+2)^2$ yields the stated rate.
 
-The proof then proves the complexity part. Given $\varepsilon>0$, it defines
+The proof then proves the complexity part. Given $\varepsilon\gt 0$, it defines
 
 $$
 NG=\sqrt{\frac{4L\lVert M.y_0-x^*\rVert^2}{\varepsilon}}
@@ -348,9 +348,9 @@ $$
 
 and
 
-$$
+```math
 D=\log_2(2L\,M.initialStep),
-$$
+```
 
 so that the theorem’s $NF$ is $2NG+D+1$. It checks that
 
@@ -390,13 +390,13 @@ $$
 \text{iterations}^2.
 $$
 
-Multiplying by $\varepsilon>0$ gives
+Multiplying by $\varepsilon\gt 0$ gives
 
-$$
+```math
 4L\lVert M.y_0-x^*\rVert^2
 \le
 \varepsilon\,\text{iterations}^2.
-$$
+```
 
 Since $\text{iterations}^2\le(\text{iterations}+2)^2$, the rate at $k=\text{iterations}$ is at most $\varepsilon$.
 
@@ -408,11 +408,11 @@ $$
 
 First, `D` is nonnegative. Indeed, applying `search_sum_le_logb` with $n=0$ gives
 
-$$
+```math
 \sum_{i=0}^{0} M.searchIndex_i
 \le
 \log_2(2L\,M.initialStep)=D,
-$$
+```
 
 and the left-hand side is a natural number cast to $\mathbb R$, hence nonnegative.
 
@@ -465,11 +465,11 @@ so the inequality against `(Int.ceil NG).toNat` is reflexive.
 
 For the function-evaluation bound, the goal becomes
 
-$$
+```math
 2\,\text{iterations}+S
 \le
 \left\lceil 2NG+D+1\right\rceil_{\mathbb N}.
-$$
+```
 
 The proof first shows the corresponding integer inequality. It uses
 
@@ -485,27 +485,27 @@ $$
 
 Combining these gives the real inequality
 
-$$
+```math
 2\,\text{iterations}+S
 <
 \lceil 2NG+D+1\rceil+1.
-$$
+```
 
 Since the left-hand side is an integer and the right-hand side is an integer plus one, `Int.lt_add_one_iff` converts this into the integer inequality
 
-$$
+```math
 2\,\text{iterations}+S
 \le
 \lceil 2NG+D+1\rceil.
-$$
+```
 
 Finally, because the right-hand integer is nonnegative, `Int.le_toNat` converts this into the desired natural-number inequality
 
-$$
+```math
 2\,\text{iterations}+S
 \le
 \left\lceil 2NG+D+1\right\rceil_{\mathbb N}.
-$$
+```
 
 Together with the already established $\varepsilon$-accuracy, this supplies all clauses of the existential complexity statement.
 

@@ -29,9 +29,9 @@ $$
 
 Thus the graph
 
-$$
+```math
 G(T)=\{(x,u): u\in T(x)\}
-$$
+```
 
 cannot be properly contained in the graph of any other monotone set-valued operator. In ordinary language, `SetValuedOperator.IsMaximalMonotone T` says that $T$ is a monotone set-valued operator and that it is maximal with respect to inclusion of its graph among all monotone set-valued operators.
 

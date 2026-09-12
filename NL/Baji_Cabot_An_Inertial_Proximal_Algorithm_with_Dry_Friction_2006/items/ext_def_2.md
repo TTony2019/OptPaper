@@ -15,7 +15,7 @@ $$
 \langle a_1-a_2,u_1-u_2\rangle\ge 0.
 $$
 
-The real number $\lambda$ satisfies $\lambda>0$. The notation $J_{\lambda A}$ denotes the resolvent of the scaled set-valued operator $\lambda A$. The cited characterization `mem_resolvent_smul_iff` says that
+The real number $\lambda$ satisfies $\lambda\gt 0$. The notation $J_{\lambda A}$ denotes the resolvent of the scaled set-valued operator $\lambda A$. The cited characterization `mem_resolvent_smul_iff` says that
 
 $$
 y\in J_{\lambda A}(x)
@@ -25,9 +25,9 @@ $$
 
 where, by the cited definition of `identityAddScaled`,
 
-$$
+```math
 (I+\lambda A)(y)=\{y+\lambda a\mid a\in A(y)\}.
-$$
+```
 
 Thus $y\in J_{\lambda A}(x)$ holds exactly when there exists $a\in A(y)$ such that $x=y+\lambda a$.
 
@@ -113,9 +113,9 @@ $$
 
 for $i=1,2$. The cited definition `identityAddScaled` says that $(I+\lambda A)(y_i)$ is the set
 
-$$
+```math
 \{y_i+\lambda a\mid a\in A(y_i)\}.
-$$
+```
 
 Therefore membership in this set is the existence of some $a_i\in A(y_i)$ satisfying $y_i+\lambda a_i=x$.
 
@@ -237,33 +237,33 @@ $$
 
 The `simp` step then uses the real inner product identity
 
-$$
+```math
 \langle u,u\rangle=\|u\|^2,
-$$
+```
 
 so the previous expression is
 
-$$
+```math
 -\|a_1-a_2\|^2.
-$$
+```
 
 This is exactly the statement of `hinner`:
 
-$$
+```math
 \langle a_1-a_2,a_2-a_1\rangle=-\|a_1-a_2\|^2.
-$$
+```
 
 Rewriting this into `hmono` gives
 
-$$
+```math
 0\le \lambda\bigl(-\|a_1-a_2\|^2\bigr).
-$$
+```
 
-Since $\lambda>0$ and $\|a_1-a_2\|^2\ge 0$, the only possibility is
+Since $\lambda\gt 0$ and $`\|a_1-a_2\|^2\ge 0`$, the only possibility is
 
-$$
+```math
 \|a_1-a_2\|^2=0.
-$$
+```
 
 This is obtained by
 
@@ -271,7 +271,7 @@ This is obtained by
 nlinarith [hlam, sq_nonneg (‖a₁ - a₂‖)]
 ```
 
-which is a nonlinear arithmetic step using $\lambda>0$ and nonnegativity of the square.
+which is a nonlinear arithmetic step using $\lambda\gt 0$ and nonnegativity of the square.
 
 Then
 
@@ -282,9 +282,9 @@ have hnorm : ‖a₁ - a₂‖ = 0 := by
 
 uses nonnegativity of the norm and the fact that its square is zero to conclude
 
-$$
+```math
 \|a_1-a_2\|=0.
-$$
+```
 
 From `norm_eq_zero.mp`, this yields
 

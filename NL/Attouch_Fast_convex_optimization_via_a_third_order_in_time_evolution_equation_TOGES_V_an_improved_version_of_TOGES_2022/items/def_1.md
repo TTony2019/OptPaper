@@ -23,10 +23,10 @@ The declaration introduces a predicate named `IsTOGESV`. It is parameterized by:
 
 The predicate `IsTOGESV alpha u f t0` is the proposition that for every real number $t$ satisfying $t\ge t_0$,
 
-$$
+```math
 u'''(t)+\frac{\alpha+7}{t}\,u''(t)+\frac{5(\alpha+1)}{t^{2}}\,u'(t)
 +\nabla f\!\left(u(t)+\frac{t}{4}u'(t)\right)=0.
-$$
+```
 
 Here $u'(t)$, $u''(t)$, and $u'''(t)$ denote the first, second, and third derivatives of the curve $u$ at $t$, corresponding in Lean to `deriv u t`, `deriv (deriv u) t`, and `deriv (deriv (deriv u)) t`. The symbol $\nabla f$ denotes Mathlib's `gradient f`, the gradient of the scalar function $f$, and it is evaluated at the point $u(t)+\frac{t}{4}u'(t)$. The equality is an equality in the vector space $H$, and the right-hand side $0$ is the zero vector of $H$. Thus the declaration says that a certain third-order-in-time evolution equation, involving $u'$, $u''$, $u'''$, and the gradient of $f$ at a shifted point depending on $u$ and $u'$, holds for every time $t$ from $t_0$ onward. The only explicit hypotheses are the typeclass assumptions on $H$ and, in the body of the definition, the condition $t\ge t_0$ for each quantified $t$. No separate differentiability, regularity, positivity, or gradient-existence assumption appears in the source statement.
 

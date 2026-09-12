@@ -23,7 +23,7 @@ The hypotheses are:
 - $f$ is convex on all of $H$, expressed by `ConvexOn ℝ Set.univ f`.
 - $f$ is $C^2$, expressed by `ContDiff ℝ 2 f`.
 - $z$ is a global minimizer of $f$, expressed by `IsMinOn f Set.univ z`.
-- $t_0>0$.
+- $t_0\gt 0$.
 - $u$ is $C^3$, expressed by `ContDiff ℝ 3 u`.
 - $u$ satisfies the TOGES-V H trajectory property with parameters $\alpha,\beta$ and starting time $t_0$, expressed by `IsTOGESVH u alpha beta f t0`.
 
@@ -58,23 +58,23 @@ $$
 
 The definition of `togesVLyapunov` gives
 
-$$
+```math
 \mathrm{togesVLyapunov}(f,u,z,\alpha,\beta,t)
 =4t\,\mathrm{togesVDelta}(\beta,t)
 \left(f(\mathrm{togesVAuxiliary}(u,t))-\inf(\mathrm{range}f)\right)
 +\frac12
 \left\|\mathrm{togesVLyapunovVector}(u,z,\alpha,\beta,t,f)\right\|^2.
-$$
+```
 
 Here $\inf(\mathrm{range}f)$ is the infimum of the values of $f$, i.e. $\inf_{x\in H}f(x)$.
 
 The conclusion then says that for every $t\ge t_{\mathrm{start}}$,
 
-$$
+```math
 f\!\left(u(t)+\frac{t}{4}u'(t)\right)-\inf f
 \le
 \frac{(\alpha-2)E_1}{4t^3},
-$$
+```
 
 and
 
@@ -94,9 +94,9 @@ $$
 s\mapsto f(u(s))+\frac{(\alpha-2)E_1}{3s^3}
 $$
 
-is antitone on $[t_{\mathrm{start}},\infty)$. Finally, if $0<\beta$, then
+is antitone on $[t_{\mathrm{start}},\infty)$. Finally, if $0\lt \beta$, then
 
-$$
+```math
 \int_{[t_{\mathrm{start}},\infty)}
 s^4
 \left\|
@@ -105,7 +105,7 @@ s^4
 \,ds
 \le
 \frac{(\alpha-2)E_1}{\beta},
-$$
+```
 
 where $\nabla f$ is `gradient f`.
 
@@ -194,13 +194,13 @@ The `by norm_num` arguments discharge the numerical order conditions in these re
 
 The proof then packages the derivative relations into
 
-$$
+```math
 \begin{aligned}
 &\forall t,\ t_0\le t\to \mathrm{HasDerivAt} u\ (u'(t))\ t,\\
 &\forall t,\ t_0\le t\to \mathrm{HasDerivAt} u'\ (u''(t))\ t,\\
 &\forall t,\ t_0\le t\to \mathrm{HasDerivAt} u''\ (u'''(t))\ t.
 \end{aligned}
-$$
+```
 
 This is the `hRegularity` conjunction. The tactic `refine ⟨?_, ?_, ?_⟩` splits the conjunction into three goals. In each branch, `intro t _` fixes a real $t$ and discards the inequality $t_0\le t$, which is not needed because differentiability is global. Then `.hasDerivAt` converts differentiability at $t$ into the corresponding `HasDerivAt` statement. These three facts become the `hu`, `hFirst`, and `hSecond` hypotheses of the core theorem.
 
@@ -214,11 +214,11 @@ From `hFContDiff : ContDiff ℝ 2 f`, the lemma `contDiff_succ_iff_fderiv` extra
 
 Next the proof establishes that for every $t\ge t_0$,
 
-$$
+```math
 \frac{d}{dt}\nabla f\!\left(u(t)+\frac{t}{4}u'(t)\right)
 =D(\nabla f)\!\left(u(t)+\frac{t}{4}u'(t)\right)
 \!\left(\frac54 u'(t)+\frac{t}{4}u''(t)\right).
-$$
+```
 
 The auxiliary theorem `togesVH_auxiliary_hasDerivAt` is applied to `u`, `deriv u`, and `deriv (deriv u)`. Its hypotheses are exactly the differentiability facts for $u$ and $u'$. It gives
 
@@ -241,7 +241,7 @@ $$
 f,\quad u,\quad u',\quad u'',\quad u''',\quad z,\quad \alpha,\quad \beta,\quad t_0.
 $$
 
-The supplied arguments match the core theorem’s hypotheses: `hConvex` for convexity, `hGradient` for the direct gradient identification, `hGradientDerivative` for the derivative of the gradient along the auxiliary trajectory, `hMin` for global minimality, `ht0pos` for $t_0>0$, `hRegularity.1` for the derivative of $u$, `hRegularity.2.1` for the derivative of $u'$, and `hRegularity.2.2` for the derivative of $u''$. The pointwise compatibility with Lean’s `deriv` is supplied by `(fun t => ⟨rfl, rfl, rfl⟩)`, since the chosen first, second, and third derivatives are literally the corresponding iterated `deriv` expressions. The TOGES-V H trajectory hypothesis `hTrajectory` is passed unchanged.
+The supplied arguments match the core theorem’s hypotheses: `hConvex` for convexity, `hGradient` for the direct gradient identification, `hGradientDerivative` for the derivative of the gradient along the auxiliary trajectory, `hMin` for global minimality, `ht0pos` for $t_0\gt 0$, `hRegularity.1` for the derivative of $u$, `hRegularity.2.1` for the derivative of $u'$, and `hRegularity.2.2` for the derivative of $u''$. The pointwise compatibility with Lean’s `deriv` is supplied by `(fun t => ⟨rfl, rfl, rfl⟩)`, since the chosen first, second, and third derivatives are literally the corresponding iterated `deriv` expressions. The TOGES-V H trajectory hypothesis `hTrajectory` is passed unchanged.
 
-The core theorem then yields exactly the implication stated in the target theorem: under $3<\alpha$ and $0\le\beta$, with $t_1$, $t_{\mathrm{start}}$, and $E_1$ as above, the four assertions about the objective decay, the antitone Lyapunov expression, and the weighted gradient integrability hold. Therefore the final `exact` application closes the proof.
+The core theorem then yields exactly the implication stated in the target theorem: under $3\lt \alpha$ and $0\le\beta$, with $t_1$, $t_{\mathrm{start}}$, and $E_1$ as above, the four assertions about the objective decay, the antitone Lyapunov expression, and the weighted gradient integrability hold. Therefore the final `exact` application closes the proof.
 

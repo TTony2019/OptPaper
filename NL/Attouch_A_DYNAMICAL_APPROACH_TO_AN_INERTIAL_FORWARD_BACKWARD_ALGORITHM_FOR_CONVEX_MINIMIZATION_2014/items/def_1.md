@@ -29,44 +29,44 @@ The declaration introduces a proposition-valued structure named `IFBHypothesis`.
 - `psi_differentiable` states that $\psi$ is differentiable over $\mathbb R$.
 - `psi_gradient` states that for every $x\in H$ and every $h\in H$,
 
-  $$
-  D\psi(x)(h)=\langle g(x),h\rangle,
-  $$
+$$
+D\psi(x)(h)=\langle g(x),h\rangle,
+$$
 
   where $D\psi(x)$ is the Fréchet derivative of $\psi$ at $x$. Thus the derivative linear functional is represented by the vector $g(x)$ through the inner product, so $g$ is a gradient field for $\psi$.
 - `psi_lipschitz` states that for all $x,y\in H$,
 
-  $$
-  \lVert g(x)-g(y)\rVert\le L_\psi\lVert x-y\rVert.
-  $$
+$$
+\lVert g(x)-g(y)\rVert\le L_\psi\lVert x-y\rVert.
+$$
 
   Thus $g$ is Lipschitz with constant $L_\psi$. Together with the previous field, this says that $\psi$ has a Lipschitz gradient represented by $g$.
 - `a_pos`, `b_pos`, and `step_pos` state respectively that
 
-  $$
-  0<a,\qquad 0<b,\qquad 0<\lambda.
-  $$
+$$
+0<a,\qquad 0<b,\qquad 0<\lambda.
+$$
 
 - `step_lt` imposes the strict step-size bound
 
-  $$
-  \lambda<\min\left(\frac{1}{a},\frac{2(a+b)}{bL_\psi}\right).
-  $$
+$$
+\lambda<\min\left(\frac{1}{a},\frac{2(a+b)}{bL_\psi}\right).
+$$
 
   This is a parameter restriction involving the two positive parameters $a,b$, the step size $\lambda$, and the Lipschitz constant $L_\psi$.
 - `theta_eq` states that for every $x\in H$,
 
-  $$
-  \theta(x)=\varphi(x)+(\psi(x))_{\mathrm{EReal}},
-  $$
+$$
+\theta(x)=\varphi(x)+(\psi(x))_{\mathrm{EReal}},
+$$
 
   where $\psi(x)\in\mathbb R$ is regarded as an element of $\mathrm{EReal}$. Thus $\theta$ is the extended-real sum of the nonsmooth part $\varphi$ and the finite smooth part $\psi$.
 - `theta_convex` states that the epigraph of $\theta$ is convex over $\mathbb R$, i.e. that $\theta$ is convex in the epigraphical sense.
 - `theta_bounded_below` states that there exists a real number $m$ such that for every $x\in H$,
 
-  $$
-  (m)_{\mathrm{EReal}}\le \theta(x).
-  $$
+$$
+(m)_{\mathrm{EReal}}\le \theta(x).
+$$
 
   Thus $\theta$ has a finite lower bound.
 

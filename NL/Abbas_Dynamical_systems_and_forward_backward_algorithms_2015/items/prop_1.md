@@ -50,11 +50,11 @@ The function $\Phi$ is extended-real valued but never takes the value $-\infty$;
 
 The hypotheses are these. The map $B$ is $\beta$-cocoercive on all of $H$, meaning that for all $u,v\in H$,
 
-$$
+```math
 \beta\|Bu-Bv\|^2\le \langle u-v,Bu-Bv\rangle .
-$$
+```
 
-The curves $x$ and $v$ are locally absolutely continuous on every interval $[0,b]$ with $b>0$, have derivatives almost everywhere on every $[0,T]$ with $T>0$, and the functions $v$ and $x'$ are locally square-integrable on such intervals. For every $t\ge 0$,
+The curves $x$ and $v$ are locally absolutely continuous on every interval $[0,b]$ with $b\gt 0$, have derivatives almost everywhere on every $[0,T]$ with $T\gt 0$, and the functions $v$ and $x'$ are locally square-integrable on such intervals. For every $t\ge 0$,
 
 $$
 v(t)\in \partial\Phi(x(t)).
@@ -78,10 +78,10 @@ and more generally every $w\in S$ satisfies $-Bw\in\partial\Phi(w)$. The domain 
 
 The theorem defines the Lyapunov-type function
 
-$$
+```math
 \Gamma(t)=\frac12\|x(t)-z\|^2+
 \mu\left(\Phi(z)-\Phi(x(t))-\langle z-x(t),v(t)\rangle\right).
-$$
+```
 
 The conclusions are:
 
@@ -95,25 +95,25 @@ $$
 \exists l,\quad \Gamma(t)\to l \text{ as } t\to\infty;
 $$
 
-$$
+```math
 \int_0^\infty \|B(x(t))-Bz\|^2\,dt<\infty;
-$$
+```
 
-there is a constant $C$ such that $\|x(t)\|\le C$ for all $t\ge0$;
+there is a constant $C$ such that $`\|x(t)\|\le C`$for all$t\ge0$;
 
-$$
+```math
 \int_0^\infty \|x'(t)\|^2\,dt<\infty;
-$$
+```
 
-$$
+```math
 \int_0^\infty \|v'(t)+v(t)+Bz\|^2\,dt<\infty;
-$$
+```
 
-$$
+```math
 \int_0^\infty \|v'(t)\|^2\,dt<\infty;
-$$
+```
 
-there is a constant $C$ such that $\|v(t)\|\le C$ for all $t\ge0$; and finally
+there is a constant $C$ such that $`\|v(t)\|\le C`$for all$t\ge0$; and finally
 
 $$
 \Phi(x(t))+\langle x(t),Bz\rangle
@@ -822,9 +822,9 @@ $$
 0\le G(t).
 $$
 
-Thus the second term of $\Gamma$, after multiplication by $\mu>0$, is nonnegative.
+Thus the second term of $\Gamma$, after multiplication by $\mu\gt 0$, is nonnegative.
 
-Next the proof establishes the chain rule for the extended-real term $\Phi(x(t))$. For every $T>0$, the lemma `subgradient_chain_rule` is applied to $\Phi$, $x$, and $v$. Its hypotheses are precisely that $x$ is absolutely continuous on $[0,T]$, that $v(t)\in\partial\Phi(x(t))$ almost everywhere there, that $x(t)$ lies in the effective domain of $\Phi$, that $x$ is differentiable almost everywhere with derivative `deriv x t`, and that $v$ and `deriv x` are $L^2$ on $[0,T]$. Its conclusion is two-fold: the function
+Next the proof establishes the chain rule for the extended-real term $\Phi(x(t))$. For every $T\gt 0$, the lemma `subgradient_chain_rule` is applied to $\Phi$, $x$, and $v$. Its hypotheses are precisely that $x$ is absolutely continuous on $[0,T]$, that $v(t)\in\partial\Phi(x(t))$ almost everywhere there, that $x(t)$ lies in the effective domain of $\Phi$, that $x$ is differentiable almost everywhere with derivative `deriv x t`, and that $v$ and `deriv x` are $L^2$ on $[0,T]$. Its conclusion is two-fold: the function
 
 $$
 t\mapsto \Phi(x(t))
@@ -864,7 +864,7 @@ $$
 \lambda x'(t)+v'(t)+v(t)+B(x(t))=0.
 $$
 
-For almost every $t\in[0,T]$, the proof differentiates the Lyapunov expression. The derivative of $\frac12\|x(t)-z\|^2$ is
+For almost every $t\in[0,T]$, the proof differentiates the Lyapunov expression. The derivative of $`\frac12\|x(t)-z\|^2`$ is
 
 $$
 \langle x(t)-z,x'(t)\rangle.
@@ -900,10 +900,10 @@ $$
 
 Second, cocoercivity of $B$ gives
 
-$$
+```math
 \beta\|B(x(t))-Bz\|^2
 \le \langle x(t)-z,B(x(t))-Bz\rangle.
-$$
+```
 
 Finally, the orbit identity `prop212_orbit_inner_identity` is applied to the vector $x(t)-z$, the derivatives $x'(t)$, $v'(t)$, and the remainder $v(t)+B(x(t))$. Since
 
@@ -920,9 +920,9 @@ $$
 
 Splitting $v(t)+B(x(t))$ as $(v(t)+Bz)+(B(x(t))-Bz)$ and using the two inequalities above, `linarith` proves
 
-$$
+```math
 \Gamma'(t)+\mu\beta\|B(x(t))-Bz\|^2\le0
-$$
+```
 
 almost everywhere on $[0,T]$. This is the first dissipation inequality.
 
@@ -934,29 +934,29 @@ $$
 
 then $F$ is antitone on $[0,\infty)$, $F$ has a limit at infinity, and $q$ is integrable on $[0,\infty)$. The proof applies this with
 
-$$
+```math
 F=\Gamma,\qquad q(t)=\mu\beta\|B(x(t))-Bz\|^2,\qquad L=0.
-$$
+```
 
-The lower bound $L=0$ follows because $\frac12\|x(t)-z\|^2\ge0$ and $G(t)\ge0$. The derivative inequality is exactly the first dissipation inequality. Therefore $\Gamma$ is antitone, $\Gamma$ has a limit at infinity, and $q$ is globally integrable. Since $\mu\beta>0$, multiplying the integrability of $q$ by $(\mu\beta)^{-1}$ gives the conclusion
+The lower bound $L=0$ follows because $`\frac12\|x(t)-z\|^2\ge0`$and$G(t)\ge0$. The derivative inequality is exactly the first dissipation inequality. Therefore$\Gamma$is antitone,$\Gamma$has a limit at infinity, and$q$is globally integrable. Since$\mu\beta>0$, multiplying the integrability of$q$by$(\mu\beta)^{-1}$ gives the conclusion
 
-$$
+```math
 \int_0^\infty\|B(x(t))-Bz\|^2\,dt<\infty.
-$$
+```
 
 The antitonicity of $\Gamma$, together with $G(t)\ge0$, also bounds $x$. Indeed,
 
-$$
+```math
 \frac12\|x(t)-z\|^2\le \Gamma(t)\le\Gamma(0),
-$$
+```
 
-so $\|x(t)-z\|^2\le 2\Gamma(0)$. Hence $\|x(t)-z\|$ is bounded, and then
+so $`\|x(t)-z\|^2\le 2\Gamma(0)`$. Hence$`\|x(t)-z\|`$ is bounded, and then
 
-$$
+```math
 \|x(t)\|\le\|x(t)-z\|+\|z\|
-$$
+```
 
-is bounded. The proof chooses the explicit bound $\|z\|+2\Gamma(0)+1$. This gives the boundedness conclusion for $x$.
+is bounded. The proof chooses the explicit bound $`\|z\|+2\Gamma(0)+1`$. This gives the boundedness conclusion for$x$.
 
 The proof then introduces the augmented energy
 
@@ -998,16 +998,16 @@ $$
 
 and if
 
-$$
+```math
 d\Gamma+\mu\beta\|bx-bz\|^2\le0,
-$$
+```
 
 then
 
-$$
+```math
 d\Gamma+2\beta(d\Phi+d\mathrm{Inner})+\beta\lambda\|dx\|^2
 +\mu\beta\|dv+vv+bz\|^2\le0.
-$$
+```
 
 The proof specializes it to
 
@@ -1020,30 +1020,30 @@ $$
 dx=x'(t),\quad dv=v'(t),\quad vv=v(t),\quad bx=B(x(t)),\quad bz=Bz.
 $$
 
-The hypothesis $0\le\langle dx,dv\rangle$ is the almost-everywhere inequality $0\le\langle x'(t),v'(t)\rangle$ proved earlier. The orbit equation is the a.e. differential inclusion. The inequality $d\Gamma+\mu\beta\|bx-bz\|^2\le0$ is exactly the first dissipation inequality for $\Gamma$. The lemma therefore yields
+The hypothesis $0\le\langle dx,dv\rangle$ is the almost-everywhere inequality $0\le\langle x'(t),v'(t)\rangle$ proved earlier. The orbit equation is the a.e. differential inclusion. The inequality $`d\Gamma+\mu\beta\|bx-bz\|^2\le0`$is exactly the first dissipation inequality for$\Gamma$. The lemma therefore yields
 
-$$
+```math
 \Gamma'(t)+2\beta\bigl(\langle x'(t),v(t)\rangle+\langle x'(t),Bz\rangle\bigr)
 +\beta\lambda\|x'(t)\|^2+\mu\beta\|v'(t)+v(t)+Bz\|^2\le0.
-$$
+```
 
 Using $\langle v(t),x'(t)\rangle=\langle x'(t),v(t)\rangle$, this is rewritten as
 
-$$
+```math
 E'(t)+\beta\lambda\|x'(t)\|^2
 +\mu\beta\|v'(t)+v(t)+Bz\|^2\le0
-$$
+```
 
 almost everywhere on $[0,T]$. This is the second dissipation inequality.
 
 Next the proof defines
 
-$$
+```math
 r(t)=v'(t)+v(t)+Bz,\qquad
 q(t)=\beta\lambda\|x'(t)\|^2+\mu\beta\|r(t)\|^2.
-$$
+```
 
-It proves that $q$ is locally integrable on each $(0,T]$. The term $\|x'(t)\|^2$ is locally integrable because $x'\in L^2$ on each compact interval, using `memLp_two_iff_integrable_sq_norm`. The term $\|r(t)\|^2$ is locally integrable because the orbit equation rewrites $r(t)$ as
+It proves that $q$ is locally integrable on each $(0,T]$. The term $`\|x'(t)\|^2`$is locally integrable because$x'\in L^2$ on each compact interval, using `memLp_two_iff_integrable_sq_norm`. The term $`\|r(t)\|^2`$is locally integrable because the orbit equation rewrites$r(t)$ as
 
 $$
 r(t)=-\bigl(\lambda x'(t)+B(x(t))-Bz\bigr),
@@ -1051,9 +1051,9 @@ $$
 
 and this is dominated on compact intervals by
 
-$$
+```math
 2\lambda^2\|x'(t)\|^2+2\|B(x(t))-Bz\|^2.
-$$
+```
 
 The first term is integrable from the $L^2$ hypothesis on $x'$, and the second is continuous because $B$ is continuous. The continuity of $B$ comes from `lipschitzWith_of_cocoercive`: a $\beta$-cocoercive map is Lipschitz with constant $1/\beta$, hence continuous. Thus $q$ is locally integrable.
 
@@ -1070,7 +1070,7 @@ $$
 \ge \Phi(z)+\langle z,Bz\rangle.
 $$
 
-Together with $G(t)\ge0$ and $\frac12\|x(t)-z\|^2\ge0$, this shows
+Together with $G(t)\ge0$ and $`\frac12\|x(t)-z\|^2\ge0`$, this shows
 
 $$
 E(t)\ge 2\beta\bigl(\Phi(z)+\langle z,Bz\rangle\bigr).
@@ -1078,55 +1078,55 @@ $$
 
 Therefore `prop212_dissipation_on_Ici` applies with
 
-$$
+```math
 F=E,\qquad q(t)=\beta\lambda\|x'(t)\|^2+\mu\beta\|r(t)\|^2,
 \qquad L=2\beta(\Phi(z)+\langle z,Bz\rangle).
-$$
+```
 
 It follows that $E$ has a limit at infinity and that $q$ is globally integrable on $[0,\infty)$. Although the lemma also gives antitonicity of $E$, the proof only extracts the limit and the global integrability of $q$.
 
 The global integrability of $q$ is then separated into integrability of its two summands. The lemma `prop212_integrableOn_Ici_of_nonneg_interval_bound` says that if $g$ is locally integrable, $g\ge0$, and there is a constant $C$ such that
 
-$$
+```math
 \int_0^T g(s)\,ds\le C
-$$
+```
 
 for every $T\ge0$, then $g$ is integrable on $[0,\infty)$. The proof applies this first to
 
-$$
+```math
 g(t)=\|x'(t)\|^2.
-$$
+```
 
 Since
 
-$$
+```math
 q(t)=\beta\lambda\|x'(t)\|^2+\mu\beta\|r(t)\|^2
-$$
+```
 
-and $\mu\beta\|r(t)\|^2\ge0$, one has
+and $`\mu\beta\|r(t)\|^2\ge0`$, one has
 
-$$
+```math
 \beta\lambda\int_0^T\|x'(t)\|^2\,dt
 \le \int_0^T q(t)\,dt
 \le \int_0^\infty q(t)\,dt.
-$$
+```
 
-Dividing by $\beta\lambda>0$ gives the uniform interval bound, hence
+Dividing by $\beta\lambda\gt 0$ gives the uniform interval bound, hence
 
-$$
+```math
 \int_0^\infty\|x'(t)\|^2\,dt<\infty.
-$$
+```
 
 The same argument with $\mu\beta$ in place of $\beta\lambda$ gives
 
-$$
+```math
 \int_0^\infty\|r(t)\|^2\,dt
 =\int_0^\infty\|v'(t)+v(t)+Bz\|^2\,dt<\infty.
-$$
+```
 
 The tactics `setIntegral_mono_set`, `integral_const_mul`, and `le_div_iff₀` are the tools used here to compare integrals and divide by the positive constants.
 
-The proof next derives global integrability of $\|v'(t)\|^2$ and boundedness of $v$. Since
+The proof next derives global integrability of $`\|v'(t)\|^2`$and boundedness of$v$. Since
 
 $$
 r(t)=v'(t)+v(t)+Bz,
@@ -1140,13 +1140,13 @@ $$
 
 The function $r$ is locally square-integrable by the previous step, and $v(t)+Bz$ is locally square-integrable because $v$ is locally $L^2$ and $Bz$ is constant. Therefore $v'$ is locally square-integrable; the proof uses the domination
 
-$$
+```math
 \|v'(t)\|^2\le 2\|r(t)\|^2+2\|v(t)+Bz\|^2
-$$
+```
 
 and `Integrable.mono'`.
 
-To obtain global integrability, the proof invokes `prop212_residual_endpoint_inequality`. This lemma says that if $v$ is absolutely continuous on $[0,T]$, differentiable almost everywhere there, if $\|v'\|^2$ and $\|r\|^2$ are integrable on $[0,T]$, and if almost everywhere
+To obtain global integrability, the proof invokes `prop212_residual_endpoint_inequality`. This lemma says that if $v$ is absolutely continuous on $[0,T]$, differentiable almost everywhere there, if $`\|v'\|^2`$and$`\|r\|^2`$are integrable on$[0,T]$, and if almost everywhere
 
 $$
 r(t)=v'(t)+v(t)+Bz,
@@ -1154,43 +1154,43 @@ $$
 
 then
 
-$$
+```math
 \int_0^T\|v'(t)\|^2\,dt+\|v(T)+Bz\|^2
 \le
 \int_0^T\|r(t)\|^2\,dt+\|v(0)+Bz\|^2.
-$$
+```
 
-Mathematically this is the energy inequality obtained by integrating the identity $r=(v+Bz)'+(v+Bz)$. It bounds both the derivative energy and the endpoint value. Since $\|r\|^2$ is globally integrable, the proof bounds
+Mathematically this is the energy inequality obtained by integrating the identity $r=(v+Bz)'+(v+Bz)$. It bounds both the derivative energy and the endpoint value. Since $`\|r\|^2`$ is globally integrable, the proof bounds
 
-$$
+```math
 \int_0^T\|r(t)\|^2\,dt
 \le \int_0^\infty\|r(t)\|^2\,dt.
-$$
+```
 
 Therefore
 
-$$
+```math
 \int_0^T\|v'(t)\|^2\,dt
 \le \int_0^\infty\|r(t)\|^2\,dt+\|v(0)+Bz\|^2,
-$$
+```
 
 so `prop212_integrableOn_Ici_of_nonneg_interval_bound` again applies and gives
 
-$$
+```math
 \int_0^\infty\|v'(t)\|^2\,dt<\infty.
-$$
+```
 
 The same endpoint inequality also gives a uniform bound
 
-$$
+```math
 \|v(T)+Bz\|^2\le \int_0^\infty\|r(t)\|^2\,dt+\|v(0)+Bz\|^2.
-$$
+```
 
 Thus $v(T)+Bz$ is bounded, and since
 
-$$
+```math
 \|v(T)\|\le\|v(T)+Bz\|+\|Bz\|,
-$$
+```
 
 the curve $v$ is bounded.
 
@@ -1207,7 +1207,7 @@ E(t)-\Gamma(t)
 =2\beta\bigl(\Phi(x(t))+\langle x(t),Bz\rangle\bigr).
 $$
 
-Since $2\beta>0$, multiplying the convergent difference by $(2\beta)^{-1}$ yields a limit for $\Phi(x(t))+\langle x(t),Bz\rangle$. The tactic `Tendsto.sub` handles the convergence of $E-\Gamma$, and `Tendsto.const_mul` handles the division by $2\beta$.
+Since $2\beta\gt 0$, multiplying the convergent difference by $(2\beta)^{-1}$ yields a limit for $\Phi(x(t))+\langle x(t),Bz\rangle$. The tactic `Tendsto.sub` handles the convergence of $E-\Gamma$, and `Tendsto.const_mul` handles the division by $2\beta$.
 
-Throughout the proof, `intro` introduces the time variables and hypotheses such as $t\ge0$ or $T>0$. The tactic `filter_upwards` combines several almost-everywhere statements into a single almost-everywhere goal. Rewriting commands `rw`, `simp`, and `simpa` replace derivatives by their known formulas and use inner-product identities. The arithmetic tactics `linarith` and `nlinarith` close the scalar inequalities coming from monotonicity, cocoercivity, and the energy identities. The command `convert` is used when a goal is equal up to a change of function representation, for example when replacing $-\langle x-z,v\rangle$ by $\langle z-x,v\rangle$. The cases `by_cases` handle degenerate cases such as $T=0$. The algebraic tactics `ring`, `abel`, and `field_simp` normalize expressions, while `positivity` proves nonnegativity of squares and products of positive constants. Finally, the last `exact` assembles all proved components into the conjunction stated by the theorem.
+Throughout the proof, `intro` introduces the time variables and hypotheses such as $t\ge0$ or $T\gt 0$. The tactic `filter_upwards` combines several almost-everywhere statements into a single almost-everywhere goal. Rewriting commands `rw`, `simp`, and `simpa` replace derivatives by their known formulas and use inner-product identities. The arithmetic tactics `linarith` and `nlinarith` close the scalar inequalities coming from monotonicity, cocoercivity, and the energy identities. The command `convert` is used when a goal is equal up to a change of function representation, for example when replacing $-\langle x-z,v\rangle$ by $\langle z-x,v\rangle$. The cases `by_cases` handle degenerate cases such as $T=0$. The algebraic tactics `ring`, `abel`, and `field_simp` normalize expressions, while `positivity` proves nonnegativity of squares and products of positive constants. Finally, the last `exact` assembles all proved components into the conjunction stated by the theorem.
 

@@ -21,20 +21,20 @@ def remark_2_3_variable_regularization {H : Type*} [NormedAddCommGroup H] [Norme
 ```
 
 ## Statement explanation
-The declaration defines a proposition named `remark_2_3_variable_regularization`. It is a `def`, not a theorem: it packages a predicate rather than asserting that predicate. The parameters are a real Hilbert space $H$, an extended-real-valued function $\Phi:H\to \mathbb R\cup\{+\infty\}$ (formally a function into the subtype of extended reals greater than $-\infty$), an operator $B:H\to H$, a real-valued time-dependent coefficient $\lambda:\mathbb R\to\mathbb R$, a real constant $\beta$, and initial points $x_0,v_0\in H$. The hypotheses supplied to the definition are: $\Phi$ belongs to the formal class `ERealFunction.gammaZero H`; $\lambda(t)>0$ for all $t\ge 0$; $\lambda$ is absolutely continuous on $[0,b]$ for every $b>0$; $\beta>0$; $B$ is $\beta$-cocoercive on the whole space $H$, meaning the standard global cocoercivity inequality
+The declaration defines a proposition named `remark_2_3_variable_regularization`. It is a `def`, not a theorem: it packages a predicate rather than asserting that predicate. The parameters are a real Hilbert space $H$, an extended-real-valued function $`\Phi:H\to \mathbb R\cup\{+\infty\}`$(formally a function into the subtype of extended reals greater than$-\infty$), an operator$B:H\to H$, a real-valued time-dependent coefficient$\lambda:\mathbb R\to\mathbb R$, a real constant$\beta$, and initial points$x_0,v_0\in H$. The hypotheses supplied to the definition are:$\Phi$ belongs to the formal class `ERealFunction.gammaZero H`; $\lambda(t)\gt 0$ for all $t\ge 0$; $\lambda$ is absolutely continuous on $[0,b]$ for every $b\gt 0$; $\beta\gt 0$; $B$ is $\beta$-cocoercive on the whole space $H$, meaning the standard global cocoercivity inequality
 
-$$
+```math
 \beta\,\|B(x)-B(y)\|^{2}
 \le \langle B(x)-B(y),\,x-y\rangle
 \qquad (x,y\in H);
-$$
+```
 
 and $v_0$ lies in the subdifferential of $\Phi$ at $x_0$.
 
 The returned `Prop` is a unique-existence statement. It says there exists exactly one pair of functions $(x,v)$, with $x:\mathbb R\to H$ and $v:\mathbb R\to H$, such that:
 
-- for every $b>0$, $x$ is absolutely continuous on $[0,b]$;
-- for every $b>0$, $v$ is absolutely continuous on $[0,b]$;
+- for every $b\gt 0$, $x$ is absolutely continuous on $[0,b]$;
+- for every $b\gt 0$, $v$ is absolutely continuous on $[0,b]$;
 - for every $t\ge 0$, $v(t)$ belongs to the subdifferential of $\Phi$ at $x(t)$, formally $v(t)\in \mathrm{subdifferential}\Phi(x(t))$;
 - for almost every $t$ in $[0,\infty)$ with respect to Lebesgue measure restricted to $[0,\infty)$,
 

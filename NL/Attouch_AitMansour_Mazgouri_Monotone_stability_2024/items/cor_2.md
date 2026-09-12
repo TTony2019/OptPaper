@@ -37,29 +37,29 @@ The initial data are $u_0(\mu)$ and $v_0(\mu)$, and $\gamma,\theta_1,\theta_2$ a
 
 The hypothesis `hcontr` says that for every $\mu \in V$, the map $T_\mu$ satisfies `ext_def_5`. The definition of `ext_def_5` is not included in the supplied context, but in the proof it is expanded into a constant $c$, some conditions on $c$, and a Lipschitz estimate
 
-$$
+```math
 \|T_\mu(z)-T_\mu(w)\| \le c\|z-w\|.
-$$
+```
 
 The condition on $c$ is then used to compare $c$ with $1$, so that $T_\mu$ can be regarded as $1$-Lipschitz.
 
 The hypothesis `hsol` says that for every $\mu\in V$,
 
-$$
+```math
 \mathrm{ext\_def\_2}(A_\mu,\gamma,u_0(\mu),v_0(\mu),x_\mu,dx_\mu,ddx_\mu)
-$$
+```
 
 holds, where $A_\mu(u)=u-T_\mu(u)$. In the given context,
 
-$$
+```math
 \mathrm{ext\_def\_2}(A,\gamma,u_0,v_0,x,dx,ddx)
-$$
+```
 
 means
 
-$$
+```math
 0<\gamma \;\land\; \mathrm{def\_3}(A,\gamma,u_0,v_0,x,dx,ddx).
-$$
+```
 
 The inner predicate `def_3` is not unfolded in the proof; it is the actual solution property for the second-order problem associated with $A$. Thus `hsol` says the given curves solve that problem for the residual operator $I-T_\mu$, with initial data $u_0(\mu),v_0(\mu)$.
 
@@ -71,10 +71,10 @@ $$
 
 and the parameter-Hölder estimate
 
-$$
+```math
 \|T_\mu(u)-T_{\mu'}(u)\|
 \le \theta_1\|\mu-\mu'\|^{\theta_2}
-$$
+```
 
 for all $u\in H$ and all $\mu,\mu'\in V$.
 
@@ -96,13 +96,13 @@ for the residual problem $A_\mu=I-T_\mu$, and any other solution $(y,dy,ddy)$ of
 
 Second, for every $\mu,\mu'\in V$, for almost every $t\in\mathbb R$ with respect to Lebesgue measure, if $0\le t$, then
 
-$$
+```math
 \|x_\mu(t)-x_{\mu'}(t)\|
 \le
 e^{mt}
 \sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}
 +\frac{\theta_1}{m}(e^{mt}-1)\|\mu-\mu'\|^{\theta_2}.
-$$
+```
 
 This is a stability estimate: it bounds the distance between the two solution curves in terms of the differences in initial data and in the parameters.
 
@@ -192,37 +192,37 @@ The proof then splits on whether $V$ is nonempty using `by_cases hV : V.Nonempty
 
 If $V$ is empty, then `Set.not_nonempty_iff_eq_empty.mp hV` gives $V=\emptyset$, and `simp` proves the whole conclusion vacuously: every statement quantified over $\mu\in V$ or $\mu,\mu'\in V$ is true because there are no such parameters.
 
-So assume $V$ is nonempty. The proof chooses a parameter $\mu_0\in V$. This will be used only to extract $0<\gamma$ from `hsol`, because `ext_def_2` contains $0<\gamma$ as its first component.
+So assume $V$ is nonempty. The proof chooses a parameter $\mu_0\in V$. This will be used only to extract $0\lt \gamma$ from `hsol`, because `ext_def_2` contains $0\lt \gamma$ as its first component.
 
 Next the proof constructs the hypotheses needed for `thm_1`. The first is $hC_1$, namely that for every $\mu\in V$, the constant $1/2$ is positive and the residual map $A_\mu(u)=u-T_\mu(u)$ is $(1/2)$-cocoercive:
 
-$$
+```math
 \frac12\|A_\mu(u)-A_\mu(v)\|^2
 \le
 \langle A_\mu(u)-A_\mu(v),u-v\rangle.
-$$
+```
 
 To prove this, the proof fixes $\mu\in V$. It expands `hcontr μ hμ` into a constant $c$, its accompanying conditions, and the estimate
 
-$$
+```math
 \|T_\mu(z)-T_\mu(w)\| \le c\|z-w\|.
-$$
+```
 
 Using `LipschitzWith.of_dist_le_mul`, it suffices to show that $T_\mu$, viewed as a map from `Set.univ` to $H$, is $1$-Lipschitz. The distance on the subtype is converted to the norm by `simp only [dist_eq_norm, Subtype.dist_eq]`. Then the proof uses a `calc` block:
 
-$$
+```math
 \|T_\mu(z)-T_\mu(w)\|
 \le c\|z-w\|
 \le 1\|z-w\|.
-$$
+```
 
 The first inequality is the contraction estimate from `hcontr`. The second is handled by `gcongr`, using the available condition on $c$ to compare $c$ with $1$. Hence $T_\mu$ is $1$-Lipschitz.
 
 The proof then applies the theorem
 
-$$
+```math
 \text{lipschitzWith\_one\_iff\_residualMap\_cocoerciveOn\_half}.
-$$
+```
 
 That theorem states that a map $T:D\to H$ is $1$-Lipschitz if and only if its residual map
 
@@ -240,11 +240,11 @@ is $(1/2)$-cocoercive on `Set.univ`.
 
 The proof then uses `CocoerciveOn.pointwise_iff` to convert this set-level cocoercivity statement into a pointwise inequality over all $x,y\in H$. The numerical side condition on $1/2$ is discharged by `norm_num`. After unfolding `residualMap` via `simpa [residualMap]`, the obtained pointwise statement gives, for all $x,y\in H$,
 
-$$
+```math
 \frac12\|(x-T_\mu x)-(y-T_\mu y)\|^2
 \le
 \langle (x-T_\mu x)-(y-T_\mu y),x-y\rangle.
-$$
+```
 
 The proof then specializes this to $x=v$ and $y=u$, and `simpa` rewrites it into the required form for $u,v$. This is exactly the cocoercivity inequality for $A_\mu=I-T_\mu$ with constant $1/2$. Thus $hC_1$ is proved.
 
@@ -263,15 +263,15 @@ $$
 
 This algebraic identity is proved by `abel`. Rewriting with this identity and using `norm_neg`, the norm becomes
 
-$$
+```math
 \|T_\mu u-T_{\mu'}u\|.
-$$
+```
 
 By `h12`, this is at most
 
-$$
+```math
 \theta_1\|\mu-\mu'\|^{\theta_2}.
-$$
+```
 
 Thus $hC_2$ holds.
 
@@ -281,20 +281,20 @@ $$
 A_\mu(u)=u-T_\mu(u),\qquad \alpha(\mu)=\frac12.
 $$
 
-The positivity of $\gamma$ required by `thm_1` is extracted from `(hsol μ₀ hμ₀).1`, since `ext_def_2` contains $0<\gamma$. The hypotheses $hC_1$ and $hC_2$ supply the cocoercivity and Hölder conditions. Therefore `thm_1` gives `hmain`.
+The positivity of $\gamma$ required by `thm_1` is extracted from `(hsol μ₀ hμ₀).1`, since `ext_def_2` contains $0\lt \gamma$. The hypotheses $hC_1$ and $hC_2$ supply the cocoercivity and Hölder conditions. Therefore `thm_1` gives `hmain`.
 
 The first conjunct of `hmain.1` is exactly the first conclusion of the theorem: for every $\mu\in V$, there exists a solution triple for $A_\mu=I-T_\mu$, and any other solution agrees with it on $[0,\infty)$. The proof uses `refine ⟨hmain.1, ?_⟩` to take this first conjunct directly and then focuses on the stability estimate.
 
 For the stability estimate, fix $\mu,\mu'\in V$. The second conjunct `hmain.2` gives two solution triples $x_1,x_2$ for the parameters $\mu,\mu'$, together with an almost-everywhere bound
 
-$$
+```math
 \|x_1(t)-x_2(t)\|
 \le
 e^{m_{\mathrm{thm}}t}
 \sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}
 +\frac{\theta_1}{m_{\mathrm{thm}}}
 (e^{m_{\mathrm{thm}}t}-1)\|\mu-\mu'\|^{\theta_2},
-$$
+```
 
 where, from `thm_1`,
 

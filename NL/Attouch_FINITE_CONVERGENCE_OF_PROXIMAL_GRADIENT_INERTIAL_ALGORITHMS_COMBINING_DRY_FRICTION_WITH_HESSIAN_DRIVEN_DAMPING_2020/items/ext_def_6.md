@@ -23,14 +23,14 @@ $$
 
 Mathematically this is the soft-thresholding operator with threshold $a$. Since $a$ is assumed nonnegative, it can be described piecewise as
 
-$$
+```math
 \mathrm{softThreshold}(a,h_a,t)
 =\begin{cases}
 t-a, & t>a,\\
 0, & |t|\le a,\\
 t+a, & t<-a.
 \end{cases}
-$$
+```
 
 So inputs whose magnitude is at most $a$ are sent to $0$, while inputs whose magnitude exceeds $a$ are shifted toward zero by $a$ while retaining their sign. When $a=0$, the formula reduces to $t$ for every real $t$. The proof argument $h_a$ records the nonnegativity of the threshold but does not enter the computed value.
 

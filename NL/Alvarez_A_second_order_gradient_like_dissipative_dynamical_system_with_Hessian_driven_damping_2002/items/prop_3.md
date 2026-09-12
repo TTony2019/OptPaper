@@ -20,18 +20,18 @@ The declaration is a strong convergence theorem for a second-order dissipative d
 - `hΦ`: the bundled assumption `AssumptionH H Φ` on the potential. In the proof the explicitly used consequence is that $\Phi$ is twice continuously differentiable, hence also continuously differentiable.
 - `hconvex`: $\Phi$ is convex on all of $H$, meaning that for all $y,z\in H$ and all $t\in[0,1]$,
 
-  $$
-  \Phi((1-t)y+tz)\le (1-t)\Phi(y)+t\Phi(z).
-  $$
+$$
+\Phi((1-t)y+tz)\le (1-t)\Phi(y)+t\Phi(z).
+$$
 
 - `hmin`: the set of global minimizers
 
-  $$
-  \mathrm{argminSet}(\Phi)=\{z\in H\mid \forall y\in H,\ \Phi(z)\le \Phi(y)\}
-  $$
+```math
+\mathrm{argminSet}(\Phi)=\{z\in H\mid \forall y\in H,\ \Phi(z)\le \Phi(y)\}
+```
 
   is nonempty.
-- `hsol`: $x$ is an `IsDINTrajectory H Φ α β`, i.e. a trajectory of the Alvarez second-order gradient-like dissipative system with Hessian-driven damping. The proof uses from this predicate that $\alpha>0$, that $\beta>0$, and that at every positive time $t$ the trajectory satisfies the corresponding pointwise vector differential equation.
+- `hsol`: $x$ is an `IsDINTrajectory H Φ α β`, i.e. a trajectory of the Alvarez second-order gradient-like dissipative system with Hessian-driven damping. The proof uses from this predicate that $\alpha\gt 0$, that $\beta\gt 0$, and that at every positive time $t$ the trajectory satisfies the corresponding pointwise vector differential equation.
 - `hx`: $x$ is twice continuously differentiable.
 - `hαβ`: $\alpha\beta\le 1$.
 - `heven`: $\Phi$ is even, meaning $\Phi(y)=\Phi(-y)$ for every $y\in H$.
@@ -783,7 +783,7 @@ by
 ## Proof explanation
 The proof proceeds by first obtaining weak convergence from the cited Alvarez convergence theorem, then proving that the trajectory is actually Cauchy in norm, and finally identifying the strong limit with the weak limit.
 
-First, the proof applies `din_weakly_converges_to_argmin` to $\Phi,\alpha,\beta,x$. The hypotheses match: `hΦ`, `hx`, `hconvex`, `hmin`, and `hsol`. That theorem states two things. First, for every minimizer $z$, the distance $\|x(t)-z\|$ converges to some real number. Second, there exists a minimizer $z$ such that $x(t)$ converges weakly to $z$, expressed through the weak-space embedding. The proof unpacks this as `hweak`, obtaining `hdist` for distances and a triple $z$, $hzmin$, $hzweak$. Thus $z\in\mathrm{argminSet}(\Phi)$ and
+First, the proof applies `din_weakly_converges_to_argmin` to $\Phi,\alpha,\beta,x$. The hypotheses match: `hΦ`, `hx`, `hconvex`, `hmin`, and `hsol`. That theorem states two things. First, for every minimizer $z$, the distance $`\|x(t)-z\|`$converges to some real number. Second, there exists a minimizer$z$such that$x(t)$converges weakly to$z$, expressed through the weak-space embedding. The proof unpacks this as `hweak`, obtaining `hdist` for distances and a triple $z$, $hzmin$, $hzweak$. Thus $z\in\mathrm{argminSet}(\Phi)$ and
 
 $$
 \mathrm{toWeakSpace}(x(t))\to \mathrm{toWeakSpace}(z)
@@ -812,7 +812,7 @@ $$
 \alpha>0,\qquad \beta>0
 $$
 
-from `hsol.1` and `hsol.2.1`. It also records that $\alpha\beta+1>0$ by `positivity`.
+from `hsol.1` and `hsol.2.1`. It also records that $\alpha\beta+1\gt 0$ by `positivity`.
 
 Regularity of $\Phi$ is then used. From `hΦ.twice_continuously_differentiable`, the proof obtains that $\Phi$ is $C^2$, and hence $C^1$. For every $y\in H$, the derivative of $\Phi$ at $y$ is the continuous linear functional
 
@@ -830,11 +830,11 @@ $$
 
 for every $t\ge 0$. Consequently, the convergence of $\Phi(x_g(t))$ and of the residual for $x_g$ transfer to $x$. The proof formalizes this transfer using `filter_upwards`, because the equality holds eventually, namely for all $t\ge 0$.
 
-The proof then shows that $x$ is bounded on $[0,\infty)$. Since $0$ is a minimizer, `hdist` gives convergence of $\|x(t)\|$ to some $d_0$. Hence $\|x(t)\|^2\to d_0^2$. Using the definition of convergence with $\epsilon=1$, for all sufficiently large $t$ one has
+The proof then shows that $x$ is bounded on $[0,\infty)$. Since $0$ is a minimizer, `hdist` gives convergence of $`\|x(t)\|`$to some$d_0$. Hence$`\|x(t)\|^2\to d_0^2`$. Using the definition of convergence with$\epsilon=1$, for all sufficiently large$t$ one has
 
-$$
+```math
 \|x(t)\|\le |d_0|+1.
-$$
+```
 
 On the compact interval $[0,T_0]$, the continuous image $x([0,T_0])$ is compact and therefore bounded. Combining this with the tail estimate gives that
 
@@ -848,9 +848,9 @@ With boundedness of $x$ in hand, the proof applies `din_global_properties_part_i
 
 The proof then applies `din_global_properties_part_ii`. This theorem gives monotonicity of the forward energy
 
-$$
+```math
 E_\ell(t)=\ell\Phi(x(t))+\frac12\|x'(t)+\beta\nabla\Phi(x(t))\|^2
-$$
+```
 
 for $\ell$ in the interval
 
@@ -912,9 +912,9 @@ $$
 
 Therefore the forward energy with $\ell=1$,
 
-$$
+```math
 E_1(t)=\Phi(x(t))+\frac12\|r(t)\|^2,
-$$
+```
 
 is nonincreasing on $[0,\infty)$. From this monotonicity, for $0\le t\le T$,
 
@@ -924,16 +924,16 @@ $$
 
 so
 
-$$
+```math
 \Phi(x(T))+\frac12\|r(T)\|^2
 \le \Phi(x(t))+\frac12\|r(t)\|^2.
-$$
+```
 
-Dropping the nonnegative term $\frac12\|r(T)\|^2$ gives
+Dropping the nonnegative term $`\frac12\|r(T)\|^2`$ gives
 
-$$
+```math
 \Phi(x(T))-\Phi(x(t))\le \frac12\|r(t)\|^2.
-$$
+```
 
 This is `hEineq`.
 
@@ -958,17 +958,17 @@ $$
 
 Combining with `hEineq` yields
 
-$$
+```math
 -\langle g(t),x(t)+x(T)\rangle\le \frac12\|r(t)\|^2.
-$$
+```
 
 This is `hω_le`.
 
 The proof now defines functions used to encode the second-order identity:
 
-$$
+```math
 G_T(t)=\|x(t)\|^2-\|x(T)\|^2-\frac12\|x(t)-x(T)\|^2,
-$$
+```
 
 $$
 \omega_T(t)=-\langle g(t),x(t)+x(T)\rangle.
@@ -988,9 +988,9 @@ $$
 
 Consequently,
 
-$$
+```math
 G_T''(t)=\langle x''(t),x(t)+x(T)\rangle+\|v(t)\|^2.
-$$
+```
 
 If
 
@@ -1000,59 +1000,59 @@ $$
 
 then
 
-$$
+```math
 J_T'(t)
 =\langle x''(t),x(t)+x(T)\rangle+\|v(t)\|^2
 +\beta\langle \nabla^2\Phi(x(t))v(t),x(t)+x(T)\rangle
 +\beta\langle g(t),v(t)\rangle.
-$$
+```
 
 At this point the proof uses the pointwise vector equation supplied by `hsol.2.2`. After pairing that equation with $x(t)+x(T)$, the acceleration, velocity, Hessian, and gradient terms cancel. Combining this cancellation with the formula for $J_T'(t)$ and with $J_T(t)=G_T'(t)-\beta\omega_T(t)$ gives
 
-$$
+```math
 J_T'(t)+\alpha J_T(t)
 \le \frac12\|v(t)\|^2+\|r(t)\|^2.
-$$
+```
 
 The proof obtains this by rewriting the derivatives, using the differential equation, using the inequality
 
-$$
+```math
 \langle r(t),v(t)\rangle
 \le \frac12\|r(t)\|^2+\frac12\|v(t)\|^2,
-$$
+```
 
-which follows from $2\langle r,v\rangle\le \|r\|^2+\|v\|^2$, and using the facts $0\le 1-\alpha\beta\le 1$ together with `hω_le`. The resulting differential inequality is `hJ_ineq`.
+which follows from $`2\langle r,v\rangle\le \|r\|^2+\|v\|^2`$, and using the facts$0\le 1-\alpha\beta\le 1$ together with `hω_le`. The resulting differential inequality is `hJ_ineq`.
 
 The proof then defines
 
-$$
+```math
 q(t)=\frac12\|v(t)\|^2+\|r(t)\|^2.
-$$
+```
 
-From the $L^2$-integrability statements in `din_global_properties_part_ii`, the functions $v$ and $g$ are $L^2$ on $(0,\infty)$. Hence $r=v+\beta g$ is also $L^2$, and $\|v\|^2$ and $\|r\|^2$ are integrable on $[0,\infty)$. Therefore $q$ is integrable on $[0,\infty)$. The proof also verifies that $q$ is continuous. A causal convolution argument shows that the function
+From the $L^2$-integrability statements in `din_global_properties_part_ii`, the functions $v$ and $g$ are $L^2$ on $(0,\infty)$. Hence $r=v+\beta g$ is also $L^2$, and $`\|v\|^2`$and$`\|r\|^2`$are integrable on$[0,\infty)$. Therefore$q$is integrable on$[0,\infty)$. The proof also verifies that$q$ is continuous. A causal convolution argument shows that the function
 
-$$
+```math
 \theta\mapsto \int_0^\theta e^{-\alpha(\theta-s)}q(s)\,ds
-$$
+```
 
 is integrable on $[0,\infty)$. Therefore the accumulated error
 
-$$
+```math
 H_{\mathrm{error}}(T)
 =\int_1^T\int_0^\theta e^{-\alpha(\theta-s)}q(s)\,ds\,d\theta
-$$
+```
 
 has a finite limit as $T\to\infty$. This is proved using integrability of the exponential kernel and the standard fact that interval integrals over $[1,T]$ converge to the integral over $(1,\infty)$ as $T\to\infty$.
 
 Next the proof defines
 
-$$
+```math
 K_T(t)=\int_0^t J_T(s)\,ds.
-$$
+```
 
 Then $K_T'(t)=J_T(t)$ and $K_T''(t)=J_T'(t)$. In particular, $K_T$ is $C^2$. The proof verifies the regularity needed to apply the cited two-time integral bound to $K_T$.
 
-The cited `damped_two_time_integral_bound` theorem has the following content. For functions $g,q:\mathbb R\to\mathbb R$, parameters $\gamma,a,t,T$, if $g$ is $C^1$ on $[a,\infty)$, $\mathrm{deriv}g$ is $C^1$ on $[a,\infty)$, $q$ is continuous on $[a,T]$, a certain nested integral is interval-integrable, $\gamma>0$, $a\le t\le T$, and
+The cited `damped_two_time_integral_bound` theorem has the following content. For functions $g,q:\mathbb R\to\mathbb R$, parameters $\gamma,a,t,T$, if $g$ is $C^1$ on $[a,\infty)$, $\mathrm{deriv}g$ is $C^1$ on $[a,\infty)$, $q$ is continuous on $[a,T]$, a certain nested integral is interval-integrable, $\gamma\gt 0$, $a\le t\le T$, and
 
 $$
 g''(s)+\gamma g'(s)\le q(s)
@@ -1060,12 +1060,12 @@ $$
 
 for all $s\in(a,T)$, then
 
-$$
+```math
 g(T)-g(t)
 \le
 \frac{e^{-\gamma(t-a)}-e^{-\gamma(T-a)}}{\gamma}g'(a)
 +\int_t^T\int_a^\theta e^{-\gamma(\theta-s)}q(s)\,ds\,d\theta.
-$$
+```
 
 The proof applies this with $g=K_T$, $\gamma=\alpha$, $a=1$, and the same $q$. The required differential inequality is exactly
 
@@ -1077,10 +1077,10 @@ which is `hJ_ineq`. The theorem then gives an upper bound for $K_T(T)-K_T(t)$.
 
 The proof also shows that the inner integral from $1$ to $\theta$ is no larger than the inner integral from $0$ to $\theta$, because the integrand is nonnegative. Hence
 
-$$
+```math
 \int_t^T\int_1^\theta e^{-\alpha(\theta-s)}q(s)\,ds\,d\theta
 \le H_{\mathrm{error}}(T)-H_{\mathrm{error}}(t).
-$$
+```
 
 Also,
 
@@ -1098,37 +1098,37 @@ for all $T\ge 0$. This is the endpoint estimate `hEndpoint`.
 
 Relating $G_T$ and $K_T$ through $J_T=G_T'-\beta\omega_T$, and using the pointwise bound
 
-$$
+```math
 \int_t^T \omega_T(s)\,ds\le \frac12\int_t^T\|r(s)\|^2\,ds,
-$$
+```
 
 the proof obtains the key estimate `hTwo`: for $1\le t\le T$,
 
-$$
+```math
 \frac12\|x(t)-x(T)\|^2
 \le
 \|x(t)\|^2-\|x(T)\|^2
 +\frac{e^{-\alpha(t-1)}-e^{-\alpha(T-1)}}{\alpha}K_T'(1)
 +\int_t^T\int_1^\theta e^{-\alpha(\theta-s)}q(s)\,ds\,d\theta
 +\frac{\beta}{2}\int_t^T\|r(s)\|^2\,ds.
-$$
+```
 
 Next the proof defines
 
-$$
+```math
 R_{\mathrm{error}}(T)=\frac{\beta}{2}\int_1^T\|r(s)\|^2\,ds.
-$$
+```
 
-Since $\|r\|^2$ is integrable on $(1,\infty)$, $R_{\mathrm{error}}(T)$ has a finite limit as $T\to\infty$. Moreover, for $1\le s\le t$,
+Since $`\|r\|^2`$is integrable on$(1,\infty)$,$R_{\mathrm{error}}(T)$has a finite limit as$T\to\infty$. Moreover, for$1\le s\le t$,
 
-$$
+```math
 \frac{\beta}{2}\int_s^t\|r(u)\|^2\,du
 \le R_{\mathrm{error}}(t)-R_{\mathrm{error}}(s),
-$$
+```
 
 because the difference contains the integral over $[s,t]$ plus the nonnegative integral over $[1,s]$.
 
-Using these convergence facts, the proof shows that $x$ is Cauchy at infinity. Given $\epsilon>0$, it sets
+Using these convergence facts, the proof shows that $x$ is Cauchy at infinity. Given $\epsilon\gt 0$, it sets
 
 $$
 \delta=\frac{\epsilon^2}{16}.
@@ -1136,9 +1136,9 @@ $$
 
 It chooses thresholds so that, for all sufficiently large times,
 
-$$
+```math
 \bigl|\|x(t)\|^2-l_{\mathrm{norm}}\bigr|<\delta,
-$$
+```
 
 $$
 |H_{\mathrm{error}}(t)-L|<\delta,
@@ -1162,15 +1162,15 @@ $$
 
 Therefore
 
-$$
+```math
 \frac12\|x(s)-x(t)\|^2<\frac{\epsilon^2}{2},
-$$
+```
 
 so
 
-$$
+```math
 \|x(s)-x(t)\|<\epsilon.
-$$
+```
 
 Thus $x$ is uniformly Cauchy on the tail. The symmetric case $t\le s$ is handled by commuting the distance.
 

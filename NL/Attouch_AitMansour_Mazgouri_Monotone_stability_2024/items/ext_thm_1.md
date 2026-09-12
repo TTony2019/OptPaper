@@ -20,17 +20,17 @@ theorem ext_thm_1 {X : Type*} [PseudoMetricSpace X] [Nonempty X]
 ## Statement explanation
 Let $X$ be a nonempty pseudo-metric space. For a set-valued map $T : X \to \mathcal P(X)$ and a real tolerance $\varepsilon$, define the approximate fixed point set by
 
-$$
+```math
 \mathrm{AFix}(T,\varepsilon)
 =\left\{x\in X:\ 0\le \varepsilon \ \text{and}\ \mathrm{infEDist}(x,T(x))\le \mathrm{ofReal}\varepsilon\right\}.
-$$
+```
 
-Here $\mathrm{infEDist}(x,T(x))$ is the extended infimum distance from the point $x$ to the set $T(x)$, and $\mathrm{ofReal}$ embeds a real number into the extended nonnegative real numbers $\mathbb R_{\ge 0}\cup\{\infty\}$.
+Here $\mathrm{infEDist}(x,T(x))$ is the extended infimum distance from the point $x$ to the set $T(x)$, and $\mathrm{ofReal}$ embeds a real number into the extended nonnegative real numbers $`\mathbb R_{\ge 0}\cup\{\infty\}`$.
 
 The theorem considers two set-valued maps $T_1,T_2:X\to\mathcal P(X)$, a real contraction factor $\lambda$, and a positive real tolerance $\varepsilon$. Its hypotheses are:
 
-- $0\le \lambda$ and $\lambda<1$, so $\lambda\in[0,1)$;
-- $0<\varepsilon$;
+- $0\le \lambda$ and $\lambda\lt 1$, so $\lambda\in[0,1)$;
+- $0\lt \varepsilon$;
 - for every $x\in X$, both $T_1(x)$ and $T_2(x)$ are nonempty;
 - for every $x,y\in X$, both maps are Hausdorff-Lipschitz with the same constant $\lambda$:
 
@@ -40,15 +40,15 @@ d_H(T_1(x),T_1(y))\le \mathrm{ofReal}\lambda \cdot d(x,y),
 d_H(T_2(x),T_2(y))\le \mathrm{ofReal}\lambda \cdot d(x,y).
 $$
 
-Here $d_H$ denotes the extended Hausdorff distance between sets, valued in $\mathbb R_{\ge0}\cup\{\infty\}$, and $d(x,y)=\mathrm{edist}(x,y)$ is the extended point distance.
+Here $d_H$ denotes the extended Hausdorff distance between sets, valued in $`\mathbb R_{\ge0}\cup\{\infty\}`$, and$d(x,y)=\mathrm{edist}(x,y)$ is the extended point distance.
 
 The conclusion says three things. First, the approximate fixed point set of $T_1$ at tolerance $\varepsilon$ is nonempty. Second, the approximate fixed point set of $T_2$ at tolerance $\varepsilon$ is nonempty. Third, the extended Hausdorff distance between these two approximate fixed point sets is bounded by
 
-$$
+```math
 \mathrm{ofReal}\!\left(\frac{\varepsilon}{1-\lambda}\right)
 +\left(1-\mathrm{ofReal}\lambda\right)^{-1}
 \sup_{x\in X} d_H(T_1(x),T_2(x)).
-$$
+```
 
 Thus the theorem is a quantitative stability statement: two nonempty-valued Hausdorff contractions with the same contraction factor have nonempty approximate fixed point sets, and the distance between those sets is controlled by the uniform Hausdorff distance between the two maps plus the tolerance term $\varepsilon/(1-\lambda)$. If the supremum is infinite, then the right-hand side is infinite and the estimate becomes trivial; otherwise it is a genuine finite bound.
 
@@ -81,7 +81,7 @@ by
 ```
 
 ## Proof explanation
-The proof first establishes the two nonemptiness claims. It uses the cited result `approximateFixedPoints_nonempty_of_hausdorff_contractive`, which says that if $T:X\to\mathcal P(X)$ has nonempty values, $\lambda\in[0,1)$, $\varepsilon>0$, and
+The proof first establishes the two nonemptiness claims. It uses the cited result `approximateFixedPoints_nonempty_of_hausdorff_contractive`, which says that if $T:X\to\mathcal P(X)$ has nonempty values, $\lambda\in[0,1)$, $\varepsilon\gt 0$, and
 
 $$
 d_H(T(x),T(y))\le \mathrm{ofReal}\lambda \cdot d(x,y)
@@ -103,14 +103,14 @@ $$
 D=\sup_{x\in X} d_H(T_1(x),T_2(x))
 $$
 
-as a local abbreviation in $\mathbb R_{\ge0}\cup\{\infty\}$. It then splits into two cases according to whether $D=\infty$.
+as a local abbreviation in $`\mathbb R_{\ge0}\cup\{\infty\}`$. It then splits into two cases according to whether$D=\infty$.
 
 In the case $D=\infty$, the right-hand side of the desired inequality becomes
 
-$$
+```math
 \mathrm{ofReal}\!\left(\frac{\varepsilon}{1-\lambda}\right)
 +\left(1-\mathrm{ofReal}\lambda\right)^{-1}\cdot \infty.
-$$
+```
 
 The proof first shows that $1-\mathrm{ofReal}\lambda\ne\infty$. This uses `ENNReal.sub_ne_top`, applied to the fact that $1\ne\infty$; subtracting any extended nonnegative real from $1$ cannot produce $\infty$. Hence the inverse $\left(1-\mathrm{ofReal}\lambda\right)^{-1}$ is nonzero, by `ENNReal.inv_ne_zero`. The rewrite rule `ENNReal.mul_top` then turns a nonzero factor times $\infty$ into $\infty$. Therefore the entire right-hand side is $\infty$, and the inequality is closed by `le_top`, since every extended nonnegative real is at most $\infty$.
 
@@ -146,12 +146,12 @@ This is exactly how Hausdorff distance controls how far each point of one set is
 
 For the first of these two subgoals, `intro` introduces an arbitrary point $x$ and a proof that $x\in\mathrm{AFix}(T_1,\varepsilon)$. The proof then invokes the cited estimate `approximateFixedPoint_infEDist_le`. That lemma says, concretely, that if $S$ is $\lambda$-Hausdorff-contractive with nonempty values, $T$ has nonempty values, $T$ is uniformly within $D$ of $S$ in Hausdorff distance, and $x$ is an approximate fixed point of $T$ at tolerance $\varepsilon$, then
 
-$$
+```math
 \mathrm{infEDist}(x,\mathrm{AFix}(S,\varepsilon))
 \le
 \mathrm{ofReal}\!\left(\frac{\varepsilon}{1-\lambda}\right)
 +\left(1-\mathrm{ofReal}\lambda\right)^{-1}D.
-$$
+```
 
 It is applied here with $T=T_1$ and $S=T_2$. The contraction hypothesis for $S$ is the second half of the standing Lipschitz hypothesis, namely the contraction estimate for $T_2$. The uniform closeness hypothesis is exactly $d_H(T_1(x),T_2(x))\le D$. This yields the first required estimate,
 
@@ -173,13 +173,13 @@ $$
 
 Thus both one-sided estimates required by `Metric.hausdorffEDist_le_of_infEDist` have been proved, so that result yields the desired final bound
 
-$$
+```math
 d_H(\mathrm{AFix}(T_1,\varepsilon),\mathrm{AFix}(T_2,\varepsilon))
 \le
 \mathrm{ofReal}\!\left(\frac{\varepsilon}{1-\lambda}\right)
 +\left(1-\mathrm{ofReal}\lambda\right)^{-1}
 \sup_{x\in X} d_H(T_1(x),T_2(x)).
-$$
+```
 
 The tactic `rw` is used in the infinite-supremum case to replace the supremum by $D$, then $D$ by $\infty$, and to simplify the multiplication by $\infty$. The `simp` used inside that step proves the elementary side condition $1\ne\infty$ in the extended nonnegative reals. No use of `linarith` occurs in this proof.
 

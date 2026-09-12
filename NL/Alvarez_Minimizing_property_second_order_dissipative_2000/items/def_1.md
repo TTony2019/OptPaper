@@ -21,7 +21,7 @@ This declaration is a Lean `structure`, not a theorem, so it introduces a type o
 
 A term of type `DissipativeSystem gamma Phi gradPhi u0 v0` packages the following data and properties:
 
-- A proof that $0 < \gamma$. Thus $\gamma$ is a positive real parameter, intended as a damping or friction coefficient.
+- A proof that $0 \lt  \gamma$. Thus $\gamma$ is a positive real parameter, intended as a damping or friction coefficient.
 - A proof that for every $x \in H$, the predicate `HasGradientAt Phi (gradPhi x) x` holds. Mathematically, this means that at every point $x$, the vector $\mathrm{gradPhi}(x)$ is the gradient of the potential $\Phi$ at $x$. The exact library definition of `HasGradientAt` is not expanded in the source, but the visible content is precisely this gradient assertion for each $x \in H$.
 - A trajectory function $u : \mathbb R \to H$.
 - A proof that $u$ is twice continuously differentiable on the half-line $[0,\infty)$, expressed by `ContDiffOn ℝ 2 u (Set.Ici 0)`. Thus the differentiability is required only for nonnegative times.
@@ -29,15 +29,15 @@ A term of type `DissipativeSystem gamma Phi gradPhi u0 v0` packages the followin
 - The initial velocity condition. In Lean, `fderiv ℝ u 0 1 = v0` means that the Fréchet derivative of $u$ at time $0$, evaluated on the scalar $1$, equals $v_0$. Since the domain is $\mathbb R$, this is the ordinary derivative vector $u'(0)$, so the trajectory starts with prescribed velocity $v_0$.
 - For every $t \in [0,\infty)$, the second-order differential equation
 
-  $$
-  u''(t) + \gamma u'(t) + \mathrm{gradPhi}(u(t)) = 0
-  $$
+$$
+u''(t) + \gamma u'(t) + \mathrm{gradPhi}(u(t)) = 0
+$$
 
   holds in $H$. Here $u'(t) = D u(t)(1)$ and
 
-  $$
-  u''(t) = D\bigl(s \mapsto D u(s)(1)\bigr)(t)(1),
-  $$
+$$
+u''(t) = D\bigl(s \mapsto D u(s)(1)\bigr)(t)(1),
+$$
 
   exactly as encoded by the nested uses of `fderiv ℝ`. The term $\gamma u'(t)$ is scalar multiplication of the velocity by $\gamma$, and $\mathrm{gradPhi}(u(t))$ is the gradient force evaluated along the trajectory.
 

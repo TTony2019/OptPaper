@@ -23,9 +23,9 @@ $$
 
 There are no additional hypotheses beyond these data. The expression `Set.range G` is the image of $G$, namely
 
-$$
+```math
 \{G(x):x\in \text{EuclideanSpace }m\},
-$$
+```
 
 and `sInf (Set.range G)` is the infimum of that set of extended real values, computed in the complete order on `EReal`. Thus $\mathrm{sInf}(\mathrm{range} G)$ is the greatest lower bound of all values taken by $G$ on its whole domain. The set `argminSet G` is the global argmin set, i.e. the set of points at which $G$ attains its global minimum value.
 

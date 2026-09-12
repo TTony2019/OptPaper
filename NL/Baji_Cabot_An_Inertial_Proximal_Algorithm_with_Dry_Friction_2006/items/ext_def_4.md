@@ -16,9 +16,9 @@ $$
 
 is therefore
 
-$$
+```math
 \{(\langle z,x\rangle_{\mathbb R})_{\mathrm{EReal}} : z\in C\}.
-$$
+```
 
 The definition then takes the supremum of this set in the order on $\mathrm{EReal}$. Thus
 
@@ -45,9 +45,9 @@ $$
 
 The explicit cast to `EReal` is the embedding of the real inner-product value into the extended-real order. The image operator `''` applies this function to the set $C$, producing
 
-$$
+```math
 \{(\langle z,x\rangle_{\mathbb R})_{\mathrm{EReal}} : z\in C\}.
-$$
+```
 
 Finally, `sSup` takes the least upper bound of that set in $\mathrm{EReal}$. Hence the definition returns the extended-real supremum of the values $\langle z,x\rangle_{\mathbb R}$ as $z$ ranges over $C$. Since no goal is being proved, there are no hypotheses to discharge and no conclusions derived beyond this defining equation.
 

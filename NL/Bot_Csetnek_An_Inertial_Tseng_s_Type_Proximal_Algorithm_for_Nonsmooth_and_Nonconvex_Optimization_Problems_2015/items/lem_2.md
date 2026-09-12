@@ -13,22 +13,22 @@ theorem lemma_3_2_descent {m : Nat} {P : ProblemData m} (A : AlgorithmData P)
 ## Statement explanation
 The theorem `lemma_3_2_descent` is a descent estimate for the inertial Tseng-type proximal algorithm. It fixes a dimension $m$, problem data $P$ for a problem in the Euclidean space of dimension $m$, algorithm data $A$ for $P$, and positive real parameters $\nu$ and $\mu$. For every natural number $n$ with $n\ge 2$, it asserts
 
-$$
+```math
 \mathrm{objectiveWithQuadratic}_P\bigl(A.M_1(\nu,\mu),\,A.p_n,\,A.x_n\bigr)
 \le
 \mathrm{objectiveWithQuadratic}_P\bigl(A.M_2(\nu,\mu),\,A.p_{n-1},\,A.x_{n-1}\bigr).
-$$
+```
 
 Here $A.p_n$ denotes $A.p(n)$, $A.x_n$ denotes $A.x(n)$, and
 
-$$
+```math
 \mathrm{objectiveWithQuadratic}_P(M,y,z)
 =\mathrm{erealAddReal}\bigl(P.\mathrm{objective}(y),\,M\|y-z\|^2\bigr).
-$$
+```
 
-Thus the left-hand side is the extended-real objective at the current proximal point $p_n$, plus the quadratic term $M_1(\nu,\mu)\|p_n-x_n\|^2$, while the right-hand side is the extended-real objective at the previous proximal point $p_{n-1}$, plus the quadratic term $M_2(\nu,\mu)\|p_{n-1}-x_{n-1}\|^2$. The constants $M_1(\nu,\mu)$ and $M_2(\nu,\mu)$ are algorithm constants depending on $\nu$ and $\mu$. The theorem says that the $M_1$-penalized value at step $n$ is bounded above by the $M_2$-penalized value at the previous step. This is the form of a decrease inequality: the theorem compares two penalized objective values rather than proving equality of objective values.
+Thus the left-hand side is the extended-real objective at the current proximal point $p_n$, plus the quadratic term $`M_1(\nu,\mu)\|p_n-x_n\|^2`$, while the right-hand side is the extended-real objective at the previous proximal point$p_{n-1}$, plus the quadratic term$`M_2(\nu,\mu)\|p_{n-1}-x_{n-1}\|^2`$. The constants$M_1(\nu,\mu)$and$M_2(\nu,\mu)$are algorithm constants depending on$\nu$and$\mu$. The theorem says that the$M_1$-penalized value at step$n$is bounded above by the$M_2$-penalized value at the previous step. This is the form of a decrease inequality: the theorem compares two penalized objective values rather than proving equality of objective values.
 
-The only explicit hypotheses are $0<\nu$ and $0<\mu$, together with the structural assumptions contained in the data $P$ and $A$. The positivity of $\nu$ and $\mu$ is used in Young inequalities and in the index estimates for $M_1$ and $M_2$. The proof also uses the fact that $A.p_n$ minimizes a certain algorithm step objective, the update formula for $A.x_n$, the Lipschitz continuity of the gradient of $h$, Bregman distance bounds coming from strong convexity and gradient-Lipschitzness of $u$, and the descent lemma for the smooth part $h$.
+The only explicit hypotheses are $0\lt \nu$ and $0\lt \mu$, together with the structural assumptions contained in the data $P$ and $A$. The positivity of $\nu$ and $\mu$ is used in Young inequalities and in the index estimates for $M_1$ and $M_2$. The proof also uses the fact that $A.p_n$ minimizes a certain algorithm step objective, the update formula for $A.x_n$, the Lipschitz continuity of the gradient of $h$, Bregman distance bounds coming from strong convexity and gradient-Lipschitzness of $u$, and the descent lemma for the smooth part $h$.
 
 ## Lean proof
 ```lean
@@ -485,7 +485,7 @@ The nonnegativity of $L_h$ and $L_u$ is used later when multiplying inequalities
 
 The first main inequality is the minimization property of $p_n$. The proof defines
 
-$$
+```math
 J_n(y)
 =\mathrm{erealAddReal}\Bigl(
 P.f(y),\,
@@ -493,7 +493,7 @@ P.f(y),\,
 +\langle y,\nabla h(x_n)\rangle
 +c_n\langle y,x_{n-1}-x_n\rangle
 \Bigr),
-$$
+```
 
 where $c_n=\alpha_n/\lambda_n$, $D_u$ is the Bregman distance
 
@@ -532,64 +532,64 @@ $$
 
 Using the Lipschitz estimate for $\nabla h$, namely
 
-$$
+```math
 \|\nabla h(x)-\nabla h(y)\|\le L_h\|x-y\|,
-$$
+```
 
 the proof obtains
 
-$$
+```math
 \|x_n-p_{n-1}\|
 \le
 \lambda_{n-1}L_h\|x_{n-1}-p_{n-1}\|.
-$$
+```
 
 This is the estimate called `h13`. It is obtained by taking norms:
 
-$$
+```math
 \|x_n-p_{n-1}\|
 =\lambda_{n-1}
 \|\nabla h(x_{n-1})-\nabla h(p_{n-1})\|,
-$$
+```
 
-and then applying the Lipschitz bound, using $\lambda_{n-1}>0$.
+and then applying the Lipschitz bound, using $\lambda_{n-1}\gt 0$.
 
 From this, the proof derives
 
-$$
+```math
 \|x_n-x_{n-1}\|
 \le
 (1+\lambda_{n-1}L_h)
 \|x_{n-1}-p_{n-1}\|.
-$$
+```
 
 This is `h14`. The argument inserts the intermediate point $p_{n-1}$:
 
-$$
+```math
 \|x_n-x_{n-1}\|
 \le
 \|x_n-p_{n-1}\|+\|p_{n-1}-x_{n-1}\|,
-$$
+```
 
-then substitutes the bound for $\|x_n-p_{n-1}\|$ and simplifies using $\|p_{n-1}-x_{n-1}\|=\|x_{n-1}-p_{n-1}\|$.
+then substitutes the bound for $`\|x_n-p_{n-1}\|`$and simplifies using$`\|p_{n-1}-x_{n-1}\|=\|x_{n-1}-p_{n-1}\|`$.
 
-The proof also needs a squared estimate for $\|p_n-p_{n-1}\|$. It invokes `norm_sq_sub_le_two`, which states that for all points $a,b,c$,
+The proof also needs a squared estimate for $`\|p_n-p_{n-1}\|`$. It invokes `norm_sq_sub_le_two`, which states that for all points $a,b,c$,
 
-$$
+```math
 \|a-b\|^2\le 2\bigl(\|a-c\|^2+\|c-b\|^2\bigr).
-$$
+```
 
 Taking $a=p_n$, $b=p_{n-1}$, and $c=x_n$, this gives
 
-$$
+```math
 \|p_n-p_{n-1}\|^2
 \le
 2\bigl(\|p_n-x_n\|^2+\|x_n-p_{n-1}\|^2\bigr).
-$$
+```
 
-Combining this with the square of the estimate $\|x_n-p_{n-1}\|\le \lambda_{n-1}L_h\|x_{n-1}-p_{n-1}\|$, the proof obtains
+Combining this with the square of the estimate $`\|x_n-p_{n-1}\|\le \lambda_{n-1}L_h\|x_{n-1}-p_{n-1}\|`$, the proof obtains
 
-$$
+```math
 \|p_n-p_{n-1}\|^2
 \le
 2\Bigl(
@@ -597,140 +597,140 @@ $$
 +\lambda_{n-1}^2L_h^2
 \|x_{n-1}-p_{n-1}\|^2
 \Bigr).
-$$
+```
 
 This is `h15`. The auxiliary facts `h13sq` and `h14sq` are the squared versions of `h13` and `h14`, obtained using `sq_le_sq'`, which is the elementary fact that for nonnegative quantities one may square an inequality.
 
-The proof next applies two Young-type inequalities. For the gradient-difference inner product, it uses `young_mul`, which says that for $0<\varepsilon$,
+The proof next applies two Young-type inequalities. For the gradient-difference inner product, it uses `young_mul`, which says that for $0\lt \varepsilon$,
 
 $$
 ab\le \frac{\varepsilon}{2}b^2+\frac1{2\varepsilon}a^2.
 $$
 
-Specialized with $\varepsilon=\nu$, $a=L_h\|x_n-p_{n-1}\|$, and $b=\|p_n-p_{n-1}\|$, it gives
+Specialized with $\varepsilon=\nu$, $`a=L_h\|x_n-p_{n-1}\|`$, and$`b=\|p_n-p_{n-1}\|`$, it gives
 
-$$
+```math
 L_h\|x_n-p_{n-1}\|\|p_n-p_{n-1}\|
 \le
 \frac{\nu}{2}\|p_n-p_{n-1}\|^2
 +\frac{L_h^2}{2\nu}\|x_n-p_{n-1}\|^2.
-$$
+```
 
 Together with the elementary bound
 
-$$
+```math
 \langle \nabla h(p_{n-1})-\nabla h(x_n),\,p_n-p_{n-1}\rangle
 \le
 \|\nabla h(p_{n-1})-\nabla h(x_n)\|
 \|p_n-p_{n-1}\|
-$$
+```
 
 and the Lipschitz estimate for $\nabla h$, this yields
 
-$$
+```math
 \langle \nabla h(p_{n-1})-\nabla h(x_n),\,p_n-p_{n-1}\rangle
 \le
 \frac{\nu}{2}\|p_n-p_{n-1}\|^2
 +\frac{L_h^2}{2\nu}\|x_n-p_{n-1}\|^2.
-$$
+```
 
 This is `h16`.
 
-For the inertial inner product, the proof uses `inner_young`, which states that for $0<\varepsilon$,
+For the inertial inner product, the proof uses `inner_young`, which states that for $0\lt \varepsilon$,
 
-$$
+```math
 \langle a,b\rangle
 \le
 \frac{\varepsilon}{2}\|a\|^2+\frac1{2\varepsilon}\|b\|^2.
-$$
+```
 
 With $\varepsilon=\mu$, $a=p_n-p_{n-1}$, and $b=x_n-x_{n-1}$, it gives
 
-$$
+```math
 \langle p_n-p_{n-1},\,x_n-x_{n-1}\rangle
 \le
 \frac{\mu}{2}\|p_n-p_{n-1}\|^2
 +\frac1{2\mu}\|x_n-x_{n-1}\|^2.
-$$
+```
 
 This is `h17`. Since $c_n=\alpha_n/\lambda_n\ge 0$, multiplying by $c_n$ gives the scaled version `h17_scaled`.
 
 The proof then extracts the Bregman bounds. The theorem `algorithm_bregman_bounds` states that for every $x,y$,
 
-$$
+```math
 \frac{\sigma}{2}\|x-y\|^2
 \le
 D_u(x,y)
 \le
 \frac{L_u}{2}\|x-y\|^2.
-$$
+```
 
 Applying this with $(x,y)=(p_n,x_n)$ gives
 
-$$
+```math
 \frac{\sigma}{2}\|p_n-x_n\|^2\le D_u(p_n,x_n),
-$$
+```
 
 and applying it with $(x,y)=(p_{n-1},x_n)$ gives
 
-$$
+```math
 D_u(p_{n-1},x_n)\le \frac{L_u}{2}\|p_{n-1}-x_n\|^2.
-$$
+```
 
-Multiplying these by $1/\lambda_n>0$ produces exactly the two scaled hypotheses
+Multiplying these by $1/\lambda_n\gt 0$ produces exactly the two scaled hypotheses
 
-$$
+```math
 \frac{\sigma}{2\lambda_n}\|p_n-x_n\|^2
 \le
 \frac1{\lambda_n}D_u(p_n,x_n),
-$$
+```
 
 and
 
-$$
+```math
 \frac1{\lambda_n}D_u(p_{n-1},x_n)
 \le
 \frac{L_u}{2\lambda_n}\|p_{n-1}-x_n\|^2.
-$$
+```
 
 These are `hbpn_scaled` and `hbprev_scaled`.
 
 The proof also needs the descent inequality for $h$. It invokes `lemma_3_1_descent`, which says that if $h$ has Lipschitz-continuous gradient with constant $L_h$, then
 
-$$
+```math
 h(y)\le h(x)+\langle\nabla h(x),y-x\rangle+\frac{L_h}{2}\|y-x\|^2.
-$$
+```
 
 With $x=p_{n-1}$ and $y=p_n$, this gives
 
-$$
+```math
 h(p_n)
 \le
 h(p_{n-1})
 +\langle\nabla h(p_{n-1}),p_n-p_{n-1}\rangle
 +\frac{L_h}{2}\|p_n-p_{n-1}\|^2.
-$$
+```
 
 This is `hhdesc`.
 
-At this point the proof has all ingredients for the main algorithmic inequality. It applies `algorithm_descent_ineq_12` with the index $n$, the positivity $\lambda_n>0$, the minimization inequality `hmin`, the two scaled Bregman inequalities, and the descent inequality `hhdesc`. The conclusion is
+At this point the proof has all ingredients for the main algorithmic inequality. It applies `algorithm_descent_ineq_12` with the index $n$, the positivity $\lambda_n\gt 0$, the minimization inequality `hmin`, the two scaled Bregman inequalities, and the descent inequality `hhdesc`. The conclusion is
 
-$$
+```math
 \mathrm{erealAddReal}\left(P.\mathrm{objective}(p_n),
 \frac{\sigma}{2\lambda_n}\|p_n-x_n\|^2\right)
 \le
 \mathrm{erealAddReal}\left(P.\mathrm{objective}(p_{n-1}),R_n\right),
-$$
+```
 
 where
 
-$$
+```math
 R_n=
 \frac{L_u}{2\lambda_n}\|p_{n-1}-x_n\|^2
 +\frac{L_h}{2}\|p_n-p_{n-1}\|^2
 +\langle \nabla h(p_{n-1})-\nabla h(x_n),\,p_n-p_{n-1}\rangle
 +c_n\langle p_n-p_{n-1},\,x_n-x_{n-1}\rangle.
-$$
+```
 
 This is the inequality called `h12`. It is the central estimate: it combines the proximal minimization property, the Bregman bounds, and the descent inequality for $h$ into one extended-real inequality.
 
@@ -765,17 +765,17 @@ $$
 A.M_1(\nu,\mu)\le M_{1,n},
 $$
 
-using $0<\mu$ and $1\le n$. Similarly, `m2_index_upper_bound` gives
+using $0\lt \mu$ and $1\le n$. Similarly, `m2_index_upper_bound` gives
 
 $$
 M_{2,n}\le A.M_2(\nu,\mu),
 $$
 
-using $0<\nu$, $0<\mu$, $1\le n$, and $1\le n-1$.
+using $0\lt \nu$, $0\lt \mu$, $1\le n$, and $1\le n-1$.
 
 The proof proceeds to bound $R_n$. First, `h16` and `h17_scaled` are combined to show
 
-$$
+```math
 R_n
 \le
 \left(
@@ -785,20 +785,20 @@ R_n
 \frac{L_h}{2}+\frac{\nu}{2}+\frac{c_n\mu}{2}
 \right)\|p_n-p_{n-1}\|^2
 +c_n\frac1{2\mu}\|x_n-x_{n-1}\|^2.
-$$
+```
 
 This is a direct application of the two Young bounds. Then:
 - The squared estimate `h13sq` is used to replace
 
-$$
+```math
 \|p_{n-1}-x_n\|^2
-$$
+```
 
 by at most
 
-$$
+```math
 \lambda_{n-1}^2L_h^2\|x_{n-1}-p_{n-1}\|^2.
-$$
+```
 
 - The squared estimate `h15` is multiplied by the nonnegative coefficient
 
@@ -806,33 +806,33 @@ $$
 \frac{L_h}{2}+\frac{\nu}{2}+\frac{c_n\mu}{2}
 $$
 
-to bound the $\|p_n-p_{n-1}\|^2$ term by
+to bound the $`\|p_n-p_{n-1}\|^2`$ term by
 
-$$
+```math
 K\|x_n-p_n\|^2
 +K\lambda_{n-1}^2L_h^2\|x_{n-1}-p_{n-1}\|^2.
-$$
+```
 
 - The squared estimate `h14sq` is used to replace
 
-$$
+```math
 \|x_n-x_{n-1}\|^2
-$$
+```
 
 by at most
 
-$$
+```math
 (1+\lambda_{n-1}L_h)^2\|x_{n-1}-p_{n-1}\|^2.
-$$
+```
 
 Summing these three bounds and simplifying gives
 
-$$
+```math
 R_n
 \le
 K\|x_n-p_n\|^2
 +M_{2,n}\|x_{n-1}-p_{n-1}\|^2.
-$$
+```
 
 This is `hRbound`. The proof uses `linarith` to combine the intermediate inequalities and `ring` to verify the algebraic identity matching the coefficients with $M_{2,n}$.
 
@@ -845,13 +845,13 @@ $$
 
 the bound on $R_n$ allows the right-hand side of `h12` to be replaced by its upper bound:
 
-$$
+```math
 \mathrm{erealAddReal}\left(P.\mathrm{objective}(p_n),
 \frac{\sigma}{2\lambda_n}\|p_n-x_n\|^2\right)
 \le
 \mathrm{erealAddReal}\left(P.\mathrm{objective}(p_{n-1}),
 K\|x_n-p_n\|^2+M_{2,n}\|x_{n-1}-p_{n-1}\|^2\right).
-$$
+```
 
 Using the identity
 
@@ -859,17 +859,17 @@ $$
 M_{1,n}+K=\frac{\sigma}{2\lambda_n},
 $$
 
-and $\|x_n-p_n\|=\|p_n-x_n\|$, the left real part becomes
+and $`\|x_n-p_n\|=\|p_n-x_n\|`$, the left real part becomes
 
-$$
+```math
 M_{1,n}\|p_n-x_n\|^2+K\|x_n-p_n\|^2.
-$$
+```
 
 The right real part is rearranged as
 
-$$
+```math
 M_{2,n}\|p_{n-1}-x_{n-1}\|^2+K\|x_n-p_n\|^2.
-$$
+```
 
 Thus the inequality has the form
 
@@ -881,9 +881,9 @@ $$
 
 with the common real term
 
-$$
+```math
 t=K\|x_n-p_n\|^2.
-$$
+```
 
 The proof applies `erealAddReal_le_cancel_common`, which says that from
 

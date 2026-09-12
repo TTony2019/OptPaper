@@ -24,16 +24,35 @@ Delimiters:
   delimiters, with a space before the opening `$`, and with something other
   than a letter or digit right after the closing `$`. GitHub ignores a formula
   that breaks either of the last two rules and prints it as plain text.
-- Use `$$...$$` for displayed mathematics, with each `$$` alone on its own
-  line and a blank line before the opening one and after the closing one.
+- Write a comparison as `\lt` or `\gt`, never as a bare `<` or `>`: Markdown
+  reads a bare angle bracket as the start of an HTML tag and then leaves the
+  whole inline formula unrendered.
+- When an expression contains a backslash followed by punctuation — `\,`,
+  `\;`, `\!`, `\{`, `\}`, `\|`, `\_`, or a line break `\\` — GitHub strips
+  that backslash before MathJax sees it, turning `\,` into a comma, `\|` into
+  a single bar and `\_` into the error "'_' allowed only in math mode". Wrap
+  such a formula in the backtick form instead, inline
+
+  $`\|x\| \le 1`$
+
+  and displayed as
+
+  ```math
+  \|x\| \le 1
+  ```
+
+- Use `$$...$$` for displayed mathematics that needs no such protection, with
+  each `$$` alone on its own line at the left margin and a blank line before
+  the opening one and after the closing one. A block indented under a list
+  item stops rendering whenever the list holds inline math, so never indent
+  a display block.
 - Never use `\(...\)`, `\[...\]`, or bare square brackets as math delimiters:
   GitHub consumes those backslash escapes, so the formula stays unrendered.
   Write `$t\mapsto f(t)$` rather than `[ t\mapsto f(t) ]` or `\(t\mapsto f(t)\)`.
 
-Inside a `$$` block, keep the formula a single Markdown paragraph. GitHub ends
-the display math as soon as a line looks like the start of another Markdown
-block, and then prints the formula as text. Never break a formula so that a
-line
+Inside a display block, keep the formula a single Markdown paragraph. GitHub
+ends it as soon as a line looks like the start of another Markdown block, and
+then prints the formula as text. Never break a formula so that a line
 
 - consists only of punctuation such as `-`, `=` or `+`;
 - begins with a list marker (`- `, `+ `, `* `, `1. `) or with `>`;
@@ -52,7 +71,9 @@ Commands:
   `\alphaSeq`. GitHub reports "The following macros are not allowed" for
   `\operatorname`, `\DeclareMathOperator`, `\phantom` and `\require`, and
   prints the formula as plain text instead.
-- Inside `\text{...}` and `\texttt{...}` escape underscores as `\_`, and use
+- Keep a Lean identifier in backticks rather than inside a formula. If such a
+  name must appear in a formula, escape its underscore as `\_` and use the
+  backtick form for that formula. Inside `\text{...}` and `\texttt{...}` use
   `$...$` if a symbol such as `\in` or `\langle` is needed there.
 - Convert Lean notation into valid LaTeX. Do not leave raw LaTeX commands such
   as `\mapsto`, `\mathrm`, `\mathbb`, `\langle`, or `\rangle` outside a
@@ -62,17 +83,17 @@ For example, write the chain-rule conclusion as:
 
 The map
 
-$$
+```math
 t \mapsto \bigl(\Phi(x(t))\bigr)_{\mathbb R}
-$$
+```
 
 is absolutely continuous on $[0,T]$, and almost everywhere on this interval,
 
-$$
+```math
 \mathrm{deriv}\!\left(t \mapsto
   \bigl(\Phi(x(t))\bigr)_{\mathbb R}\right)(t)
 = \left\langle v(t),\mathrm{deriv}x(t)\right\rangle.
-$$
+```
 
 Return exactly two plain-text sections separated by the line
 {{separator}}

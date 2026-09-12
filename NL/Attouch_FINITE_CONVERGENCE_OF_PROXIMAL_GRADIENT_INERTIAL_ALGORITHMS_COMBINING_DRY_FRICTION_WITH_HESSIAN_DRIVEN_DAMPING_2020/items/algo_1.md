@@ -56,7 +56,7 @@ Thus the sequence is seeded by two initial iterates.
 
 Third, for every natural number $k$, the field `update` asserts the recurrence
 
-$$
+```math
 x_{k+2}
 =x_{k+1}
 +h\,
@@ -68,7 +68,7 @@ P_{\phi,\, h/(1+h\gamma)}
 -\frac{h}{1+h\gamma}
 \nabla f(x_{k+1})
 \right),
-$$
+```
 
 where $P_{\phi,\lambda}$ denotes the scaled proximity operator of $\phi$ with scale $\lambda$, namely the operator named `ERealFunction.scaledProximityOperator` in the source. The scale used here is
 
@@ -100,15 +100,15 @@ $$
 0<1+h\gamma.
 $$
 
-This is proved by `nlinarith`, supplied with the fact obtained from `mul_pos h_pos gamma_pos`. The lemma `mul_pos` says that the product of two positive real numbers is positive, so from $h>0$ and $\gamma>0$ it gives
+This is proved by `nlinarith`, supplied with the fact obtained from `mul_pos h_pos gamma_pos`. The lemma `mul_pos` says that the product of two positive real numbers is positive, so from $h\gt 0$ and $\gamma\gt 0$ it gives
 
 $$
 0<h\gamma.
 $$
 
-The tactic `nlinarith` then uses $0<h\gamma$ to prove $0<1+h\gamma$, since $1$ is positive and adding a positive quantity preserves positivity.
+The tactic `nlinarith` then uses $0\lt h\gamma$ to prove $0\lt 1+h\gamma$, since $1$ is positive and adding a positive quantity preserves positivity.
 
-Second, Lean uses `exact div_pos h_pos hden`. The lemma `div_pos` states that if the numerator and denominator are positive, then the quotient is positive. Here the numerator is $h>0$, and the denominator is $1+h\gamma>0$, so it yields
+Second, Lean uses `exact div_pos h_pos hden`. The lemma `div_pos` states that if the numerator and denominator are positive, then the quotient is positive. Here the numerator is $h\gt 0$, and the denominator is $1+h\gamma\gt 0$, so it yields
 
 $$
 0<\frac{h}{1+h\gamma}.

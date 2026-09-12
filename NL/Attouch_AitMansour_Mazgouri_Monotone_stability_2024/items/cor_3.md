@@ -31,7 +31,7 @@ $$
 
 Thus $J_\mu$ is a selected resolvent map for the operator $\lambda A_\mu$.
 
-The real parameters satisfy $\lambda>0$, $\theta_1>0$, $0<\theta_2\le 1$, and $\gamma$ is used by the solution predicate `ext_def_2`. The functions
+The real parameters satisfy $\lambda\gt 0$, $\theta_1\gt 0$, $0\lt \theta_2\le 1$, and $\gamma$ is used by the solution predicate `ext_def_2`. The functions
 
 $$
 x,dx,ddx : M\to(\mathbb R\to H),\qquad u_0,v_0:M\to H
@@ -39,12 +39,12 @@ $$
 
 represent, for each parameter $\mu$, a candidate trajectory $x_\mu$, its first and second derivatives, and initial data $u_0(\mu),v_0(\mu)$.
 
-The hypothesis `h15` is a uniform Hölder-continuity assumption on resolvent selections. For every $\lambda'>0$, every selection $J'$ of the resolvent of $\lambda'A_\mu$, every $u\in H$, and every $\mu,\mu'\in V$,
+The hypothesis `h15` is a uniform Hölder-continuity assumption on resolvent selections. For every $\lambda'\gt 0$, every selection $J'$ of the resolvent of $\lambda'A_\mu$, every $u\in H$, and every $\mu,\mu'\in V$,
 
-$$
+```math
 \|J'_\mu(u)-J'_{\mu'}(u)\|
 \le \lambda'\theta_1\|\mu-\mu'\|^{\theta_2}.
-$$
+```
 
 The hypothesis `hsol` says that for every $\mu\in V$, the triple
 
@@ -80,12 +80,12 @@ Then:
 
 2. For every $\mu,\mu'\in V$, for almost every $t$ with respect to Lebesgue measure, if $0\le t$, then
 
-$$
+```math
 \|x_\mu(t)-x_{\mu'}(t)\|
 \le
 e^{mt}\sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}
 +\frac{\theta_1}{m}(e^{mt}-1)\|\mu-\mu'\|^{\theta_2}.
-$$
+```
 
 Here $x_\mu$ and $x_{\mu'}$ are the given functions from the hypotheses, not the existential functions from part 1. The uniqueness statement in part 1 is what allows the comparison bound from the auxiliary theorem to be transferred to the given solutions.
 
@@ -197,7 +197,7 @@ Then the proof performs a case split with `by_cases hV : V.Nonempty`.
 
 ### Case 1: $V$ is nonempty
 
-The proof chooses a parameter $\mu_0\in V$. From `hsol μ₀ hμ₀` and the definition of `ext_def_2`, whose first conjunct is $0<\gamma$, it obtains
+The proof chooses a parameter $\mu_0\in V$. From `hsol μ₀ hμ₀` and the definition of `ext_def_2`, whose first conjunct is $0\lt \gamma$, it obtains
 
 $$
 h\gamma : 0<\gamma.
@@ -217,7 +217,7 @@ This is the resolvent-type or Yosida-type approximation associated to $A_\mu$.
 
 The proof establishes
 
-$$
+```math
 \forall \mu\in V,\quad
 0<\lambda
 \ \wedge\
@@ -225,7 +225,7 @@ $$
 \lambda\|B_\mu(u)-B_\mu(v)\|^2
 \le
 \langle B_\mu(u)-B_\mu(v),\,u-v\rangle.
-$$
+```
 
 This is the coercivity/monotonicity condition needed by `thm_1`.
 
@@ -271,9 +271,9 @@ $$
 
 Because $A_\mu$ is maximal monotone, in particular monotone, its first component gives the inequality
 
-$$
+```math
 0\le \langle a-b,\,J_\mu(u)-J_\mu(v)\rangle.
-$$
+```
 
 This is the monotonicity inequality for the original set-valued operator $A_\mu$. The proof uses only this monotonicity part of `hA`.
 
@@ -299,10 +299,10 @@ $$
 
 Using linearity of the inner product in the second variable, the proof expands
 
-$$
+```math
 \langle B_\mu(u)-B_\mu(v),\,u-v\rangle
 =\langle a-b,\,(J_\mu(u)-J_\mu(v))+\lambda(a-b)\rangle
-$$
+```
 
 as
 
@@ -313,17 +313,17 @@ $$
 
 By monotonicity, the first term is nonnegative. Since
 
-$$
+```math
 \|a-b\|^2=\langle a-b,a-b\rangle,
-$$
+```
 
 and since $B_\mu(u)-B_\mu(v)=a-b$, we obtain
 
-$$
+```math
 \lambda\|B_\mu(u)-B_\mu(v)\|^2
 \le
 \langle B_\mu(u)-B_\mu(v),\,u-v\rangle.
-$$
+```
 
 This proves `hC1`. The tactic `nlinarith` closes the resulting real inequality after the inner-product and norm identities have been rewritten.
 
@@ -337,22 +337,22 @@ $$
 
 and
 
-$$
+```math
 \forall u\in H,\ \forall \mu,\mu'\in V,\quad
 \|B_\mu(u)-B_{\mu'}(u)\|
 \le
 \theta_1\|\mu-\mu'\|^{\theta_2}.
-$$
+```
 
 The first three inequalities are exactly the assumptions `hθ₁`, `hθ₂_pos`, and `hθ₂_le`.
 
 For the continuity estimate, fix $u\in H$ and $\mu,\mu'\in V$. The proof instantiates `h15` with $\lambda'=\lambda$ and $J'=J$. Since `hJ` says that $J$ is a resolvent selection for $\lambda A_\mu$, this instance gives
 
-$$
+```math
 \|J_\mu(u)-J_{\mu'}(u)\|
 \le
 \lambda\theta_1\|\mu-\mu'\|^{\theta_2}.
-$$
+```
 
 Now the proof computes
 
@@ -363,21 +363,21 @@ B_\mu(u)-B_{\mu'}(u)
 =\lambda^{-1}(J_{\mu'}(u)-J_\mu(u)).
 $$
 
-Taking norms and using $\lambda>0$, so that $|\lambda^{-1}|=\lambda^{-1}$, gives
+Taking norms and using $\lambda\gt 0$, so that $|\lambda^{-1}|=\lambda^{-1}$, gives
 
-$$
+```math
 \|B_\mu(u)-B_{\mu'}(u)\|
 =\lambda^{-1}\|J_{\mu'}(u)-J_\mu(u)\|.
-$$
+```
 
-The lemma `norm_sub_rev` changes the order inside the norm to $\|J_\mu(u)-J_{\mu'}(u)\|$. Thus
+The lemma `norm_sub_rev` changes the order inside the norm to $`\|J_\mu(u)-J_{\mu'}(u)\|`$. Thus
 
-$$
+```math
 \|B_\mu(u)-B_{\mu'}(u)\|
 \le
 \lambda^{-1}\cdot \lambda\theta_1\|\mu-\mu'\|^{\theta_2}
 =\theta_1\|\mu-\mu'\|^{\theta_2}.
-$$
+```
 
 This proves `hC2`.
 
@@ -391,13 +391,13 @@ $$
 
 and the parameters $\gamma,\theta_1,\theta_2$.
 
-The theorem `thm_1` has the following content. If $0<\gamma$, if for every $\mu\in V$ the map $A_\mu$ satisfies the coercivity condition
+The theorem `thm_1` has the following content. If $0\lt \gamma$, if for every $\mu\in V$ the map $A_\mu$ satisfies the coercivity condition
 
-$$
+```math
 \alpha(\mu)\|A_\mu(u)-A_\mu(v)\|^2
 \le
 \langle A_\mu(u)-A_\mu(v),u-v\rangle,
-$$
+```
 
 and if the family $A_\mu$ is Hölder continuous in $\mu$ with exponent $\theta_2$ and constant $\theta_1$, then:
 
@@ -419,12 +419,12 @@ $$
 
 there exist solutions $y$ for $\mu$ and $y'$ for $\mu'$ such that, for almost every $t$, if $0\le t$, then
 
-$$
+```math
 \|y(t)-y'(t)\|
 \le
 e^{mt}\sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}
 +\frac{\theta_1}{m}(e^{mt}-1)\|\mu-\mu'\|^{\theta_2}.
-$$
+```
 
 The hypotheses `hγ`, `hC1`, and `hC2` are exactly what `thm_1` requires for $B$. Since $\alpha(\mu)=\lambda$ is constant, both $m_\mu$ and $m_{\mu'}$ are equal to
 
@@ -452,7 +452,7 @@ $$
 
 #### Second conclusion: comparison of the given solutions
 
-The proof now fixes $\mu,\mu'\in V$. From `hcomparison μ hμ μ' hμ'`, it obtains functions $y,y'$, together with proofs that $y$ and $y'$ solve the `ext_def_2` problems for $B_\mu$ and $B_{\mu'}$, respectively, and an almost-everywhere bound for $\|y(t)-y'(t)\|$.
+The proof now fixes $\mu,\mu'\in V$. From `hcomparison μ hμ μ' hμ'`, it obtains functions $y,y'$, together with proofs that $y$ and $y'$ solve the `ext_def_2` problems for $B_\mu$ and $B_{\mu'}$, respectively, and an almost-everywhere bound for $`\|y(t)-y'(t)\|`$.
 
 However, the desired conclusion concerns the given functions $x_\mu$ and $x_{\mu'}$. To transfer the bound, the proof uses uniqueness.
 

@@ -14,11 +14,11 @@ def IsTOGES {H : Type*} [NormedAddCommGroup H] [NormedSpace ℝ H] [InnerProduct
 ## Statement explanation
 The declaration `IsTOGES` defines a predicate on a real parameter `alpha`, a curve $u:\mathbb R\to H$, a function $f:H\to\mathbb R$, and a real time $t_0$. The type $H$ is assumed to be a complete real inner product space, hence a real Hilbert space. The proposition `IsTOGES alpha u f t0` says that for every real time $t$ with $t\ge t_0$, the curve $u$ satisfies the vector-valued third-order differential equation
 
-$$
+```math
 u'''(t)+\frac{3\alpha+5}{2t}\,u''(t)+\frac{3\alpha-1}{t^2}\,u'(t)+\nabla f\bigl(u(t)+t\,u'(t)\bigr)=0.
-$$
+```
 
-Here $u'$, $u''$, and $u'''$ are the first, second, and third derivatives of $u$, corresponding in Lean to `deriv u`, `deriv (deriv u)`, and `deriv (deriv (deriv u))`. All additions are additions in $H$, and the factors $\frac{3\alpha+5}{2t}$ and $\frac{3\alpha-1}{t^2}$ are real scalars multiplying vectors in $H$. The gradient $\nabla f$ is an element of $H$, evaluated at the point $u(t)+t\,u'(t)$. The equation is set equal to the zero vector of $H$. Thus, mathematically, `IsTOGES` expresses that $u$ solves a third-order in time evolution equation with time-dependent damping coefficients determined by $\alpha$, and with a gradient term evaluated at a time-shifted point. The definition does not impose any explicit assumption that $t_0>0$ or that $t\ne0$; those restrictions are not part of the statement.
+Here $u'$, $u''$, and $u'''$ are the first, second, and third derivatives of $u$, corresponding in Lean to `deriv u`, `deriv (deriv u)`, and `deriv (deriv (deriv u))`. All additions are additions in $H$, and the factors $\frac{3\alpha+5}{2t}$ and $\frac{3\alpha-1}{t^2}$ are real scalars multiplying vectors in $H$. The gradient $\nabla f$ is an element of $H$, evaluated at the point $`u(t)+t\,u'(t)`$. The equation is set equal to the zero vector of$H$. Thus, mathematically, `IsTOGES` expresses that $u$ solves a third-order in time evolution equation with time-dependent damping coefficients determined by $\alpha$, and with a gradient term evaluated at a time-shifted point. The definition does not impose any explicit assumption that $t_0\gt 0$ or that $t\ne0$; those restrictions are not part of the statement.
 
 ## Lean proof
 ```lean

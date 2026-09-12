@@ -34,9 +34,9 @@ So all proximal step sizes $\lambda_k$ are strictly positive.
 
 Third, `update` states that for every $k\in\mathbb N$ with $1\le k$,
 
-$$
+```math
 x_{k+1}\in (\lambda_k A).\mathrm{resolvent}\!\left(x_k+\alpha_k(x_k-x_{k-1})\right).
-$$
+```
 
 Here $x_k+\alpha_k(x_k-x_{k-1})$ is the inertial, or extrapolated, point obtained from the current iterate $x_k$ and the previous iterate $x_{k-1}$. The next iterate $x_{k+1}$ is required to lie in the resolvent of the scaled operator $\lambda_k A$ at that extrapolated point. In the usual set-valued notation, if $J_{\lambda_k A}=(I+\lambda_k A)^{-1}$ is the resolvent, then this membership is equivalent to
 
@@ -44,7 +44,7 @@ $$
 x_k+\alpha_k(x_k-x_{k-1})\in x_{k+1}+\lambda_k A(x_{k+1}),
 $$
 
-or, since $\lambda_k>0$, equivalently
+or, since $\lambda_k\gt 0$, equivalently
 
 $$
 \frac{x_k+\alpha_k(x_k-x_{k-1})-x_{k+1}}{\lambda_k}\in A(x_{k+1}).
@@ -61,13 +61,13 @@ Thus the declaration encodes the standard implicit inertial proximal-point recur
 There is no separate proof part. The declaration is a `structure`, not a theorem, so it does not prove existence of such a sequence or derive the conditions from other facts. Instead, it defines a predicate whose fields are the required hypotheses: the inequalities on $\alpha_k$, the positivity of $\lambda_k$, and the resolvent membership for every $k\ge 1$.
 
 Mathematically, to use an assumption that `InertialProximalPointAlgorithm A x alpha lambda` holds, one may extract:
-- `alpha_mem k`, giving $0\le \alpha_k$ and $\alpha_k<1$;
-- `lambda_pos k`, giving $0<\lambda_k$;
+- `alpha_mem k`, giving $0\le \alpha_k$ and $\alpha_k\lt 1$;
+- `lambda_pos k`, giving $0\lt \lambda_k$;
 - `update k hk` for $k\ge 1$, giving
 
-$$
+```math
 x_{k+1}\in (\lambda_k A).\mathrm{resolvent}\!\left(x_k+\alpha_k(x_k-x_{k-1})\right).
-$$
+```
 
 Conversely, to prove that $x,\alpha,\lambda$ form an inertial proximal point algorithm for $A$, one must supply exactly these three fields. No named local theorem or lemma is cited, and no tactic commands such as `intro`, `rw`, `simp`, `exact`, or `linarith` occur in this declaration.
 

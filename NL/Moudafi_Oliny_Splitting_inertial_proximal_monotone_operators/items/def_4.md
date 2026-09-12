@@ -16,14 +16,14 @@ $$
 
 is defined, and $T$ is a set-valued operator from $H$ to $H$: for each $y \in H$, the value $T y$ is a subset of $H$. For a real parameter $\epsilon$, the enlargement is defined by
 
-$$
+```math
 (\mathrm{enlargement} T \epsilon)(x)
 =\left\{
 v \in H :
-\forall y,\ \forall u \in T y,\ 
+\forall y,\ \forall u \in T y,\
 -\epsilon \le \langle u-v, y-x\rangle_{\mathbb R}
 \right\}.
-$$
+```
 
 Thus $(\mathrm{enlargement} T \epsilon)(x)$ is the set of all vectors $v$ such that, for every point $y$ and every $u$ in the value $T y$, the real inner product $\langle u-v, y-x\rangle_{\mathbb R}$ is bounded below by $-\epsilon$. The declaration takes real numbers $\epsilon_1,\epsilon_2$ satisfying
 
@@ -75,22 +75,22 @@ $$
 Next, `rw [enlargement, Set.mem_setOf_eq] at hv ⊢` unfolds the definition of `enlargement` and converts membership in a set-builder into the corresponding predicate, both in the hypothesis `hv` and in the current goal. After this rewrite, `hv` says
 
 $$
-\forall y,\ \forall u \in T y,\ 
+\forall y,\ \forall u \in T y,\
 -\epsilon_1 \le \langle u-v, y-x\rangle_{\mathbb R},
 $$
 
 while the goal says
 
 $$
-\forall y,\ \forall u \in T y,\ 
+\forall y,\ \forall u \in T y,\
 -\epsilon_2 \le \langle u-v, y-x\rangle_{\mathbb R}.
 $$
 
 The lemma `Set.mem_setOf_eq` is the standard set-membership equivalence
 
-$$
+```math
 v \in \{w \mid P(w)\} \longleftrightarrow P(v).
-$$
+```
 
 Here it turns membership in the enlargement set into the explicit universal inequality that defines that set.
 

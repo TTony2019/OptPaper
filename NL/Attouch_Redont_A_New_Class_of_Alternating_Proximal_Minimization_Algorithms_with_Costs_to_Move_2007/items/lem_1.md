@@ -27,22 +27,22 @@ $$
 
 The hypothesis `alg` is an object of type `CA2 X Y f g h k c α β μ ν`; from the proof it supplies the algorithm’s iterates, written
 
-$$
+```math
 x_n=\mathrm{alg}.x\,n,\qquad y_n=\mathrm{alg}.y\,n,
-$$
+```
 
 as well as the two one-step inequalities for the $x$- and $y$-updates. The hypothesis `hyp` is an object of type `H21toH24 X Y f g h k c α β μ ν`; the proof uses from it the diagonal vanishings $h(x_n,x_n)=0$ and $k(y_n,y_n)=0$, together with the positivity information that yields $0\le \mu_n$ and $0\le \beta_n$.
 
 For each $n\in\mathbb N$, the theorem concludes
 
-$$
+```math
 \begin{aligned}
 &\mu_n f(x_{n+1})+\beta_n g(y_{n+1})+\beta_n\mu_n c(x_{n+1},y_{n+1})\\
 &\quad+\mu_n\alpha_n h(x_n,x_{n+1})+\beta_n\nu_n k(y_n,y_{n+1})\\
 &\le
 \mu_n f(x_n)+\beta_n g(y_n)+\beta_n\mu_n c(x_n,y_n).
 \end{aligned}
-$$
+```
 
 In ordinary language, the weighted value of the objective plus the weighted costs to move from $x_n$ to $x_{n+1}$ and from $y_n$ to $y_{n+1}$ after the update is bounded above by the weighted value at the previous pair. The coupling term involving $c(x_{n+1},y_n)$ does not appear in the final inequality because it is introduced on both sides of the two combined step inequalities and cancels.
 
@@ -110,7 +110,7 @@ $$
 
 The command `add_le_add hx_mul hy_mul` then adds these two inequalities term by term. It yields
 
-$$
+```math
 \begin{aligned}
 &\mu_n f(x_{n+1})+\mu_n\alpha_n h(x_n,x_{n+1})+\mu_n\beta_n c(x_{n+1},y_n)\\
 &\quad+\beta_n g(y_{n+1})+\beta_n\mu_n c(x_{n+1},y_{n+1})+\beta_n\nu_n k(y_n,y_{n+1})\\
@@ -118,18 +118,18 @@ $$
 \mu_n f(x_n)+\mu_n\beta_n c(x_n,y_n)
 +\beta_n g(y_n)+\beta_n\mu_n c(x_{n+1},y_n).
 \end{aligned}
-$$
+```
 
 Finally, `nlinarith` proves the goal from this combined inequality. It treats expressions such as $f(x_{n+1})$, $c(x_{n+1},y_n)$, and so on as real variables and performs polynomial arithmetic. In particular, the term $\mu_n\beta_n c(x_{n+1},y_n)$ on the left and the term $\beta_n\mu_n c(x_{n+1},y_n)$ on the right are equal by commutativity of multiplication, so they cancel. After this cancellation and rearrangement, the combined inequality becomes exactly
 
-$$
+```math
 \begin{aligned}
 &\mu_n f(x_{n+1})+\beta_n g(y_{n+1})+\beta_n\mu_n c(x_{n+1},y_{n+1})\\
 &\quad+\mu_n\alpha_n h(x_n,x_{n+1})+\beta_n\nu_n k(y_n,y_{n+1})\\
 &\le
 \mu_n f(x_n)+\beta_n g(y_n)+\beta_n\mu_n c(x_n,y_n),
 \end{aligned}
-$$
+```
 
 which is the theorem’s conclusion.
 

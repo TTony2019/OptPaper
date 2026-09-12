@@ -36,7 +36,7 @@ $$
 
 and, for every $k\in\mathbb N$,
 
-$$
+```math
 u(k+1)
 =P_C\!\left(
 (1-\lambda)u(k)
@@ -44,23 +44,23 @@ u(k+1)
 \sum_{i=1}^{p}
 \omega(i)\,P_{C_i}(u(k))
 \right).
-$$
+```
 
 Here $P_C$ denotes the projection point associated with the Chebyshev certificate `hC`, and $P_{C_i}$ denotes the projection point associated with the certificate `hCi i`. The sum is over the finite index set `Finset.Icc 1 p`, i.e. over all $i\in\mathbb N$ satisfying $1\le i\le p$. If $p=0$, this sum is empty and contributes $0$.
 
 Mathematically, the declaration says that $u$ is a trajectory of a relaxed projection-type iteration: at each step $k$, one first projects the current point $u(k)$ onto each of the sets $C_1,\dots,C_p$, forms the weighted sum
 
-$$
+```math
 \sum_{i=1}^{p}\omega(i)\,P_{C_i}(u(k)),
-$$
+```
 
 then takes the affine combination
 
-$$
+```math
 (1-\lambda)u(k)+\lambda\sum_{i=1}^{p}\omega(i)\,P_{C_i}(u(k)),
-$$
+```
 
-and finally projects that point back onto $C$ to obtain the next iterate $u(k+1)$. The condition $0<\lambda<2$ places the relaxation parameter in the open interval $(0,2)$. The Chebyshev hypotheses `hC` and `hCi` are parameters needed to define the projection points; they are not additional conjuncts of the predicate itself. The predicate does not assert any nonnegativity, normalization, or summability condition on the weights $\omega$.
+and finally projects that point back onto $C$ to obtain the next iterate $u(k+1)$. The condition $0\lt \lambda\lt 2$ places the relaxation parameter in the open interval $(0,2)$. The Chebyshev hypotheses `hC` and `hCi` are parameters needed to define the projection points; they are not additional conjuncts of the predicate itself. The predicate does not assert any nonnegativity, normalization, or summability condition on the weights $\omega$.
 
 ## Lean proof
 ```lean
@@ -72,7 +72,7 @@ There is no separate proof part. The declaration is a `noncomputable def`, so th
 
 The definition body is the proposition
 
-$$
+```math
 0<\lambda \;\wedge\; \lambda<2 \;\wedge\;
 \forall k\in\mathbb N,\;
 u(k+1)
@@ -82,7 +82,7 @@ u(k+1)
 \sum_{i=1}^{p}
 \omega(i)\,P_{C_i}(u(k))
 \right).
-$$
+```
 
 The conjunction requires all listed conditions to hold. The first two conjuncts say that the scalar $\lambda$ lies strictly between $0$ and $2$. The universal quantifier then requires the displayed recurrence to hold for every natural number $k$, so it relates $u(k+1)$ to $u(k)$ for all iterates.
 

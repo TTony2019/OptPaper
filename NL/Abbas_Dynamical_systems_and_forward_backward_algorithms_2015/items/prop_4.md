@@ -32,9 +32,9 @@ The declaration `relaxed_gradient_projection_asymptotics` concerns a continuous-
 
 The hypotheses are:
 
-- $S=\{z\in C:\forall y\in C,\ \Psi(z)\le\Psi(y)\}$, so $S$ is exactly the set of minimizers of $\Psi$ over $C$.
+- $`S=\{z\in C:\forall y\in C,\ \Psi(z)\le\Psi(y)\}`$, so$S$is exactly the set of minimizers of$\Psi$over$C$.
 - $S\ne\emptyset$.
-- $\mu>0$.
+- $\mu\gt 0$.
 - $\Psi$ is convex on all of $H$, i.e. $\mathrm{ConvexOn}\mathbb R\mathrm{Set.univ}\Psi$.
 - $\Psi$ has a gradient everywhere: for every $z$, $\mathrm{HasGradientAt}\Psi(\nabla\Psi(z))z$. In a Hilbert space this means that the Fréchet derivative of $\Psi$ at $z$ is represented by the vector $\nabla\Psi(z)$.
 - The gradient map $q\mapsto\nabla\Psi(q)$ is locally Lipschitz on closed balls centered at $x(0)$: for every radius $r$, there is $L\ge0$ such that $q\mapsto\nabla\Psi(q)$ is Lipschitz with constant $L$ on $\mathrm{Metric.closedBall}(x(0),r)$.
@@ -42,30 +42,30 @@ The hypotheses are:
 - $\Psi$ is bounded below on $C$: there is $m\in\mathbb R$ with $m\le\Psi(y)$ for all $y\in C$.
 - The map $\mathrm{projection}$ maps into $C$, and for every $q$ and every $z\in C$,
 
-  $$
-  \|q-\mathrm{projection}(q)\|\le\|q-z\|.
-  $$
+```math
+\|q-\mathrm{projection}(q)\|\le\|q-z\|.
+```
 
   Thus $\mathrm{projection}(q)$ is a nearest point of $C$ to $q$.
 - The dynamics are relaxed gradient-projection dynamics:
 
-  $$
-  \mathrm{deriv}x(t)+x(t)-\mathrm{projection}\!\left(x(t)-\mu\nabla\Psi(x(t))\right)=0
-  $$
+```math
+\mathrm{deriv}x(t)+x(t)-\mathrm{projection}\!\left(x(t)-\mu\nabla\Psi(x(t))\right)=0
+```
 
   for every $t$, equivalently
 
-  $$
-  \mathrm{deriv}x(t)
-  =\mathrm{projection}\!\left(x(t)-\mu\nabla\Psi(x(t))\right)-x(t).
-  $$
+```math
+\mathrm{deriv}x(t)
+=\mathrm{projection}\!\left(x(t)-\mu\nabla\Psi(x(t))\right)-x(t).
+```
 
 - On nonnegative times this derivative is classical:
 
-  $$
-  \forall t\ge0,\quad
-  \mathrm{HasDerivAt}x\left(\mathrm{projection}\!\left(x(t)-\mu\nabla\Psi(x(t))\right)-x(t)\right)t.
-  $$
+```math
+\forall t\ge0,\quad
+\mathrm{HasDerivAt}x\left(\mathrm{projection}\!\left(x(t)-\mu\nabla\Psi(x(t))\right)-x(t)\right)t.
+```
 
 - The initial point lies in the constraint set: $x(0)\in C$.
 
@@ -73,37 +73,37 @@ The conclusion is the conjunction of five assertions:
 
 1. There exists $z\in S$ such that $x(t)$ converges weakly to $z$ as $t\to\infty$, expressed as
 
-   $$
-   \mathrm{toWeakSpace}_{\mathbb R,H}(x(t))
-   \longrightarrow
-   \mathrm{toWeakSpace}_{\mathbb R,H}(z).
-   $$
+$$
+\mathrm{toWeakSpace}_{\mathbb R,H}(x(t))
+\longrightarrow
+\mathrm{toWeakSpace}_{\mathbb R,H}(z).
+$$
 
 2. The trajectory remains feasible:
 
-   $$
-   \forall t\ge0,\quad x(t)\in C.
-   $$
+$$
+\forall t\ge0,\quad x(t)\in C.
+$$
 
 3. The objective value along the trajectory is nonincreasing on $[0,\infty)$:
 
-   $$
-   \mathrm{AntitoneOn}(t\mapsto\Psi(x(t)))([0,\infty)).
-   $$
+$$
+\mathrm{AntitoneOn}(t\mapsto\Psi(x(t)))([0,\infty)).
+$$
 
 4. The objective values converge to the infimum of $\Psi$ over $C$:
 
-   $$
-   \Psi(x(t))\longrightarrow \mathrm{sInf}(\Psi''C)
-   \qquad (t\to\infty).
-   $$
+$$
+\Psi(x(t))\longrightarrow \mathrm{sInf}(\Psi''C)
+\qquad (t\to\infty).
+$$
 
 5. Almost everywhere with respect to Lebesgue measure restricted to $[0,\infty)$,
 
-   $$
-   \mu\,\mathrm{deriv}(t\mapsto\Psi(x(t)))(t)
-   +\|\mathrm{deriv}x(t)\|^2\le0.
-   $$
+```math
+\mu\,\mathrm{deriv}(t\mapsto\Psi(x(t)))(t)
++\|\mathrm{deriv}x(t)\|^2\le0.
+```
 
 In ordinary language: under convexity of $\Psi$, local Lipschitz continuity of its gradient, closed convexity of $C$, and the relaxed projection-gradient ODE, the trajectory stays in $C$, decreases the objective monotonically, satisfies a differential energy-dissipation inequality almost everywhere, converges in objective value to the minimal value of $\Psi$ on $C$, and converges weakly to a minimizer in $S$.
 
@@ -410,46 +410,46 @@ The proof proceeds through several layers: identifying the supplied projection w
 1. Identifying the projection with the canonical one.  
    The theorem `supplied_projection_eq_canonical` is used first. Its content is that if $C$ is closed and convex, and a map $\mathrm{projection}:H\to H$ satisfies
 
-   $$
-   \mathrm{projection}(q)\in C,
-   \qquad
-   \|q-\mathrm{projection}(q)\|\le\|q-z\|\quad(z\in C),
-   $$
+```math
+\mathrm{projection}(q)\in C,
+\qquad
+\|q-\mathrm{projection}(q)\|\le\|q-z\|\quad(z\in C),
+```
 
    then $\mathrm{projection}$ agrees with the canonical metric projection $P_C$ on $C$. The canonical projection is constructed using `isChebyshev_of_nonempty_isClosed_convex`, which says that a nonempty closed convex subset of a Hilbert space is Chebyshev, so every point has a unique nearest point. Nonemptiness of $C$ is obtained from $\mathrm{projection}(0)\in C$. Thus the proof obtains
 
-   $$
-   \mathrm{projection}(q)=P_C(q)
-   $$
+$$
+\mathrm{projection}(q)=P_C(q)
+$$
 
    for every $q$. The fact `canonical_projection_nonexpansive` is also recorded: the canonical projection is nonexpansive,
 
-   $$
-   \|P_C(q)-P_C(r)\|\le\|q-r\|.
-   $$
+```math
+\|P_C(q)-P_C(r)\|\le\|q-r\|.
+```
 
    This fact is not used later in the visible proof.
 
 2. Pointwise energy dissipation.  
-   For $t\ge0$ and $x(t)\in C$, the proof applies `projection_gradient_objective_dissipation`. Its hypotheses are exactly the current ones: $\mu>0$, convexity of $\Psi$, existence of gradients, closed convexity of $C$, the projection-membership and nearest-point properties, and the derivative formula
+   For $t\ge0$ and $x(t)\in C$, the proof applies `projection_gradient_objective_dissipation`. Its hypotheses are exactly the current ones: $\mu\gt 0$, convexity of $\Psi$, existence of gradients, closed convexity of $C$, the projection-membership and nearest-point properties, and the derivative formula
 
-   $$
-   x'(t)=\mathrm{projection}\!\left(x(t)-\mu\nabla\Psi(x(t))\right)-x(t).
-   $$
+```math
+x'(t)=\mathrm{projection}\!\left(x(t)-\mu\nabla\Psi(x(t))\right)-x(t).
+```
 
    It concludes
 
-   $$
-   \mu\,\mathrm{deriv}(\Psi\circ x)(t)
-   +\left\|\mathrm{projection}\!\left(x(t)-\mu\nabla\Psi(x(t))\right)-x(t)\right\|^2
-   \le0.
-   $$
+```math
+\mu\,\mathrm{deriv}(\Psi\circ x)(t)
++\left\|\mathrm{projection}\!\left(x(t)-\mu\nabla\Psi(x(t))\right)-x(t)\right\|^2
+\le0.
+```
 
    Using `simpa` together with `(hclassical t ht).deriv`, which identifies the projection increment with $\mathrm{deriv}x(t)$, the proof rewrites this as
 
-   $$
-   \mu\,\mathrm{deriv}(\Psi\circ x)(t)+\|\mathrm{deriv}x(t)\|^2\le0.
-   $$
+```math
+\mu\,\mathrm{deriv}(\Psi\circ x)(t)+\|\mathrm{deriv}x(t)\|^2\le0.
+```
 
    This is the pointwise dissipation inequality `hpointwise`.
 
@@ -459,271 +459,271 @@ The proof proceeds through several layers: identifying the supplied projection w
 4. Forward invariance of $C$.  
    Fix $t\ge0$. Define
 
-   $$
-   p(s)=\mathrm{projection}\!\left(x(s)-\mu\nabla\Psi(x(s))\right).
-   $$
+```math
+p(s)=\mathrm{projection}\!\left(x(s)-\mu\nabla\Psi(x(s))\right).
+```
 
    First the proof shows $p$ is continuous on $[0,t]$. The trajectory $x$ is continuous at each $s\in[0,t]$ because its derivative exists there. The gradient along the trajectory is continuous by composing the continuous gradient map with $x$. Hence the argument $s\mapsto x(s)-\mu\nabla\Psi(x(s))$ is continuous, and replacing $\mathrm{projection}$ by $P_C$ shows $p$ is continuous.
 
    Then `relaxed_projection_variation_of_constants` is applied. It says that if $p$ is continuous on $[0,t]$, $t\ge0$, and
 
-   $$
-   x'(s)=p(s)-x(s)\qquad(s\in[0,t]),
-   $$
+$$
+x'(s)=p(s)-x(s)\qquad(s\in[0,t]),
+$$
 
    then the variation-of-constants formula holds:
 
-   $$
-   x(t)=e^{-t}x(0)+\int_0^t e^{-(t-s)}p(s)\,ds.
-   $$
+```math
+x(t)=e^{-t}x(0)+\int_0^t e^{-(t-s)}p(s)\,ds.
+```
 
    Here the derivative condition follows from `hclassical`.
 
    Finally `relaxed_projection_variation_mem_closed_convex` is applied with $x(0)\in C$, $p(s)\in C$, and the formula above. It states that if $C$ is closed and convex, $x(0)\in C$, $p$ is continuous and $p(s)\in C$ on $[0,t]$, and the variation-of-constants formula holds, then $x(t)\in C$. Mathematically, the right-hand side is an integral convex combination of points of $C$, because
 
-   $$
-   e^{-t}+\int_0^t e^{-(t-s)}\,ds=1.
-   $$
+```math
+e^{-t}+\int_0^t e^{-(t-s)}\,ds=1.
+```
 
    A closed convex set is closed under such averaged integrals. Hence the proof obtains `hforward`:
 
-   $$
-   \forall t\ge0,\quad x(t)\in C.
-   $$
+$$
+\forall t\ge0,\quad x(t)\in C.
+$$
 
 5. Derivative of the objective and monotonicity.  
    The proof computes, for $t\ge0$,
 
-   $$
-   \mathrm{deriv}(\Psi\circ x)(t)
-   =\left\langle \nabla\Psi(x(t)),
-   \mathrm{projection}\!\left(x(t)-\mu\nabla\Psi(x(t))\right)-x(t)\right\rangle.
-   $$
+```math
+\mathrm{deriv}(\Psi\circ x)(t)
+=\left\langle \nabla\Psi(x(t)),
+\mathrm{projection}\!\left(x(t)-\mu\nabla\Psi(x(t))\right)-x(t)\right\rangle.
+```
 
    This is the chain rule using `HasGradientAt`: the derivative of $\Psi$ at $x(t)$ is the inner product with $\nabla\Psi(x(t))$, and the derivative of $x$ is the projection increment.
 
-   Then `antitoneOn_of_deriv_nonpos` is applied on the convex interval $[0,\infty)$. Its content is: if a function is continuous on a convex interval and differentiable on its interior with nonpositive derivative there, then the function is antitone on the interval. For $t>0$, the pointwise dissipation inequality gives
+   Then `antitoneOn_of_deriv_nonpos` is applied on the convex interval $[0,\infty)$. Its content is: if a function is continuous on a convex interval and differentiable on its interior with nonpositive derivative there, then the function is antitone on the interval. For $t\gt 0$, the pointwise dissipation inequality gives
 
-   $$
-   \mu\,\mathrm{deriv}(\Psi\circ x)(t)+\|\mathrm{deriv}x(t)\|^2\le0.
-   $$
+```math
+\mu\,\mathrm{deriv}(\Psi\circ x)(t)+\|\mathrm{deriv}x(t)\|^2\le0.
+```
 
-   Since $\mu>0$ and $\|\mathrm{deriv}x(t)\|^2\ge0$, `nlinarith` deduces
+   Since $\mu\gt 0$ and $`\|\mathrm{deriv}x(t)\|^2\ge0`$, `nlinarith` deduces
 
-   $$
-   \mathrm{deriv}(\Psi\circ x)(t)\le0.
-   $$
+$$
+\mathrm{deriv}(\Psi\circ x)(t)\le0.
+$$
 
    Hence $t\mapsto\Psi(x(t))$ is antitone on $[0,\infty)$. This is the third conclusion.
 
 6. Almost-everywhere dissipation inequality.  
    The proof uses `MeasureTheory.ae_restrict_mem measurableSet_Ici` to handle almost-everywhere statements on $[0,\infty)$. For almost every $t$ in $[0,\infty)$, feasibility $x(t)\in C$ gives the pointwise inequality
 
-   $$
-   \mu\,\mathrm{deriv}(\Psi\circ x)(t)+\|\mathrm{deriv}x(t)\|^2\le0.
-   $$
+```math
+\mu\,\mathrm{deriv}(\Psi\circ x)(t)+\|\mathrm{deriv}x(t)\|^2\le0.
+```
 
    This proves the fifth conclusion.
 
 7. The minimizer $z_0$ and the infimum.  
    The proof chooses $z_0\in S$. From the definition of $S$, $z_0\in C$ and
 
-   $$
-   \Psi(z_0)\le\Psi(y)\qquad(y\in C).
-   $$
+$$
+\Psi(z_0)\le\Psi(y)\qquad(y\in C).
+$$
 
    Thus $z_0$ is a minimizer over $C$. The lemma `csInf_eq_of_forall_ge_of_forall_gt_exists_lt` is then used to show
 
-   $$
-   \mathrm{sInf}(\Psi''C)=\Psi(z_0).
-   $$
+$$
+\mathrm{sInf}(\Psi''C)=\Psi(z_0).
+$$
 
    Indeed, $\Psi''C$ is nonempty because $z_0\in C$, every element of it is at least $\Psi(z_0)$, and any number larger than $\Psi(z_0)$ is already above the element $\Psi(z_0)$.
 
 8. A Lyapunov energy for the distance to $z_0$.  
    Define
 
-   $$
-   G(t)=\Psi(x(t))-\Psi(z_0).
-   $$
+$$
+G(t)=\Psi(x(t))-\Psi(z_0).
+$$
 
    Since $x(t)\in C$ and $z_0$ minimizes over $C$, one has $G(t)\ge0$ for $t\ge0$. Define the energy
 
-   $$
-   E(t)=\frac12\|x(t)-z_0\|^2+\mu G(t).
-   $$
+```math
+E(t)=\frac12\|x(t)-z_0\|^2+\mu G(t).
+```
 
    The proof computes its derivative:
 
-   $$
-   E'(t)
-   =\langle F(t),x(t)-z_0\rangle
-   +\mu\langle \nabla\Psi(x(t)),F(t)\rangle,
-   $$
+$$
+E'(t)
+=\langle F(t),x(t)-z_0\rangle
++\mu\langle \nabla\Psi(x(t)),F(t)\rangle,
+$$
 
    where
 
-   $$
-   F(t)=\mathrm{projection}\!\left(x(t)-\mu\nabla\Psi(x(t))\right)-x(t).
-   $$
+```math
+F(t)=\mathrm{projection}\!\left(x(t)-\mu\nabla\Psi(x(t))\right)-x(t).
+```
 
-   This uses the derivative of $\frac12\|x(t)-z_0\|^2$ and the chain rule for $\Psi\circ x$.
+   This uses the derivative of $`\frac12\|x(t)-z_0\|^2`$and the chain rule for$\Psi\circ x$.
 
    Then `projection_gradient_energy_deriv` is applied with $c=z_0$. It states
 
-   $$
-   \mathrm{deriv}\!\left(\frac12\|x(s)-z_0\|^2
-   +\mu(\Psi(x(s))-\Psi(z_0))\right)(t)
-   +\|F(t)\|^2
-   \le
-   \mu(\Psi(z_0)-\Psi(x(t))).
-   $$
+```math
+\mathrm{deriv}\!\left(\frac12\|x(s)-z_0\|^2
++\mu(\Psi(x(s))-\Psi(z_0))\right)(t)
++\|F(t)\|^2
+\le
+\mu(\Psi(z_0)-\Psi(x(t))).
+```
 
    Since $F(t)=\mathrm{deriv}x(t)$, this becomes
 
-   $$
-   E'(t)+\|\mathrm{deriv}x(t)\|^2+\mu G(t)\le0.
-   $$
+```math
+E'(t)+\|\mathrm{deriv}x(t)\|^2+\mu G(t)\le0.
+```
 
    The proof then uses `antitoneOn_of_deriv_nonpos` to show $E$ is antitone on $[0,\infty)$. The derivative is nonpositive because
 
-   $$
-   E'(t)+\|\mathrm{deriv}x(t)\|^2+\mu G(t)\le0,
-   $$
+```math
+E'(t)+\|\mathrm{deriv}x(t)\|^2+\mu G(t)\le0,
+```
 
-   and both $\|\mathrm{deriv}x(t)\|^2$ and $\mu G(t)$ are nonnegative. Also $E(t)\ge0$ for all $t\ge0$. Hence `tendsto_of_antitone_nonneg_on_Ici_local E` gives the existence of a limit of $E(t)$ as $t\to\infty$. This limit is recorded but not used directly later.
+   and both $`\|\mathrm{deriv}x(t)\|^2`$and$\mu G(t)$are nonnegative. Also$E(t)\ge0$for all$t\ge0$. Hence `tendsto_of_antitone_nonneg_on_Ici_local E` gives the existence of a limit of $E(t)$ as $t\to\infty$. This limit is recorded but not used directly later.
 
 9. Convergence of $G$ and of the objective.  
    The proof next proves the integral bound
 
-   $$
-   \int_0^T \mu G(t)\,dt\le E(0)
-   $$
+```math
+\int_0^T \mu G(t)\,dt\le E(0)
+```
 
    for every $T\ge0$. It applies `energy_dissipation_interval_bound_local` with $a=0$, $D(t)=\mu G(t)$, and $E'$ the derivative of $E$. The lemma says that if $E$ has derivative $E'$ on $[0,T]$, $E'$ and $D$ are continuous, $E'(t)+D(t)\le0$ on $[0,T]$, and $E(T)\ge0$, then
 
-   $$
-   \int_0^T D(t)\,dt\le E(0).
-   $$
+```math
+\int_0^T D(t)\,dt\le E(0).
+```
 
    All hypotheses are supplied using the previously computed derivative and continuity facts.
 
-   Since $G$ is antitone, for $0\le t\le T$ one has $G(T)\le G(t)$. Multiplying by $\mu>0$ and integrating gives
+   Since $G$ is antitone, for $0\le t\le T$ one has $G(T)\le G(t)$. Multiplying by $\mu\gt 0$ and integrating gives
 
-   $$
-   T\mu G(T)
-   =\int_0^T \mu G(T)\,dt
-   \le\int_0^T \mu G(t)\,dt
-   \le E(0).
-   $$
+```math
+T\mu G(T)
+=\int_0^T \mu G(T)\,dt
+\le\int_0^T \mu G(t)\,dt
+\le E(0).
+```
 
-   The proof uses `intervalIntegral.integral_mono_on` for the comparison of integrals. Dividing by $\mu T>0$ yields
+   The proof uses `intervalIntegral.integral_mono_on` for the comparison of integrals. Dividing by $\mu T\gt 0$ yields
 
-   $$
-   G(T)\le \frac{E(0)}{\mu T}.
-   $$
+$$
+G(T)\le \frac{E(0)}{\mu T}.
+$$
 
    Since $G(T)\ge0$ and $E(0)/(\mu T)\to0$ as $T\to\infty$, `squeeze_zero'` gives
 
-   $$
-   G(t)\longrightarrow0.
-   $$
+$$
+G(t)\longrightarrow0.
+$$
 
    Therefore
 
-   $$
-   \Psi(x(t))=G(t)+\Psi(z_0)\longrightarrow\Psi(z_0).
-   $$
+$$
+\Psi(x(t))=G(t)+\Psi(z_0)\longrightarrow\Psi(z_0).
+$$
 
    Using
 
-   $$
-   \Psi(z_0)=\mathrm{sInf}(\Psi''C),
-   $$
+$$
+\Psi(z_0)=\mathrm{sInf}(\Psi''C),
+$$
 
    this proves the fourth conclusion, namely convergence of the objective values to the infimum over $C$.
 
 10. Distance limits for points of $S$.  
     For an arbitrary $z\in S$, one has $z\in C$ and $\Psi(z)\le\Psi(y)$ for all $y\in C$. Since $z_0$ is also a minimizer, $\Psi(z)=\Psi(z_0)$. The proof defines
 
-    $$
-    E_z(t)=\frac12\|x(t)-z\|^2+\mu G(t).
-    $$
+```math
+E_z(t)=\frac12\|x(t)-z\|^2+\mu G(t).
+```
 
     Its derivative is computed just as for $E$. Applying `projection_gradient_energy_deriv` with $c=z$ gives
 
-    $$
-    E_z'(t)+\|F(t)\|^2\le \mu(\Psi(z)-\Psi(x(t))).
-    $$
+```math
+E_z'(t)+\|F(t)\|^2\le \mu(\Psi(z)-\Psi(x(t))).
+```
 
     Because $x(t)\in C$ and $z$ minimizes over $C$, the right-hand side is nonpositive. Hence $E_z'(t)\le0$. Thus $E_z$ is antitone and nonnegative on $[0,\infty)$, so `tendsto_of_antitone_nonneg_on_Ici_local` gives a limit $l$ of $E_z(t)$ as $t\to\infty$.
 
     Since $G(t)\to0$, one obtains
 
-    $$
-    \frac12\|x(t)-z\|^2=E_z(t)-\mu G(t)\longrightarrow l.
-    $$
+```math
+\frac12\|x(t)-z\|^2=E_z(t)-\mu G(t)\longrightarrow l.
+```
 
     Therefore
 
-    $$
-    \|x(t)-z\|^2\longrightarrow 2l.
-    $$
+```math
+\|x(t)-z\|^2\longrightarrow 2l.
+```
 
     By continuity of the square root, `Real.continuous_sqrt` gives
 
-    $$
-    \|x(t)-z\|\longrightarrow \sqrt{2l}.
-    $$
+```math
+\|x(t)-z\|\longrightarrow \sqrt{2l}.
+```
 
     This verifies, for every $z\in S$, the distance-limit hypothesis needed for Opial’s lemma.
 
 11. Weak cluster points lie in $S$.  
     The proof then shows that every weak sequential cluster point of $x(t)$ belongs to $S$. Suppose $u_n\to\infty$ and
 
-    $$
-    \mathrm{toWeakSpace}_{\mathbb R,H}(x(u_n))
-    \longrightarrow
-    \mathrm{toWeakSpace}_{\mathbb R,H}(z).
-    $$
+$$
+\mathrm{toWeakSpace}_{\mathbb R,H}(x(u_n))
+\longrightarrow
+\mathrm{toWeakSpace}_{\mathbb R,H}(z).
+$$
 
     First, since eventually $u_n\ge0$, feasibility gives $x(u_n)\in C$. The theorem `isClosed_iff_weak_image_isClosed_of_convex` states that for a convex set, norm-closedness is equivalent to weak-closedness of its image under `toWeakSpace`. Because $C$ is closed and convex, its weak image is closed. Hence the weak limit $z$ lies in the weak image of $C$, and injectivity of `toWeakSpace` gives $z\in C$.
 
-    Next the proof shows $\Psi(z)\le\Psi(z_0)$. Suppose not. Then $\Psi(z_0)<\Psi(z)$. Let
+    Next the proof shows $\Psi(z)\le\Psi(z_0)$. Suppose not. Then $\Psi(z_0)\lt \Psi(z)$. Let
 
-    $$
-    \varepsilon=\frac{\Psi(z)-\Psi(z_0)}2>0
-    $$
+$$
+\varepsilon=\frac{\Psi(z)-\Psi(z_0)}2>0
+$$
 
     and define the sublevel set
 
-    $$
-    L=\{y:\Psi(y)\le\Psi(z_0)+\varepsilon\}.
-    $$
+```math
+L=\{y:\Psi(y)\le\Psi(z_0)+\varepsilon\}.
+```
 
     Since $\Psi$ is continuous, $L$ is closed. Since $\Psi$ is convex, $L$ is convex: if $a,b\in L$ and $y=\alpha a+\beta b$ with $\alpha,\beta\ge0$, $\alpha+\beta=1$, then
 
-    $$
-    \Psi(y)\le \alpha\Psi(a)+\beta\Psi(b)
-    \le \Psi(z_0)+\varepsilon.
-    $$
+$$
+\Psi(y)\le \alpha\Psi(a)+\beta\Psi(b)
+\le \Psi(z_0)+\varepsilon.
+$$
 
     Thus $L$ is closed and convex, so its weak image is closed by the same closedness theorem. Since $\Psi(x(u_n))\to\Psi(z_0)$, eventually $x(u_n)\in L$. Therefore the weak limit $z$ belongs to the weak image of $L$, hence to $L$, giving
 
-    $$
-    \Psi(z)\le \Psi(z_0)+\varepsilon<\Psi(z),
-    $$
+$$
+\Psi(z)\le \Psi(z_0)+\varepsilon<\Psi(z),
+$$
 
     a contradiction. Hence $\Psi(z)\le\Psi(z_0)$. Since $z_0$ minimizes over $C$, this implies $\Psi(z)\le\Psi(y)$ for all $y\in C$. Together with $z\in C$, this gives $z\in S$.
 
 12. Applying Opial’s trajectory lemma.  
-    The theorem `opial_trajectory_lemma` is now applied to $S$ and $x$. Its hypotheses are: $S\ne\emptyset$; for every $z\in S$, the distance $\|x(t)-z\|$ has a limit as $t\to\infty$; and every weak sequential cluster point of $x(t)$ belongs to $S$. Its conclusion is that there exists $z\in S$ such that
+    The theorem `opial_trajectory_lemma` is now applied to $S$ and $x$. Its hypotheses are: $S\ne\emptyset$; for every $z\in S$, the distance $`\|x(t)-z\|`$has a limit as$t\to\infty$; and every weak sequential cluster point of$x(t)$belongs to$S$. Its conclusion is that there exists$z\in S$ such that
 
-    $$
-    \mathrm{toWeakSpace}_{\mathbb R,H}(x(t))
-    \longrightarrow
-    \mathrm{toWeakSpace}_{\mathbb R,H}(z).
-    $$
+$$
+\mathrm{toWeakSpace}_{\mathbb R,H}(x(t))
+\longrightarrow
+\mathrm{toWeakSpace}_{\mathbb R,H}(z).
+$$
 
     This is exactly the first conclusion of the theorem.
 

@@ -13,9 +13,9 @@ Consequently, the only thing the source determines is that a previously establis
 
 Mathematically, the name is the indicator function of a set. For a set $C$ inside an ambient space $E$, the indicator function is the extended-valued function $\iota_C$ that vanishes on $C$ and equals $+\infty$ outside it:
 
-$$
+```math
 \iota_C(x) = \begin{cases} 0, & x \in C,\\ +\infty, & x \notin C .\end{cases}
-$$
+```
 
 This is the standard convex-analytic device for encoding a constraint $x \in C$ as a term in an objective functional: minimising $f(x)$ subject to $x\in C$ is the same as minimising $f(x)+\iota_C(x)$ over the whole space $E$, since the value $+\infty$ makes infeasible points impossible to be minimisers. The exact domain and codomain chosen in the formalization, as well as whether the value off the set is rendered as $+\infty$ in an extended-real type or in some other way, cannot be read off from the snippet supplied here, so no claim about the precise Lean type of `indicatorFunction` is being made.
 

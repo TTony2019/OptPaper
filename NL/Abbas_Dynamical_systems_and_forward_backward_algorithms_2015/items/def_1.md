@@ -18,9 +18,9 @@ def IsStrongOrbitWithVelocity {H : Type*} [NormedAddCommGroup H]
 ## Statement explanation
 The declaration defines a predicate `IsStrongOrbitWithVelocity`. It is parameterized by an implicit type $H$ with the typeclass assumptions `[NormedAddCommGroup H]` and `[InnerProductSpace ℝ H]`, so $H$ is a real inner product space and a normed additive commutative group. Its explicit arguments are an extended-real-valued function
 
-$$
+```math
 \Phi : H \to \{\, y \in \mathrm{EReal} \mid y > \bot \,\},
-$$
+```
 
 where $\bot$ is the bottom element of the extended real order and `Set.Ioi (⊥ : EReal)` is the subtype of extended reals strictly above $\bot$; a map $B : H \to H$; a real parameter $\lambda \in \mathbb{R}$; and four curves $x, v, dx, dv : \mathbb{R} \to H$.
 

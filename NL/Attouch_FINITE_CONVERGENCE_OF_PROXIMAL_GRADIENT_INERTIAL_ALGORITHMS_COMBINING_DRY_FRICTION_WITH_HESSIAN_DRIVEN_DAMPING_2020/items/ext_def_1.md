@@ -9,7 +9,7 @@ recall ERealFunction.subdifferential
 ## Statement explanation
 The declaration `recall ERealFunction.subdifferential` is not a theorem or definition with its own binders, hypotheses, and conclusion. It is a recall declaration that refers to the already existing identifier `ERealFunction.subdifferential`. Thus, as written, it asserts no mathematical proposition; it simply makes the named object available under that fully qualified name.
 
-The name indicates an operation called the subdifferential inside the `ERealFunction` namespace. In the usual convex-analytic sense, an extended-real-valued function is a function taking values in $\overline{\mathbb R} = \mathbb R \cup \{-\infty,+\infty\}$, and its subdifferential at a point $x$ is the set of subgradients $p$ satisfying the first-order inequality
+The name indicates an operation called the subdifferential inside the `ERealFunction` namespace. In the usual convex-analytic sense, an extended-real-valued function is a function taking values in $`\overline{\mathbb R} = \mathbb R \cup \{-\infty,+\infty\}`$, and its subdifferential at a point$x$is the set of subgradients$p$ satisfying the first-order inequality
 
 $$
 f(y) \ge f(x) + \langle p, y-x\rangle

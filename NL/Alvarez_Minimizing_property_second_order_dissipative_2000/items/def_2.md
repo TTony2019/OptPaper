@@ -13,7 +13,7 @@ structure HasPotentialAssumption {H : Type*} [NormedAddCommGroup H] [InnerProduc
 ## Statement explanation
 This declaration bundles the standing hypotheses on the potential function $\Phi$ used later in the formalization.
 
-The ambient space is a type $H$ carrying two typeclass assumptions: `[NormedAddCommGroup H]` gives $H$ the structure of a normed abelian group, and `[InnerProductSpace ℝ H]` gives it a real inner product together with the norm induced by that inner product. Together, $H$ is a real inner product space (in particular a normed real vector space), so the expressions $\Phi(x)$, $\|\cdot\|$, and the ambient topology on $H$ are all meaningful.
+The ambient space is a type $H$ carrying two typeclass assumptions: `[NormedAddCommGroup H]` gives $H$ the structure of a normed abelian group, and `[InnerProductSpace ℝ H]` gives it a real inner product together with the norm induced by that inner product. Together, $H$ is a real inner product space (in particular a normed real vector space), so the expressions $\Phi(x)$, $`\|\cdot\|`$, and the ambient topology on$H$ are all meaningful.
 
 The argument $\Phi : H \to ℝ$ is a real-valued function on $H$, and the structure `HasPotentialAssumption Phi` asserts three things about it:
 
@@ -21,9 +21,9 @@ The argument $\Phi : H \to ℝ$ is a real-valued function on $H$, and the struct
 
 2. `convex : ConvexOn ℝ Set.univ Phi`. The function $Φ$ is convex on the whole space, i.e. on $Set.univ = H$. Concretely this is the inequality
 
-$$
+```math
 \Phi\bigl(t\,x + (1-t)\,y\bigr) \le t\,\Phi(x) + (1-t)\,\Phi(y)
-$$
+```
 
 for all $x, y \in H$ and all $t \in [0,1]$.
 

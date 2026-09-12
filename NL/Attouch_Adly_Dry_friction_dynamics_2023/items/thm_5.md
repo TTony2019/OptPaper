@@ -20,19 +20,19 @@ theorem reverse_time_scaling_average
 ```
 
 ## Statement explanation
-The declaration is a theorem named `reverse_time_scaling_average`. It is stated for a type $H$ carrying the structures of a real normed additive commutative group, a real inner product space, and a complete space; thus $H$ is a complete real inner product space, in particular a real normed vector space. The real parameters are $\alpha$ and $s_0$, with hypotheses $h_\alpha : 1 < \alpha$ and $h_{s_0} : 0 < s_0$. The theorem also takes two curves $x,z : \mathbb R \to H$. The curve $x$ is assumed to be twice continuously differentiable, $h_x : \mathrm{ContDiff}_{\mathbb R}^2 x$. There is an initial matching hypothesis
+The declaration is a theorem named `reverse_time_scaling_average`. It is stated for a type $H$ carrying the structures of a real normed additive commutative group, a real inner product space, and a complete space; thus $H$ is a complete real inner product space, in particular a real normed vector space. The real parameters are $\alpha$ and $s_0$, with hypotheses $h_\alpha : 1 \lt  \alpha$ and $h_{s_0} : 0 \lt  s_0$. The theorem also takes two curves $x,z : \mathbb R \to H$. The curve $x$ is assumed to be twice continuously differentiable, $h_x : \mathrm{ContDiff}_{\mathbb R}^2 x$. There is an initial matching hypothesis
 
-$$
+```math
 h_{\mathrm{initial}} : x(s_0)=z\!\left(\frac{s_0^2}{2(\alpha-1)}\right),
-$$
+```
 
 and a relation hypothesis
 
-$$
+```math
 h_{\mathrm{relation}} : \forall s \in \mathrm{Ici}s_0,\quad
 z\!\left(\frac{s^2}{2(\alpha-1)}\right)
 =x(s)+\frac{s}{\alpha-1}\cdot \mathrm{deriv}x(s),
-$$
+```
 
 where $s \in \mathrm{Ici}s_0$ means $s \ge s_0$, and the dot denotes scalar multiplication by the real number $\frac{s}{\alpha-1}$.
 
@@ -59,9 +59,9 @@ $$
 
 Thus the first conjunct of the conclusion says precisely that
 
-$$
+```math
 y(s)=z\!\left(\frac{s^2}{2(\alpha-1)}\right)
-$$
+```
 
 for every real $s$.
 
@@ -85,7 +85,7 @@ $$
 
 must hold. Here $(d\tau(s))^{-1}$ is the reciprocal of the real number $d\tau(s)$, and the dot is scalar multiplication on $H$.
 
-The cited theorem `quadraticTimeScale_isIncreasingC1TimeScaleOn` provides exactly the first requirement: if $1<\alpha$ and $0<s_0$, then
+The cited theorem `quadraticTimeScale_isIncreasingC1TimeScaleOn` provides exactly the first requirement: if $1\lt \alpha$ and $0\lt s_0$, then
 
 $$
 \mathrm{IsIncreasingC1TimeScaleOn}
@@ -162,19 +162,19 @@ $$
 
 Thus, by the definition of `timeScaledTrajectory`,
 
-$$
+```math
 y(s)=z(\tau(s))=z\!\left(\frac{s^2}{2(\alpha-1)}\right).
-$$
+```
 
 These `let` declarations do not add new mathematical assumptions; they only name the functions that occur in the conclusion.
 
 Next the proof obtains the time-scale property. It writes
 
-$$
+```math
 h\tau := \text{quadraticTimeScale\_isIncreasingC1TimeScaleOn}\ h_\alpha\ h_{s_0}.
-$$
+```
 
-The cited theorem `quadraticTimeScale_isIncreasingC1TimeScaleOn` applies because $1<\alpha$ and $0<s_0$. Its conclusion is that the pair of functions
+The cited theorem `quadraticTimeScale_isIncreasingC1TimeScaleOn` applies because $1\lt \alpha$ and $0\lt s_0$. Its conclusion is that the pair of functions
 
 $$
 \tau(s)=\frac{s^2}{2(\alpha-1)},\qquad
@@ -209,9 +209,9 @@ The first conjunct is exactly $h\tau$, already proved.
 
 The second conjunct requires $x(s_0)=y(s_0)$. The proof uses `dsimp [y, timeScaledTrajectory, τ]` to unfold the definitions. The goal becomes
 
-$$
+```math
 x(s_0)=z\!\left(\frac{s_0^2}{2(\alpha-1)}\right).
-$$
+```
 
 This is precisely the hypothesis $h_{\mathrm{initial}}$. The command `exact hinitial` closes the goal.
 
@@ -241,7 +241,7 @@ $$
 0<\frac{s}{\alpha-1}.
 $$
 
-The proof uses `lt_of_lt_of_le hs₀ hs`: from $0<s_0$ and $s_0\le s$, it obtains $0<s$. It also uses `sub_pos.mpr hα`: from $1<\alpha$, it obtains $0<\alpha-1$. Then `div_pos` combines the positive numerator and positive denominator to give
+The proof uses `lt_of_lt_of_le hs₀ hs`: from $0\lt s_0$ and $s_0\le s$, it obtains $0\lt s$. It also uses `sub_pos.mpr hα`: from $1\lt \alpha$, it obtains $0\lt \alpha-1$. Then `div_pos` combines the positive numerator and positive denominator to give
 
 $$
 0<\frac{s}{\alpha-1}.
@@ -251,14 +251,14 @@ Consequently, `hne : dτ(s) \ne 0` is obtained from `ne_of_gt hpos`. This nonzer
 
 Next the proof invokes the relation hypothesis. `hrel := hrelation s hs` gives
 
-$$
+```math
 z\!\left(\frac{s^2}{2(\alpha-1)}\right)
 =x(s)+\frac{s}{\alpha-1}\cdot \mathrm{deriv}x(s).
-$$
+```
 
 The command `dsimp [y, timeScaledTrajectory, τ, dτ] at hrel ⊢` unfolds the local definitions in both `hrel` and the current goal. The goal is therefore the equation
 
-$$
+```math
 \mathrm{deriv}x(s)
 +\left(\frac{s}{\alpha-1}\right)^{-1}
 \cdot
@@ -266,13 +266,13 @@ $$
 x(s)-z\!\left(\frac{s^2}{2(\alpha-1)}\right)
 \right)
 =0.
-$$
+```
 
 Then `rw [hrel]` replaces the occurrence of
 
-$$
+```math
 z\!\left(\frac{s^2}{2(\alpha-1)}\right)
-$$
+```
 
 by
 
@@ -307,10 +307,10 @@ $$
 
 The proof then applies the scalar-multiplication rewrites
 
-$$
+```math
 \text{smul\_neg},\quad \text{smul\_smul},\quad
 \text{inv\_mul\_cancel₀ } hne,\quad \text{one\_smul}.
-$$
+```
 
 These steps move the negative sign out of the scalar product, reassociate the scalar multiplication, cancel the scalar factor using
 

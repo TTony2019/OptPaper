@@ -20,7 +20,7 @@ theorem proposition12 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ 
 ## Statement explanation
 Let $H$ be a complete real inner product space, i.e. a real Hilbert space. The theorem has two real-valued functions and one vector field: $\phi : H \to \overline{\mathbb R}$ takes values in the extended reals, $\psi : H \to \mathbb R$ is finite-valued, and $g := \mathrm{gradPsi} : H \to H$ is the map denoted `gradPsi`. It also has real parameters $a,b,\lambda$, two sequences $u=(u_k)_{k\in\mathbb N}$ and $y=(y_k)_{k\in\mathbb N}$ in $H$, a point $u_\infty \in H$, and a continuity hypothesis $g$ continuous.
 
-The hypothesis `IsIFBTrajectory phi psi gradPsi a b lam u y` says that $(u,y)$ is an inertial forward-backward trajectory associated with $\phi,\psi,g,a,b,\lambda$. The complete definition of this predicate is not shown, but the proof uses only the following consequences of it: $b>0$, $\lambda>0$, and, for every $k$, the second update equation
+The hypothesis `IsIFBTrajectory phi psi gradPsi a b lam u y` says that $(u,y)$ is an inertial forward-backward trajectory associated with $\phi,\psi,g,a,b,\lambda$. The complete definition of this predicate is not shown, but the proof uses only the following consequences of it: $b\gt 0$, $\lambda\gt 0$, and, for every $k$, the second update equation
 
 $$
 \frac1\lambda (y_{k+1}-y_k)+g(u_{k+1})-a u_{k+1}+b y_{k+1}=0.
@@ -70,7 +70,7 @@ $$
 
 holds.
 
-Thus the theorem says that either weak convergence of $u_k$ plus weak-to-weak sequential continuity of $g$, or strong convergence of $u_k$ plus ordinary continuity of $g$, forces the second sequence $y_k$ to converge in the corresponding topology, and the limit satisfies the limiting first-order condition obtained from the trajectory equation. Since $b>0$, this equation determines $y_\infty$ uniquely as
+Thus the theorem says that either weak convergence of $u_k$ plus weak-to-weak sequential continuity of $g$, or strong convergence of $u_k$ plus ordinary continuity of $g$, forces the second sequence $y_k$ to converge in the corresponding topology, and the limit satisfies the limiting first-order condition obtained from the trajectory equation. Since $b\gt 0$, this equation determines $y_\infty$ uniquely as
 
 $$
 y_\infty=b^{-1}\bigl(a u_\infty-g(u_\infty)\bigr).
@@ -202,19 +202,19 @@ by
 ```
 
 ## Proof explanation
-The proof begins by extracting the positivity and recurrence information from the trajectory hypothesis. It obtains $b>0$ and $\lambda>0$, hence $b\neq 0$ and $\lambda\neq 0$. It then defines
+The proof begins by extracting the positivity and recurrence information from the trajectory hypothesis. It obtains $b\gt 0$ and $\lambda\gt 0$, hence $b\neq 0$ and $\lambda\neq 0$. It then defines
 
 $$
 \eta=(1+\lambda b)^{-1}.
 $$
 
-Because $b>0$ and $\lambda>0$, we have $1+\lambda b>1$, so
+Because $b\gt 0$ and $\lambda\gt 0$, we have $1+\lambda b\gt 1$, so
 
 $$
 0<\eta<1.
 $$
 
-This $\eta$ is the contraction factor that will be used in the recurrence estimates. In Lean, the positivity of $1+\lambda b$ is proved by `nlinarith` from $\lambda b>0$, and the fact that $\eta<1$ is proved by rewriting with `inv_lt_one₀`.
+This $\eta$ is the contraction factor that will be used in the recurrence estimates. In Lean, the positivity of $1+\lambda b$ is proved by `nlinarith` from $\lambda b\gt 0$, and the fact that $\eta\lt 1$ is proved by rewriting with `inv_lt_one₀`.
 
 Next the proof defines the candidate limit
 
@@ -351,7 +351,7 @@ $$
 p_{k+1}=\eta p_k+e_k.
 $$
 
-The cited lemma `tendsto_zero_of_contract_eq` states that if $0<\eta<1$, if $e_k\to0$, and if $p_{k+1}=\eta p_k+e_k$ for all $k$, then $p_k\to0$. Applying it gives
+The cited lemma `tendsto_zero_of_contract_eq` states that if $0\lt \eta\lt 1$, if $e_k\to0$, and if $p_{k+1}=\eta p_k+e_k$ for all $k$, then $p_k\to0$. Applying it gives
 
 $$
 \langle y_k-y_\infty,v\rangle\to0.
@@ -394,19 +394,19 @@ in norm.
 
 It remains to prove $y_k\to y_\infty$ in norm. The proof rewrites this convergence using `tendsto_iff_norm_sub_tendsto_zero`, so it is enough to show
 
-$$
+```math
 \|y_k-y_\infty\|\to0.
-$$
+```
 
 It defines
 
-$$
+```math
 p_k=\|y_k-y_\infty\|,
 \qquad
 e_k=\lambda b\eta\|w_k-y_\infty\|.
-$$
+```
 
-Since $w_k\to y_\infty$, the sequence $\|w_k-y_\infty\|$ tends to $0$, hence $e_k\to0$. Also $p_k\ge0$ for all $k$. From the recurrence
+Since $w_k\to y_\infty$, the sequence $`\|w_k-y_\infty\|`$tends to$0$, hence$e_k\to0$. Also$p_k\ge0$for all$k$. From the recurrence
 
 $$
 y_{k+1}-y_\infty
@@ -415,14 +415,14 @@ $$
 
 and the triangle inequality,
 
-$$
+```math
 p_{k+1}
 \le
 \eta\|y_k-y_\infty\|+\lambda b\eta\|w_k-y_\infty\|
 =\eta p_k+e_k.
-$$
+```
 
-The proof also verifies that $\lambda b\eta\ge0$, using positivity of $b,\lambda,\eta$. The cited lemma `tendsto_zero_of_contract_nonneg` states that if $0<\eta<1$, if $p_k\ge0$ for all $k$, if $e_k\to0$, and if
+The proof also verifies that $\lambda b\eta\ge0$, using positivity of $b,\lambda,\eta$. The cited lemma `tendsto_zero_of_contract_nonneg` states that if $0\lt \eta\lt 1$, if $p_k\ge0$ for all $k$, if $e_k\to0$, and if
 
 $$
 p_{k+1}\le \eta p_k+e_k
@@ -430,9 +430,9 @@ $$
 
 for all $k$, then $p_k\to0$. Applying it gives
 
-$$
+```math
 \|y_k-y_\infty\|\to0,
-$$
+```
 
 which is equivalent to
 

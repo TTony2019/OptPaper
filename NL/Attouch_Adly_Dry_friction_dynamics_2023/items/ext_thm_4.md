@@ -24,24 +24,24 @@ theorem classical_gradient_flow_value_rate {H : Type*} [NormedAddCommGroup H] [I
 - $f$ is differentiable over $\mathbb{R}$, expressed as $\mathrm{Differentiable} \mathbb{R} f$.
 - For every $s \in [s_0,\infty)$, the curve $y$ has derivative $dy(s)$ at time $s$:
 
-  $$
-  \mathrm{HasDerivAt} y (dy(s)) s.
-  $$
+$$
+\mathrm{HasDerivAt} y (dy(s)) s.
+$$
 
 - For every $s \in [s_0,\infty)$, the flow equation holds:
 
-  $$
-  dy(s) + \nabla f(y(s)) = 0,
-  $$
+$$
+dy(s) + \nabla f(y(s)) = 0,
+$$
 
   equivalently $dy(s) = -\nabla f(y(s))$. This is exactly the classical gradient-flow equation $y'(s) = -\nabla f(y(s))$.
 - There exists $x^\star \in H$ such that
 
-  $$
-  f(x^\star) = f^\star
-  \qquad\text{and}\qquad
-  \forall x \in H,\ f^\star \le f(x).
-  $$
+$$
+f(x^\star) = f^\star
+\qquad\text{and}\qquad
+\forall x \in H,\ f^\star \le f(x).
+$$
 
   Thus $f^\star$ is a global minimum of $f$, attained at $x^\star$.
 
@@ -357,9 +357,9 @@ $$
 
 where
 
-$$
+```math
 L=\inf\{\,D(r):r\in\mathbb R\,\}.
-$$
+```
 
 For all sufficiently large $r$, one has $r\ge s_0$, so $\max(r,s_0)=r$ and $D(r)=d(r)$. Hence $d(s)\to L$ as $s\to\infty$. Similarly, since $s\mapsto s/2\to\infty$, one has $D(s/2)\to L$. For large $s$, $s/2\ge s_0$, so $D(s/2)=d(s/2)$. Therefore
 

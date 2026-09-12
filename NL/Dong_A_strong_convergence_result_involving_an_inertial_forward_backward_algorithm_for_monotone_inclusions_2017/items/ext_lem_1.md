@@ -12,9 +12,9 @@ theorem squared_distance_constraint_isClosed_convex {C : Set H} (hClosed : IsClo
 ## Statement explanation
 The declaration `squared_distance_constraint_isClosed_convex` is stated in an ambient real inner-product space $H$. It takes a set $C\subseteq H$ that is assumed closed and convex over $\mathbb R$, three points $x,y,z\in H$, and a real number $a$. The set under consideration is
 
-$$
+```math
 S=\{v\in C \mid \|y-v\|^{2}\le \|x-v\|^{2}+\langle z,v\rangle+a\}.
-$$
+```
 
 The conclusion asserts two things about this set $S$:
 
@@ -24,19 +24,19 @@ S \text{ is closed}
 S \text{ is convex over } \mathbb R.
 $$
 
-Mathematically, the defining inequality is a squared-distance constraint with an additional real linear term $\langle z,v\rangle$ and constant $a$. Expanding the two squared norms shows that the quadratic terms $\|v\|^{2}$ cancel, so the inequality is really a closed half-space condition. Indeed,
+Mathematically, the defining inequality is a squared-distance constraint with an additional real linear term $\langle z,v\rangle$ and constant $a$. Expanding the two squared norms shows that the quadratic terms $`\|v\|^{2}`$ cancel, so the inequality is really a closed half-space condition. Indeed,
 
-$$
+```math
 \|y-v\|^{2}=\|y\|^{2}-2\langle y,v\rangle+\|v\|^{2},
 \qquad
 \|x-v\|^{2}=\|x\|^{2}-2\langle x,v\rangle+\|v\|^{2}.
-$$
+```
 
 After cancellation, the inequality is equivalent to
 
-$$
+```math
 \langle 2(x-y)-z,v\rangle \le \|x\|^{2}-\|y\|^{2}+a.
-$$
+```
 
 Thus the theorem says that intersecting the closed convex set $C$ with this closed affine half-space remains closed and convex.
 
@@ -71,29 +71,29 @@ by
 ## Proof explanation
 The proof first introduces local abbreviations.
 
-$$
+```math
 w=2(x-y)-z,\qquad
 b=\|x\|^{2}-\|y\|^{2}+a,\qquad
 D=\{v\in H \mid \langle w,v\rangle\le b\}.
-$$
+```
 
-The command `let` in Lean simply names these expressions; mathematically, $D$ is the closed half-space obtained after cancelling the $\|v\|^{2}$ terms from the original constraint.
+The command `let` in Lean simply names these expressions; mathematically, $D$ is the closed half-space obtained after cancelling the $`\|v\|^{2}`$ terms from the original constraint.
 
 The first main step is `hconstraint`. It proves that for every $v\in H$,
 
-$$
+```math
 \|y-v\|^{2}\le \|x-v\|^{2}+\langle z,v\rangle+a
 \quad\Longleftrightarrow\quad
 v\in D.
-$$
+```
 
 After `intro v`, the proof uses `dsimp [D, w, b]` to unfold the definitions. Then it applies `norm_sub_sq_real y v` and `norm_sub_sq_real x v`. These rewrite the squared norms by the real inner-product expansions
 
-$$
+```math
 \|y-v\|^{2}=\|y\|^{2}-2\langle y,v\rangle+\|v\|^{2},
 \qquad
 \|x-v\|^{2}=\|x\|^{2}-2\langle x,v\rangle+\|v\|^{2}.
-$$
+```
 
 Next, `simp only [inner_sub_left, real_inner_smul_left]` expands
 
@@ -109,7 +109,7 @@ $$
 \langle w,v\rangle\le b.
 $$
 
-In the reverse direction, the half-space inequality yields the original squared-distance inequality. The tactic `linarith` handles cancellation of $\|v\|^{2}$ and rearrangement of the remaining linear terms.
+In the reverse direction, the half-space inequality yields the original squared-distance inequality. The tactic `linarith` handles cancellation of $`\|v\|^{2}`$ and rearrangement of the remaining linear terms.
 
 The second main step proves `hD_closed`, i.e. that $D$ is closed. After unfolding $D$, the proof applies `isClosed_le` to the two continuous functions
 
@@ -121,17 +121,17 @@ $$
 
 The first is continuous because it is the inner product of a constant vector with the identity map; the second is constant. The lemma `isClosed_le` says that a set defined by a pointwise inequality $f(v)\le g(v)$ between continuous real-valued functions is closed. Hence
 
-$$
+```math
 D=\{v\mid \langle w,v\rangle\le b\}
-$$
+```
 
 is closed.
 
 The third main step proves `hD_convex`, i.e. that $D$ is convex. The proof uses `convex_Iic b`, which states that the real interval
 
-$$
+```math
 \{t\in\mathbb R \mid t\le b\}
-$$
+```
 
 is convex. It also uses `(innerSL ℝ w).isLinear`, which supplies the linear map
 
@@ -139,22 +139,22 @@ $$
 v\mapsto \langle w,v\rangle.
 $$
 
-The lemma `is_linear_preimage` says that the preimage of a convex set under a linear map is convex. Since $D$ is the preimage of $\{t\mid t\le b\}$ under the linear functional $v\mapsto \langle w,v\rangle$, it follows that $D$ is convex. The `simpa` rewrites the set-preimage notation and uses the identification of `innerSL` to match exactly the definition of $D$.
+The lemma `is_linear_preimage` says that the preimage of a convex set under a linear map is convex. Since $D$ is the preimage of $`\{t\mid t\le b\}`$under the linear functional$v\mapsto \langle w,v\rangle$, it follows that$D$ is convex. The `simpa` rewrites the set-preimage notation and uses the identification of `innerSL` to match exactly the definition of $D$.
 
 The fourth step proves the set equality
 
-$$
+```math
 \{v\in C \mid \|y-v\|^{2}\le \|x-v\|^{2}+\langle z,v\rangle+a\}
 =C\cap D.
-$$
+```
 
 The proof uses `ext v`, i.e. set extensionality, so it suffices to prove the equivalence of membership for an arbitrary $v$. After simplifying set-membership notation, membership in the left-hand set means
 
-$$
+```math
 v\in C
 \quad\text{and}\quad
 \|y-v\|^{2}\le \|x-v\|^{2}+\langle z,v\rangle+a.
-$$
+```
 
 Membership in $C\cap D$ means
 

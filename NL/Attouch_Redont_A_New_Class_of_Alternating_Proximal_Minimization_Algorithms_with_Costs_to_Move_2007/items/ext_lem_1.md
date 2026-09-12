@@ -17,7 +17,7 @@ The declaration `opial_lemma` is a theorem about a sequence in a real Hilbert sp
 The first hypothesis, `h_cluster`, says that for every $w\in H$ and every strictly increasing sequence $\varphi:\mathbb N\to\mathbb N$, if the subsequence $z_{\varphi(k)}$ converges weakly to $w$, then $w\in S$. In symbols,
 
 $$
-\forall w\in H,\ \forall \varphi:\mathbb N\to\mathbb N,\ 
+\forall w\in H,\ \forall \varphi:\mathbb N\to\mathbb N,\
 \mathrm{StrictMono}(\varphi)\implies
 \bigl(\iota_H(z_{\varphi(k)})\to \iota_H(w)\ \text{as }k\to\infty\bigr)
 \implies w\in S .
@@ -27,10 +27,10 @@ Thus every weak limit of every strictly increasing subsequence of $z$ lies in $S
 
 The second hypothesis, `h_dist`, says that for every point $\zeta\in S$, the real sequence of distances from $z_n$ to $\zeta$ converges. That is,
 
-$$
+```math
 \forall \zeta\in S,\ \exists l\in\mathbb R,\quad
 \|z_n-\zeta\|\to l\ \text{as }n\to\infty .
-$$
+```
 
 The conclusion is that there exists a point $z_\star\in S$ such that the whole sequence $z_n$ converges weakly to $z_\star$:
 
@@ -114,7 +114,7 @@ by
 ```
 
 ## Proof explanation
-1. The proof begins by choosing a point of $S$. The command `rcases hS_nonempty with ⟨ζ₀, hζ₀⟩` destroys the hypothesis that $S$ is nonempty and produces a point $\zeta_0\in H$ together with the proof $h\zeta_0:\zeta_0\in S$. Applying `h_dist` to this point gives a real number $l$ such that $\|z_n-\zeta_0\|\to l$. The cited theorem `bounded_range_of_convergent_distance` is then used: it says that for a sequence $z$ in a normed additive commutative group, if there exists a point $\zeta$ such that the real sequence $\|z_n-\zeta\|$ converges, then the range $\{z_n:n\in\mathbb N\}$ is bounded. Specialized here, the convergence of $\|z_n-\zeta_0\|$ implies that the whole range of $z$ is bounded. This is the intermediate fact `hz_bounded`.
+1. The proof begins by choosing a point of $S$. The command `rcases hS_nonempty with ⟨ζ₀, hζ₀⟩` destroys the hypothesis that $S$ is nonempty and produces a point $\zeta_0\in H$ together with the proof $h\zeta_0:\zeta_0\in S$. Applying `h_dist` to this point gives a real number $l$ such that $`\|z_n-\zeta_0\|\to l`$. The cited theorem `bounded_range_of_convergent_distance` is then used: it says that for a sequence $z$ in a normed additive commutative group, if there exists a point $\zeta$ such that the real sequence $`\|z_n-\zeta\|`$converges, then the range$`\{z_n:n\in\mathbb N\}`$is bounded. Specialized here, the convergence of$`\|z_n-\zeta_0\|`$implies that the whole range of$z$ is bounded. This is the intermediate fact `hz_bounded`.
 
 2. The proof next establishes `h_weak_subseq`: every strictly increasing subsequence of $z$ has a further strictly increasing sub-subsequence that converges weakly. Given an arbitrary strictly increasing $\varphi:\mathbb N\to\mathbb N$, the proof first observes that the range of the composed sequence $z\circ\varphi$ is bounded. This uses `Bornology.IsBounded.subset`: if a set is bounded, every subset of it is bounded. Since every value $(z\circ\varphi)(n)=z(\varphi(n))$ lies in the range of $z$, the boundedness of the range of $z$ implies boundedness of the range of $z\circ\varphi$. The cited theorem `exists_weakly_convergent_subseq_of_bounded` is then applied. Its mathematical content is that in a complete real inner product space, every bounded sequence has a weakly convergent subsequence. Specialized to $z\circ\varphi$, it produces a point $w\in H$ and a strictly increasing sequence $\psi:\mathbb N\to\mathbb N$ such that
 
@@ -130,7 +130,7 @@ $$
 
 The Lean tactic `simpa [Function.comp]` is used precisely to rewrite the composed function into this form.
 
-3. The proof then proves `h_unique_limit`: all weak subsequential limits are equal. Suppose $w_1,w_2\in H$ and strictly increasing $\varphi_1,\varphi_2:\mathbb N\to\mathbb N$ are such that $z_{\varphi_1(n)}$ converges weakly to $w_1$ and $z_{\varphi_2(n)}$ converges weakly to $w_2$. By the hypothesis `h_cluster`, both $w_1$ and $w_2$ belong to $S$. The cited lemma `weak_subseq_limits_equal` then applies. Its statement says that if for every $\zeta\in S$ the distances $\|z_n-\zeta\|$ converge, and if two points $a,b\in S$ are weak limits of the same sequence $z$ along two strictly increasing subsequences, then $a=b$. Specialized to $a=w_1$ and $b=w_2$, it gives $w_1=w_2$. Thus any two weak subsequential limits of $z$ must coincide. This is the Opial polarization/uniqueness step: the distance-convergence hypothesis rules out two distinct weak subsequential limits.
+3. The proof then proves `h_unique_limit`: all weak subsequential limits are equal. Suppose $w_1,w_2\in H$ and strictly increasing $\varphi_1,\varphi_2:\mathbb N\to\mathbb N$ are such that $z_{\varphi_1(n)}$ converges weakly to $w_1$ and $z_{\varphi_2(n)}$ converges weakly to $w_2$. By the hypothesis `h_cluster`, both $w_1$ and $w_2$ belong to $S$. The cited lemma `weak_subseq_limits_equal` then applies. Its statement says that if for every $\zeta\in S$ the distances $`\|z_n-\zeta\|`$converge, and if two points$a,b\in S$are weak limits of the same sequence$z$along two strictly increasing subsequences, then$a=b$. Specialized to$a=w_1$and$b=w_2$, it gives$w_1=w_2$. Thus any two weak subsequential limits of$z$ must coincide. This is the Opial polarization/uniqueness step: the distance-convergence hypothesis rules out two distinct weak subsequential limits.
 
 4. The proof now extracts one weak cluster point of the full sequence. It applies `exists_weakly_convergent_subseq_of_bounded` to the already established boundedness of the range of $z$. This produces a point $a\in H$, a strictly increasing sequence $\varphi_0:\mathbb N\to\mathbb N$, and the weak convergence
 

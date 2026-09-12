@@ -10,13 +10,13 @@ theorem id_sub_cocoercive_nonexpansive {H : Type*} [NormedAddCommGroup H]
 ```
 
 ## Statement explanation
-The declaration states a nonexpansiveness property in a real inner product space. Let $H$ be a type equipped with a normed additive commutative group structure and an $\mathbb R$-inner product structure, so that $H$ has a norm $\|\cdot\|$, a distance, and a real inner product $\langle \cdot,\cdot\rangle$. Let $B:H\to H$ be an operator, and let $\beta,\mu\in\mathbb R$.
+The declaration states a nonexpansiveness property in a real inner product space. Let $H$ be a type equipped with a normed additive commutative group structure and an $\mathbb R$-inner product structure, so that $H$ has a norm $`\|\cdot\|`$, a distance, and a real inner product$\langle \cdot,\cdot\rangle$. Let$B:H\to H$be an operator, and let$\beta,\mu\in\mathbb R$.
 
 The hypothesis on $B$ says that $B$, regarded as a map on the whole set $H$ (encoded by `Set.univ`), is cocoercive on all of $H$ with constant $\beta$. The exact consequence used in the proof is that for every $x,y\in H$,
 
-$$
+```math
 \beta\|B x-B y\|^2\le \langle x-y, Bx-By\rangle .
-$$
+```
 
 The hypothesis on the parameter $\mu$ is
 
@@ -38,9 +38,9 @@ $$
 
 for all $x,y\in H$, equivalently
 
-$$
+```math
 \|(x-\mu Bx)-(y-\mu By)\|\le \|x-y\| .
-$$
+```
 
 Thus the theorem says that subtracting from the identity a $\mu$-multiple of a $\beta$-cocoercive operator is nonexpansive whenever $\mu$ lies strictly between $0$ and $2\beta$.
 
@@ -98,29 +98,29 @@ Next, `intro x y` introduces arbitrary $x,y\in H$. The proof must show the dista
 
 The first auxiliary fact is `hco`. It is obtained from `hB.ineq` applied to the subtype elements corresponding to $x$ and $y$ in `Set.univ`. Since the function on `Set.univ` is just $x\mapsto Bx$, and since `simpa` removes the subtype coercions, this produces exactly
 
-$$
+```math
 \beta\|B x-B y\|^2\le \langle x-y,Bx-By\rangle .
-$$
+```
 
 This is the only place where the cocoercivity hypothesis on $B$ is used.
 
 The second auxiliary fact is `hparam`. The proof first derives
 
-$$
+```math
 \mu\|Bx-By\|^2\le (2\beta)\|Bx-By\|^2 .
-$$
+```
 
-Indeed, from $0<\mu<2\beta$ we have $\mu\le 2\beta$, and $\|Bx-By\|^2\ge 0$; the lemma `mul_le_mul_of_nonneg_right` multiplies the inequality $\mu\le 2\beta$ on the right by the nonnegative factor $\|Bx-By\|^2$. Then `mul_le_mul_of_nonneg_left` multiplies this resulting inequality on the left by the nonnegative number $\mu$, using $0\le\mu$. Therefore
+Indeed, from $0\lt \mu\lt 2\beta$ we have $\mu\le 2\beta$, and $`\|Bx-By\|^2\ge 0`$; the lemma `mul_le_mul_of_nonneg_right` multiplies the inequality $\mu\le 2\beta$ on the right by the nonnegative factor $`\|Bx-By\|^2`$. Then `mul_le_mul_of_nonneg_left` multiplies this resulting inequality on the left by the nonnegative number $\mu$, using $0\le\mu$. Therefore
 
-$$
+```math
 \mu^2\|Bx-By\|^2\le 2\beta\mu\|Bx-By\|^2 .
-$$
+```
 
 The third auxiliary fact is `hco_mu`. It multiplies the cocoercivity inequality `hco` by the nonnegative scalar $\mu$, again using `mul_le_mul_of_nonneg_left` and $0\le\mu$. This gives
 
-$$
+```math
 \mu\beta\|Bx-By\|^2\le \mu\langle x-y,Bx-By\rangle .
-$$
+```
 
 The auxiliary identity `hrewrite` is purely algebraic:
 
@@ -132,31 +132,31 @@ It is proved by `simp` using the facts that subtraction is addition of negatives
 
 The main estimate is `hsq`, which proves
 
-$$
+```math
 \|(x-\mu Bx)-(y-\mu By)\|^2\le \|x-y\|^2 .
-$$
+```
 
 It proceeds by a `calc` chain. First, by `hrewrite`,
 
-$$
+```math
 \|(x-\mu Bx)-(y-\mu By)\|^2
 =\|(x-y)-\mu(Bx-By)\|^2 .
-$$
+```
 
 Then the lemma `norm_sub_sq_real` expands the squared norm of a difference in a real inner product space:
 
-$$
+```math
 \|a-b\|^2=\|a\|^2-2\langle a,b\rangle+\|b\|^2 .
-$$
+```
 
 Applying this with $a=x-y$ and $b=\mu(Bx-By)$ gives
 
-$$
+```math
 \|(x-y)-\mu(Bx-By)\|^2
 =\|x-y\|^2
 -2\langle x-y,\mu(Bx-By)\rangle
 +\|\mu(Bx-By)\|^2 .
-$$
+```
 
 Next the proof rewrites the inner product and the norm. The lemma `real_inner_smul_right` gives
 
@@ -167,75 +167,75 @@ $$
 
 The lemmas `norm_smul`, `Real.norm_eq_abs`, and `abs_of_pos hmu.1` give
 
-$$
+```math
 \|\mu(Bx-By)\|^2
 =(|\mu|\,\|Bx-By\|)^2
 =\mu^2\|Bx-By\|^2,
-$$
+```
 
-because $0<\mu$. Thus the expression becomes
+because $0\lt \mu$. Thus the expression becomes
 
-$$
+```math
 \|x-y\|^2
 -2\mu\langle x-y,Bx-By\rangle
 +\mu^2\|Bx-By\|^2 .
-$$
+```
 
 The final inequality in the `calc` chain is proved by `nlinarith [hparam, hco_mu]`. The two cited inequalities combine as follows. From `hparam`,
 
-$$
+```math
 \mu^2\|Bx-By\|^2\le 2\beta\mu\|Bx-By\|^2 .
-$$
+```
 
 From `hco_mu`, after multiplying by $2$,
 
-$$
+```math
 2\mu\beta\|Bx-By\|^2\le 2\mu\langle x-y,Bx-By\rangle .
-$$
+```
 
 Since real multiplication is commutative, $2\beta\mu=2\mu\beta$, so
 
-$$
+```math
 \mu^2\|Bx-By\|^2\le 2\mu\langle x-y,Bx-By\rangle .
-$$
+```
 
 Therefore the extra terms satisfy
 
-$$
+```math
 -2\mu\langle x-y,Bx-By\rangle+\mu^2\|Bx-By\|^2\le 0,
-$$
+```
 
 and hence
 
-$$
+```math
 \|x-y\|^2
 -2\mu\langle x-y,Bx-By\rangle
 +\mu^2\|Bx-By\|^2
 \le
 \|x-y\|^2 .
-$$
+```
 
 The tactic `nlinarith` checks exactly this nonlinear arithmetic implication from `hparam` and `hco_mu`.
 
 From `hsq`, the proof derives `hnorm`:
 
-$$
+```math
 \|(x-\mu Bx)-(y-\mu By)\|\le \|x-y\| .
-$$
+```
 
 This uses `sq_le_sq₀ (norm_nonneg _) (norm_nonneg _)`. That lemma says that for two nonnegative real numbers $a,b$, the inequality $a^2\le b^2$ implies $a\le b$. Here both quantities are norms, so they are nonnegative, and `hsq` is precisely the squared inequality.
 
 Finally, `simpa [dist_eq_norm] using hnorm` converts the norm inequality into the required distance inequality. The lemma `dist_eq_norm` states that in a normed additive group,
 
-$$
+```math
 \mathrm{dist}(u,v)=\|u-v\| .
-$$
+```
 
 Thus the inequality
 
-$$
+```math
 \|(x-\mu Bx)-(y-\mu By)\|\le \|x-y\|
-$$
+```
 
 is exactly
 

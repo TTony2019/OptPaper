@@ -17,16 +17,16 @@ The proposition is the conjunction of three conditions:
 
 1. The constant is nonnegative:
 
-   $$
-   0 \le L.
-   $$
+$$
+0 \le L.
+$$
 
 2. The function $h$ is differentiable over $\mathbb R$ as a map $h:\mathbb R^m\to\mathbb R$.
 3. For every pair of points $x,y\in\mathbb R^m$,
 
-   $$
-   \|\nabla h(x)-\nabla h(y)\| \le L\|x-y\|.
-   $$
+```math
+\|\nabla h(x)-\nabla h(y)\| \le L\|x-y\|.
+```
 
    Here $\nabla h(x)$ denotes the gradient vector of $h$ at $x$, and both norms are the Euclidean norms on the relevant Euclidean spaces.
 
@@ -48,9 +48,9 @@ There is no separate proof part. The declaration is a definition, and the suppli
 
 If one wanted to prove that some particular pair $h,L$ satisfies `HasLipschitzContinuousGradient h L`, one would have to establish each of the three conjuncts: first $0\le L$, second that $h$ is differentiable, and third the gradient Lipschitz estimate
 
-$$
+```math
 \|\nabla h(x)-\nabla h(y)\|\le L\|x-y\|
-$$
+```
 
 for all $x,y\in\mathbb R^m$. The definition itself simply states that these three conditions are required. Since no proof is supplied in the source, there are no further mathematical proof obligations or tactic applications to describe.
 

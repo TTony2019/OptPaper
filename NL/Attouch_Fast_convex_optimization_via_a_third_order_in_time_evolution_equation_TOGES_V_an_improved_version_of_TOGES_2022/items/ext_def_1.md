@@ -19,9 +19,9 @@ An inhabitant of this structure consists of the following data and proofs:
 
 - A function
 
-  $$
-  f : H \to \mathbb{R},
-  $$
+$$
+f : H \to \mathbb{R},
+$$
 
   called the objective function.
 
@@ -29,27 +29,27 @@ An inhabitant of this structure consists of the following data and proofs:
 
 - A proof field `convex` asserting that for all $x,y \in H$ and all $s \in \mathbb{R}$ with
 
-  $$
-  0 \le s \le 1,
-  $$
+$$
+0 \le s \le 1,
+$$
 
   one has
 
-  $$
-  f\bigl((1-s)x + s y\bigr)
-  \le
-  (1-s) f(x) + s f(y).
-  $$
+$$
+f\bigl((1-s)x + s y\bigr)
+\le
+(1-s) f(x) + s f(y).
+$$
 
   This is precisely the usual definition of convexity of the real-valued function $f$ along line segments in $H$.
 
 - A proof field `firstOrder` asserting that for all $x,y \in H$,
 
-  $$
-  f(y)
-  \ge
-  f(x) + \langle \nabla f(x),\, y-x\rangle .
-  $$
+```math
+f(y)
+\ge
+f(x) + \langle \nabla f(x),\, y-x\rangle .
+```
 
   Here $\nabla f(x)$ is the gradient of $f$ at $x$, and $\langle \cdot,\cdot\rangle$ is the real inner product on $H$. This is the first-order lower bound inequality: the value of $f$ at $y$ is at least the value of its first-order Taylor approximation at $x$, evaluated at $y$.
 

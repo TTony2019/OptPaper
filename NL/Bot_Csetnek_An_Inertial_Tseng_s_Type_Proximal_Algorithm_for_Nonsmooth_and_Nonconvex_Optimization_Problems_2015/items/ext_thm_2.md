@@ -13,23 +13,23 @@ theorem exists_minimizer_of_proper_lsc_coercive {m : Nat}
 ```
 
 ## Statement explanation
-The declaration concerns a function $g$ on the finite-dimensional Euclidean space $\mathbb R^m$, written in Lean as `EuclideanSpace m`, whose values lie in the extended real line $\mathrm{EReal} = \mathbb R \cup \{-\infty,+\infty\}$. The theorem has three hypotheses.
+The declaration concerns a function $g$ on the finite-dimensional Euclidean space $\mathbb R^m$, written in Lean as `EuclideanSpace m`, whose values lie in the extended real line $`\mathrm{EReal} = \mathbb R \cup \{-\infty,+\infty\}`$. The theorem has three hypotheses.
 
-First, `ERealFunction.IsProper g` is unpacked in the proof as two facts: $g$ never takes the value $-\infty$, so $g(x)\neq \bot$ for every $x$, and there exists at least one point $x_0$ with $g(x_0)<+\infty$, i.e. $g$ is not identically $+\infty$.
+First, `ERealFunction.IsProper g` is unpacked in the proof as two facts: $g$ never takes the value $-\infty$, so $g(x)\neq \bot$ for every $x$, and there exists at least one point $x_0$ with $g(x_0)\lt +\infty$, i.e. $g$ is not identically $+\infty$.
 
 Second, `LowerSemicontinuous g` says that $g$ is lower semicontinuous. The proof uses the standard characterization that this is equivalent to every real lower level set being closed: for every real $\xi$, the set
 
-$$
+```math
 \{x \mid g(x)\le (\xi:\mathrm{EReal})\}
-$$
+```
 
 is closed.
 
 Third, `CoerciveEReal g` is a coercivity hypothesis. In the proof it is used only by applying it to the real number $c_0$, obtaining that the real lower level set
 
-$$
+```math
 C=\{x \mid g(x)\le (c_0:\mathrm{EReal})\}
-$$
+```
 
 is bounded in the metric sense.
 
@@ -108,7 +108,7 @@ by
 ```
 
 ## Proof explanation
-The proof begins by unpacking properness. The tactic `rcases hproper with ⟨hg_ne_bot, x0, hx0_dom⟩` extracts the fact that $g$ is never $-\infty$, a point $x_0$, and the inequality $g(x_0)<+\infty$. From $g(x_0)<+\infty$ the proof derives $g(x_0)\neq+\infty$ using `ne_of_lt`. Since properness also gives $g(x_0)\neq-\infty$, the lemma `ERealFunction.mem_effectiveDom_iff` shows
+The proof begins by unpacking properness. The tactic `rcases hproper with ⟨hg_ne_bot, x0, hx0_dom⟩` extracts the fact that $g$ is never $-\infty$, a point $x_0$, and the inequality $g(x_0)\lt +\infty$. From $g(x_0)\lt +\infty$ the proof derives $g(x_0)\neq+\infty$ using `ne_of_lt`. Since properness also gives $g(x_0)\neq-\infty$, the lemma `ERealFunction.mem_effectiveDom_iff` shows
 
 $$
 x_0\in \mathrm{effectiveDom} g.
@@ -124,9 +124,9 @@ $$
 
 Next, the proof defines
 
-$$
+```math
 C=\mathrm{lowerLevelSet} g c_0=\{x\mid g(x)\le (c_0:\mathrm{EReal})\}.
-$$
+```
 
 Since $g(x_0)=c_0$, the simplification `simp [C, ERealFunction.lowerLevelSet, hc0]` proves $x_0\in C$.
 
@@ -138,11 +138,11 @@ $$
 
 Lower semicontinuity is used through the theorem `ERealFunction.lowerSemicontinuous_iff_isClosed_lowerLevelSet`, which states that a function is lower semicontinuous exactly when each real lower level set is closed. Applying it to $c_0$ gives that $C$ is closed. Since $C$ is both closed and bounded in Euclidean space, the metric theorem `Metric.isCompact_iff_isClosed_bounded` yields that $C$ is compact.
 
-The proof also checks that $C$ contains a point where $g$ is not $+\infty$. Namely, $x_0\in C$ and $g(x_0)<+\infty$, so
+The proof also checks that $C$ contains a point where $g$ is not $+\infty$. Namely, $x_0\in C$ and $g(x_0)\lt +\infty$, so
 
-$$
+```math
 (C\cap\{x\mid g(x)<+\infty\}).\text{Nonempty}
-$$
+```
 
 holds. This is exactly the extra hypothesis needed for the compact minimization theorem.
 
@@ -172,7 +172,7 @@ $$
 (c_0:\mathrm{EReal})<g(y).
 $$
 
-Combining $g(x_{\min})\le c_0$ with $c_0<g(y)$ gives $g(x_{\min})\le g(y)$. Thus
+Combining $g(x_{\min})\le c_0$ with $c_0\lt g(y)$ gives $g(x_{\min})\le g(y)$. Thus
 
 $$
 \mathrm{IsMinOn} g \mathrm{Set.univ} x_{\min},
@@ -230,5 +230,5 @@ $$
 g(x_{\min})=\mathrm{sInf}(\mathrm{range} g).
 $$
 
-Therefore $x_{\min}$ is a global minimizer and its value is exactly the infimum of the range of $g$. The proof uses `constructor` to prove the final conjunction and `exact` to provide the witnesses. No `linarith` is used; the only order reasoning is the elementary passage from $\neg(g(y)\le c_0)$ to $c_0<g(y)$, followed by transitivity of $\le$.
+Therefore $x_{\min}$ is a global minimizer and its value is exactly the infimum of the range of $g$. The proof uses `constructor` to prove the final conjunction and `exact` to provide the witnesses. No `linarith` is used; the only order reasoning is the elementary passage from $\neg(g(y)\le c_0)$ to $c_0\lt g(y)$, followed by transitivity of $\le$.
 

@@ -28,13 +28,13 @@ $$
 
 every $\theta_1\ge 0$, and every $A_0,B_0,c\ge 0$, the following inequality holds:
 
-$$
+```math
 \frac{\alpha}{\alpha-\alpha\gamma T-T^2}\bigl(A_0+T B_0+T^2\theta_1 c\bigr)
 \le
 \exp\!\left(T\sqrt{1+2\gamma^2+\frac{2}{\alpha^2}}\right)\sqrt{A_0^2+B_0^2}
 +\frac{\theta_1}{\sqrt{1+2\gamma^2+\frac{2}{\alpha^2}}}
 \left(\exp\!\left(T\sqrt{1+2\gamma^2+\frac{2}{\alpha^2}}\right)-1\right)c.
-$$
+```
 
 If one sets
 
@@ -125,30 +125,30 @@ by
 ```
 
 ## Proof explanation
-The proof begins by invoking the threshold result `rem_4_refinement_threshold`. For the same real numbers $\alpha,\gamma$, with $\alpha>0$ and $\gamma\ge 0$, that result supplies a positive real $T_0$ such that for every $T\in(0,T_0)$, three facts hold:
+The proof begins by invoking the threshold result `rem_4_refinement_threshold`. For the same real numbers $\alpha,\gamma$, with $\alpha\gt 0$ and $\gamma\ge 0$, that result supplies a positive real $T_0$ such that for every $T\in(0,T_0)$, three facts hold:
 
 $$
 \gamma T+\frac{T^2}{\alpha}<1,
 $$
 
-$$
+```math
 \frac{\alpha}{\alpha-\alpha\gamma T-T^2}\sqrt{1+T^2}
 \le
 \exp\!\left(T\sqrt{1+2\gamma^2+\frac{2}{\alpha^2}}\right),
-$$
+```
 
 and
 
-$$
+```math
 \frac{\alpha}{\alpha-\alpha\gamma T-T^2}T^2
 \le
 \frac{\exp\!\left(T\sqrt{1+2\gamma^2+\frac{2}{\alpha^2}}\right)-1}
 {\sqrt{1+2\gamma^2+\frac{2}{\alpha^2}}}.
-$$
+```
 
 The proof calls this theorem with `obtain`, unpacking the existential statement into a witness $T_0$, its positivity $hT_0$, and the universal property $hT$. It then uses `refine` to choose the same $T_0$ for the target theorem, leaving the inequality to be proved.
 
-Next, the proof introduces the universally quantified data with `intro`: a real $T$ satisfying $0<T<T_0$, a real $\theta_1$ with $0\le \theta_1$, and real numbers $A_0,B_0,c$ with $0\le A_0$, $0\le B_0$, and $0\le c$. The membership hypothesis says precisely that $T\in(0,T_0)$. Applying $hT$ to this $T$ and its interval membership yields three inequalities: the smallness condition $h_s$, the bound $hcoeff_1$ involving $\sqrt{1+T^2}$, and the bound $hcoeff_2$ involving $T^2$.
+Next, the proof introduces the universally quantified data with `intro`: a real $T$ satisfying $0\lt T\lt T_0$, a real $\theta_1$ with $0\le \theta_1$, and real numbers $A_0,B_0,c$ with $0\le A_0$, $0\le B_0$, and $0\le c$. The membership hypothesis says precisely that $T\in(0,T_0)$. Applying $hT$ to this $T$ and its interval membership yields three inequalities: the smallness condition $h_s$, the bound $hcoeff_1$ involving $\sqrt{1+T^2}$, and the bound $hcoeff_2$ involving $T^2$.
 
 The proof then defines
 
@@ -156,7 +156,7 @@ $$
 m=\sqrt{1+2\gamma^2+\frac{2}{\alpha^2}}.
 $$
 
-It proves $m>0$ by rewriting $m$ to its defining square root and applying `Real.sqrt_pos.mpr`, which says that a positive real has a positive square root. The positivity of the radicand $1+2\gamma^2+2/\alpha^2$ follows because $\alpha>0$, so $2/\alpha^2>0$, while $2\gamma^2\ge0$. This positivity is recorded, although the later inequalities are already stated with division by $m$.
+It proves $m\gt 0$ by rewriting $m$ to its defining square root and applying `Real.sqrt_pos.mpr`, which says that a positive real has a positive square root. The positivity of the radicand $1+2\gamma^2+2/\alpha^2$ follows because $\alpha\gt 0$, so $2/\alpha^2\gt 0$, while $2\gamma^2\ge0$. This positivity is recorded, although the later inequalities are already stated with division by $m$.
 
 The two threshold inequalities are then restated with $m$ in place of the square root. This gives
 
@@ -190,19 +190,19 @@ $$
 \alpha\gamma T+T^2=\alpha\left(\gamma T+\frac{T^2}{\alpha}\right)
 $$
 
-is obtained with `field_simp`, using $\alpha\ne0$ from $\alpha>0$. Since $h_s$ says
+is obtained with `field_simp`, using $\alpha\ne0$ from $\alpha\gt 0$. Since $h_s$ says
 
 $$
 \gamma T+\frac{T^2}{\alpha}<1
 $$
 
-and $\alpha>0$, multiplying by $\alpha$ with `mul_lt_mul_of_pos_left` gives
+and $\alpha\gt 0$, multiplying by $\alpha$ with `mul_lt_mul_of_pos_left` gives
 
 $$
 \alpha\left(\gamma T+\frac{T^2}{\alpha}\right)<\alpha\cdot 1=\alpha.
 $$
 
-Thus $\alpha\gamma T+T^2<\alpha$, and `nlinarith` rearranges this to $0<\alpha-\alpha\gamma T-T^2$. Consequently, the multiplier
+Thus $\alpha\gamma T+T^2\lt \alpha$, and `nlinarith` rearranges this to $0\lt \alpha-\alpha\gamma T-T^2$. Consequently, the multiplier
 
 $$
 \frac{\alpha}{\alpha-\alpha\gamma T-T^2}

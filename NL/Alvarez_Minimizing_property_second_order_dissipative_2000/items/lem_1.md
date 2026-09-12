@@ -27,15 +27,15 @@ i.e. $\theta$ has a finite limit at $+\infty$.
 
 Mathematically, the proof defines $g(t)=\max(\theta'(t),0)$, so $g\ge \theta'$ and $g\ge0$. The auxiliary function
 
-$$
+```math
 \mathrm{rawW}(u)=\theta(u)-\int_0^u g(x)\,dx
-$$
+```
 
 has derivative $\theta'(u)-g(u)\le0$ on $[0,\infty)$, so it is nonincreasing there. It is also bounded below: the lower bound on $\theta$ and the bound $\int_0^u g\le \int_{(0,\infty)}g$ show that $\mathrm{rawW}(u)\ge m-\int_{(0,\infty)}g$. Hence $\mathrm{rawW}$ converges to its infimum. Meanwhile the cumulative integral $\int_0^t g$ converges to the total integral $\int_{(0,\infty)}g$, because $g$ is integrable on $(0,\infty)$. Since for $t\ge0$,
 
-$$
+```math
 \theta(t)=\mathrm{rawW}(t)+\int_0^t g(x)\,dx,
-$$
+```
 
 the sum of the two limits gives the limit of $\theta$.
 
@@ -104,9 +104,9 @@ The proof then shows that for any $0\le s\le t$, $g$ is interval-integrable on t
 
 Now the proof defines
 
-$$
+```math
 \mathrm{rawW}(u)=\theta(u)-\int_0^u g(x)\,dx.
-$$
+```
 
 It applies `rawW_antitoneOn_Ici` to $\theta$, $g$, the $C^1$ hypothesis on $[0,\infty)$, the pointwise inequality $\theta'\le g$, and the interval-integrability fact just proved. The lemma states that under exactly these assumptions,
 
@@ -147,9 +147,9 @@ which is exactly $W(t)\le W(s)$. Thus `hWanti` establishes that $W$ is nonincrea
 
 The proof then extracts the lower bound from the hypothesis `hLower`: there is $m$ such that $m\le\theta(t)$ for every $t\ge0$. It also defines the total integral
 
-$$
+```math
 G=\int_{(0,\infty)} g(x)\,dx.
-$$
+```
 
 Because $g$ is integrable on $(0,\infty)$, this real number is finite.
 
@@ -184,10 +184,10 @@ This is the monotone-convergence fact for a nonincreasing function bounded below
 
 Separately, the proof shows that the cumulative integral of $g$ converges to its total integral. The invocation `intervalIntegral_tendsto_integral_Ioi 0 hIntIoi tendsto_id` gives the specialized consequence
 
-$$
+```math
 \int_0^t g(x)\,dx\to \int_{(0,\infty)}g(x)\,dx=G
 \qquad\text{as }t\to\infty.
-$$
+```
 
 This is the standard improper-integral convergence statement for an integrable function on $(0,\infty)$.
 
@@ -199,21 +199,21 @@ $$
 
 Adding the two limits using `Tendsto.add` gives
 
-$$
+```math
 W(t)+\int_0^t g(x)\,dx\to l.
-$$
+```
 
 It remains to identify $W(t)+\int_0^t g$ with $\theta(t)$ eventually. The command `filter_upwards [eventually_ge_atTop (0 : ℝ)]` restricts attention to all sufficiently large $t$, in fact to all $t\ge0$. For such $t$, $\max(t,0)=t$, so
 
-$$
+```math
 W(t)=\mathrm{rawW}(t)=\theta(t)-\int_0^t g(x)\,dx.
-$$
+```
 
 Therefore
 
-$$
+```math
 W(t)+\int_0^t g(x)\,dx=\theta(t).
-$$
+```
 
 The `simp` step performs this unfolding and cancellation. Finally, `Tendsto.congr'` transfers the limit from the eventually equal function $W(t)+\int_0^t g$ to $\theta(t)$. Hence
 

@@ -32,9 +32,9 @@ $$
 
 The hypotheses are the following. First, $y$ is assumed to be the time-scaled trajectory of $z$ by $\tau$, written in Lean as $y=\mathrm{timeScaledTrajectory} z \tau$. The definition of $\mathrm{timeScaledTrajectory}$ is not provided in the source, so this hypothesis is only identified here as saying that $y$ is obtained from $z$ by the time change $\tau$. Second, the hypothesis
 
-$$
+```math
 \mathrm{IsWeightedAverageOn} \tau\,d\tau\,x\,y\,dx\,s_0
-$$
+```
 
 is assumed. The definition of this predicate is not given in the provided source, but the proof unpacks it. The part actually used in the proof says that for every $s\in [s_0,\infty)$,
 
@@ -70,9 +70,9 @@ $$
 
 The conclusion is a conjunction of two statements. The first says that for every $s\in [s_0,\infty)$,
 
-$$
+```math
 x(s)=x(s_0)+\int_{s_0}^{s} dx(u)\,du.
-$$
+```
 
 Thus $x$ is recovered from its derivative $dx$ by the fundamental theorem of calculus on the interval $[s_0,s]$. The second says that for every $s\in (s_0,\infty)$,
 
@@ -145,7 +145,7 @@ $$
 \texttt{rcases haverage with }\langle h\tau, hxy0, haverage\rangle.
 $$
 
-This destructs the predicate $\mathrm{IsWeightedAverageOn} \tau\,d\tau\,x\,y\,dx\,s_0$ into three components. The first two, `hτ` and `hxy0`, are not used later. The third component, now also named `haverage`, is the only part needed. From it the proof extracts two facts. First,
+This destructs the predicate $`\mathrm{IsWeightedAverageOn} \tau\,d\tau\,x\,y\,dx\,s_0`$ into three components. The first two, `hτ` and `hxy0`, are not used later. The third component, now also named `haverage`, is the only part needed. From it the proof extracts two facts. First,
 
 $$
 \texttt{hdx}:\quad \forall s\in [s_0,\infty),\ \mathrm{HasDerivAt} x (dx(s)) s,
@@ -173,15 +173,15 @@ Next the proof shows that $dx$ is continuous on $[s_0,s]$. For each $u\in [s_0,s
 
 The proof then invokes the vector-valued fundamental theorem of calculus in the form
 
-$$
+```math
 \texttt{intervalIntegral.integral\_eq\_sub\_of\_hasDerivAt}.
-$$
+```
 
 Its content here is: if $x$ has derivative $dx(u)$ at every $u\in [s_0,s]$, and if $dx$ is interval integrable over $[s_0,s]$, then
 
-$$
+```math
 \int_{s_0}^{s} dx(u)\,du=x(s)-x(s_0).
-$$
+```
 
 This is exactly the fact named `hftc`. Rewriting with `rw [hftc]` replaces the integral in the goal by $x(s)-x(s_0)$. The remaining goal is
 
@@ -191,7 +191,7 @@ $$
 
 which is an additive identity in the abelian group $H$. The tactic `abel` normalizes and closes this identity.
 
-For the second subgoal, the proof fixes $s\in (s_0,\infty)$ by `intro s hs`. From $s_0<s$ it obtains $s\in [s_0,\infty)$, named `hsIci`. Since $d\tau(s)>0$ on $[s_0,\infty)$, it also gets $d\tau(s)\neq0$, named `hdτne`.
+For the second subgoal, the proof fixes $s\in (s_0,\infty)$ by `intro s hs`. From $s_0\lt s$ it obtains $s\in [s_0,\infty)$, named `hsIci`. Since $d\tau(s)\gt 0$ on $[s_0,\infty)$, it also gets $d\tau(s)\neq0$, named `hdτne`.
 
 The proof then defines the auxiliary function
 
@@ -233,7 +233,7 @@ $$
 
 The `convert` and `simp` steps rewrite this expression into the displayed one, using the identity $-\frac{dd\tau(s)}{(d\tau(s))^2}=-\left(\frac{dd\tau(s)}{(d\tau(s))^2}\right)$ and elementary algebraic rearrangements.
 
-Next the proof shows that $F$ agrees with the zero function near $s$. Since $s>s_0$, the lemma `eventually_gt_nhds hs` gives that for all $t$ sufficiently close to $s$, one has $t>s_0$. Using `filter_upwards`, the proof restricts to such $t$. For those $t$, $t\ge s_0$, so `hode t` applies and says
+Next the proof shows that $F$ agrees with the zero function near $s$. Since $s\gt s_0$, the lemma `eventually_gt_nhds hs` gives that for all $t$ sufficiently close to $s$, one has $t\gt s_0$. Using `filter_upwards`, the proof restricts to such $t$. For those $t$, $t\ge s_0$, so `hode t` applies and says
 
 $$
 dx(t)+d\tau(t)^{-1}\cdot (x(t)-y(t))=0.
@@ -262,9 +262,9 @@ Mathematically, if a function has a derivative at $s$ and is eventually equal to
 
 Finally, the constant zero function has derivative $0$ at $s$, by `hasDerivAt_const`. The proof applies uniqueness of derivatives: since the zero function has derivative both the displayed expression and $0$ at $s$, those two quantities are equal. This is the invocation
 
-$$
+```math
 \texttt{exact hconst.unique (hasDerivAt\_const s (0 : H))}.
-$$
+```
 
 Therefore
 

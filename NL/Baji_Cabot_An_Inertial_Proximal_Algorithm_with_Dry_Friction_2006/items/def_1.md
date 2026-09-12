@@ -9,9 +9,9 @@ recall Metric.infDist
 ## Statement explanation
 The declaration `recall Metric.infDist` is not a theorem or lemma with hypotheses and a conclusion; it is a recall of an existing Mathlib definition. In the ambient (pseudo)metric space, for a point $x$ and a set $s$, the function `Metric.infDist` assigns the real number
 
-$$
+```math
 \mathrm{infDist}(x,s)=\inf\{\mathrm{dist}(x,y)\mid y\in s\}.
-$$
+```
 
 More formally in Lean, it is the infimum of the image of $s$ under the map $y\mapsto \mathrm{dist}(x,y)$, i.e.
 

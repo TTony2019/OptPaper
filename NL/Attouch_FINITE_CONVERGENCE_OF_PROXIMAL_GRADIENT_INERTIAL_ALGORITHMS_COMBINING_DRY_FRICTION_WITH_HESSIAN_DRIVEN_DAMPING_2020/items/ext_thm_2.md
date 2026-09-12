@@ -19,11 +19,11 @@ theorem variableMetric_composite_proximal_identity {H : Type*} [NormedAddCommGro
 ```
 
 ## Statement explanation
-Let $H$ be a real Hilbert space. Let $f,g: H \to \overline{\mathbb R}$ be extended-real functions, let $A: H \to H$ be a continuous linear map, let $b \in H$, let $M: H \to H$ be a continuous linear map, and let $\lambda \in \mathbb R$ with $\lambda>0$. Write $A^*$ for the Hilbert adjoint of $A$. The hypotheses are that $g$ is proper, that its epigraph is convex, and that $g$ is lower semicontinuous; that
+Let $H$ be a real Hilbert space. Let $f,g: H \to \overline{\mathbb R}$ be extended-real functions, let $A: H \to H$ be a continuous linear map, let $b \in H$, let $M: H \to H$ be a continuous linear map, and let $\lambda \in \mathbb R$ with $\lambda\gt 0$. Write $A^*$ for the Hilbert adjoint of $A$. The hypotheses are that $g$ is proper, that its epigraph is convex, and that $g$ is lower semicontinuous; that
 
-$$
+```math
 f(x)=\frac12\|Ax-b\|^2+g(x)
-$$
+```
 
 for every $x$; that
 
@@ -31,7 +31,7 @@ $$
 M=I-\lambda A^*A;
 $$
 
-that $M$ is positive definite, meaning $\langle Mv,v\rangle>0$ for every $v\ne0$; and that a function $\mathrm{prox}_F:H\to H$ satisfies the variable-metric proximal optimality condition: for each $x$, with $p=\mathrm{prox}_F x$, there exists $u\in\partial f(p)$ such that
+that $M$ is positive definite, meaning $\langle Mv,v\rangle\gt 0$ for every $v\ne0$; and that a function $\mathrm{prox}_F:H\to H$ satisfies the variable-metric proximal optimality condition: for each $x$, with $p=\mathrm{prox}_F x$, there exists $u\in\partial f(p)$ such that
 
 $$
 M(x-p)=\lambda u,
@@ -45,11 +45,11 @@ $$
 \langle y-p,u\rangle+h(p)\le h(y)
 $$
 
-for every $y\in H$. The expression `properIoi g hproper` is the same function $g$, but regarded as a function whose values lie in $\{z\in\overline{\mathbb R}:z>-\infty\}$; properness supplies the fact that $g$ never takes the value $-\infty$. The cited result `properIoi_mem_gammaZero_of_epigraph_convex_lsc` says that because $g$ is proper, convex in the epigraph sense, and lower semicontinuous, this version of $g$ belongs to $\Gamma_0(H)$. For a function $h\in\Gamma_0(H)$ and $\lambda>0$, the scaled proximity operator $\mathrm{Prox}_{\lambda h}(z)$ is the unique minimizer of
+for every $y\in H$. The expression `properIoi g hproper` is the same function $g$, but regarded as a function whose values lie in $`\{z\in\overline{\mathbb R}:z>-\infty\}`$; properness supplies the fact that$g$never takes the value$-\infty$. The cited result `properIoi_mem_gammaZero_of_epigraph_convex_lsc` says that because $g$ is proper, convex in the epigraph sense, and lower semicontinuous, this version of $g$ belongs to $\Gamma_0(H)$. For a function $h\in\Gamma_0(H)$ and $\lambda\gt 0$, the scaled proximity operator $\mathrm{Prox}_{\lambda h}(z)$ is the unique minimizer of
 
-$$
+```math
 y\mapsto \lambda h(y)+\frac12\|z-y\|^2.
-$$
+```
 
 The conclusion of the theorem is
 
@@ -59,7 +59,7 @@ $$
 \bigl(x-\lambda A^*(Ax-b)\bigr),
 $$
 
-where $\iota(g)$ denotes `properIoi g hproper`. Thus the theorem says that the variable-metric proximal point of the composite function $f=\frac12\|A\cdot-b\|^2+g$, taken with metric $M=I-\lambda A^*A$, coincides with the ordinary $\lambda$-scaled proximal point of $g$ evaluated at the gradient step $x-\lambda A^*(Ax-b)$. The positive-definiteness hypothesis on $M$ is part of the statement, though the proof given below does not explicitly invoke it.
+where $\iota(g)$ denotes `properIoi g hproper`. Thus the theorem says that the variable-metric proximal point of the composite function $`f=\frac12\|A\cdot-b\|^2+g`$, taken with metric$M=I-\lambda A^*A$, coincides with the ordinary$\lambda$-scaled proximal point of$g$evaluated at the gradient step$x-\lambda A^*(Ax-b)$. The positive-definiteness hypothesis on$M$ is part of the statement, though the proof given below does not explicitly invoke it.
 
 ## Lean proof
 ```lean
@@ -156,9 +156,9 @@ This is the identity needed later.
 
 Now the cited theorem `subgradientEReal_quadratic_add` is applied with $A,b,p,u,g,f$. Its assumptions match the present hypotheses: $g$ has convex epigraph, $g$ is proper, $f$ is given by
 
-$$
+```math
 f(z)=\frac12\|Az-b\|^2+g(z),
-$$
+```
 
 the value $f(p)$ is not $+\infty$, and $u\in\partial f(p)$. Its conclusion is
 

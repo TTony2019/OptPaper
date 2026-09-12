@@ -68,10 +68,10 @@ $$
 
 The conclusion is a conjunction of two statements. First, the positive parts of the successive differences are summable:
 
-$$
+```math
 \sum_{k\in\mathbb N} \mathrm{posPart}\!\bigl(\phi(k)-\phi(k-1)\bigr)
 \ \text{converges},
-$$
+```
 
 where $\mathrm{posPart}(t)=\max(t,0)$. Second, there exists a real number $\mathrm{phiStar}$ such that
 
@@ -256,7 +256,7 @@ $$
 0\le \mathrm{alphaSeq}(0)\le \mathrm{alphaBar},
 $$
 
-transitivity gives $0\le \mathrm{alphaBar}$. Together with $\mathrm{alphaBar}<1$, the linear-arithmetic tactic `linarith` proves
+transitivity gives $0\le \mathrm{alphaBar}$. Together with $\mathrm{alphaBar}\lt 1$, the linear-arithmetic tactic `linarith` proves
 
 $$
 0<1-\mathrm{alphaBar}.
@@ -388,7 +388,7 @@ $$
 (1-\mathrm{alphaBar})S\le \sum_{k=0}^{m}\delta(k)\le D.
 $$
 
-Because $1-\mathrm{alphaBar}>0$, division by this positive number yields
+Because $1-\mathrm{alphaBar}\gt 0$, division by this positive number yields
 
 $$
 S\le \frac{D}{1-\mathrm{alphaBar}}.

@@ -37,13 +37,13 @@ theorem bounded_inf_compact_strong_convergence {H : Type*} [NormedAddCommGroup H
 ## Statement explanation
 The theorem `bounded_inf_compact_strong_convergence` is a strong-convergence result for a continuous-time forward-backward dynamical system in a real Hilbert space $H$. It assumes that a trajectory $x$ has a weak limit point in a set $S$ of solutions, and that the extended-real function $\Phi$ has compact sublevel intersections with closed balls; under the remaining dynamical, regularity, cocoercivity, and domain hypotheses, it concludes that the same weak limit is actually a strong limit.
 
-The variables and hypotheses are as follows. $H$ is a complete real inner-product space, hence a real Hilbert space. The function $\Phi:H\to \mathrm{EReal}$ is extended-real valued; more precisely, its Lean codomain is the subtype of extended reals strictly greater than $\bot$, the bottom element, so its values are not $-\infty$. The hypothesis `hPhi` says $\Phi$ belongs to the class `ERealFunction.gammaZero H`; the supplied context does not expand the definition of that class, so its visible role is as a structural assumption required by the earlier result `proposition_2_16`. The map $B:H\to H$ is a single-valued operator, and `hB` says that $B$ is cocoercive on all of $H$ with constant $\beta>0$. The set $S\subseteq H$ is nonempty. The maps $x,v:\mathbb R\to H$ are the primal and dual trajectories. The real parameters satisfy
+The variables and hypotheses are as follows. $H$ is a complete real inner-product space, hence a real Hilbert space. The function $\Phi:H\to \mathrm{EReal}$ is extended-real valued; more precisely, its Lean codomain is the subtype of extended reals strictly greater than $\bot$, the bottom element, so its values are not $-\infty$. The hypothesis `hPhi` says $\Phi$ belongs to the class `ERealFunction.gammaZero H`; the supplied context does not expand the definition of that class, so its visible role is as a structural assumption required by the earlier result `proposition_2_16`. The map $B:H\to H$ is a single-valued operator, and `hB` says that $B$ is cocoercive on all of $H$ with constant $\beta\gt 0$. The set $S\subseteq H$ is nonempty. The maps $x,v:\mathbb R\to H$ are the primal and dual trajectories. The real parameters satisfy
 
 $$
 \lambda>0,\qquad \mu>0,\qquad \mu\lambda=1,\qquad \beta>0.
 $$
 
-The regularity hypotheses say that $x$ and $v$ are absolutely continuous on every interval $[0,b]$ with $b>0$, that for every $T>0$ the derivatives of $x$ and $v$ exist almost everywhere on $[0,T]$ with the stated values, and that $v$ and the derivative of $x$ are square-integrable on every $[0,b]$. The subgradient condition is
+The regularity hypotheses say that $x$ and $v$ are absolutely continuous on every interval $[0,b]$ with $b\gt 0$, that for every $T\gt 0$ the derivatives of $x$ and $v$ exist almost everywhere on $[0,T]$ with the stated values, and that $v$ and the derivative of $x$ are square-integrable on every $[0,b]$. The subgradient condition is
 
 $$
 v(t)\in\partial\Phi(x(t))\quad\text{for all }t\ge 0.
@@ -64,9 +64,9 @@ $$
 
 equivalently $0\in Bw+\partial\Phi(w)$. The domain hypothesis says that $x(t)\in\mathrm{dom}\Phi$ for all $t\ge0$, and that every $w\in S$ lies in $\mathrm{dom}\Phi$. The weak-convergence hypothesis says that there exists $x_\infty\in S$ such that $x(t)$ converges weakly to $x_\infty$ as $t\to\infty$. Finally, `hinfcompact` says that for every radius $r$ and every real level $a$, the set
 
-$$
+```math
 \overline{B}(z_0,r)\cap\{y\in H:\Phi(y)\le a\}
-$$
+```
 
 is compact, where $z_0$ is the element of $S$ selected by `Classical.choose hS`. This is a bounded inf-compactness condition on $\Phi$.
 
@@ -140,44 +140,44 @@ $$
 
 The proof applies this result with $z=z_0$. The `obtain` pattern discards the integrability conclusion and the energy-to-zero conclusion, keeping only the existence of $x_\infty\in S$, its weak convergence property `hxweak`, and the convergence of the real parts of the $\Phi$-values `hvalue`. Thus the proof has a candidate limit $x_\infty\in S$, weak convergence of $x(t)$ to $x_\infty$, and convergence of $\mathrm{toReal}(\Phi(x(t)))$ to $L=\mathrm{toReal}(\Phi(x_\infty))$.
 
-The next step uses `cor218_eventually_norm_le_of_tendsto_weakly`. This lemma says that if $x(t)$ converges weakly to a point $z$, then there exists a real constant $C$ such that eventually $\|x(t)\|\le C$. Applied to `hxweak`, it gives `hC : ∀ᶠ t, ‖x(t)‖ ≤ C`. This is the uniform eventual boundedness of a weakly convergent trajectory, and it will be used to keep $x(t)$ inside a closed ball.
+The next step uses `cor218_eventually_norm_le_of_tendsto_weakly`. This lemma says that if $x(t)$ converges weakly to a point $z$, then there exists a real constant $C$ such that eventually $`\|x(t)\|\le C`$. Applied to `hxweak`, it gives `hC : ∀ᶠ t, ‖x(t)‖ ≤ C`. This is the uniform eventual boundedness of a weakly convergent trajectory, and it will be used to keep $x(t)$ inside a closed ball.
 
 The proof then defines
 
-$$
+```math
 a=L+1,\qquad R=C+\|z_0\|,\qquad
 K=\overline{B}(z_0,R)\cap\{y:\Phi(y)\le a\}.
-$$
+```
 
 The set $K$ is an intersection of a closed ball around $z_0$ with a sublevel set of $\Phi$. To prove that $K$ is compact, the proof uses `hinfcompact`, which exactly asserts compactness of sets of this form for the chosen center $z_0$. The tactic `dsimp [K, R, a, z0]` unfolds the local definitions, and `exact hinfcompact (C + ‖Classical.choose hS‖) ((Phi xinf).toReal + 1)` matches the required radius and level. Hence `hK : IsCompact K`.
 
-The proof now shows that $x(t)$ is eventually contained in $K$. From `hvalue`, which says $\mathrm{toReal}(\Phi(x(t)))\to L$, and from $L<a=L+1$, the lemma `eventually_lt_const` gives
+The proof now shows that $x(t)$ is eventually contained in $K$. From `hvalue`, which says $\mathrm{toReal}(\Phi(x(t)))\to L$, and from $L\lt a=L+1$, the lemma `eventually_lt_const` gives
 
 $$
 \forallᶠ t,\quad \mathrm{toReal}(\Phi(x(t)))<a.
 $$
 
-The command `filter_upwards [hC, hlt, eventually_ge_atTop 0]` combines three eventual facts: the norm bound $\|x(t)\|\le C$, the strict upper bound on the real part of $\Phi(x(t))$, and the eventual condition $t\ge0$.
+The command `filter_upwards [hC, hlt, eventually_ge_atTop 0]` combines three eventual facts: the norm bound $`\|x(t)\|\le C`$, the strict upper bound on the real part of$\Phi(x(t))$, and the eventual condition$t\ge0$.
 
 For such a $t$, the proof proves $x(t)\in K$ by proving both components of the intersection. First, for the closed ball, `rw [Metric.mem_closedBall, dist_eq_norm]` rewrites the goal into the norm inequality
 
-$$
+```math
 \|x(t)-z_0\|\le R.
-$$
+```
 
-From $\|x(t)\|\le C$, `linarith` derives
+From $`\|x(t)\|\le C`$, `linarith` derives
 
-$$
+```math
 \|x(t)\|+\|z_0\|\le C+\|z_0\|.
-$$
+```
 
 Then `norm_sub_le` gives
 
-$$
+```math
 \|x(t)-z_0\|\le \|x(t)\|+\|z_0\|,
-$$
+```
 
-and `le_trans` combines the two inequalities. Since $R=C+\|z_0\|$, this proves $x(t)\in\overline{B}(z_0,R)$.
+and `le_trans` combines the two inequalities. Since $`R=C+\|z_0\|`$, this proves$x(t)\in\overline{B}(z_0,R)$.
 
 Second, for the sublevel condition, the proof must show
 
@@ -185,7 +185,7 @@ $$
 \Phi(x(t))\le a.
 $$
 
-From the already established real inequality $\mathrm{toReal}(\Phi(x(t)))<a$, the command `exact_mod_cast le_of_lt htv` coerces the non-strict inequality to $\mathrm{EReal}$:
+From the already established real inequality $\mathrm{toReal}(\Phi(x(t)))\lt a$, the command `exact_mod_cast le_of_lt htv` coerces the non-strict inequality to $\mathrm{EReal}$:
 
 $$
 (\mathrm{toReal}(\Phi(x(t))):\mathrm{EReal})\le (a:\mathrm{EReal}).

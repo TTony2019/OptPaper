@@ -13,15 +13,15 @@ theorem epsilonEnlargement_properties (T : SetValuedOperator H H)
 ```
 
 ## Statement explanation
-The declaration `epsilonEnlargement_properties` is a theorem about a set-valued operator $T$ on an ambient type $H$ equipped with a real inner product $\langle\cdot,\cdot\rangle$, written in Lean as `inner ℝ`. The operator is written $T:\mathrm{SetValuedOperator}\,H\,H$, meaning that for each $x\in H$, the value $T x$ is a subset of $H$. The hypothesis $h_T:T.IsMaximalMonotone$ says that $T$ is maximal monotone.
+The declaration `epsilonEnlargement_properties` is a theorem about a set-valued operator $T$ on an ambient type $H$ equipped with a real inner product $\langle\cdot,\cdot\rangle$, written in Lean as `inner ℝ`. The operator is written $`T:\mathrm{SetValuedOperator}\,H\,H`$, meaning that for each$x\in H$, the value$T x$is a subset of$H$. The hypothesis$h_T:T.IsMaximalMonotone$says that$T$ is maximal monotone.
 
 For $\varepsilon\ge 0$, the definition `epsilonEnlargement T ε hε` gives the set-valued operator $E_\varepsilon(T)$ defined by
 
-$$
+```math
 E_\varepsilon(T)(x)
 =\{v\in H:\forall z,w,\ w\in Tz \implies
 \langle w-v,z-x\rangle\ge -\varepsilon\}.
-$$
+```
 
 The argument $h_\varepsilon$ is a proof that $0\le \varepsilon$; it is part of the definition, although the set itself depends only on the numerical value of $\varepsilon$.
 
@@ -29,25 +29,25 @@ The theorem concludes a conjunction of three statements:
 
 1. The zero enlargement is exactly $T$:
 
-   $$
-   E_0(T)=T.
-   $$
+$$
+E_0(T)=T.
+$$
 
    Here the proof of $0\le 0$ required by `epsilonEnlargement T 0` is supplied by the tactic `positivity`.
 
 2. The enlargements are monotone in $\varepsilon$: for every $x$, every $\varepsilon_1,\varepsilon_2$, every proof $h_{\varepsilon_1}:0\le\varepsilon_1$, and every proof $h_{\varepsilon_1\varepsilon_2}:\varepsilon_1\le\varepsilon_2$,
 
-   $$
-   E_{\varepsilon_1}(T)(x)\subseteq E_{\varepsilon_2}(T)(x).
-   $$
+$$
+E_{\varepsilon_1}(T)(x)\subseteq E_{\varepsilon_2}(T)(x).
+$$
 
    The proof of $0\le\varepsilon_2$ used in the right-hand enlargement is obtained by transitivity from $0\le\varepsilon_1$ and $\varepsilon_1\le\varepsilon_2$.
 
 3. Every value of $T$ lies in every nonnegative enlargement:
 
-   $$
-   \forall \varepsilon\ge 0,\ \forall x,\quad T x\subseteq E_\varepsilon(T)(x).
-   $$
+$$
+\forall \varepsilon\ge 0,\ \forall x,\quad T x\subseteq E_\varepsilon(T)(x).
+$$
 
 Thus the theorem says that for a maximal monotone operator $T$, the zero enlargement recovers $T$, increasing the enlargement parameter only enlarges the sets, and $T x$ is always contained in any nonnegative enlargement of $T x$.
 

@@ -31,11 +31,11 @@ $$
 
 be a $\beta$-cocoercive map on all of $H$, as expressed by `hB`. The cocoercivity condition is the standard one: for all $x,y\in H$,
 
-$$
+```math
 \langle B x-B y,x-y\rangle \ge \beta\|B x-B y\|^2,
-$$
+```
 
-which in particular will imply that $B$ is Lipschitz with constant $1/\beta$. The parameters satisfy $\lambda>0$ and $\beta>0$, and the initial data are $x_0,v_0\in H$. The final hypothesis is
+which in particular will imply that $B$ is Lipschitz with constant $1/\beta$. The parameters satisfy $\lambda\gt 0$ and $\beta\gt 0$, and the initial data are $x_0,v_0\in H$. The final hypothesis is
 
 $$
 v_0\in \partial\Phi(x_0),
@@ -55,7 +55,7 @@ $$
 (x,v):\mathbb R\to H\times H
 $$
 
-such that the following conditions hold. First, $x$ and $v$ are absolutely continuous on every interval $[0,b]$ with $b>0$. Second, for every $t\ge 0$,
+such that the following conditions hold. First, $x$ and $v$ are absolutely continuous on every interval $[0,b]$ with $b\gt 0$. Second, for every $t\ge 0$,
 
 $$
 v(t)\in \partial\Phi(x(t)).
@@ -367,15 +367,15 @@ by
 ## Proof explanation
 The proof first converts the cocoercivity of $B$ into a Lipschitz estimate. Applying `cocoercive_implies_lipschitz` to $B$, $\beta$, and `hB` gives
 
-$$
+```math
 \mathrm{LipschitzWith}(\mathrm{toNNReal}(1/\beta))\,B.
-$$
+```
 
 Concretely, for all $p,q\in H$,
 
-$$
+```math
 \|B p-B q\|\le \frac1\beta\|p-q\|.
-$$
+```
 
 This estimate is used later to show that the auxiliary vector field $F$ below is Lipschitz.
 
@@ -391,7 +391,7 @@ $$
 P=\mathrm{Prox}[\gamma,\Phi,hPhi].
 $$
 
-Since $\gamma>0$, the lemma `smul_mem_gammaZero` says that $\gamma\Phi$ again belongs to $\Gamma_0(H)$. Therefore the proximity operator of $\gamma\Phi$ exists, and the theorem `proximityOperator_firmlyNonexpansive_of_mem_gammaZero` says that it is firmly nonexpansive. Because $P$ is precisely the proximity operator of $\gamma\Phi$, this gives
+Since $\gamma\gt 0$, the lemma `smul_mem_gammaZero` says that $\gamma\Phi$ again belongs to $\Gamma_0(H)$. Therefore the proximity operator of $\gamma\Phi$ exists, and the theorem `proximityOperator_firmlyNonexpansive_of_mem_gammaZero` says that it is firmly nonexpansive. Because $P$ is precisely the proximity operator of $\gamma\Phi$, this gives
 
 $$
 P \text{ is firmly nonexpansive}.
@@ -399,15 +399,15 @@ $$
 
 For a map on a Hilbert space, firm nonexpansiveness means
 
-$$
+```math
 \|P p-P q\|^2\le \langle P p-P q,p-q\rangle,
-$$
+```
 
 and the lemma `lipschitzWith_one_of_firmlyNonexpansive` converts this into the ordinary estimate
 
-$$
+```math
 \|P p-P q\|\le \|p-q\|.
-$$
+```
 
 So $P$ is $1$-Lipschitz.
 
@@ -425,24 +425,24 @@ $$
 
 For $p,q\in H$, the triangle inequality gives
 
-$$
+```math
 \|F(p)-F(q)\|
 \le
 \|P(p)-P(q)\|+\|p-q\|+|\lambda^{-1}|\,\|B(P(p))-B(P(q))\|.
-$$
+```
 
-Using $\|P(p)-P(q)\|\le\|p-q\|$ and
+Using $`\|P(p)-P(q)\|\le\|p-q\|`$ and
 
-$$
+```math
 \|B(P(p))-B(P(q))\|\le \frac1\beta\|P(p)-P(q)\|\le \frac1\beta\|p-q\|,
-$$
+```
 
 the right-hand side is at most
 
-$$
+```math
 \|p-q\|+\|p-q\|+|\lambda^{-1}|\frac1\beta\|p-q\|
 =\left(2+\frac{|\lambda^{-1}|}{\beta}\right)\|p-q\|.
-$$
+```
 
 Thus $F$ is Lipschitz with constant $K$. In the Lean proof this is the block using `LipschitzWith.of_dist_le_mul`, `norm_sub_le`, `norm_smul`, `gcongr`, and algebraic simplification with `ring` and `ac_rfl`.
 
@@ -468,11 +468,11 @@ $$
 
 The lemma `subdifferential_posReal_smul_eq_smul` gives
 
-$$
+```math
 \partial(\gamma\Phi)=\gamma\,\partial\Phi.
-$$
+```
 
-Because $\gamma=\lambda^{-1}>0$, membership in $\gamma\partial\Phi(x_0)$ is equivalent to
+Because $\gamma=\lambda^{-1}\gt 0$, membership in $\gamma\partial\Phi(x_0)$ is equivalent to
 
 $$
 \gamma^{-1}(q_0-x_0)\in\partial\Phi(x_0).
@@ -496,15 +496,15 @@ $$
 
 The lemma `exists_global_solution_of_lipschitz` applies because $F$ is Lipschitz on the complete space $H$. It gives a global trajectory $z:\mathbb R\to H$ satisfying
 
-$$
+```math
 z(0)=q_0,\qquad \forall t,\ \mathrm{HasDerivAt} z\,(F(z(t)))\,t.
-$$
+```
 
-In particular $z$ is differentiable everywhere, hence continuous. Since $F$ is Lipschitz, $F$ is continuous, so $t\mapsto F(z(t))$ is continuous. For each $b>0$, this continuous function is bounded on the compact interval $[0,b]$ by some $C$. The derivative bound
+In particular $z$ is differentiable everywhere, hence continuous. Since $F$ is Lipschitz, $F$ is continuous, so $t\mapsto F(z(t))$ is continuous. For each $b\gt 0$, this continuous function is bounded on the compact interval $[0,b]$ by some $C$. The derivative bound
 
-$$
+```math
 \|z'(t)\|=\|F(z(t))\|\le C
-$$
+```
 
 on $[0,b]$ then implies that $z$ is Lipschitz on $[0,b]$, using `convex_Icc.lipschitzOnWith_of_nnnorm_deriv_le`. Lipschitz functions on intervals are absolutely continuous, so
 
@@ -512,7 +512,7 @@ $$
 z \text{ is absolutely continuous on } [0,b]
 $$
 
-for every $b>0$.
+for every $b\gt 0$.
 
 Now define
 
@@ -537,7 +537,7 @@ v(0)=\lambda(z(0)-x(0))
 =v_0.
 $$
 
-The subgradient condition is obtained from `scaledProximityOperator_residual_mem`, which says that for $f\in\Gamma_0(H)$ and $\gamma>0$,
+The subgradient condition is obtained from `scaledProximityOperator_residual_mem`, which says that for $f\in\Gamma_0(H)$ and $\gamma\gt 0$,
 
 $$
 \gamma^{-1}\bigl(z-\mathrm{Prox}[\gamma,f](z)\bigr)
@@ -592,7 +592,7 @@ Thus the combined differential equation holds for all $t$, hence almost everywhe
 
 To get the desired negative-time behavior, the proof defines
 
-$$
+```math
 x_t(t)=
 \begin{cases}
 x_0,&t<0,\\
@@ -604,7 +604,7 @@ v_t(t)=
 v_0,&t<0,\\
 v(t),&t\ge 0.
 \end{cases}
-$$
+```
 
 On any interval $[0,b]$, these functions agree with $x$ and $v$, so they inherit absolute continuity. The subgradient condition and the differential equation hold on $[0,\infty)$. The initial conditions hold at $0$, and the negative-time conditions are true by definition. For the almost-everywhere derivative statement, the proof uses the fact that almost every $t$ in $[0,\infty)$ is strictly positive, so near such a $t$ the functions $x_t$ and $v_t$ are eventually equal to $x$ and $v$. This is formalized with `hpositive_ae`, `MeasureTheory.restrict_Ioi_eq_restrict_Ici`, and `filter_upwards`. Hence existence of the pair $(x_t,v_t)$ is established.
 
@@ -679,10 +679,10 @@ Thus $q'=F(q)$ almost everywhere on $[0,b]$.
 
 The proof then upgrades this almost-everywhere derivative to a right derivative using `ac_hasDerivWithinAt_right_of_ae_hasDerivAt`. Specialized here, that result says: if an absolutely continuous function on $[0,b]$ has almost everywhere derivative equal to a continuous function $g$, then for every $t\in[0,b)$, its right derivative at $t$ is $g(t)$. Applying this with $g(t)=F(q(t))$ gives
 
-$$
+```math
 \forall t\in[0,b),\quad
 \mathrm{HasDerivWithinAt} q\,(F(q(t)))\,([t,\infty))\,t.
-$$
+```
 
 Now both $q$ and $z$ are continuous on $[0,b]$, have the same initial value $q(0)=q_0=z(0)$, and satisfy the same ODE $u'=F(u)$ on $[0,b]$, with $q$ in right-derivative form and $z$ in ordinary derivative form. Since $F$ is Lipschitz with constant $K$, the ODE uniqueness lemma `ODE_solution_unique_of_mem_Icc_right` applies. Its consequence in this situation is exactly
 
@@ -690,7 +690,7 @@ $$
 q(t)=z(t)\qquad\text{for all }t\in[0,b].
 $$
 
-Because $b>0$ is arbitrary, this gives $q(t)=z(t)$ for every $t\ge 0$.
+Because $b\gt 0$ is arbitrary, this gives $q(t)=z(t)$ for every $t\ge 0$.
 
 Therefore, for $t\ge 0$,
 
@@ -706,7 +706,7 @@ y_2(t)=\lambda(q(t)-y_1(t))
 =v(t)=v_t(t).
 $$
 
-For $t<0$, the assumed negative-time conditions on $(y_1,y_2)$ give $y_1(t)=x_0=x_t(t)$ and $y_2(t)=v_0=v_t(t)$. Hence $y_1=x_t$ and $y_2=v_t$ as functions. The final Lean steps use `Prod.ext` to split equality of the pair into equality of the two components, `funext` to prove equality of functions pointwise, and `by_cases` to split into the cases $t<0$ and $t\ge 0$. This completes the uniqueness proof.
+For $t\lt 0$, the assumed negative-time conditions on $(y_1,y_2)$ give $y_1(t)=x_0=x_t(t)$ and $y_2(t)=v_0=v_t(t)$. Hence $y_1=x_t$ and $y_2=v_t$ as functions. The final Lean steps use `Prod.ext` to split equality of the pair into equality of the two components, `funext` to prove equality of functions pointwise, and `by_cases` to split into the cases $t\lt 0$ and $t\ge 0$. This completes the uniqueness proof.
 
 Throughout, tactics such as `rw`, `simp`, `ring`, and `module` perform definitional and algebraic rewrites; `gcongr` proves the needed inequalities term by term; `filter_upwards` combines almost-everywhere statements; `convert` transfers derivative statements along eventually-equal functions; and `linarith` handles the arithmetic needed to choose positive interval endpoints.
 

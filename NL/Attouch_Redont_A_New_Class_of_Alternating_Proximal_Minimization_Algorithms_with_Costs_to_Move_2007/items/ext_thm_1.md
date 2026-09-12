@@ -70,11 +70,11 @@ The tactic
 ```lean
 rw [subdifferential, Set.mem_setOf_eq]
 ```
-unfolds the definition of `subdifferential` and then uses `Set.mem_setOf_eq`, the basic membership rule for set-builder notation. If a set is written as $\{y\mid P(y)\}$, then $a\in\{y\mid P(y)\}$ is equivalent to $P(a)$. Since `subdifferential f x` is defined as
+unfolds the definition of `subdifferential` and then uses `Set.mem_setOf_eq`, the basic membership rule for set-builder notation. If a set is written as $`\{y\mid P(y)\}`$, then$`a\in\{y\mid P(y)\}`$is equivalent to$P(a)$. Since `subdifferential f x` is defined as
 
-$$
+```math
 \{u\in H\mid \forall y\in H,\ f(y)\ge f(x)+\langle u,y-x\rangle\},
-$$
+```
 
 this rewrite changes the goal to
 

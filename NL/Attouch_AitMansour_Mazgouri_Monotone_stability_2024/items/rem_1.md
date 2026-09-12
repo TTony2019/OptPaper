@@ -25,10 +25,10 @@ $$
 
 and for all $u,v\in H$,
 
-$$
+```math
 \alpha(\mu)\|A_\mu u-A_\mu v\|^2
 \le \langle A_\mu u-A_\mu v,\,u-v\rangle_{\mathbb R}.
-$$
+```
 
 Second,
 
@@ -38,11 +38,11 @@ $$
 
 and for all $u\in H$ and all $\mu,\mu'\in V$,
 
-$$
+```math
 \|A_\mu u-A_{\mu'}u\|\le \theta_1\|\mu-\mu'\|^{\theta_2}.
-$$
+```
 
-The hypothesis `hsol` says that for every $\mu\in V$, the triple $(x_\mu,dx_\mu,ddx_\mu)$ satisfies the solution predicate `ext_def_2` for the problem associated to $A_\mu,\gamma,u_0(\mu),v_0(\mu)$. The definition of `ext_def_2` itself is not expanded in the source; the proof uses only that `thm_1` recognizes it as the relevant solution predicate and that the first projection `(hsol μ hμ).1` provides a proof of $0<\gamma$, which `thm_1` requires. The hypotheses `hu₀` and `hv₀` say that the initial position and initial velocity are constant on $V$:
+The hypothesis `hsol` says that for every $\mu\in V$, the triple $(x_\mu,dx_\mu,ddx_\mu)$ satisfies the solution predicate `ext_def_2` for the problem associated to $A_\mu,\gamma,u_0(\mu),v_0(\mu)$. The definition of `ext_def_2` itself is not expanded in the source; the proof uses only that `thm_1` recognizes it as the relevant solution predicate and that the first projection `(hsol μ hμ).1` provides a proof of $0\lt \gamma$, which `thm_1` requires. The hypotheses `hu₀` and `hv₀` say that the initial position and initial velocity are constant on $V$:
 
 $$
 \forall \mu,\mu'\in V,\quad u_0(\mu)=u_0(\mu'),\qquad
@@ -51,21 +51,21 @@ $$
 
 The conclusion is a stability estimate for two parameters $\mu,\mu'\in V$. Define
 
-$$
+```math
 m_\mu=\sqrt{1+2\gamma^2+\frac{2}{\alpha(\mu)^2}},\qquad
 m_{\mu'}=\sqrt{1+2\gamma^2+\frac{2}{\alpha(\mu')^2}},\qquad
 m=\max\{m_\mu,m_{\mu'}\}.
-$$
+```
 
 Then, for almost every $t$ with respect to Lebesgue measure on $\mathbb R$, if $0\le t$, then
 
-$$
+```math
 \|x_\mu(t)-x_{\mu'}(t)\|
 \le
 \left(\frac{\theta_1}{m}\right)
 \left(e^{mt}-1\right)
 \|\mu-\mu'\|^{\theta_2}.
-$$
+```
 
 Thus, when all parameters have the same initial data, the difference between the two solution curves is bounded purely by the parameter difference, with an exponential factor in $t$; the initial-data term present in `thm_1` disappears.
 
@@ -98,7 +98,7 @@ Real.sqrt (1 + 2 * γ ^ 2 + 2 / ((α μ) ^ 2))
 ```
 
 ## Proof explanation
-The proof begins with `intro μ hμ μ' hμ'`, introducing arbitrary parameters $\mu,\mu'\in V$. The command `dsimp only` unfolds the local `let` definitions for $m_\mu$, $m_{\mu'}$, and $m$ in the goal, so the goal is reduced to the concrete estimate involving $m=\max\{m_\mu,m_{\mu'}\}$.
+The proof begins with `intro μ hμ μ' hμ'`, introducing arbitrary parameters $\mu,\mu'\in V$. The command `dsimp only` unfolds the local `let` definitions for $m_\mu$, $m_{\mu'}$, and $m$ in the goal, so the goal is reduced to the concrete estimate involving $`m=\max\{m_\mu,m_{\mu'}\}`$.
 
 Next the proof invokes `thm_1`:
 
@@ -106,11 +106,11 @@ $$
 \text{`thm\_1 V A γ u₀ v₀ α θ₁ θ₂ (hsol μ hμ).1 hC₁ hC₂`}.
 $$
 
-The argument `(hsol μ hμ).1` supplies the positivity $0<\gamma$ needed by `thm_1`; this is the only part of `ext_def_2` explicitly unpacked here. The theorem `thm_1` returns two components, named `hunique` and `hpairs`.
+The argument `(hsol μ hμ).1` supplies the positivity $0\lt \gamma$ needed by `thm_1`; this is the only part of `ext_def_2` explicitly unpacked here. The theorem `thm_1` returns two components, named `hunique` and `hpairs`.
 
 The first component `hunique` states that for every $\nu\in V$, there exists a solution triple $(z,dz,ddz)$ satisfying `ext_def_2`, and any other solution triple for the same problem agrees with it on $[0,\infty)$. The second component `hpairs` states a two-parameter stability estimate: for every $\nu,\nu'\in V$, there exist solutions $y,y'$ for the two problems and an almost-everywhere bound
 
-$$
+```math
 \|y(t)-y'(t)\|
 \le
 e^{mt}
@@ -118,7 +118,7 @@ e^{mt}
 +\frac{\theta_1}{m}
 \left(e^{mt}-1\right)
 \|\nu-\nu'\|^{\theta_2}.
-$$
+```
 
 The proof specializes `hpairs` to the chosen pair by `specialize hpairs μ hμ μ' hμ'`, then `dsimp only at hpairs` unfolds the corresponding definitions of $m_\mu$, $m_{\mu'}$, and $m$ inside that estimate.
 
@@ -138,10 +138,10 @@ $$
 
 Now the proof turns to the almost-everywhere estimate. The tactic `filter_upwards [hyy] with t ht` uses the almost-everywhere statement `hyy` from `thm_1`: it suffices to prove the desired property for an arbitrary $t$ satisfying `hyy`'s statement. The statement `ht` is the implication
 
-$$
+```math
 0\le t\Rightarrow
 \|y(t)-y'(t)\|\le \cdots,
-$$
+```
 
 so `intro ht_nonneg` assumes $0\le t$, and `have ht_bound := ht ht_nonneg` obtains the numerical bound for $y(t)-y'(t)$.
 
@@ -153,19 +153,19 @@ $$
 
 replaces $y(t)$ by $x_\mu(t)$ and $y'(t)$ by $x_{\mu'}(t)$ in that bound, using the equalities from `hxy` and `hxy'`. Finally, `simpa [hu₀ μ hμ μ' hμ', hv₀ μ hμ μ' hμ'] using ht_bound` uses the common-initial-data hypotheses to simplify
 
-$$
+```math
 \sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}
-$$
+```
 
 to $0$, because $u_0(\mu)=u_0(\mu')$ and $v_0(\mu)=v_0(\mu')$. The initial-data term in `thm_1` therefore vanishes, leaving exactly
 
-$$
+```math
 \|x_\mu(t)-x_{\mu'}(t)\|
 \le
 \frac{\theta_1}{m}
 \left(e^{mt}-1\right)
 \|\mu-\mu'\|^{\theta_2}.
-$$
+```
 
 That closes the goal. No `linarith` or `exact` is used; the final arithmetic simplification and rewriting are performed by `simpa`.
 

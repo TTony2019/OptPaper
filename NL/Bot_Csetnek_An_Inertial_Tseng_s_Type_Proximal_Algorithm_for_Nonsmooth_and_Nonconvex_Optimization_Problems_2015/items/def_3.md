@@ -11,11 +11,11 @@ noncomputable def ProblemData.IsSolution {m : Nat} (P : ProblemData m)
 ## Statement explanation
 The declaration `ProblemData.IsSolution` is a noncomputable definition, not a theorem asserting existence of a solution. It is parameterized by an implicit dimension $m : \mathbb{N}$, by problem data $P : \mathrm{ProblemData} m$, and by a candidate point $x : \mathrm{EuclideanSpace} m$. It returns a proposition. Its defining equation is
 
-$$
+```math
 \mathrm{ProblemData.IsSolution}(P,x)
 \;\Longleftrightarrow\;
 \mathrm{IsMinOn}(P.\mathrm{objective}, \mathrm{univ}, x),
-$$
+```
 
 where $\mathrm{univ}$ is the Lean set `Set.univ`, the whole ambient type $\mathrm{EuclideanSpace} m$.
 

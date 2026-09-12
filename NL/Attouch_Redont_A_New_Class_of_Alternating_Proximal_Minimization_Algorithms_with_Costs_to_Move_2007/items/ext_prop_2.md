@@ -19,15 +19,15 @@ theorem convexSubdifferential_weak_strong_closed {H : Type*} [NormedAddCommGroup
 ## Statement explanation
 The declaration `convexSubdifferential_weak_strong_closed` states a weak-strong closedness property of the graph of the subdifferential of a convex, lower semicontinuous, proper extended-real-valued function.
 
-Let $H$ be a real inner product space which is complete; thus $H$ is a real Hilbert space. Let $\phi : H \to \mathbb R \cup \{-\infty,+\infty\}$ be an extended-real-valued function. The hypotheses on $\phi$ are:
+Let $H$ be a real inner product space which is complete; thus $H$ is a real Hilbert space. Let $`\phi : H \to \mathbb R \cup \{-\infty,+\infty\}`$be an extended-real-valued function. The hypotheses on$\phi$ are:
 
 - $\phi$ is proper: for every $x$, $\phi(x)\neq -\infty$, and there exists some $z$ with $\phi(z)\neq +\infty$.
 - $\phi$ is lower semicontinuous.
 - $\phi$ is convex in the following nonnegative-coefficient sense: for all $x,y\in H$ and all $a,b\in \mathbb R_{\ge 0}$ with $a+b=1$,
 
-  $$
-  \phi(a x+b y)\le a\,\phi(x)+b\,\phi(y),
-  $$
+```math
+\phi(a x+b y)\le a\,\phi(x)+b\,\phi(y),
+```
 
   where the coefficients are interpreted as real scalars on the left and as extended-real multipliers on the right.
 
@@ -44,10 +44,10 @@ $$
 
 where the subdifferential is defined by
 
-$$
-\partial\phi(x)=\left\{u\in H:\ \forall y\in H,\ 
+```math
+\partial\phi(x)=\left\{u\in H:\ \forall y\in H,\
 \phi(x)+\langle y-x,u\rangle\le \phi(y)\right\}.
-$$
+```
 
 The conclusion is
 
@@ -111,7 +111,7 @@ $$
 z\in \mathrm{dom}\phi \iff \phi(z)<\top.
 $$
 
-Since $\phi(z)\neq \top$, the order lemma `lt_top_iff_ne_top` gives $\phi(z)<\top$, hence $z\in \mathrm{dom}\phi$. Therefore the domain of $\phi$ is nonempty, so `hproper' : ERealFunction.IsProper phi` is established.
+Since $\phi(z)\neq \top$, the order lemma `lt_top_iff_ne_top` gives $\phi(z)\lt \top$, hence $z\in \mathrm{dom}\phi$. Therefore the domain of $\phi$ is nonempty, so `hproper' : ERealFunction.IsProper phi` is established.
 
 Next the proof defines
 
@@ -131,7 +131,7 @@ $$
 F(x)=\langle \phi(x),\ \phi(x)>-\infty\rangle.
 $$
 
-The proof that $\phi(x)>-\infty$ comes from `hproper'.1`, using `bot_lt_iff_ne_bot`. The coercion of $F(x)$ back to $\mathbb EReal$ is exactly $\phi(x)$. This is the content of the simp lemma `properIoi_apply`:
+The proof that $\phi(x)\gt -\infty$ comes from `hproper'.1`, using `bot_lt_iff_ne_bot`. The coercion of $F(x)$ back to $\mathbb EReal$ is exactly $\phi(x)$. This is the content of the simp lemma `properIoi_apply`:
 
 $$
 (F(x):\mathbb EReal)=\phi(x).
@@ -157,11 +157,11 @@ Recall the definition of `ConvexOn`: for $f:H\to \mathrm{Set.Ioi}(\bot:\mathbb E
 
 1. $C$ is nonempty,
 2. $C\subseteq \mathrm{effectiveDomain} f$,
-3. for all $x,y\in C$ and all $\alpha\in\mathbb R$ with $0<\alpha<1$,
+3. for all $x,y\in C$ and all $\alpha\in\mathbb R$ with $0\lt \alpha\lt 1$,
 
-   $$
-   f(\alpha x+(1-\alpha)y)\le \alpha f(x)+(1-\alpha)f(y),
-   $$
+$$
+f(\alpha x+(1-\alpha)y)\le \alpha f(x)+(1-\alpha)f(y),
+$$
 
    with the values interpreted in $\mathbb EReal$.
 
@@ -173,7 +173,7 @@ $$
 
 Since $(F(z):\mathbb EReal)=\phi(z)$, this is the set of points where $\phi$ is finite.
 
-The proof constructs the three parts of `ConvexOn` using `refine ⟨?_, subset_rfl, ?_⟩`. The middle condition $C\subseteq C$ is proved by `subset_rfl`. For nonemptiness, the proof again uses `hproper.2` to choose $z$ with $\phi(z)\neq \top$. By `mem_effectiveDomain_iff`, it is enough to show $(F(z):\mathbb EReal)<\top$. Since $F(z)=\phi(z)$ and $\phi(z)\neq \top$, this follows from `lt_top_iff_ne_top`. Hence $\mathrm{effectiveDomain} F$ is nonempty.
+The proof constructs the three parts of `ConvexOn` using `refine ⟨?_, subset_rfl, ?_⟩`. The middle condition $C\subseteq C$ is proved by `subset_rfl`. For nonemptiness, the proof again uses `hproper.2` to choose $z$ with $\phi(z)\neq \top$. By `mem_effectiveDomain_iff`, it is enough to show $(F(z):\mathbb EReal)\lt \top$. Since $F(z)=\phi(z)$ and $\phi(z)\neq \top$, this follows from `lt_top_iff_ne_top`. Hence $\mathrm{effectiveDomain} F$ is nonempty.
 
 The Jensen inequality part begins with
 
@@ -181,7 +181,7 @@ $$
 \texttt{intro } p\ hp\ q\ hq\ a\ ha0\ ha1,
 $$
 
-so $p,q\in \mathrm{effectiveDomain} F$ and $a\in\mathbb R$ satisfies $0<a<1$. The goal is
+so $p,q\in \mathrm{effectiveDomain} F$ and $a\in\mathbb R$ satisfies $0\lt a\lt 1$. The goal is
 
 $$
 F(a p+(1-a)q)\le a F(p)+(1-a)F(q)
@@ -194,7 +194,7 @@ aNN :=\langle a,\ a\ge 0\rangle,\qquad
 bNN :=\langle 1-a,\ 1-a\ge 0\rangle.
 $$
 
-The nonnegativity of $a$ follows from `ha0 : 0 < a`; the nonnegativity of $1-a$ follows from `ha1 : a < 1`, since $a<1$ implies $a\le 1$, hence $1-a\ge 0$. The proof then shows
+The nonnegativity of $a$ follows from `ha0 : 0 < a`; the nonnegativity of $1-a$ follows from `ha1 : a < 1`, since $a\lt 1$ implies $a\le 1$, hence $1-a\ge 0$. The proof then shows
 
 $$
 aNN+bNN=1
@@ -249,15 +249,15 @@ The remaining goals are the three hypotheses of that theorem:
 2. The strong convergence of $u_n$ to $\bar u$. This is exactly `hu`, so `exact hu` closes the goal.
 3. For every $n$, the membership $u_n\in\partial F(x_n)$. The hypothesis `hmem n` gives $u_n\in\partial\phi(x_n)$. Since $F$ and $\phi$ have the same $\mathbb EReal$ values, the defining inequality for $u\in\partial F(x_n)$,
 
-   $$
-   (F(x_n):\mathbb EReal)+\langle y-x_n,u\rangle\le (F(y):\mathbb EReal),
-   $$
+$$
+(F(x_n):\mathbb EReal)+\langle y-x_n,u\rangle\le (F(y):\mathbb EReal),
+$$
 
    is identical to the defining inequality for $u\in\partial\phi(x_n)$,
 
-   $$
-   \phi(x_n)+\langle y-x_n,u\rangle\le \phi(y).
-   $$
+$$
+\phi(x_n)+\langle y-x_n,u\rangle\le \phi(y).
+$$
 
    Thus after `intro n`, the command `simpa [F] using hmem n` proves the required membership.
 

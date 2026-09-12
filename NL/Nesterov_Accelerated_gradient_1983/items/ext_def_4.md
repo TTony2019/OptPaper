@@ -18,9 +18,9 @@ The explicit data are:
 
 - $F: U \to \mathbb R$, a real-valued function on $U$. Inside the subdifferential it is viewed as the extended-real function
 
-  $$
-  f: U \to \overline{\mathbb R},\qquad f(y)=(F y : \overline{\mathbb R}),
-  $$
+$$
+f: U \to \overline{\mathbb R},\qquad f(y)=(F y : \overline{\mathbb R}),
+$$
 
   where $\overline{\mathbb R}$ is Lean’s type `EReal` of extended real numbers.
 - $\bar f: E \to U$, a map from $E$ to $U$.

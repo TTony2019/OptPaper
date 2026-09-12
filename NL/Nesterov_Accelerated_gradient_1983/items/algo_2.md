@@ -49,12 +49,12 @@ where $w$ is the field named `weight`, together with an initial point $y_0 \in E
 
 The structure then requires the following properties. The sequence $y$ starts at $y_0$, so $y(0)=y_0$; the previous iterate is set to the initial point, so $x_{-1}=y_0$; and the two points used in the finite-difference estimate are distinct, so $z\ne y_0$. For every coordinate $i\in \mathrm{Fin} m$, the initial vector $L_{\rm init}$ is given by the finite-difference quotient of the gradients of the component functions:
 
-$$
+```math
 L_{\rm init}(i)
 =\frac{\left\|\nabla f_i(y_0)-\nabla f_i(z)\right\|}{\|y_0-z\|}.
-$$
+```
 
-Since $z\ne y_0$, the denominator $\|y_0-z\|$ is nonzero in the normed space $E$. The scalar $A_{\rm init}$ is defined from $L_{\rm init}$ by
+Since $z\ne y_0$, the denominator $`\|y_0-z\|`$is nonzero in the normed space$E$. The scalar$A_{\rm init}$is defined from$L_{\rm init}$ by
 
 $$
 A_{\rm init}=F_P(L_{\rm init}).
@@ -68,25 +68,25 @@ $$
 
 The weight sequence starts at $w(0)=1$. The scalar sequence $A$ is obtained from the previous scalar, or from $A_{\rm init}$ at the first step, by doubling according to the search index:
 
-$$
+```math
 A(k)=2^{s(k)}\cdot
 \begin{cases}
 A_{\rm init},& k=0,\\
 A(k-1),& k>0.
 \end{cases}
-$$
+```
 
 The exponent is an integer power in Lean, but since $s(k)\in\mathbb N$, it is the usual nonnegative power of $2$. The acceptance condition says that, at the chosen parameter $A(k)$,
 
-$$
+```math
 F_P\!\left(\bar f_P\!\left(T(y(k),A(k))\right)\right)
 \le
 \mathrm{auxiliaryValue}(P,y(k),A(k)).
-$$
+```
 
-The minimality condition says that every smaller search exponent fails in the strict sense: for every $k$ and every $j<s(k)$,
+The minimality condition says that every smaller search exponent fails in the strict sense: for every $k$ and every $j\lt s(k)$,
 
-$$
+```math
 \mathrm{auxiliaryValue}\!\left(P,y(k),2^j\cdot
 \begin{cases}
 A_{\rm init},& k=0,\\
@@ -98,7 +98,7 @@ F_P\!\left(\bar f_P\!\left(T\!\left(y(k),2^j\cdot
 A_{\rm init},& k=0,\\
 A(k-1),& k>0
 \end{cases}\right)\right)\right).
-$$
+```
 
 Thus $s(k)$ is the first exponent at which the acceptance inequality holds. The sequence $x$ is defined by applying $T$ at the current pair $(y(k),A(k))$:
 
@@ -114,7 +114,7 @@ $$
 
 which is the standard positive square-root recurrence; equivalently, $w(k+1)^2-w(k+1)=w(k)^2$. Finally, the sequence $y$ is updated by the momentum rule
 
-$$
+```math
 y(k+1)=x(k)+\frac{w(k)-1}{w(k+1)}
 \left(x(k)-
 \begin{cases}
@@ -122,7 +122,7 @@ x_{-1},& k=0,\\
 x(k-1),& k>0
 \end{cases}
 \right).
-$$
+```
 
 At $k=0$, since $w(0)=1$ and $x_{-1}=y_0$, this gives $y(1)=x(0)$. Overall, the declaration packages the initial data, the search rule for the scalar $A(k)$, the auxiliary-minimizer rule for $x(k)$, the weight recurrence, and the accelerated extrapolation rule for $y(k+1)$.
 

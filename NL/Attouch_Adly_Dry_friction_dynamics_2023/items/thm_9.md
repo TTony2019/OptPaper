@@ -14,16 +14,16 @@ theorem theorem_A_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 ```
 
 ## Statement explanation
-The declaration `theorem_A_1` is stated for a real Hilbert space $H$, encoded by the typeclasses `NormedAddCommGroup`, `InnerProductSpace ℝ H`, and `CompleteSpace H`. It fixes real parameters $t_0$ and $r$ with $0<r$, a function $f:H\to\mathbb R$, and a trajectory $z:\mathbb R\to H$. The hypotheses are:
+The declaration `theorem_A_1` is stated for a real Hilbert space $H$, encoded by the typeclasses `NormedAddCommGroup`, `InnerProductSpace ℝ H`, and `CompleteSpace H`. It fixes real parameters $t_0$ and $r$ with $0\lt r$, a function $f:H\to\mathbb R$, and a trajectory $z:\mathbb R\to H$. The hypotheses are:
 
 - `hf`: $f$ is $C^1$, i.e. continuously differentiable.
 - `hf_lower`: $f$ is bounded below, meaning there exists $m\in\mathbb R$ such that $m\le f(x)$ for every $x\in H$.
 - `hgradient_lip`: the gradient map $\nabla f$ is locally Lipschitz.
 - `hinitial`: the initial gradient norm satisfies
 
-  $$
-  r<\|\nabla f(z(t_0))\|.
-  $$
+```math
+r<\|\nabla f(z(t_0))\|.
+```
 
 - `hsolution`: $z$ is a dry-gradient trajectory for $f$ with threshold $r$ and initial time $t_0$, written `IsDrygradTrajectory r f z t₀`. The provided source does not expand the internal definition of this predicate, so it is treated as the hypothesis that $z$ satisfies the dry-gradient trajectory condition.
 - `hz_diff`: $z$ is differentiable as a map $\mathbb R\to H$.
@@ -50,7 +50,7 @@ Thus theorem_A_1 extracts only the monotonicity of the potential energy along th
 ## Proof explanation
 The proof is not a tactic proof. It is a single term obtained by applying `theorem_2_1` and then projecting out the first conjunct of its conclusion.
 
-The cited theorem `theorem_2_1` applies under the same typeclass assumptions on $H$ and under the hypotheses $0<r$, $f$ is $C^1$, $f$ is bounded below, $\nabla f$ is locally Lipschitz, $z$ is differentiable, $r<\|\nabla f(z(t_0))\|$, and $z$ is a dry-gradient trajectory for $r$, $f$, and $t_0$. Its conclusion is the conjunction
+The cited theorem `theorem_2_1` applies under the same typeclass assumptions on $H$ and under the hypotheses $0\lt r$, $f$ is $C^1$, $f$ is bounded below, $\nabla f$ is locally Lipschitz, $z$ is differentiable, $`r<\|\nabla f(z(t_0))\|`$, and$z$is a dry-gradient trajectory for$r$,$f$, and$t_0$. Its conclusion is the conjunction
 
 $$
 \mathrm{AntitoneOn}\bigl(t\mapsto f(z(t))\bigr)\bigl([t_0,\infty)\bigr)
@@ -58,27 +58,27 @@ $$
 
 together with
 
-$$
+```math
 \mathrm{IntegrableOn}\bigl(t\mapsto \|\mathrm{deriv} z(t)\|^2\bigr)\bigl([t_0,\infty)\bigr),
-$$
+```
 
-$$
+```math
 \mathrm{IntegrableOn}\bigl(t\mapsto \|\mathrm{deriv} z(t)\|\bigr)\bigl([t_0,\infty)\bigr),
-$$
+```
 
 and the existence of a limit point $z_\infty\in H$ such that
 
-$$
+```math
 z(t)\to z_\infty\quad\text{as }t\to\infty,
 \qquad
 \|\nabla f(z_\infty)\|=r,
-$$
+```
 
 and either there is $T\ge t_0$ with $z(t)=z_\infty$ for all $t\ge T$, or else
 
-$$
+```math
 r<\|\nabla f(z(t))\|\quad\text{for all }t\ge t_0.
-$$
+```
 
 The proof only needs the first conjunct of this stronger statement.
 

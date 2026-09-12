@@ -21,16 +21,16 @@ The ambient space $H$ is a real Hilbert space: a complete real inner-product spa
 
 The hypotheses are as follows. The assumption `hΦ : AssumptionH H Φ` is an assumption package on $\Phi$; in the proof only two consequences of it are used: $\Phi$ is twice continuously differentiable, and $\Phi$ is bounded below. The trajectory satisfies `hxreg : ContDiff ℝ 2 x`, so $x$ is $C^2$. The potential is globally convex: `hconvex : ConvexOn ℝ Set.univ Φ`. Its set of global minimizers,
 
-$$
+```math
 \mathrm{argminSet}\Phi=\{p\in H:\forall y\in H,\ \Phi(p)\le \Phi(y)\},
-$$
+```
 
-is nonempty: `hmin : (Optimization.argminSet Φ).Nonempty`. The trajectory is a D-IN trajectory: `hsol : IsDINTrajectory H Φ α β x`. From this assumption the proof extracts the positivity conditions $0<\alpha$ and $0<\beta$, and the second-order equation
+is nonempty: `hmin : (Optimization.argminSet Φ).Nonempty`. The trajectory is a D-IN trajectory: `hsol : IsDINTrajectory H Φ α β x`. From this assumption the proof extracts the positivity conditions $0\lt \alpha$ and $0\lt \beta$, and the second-order equation
 
-$$
+```math
 x''(t)
 =-\Bigl(\alpha x'(t)+\beta\,D\nabla\Phi(x(t))\,x'(t)+\nabla\Phi(x(t))\Bigr)
-$$
+```
 
 for every $t\ge 0$. Here $\nabla\Phi$ is the Lean `gradient Φ`, the Riesz representative of the Fréchet derivative $D\Phi$, so that
 
@@ -44,7 +44,7 @@ $$
 \mathrm{interior}\bigl(\mathrm{argminSet}\Phi\bigr)\neq\varnothing.
 $$
 
-Thus there is a point $z_0$ and a radius $\rho>0$ such that the whole ball $B(z_0,\rho)$ consists of global minimizers of $\Phi$.
+Thus there is a point $z_0$ and a radius $\rho\gt 0$ such that the whole ball $B(z_0,\rho)$ consists of global minimizers of $\Phi$.
 
 The conclusion is that there exists a global minimizer $z$ of $\Phi$ such that
 
@@ -52,7 +52,7 @@ $$
 x(t)\to z
 $$
 
-in the strong topology of $H$, i.e. $\|x(t)-z\|\to0$ as $t\to\infty$. The theorem therefore upgrades the weak convergence obtained from the general theory to strong convergence, under the interior-minimizer hypothesis.
+in the strong topology of $H$, i.e. $`\|x(t)-z\|\to0`$as$t\to\infty$. The theorem therefore upgrades the weak convergence obtained from the general theory to strong convergence, under the interior-minimizer hypothesis.
 
 ## Lean proof
 ```lean
@@ -524,23 +524,23 @@ $$
 
 as $t\to\infty$. The proof only uses this boundedness implication and the uniqueness statement from `din_forward_internal`.
 
-To prove boundedness of $x$, the proof invokes `din_weakly_converges_to_argmin`. That theorem gives two facts: for every minimizer $z$ of $\Phi$, the distance $\|x(t)-z\|$ converges to a real number $d_z$; and $x(t)$ converges weakly to some minimizer. The proof only uses the distance-convergence part. Choosing a minimizer $z_{\mathrm{bdd}}$, it gets
+To prove boundedness of $x$, the proof invokes `din_weakly_converges_to_argmin`. That theorem gives two facts: for every minimizer $z$ of $\Phi$, the distance $`\|x(t)-z\|`$converges to a real number$d_z$; and$x(t)$converges weakly to some minimizer. The proof only uses the distance-convergence part. Choosing a minimizer$z_{\mathrm{bdd}}$, it gets
 
-$$
+```math
 \|x(t)-z_{\mathrm{bdd}}\|\to d_0
-$$
+```
 
 for some $d_0\in\mathbb R$. By `Metric.tendsto_atTop.1`, for large $t$ this distance is within $1$ of $d_0$, hence
 
-$$
+```math
 \|x(t)-z_{\mathrm{bdd}}\|\le |d_0|+1
-$$
+```
 
 for all sufficiently large $t$. On the compact interval $[0,T_0]$, the continuous image $x([0,T_0])$ is compact, hence bounded. Combining this with the tail bound and the triangle inequality
 
-$$
+```math
 \|x(t)\|\le \|x(t)-z_{\mathrm{bdd}}\|+\|z_{\mathrm{bdd}}\|
-$$
+```
 
 shows that $x([0,\infty))$ is bounded. Thus `BoundedOnNonnegative x` holds. By the uniqueness part of `din_forward_internal`, $x(t)=x_g(t)$ for $t\ge0$, so $x_g$ is also bounded. The boundedness implication from `din_forward_internal` then yields
 
@@ -548,7 +548,7 @@ $$
 x'(t)\to0,\qquad \nabla\Phi(x(t))\to0.
 $$
 
-The interior-minimizer hypothesis is used next. Choose $z_0$ in the interior of $\mathrm{argminSet}\Phi$. Then there is $\rho>0$ such that
+The interior-minimizer hypothesis is used next. Choose $z_0$ in the interior of $\mathrm{argminSet}\Phi$. Then there is $\rho\gt 0$ such that
 
 $$
 B(z_0,\rho)\subseteq \mathrm{argminSet}\Phi.
@@ -574,9 +574,9 @@ $$
 
 A stronger lower bound is then obtained by taking, when $\nabla\Phi(y)\neq0$, the point
 
-$$
+```math
 z'=z_0+\frac{\rho}{2}\frac{\nabla\Phi(y)}{\|\nabla\Phi(y)\|}.
-$$
+```
 
 Since $z'\in B(z_0,\rho)$, it is also a minimizer. Applying the supporting inequality to $p=z'$ and using $\Phi(z')\le\Phi(y)$ gives
 
@@ -586,11 +586,11 @@ $$
 
 Expanding $y-z'$ yields
 
-$$
+```math
 \frac{\rho}{2}\|\nabla\Phi(y)\|
 \le
 \langle \nabla\Phi(y),y-z_0\rangle.
-$$
+```
 
 This inequality is the coercivity estimate that later makes the gradient integrable.
 
@@ -614,37 +614,37 @@ $$
 
 and of course $u'(t)=v(t)$. Define
 
-$$
+```math
 E(t)=\kappa \Phi(x(t))+\frac12\|r(t)\|^2.
-$$
+```
 
 Using the chain rule and the symmetry of the inner product, the proof computes
 
-$$
+```math
 E'(t)=-\alpha\|v(t)\|^2-\beta\|g(t)\|^2\le0.
-$$
+```
 
 Then define the auxiliary function
 
-$$
+```math
 H(t)=E(t)+\varepsilon\left(\frac{\alpha}{2}\|u(t)\|^2+\langle r(t),u(t)\rangle\right).
-$$
+```
 
 Its derivative is
 
-$$
+```math
 H'(t)
 =-(\alpha-\varepsilon)\|v(t)\|^2-\beta\|g(t)\|^2
 -\varepsilon\langle g(t),u(t)\rangle
 +\varepsilon\beta\langle g(t),v(t)\rangle.
-$$
+```
 
 Using Young's inequality
 
-$$
+```math
 \langle g(t),v(t)\rangle
 \le \frac12\bigl(\|g(t)\|^2+\|v(t)\|^2\bigr),
-$$
+```
 
 the nonnegativity $\langle g(t),u(t)\rangle\ge0$ proved from the supporting inequality, and the coefficient estimates
 
@@ -657,15 +657,15 @@ the proof obtains $H'(t)\le0$ for $t\ge0$. Since $H$ is continuous on $[0,\infty
 
 The proof next shows $H$ is bounded below. Since $\Phi$ is bounded below, there is $m\in\mathbb R$ with $m\le\Phi(y)$ for all $y$. Therefore
 
-$$
+```math
 E(t)\ge \kappa m+\frac12\|r(t)\|^2.
-$$
+```
 
 A completing-the-square argument, using the fact that $\varepsilon$ is small enough so that $\alpha-2\varepsilon\ge0$, yields
 
-$$
+```math
 H(t)\ge \kappa m+\frac{\varepsilon\alpha}{4}\|u(t)\|^2\ge \kappa m.
-$$
+```
 
 Thus $H$ is antitone on $[0,\infty)$ and bounded below. The proof extends it to all real $t$ by setting $q(t)=H(\max(t,0))$, shows $q$ is antitone and bounded below, and applies `tendsto_atTop_ciInf` to conclude that $H(t)$ has a finite limit as $t\to\infty$.
 
@@ -683,31 +683,31 @@ $$
 
 is integrable on $(0,\infty)$. Using the lower bound
 
-$$
+```math
 \frac{\rho}{2}\|g(t)\|\le \langle g(t),u(t)\rangle,
-$$
+```
 
 one obtains
 
-$$
+```math
 \|g(t)\|\le \frac{2}{\varepsilon\rho}\,\varepsilon\langle g(t),u(t)\rangle.
-$$
+```
 
 Therefore $g(t)=\nabla\Phi(x(t))$ is integrable on $(0,\infty)$. Thus the improper integral
 
-$$
+```math
 I=\int_0^\infty \nabla\Phi(x(s))\,ds
-$$
+```
 
 is well-defined.
 
 Now the proof uses `din_integrated_identity`. This lemma states that for every $t\ge0$,
 
-$$
+```math
 x'(t)+\alpha x(t)+\beta\nabla\Phi(x(t))
 +\int_0^t \nabla\Phi(x(s))\,ds
 =x'(0)+\alpha x(0)+\beta\nabla\Phi(x(0)).
-$$
+```
 
 Let
 
@@ -717,19 +717,19 @@ $$
 
 Solving the identity for $x(t)$ gives
 
-$$
+```math
 x(t)
 =\alpha^{-1}\left(
 c-x'(t)-\beta\nabla\Phi(x(t))
 -\int_0^t \nabla\Phi(x(s))\,ds
 \right).
-$$
+```
 
 The proof already knows $x'(t)\to0$, $\nabla\Phi(x(t))\to0$, and by `intervalIntegral_tendsto_integral_Ioi`,
 
-$$
+```math
 \int_0^t \nabla\Phi(x(s))\,ds \to I.
-$$
+```
 
 Therefore the entire right-hand side converges to
 

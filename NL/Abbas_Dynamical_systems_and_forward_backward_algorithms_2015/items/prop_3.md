@@ -46,13 +46,13 @@ $$
 \Phi:H\to (-\infty,\infty]
 $$
 
-modeled as $H\to \{r\in \overline{\mathbb R}: r>-\infty\}$, a map $B:H\to H$, curves $x,v:\mathbb R\to H$, and positive parameters $\lambda,\mu,\beta$ with $\mu\lambda=1$. The hypothesis $\Phi\in\mathrm{gammaZero}(H)$ says that $\Phi$ belongs to the class $\Gamma_0(H)$, and the hypothesis on $B$ says that $B$ is $\beta$-cocoercive on all of $H$, i.e. for all $u,w\in H$,
+modeled as $`H\to \{r\in \overline{\mathbb R}: r>-\infty\}`$, a map$B:H\to H$, curves$x,v:\mathbb R\to H$, and positive parameters$\lambda,\mu,\beta$with$\mu\lambda=1$. The hypothesis$\Phi\in\mathrm{gammaZero}(H)$says that$\Phi$belongs to the class$\Gamma_0(H)$, and the hypothesis on$B$says that$B$is$\beta$-cocoercive on all of$H$, i.e. for all$u,w\in H$,
 
-$$
+```math
 \beta\|Bu-Bw\|^2\le \langle u-w,Bu-Bw\rangle .
-$$
+```
 
-The theorem assumes that $x$ and $v$ are absolutely continuous on every interval $[0,T]$ with $T>0$, that they are differentiable almost everywhere there with derivatives $\dot x$ and $\dot v$, and that
+The theorem assumes that $x$ and $v$ are absolutely continuous on every interval $[0,T]$ with $T\gt 0$, that they are differentiable almost everywhere there with derivatives $\dot x$ and $\dot v$, and that
 
 $$
 v(t)\in \partial\Phi(x(t))
@@ -464,13 +464,13 @@ by
 ## Proof explanation
 The proof first invokes `proposition_2_12` with exactly the same data. That theorem supplies several facts. Let
 
-$$
+```math
 \Gamma(t)=\frac12\|x(t)-z\|^2+\mu\Bigl(
 (\Phi z)_{\mathbb R}-(\Phi(x(t)))_{\mathbb R}
 -\langle z-x(t),v(t)\rangle\Bigr).
-$$
+```
 
-The cited proposition says that $\Gamma$ is nonincreasing on $[0,\infty)$, that $\Gamma(t)$ has a finite limit as $t\to\infty$, that $\|B(x(t))-Bz\|^2$ is integrable on $[0,\infty)$, that $\|x(t)\|$ is bounded, that $\|\dot x(t)\|^2$, $\|\dot v(t)+v(t)+Bz\|^2$, and $\|\dot v(t)\|^2$ are integrable on $[0,\infty)$, that $\|v(t)\|$ is bounded, and that
+The cited proposition says that $\Gamma$ is nonincreasing on $[0,\infty)$, that $\Gamma(t)$ has a finite limit as $t\to\infty$, that $`\|B(x(t))-Bz\|^2`$is integrable on$[0,\infty)$, that$`\|x(t)\|`$is bounded, that$`\|\dot x(t)\|^2`$,$`\|\dot v(t)+v(t)+Bz\|^2`$, and$`\|\dot v(t)\|^2`$are integrable on$[0,\infty)$, that$`\|v(t)\|`$ is bounded, and that
 
 $$
 (\Phi(x(t)))_{\mathbb R}+\langle x(t),Bz\rangle
@@ -517,17 +517,17 @@ $$
 
 shows that $t\mapsto\langle z-x(t),v(t)\rangle$ is absolutely continuous. Second, `prop216_sqdist_ac` says that if $x$ is absolutely continuous, then so is
 
-$$
+```math
 t\mapsto \frac12\|x(t)-z\|^2.
-$$
+```
 
 Third, absolutely continuous functions are closed under addition, subtraction, and multiplication by constants. Therefore $\Gamma$ is absolutely continuous on $[0,T]$.
 
-The central estimate is that, for every $T>0$, almost everywhere on $[0,T]$,
+The central estimate is that, for every $T\gt 0$, almost everywhere on $[0,T]$,
 
-$$
+```math
 \Gamma'(t)+\mu F(t)+\mu\beta\|B(x(t))-Bz\|^2\le 0.
-$$
+```
 
 To prove this, the proof first uses `isMonotone_subdifferential`. Since $\Phi\in\Gamma_0(H)$, the cited `isProper_of_mem_gammaZero` gives that the extended-real function $y\mapsto(\Phi y)_{\mathbb R}$ is proper, and then `isMonotone_subdifferential` gives that $\partial\Phi$ is monotone as a set-valued operator: whenever $u\in\partial\Phi(a)$ and $w\in\partial\Phi(b)$,
 
@@ -553,9 +553,9 @@ holds; and $0\le\langle \dot x(t),\dot v(t)\rangle$.
 
 It then computes derivatives. The derivative of
 
-$$
+```math
 t\mapsto \frac12\|x(t)-z\|^2
-$$
+```
 
 is
 
@@ -590,7 +590,7 @@ $$
 =\langle x(t)-z,v(t)+Bz\rangle.
 $$
 
-Multiplying by $\mu>0$,
+Multiplying by $\mu\gt 0$,
 
 $$
 0\le \mu\bigl(\langle x(t)-z,v(t)\rangle
@@ -599,17 +599,17 @@ $$
 
 Second, cocoercivity of $B$ gives
 
-$$
+```math
 \beta\|B(x(t))-Bz\|^2
 \le \langle x(t)-z,B(x(t))-Bz\rangle.
-$$
+```
 
-Multiplying by $\mu>0$,
+Multiplying by $\mu\gt 0$,
 
-$$
+```math
 \mu\beta\|B(x(t))-Bz\|^2
 \le \mu\langle x(t)-z,B(x(t))-Bz\rangle.
-$$
+```
 
 Third, the subgradient inequality with $v(t)\in\partial\Phi(x(t))$ and $z\in\mathrm{dom}\Phi$ gives
 
@@ -632,7 +632,7 @@ $$
 F(t)\le \langle x(t)-z,v(t)\rangle+\langle x(t)-z,Bz\rangle.
 $$
 
-Multiplying by $\mu>0$ preserves the inequality.
+Multiplying by $\mu\gt 0$ preserves the inequality.
 
 Finally, the proof uses `prop216_orbit_inner_identity`. Since $\mu\lambda=1$ and
 
@@ -663,17 +663,17 @@ $$
 
 Combining this identity with the three inequalities above, `linarith` proves
 
-$$
+```math
 \Gamma'(t)+\mu F(t)+\mu\beta\|B(x(t))-Bz\|^2\le 0.
-$$
+```
 
 The proof next defines
 
-$$
+```math
 q(t)=\mu F(t)+\mu\beta\|B(x(t))-Bz\|^2.
-$$
+```
 
-It shows $q$ is integrable on every finite interval $(0,T]$. Indeed, $x$ is continuous on $[0,T]$ because it is absolutely continuous there; the map $t\mapsto(\Phi(x(t)))_{\mathbb R}$ is continuous on $[0,T]$ by the absolute-continuity conclusion from the chain rule; $B$ is continuous because `lipschitzWith_of_cocoercive` turns the cocoercivity of $B$ into a Lipschitz estimate, hence in particular continuity. Therefore $F$ and $\|B(x(t))-Bz\|^2$ are continuous on $[0,T]$, so their combination $q$ is continuous and hence integrable on $[0,T]$, and therefore also on $(0,T]$.
+It shows $q$ is integrable on every finite interval $(0,T]$. Indeed, $x$ is continuous on $[0,T]$ because it is absolutely continuous there; the map $t\mapsto(\Phi(x(t)))_{\mathbb R}$ is continuous on $[0,T]$ by the absolute-continuity conclusion from the chain rule; $B$ is continuous because `lipschitzWith_of_cocoercive` turns the cocoercivity of $B$ into a Lipschitz estimate, hence in particular continuity. Therefore $F$ and $`\|B(x(t))-Bz\|^2`$are continuous on$[0,T]$, so their combination$q$is continuous and hence integrable on$[0,T]$, and therefore also on$(0,T]$.
 
 The proof then applies `prop216_dissipation_on_Ici` with $F$ replaced by $\Gamma$, $q$ as above, and lower bound $L=0$. The lemma says that if $\Gamma$ is absolutely continuous on every $[0,T]$, $q$ is integrable on every $(0,T]$, $q\ge0$ on $[0,\infty)$, $\Gamma\ge0$ on $[0,\infty)$, and almost everywhere on $[0,T]$
 
@@ -681,29 +681,29 @@ $$
 \Gamma'(t)+q(t)\le0,
 $$
 
-then $q$ is integrable on $[0,\infty)$. All hypotheses are available: $\Gamma\ge0$ follows from the same subgradient inequality as before together with $\frac12\|x(t)-z\|^2\ge0$ and $\mu>0$; $q\ge0$ follows from $F\ge0$, $\mu>0$, $\beta>0$, and nonnegativity of the square. Thus $q$ is integrable on $[0,\infty)$.
+then $q$ is integrable on $[0,\infty)$. All hypotheses are available: $\Gamma\ge0$ follows from the same subgradient inequality as before together with $`\frac12\|x(t)-z\|^2\ge0`$and$\mu>0$;$q\ge0$follows from$F\ge0$,$\mu>0$,$\beta>0$, and nonnegativity of the square. Thus$q$is integrable on$[0,\infty)$.
 
 Since
 
-$$
+```math
 q(t)=\mu F(t)+\mu\beta\|B(x(t))-Bz\|^2
-$$
+```
 
-and $\|B(x(t))-Bz\|^2$ is integrable by `proposition_2_12`, the proof subtracts to obtain integrability of $\mu F$, then multiplies by $1/\mu$ to obtain integrability of $F$ on $[0,\infty)$. This proves the first conclusion.
+and $`\|B(x(t))-Bz\|^2`$ is integrable by `proposition_2_12`, the proof subtracts to obtain integrability of $\mu F$, then multiplies by $1/\mu$ to obtain integrability of $F$ on $[0,\infty)$. This proves the first conclusion.
 
 To prove $F(t)\to0$, the proof uses the boundedness of $v$ supplied by `proposition_2_12`: there is $C\ge0$ with
 
-$$
+```math
 \|v(t)\|\le C\qquad(t\ge0).
-$$
+```
 
 It defines
 
-$$
+```math
 G(t)=(C+\|Bz\|)\|\dot x(t)\|.
-$$
+```
 
-Since $\|\dot x\|^2$ is integrable on $[0,\infty)$, the function $G$ is in $L^2([0,\infty))$. The proof also verifies that $F$ is absolutely continuous on every $[0,T]$, using `prop216_inner_ac` for the term $\langle Bz,x(t)-z\rangle$ and the already established absolute continuity of $(\Phi(x(t)))_{\mathbb R}$.
+Since $`\|\dot x\|^2`$is integrable on$[0,\infty)$, the function$G$is in$L^2([0,\infty))$. The proof also verifies that$F$is absolutely continuous on every$[0,T]$, using `prop216_inner_ac` for the term $\langle Bz,x(t)-z\rangle$ and the already established absolute continuity of $(\Phi(x(t)))_{\mathbb R}$.
 
 For almost every $t\ge0$, it computes
 
@@ -711,16 +711,16 @@ $$
 F'(t)=\langle v(t),\dot x(t)\rangle+\langle Bz,\dot x(t)\rangle.
 $$
 
-Using the Cauchy–Schwarz bound $|\langle u,w\rangle|\le\|u\|\|w\|$, this is bounded by
+Using the Cauchy–Schwarz bound $`|\langle u,w\rangle|\le\|u\|\|w\|`$, this is bounded by
 
-$$
+```math
 (\|v(t)\|+\|Bz\|)\|\dot x(t)\|
 \le (C+\|Bz\|)\|\dot x(t)\|=G(t).
-$$
+```
 
 Thus $F'(t)\le G(t)$ almost everywhere on $[0,\infty)$.
 
-Now the proof applies `prop216_limit_zero_of_memLp_deriv_bound_Ici`. That lemma states: if $F\ge0$ on $[0,\infty)$, $F$ is absolutely continuous on every $[0,b]$ with $b>0$, $F\in L^p([0,\infty))$, $G\in L^r([0,\infty))$, $1\le p,r$ and $p\neq\infty$, and $F'\le G$ almost everywhere on $[0,\infty)$, then $F(t)\to0$. Taking $p=1$ and $r=2$, and using that integrability of $F$ is equivalent to $F\in L^1$, gives
+Now the proof applies `prop216_limit_zero_of_memLp_deriv_bound_Ici`. That lemma states: if $F\ge0$ on $[0,\infty)$, $F$ is absolutely continuous on every $[0,b]$ with $b\gt 0$, $F\in L^p([0,\infty))$, $G\in L^r([0,\infty))$, $1\le p,r$ and $p\neq\infty$, and $F'\le G$ almost everywhere on $[0,\infty)$, then $F(t)\to0$. Taking $p=1$ and $r=2$, and using that integrability of $F$ is equivalent to $F\in L^1$, gives
 
 $$
 F(t)\to0.
@@ -742,12 +742,12 @@ $$
 
 Cocoercivity gives
 
-$$
+```math
 \beta\|Bx_\infty-Bz\|^2
 \le \langle x_\infty-z,Bx_\infty-Bz\rangle\le0.
-$$
+```
 
-Since $\beta>0$, this forces $\|Bx_\infty-Bz\|=0$, so $Bx_\infty=Bz$.
+Since $\beta\gt 0$, this forces $`\|Bx_\infty-Bz\|=0`$, so$Bx_\infty=Bz$.
 
 Next, `weakConvergence_iff_forall_tendsto_inner_right` converts the assumed weak convergence $x(t)\rightharpoonup x_\infty$ into convergence of all inner products:
 

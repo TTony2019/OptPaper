@@ -26,13 +26,13 @@ The theorem `coercive_potential_bounds_din` is stated in a real Hilbert space $H
 - `hΦreg : ContDiff ℝ 2 Φ`, saying that $\Phi$ is $C^2$.
 - `hxreg : ContDiff ℝ 2 x`, saying that the trajectory $x$ is $C^2$.
 - `hcoercive : ERealFunction.Coercive (fun z => (Φ z : EReal))`, saying that the extended-real-valued function $z\mapsto(\Phi z:\mathrm{EReal})$ is coercive, i.e. it tends to $+\infty$ as $z$ tends to infinity.
-- `hsol : IsDINTrajectory H Φ α β x`, saying that $x$ is a trajectory of the DIN system for the potential $\Phi$ and the parameters $\alpha,\beta$. In the proof, the only visible consequences of this hypothesis are that $\alpha>0$ and $\beta>0$.
+- `hsol : IsDINTrajectory H Φ α β x`, saying that $x$ is a trajectory of the DIN system for the potential $\Phi$ and the parameters $\alpha,\beta$. In the proof, the only visible consequences of this hypothesis are that $\alpha\gt 0$ and $\beta\gt 0$.
 
 The conclusion is a long conjunction. First, there is a real number $R$ such that every nonnegative time $t$ satisfies
 
-$$
+```math
 \|x(t)\|\le R.
-$$
+```
 
 Thus the whole forward trajectory $x$ on $[0,\infty)$ stays in a bounded set. Second, each of the following images is bounded:
 
@@ -132,7 +132,7 @@ $$
 \ell=\alpha\beta+1.
 $$
 
-It proves $\ell>0$ by unfolding the definition of $\ell$ and using `nlinarith` with the fact that $\alpha\beta>0$, obtained from `mul_pos hα hβ`.
+It proves $\ell\gt 0$ by unfolding the definition of $\ell$ and using `nlinarith` with the fact that $\alpha\beta\gt 0$, obtained from `mul_pos hα hβ`.
 
 It then verifies that this $\ell$ lies in the admissible interval for the forward energy. Let
 
@@ -186,9 +186,9 @@ $$
 
 there is a real $l$ such that the forward energy
 
-$$
+```math
 E_\ell(t)=\ell\Phi(x(t))+\frac12\|\mathrm{deriv}x(t)+\beta\nabla\Phi(x(t))\|^2
-$$
+```
 
 is antitone on $[0,\infty)$, is bounded below on $[0,\infty)$, and converges to $l$ as $t\to+\infty$. It also gives $L^2$-integrability of the velocity and of the gradient on $(0,\infty)$, convergence of $\Phi(x(t))$, and convergence of $\mathrm{deriv}x(t)+\beta\nabla\Phi(x(t))$ to $0$. In the proof here, only the first part is used, and from it only the antitone statement is retained:
 
@@ -217,9 +217,9 @@ $$
 
 Indeed, `hanti (by simp) (by simpa using ht) ht` applies antitonicity with $0\le t$; the first two arguments verify that $0$ and $t$ lie in $[0,\infty)$, and the third is $0\le t$. Since
 
-$$
+```math
 E_\ell(t)=\ell\Phi(x(t))+\frac12\|\mathrm{deriv}x(t)+\beta\nabla\Phi(x(t))\|^2
-$$
+```
 
 and the second summand is nonnegative, the proof obtains
 
@@ -233,7 +233,7 @@ $$
 \ell\Phi(x(t))\le E_\ell(0).
 $$
 
-Because $\ell>0$, the proof divides by $\ell$, using `le_div_iff₀' hell_pos`, to obtain
+Because $\ell\gt 0$, the proof divides by $\ell$, using `le_div_iff₀' hell_pos`, to obtain
 
 $$
 \Phi(x(t))\le \frac{E_\ell(0)}{\ell}.
@@ -247,22 +247,22 @@ $$
 
 Here `Bornology.cobounded H` is the filter describing $z$ tending to infinity in the bornological sense. Rewriting with `Filter.hasBasis_cobounded_norm.eventually_iff` turns this eventual statement into the existence of a radius $a$ such that
 
-$$
+```math
 a\le \|z\|\implies (c:\mathrm{EReal})<(\Phi z:\mathrm{EReal}).
-$$
+```
 
 Using `EReal.coe_lt_coe_iff`, this becomes the real inequality
 
-$$
+```math
 a\le \|z\|\implies c<\Phi(z).
-$$
+```
 
 Thus the proof obtains the real-coercivity statement
 
-$$
+```math
 \forall c\in\mathbb R,\ \exists a\in\mathbb R,\ \forall z\in H,\quad
 a\le \|z\|\implies c<\Phi(z).
-$$
+```
 
 Applying this with
 
@@ -270,7 +270,7 @@ $$
 c=\frac{E_\ell(0)}{\ell},
 $$
 
-the proof gets a radius $a$ such that whenever $a\le \|z\|$,
+the proof gets a radius $a$ such that whenever $`a\le \|z\|`$,
 
 $$
 \frac{E_\ell(0)}{\ell}<\Phi(z).
@@ -278,17 +278,17 @@ $$
 
 It then shows that for every $t\ge0$,
 
-$$
+```math
 \|x(t)\|\le a.
-$$
+```
 
-The argument is by contradiction. Suppose $\|x(t)\|\not\le a$. Then `not_le.mp` gives
+The argument is by contradiction. Suppose $`\|x(t)\|\not\le a`$. Then `not_le.mp` gives
 
-$$
+```math
 a<\|x(t)\|,
-$$
+```
 
-hence $a\le \|x(t)\|$, and the coercivity consequence gives
+hence $`a\le \|x(t)\|`$, and the coercivity consequence gives
 
 $$
 \frac{E_\ell(0)}{\ell}<\Phi(x(t)).
@@ -300,7 +300,7 @@ $$
 \Phi(x(t))\le \frac{E_\ell(0)}{\ell},
 $$
 
-so this is impossible. The Lean expression `not_lt.mpr (hΦbound t ht)` turns the upper bound into the negation of the strict lower bound, and `ha (x t) hlt.le` supplies the strict lower bound. The contradiction proves $\|x(t)\|\le a$.
+so this is impossible. The Lean expression `not_lt.mpr (hΦbound t ht)` turns the upper bound into the negation of the strict lower bound, and `ha (x t) hlt.le` supplies the strict lower bound. The contradiction proves $`\|x(t)\|\le a`$.
 
 The proof then packages this pointwise norm bound as bornological boundedness of the image of $x$. It applies `isBounded_iff_forall_norm_le.mpr`, which says that a set in a normed space is bounded if all its elements have norm at most some fixed real number. The chosen bound is
 
@@ -310,9 +310,9 @@ $$
 
 For any $z$ in the image $x( [0,\infty) )$, there is $t\ge0$ with $z=x(t)$. Then
 
-$$
+```math
 \|z\|=\|x(t)\|\le a\le \max(a,0).
-$$
+```
 
 The `rintro z ⟨t, ht, rfl⟩` destructs the image membership, and `le_trans` with `le_max_left` finishes the bound. This produces
 
@@ -348,5 +348,5 @@ $$
 
 as $t\to+\infty$. The proof obtains these seven facts from `din_global_properties_part_iii`.
 
-The final `exact` assembles the target conjunction. Its first component is the existential bound on $\|x(t)\|$, using $R=\max(a,0)$ and the already proved pointwise inequality. The remaining seven components are precisely the four boundedness statements and the three convergence statements supplied by `din_global_properties_part_iii`. The hypothesis `hΦreg` is not used in the supplied proof; the cited theorems are invoked with `hΦ`, `hsol`, and `hxreg`.
+The final `exact` assembles the target conjunction. Its first component is the existential bound on $`\|x(t)\|`$, using$R=\max(a,0)$ and the already proved pointwise inequality. The remaining seven components are precisely the four boundedness statements and the three convergence statements supplied by `din_global_properties_part_iii`. The hypothesis `hΦreg` is not used in the supplied proof; the cited theorems are invoked with `hΦ`, `hsol`, and `hxreg`.
 

@@ -23,22 +23,22 @@ $$
 
 The conclusion asserts that $B$ is Lipschitz with constant $1/\beta$. In Lean, the Lipschitz constant must be a nonnegative real, so the conclusion packages the real number $1/\beta$ as
 
-$$
+```math
 \left\langle \frac1\beta,\; \text{a proof that }0\le \frac1\beta\right\rangle.
-$$
+```
 
-That nonnegativity proof is `le_of_lt (one_div_pos.mpr hB.pos)`: from $0<\beta$ one gets $0<1/\beta$, and hence $0\le 1/\beta$. Mathematically, the theorem says that if $B$ is cocoercive on all of $H$ with positive parameter $\beta$, then $B$ is Lipschitz with constant $1/\beta$, i.e.
+That nonnegativity proof is `le_of_lt (one_div_pos.mpr hB.pos)`: from $0\lt \beta$ one gets $0\lt 1/\beta$, and hence $0\le 1/\beta$. Mathematically, the theorem says that if $B$ is cocoercive on all of $H$ with positive parameter $\beta$, then $B$ is Lipschitz with constant $1/\beta$, i.e.
 
-$$
+```math
 \forall x,y\in H,\qquad
 \mathrm{dist}(B x,B y)\le \frac1\beta\,\mathrm{dist}(x,y).
-$$
+```
 
 Since $H$ is a normed group, this is the usual inequality
 
-$$
+```math
 \|B x-B y\|\le \frac1\beta\,\|x-y\|.
-$$
+```
 
 ## Lean proof
 ```lean
@@ -51,7 +51,7 @@ by
 ```
 
 ## Proof explanation
-The proof first compares two ways of representing the same nonnegative real number. The left side is `Real.toNNReal (1 / beta)`, the nonnegative truncation of $1/\beta$ as an element of $\mathbb{R}_{\ge 0}$. Since the proof knows $0<\beta$, it also knows $0\le \beta$, so `one_div_nonneg.mpr hB.pos.le` gives
+The proof first compares two ways of representing the same nonnegative real number. The left side is `Real.toNNReal (1 / beta)`, the nonnegative truncation of $1/\beta$ as an element of $\mathbb{R}_{\ge 0}$. Since the proof knows $0\lt \beta$, it also knows $0\le \beta$, so `one_div_nonneg.mpr hB.pos.le` gives
 
 $$
 0\le \frac1\beta.
@@ -66,10 +66,10 @@ have heq : Real.toNNReal (1 / beta) =
 
 establishes
 
-$$
+```math
 \mathrm{Real.toNNReal}\!\left(\frac1\beta\right)
 =\left\langle \frac1\beta,\; 0\le \frac1\beta\right\rangle
-$$
+```
 
 as elements of $\mathbb{R}_{\ge 0}$.
 

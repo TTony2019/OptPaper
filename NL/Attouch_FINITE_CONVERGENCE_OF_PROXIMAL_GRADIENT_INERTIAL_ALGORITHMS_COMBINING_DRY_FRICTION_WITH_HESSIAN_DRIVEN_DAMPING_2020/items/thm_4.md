@@ -28,7 +28,7 @@ theorem IPAHDDPert_finiteLength {H : Type*} [NormedAddCommGroup H]
 ```
 
 ## Statement explanation
-Let $H$ be a complete real inner product space. The theorem `IPAHDDPert_finiteLength` is a convergence theorem for a perturbed inertial proximal algorithm with Hessian-driven damping and dry friction. Its data are real-valued functions $f,\phi:H\to\mathbb R$, a perturbation sequence $e:\mathbb N\to H$, positive step parameters $h,\gamma,\beta$, a Lipschitz constant $L$, and a dry-friction radius $r$. The hypothesis $hdf:DF_r\,\phi\,r$ is a dry-friction condition on $\phi$. In the proof it is used through the following visible consequences: $\phi(0)=0$, $r>0$, the open ball $B(0,r)$ is contained in the subdifferential $\partial\phi(0)$, $\phi$ is continuous, and $\phi$ viewed as an extended-real function belongs to the convex lower-semicontinuous class needed by the proximal operator. The object $alg$ is an instance of the perturbed IPAHDD algorithm; its iterates are written $x_k=alg.x\,k$. The further assumptions are that $f$ is $C^1$, that $\nabla f$ is $L$-Lipschitz, that $L\ge0$, that $f$ is bounded below, that $h>0$, $\gamma>0$, $\beta>0$, that
+Let $H$ be a complete real inner product space. The theorem `IPAHDDPert_finiteLength` is a convergence theorem for a perturbed inertial proximal algorithm with Hessian-driven damping and dry friction. Its data are real-valued functions $f,\phi:H\to\mathbb R$, a perturbation sequence $e:\mathbb N\to H$, positive step parameters $h,\gamma,\beta$, a Lipschitz constant $L$, and a dry-friction radius $r$. The hypothesis $`hdf:DF_r\,\phi\,r`$is a dry-friction condition on$\phi$. In the proof it is used through the following visible consequences:$\phi(0)=0$,$r>0$, the open ball$B(0,r)$is contained in the subdifferential$\partial\phi(0)$,$\phi$is continuous, and$\phi$viewed as an extended-real function belongs to the convex lower-semicontinuous class needed by the proximal operator. The object$alg$is an instance of the perturbed IPAHDD algorithm; its iterates are written$`x_k=alg.x\,k`$. The further assumptions are that$f$is$C^1$, that$\nabla f$is$L$-Lipschitz, that$L\ge0$, that$f$is bounded below, that$h>0$,$\gamma>0$,$\beta>0$, that
 
 $$
 \gamma\ge L\left(\frac h2+\beta\right),
@@ -38,21 +38,21 @@ and that $e_k\to0$ in $H$.
 
 The conclusion asserts the existence of a limit point $x_\infty$ and an initial energy $E_1$ such that
 
-$$
+```math
 E_1=\frac12\left\|\frac1h(x_1-x_0)\right\|^2+f(x_1)-\inf(\mathrm{range}f),
-$$
+```
 
 and then several facts. First, the iterates have finite length,
 
-$$
+```math
 \sum_{k=0}^\infty \|x_{k+1}-x_k\|<\infty,
-$$
+```
 
-and consequently $x_k\to x_\infty$. Second, if the perturbation satisfies $\|e_k\|\le r/2$ for every $k$, then the tail total variation obeys the explicit bound
+and consequently $x_k\to x_\infty$. Second, if the perturbation satisfies $`\|e_k\|\le r/2`$for every$k$, then the tail total variation obeys the explicit bound
 
-$$
+```math
 \sum_{k\ge1}\|x_{k+1}-x_k\|\le \frac2r\left(E_1+\frac{\beta L}{2h}\|x_1-x_0\|^2\right).
-$$
+```
 
 Third, the limit is dry-friction critical:
 
@@ -72,19 +72,19 @@ $$
 q=\frac1{\sqrt{1+2h(\gamma-\beta L)/(1+\beta hL)}}
 $$
 
-one has $0<q<1$, and there is $k_0$ such that for all $k\ge k_0$,
+one has $0\lt q\lt 1$, and there is $k_0$ such that for all $k\ge k_0$,
 
-$$
+```math
 \|x_{k+1}-x_k\|\le q^{k-k_0}\|x_{k_0+1}-x_{k_0}\|,
-$$
+```
 
 and
 
-$$
+```math
 \|x_k-x_\infty\|\le \frac{q^{k-k_0}}{1-q}\|x_{k_0+1}-x_{k_0}\|.
-$$
+```
 
-Finally, if $\|\nabla f(x_\infty)\|<r$, then the sequence is finitely convergent, meaning that it is eventually constant.
+Finally, if $`\|\nabla f(x_\infty)\|<r`$, then the sequence is finitely convergent, meaning that it is eventually constant.
 
 In ordinary language, the theorem says that the perturbed inertial proximal-gradient scheme with Hessian damping and a dry-friction term always has finite length and converges; the limit satisfies the natural stationary inclusion. If the dry-friction condition is strong enough around the limit subgradient, the convergence is actually linear with an explicit ratio. If the gradient at the limit lies strictly inside the dry-friction ball, then the algorithm stops after finitely many steps.
 
@@ -720,11 +720,11 @@ by
 ```
 
 ## Proof explanation
-The proof begins by unpacking $h>0$, $\gamma>0$, and $\beta>0$ from `hpositive` using `rcases`. It records two calculus facts: $\nabla f$ is continuous by `continuous_gradient_of_contDiff`, and at every point $z$,
+The proof begins by unpacking $h\gt 0$, $\gamma\gt 0$, and $\beta\gt 0$ from `hpositive` using `rcases`. It records two calculus facts: $\nabla f$ is continuous by `continuous_gradient_of_contDiff`, and at every point $z$,
 
-$$
+```math
 f\text{ has Fr\'echet derivative }y\mapsto\langle \nabla f(z),y\rangle
-$$
+```
 
 by `hasFDerivAt_gradient`. These facts are used later to pass gradients through limits.
 
@@ -747,17 +747,17 @@ This is the shifted recurrence for the perturbed IPAHDD algorithm, expressed in 
 
 From this recurrence the proof derives a basic energy inequality. Taking the inner product with $v_{k+1}$, it uses the identity
 
-$$
+```math
 \langle v_{k+1}-v_k,v_{k+1}\rangle
 =\frac12\|v_{k+1}\|^2-\frac12\|v_k\|^2+\frac12\|v_{k+1}-v_k\|^2
-$$
+```
 
 from `inner_sub_self_energy_identity_pert_local`. The damping term becomes
 
-$$
+```math
 \langle \gamma d_{k+1},v_{k+1}\rangle
 =\gamma h\|v_{k+1}\|^2,
-$$
+```
 
 because $d_{k+1}=h v_{k+1}$. The subgradient term $\langle h s_k,v_{k+1}\rangle$ is handled by the subgradient inequality for $s_k\in\partial\phi(v_{k+1})$ evaluated at $0$, using $\phi(0)=0$, which gives
 
@@ -767,77 +767,77 @@ $$
 
 Finally the right-hand side is bounded by Cauchy–Schwarz:
 
-$$
+```math
 \langle h e_k,v_{k+1}\rangle\le \|e_k\|\,\|d_{k+1}\|.
-$$
+```
 
 The result is the inequality
 
-$$
+```math
 \frac12\|v_{k+1}\|^2-\frac12\|v_k\|^2
 +\frac12\|v_{k+1}-v_k\|^2
 +\gamma h\|v_{k+1}\|^2+h\phi(v_{k+1})
 +\beta\langle \nabla f(x_{k+1})-\nabla f(x_k),v_{k+1}\rangle
 +\langle \nabla f(x_{k+1}),d_{k+1}\rangle
 \le \|e_k\|\,\|d_{k+1}\|.
-$$
+```
 
-The dry-friction hypothesis is then used through `subgradient_ball_exact_linear_lower_bound`: since $\phi(0)=0$, $r>0$, and $B(0,r)\subseteq\partial\phi(0)$, one has
+The dry-friction hypothesis is then used through `subgradient_ball_exact_linear_lower_bound`: since $\phi(0)=0$, $r\gt 0$, and $B(0,r)\subseteq\partial\phi(0)$, one has
 
-$$
+```math
 r\|u\|\le \phi(u)
-$$
+```
 
-for every $u\in H$. Applying this to $u=v_{k+1}$ and multiplying by $h>0$ gives
+for every $u\in H$. Applying this to $u=v_{k+1}$ and multiplying by $h\gt 0$ gives
 
-$$
+```math
 r\|d_{k+1}\|\le h\phi(v_{k+1}),
-$$
+```
 
-because $\|d_{k+1}\|=h\|v_{k+1}\|$.
+because $`\|d_{k+1}\|=h\|v_{k+1}\|`$.
 
 The next estimate controls the Hessian-driving term from below. Since $\nabla f$ is $L$-Lipschitz,
 
-$$
+```math
 \|\nabla f(x_{k+1})-\nabla f(x_k)\|\le L\|d_k\|.
-$$
+```
 
-Cauchy–Schwarz and the identity $\|v_{k+1}\|=\|d_{k+1}\|/h$ give
+Cauchy–Schwarz and the identity $`\|v_{k+1}\|=\|d_{k+1}\|/h`$ give
 
-$$
+```math
 -\frac{\beta L}{2h}\bigl(\|d_k\|^2+\|d_{k+1}\|^2\bigr)
 \le
 \beta\langle \nabla f(x_{k+1})-\nabla f(x_k),v_{k+1}\rangle.
-$$
+```
 
 The proof uses the elementary Young inequality
 
-$$
+```math
 2\|d_k\|\,\|d_{k+1}\|
 \le \|d_k\|^2+\|d_{k+1}\|^2.
-$$
+```
 
 Then the proof defines
 
-$$
+```math
 c=\frac{\beta L}{2h},\qquad
 E_k=\frac12\|v_k\|^2+f(x_{k+1})-\inf(\mathrm{range}f),\qquad
 M_k=E_k+c\|d_k\|^2.
-$$
+```
 
 The bounded-below hypothesis on $f$ gives `BddBelow (Set.range f)`, hence $\inf(\mathrm{range}f)\le f(x_{k+1})$, so every $M_k\ge0$. The core descent inequality is
 
-$$
+```math
 M_{k+1}-M_k
 +\frac1{2h^2}\|x_{k+2}-2x_{k+1}+x_k\|^2
 +(r-\|e_k\|)\|d_{k+1}\|\le0.
-$$
+```
 
 To obtain it, the proof uses `smooth_descent_of_fderiv_lipschitz_pert_local`, which says that for a $C^1$ function with $L$-Lipschitz gradient,
 
-$$
+```math
 f(y)\le f(x)+\langle \nabla f(x),y-x\rangle+\frac L2\|y-x\|^2.
-$$
+```
 
 Applied to $x=x_{k+1}$ and $y=x_{k+2}$, this controls the change $f(x_{k+2})-f(x_{k+1})$. The acceleration identity
 
@@ -847,10 +847,10 @@ $$
 
 and the identity
 
-$$
+```math
 \frac12\|v_{k+1}-v_k\|^2
 =\frac1{2h^2}\|x_{k+2}-2x_{k+1}+x_k\|^2
-$$
+```
 
 convert the previous energy inequality into the form above. The inequality
 
@@ -866,37 +866,37 @@ $$
 
 by elementary algebra, and `nlinarith` combines the scalar inequalities.
 
-Since $e_k\to0$, eventually $\|e_k\|<r/2$. Choosing $K$ beyond that threshold, the proof obtains for $k\ge K$
+Since $e_k\to0$, eventually $`\|e_k\|<r/2`$. Choosing$K$beyond that threshold, the proof obtains for$k\ge K$
 
-$$
+```math
 M_{k+1}-M_k
 +\frac1{2h^2}\|x_{k+2}-2x_{k+1}+x_k\|^2
 +\frac r2\|d_{k+1}\|\le0.
-$$
+```
 
 Telescoping this inequality from $K$ to $K+N$ gives
 
-$$
+```math
 M_{K+N}
 +\sum_{i=0}^{N-1}\left(
 \frac1{2h^2}\|x_{K+i+2}-2x_{K+i+1}+x_{K+i}\|^2
 +\frac r2\|d_{K+i+1}\|\right)
 \le M_K.
-$$
+```
 
-Because all $M_k\ge0$, the partial sums of $\|d_{K+i+1}\|$ are bounded by $M_K/(r/2)$. Hence the tail of $\|d_k\|$ is summable, and therefore the whole sequence $\|d_k\|$ is summable. This proves `HasFiniteLength alg.x`. Then `finite_length_tendsto_pert_local` applies: a sequence whose successive increments have summable norms converges in the complete space $H$. Thus there is $x_\infty$ with $x_k\to x_\infty$.
+Because all $M_k\ge0$, the partial sums of $`\|d_{K+i+1}\|`$are bounded by$M_K/(r/2)$. Hence the tail of$`\|d_k\|`$is summable, and therefore the whole sequence$`\|d_k\|`$ is summable. This proves `HasFiniteLength alg.x`. Then `finite_length_tendsto_pert_local` applies: a sequence whose successive increments have summable norms converges in the complete space $H$. Thus there is $x_\infty$ with $x_k\to x_\infty$.
 
-The same telescoping argument, now started at $0$ and assuming $\|e_k\|\le r/2$ for all $k$, gives the explicit finite-length bound. The proof defines
+The same telescoping argument, now started at $0$ and assuming $`\|e_k\|\le r/2`$for all$k$, gives the explicit finite-length bound. The proof defines
 
-$$
+```math
 E_1=\frac12\left\|\frac1h(x_1-x_0)\right\|^2+f(x_1)-\inf(\mathrm{range}f).
-$$
+```
 
-It shows $M_0=E_1+\frac{\beta L}{2h}\|x_1-x_0\|^2$. Then for every $N$,
+It shows $`M_0=E_1+\frac{\beta L}{2h}\|x_1-x_0\|^2`$. Then for every$N$,
 
-$$
+```math
 \sum_{i=0}^{N-1}\|d_{i+1}\|\le \frac{M_0}{r/2}.
-$$
+```
 
 Passing to the infinite sum uses `Real.tsum_le_of_sum_range_le`. The reindexing
 
@@ -906,7 +906,7 @@ $$
 
 is exactly `tsum_subtype_succ_reindex`, which converts the subtype sum over $k\ge1$ into the ordinary tail sum. Simplifying $M_0/(r/2)$ with `field_simp` and `ring` gives the stated bound.
 
-At this point the proof knows $\|d_k\|\to0$, hence $d_k\to0$. Therefore $v_k\to0$, $v_{k+1}\to0$, $v_{k+1}-v_k\to0$, and $x_{k+1}\to x_\infty$. Continuity of $\nabla f$ gives
+At this point the proof knows $`\|d_k\|\to0`$, hence$d_k\to0$. Therefore$v_k\to0$,$v_{k+1}\to0$,$v_{k+1}-v_k\to0$, and$x_{k+1}\to x_\infty$. Continuity of$\nabla f$ gives
 
 $$
 \nabla f(x_k)\to\nabla f(x_\infty),\qquad
@@ -945,7 +945,7 @@ $$
 
 which is precisely `IsDryFrictionCritical phi f xInf`.
 
-The finite-convergence part is proved under the extra assumption $\|\nabla f(x_\infty)\|<r$. The proof defines
+The finite-convergence part is proved under the extra assumption $`\|\nabla f(x_\infty)\|<r`$. The proof defines
 
 $$
 D=1+h\gamma,\qquad \lambda=\frac hD,
@@ -967,7 +967,7 @@ $$
 \lambda^{-1}z_k\to -\nabla f(x_\infty).
 $$
 
-Because $\|\nabla f(x_\infty)\|<r$, eventually $\|\lambda^{-1}z_k\|<r$. By the dry-friction ball inclusion, this means
+Because $`\|\nabla f(x_\infty)\|<r`$, eventually$`\|\lambda^{-1}z_k\|<r`$. By the dry-friction ball inclusion, this means
 
 $$
 \lambda^{-1}z_k\in\partial\phi(0).
@@ -987,15 +987,15 @@ $$
 -\nabla f(x_\infty)\in\mathrm{int}\partial\phi(0).
 $$
 
-Then there is $\rho>0$ such that the ball of radius $\rho$ around $-\nabla f(x_\infty)$ is contained in $\partial\phi(0)$. The proof sets $\varepsilon=\rho/2$. Since $\nabla f(x_{k+1})\to\nabla f(x_\infty)$ and $e_k\to0$, eventually
+Then there is $\rho\gt 0$ such that the ball of radius $\rho$ around $-\nabla f(x_\infty)$ is contained in $\partial\phi(0)$. The proof sets $\varepsilon=\rho/2$. Since $\nabla f(x_{k+1})\to\nabla f(x_\infty)$ and $e_k\to0$, eventually
 
-$$
+```math
 \|\nabla f(x_{k+1})-\nabla f(x_\infty)\|<\varepsilon,
 \qquad
 \|e_k\|\le \frac{\varepsilon}{2}.
-$$
+```
 
-For such $k$ and any $u$ with $\|u\|\le1$, the triangle inequality gives
+For such $k$ and any $u$ with $`\|u\|\le1`$, the triangle inequality gives
 
 $$
 -\nabla f(x_{k+1})+\varepsilon u\in\partial\phi(0).
@@ -1003,29 +1003,29 @@ $$
 
 This is the translated subgradient ball estimate. It is used to prove the strengthened dry-friction inequality
 
-$$
+```math
 \varepsilon\|v_{k+1}\|
 \le
 \phi(v_{k+1})+\langle \nabla f(x_{k+1}),v_{k+1}\rangle.
-$$
+```
 
-If $v_{k+1}=0$, this is trivial; otherwise one takes $u=v_{k+1}/\|v_{k+1}\|$ and applies the subgradient inequality at $v_{k+1}$.
+If $v_{k+1}=0$, this is trivial; otherwise one takes $`u=v_{k+1}/\|v_{k+1}\|`$and applies the subgradient inequality at$v_{k+1}$.
 
 Combining this stronger inequality with the earlier energy inequality, the lower bound on the Hessian term, and the smallness of $e_k$, the proof obtains the contraction
 
-$$
+```math
 \bigl(1+\beta hL+2h(\gamma-\beta L)\bigr)\|d_{k+1}\|^2
 \le
 (1+\beta hL)\|d_k\|^2.
-$$
+```
 
-The rate lemma `ipahdd_rate_mem_Ioo` gives, under the hypotheses $h>0$, $\gamma>0$, $\beta>0$, $L\ge0$, and $\gamma\ge L(h/2+\beta)$, that
+The rate lemma `ipahdd_rate_mem_Ioo` gives, under the hypotheses $h\gt 0$, $\gamma\gt 0$, $\beta\gt 0$, $L\ge0$, and $\gamma\ge L(h/2+\beta)$, that
 
 $$
 q=\frac1{\sqrt{1+2h(\gamma-\beta L)/(1+\beta hL)}}
 $$
 
-satisfies $0<q<1$. The square identity
+satisfies $0\lt q\lt 1$. The square identity
 
 $$
 q^2\bigl(1+\beta hL+2h(\gamma-\beta L)\bigr)=1+\beta hL
@@ -1033,33 +1033,33 @@ $$
 
 follows from `ipahddPert_q_sq_mul_A_eq_B_local`. Dividing the contraction by the positive coefficient and taking square roots gives
 
-$$
+```math
 \|d_{k+1}\|\le q\|d_k\|
-$$
+```
 
 for all large $k$. By induction,
 
-$$
+```math
 \|d_{k_0+n}\|\le q^n\|d_{k_0}\|.
-$$
+```
 
 Then writing $x_{k_0+n+p}-x_{k_0+n}$ as a sum of increments and using the triangle inequality,
 
-$$
+```math
 \|x_{k_0+n}-x_{k_0+n+p}\|
 \le
 \sum_{i=0}^{p-1}\|d_{k_0+n+i}\|
 \le
 \frac{q^n}{1-q}\|d_{k_0}\|.
-$$
+```
 
 The geometric sum estimate is exactly `geometric_range_sum_le_pert_local`. Letting $p\to\infty$ and using $x_{k_0+n+p}\to x_\infty$ gives
 
-$$
+```math
 \|x_{k_0+n}-x_\infty\|
 \le
 \frac{q^n}{1-q}\|d_{k_0}\|.
-$$
+```
 
 This produces the two stated eventual bounds, completing the interior case.
 

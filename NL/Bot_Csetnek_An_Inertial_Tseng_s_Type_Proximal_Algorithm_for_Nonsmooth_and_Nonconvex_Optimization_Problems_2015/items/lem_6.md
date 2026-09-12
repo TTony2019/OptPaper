@@ -17,9 +17,9 @@ theorem lemma_3_6_cluster_points {m : Nat} {P : ProblemData m} (A : AlgorithmDat
 ## Statement explanation
 Let $m$ be a natural number and let $P$ be problem data on $\mathbb R^m$. The objective is $f=P.objective$, an extended-real-valued function $f:\mathbb R^m\to\overline{\mathbb R}$. Let $A$ be algorithm data for $P$; it supplies the sequences $A.x_n$ and $A.p_n$ in $\mathbb R^m$. Let $\nu,\mu\in\mathbb R$. The assumption `hchosen` is the named parameter condition `chosenAsInLemma33 A nu mu`; `hcoercive` is the coercivity assumption on $f$. For a sequence $z_n$, $\omega(z)$ denotes its set of sequential cluster points. For a function $g$,
 
-$$
+```math
 \mathrm{criticalPoints}(g)=\{x:0\in\partial_L g(x)\},
-$$
+```
 
 where $\partial_L$ is the limiting subdifferential. The theorem asserts, under `hchosen` and `hcoercive`, that: $\omega(A.p)$ is nonempty; every element of $\omega(A.p)$ is a critical point of $f$; the distance from $A.p_n$ to $\omega(A.p)$ tends to $0$; $\omega(A.p)$ is compact; $\omega(A.p)$ is connected; and there is a real $c$ such that $f(p)=(c:\overline{\mathbb R})$ for every $p\in\omega(A.p)$. In words, the sequence $A.p_n$ has a nonempty compact connected cluster set, approaches that set asymptotically, and the objective is constant on that set with value a real number; moreover all points of that set are critical points of the nonsmooth objective.
 
@@ -77,15 +77,15 @@ The proof destructs this pair of conclusions. The `simpa` step unfolding `IsMinO
 
 Next, the lemma `lemma_3_4_decrease` is applied with $A$, $\nu$, $\mu$, `hchosen`, and `hboundedBelow`. Its content is that, under the parameter choice and the bounded-below assumption, the two nonnegative sequences
 
-$$
+```math
 \|A.x_n-A.p_n\|^2
-$$
+```
 
 and
 
-$$
+```math
 \|A.x_{n+1}-A.x_n\|^2
-$$
+```
 
 are summable, and there exists an extended real $l$ such that $f(A.p_n)\to l$. The proof records these three facts as `hxp_sum`, `hxx_sum`, and `hobj_conv`.
 
@@ -95,7 +95,7 @@ $$
 A.p_{n+1}-A.p_n\to 0.
 $$
 
-This is the vanishing-increment property for the sequence $A.p_n$. Separately, `p_range_bounded_of_coercive` uses `hchosen` and the coercivity hypothesis $hcoercive$ to conclude that the range $\{A.p_n:n\in\mathbb N\}$ is bounded.
+This is the vanishing-increment property for the sequence $A.p_n$. Separately, `p_range_bounded_of_coercive` uses `hchosen` and the coercivity hypothesis $hcoercive$ to conclude that the range $`\{A.p_n:n\in\mathbb N\}`$ is bounded.
 
 Now the sequence $z_n=A.p_n$ satisfies both hypotheses of `cluster_set_properties_of_vanishing_increments`: its range is bounded and its increments tend to $0$. Applying that theorem to $z=A.p$ gives four properties of the cluster set $\omega(A.p)$: it is nonempty, compact, connected, and
 

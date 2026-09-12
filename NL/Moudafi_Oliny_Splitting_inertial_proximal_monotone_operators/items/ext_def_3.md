@@ -23,9 +23,9 @@ $$
 
 defined by
 
-$$
+```math
 T^{-1}(y)=\{x\in\alpha : y\in T(x)\}.
-$$
+```
 
 Thus $T^{-1}$ sends each $y\in\beta$ to the set of all $x\in\alpha$ that are related to $y$ by $T$. The defining equivalence is
 

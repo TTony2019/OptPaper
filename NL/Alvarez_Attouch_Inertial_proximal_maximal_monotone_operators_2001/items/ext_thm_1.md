@@ -126,11 +126,11 @@ $$
 0 \le \langle us_n-v, xs_n-y\rangle.
 $$
 
-The proof then needs a uniform bound on $xs_n$. It invokes `bounded_range_of_tendsto_weakly hxs`. That cited lemma says that if $xs_n$ converges weakly to $x$, then the ordinary set of values $\{xs_n : n \in \mathbb N\}$ is bounded in norm. Hence `hxs_bdd` is the assertion that the range of $xs$ is bounded. Using `isBounded_iff_forall_norm_le`, the proof extracts a constant $C$ such that
+The proof then needs a uniform bound on $xs_n$. It invokes `bounded_range_of_tendsto_weakly hxs`. That cited lemma says that if $xs_n$ converges weakly to $x$, then the ordinary set of values $`\{xs_n : n \in \mathbb N\}`$ is bounded in norm. Hence `hxs_bdd` is the assertion that the range of $xs$ is bounded. Using `isBounded_iff_forall_norm_le`, the proof extracts a constant $C$ such that
 
-$$
+```math
 \|xs_n\| \le C
-$$
+```
 
 for every $n$. It then defines
 
@@ -140,9 +140,9 @@ $$
 
 Since $C \le \max(C,0)$, the estimate
 
-$$
+```math
 \|xs_n\| \le M
-$$
+```
 
 holds for every $n$. This uniform bound will be used to control the cross term $\langle us_n-u, xs_n\rangle$.
 
@@ -172,27 +172,27 @@ $$
 
 The strong convergence hypothesis `hus` is used to show
 
-$$
+```math
 \|us_n-u\| \to 0.
-$$
+```
 
-Indeed, $us_n-u \to u-u=0$, and taking norms gives $\|us_n-u\| \to 0$. The proof records this as `hus_norm_sub_zero`.
+Indeed, $us_n-u \to u-u=0$, and taking norms gives $`\|us_n-u\| \to 0`$. The proof records this as `hus_norm_sub_zero`.
 
 Next, the proof shows that the cross term $\langle us_n-u, xs_n\rangle$ tends to $0$. For each $n$, Cauchy-Schwarz gives
 
-$$
+```math
 |\langle us_n-u, xs_n\rangle|
 \le \|us_n-u\|\,\|xs_n\|.
-$$
+```
 
-Using $\|xs_n\| \le M$, this becomes
+Using $`\|xs_n\| \le M`$, this becomes
 
-$$
+```math
 |\langle us_n-u, xs_n\rangle|
 \le \|us_n-u\|\,M.
-$$
+```
 
-Since $\|us_n-u\| \to 0$, the product $\|us_n-u\|M$ tends to $0$. By the squeeze theorem, implemented by `squeeze_zero`, the absolute value $|\langle us_n-u, xs_n\rangle|$ tends to $0$. Then, using
+Since $`\|us_n-u\| \to 0`$, the product$`\|us_n-u\|M`$tends to$0$. By the squeeze theorem, implemented by `squeeze_zero`, the absolute value $|\langle us_n-u, xs_n\rangle|$ tends to $0$. Then, using
 
 $$
 -|\langle us_n-u, xs_n\rangle|

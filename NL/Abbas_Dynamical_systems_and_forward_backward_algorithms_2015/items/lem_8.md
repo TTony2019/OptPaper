@@ -27,7 +27,7 @@ theorem bregman_gap_properties {H : Type*} [NormedAddCommGroup H] [InnerProductS
 ```
 
 ## Statement explanation
-The theorem `bregman_gap_properties` is stated in a complete real inner product space $H$, hence a real Hilbert space. It fixes an extended-real-valued function $\Phi$ whose values lie in $\mathbb R\cup\{+\infty\}$ rather than in the full extended real line; the hypothesis `hPhi` says $\Phi\in\Gamma_0(H)$, i.e. $\Phi$ is a proper convex lower semicontinuous extended-real function in the usual convex-analysis sense. The notation $(\Phi(x))_{\mathbb R}$ denotes the `toReal` value of the extended real $\Phi(x)$, and $\partial\Phi$ denotes its subdifferential.
+The theorem `bregman_gap_properties` is stated in a complete real inner product space $H$, hence a real Hilbert space. It fixes an extended-real-valued function $\Phi$ whose values lie in $`\mathbb R\cup\{+\infty\}`$ rather than in the full extended real line; the hypothesis `hPhi` says $\Phi\in\Gamma_0(H)$, i.e. $\Phi$ is a proper convex lower semicontinuous extended-real function in the usual convex-analysis sense. The notation $(\Phi(x))_{\mathbb R}$ denotes the `toReal` value of the extended real $\Phi(x)$, and $\partial\Phi$ denotes its subdifferential.
 
 The data are a set $S\subseteq H$, a map $B:H\to H$, two curves $x,v:\mathbb R\to H$, and a point $z\in H$ with $z\in S$. The main hypotheses are:
 
@@ -43,7 +43,7 @@ $$
 
 which is the stationarity condition $0\in B(w)+\partial\Phi(w)$ for every $w\in S$.
 
-There are also regularity assumptions. For every $b>0$, the curves $x$ and $v$ are absolutely continuous on $[0,b]$, and almost everywhere on $[0,b]$ they have derivatives $\mathrm{deriv}x(t)$ and $\mathrm{deriv}v(t)$. Moreover $v$ and $\mathrm{deriv}x$ are square-integrable on each $[0,b]$. These are exactly the hypotheses needed to apply the subgradient chain rule on finite intervals.
+There are also regularity assumptions. For every $b\gt 0$, the curves $x$ and $v$ are absolutely continuous on $[0,b]$, and almost everywhere on $[0,b]$ they have derivatives $\mathrm{deriv}x(t)$ and $\mathrm{deriv}v(t)$. Moreover $v$ and $\mathrm{deriv}x$ are square-integrable on each $[0,b]$. These are exactly the hypotheses needed to apply the subgradient chain rule on finite intervals.
 
 A real-valued function $g:\mathbb R\to\mathbb R$ is then assumed to satisfy, for every $t$,
 
@@ -56,9 +56,9 @@ This is the Bregman gap between $z$ and $x(t)$, measured using the subgradient $
 
 The conclusion is a conjunction:
 
-$$
+```math
 \bigl(\forall t,\;0\le t\Rightarrow 0\le g(t)\bigr)
-$$
+```
 
 and, almost everywhere with respect to Lebesgue measure restricted to $[0,\infty)$,
 
@@ -165,7 +165,7 @@ It then rewrites $\langle z-x(t),v(t)\rangle$ as $\langle v(t),z-x(t)\rangle$ us
 
 For the second part, the proof proves the derivative identity locally on every interval $[0,T]$ with $T=n+1$ for $n\in\mathbb N$, and then passes to the countable union $[0,\infty)=\bigcup_{n\in\mathbb N}[0,n+1]$.
 
-For a fixed $n$, it sets $T=n+1$ and proves $0<T$ using `positivity`. It then applies `subgradient_chain_rule`. That theorem says: if $\Phi\in\Gamma_0(H)$, $x$ is absolutely continuous on $[0,b]$, $v(t)\in\partial\Phi(x(t))$ for almost every $t\in[0,b]$, $x(t)$ lies in the effective domain of $\Phi$ for every $t\in[0,b]$, $x$ is differentiable almost everywhere with derivative $\mathrm{deriv}x(t)$, and both $v$ and $\mathrm{deriv}x$ are in $L^2([0,b])$, then the function
+For a fixed $n$, it sets $T=n+1$ and proves $0\lt T$ using `positivity`. It then applies `subgradient_chain_rule`. That theorem says: if $\Phi\in\Gamma_0(H)$, $x$ is absolutely continuous on $[0,b]$, $v(t)\in\partial\Phi(x(t))$ for almost every $t\in[0,b]$, $x(t)$ lies in the effective domain of $\Phi$ for every $t\in[0,b]$, $x$ is differentiable almost everywhere with derivative $\mathrm{deriv}x(t)$, and both $v$ and $\mathrm{deriv}x$ are in $L^2([0,b])$, then the function
 
 $$
 t\mapsto (\Phi(x(t)))_{\mathbb R}
@@ -184,7 +184,7 @@ $$
 \mathrm{deriv}\phi(t)=\langle v(t),\mathrm{deriv}x(t)\rangle .
 $$
 
-Next, the proof uses `filter_upwards` to combine several almost-everywhere facts on $[0,T]$: differentiability of $x$, differentiability of $v$, the chain-rule derivative identity for $\phi$, membership of $t$ in $[0,T]$, and almost-everywhere differentiability of $\phi$ coming from its absolute continuity. The fact `hchain.1.ae_differentiableAt` says that the absolutely continuous function $\phi$ is differentiable almost everywhere; after restricting to $[0,T]$, it gives differentiability of $\phi$ at the current $t$. Since $0<T$, the unordered interval `uIcc 0 T` is the same as the ordered interval $[0,T]$, so the proof converts the membership `ht` accordingly. Then `.hasDerivAt` turns differentiability of $\phi$ at $t$ into the statement that $\phi$ has derivative
+Next, the proof uses `filter_upwards` to combine several almost-everywhere facts on $[0,T]$: differentiability of $x$, differentiability of $v$, the chain-rule derivative identity for $\phi$, membership of $t$ in $[0,T]$, and almost-everywhere differentiability of $\phi$ coming from its absolute continuity. The fact `hchain.1.ae_differentiableAt` says that the absolutely continuous function $\phi$ is differentiable almost everywhere; after restricting to $[0,T]$, it gives differentiability of $\phi$ at the current $t$. Since $0\lt T$, the unordered interval `uIcc 0 T` is the same as the ordered interval $[0,T]$, so the proof converts the membership `ht` accordingly. Then `.hasDerivAt` turns differentiability of $\phi$ at $t$ into the statement that $\phi$ has derivative
 
 $$
 \mathrm{deriv}\phi(t)

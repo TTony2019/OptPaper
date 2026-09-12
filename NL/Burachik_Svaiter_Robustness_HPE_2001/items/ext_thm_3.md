@@ -18,13 +18,13 @@ $$
 (T.\mathrm{dom}\cap \mathrm{int}C)\neq\emptyset,
 $$
 
-where $\mathrm{dom}T=\{x\in H:T(x)\neq\emptyset\}$ and $\mathrm{int}C$ is the topological interior of $C$. Thus there exists some point $x$ that lies both in the domain of $T$ and in the interior of $C$.
+where $`\mathrm{dom}T=\{x\in H:T(x)\neq\emptyset\}`$and$\mathrm{int}C$is the topological interior of$C$. Thus there exists some point$x$that lies both in the domain of$T$and in the interior of$C$.
 
 The conclusion is that the sum operator $T+N_C$ is maximal monotone, where $N_C$ is the normal-cone operator associated with $C$, written `N[C]` in Lean. The sum of two set-valued operators is defined pointwise by Minkowski addition:
 
-$$
+```math
 (A+B)(x)=A(x)+B(x)=\{a+b:a\in A(x),\, b\in B(x)\}.
-$$
+```
 
 Maximal monotonicity, according to the cited definition, means that $A$ is monotone and its graph is maximal among monotone graphs: for every monotone operator $A'$ with $\mathrm{graph}A\subseteq \mathrm{graph}A'$, one also has $\mathrm{graph}A'\subseteq \mathrm{graph}A$. In ordinary mathematical terms, the theorem says that adding the normal cone of a nonempty closed convex set to a maximal monotone operator preserves maximal monotonicity, provided that the domain of the operator meets the interior of the convex set.
 

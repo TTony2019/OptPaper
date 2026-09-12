@@ -28,19 +28,19 @@ $$
 
 means
 
-$$
+```math
 \Bigl(\forall \xi\in X,\,
 f(\bar x)+\beta c(\bar x,\bar y)+\alpha h(\bar x,\bar x)
 \le f(\xi)+\beta c(\xi,\bar y)+\alpha h(\bar x,\xi)\Bigr)
-$$
+```
 
 and
 
-$$
+```math
 \Bigl(\forall \eta\in Y,\,
 g(\bar y)+\mu c(\bar x,\bar y)+\nu k(\bar y,\bar y)
 \le g(\eta)+\mu c(\bar x,\eta)+\nu k(\bar y,\eta)\Bigr).
-$$
+```
 
 The theorem specializes this definition to $\alpha=0$ and $\nu=0$, keeping $\beta$ and $\mu$ as they are. The statement asserts that
 
@@ -50,17 +50,17 @@ $$
 
 is equivalent to the pair of inequalities
 
-$$
+```math
 \Bigl(\forall \xi\in X,\,
 f(\bar x)+\beta c(\bar x,\bar y)\le f(\xi)+\beta c(\xi,\bar y)\Bigr)
-$$
+```
 
 and
 
-$$
+```math
 \Bigl(\forall \eta\in Y,\,
 g(\bar y)+\mu c(\bar x,\bar y)\le g(\eta)+\mu c(\bar x,\eta)\Bigr).
-$$
+```
 
 Thus, when the coefficients of $h$ and $k$ are zero, those terms disappear and the INE condition becomes exactly the two unilateral equilibrium inequalities for the functions
 
@@ -81,19 +81,19 @@ by
 ## Proof explanation
 The proof is a direct definitional and arithmetic simplification; it does not use `intro`, `rw`, `exact`, or `linarith`. The tactic `dsimp [IsINE]` unfolds the definition of `IsINE` at the occurrence on the left side of the biconditional. After this unfolding, the goal compares
 
-$$
+```math
 \Bigl(\forall \xi,\,
 f(\bar x)+\beta c(\bar x,\bar y)+0\cdot h(\bar x,\bar x)
 \le f(\xi)+\beta c(\xi,\bar y)+0\cdot h(\bar x,\xi)\Bigr)
-$$
+```
 
 together with
 
-$$
+```math
 \Bigl(\forall \eta,\,
 g(\bar y)+\mu c(\bar x,\bar y)+0\cdot k(\bar y,\bar y)
 \le g(\eta)+\mu c(\bar x,\eta)+0\cdot k(\bar y,\eta)\Bigr)
-$$
+```
 
 against the two displayed inequalities from the theorem statement. The tactic `simp` then simplifies both sides. In $\mathbb R$, multiplication by zero gives $0\cdot h(\bar x,\bar x)=0$, $0\cdot h(\bar x,\xi)=0$, $0\cdot k(\bar y,\bar y)=0$, and $0\cdot k(\bar y,\eta)=0$. Also, adding zero leaves a real number unchanged, so terms such as
 

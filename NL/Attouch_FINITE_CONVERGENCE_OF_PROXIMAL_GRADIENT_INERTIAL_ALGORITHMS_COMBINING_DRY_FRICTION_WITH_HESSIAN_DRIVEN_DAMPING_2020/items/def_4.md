@@ -32,7 +32,7 @@ structure VariableMetricMoreauData {H : Type*} [NormedAddCommGroup H] [InnerProd
 ```
 
 ## Statement explanation
-The declaration `VariableMetricMoreauData` introduces a structure, that is, a bundled specification of data and properties, rather than a theorem to be proved. Its parameters are: an arbitrary type $H$ equipped with the structure of a normed additive commutative group and a real inner product space; a function $f : H \to \mathbb R$; a continuous $\mathbb R$-linear map $M : H \to H$; a real number $\lambda$; and a proof $h_\lambda$ that $0 < \lambda$. Thus any instance of this structure is data attached to a positive parameter $\lambda$, an objective $f$, and a linear metric operator $M$.
+The declaration `VariableMetricMoreauData` introduces a structure, that is, a bundled specification of data and properties, rather than a theorem to be proved. Its parameters are: an arbitrary type $H$ equipped with the structure of a normed additive commutative group and a real inner product space; a function $f : H \to \mathbb R$; a continuous $\mathbb R$-linear map $M : H \to H$; a real number $\lambda$; and a proof $h_\lambda$ that $0 \lt  \lambda$. Thus any instance of this structure is data attached to a positive parameter $\lambda$, an objective $f$, and a linear metric operator $M$.
 
 The field `symmetric` states that
 
@@ -106,25 +106,25 @@ $$
 
 So the gradient is the scaled metric displacement between $x$ and its proximal point.
 
-The real numbers `muMin` and `muMax` represent the extremal eigenvalues of $M$. The field `muMin_pos` says $0<\mu_{\min}$. The field `muMin_isLeast` says that every real eigenvalue $\mu$ of $M$, meaning every $\mu$ for which there exists nonzero $v$ with $M v=\mu v$, satisfies $\mu_{\min}\le \mu$. The field `muMin_isEigenvalue` says that $\mu_{\min}$ itself is an eigenvalue. Hence $\mu_{\min}$ is the least eigenvalue of $M$. Similarly, `muMax_isGreatest` says every eigenvalue $\mu$ satisfies $\mu\le \mu_{\max}$, and `muMax_isEigenvalue` says $\mu_{\max}$ is an eigenvalue. Hence $\mu_{\max}$ is the greatest eigenvalue of $M$. In particular, from these fields one also gets $\mu_{\min}\le \mu_{\max}$.
+The real numbers `muMin` and `muMax` represent the extremal eigenvalues of $M$. The field `muMin_pos` says $0\lt \mu_{\min}$. The field `muMin_isLeast` says that every real eigenvalue $\mu$ of $M$, meaning every $\mu$ for which there exists nonzero $v$ with $M v=\mu v$, satisfies $\mu_{\min}\le \mu$. The field `muMin_isEigenvalue` says that $\mu_{\min}$ itself is an eigenvalue. Hence $\mu_{\min}$ is the least eigenvalue of $M$. Similarly, `muMax_isGreatest` says every eigenvalue $\mu$ satisfies $\mu\le \mu_{\max}$, and `muMax_isEigenvalue` says $\mu_{\max}$ is an eigenvalue. Hence $\mu_{\max}$ is the greatest eigenvalue of $M$. In particular, from these fields one also gets $\mu_{\min}\le \mu_{\max}$.
 
 The field `prox_lipschitz` states that for all $x,y\in H$,
 
-$$
+```math
 \|\mathrm{prox}(x)-\mathrm{prox}(y)\|
 \le
 \frac{\mu_{\max}}{\mu_{\min}}\,\|x-y\|.
-$$
+```
 
 Thus the proximal map is Lipschitz with constant equal to the ratio of the largest to the smallest eigenvalue of $M$.
 
 The field `gradient_lipschitz` states that for all $x,y\in H$,
 
-$$
+```math
 \|\mathrm{gradient}(x)-\mathrm{gradient}(y)\|
 \le
 \frac{1}{\lambda}\sqrt{\frac{\mu_{\max}}{\mu_{\min}}}\,\|x-y\|.
-$$
+```
 
 Thus the gradient map is Lipschitz with constant involving the square root of the same eigenvalue ratio, scaled by $1/\lambda$.
 

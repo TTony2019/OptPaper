@@ -24,15 +24,15 @@ $$
 
 is a real number, and the set of minimizers
 
-$$
+```math
 \mathrm{argmin}\Phi=\{x\in H:\Phi(x)=\inf \Phi(H)\}
-$$
+```
 
-is well-defined. The hypothesis $h_\Gamma$ says that $\Gamma$ has coercive damping: there exists $\gamma>0$ such that for every $x\in H$,
+is well-defined. The hypothesis $h_\Gamma$ says that $\Gamma$ has coercive damping: there exists $\gamma\gt 0$ such that for every $x\in H$,
 
-$$
+```math
 \gamma\|x\|^2\le \langle \Gamma x,x\rangle_{\mathbb R}.
-$$
+```
 
 The parameter `sys` is an operator dissipative system with damping $\Gamma$, potential $\Phi$, gradient $g$, and initial data $u_0,v_0$. It supplies the trajectory $u=\texttt{sys.u}:\mathbb R\to H$ of the system and, in the proof, also the self-adjointness of $\Gamma$.
 
@@ -46,9 +46,9 @@ so that $u'(t)\in H$ is the derivative of the trajectory at time $t$. It then as
 
 1. The squared speed is integrable on $[0,\infty)$:
 
-$$
+```math
 \int_0^\infty \|u'(t)\|^2\,dt<\infty.
-$$
+```
 
 2. The velocity vanishes at infinity:
 
@@ -580,51 +580,51 @@ by
 ```
 
 ## Proof explanation
-The proof begins by unpacking the coercive damping hypothesis. The tactic `rcases hGamma with ⟨gamma, hgamma, hcoercive⟩` replaces $h_\Gamma$ by a real number $\gamma>0$ and the pointwise coercivity inequality
+The proof begins by unpacking the coercive damping hypothesis. The tactic `rcases hGamma with ⟨gamma, hgamma, hcoercive⟩` replaces $h_\Gamma$ by a real number $\gamma\gt 0$ and the pointwise coercivity inequality
 
-$$
+```math
 \gamma\|x\|^2\le \langle \Gamma x,x\rangle_{\mathbb R}
 \qquad (x\in H).
-$$
+```
 
 The first conjunct is obtained directly from `operator_velocity_sq_integrableOn_Ici_zero`. That result says that under the potential assumption on $\Phi$, coercive damping for $\Gamma$, and the operator system `sys`, the function
 
-$$
+```math
 t\mapsto \|u'(t)\|^2
-$$
+```
 
 is integrable on $[0,\infty)$. Applying it with the repackaged coercive damping hypothesis proves the first part of the theorem.
 
 Next, `operator_shifted_velocity_sq_integrableOn_Ici_zero` is applied to the previous integrability. It states that if
 
-$$
+```math
 t\mapsto \|u'(t)\|^2
-$$
+```
 
 is integrable on $[0,\infty)$, then the shifted function
 
-$$
+```math
 s\mapsto \|u'(s+1)\|^2
-$$
+```
 
 is also integrable on $[0,\infty)$. This is a tail-shift integrability statement and is used to prepare the causal velocity-error estimate.
 
 The lemma `operator_shifted_causal_velocity_error_converges` is then invoked. It gives the existence of a real number $L$ such that
 
-$$
+```math
 \frac32\int_0^t\int_0^\theta
  e^{-\gamma(\theta-s)}\|u'(s+1)\|^2\,ds\,d\theta
 \longrightarrow L
 \qquad (t\to\infty).
-$$
+```
 
 This is a convergence statement for an exponentially damped double integral of the shifted squared velocity. In the displayed proof this limit is recorded as `velocityErrorLimit`, although the later central energy argument does not directly reuse this particular limit again.
 
 The lemma `operator_energy_converges` is then applied. It says that under the same hypotheses on $\Phi$, $\gamma$, and `sys`, the energy
 
-$$
+```math
 E(t)=\frac12\|u'(t)\|^2+\Phi(u(t))
-$$
+```
 
 converges to some real number $E_\infty$. In the proof this limit is called `energyLimit` and the notation `energy` is introduced for $E(t)$.
 
@@ -636,9 +636,9 @@ $$
 
 for every $t$. Since the kinetic term satisfies
 
-$$
+```math
 0\le \frac12\|u'(t)\|^2,
-$$
+```
 
 one obtains
 
@@ -685,7 +685,7 @@ $$
 E_\infty=\inf \Phi(H).
 $$
 
-The inequality $\inf \Phi(H)\le E_\infty$ was already proved. For the reverse inequality, suppose for contradiction that $E_\infty>\inf \Phi(H)$. Put
+The inequality $\inf \Phi(H)\le E_\infty$ was already proved. For the reverse inequality, suppose for contradiction that $E_\infty\gt \inf \Phi(H)$. Put
 
 $$
 \delta=\frac{E_\infty-\inf \Phi(H)}4>0.
@@ -707,28 +707,28 @@ This is the sequence of estimates recorded in `hcx`.
 
 The proof now studies the shifted distance to the fixed point $x$. It defines
 
-$$
+```math
 q(s)=\|u'(s+1)\|^2,
-$$
+```
 
 which is integrable on $(0,\infty)$, and sets
 
-$$
+```math
 Q=\int_{(0,\infty)} q(s)\,ds.
-$$
+```
 
 Because the tail has nonnegative integral, for every $T\ge0$,
 
-$$
+```math
 \int_0^T q(s)\,ds\le Q.
-$$
+```
 
 It also defines
 
-$$
+```math
 A=\Gamma-\gamma I,\qquad
 \phi(s)=\frac12\|u(s+1)-x\|^2,
-$$
+```
 
 and
 
@@ -736,14 +736,14 @@ $$
 \rho(s)=\frac12\langle A(u(s+1)-x),u(s+1)-x\rangle_{\mathbb R}.
 $$
 
-The derivative of $\phi$ is computed using `operatorSystem_differentiableAt_pos`, which says that $u$ is differentiable at every positive time. Since $T\ge0$ implies $T+1>0$, the chain rule gives
+The derivative of $\phi$ is computed using `operatorSystem_differentiableAt_pos`, which says that $u$ is differentiable at every positive time. Since $T\ge0$ implies $T+1\gt 0$, the chain rule gives
 
 $$
 \mathrm{deriv}\phi(T)
 =\langle u'(T+1),u(T+1)-x\rangle_{\mathbb R}.
 $$
 
-The lemma `operator_damping_remainder_nonnegative` says that if $\gamma\|y\|^2\le\langle \Gamma y,y\rangle_{\mathbb R}$ for all $y$, then
+The lemma `operator_damping_remainder_nonnegative` says that if $`\gamma\|y\|^2\le\langle \Gamma y,y\rangle_{\mathbb R}`$for all$y$, then
 
 $$
 0\le \langle(\Gamma-\gamma I)y,y\rangle_{\mathbb R}.
@@ -755,7 +755,7 @@ $$
 0\le \rho(T).
 $$
 
-The energy monotonicity lemma `operator_energy_antitone_pos` is then used. It states that for $0<a\le b$,
+The energy monotonicity lemma `operator_energy_antitone_pos` is then used. It states that for $0\lt a\le b$,
 
 $$
 E(b)\le E(a).
@@ -769,9 +769,9 @@ $$
 
 If $m\le\Phi(y)$ for all $y$ is the lower bound supplied by the potential assumption, then
 
-$$
+```math
 \frac12\|u'(T+1)\|^2\le E(1)-m.
-$$
+```
 
 Setting
 
@@ -781,16 +781,16 @@ $$
 
 and combining this kinetic bound with Cauchy–Schwarz,
 
-$$
+```math
 \langle u'(T+1),u(T+1)-x\rangle_{\mathbb R}
 \ge -\|u'(T+1)\|\|u(T+1)-x\|,
-$$
+```
 
 and with the nonnegativity of
 
-$$
+```math
 \bigl(\|u'(T+1)\|-\gamma\|u(T+1)-x\|\bigr)^2,
-$$
+```
 
 the proof obtains the lower bound
 
@@ -816,7 +816,7 @@ $$
 
 The frozen-distance lemma `operator_shifted_distance_frozen_integral` is invoked with $a=0$ and the chosen $T$. The supplied context truncates the full statement of that lemma, but the proof uses the following consequence obtained after unfolding the definitions of $\phi,\rho,A,E,q$:
 
-$$
+```math
 \begin{aligned}
 &\mathrm{deriv}\phi(T)-\mathrm{deriv}\phi(0)
 +\gamma(\phi(T)-\phi(0))+\rho(T)-\rho(0)\\
@@ -824,7 +824,7 @@ $$
 (\Phi(x)-E(T+1))T
 +\frac32\int_0^T q(s)\,ds.
 \end{aligned}
-$$
+```
 
 Combining this upper estimate with the eventual inequality
 
@@ -834,9 +834,9 @@ $$
 
 and with
 
-$$
+```math
 \int_0^T q(s)\,ds\le Q
-$$
+```
 
 gives
 
@@ -876,15 +876,15 @@ $$
 
 The velocity convergence is then obtained from `operator_velocity_tendsto_zero_of_energy_potential_tendsto`. That lemma says that if the total energy
 
-$$
+```math
 E(t)=\frac12\|u'(t)\|^2+\Phi(u(t))
-$$
+```
 
 converges to a limit $m$ and the potential $\Phi(u(t))$ also converges to the same $m$, then the velocity $u'(t)$ tends to $0$. Here $m=\inf \Phi(H)$. Indeed,
 
-$$
+```math
 \frac12\|u'(t)\|^2=E(t)-\Phi(u(t))\to0,
-$$
+```
 
 so $u'(t)\to0$.
 
@@ -912,7 +912,7 @@ $$
 \Phi(u(t_n))\to\inf \Phi(H).
 $$
 
-For every $\varepsilon>0$, eventually
+For every $\varepsilon\gt 0$, eventually
 
 $$
 \Phi(u(t_n))\le \inf \Phi(H)+\varepsilon.
@@ -920,11 +920,11 @@ $$
 
 The sublevel set
 
-$$
+```math
 \{w\in H:\Phi(w)\le \inf \Phi(H)+\varepsilon\}
-$$
+```
 
-is closed because $\Phi$ is continuous, and it is convex because $\Phi$ is convex. The lemma `mem_of_tendsto_weakly_of_isClosed_convex` says that a weak limit of a sequence in a closed convex set belongs to that set. Hence $z$ belongs to the sublevel set for every $\varepsilon>0$, so
+is closed because $\Phi$ is continuous, and it is convex because $\Phi$ is convex. The lemma `mem_of_tendsto_weakly_of_isClosed_convex` says that a weak limit of a sequence in a closed convex set belongs to that set. Hence $z$ belongs to the sublevel set for every $\varepsilon\gt 0$, so
 
 $$
 \Phi(z)\le \inf \Phi(H).
@@ -944,7 +944,7 @@ $$
 x_n=u(t_n),
 $$
 
-and proves that the sequence $x_n$ is bounded. Choose some $z_0\in S$, possible because $S\neq\emptyset$. Since $d(x_n,z_0)$ converges, its range is bounded. Coercivity then bounds $\|x_n-z_0\|^2$, and the triangle inequality bounds $\|x_n\|$. Hence the range of $x_n$ is bounded.
+and proves that the sequence $x_n$ is bounded. Choose some $z_0\in S$, possible because $S\neq\emptyset$. Since $d(x_n,z_0)$ converges, its range is bounded. Coercivity then bounds $`\|x_n-z_0\|^2`$, and the triangle inequality bounds$`\|x_n\|`$. Hence the range of$x_n$ is bounded.
 
 Any weak sequential cluster point of $x_n$ lies in $S$ by the previous paragraph. The proof then proves uniqueness of such weak sequential cluster points. Suppose $y,z\in S$ are two weak sequential cluster points. Since $d(x_n,y)$ and $d(x_n,z)$ converge, say to $l_y$ and $l_z$, one has
 
@@ -987,9 +987,9 @@ $$
 
 Coercivity gives
 
-$$
+```math
 \gamma\|y-z\|^2\le \langle y-z,\Gamma(y-z)\rangle_{\mathbb R}=0,
-$$
+```
 
 hence $y=z$. Thus there is at most one weak sequential cluster point.
 
@@ -1038,7 +1038,7 @@ u(t)\rightharpoonup u_\ast
 \langle u_\ast,y\rangle_{\mathbb R}.
 $$
 
-The proof proves the right-hand side by contradiction. If some $y$ failed to have convergent inner products, then there would exist $\varepsilon>0$ and times $s_n\to\infty$ with
+The proof proves the right-hand side by contradiction. If some $y$ failed to have convergent inner products, then there would exist $\varepsilon\gt 0$ and times $s_n\to\infty$ with
 
 $$
 |\langle u(s_n),y\rangle_{\mathbb R}-\langle u_\ast,y\rangle_{\mathbb R}|\ge\varepsilon.

@@ -149,9 +149,9 @@ converges to the same weak limit. The `.2` direction is precisely the direction 
 
 The tactic `intro s hs` introduces an arbitrary sequence $s$ and the assumption $hs:s_n\to+\infty$. The remaining goal is convergence of the composed sequence. The final line
 
-$$
+```math
 \texttt{simpa [Function.comp\_def] using hsample s hs}
-$$
+```
 
 unfolds the definition of function composition, turning the composed sequence into the explicit sequence $n\mapsto \mathrm{toWeakSpace}_{\mathbb R,H}(x(s_n))$, and then applies the already established `hsample s hs`. Since this argument works for an arbitrary sequence $s$ tending to $+\infty$, the sequential criterion yields the desired continuous-time weak convergence of $x(t)$ to $p$ as $t\to+\infty$. Thus the conclusion
 

@@ -30,7 +30,7 @@ structure HPEIterates (H : Type*) [NormedAddCommGroup H] [InnerProductSpace ℝ 
 ```
 
 ## Statement explanation
-The declaration introduces a structure named `HPEIterates`. It has two parameters: a type $H$, equipped with a normed additive commutative group structure and with the structure of a real inner product space, and a term $T$ of type `SetValuedOperator H H`. The source does not define `SetValuedOperator` here, so the declaration treats $T$ as a set-valued operator from $H$ to $H$ to which an epsilon-enlargement is applied. Because $H$ is a real inner product space and a normed group, it supports addition, subtraction, real scalar multiplication, and the norm $\|\cdot\|$.
+The declaration introduces a structure named `HPEIterates`. It has two parameters: a type $H$, equipped with a normed additive commutative group structure and with the structure of a real inner product space, and a term $T$ of type `SetValuedOperator H H`. The source does not define `SetValuedOperator` here, so the declaration treats $T$ as a set-valued operator from $H$ to $H$ to which an epsilon-enlargement is applied. Because $H$ is a real inner product space and a normed group, it supports addition, subtraction, real scalar multiplication, and the norm $`\|\cdot\|`$.
 
 An inhabitant of `HPEIterates H T` consists of eight sequences:
 
@@ -68,19 +68,19 @@ In Lean this is the set denoted by `epsilonEnlargement T (ε k) (ε_nonneg k) (y
 
 - The residual inequality, for every $k$:
 
-$$
+```math
 \left\|c_k v_k + y_k - x_k\right\|^2 + 2 c_k \varepsilon_k
 \le
 \delta_k + \sigma_k^2 \left\|y_k - x_k\right\|^2.
-$$
+```
 
 Here $c_k v_k$ is real scalar multiplication in $H$. This inequality controls a residual-like quantity $c_k v_k + y_k - x_k$ together with the term $2 c_k \varepsilon_k$, bounding it by $\delta_k$ plus a $\sigma_k^2$-multiple of the squared distance between $y_k$ and $x_k$.
 
 - The update-error inequality, for every $k$:
 
-$$
+```math
 \left\|x_{k+1} - (x_k - c_k v_k)\right\| \le \alpha_k.
-$$
+```
 
 This says that the next iterate $x_{k+1}$ is close, within tolerance $\alpha_k$, to the vector $x_k - c_k v_k$.
 

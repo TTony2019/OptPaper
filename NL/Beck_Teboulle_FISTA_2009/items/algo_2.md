@@ -10,7 +10,7 @@ theorem descent_condition {n : ℕ} {f g : EuclideanSpace ℝ (Fin n) → ℝ}
 ```
 
 ## Statement explanation
-Let $n$ be a natural number and let $E=\mathbb R^n$, represented in Lean by `EuclideanSpace ℝ (Fin n)`. The theorem is stated for two functions $f,g:E\to\mathbb R$ and an initial point $x_0\in E$. The hypothesis $A:\mathrm{FISTABacktracking}\,f\,g\,x_0$ says that $A$ is a FISTA backtracking run for the composite objective built from $f$ and $g$, initialized at $x_0$. In particular, for each index $k$, the notation $A.x_k$ and $A.y_k$ denotes the corresponding points of $E$, and $A.L_k$ denotes the step-size or majorization parameter chosen at that iteration.
+Let $n$ be a natural number and let $E=\mathbb R^n$, represented in Lean by `EuclideanSpace ℝ (Fin n)`. The theorem is stated for two functions $f,g:E\to\mathbb R$ and an initial point $x_0\in E$. The hypothesis $`A:\mathrm{FISTABacktracking}\,f\,g\,x_0`$says that$A$is a FISTA backtracking run for the composite objective built from$f$and$g$, initialized at$x_0$. In particular, for each index$k$, the notation$A.x_k$and$A.y_k$denotes the corresponding points of$E$, and$A.L_k$ denotes the step-size or majorization parameter chosen at that iteration.
 
 Besides the run $A$, the theorem assumes a natural number $k$ and the side condition $1\le k$. The conclusion is
 

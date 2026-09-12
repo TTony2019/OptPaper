@@ -26,13 +26,13 @@ The theorem `alvarez_sequence_convergence` concerns three real sequences indexed
 - $a_n\ge 0$ for every $n$;
 - for every $n\ge 1$,
 
-  $$
-  \psi_{n+1}\le \psi_n+a_n(\psi_n-\psi_{n-1})+\delta_n;
-  $$
+$$
+\psi_{n+1}\le \psi_n+a_n(\psi_n-\psi_{n-1})+\delta_n;
+$$
 
 - the series $\sum_n\delta_n$ is summable;
 - there is a real number $\alpha$ such that $a_n\le \alpha$ for every $n\ge 1$;
-- $\alpha<1$.
+- $\alpha\lt 1$.
 
 The recurrence is a second-order difference inequality. Equivalently, if $d_n=\psi_{n+1}-\psi_n$, then for $n\ge 1$,
 
@@ -40,7 +40,7 @@ $$
 d_n\le a_n d_{n-1}+\delta_n.
 $$
 
-Thus each increment is controlled by the previous increment with coefficient $a_n$, plus a nonnegative summable forcing term $\delta_n$. Since $a_n$ is bounded above by $\alpha<1$, the recurrence is dissipative. The conclusion is twofold:
+Thus each increment is controlled by the previous increment with coefficient $a_n$, plus a nonnegative summable forcing term $\delta_n$. Since $a_n$ is bounded above by $\alpha\lt 1$, the recurrence is dissipative. The conclusion is twofold:
 
 $$
 \sum_n \max(\psi_{n+2}-\psi_{n+1},0)
@@ -203,7 +203,7 @@ $$
 a_{n+1}d_n\le \alpha d_n=\alpha q_n.
 $$
 
-If $d_n<0$, then $q_n=0$, so $\alpha q_n=0$, while $a_{n+1}\ge0$ and $d_n\le0$ imply
+If $d_n\lt 0$, then $q_n=0$, so $\alpha q_n=0$, while $a_{n+1}\ge0$ and $d_n\le0$ imply
 
 $$
 a_{n+1}d_n\le0=\alpha q_n.
@@ -215,7 +215,7 @@ $$
 d_{n+1}\le \alpha q_n+\sigma_n.
 $$
 
-Finally, passing from $d_{n+1}$ to its positive part $q_{n+1}$, the same inequality holds: if $d_{n+1}\ge0$, then $q_{n+1}=d_{n+1}$; if $d_{n+1}<0$, then $q_{n+1}=0$, and the right-hand side $\alpha q_n+\sigma_n$ is nonnegative because $\alpha\ge0$, $q_n\ge0$, and $\sigma_n\ge0$. Hence
+Finally, passing from $d_{n+1}$ to its positive part $q_{n+1}$, the same inequality holds: if $d_{n+1}\ge0$, then $q_{n+1}=d_{n+1}$; if $d_{n+1}\lt 0$, then $q_{n+1}=0$, and the right-hand side $\alpha q_n+\sigma_n$ is nonnegative because $\alpha\ge0$, $q_n\ge0$, and $\sigma_n\ge0$. Hence
 
 $$
 q_{n+1}\le \alpha q_n+\sigma_n.
@@ -241,7 +241,7 @@ $$
 Q_{N+1}\le \alpha Q_N+D.
 $$
 
-Here the term $q_0$ and the tail bound for $\sum\sigma_k$ combine into $D$. Since $0\le\alpha<1$, the denominator $1-\alpha$ is positive. An induction on $N$ then gives
+Here the term $q_0$ and the tail bound for $\sum\sigma_k$ combine into $D$. Since $0\le\alpha\lt 1$, the denominator $1-\alpha$ is positive. An induction on $N$ then gives
 
 $$
 Q_N\le \frac{D}{1-\alpha}
@@ -261,7 +261,7 @@ $$
 \alpha\frac{D}{1-\alpha}+D=\frac{D}{1-\alpha},
 $$
 
-valid because $\alpha<1$. Since $q_n\ge0$ for all $n$ and all partial sums are uniformly bounded, the lemma `summable_of_sum_range_le` yields that $q$ is summable. Therefore $q$ represents a convergent nonnegative series.
+valid because $\alpha\lt 1$. Since $q_n\ge0$ for all $n$ and all partial sums are uniformly bounded, the lemma `summable_of_sum_range_le` yields that $q$ is summable. Therefore $q$ represents a convergent nonnegative series.
 
 The first conclusion follows by shifting $q$. Since $q_{n+1}=\max(\psi_{n+2}-\psi_{n+1},0)$, the summability of $q$ implies the summability of
 

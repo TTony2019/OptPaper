@@ -22,7 +22,7 @@ and a parameter value $\bar{\mu} \in M$. Because the function is curried, for $\
 
 The body of the definition is the conjunction of four component predicates, all applied to the same three explicit arguments $\bar{x}$, `trajectory`, and $\bar{\mu}$:
 
-$$
+```math
 \begin{aligned}
 &\mathrm{def\_9\_lyapunovStable}(\bar{x},\mathrm{trajectory},\bar{\mu})
 \land
@@ -32,7 +32,7 @@ $$
 \land
 \mathrm{def\_9\_uniformlyAsymptoticallyStable}(\bar{x},\mathrm{trajectory},\bar{\mu}).
 \end{aligned}
-$$
+```
 
 Thus `def_9` asserts that the given point, trajectory family, and parameter value satisfy all four named stability properties simultaneously. The names indicate Lyapunov stability, asymptotic stability, uniform stability, and uniform asymptotic stability, but the internal definitions of those component predicates are not expanded in this declaration. The result type is `Prop`, so this is a definition of a bundled stability property, not a theorem.
 
@@ -42,5 +42,5 @@ Thus `def_9` asserts that the given point, trajectory family, and parameter valu
 ```
 
 ## Proof explanation
-There is no separate proof. The declaration is a `def`, so Lean accepts it by checking that the right-hand side is a well-typed term of type `Prop`. There are no tactic commands such as `intro`, `rw`, `simp`, `exact`, or `linarith`, and no named theorem or lemma is invoked. The only definitional operation available is unfolding `def_9`: replacing $\mathrm{def\_9}(\bar{x},\mathrm{trajectory},\bar{\mu})$ by its definition yields the displayed conjunction of the four component propositions. Conversely, from a proof of that conjunction one could extract a proof of any one component by conjunction elimination, but those proof steps are not present in the supplied source.
+There is no separate proof. The declaration is a `def`, so Lean accepts it by checking that the right-hand side is a well-typed term of type `Prop`. There are no tactic commands such as `intro`, `rw`, `simp`, `exact`, or `linarith`, and no named theorem or lemma is invoked. The only definitional operation available is unfolding `def_9`: replacing $`\mathrm{def\_9}(\bar{x},\mathrm{trajectory},\bar{\mu})`$ by its definition yields the displayed conjunction of the four component propositions. Conversely, from a proof of that conjunction one could extract a proof of any one component by conjunction elimination, but those proof steps are not present in the supplied source.
 

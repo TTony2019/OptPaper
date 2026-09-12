@@ -11,9 +11,9 @@ theorem sum_maximal_monotone (A B : SetValuedOperator H H) (hA : IsMaximalMonoto
 ## Statement explanation
 Let $H$ be the ambient real inner product space on which the set-valued operators act. A set-valued operator $A : H \rightrightarrows H$ assigns to each point $x \in H$ a subset $A(x) \subseteq H$, and its domain is
 
-$$
+```math
 \mathrm{dom} A = \{x \in H : A(x) \neq \varnothing\}.
-$$
+```
 
 The theorem `sum_maximal_monotone` takes two set-valued operators $A$ and $B$ on $H$, together with three hypotheses:
 
@@ -21,9 +21,9 @@ The theorem `sum_maximal_monotone` takes two set-valued operators $A$ and $B$ on
 - `hB : IsMaximalMonotone B`, meaning that $B$ is a maximal monotone set-valued operator.
 - `hdom : (interior A.dom ∩ B.dom).Nonempty`, meaning that there exists a point lying simultaneously in the topological interior of $\mathrm{dom} A$ and in $\mathrm{dom} B$:
 
-  $$
-  \exists x,\quad x \in \mathrm{int}(\mathrm{dom} A) \cap \mathrm{dom} B.
-  $$
+$$
+\exists x,\quad x \in \mathrm{int}(\mathrm{dom} A) \cap \mathrm{dom} B.
+$$
 
 The conclusion is
 
@@ -74,9 +74,9 @@ To obtain that maximality statement, the proof invokes
 - a proof that $B$ is maximal among monotone set-valued operators;
 - the hypothesis `hdom`, that
 
-  $$
-  \mathrm{int}(\mathrm{dom} A) \cap \mathrm{dom} B \neq \varnothing.
-  $$
+$$
+\mathrm{int}(\mathrm{dom} A) \cap \mathrm{dom} B \neq \varnothing.
+$$
 
 It returns a proof that $A+B$ is maximal among monotone set-valued operators:
 
@@ -86,9 +86,9 @@ $$
 
 The first two arguments to this additivity result are produced by converting the maximal-monotone hypotheses `hA` and `hB` into maximality statements. For $A$, the proof uses
 
-$$
+```math
 \texttt{(isMaximalMonotone\_iff\_maximal\_isMonotone A).1 hA}.
-$$
+```
 
 The direction `.1` of the equivalence for $A$ is
 
@@ -100,9 +100,9 @@ $$
 
 so applying it to `hA` gives $\mathrm{Maximal}(\mathrm{IsMonotone})(A)$. The analogous expression
 
-$$
+```math
 \texttt{(isMaximalMonotone\_iff\_maximal\_isMonotone B).1 hB}
-$$
+```
 
 gives $\mathrm{Maximal}(\mathrm{IsMonotone})(B)$.
 

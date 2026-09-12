@@ -30,27 +30,27 @@ The common hypotheses on $\Phi$ are:
 - $\Phi$ is convex on the whole space $H$, i.e. `ConvexOn ℝ Set.univ Phi`.
 - $\Phi$ is differentiable, i.e. `Differentiable ℝ Phi`.
 - $\Phi$ has a global minimum: there exists $z \in H$ such that $\Phi(z) \le \Phi(y)$ for every $y \in H$.
-- The scalar $c$ is positive: $c > 0$.
+- The scalar $c$ is positive: $c \gt  0$.
 
 The hypotheses on the semigroup trajectory $x_{\mathrm{sg}}$ are:
 
 - For every $t \ge 0$, $x_{\mathrm{sg}}$ has derivative
 
-  $$
-  -\nabla \Phi(x_{\mathrm{sg}}(t))
-  $$
+$$
+-\nabla \Phi(x_{\mathrm{sg}}(t))
+$$
 
   at $t$. Thus $x_{\mathrm{sg}}$ solves the gradient-flow equation
 
-  $$
-  \dot{x}_{\mathrm{sg}}(t) = -\nabla \Phi(x_{\mathrm{sg}}(t)).
-  $$
+$$
+\dot{x}_{\mathrm{sg}}(t) = -\nabla \Phi(x_{\mathrm{sg}}(t)).
+$$
 
 - For every $t \ge 0$, the map
 
-  $$
-  s \mapsto \nabla \Phi(x_{\mathrm{sg}}(s))
-  $$
+$$
+s \mapsto \nabla \Phi(x_{\mathrm{sg}}(s))
+$$
 
   is differentiable at $t$, with derivative its classical Lean derivative `deriv`.
 
@@ -59,29 +59,29 @@ The hypotheses on the Newton trajectory $x_{\mathrm{nt}}$ are:
 - For every $t \ge 0$, $x_{\mathrm{nt}}$ is differentiable at $t$, with derivative `deriv xNewton t`.
 - For every $t \ge 0$, the map
 
-  $$
-  s \mapsto \nabla \Phi(x_{\mathrm{nt}}(s))
-  $$
+$$
+s \mapsto \nabla \Phi(x_{\mathrm{nt}}(s))
+$$
 
   is differentiable at $t$, with derivative its classical Lean derivative `deriv`.
 - For every $t \ge 0$, the Newton-type equation holds:
 
-  $$
-  c e^{-t} \dot{x}_{\mathrm{nt}}(t)
-  +\frac{d}{dt}\nabla \Phi(x_{\mathrm{nt}}(t))
-  +\nabla \Phi(x_{\mathrm{nt}}(t))
-  = 0.
-  $$
+$$
+c e^{-t} \dot{x}_{\mathrm{nt}}(t)
++\frac{d}{dt}\nabla \Phi(x_{\mathrm{nt}}(t))
++\nabla \Phi(x_{\mathrm{nt}}(t))
+= 0.
+$$
 
   Here the addition and the zero are those of the vector space $H$, while $c e^{-t}$ is a real scalar multiplying the velocity vector.
 
 The conclusion is a conjunction of two rate statements:
 
 $$
-\Bigl(\exists C \in \mathbb R,\ \forall t > 0,\ 
+\Bigl(\exists C \in \mathbb R,\ \forall t > 0,\
 \lVert \nabla \Phi(x_{\mathrm{sg}}(t)) \rVert \le C/t\Bigr)
 \land
-\Bigl(\exists C \in \mathbb R,\ \forall t \ge 0,\ 
+\Bigl(\exists C \in \mathbb R,\ \forall t \ge 0,\
 \lVert \nabla \Phi(x_{\mathrm{nt}}(t)) \rVert \le C e^{-t}\Bigr).
 $$
 
@@ -104,7 +104,7 @@ First, the target is a conjunction. The tactic
 - `refine` is used to introduce the conjunction. The anonymous constructor splits the goal into two components: the first component is left as a placeholder goal, and the second component is filled by the term
   `newton_gradient_exponential_rate Phi xNewton c hconvex hgradient hc hmin hnewton_xclassical hnewton_vclassical hnewton`.
 
-The theorem `newton_gradient_exponential_rate`, specialized to the current variables, says the following. If $H$ is a complete real inner product space, $\Phi$ is convex on the whole space and differentiable, $c>0$, $\Phi$ has a global minimum, the trajectory $x$ satisfies
+The theorem `newton_gradient_exponential_rate`, specialized to the current variables, says the following. If $H$ is a complete real inner product space, $\Phi$ is convex on the whole space and differentiable, $c\gt 0$, $\Phi$ has a global minimum, the trajectory $x$ satisfies
 
 $$
 \dot{x}(t)=\text{deriv }x(t)
@@ -129,7 +129,7 @@ for every $t\ge0$.
 In the current proof this theorem is applied with $x = x_{\mathrm{nt}}$. The hypotheses supplied to it are exactly `hconvex`, `hgradient`, `hc`, `hmin`, `hnewton_xclassical`, `hnewton_vclassical`, and `hnewton`. Its conclusion is precisely the second conjunct of the target:
 
 $$
-\exists C,\ \forall t\ge0,\ 
+\exists C,\ \forall t\ge0,\
 \lVert \nabla \Phi(x_{\mathrm{nt}}(t)) \rVert \le C e^{-t}.
 $$
 
@@ -151,12 +151,12 @@ $$
 \lVert \nabla\Phi(x(t))\rVert \le C/t
 $$
 
-for every $t>0$.
+for every $t\gt 0$.
 
 In the current proof this theorem is applied with $x = x_{\mathrm{sg}}$. The hypotheses supplied to it are `hconvex`, `hgradient`, `hmin`, `hsemigroup`, and `hsemigroup_vclassical`. Its conclusion is exactly the first conjunct:
 
 $$
-\exists C,\ \forall t>0,\ 
+\exists C,\ \forall t>0,\
 \lVert \nabla \Phi(x_{\mathrm{sg}}(t)) \rVert \le C/t.
 $$
 

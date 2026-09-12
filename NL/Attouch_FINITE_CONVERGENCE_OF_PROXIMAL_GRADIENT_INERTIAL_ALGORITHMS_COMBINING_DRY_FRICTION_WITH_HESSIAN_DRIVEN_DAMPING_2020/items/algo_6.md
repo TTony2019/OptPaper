@@ -34,8 +34,8 @@ The parameters of the structure are:
 
 A term of type `IPAHDDNVar f φ hφ h γ β` consists of the following fields:
 
-- A proof $0<h$.
-- A proof $0<\gamma$.
+- A proof $0\lt h$.
+- A proof $0\lt \gamma$.
 - Two sequences $x:\mathbb N\to H$ and $y:\mathbb N\to H$. Write $x_k=x(k)$ and $y_k=y(k)$.
 - Two vacuous equality fields $x_0=x_0$ and $x_1=x_1$. These are self-equalities; up to proof irrelevance they impose no mathematical condition on the initial terms.
 - For every $k\in\mathbb N$, an extrapolation equation
@@ -47,13 +47,13 @@ $$
 This defines the auxiliary sequence $y$ as an inertial extrapolation from two consecutive iterates of $x$.
 - For every $k\in\mathbb N$, an update equation
 
-$$
+```math
 x_{k+2}=x_{k+1}+h\,G_{\frac{h}{1+h\gamma}\phi}\!\left(
 y_k-x_{k+1}
 -\frac{\beta}{1+h\gamma}\bigl(\nabla f(x_{k+1})-\nabla f(x_k)\bigr)
 -\frac{h}{1+h\gamma}\nabla f(y_k)
 \right),
-$$
+```
 
 where $G_{s\phi}$ denotes the scaled proximity operator `ERealFunction.scaledProximityOperator φ hφ ⟨s, s>0⟩` at the positive scale
 
@@ -75,7 +75,7 @@ $$
 
 The terms $\nabla f(x_k)$, $\nabla f(x_{k+1})$, and $\nabla f(y_k)$ are the gradient vectors produced by Mathlib's `gradient f`; the structure does not separately assume that $f$ is differentiable.
 
-Thus the declaration says: given a real Hilbert space $H$, a finite objective $f$, a proper lower semicontinuous convex extended-real function $\phi$, and real parameters $h,\gamma,\beta$ with $h>0$ and $\gamma>0$, the sequences $x$ and $y$ form an admissible trajectory of an inertial proximal-gradient algorithm. The sequence $y$ is obtained by an inertial extrapolation from $x_k$ and $x_{k+1}$, and $x_{k+2}$ is obtained from $x_{k+1}$ by adding $h$ times a scaled proximal step evaluated at a vector built from $y_k$, $x_{k+1}$, and the gradient differences appearing in the update.
+Thus the declaration says: given a real Hilbert space $H$, a finite objective $f$, a proper lower semicontinuous convex extended-real function $\phi$, and real parameters $h,\gamma,\beta$ with $h\gt 0$ and $\gamma\gt 0$, the sequences $x$ and $y$ form an admissible trajectory of an inertial proximal-gradient algorithm. The sequence $y$ is obtained by an inertial extrapolation from $x_k$ and $x_{k+1}$, and $x_{k+2}$ is obtained from $x_{k+1}$ by adding $h$ times a scaled proximal step evaluated at a vector built from $y_k$, $x_{k+1}$, and the gradient differences appearing in the update.
 
 ## Lean proof
 ```lean
@@ -85,7 +85,7 @@ Thus the declaration says: given a real Hilbert space $H$, a finite objective $f
 ## Proof explanation
 There is no separate proof part. The declaration is a `structure`, so it introduces a record type and its fields; it does not prove a theorem. The mathematical content is entirely contained in the required fields of the structure.
 
-The fields `h_pos` and `gamma_pos` are not derived in the source; they are components that any record of this structure must supply. Mathematically they are the assumptions $0<h$ and $0<\gamma$. The fields `x0` and `x1` have types $x_0=x_0$ and $x_1=x_1$. Such equalities are true by reflexivity and therefore add no restriction beyond the existence of a proof of a self-equality.
+The fields `h_pos` and `gamma_pos` are not derived in the source; they are components that any record of this structure must supply. Mathematically they are the assumptions $0\lt h$ and $0\lt \gamma$. The fields `x0` and `x1` have types $x_0=x_0$ and $x_1=x_1$. Such equalities are true by reflexivity and therefore add no restriction beyond the existence of a proof of a self-equality.
 
 The fields `extrapolate` and `update` are equality requirements, one for each natural number $k$. They are not proved by tactics in the declaration; rather, they define the algorithm equations that a record must satisfy. The `extrapolate` field states that for every $k$,
 
@@ -95,9 +95,9 @@ $$
 
 The `update` field states that for every $k$,
 
-$$
+```math
 x_{k+2}=x_{k+1}+h\,G_{\frac{h}{1+h\gamma}\phi}(z_k),
-$$
+```
 
 where
 
@@ -122,7 +122,7 @@ $$
 
 is an element of the subtype of positive real numbers. The proof proceeds as follows.
 
-First, the command `mul_pos h_pos gamma_pos` uses the theorem that the product of two positive real numbers is positive. Since the fields give $h>0$ and $\gamma>0$, this establishes
+First, the command `mul_pos h_pos gamma_pos` uses the theorem that the product of two positive real numbers is positive. Since the fields give $h\gt 0$ and $\gamma\gt 0$, this establishes
 
 $$
 h\gamma>0.
@@ -134,9 +134,9 @@ $$
 0<1+h\gamma.
 $$
 
-Indeed, from $h\gamma>0$ one gets $1+h\gamma>1$, hence $1+h\gamma>0$. The result is named `hden`.
+Indeed, from $h\gamma\gt 0$ one gets $1+h\gamma\gt 1$, hence $1+h\gamma\gt 0$. The result is named `hden`.
 
-Finally, `exact div_pos h_pos hden` applies the theorem that a quotient of positive real numbers is positive. With numerator $h>0$ and denominator $1+h\gamma>0$, it proves
+Finally, `exact div_pos h_pos hden` applies the theorem that a quotient of positive real numbers is positive. With numerator $h\gt 0$ and denominator $1+h\gamma\gt 0$, it proves
 
 $$
 0<\frac{h}{1+h\gamma}.

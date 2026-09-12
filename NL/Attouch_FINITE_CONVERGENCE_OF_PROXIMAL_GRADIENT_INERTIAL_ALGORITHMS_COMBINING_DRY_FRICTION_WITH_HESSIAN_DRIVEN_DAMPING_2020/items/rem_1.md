@@ -28,13 +28,13 @@ be the iterates of the algorithm `alg`. The parameters $h,\gamma,\beta,L,r$ are 
 
 The subdifferential used here is, at a point $x$,
 
-$$
+```math
 \partial\phi(x)
 =\left\{u:H\;\middle|\;
 \forall y:H,\;
 \langle y-x,u\rangle_{\mathbb R}+\phi(x)\le \phi(y)
 \right\},
-$$
+```
 
 with the inequality interpreted after coercion to `EReal`. The hypothesis `hinterior` says
 
@@ -52,7 +52,7 @@ The remaining hypotheses and their roles are:
 - `_hL : HasLipschitzGradient (gradient f) L` says $\nabla f$ has a Lipschitz-gradient property with constant $L$; it is present but not used in the proof.
 - `hf : ContDiff ℝ 1 f` says $f$ is $C^1$. It is used through `continuous_gradient_of_contDiff` to obtain continuity of $\nabla f$.
 - `_hbelow` says $f$ is bounded below.
-- `hpositive` says $h>0$, $\gamma>0$, and $\beta>0$.
+- `hpositive` says $h\gt 0$, $\gamma\gt 0$, and $\beta\gt 0$.
 - `_hgamma` says $\gamma\ge L(h/2+\beta)$; it is present but not used in the proof.
 
 The conclusion is that there exists an index $N$ such that for every $k\ge N$,
@@ -224,17 +224,17 @@ $$
 d_k:=x_{k+1}-x_k,\qquad v_k:=\frac1h d_k=\frac1h(x_{k+1}-x_k).
 $$
 
-It also destructures `hpositive` into $h>0$, $\gamma>0$, and $\beta>0$. From `hf : ContDiff ℝ 1 f`, the cited result `continuous_gradient_of_contDiff` gives continuity of the gradient:
+It also destructures `hpositive` into $h\gt 0$, $\gamma\gt 0$, and $\beta\gt 0$. From `hf : ContDiff ℝ 1 f`, the cited result `continuous_gradient_of_contDiff` gives continuity of the gradient:
 
 $$
 \nabla f \text{ is continuous}.
 $$
 
-2. For each $k$, the proof invokes `rem_1_shifted_recurrence`. That theorem states that if $\phi.toEReal\in\Gamma_0(H)$, $h>0$, $\gamma>0$, and `alg` is the corresponding `IPAHDD`, then for every $k$ there exists $q$ such that
+2. For each $k$, the proof invokes `rem_1_shifted_recurrence`. That theorem states that if $\phi.toEReal\in\Gamma_0(H)$, $h\gt 0$, $\gamma\gt 0$, and `alg` is the corresponding `IPAHDD`, then for every $k$ there exists $q$ such that
 
-$$
+```math
 q\in\partial\phi\!\left(\frac1h(x_{k+2}-x_{k+1})\right)
-$$
+```
 
 and
 
@@ -255,13 +255,13 @@ v_{k+1}-v_k+\gamma d_{k+1}+h q_k
 +h\nabla f(x_{k+1})=0.
 $$
 
-The proof supplies `_hdf.toEReal_mem_gammaZero` as the required $\Gamma_0$ membership, and uses $h>0$, $\gamma>0$. The `simpa` step only rewrites indices and definitions.
+The proof supplies `_hdf.toEReal_mem_gammaZero` as the required $\Gamma_0$ membership, and uses $h\gt 0$, $\gamma\gt 0$. The `simpa` step only rewrites indices and definitions.
 
 3. From `hfinite.tendsto_atTop_zero`, the finite-length hypothesis gives
 
-$$
+```math
 \|d_k\|\to0.
-$$
+```
 
 Using `tendsto_zero_iff_norm_tendsto_zero.mpr`, the proof converts this into
 
@@ -326,7 +326,7 @@ $$
 h q_k\to h\bigl(-\nabla f(x_\infty)\bigr).
 $$
 
-Because $h>0$, scaling by $1/h$ gives
+Because $h\gt 0$, scaling by $1/h$ gives
 
 $$
 q_k\to -\nabla f(x_\infty).
@@ -338,7 +338,7 @@ $$
 -\nabla f(x_\infty)\in\mathrm{int}\bigl(\partial\phi(0)\bigr).
 $$
 
-Using `mem_interior_iff_mem_nhds` and `Metric.mem_nhds_iff`, the proof extracts an $\varepsilon>0$ such that the open ball
+Using `mem_interior_iff_mem_nhds` and `Metric.mem_nhds_iff`, the proof extracts an $\varepsilon\gt 0$ such that the open ball
 
 $$
 B\bigl(-\nabla f(x_\infty),\varepsilon\bigr)
@@ -346,9 +346,9 @@ $$
 
 is contained in $\partial\phi(0)$. Since $q_k\to -\nabla f(x_\infty)$, eventually
 
-$$
+```math
 \|q_k-(-\nabla f(x_\infty))\|<\frac\varepsilon2.
-$$
+```
 
 The proof chooses $N$ such that this holds for all $k\ge N$.
 
@@ -360,11 +360,11 @@ $$
 
 Let
 
-$$
+```math
 u:=\frac{1}{\|v_k\|}v_k,
-$$
+```
 
-so $\|u\|=1$, and define
+so $`\|u\|=1`$, and define
 
 $$
 p:=q_{k-1}+\frac\varepsilon2 u.
@@ -372,20 +372,20 @@ $$
 
 Because $k-1\ge N$, the chosen $N$ gives
 
-$$
+```math
 \|q_{k-1}-(-\nabla f(x_\infty))\|<\frac\varepsilon2.
-$$
+```
 
 Therefore
 
-$$
+```math
 \|p-(-\nabla f(x_\infty))\|
 \le
 \|q_{k-1}-(-\nabla f(x_\infty))\|+\frac\varepsilon2\|u\|
 <
 \frac\varepsilon2+\frac\varepsilon2
 =\varepsilon.
-$$
+```
 
 Thus $p\in B(-\nabla f(x_\infty),\varepsilon)$, and since this ball is contained in $\partial\phi(0)$, we get
 
@@ -421,19 +421,19 @@ In the proof, `norm_cast`, `real_inner_comm`, `inner_neg_left`, `inner_sub_left`
 
 On the other hand, by definition of $p$,
 
-$$
+```math
 q_{k-1}-p=-\frac\varepsilon2 u
 =-\frac\varepsilon2\frac{1}{\|v_k\|}v_k.
-$$
+```
 
 Therefore
 
-$$
+```math
 \langle q_{k-1}-p,v_k\rangle
 =-\frac\varepsilon2\|v_k\|.
-$$
+```
 
-Since $\varepsilon>0$ and $v_k\ne0$, the right-hand side is strictly negative, contradicting
+Since $\varepsilon\gt 0$ and $v_k\ne0$, the right-hand side is strictly negative, contradicting
 
 $$
 0\le \langle q_{k-1}-p,v_k\rangle.

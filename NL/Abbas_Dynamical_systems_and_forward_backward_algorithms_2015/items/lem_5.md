@@ -25,9 +25,9 @@ The declaration `subgradient_chain_rule` is a subgradient chain rule for an exte
 
 Let $H$ be a complete real inner product space. Let
 
-$$
+```math
 \Phi : H \to \{\,y \in \overline{\mathbb R} \mid -\infty < y\,\}
-$$
+```
 
 be an extended-real function whose values are never $-\infty$. The hypothesis `hPhi : Phi ∈ gammaZero H` is the Gamma-zero regularity assumption on $\Phi$; in the supplied context the gamma class is defined by convexity and lower semicontinuity, so this is the convexity/lower-semicontinuity content available for $\Phi$.
 
@@ -49,10 +49,10 @@ $$
 
 is absolutely continuous on $[0,b]$. Second, for almost every $t\in[0,b]$,
 
-$$
+```math
 \mathrm{deriv}\!\left(t\mapsto (\Phi(x(t)):\overline{\mathbb R}).toReal\right)(t)
 =\langle v(t), \mathrm{deriv}x(t)\rangle_{\mathbb R}.
-$$
+```
 
 Thus the energy $t\mapsto \Phi(x(t))$, viewed as a real-valued function on the interval, is absolutely continuous and satisfies the expected chain rule almost everywhere.
 
@@ -121,40 +121,40 @@ The goal is to prove that $F$ is absolutely continuous on $[0,b]$, and then that
 
 To prove absolute continuity, the proof introduces the majorant
 
-$$
+```math
 M(r)=\|v(r)\|\,\|\mathrm{deriv}x(r)\|.
-$$
+```
 
 It first shows that $M$ is integrable on $[0,b]$. From `hvL2` and `hdxL2`, using `memLp_two_iff_integrable_sq_norm`, the proof obtains integrability of
 
-$$
+```math
 r\mapsto \|v(r)\|^2
 \qquad\text{and}\qquad
 r\mapsto \|\mathrm{deriv}x(r)\|^2
-$$
+```
 
 on $[0,b]$. That theorem says that for an almost-everywhere strongly measurable function, membership in $L^2$ is equivalent to integrability of the square of its norm. The proof supplies the almost-everywhere strong measurability coming from `hvL2.aestronglyMeasurable` and `hdxL2.aestronglyMeasurable`.
 
 Adding these two integrable functions and dividing by $2$, the proof gets integrability of
 
-$$
+```math
 r\mapsto \frac{\|v(r)\|^2+\|\mathrm{deriv}x(r)\|^2}{2}.
-$$
+```
 
 This is used as an integrable upper bound for $M$. Indeed, for every $r$,
 
-$$
+```math
 \|v(r)\|\,\|\mathrm{deriv}x(r)\|
 \le
 \frac{\|v(r)\|^2+\|\mathrm{deriv}x(r)\|^2}{2},
-$$
+```
 
 which follows from
 
-$$
+```math
 0\le (\|v(r)\|-\|\mathrm{deriv}x(r)\|)^2
 =\|v(r)\|^2-2\|v(r)\|\,\|\mathrm{deriv}x(r)\|+\|\mathrm{deriv}x(r)\|^2.
-$$
+```
 
 The proof uses `Integrable.mono'` with this majorant and with the measurability of the product of the norm functions to conclude
 
@@ -164,7 +164,7 @@ $$
 
 The tactic `filter_upwards with r` proves the pointwise almost-everywhere domination, `rw [abs_of_nonneg ...]` removes the absolute value because $M(r)\ge0$, and `nlinarith [sq_nonneg (...)]` proves the displayed inequality.
 
-Next, the proof notes that the interval $[0,b]$ has nonzero Lebesgue measure because $0<b$. It rewrites the volume of the interval using `Real.volume_Icc` and applies `ENNReal.ofReal_ne_zero_iff`, reducing the claim to $b>0$. Since `hsubgradient` holds almost everywhere on a set of nonzero measure, `Measure.exists_mem_of_measure_ne_zero_of_ae` gives a point
+Next, the proof notes that the interval $[0,b]$ has nonzero Lebesgue measure because $0\lt b$. It rewrites the volume of the interval using `Real.volume_Icc` and applies `ENNReal.ofReal_ne_zero_iff`, reducing the claim to $b\gt 0$. Since `hsubgradient` holds almost everywhere on a set of nonzero measure, `Measure.exists_mem_of_measure_ne_zero_of_ae` gives a point
 
 $$
 r\in[0,b]
@@ -194,7 +194,7 @@ $$
 
 the real-valued Moreau envelope of $\Phi$ along the path $x(t)$.
 
-It next proves pointwise convergence $F_n(t)\to F(t)$ for every $t\in[0,b]$. This uses `moreauEnvelope_toReal_tendsto_of_mem_effectiveDomain`. That cited result says that if $\Phi$ is in the Gamma-zero class, if $\gamma_n>0$ tends to $0$, if $w\in\partial\Phi(z)$ for some point $z$, and if $y$ belongs to the effective domain of $\Phi$, then
+It next proves pointwise convergence $F_n(t)\to F(t)$ for every $t\in[0,b]$. This uses `moreauEnvelope_toReal_tendsto_of_mem_effectiveDomain`. That cited result says that if $\Phi$ is in the Gamma-zero class, if $\gamma_n\gt 0$ tends to $0$, if $w\in\partial\Phi(z)$ for some point $z$, and if $y$ belongs to the effective domain of $\Phi$, then
 
 $$
 \bigl({}^{\gamma_n}\Phi\bigr)(y).toReal
@@ -206,9 +206,9 @@ The proof applies this with $z=x(r)$, $w=v(r)$, using the previously obtained su
 
 The proof then establishes the increment estimate
 
-$$
+```math
 |F_n(t)-F_n(s)|\le \int_s^t M(q)\,dq
-$$
+```
 
 whenever $s,t\in[0,b]$ and $s\le t$. This comes from `moreauEnvelope_comp_ac_and_increment_bound`. That cited theorem states that, under the Gamma-zero assumption on $\Phi$, for a positive Moreau parameter $\gamma$, if $x$ is absolutely continuous on $[0,b]$, if the subgradient inclusion holds almost everywhere, if $x$ is differentiable almost everywhere with derivative $\mathrm{deriv}x$, and if $M$ is integrable on $[0,b]$, then the composed Moreau envelope $t\mapsto({}^\gamma\Phi)(x(t)).toReal$ is absolutely continuous on $[0,b]$ and satisfies exactly the displayed increment bound. The proof applies this with $\gamma=\gamma_n$, using `hb.le`, `hx_ac`, `hsubgradient`, `hx_deriv`, and the previously proved integrability of $M$, and then extracts the second component of the conclusion.
 

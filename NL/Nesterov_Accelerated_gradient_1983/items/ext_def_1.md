@@ -25,9 +25,9 @@ $$
 
 for all $v \in E$, equivalently
 
-$$
+```math
 f(x+v) = f(x) + \langle g, v\rangle + o(\|v\|)
-$$
+```
 
 as $v \to 0$. Here the vector $g$ is $\mathrm{gradient} f x$. The completeness assumption on $E$ is part of the Hilbert-space setting in which the Riesz representative of a continuous linear functional is available.
 

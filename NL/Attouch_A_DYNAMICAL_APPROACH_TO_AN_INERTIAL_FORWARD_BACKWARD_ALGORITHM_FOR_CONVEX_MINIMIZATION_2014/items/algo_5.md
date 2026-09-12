@@ -22,10 +22,10 @@ The ambient data are:
 - $A:H\to K$ is a map from $H$ to $K$, and $At:K\to H$ is a map in the reverse direction.
 - The hypothesis `_hAt` states that for every $x\in H$ and every $z\in K$,
 
-  $$
-  \langle A x,z\rangle_K
-  =\langle x,At\,z\rangle_H.
-  $$
+```math
+\langle A x,z\rangle_K
+=\langle x,At\,z\rangle_H.
+```
 
   Thus $At$ is the adjoint of $A$ with respect to the real inner products. The leading underscore in the Lean name indicates that this proof is not used in the defining body, but it is still a parameter of the definition.
 - $\lambda\in\mathbb R$ is a real scalar, playing the role of a step size.
@@ -33,24 +33,24 @@ The ambient data are:
 
 The proposition `IsCQTrajectory C hC Q hQ A At _hAt lam u` says precisely that for every natural number $k$,
 
-$$
+```math
 u_{k+1}
 =P_C\!\left(
   u_k - \lambda\, At\!\left(A u_k - P_Q(A u_k)\right)
 \right),
-$$
+```
 
 where
 
-$$
+```math
 P_C(y)=\texttt{projectionPoint}\;C\;hC\;y
-$$
+```
 
 is the projection of $y$ onto $C$, and
 
-$$
+```math
 P_Q(z)=\texttt{projectionPoint}\;Q\;hQ\;z
-$$
+```
 
 is the projection of $z$ onto $Q$.
 
@@ -72,26 +72,26 @@ There is no separate proof part. The declaration is a `def`, so the material aft
 
 The body of the definition is the proposition
 
-$$
+```math
 \forall k\in\mathbb N,\quad
 u_{k+1}
 =\texttt{projectionPoint}\;C\;hC\;
 \left(
   u_k - \lambda \bullet At\left(A u_k - \texttt{projectionPoint}\;Q\;hQ\;(A u_k)\right)
 \right).
-$$
+```
 
 The universal quantifier $\forall k$ means that the displayed equality must hold for every index $k$. The term $u_{k+1}$ is the next element of the sequence. On the right-hand side, $A u_k$ is an element of $K$, and `projectionPoint Q hQ (A u_k)` is its projection onto $Q$. The subtraction
 
-$$
+```math
 A u_k - \texttt{projectionPoint}\;Q\;hQ\;(A u_k)
-$$
+```
 
 is taken in the space $K$. Applying $At$ to this residual gives an element of $H$. The notation $\lambda \bullet \cdot$ is scalar multiplication by the real number $\lambda$. The expression
 
-$$
+```math
 u_k - \lambda \bullet At\!\left(A u_k - P_Q(A u_k)\right)
-$$
+```
 
 is then computed in $H$. Finally, `projectionPoint C hC` projects this point onto $C$, yielding $u_{k+1}$.
 

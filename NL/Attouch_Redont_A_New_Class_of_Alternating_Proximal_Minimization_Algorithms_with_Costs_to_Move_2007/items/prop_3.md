@@ -17,20 +17,20 @@ theorem proposition_4_4 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace â„
 ```
 
 ## Statement explanation
-The declaration `proposition_4_4` is a boundedness result for two sequences in a real inner product space. The space $H$ carries the norm $\|\cdot\|$, and the theorem has two unused function parameters $f,g:H\to\mathbb R$, which do not occur in the assumptions or the conclusion. The actual data are two sequences $x_n,y_n\in H$, two reference points $x,y\in H$, real parameters $\beta,\mu$, and real sequences $\alpha_n,\nu_n$.
+The declaration `proposition_4_4` is a boundedness result for two sequences in a real inner product space. The space $H$ carries the norm $`\|\cdot\|`$, and the theorem has two unused function parameters$f,g:H\to\mathbb R$, which do not occur in the assumptions or the conclusion. The actual data are two sequences$x_n,y_n\in H$, two reference points$x,y\in H$, real parameters$\beta,\mu$, and real sequences$\alpha_n,\nu_n$.
 
 The assumptions are:
 
 - $\alpha_n\ge 0$ for every $n\in\mathbb N$;
 - $\nu_n\ge 0$ for every $n\in\mathbb N$;
-- $\beta>0$;
-- $\mu>0$.
+- $\beta\gt 0$;
+- $\mu\gt 0$.
 
 Writing
 
-$$
+```math
 A_n=\|x_n-x\|^2,\qquad B_n=\|y_n-y\|^2,
-$$
+```
 
 the first recursive bound says
 
@@ -47,7 +47,7 @@ B_{n+1}\le
 \left(\mu\alpha_n A_n+\bigl(\mu\beta+\nu_n(\alpha_n+\beta)\bigr)B_n\right).
 $$
 
-Because $\alpha_n\ge 0$, $\nu_n\ge 0$, $\beta>0$, and $\mu>0$, the denominators are positive. Moreover, in the first bound the numerator coefficients $\alpha_n$ and $\beta$ have sum $\alpha_n+\beta$, and in the second bound the numerator coefficients have sum
+Because $\alpha_n\ge 0$, $\nu_n\ge 0$, $\beta\gt 0$, and $\mu\gt 0$, the denominators are positive. Moreover, in the first bound the numerator coefficients $\alpha_n$ and $\beta$ have sum $\alpha_n+\beta$, and in the second bound the numerator coefficients have sum
 
 $$
 \mu\alpha_n+\mu\beta+\nu_n(\alpha_n+\beta)
@@ -58,11 +58,11 @@ Thus each right-hand side is a convex or weighted average of $A_n$ and $B_n$, he
 
 The conclusion is that there exists a real number $M$ such that for every $n\in\mathbb N$,
 
-$$
+```math
 \|x_n\|\le M
 \quad\text{and}\quad
 \|y_n\|\le M.
-$$
+```
 
 So the theorem asserts that both sequences are bounded in norm by one common constant.
 
@@ -200,23 +200,23 @@ by
 ## Proof explanation
 The proof first records two elementary facts. The auxiliary fact `h_sq_nonneg` says that for all $z,w\in H$,
 
-$$
+```math
 \|z-w\|^2\ge 0,
-$$
+```
 
 which is proved by `positivity` from the nonnegativity of the norm. The auxiliary fact `h_norm_nonneg` says that
 
-$$
+```math
 \|z-w\|\ge 0,
-$$
+```
 
 which is the standard nonnegativity of the norm.
 
 The first main step proves, for every $n$,
 
-$$
+```math
 \|x_{n+1}-x\|^2\le \max\bigl(\|x_n-x\|^2,\|y_n-y\|^2\bigr).
-$$
+```
 
 After fixing $n$, the proof uses the hypothesis `h_bound_a n`, namely
 
@@ -224,7 +224,7 @@ $$
 A_{n+1}\le \frac{\alpha_n A_n+\beta B_n}{\alpha_n+\beta}.
 $$
 
-Since $\alpha_n\ge 0$ and $\beta>0$, the proof obtains $\alpha_n+\beta>0$ by `nlinarith`. It then shows
+Since $\alpha_n\ge 0$ and $\beta\gt 0$, the proof obtains $\alpha_n+\beta\gt 0$ by `nlinarith`. It then shows
 
 $$
 \alpha_n A_n+\beta B_n\le (\alpha_n+\beta)\max(A_n,B_n).
@@ -248,9 +248,9 @@ by $1$, because $\alpha_n+\beta\ne 0$. Hence the right-hand side is exactly $\ma
 
 The second main step is analogous and proves
 
-$$
+```math
 \|y_{n+1}-y\|^2\le \max\bigl(\|x_n-x\|^2,\|y_n-y\|^2\bigr).
-$$
+```
 
 The proof again fixes $n$ and uses `h_bound_b n`. The denominator
 
@@ -258,7 +258,7 @@ $$
 (\mu+\nu_n)(\alpha_n+\beta)
 $$
 
-is positive: $\mu+\nu_n>0$ because $\mu>0$ and $\nu_n\ge 0$, while $\alpha_n+\beta>0$ because $\alpha_n\ge 0$ and $\beta>0$. The coefficient $\mu\alpha_n$ is nonnegative, and the coefficient
+is positive: $\mu+\nu_n\gt 0$ because $\mu\gt 0$ and $\nu_n\ge 0$, while $\alpha_n+\beta\gt 0$ because $\alpha_n\ge 0$ and $\beta\gt 0$. The coefficient $\mu\alpha_n$ is nonnegative, and the coefficient
 
 $$
 \mu\beta+\nu_n(\alpha_n+\beta)
@@ -294,11 +294,11 @@ This uses `max_le`, whose content is: if $u\le c$ and $v\le c$, then $\max(u,v)\
 
 The fourth step defines
 
-$$
+```math
 K=\max\bigl(\|x_0-x\|^2,\|y_0-y\|^2\bigr).
-$$
+```
 
-Since $\|x_0-x\|^2\ge 0$, the maximum $K$ is nonnegative. The proof then uses induction on $n$ to show
+Since $`\|x_0-x\|^2\ge 0`$, the maximum$K$is nonnegative. The proof then uses induction on$n$ to show
 
 $$
 \max(A_n,B_n)\le K
@@ -330,47 +330,47 @@ $$
 r\le K+1.
 $$
 
-Indeed, if $r\le 1$, then $r\le K+1$ because $K\ge 0$. If $r>1$, then $r<r^2$, and since $r^2\le K$, one has $r\le K+1$. Applying this with $r=\|x_n-x\|$ and $r=\|y_n-y\|$ gives
+Indeed, if $r\le 1$, then $r\le K+1$ because $K\ge 0$. If $r\gt 1$, then $r\lt r^2$, and since $r^2\le K$, one has $r\le K+1$. Applying this with $`r=\|x_n-x\|`$and$`r=\|y_n-y\|`$ gives
 
-$$
+```math
 \|x_n-x\|\le K+1,\qquad
 \|y_n-y\|\le K+1
-$$
+```
 
 for every $n$.
 
 Finally, the proof sets
 
-$$
+```math
 M=K+1+\max(\|x\|,\|y\|).
-$$
+```
 
 For each $n$, the triangle inequality `norm_add_le`, applied to $x_n-x$ and $x$, gives
 
-$$
+```math
 \|x_n\|
 =\|(x_n-x)+x\|
 \le \|x_n-x\|+\|x\|
 \le (K+1)+\|x\|.
-$$
+```
 
-Since $\|x\|\le \max(\|x\|,\|y\|)$, it follows that
+Since $`\|x\|\le \max(\|x\|,\|y\|)`$, it follows that
 
-$$
+```math
 \|x_n\|\le K+1+\max(\|x\|,\|y\|)=M.
-$$
+```
 
 The same argument with $y_n-y$ and $y$ gives
 
-$$
+```math
 \|y_n\|\le M.
-$$
+```
 
 Thus the existential goal
 
-$$
+```math
 \exists M:\mathbb R,\ \forall n:\mathbb N,\ \|x_n\|\le M\land \|y_n\|\le M
-$$
+```
 
 is closed by providing the witness $M$ and proving both inequalities for an arbitrary $n$.
 

@@ -9,11 +9,11 @@ theorem rem_5_2 (x : ℕ → H) (xInf : H) (n0 : ℕ) (K : ℝ) (q : ℝ) (hK : 
 ```
 
 ## Statement explanation
-The theorem `rem_5_2` concerns a sequence $x:\mathbb N\to H$ in the ambient normed type $H$, a candidate limit point $x_\infty\in H$, a starting index $n_0\in\mathbb N$, and real numbers $K$ and $q$. Its hypotheses are $K>0$, $q>0$, and $q<1$, so $q\in(0,1)$. It also assumes that, from index $n_0$ onward, consecutive differences of the sequence decay geometrically:
+The theorem `rem_5_2` concerns a sequence $x:\mathbb N\to H$ in the ambient normed type $H$, a candidate limit point $x_\infty\in H$, a starting index $n_0\in\mathbb N$, and real numbers $K$ and $q$. Its hypotheses are $K\gt 0$, $q\gt 0$, and $q\lt 1$, so $q\in(0,1)$. It also assumes that, from index $n_0$ onward, consecutive differences of the sequence decay geometrically:
 
-$$
+```math
 \forall n\ge n_0,\qquad \|x_{n+1}-x_n\|\le K q^n.
-$$
+```
 
 Finally, it assumes that the sequence converges to $x_\infty$:
 
@@ -23,9 +23,9 @@ $$
 
 The conclusion is that the distance from $x_n$ to the limit obeys the same geometric decay bound:
 
-$$
+```math
 \forall n\ge n_0,\qquad \|x_n-x_\infty\|\le \frac{K}{1-q}\,q^n.
-$$
+```
 
 Mathematically, this says that if a convergent sequence has geometric decay of its successive increments with ratio $q\in(0,1)$, then its distance to the limit is bounded by the corresponding geometric tail sum, namely $K q^n/(1-q)$.
 
@@ -55,64 +55,64 @@ by
 ## Proof explanation
 The proof begins with `intro n hn`, which fixes an arbitrary index $n$ and assumes the hypothesis $n\ge n_0$. The goal is then to prove
 
-$$
+```math
 \|x_n-x_\infty\|\le \frac{K}{1-q}\,q^n.
-$$
+```
 
-Next, the proof derives the non-strict inequalities $0\le K$ and $0\le q$ from $K>0$ and $q>0$ using `le_of_lt`. These non-strict nonnegativity facts are needed because the cited finite-tail bound `rem52_finite_tail_bound` is stated with assumptions $0\le K$ and $0\le q$, not strict positivity.
+Next, the proof derives the non-strict inequalities $0\le K$ and $0\le q$ from $K\gt 0$ and $q\gt 0$ using `le_of_lt`. These non-strict nonnegativity facts are needed because the cited finite-tail bound `rem52_finite_tail_bound` is stated with assumptions $0\le K$ and $0\le q$, not strict positivity.
 
 The proof then defines
 
-$$
+```math
 R=\frac{K}{1-q}\,q^n.
-$$
+```
 
-The first main step is to show that the values $\|x_n-x_m\|$ are eventually bounded by $R$. In Lean this is expressed by proving that the function $m\mapsto \|x_n-x_m\|$ is eventually less than or equal to the constant function $m\mapsto R$ along $\mathrm{atTop}$. After rewriting the eventual statement using `Filter.eventually_atTop`, this becomes the assertion that there exists a threshold $N$ such that for every $m\ge N$,
+The first main step is to show that the values $`\|x_n-x_m\|`$are eventually bounded by$R$. In Lean this is expressed by proving that the function$`m\mapsto \|x_n-x_m\|`$is eventually less than or equal to the constant function$m\mapsto R$along$\mathrm{atTop}$. After rewriting the eventual statement using `Filter.eventually_atTop`, this becomes the assertion that there exists a threshold $N$ such that for every $m\ge N$,
 
-$$
+```math
 \|x_n-x_m\|\le R.
-$$
+```
 
-The proof chooses the threshold $N=n$. Then, for an arbitrary $m\ge n$, it applies `rem52_finite_tail_bound`. That cited result states that if $x$ is a sequence, $n_0,n,m$ are natural numbers, $K,q$ are real numbers with $0\le K$, $0\le q$, $q<1$, if the velocity estimate
+The proof chooses the threshold $N=n$. Then, for an arbitrary $m\ge n$, it applies `rem52_finite_tail_bound`. That cited result states that if $x$ is a sequence, $n_0,n,m$ are natural numbers, $K,q$ are real numbers with $0\le K$, $0\le q$, $q\lt 1$, if the velocity estimate
 
-$$
+```math
 \|x_{i+1}-x_i\|\le K q^i
-$$
+```
 
 holds for all $i\ge n_0$, and if $n_0\le n\le m$, then
 
-$$
+```math
 \|x_n-x_m\|\le \frac{K}{1-q}\,q^n.
-$$
+```
 
-In the present proof, the hypothesis $h\_vel\_decay$ supplies exactly the required consecutive-difference estimate; the already introduced assumption $hn$ gives $n_0\le n$; and the new assumption $hm$ gives $n\le m$. Therefore `rem52_finite_tail_bound` yields
+In the present proof, the hypothesis $`h\_vel\_decay`$supplies exactly the required consecutive-difference estimate; the already introduced assumption$hn$gives$n_0\le n$; and the new assumption$hm$gives$n\le m$. Therefore `rem52_finite_tail_bound` yields
 
-$$
+```math
 \|x_n-x_m\|\le \frac{K}{1-q}\,q^n=R.
-$$
+```
 
 This proves the eventual bound.
 
 The proof next shows that the map
 
-$$
+```math
 y\mapsto \|x_n-y\|
-$$
+```
 
-is continuous. This is done by observing that $y\mapsto x_n$ is constant and continuous, that $y\mapsto y$ is the identity and hence continuous, that subtraction is continuous, and that the norm is continuous. Thus the composite $y\mapsto \|x_n-y\|$ is continuous. Applying this continuity at $x_\infty$ and composing with the assumed convergence $x_m\to x_\infty$, the proof obtains
+is continuous. This is done by observing that $y\mapsto x_n$ is constant and continuous, that $y\mapsto y$ is the identity and hence continuous, that subtraction is continuous, and that the norm is continuous. Thus the composite $`y\mapsto \|x_n-y\|`$is continuous. Applying this continuity at$x_\infty$and composing with the assumed convergence$x_m\to x_\infty$, the proof obtains
 
-$$
+```math
 \|x_n-x_m\|\to \|x_n-x_\infty\|
 \quad\text{as } m\to\infty.
-$$
+```
 
 This is the content of the step constructing `h_tend` by composing `hcont.tendsto xInf` with `hxInf`.
 
 The constant sequence $m\mapsto R$ tends to $R$, by `tendsto_const_nhds`. Thus the proof has two convergent sequences:
 
-$$
+```math
 m\mapsto \|x_n-x_m\| \to \|x_n-x_\infty\|,
-$$
+```
 
 and
 
@@ -122,21 +122,21 @@ $$
 
 with the eventual inequality
 
-$$
+```math
 \|x_n-x_m\|\le R
-$$
+```
 
 for all sufficiently large $m$. The order-limit principle `le_of_tendsto_of_tendsto` then gives the inequality of the limits:
 
-$$
+```math
 \|x_n-x_\infty\|\le R.
-$$
+```
 
 Finally, `simpa [R] using h_le` unfolds the definition of $R$, yielding
 
-$$
+```math
 \|x_n-x_\infty\|\le \frac{K}{1-q}\,q^n.
-$$
+```
 
 Since $n\ge n_0$ was arbitrary, this proves the stated universal conclusion.
 

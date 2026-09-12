@@ -33,7 +33,7 @@ $$
 \lambda<\frac1a.
 $$
 
-From $\lambda<1/a$ and $a>0$, it follows that $a\lambda<1$, hence the numerator $1-a\lambda$ is positive. Also $2b>0$ and $\lambda^{2}>0$, so the denominator $2b\lambda^{2}$ is positive. Therefore the quotient $(1-a\lambda)/(2b\lambda^{2})$ is positive. The other ingredients of `IFBHypothesis`, such as $\phi,\theta,\psi,\mathrm{gradPsi},L_{\psi}$, do not enter the proof except as part of the hypothesis `hH`.
+From $\lambda\lt 1/a$ and $a\gt 0$, it follows that $a\lambda\lt 1$, hence the numerator $1-a\lambda$ is positive. Also $2b\gt 0$ and $\lambda^{2}\gt 0$, so the denominator $2b\lambda^{2}$ is positive. Therefore the quotient $(1-a\lambda)/(2b\lambda^{2})$ is positive. The other ingredients of `IFBHypothesis`, such as $\phi,\theta,\psi,\mathrm{gradPsi},L_{\psi}$, do not enter the proof except as part of the hypothesis `hH`.
 
 ## Lean proof
 ```lean
@@ -69,9 +69,9 @@ $$
 \min(u,v)\le u.
 $$
 
-The field `hH.step_lt` is a strict inequality whose right-hand side is a minimum with first component $1/a$, so together they yield $\lambda<1/a$. This is the step-size condition needed for the numerator estimate.
+The field `hH.step_lt` is a strict inequality whose right-hand side is a minimum with first component $1/a$, so together they yield $\lambda\lt 1/a$. This is the step-size condition needed for the numerator estimate.
 
-Next, from $\lambda<1/a$ and the positivity of $a$, supplied by `hH.a_pos`, the proof uses `lt_div_iff₀ hH.a_pos`. This lemma says that for a positive divisor $a$,
+Next, from $\lambda\lt 1/a$ and the positivity of $a$, supplied by `hH.a_pos`, the proof uses `lt_div_iff₀ hH.a_pos`. This lemma says that for a positive divisor $a$,
 
 $$
 \lambda<\frac1a \quad\Longleftrightarrow\quad \lambda a<1.
@@ -91,7 +91,7 @@ $$
 
 This is the crucial upper bound on $a\lambda$.
 
-Now the proof shows the numerator is positive. Using `sub_pos.mpr`, which says that $x<y$ implies $0<y-x$, the inequality $a\lambda<1$ gives
+Now the proof shows the numerator is positive. Using `sub_pos.mpr`, which says that $x\lt y$ implies $0\lt y-x$, the inequality $a\lambda\lt 1$ gives
 
 $$
 0<1-a\lambda.
@@ -105,7 +105,7 @@ $$
 0<2b.
 $$
 
-It applies `mul_pos` to the facts $0<2$, proved by `norm_num`, and $0<b$, supplied by `hH.b_pos`. Hence the factor $2b$ is positive.
+It applies `mul_pos` to the facts $0\lt 2$, proved by `norm_num`, and $0\lt b$, supplied by `hH.b_pos`. Hence the factor $2b$ is positive.
 
 Then it proves
 
@@ -113,7 +113,7 @@ $$
 0<\lambda^{2}.
 $$
 
-It applies `pow_pos` to `hH.step_pos`, which supplies $0<\lambda$, and exponent $2$, obtaining positivity of the square.
+It applies `pow_pos` to `hH.step_pos`, which supplies $0\lt \lambda$, and exponent $2$, obtaining positivity of the square.
 
 Combining these, the proof uses `mul_pos` again to get
 

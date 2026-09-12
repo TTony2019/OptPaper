@@ -344,6 +344,10 @@ SYSTEM_PROMPT = (
     "Keep each $$ block a single Markdown paragraph: no line inside it may consist "
     "only of punctuation such as - or =, begin with a list marker or >, or be "
     "indented, because GitHub then stops rendering the formula. "
+    "Write a comparison as \\lt or \\gt, never as a bare < or >. "
+    "When a formula needs a backslash before punctuation, such as \\, \\{ \\} \\| "
+    "\\_ or a line break, write it with the backtick delimiters, inline $`...`$ or "
+    "as a ```math fence: GitHub strips that backslash otherwise. "
     "Write a Lean identifier as \\mathrm{name}: GitHub refuses \\operatorname, "
     "\\DeclareMathOperator, \\phantom and \\require."
 )

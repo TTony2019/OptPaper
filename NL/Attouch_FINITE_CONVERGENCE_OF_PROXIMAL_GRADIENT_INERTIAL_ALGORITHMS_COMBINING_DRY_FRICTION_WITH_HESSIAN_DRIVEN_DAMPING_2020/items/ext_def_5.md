@@ -23,49 +23,49 @@ The declaration introduces a structure named `ExtremalEigenvalues`. Its paramete
 - `symmetric`: $M$ is symmetric, meaning $M^\top=M$, equivalently $M_{ij}=M_{ji}$ for all indices $i,j$.
 - `positive_definite`: for every vector $x\colon n\to\mathbb R$, if $x\neq 0$ as a function, then
 
-  $$
-  0<\langle x,Mx\rangle=x^\top Mx.
-  $$
+$$
+0<\langle x,Mx\rangle=x^\top Mx.
+$$
 
   Here $Mx$ is the matrix-vector product and $\langle\cdot,\cdot\rangle$ is the Euclidean dot product. Thus the quadratic form of $M$ is strictly positive on every nonzero vector.
-- `muMin_pos`: $0<\mu_{\min}$.
+- `muMin_pos`: $0\lt \mu_{\min}$.
 - `ordered`: $\mu_{\min}\le\mu_{\max}$.
 - `muMin_isLeast`: for every real number $\mu$, if there exists a nonzero vector $v\colon n\to\mathbb R$ such that
 
-  $$
-  Mv=\mu v,
-  $$
+$$
+Mv=\mu v,
+$$
 
   meaning $(Mv)_i=\mu v_i$ for every coordinate $i$, then
 
-  $$
-  \mu_{\min}\le\mu.
-  $$
+$$
+\mu_{\min}\le\mu.
+$$
 
   So every eigenvalue of $M$ is at least $\mu_{\min}$.
 - `muMin_isEigenvalue`: there exists a nonzero vector $v\colon n\to\mathbb R$ such that
 
-  $$
-  Mv=\mu_{\min}v.
-  $$
+$$
+Mv=\mu_{\min}v.
+$$
 
   Thus $\mu_{\min}$ is actually an eigenvalue, not merely a lower bound.
 - `muMax_isGreatest`: for every real number $\mu$, if there exists a nonzero vector $v\colon n\to\mathbb R$ with $Mv=\mu v$, then
 
-  $$
-  \mu\le\mu_{\max}.
-  $$
+$$
+\mu\le\mu_{\max}.
+$$
 
   So every eigenvalue of $M$ is at most $\mu_{\max}$.
 - `muMax_isEigenvalue`: there exists a nonzero vector $v\colon n\to\mathbb R$ such that
 
-  $$
-  Mv=\mu_{\max}v.
-  $$
+$$
+Mv=\mu_{\max}v.
+$$
 
   Thus $\mu_{\max}$ is actually an eigenvalue.
 
-In ordinary language, the structure packages a certificate that $M$ is a symmetric positive definite real matrix and that $\mu_{\min}$ and $\mu_{\max}$ are precisely its least and greatest eigenvalues. It records that $\mu_{\min}>0$ and $\mu_{\min}\le\mu_{\max}$, and it supplies nonzero eigenvectors realizing both endpoint eigenvalues. The declaration does not itself prove that such numbers exist; it specifies the data and properties that an inhabitant of the structure must contain. If such an inhabitant exists, then all eigenvalues of $M$ lie in the interval $[\mu_{\min},\mu_{\max}]$, and both endpoints are attained.
+In ordinary language, the structure packages a certificate that $M$ is a symmetric positive definite real matrix and that $\mu_{\min}$ and $\mu_{\max}$ are precisely its least and greatest eigenvalues. It records that $\mu_{\min}\gt 0$ and $\mu_{\min}\le\mu_{\max}$, and it supplies nonzero eigenvectors realizing both endpoint eigenvalues. The declaration does not itself prove that such numbers exist; it specifies the data and properties that an inhabitant of the structure must contain. If such an inhabitant exists, then all eigenvalues of $M$ lie in the interval $[\mu_{\min},\mu_{\max}]$, and both endpoints are attained.
 
 ## Lean proof
 ```lean

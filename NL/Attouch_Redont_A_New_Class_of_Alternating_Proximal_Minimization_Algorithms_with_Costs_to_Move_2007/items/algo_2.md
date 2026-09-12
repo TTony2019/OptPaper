@@ -49,57 +49,57 @@ An inhabitant of `ACA2` consists of the following data and properties.
 
 - A sequence in the first variable,
 
-  $$
-  x:\mathbb N\to X,
-  $$
+$$
+x:\mathbb N\to X,
+$$
 
   so $x_n\in X$ for each $n\in\mathbb N$.
 
 - A sequence in the second variable,
 
-  $$
-  y:\mathbb N\to Y,
-  $$
+$$
+y:\mathbb N\to Y,
+$$
 
   so $y_n\in Y$ for each $n\in\mathbb N$.
 
 - A proof that the tolerance is strictly positive at every index:
 
-  $$
-  \varepsilon_n>0
-  $$
+$$
+\varepsilon_n>0
+$$
 
   for every $n\in\mathbb N$.
 
 - The first approximate minimization or $x$-update: for every $n\in\mathbb N$ and every test point $\xi\in X$,
 
-  $$
-  f(x_{n+1})+\alpha_n h(x_n,x_{n+1})+\beta_n c(x_{n+1},y_n)
-  \le
-  f(\xi)+\alpha_n h(x_n,\xi)+\beta_n c(\xi,y_n)+\varepsilon_n.
-  $$
+$$
+f(x_{n+1})+\alpha_n h(x_n,x_{n+1})+\beta_n c(x_{n+1},y_n)
+\le
+f(\xi)+\alpha_n h(x_n,\xi)+\beta_n c(\xi,y_n)+\varepsilon_n.
+$$
 
   This says that, at stage $n$, the next point $x_{n+1}$ is an $\varepsilon_n$-approximate minimizer of the function
 
-  $$
-  \xi\mapsto f(\xi)+\alpha_n h(x_n,\xi)+\beta_n c(\xi,y_n)
-  $$
+$$
+\xi\mapsto f(\xi)+\alpha_n h(x_n,\xi)+\beta_n c(\xi,y_n)
+$$
 
   on $X$, since its value is no larger than the value at any $\xi$ up to the additive tolerance $\varepsilon_n$.
 
 - The second approximate minimization or $y$-update: for every $n\in\mathbb N$ and every test point $\eta\in Y$,
 
-  $$
-  g(y_{n+1})+\mu_n c(x_{n+1},y_{n+1})+\nu_n k(y_n,y_{n+1})
-  \le
-  g(\eta)+\mu_n c(x_{n+1},\eta)+\nu_n k(y_n,\eta)+\varepsilon_n.
-  $$
+$$
+g(y_{n+1})+\mu_n c(x_{n+1},y_{n+1})+\nu_n k(y_n,y_{n+1})
+\le
+g(\eta)+\mu_n c(x_{n+1},\eta)+\nu_n k(y_n,\eta)+\varepsilon_n.
+$$
 
   This says that, after $x_{n+1}$ has been chosen, the next point $y_{n+1}$ is an $\varepsilon_n$-approximate minimizer of the function
 
-  $$
-  \eta\mapsto g(\eta)+\mu_n c(x_{n+1},\eta)+\nu_n k(y_n,\eta)
-  $$
+$$
+\eta\mapsto g(\eta)+\mu_n c(x_{n+1},\eta)+\nu_n k(y_n,\eta)
+$$
 
   on $Y$, again up to the same tolerance $\varepsilon_n$.
 
@@ -115,7 +115,7 @@ There is no separate proof. The declaration is a `structure` declaration, not a 
 
 In Lean, a `structure` command defines a record type together with its fields. The fields after `where` are not derived from earlier assumptions by a proof; rather, they are the data and proof obligations that any inhabitant of the structure must provide. Here the data fields are the sequences $x:\mathbb N\to X$ and $y:\mathbb N\to Y$. The proof-obligation fields are `eps_pos`, `step_x`, and `step_y`.
 
-The field `eps_pos` requires, for each $n\in\mathbb N$, a proof of $\varepsilon_n>0$. The field `step_x` requires, for each $n\in\mathbb N$ and each $\xi\in X$, a proof of the first inequality displayed above, namely that $x_{n+1}$ is an $\varepsilon_n$-approximate minimizer of the partial objective
+The field `eps_pos` requires, for each $n\in\mathbb N$, a proof of $\varepsilon_n\gt 0$. The field `step_x` requires, for each $n\in\mathbb N$ and each $\xi\in X$, a proof of the first inequality displayed above, namely that $x_{n+1}$ is an $\varepsilon_n$-approximate minimizer of the partial objective
 
 $$
 \xi\mapsto f(\xi)+\alpha_n h(x_n,\xi)+\beta_n c(\xi,y_n).

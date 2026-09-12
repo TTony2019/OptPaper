@@ -18,13 +18,13 @@ theorem forward_backward_stepsize_convergence {H : Type*} [NormedAddCommGroup H]
 ```
 
 ## Statement explanation
-The theorem `forward_backward_stepsize_convergence` is a weak-convergence theorem for the forward-backward splitting algorithm. It assumes that $H$ is a complete real inner product space, that $\Phi : H \to \mathrm{EReal}_{>\bot}$ belongs to the class $\Gamma_0(H)$ of proper lower semicontinuous convex extended-real-valued functions, and that $B : H \to H$ is a single-valued operator. The parameter $h$ is the algorithm step size, $\beta$ is the cocoercivity constant of $B$, and `alg` packages the forward-backward iteration for $(\Phi,B)$ with step $h$. The set $S \subseteq H$ is the solution set, characterized by
+The theorem `forward_backward_stepsize_convergence` is a weak-convergence theorem for the forward-backward splitting algorithm. It assumes that $H$ is a complete real inner product space, that $\Phi : H \to \mathrm{EReal}_{\gt \bot}$ belongs to the class $\Gamma_0(H)$ of proper lower semicontinuous convex extended-real-valued functions, and that $B : H \to H$ is a single-valued operator. The parameter $h$ is the algorithm step size, $\beta$ is the cocoercivity constant of $B$, and `alg` packages the forward-backward iteration for $(\Phi,B)$ with step $h$. The set $S \subseteq H$ is the solution set, characterized by
 
 $$
 z \in S \iff -B z \in \partial \Phi(z).
 $$
 
-Thus $z \in S$ means that $0 \in \partial \Phi(z) + B z$, i.e. $z$ solves the monotone inclusion associated with $\Phi$ and $B$. The hypotheses are that $0<h<2\beta$, that $S\neq\emptyset$, and that the restriction of $B$ to all of $H$ is $\beta$-cocoercive. The conclusion is that there exists $z\in S$ such that the algorithm sequence `alg.x` converges weakly to $z$:
+Thus $z \in S$ means that $0 \in \partial \Phi(z) + B z$, i.e. $z$ solves the monotone inclusion associated with $\Phi$ and $B$. The hypotheses are that $0\lt h\lt 2\beta$, that $S\neq\emptyset$, and that the restriction of $B$ to all of $H$ is $\beta$-cocoercive. The conclusion is that there exists $z\in S$ such that the algorithm sequence `alg.x` converges weakly to $z$:
 
 $$
 \mathrm{toWeakSpace}_{\mathbb R}^{H}(\texttt{alg.x } k)
@@ -105,12 +105,12 @@ by
 ## Proof explanation
 Write $x_n$ for `alg.x n`. The proof defines the forward-backward operator
 
-$$
+```math
 T(z)
 =\mathrm{Prox}_{h\Phi}\bigl(z-hBz\bigr)
 =\texttt{ERealFunction.scaledProximityOperator }\Phi\ h\Phi\ \langle h,\texttt{alg.h\_pos}\rangle
 \bigl(z-hBz\bigr).
-$$
+```
 
 Here the scaled proximity operator is the proximal operator of the positively rescaled function $h\Phi$. The proof then shows that this operator is nonexpansive, that its fixed points are exactly $S$, and that the algorithm is its unrelaxed fixed-point iteration. Opial’s lemma then gives weak convergence to a fixed point.
 
@@ -124,7 +124,7 @@ The proof uses `ext z` to reduce equality of sets to equality of membership for 
 
 For the direction $Tz=z \Rightarrow z\in S$, the proof invokes
 `scaled_forward_backward_fixed_implies_solution_local`.
-That result says that if $\Phi\in\Gamma_0(H)$, if $h>0$, and if
+That result says that if $\Phi\in\Gamma_0(H)$, if $h\gt 0$, and if
 
 $$
 \mathrm{Prox}_{h\Phi}\bigl(z-hBz\bigr)=z,
@@ -146,7 +146,7 @@ gives $z\in S$. In Lean this uses `(hsolution z).2`.
 
 For the reverse direction $z\in S \Rightarrow Tz=z$, the proof uses `(hsolution z).1` to obtain $-Bz\in\partial\Phi(z)$. It then applies
 `scaled_forward_backward_solution_implies_fixed_local`.
-That result is the converse of the previous one: if $\Phi\in\Gamma_0(H)$, $h>0$, and $-Bz\in\partial\Phi(z)$, then
+That result is the converse of the previous one: if $\Phi\in\Gamma_0(H)$, $h\gt 0$, and $-Bz\in\partial\Phi(z)$, then
 
 $$
 \mathrm{Prox}_{h\Phi}\bigl(z-hBz\bigr)=z.
@@ -160,7 +160,7 @@ $$
 P(z)=\mathrm{Prox}_{h\Phi}(z).
 $$
 
-The theorem `smul_mem_gammaZero` states that if $\Phi\in\Gamma_0(H)$ and $\gamma>0$, then $\gamma\Phi\in\Gamma_0(H)$. Here it is applied with $\gamma=h$, using `alg.h_pos`, so $h\Phi\in\Gamma_0(H)$. The theorem
+The theorem `smul_mem_gammaZero` states that if $\Phi\in\Gamma_0(H)$ and $\gamma\gt 0$, then $\gamma\Phi\in\Gamma_0(H)$. Here it is applied with $\gamma=h$, using `alg.h_pos`, so $h\Phi\in\Gamma_0(H)$. The theorem
 `proximityOperator_firmlyNonexpansive_of_mem_gammaZero`
 then says that for any function in $\Gamma_0(H)$, its proximal operator is firmly nonexpansive. Applied to $h\Phi$, and using the definition of `scaledProximityOperator`, this gives that
 
@@ -170,19 +170,19 @@ $$
 
 is firmly nonexpansive. Equivalently, for all $u,v$,
 
-$$
+```math
 \|P(u)-P(v)\|^2 \le \langle P(u)-P(v),u-v\rangle.
-$$
+```
 
 3. The forward step is shown to be $1$-Lipschitz. The theorem
 `forward_step_lipschitz_one_local`
-states that if $0<\mu<2\beta$ and $B$ is $\beta$-cocoercive on all of $H$, then
+states that if $0\lt \mu\lt 2\beta$ and $B$ is $\beta$-cocoercive on all of $H$, then
 
 $$
 F(z)=z-\mu Bz
 $$
 
-is $1$-Lipschitz. Here $\mu=h$, and the hypothesis $0<h<2\beta$ is exactly `hh`. Therefore
+is $1$-Lipschitz. Here $\mu=h$, and the hypothesis $0\lt h\lt 2\beta$ is exactly `hh`. Therefore
 
 $$
 F(z)=z-hBz
@@ -210,7 +210,7 @@ This uses `hC : (Function.fixedPoints T).Nonempty := by rwa [hfixed]`, where `rw
 
 6. The proof now applies the convergence theorem
 `forward_backward_distance_and_residual_tendsto_local`.
-That theorem has the following content. Suppose $P$ is firmly nonexpansive, $B$ is $\beta$-cocoercive, $0<\mu<2\beta$, $0<\eta\le 1$, and a sequence satisfies the relaxed forward-backward update
+That theorem has the following content. Suppose $P$ is firmly nonexpansive, $B$ is $\beta$-cocoercive, $0\lt \mu\lt 2\beta$, $0\lt \eta\le 1$, and a sequence satisfies the relaxed forward-backward update
 
 $$
 x_{n+1}=(1-\eta)x_n+\eta P\bigl(x_n-\mu Bx_n\bigr).
@@ -218,9 +218,9 @@ $$
 
 If $p$ is a fixed point of the operator $x\mapsto P(x-\mu Bx)$, then two conclusions hold:
 
-$$
+```math
 \exists l\in\mathbb R,\qquad \|x_n-p\|\to l,
-$$
+```
 
 and
 
@@ -228,13 +228,13 @@ $$
 x_n-P\bigl(x_n-\mu Bx_n\bigr)\to 0.
 $$
 
-In the present proof, the theorem is applied with $P=\mathrm{Prox}_{h\Phi}$, $\mu=h$, and relaxation parameter $\eta=1$. The proof checks $0<1\le 1$ by `norm_num`. The algorithm update is converted into the required update with $\eta=1$: after simplifying $(1-1)\bullet x_n+1\bullet P(\cdots)$, the displayed equality is exactly the algorithm’s update law. This is done in the `hupdate` step using `simpa using alg.update n`.
+In the present proof, the theorem is applied with $P=\mathrm{Prox}_{h\Phi}$, $\mu=h$, and relaxation parameter $\eta=1$. The proof checks $0\lt 1\le 1$ by `norm_num`. The algorithm update is converted into the required update with $\eta=1$: after simplifying $(1-1)\bullet x_n+1\bullet P(\cdots)$, the displayed equality is exactly the algorithm’s update law. This is done in the `hupdate` step using `simpa using alg.update n`.
 
 Applying the local theorem to the fixed point $p_0$ gives:
 
-$$
+```math
 \exists l,\quad \|x_n-p_0\|\to l,
-$$
+```
 
 and
 
@@ -246,7 +246,7 @@ because $T(z)=P(z-hBz)$. This conjunction is `hseq₀`.
 
 7. From the first part of `hseq₀`, the lemma
 `bounded_range_of_convergent_distance_to_point`
-says that if the distances $\|x_n-z\|$ converge to a real limit, then the range of the sequence is bounded. Applied to $p_0$, it gives
+says that if the distances $`\|x_n-z\|`$converge to a real limit, then the range of the sequence is bounded. Applied to$p_0$, it gives
 
 $$
 \texttt{Bornology.IsBounded (Set.range alg.x)}.
@@ -262,9 +262,9 @@ $$
 
 which is the fixed-point hypothesis of the local theorem. The first conclusion gives
 
-$$
+```math
 \exists l,\quad \|x_n-z\|\to l.
-$$
+```
 
 Thus for every $z\in\mathrm{Fix}(T)$, the distance sequence to $z$ converges.
 
@@ -284,13 +284,13 @@ $$
 x_{\varphi(n)}-T\bigl(x_{\varphi(n)}\bigr)\to 0.
 $$
 
-The boundedness of the full sequence gives a constant $C$ with $\|x_n\|\le C$ for all $n$. The proof obtains this from `isBounded_iff_forall_norm_le.mp hbounded`. Then, by the triangle inequality,
+The boundedness of the full sequence gives a constant $C$ with $`\|x_n\|\le C`$for all$n$. The proof obtains this from `isBounded_iff_forall_norm_le.mp hbounded`. Then, by the triangle inequality,
 
-$$
+```math
 \|x_{\varphi(n)}-z\|
 \le \|x_{\varphi(n)}\|+\|z\|
 \le C+\|z\|.
-$$
+```
 
 So the subsequence is bounded relative to $z$.
 
@@ -320,5 +320,5 @@ $$
 
 Since $\mathrm{Fix}(T)=S$, the final rewrite `rwa [← hfixed]` converts $z\in\mathrm{Fix}(T)$ into $z\in S$. Hence the algorithm sequence converges weakly to a point of the solution set $S$, which is exactly the claimed conclusion.
 
-The tactics in the proof play the following roles: `let` introduces the abbreviation $T$; `ext` proves the set equality $\mathrm{Fix}(T)=S$ pointwise; `simp` and `simpa` unfold definitions and normalize scalar arithmetic; `exact` closes goals with the cited results; `rwa` rewrites and then applies an existing hypothesis; `obtain` and `rcases` destruct nonemptiness, fixed-point, and cluster-point hypotheses; `intro` introduces arbitrary points and indices; `norm_num` proves the numerical fact $0<1\le 1$; and `calc` performs the triangle-inequality bound. `linarith` is not used in this proof.
+The tactics in the proof play the following roles: `let` introduces the abbreviation $T$; `ext` proves the set equality $\mathrm{Fix}(T)=S$ pointwise; `simp` and `simpa` unfold definitions and normalize scalar arithmetic; `exact` closes goals with the cited results; `rwa` rewrites and then applies an existing hypothesis; `obtain` and `rcases` destruct nonemptiness, fixed-point, and cluster-point hypotheses; `intro` introduces arbitrary points and indices; `norm_num` proves the numerical fact $0\lt 1\le 1$; and `calc` performs the triangle-inequality bound. `linarith` is not used in this proof.
 

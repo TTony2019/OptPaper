@@ -8,14 +8,14 @@ noncomputable def PhiA (A : SetValuedOperator H H) (x : H) : EReal :=
 ```
 
 ## Statement explanation
-The declaration `PhiA` is a noncomputable definition. In the ambient context, $H$ is used as a type equipped with the real inner-product structure needed for `inner ℝ`; $A$ is a set-valued operator from $H$ to $H$, so for each $x\in H$, the value $A(x)$ is a subset of $H$. The second argument $x$ is a point of $H$. The return type is `EReal`, Lean's extended real line $\overline{\mathbb R}=\mathbb R\cup\{-\infty,+\infty\}$.
+The declaration `PhiA` is a noncomputable definition. In the ambient context, $H$ is used as a type equipped with the real inner-product structure needed for `inner ℝ`; $A$ is a set-valued operator from $H$ to $H$, so for each $x\in H$, the value $A(x)$ is a subset of $H$. The second argument $x$ is a point of $H$. The return type is `EReal`, Lean's extended real line $`\overline{\mathbb R}=\mathbb R\cup\{-\infty,+\infty\}`$.
 
 Mathematically, the definition is
 
-$$
+```math
 \Phi_A(x)
 = \mathrm{sInf}\left(\left\{ \iota(\langle y,x\rangle_{\mathbb R}) : y\in A(x)\right\}\right),
-$$
+```
 
 where $\iota:\mathbb R\to \overline{\mathbb R}$ is the canonical embedding of the real numbers into the extended reals, and the infimum is taken in the extended-real order. Equivalently,
 
@@ -42,9 +42,9 @@ $$
 
 where $\iota$ is the coercion from $\mathbb R$ to `EReal`. The image operator `''` forms the image of the set $A(x)$ under $f_x$, namely
 
-$$
+```math
 \{f_x(y): y\in A(x)\}\subseteq \overline{\mathbb R}.
-$$
+```
 
 Finally, `sInf` takes the infimum of this subset of `EReal`, yielding its greatest lower bound in the extended-real order. The `noncomputable` marker only indicates that this `sInf` is not evaluated computationally; it adds no mathematical hypothesis and does not change the formula.
 

@@ -15,26 +15,26 @@ theorem lemma_A_1 {s₀ α : ℝ} (hα : 1 < α) (a : ℝ → ℝ)
 ## Statement explanation
 The declaration concerns a real starting point $s_0$, a real exponent $\alpha$, and a function $a:\mathbb R\to\mathbb R$. It assumes:
 
-- $1<\alpha$, so $\alpha-1>0$ and $\alpha-2>-1$;
-- $a(s)>0$ for every $s\ge s_0$;
+- $1\lt \alpha$, so $\alpha-1\gt 0$ and $\alpha-2\gt -1$;
+- $a(s)\gt 0$ for every $s\ge s_0$;
 - $\lim_{s\to+\infty}a(s)=0$;
 - $s_0\ge 0$;
 - for every real $t$, the function
 
-  $$
-  u\mapsto u^{\alpha-2}a(u)
-  $$
+$$
+u\mapsto u^{\alpha-2}a(u)
+$$
 
   is interval integrable on the interval from $s_0$ to $t$ with respect to Lebesgue measure.
 
 The conclusion is
 
-$$
+```math
 \lim_{s\to+\infty}\frac{1}{s^{\alpha-1}}
 \int_{s_0}^{s}u^{\alpha-2}a(u)\,du=0.
-$$
+```
 
-In ordinary language, if $a$ is positive on the half-line $[s_0,\infty)$, tends to $0$ at infinity, and the weighted function $u^{\alpha-2}a(u)$ is locally interval integrable, then the primitive of $u^{\alpha-2}a(u)$ grows more slowly than $s^{\alpha-1}$. Since $\alpha>1$, the normalizing factor $s^{\alpha-1}$ grows without bound, and the theorem says that the normalized integral still tends to $0$. This is an Abelian-type estimate: the part of the integral before any fixed threshold is killed by the factor $s^{-(\alpha-1)}$, while the tail after a large threshold is made small using $a(u)\to0$.
+In ordinary language, if $a$ is positive on the half-line $[s_0,\infty)$, tends to $0$ at infinity, and the weighted function $u^{\alpha-2}a(u)$ is locally interval integrable, then the primitive of $u^{\alpha-2}a(u)$ grows more slowly than $s^{\alpha-1}$. Since $\alpha\gt 1$, the normalizing factor $s^{\alpha-1}$ grows without bound, and the theorem says that the normalized integral still tends to $0$. This is an Abelian-type estimate: the part of the integral before any fixed threshold is killed by the factor $s^{-(\alpha-1)}$, while the tail after a large threshold is made small using $a(u)\to0$.
 
 ## Lean proof
 ```lean
@@ -141,53 +141,53 @@ $$
 q:=\alpha-1.
 $$
 
-Since $1<\alpha$, `linarith` gives
+Since $1\lt \alpha$, `linarith` gives
 
 $$
 0<q.
 $$
 
-Also, again from $1<\alpha$,
+Also, again from $1\lt \alpha$,
 
 $$
 -1<\alpha-2.
 $$
 
-These two facts are crucial: $q>0$ makes $s^{-q}\to0$ as $s\to+\infty$, and $\alpha-2>-1$ makes $u^{\alpha-2}$ interval integrable and gives the usual power antiderivative formula.
+These two facts are crucial: $q\gt 0$ makes $s^{-q}\to0$ as $s\to+\infty$, and $\alpha-2\gt -1$ makes $u^{\alpha-2}$ interval integrable and gives the usual power antiderivative formula.
 
-Next, the proof establishes eventual nonnegativity of the normalized integral. It uses `filter_upwards` with the fact that eventually $s>\max(s_0,0)$. For such an $s$, one has $s_0\le s$ and $0\le s$. Then
+Next, the proof establishes eventual nonnegativity of the normalized integral. It uses `filter_upwards` with the fact that eventually $s\gt \max(s_0,0)$. For such an $s$, one has $s_0\le s$ and $0\le s$. Then
 
-$$
+```math
 (s^q)^{-1}\int_{s_0}^{s}u^{\alpha-2}a(u)\,du\ge0.
-$$
+```
 
-Indeed, $s\ge0$ implies $s^q\ge0$, so $(s^q)^{-1}\ge0$. For the integral, if $u\in[s_0,s]$, then $u\ge s_0\ge0$, hence $u^{\alpha-2}\ge0$; also $a(u)>0$ by the hypothesis on $a$. Therefore the integrand $u^{\alpha-2}a(u)$ is nonnegative on $[s_0,s]$, so its interval integral is nonnegative by `intervalIntegral.integral_nonneg`. This gives the eventual inequality
+Indeed, $s\ge0$ implies $s^q\ge0$, so $(s^q)^{-1}\ge0$. For the integral, if $u\in[s_0,s]$, then $u\ge s_0\ge0$, hence $u^{\alpha-2}\ge0$; also $a(u)\gt 0$ by the hypothesis on $a$. Therefore the integrand $u^{\alpha-2}a(u)$ is nonnegative on $[s_0,s]$, so its interval integral is nonnegative by `intervalIntegral.integral_nonneg`. This gives the eventual inequality
 
-$$
+```math
 0\le (s^q)^{-1}\int_{s_0}^{s}u^{\alpha-2}a(u)\,du.
-$$
+```
 
-The proof then rewrites the goal using `tendsto_order`. This converts convergence to $0$ into two eventual order conditions: for every $b<0$, eventually
+The proof then rewrites the goal using `tendsto_order`. This converts convergence to $0$ into two eventual order conditions: for every $b\lt 0$, eventually
 
-$$
+```math
 b<\frac{1}{s^q}\int_{s_0}^{s}u^{\alpha-2}a(u)\,du,
-$$
+```
 
-and for every $b>0$, eventually
+and for every $b\gt 0$, eventually
 
-$$
+```math
 \frac{1}{s^q}\int_{s_0}^{s}u^{\alpha-2}a(u)\,du<b.
-$$
+```
 
-The first of these follows immediately from the eventual nonnegativity: if $b<0$ and the expression is at least $0$, then $b<$ the expression. This is the `linarith` step after `filter_upwards [hnonneg]`.
+The first of these follows immediately from the eventual nonnegativity: if $b\lt 0$ and the expression is at least $0$, then $b\lt$ the expression. This is the `linarith` step after `filter_upwards [hnonneg]`.
 
-For the upper bound, fix $b>0$. The proof defines
+For the upper bound, fix $b\gt 0$. The proof defines
 
 $$
 \varepsilon:=\frac{bq}{2}.
 $$
 
-Since $b>0$ and $q>0$, `positivity` shows $\varepsilon>0$. Because $a(u)\to0$ as $u\to+\infty$, for this positive $\varepsilon$ one eventually has $a(u)<\varepsilon$. In Lean this is obtained from `ha0.eventually_lt tendsto_const_nhds hε`. The fact `Filter.eventually_atTop.1 hea` then extracts a threshold $T_0$ such that
+Since $b\gt 0$ and $q\gt 0$, `positivity` shows $\varepsilon\gt 0$. Because $a(u)\to0$ as $u\to+\infty$, for this positive $\varepsilon$ one eventually has $a(u)\lt \varepsilon$. In Lean this is obtained from `ha0.eventually_lt tendsto_const_nhds hε`. The fact `Filter.eventually_atTop.1 hea` then extracts a threshold $T_0$ such that
 
 $$
 u\ge T_0 \implies a(u)<\varepsilon.
@@ -209,37 +209,37 @@ $$
 
 The proof handles the fixed part of the integral, namely
 
-$$
+```math
 (s^q)^{-1}\int_{s_0}^{T}f(u)\,du.
-$$
+```
 
-Since $q>0$, the standard limit
+Since $q\gt 0$, the standard limit
 
 $$
 s^{-q}\to0\qquad(s\to+\infty)
 $$
 
-holds. For $s>0$, $s^{-q}=(s^q)^{-1}$. Therefore
+holds. For $s\gt 0$, $s^{-q}=(s^q)^{-1}$. Therefore
 
 $$
 (s^q)^{-1}\to0.
 $$
 
-Multiplying by the constant $\int_{s_0}^{T}f(u)\,du$, one obtains
+Multiplying by the constant $`\int_{s_0}^{T}f(u)\,du`$, one obtains
 
-$$
+```math
 \lim_{s\to+\infty}(s^q)^{-1}\int_{s_0}^{T}f(u)\,du=0.
-$$
+```
 
-This is the `hfix` step. Hence, since $b/2>0$, eventually
+This is the `hfix` step. Hence, since $b/2\gt 0$, eventually
 
-$$
+```math
 (s^q)^{-1}\int_{s_0}^{T}f(u)\,du<\frac b2.
-$$
+```
 
 This is `hfixlt`.
 
-The proof now restricts to $s$ satisfying both this fixed-part inequality and $s>T$. Then $s>0$, so $s^q>0$. It also proves that $f$ is interval integrable on $T..s$: from the hypothesis `hInt T` and `hInt s`, reversing and concatenating intervals gives interval integrability on $T..s$. The comparison function $u\mapsto u^{\alpha-2}\varepsilon$ is also interval integrable on $T..s$, because $\alpha-2>-1$ and multiplication by the constant $\varepsilon$ preserves interval integrability; this uses `intervalIntegral.intervalIntegrable_rpow'` and `.mul_const ε`.
+The proof now restricts to $s$ satisfying both this fixed-part inequality and $s\gt T$. Then $s\gt 0$, so $s^q\gt 0$. It also proves that $f$ is interval integrable on $T..s$: from the hypothesis `hInt T` and `hInt s`, reversing and concatenating intervals gives interval integrability on $T..s$. The comparison function $u\mapsto u^{\alpha-2}\varepsilon$ is also interval integrable on $T..s$, because $\alpha-2\gt -1$ and multiplication by the constant $\varepsilon$ preserves interval integrability; this uses `intervalIntegral.intervalIntegrable_rpow'` and `.mul_const ε`.
 
 Next comes the monotonicity estimate. For $u\in[T,s]$, one has $u\ge T\ge0$, so $u^{\alpha-2}\ge0$. Also, by the choice of $T$, $a(u)\le\varepsilon$. Hence
 
@@ -249,30 +249,30 @@ $$
 
 Applying `intervalIntegral.integral_mono_on` gives
 
-$$
+```math
 \int_T^s f(u)\,du
 \le
 \int_T^s u^{\alpha-2}\varepsilon\,du.
-$$
+```
 
 This is `hmono`.
 
-The comparison integral is then evaluated. Using the power antiderivative formula for exponent $\alpha-2>-1$,
+The comparison integral is then evaluated. Using the power antiderivative formula for exponent $\alpha-2\gt -1$,
 
-$$
+```math
 \int_T^s u^{\alpha-2}\,du
 =\frac{s^{\alpha-1}-T^{\alpha-1}}{\alpha-1}
 =\frac{s^q-T^q}{q}.
-$$
+```
 
 Thus
 
-$$
+```math
 \int_T^s u^{\alpha-2}\varepsilon\,du
 =\varepsilon\frac{s^q-T^q}{q}.
-$$
+```
 
-Since $T\ge0$, we have $T^q\ge0$, so $s^q-T^q\le s^q$. Dividing by $q>0$ and multiplying by $\varepsilon\ge0$ gives
+Since $T\ge0$, we have $T^q\ge0$, so $s^q-T^q\le s^q$. Dividing by $q\gt 0$ and multiplying by $\varepsilon\ge0$ gives
 
 $$
 \varepsilon\frac{s^q-T^q}{q}
@@ -283,24 +283,24 @@ $$
 
 Therefore
 
-$$
+```math
 \int_T^s f(u)\,du
 \le
 \frac{\varepsilon}{q}s^q.
-$$
+```
 
 This is `htailbound`.
 
 Multiplying by $(s^q)^{-1}$, which is nonnegative, yields
 
-$$
+```math
 (s^q)^{-1}\int_T^s f(u)\,du
 \le
 (s^q)^{-1}\frac{\varepsilon}{q}s^q
 =\frac{\varepsilon}{q}.
-$$
+```
 
-Since $s>0$, $s^q>0$, so cancellation is valid. Finally, because $\varepsilon=bq/2$ and $q\ne0$,
+Since $s\gt 0$, $s^q\gt 0$, so cancellation is valid. Finally, because $\varepsilon=bq/2$ and $q\ne0$,
 
 $$
 \frac{\varepsilon}{q}=\frac b2.
@@ -308,34 +308,34 @@ $$
 
 Thus
 
-$$
+```math
 (s^q)^{-1}\int_T^s f(u)\,du\le\frac b2.
-$$
+```
 
 This is `hnormtail`.
 
 The final step splits the integral:
 
-$$
+```math
 \int_{s_0}^{s}f(u)\,du
 =\int_{s_0}^{T}f(u)\,du
 +\int_T^{s}f(u)\,du.
-$$
+```
 
 This uses `intervalIntegral.integral_add_adjacent_intervals`, for which interval integrability on $s_0..T$ and $T..s$ has already been established. Multiplying by $(s^q)^{-1}$ and distributing gives
 
-$$
+```math
 (s^q)^{-1}\int_{s_0}^{s}f(u)\,du
 =(s^q)^{-1}\int_{s_0}^{T}f(u)\,du
 +(s^q)^{-1}\int_T^{s}f(u)\,du.
-$$
+```
 
 The first summand is strictly less than $b/2$ by `hfixlt`, while the second is at most $b/2$ by `hnormtail`. Hence their sum is less than $b$. The tactic `nlinarith` performs exactly this final arithmetic. Since $q=\alpha-1$ and $f(u)=u^{\alpha-2}a(u)$, this proves the desired eventual upper bound. Together with the earlier eventual lower bound and `tendsto_order`, it proves
 
-$$
+```math
 \lim_{s\to+\infty}
 (s^{\alpha-1})^{-1}
 \int_{s_0}^{s}u^{\alpha-2}a(u)\,du
 =0.
-$$
+```
 

@@ -19,7 +19,7 @@ theorem proposition3 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H
 ```
 
 ## Statement explanation
-`proposition3` is a theorem about a real inner product space $H$. The data are two extended-real functions $\phi,\Theta:H\to\overline{\mathbb R}$, a real function $\psi:H\to\mathbb R$, its specified gradient $\mathrm{grad}\psi:H\to H$, two sequences $u,y:\mathbb N\to H$, real parameters $a,b,\lambda,L_\psi$, a point $q\in H$, and an index $k\in\mathbb N$. The hypotheses say that $k\ge1$, that $hH$ is an `IFBHypothesis` for $(\phi,\Theta,\psi,\mathrm{grad}\psi,a,b,\lambda,L_\psi)$, that `hIFB` is an `IsIFBTrajectory` for $(\phi,\psi,\mathrm{grad}\psi,a,b,\lambda,u,y)$, and that the epigraph of $\Theta$ is convex over $\mathbb R$, i.e. $\Theta$ is an extended-real convex function. The proof uses in particular that $b>0$ and that $\Theta(q)$ can be rewritten through `hH.theta_eq` in terms of $\phi(q)$ and a real term, while `hH.phi_proper` gives that $\phi(q)\ne\bot$.
+`proposition3` is a theorem about a real inner product space $H$. The data are two extended-real functions $\phi,\Theta:H\to\overline{\mathbb R}$, a real function $\psi:H\to\mathbb R$, its specified gradient $\mathrm{grad}\psi:H\to H$, two sequences $u,y:\mathbb N\to H$, real parameters $a,b,\lambda,L_\psi$, a point $q\in H$, and an index $k\in\mathbb N$. The hypotheses say that $k\ge1$, that $hH$ is an `IFBHypothesis` for $(\phi,\Theta,\psi,\mathrm{grad}\psi,a,b,\lambda,L_\psi)$, that `hIFB` is an `IsIFBTrajectory` for $(\phi,\psi,\mathrm{grad}\psi,a,b,\lambda,u,y)$, and that the epigraph of $\Theta$ is convex over $\mathbb R$, i.e. $\Theta$ is an extended-real convex function. The proof uses in particular that $b\gt 0$ and that $\Theta(q)$ can be rewritten through `hH.theta_eq` in terms of $\phi(q)$ and a real term, while `hH.phi_proper` gives that $\phi(q)\ne\bot$.
 
 For $k\ge1$, write
 
@@ -47,13 +47,13 @@ $$
 
 be the Liapunov expression from the statement. Its definition is
 
-$$
+```math
 F_k=
 \frac{a+b}{2\lambda}\|u_k-q\|^2
 -\left(\frac1\lambda+b\right)G_{k+1}
 -\delta\sum_{i=2}^k\|v_i\|^2
 +2\alpha\left\langle v_{k+1},u_k-q\right\rangle,
-$$
+```
 
 where
 
@@ -249,7 +249,7 @@ $$
 
 as an extended-real inequality.
 
-The proof then splits on whether $\Theta(q)=\top$. If so, then because $\Theta(u_{k+1})$ is finite, the difference $\top-\Theta(u_{k+1})$ is $\top$, and since $b>0$, multiplying by $b$ still gives $\top$. The desired inequality is then trivial. In the remaining case, the proof shows $\Theta(q)\ne\bot$. This uses `hH.theta_eq` to rewrite $\Theta(q)$ as an extended-real sum involving $\phi(q)$ and a real term, and then uses properness of $\phi$ together with the fact that a real number is not $\bot$. Thus $\Theta(q)$ is a finite extended real.
+The proof then splits on whether $\Theta(q)=\top$. If so, then because $\Theta(u_{k+1})$ is finite, the difference $\top-\Theta(u_{k+1})$ is $\top$, and since $b\gt 0$, multiplying by $b$ still gives $\top$. The desired inequality is then trivial. In the remaining case, the proof shows $\Theta(q)\ne\bot$. This uses `hH.theta_eq` to rewrite $\Theta(q)$ as an extended-real sum involving $\phi(q)$ and a real term, and then uses properness of $\phi$ together with the fact that a real number is not $\bot$. Thus $\Theta(q)$ is a finite extended real.
 
 Now both $\Theta(q)$ and $\Theta(u_{k+1})$ are finite. The support inequality is rewritten using the coercions
 
@@ -280,7 +280,7 @@ Casting back to $\overline{\mathbb R}$ gives the first asserted inequality. This
 
 For the second component, the proof uses two normal-form lemmas. The first is `scalar_product_normal_form`. It states that, for $k\ge1$,
 
-$$
+```math
 \begin{aligned}
 & b\langle S_k,u_{k+1}-q\rangle \\
 &=
@@ -295,11 +295,11 @@ $$
 -\langle a u_k-b y_k,u_k-q\rangle
 \Bigr).
 \end{aligned}
-$$
+```
 
 The second is `liapunovF_increment_normal_form`. It states that, for $k\ge1$,
 
-$$
+```math
 \begin{aligned}
 F_{k+1}-F_k
 &=
@@ -320,7 +320,7 @@ F_{k+1}-F_k
 -\langle v_{k+1},u_k-q\rangle
 \Bigr).
 \end{aligned}
-$$
+```
 
 After rewriting the goal with these two formulas, the proof reduces the equality to algebra. It uses `velocity_eq_sub_of_one_le` to replace
 
@@ -336,15 +336,15 @@ z_{k+1}=\frac1\lambda v_{k+1}+a u_k-b y_k,\qquad
 z_{k+2}=\frac1\lambda v_{k+2}+a u_{k+1}-b y_{k+1}.
 $$
 
-Then the proof expands all inner products using bilinearity of the real inner product. The lemma `real_inner_self_eq_norm_sq` replaces $\|x\|^2$ by $\langle x,x\rangle$, and `real_inner_comm` uses symmetry, for instance $\langle u_{k+1},u_k\rangle=\langle u_k,u_{k+1}\rangle$. The cases $\lambda=0$ and $\lambda\ne0$ are handled separately: in the first case `norm_num` and `ring` close the numeric/algebraic identity, and in the second case `field_simp` clears the denominators and `ring` proves the remaining polynomial identity. Thus the scalar product equals the Liapunov increment.
+Then the proof expands all inner products using bilinearity of the real inner product. The lemma `real_inner_self_eq_norm_sq` replaces $`\|x\|^2`$by$\langle x,x\rangle$, and `real_inner_comm` uses symmetry, for instance $\langle u_{k+1},u_k\rangle=\langle u_k,u_{k+1}\rangle$. The cases $\lambda=0$ and $\lambda\ne0$ are handled separately: in the first case `norm_num` and `ring` close the numeric/algebraic identity, and in the second case `field_simp` clears the denominators and `ring` proves the remaining polynomial identity. Thus the scalar product equals the Liapunov increment.
 
 Finally, the proof establishes the third component. It assumes `hq : q ∈ Optimization.argminSet Θ`. The lemma `mem_argminSet_iff_eq_sInf` says that, for a complete linear order and a function $f:X\to R$, one has
 
-$$
+```math
 x\in\mathrm{argminSet} f
 \quad\Longleftrightarrow\quad
 f(x)=\inf\{f(y):y\in X\}.
-$$
+```
 
 Applying this to $f=\Theta$ and $x=q$ rewrites the hypothesis as
 

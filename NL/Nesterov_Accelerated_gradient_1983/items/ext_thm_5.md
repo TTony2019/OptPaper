@@ -15,7 +15,7 @@ The theorem is stated for a type $E$ equipped with a normed additive commutative
 
 The method $M$ supplies, in the proof, a sequence of steps $M.\text{step} : \mathbb{N} \to E$, an initial step $M.\text{initialStep} \in E$, and a search index $M.\text{searchIndex} : \mathbb{N} \to \mathbb{N}$. The predicate `StartsKthSearchFromPreviousStep f M S` is, after unfolding for the constructed $S$, the statement that for every natural number $k$,
 
-$$
+```math
 M.\text{step}(k)
 =2^{-M.\text{searchIndex}(k)}
 \cdot
@@ -23,7 +23,7 @@ M.\text{step}(k)
 M.\text{initialStep}, & k=0,\\
 M.\text{step}(k-1), & k\neq 0.
 \end{cases}
-$$
+```
 
 Here the exponent $M.\text{searchIndex}(k)$ is coerced to an integer, and the multiplication is scalar multiplication of the vector $E$ by the real number $2^{-M.\text{searchIndex}(k)}$. The halving search $S$ constructed in the proof is the rule that assigns to a vector $\alpha \in E$ and a natural number $i$ the scaled vector
 
@@ -57,7 +57,7 @@ where $\alpha \in E$ and $i \in \mathbb{N}$. The first subgoal is the structural
 
 The second subgoal is the proof of `StartsKthSearchFromPreviousStep f M S`. The command `intro k` introduces an arbitrary natural number $k$, since the predicate is a universal statement over $k$. The `change` command then replaces the goal by the definitionally equal equality
 
-$$
+```math
 M.\text{step}(k)
 =2^{-M.\text{searchIndex}(k)}
 \cdot
@@ -65,7 +65,7 @@ M.\text{step}(k)
 M.\text{initialStep}, & k=0,\\
 M.\text{step}(k-1), & k\neq 0.
 \end{cases}
-$$
+```
 
 This reshaping is valid because the predicate, when unfolded using the chosen search object $S$, asks precisely that the $k$-th step equal the previous step—or the initial step when $k=0$—scaled by the dyadic factor $2^{-M.\text{searchIndex}(k)}$. In the branch $k\neq 0$, Lean’s natural-number subtraction $k-1$ is the usual predecessor, since $k$ is nonzero.
 

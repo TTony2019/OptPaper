@@ -37,11 +37,11 @@ $$
 \alpha,\beta,\nu:\mathbb N\to\mathbb R.
 $$
 
-The argument `alg : CA2 X Y f g h k c α β β ν` is an algorithm object. From the proof, it supplies two sequences $x_n\in X$ and $y_n\in Y$, written in Lean as `alg.x n` and `alg.y n`, together with the two update inequalities `alg.step_x` and `alg.step_y`. The argument `hyp : H21toH24 X Y f g h k c α β β ν` is a package of hypotheses. The proof uses the following consequences of it: $\alpha_n\ge 0$, $\nu_n\ge 0$, $\beta_n>0$, $h(x,x)=0$, $k(y,y)=0$, $h(x,x')\ge 0$, $k(y,y')\ge 0$, $c(x,y)\ge 0$, $f$ is bounded below, and $g$ is bounded below. The final hypothesis is
+The argument `alg : CA2 X Y f g h k c α β β ν` is an algorithm object. From the proof, it supplies two sequences $x_n\in X$ and $y_n\in Y$, written in Lean as `alg.x n` and `alg.y n`, together with the two update inequalities `alg.step_x` and `alg.step_y`. The argument `hyp : H21toH24 X Y f g h k c α β β ν` is a package of hypotheses. The proof uses the following consequences of it: $\alpha_n\ge 0$, $\nu_n\ge 0$, $\beta_n\gt 0$, $h(x,x)=0$, $k(y,y)=0$, $h(x,x')\ge 0$, $k(y,y')\ge 0$, $c(x,y)\ge 0$, $f$ is bounded below, and $g$ is bounded below. The final hypothesis is
 
-$$
+```math
 hbeta\_nonincreasing : \forall n:\mathbb N,\quad \beta(n+1)\le \beta(n),
-$$
+```
 
 so the sequence $\beta$ is nonincreasing.
 
@@ -157,7 +157,7 @@ $$
 S_N=\sum_{n=0}^{N-1}T_n
 $$
 
-is the $N$-th partial sum, using `Finset.range N` for $\{0,\dots,N-1\}$.
+is the $N$-th partial sum, using `Finset.range N` for $`\{0,\dots,N-1\}`$.
 
 The main step is the inequality
 
@@ -187,14 +187,14 @@ This says that the $y$-step does not increase the $y$-part of the augmented obje
 
 The proof then uses `add_le_add` to add the two inequalities. The common term $\beta_i c(x_{i+1},y_i)$ cancels, and `linarith` derives
 
-$$
+```math
 \begin{aligned}
 &f(x_{i+1})+g(y_{i+1})+\beta_i c(x_{i+1},y_{i+1})
 +\alpha_i h(x_i,x_{i+1})+\nu_i k(y_i,y_{i+1})\\
 &\qquad\le
 f(x_i)+g(y_i)+\beta_i c(x_i,y_i).
 \end{aligned}
-$$
+```
 
 This is the combined descent inequality for one full iteration, before replacing $\beta_i$ by $\beta_{i+1}$.
 
@@ -246,7 +246,7 @@ $$
 E_i=f(x_i)+g(y_i)+\beta_i c(x_i,y_i)\ge M_f+M_g,
 $$
 
-because $f(x_i)\ge M_f$, $g(y_i)\ge M_g$, $\beta_i>0$, and $c(x_i,y_i)\ge 0$, so $\beta_i c(x_i,y_i)\ge 0$. This is the inequality `hE_lower`.
+because $f(x_i)\ge M_f$, $g(y_i)\ge M_g$, $\beta_i\gt 0$, and $c(x_i,y_i)\ge 0$, so $\beta_i c(x_i,y_i)\ge 0$. This is the inequality `hE_lower`.
 
 Now the proof uses the one-step inequality $E_{i+1}+T_i\le E_i$ to get
 

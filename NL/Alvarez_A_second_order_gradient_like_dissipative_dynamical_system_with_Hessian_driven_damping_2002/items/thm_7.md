@@ -18,7 +18,7 @@ theorem constrained_din_global_properties_part_iii {H : Type*} [NormedAddCommGro
 ```
 
 ## Statement explanation
-The theorem `constrained_din_global_properties_part_iii` is stated in a complete real inner product space $H$. The fixed data are a set $C\subseteq H$, a function $\Phi:H\to\mathbb R$, and a hypothesis `hC` of type `ConstrainedHypothesis C Φ`. The proof uses that this hypothesis supplies, in particular, that $C$ is nonempty, closed, and convex, that $\Phi$ is bounded below on $C$, and that $\nabla\Phi$ is Lipschitz on bounded subsets of $C$. The real parameters are $\beta,a,b$, subject to $0<\beta$, $a\neq 0$, $0<b$, and $0<b+a$.
+The theorem `constrained_din_global_properties_part_iii` is stated in a complete real inner product space $H$. The fixed data are a set $C\subseteq H$, a function $\Phi:H\to\mathbb R$, and a hypothesis `hC` of type `ConstrainedHypothesis C Φ`. The proof uses that this hypothesis supplies, in particular, that $C$ is nonempty, closed, and convex, that $\Phi$ is bounded below on $C$, and that $\nabla\Phi$ is Lipschitz on bounded subsets of $C$. The real parameters are $\beta,a,b$, subject to $0\lt \beta$, $a\neq 0$, $0\lt b$, and $0\lt b+a$.
 
 The initial points are $x_0,y_0\in H$, and $x,y:\mathbb R\to H$ are trajectories. The hypothesis `hxy` says that $(x,y)$ is a constrained DIN trajectory for these data. From the proof, the parts of this hypothesis that are used are the initial condition $x(0)=x_0$, the membership $x_0\in C$, and, for every $t\ge 0$, the ODE relations
 
@@ -321,11 +321,11 @@ by
 ## Proof explanation
 The proof starts with `intro hxbounded`, which introduces the assumption that the image $x([0,\infty))$ is bounded. The boundedness is then converted, using `isBounded_iff_forall_norm_le.mp`, into the existence of a real number $R$ such that every element of $x([0,\infty))$ has norm at most $R$. Thus, for every $t\ge 0$,
 
-$$
+```math
 \|x(t)\|\le R.
-$$
+```
 
-The proof also records that $0\le R$, because $\|x_0\|\ge 0$ and $x_0=x(0)$ lies in the image.
+The proof also records that $0\le R$, because $`\|x_0\|\ge 0`$and$x_0=x(0)$ lies in the image.
 
 Next, the proof applies `constrained_din_global_properties_part_i` to the given data, using as its last hypothesis the fact $x_0\in C$ extracted from `hxy`. That theorem provides trajectories $X,Y$ which satisfy the constrained trajectory equations, are $C^1$ and $C^2$ respectively on $[0,\infty)$, satisfy $X(t)\in C$ for all $t\ge 0$, and are unique among trajectories with the same regularity. Since the given pair $(x,y)$ also satisfies the trajectory and regularity assumptions, the uniqueness clause gives
 
@@ -353,7 +353,7 @@ $$
 \lambda=\beta(a+2b).
 $$
 
-Because $0<\beta$ and $0<b+a$, one has $a+2b=(a+b)+b>0$, hence $\lambda>0$. The proof then verifies that $\lambda$ lies in the interval required by part ii:
+Because $0\lt \beta$ and $0\lt b+a$, one has $a+2b=(a+b)+b\gt 0$, hence $\lambda\gt 0$. The proof then verifies that $\lambda$ lies in the interval required by part ii:
 
 $$
 \beta(\sqrt b-\sqrt{b+a})^2\le \lambda\le \beta(\sqrt b+\sqrt{b+a})^2.
@@ -361,9 +361,9 @@ $$
 
 Indeed, $(\sqrt b)^2=b$ and $(\sqrt{b+a})^2=b+a$, and the cross term $\sqrt b\sqrt{b+a}$ is nonnegative, so the inequalities reduce to simple algebraic comparisons involving $a+2b$. Applying part ii at this $\lambda$ gives that the constrained energy
 
-$$
+```math
 E(t)=\lambda \Phi(x(t))+\frac12\|a x(t)+b y(t)\|^2
-$$
+```
 
 is antitone on $[0,\infty)$, bounded below, and convergent. It also gives that $\dot x$ is square-integrable on $(0,\infty)$. The proof uses the antitonicity and the square-integrability of $\dot x$; the other clauses of part ii are not needed for the final conclusion.
 
@@ -375,21 +375,21 @@ $$
 
 From `hC.bounded_below`, there is a real number $m$ such that $m\le \Phi(z)$ for all $z\in C$. Since $x(t)\in C$, this gives $m\le \Phi(x(t))$. The energy satisfies
 
-$$
+```math
 E(t)=\lambda\Phi(x(t))+\frac12\|q(t)\|^2.
-$$
+```
 
 Because $E$ is antitone and $t\ge 0$, one has $E(t)\le E(0)$. Since $\lambda\ge 0$, the lower bound $\Phi(x(t))\ge m$ yields
 
-$$
+```math
 \lambda m+\frac12\|q(t)\|^2\le E(0).
-$$
+```
 
 Thus
 
-$$
+```math
 \|q(t)\|^2\le 2(E(0)-\lambda m).
-$$
+```
 
 The proof defines
 
@@ -397,7 +397,7 @@ $$
 Q=2(E(0)-\lambda m)+1>0.
 $$
 
-The displayed inequality implies $\|q(t)\|\le Q$ for all $t\ge 0$. The use of `nlinarith` here is to turn the quadratic estimate on $\|q(t)\|^2$ into a linear bound on $\|q(t)\|$.
+The displayed inequality implies $`\|q(t)\|\le Q`$for all$t\ge 0$. The use of `nlinarith` here is to turn the quadratic estimate on $`\|q(t)\|^2`$into a linear bound on$`\|q(t)\|`$.
 
 Once $q$ is bounded, $y$ is bounded as follows. Since
 
@@ -407,48 +407,48 @@ $$
 
 and $b\neq 0$, one has
 
-$$
+```math
 \|y(t)\|=\frac1{|b|}\|b y(t)\|
 =\frac1{|b|}\|q(t)-a x(t)\|
 \le \frac1{|b|}\bigl(\|q(t)\|+|a|\|x(t)\|\bigr).
-$$
+```
 
-Using $\|q(t)\|\le Q$ and $\|x(t)\|\le R$, the proof obtains
+Using $`\|q(t)\|\le Q`$and$`\|x(t)\|\le R`$, the proof obtains
 
-$$
+```math
 \|y(t)\|\le |b|^{-1}(Q+|a|R).
-$$
+```
 
 This proves boundedness of $y([0,\infty))$.
 
-The proof next bounds $\nabla\Phi(x(t))$. From `hC.gradient_lipschitz_on_bounded R`, there is a constant $L$ such that for all $u,v\in C$ with $\|u\|,\|v\|\le R$,
+The proof next bounds $\nabla\Phi(x(t))$. From `hC.gradient_lipschitz_on_bounded R`, there is a constant $L$ such that for all $u,v\in C$ with $`\|u\|,\|v\|\le R`$,
 
-$$
+```math
 \|\nabla\Phi(u)-\nabla\Phi(v)\|\le L\|u-v\|.
-$$
+```
 
 For $t\ge 0$, both $x(t)$ and $x_0$ lie in $C$, and both have norm at most $R$. Therefore
 
-$$
+```math
 \|\nabla\Phi(x(t))-\nabla\Phi(x_0)\|
 \le L\|x(t)-x_0\|.
-$$
+```
 
 Using the triangle inequality,
 
-$$
+```math
 \|x(t)-x_0\|\le \|x(t)\|+\|x_0\|\le 2R.
-$$
+```
 
 Hence
 
-$$
+```math
 \|\nabla\Phi(x(t))\|
 \le \|\nabla\Phi(x(t))-\nabla\Phi(x_0)\|+\|\nabla\Phi(x_0)\|
 \le L(2R)+\|\nabla\Phi(x_0)\|.
-$$
+```
 
-The proof defines this last quantity as $G$, so $\|\nabla\Phi(x(t))\|\le G$. This gives boundedness of the gradient image.
+The proof defines this last quantity as $G$, so $`\|\nabla\Phi(x(t))\|\le G`$. This gives boundedness of the gradient image.
 
 The velocity $\dot x$ is bounded by combining the projection and the ODE. Let
 
@@ -476,9 +476,9 @@ $$
 
 The projection is $1$-Lipschitz, so
 
-$$
+```math
 \|\dot x(t)\|\le \|z(t)-x(t)\|.
-$$
+```
 
 But
 
@@ -488,25 +488,25 @@ $$
 
 Thus
 
-$$
+```math
 \|\dot x(t)\|
 \le \|-\beta\nabla\Phi(x(t))\|+\|q(t)\|
 \le |\beta|G+Q.
-$$
+```
 
-The proof defines $V=|\beta|G+Q$, so $\|\dot x(t)\|\le V$ for all $t\ge 0$. This proves boundedness of $(\dot x)([0,\infty))$. Similarly, the second ODE identity gives
+The proof defines $V=|\beta|G+Q$, so $`\|\dot x(t)\|\le V`$for all$t\ge 0$. This proves boundedness of$(\dot x)([0,\infty))$. Similarly, the second ODE identity gives
 
 $$
 \dot y(t)=-q(t),
 $$
 
-so $\|\dot y(t)\|\le Q$.
+so $`\|\dot y(t)\|\le Q`$.
 
 The proof then prepares to apply the uniform-continuity-and-square-integrability lemma to $\dot x$. It defines the phase-field map
 
-$$
+```math
 F(u,v)=\bigl(P(u-\beta\nabla\Phi(Pu)-a u-b v)-u,\,-a u-b v\bigr)
-$$
+```
 
 through `constrainedDINPhaseField`, and the curve
 
@@ -520,7 +520,7 @@ $$
 F(Z(t))=(\dot x(t),\dot y(t)).
 $$
 
-The theorem `constrainedDINPhaseField_locallyLipschitz` says that $F$ is locally Lipschitz, hence continuous. Since $x$ is $C^1$ and $y$ is $C^2$, the curve $Z$ is $C^1$ on $[0,\infty)$. For $t>0$, the ordinary derivatives of $x$ and $y$ give
+The theorem `constrainedDINPhaseField_locallyLipschitz` says that $F$ is locally Lipschitz, hence continuous. Since $x$ is $C^1$ and $y$ is $C^2$, the curve $Z$ is $C^1$ on $[0,\infty)$. For $t\gt 0$, the ordinary derivatives of $x$ and $y$ give
 
 $$
 Z'(t)=F(Z(t)).
@@ -528,7 +528,7 @@ $$
 
 The auxiliary lemma `constrainedDIN_hasDerivWithinAt_zero_of_contDiffOn_one` is then applied to the curve $Z$, whose derivative at positive times is the continuous function $t\mapsto F(Z(t))$. It yields that $Z$ has right derivative $F(Z(0))$ at $0$ within $[0,\infty)$. Taking components gives right derivatives for $x$ and $y$ at every $t\ge 0$.
 
-Using these right derivatives and the bounds $\|\dot x(t)\|\le V$ and $\|\dot y(t)\|\le Q$, the proof applies the standard fact that a function with derivative bounded by a constant on a convex set is Lipschitz with that constant. Hence
+Using these right derivatives and the bounds $`\|\dot x(t)\|\le V`$and$`\|\dot y(t)\|\le Q`$, the proof applies the standard fact that a function with derivative bounded by a constant on a convex set is Lipschitz with that constant. Hence
 
 $$
 x\text{ is }V\text{-Lipschitz on } [0,\infty),\qquad
@@ -537,10 +537,10 @@ $$
 
 Concretely,
 
-$$
+```math
 \|x(s)-x(t)\|\le V|s-t|,\qquad
 \|y(s)-y(t)\|\le Q|s-t|.
-$$
+```
 
 The proof then shows that $\dot x$ itself is Lipschitz on $[0,\infty)$. Define
 
@@ -556,29 +556,29 @@ $$
 
 For $s,t\ge 0$, the Lipschitz bounds for $x$ and $y$, together with the gradient-Lipschitz estimate, give
 
-$$
+```math
 \|\nabla\Phi(x(s))-\nabla\Phi(x(t))\|\le L V|s-t|.
-$$
+```
 
 Expanding the difference of $\arg(s)$ and $\arg(t)$ and using the triangle inequality yields
 
-$$
+```math
 \|\arg(s)-\arg(t)\|
 \le \bigl((1+|\beta|L+|a|)V+|b|Q\bigr)|s-t|.
-$$
+```
 
 Since $P$ is $1$-Lipschitz,
 
-$$
+```math
 \|\dot x(s)-\dot x(t)\|
 \le \|\arg(s)-\arg(t)\|+\|x(s)-x(t)\|.
-$$
+```
 
 Therefore
 
-$$
+```math
 \|\dot x(s)-\dot x(t)\|\le K_{\mathrm{vel}}|s-t|,
-$$
+```
 
 where
 
@@ -590,9 +590,9 @@ Thus $\dot x$ is Lipschitz on $[0,\infty)$, hence uniformly continuous there.
 
 Finally, part ii supplied that $\dot x$ is square-integrable on $(0,\infty)$, i.e.
 
-$$
+```math
 \int_0^\infty \|\dot x(t)\|^2\,dt<\infty.
-$$
+```
 
 In Lean this is expressed as
 
@@ -600,7 +600,7 @@ $$
 \mathrm{MemLp}(\dot x,2,\text{volume restricted to }(0,\infty)).
 $$
 
-The equivalence `memLp_two_iff_integrable_sq_norm` converts this into integrability of $t\mapsto\|\dot x(t)\|^2$ on $(0,\infty)$. Since the single point $0$ has measure zero, `integrableOn_Ici_iff_integrableOn_Ioi` upgrades this to integrability on $[0,\infty)$. The lemma `constrainedDIN_uniformContinuousOn_sq_integrable_tendsto_zero` then applies: a function that is uniformly continuous on $[0,\infty)$ and whose squared norm is integrable on $[0,\infty)$ must tend to $0$ at infinity. Hence
+The equivalence `memLp_two_iff_integrable_sq_norm` converts this into integrability of $`t\mapsto\|\dot x(t)\|^2`$on$(0,\infty)$. Since the single point$0$ has measure zero, `integrableOn_Ici_iff_integrableOn_Ioi` upgrades this to integrability on $[0,\infty)$. The lemma `constrainedDIN_uniformContinuousOn_sq_integrable_tendsto_zero` then applies: a function that is uniformly continuous on $[0,\infty)$ and whose squared norm is integrable on $[0,\infty)$ must tend to $0$ at infinity. Hence
 
 $$
 \dot x(t)\to 0\qquad (t\to\infty).

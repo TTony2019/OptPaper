@@ -61,13 +61,13 @@ The latter condition makes the denominator in the formula for $t_{\mathrm{init}}
 - `weight_zero` states $w_0=1$.
 - `searchIndex` is a sequence $k\mapsto s_k$ of natural numbers. For each $k$, define the base trial step
 
-$$
+```math
 B_k=
 \begin{cases}
 t_{\mathrm{init}}, & k=0,\\
 t_{k-1}, & k>0.
 \end{cases}
-$$
+```
 
 The field `step_eq_dyadic_previous` states that for every $k$,
 
@@ -75,7 +75,7 @@ $$
 t_k=2^{-s_k}B_k.
 $$
 
-Equivalently, $t_0=2^{-s_0}t_{\mathrm{init}}$, and for $k>0$, $t_k=2^{-s_k}t_{k-1}$.
+Equivalently, $t_0=2^{-s_0}t_{\mathrm{init}}$, and for $k\gt 0$, $t_k=2^{-s_k}t_{k-1}$.
 - `accepted` states that for every $k$,
 
 $$
@@ -84,20 +84,20 @@ $$
 f(y_k)-f(x_k).
 $$
 
-- `minimal_searchIndex` states that for every $k$ and every natural number $j<s_k$,
+- `minimal_searchIndex` states that for every $k$ and every natural number $j\lt s_k$,
 
-$$
+```math
 f(y_k)-f\!\left(y_k-2^{-j}B_k\,\nabla f(y_k)\right)
 <
 \frac{2^{-j}B_k}{2}\lVert \nabla f(y_k)\rVert^2.
-$$
+```
 
 Thus every smaller index $j$ fails the strict form of the acceptance condition, so $s_k$ is the first index for which the dyadic step $2^{-s_k}B_k$ satisfies the required decrease inequality.
 - `update_x` states that for every $k$,
 
-$$
+```math
 x_k=y_k-t_k\,\nabla f(y_k).
-$$
+```
 
 So $x_k$ is the gradient step from $y_k$ with step size $t_k$.
 - `update_weight` states that for every $k$,
@@ -108,7 +108,7 @@ $$
 
 - `update_y` states that for every $k$,
 
-$$
+```math
 y_{k+1}
 =x_k+\frac{w_k-1}{w_{k+1}}
 \left(
@@ -118,9 +118,9 @@ x_{-1}, & k=0,\\
 x_{k-1}, & k>0
 \end{cases}
 \right).
-$$
+```
 
-Since $x_{-1}=y_{\mathrm{init}}$ and $w_0=1$, the case $k=0$ gives $y_1=x_0$. For $k>0$, this is the momentum or extrapolation step using the previous displacement $x_k-x_{k-1}$.
+Since $x_{-1}=y_{\mathrm{init}}$ and $w_0=1$, the case $k=0$ gives $y_1=x_0$. For $k\gt 0$, this is the momentum or extrapolation step using the previous displacement $x_k-x_{k-1}$.
 
 In summary, the structure specifies data for a Nesterov-style accelerated gradient method with a dyadic backtracking line search. The line search chooses the smallest index $s_k$ such that the step $t_k=2^{-s_k}B_k$ satisfies a sufficient-decrease inequality, while all smaller indices fail strictly. The $x$-update is the corresponding gradient step, and the $y$-update is the extrapolation step using the weight recurrence. The initial step $t_{\mathrm{init}}$ is determined by the ratio of the separation of $y_{\mathrm{init}}$ and $z$ to the separation of their gradients. The declaration does not assert that such data exist or that the method converges; it packages the data and conditions that an inhabitant of the structure must satisfy.
 

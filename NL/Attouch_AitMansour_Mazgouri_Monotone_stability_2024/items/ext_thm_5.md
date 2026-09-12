@@ -15,12 +15,12 @@ abbrev ext_thm_5 {X : Type*} [NormedAddCommGroup X] [NormedSpace ℝ X] [Complet
 The declaration `ext_thm_5` is an abbreviation. It has an implicit type parameter $X$ together with the typeclass assumptions `NormedAddCommGroup X`, `NormedSpace ℝ X`, and `CompleteSpace X`. These make $X$ a complete real normed vector space, i.e. a real Banach space. It then takes:
 
 - a map $F : X \to X$;
-- a real number $L$, with hypothesis $hL : 0 < L$;
+- a real number $L$, with hypothesis $hL : 0 \lt  L$;
 - a global Lipschitz hypothesis
 
-  $$
-  hlip : \forall x,y \in X,\quad \|F(x)-F(y)\| \le L\,\|x-y\|;
-  $$
+```math
+hlip : \forall x,y \in X,\quad \|F(x)-F(y)\| \le L\,\|x-y\|;
+```
 
 - an initial point $x_0 \in X$.
 
@@ -38,7 +38,7 @@ $$
 \ \wedge\
 \mathrm{Continuous}(\mathrm{deriv} x)
 \ \wedge\
-\forall t \in \mathbb{R},\ 
+\forall t \in \mathbb{R},\
 \mathrm{deriv} x(t)=F(x(t)) \ \wedge\ x(0)=x_0 .
 $$
 
@@ -60,11 +60,11 @@ with initial condition $x(0)=x_0$. “Global” here means the solution is defin
 ## Proof explanation
 There is no separate tactic proof. The declaration is an `abbrev`, and its body is the single term
 
-$$
+```math
 \texttt{exists\_unique\_global\_solution\_of\_lipschitz } F\ L\ hL\ hlip\ x_0 .
-$$
+```
 
-That is, the claimed unique-existence statement is obtained by applying the imported result `exists_unique_global_solution_of_lipschitz` to the vector field $F$, the constant $L$, the proof $hL$ that $L>0$, the proof $hlip$ that $F$ is globally Lipschitz with constant $L$, and the initial point $x_0$.
+That is, the claimed unique-existence statement is obtained by applying the imported result `exists_unique_global_solution_of_lipschitz` to the vector field $F$, the constant $L$, the proof $hL$ that $L\gt 0$, the proof $hlip$ that $F$ is globally Lipschitz with constant $L$, and the initial point $x_0$.
 
 The visible consequence of that imported result, specialized to these arguments, is exactly the displayed unique existence of a differentiable function $x : \mathbb{R} \to X$ whose derivative is continuous and which satisfies
 

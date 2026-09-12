@@ -28,32 +28,32 @@ theorem convergence_of_splitting_inertial_proximal
 ```
 
 ## Statement explanation
-The theorem states weak convergence of an inertial proximal splitting method for a sum of two maximal monotone operators on a real Hilbert space $H$. Let $A:H\rightrightarrows H$ be a set-valued operator and let $B:H\to H$ be a single-valued map. Write $\mathrm{svEmbed}B$ for the set-valued operator $x\mapsto \{B(x)\}$, so that
+The theorem states weak convergence of an inertial proximal splitting method for a sum of two maximal monotone operators on a real Hilbert space $H$. Let $A:H\rightrightarrows H$ be a set-valued operator and let $B:H\to H$ be a single-valued map. Write $\mathrm{svEmbed}B$ for the set-valued operator $`x\mapsto \{B(x)\}`$, so that
 
-$$
+```math
 (A+\mathrm{svEmbed}B)(x)=A(x)+B(x)=\{a+B(x):a\in A(x)\}.
-$$
+```
 
 The solution set is the zero set
 
-$$
+```math
 S=(A+\mathrm{svEmbed}B).\text{zeros}
 =\{u\in H:0\in A(u)+B(u)\}.
-$$
+```
 
 Here `zeros` is the preimage of $0$ for a set-valued operator, so membership in $S$ means exactly that $0$ belongs to the value $(A+\mathrm{svEmbed}B)(u)$.
 
-The hypotheses are the following. The operator $A$ is maximal monotone, meaning it is monotone and maximal with respect to graph inclusion. The single-valued operator $B$, viewed as the set-valued operator $\mathrm{svEmbed}B$, is also maximal monotone. For a real number $\beta$, the map $B$ is assumed $\beta$-cocoercive with respect to $A$: the hypothesis packages both $0<\beta$ and the inequality
+The hypotheses are the following. The operator $A$ is maximal monotone, meaning it is monotone and maximal with respect to graph inclusion. The single-valued operator $B$, viewed as the set-valued operator $\mathrm{svEmbed}B$, is also maximal monotone. For a real number $\beta$, the map $B$ is assumed $\beta$-cocoercive with respect to $A$: the hypothesis packages both $0\lt \beta$ and the inequality
 
-$$
+```math
 \beta\|B(x)-B(y)\|^{2}\le \langle B(x)-B(y),x-y\rangle
-$$
+```
 
 for all $x\in H$ and all $y\in S$. In addition, $B$ is Lipschitz with constant $1/\beta$:
 
-$$
+```math
 \|B(x)-B(y)\|\le \frac{1}{\beta}\|x-y\|
-$$
+```
 
 for all $x,y\in H$.
 
@@ -65,10 +65,10 @@ $$
 
 The algorithm inclusion is
 
-$$
+```math
 0\in \lambda_k\,\mathrm{enl}_{A}^{\varepsilon_k}(x_{k+1})
 +\{x_{k+1}-y_k\}+\lambda_k\{B(x_k)\},
-$$
+```
 
 where $\mathrm{enl}_{A}^{\varepsilon}$ is the enlargement of $A$: a point $v$ belongs to $\mathrm{enl}_{A}^{\varepsilon}(x)$ when
 
@@ -78,7 +78,7 @@ $$
 
 for every $z\in H$ and every $u\in A(z)$. Thus the algorithm uses an approximate inclusion for $A$, with error $\varepsilon_k$, and an explicit evaluation of $B$ at $x_k$.
 
-The step sizes are assumed to satisfy uniform bounds: there exist $\delta>0$ and $\lambda_{\text{under}}>0$ such that for every $k\ge 1$,
+The step sizes are assumed to satisfy uniform bounds: there exist $\delta\gt 0$ and $\lambda_{\text{under}}\gt 0$ such that for every $k\ge 1$,
 
 $$
 \lambda_{\text{under}}\le \lambda_k\le 2\beta-\delta.
@@ -99,9 +99,9 @@ $$
 
 There is also a summability condition on the inertial increments:
 
-$$
+```math
 \sum_k \theta_{k+1}\|x_{k+1}-x_k\|^{2}<\infty.
-$$
+```
 
 The zero set is assumed nonempty:
 
@@ -111,9 +111,9 @@ $$
 
 Finally, consecutive differences tend to zero:
 
-$$
+```math
 \|x_{n+1}-x_n\|\to 0.
-$$
+```
 
 The conclusion is that there exists $x^*\in S$, i.e.
 
@@ -219,30 +219,30 @@ The proof proceeds by extracting the numerical parameters, proving several unifo
 
 First, the proof destructs the existential hypotheses. From
 
-$$
+```math
 \exists \delta\,\exists \lambda_{\text{under}},\quad
 0<\lambda_{\text{under}}\land 0<\delta\land
 \forall k\ge1,\ \lambda_{\text{under}}\le\lambda_k\le2\beta-\delta,
-$$
+```
 
-it obtains $\delta$, $\lambda_{\text{under}}$, the positivity facts $0<\lambda_{\text{under}}$ and $0<\delta$, and the pointwise bounds
+it obtains $\delta$, $\lambda_{\text{under}}$, the positivity facts $0\lt \lambda_{\text{under}}$ and $0\lt \delta$, and the pointwise bounds
 
 $$
 \lambda_{\text{under}}\le\lambda_k,\qquad
 \lambda_k\le2\beta-\delta
 $$
 
-for $k\ge1$. From the hypothesis on $\theta$ it obtains $\theta_{\max}$, the inequalities $0\le\theta_{\max}<1$, and
+for $k\ge1$. From the hypothesis on $\theta$ it obtains $\theta_{\max}$, the inequalities $0\le\theta_{\max}\lt 1$, and
 
 $$
 0\le\theta_k\le\theta_{\max}\qquad(k\ge1).
 $$
 
-From `hB_coco` it obtains $0<\beta$ and the cocoercivity inequality, which is later passed to the key estimate.
+From `hB_coco` it obtains $0\lt \beta$ and the cocoercivity inequality, which is later passed to the key estimate.
 
-The proof then derives $0<2\beta$ by `linarith` from $0<\beta$. This is a linear arithmetic consequence used to justify denominators such as $2\beta$.
+The proof then derives $0\lt 2\beta$ by `linarith` from $0\lt \beta$. This is a linear arithmetic consequence used to justify denominators such as $2\beta$.
 
-Next, the proof establishes that the sum $A+\mathrm{svEmbed}B$ is maximal monotone. It invokes `maximalMonotone_add_svEmbed_of_lipschitz`, whose mathematical content is: if $A$ is maximal monotone, if $\beta>0$, if $\mathrm{svEmbed}B$ is monotone, and if $B$ is Lipschitz with constant $1/\beta$, then the sum $A+\mathrm{svEmbed}B$ is maximal monotone. In the proof, the monotonicity of $\mathrm{svEmbed}B$ is the first component `hB_max.1` of the maximal monotonicity of $\mathrm{svEmbed}B$. Thus `h_sum_max` records that
+Next, the proof establishes that the sum $A+\mathrm{svEmbed}B$ is maximal monotone. It invokes `maximalMonotone_add_svEmbed_of_lipschitz`, whose mathematical content is: if $A$ is maximal monotone, if $\beta\gt 0$, if $\mathrm{svEmbed}B$ is monotone, and if $B$ is Lipschitz with constant $1/\beta$, then the sum $A+\mathrm{svEmbed}B$ is maximal monotone. In the proof, the monotonicity of $\mathrm{svEmbed}B$ is the first component `hB_max.1` of the maximal monotonicity of $\mathrm{svEmbed}B$. Thus `h_sum_max` records that
 
 $$
 A+\mathrm{svEmbed}B
@@ -250,7 +250,7 @@ $$
 
 is maximal monotone. This fact is used later to know that weak sequential cluster points of the algorithm belong to the solution set.
 
-The proof then records lower and upper bounds for $\lambda$. Since $\lambda_{\text{under}}\le\lambda_k$ and $\lambda_{\text{under}}>0$, it gets
+The proof then records lower and upper bounds for $\lambda$. Since $\lambda_{\text{under}}\le\lambda_k$ and $\lambda_{\text{under}}\gt 0$, it gets
 
 $$
 0<\lambda_k\qquad(k\ge1)
@@ -275,7 +275,7 @@ $$
 \eta_k=1-\frac{\lambda_k}{2\beta}
 $$
 
-is then introduced. The proof establishes three properties of $\eta$. First, using `eta_lower_bound`, whose content is that if $\beta>0$, $\lambda_k\le2\beta-\delta$, and $\eta_k=1-\lambda_k/(2\beta)$, then
+is then introduced. The proof establishes three properties of $\eta$. First, using `eta_lower_bound`, whose content is that if $\beta\gt 0$, $\lambda_k\le2\beta-\delta$, and $\eta_k=1-\lambda_k/(2\beta)$, then
 
 $$
 \frac{\delta}{2\beta}\le\eta_k\qquad(k\ge1),
@@ -295,19 +295,19 @@ $$
 =\frac{\delta}{2\beta}.
 $$
 
-Second, using `eta_positive_of_lower`, whose content is that if $\beta>0$, $\delta>0$, and $\eta_k\ge\delta/(2\beta)$ for $k\ge1$, then $\eta_k>0$, it obtains
+Second, using `eta_positive_of_lower`, whose content is that if $\beta\gt 0$, $\delta\gt 0$, and $\eta_k\ge\delta/(2\beta)$ for $k\ge1$, then $\eta_k\gt 0$, it obtains
 
 $$
 0<\eta_k\qquad(k\ge1).
 $$
 
-Third, using `eta_le_one`, whose content is that if $\beta>0$, $\lambda_k\ge0$, and $\eta_k=1-\lambda_k/(2\beta)$, then $\eta_k\le1$, it obtains
+Third, using `eta_le_one`, whose content is that if $\beta\gt 0$, $\lambda_k\ge0$, and $\eta_k=1-\lambda_k/(2\beta)$, then $\eta_k\le1$, it obtains
 
 $$
 \eta_k\le1\qquad(k\ge1).
 $$
 
-The proof also records $\eta_k\ge0$ from $\eta_k>0$.
+The proof also records $\eta_k\ge0$ from $\eta_k\gt 0$.
 
 From these bounds, the proof derives
 
@@ -315,22 +315,22 @@ $$
 \theta_k+\eta_k\le2\qquad(k\ge1).
 $$
 
-The reasoning is: $\theta_k\le\theta_{\max}<1$ and $\eta_k\le1$, so $\theta_k+\eta_k<2$, hence certainly $\theta_k+\eta_k\le2$. The tactic `linarith` combines the relevant inequalities.
+The reasoning is: $\theta_k\le\theta_{\max}\lt 1$ and $\eta_k\le1$, so $\theta_k+\eta_k\lt 2$, hence certainly $\theta_k+\eta_k\le2$. The tactic `linarith` combines the relevant inequalities.
 
 The energy function is then defined by
 
-$$
+```math
 \phi(z,k)=\frac12\|z-x_k\|^{2}.
-$$
+```
 
 This is the squared-distance or Fejér energy measuring how far the current iterate is from a candidate solution $z$.
 
 The algorithm inclusion is unpacked using `splitting_algorithm_unpack`. The mathematical content of that lemma is: if for every $k\ge1$,
 
-$$
+```math
 0\in \lambda_k\,\mathrm{enl}_{A}^{\varepsilon_k}(x_{k+1})
 +\{x_{k+1}-y_k\}+\lambda_k\{B(x_k)\},
-$$
+```
 
 then for every $k\ge1$ there exists
 
@@ -368,7 +368,7 @@ Indeed, $z\in S$ means $0\in A(z)+B(z)$, so some $a_z\in A(z)$ satisfies $a_z+B(
 
 The key estimate is then produced by `splitting_key_ineq`. Specialized to the current notation, it says: under the inertial relation for $y_k$, the unpacked algorithm inclusion, the cocoercivity estimate for $B$, the representation of points of $S$, the positivity of $\beta$, the nonnegativity of $\lambda_k$, the positivity of $\eta_k$, the inequality $\theta_k+\eta_k\le2$, the nonnegativity of $\theta_k$, the definition of $\eta$, and the definition of $\phi$, one has for every $z\in S$ and every $k\ge1$
 
-$$
+```math
 \begin{aligned}
 &\phi(z,k+1)-\phi(z,k)-\theta_k\bigl(\phi(z,k)-\phi(z,k-1)\bigr)\\
 &\qquad\le
@@ -379,32 +379,32 @@ x_{k+1}-x_k-\frac{\theta_k}{\eta_k}(x_k-x_{k-1})
 +\frac{\theta_k}{\eta_k}\|x_k-x_{k-1}\|^{2}
 +\lambda_k\varepsilon_k.
 \end{aligned}
-$$
+```
 
 This is the central energy inequality. It controls the difference between successive squared distances and the inertial correction by a negative square term plus an error term. The proof supplies the required definition of $\phi$ by rewriting with `rw [hphi_def]`.
 
 Next, the proof defines
 
-$$
+```math
 \sigma_k=\frac{\theta_k}{\eta_k}\|x_k-x_{k-1}\|^{2}+\lambda_k\varepsilon_k.
-$$
+```
 
-It proves that $\sigma$ is summable using `sigma_sum_summable`. The mathematical content of that lemma is: if $\beta>0$, $\delta>0$, $\eta_k\ge\delta/(2\beta)$, $\eta_k>0$, $\lambda_k\ge0$, $\lambda_k\le2\beta$, $\theta_k\ge0$, $\varepsilon$ is summable and nonnegative, and
+It proves that $\sigma$ is summable using `sigma_sum_summable`. The mathematical content of that lemma is: if $\beta\gt 0$, $\delta\gt 0$, $\eta_k\ge\delta/(2\beta)$, $\eta_k\gt 0$, $\lambda_k\ge0$, $\lambda_k\le2\beta$, $\theta_k\ge0$, $\varepsilon$ is summable and nonnegative, and
 
-$$
+```math
 \sum_k \theta_{k+1}\|x_{k+1}-x_k\|^{2}<\infty,
-$$
+```
 
 then
 
-$$
+```math
 \sum_k\left(
 \frac{\theta_k}{\eta_k}\|x_k-x_{k-1}\|^{2}
 +\lambda_k\varepsilon_k
 \right)<\infty.
-$$
+```
 
-In the proof, the hypothesis $\lambda_k\le2\beta$ is obtained from $\lambda_k\le2\beta-\delta$ and $\delta>0$ by `linarith`. The command `simpa [σ_sum]` unfolds the local definition of $\sigma$ so that the lemma applies exactly. The summability of $\sigma$ implies
+In the proof, the hypothesis $\lambda_k\le2\beta$ is obtained from $\lambda_k\le2\beta-\delta$ and $\delta\gt 0$ by `linarith`. The command `simpa [σ_sum]` unfolds the local definition of $\sigma$ so that the lemma applies exactly. The summability of $\sigma$ implies
 
 $$
 \sigma_k\to0,
@@ -412,12 +412,12 @@ $$
 
 recorded as `h_sigma_tendsto_zero`. This is a standard consequence of convergence of a series, and here it expresses that the inertial error plus approximation error tends to zero. In the displayed final argument this particular consequence is not used directly, but it is part of the quantitative analysis.
 
-The proof then applies `distance_to_solution_tendsto`. Its mathematical content is: under the hypotheses $\beta>0$, $\delta>0$, $0\le\theta_{\max}<1$, $\lambda_k\ge0$, $\lambda_k\le2\beta$, $0\le\theta_k\le\theta_{\max}$, $\eta_k\ge\delta/(2\beta)$, $\eta_k>0$, $\varepsilon$ summable and nonnegative, the weighted-increment summability, the definition $\phi(z,k)=\frac12\|z-x_k\|^{2}$, and the key inequality, one has for every $z\in S$
+The proof then applies `distance_to_solution_tendsto`. Its mathematical content is: under the hypotheses $\beta\gt 0$, $\delta\gt 0$, $0\le\theta_{\max}\lt 1$, $\lambda_k\ge0$, $\lambda_k\le2\beta$, $0\le\theta_k\le\theta_{\max}$, $\eta_k\ge\delta/(2\beta)$, $\eta_k\gt 0$, $\varepsilon$ summable and nonnegative, the weighted-increment summability, the definition $`\phi(z,k)=\frac12\|z-x_k\|^{2}`$, and the key inequality, one has for every$z\in S$
 
-$$
+```math
 \exists l\in\mathbb R,\qquad
 \|x_n-z\|\to l.
-$$
+```
 
 In other words, the distance from the iterates to every element of the solution set converges to a finite limit. This is exactly the first condition required by Opial’s lemma. The proof supplies the needed step-size inequality $\lambda_k\le2\beta$ by `linarith`, and supplies the definition of $\phi$ by rewriting with `hphi_def`.
 
@@ -427,11 +427,11 @@ $$
 x_{k+1}-y_k+\lambda_k B(x_k)=-\lambda_k a_k,
 $$
 
-if $\lambda_{\text{under}}>0$, if $\lambda_k>0$ and $\lambda_k\ge\lambda_{\text{under}}$, if $\theta_{\max}\ge0$, if $\theta_k\ge0$ and $\theta_k\le\theta_{\max}$, if $\varepsilon$ is summable, if $B$ is Lipschitz with constant $1/\beta$, and if
+if $\lambda_{\text{under}}\gt 0$, if $\lambda_k\gt 0$ and $\lambda_k\ge\lambda_{\text{under}}$, if $\theta_{\max}\ge0$, if $\theta_k\ge0$ and $\theta_k\le\theta_{\max}$, if $\varepsilon$ is summable, if $B$ is Lipschitz with constant $1/\beta$, and if
 
-$$
+```math
 \|x_{n+1}-x_n\|\to0,
-$$
+```
 
 then every weak sequential cluster point of the sequence $x_k$ lies in $S$. Formally, for every $z\in H$,
 
@@ -441,17 +441,17 @@ $$
 \Longrightarrow z\in S.
 $$
 
-The proof supplies exactly these hypotheses from the previously established facts: $h_{\text{sum\_max}}$, the monotonicity components of $A$ and $\mathrm{svEmbed}B$, the unpacked algorithm, the lower bounds on $\lambda$, the bounds on $\theta$, the summability of $\varepsilon$, the Lipschitz condition for $B$, and the convergence to zero of consecutive differences. Thus it obtains
+The proof supplies exactly these hypotheses from the previously established facts: $`h_{\text{sum\_max}}`$, the monotonicity components of$A$and$\mathrm{svEmbed}B$, the unpacked algorithm, the lower bounds on$\lambda$, the bounds on$\theta$, the summability of$\varepsilon$, the Lipschitz condition for$B$, and the convergence to zero of consecutive differences. Thus it obtains
 
-$$
+```math
 h_{\text{cluster\_in\_S}}:
 \forall z,\quad
 \text{IsSequentialClusterPt}
 \bigl((\mathrm{toWeakSpace}x_k)_k,\mathrm{toWeakSpace}z\bigr)
 \Rightarrow z\in S.
-$$
+```
 
-Finally, the proof invokes Opial’s lemma. The mathematical content of `opial_lemma` is: if $C\subseteq H$ is nonempty, if for every $z\in C$ the sequence $\|x_n-z\|$ converges in $\mathbb R$, and if every weak sequential cluster point of $x_n$ belongs to $C$, then there exists $z\in C$ such that $x_n$ converges weakly to $z$. The proof applies this with $C=S$. The nonemptiness condition is $hS_{\text{nonempty}}'$, the distance convergence condition is `h_dist_exists`, and the cluster-point condition is `h_cluster_in_S`. The command `exact opial_lemma hS_nonempty' x h_dist_exists h_cluster_in_S` therefore produces
+Finally, the proof invokes Opial’s lemma. The mathematical content of `opial_lemma` is: if $C\subseteq H$ is nonempty, if for every $z\in C$ the sequence $`\|x_n-z\|`$converges in$\mathbb R$, and if every weak sequential cluster point of$x_n$belongs to$C$, then there exists$z\in C$such that$x_n$converges weakly to$z$. The proof applies this with$C=S$. The nonemptiness condition is$hS_{\text{nonempty}}'$, the distance convergence condition is `h_dist_exists`, and the cluster-point condition is `h_cluster_in_S`. The command `exact opial_lemma hS_nonempty' x h_dist_exists h_cluster_in_S` therefore produces
 
 $$
 \exists x^*\in S,\qquad

@@ -17,9 +17,9 @@ The declaration `cluster_set_properties_of_vanishing_increments` is a theorem ab
 
 The two hypotheses are as follows. First, `hbounded : Bornology.IsBounded (Set.range z)` says that the set of values
 
-$$
+```math
 \mathrm{range}(z)=\{z_n:n\in\mathbb N\}
-$$
+```
 
 is bounded. Second, `hincrements` says that
 
@@ -31,9 +31,9 @@ i.e. the consecutive forward differences $z_{n+1}-z_n$ tend to the zero vector i
 
 For a sequence in a topological space, `omega z` is defined in `ext_def_5.lean` as the set of sequential cluster points of $z$. The lemma `omega_eq_mapClusterPt` states that, when the ambient space is first-countable, this set equals the set of map-cluster points
 
-$$
+```math
 C_z=\{x:\mathrm{MapClusterPt} x \mathrm{atTop} z\}.
-$$
+```
 
 Since $E_m$ is a metric space and hence first-countable, this equality applies here. Conceptually, $\omega(z)$ is the cluster set of the sequence: the points $x$ such that every neighborhood of $x$ contains $z_n$ for infinitely many $n$, equivalently the limits of subsequences of $z$.
 
@@ -93,9 +93,9 @@ This is the intermediate fact `hstep`. The algebraic lemmas mentioned are not do
 
 Next the proof applies the cited theorem `sequenceClusterPointSet_isCompact_isConnected` with $x=z$, using `hbounded` and `hstep`. That theorem says that for a bounded sequence $x$ in the Hilbert-space setting in which it is stated, if $x_n-x_{n+1}\to0$, then the set
 
-$$
+```math
 C_x=\{y:\mathrm{MapClusterPt} y \mathrm{atTop} x\}
-$$
+```
 
 is compact and connected. Specialized to $x=z$, it gives
 
@@ -105,9 +105,9 @@ $$
 
 where
 
-$$
+```math
 C_z=\{y:\mathrm{MapClusterPt} y \mathrm{atTop} z\}.
-$$
+```
 
 This conjunction is named `hcluster`.
 

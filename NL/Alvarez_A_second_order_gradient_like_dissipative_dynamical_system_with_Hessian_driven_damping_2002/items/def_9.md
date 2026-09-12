@@ -14,7 +14,7 @@ theorem rescaled_gDIN_iff_gradient_system
 ```
 
 ## Statement explanation
-The declaration is a theorem about two predicates on curves in a real Hilbert space $H$. The typeclass assumptions say that $H$ is a complete real inner product space, i.e. a real Hilbert space. The map $\Phi:H\to\mathbb R$ is the potential. The real parameters $\beta,a,b$ satisfy $a>0$ and $b>0$, while $\beta$ is unrestricted. The hypothesis $h\Phi$ says that $\Phi$ is $C^1$, i.e. continuously Fréchet differentiable to order one. The points $x_0,z_0\in H$ are initial data, and $x,z:\mathbb R\to H$ are two curves, thought of as time-dependent trajectories in $H$.
+The declaration is a theorem about two predicates on curves in a real Hilbert space $H$. The typeclass assumptions say that $H$ is a complete real inner product space, i.e. a real Hilbert space. The map $\Phi:H\to\mathbb R$ is the potential. The real parameters $\beta,a,b$ satisfy $a\gt 0$ and $b\gt 0$, while $\beta$ is unrestricted. The hypothesis $h\Phi$ says that $\Phi$ is $C^1$, i.e. continuously Fréchet differentiable to order one. The points $x_0,z_0\in H$ are initial data, and $x,z:\mathbb R\to H$ are two curves, thought of as time-dependent trajectories in $H$.
 
 The conclusion is the equivalence
 
@@ -28,17 +28,17 @@ The proof shows that `IsRescaledGDINTrajectory` consists of four pieces: a first
 
 The two energy differentiability assertions are precisely the ones supplied by the cited lemmas. For the first argument, the derivative of $v\mapsto \mathrm{gradientSystemEnergy}(\Phi,\beta,a,b,v,w)$ at $u$ is the continuous linear functional
 
-$$
+```math
 v \mapsto \bigl\langle \beta \nabla \Phi(u)+a u+\sqrt{ab}\,w,\; v\bigr\rangle .
-$$
+```
 
 For the second argument, the derivative of $v\mapsto \mathrm{gradientSystemEnergy}(\Phi,\beta,a,b,u,v)$ at $w$ is the continuous linear functional
 
-$$
+```math
 v \mapsto \bigl\langle \sqrt{ab}\,u+b w,\; v\bigr\rangle .
-$$
+```
 
-Thus the theorem says that, under $a>0$, $b>0$, and $C^1$ regularity of $\Phi$, the notion of a rescaled gDIN trajectory is exactly the same as the notion of a gradient-system trajectory. The only apparent extra condition on the gradient-system side is the differentiability of the energy; the theorem proves that this condition is automatic from $\Phi$ being $C^1$, while the differential equations agree coordinate by coordinate.
+Thus the theorem says that, under $a\gt 0$, $b\gt 0$, and $C^1$ regularity of $\Phi$, the notion of a rescaled gDIN trajectory is exactly the same as the notion of a gradient-system trajectory. The only apparent extra condition on the gradient-system side is the differentiability of the energy; the theorem proves that this condition is automatic from $\Phi$ being $C^1$, while the differential equations agree coordinate by coordinate.
 
 ## Lean proof
 ```lean
@@ -81,15 +81,15 @@ For the forward implication, `rintro ⟨hx, hz, hx₀, hz₀⟩` decomposes a re
 
 The first remaining goal is the energy differentiability component. For a fixed time $t$ with domain membership `ht`, the proof uses the pair
 
-$$
+```math
 \bigl\langle
 \text{gradientSystemEnergy\_hasFDerivAt\_fst}\ \Phi\ \beta\ a\ b\ ha\ hb\ hgrad\Phi\ (x t)\ (z t),
 \;
 \text{gradientSystemEnergy\_hasFDerivAt\_snd}\ \Phi\ \beta\ a\ b\ ha\ hb\ (x t)\ (z t)
 \bigr\rangle .
-$$
+```
 
-The first cited lemma, applied with $u=x(t)$ and $w=z(t)$, uses $a>0$, $b>0$, and the previously established `hgradΦ`. It concludes that the function
+The first cited lemma, applied with $u=x(t)$ and $w=z(t)$, uses $a\gt 0$, $b\gt 0$, and the previously established `hgradΦ`. It concludes that the function
 
 $$
 v\mapsto \mathrm{gradientSystemEnergy}(\Phi,\beta,a,b,v,z(t))
@@ -97,9 +97,9 @@ $$
 
 has Fréchet derivative at $x(t)$ equal to
 
-$$
+```math
 v\mapsto \bigl\langle \beta\nabla\Phi(x(t))+a x(t)+\sqrt{ab}\,z(t),\; v\bigr\rangle .
-$$
+```
 
 The second cited lemma, applied with the same $u=x(t)$ and $w=z(t)$, concludes that the function
 
@@ -109,9 +109,9 @@ $$
 
 has Fréchet derivative at $z(t)$ equal to
 
-$$
+```math
 v\mapsto \bigl\langle \sqrt{ab}\,x(t)+b z(t),\; v\bigr\rangle .
-$$
+```
 
 Together these two facts are exactly the two partial differentiability assertions required by `IsGradientSystemTrajectory`.
 

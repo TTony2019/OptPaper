@@ -170,7 +170,7 @@ by
 ```
 
 ## Proof explanation
-The proof first derives the hidden fact $F(0)=0$. It applies positive homogeneity to the scalar $2>0$ and the vector $0$, obtaining
+The proof first derives the hidden fact $F(0)=0$. It applies positive homogeneity to the scalar $2\gt 0$ and the vector $0$, obtaining
 
 $$
 F(2\cdot 0)=2F(0).
@@ -182,9 +182,9 @@ Next the proof obtains continuity and lower semicontinuity. Since $F$ is convex 
 
 The proof then invokes `hconv.real_univ_sSup_affine_eq hlsc`. The concrete content used here is that a convex lower semicontinuous real-valued function on the whole finite-dimensional space is the pointwise supremum of all affine continuous functions lying below it. Later the proof defines
 
-$$
+```math
 A=\{g:E\to\mathbb R \mid g\le F \text{ and } \exists L\in E\to_L[\mathbb R]\mathbb R,\ \exists c\in\mathbb R,\ g=L+c\}.
-$$
+```
 
 The equality `haffineA : sSup A = F` records exactly this affine-supremum representation.
 
@@ -216,9 +216,9 @@ $$
 
 for every $v\in E$. Therefore the subdifferential is the intersection over $v\in E$ of the sets
 
-$$
+```math
 \{l\in E \mid F(0)+\langle l,v-0\rangle\le F(v)\}.
-$$
+```
 
 Each such set is closed because $l\mapsto F(0)+\langle l,v-0\rangle$ and the constant function $F(v)$ are continuous; this is what `apply isClosed_le` with `fun_prop` verifies. Then `isClosed_iInter` gives closedness of the whole intersection.
 
@@ -234,13 +234,13 @@ $$
 |F(x)|\le B.
 $$
 
-Using this bound, the proof shows that every subgradient $l\in\partial F(0)$ satisfies $\|l\|\le B$. If $l=0$, this is immediate. Otherwise set
+Using this bound, the proof shows that every subgradient $l\in\partial F(0)$ satisfies $`\|l\|\le B`$. If$l=0$, this is immediate. Otherwise set
 
-$$
+```math
 q=\frac{1}{\|l\|}l.
-$$
+```
 
-Then $\|q\|=1$, so $q$ lies in the closed unit ball. Since $l$ is a subgradient at $0$,
+Then $`\|q\|=1`$, so$q$lies in the closed unit ball. Since$l$is a subgradient at$0$,
 
 $$
 F(0)+\langle l,q-0\rangle\le F(q).
@@ -254,14 +254,14 @@ $$
 
 But
 
-$$
+```math
 \langle l,q\rangle
 =\left\langle l,\frac{1}{\|l\|}l\right\rangle
 =\frac{1}{\|l\|}\langle l,l\rangle
 =\|l\|.
-$$
+```
 
-Therefore $\|l\|\le B$. Thus
+Therefore $`\|l\|\le B`$. Thus
 
 $$
 \partial\bigl(y\mapsto (F(y))_{\mathbb R}\bigr)(0)\subseteq \overline B(0,B).

@@ -24,23 +24,23 @@ The declaration states a demiclosedness property of the epsilon-enlargement of a
 4. $\epsilon_j\ge0$ for every $j$.
 5. For every $j$,
 
-   $$
-   v_j\in T^{\epsilon_j}(y_j),
-   $$
+$$
+v_j\in T^{\epsilon_j}(y_j),
+$$
 
    where $T^\epsilon$ is the epsilon-enlargement of $T$, defined by
 
-   $$
-   T^\epsilon(x)
-   =\{\,v\in H:\forall z,w,\ w\in T(z)\Rightarrow
-   \langle w-v,z-x\rangle\ge-\epsilon\,\}.
-   $$
+```math
+T^\epsilon(x)
+=\{\,v\in H:\forall z,w,\ w\in T(z)\Rightarrow
+\langle w-v,z-x\rangle\ge-\epsilon\,\}.
+```
 
    Equivalently,
 
-   $$
-   \langle w-v_j,z-y_j\rangle\ge-\epsilon_j
-   $$
+$$
+\langle w-v_j,z-y_j\rangle\ge-\epsilon_j
+$$
 
    for every $z$ and every $w\in T(z)$.
 
@@ -173,31 +173,31 @@ $$
 -\epsilon_j\le \langle y_j-z,v_j-w\rangle.
 $$
 
-Next the proof needs a uniform bound on the weakly convergent sequence $y_j$. It invokes `bounded_range_of_tendsto_weakly` on the weak convergence hypothesis $y_j\rightharpoonup y_\infty$. That lemma states that a weakly convergent sequence in a Hilbert space has bounded range. Therefore the set $\{y_j:j\in\mathbb N\}$ is bounded. Since a set in a normed space is bounded exactly when some $M$ bounds the norms of all its elements, the proof extracts $M$ such that
+Next the proof needs a uniform bound on the weakly convergent sequence $y_j$. It invokes `bounded_range_of_tendsto_weakly` on the weak convergence hypothesis $y_j\rightharpoonup y_\infty$. That lemma states that a weakly convergent sequence in a Hilbert space has bounded range. Therefore the set $`\{y_j:j\in\mathbb N\}`$is bounded. Since a set in a normed space is bounded exactly when some$M$bounds the norms of all its elements, the proof extracts$M$ such that
 
-$$
+```math
 \|y_j\|\le M
-$$
+```
 
 for every $j$. Then it proves
 
-$$
+```math
 \|y_j-y_\infty\|\le M+\|y_\infty\|,
-$$
+```
 
 using the triangle inequality
 
-$$
+```math
 \|y_j-y_\infty\|\le \|y_j\|+\|y_\infty\|
-$$
+```
 
 and monotonicity of addition. The tactic `gcongr` is used for that monotone inequality step.
 
 From the strong convergence $v_j\to v_\infty$, the proof also obtains
 
-$$
+```math
 \|v_j-v_\infty\|\to0.
-$$
+```
 
 First $v_j-v_\infty\to0$ by subtracting the constant $v_\infty$, and then the equivalence between convergence of a sequence to $0$ and convergence of its norms to $0$ gives the stated norm convergence.
 
@@ -209,19 +209,19 @@ $$
 
 For each $j$, Cauchy–Schwarz gives
 
-$$
+```math
 |\langle y_j-y_\infty,v_j-v_\infty\rangle|
 \le
 \|y_j-y_\infty\|\,\|v_j-v_\infty\|.
-$$
+```
 
-Using the bound $\|y_j-y_\infty\|\le M+\|y_\infty\|$, this is at most
+Using the bound $`\|y_j-y_\infty\|\le M+\|y_\infty\|`$, this is at most
 
-$$
+```math
 (M+\|y_\infty\|)\,\|v_j-v_\infty\|.
-$$
+```
 
-The right-hand side tends to $0$ because $\|v_j-v_\infty\|\to0$ and $M+\|y_\infty\|$ is a constant. The squeeze theorem for norms, `squeeze_zero_norm`, then yields
+The right-hand side tends to $0$ because $`\|v_j-v_\infty\|\to0`$and$`M+\|y_\infty\|`$ is a constant. The squeeze theorem for norms, `squeeze_zero_norm`, then yields
 
 $$
 \langle y_j-y_\infty,v_j-v_\infty\rangle\to0.

@@ -32,7 +32,7 @@ $$
 
 the vector $s_n$ is the four-term expression
 
-$$
+```math
 \begin{aligned}
 s_n={}&
 \frac{1}{\lambda_n}\bigl(\nabla u(x_n)-\nabla u(p_n)\bigr)
@@ -41,7 +41,7 @@ s_n={}&
 +\frac{\alpha_n\lambda_{n-1}}{\lambda_n}
 \bigl(\nabla h(x_{n-1})-\nabla h(p_{n-1})\bigr).
 \end{aligned}
-$$
+```
 
 The first conclusion is that
 
@@ -53,16 +53,16 @@ where $\partial_L$ is the limiting subdifferential. Concretely, the cited defini
 
 The second conclusion is the norm estimate
 
-$$
+```math
 \|s_n\|
 \le
 \left(\frac{L_u}{\lambda_n}+L_h\right)\|x_n-p_n\|
 +\frac{\alpha_n}{\lambda_n}
 \left(1+\lambda_{n-1}L_h\right)
 \|x_{n-1}-p_{n-1}\|.
-$$
+```
 
-So the vector $s_n$ is both a limiting subgradient of the objective at $p_n$ and is controlled in norm by the two previous displacement quantities $\|x_n-p_n\|$ and $\|x_{n-1}-p_{n-1}\|$, with coefficients built from the algorithm steps $\lambda_n,\lambda_{n-1},\alpha_n$ and the constants $L_u,L_h$.
+So the vector $s_n$ is both a limiting subgradient of the objective at $p_n$ and is controlled in norm by the two previous displacement quantities $`\|x_n-p_n\|`$and$`\|x_{n-1}-p_{n-1}\|`$, with coefficients built from the algorithm steps$\lambda_n,\lambda_{n-1},\alpha_n$and the constants$L_u,L_h$.
 
 ## Lean proof
 ```lean
@@ -167,14 +167,14 @@ exact ⟨hmembership, subgradientEstimateVector_norm_bound A hn⟩
 ```
 The anonymous constructor $\langle\cdot,\cdot\rangle$ builds a proof of a conjunction. The first component is `hmembership`, the limiting-subgradient statement just proved. The second component is supplied by the cited theorem `subgradientEstimateVector_norm_bound`. That theorem states, for $2\le n$,
 
-$$
+```math
 \|\mathrm{subgradientEstimateVector}(A,n)\|
 \le
 \left(\frac{L_u}{\lambda_n}+L_h\right)\|x_n-p_n\|
 +\frac{\alpha_n}{\lambda_n}
 \left(1+\lambda_{n-1}L_h\right)
 \|x_{n-1}-p_{n-1}\|.
-$$
+```
 
 This is exactly the second required conjunct. Therefore the conjunction for this arbitrary $n\ge2$ is proved, and since $n$ was arbitrary, the original universally quantified statement follows. No use of `simp` or `linarith` occurs in the proof; the main logical steps are arithmetic weakening by `omega`, rewriting by `rw`, and direct term closure by `exact`.
 

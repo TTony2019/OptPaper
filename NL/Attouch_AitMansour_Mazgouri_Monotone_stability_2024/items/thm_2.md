@@ -18,17 +18,17 @@ theorem thm_2 {H M : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 ## Statement explanation
 The declaration `thm_2` is a quantitative stability estimate for a parameter-dependent family of second-order evolution equations in a real inner product space. The type $H$ is the state space, equipped with a norm and real inner product, and $M$ is a normed parameter space. A subset $V\subseteq M$ indexes the parameters for which the assumptions are imposed. For each parameter $\mu$, the operator $A_\mu:H\to H$ is given by $A_\mu u=A(\mu,u)$. The real number $\gamma$ is the damping coefficient in the evolution equation, while $x_\mu,dx_\mu,ddx_\mu:\mathbb R\to H$ are the position, velocity, and acceleration components of a solution. The maps $u_{0,\mu},v_{0,\mu}\in H$ are initial position and velocity, and $\alpha_\mu\in\mathbb R$ is the cocoercivity modulus of $A_\mu$.
 
-The hypotheses are as follows. First, $r>0$ and $T>0$. Second, for every $\mu\in V$, the modulus is positive, $\alpha_\mu>0$, and $A_\mu$ is $\alpha_\mu$-cocoercive: for all $u,v\in H$,
+The hypotheses are as follows. First, $r\gt 0$ and $T\gt 0$. Second, for every $\mu\in V$, the modulus is positive, $\alpha_\mu\gt 0$, and $A_\mu$ is $\alpha_\mu$-cocoercive: for all $u,v\in H$,
 
-$$
+```math
 \alpha_\mu\|A_\mu u-A_\mu v\|^2\le \langle A_\mu u-A_\mu v,u-v\rangle .
-$$
+```
 
-Third, for every $\mu\in V$, the predicate `ext_def_2` holds for the tuple $(A_\mu,\gamma,u_{0,\mu},v_{0,\mu},x_\mu,dx_\mu,ddx_\mu)$. The proof does not expand this predicate directly; it uses the cited lemma `solution_data`, which extracts from it that $\gamma>0$, that $x_\mu$ and $dx_\mu$ are absolutely continuous on the interval $0\le t\le T$, that $x_\mu(0)=u_{0,\mu}$ and $dx_\mu(0)=v_{0,\mu}$, and that almost everywhere for $t\ge0$ one has
+Third, for every $\mu\in V$, the predicate `ext_def_2` holds for the tuple $(A_\mu,\gamma,u_{0,\mu},v_{0,\mu},x_\mu,dx_\mu,ddx_\mu)$. The proof does not expand this predicate directly; it uses the cited lemma `solution_data`, which extracts from it that $\gamma\gt 0$, that $x_\mu$ and $dx_\mu$ are absolutely continuous on the interval $0\le t\le T$, that $x_\mu(0)=u_{0,\mu}$ and $dx_\mu(0)=v_{0,\mu}$, and that almost everywhere for $t\ge0$ one has
 
-$$
+```math
 ddx_\mu(t)+\gamma\,dx_\mu(t)+A_\mu(x_\mu(t))=0,
-$$
+```
 
 together with the derivative relations
 
@@ -36,7 +36,7 @@ $$
 x_\mu'(t)=dx_\mu(t),\qquad dx_\mu'(t)=ddx_\mu(t).
 $$
 
-Fourth, for every $\mu\in V$, almost every $t\in[0,T]$ satisfies $\|x_\mu(t)\|\le r$, so the trajectory remains in the closed ball of radius $r$ almost everywhere on the time interval.
+Fourth, for every $\mu\in V$, almost every $t\in[0,T]$ satisfies $`\|x_\mu(t)\|\le r`$, so the trajectory remains in the closed ball of radius$r$ almost everywhere on the time interval.
 
 The conclusion is that for all $\mu,\mu'\in V$, after defining
 
@@ -48,13 +48,13 @@ $$
 
 the following estimate holds for almost every $t\in[0,T]$:
 
-$$
+```math
 \|x_\mu(t)-x_{\mu'}(t)\|
 \le e^{mT}\sqrt{\|u_{0,\mu}-u_{0,\mu'}\|^2+\|v_{0,\mu}-v_{0,\mu'}\|^2}
 +m^{-1}(e^{mT}-1)\mathrm{def}_6(r,hr,A_\mu,A_{\mu'}).
-$$
+```
 
-Here $\mathrm{def}_6(r,hr,A_\mu,A_{\mu'})$ is the quantity introduced by the abbreviation `def_6`, namely `supDiscrepancyOnBall r hr (A μ) (A μ')`. The cited lemmas `def_6_bddAbove_of_cocoercive` and `def_6_le_of_norm_le` show that, under the cocoercivity assumptions, the set of values $\|A_\mu u-A_{\mu'}u\|$ for $\|u\|\le r$ is bounded above and that $\mathrm{def}_6(r,hr,A_\mu,A_{\mu'})$ is an upper bound for those values. Thus the theorem says that the distance between two trajectories is controlled by the initial data difference plus the discrepancy between the two operators on the ball of radius $r$, with an exponential factor in time depending on $\gamma$ and the cocoercivity moduli.
+Here $\mathrm{def}_6(r,hr,A_\mu,A_{\mu'})$ is the quantity introduced by the abbreviation `def_6`, namely `supDiscrepancyOnBall r hr (A μ) (A μ')`. The cited lemmas `def_6_bddAbove_of_cocoercive` and `def_6_le_of_norm_le` show that, under the cocoercivity assumptions, the set of values $`\|A_\mu u-A_{\mu'}u\|`$for$`\|u\|\le r`$is bounded above and that$\mathrm{def}_6(r,hr,A_\mu,A_{\mu'})$is an upper bound for those values. Thus the theorem says that the distance between two trajectories is controlled by the initial data difference plus the discrepancy between the two operators on the ball of radius$r$, with an exponential factor in time depending on$\gamma$ and the cocoercivity moduli.
 
 ## Lean proof
 ```lean
@@ -272,42 +272,42 @@ Real.sqrt (1 + 2 * γ ^ 2 + 2 / ((α μ) ^ 2))
 ```
 
 ## Proof explanation
-The proof begins with `intro μ hμ μ' hμ'`, introducing arbitrary parameters $\mu,\mu'\in V$. The tactic `dsimp` unfolds the local `let` definitions in the goal, so the quantities $m_\mu,m_{\mu'},m$ become explicit. Then `obtain` destructs the assumptions `hC₁ μ hμ` and `hC₁ μ' hμ'`, giving $\alpha_\mu>0$, $\alpha_{\mu'}>0$, and the two cocoercivity inequalities for $A_\mu$ and $A_{\mu'}$.
+The proof begins with `intro μ hμ μ' hμ'`, introducing arbitrary parameters $\mu,\mu'\in V$. The tactic `dsimp` unfolds the local `let` definitions in the goal, so the quantities $m_\mu,m_{\mu'},m$ become explicit. Then `obtain` destructs the assumptions `hC₁ μ hμ` and `hC₁ μ' hμ'`, giving $\alpha_\mu\gt 0$, $\alpha_{\mu'}\gt 0$, and the two cocoercivity inequalities for $A_\mu$ and $A_{\mu'}$.
 
-Next, the proof applies `solution_data hT (hsol μ hμ)` and `solution_data hT (hsol μ' hμ')`. The lemma `solution_data` states that from `ext_def_2 A γ u₀ v₀ x dx ddx` and $T>0$ one obtains $0<\gamma$, absolute continuity of $x$ and $dx$ on $0\le t\le T$, the initial conditions $x(0)=u_0$, $dx(0)=v_0$, the almost-everywhere ODE $ddx+\gamma dx+A(x)=0$ for $t\ge0$, and the almost-everywhere derivative relations $x'=dx$, $dx'=ddx$. The proof extracts these facts separately for $\mu$ and $\mu'$. The positivity of $\gamma$ is also extracted, though the later estimates mainly use the ODE and absolute-continuity consequences.
+Next, the proof applies `solution_data hT (hsol μ hμ)` and `solution_data hT (hsol μ' hμ')`. The lemma `solution_data` states that from `ext_def_2 A γ u₀ v₀ x dx ddx` and $T\gt 0$ one obtains $0\lt \gamma$, absolute continuity of $x$ and $dx$ on $0\le t\le T$, the initial conditions $x(0)=u_0$, $dx(0)=v_0$, the almost-everywhere ODE $ddx+\gamma dx+A(x)=0$ for $t\ge0$, and the almost-everywhere derivative relations $x'=dx$, $dx'=ddx$. The proof extracts these facts separately for $\mu$ and $\mu'$. The positivity of $\gamma$ is also extracted, though the later estimates mainly use the ODE and absolute-continuity consequences.
 
-The proof then establishes a uniform bound for the operator discrepancy. It applies `def_6_bddAbove_of_cocoercive` with $a=\alpha_\mu$, $b=\alpha_{\mu'}$, $A=A_\mu$, and $B=A_{\mu'}$. The lemma states that if $0\le r$, $a>0$, $b>0$, $A$ is $a$-cocoercive, and $B$ is $b$-cocoercive, then the set
+The proof then establishes a uniform bound for the operator discrepancy. It applies `def_6_bddAbove_of_cocoercive` with $a=\alpha_\mu$, $b=\alpha_{\mu'}$, $A=A_\mu$, and $B=A_{\mu'}$. The lemma states that if $0\le r$, $a\gt 0$, $b\gt 0$, $A$ is $a$-cocoercive, and $B$ is $b$-cocoercive, then the set
 
-$$
+```math
 \{q:\mathbb R\mid \exists u\in H,\ \|u\|\le r,\ q=\|Au-Bu\|\}
-$$
+```
 
-is bounded above. Hence the discrepancy values $\|A_\mu u-A_{\mu'}u\|$ on the ball $\|u\|\le r$ are bounded above. Then `def_6_le_of_norm_le` is applied. This lemma says that if $r>0$, the above set is bounded above, and $\|u\|\le r$, then
+is bounded above. Hence the discrepancy values $`\|A_\mu u-A_{\mu'}u\|`$on the ball$`\|u\|\le r`$ are bounded above. Then `def_6_le_of_norm_le` is applied. This lemma says that if $r\gt 0$, the above set is bounded above, and $`\|u\|\le r`$, then
 
-$$
+```math
 \|Au-Bu\|\le \mathrm{def}_6(r,hr,A,B).
-$$
+```
 
 Thus the proof obtains the pointwise bound
 
-$$
+```math
 \|u\|\le r\implies \|A_\mu u-A_{\mu'}u\|\le D,
-$$
+```
 
-where $D=\mathrm{def}_6(r,hr,A_\mu,A_{\mu'})$. Taking $u=0$, which is allowed because $r>0$, gives $\|A_\mu0-A_{\mu'}0\|\le D$; since the left side is nonnegative, this yields $D\ge0$.
+where $D=\mathrm{def}_6(r,hr,A_\mu,A_{\mu'})$. Taking $u=0$, which is allowed because $r\gt 0$, gives $`\|A_\mu0-A_{\mu'}0\|\le D`$; since the left side is nonnegative, this yields$D\ge0$.
 
 The proof next introduces the energy variables
 
-$$
+```math
 y=x_\mu-x_{\mu'},\qquad z=dx_\mu-dx_{\mu'},\qquad
 w=\|y\|^2+\|z\|^2.
-$$
+```
 
-The absolute continuity of $y$ follows from subtracting the two absolutely continuous functions $x_\mu$ and $x_{\mu'}$, using `fun_sub`. Similarly, $z$ is absolutely continuous. The lemma `ac_norm_sq` states that if a function $f$ is absolutely continuous, then $t\mapsto\|f(t)\|^2$ is absolutely continuous. Applying it to $y$ and $z$, then adding the two results, shows that $w$ is absolutely continuous on $0\le t\le T$. The nonnegativity of $w$ is immediate from the sum of two squares of norms. The initial value is computed using $x_\mu(0)=u_{0,\mu}$, $x_{\mu'}(0)=u_{0,\mu'}$, $dx_\mu(0)=v_{0,\mu}$, and $dx_{\mu'}(0)=v_{0,\mu'}$:
+The absolute continuity of $y$ follows from subtracting the two absolutely continuous functions $x_\mu$ and $x_{\mu'}$, using `fun_sub`. Similarly, $z$ is absolutely continuous. The lemma `ac_norm_sq` states that if a function $f$ is absolutely continuous, then $`t\mapsto\|f(t)\|^2`$is absolutely continuous. Applying it to$y$and$z$, then adding the two results, shows that$w$is absolutely continuous on$0\le t\le T$. The nonnegativity of$w$is immediate from the sum of two squares of norms. The initial value is computed using$x_\mu(0)=u_{0,\mu}$,$x_{\mu'}(0)=u_{0,\mu'}$,$dx_\mu(0)=v_{0,\mu}$, and$dx_{\mu'}(0)=v_{0,\mu'}$:
 
-$$
+```math
 w(0)=\|u_{0,\mu}-u_{0,\mu'}\|^2+\|v_{0,\mu}-v_{0,\mu'}\|^2.
-$$
+```
 
 The proof then computes the derivative of $w$. Using the almost-everywhere derivative relations from `solution_data`, it obtains $y'(t)=z(t)$ and $z'(t)=ddx_\mu(t)-ddx_{\mu'}(t)$. The derivative of a squared norm gives the inner-product formula, so
 
@@ -328,15 +328,15 @@ m=\max\left(
 \right).
 $$
 
-Because $\alpha_{\mu'}>0$, the quantity $1+2\gamma^2+2/(\alpha_{\mu'})^2$ is at least $1$, so its square root is at least $1$. Since $m$ is at least that square root, one has $m\ge1$, hence $m>0$. This ensures that $m^{-1}$ is meaningful and nonnegative later.
+Because $\alpha_{\mu'}\gt 0$, the quantity $1+2\gamma^2+2/(\alpha_{\mu'})^2$ is at least $1$, so its square root is at least $1$. Since $m$ is at least that square root, one has $m\ge1$, hence $m\gt 0$. This ensures that $m^{-1}$ is meaningful and nonnegative later.
 
 The key pointwise estimate is
 
-$$
+```math
 \langle y(t),z(t)\rangle
 +\left\langle z(t),-\gamma z(t)-\bigl(A_{\mu'}(x_\mu(t))-A_{\mu'}(x_{\mu'}(t))\bigr)\right\rangle
 \le m\,w(t).
-$$
+```
 
 To prove it, the proof applies `first_order_sq_bound` with $A=A_{\mu'}$, cocoercivity constant $\alpha_{\mu'}$, and the four points
 
@@ -346,26 +346,26 @@ $$
 
 That lemma gives
 
-$$
+```math
 \|v-v'\|^2+\|-\gamma v-A_{\mu'}u-(-\gamma v'-A_{\mu'}u')\|^2
 \le \left(1+2\gamma^2+\frac{2}{\alpha_{\mu'}^2}\right)
 \bigl(\|u-u'\|^2+\|v-v'\|^2\bigr).
-$$
+```
 
 In the present notation this becomes
 
-$$
+```math
 \|z(t)\|^2+
 \left\|-\gamma z(t)-\bigl(A_{\mu'}(x_\mu(t))-A_{\mu'}(x_{\mu'}(t))\bigr)\right\|^2
 \le \left(1+2\gamma^2+\frac{2}{\alpha_{\mu'}^2}\right)w(t).
-$$
+```
 
 Since $m$ dominates the square root of the coefficient, the right side is at most $m^2w(t)$. The proof then applies `two_pairing_le`, which states that for all $a,b,c,d\in H$,
 
-$$
+```math
 \langle a,c\rangle+\langle b,d\rangle
 \le \sqrt{\|a\|^2+\|b\|^2}\sqrt{\|c\|^2+\|d\|^2}.
-$$
+```
 
 Taking
 
@@ -376,11 +376,11 @@ $$
 
 the left side is exactly the inner-product expression above, and the right side is bounded by
 
-$$
+```math
 \sqrt{w(t)}\sqrt{\|z(t)\|^2+\|d\|^2}
 \le \sqrt{w(t)}\cdot m\sqrt{w(t)}
 =m\,w(t).
-$$
+```
 
 Thus the desired pointwise bound is obtained.
 
@@ -399,56 +399,56 @@ ddx_\mu(t)-ddx_{\mu'}(t)
 -\bigl(A_\mu(x_\mu(t))-A_{\mu'}(x_\mu(t))\bigr).
 $$
 
-The ball hypothesis gives $\|x_\mu(t)\|\le r$, so the discrepancy bound yields
+The ball hypothesis gives $`\|x_\mu(t)\|\le r`$, so the discrepancy bound yields
 
-$$
+```math
 \|A_\mu(x_\mu(t))-A_{\mu'}(x_\mu(t))\|\le D.
-$$
+```
 
 Writing $F=A_\mu(x_\mu(t))-A_{\mu'}(x_\mu(t))$, Cauchy-Schwarz gives
 
-$$
+```math
 -\langle z(t),F\rangle
 \le \|z(t)\|\,\|F\|
 \le \sqrt{w(t)}\,D
 =D\,w(t)^{1/2}.
-$$
+```
 
 Combining this with the previously proved bound on the first inner product gives
 
-$$
+```math
 \langle y(t),z(t)\rangle+\langle z(t),ddx_\mu(t)-ddx_{\mu'}(t)\rangle
 \le m\,w(t)+D\,w(t)^{1/2}.
-$$
+```
 
 Since $w'(t)=2$ times that inner-product expression, this is equivalent to
 
-$$
+```math
 \left(1-\frac12\right)w'(t)\le m\,w(t)+D\,w(t)^{1/2}
-$$
+```
 
 almost everywhere on $0\le t\le T$. This is the differential inequality needed for the nonlinear Gronwall lemma.
 
-The proof then applies `ext_lem_1`, which is the nonlinear Gronwall inequality `nonlinear_gronwall_inequality`. In the present specialization, $t_0=0$, the final time is $T$, the exponent parameter is $\alpha=1/2$, $a(t)=m$, and $b(t)=D$. The lemma requires $T>0$, $0\le1/2<1$, absolute continuity of $w$, nonnegativity of $w$, integrability of the constant functions $m$ and $D$, nonnegativity of $D$, and the differential inequality just proved. Its conclusion is that for every $t$ with $0\le t\le T$,
+The proof then applies `ext_lem_1`, which is the nonlinear Gronwall inequality `nonlinear_gronwall_inequality`. In the present specialization, $t_0=0$, the final time is $T$, the exponent parameter is $\alpha=1/2$, $a(t)=m$, and $b(t)=D$. The lemma requires $T\gt 0$, $0\le1/2\lt 1$, absolute continuity of $w$, nonnegativity of $w$, integrability of the constant functions $m$ and $D$, nonnegativity of $D$, and the differential inequality just proved. Its conclusion is that for every $t$ with $0\le t\le T$,
 
-$$
+```math
 w(t)^{1-1/2}\le w(0)^{1-1/2}\exp\left(\int_0^t m\,ds\right)
 +\int_0^t \exp\left(\int_s^t m\,d\tau\right)D\,ds.
-$$
+```
 
 Since $1-1/2=1/2$, this becomes
 
-$$
+```math
 \sqrt{w(t)}
 \le \sqrt{w(0)}e^{mt}
 +\int_0^t e^{m(t-s)}D\,ds.
-$$
+```
 
 The remaining integral is evaluated using `exp_kernel_integral`. With $D=1$, that lemma gives
 
-$$
+```math
 \int_0^t e^{m(t-s)}\,ds=m^{-1}(e^{mt}-1).
-$$
+```
 
 Therefore
 
@@ -457,7 +457,7 @@ $$
 \le \sqrt{w(0)}e^{mt}+m^{-1}(e^{mt}-1)D.
 $$
 
-Substituting $w(0)=\|u_{0,\mu}-u_{0,\mu'}\|^2+\|v_{0,\mu}-v_{0,\mu'}\|^2$ gives the corresponding bound in terms of the initial data.
+Substituting $`w(0)=\|u_{0,\mu}-u_{0,\mu'}\|^2+\|v_{0,\mu}-v_{0,\mu'}\|^2`$ gives the corresponding bound in terms of the initial data.
 
 Finally, the proof uses monotonicity in time. Since $m\ge0$ and $t\le T$, one has $mt\le mT$, hence $e^{mt}\le e^{mT}$. Since $D\ge0$, the kernel term also satisfies
 
@@ -467,23 +467,23 @@ $$
 
 Also, because
 
-$$
+```math
 w(t)=\|y(t)\|^2+\|z(t)\|^2,
-$$
+```
 
 one has
 
-$$
+```math
 \|x_\mu(t)-x_{\mu'}(t)\|=\|y(t)\|\le\sqrt{w(t)}.
-$$
+```
 
 Combining these inequalities yields
 
-$$
+```math
 \|x_\mu(t)-x_{\mu'}(t)\|
 \le \sqrt{\|u_{0,\mu}-u_{0,\mu'}\|^2+\|v_{0,\mu}-v_{0,\mu'}\|^2}e^{mT}
 +m^{-1}(e^{mT}-1)D.
-$$
+```
 
 Rewriting $D=\mathrm{def}_6(r,hr,A_\mu,A_{\mu'})$ and rearranging the first product into the displayed order gives exactly the estimate stated in `thm_2`. The use of `filter_upwards` combines the almost-everywhere ODE, derivative, and ball hypotheses into a single almost-everywhere event, and the final `calc` block chains the norm bound, the Gronwall bound, the time-monotonicity step, and the final algebraic rewriting.
 

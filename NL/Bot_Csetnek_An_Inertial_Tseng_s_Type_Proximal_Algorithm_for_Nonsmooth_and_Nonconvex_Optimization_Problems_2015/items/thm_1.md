@@ -17,11 +17,11 @@ theorem theorem_3_1_convergence {m : Nat} {P : ProblemData m} (A : AlgorithmData
 ## Statement explanation
 The declaration `theorem_3_1_convergence` is a convergence theorem for an inertial Tseng-type proximal algorithm. Let $m\in\mathbb N$, let $P$ be problem data in $m$ dimensions, let $A$ be algorithm data for $P$, and let $\nu,\mu\in\mathbb R$. Write
 
-$$
+```math
 x_n=A.x\,n,\qquad p_n=A.p\,n,\qquad M_1=A.M1\,\nu\,\mu,\qquad M_2=A.M2\,\nu\,\mu,
-$$
+```
 
-and write $f=P.objective$. The hypothesis `hchosen : chosenAsInLemma33 A nu mu` is unpacked in the proof as $0<\nu$, $0<\mu$, a further strict condition `hstrict`, and the inequality $M_2<M_1$. The hypothesis `hcoercive : CoerciveEReal P.objective` says that the objective is coercive as an extended-real-valued function. The hypothesis
+and write $f=P.objective$. The hypothesis `hchosen : chosenAsInLemma33 A nu mu` is unpacked in the proof as $0\lt \nu$, $0\lt \mu$, a further strict condition `hstrict`, and the inequality $M_2\lt M_1$. The hypothesis `hcoercive : CoerciveEReal P.objective` says that the objective is coercive as an extended-real-valued function. The hypothesis
 
 $$
 \text{`hH\_KL`}:\ \text{`ProductKLFunction`}\bigl(\text{`HFunction`}\ P\ M_2\bigr)
@@ -38,13 +38,13 @@ Thus $H$ is the objective plus a quadratic term with coefficient $M_2$, evaluate
 
 The conclusion is a conjunction of three statements:
 
-$$
+```math
 \sum_n \|x_n-p_n\|<\infty,
-$$
+```
 
-$$
+```math
 \sum_n \|x_{n+1}-x_n\|<\infty,
-$$
+```
 
 and there exists $x\in\mathbb R^m$ such that
 
@@ -136,11 +136,11 @@ The proof begins by unpacking the hypothesis `hchosen`. The line
 ```lean
 rcases hchosen with ⟨hnu, hmu, hstrict, hM2ltM1⟩
 ```
-destructs the package into $0<\nu$, $0<\mu$, the additional strict condition `hstrict`, and the inequality $M_2<M_1$. The proof then defines
+destructs the package into $0\lt \nu$, $0\lt \mu$, the additional strict condition `hstrict`, and the inequality $M_2\lt M_1$. The proof then defines
 
-$$
+```math
 M_1=A.M1\,\nu\,\mu,\qquad M_2=A.M2\,\nu\,\mu,\qquad D=M_1-M_2.
-$$
+```
 
 Using `dsimp [D, M1, M2]` to unfold these definitions and `nlinarith [hM2ltM1]` to do the arithmetic comparison, it proves
 
@@ -154,7 +154,7 @@ $$
 \text{`KLOrbitPackage`}\ A\ \nu\ \mu.
 $$
 
-Concretely, this package says that for every nonempty compact set $\Omega$ of pairs on which $H$ is constant, and for every $z^*\in\Omega$, there exist $\epsilon>0$, $\eta>0$, and a desingularizing function $\phi$ such that, for every $n\ge2$, if
+Concretely, this package says that for every nonempty compact set $\Omega$ of pairs on which $H$ is constant, and for every $z^*\in\Omega$, there exist $\epsilon\gt 0$, $\eta\gt 0$, and a desingularizing function $\phi$ such that, for every $n\ge2$, if
 
 $$
 \mathrm{infDist}\bigl((p_n,x_n),\Omega\bigr)<\epsilon
@@ -195,9 +195,9 @@ $$
 \Omega=\omega\bigl(\text{`pairSequence`}\ A\bigr).
 $$
 
-It transports the nonemptiness, compactness, and constancy of $H$ from the lemma to this notation. Since $\Omega$ is nonempty, the proof chooses some $z^*\in\Omega$. It then checks that $z^*_1\in \text{`criticalPoints`}\ P.objective$: because $z^*\in\Omega$ and $\Omega\subseteq \text{`HCriticalSet`}\ P\ M_2$, the point $z^*$ lies in `HCriticalSet P M2`; using the equality `HCriticalSet P M2 = diagonalCriticalSet P`, it follows that $z^*\in\text{`diagonalCriticalSet`}\ P$, and the second component of that membership says $z^*_1$ is a critical point of the objective.
+It transports the nonemptiness, compactness, and constancy of $H$ from the lemma to this notation. Since $\Omega$ is nonempty, the proof chooses some $z^*\in\Omega$. It then checks that $z^*_1\in \text{`criticalPoints`}\ P.objective$: because$z^*\in\Omega$and$\Omega\subseteq \text{`HCriticalSet`}\ P\ M_2$, the point$z^*$ lies in `HCriticalSet P M2`; using the equality `HCriticalSet P M2 = diagonalCriticalSet P`, it follows that $z^*\in\text{`diagonalCriticalSet`}\ P$, and the second component of that membership says$z^*_1$ is a critical point of the objective.
 
-The proof then applies the orbit KL package to $\Omega$ and $z^*$. Since $\Omega$ is nonempty, compact, and a set on which $H$ is constant, the KL package supplies $\epsilon,\eta,\phi$ satisfying $\epsilon>0$, $\eta>0$, the desingularizing condition on $\phi$, and the KL inequality along the orbit. This local KL window is recorded, although the final summability conclusion is obtained from the globally available `KLOrbitPackage` rather than directly from this local window.
+The proof then applies the orbit KL package to $\Omega$ and $z^*$. Since $\Omega$ is nonempty, compact, and a set on which $H$ is constant, the KL package supplies $\epsilon,\eta,\phi$ satisfying $\epsilon\gt 0$, $\eta\gt 0$, the desingularizing condition on $\phi$, and the KL inequality along the orbit. This local KL window is recorded, although the final summability conclusion is obtained from the globally available `KLOrbitPackage` rather than directly from this local window.
 
 Next, the proof defines the real-valued Lyapunov values
 
@@ -207,11 +207,11 @@ $$
 
 It invokes `lyapunov_descent_real A nu mu hnu hmu n hn` for $n\ge1$. The statement of that theorem is truncated in the provided context, but in the use made here it supplies the descent inequality
 
-$$
+```math
 D\,\|x_{n+1}-p_{n+1}\|^2\le H_n^{\mathbb R}-H_{n+1}^{\mathbb R}.
-$$
+```
 
-The command `simpa [Hreal, D, M1, M2]` rewrites the theorem’s conclusion into these local notations. Since $0<D$ and $\|x_{n+1}-p_{n+1}\|^2\ge0$, the left-hand side is nonnegative. Thus
+The command `simpa [Hreal, D, M1, M2]` rewrites the theorem’s conclusion into these local notations. Since $0\lt D$ and $`\|x_{n+1}-p_{n+1}\|^2\ge0`$, the left-hand side is nonnegative. Thus
 
 $$
 H_{n+1}^{\mathbb R}\le H_n^{\mathbb R}
@@ -227,9 +227,9 @@ $$
 
 Its hypotheses are precisely the reconstructed `chosenAsInLemma33`, coercivity of the objective, and the orbit KL package. Its conclusion is
 
-$$
+```math
 \sum_n \|x_n-p_n\|<\infty.
-$$
+```
 
 This is the first conjunct of the theorem. Then the proof applies
 
@@ -239,9 +239,9 @@ $$
 
 which converts summability of the residuals $x_n-p_n$ into summability of the successive increments:
 
-$$
+```math
 \sum_n \|x_{n+1}-x_n\|<\infty.
-$$
+```
 
 This is the second conjunct.
 
@@ -251,7 +251,7 @@ $$
 \text{`tendsto\_of\_summable\_successive\_norm`}\ A.x\ \text{`hxinc\_sum`}.
 $$
 
-Mathematically, this says that if $\sum_n\|u_{n+1}-u_n\|<\infty$, then $u_n$ is Cauchy and therefore converges in Euclidean space. Hence there exists some $x\in\mathbb R^m$ such that
+Mathematically, this says that if $`\sum_n\|u_{n+1}-u_n\|<\infty`$, then$u_n$is Cauchy and therefore converges in Euclidean space. Hence there exists some$x\in\mathbb R^m$ such that
 
 $$
 x_n\to x.
@@ -263,7 +263,7 @@ $$
 \text{`p\_tendsto\_of\_x\_tendsto\_xp\_summable`}\ A\ \text{`hxlim`}\ \text{`hxp\_sum`}.
 $$
 
-Since $x_n\to x$ and $\sum_n\|x_n-p_n\|<\infty$, the residual $x_n-p_n\to0$, so $p_n\to x$ as well.
+Since $x_n\to x$ and $`\sum_n\|x_n-p_n\|<\infty`$, the residual$x_n-p_n\to0$, so$p_n\to x$ as well.
 
 It remains to prove that this common limit $x$ is a critical point. The proof applies
 
@@ -277,7 +277,7 @@ $$
 (x,x)\in\omega\bigl(\text{`pairSequence`}\ A\bigr).
 $$
 
-Then, because $\omega\bigl(\text{`pairSequence`}\ A\bigr)\subseteq \text{`HCriticalSet`}\ P\ M_2$, the pair $(x,x)$ lies in `HCriticalSet P M2`. Rewriting this membership by the equality
+Then, because $\omega\bigl(\text{`pairSequence`}\ A\bigr)\subseteq \text{`HCriticalSet`}\ P\ M_2$, the pair$(x,x)$ lies in `HCriticalSet P M2`. Rewriting this membership by the equality
 
 $$
 \text{`HCriticalSet`}\ P\ M_2=\text{`diagonalCriticalSet`}\ P
@@ -293,11 +293,11 @@ i.e. $0\in\partial f(x)$.
 
 Finally, the proof assembles the three required conclusions:
 
-$$
+```math
 \sum_n\|x_n-p_n\|<\infty,
 \qquad
 \sum_n\|x_{n+1}-x_n\|<\infty,
-$$
+```
 
-and the existence of $x$ with $x\in\text{`criticalPoints`}\ P.objective$, $x_n\to x$, and $p_n\to x$.
+and the existence of $x$ with $x\in\text{`criticalPoints`}\ P.objective$,$x_n\to x$, and$p_n\to x$.
 

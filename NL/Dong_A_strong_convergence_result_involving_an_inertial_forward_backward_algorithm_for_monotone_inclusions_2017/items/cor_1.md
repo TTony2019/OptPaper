@@ -16,9 +16,9 @@ theorem inertial_proximal_point_strong_convergence (B : SetValuedOperator H H)
 ## Statement explanation
 The declaration is a strong-convergence theorem for an inertial proximal-point/forward-backward method in a real Hilbert space $H$. The operator $B:H\rightrightarrows H$ is set-valued and is assumed to be maximal monotone. Its zero set
 
-$$
+```math
 B^{-1}(0)=\{x\in H:0\in Bx\}
-$$
+```
 
 is assumed nonempty. The object `alg` is an inertial forward-backward algorithm for the decomposition $A+B$, where the single-valued part is the zero map $A(x)=0$. In the proof the algorithm is used through its sequences $x_n=\text{alg.x n}$, $y_n=\text{alg.y n}$, $z_n=\text{alg.z n}$, initial point $x_0=\text{alg.x0}$, step sizes $s_n=\text{alg.stepSize n}$, and inertia parameters $\theta_n=\text{alg.inertia n}$. The algorithm supplies, for $n\ge1$,
 
@@ -38,17 +38,17 @@ $$
 
 where
 
-$$
+```math
 C_n=\Bigl\{u:\|z_n-u\|^2\le \|x_n-u\|^2
 -2\theta_n\langle x_n-u,x_{n-1}-x_n\rangle
 +\theta_n^2\|x_{n-1}-x_n\|^2\Bigr\}
-$$
+```
 
 and
 
-$$
+```math
 Q_n=\{u:\langle u-x_n,x_0-x_n\rangle\le0\}.
-$$
+```
 
 Thus $C_n\cap Q_n$ is the feasible set at stage $n$, and the algorithm projects the initial point onto it.
 
@@ -600,48 +600,48 @@ $$
 
 and
 
-$$
+```math
 d_n=\|x_n-x_0\|.
-$$
+```
 
 The chosen projection point satisfies $p\in B^{-1}(0)$. Also $p\in Q_n$ for every $n$: for $n=0$, this is trivial because $Q_0$ uses the vector $x_0-x_0=0$; for $n\ge1$, it follows from the feasibility inclusion $B^{-1}(0)\subseteq C_n\cap Q_n$.
 
 The proof then establishes the distance bound
 
-$$
+```math
 d_n\le \|p-x_0\|.
-$$
+```
 
 This uses `metric_projection_pythagorean`, which says that if $C$ is nonempty closed convex, $x$ is projected to $q$, and $y\in C$, then
 
-$$
+```math
 \|y-q\|^2+\|x-q\|^2\le\|x-y\|^2.
-$$
+```
 
 Taking $C=Q_n$, $q=x_n$, $x=x_0$, and $y=p$, and using $p\in Q_n$, gives
 
-$$
+```math
 \|p-x_n\|^2+\|x_0-x_n\|^2\le\|x_0-p\|^2.
-$$
+```
 
-Since the first term is nonnegative, $d_n\le\|p-x_0\|$. The `nlinarith` call uses nonnegativity of squares and norms to extract this inequality.
+Since the first term is nonnegative, $`d_n\le\|p-x_0\|`$. The `nlinarith` call uses nonnegativity of squares and norms to extract this inequality.
 
 The proof then derives the step inequality
 
-$$
+```math
 \|x_{n+1}-x_n\|^2+d_n^2\le d_{n+1}^2
 \qquad(n\ge1).
-$$
+```
 
 Again this is the Pythagorean inequality for the projection $x_n$ of $x_0$ onto $Q_n$, now applied to the point $x_{n+1}\in Q_n$, which was shown above. Therefore $d_{n+1}^2-d_n^2\ge0$, and with nonnegativity of distances, $d_n\le d_{n+1}$. Thus $d$ is monotone. The proof uses `monotone_nat_of_le_succ` and `nlinarith` to convert the squared inequality into monotonicity.
 
-Since $d$ is monotone and bounded above by $\|p-x_0\|$, it has a finite supremum $L=\sup_n d_n$, and
+Since $d$ is monotone and bounded above by $`\|p-x_0\|`$, it has a finite supremum$L=\sup_n d_n$, and
 
 $$
 d_n\to L.
 $$
 
-This is the content of `tendsto_atTop_ciSup`. The boundedness of the distance sequence also implies, by `bounded_range_of_convergent_distance_to_point`, that the range of the sequence $x_n$ is bounded. This lemma says that if the distances $\|x_n-z\|$ converge for some fixed $z$, then the sequence $x_n$ is bounded; here $z=x_0$ and the distances are $d_n$.
+This is the content of `tendsto_atTop_ciSup`. The boundedness of the distance sequence also implies, by `bounded_range_of_convergent_distance_to_point`, that the range of the sequence $x_n$ is bounded. This lemma says that if the distances $`\|x_n-z\|`$converge for some fixed$z$, then the sequence$x_n$is bounded; here$z=x_0$and the distances are$d_n$.
 
 The proof then shows that the increments vanish. Since $d_{n+1}$ and $d_n$ both tend to $L$, their squares have the same limit, so
 
@@ -651,27 +651,27 @@ $$
 
 The step inequality gives
 
-$$
+```math
 0\le\|x_{n+1}-x_n\|^2\le d_{n+1}^2-d_n^2,
-$$
+```
 
 so by the squeeze theorem (`squeeze_zero'`),
 
-$$
+```math
 \|x_{n+1}-x_n\|^2\to0.
-$$
+```
 
 Using continuity of the square root, the proof concludes
 
-$$
+```math
 \|x_{n+1}-x_n\|\to0.
-$$
+```
 
 Similarly,
 
-$$
+```math
 \|x_n-x_{n-1}\|\to0.
-$$
+```
 
 The boundedness of the inertia sequence gives some $M\ge0$ with $|\theta_n|\le M$. From the inertial step
 
@@ -681,53 +681,53 @@ $$
 
 the proof obtains
 
-$$
+```math
 \|y_n-x_n\|
 =\|\theta_n(x_n-x_{n-1})\|
 =|\theta_n|\,\|x_n-x_{n-1}\|
 \le M\|x_n-x_{n-1}\|\to0.
-$$
+```
 
 Thus $y_n-x_n\to0$.
 
 To control $z_n$, the proof uses the fact that $x_{n+1}\in C_n$, which gives
 
-$$
+```math
 \|z_n-x_{n+1}\|^2
 \le \|x_n-x_{n+1}\|^2
 -2\theta_n\langle x_n-x_{n+1},x_{n-1}-x_n\rangle
 +\theta_n^2\|x_{n-1}-x_n\|^2.
-$$
+```
 
 The lemma `inertial_residual_sq_le_of_abs_inertia` states that if $|\theta|\le M$ and
 
-$$
+```math
 \|r\|^2\le \|v\|^2-2\theta\langle v,w\rangle+\theta^2\|w\|^2,
-$$
+```
 
 then
 
-$$
+```math
 \|r\|^2\le \|v\|^2+2M\|v\|\|w\|+M^2\|w\|^2.
-$$
+```
 
-Applying this with $r=z_n-x_{n+1}$, $v=x_n-x_{n+1}$, $w=x_{n-1}-x_n$, and $\theta=\theta_n$, the right-hand side tends to $0$ because both $\|x_n-x_{n+1}\|$ and $\|x_{n-1}-x_n\|$ tend to $0$. Hence
+Applying this with $r=z_n-x_{n+1}$, $v=x_n-x_{n+1}$, $w=x_{n-1}-x_n$, and $\theta=\theta_n$, the right-hand side tends to $0$ because both $`\|x_n-x_{n+1}\|`$and$`\|x_{n-1}-x_n\|`$tend to$0$. Hence
 
-$$
+```math
 \|z_n-x_{n+1}\|^2\to0,
-$$
+```
 
 and therefore
 
-$$
+```math
 \|z_n-x_{n+1}\|\to0.
-$$
+```
 
-Combining this with the vanishing of $\|x_{n+1}-x_n\|$ and $\|x_n-y_n\|$, the proof concludes
+Combining this with the vanishing of $`\|x_{n+1}-x_n\|`$and$`\|x_n-y_n\|`$, the proof concludes
 
-$$
+```math
 \|z_n-y_n\|\to0.
-$$
+```
 
 Now the proof constructs auxiliary mappings. Let
 
@@ -735,13 +735,13 @@ $$
 \varepsilon=\frac{\liminf_{n\to\infty}s_n}{2}>0.
 $$
 
-Since $0<\liminf s_n$, the proof has $\varepsilon>0$, and eventually
+Since $0\lt \liminf s_n$, the proof has $\varepsilon\gt 0$, and eventually
 
 $$
 \varepsilon\le s_n.
 $$
 
-The lemma `positive_resolvent_nonempty` says that if $B$ is maximal monotone and $r>0$, then for every $y$ there exists $z\in J_{rB}(y)$. Using this, the proof defines a map $T$ by choosing, for each $x$, an element
+The lemma `positive_resolvent_nonempty` says that if $B$ is maximal monotone and $r\gt 0$, then for every $y$ there exists $z\in J_{rB}(y)$. Using this, the proof defines a map $T$ by choosing, for each $x$, an element
 
 $$
 T(x)\in J_{\varepsilon B}(x).
@@ -757,15 +757,15 @@ $$
 
 The hypothesis $s\le r$, i.e. $\varepsilon\le s_n$, holds eventually. The cocoercivity hypothesis for $A=0$ is supplied by `zero_cocoerciveOn`, which says that the zero map is cocoercive with any positive constant on all of $H$. The conclusion of the cited theorem is that the fixed points of $R_n$ equal the zero set of $A+B=0+B=B$, and that for every $x$,
 
-$$
+```math
 \|x-T(x)\|\le 2\|x-R_n(x)\|.
-$$
+```
 
 Applying this at $x=y_n$, and using $R_n(y_n)=z_n$, gives
 
-$$
+```math
 \|y_n-T(y_n)\|\le 2\|y_n-z_n\|\to0.
-$$
+```
 
 Thus
 
@@ -773,7 +773,7 @@ $$
 y_n-T(y_n)\to0.
 $$
 
-The theorem `forward_backward_nonexpansive_and_fixedPoints` is applied with $A=0$, the same $B$, $\alpha=\varepsilon/2$, and $\varepsilon$ as the step parameter. The hypotheses are $\varepsilon>0$ and $\varepsilon\le 2(\varepsilon/2)$, which are immediate, and $T(x)\in J_{\varepsilon B}(x)$. The theorem concludes that $T$ is $1$-Lipschitz and that its fixed point set is the zero set of $0+B=B$. Since the zero set of the sum is $B^{-1}(0)$, the proof obtains
+The theorem `forward_backward_nonexpansive_and_fixedPoints` is applied with $A=0$, the same $B$, $\alpha=\varepsilon/2$, and $\varepsilon$ as the step parameter. The hypotheses are $\varepsilon\gt 0$ and $\varepsilon\le 2(\varepsilon/2)$, which are immediate, and $T(x)\in J_{\varepsilon B}(x)$. The theorem concludes that $T$ is $1$-Lipschitz and that its fixed point set is the zero set of $0+B=B$. Since the zero set of the sum is $B^{-1}(0)$, the proof obtains
 
 $$
 \mathrm{Fix}(T)=B^{-1}(0).
@@ -783,17 +783,17 @@ The translation from the operator-sum zero set to $B^{-1}(0)$ is done by unfoldi
 
 Using the nonexpansiveness of $T$, the proof estimates
 
-$$
+```math
 \|x_n-T(x_n)\|
 \le \|x_n-y_n\|+\|y_n-T(y_n)\|+\|T(y_n)-T(x_n)\|
 \le 2\|x_n-y_n\|+\|y_n-T(y_n)\|.
-$$
+```
 
 Both terms on the right tend to $0$, so
 
-$$
+```math
 \|x_n-T(x_n)\|\to0,
-$$
+```
 
 and hence
 
@@ -813,43 +813,43 @@ Thus $w$ is a fixed point of $T$. Since $\mathrm{Fix}(T)=B^{-1}(0)$, every weak 
 
 The proof then shows that every such weak cluster point must equal $p$. Let $x_{\phi(k)}\rightharpoonup w$. Since $w\in B^{-1}(0)$, the weak convergence and the characterization `weakConvergence_iff_forall_tendsto_inner_right` give
 
-$$
+```math
 \langle x_{\phi(k)}-x_0,w-x_0\rangle
 \longrightarrow \langle w-x_0,w-x_0\rangle
 =\|w-x_0\|^2.
-$$
+```
 
-On the other hand, by Cauchy-Schwarz and the earlier distance bound $d_n\le\|p-x_0\|$,
+On the other hand, by Cauchy-Schwarz and the earlier distance bound $`d_n\le\|p-x_0\|`$,
 
-$$
+```math
 \langle x_{\phi(k)}-x_0,w-x_0\rangle
 \le \|x_{\phi(k)}-x_0\|\,\|w-x_0\|
 \le \|p-x_0\|\,\|w-x_0\|.
-$$
+```
 
 Taking limits gives
 
-$$
+```math
 \|w-x_0\|^2\le \|p-x_0\|\,\|w-x_0\|.
-$$
+```
 
-If $\|w-x_0\|=0$, then the desired inequality $\|w-x_0\|\le\|p-x_0\|$ is immediate. Otherwise, dividing by $\|w-x_0\|>0$ gives
+If $`\|w-x_0\|=0`$, then the desired inequality$`\|w-x_0\|\le\|p-x_0\|`$is immediate. Otherwise, dividing by$`\|w-x_0\|>0`$ gives
 
-$$
+```math
 \|w-x_0\|\le\|p-x_0\|.
-$$
+```
 
-Conversely, since $p$ is a best approximation to $x_0$ in $B^{-1}(0)$ and $w\in B^{-1}(0)$, the distance from $x_0$ to $B^{-1}(0)$ is at most $\|w-x_0\|$, while $p$ attains that distance. The proof uses `projectionPoint_isBestApproximation` and `Metric.infDist_le_dist_of_mem` to conclude
+Conversely, since $p$ is a best approximation to $x_0$ in $B^{-1}(0)$ and $w\in B^{-1}(0)$, the distance from $x_0$ to $B^{-1}(0)$ is at most $`\|w-x_0\|`$, while$p$ attains that distance. The proof uses `projectionPoint_isBestApproximation` and `Metric.infDist_le_dist_of_mem` to conclude
 
-$$
+```math
 \|p-x_0\|\le\|w-x_0\|.
-$$
+```
 
 Hence
 
-$$
+```math
 \|w-x_0\|=\|p-x_0\|.
-$$
+```
 
 Thus $w$ is also a best approximation of $x_0$ in $B^{-1}(0)$. Since the zero set is Chebyshev, the best approximation is unique, so `eq_projectionPoint_of_isBestApproximation` gives $w=p$. The proof rewrites the best-approximation condition using `isBestApproximation_iff_mem_and_dist_eq_infDist`.
 
@@ -867,32 +867,32 @@ $$
 d_n\to L=\sup_n d_n
 $$
 
-and $L\le\|p-x_0\|$. To get the reverse inequality, it uses the weak convergence $x_n\rightharpoonup p$. By `weakConvergence_iff_forall_tendsto_inner_right`,
+and $`L\le\|p-x_0\|`$. To get the reverse inequality, it uses the weak convergence$x_n\rightharpoonup p$. By `weakConvergence_iff_forall_tendsto_inner_right`,
 
-$$
+```math
 \langle x_n-x_0,p-x_0\rangle
 \longrightarrow \|p-x_0\|^2.
-$$
+```
 
 Cauchy-Schwarz gives
 
-$$
+```math
 \langle x_n-x_0,p-x_0\rangle
 \le \|x_n-x_0\|\,\|p-x_0\|
 =d_n\|p-x_0\|.
-$$
+```
 
-Since $d_n\|p-x_0\|\to L\|p-x_0\|$, passing to the limit gives
+Since $`d_n\|p-x_0\|\to L\|p-x_0\|`$, passing to the limit gives
 
-$$
+```math
 \|p-x_0\|^2\le L\|p-x_0\|.
-$$
+```
 
-If $\|p-x_0\|=0$, then $L\ge0=\|p-x_0\|$. Otherwise, dividing by $\|p-x_0\|>0$ gives $\|p-x_0\|\le L$. Thus $L=\|p-x_0\|$, and therefore
+If $`\|p-x_0\|=0`$, then$`L\ge0=\|p-x_0\|`$. Otherwise, dividing by$`\|p-x_0\|>0`$gives$`\|p-x_0\|\le L`$. Thus$`L=\|p-x_0\|`$, and therefore
 
-$$
+```math
 \|x_n-x_0\|=d_n\to\|p-x_0\|.
-$$
+```
 
 Finally, the proof combines weak convergence and norm convergence. The weak convergence $x_n\rightharpoonup p$ implies, again by the inner-product characterization, that
 
@@ -902,9 +902,9 @@ $$
 
 weakly, because inner products with any $u$ converge after subtracting the constant $\langle x_0,u\rangle$. The norm convergence just proved is
 
-$$
+```math
 \|x_n-x_0\|\to\|p-x_0\|.
-$$
+```
 
 The theorem `tendsto_iff_tendsto_weakly_and_tendsto_norm` states that strong convergence is equivalent to weak convergence together with convergence of norms. Applying it to the sequence $x_n-x_0$ gives
 

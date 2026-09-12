@@ -13,14 +13,14 @@ def togesVLyapunov {H : Type*} [NormedAddCommGroup H] [NormedSpace ℝ H]
 ## Statement explanation
 The declaration `togesVLyapunov` introduces a real-valued function. The ambient type $H$ is assumed to be a complete real inner product space: it has the structure of a real normed vector space, an inner product over $\mathbb R$, and completeness, so it is a real Hilbert space. The arguments are $f : H \to \mathbb R$, a real-valued objective function; $u : \mathbb R \to H$, a curve or trajectory in $H$; $z : H$, a point of $H$; and $\alpha,\beta,t : \mathbb R$, scalar parameters and a real variable. The result is a real number defined by
 
-$$
+```math
 \mathrm{togesVLyapunov}(f,u,z,\alpha,\beta,t)
 =4t\,\mathrm{togesVDelta}(\beta,t)\,
 \left(f(\mathrm{togesVAuxiliary}(u,t))-\mathrm{sInf}(\mathrm{Set.range} f)\right)
 +\frac12 \left\|\mathrm{togesVLyapunovVector}(u,z,\alpha,\beta,t,f)\right\|^2.
-$$
+```
 
-Here $\mathrm{togesVDelta}(\beta,t)$ is a real scalar depending on $\beta$ and $t$. The expression $\mathrm{togesVAuxiliary}(u,t)$ is a point of $H$, so $f(\mathrm{togesVAuxiliary}(u,t))$ is the value of $f$ at that auxiliary point. The term $\mathrm{sInf}(\mathrm{Set.range} f)$ is the formal infimum of the set of real values $\{f(x) : x \in H\}$, so the difference $f(\mathrm{togesVAuxiliary}(u,t))-\mathrm{sInf}(\mathrm{Set.range} f)$ measures the gap between the value of $f$ at the auxiliary point and the infimum of $f$ over $H$. The first summand multiplies this gap by the scalar $4t\,\mathrm{togesVDelta}(\beta,t)$. The second summand uses the vector $\mathrm{togesVLyapunovVector}(u,z,\alpha,\beta,t,f)\in H$, whose squared norm is multiplied by $\frac12$.
+Here $\mathrm{togesVDelta}(\beta,t)$ is a real scalar depending on $\beta$ and $t$. The expression $\mathrm{togesVAuxiliary}(u,t)$ is a point of $H$, so $f(\mathrm{togesVAuxiliary}(u,t))$ is the value of $f$ at that auxiliary point. The term $\mathrm{sInf}(\mathrm{Set.range} f)$ is the formal infimum of the set of real values $`\{f(x) : x \in H\}`$, so the difference$f(\mathrm{togesVAuxiliary}(u,t))-\mathrm{sInf}(\mathrm{Set.range} f)$measures the gap between the value of$f$at the auxiliary point and the infimum of$f$over$H$. The first summand multiplies this gap by the scalar$`4t\,\mathrm{togesVDelta}(\beta,t)`$. The second summand uses the vector$\mathrm{togesVLyapunovVector}(u,z,\alpha,\beta,t,f)\in H$, whose squared norm is multiplied by$\frac12$.
 
 Thus, mathematically, the declaration defines a scalar Lyapunov-type quantity associated with the objective $f$, the curve $u$, the point $z$, the parameters $\alpha,\beta$, and the real variable $t$. It is only a definition: it does not assert, for example, convexity of $f$, monotonicity of the quantity, or any convergence property. The provided snippet does not define $\mathrm{togesVDelta}$, $\mathrm{togesVAuxiliary}$, or $\mathrm{togesVLyapunovVector}$; the only information used here is that the first is real-valued, the second is $H$-valued, and the third is $H$-valued so that its norm may be taken.
 

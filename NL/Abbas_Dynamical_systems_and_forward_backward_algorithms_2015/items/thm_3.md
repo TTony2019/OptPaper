@@ -36,9 +36,9 @@ $$
 
 for every $z\in H$. Thus $S$ is the zero-inclusion solution set for the problem $0\in Bz+\partial\Phi(z)$. The map $B:H\to H$ is single-valued, and the hypothesis $hB$ says that $B$ is $\beta$-cocoercive on all of $H$, meaning that for all $u,v\in H$,
 
-$$
+```math
 \beta\,\|Bu-Bv\|^2 \le \langle Bu-Bv,u-v\rangle .
-$$
+```
 
 The real parameters are $\mu,h,\beta,\delta$. The assumptions on them are
 
@@ -81,11 +81,11 @@ $$
 
 the squared successive differences are summable,
 
-$$
+```math
 \sum_{k}\|x_{k+1}-x_k\|^2<\infty,
 \qquad
 \sum_{k}\|y_{k+1}-y_k\|^2<\infty,
-$$
+```
 
 and the residual converges strongly:
 
@@ -93,7 +93,7 @@ $$
 y_k-x_k\to ybar-xbar.
 $$
 
-In ordinary mathematical language, under a cocoercivity condition on $B$, a step-size restriction $h<\delta$, and the assumption that the solution set is nonempty, the relaxed backward-forward orbit converges weakly to a pair $(ybar,xbar)$ where $xbar$ is the proximal image of $ybar$ and lies in the solution set. The operator values along $x_k$ converge strongly, the successive increments are square-summable, and the gap $y_k-x_k$ tends to the limiting gap.
+In ordinary mathematical language, under a cocoercivity condition on $B$, a step-size restriction $h\lt \delta$, and the assumption that the solution set is nonempty, the relaxed backward-forward orbit converges weakly to a pair $(ybar,xbar)$ where $xbar$ is the proximal image of $ybar$ and lies in the solution set. The operator values along $x_k$ converge strongly, the successive increments are square-summable, and the gap $y_k-x_k$ tends to the limiting gap.
 
 ## Lean proof
 ```lean
@@ -374,15 +374,15 @@ $$
 
 Thus $T=F\circ P$. The goal is to show that the $y$-sequence is a relaxed averaged iteration for $T$, then transfer the resulting weak convergence from $y_k$ to $x_k=P(y_k)$, and finally establish the strong convergence and summability claims.
 
-First, the proof notes that $\beta>0$. This follows from $0<\mu$ and $\mu<2\beta$ by `nlinarith`. Next it shows that $P$ is firmly nonexpansive. Since $\Phi\in\Gamma_0(H)$ and $\mu>0$, the cited result `smul_mem_gammaZero` says that the positive scalar multiple $\mu\Phi$ again belongs to $\Gamma_0(H)$. The cited theorem `proximityOperator_firmlyNonexpansive_of_mem_gammaZero` then says that the proximity operator of a $\Gamma_0$-function is firmly nonexpansive. Because $P$ is by definition the scaled proximity operator of $\Phi$ with parameter $\mu$, this gives that $P$ is firmly nonexpansive. The proof then converts this into averagedness: the theorem `firmlyNonexpansiveOn_iff_averagedWith_half` says that firm nonexpansiveness on a set is equivalent to averagedness with parameter $1/2$, and `firmlyNonexpansive_iff_firmlyNonexpansiveOn_univ` identifies the whole-space firm nonexpansiveness with the version on `Set.univ`. Hence $P$ is $(1/2)$-averaged.
+First, the proof notes that $\beta\gt 0$. This follows from $0\lt \mu$ and $\mu\lt 2\beta$ by `nlinarith`. Next it shows that $P$ is firmly nonexpansive. Since $\Phi\in\Gamma_0(H)$ and $\mu\gt 0$, the cited result `smul_mem_gammaZero` says that the positive scalar multiple $\mu\Phi$ again belongs to $\Gamma_0(H)$. The cited theorem `proximityOperator_firmlyNonexpansive_of_mem_gammaZero` then says that the proximity operator of a $\Gamma_0$-function is firmly nonexpansive. Because $P$ is by definition the scaled proximity operator of $\Phi$ with parameter $\mu$, this gives that $P$ is firmly nonexpansive. The proof then converts this into averagedness: the theorem `firmlyNonexpansiveOn_iff_averagedWith_half` says that firm nonexpansiveness on a set is equivalent to averagedness with parameter $1/2$, and `firmlyNonexpansive_iff_firmlyNonexpansiveOn_univ` identifies the whole-space firm nonexpansiveness with the version on `Set.univ`. Hence $P$ is $(1/2)$-averaged.
 
-Second, the proof obtains averagedness of $F$. From $0<\mu<2\beta$, it proves
+Second, the proof obtains averagedness of $F$. From $0\lt \mu\lt 2\beta$, it proves
 
 $$
 0<\frac{\mu}{2\beta}<1.
 $$
 
-The cited theorem `cocoerciveOn_iff_averagedWith_id_sub_smul` says that if $\beta>0$ and $\gamma\in(0,2\beta)$, then $\beta$-cocoercivity of an operator $B$ on a set $D$ is equivalent to averagedness of the map
+The cited theorem `cocoerciveOn_iff_averagedWith_id_sub_smul` says that if $\beta\gt 0$ and $\gamma\in(0,2\beta)$, then $\beta$-cocoercivity of an operator $B$ on a set $D$ is equivalent to averagedness of the map
 
 $$
 x\mapsto x-\gamma Bx
@@ -424,7 +424,7 @@ $$
 
 Thus $T$ is $(1/\delta)$-averaged.
 
-The proof next verifies that the relaxed averaged-orbit theorem applies. It proves $0<\delta$ and $(1/\delta)\in(0,1)$. Indeed, $\delta>0$ is immediate from its definition. Also $\mu<2\beta$ gives $\beta/\mu>1/2$, hence $\min(1,\beta/\mu)>1/2$, so $\delta>1$, which implies $1/\delta<1$. Since $h<\delta$, and $1/(1/\delta)=\delta$, the hypothesis $hh$ gives
+The proof next verifies that the relaxed averaged-orbit theorem applies. It proves $0\lt \delta$ and $(1/\delta)\in(0,1)$. Indeed, $\delta\gt 0$ is immediate from its definition. Also $\mu\lt 2\beta$ gives $\beta/\mu\gt 1/2$, hence $\min(1,\beta/\mu)\gt 1/2$, so $\delta\gt 1$, which implies $1/\delta\lt 1$. Since $h\lt \delta$, and $1/(1/\delta)=\delta$, the hypothesis $hh$ gives
 
 $$
 h\in\left(0,\frac{1}{1/\delta}\right).
@@ -448,9 +448,9 @@ $$
 
 weakly, and such that
 
-$$
+```math
 \sum_k\|y_{k+1}-y_k\|^2<\infty.
-$$
+```
 
 The proof sets
 
@@ -485,28 +485,28 @@ $$
 
 and
 
-$$
+```math
 A_k=\frac{1}{2\mu}\|x_k-z_0\|^2+g_k.
-$$
+```
 
 Here $(\Phi z)_{\mathbb R}$ denotes the real reading of the extended-real value $\Phi(z)$ supplied by `EReal.toReal`.
 
 The cited result `bf_discrete_source51` is used to produce the discrete energy inequality
 
-$$
+```math
 \begin{aligned}
 A_{k+1}-A_k+\frac{1}{2\mu}\|x_{k+1}-x_k\|^2
 &+h\langle Bx_k-Bz_0,x_k-z_0\rangle\\
 &+h\langle x_k-z_0,v_k+Bz_0\rangle
 \le \frac{1}{\mu}\langle x_{k+1}-x_k,y_{k+1}-y_k\rangle.
 \end{aligned}
-$$
+```
 
 This is the source estimate from which the summability conclusions will be extracted. The proof also derives the cocoercivity inequality
 
-$$
+```math
 \beta\|Bx_k-Bz_0\|^2\le \langle Bx_k-Bz_0,x_k-z_0\rangle,
-$$
+```
 
 directly from the hypothesis $hB$ applied to $x_k$ and $z_0$, using symmetry of the real inner product.
 
@@ -556,24 +556,24 @@ $$
 
 After identifying $\mu^{-1}(y_k-x_k)$ with $v_k$ and using symmetry of the inner product, this is precisely $g_k\ge 0$. Since
 
-$$
+```math
 \frac{1}{2\mu}\|x_k-z_0\|^2\ge 0,
-$$
+```
 
 it follows that $A_k\ge 0$.
 
 With these three ingredients, the proof applies the algebraic lemma `bf_discrete_source55_half`. Its statement is: if
 
-$$
+```math
 A_1-A_0+\frac{1}{2\mu}\|dx\|^2+h\langle bx-bz,xz\rangle+h\langle xz,q\rangle
 \le \frac{1}{\mu}\langle dx,dy\rangle,
-$$
+```
 
 if
 
-$$
+```math
 \beta\|bx-bz\|^2\le \langle bx-bz,xz\rangle,
-$$
+```
 
 and if
 
@@ -583,24 +583,24 @@ $$
 
 then
 
-$$
+```math
 A_1-A_0+\frac{1}{4\mu}\|dx\|^2+h\beta\|bx-bz\|^2
 \le \frac{1}{\mu}\|dy\|^2.
-$$
+```
 
 Instantiating this with $A_0=A_k$, $A_1=A_{k+1}$, $dx=x_{k+1}-x_k$, $dy=y_{k+1}-y_k$, $bx=Bx_k$, $bz=Bz_0$, $xz=x_k-z_0$, and $q=v_k+Bz_0$ yields
 
-$$
+```math
 A_{k+1}-A_k+\frac{1}{4\mu}\|x_{k+1}-x_k\|^2
 +h\beta\|Bx_k-Bz_0\|^2
 \le \frac{1}{\mu}\|y_{k+1}-y_k\|^2.
-$$
+```
 
 The summability of the $y$-increments gives that the sequence
 
-$$
+```math
 c_k=\frac{1}{\mu}\|y_{k+1}-y_k\|^2
-$$
+```
 
 is summable. The proof then applies the lemma `summable_of_nonneg_le_diff_add_summable`, which states that if $a_k\ge 0$, $d_k\ge 0$, $c$ is summable, and
 
@@ -610,37 +610,37 @@ $$
 
 for every $k$, then $a$ is summable. Taking
 
-$$
+```math
 a_k=\frac{1}{4\mu}\|x_{k+1}-x_k\|^2,
 \qquad
 d_k=A_k,
 \qquad
 c_k=\frac{1}{\mu}\|y_{k+1}-y_k\|^2
-$$
+```
 
 gives summability of the scaled $x$-increment squares. Taking instead
 
-$$
+```math
 a_k=h\beta\|Bx_k-Bz_0\|^2
-$$
+```
 
-with the same $d_k$ and $c_k$ gives summability of $h\beta\|Bx_k-Bz_0\|^2$. After multiplying by the positive constants $(4\mu)$ and $(h\beta)^{-1}$, respectively, the proof obtains
+with the same $d_k$ and $c_k$ gives summability of $`h\beta\|Bx_k-Bz_0\|^2`$. After multiplying by the positive constants$(4\mu)$and$(h\beta)^{-1}$, respectively, the proof obtains
 
-$$
+```math
 \sum_k\|x_{k+1}-x_k\|^2<\infty
-$$
+```
 
 and
 
-$$
+```math
 \sum_k\|Bx_k-Bz_0\|^2<\infty.
-$$
+```
 
-From the latter summability, the terms $\|Bx_k-Bz_0\|^2$ tend to $0$. The cited theorem `ext_cor_1_sq_tendsto_implies_norm_tendsto_zero` says that if $r_k\ge 0$ and $r_k^2\to 0$, then $r_k\to 0$. Applying it with $r_k=\|Bx_k-Bz_0\|$ gives
+From the latter summability, the terms $`\|Bx_k-Bz_0\|^2`$tend to$0$. The cited theorem `ext_cor_1_sq_tendsto_implies_norm_tendsto_zero` says that if $r_k\ge 0$ and $r_k^2\to 0$, then $r_k\to 0$. Applying it with $`r_k=\|Bx_k-Bz_0\|`$ gives
 
-$$
+```math
 \|Bx_k-Bz_0\|\to 0.
-$$
+```
 
 Using `tendsto_zero_iff_norm_tendsto_zero`, this converts to
 
@@ -648,13 +648,13 @@ $$
 Bx_k-Bz_0\to 0,
 $$
 
-hence $Bx_k\to Bz_0$. The proof then invokes `bf_operator_constant_on_solution_set`, which says that if $B$ is $\beta$-cocoercive with $\beta>0$ and $S$ is the solution set defined by the subdifferential inclusion, then $B$ is constant on $S$. Since $z_0\in S$ and $xbar\in S$, it follows that $Bz_0=Bxbar$. Therefore
+hence $Bx_k\to Bz_0$. The proof then invokes `bf_operator_constant_on_solution_set`, which says that if $B$ is $\beta$-cocoercive with $\beta\gt 0$ and $S$ is the solution set defined by the subdifferential inclusion, then $B$ is constant on $S$. Since $z_0\in S$ and $xbar\in S$, it follows that $Bz_0=Bxbar$. Therefore
 
 $$
 Bx_k\to Bxbar.
 $$
 
-Similarly, from the summability of the $y$-increments, the terms $\|y_{k+1}-y_k\|^2$ tend to $0$, and again `ext_cor_1_sq_tendsto_implies_norm_tendsto_zero` and `tendsto_zero_iff_norm_tendsto_zero` give
+Similarly, from the summability of the $y$-increments, the terms $`\|y_{k+1}-y_k\|^2`$tend to$0$, and again `ext_cor_1_sq_tendsto_implies_norm_tendsto_zero` and `tendsto_zero_iff_norm_tendsto_zero` give
 
 $$
 y_{k+1}-y_k\to 0.

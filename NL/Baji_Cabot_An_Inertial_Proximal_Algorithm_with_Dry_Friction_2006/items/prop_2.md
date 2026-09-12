@@ -42,13 +42,13 @@ with the right-hand side interpreted in $\overline{\mathbb R}$.
 - $f$ is lower semicontinuous.
 - $B$ is the subdifferential of $f$ in the sense that for every $x$,
 
-$$
+```math
 B x=\{v:\forall y,\ f(y)\ge f(x)+\langle v,y-x\rangle\}.
-$$
+```
 
 - The domain of $B$ is nonempty. This assumption appears in the statement but is not explicitly used in the displayed proof.
 - $f$ is bounded below by a real number: there is $m\in\mathbb R$ such that $(m:\overline{\mathbb R})\le f(x)$ for all $x\in H$.
-- $\lambda_n>0$ for every $n$, and $\lambda_n\le \lambda_{n+1}$.
+- $\lambda_n\gt 0$ for every $n$, and $\lambda_n\le \lambda_{n+1}$.
 - $x$ satisfies the algorithm relation `AlgorithmA A B x lam`. The only consequence of this relation used in the proof is that, for each $n$, if
 
 $$
@@ -59,17 +59,17 @@ $$
 
 then
 
-$$
+```math
 0\in \{\mathrm{acc}\}+A v+B(x_{n+2}).
-$$
+```
 
-- $x_1\in \mathrm{dom}f$, meaning $f(x_1)<\top$, where $\top=+\infty$ in $\overline{\mathbb R}$.
+- $x_1\in \mathrm{dom}f$, meaning $f(x_1)\lt \top$, where $\top=+\infty$ in $\overline{\mathbb R}$.
 
 The energy sequence is defined by
 
-$$
+```math
 E_n=\frac{1}{2\lambda_n^2}\|x_{n+1}-x_n\|^2+f(x_{n+1}),
-$$
+```
 
 with values in $\overline{\mathbb R}$. The set-valued quantity $\Phi_A$ is defined by
 
@@ -81,25 +81,25 @@ where the infimum is taken in $\overline{\mathbb R}$ and the real inner product 
 
 The theorem concludes two things. First, for every $n$,
 
-$$
+```math
 E_{n+1}-E_n
 \le
 -\lambda_n\,\Phi_A\!\left(\lambda_n^{-1}(x_{n+2}-x_{n+1})\right).
-$$
+```
 
 Thus the energy decreases at least by the friction term. Second, there exists a real number $S$ such that
 
-$$
+```math
 \sum_{n=0}^{N}
 \lambda_n\,\Phi_A\!\left(\lambda_n^{-1}(x_{n+2}-x_{n+1})\right)
 \longrightarrow S
-$$
+```
 
 as $N\to\infty$, in $\overline{\mathbb R}$. Equivalently, the friction terms
 
-$$
+```math
 \lambda_n\,\Phi_A\!\left(\lambda_n^{-1}(x_{n+2}-x_{n+1})\right)
-$$
+```
 
 form a summable series.
 
@@ -452,15 +452,15 @@ The proof also removes the existential lower bound from `hinf` via `rcases hinf 
 
 The first technical goal is to replace the extended-real energy by a real energy. The proof defines
 
-$$
+```math
 R_n=\frac{1}{2\lambda_n^2}\|x_{n+1}-x_n\|^2+(f(x_{n+1}))_{\mathbb R},
-$$
+```
 
 where $a_{\mathbb R}$ denotes the real part `toReal` of an extended real $a$. This is useful only if the extended-real values involved are finite.
 
 It first proves that no $f(x_n)$ is $-\infty$. If $f(x_n)=\bot$, then the lower bound $(m:\overline{\mathbb R})\le f(x_n)$ would give $(m:\overline{\mathbb R})\le\bot$, which is impossible for a real $m$. This is the argument behind `hf_iter_ne_bot`.
 
-Next it proves $f(x_1)\ne\top$. The hypothesis $x_1\in\mathrm{dom}f$ means $f(x_1)<\top$, using the definition of `ERealFunction.dom`. Hence $f(x_1)$ is not $+\infty$. This is `hx1_ne_top`.
+Next it proves $f(x_1)\ne\top$. The hypothesis $x_1\in\mathrm{dom}f$ means $f(x_1)\lt \top$, using the definition of `ERealFunction.dom`. Hence $f(x_1)$ is not $+\infty$. This is `hx1_ne_top`.
 
 Then it proves by induction that $f(x_{n+1})\ne\top$ for all $n$. The base case is $f(x_1)\ne\top$. For the step, suppose the claim is known up to a certain point and consider the algorithm relation at index $k$. The proof sets
 
@@ -472,9 +472,9 @@ $$
 
 The visible consequence of `halg.step k` is
 
-$$
+```math
 0\in \{\mathrm{acc}\}+A v+B(x_{k+2}).
-$$
+```
 
 Decomposing this membership gives in particular an element $b\in B(x_{k+2})$. Since $B$ is the subdifferential of $f$, the defining property of $B(x_{k+2})$ gives, for every $t\in H$,
 
@@ -530,9 +530,9 @@ $$
 
 The algorithm step gives
 
-$$
+```math
 0\in \{\mathrm{acc}\}+A v+B(x_{n+2}).
-$$
+```
 
 Using `Set.mem_add` twice decomposes this as
 
@@ -572,55 +572,55 @@ $$
 
 This is `hf_diff`.
 
-Next, the proof compares the coefficients in the two energy terms. Since $0<\lambda_n\le\lambda_{n+1}$, we have
+Next, the proof compares the coefficients in the two energy terms. Since $0\lt \lambda_n\le\lambda_{n+1}$, we have
 
 $$
 (2\lambda_{n+1}^2)^{-1}\le (2\lambda_n^2)^{-1},
 $$
 
-so multiplying by $\|d_2\|^2\ge0$ gives
+so multiplying by $`\|d_2\|^2\ge0`$ gives
 
-$$
+```math
 (2\lambda_{n+1}^2)^{-1}\|d_2\|^2
 \le
 (2\lambda_n^2)^{-1}\|d_2\|^2.
-$$
+```
 
 This is `hcoeff`.
 
 Combining this coefficient comparison with the inequality for the $f$-values gives
 
-$$
+```math
 R_{n+1}-R_n
 \le
 (2\lambda_n^2)^{-1}\bigl(\|d_2\|^2-\|d_1\|^2\bigr)
 +\langle b,d_2\rangle.
-$$
+```
 
 This is `henergy_le`.
 
 The proof then uses the elementary Hilbert-space inequality
 
-$$
+```math
 \|d_2\|^2-\|d_1\|^2
 \le
 2\langle d_2-d_1,d_2\rangle.
-$$
+```
 
 It follows from
 
-$$
+```math
 0\le \|d_2-d_1\|^2
 =\|d_2\|^2-2\langle d_2,d_1\rangle+\|d_1\|^2
-$$
+```
 
 and the symmetry of the real inner product. This is `hnorm`. Multiplying by the nonnegative number $(2\lambda_n^2)^{-1}$ gives
 
-$$
+```math
 (2\lambda_n^2)^{-1}\bigl(\|d_2\|^2-\|d_1\|^2\bigr)
 \le
 \lambda_n^{-2}\langle d_2-d_1,d_2\rangle.
-$$
+```
 
 This is `hnorm_scaled`.
 
@@ -704,23 +704,23 @@ which is the second half of `hmainR`.
 
 Using `henergySeq_eq` to replace $E_n$ with $R_n$, the proof obtains the first conclusion:
 
-$$
+```math
 E_{n+1}-E_n
 \le
 -\lambda_n\Phi_A\!\left(\lambda_n^{-1}(x_{n+2}-x_{n+1})\right).
-$$
+```
 
 This is `hmain`.
 
 It remains to prove summability. Define
 
-$$
+```math
 T_n=\lambda_n\Phi_A\!\left(\lambda_n^{-1}(x_{n+2}-x_{n+1})\right),
 \qquad
 t_n=(T_n)_{\mathbb R}.
-$$
+```
 
-The proof shows $T_n\ge0$. Indeed, $\lambda_n>0$ and $\Phi_A\ge0$, so their product in $\overline{\mathbb R}$ is nonnegative. Therefore $T_n\ne\bot$, and $T_n$ is also finite because $\lambda_n$ and $\Phi_A$ are finite. Hence $t_n\ge0$ is a nonnegative real number.
+The proof shows $T_n\ge0$. Indeed, $\lambda_n\gt 0$ and $\Phi_A\ge0$, so their product in $\overline{\mathbb R}$ is nonnegative. Therefore $T_n\ne\bot$, and $T_n$ is also finite because $\lambda_n$ and $\Phi_A$ are finite. Hence $t_n\ge0$ is a nonnegative real number.
 
 From the second half of `hmainR`, the proof has
 
@@ -742,13 +742,13 @@ $$
 
 and
 
-$$
+```math
 R_N=(2\lambda_N^2)^{-1}\|x_{N+1}-x_N\|^2+(f(x_{N+1}))_{\mathbb R},
-$$
+```
 
 where the kinetic term is nonnegative.
 
-Summing $t_n\le R_n-R_{n+1}$ for $n<N$ gives
+Summing $t_n\le R_n-R_{n+1}$ for $n\lt N$ gives
 
 $$
 \sum_{n=0}^{N-1}t_n
@@ -792,12 +792,12 @@ $$
 
 Therefore
 
-$$
+```math
 \sum_{n=0}^{N+1}
 \lambda_n\Phi_A\!\left(\lambda_n^{-1}(x_{n+2}-x_{n+1})\right)
 \longrightarrow
 (S:\overline{\mathbb R}),
-$$
+```
 
 which is exactly the second conclusion.
 

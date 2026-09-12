@@ -22,7 +22,7 @@ Let $H$ be a real inner product space which is also a normed additive commutativ
 - sequences $u,y : \mathbb N \to H$.
 
 The hypotheses are:
-- `IFBHypothesis phi Theta psi gradPsi a b lam Lpsi`, an inertial forward-backward structural hypothesis. The proof uses only the consequences that it supplies a positive constant $L_\psi>0$ and a Lipschitz estimate for $\mathrm{gradPsi}$.
+- `IFBHypothesis phi Theta psi gradPsi a b lam Lpsi`, an inertial forward-backward structural hypothesis. The proof uses only the consequences that it supplies a positive constant $L_\psi\gt 0$ and a Lipschitz estimate for $\mathrm{gradPsi}$.
 - `IsIFBTrajectory phi psi gradPsi a b lam u y`, saying that the sequences $u$ and $y$ form an inertial forward-backward trajectory associated to the displayed data.
 - $( \mathrm{argminSet}(\Theta) ) \neq \varnothing$, meaning that the extended-real-valued function $\Theta$ has at least one global minimizer.
 
@@ -109,9 +109,9 @@ $$
 
 for all $x,y$, where $L_\psi^{\ge 0}$ denotes the nonnegative-real version of $L_\psi$. The proof introduces arbitrary $x,y$ by `intro x y` and invokes the field `hH.psi_lipschitz x y`, which supplies the Lipschitz estimate for `gradPsi`. The simplification uses
 
-$$
+```math
 \mathrm{dist}(x,y)=\|x-y\|
-$$
+```
 
 and the identity
 

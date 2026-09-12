@@ -40,7 +40,7 @@ $$
 The hypothesis `hyp : H21toH24 X Y f g h k c α β μ ν` is a bundle of assumptions. The proof uses the following parts of it:
 - $f$ is bounded below: there is $inf_f\in\mathbb R$ with $f(x)\ge inf_f$ for every $x\in X$.
 - $g$ is bounded below: there is $inf_g\in\mathbb R$ with $g(y)\ge inf_g$ for every $y\in Y$.
-- $\beta_n>0$ and $\mu_n>0$ for every $n$.
+- $\beta_n\gt 0$ and $\mu_n\gt 0$ for every $n$.
 - $\alpha_n\ge0$ and $\nu_n\ge0$ for every $n$.
 - $c(x,y)\ge0$ for all $x,y$.
 - $h(x,x')\ge0$ for all $x,x'$.
@@ -48,7 +48,7 @@ The hypothesis `hyp : H21toH24 X Y f g h k c α β μ ν` is a bundle of assumpt
 
 The parameters `β_behavior` and `μ_behavior` are monotonicity choices for $\beta$ and $\mu$. The hypotheses `hβ_prop` and `hμ_prop` assert that $\beta$ and $\mu$ have those chosen behaviors. The sequence $\delta_n = \mathrm{deltaSeq}(\beta,\mu,\beta_{\rm behavior},\mu_{\rm behavior})$ is defined by four cases:
 
-$$
+```math
 \delta_n=
 \begin{cases}
 1, & \beta \text{ nonincreasing and } \mu \text{ nonincreasing},\\
@@ -56,7 +56,7 @@ $$
 \beta_n, & \beta \text{ nondecreasing and } \mu \text{ nonincreasing},\\
 \beta_n\mu_n, & \beta \text{ nondecreasing and } \mu \text{ nondecreasing}.
 \end{cases}
-$$
+```
 
 The theorem uses the weighted energy
 
@@ -263,7 +263,7 @@ $$
 \delta_n=\mathrm{deltaSeq}(\beta,\mu,\beta_{\rm behavior},\mu_{\rm behavior}).
 $$
 
-It proves `hdelta_pos : ∀ n, 0 < δ_n`. The proof is by cases on the two selected monotonicity behaviors. If both are nonincreasing, then $\delta_n=1$, so positivity is immediate. If $\beta$ is nonincreasing and $\mu$ is nondecreasing, then $\delta_n=\mu_n$, and `hyp.mu_pos n` gives $\mu_n>0$. If $\beta$ is nondecreasing and $\mu$ is nonincreasing, then $\delta_n=\beta_n$, and `hyp.beta_pos n` gives $\beta_n>0$. If both are nondecreasing, then $\delta_n=\beta_n\mu_n$, and positivity follows from $\beta_n>0$ and $\mu_n>0$ by `mul_pos`.
+It proves `hdelta_pos : ∀ n, 0 < δ_n`. The proof is by cases on the two selected monotonicity behaviors. If both are nonincreasing, then $\delta_n=1$, so positivity is immediate. If $\beta$ is nonincreasing and $\mu$ is nondecreasing, then $\delta_n=\mu_n$, and `hyp.mu_pos n` gives $\mu_n\gt 0$. If $\beta$ is nondecreasing and $\mu$ is nonincreasing, then $\delta_n=\beta_n$, and `hyp.beta_pos n` gives $\beta_n\gt 0$. If both are nondecreasing, then $\delta_n=\beta_n\mu_n$, and positivity follows from $\beta_n\gt 0$ and $\mu_n\gt 0$ by `mul_pos`.
 
 The proof then specializes the three monotonicity lemmas supplied in the context. The lemma `mu_div_delta_nonincreasing` says that, under the positivity and monotonicity assumptions on $\beta$ and $\mu$,
 
@@ -293,7 +293,7 @@ $$
 f(x_n)-inf_f\ge0,\qquad g(y_n)-inf_g\ge0,\qquad c(x_n,y_n)\ge0.
 $$
 
-Also, because $\beta_n>0$, $\mu_n>0$, and $\delta_n>0$,
+Also, because $\beta_n\gt 0$, $\mu_n\gt 0$, and $\delta_n\gt 0$,
 
 $$
 \frac{\mu_n}{\delta_n}\ge0,\qquad
@@ -314,7 +314,7 @@ together with nonnegativity of $\mu_n/\delta_n$ and $\beta_n/\delta_n$. Hence bo
 
 The central step is `hE_step : ∀ n, E_{n+1}+W_n\le E_n`. It starts from the cited lemma `lemma_2_3`, applied to `alg` and `hyp`. That lemma gives the raw descent inequality
 
-$$
+```math
 \begin{aligned}
 &\mu_n f(x_{n+1})+\beta_n g(y_{n+1})
 +\beta_n\mu_n c(x_{n+1},y_{n+1})\\
@@ -323,13 +323,13 @@ $$
 &\le
 \mu_n f(x_n)+\beta_n g(y_n)+\beta_n\mu_n c(x_n,y_n).
 \end{aligned}
-$$
+```
 
 This is the algorithm’s one-step decrease: the new objective values plus the new coupling term plus the move costs are no larger than the old weighted objective and coupling term.
 
-Since $\delta_n>0$, the proof divides the raw inequality by $\delta_n$ using `div_le_div_of_nonneg_right`. After clearing denominators with `field_simp` and rearranging with `ring`, it obtains the scaled inequality
+Since $\delta_n\gt 0$, the proof divides the raw inequality by $\delta_n$ using `div_le_div_of_nonneg_right`. After clearing denominators with `field_simp` and rearranging with `ring`, it obtains the scaled inequality
 
-$$
+```math
 \begin{aligned}
 &\frac{\mu_n}{\delta_n} f(x_{n+1})
 +\frac{\beta_n}{\delta_n} g(y_{n+1})
@@ -341,7 +341,7 @@ $$
 +\frac{\beta_n}{\delta_n} g(y_n)
 +\frac{\beta_n\mu_n}{\delta_n} c(x_n,y_n).
 \end{aligned}
-$$
+```
 
 Subtracting the same quantity
 
@@ -351,7 +351,7 @@ $$
 
 from both sides and rearranging gives the intermediate inequality `hshift`:
 
-$$
+```math
 \begin{aligned}
 &\frac{\mu_n}{\delta_n}(f(x_{n+1})-inf_f)
 +\frac{\beta_n}{\delta_n}(g(y_{n+1})-inf_g)
@@ -359,7 +359,7 @@ $$
 +W_n\\
 &\le E_n.
 \end{aligned}
-$$
+```
 
 Indeed, $W_n$ is precisely the two move-cost terms in the scaled inequality.
 

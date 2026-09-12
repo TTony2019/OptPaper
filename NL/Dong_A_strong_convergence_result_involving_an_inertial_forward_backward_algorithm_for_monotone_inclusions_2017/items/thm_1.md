@@ -27,10 +27,10 @@ $$
 
 where $A:H\to H$ is a single-valued operator and $B:H\rightrightarrows H$ is a set-valued operator. The zero set is denoted
 
-$$
+```math
 Z=\mathrm{operatorSumZeroSet} A B
 =\{u\in H:0\in A u+B u\}.
-$$
+```
 
 The hypotheses are as follows. The real number $\alpha$ is the cocoercivity parameter: $A$ is $\alpha$-cocoercive on all of $H$, expressed by `CocoerciveOn alpha Set.univ (fun x : Set.univ ↦ A x)`. The operator $B$ is assumed maximal monotone. The object `alg` is an inertial forward-backward algorithm for $A$ and $B$; in the proof it supplies the sequences
 
@@ -50,15 +50,15 @@ $$
 
 and $x_{n+1}$ is the metric projection of $x_0$ onto the intersection of the inertial set $C_n$ and the half-space $Q_n$, where
 
-$$
+```math
 C_n=\left\{u:\|z_n-u\|^2\le \|x_n-u\|^2
 -2\theta_n\langle x_n-u,x_{n-1}-x_n\rangle
 +\theta_n^2\|x_{n-1}-x_n\|^2\right\},
-$$
+```
 
-$$
+```math
 Q_n=\left\{u:\langle u-x_n,x_0-x_n\rangle\le 0\right\}.
-$$
+```
 
 The inertia sequence is bounded,
 
@@ -88,11 +88,11 @@ $$
 
 the zero set $Z$ is nonempty, and $Z$ is Chebyshev, so that the metric projection of any point onto $Z$ is uniquely defined. The conclusion is strong convergence of the algorithm iterates to the metric projection of the initial point onto the zero set:
 
-$$
+```math
 x_n\longrightarrow
 \mathrm{projectionPoint} Z\,(\text{Chebyshev witness})\,x_0
 \quad\text{strongly in }H.
-$$
+```
 
 In ordinary language: under cocoercivity of $A$, maximal monotonicity of $B$, bounded inertia, suitable step-size bounds, and an initial half-space feasibility condition, the inertial forward-backward iterates converge norm-strongly to the unique point of $Z$ closest to the initial point $x_0$.
 
@@ -565,9 +565,9 @@ by
 ```
 
 ## Proof explanation
-The proof is a long convergence argument. It first builds the nested feasibility sets $C_n\cap Q_n$, then proves the distance sequence $d_n=\|x_n-x_0\|$ is monotone and bounded, then shows the inertial and resolvent residuals vanish, then identifies all weak cluster points as the projection point $q$, then upgrades weak convergence to strong convergence. The tactics `intro`, `rcases`, `obtain`, and `refine` are used to introduce hypotheses, decompose conjunctions, and build proof terms; `rw`, `simp`, and `simpa` rewrite definitions and algebraic identities; `linarith`, `nlinarith`, `omega`, `ring`, and `abel` handle arithmetic and inequalities; `squeeze_zero'` applies the squeeze theorem for convergence to zero.
+The proof is a long convergence argument. It first builds the nested feasibility sets $C_n\cap Q_n$, then proves the distance sequence $`d_n=\|x_n-x_0\|`$is monotone and bounded, then shows the inertial and resolvent residuals vanish, then identifies all weak cluster points as the projection point$q$, then upgrades weak convergence to strong convergence. The tactics `intro`, `rcases`, `obtain`, and `refine` are used to introduce hypotheses, decompose conjunctions, and build proof terms; `rw`, `simp`, and `simpa` rewrite definitions and algebraic identities; `linarith`, `nlinarith`, `omega`, `ring`, and `abel` handle arithmetic and inequalities; `squeeze_zero'` applies the squeeze theorem for convergence to zero.
 
-First, the proof establishes that every element of $Z$ lies in $C_n\cap Q_n$ for every $n\ge 1$. For $n=1$, this is `hbase`: the inclusion $Z\subseteq C_1$ follows from the private lemma `operatorSumZeroSet_subset_inertialForwardBackwardC`. That lemma says that, under the cocoercivity of $A$, maximal monotonicity of $B$, and the step-size condition $r_n<2\alpha$ for $n\ge 1$, the zero set $Z$ is contained in the inertial set $C_n$. The inclusion $Z\subseteq Q_1$ is exactly the hypothesis `hInitialOmegaQ`.
+First, the proof establishes that every element of $Z$ lies in $C_n\cap Q_n$ for every $n\ge 1$. For $n=1$, this is `hbase`: the inclusion $Z\subseteq C_1$ follows from the private lemma `operatorSumZeroSet_subset_inertialForwardBackwardC`. That lemma says that, under the cocoercivity of $A$, maximal monotonicity of $B$, and the step-size condition $r_n\lt 2\alpha$ for $n\ge 1$, the zero set $Z$ is contained in the inertial set $C_n$. The inclusion $Z\subseteq Q_1$ is exactly the hypothesis `hInitialOmegaQ`.
 
 Second, for every $n$, the intersection $C_n\cap Q_n$ is closed and convex. The lemma `inertialForwardBackwardC_isClosed_convex` states that the inertial set $C_n$ is closed and convex. The lemma `inertialForwardBackwardQ_isClosed_convex` states that the half-space $Q_n$ is closed and convex. The proof therefore intersects these two closed convex sets, using that the intersection of closed sets is closed and the intersection of convex sets is convex.
 
@@ -625,35 +625,35 @@ $$
 
 the projection point of $x_0$ onto $Z$, and the distance sequence
 
-$$
+```math
 d_n=\|x_n-x_0\|.
-$$
+```
 
 Since $q\in Z$, the already-established feasibility $Z\subseteq C_n\cap Q_n$ gives $q\in Q_n$ for all $n\ge 1$; for $n=0$, the half-space condition is automatic. The proof then uses the Pythagorean inequality for metric projections, stated by `metric_projection_pythagorean`: if $C$ is nonempty closed convex, $p=P_C(x)$, and $y\in C$, then
 
-$$
+```math
 \|y-p\|^2+\|x-p\|^2\le \|x-y\|^2.
-$$
+```
 
 Applying this with $C=Q_n$, $p=x_n$, $x=x_0$, and $y=q$ gives
 
-$$
+```math
 d_n\le \|q-x_0\|.
-$$
+```
 
 Applying it with $y=x_{n+1}$, which lies in $Q_n$, gives
 
-$$
+```math
 \|x_{n+1}-x_n\|^2+d_n^2\le d_{n+1}^2.
-$$
+```
 
-Hence $d_n\le d_{n+1}$, so $d$ is monotone. Since it is also bounded above by $\|q-x_0\|$, it converges to its supremum:
+Hence $d_n\le d_{n+1}$, so $d$ is monotone. Since it is also bounded above by $`\|q-x_0\|`$, it converges to its supremum:
 
 $$
 d_n\to \sup_n d_n.
 $$
 
-The lemma `bounded_range_of_convergent_distance_to_point` then implies that the range of $x_n$ is bounded, because the distances $\|x_n-x_0\|$ converge.
+The lemma `bounded_range_of_convergent_distance_to_point` then implies that the range of $x_n$ is bounded, because the distances $`\|x_n-x_0\|`$ converge.
 
 Sixth, the proof shows that successive differences and inertial/resolvent residuals tend to zero. From
 
@@ -663,27 +663,27 @@ $$
 
 and
 
-$$
+```math
 \|x_{n+1}-x_n\|^2\le d_{n+1}^2-d_n^2,
-$$
+```
 
 the squeeze theorem gives
 
-$$
+```math
 \|x_{n+1}-x_n\|^2\to 0,
-$$
+```
 
 and by continuity of the square root,
 
-$$
+```math
 \|x_{n+1}-x_n\|\to 0.
-$$
+```
 
 Shifting indices gives
 
-$$
+```math
 \|x_n-x_{n-1}\|\to 0.
-$$
+```
 
 The inertia sequence is bounded, so there is $M\ge 0$ such that $|\theta_n|\le M$ for all $n$. The algorithm identity
 
@@ -693,53 +693,53 @@ $$
 
 then yields
 
-$$
+```math
 \|y_n-x_n\|\le M\|x_n-x_{n-1}\|\to 0.
-$$
+```
 
 Thus the inertial point $y_n$ is asymptotically close to $x_n$.
 
 Next the proof controls $z_n$. Since $x_{n+1}\in C_n$, the definition of $C_n$ gives
 
-$$
+```math
 \|z_n-x_{n+1}\|^2
 \le \|x_n-x_{n+1}\|^2
 -2\theta_n\langle x_n-x_{n+1},x_{n-1}-x_n\rangle
 +\theta_n^2\|x_{n-1}-x_n\|^2.
-$$
+```
 
 The lemma `inertial_residual_sq_le_of_abs_inertia` replaces the signed inertial term by a positive bound using $|\theta_n|\le M$:
 
-$$
+```math
 \|z_n-x_{n+1}\|^2
 \le \|x_n-x_{n+1}\|^2
 +2M\|x_n-x_{n+1}\|\|x_{n-1}-x_n\|
 +M^2\|x_{n-1}-x_n\|^2.
-$$
+```
 
 The right-hand side tends to $0$, because each of its three terms tends to $0$. Therefore
 
-$$
+```math
 \|z_n-x_{n+1}\|^2\to 0,
-$$
+```
 
 and hence
 
-$$
+```math
 \|z_n-x_{n+1}\|\to 0.
-$$
+```
 
 Using the triangle inequality,
 
-$$
+```math
 \|z_n-x_n\|\le \|z_n-x_{n+1}\|+\|x_{n+1}-x_n\|\to 0.
-$$
+```
 
 Another triangle inequality gives
 
-$$
+```math
 \|z_n-y_n\|\le \|z_n-x_n\|+\|x_n-y_n\|\to 0.
-$$
+```
 
 So the three sequences $x_n$, $y_n$, and $z_n$ are asymptotically identical.
 
@@ -749,7 +749,7 @@ $$
 \varepsilon=\frac{\liminf_n r_n}{2}.
 $$
 
-The hypothesis $0<\liminf r_n$ gives $\varepsilon>0$, and the step-size hypotheses give $\varepsilon\le 2\alpha$. For each $x$, the lemma `positive_resolvent_nonempty` supplies a point in the resolvent $J[(\varepsilon B)](x-\varepsilon A x)$. The proof chooses one such point and calls it $T x$. Thus
+The hypothesis $0\lt \liminf r_n$ gives $\varepsilon\gt 0$, and the step-size hypotheses give $\varepsilon\le 2\alpha$. For each $x$, the lemma `positive_resolvent_nonempty` supplies a point in the resolvent $J[(\varepsilon B)](x-\varepsilon A x)$. The proof chooses one such point and calls it $T x$. Thus
 
 $$
 T x\in J[(\varepsilon B)](x-\varepsilon A x),
@@ -761,29 +761,29 @@ $$
 \mathrm{fixedPoints} T=Z.
 $$
 
-Because $\varepsilon<\liminf r_n$, eventually the algorithmic step sizes satisfy $\varepsilon\le r_n$. The proof defines a variable-step selection $R_n$ such that
+Because $\varepsilon\lt \liminf r_n$, eventually the algorithmic step sizes satisfy $\varepsilon\le r_n$. The proof defines a variable-step selection $R_n$ such that
 
 $$
 R_n x\in J[(r_n B)](x-r_n A x)
 $$
 
-for $n\ge 1$, with the special value $R_n(y_n)=z_n$ supplied by the algorithm’s resolvent step. The theorem `forward_backward_fixedPoints_and_residual_bound` compares a selection at step $r_n$ with the selection $T$ at step $\varepsilon$: since $0<\varepsilon\le r_n$, it gives
+for $n\ge 1$, with the special value $R_n(y_n)=z_n$ supplied by the algorithm’s resolvent step. The theorem `forward_backward_fixedPoints_and_residual_bound` compares a selection at step $r_n$ with the selection $T$ at step $\varepsilon$: since $0\lt \varepsilon\le r_n$, it gives
 
-$$
+```math
 \|x-T x\|\le 2\|x-R_n x\|
-$$
+```
 
 for every $x$. Applying this to $x=y_n$ and using $R_n(y_n)=z_n$ gives
 
-$$
+```math
 \|y_n-T y_n\|\le 2\|y_n-z_n\|.
-$$
+```
 
 The right-hand side tends to $0$, so $y_n-T y_n\to 0$. Since $T$ is nonexpansive and $y_n-x_n\to 0$, the triangle inequality gives
 
-$$
+```math
 \|x_n-T x_n\|\to 0.
-$$
+```
 
 Thus the original iterates are asymptotically fixed points of the nonexpansive map $T$.
 
@@ -803,31 +803,31 @@ $$
 
 The criterion `weakConvergence_iff_forall_tendsto_inner_right` says that weak convergence is equivalent to convergence of all inner products against a fixed vector. Applying it to $u=w-x_0$ gives
 
-$$
+```math
 \langle x_{\phi(k)}-x_0,w-x_0\rangle\to \|w-x_0\|^2.
-$$
+```
 
-On the other hand, by Cauchy-Schwarz and the bound $d_{\phi(k)}\le \|q-x_0\|$,
+On the other hand, by Cauchy-Schwarz and the bound $`d_{\phi(k)}\le \|q-x_0\|`$,
 
-$$
+```math
 \langle x_{\phi(k)}-x_0,w-x_0\rangle
 \le \|x_{\phi(k)}-x_0\|\|w-x_0\|
 \le \|q-x_0\|\|w-x_0\|.
-$$
+```
 
 Passing to the limit gives
 
-$$
+```math
 \|w-x_0\|^2\le \|q-x_0\|\|w-x_0\|.
-$$
+```
 
-If $w=x_0$, this is trivial; otherwise one divides by $\|w-x_0\|$ and obtains
+If $w=x_0$, this is trivial; otherwise one divides by $`\|w-x_0\|`$ and obtains
 
-$$
+```math
 \|w-x_0\|\le \|q-x_0\|.
-$$
+```
 
-Since $q$ is the metric projection of $x_0$ onto $Z$ and $w\in Z$, the reverse inequality $\|q-x_0\|\le \|w-x_0\|$ holds by definition of the projection. Therefore the two distances are equal. The lemma `projectionPoint_isBestApproximation` says that $q$ is a best approximation to $x_0$ in $Z$. Since $w\in Z$ and has the same minimal distance, $w$ is also a best approximation. The lemma `eq_projectionPoint_of_isBestApproximation` then gives $w=q$. Hence all weak sequential cluster points are equal to $q$.
+Since $q$ is the metric projection of $x_0$ onto $Z$ and $w\in Z$, the reverse inequality $`\|q-x_0\|\le \|w-x_0\|`$ holds by definition of the projection. Therefore the two distances are equal. The lemma `projectionPoint_isBestApproximation` says that $q$ is a best approximation to $x_0$ in $Z$. Since $w\in Z$ and has the same minimal distance, $w$ is also a best approximation. The lemma `eq_projectionPoint_of_isBestApproximation` then gives $w=q$. Hence all weak sequential cluster points are equal to $q$.
 
 Tenth, the proof upgrades this to weak convergence of the entire sequence. The theorem `weaklyConvergent_iff_bounded_and_atMostOne_weakSequentialClusterPoint` says that a sequence in a Hilbert space has a weak limit if and only if its range is bounded and it has at most one weak sequential cluster point. The range of $x_n$ was already shown bounded, and the preceding paragraph shows uniqueness of weak cluster points. Therefore a weak limit exists. Any weak limit is itself a weak sequential cluster point by taking the identity subsequence, so the weak limit must be $q$. Thus
 
@@ -837,39 +837,39 @@ $$
 
 Finally, the proof upgrades weak convergence to strong convergence. From $x_n\rightharpoonup q$ and the inner-product characterization of weak convergence,
 
-$$
+```math
 \langle x_n-x_0,q-x_0\rangle\to \|q-x_0\|^2.
-$$
+```
 
-Also $d_n=\|x_n-x_0\|\to \sup_n d_n$, so
+Also $`d_n=\|x_n-x_0\|\to \sup_n d_n`$, so
 
-$$
+```math
 d_n\|q-x_0\|\to \left(\sup_n d_n\right)\|q-x_0\|.
-$$
+```
 
 For each $n$, Cauchy-Schwarz gives
 
-$$
+```math
 \langle x_n-x_0,q-x_0\rangle\le d_n\|q-x_0\|.
-$$
+```
 
 Passing to the limit yields
 
-$$
+```math
 \|q-x_0\|^2\le \left(\sup_n d_n\right)\|q-x_0\|.
-$$
+```
 
-Combined with the earlier bound $\sup_n d_n\le \|q-x_0\|$, this forces
+Combined with the earlier bound $`\sup_n d_n\le \|q-x_0\|`$, this forces
 
-$$
+```math
 \sup_n d_n=\|q-x_0\|.
-$$
+```
 
 Hence
 
-$$
+```math
 \|x_n-x_0\|\to \|q-x_0\|.
-$$
+```
 
 The proof also shows that $x_n-x_0$ converges weakly to $q-x_0$, by subtracting the constant inner product $\langle x_0,u\rangle$ from the weak convergence of $x_n$ to $q$. The theorem `tendsto_iff_tendsto_weakly_and_tendsto_norm` states that strong convergence in a Hilbert space is equivalent to weak convergence together with convergence of norms. Applying it to the sequence $x_n-x_0$ and the limit $q-x_0$ gives
 

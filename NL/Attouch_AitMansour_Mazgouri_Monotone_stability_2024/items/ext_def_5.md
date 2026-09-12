@@ -22,7 +22,7 @@ $$
 \mathrm{dist}(T x, T y) \le c \cdot \mathrm{dist}(x,y).
 $$
 
-Thus $\mathrm{ext\_def\_5}(T)$ means that $T$ is a strict contraction: it is a Lipschitz map with some uniform constant $c$ lying in the half-open interval $[0,1)$. The inequalities require $c$ to be nonnegative and strictly less than $1$, and the quantified inequality requires the same contraction estimate to hold for all pairs $x,y$ in the whole space. Because the space is only a pseudometric space, the condition is a statement about distances, not about equality or injectivity of points.
+Thus $`\mathrm{ext\_def\_5}(T)`$means that$T$is a strict contraction: it is a Lipschitz map with some uniform constant$c$lying in the half-open interval$[0,1)$. The inequalities require$c$to be nonnegative and strictly less than$1$, and the quantified inequality requires the same contraction estimate to hold for all pairs$x,y$ in the whole space. Because the space is only a pseudometric space, the condition is a statement about distances, not about equality or injectivity of points.
 
 ## Lean proof
 ```lean
@@ -32,11 +32,11 @@ Thus $\mathrm{ext\_def\_5}(T)$ means that $T$ is a strict contraction: it is a L
 ## Proof explanation
 There is no separate proof part. The Lean source consists only of the definition and a comment stating that there is no proof. Therefore there are no proof steps to explain: no variables are introduced by `intro`, no rewriting is performed by `rw`, no simplification is performed by `simp`, no exact proof is supplied by `exact`, and no arithmetic reasoning such as `linarith` occurs. No named theorem or lemma is invoked.
 
-The mathematical content is therefore exactly the right-hand side of the definition. To establish $\mathrm{ext\_def\_5}(T)$, one must exhibit a real number $c$, prove $0 \le c$, prove $c < 1$, and prove
+The mathematical content is therefore exactly the right-hand side of the definition. To establish $`\mathrm{ext\_def\_5}(T)`$, one must exhibit a real number$c$, prove$0 \le c$, prove$c < 1$, and prove
 
 $$
 \mathrm{dist}(T x, T y) \le c \cdot \mathrm{dist}(x,y)
 $$
 
-for all $x,y \in X$. Conversely, assuming $\mathrm{ext\_def\_5}(T)$ gives exactly such a $c$ together with those properties. Since the source contains no proof, there is nothing further to justify.
+for all $x,y \in X$. Conversely, assuming $`\mathrm{ext\_def\_5}(T)`$gives exactly such a$c$ together with those properties. Since the source contains no proof, there is nothing further to justify.
 

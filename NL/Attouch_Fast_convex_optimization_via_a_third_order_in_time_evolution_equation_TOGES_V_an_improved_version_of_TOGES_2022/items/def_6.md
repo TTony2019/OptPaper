@@ -18,14 +18,14 @@ $$
 
 Thus $x^\star$ is a global minimizer of $f$, and it is the unique point at which the minimum value is attained. The definition then returns the real number
 
-$$
+```math
 \mathrm{stronglyConvexEnergyConstant}(f,u,x^\star,\mu,t_0,h_{x^\star})
 =\mathrm{stronglyConvexLyapunov}(f,u,x^\star,\mu,t_0,h_{x^\star})
 \cdot
 \exp\!\left(\sqrt{\mu}\,t_0\right).
-$$
+```
 
-In words, it takes the value of the previously defined quantity `stronglyConvexLyapunov` on the same data and multiplies it by the exponential factor $e^{\sqrt{\mu}\,t_0}$. The multiplication inside the exponential is $(\sqrt{\mu}) \cdot t_0$, not $\sqrt{\mu t_0}$. No assumption that $\mu \ge 0$ or $t_0 \ge 0$ is present. Although the name refers to strong convexity, the declaration itself only records this product formula; it does not assert convexity of $f$, monotonicity, differentiability, or any inequality beyond those contained in $h_{x^\star}$.
+In words, it takes the value of the previously defined quantity `stronglyConvexLyapunov` on the same data and multiplies it by the exponential factor $`e^{\sqrt{\mu}\,t_0}`$. The multiplication inside the exponential is$(\sqrt{\mu}) \cdot t_0$, not$\sqrt{\mu t_0}$. No assumption that$\mu \ge 0$or$t_0 \ge 0$is present. Although the name refers to strong convexity, the declaration itself only records this product formula; it does not assert convexity of$f$, monotonicity, differentiability, or any inequality beyond those contained in$h_{x^\star}$.
 
 ## Lean proof
 ```lean
@@ -35,11 +35,11 @@ In words, it takes the value of the previously defined quantity `stronglyConvexL
 ## Proof explanation
 There is no separate proof. This is a `def`, not a theorem, and the Lean source contains no `:= by` proof block or tactic sequence. The entire mathematical content is the defining term
 
-$$
+```math
 \mathrm{stronglyConvexLyapunov}(f,u,x^\star,\mu,t_0,h_{x^\star})
 \cdot
 \mathrm{Real.exp}\!\left(\mathrm{Real.sqrt}(\mu)\cdot t_0\right).
-$$
+```
 
-Unfolding `stronglyConvexEnergyConstant` on given arguments therefore yields exactly this product. The first factor is the result of applying the earlier function `stronglyConvexLyapunov` to the arguments $f,u,x^\star,\mu,t_0,h_{x^\star}$. Since no statement of `stronglyConvexLyapunov` is supplied, its internal formula cannot be determined from the source, and the only precise fact available here is that it supplies the first factor as a real number. The second factor is computed using the real square root and real exponential functions: it is $\exp(\sqrt{\mu}\,t_0)$. No named theorem or lemma is invoked, and no rewriting, simplification, or arithmetic tactic such as `rw`, `simp`, `exact`, or `linarith` occurs. The proof argument $h_{x^\star}$ is not analyzed in this definition; it is merely passed as an input to `stronglyConvexLyapunov`.
+Unfolding `stronglyConvexEnergyConstant` on given arguments therefore yields exactly this product. The first factor is the result of applying the earlier function `stronglyConvexLyapunov` to the arguments $f,u,x^\star,\mu,t_0,h_{x^\star}$. Since no statement of `stronglyConvexLyapunov` is supplied, its internal formula cannot be determined from the source, and the only precise fact available here is that it supplies the first factor as a real number. The second factor is computed using the real square root and real exponential functions: it is $`\exp(\sqrt{\mu}\,t_0)`$. No named theorem or lemma is invoked, and no rewriting, simplification, or arithmetic tactic such as `rw`, `simp`, `exact`, or `linarith` occurs. The proof argument $h_{x^\star}$ is not analyzed in this definition; it is merely passed as an input to `stronglyConvexLyapunov`.
 

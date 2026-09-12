@@ -22,9 +22,9 @@ The declaration `IsIFBSignalRecoveryTrajectory` defines a predicate on two seque
 
 The contextual hypotheses supplied as parameters are as follows. The hypothesis `_hAt` says that for every $x:n\to\mathbb R$ and every $z\in K$,
 
-$$
+```math
 \langle A x,z\rangle_K=\sum_{i} x_i\,(\text{At}(z))_i.
-$$
+```
 
 This is the adjoint identity saying that `At` acts as the adjoint of $A$ with respect to the standard coordinate inner product on $n\to\mathbb R$. The hypothesis `_hf` says that for every $v:n\to\mathbb R$,
 

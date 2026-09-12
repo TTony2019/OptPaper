@@ -22,11 +22,11 @@ The explicit parameters are:
 
 The result is a set of functions from $\mathbb R$ to $H$:
 
-$$
+```math
 \mathrm{approxSolutions}(A,\gamma,u_0,v_0,T,\varepsilon,\mu)
 \subseteq
 \{ w \mid w : \mathbb R \to H \}.
-$$
+```
 
 Equivalently, it is a predicate on trajectories $w : \mathbb R \to H$. Its body is exactly
 
@@ -44,10 +44,10 @@ so the abbreviation is definitionally the same object as `def_10` applied to the
 ## Proof explanation
 There is no separate proof part. The declaration is an `abbrev`, so its entire mathematical content is the defining equality
 
-$$
+```math
 \mathrm{approxSolutions}(A,\gamma,u_0,v_0,T,\varepsilon,\mu)
 =\mathrm{def\_10}(A,\gamma,u_0,v_0,T,\varepsilon,\mu).
-$$
+```
 
 In Lean, this means that any occurrence of `approxSolutions A γ u₀ v₀ T ε μ` can be unfolded or reduced to `def_10 A γ u₀ v₀ T ε μ`. No tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` occur, because there is no proof obligation. No named theorem or lemma is invoked. The role of the declaration is purely notational: it gives a readable name to the set defined by `def_10` with the same arguments. Consequently, any later statement about membership in `approxSolutions A γ u₀ v₀ T ε μ` is, by definitional unfolding, a statement about membership in `def_10 A γ u₀ v₀ T ε μ`.
 

@@ -15,25 +15,25 @@ The declaration `resolvent_selection_lipschitz` is stated in the ambient real in
 
 - $A$ is maximal monotone. In particular, its monotonicity part says that for $u\in A(p)$ and $v\in A(q)$, the monotonicity inequality
 
-  $$
-  \langle u-v,p-q\rangle\ge 0
-  $$
+$$
+\langle u-v,p-q\rangle\ge 0
+$$
 
   holds, up to the usual convention for the order of the two inner-product arguments.
-- $\lambda>0$.
+- $\lambda\gt 0$.
 - For every $x\in H$, $Jx$ belongs to the resolvent of the scaled operator $\lambda A$ at $x$, written in the source as $J[(\lambda A)]x$. By the cited result `mem_resolvent_smul_iff` and the definition `identityAddScaled`, this means that for every $x$ there exists $a_x\in A(Jx)$ such that
 
-  $$
-  x=Jx+\lambda a_x,
-  $$
+$$
+x=Jx+\lambda a_x,
+$$
 
   equivalently $x-Jx\in \lambda A(Jx)$.
 
 The conclusion is that $J$ is Lipschitz with constant $1$, i.e.
 
-$$
+```math
 d(Jx,Jy)\le 1\cdot d(x,y)=\|x-y\|
-$$
+```
 
 for all $x,y\in H$. Equivalently, $J$ is nonexpansive. The maximality part of $A$ is not used beyond its monotonicity component; the selection hypothesis already provides the resolvent points.
 
@@ -88,7 +88,7 @@ $$
 
 for arbitrary $x,y\in H$. The tactic `intro x y` fixes such arbitrary points.
 
-First, the proof extracts the resolvent representations. From $hJ\,x$, we have $Jx\in \mathcal R_{\lambda A}(x)$. The theorem `mem_resolvent_smul_iff` says, for any $\rho$, $x$, and $y$,
+First, the proof extracts the resolvent representations. From $`hJ\,x`$, we have$Jx\in \mathcal R_{\lambda A}(x)$. The theorem `mem_resolvent_smul_iff` says, for any $\rho$, $x$, and $y$,
 
 $$
 y\in \mathcal R_{\rho A}(x)
@@ -98,9 +98,9 @@ $$
 
 where
 
-$$
+```math
 (I+\rho A)(y)=\{y+\rho a:a\in A(y)\}.
-$$
+```
 
 Specializing to $\rho=\lambda$ and $y=Jx$, we get $x\in (I+\lambda A)(Jx)$, so there exists $a\in A(Jx)$ with
 
@@ -126,9 +126,9 @@ The proof obtains this by substituting the two equalities using `congrArg`, norm
 
 Next, the proof establishes the firm inequality
 
-$$
+```math
 \|Jx-Jy\|^{2}\le \langle Jx-Jy,x-y\rangle.
-$$
+```
 
 Using the identity for $x-y$ and bilinearity of the real inner product, the right-hand side becomes
 
@@ -137,56 +137,56 @@ $$
 +\lambda\langle Jx-Jy,a-b\rangle.
 $$
 
-The first term is $\|Jx-Jy\|^{2}$, by the standard real inner-product identity $\langle u,u\rangle=\|u\|^{2}$, applied through `simp`. For the second term, monotonicity of $A$ applied to $a\in A(Jx)$ and $b\in A(Jy)$ gives the monotonicity inequality, and after using `real_inner_comm` the proof obtains
+The first term is $`\|Jx-Jy\|^{2}`$, by the standard real inner-product identity$`\langle u,u\rangle=\|u\|^{2}`$, applied through `simp`. For the second term, monotonicity of $A$ applied to $a\in A(Jx)$ and $b\in A(Jy)$ gives the monotonicity inequality, and after using `real_inner_comm` the proof obtains
 
 $$
 0\le \langle Jx-Jy,a-b\rangle.
 $$
 
-Since $\lambda>0$, the product $\lambda\langle Jx-Jy,a-b\rangle$ is nonnegative. Therefore
+Since $\lambda\gt 0$, the product $\lambda\langle Jx-Jy,a-b\rangle$ is nonnegative. Therefore
 
-$$
+```math
 \|Jx-Jy\|^{2}
 \le
 \|Jx-Jy\|^{2}
 +\lambda\langle Jx-Jy,a-b\rangle,
-$$
+```
 
 which is exactly the firm inequality. The tactics `inner_add_right`, `real_inner_smul_right`, `mul_nonneg`, and `nlinarith` implement these algebraic and order-theoretic steps.
 
 The proof then applies Cauchy–Schwarz in the form
 
-$$
+```math
 \langle Jx-Jy,x-y\rangle
 \le
 \|Jx-Jy\|\,\|x-y\|,
-$$
+```
 
 which is the content of `real_inner_le_norm`. Combining this with the firm inequality via `le_trans` gives
 
-$$
+```math
 \|Jx-Jy\|^{2}
 \le
 \|Jx-Jy\|\,\|x-y\|.
-$$
+```
 
 From this the desired norm inequality is deduced. Let
 
-$$
+```math
 u=\|Jx-Jy\|,\qquad v=\|x-y\|.
-$$
+```
 
-We know $u\ge 0$ and $u^{2}\le uv$. If $u=0$, then $u\le v$ because $v\ge 0$, using `norm_nonneg`. If $u\ne 0$, then $u>0$ because $u\ge 0$, and dividing $u^{2}\le uv$ by the positive number $u$ yields $u\le v$. The tactic `nlinarith` performs this cancellation. Thus
+We know $u\ge 0$ and $u^{2}\le uv$. If $u=0$, then $u\le v$ because $v\ge 0$, using `norm_nonneg`. If $u\ne 0$, then $u\gt 0$ because $u\ge 0$, and dividing $u^{2}\le uv$ by the positive number $u$ yields $u\le v$. The tactic `nlinarith` performs this cancellation. Thus
 
-$$
+```math
 \|Jx-Jy\|\le \|x-y\|.
-$$
+```
 
 Finally, the command `simpa [dist_eq_norm, mul_comm] using hnorm` rewrites the distances as norms,
 
-$$
+```math
 d(Jx,Jy)=\|Jx-Jy\|,\qquad d(x,y)=\|x-y\|,
-$$
+```
 
 and handles the factor $1$, so that the previously proved inequality becomes exactly the Lipschitz inequality for $J$ with constant $1$. Since $x$ and $y$ were arbitrary, $J$ is Lipschitz with constant $1$.
 

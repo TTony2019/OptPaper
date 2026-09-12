@@ -13,16 +13,16 @@ theorem sequence_inequality {a b : ℕ → ℝ} {c : ℝ}
 ## Statement explanation
 The theorem `sequence_inequality` concerns two real-valued sequences $a:\mathbb N\to\mathbb R$ and $b:\mathbb N\to\mathbb R$, a real number $c$, and a natural number $k$. Its hypotheses are:
 
-- $a_k>0$ for every natural number $k$;
-- $b_k>0$ for every natural number $k$;
+- $a_k\gt 0$ for every natural number $k$;
+- $b_k\gt 0$ for every natural number $k$;
 - for every $k$,
 
-  $$
-  a_k-a_{k+1}\ge b_{k+1}-b_k;
-  $$
+$$
+a_k-a_{k+1}\ge b_{k+1}-b_k;
+$$
 
 - $a_1+b_1\le c$;
-- $c>0$;
+- $c\gt 0$;
 - $1\le k$.
 
 The conclusion is
@@ -49,13 +49,13 @@ $$
 s_1=a_1+b_1\le c,
 $$
 
-we have $s_k\le c$. Because $b_k>0$, we also have
+we have $s_k\le c$. Because $b_k\gt 0$, we also have
 
 $$
 a_k<a_k+b_k=s_k,
 $$
 
-so $a_k<s_k\le c$, and in particular $a_k\le c$. The proof as written does not actually use the hypotheses $a_k>0$ or $c>0$; they are present in the statement but not invoked in the Lean proof.
+so $a_k\lt s_k\le c$, and in particular $a_k\le c$. The proof as written does not actually use the hypotheses $a_k\gt 0$ or $c\gt 0$; they are present in the statement but not invoked in the Lean proof.
 
 ## Lean proof
 ```lean
@@ -177,7 +177,7 @@ $$
 a_k+b_k\le c.
 $$
 
-Since $b_k>0$, we have
+Since $b_k\gt 0$, we have
 
 $$
 a_k<a_k+b_k\le c,

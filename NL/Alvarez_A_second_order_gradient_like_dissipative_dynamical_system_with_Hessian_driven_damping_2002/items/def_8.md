@@ -14,23 +14,23 @@ def IsSolution_gDIN {H : Type*} [NormedAddCommGroup H] [NormedSpace ℝ H]
 ## Statement explanation
 The declaration introduces a predicate named `IsSolution_gDIN`. Its ambient object $H$ is assumed to be a complete real inner product space, i.e. a real Hilbert space: the typeclass assumptions provide additive group structure, real scalar multiplication, compatibility with the norm, an inner product over $\mathbb R$, and completeness. The parameter $\Phi : H \to \mathbb R$ is a real-valued potential. The parameters $\beta,a,b$ are real numbers, $x_0,y_0\in H$ are initial vectors, and $x,y:\mathbb R\to H$ are curves, thought of as functions of time.
 
-Writing $x'(t)$ for the Lean derivative $\mathrm{deriv} x\,t$, writing $y'(t)$ for $\mathrm{deriv} y\,t$, and writing $\nabla\Phi$ for the gradient of $\Phi$, the predicate
+Writing $x'(t)$ for the Lean derivative $`\mathrm{deriv} x\,t`$, writing$y'(t)$for$`\mathrm{deriv} y\,t`$, and writing$\nabla\Phi$for the gradient of$\Phi$, the predicate
 
-$$
+```math
 \mathrm{IsSolution\_gDIN}(\Phi,\beta,a,b,x_0,y_0,x,y)
-$$
+```
 
 holds exactly when all of the following four conditions are true:
 
-$$
+```math
 \forall t\in\mathbb R,\quad 0\le t \implies
 x'(t)+\beta\,\nabla\Phi(x(t))+a\,x(t)+b\,y(t)=0,
-$$
+```
 
-$$
+```math
 \forall t\in\mathbb R,\quad 0\le t \implies
 y'(t)+a\,x(t)+b\,y(t)=0,
-$$
+```
 
 $$
 x(0)=x_0,
@@ -40,19 +40,19 @@ $$
 y(0)=y_0.
 $$
 
-All equalities are equalities in the Hilbert space $H$, so the right-hand sides equal to $0$ mean the zero vector of $H$, and the terms $a\,x(t)$, $b\,y(t)$, and $\beta\,\nabla\Phi(x(t))$ are real scalar multiplications.
+All equalities are equalities in the Hilbert space $H$, so the right-hand sides equal to $0$ mean the zero vector of $H$, and the terms $`a\,x(t)`$,$`b\,y(t)`$, and$`\beta\,\nabla\Phi(x(t))`$ are real scalar multiplications.
 
 Thus the definition says that a pair of curves $x,y$ solves, on the nonnegative time half-line, the coupled first-order system
 
-$$
+```math
 x'(t)=-\beta\,\nabla\Phi(x(t))-a\,x(t)-b\,y(t),
-$$
+```
 
-$$
+```math
 y'(t)=-a\,x(t)-b\,y(t),
-$$
+```
 
-with initial data $x(0)=x_0$ and $y(0)=y_0$. The first equation is gradient-like because of the term involving $\nabla\Phi(x(t))$; the second is a linear auxiliary equation involving the same combination $a\,x(t)+b\,y(t)$. The definition itself asserts no existence, uniqueness, convexity, positivity, or regularity conditions beyond the typeclass assumptions on $H$.
+with initial data $x(0)=x_0$ and $y(0)=y_0$. The first equation is gradient-like because of the term involving $\nabla\Phi(x(t))$; the second is a linear auxiliary equation involving the same combination $`a\,x(t)+b\,y(t)`$. The definition itself asserts no existence, uniqueness, convexity, positivity, or regularity conditions beyond the typeclass assumptions on$H$.
 
 ## Lean proof
 ```lean
@@ -66,17 +66,17 @@ The mathematical content is entirely definitional. Unfolding `IsSolution_gDIN` g
 
 1. For every $t$ with $0\le t$, the vector equation
 
-   $$
-   x'(t)+\beta\,\nabla\Phi(x(t))+a\,x(t)+b\,y(t)=0
-   $$
+```math
+x'(t)+\beta\,\nabla\Phi(x(t))+a\,x(t)+b\,y(t)=0
+```
 
    holds in $H$.
 
 2. For every $t$ with $0\le t$, the vector equation
 
-   $$
-   y'(t)+a\,x(t)+b\,y(t)=0
-   $$
+```math
+y'(t)+a\,x(t)+b\,y(t)=0
+```
 
    holds in $H$.
 

@@ -20,15 +20,15 @@ $$
 \mathrm{gradPsi}:H\to H,
 $$
 
-where $\mathrm{EReal}=\mathbb R\cup\{-\infty,+\infty\}$ is the extended real line. The real parameters are $a,b,\lambda,L_{\psi}\in\mathbb R$. The sequences are $u,y:\mathbb N\to H$, and $q\in H$. The hypotheses are:
+where $`\mathrm{EReal}=\mathbb R\cup\{-\infty,+\infty\}`$is the extended real line. The real parameters are$a,b,\lambda,L_{\psi}\in\mathbb R$. The sequences are$u,y:\mathbb N\to H$, and$q\in H$. The hypotheses are:
 
 - `hH : IFBHypothesis phi Theta psi gradPsi a b lam Lpsi`, the standing hypotheses of the inertial forward-backward setting relating $\phi,\Theta,\psi,\mathrm{gradPsi}$ and the parameters. In the proof, the used parts are `hH.theta_bounded_below`, `hH.phi_proper.2`, and `hH.theta_eq`: a lower bound for $\Theta$, a point at which $\phi$ is not $+\infty$, and an identity rewriting $\Theta$ in terms of $\phi$ and $\psi$.
 - `hIFB : IsIFBTrajectory phi psi gradPsi a b lam u y`, saying that $(u,y)$ is an inertial forward-backward trajectory for those data.
-- `hcompact : IsBoundedlyInfCompact Θ`, a compactness assumption on $\Theta$. In the proof it is used exactly to assert that for every real $r$ and every $R>0$, the closure of
+- `hcompact : IsBoundedlyInfCompact Θ`, a compactness assumption on $\Theta$. In the proof it is used exactly to assert that for every real $r$ and every $R\gt 0$, the closure of
 
-  $$
-  \{v\in H:\Theta(v)\le r\ \text{and}\ \|v\|\le R\}
-  $$
+```math
+\{v\in H:\Theta(v)\le r\ \text{and}\ \|v\|\le R\}
+```
 
   is compact.
 - `hweak : Filter.Tendsto (fun k ↦ toWeakSpace ℝ H (u k)) Filter.atTop (nhds (toWeakSpace ℝ H q))`, meaning that $u_k$ converges to $q$ in the weak topology of $H$, i.e. $u_k\rightharpoonup q$.
@@ -43,10 +43,10 @@ $$
 
 The set $\mathrm{argminSet}\Theta$ is defined by
 
-$$
+```math
 \mathrm{argminSet}\Theta
 =\{x\in H:\forall y\in H,\ \Theta(x)\le \Theta(y)\}.
-$$
+```
 
 Thus the theorem says: under the inertial forward-backward hypotheses, if $\Theta$ is boundedly inf-compact and the iterates $u_k$ converge weakly to $q$, then they actually converge strongly to $q$, and $q$ is a global minimizer of $\Theta$.
 
@@ -150,11 +150,11 @@ $$
 
 This is the first half of the final conclusion.
 
-Next, the weak convergence hypothesis is used with the lemma `bounded_range_of_tendsto_weakly`. That lemma states that if a sequence converges weakly to a point, then its range is bounded. Applied to $u_k\rightharpoonup q$, it gives that $\{u_k:k\in\mathbb N\}$ is bounded. The proof extracts a positive radius $R>0$ such that
+Next, the weak convergence hypothesis is used with the lemma `bounded_range_of_tendsto_weakly`. That lemma states that if a sequence converges weakly to a point, then its range is bounded. Applied to $u_k\rightharpoonup q$, it gives that $`\{u_k:k\in\mathbb N\}`$is bounded. The proof extracts a positive radius$R>0$ such that
 
-$$
+```math
 \forall v\in\{u_k:k\in\mathbb N\},\qquad \|v\|\le R.
-$$
+```
 
 This will later keep the relevant tail of the sequence inside a closed ball.
 
@@ -170,15 +170,15 @@ $$
 (m:\mathrm{EReal})\le \inf_{x\in H}\Theta(x).
 $$
 
-If the infimum were $-\infty$, this would give $(m:\mathrm{EReal})\le -\infty$, which is impossible because $-\infty<(m:\mathrm{EReal})$. Hence the infimum is not $-\infty$. This is the step `hLbot`.
+If the infimum were $-\infty$, this would give $(m:\mathrm{EReal})\le -\infty$, which is impossible because $-\infty\lt (m:\mathrm{EReal})$. Hence the infimum is not $-\infty$. This is the step `hLbot`.
 
-Next the proof shows that $\Theta(q)\ne+\infty$. From `hH.phi_proper.2` it chooses a point $x$ with $\phi(x)<+\infty$. Since $q$ is a minimizer of $\Theta$, the lemma `mem_argminSet_iff_eq_sInf` gives
+Next the proof shows that $\Theta(q)\ne+\infty$. From `hH.phi_proper.2` it chooses a point $x$ with $\phi(x)\lt +\infty$. Since $q$ is a minimizer of $\Theta$, the lemma `mem_argminSet_iff_eq_sInf` gives
 
 $$
 \Theta(q)=\inf_{y\in H}\Theta(y).
 $$
 
-Consequently $\Theta(q)\le \Theta(x)$. The equality `hH.theta_eq` rewrites $\Theta(x)$ in terms of $\phi(x)$ and the real value $\psi(x)$, and because $\phi(x)<+\infty$ while $(\psi(x):\mathrm{EReal})$ is not $+\infty$, the extended-real sum is still strictly below $+\infty$. Thus $\Theta(x)<+\infty$, and since $\Theta(q)\le \Theta(x)$, also $\Theta(q)<+\infty$. Hence $\Theta(q)\ne+\infty$. This is `hTheta_q_top`.
+Consequently $\Theta(q)\le \Theta(x)$. The equality `hH.theta_eq` rewrites $\Theta(x)$ in terms of $\phi(x)$ and the real value $\psi(x)$, and because $\phi(x)\lt +\infty$ while $(\psi(x):\mathrm{EReal})$ is not $+\infty$, the extended-real sum is still strictly below $+\infty$. Thus $\Theta(x)\lt +\infty$, and since $\Theta(q)\le \Theta(x)$, also $\Theta(q)\lt +\infty$. Hence $\Theta(q)\ne+\infty$. This is `hTheta_q_top`.
 
 Using that, the proof shows that the infimum itself is not $+\infty$. If it were $+\infty$, then the defining inequality $\inf\Theta\le \Theta(q)$ would force $+\infty\le \Theta(q)$, hence $\Theta(q)=+\infty$, contradicting $\Theta(q)\ne+\infty$. Therefore the infimum is not $+\infty$. This is `hLtop`.
 
@@ -188,7 +188,7 @@ $$
 r=\bigl(\inf\Theta\bigr)_{\mathrm{toReal}}+1.
 $$
 
-The lemma `EReal.coe_toReal` identifies the finite extended real $\inf\Theta$ with the coercion of its real part, so the inequality $a<a+1$ for real numbers gives
+The lemma `EReal.coe_toReal` identifies the finite extended real $\inf\Theta$ with the coercion of its real part, so the inequality $a\lt a+1$ for real numbers gives
 
 $$
 \inf\Theta < (r:\mathrm{EReal}).
@@ -208,13 +208,13 @@ $$
 
 Now the proof defines
 
-$$
+```math
 A=\{v\in H:\Theta(v)\le r\ \text{and}\ \|v\|\le R\},
 \qquad
 K=\overline A .
-$$
+```
 
-The boundedly inf-compactness hypothesis `hcompact`, applied to $r$ and $R>0$, gives that $K$ is compact. For each $n$, the index $N+n$ satisfies $N+n\ge N$, so $\Theta(u_{N+n})<r$, hence $\Theta(u_{N+n})\le r$. Also $\|u_{N+n}\|\le R$ by the boundedness of the range of $u$. Therefore $u_{N+n}\in A\subseteq K$. Thus the tail sequence $n\mapsto u_{N+n}$ lies entirely in the compact set $K$.
+The boundedly inf-compactness hypothesis `hcompact`, applied to $r$ and $R\gt 0$, gives that $K$ is compact. For each $n$, the index $N+n$ satisfies $N+n\ge N$, so $\Theta(u_{N+n})\lt r$, hence $\Theta(u_{N+n})\le r$. Also $`\|u_{N+n}\|\le R`$by the boundedness of the range of$u$. Therefore$u_{N+n}\in A\subseteq K$. Thus the tail sequence$n\mapsto u_{N+n}$lies entirely in the compact set$K$.
 
 The proof next proves that this tail has a unique sequential cluster point, namely $q$. Let $p$ be any sequential cluster point of $n\mapsto u_{N+n}$. By the definition of sequential cluster point, there is a strictly increasing map $f:\mathbb N\to\mathbb N$ such that
 
@@ -258,5 +258,5 @@ $$
 
 strongly. Together with the earlier minimizer property $q\in\mathrm{argminSet}\Theta$, this proves the theorem.
 
-The Lean tactics reflect these mathematical steps: `rcases` destructs the conjunction from `proposition6` and the eventual-at-top statement; `intro` introduces a hypothetical point or assumption; `rw` rewrites with equalities such as the minimizer characterization, the lower-bound contradiction, and `hH.theta_eq`; `apply` reduces a goal to a sufficient subgoal; `simpa` handles definitional simplifications such as the identity subsequence and the weak-space embedding; `exact` closes the goals with the established inequality or convergence; `let` introduces the abbreviations $r$, $A$, and $K$; `dsimp` unfolds those local abbreviations before applying `hcompact`; and `exact_mod_cast` converts the real inequality $a<a+1$ to the corresponding extended-real inequality. No use of `linarith` occurs in this proof.
+The Lean tactics reflect these mathematical steps: `rcases` destructs the conjunction from `proposition6` and the eventual-at-top statement; `intro` introduces a hypothetical point or assumption; `rw` rewrites with equalities such as the minimizer characterization, the lower-bound contradiction, and `hH.theta_eq`; `apply` reduces a goal to a sufficient subgoal; `simpa` handles definitional simplifications such as the identity subsequence and the weak-space embedding; `exact` closes the goals with the established inequality or convergence; `let` introduces the abbreviations $r$, $A$, and $K$; `dsimp` unfolds those local abbreviations before applying `hcompact`; and `exact_mod_cast` converts the real inequality $a\lt a+1$ to the corresponding extended-real inequality. No use of `linarith` occurs in this proof.
 

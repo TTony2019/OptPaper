@@ -18,7 +18,7 @@ $$
 f,g:\mathbb R^n\to\mathbb R,
 $$
 
-a real number $L$ with $0<L$, and two points $y,z\in\mathbb R^n$. It assumes that $g$ is convex on the whole space $\mathbb R^n$. The conclusion is an equivalence:
+a real number $L$ with $0\lt L$, and two points $y,z\in\mathbb R^n$. It assumes that $g$ is convex on the whole space $\mathbb R^n$. The conclusion is an equivalence:
 
 $$
 z \text{ is a proximal point for } f,g,L,y
@@ -46,11 +46,11 @@ $$
 
 The quadratic approximation used in the statement is
 
-$$
+```math
 Q(x,y)
 =f(y)+\langle \nabla f(y),x-y\rangle
 +\frac L2\|x-y\|^2+g(x).
-$$
+```
 
 In the proof, the hypothesis `h_prox : IsProxPoint f g L y z` is applied to the trivial membership proof `mem_univ x` to obtain
 
@@ -60,9 +60,9 @@ $$
 
 for every $x\in\mathbb R^n$. Thus the left side of the theorem expresses exactly that $z$ minimizes the function $x\mapsto Q(x,y)$ over the whole space. The right side is the first-order optimality condition for this minimization: the gradient at $z$ of the smooth part
 
-$$
+```math
 x\mapsto f(y)+\langle \nabla f(y),x-y\rangle+\frac L2\|x-y\|^2
-$$
+```
 
 is $\nabla f(y)+L(z-y)$, and the nonsmooth part $g$ contributes a subgradient $\gamma\in\partial g(z)$. The equation
 
@@ -258,11 +258,11 @@ $$
 
 so that $\gamma=-a$. It then aims to prove $\gamma\in\partial g(z)$. Fix an arbitrary $w$. Define
 
-$$
+```math
 D=g(w)-g(z)+\langle a,w-z\rangle,
 \qquad
 C=\frac L2\|w-z\|^2.
-$$
+```
 
 Since $\gamma=-a$, the desired subgradient inequality
 
@@ -270,7 +270,7 @@ $$
 g(z)+\langle\gamma,w-z\rangle\le g(w)
 $$
 
-is equivalent to $D\ge0$. The term $C$ is nonnegative because $L>0$ and $\|w-z\|^2\ge0$; Lean records this with `nlinarith [sq_nonneg ‖w-z‖]`.
+is equivalent to $D\ge0$. The term $C$ is nonnegative because $L\gt 0$ and $`\|w-z\|^2\ge0`$; Lean records this with `nlinarith [sq_nonneg ‖w-z‖]`.
 
 The key step is to prove
 
@@ -286,12 +286,12 @@ $$
 
 The minimization property gives $Q(z,y)\le Q(x_t,y)$. After cancelling the common terms and subtracting, this becomes
 
-$$
+```math
 0\le
 \langle \nabla f(y),x_t-y\rangle-\langle \nabla f(y),z-y\rangle
 +\frac L2\bigl(\|x_t-y\|^2-\|z-y\|^2\bigr)
 +g(x_t)-g(z).
-$$
+```
 
 The proof computes the two differences separately. First,
 
@@ -302,19 +302,19 @@ $$
 
 because $x_t-z=t(w-z)$. This is handled in Lean by rewriting with `inner_sub_right`, `abel`, and `inner_smul_right`. Second,
 
-$$
+```math
 \|x_t-y\|^2-\|z-y\|^2
 =2t\langle z-y,w-z\rangle+t^2\|w-z\|^2.
-$$
+```
 
-This follows by writing $x_t-y=(z-y)+t(w-z)$ and expanding $\|u+v\|^2$; the proof uses `norm_add_sq_real`, `norm_smul`, and the positivity of $t$ to replace $|t|$ by $t$. Substituting these identities gives
+This follows by writing $x_t-y=(z-y)+t(w-z)$ and expanding $`\|u+v\|^2`$; the proof uses `norm_add_sq_real`, `norm_smul`, and the positivity of $t$ to replace $|t|$ by $t$. Substituting these identities gives
 
-$$
+```math
 0\le
 t\langle a,w-z\rangle
 +\frac L2t^2\|w-z\|^2
 +g(x_t)-g(z).
-$$
+```
 
 Now $x_t=(1-t)z+tw$. Since $0\le 1-t$, $0\le t$, and $(1-t)+t=1$, convexity of $g$ gives
 
@@ -330,13 +330,13 @@ $$
 
 Combining this with the previous inequality yields
 
-$$
+```math
 0\le t\bigl(\langle a,w-z\rangle+g(w)-g(z)\bigr)
 +\frac L2t^2\|w-z\|^2
 =t(D+Ct).
-$$
+```
 
-Because $t>0$, this implies $D+Ct\ge0$. The Lean proof packages this nonlinear arithmetic with `nlinarith`.
+Because $t\gt 0$, this implies $D+Ct\ge0$. The Lean proof packages this nonlinear arithmetic with `nlinarith`.
 
 It remains to deduce $D\ge0$. If $D\ge0$, this is immediate. In that case the proof also verifies
 
@@ -353,7 +353,7 @@ $$
 
 which is exactly the subgradient inequality.
 
-If $D<0$, the proof derives a contradiction from the positivity of $C$ and the bounds $D+Ct\ge0$. If $C=0$, then taking $t=1$ gives $D\ge0$, contradicting $D<0$. Otherwise $C>0$. If
+If $D\lt 0$, the proof derives a contradiction from the positivity of $C$ and the bounds $D+Ct\ge0$. If $C=0$, then taking $t=1$ gives $D\ge0$, contradicting $D\lt 0$. Otherwise $C\gt 0$. If
 
 $$
 -\frac{D}{2C}\le 1,
@@ -365,19 +365,19 @@ $$
 t=-\frac{D}{2C}.
 $$
 
-Since $D<0$ and $C>0$, this $t$ lies in $(0,1]$. The inequality $D+Ct\ge0$ becomes
+Since $D\lt 0$ and $C\gt 0$, this $t$ lies in $(0,1]$. The inequality $D+Ct\ge0$ becomes
 
 $$
 D-\frac D2=\frac D2\ge0,
 $$
 
-contradicting $D<0$. If instead
+contradicting $D\lt 0$. If instead
 
 $$
 -\frac{D}{2C}>1,
 $$
 
-then from $C>0$ the proof obtains $-D>2C$, hence $D<-2C$. Taking $t=1$ gives $D+C<-C<0$, contradicting the already established $D+C\ge0$. Thus $D\ge0$ after all, so $\gamma\in\partial g(z)$. Finally the proof assembles the witness $\gamma$, the subgradient membership, and the equation
+then from $C\gt 0$ the proof obtains $-D\gt 2C$, hence $D\lt -2C$. Taking $t=1$ gives $D+C\lt -C\lt 0$, contradicting the already established $D+C\ge0$. Thus $D\ge0$ after all, so $\gamma\in\partial g(z)$. Finally the proof assembles the witness $\gamma$, the subgradient membership, and the equation
 
 $$
 \nabla f(y)+L(z-y)+\gamma=0,
@@ -413,27 +413,27 @@ $$
 
 To prove that $z$ minimizes $Q(\cdot,y)$, take an arbitrary $x$. The proof expands `quadraticApprox` and computes
 
-$$
+```math
 Q(x,y)-Q(z,y)
 =\langle \nabla f(y),x-z\rangle
 +\frac L2\bigl(\|x-y\|^2-\|z-y\|^2\bigr)
 +g(x)-g(z).
-$$
+```
 
 Next it uses the identity
 
-$$
+```math
 \|x-y\|^2-\|z-y\|^2
 =\|x-z\|^2+2\langle x-z,z-y\rangle,
-$$
+```
 
 obtained by writing $x-y=(x-z)+(z-y)$ and expanding. Substituting this identity and the lower bound for $g(x)-g(z)$, the difference is bounded below by
 
-$$
+```math
 \langle \nabla f(y),x-z\rangle
 +\frac L2\bigl(\|x-z\|^2+2\langle x-z,z-y\rangle\bigr)
 -\langle a,x-z\rangle.
-$$
+```
 
 Since
 
@@ -457,11 +457,11 @@ $$
 
 Therefore the linear terms cancel and the lower bound reduces to
 
-$$
+```math
 \frac L2\|x-z\|^2\ge0,
-$$
+```
 
-using $L>0$. Hence
+using $L\gt 0$. Hence
 
 $$
 Q(x,y)-Q(z,y)\ge0,

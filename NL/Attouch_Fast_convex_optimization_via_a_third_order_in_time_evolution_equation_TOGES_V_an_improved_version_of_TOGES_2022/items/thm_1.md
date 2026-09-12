@@ -37,29 +37,29 @@ The declaration concerns a real Hilbert space $H$, a function $f:H\to \mathbb R$
 - `hConvex`: $f$ is convex on all of $H$, i.e. $f$ is convex on `Set.univ`.
 - `hFContDiff`: $f$ is $C^1$, meaning it has a continuous Fréchet derivative.
 - `hMin`: there exists $z\in H$ such that $f(z)\le f(x)$ for every $x\in H$. Thus $f$ attains its global minimum, and the infimum $\inf_{x\in H} f(x)$ used below is a true minimum.
-- `ht0pos`: $t_0>0$.
+- `ht0pos`: $t_0\gt 0$.
 - `hUContDiff`: the curve $u$ is $C^3$ as a map $\mathbb R\to H$.
-- `hAuxiliaryStrict`: if $\alpha>3$, then there exists $v_\infty\in H$ such that the shifted quantity
+- `hAuxiliaryStrict`: if $\alpha\gt 3$, then there exists $v_\infty\in H$ such that the shifted quantity
 
-  $$
-  u(t)+\frac t4\,\partial u(t)
-  $$
+```math
+u(t)+\frac t4\,\partial u(t)
+```
 
   has objective gap that is $o(t^{-3})$ as $t\to\infty$, the shifted curve converges weakly to $v_\infty$, and $f(v_\infty)=\inf_{x\in H} f(x)$. Explicitly,
 
-  $$
-  f\!\left(u(t)+\frac t4\,\partial u(t)\right)-\inf_{x\in H} f(x)=o(t^{-3}),
-  $$
+```math
+f\!\left(u(t)+\frac t4\,\partial u(t)\right)-\inf_{x\in H} f(x)=o(t^{-3}),
+```
 
-  and $t\mapsto u(t)+\frac t4\,\partial u(t)$ converges in the weak topology to $v_\infty$.
+  and $`t\mapsto u(t)+\frac t4\,\partial u(t)`$converges in the weak topology to$v_\infty$.
 - `hTrajectory`: $u$ is a TOGES-V trajectory with parameter $\alpha$, objective $f$, and starting time $t_0$. In this proof this hypothesis is passed unchanged to the core theorem; its internal definition is not unfolded.
 
-The conclusion is a conjunction of two conditional statements. First, if $\alpha\ge 3$, then there is a constant $C>0$ such that for every $t\ge t_0$,
+The conclusion is a conjunction of two conditional statements. First, if $\alpha\ge 3$, then there is a constant $C\gt 0$ such that for every $t\ge t_0$,
 
-$$
+```math
 f\!\left(u(t)+\frac t4\,\partial u(t)\right)-\inf_{x\in H} f(x)
 \le \frac{C}{t^3},
-$$
+```
 
 and
 
@@ -68,7 +68,7 @@ f(u(t))-\inf_{x\in H} f(x)
 \le \frac{C}{t^3}.
 $$
 
-Thus both the shifted objective gap and the unshifted objective gap are bounded by a uniform $O(t^{-3})$ rate. Second, if $\alpha>3$, then there exists $u_\infty\in H$ such that both gaps are actually $o(t^{-3})$, the curve $u(t)$ converges weakly to $u_\infty$, and $u_\infty$ is a minimizer:
+Thus both the shifted objective gap and the unshifted objective gap are bounded by a uniform $O(t^{-3})$ rate. Second, if $\alpha\gt 3$, then there exists $u_\infty\in H$ such that both gaps are actually $o(t^{-3})$, the curve $u(t)$ converges weakly to $u_\infty$, and $u_\infty$ is a minimizer:
 
 $$
 f(u_\infty)=\inf_{x\in H} f(x).
@@ -123,25 +123,25 @@ Third, the proof assembles the regularity statement `hRegularity`, a conjunction
 
 - For the first subgoal, for every $t$ with $t_0\le t$, differentiability of $u$ at $t$ gives
 
-  $$
-  \mathrm{HasDerivAt} u (\partial u(t)) t.
-  $$
+$$
+\mathrm{HasDerivAt} u (\partial u(t)) t.
+$$
 
   This is exactly the statement that the derivative of the curve $u$ at time $t$ is the vector $\partial u(t)$.
 
 - For the second subgoal, differentiability of $\partial u$ at $t$ gives
 
-  $$
-  \mathrm{HasDerivAt} (\partial u) (\partial(\partial u)(t)) t.
-  $$
+$$
+\mathrm{HasDerivAt} (\partial u) (\partial(\partial u)(t)) t.
+$$
 
   So the first derivative has derivative equal to the second derivative at $t$.
 
 - For the third subgoal, differentiability of $\partial^2 u$ at $t$ gives
 
-  $$
-  \mathrm{HasDerivAt} (\partial^2 u) (\partial^3 u(t)) t.
-  $$
+$$
+\mathrm{HasDerivAt} (\partial^2 u) (\partial^3 u(t)) t.
+$$
 
   So the second derivative has derivative equal to the third derivative at $t$.
 

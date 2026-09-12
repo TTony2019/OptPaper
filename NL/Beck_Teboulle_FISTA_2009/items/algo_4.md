@@ -15,11 +15,11 @@ The declaration `descent_condition` is a theorem about one step of a backtrackin
 
 Writing $F(z)$ for the composite objective `compositeObjective f g z`, and $Q_L(z,y)$ for the quadratic approximation `quadraticApprox f g L z y`, the conclusion is
 
-$$
+```math
 F\bigl(A.x(k)\bigr)
 \le
 Q_{A.L(k)}\bigl(A.x(k),\,A.x(k-1)\bigr).
-$$
+```
 
 The supplied definition of `BacktrackingAccepted` says exactly that
 
@@ -72,11 +72,11 @@ $$
 
 After the previous rewrites, the goal has exactly this form for the appropriate $L$, $y$, and $z$. The hypothesis `haccepted` is a proof of the corresponding `BacktrackingAccepted` proposition. Therefore `simpa [BacktrackingAccepted] using haccepted` unfolds the definition and applies the stored acceptance fact to prove
 
-$$
+```math
 F\bigl(A.x(k)\bigr)
 \le
 Q_{A.L(k)}\bigl(A.x(k),\,A.x(k-1)\bigr).
-$$
+```
 
 No arithmetic reasoning such as `linarith` is required; the proof is entirely a matter of exposing the algorithmic update equations and then unfolding the definition of backtracking acceptance.
 

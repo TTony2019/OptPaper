@@ -16,12 +16,12 @@ theorem proximal_eq_zero_of_norm_le {H : Type*} [NormedAddCommGroup H] [InnerPro
 ## Statement explanation
 The declaration `proximal_eq_zero_of_norm_le` is a theorem about a real Hilbert space $H$. The typeclass assumptions say that $H$ is a normed additive commutative group, a real inner product space, and complete. The data are a function $\phi:H\to\mathbb R$, real numbers $r,\lambda$, and a point $x\in H$. The hypotheses are:
 
-- $0<\lambda$;
+- $0\lt \lambda$;
 - $\phi$ is convex on all of $H$, expressed as $\mathrm{ConvexOn}\ \mathbb R\ \mathrm{Set.univ}\ \phi$;
 - $\phi$ is continuous;
-- $0<r$;
-- the closed ball $B(0,r)=\{u\in H:\|u\|\le r\}$ is contained in the subdifferential $\partial\phi(0)$;
-- $\|x\|\le \lambda r$.
+- $0\lt r$;
+- the closed ball $`B(0,r)=\{u\in H:\|u\|\le r\}`$is contained in the subdifferential$\partial\phi(0)$;
+- $`\|x\|\le \lambda r`$.
 
 Here the subdifferential $\partial\phi(0)$ is the set of $u\in H$ such that for every $y\in H$,
 
@@ -37,7 +37,7 @@ $$
 \mathrm{prox}_{\lambda\phi}(x)=0.
 $$
 
-Equivalently, $0$ is the proximal point of the function $\lambda\phi$ from the point $x$. The theorem gives a sufficient condition for this: if all vectors of norm at most $r$ are subgradients of $\phi$ at $0$, then any $x$ with $\|x\|\le \lambda r$ has $\lambda^{-1}x$ in that ball, hence $\lambda^{-1}x\in\partial\phi(0)$. Equivalently $x\in\lambda\partial\phi(0)=\partial(\lambda\phi)(0)$, which is exactly the first-order optimality condition for $0$ to be the proximal point of $\lambda\phi$ at $x$.
+Equivalently, $0$ is the proximal point of the function $\lambda\phi$ from the point $x$. The theorem gives a sufficient condition for this: if all vectors of norm at most $r$ are subgradients of $\phi$ at $0$, then any $x$ with $`\|x\|\le \lambda r`$has$\lambda^{-1}x$in that ball, hence$\lambda^{-1}x\in\partial\phi(0)$. Equivalently$x\in\lambda\partial\phi(0)=\partial(\lambda\phi)(0)$, which is exactly the first-order optimality condition for$0$to be the proximal point of$\lambda\phi$at$x$.
 
 ## Lean proof
 ```lean
@@ -64,15 +64,15 @@ The proof reduces the desired equality to the membership $\lambda^{-1}x\in\parti
 
 1. First, `have hΓ : phi.toEReal ∈ Γ₀(H)` invokes `toEReal_mem_gammaZero_of_continuous_convexOn_univ`. This theorem says that if a real-valued function on $H$ is continuous and convex on all of $H$, then its extended-real version belongs to $\Gamma_0(H)$. Applied to $\phi$, with hypotheses `hcontinuous` and `hconvex`, it gives $\phi.toEReal\in\Gamma_0(H)$. This is needed so that the scaled function $\lambda\phi.toEReal$ is an admissible object for the proximal characterization.
 
-2. Next, `have hscaled_norm : ‖lam⁻¹ • x‖ ≤ r` proves $\|\lambda^{-1}\cdot x\|\le r$. The rewrites unfold the norm of a scalar multiple: `norm_smul` gives
+2. Next, `have hscaled_norm : ‖lam⁻¹ • x‖ ≤ r` proves $`\|\lambda^{-1}\cdot x\|\le r`$. The rewrites unfold the norm of a scalar multiple: `norm_smul` gives
 
-$$
+```math
 \|\lambda^{-1}\cdot x\|=\|\lambda^{-1}\|\,\|x\|.
-$$
+```
 
-Over $\mathbb R$, `Real.norm_eq_abs` replaces $\|\lambda^{-1}\|$ by $|\lambda^{-1}|$. Since $0<\lambda$, `inv_pos.mpr hlam` gives $0<\lambda^{-1}$, so `abs_of_pos` gives $|\lambda^{-1}|=\lambda^{-1}$. The inequality is therefore $\lambda^{-1}\|x\|\le r$. Because $\lambda>0$, `inv_mul_le_iff₀ hlam` rearranges this into $\|x\|\le \lambda r$, up to commutativity of multiplication, which is exactly `hx`. Thus $\lambda^{-1}x$ lies in the closed ball of radius $r$.
+Over $\mathbb R$, `Real.norm_eq_abs` replaces $`\|\lambda^{-1}\|`$by$|\lambda^{-1}|$. Since$0<\lambda$, `inv_pos.mpr hlam` gives $0\lt \lambda^{-1}$, so `abs_of_pos` gives $|\lambda^{-1}|=\lambda^{-1}$. The inequality is therefore $`\lambda^{-1}\|x\|\le r`$. Because$\lambda>0$, `inv_mul_le_iff₀ hlam` rearranges this into $`\|x\|\le \lambda r`$, up to commutativity of multiplication, which is exactly `hx`. Thus $\lambda^{-1}x$ lies in the closed ball of radius $r$.
 
-3. The line `have hmem : lam⁻¹ • x ∈ subdifferential phi 0` then applies `mem_closedBall_zero_iff.mpr hscaled_norm`. The lemma `mem_closedBall_zero_iff` says that $u\in\mathrm{closedBall}(0,r)$ is equivalent to $\|u\|\le r$. Applying `.mpr` to `hscaled_norm` places $\lambda^{-1}x$ in the closed ball $B(0,r)$. The hypothesis `hball` states that this ball is contained in $\partial\phi(0)$, so applying it gives
+3. The line `have hmem : lam⁻¹ • x ∈ subdifferential phi 0` then applies `mem_closedBall_zero_iff.mpr hscaled_norm`. The lemma `mem_closedBall_zero_iff` says that $u\in\mathrm{closedBall}(0,r)$ is equivalent to $`\|u\|\le r`$. Applying `.mpr` to `hscaled_norm` places $\lambda^{-1}x$ in the closed ball $B(0,r)$. The hypothesis `hball` states that this ball is contained in $\partial\phi(0)$, so applying it gives
 
 $$
 \lambda^{-1}x\in\partial\phi(0).
@@ -106,7 +106,7 @@ $$
 f=\lambda\phi.toEReal,\qquad p=0.
 $$
 
-The required membership $f\in\Gamma_0(H)$ is supplied by `smul_mem_gammaZero`: if $g\in\Gamma_0(H)$ and $\gamma$ is a positive real, then $\gamma g\in\Gamma_0(H)$. Since $\phi.toEReal\in\Gamma_0(H)$ and $\lambda>0$, we get $\lambda\phi.toEReal\in\Gamma_0(H)$. The reverse implication `.2` of the characterization turns the equality $0=\mathrm{Prox}_{\lambda\phi}(x)$ into the membership
+The required membership $f\in\Gamma_0(H)$ is supplied by `smul_mem_gammaZero`: if $g\in\Gamma_0(H)$ and $\gamma$ is a positive real, then $\gamma g\in\Gamma_0(H)$. Since $\phi.toEReal\in\Gamma_0(H)$ and $\lambda\gt 0$, we get $\lambda\phi.toEReal\in\Gamma_0(H)$. The reverse implication `.2` of the characterization turns the equality $0=\mathrm{Prox}_{\lambda\phi}(x)$ into the membership
 
 $$
 x-0\in\partial(\lambda\phi.toEReal)(0).
@@ -132,7 +132,7 @@ $$
 
 Mathematically, this is the subgradient scaling rule: being a subgradient of $\lambda\phi$ at $0$ is the same as being $\lambda$ times a subgradient of $\phi$ at $0$.
 
-7. The rewrite `Set.mem_smul_set_iff_inv_smul_mem₀ hlam.ne'` uses the fact that $\lambda\ne0$, which follows from $0<\lambda$. The lemma states that for a nonzero scalar $a$ and a set $S$,
+7. The rewrite `Set.mem_smul_set_iff_inv_smul_mem₀ hlam.ne'` uses the fact that $\lambda\ne0$, which follows from $0\lt \lambda$. The lemma states that for a nonzero scalar $a$ and a set $S$,
 
 $$
 z\in a\cdot S\quad\Longleftrightarrow\quad a^{-1}\cdot z\in S.
@@ -154,5 +154,5 @@ $$
 
 The hypothesis `hmem` says exactly that $\lambda^{-1}\cdot x\in\partial\phi(0)$. The simplification identifies the subdifferential of the real-valued function $\phi$ with that of its extended-real version $\phi.toEReal$, because coercing $\phi.toEReal(y)$ back to `EReal` gives the same value as $\phi(y)$, as recorded by `toEReal_apply`. Hence the goal is exactly `hmem`, and the proof is complete.
 
-The hypothesis $0<r$ is present in the statement but is not used in the displayed proof. The completeness assumption is part of the ambient Hilbert-space setting required for the proximal operator theory, though it is not explicitly named in the proof script.
+The hypothesis $0\lt r$ is present in the statement but is not used in the displayed proof. The completeness assumption is part of the ambient Hilbert-space setting required for the proximal operator theory, though it is not explicitly named in the proof script.
 

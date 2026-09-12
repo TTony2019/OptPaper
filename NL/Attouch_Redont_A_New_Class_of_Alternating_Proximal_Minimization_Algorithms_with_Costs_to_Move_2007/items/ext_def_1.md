@@ -11,10 +11,10 @@ noncomputable def T_n_g {H : Type*} [NormedAddCommGroup H] [InnerProductSpace â„
 ## Statement explanation
 The declaration is a noncomputable definition named `T_n_g`. It takes an implicit type parameter $H$ together with the assumptions that $H$ is a normed additive commutative group and a real inner product space. Thus $H$ carries a norm and an inner product over $\mathbb R$, but no completeness assumption is made. The explicit data are a real-valued function $g:H\to\mathbb R$, real numbers $\mu$ and $\nu_n$, and a point $x:H$. The output lies again in $H$. Writing $T_n^g$ for the Lean function `T_n_g`, the definition says
 
-$$
+```math
 T_n^g(g,\mu,\nu_n,x)
 =\mathrm{resolventOperator}\!\left(g,\frac{1}{\mu+\nu_n},x\right).
-$$
+```
 
 Mathematically, once $g$, $\mu$, and $\nu_n$ are fixed, this defines a mapping $T_n^g:H\to H$ sending each $x$ to the resolvent operator of $g$ at the scalar step $1/(\mu+\nu_n)$. In convex-analytic language, this is the proximal/resolvent step associated with the function $g$ and that step size. The parameter $\nu_n$ enters only through the reciprocal $1/(\mu+\nu_n)$. The declaration itself imposes no convexity assumption on $g$, no positivity assumption on $\mu+\nu_n$, and no condition that $\mu+\nu_n\neq 0$. The `noncomputable` marker indicates that the definition may rely on noncomputable choice inside `resolventOperator`; it adds no mathematical hypothesis.
 

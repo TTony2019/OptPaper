@@ -23,7 +23,7 @@ theorem theorem_3_1
 ## Statement explanation
 The declaration is a convergence theorem for an inexact relaxed inertial proximal-point method for a maximal monotone set-valued operator $A$ on the ambient real Hilbert space $H$. The operator is $A:H\to 2^H$, and $h_A$ says that $A$ is maximal monotone. The sequences $x,y,v,\eta:\mathbb N\to H$ and the scalar sequences $\lambda,\alpha,\rho:\mathbb N\to\mathbb R$ encode the iterates, an auxiliary sequence $y$, the inexactness/residual sequence $v$, the error sequence $\eta$, and the step, inertia, and relaxation parameters. The hypothesis `rec : InexactProximalRecurrence A x y v eta lam alpha rho` packages the recurrence. The proof uses its fields in the following visible ways: $y_k=x_k+\alpha_k(x_k-x_{k-1})$; $\eta_k=\lambda_k^{-1}(x_{k+1}-y_k)+v_k$; and, after unfolding the scalar multiple of a set-valued operator, $v_k=\rho_k a_k$ for some $a_k\in A(z_k)$, where $z_k=\rho_k^{-1}x_{k+1}+(1-\rho_k^{-1})y_k$. The hypothesis `params : ParameterAssumptions x` supplies the parameter bounds and summability properties for $x$. The equalities `hlam_eq`, `halpha_eq`, and `hrho_eq` identify the recurrence parameters with those parameter assumptions.
 
-The parameter assumptions used in the proof are: there is $\lambda_0>0$ with $\lambda_0\le \lambda_k$ for all $k$; for all $k$, $0\le \alpha_k<1$; there is $\alpha_0<1$ with $\alpha_k\le \alpha_0$ for all $k$; the series $\sum_k \alpha_k\|x_k-x_{k-1}\|^2$ converges; there is $R_1>0$ with $R_1\le \rho_k$ for all $k$; and there is $R_2<2$ with $\rho_k\le R_2$ for all $k$. The extra hypotheses are that the zero set of $A$, $A^{-1}(0)=\{x:0\in A x\}$, is nonempty; that $\sum_k \lambda_k\|\eta_k\|<\infty$; and that $\sum_k \lambda_k\|\eta_k\|\|y_k\|<\infty$. The conclusion is the conjunction of two statements: first, $v_k\to 0$ strongly in $H$; second, there exists $x_\star\in A^{-1}(0)$ such that $x_k$ converges weakly to $x_\star$, expressed by convergence of $\mathrm{toWeakSpace}_{\mathbb R,H}(x_k)$ to $\mathrm{toWeakSpace}_{\mathbb R,H}(x_\star)$.
+The parameter assumptions used in the proof are: there is $\lambda_0\gt 0$ with $\lambda_0\le \lambda_k$ for all $k$; for all $k$, $0\le \alpha_k\lt 1$; there is $\alpha_0\lt 1$ with $\alpha_k\le \alpha_0$ for all $k$; the series $`\sum_k \alpha_k\|x_k-x_{k-1}\|^2`$converges; there is$R_1>0$with$R_1\le \rho_k$for all$k$; and there is$R_2<2$with$\rho_k\le R_2$for all$k$. The extra hypotheses are that the zero set of$A$,$`A^{-1}(0)=\{x:0\in A x\}`$, is nonempty; that$`\sum_k \lambda_k\|\eta_k\|<\infty`$; and that$`\sum_k \lambda_k\|\eta_k\|\|y_k\|<\infty`$. The conclusion is the conjunction of two statements: first,$v_k\to 0$strongly in$H$; second, there exists$x_\star\in A^{-1}(0)$such that$x_k$converges weakly to$x_\star$, expressed by convergence of$\mathrm{toWeakSpace}_{\mathbb R,H}(x_k)$to$\mathrm{toWeakSpace}_{\mathbb R,H}(x_\star)$.
 
 ## Lean proof
 ```lean
@@ -803,21 +803,21 @@ by
 ```
 
 ## Proof explanation
-The proof begins with `classical`, which permits classical choice for the nonempty resolvent sets, and then extracts and normalizes the parameter bounds. From `params.lam_lower` and `hlam_eq`, it obtains $\lambda_0>0$ with $\lambda_0\le \lambda_k$. Hence every $\lambda_k$ is positive and nonzero. From `params.alpha_mem` and `halpha_eq`, it obtains $0\le \alpha_k<1$. From `params.alpha_upper`, it obtains $\alpha_0<1$ with $\alpha_k\le \alpha_0$ for all $k$. From `params.alpha_summable` and `halpha_eq`, it obtains
+The proof begins with `classical`, which permits classical choice for the nonempty resolvent sets, and then extracts and normalizes the parameter bounds. From `params.lam_lower` and `hlam_eq`, it obtains $\lambda_0\gt 0$ with $\lambda_0\le \lambda_k$. Hence every $\lambda_k$ is positive and nonzero. From `params.alpha_mem` and `halpha_eq`, it obtains $0\le \alpha_k\lt 1$. From `params.alpha_upper`, it obtains $\alpha_0\lt 1$ with $\alpha_k\le \alpha_0$ for all $k$. From `params.alpha_summable` and `halpha_eq`, it obtains
 
-$$
+```math
 \sum_k \alpha_k\|x_k-x_{k-1}\|^2<\infty.
-$$
+```
 
 Using `inertial_delta_summable_thm2`, this gives
 
-$$
+```math
 \sum_k \frac{\alpha_k+\alpha_k^2}{2}\|x_k-x_{k-1}\|^2<\infty.
-$$
+```
 
-Similarly, from `params.rho_lower` and `params.rho_upper`, together with `hrho_eq`, it obtains $R_1>0$, $R_2<2$, and $R_1\le \rho_k\le R_2$, so all $\rho_k$ are positive.
+Similarly, from `params.rho_lower` and `params.rho_upper`, together with `hrho_eq`, it obtains $R_1\gt 0$, $R_2\lt 2$, and $R_1\le \rho_k\le R_2$, so all $\rho_k$ are positive.
 
-Next the proof selects a single-valued resolvent selection. For each $k$ and each $z\in H$, the theorem `resolvent_nonempty` says that, because $A$ is maximal monotone and $\lambda_k>0$, the resolvent set $J[(\lambda_k A)]z$ is nonempty. The proof uses `Classical.choose` to define $J_{\lambda,k}(z)\in J[(\lambda_k A)]z$. It then defines the Yosida-type residual
+Next the proof selects a single-valued resolvent selection. For each $k$ and each $z\in H$, the theorem `resolvent_nonempty` says that, because $A$ is maximal monotone and $\lambda_k\gt 0$, the resolvent set $J[(\lambda_k A)]z$ is nonempty. The proof uses `Classical.choose` to define $J_{\lambda,k}(z)\in J[(\lambda_k A)]z$. It then defines the Yosida-type residual
 
 $$
 A_{\lambda,k}(z)=\lambda_k^{-1}\bigl(z-J_{\lambda,k}(z)\bigr),
@@ -835,7 +835,7 @@ $$
 \xi_k=y_k-J_{\lambda,k}(y_k).
 $$
 
-The theorem `eta_norm_tendsto_zero` is applied with $\lambda_k\ge \lambda_0>0$ and $\sum_k \lambda_k\|\eta_k\|<\infty$; it yields $\|\eta_k\|\to0$. The proof also shows
+The theorem `eta_norm_tendsto_zero` is applied with $\lambda_k\ge \lambda_0\gt 0$ and $`\sum_k \lambda_k\|\eta_k\|<\infty`$; it yields$`\|\eta_k\|\to0`$. The proof also shows
 
 $$
 R_1\bigl(1-R_2/2\bigr)>0,\qquad
@@ -844,7 +844,7 @@ $$
 
 which will later turn a $\rho$-weighted energy dissipation term into a positive lower bound.
 
-Because $A^{-1}(0)$ is nonempty, choose $\bar x\in A^{-1}(0)$. The proof proves summability of $\sum_k \lambda_k\|\eta_k\|\|y_k-\bar x\|$. It uses the given summability of $\sum_k \lambda_k\|\eta_k\|\|y_k\|$, the summability of $\sum_k \|\bar x\|\lambda_k\|\eta_k\|$ obtained from $\sum_k \lambda_k\|\eta_k\|<\infty$, and the triangle inequality $\|y_k-\bar x\|\le \|y_k\|+\|\bar x\|$. This controls the error term involving $\bar x$.
+Because $A^{-1}(0)$ is nonempty, choose $\bar x\in A^{-1}(0)$. The proof proves summability of $`\sum_k \lambda_k\|\eta_k\|\|y_k-\bar x\|`$. It uses the given summability of$`\sum_k \lambda_k\|\eta_k\|\|y_k\|`$, the summability of$`\sum_k \|\bar x\|\lambda_k\|\eta_k\|`$obtained from$`\sum_k \lambda_k\|\eta_k\|<\infty`$, and the triangle inequality$`\|y_k-\bar x\|\le \|y_k\|+\|\bar x\|`$. This controls the error term involving$\bar x$.
 
 For each $k$, since $0\in A\bar x$, the theorem `resolvent_fixed_iff_zero` gives $\bar x\in J[(\lambda_k A)]\bar x$. The theorem `resolvent_is_at_most_single_valued` says the maximal-monotone resolvent is at most single-valued, so $J_{\lambda,k}(\bar x)=\bar x$. Hence
 
@@ -862,56 +862,56 @@ This graph-membership relation is used later in the weak closedness argument.
 
 The proof also applies `alpha_diff_norm_tendsto_zero_thm2` to obtain
 
-$$
+```math
 \alpha_k\|x_k-x_{k-1}\|\to0,
-$$
+```
 
 and `lam_sq_eta_sq_summable_thm2` to obtain
 
-$$
+```math
 \sum_k \lambda_k^2\|\eta_k\|^2<\infty.
-$$
+```
 
-From $\|\eta_k\|\to0$, it also records the vector limit $\eta_k\to0$ in $H$.
+From $`\|\eta_k\|\to0`$, it also records the vector limit$\eta_k\to0$in$H$.
 
-The resolvent selection is then shown to be firmly nonexpansive. The theorem `firmly_nonexpansive_resolvent_selection_thm2` uses the monotonicity part $h_A.1$ of maximal monotonicity, the positivity $\lambda_k>0$, and the resolvent membership $J_{\lambda,k}(z)\in J[(\lambda_k A)]z$, and concludes that $J_{\lambda,k}$ is firmly nonexpansive. By `firmly_nonexpansive_cocoerciveOn_one_thm2`, a firmly nonexpansive map is $1$-cocoercive on the whole space. The residual map $z\mapsto z-J_{\lambda,k}(z)$ is firmly nonexpansive by `firmlyNonexpansiveOn_residualMap_iff`, and hence is $1$-cocoercive by `firmly_nonexpansiveOn_cocoerciveOn_one_thm2`. Finally, `scaled_residual_cocoercive_thm2` gives, for all $z_1,z_2\in H$,
+The resolvent selection is then shown to be firmly nonexpansive. The theorem `firmly_nonexpansive_resolvent_selection_thm2` uses the monotonicity part $h_A.1$ of maximal monotonicity, the positivity $\lambda_k\gt 0$, and the resolvent membership $J_{\lambda,k}(z)\in J[(\lambda_k A)]z$, and concludes that $J_{\lambda,k}$ is firmly nonexpansive. By `firmly_nonexpansive_cocoerciveOn_one_thm2`, a firmly nonexpansive map is $1$-cocoercive on the whole space. The residual map $z\mapsto z-J_{\lambda,k}(z)$ is firmly nonexpansive by `firmlyNonexpansiveOn_residualMap_iff`, and hence is $1$-cocoercive by `firmly_nonexpansiveOn_cocoerciveOn_one_thm2`. Finally, `scaled_residual_cocoercive_thm2` gives, for all $z_1,z_2\in H$,
 
-$$
+```math
 \lambda_k\|A_{\lambda,k}(z_1)-A_{\lambda,k}(z_2)\|^2
 \le \langle A_{\lambda,k}(z_1)-A_{\lambda,k}(z_2),\,z_1-z_2\rangle.
-$$
+```
 
 This is the cocoercivity inequality for $A_{\lambda,k}$.
 
 The inertial expansion is supplied by `inertial_expansion_y_thm2`, using $y_k=x_k+\alpha_k(x_k-x_{k-1})$ from `rec.y_def`. For every $\bar x'\in H$,
 
-$$
+```math
 \frac12\|y_k-\bar x'\|^2
 =\frac12\|x_k-\bar x'\|^2
 +\alpha_k\left(\frac12\|x_k-\bar x'\|^2-\frac12\|x_{k-1}-\bar x'\|^2\right)
 +\frac{\alpha_k+\alpha_k^2}{2}\|x_k-x_{k-1}\|^2.
-$$
+```
 
 The proof defines
 
-$$
+```math
 \phi(\bar x',k)=\frac12\|x_k-\bar x'\|^2
-$$
+```
 
 and
 
-$$
+```math
 \delta(\bar x',k)
 =\frac{\alpha_k+\alpha_k^2}{2}\|x_k-x_{k-1}\|^2
 +\lambda_k\|\eta_k\|\|y_k-\bar x'\|
 +\frac{\lambda_k^2}{2}\|\eta_k\|^2.
-$$
+```
 
 The proof then establishes the estimate
 
-$$
+```math
 \|x_{k+1}-w_k\|\le \lambda_k\|\eta_k\|.
-$$
+```
 
 For this, it uses `rec.inclusion` after rewriting membership in the scalar multiple of a set: there are $a_k\in A(z_k)$ with
 
@@ -964,18 +964,18 @@ $$
 
 By `resolvent_selection_lipschitz`, the selection $J_{\lambda,k}$ is $1$-Lipschitz, so
 
-$$
+```math
 \|x_{k+1}-w_k\|
 \le
 \rho_k\left\|\frac{\lambda_k}{\rho_k}\eta_k\right\|
 =\lambda_k\|\eta_k\|.
-$$
+```
 
 The proof uses the quadratic identity
 
-$$
+```math
 \|a-c b\|^2=\|a\|^2-2c\langle a,b\rangle+c^2\|b\|^2.
-$$
+```
 
 With $A_{\lambda,k}(\bar x')=0$, obtained from `yosida_selection_eq_zero_iff_thm2` and $\bar x'\in A^{-1}(0)$, it expands
 
@@ -986,21 +986,21 @@ $$
 
 The cocoercivity inequality for $A_{\lambda,k}$ gives
 
-$$
+```math
 \lambda_k\|A_{\lambda,k}(y_k)\|^2
 \le
 \langle A_{\lambda,k}(y_k),\,y_k-\bar x'\rangle.
-$$
+```
 
 This yields the one-step dissipation estimate
 
-$$
+```math
 \frac12\|w_k-\bar x'\|^2
 \le
 \frac12\|y_k-\bar x'\|^2
 -\lambda_k^2\rho_k\left(1-\frac{\rho_k}{2}\right)
 \|A_{\lambda,k}(y_k)\|^2.
-$$
+```
 
 Next the proof decomposes
 
@@ -1010,15 +1010,15 @@ $$
 
 and uses the elementary squared triangle estimate
 
-$$
+```math
 \frac12\|a+b\|^2
 \le
 \frac12\|a\|^2+\|a\|\|b\|+\frac12\|b\|^2.
-$$
+```
 
-Combining this with $\|x_{k+1}-w_k\|\le \lambda_k\|\eta_k\|$ and the previous dissipation estimate gives
+Combining this with $`\|x_{k+1}-w_k\|\le \lambda_k\|\eta_k\|`$ and the previous dissipation estimate gives
 
-$$
+```math
 \frac12\|x_{k+1}-\bar x'\|^2
 \le
 \frac12\|y_k-\bar x'\|^2
@@ -1026,11 +1026,11 @@ $$
 \|A_{\lambda,k}(y_k)\|^2
 +\lambda_k\|\eta_k\|\|y_k-\bar x'\|
 +\frac{\lambda_k^2}{2}\|\eta_k\|^2.
-$$
+```
 
-Substituting the inertial expansion for $\frac12\|y_k-\bar x'\|^2$ gives the recurrence
+Substituting the inertial expansion for $`\frac12\|y_k-\bar x'\|^2`$ gives the recurrence
 
-$$
+```math
 \phi(\bar x',k+1)
 \le
 \phi(\bar x',k)
@@ -1038,13 +1038,13 @@ $$
 +\delta(\bar x',k)
 -\lambda_k^2\rho_k\left(1-\frac{\rho_k}{2}\right)
 \|A_{\lambda,k}(y_k)\|^2.
-$$
+```
 
 This is the main energy inequality.
 
-The proof then shows that $\delta(\bar x')$ is summable for each $\bar x'\in A^{-1}(0)$. The inertial part is summable by `inertial_delta_summable_thm2`; the middle term $\lambda_k\|\eta_k\|\|y_k-\bar x'\|$ is summable by the earlier triangle-inequality argument; and the last term $\frac{\lambda_k^2}{2}\|\eta_k\|^2$ is summable by `lam_sq_eta_sq_summable_thm2`.
+The proof then shows that $\delta(\bar x')$ is summable for each $\bar x'\in A^{-1}(0)$. The inertial part is summable by `inertial_delta_summable_thm2`; the middle term $`\lambda_k\|\eta_k\|\|y_k-\bar x'\|`$is summable by the earlier triangle-inequality argument; and the last term$`\frac{\lambda_k^2}{2}\|\eta_k\|^2`$ is summable by `lam_sq_eta_sq_summable_thm2`.
 
-Now `lemma_2_3` is applied to $\phi(\bar x')$ and $\delta(\bar x')$ with $\alpha_k$ and the upper bound $\alpha_0<1$. Its hypotheses are that $\phi$ and $\delta$ are nonnegative, that the recurrence above holds, that $\delta$ is summable, and that $0\le \alpha_k\le \alpha_0<1$. Its conclusion is
+Now `lemma_2_3` is applied to $\phi(\bar x')$ and $\delta(\bar x')$ with $\alpha_k$ and the upper bound $\alpha_0\lt 1$. Its hypotheses are that $\phi$ and $\delta$ are nonnegative, that the recurrence above holds, that $\delta$ is summable, and that $0\le \alpha_k\le \alpha_0\lt 1$. Its conclusion is
 
 $$
 \sum_k \mathrm{posPart}\bigl(\phi(\bar x',k)-\phi(\bar x',k-1)\bigr)<\infty
@@ -1056,29 +1056,29 @@ $$
 \phi(\bar x',k)\to \phi_\star.
 $$
 
-Here $\mathrm{posPart}(t)=\max(t,0)$. Since $\phi(\bar x',k)=\frac12\|x_k-\bar x'\|^2$, this implies
+Here $\mathrm{posPart}(t)=\max(t,0)$. Since $`\phi(\bar x',k)=\frac12\|x_k-\bar x'\|^2`$, this implies
 
-$$
+```math
 \|x_k-\bar x'\|^2\to 2\phi_\star,
-$$
+```
 
 and by continuity of the square root,
 
-$$
+```math
 \|x_k-\bar x'\|\to \sqrt{2\phi_\star}.
-$$
+```
 
 Thus, for every zero $\bar x'$ of $A$, the distance from $x_k$ to $\bar x'$ converges. This is the distance-convergence hypothesis needed for the Opial lemma.
 
 The proof next establishes summability of the Yosida residual. Let
 
-$$
+```math
 \gamma_k
 =\lambda_k^2\rho_k\left(1-\frac{\rho_k}{2}\right)
 \|A_{\lambda,k}(y_k)\|^2.
-$$
+```
 
-From the main energy inequality, rearranged, and from the summability of the positive part of $\phi(\bar x,k)-\phi(\bar x,k-1)$ and of $\delta(\bar x)$, the proof shows $\sum_k \gamma_k<\infty$. Since
+From the main energy inequality, rearranged, and from the summability of the positive part of $\phi(\bar x,k)-\phi(\bar x,k-1)$ and of $\delta(\bar x)$, the proof shows $\sum_k \gamma_k\lt \infty$. Since
 
 $$
 \rho_k\left(1-\frac{\rho_k}{2}\right)\ge R_1(1-R_2/2)>0,
@@ -1086,15 +1086,15 @@ $$
 
 it follows that
 
-$$
+```math
 \sum_k \lambda_k^2\|A_{\lambda,k}(y_k)\|^2<\infty.
-$$
+```
 
 Because $\xi_k=\lambda_k A_{\lambda,k}(y_k)$, this says
 
-$$
+```math
 \sum_k \|\xi_k\|^2<\infty.
-$$
+```
 
 A summable nonnegative square-summand sequence tends to zero, and hence
 
@@ -1104,13 +1104,13 @@ $$
 
 The strong convergence of $v_k$ is then deduced. The proof bounds
 
-$$
+```math
 \|\lambda_k^{-1}(x_{k+1}-y_k)\|
 \le
 \|\eta_k\|+\frac{R_2}{\lambda_0}\|\xi_k\|.
-$$
+```
 
-Indeed, $x_{k+1}-y_k=(x_{k+1}-w_k)+(w_k-y_k)$; the first term is controlled by $\|x_{k+1}-w_k\|\le \lambda_k\|\eta_k\|$, and $w_k-y_k=-\rho_k\xi_k$, whose norm is at most $R_2\|\xi_k\|$. Multiplying by $\lambda_k^{-1}\le \lambda_0^{-1}$ gives the displayed inequality. Since $\|\eta_k\|\to0$ and $\|\xi_k\|\to0$, the norm of $\lambda_k^{-1}(x_{k+1}-y_k)$ tends to $0$; a squeeze argument using `squeeze_zero` gives
+Indeed, $x_{k+1}-y_k=(x_{k+1}-w_k)+(w_k-y_k)$; the first term is controlled by $`\|x_{k+1}-w_k\|\le \lambda_k\|\eta_k\|`$, and$w_k-y_k=-\rho_k\xi_k$, whose norm is at most$`R_2\|\xi_k\|`$. Multiplying by$\lambda_k^{-1}\le \lambda_0^{-1}$gives the displayed inequality. Since$`\|\eta_k\|\to0`$and$`\|\xi_k\|\to0`$, the norm of$\lambda_k^{-1}(x_{k+1}-y_k)$tends to$0$; a squeeze argument using `squeeze_zero` gives
 
 $$
 \lambda_k^{-1}(x_{k+1}-y_k)\to 0.
@@ -1136,7 +1136,7 @@ $$
 \alpha_k(x_k-x_{k-1})\to0
 $$
 
-strongly, because its norm is $\alpha_k\|x_k-x_{k-1}\|\to0$ by `alpha_diff_norm_tendsto_zero_thm2`. Since
+strongly, because its norm is $`\alpha_k\|x_k-x_{k-1}\|\to0`$ by `alpha_diff_norm_tendsto_zero_thm2`. Since
 
 $$
 y_k=x_k+\alpha_k(x_k-x_{k-1}),
@@ -1148,7 +1148,7 @@ $$
 y_{m_j}-\xi_{m_j}
 $$
 
-converges weakly to $\hat x$. Also, because $\lambda_k\ge \lambda_0>0$ and $\xi_k\to0$, the sequence
+converges weakly to $\hat x$. Also, because $\lambda_k\ge \lambda_0\gt 0$ and $\xi_k\to0$, the sequence
 
 $$
 \lambda_{m_j}^{-1}\xi_{m_j}
@@ -1168,7 +1168,7 @@ $$
 
 that is, $\hat x\in A^{-1}(0)$. Thus every weak subsequential limit of $x_k$ lies in the zero set of $A$.
 
-Finally, the Opial-type theorem `lemma_2_4_opial` is applied with $S=A^{-1}(0)$. The set $S$ is nonempty by `hS`; for every $\bar x'\in S$, the distances $\|x_k-\bar x'\|$ converge; and every weak cluster point of $x_k$ lies in $S$. The theorem concludes that there exists $x_\star\in S$ such that
+Finally, the Opial-type theorem `lemma_2_4_opial` is applied with $S=A^{-1}(0)$. The set $S$ is nonempty by `hS`; for every $\bar x'\in S$, the distances $`\|x_k-\bar x'\|`$converge; and every weak cluster point of$x_k$lies in$S$. The theorem concludes that there exists$x_\star\in S$ such that
 
 $$
 x_k\to x_\star

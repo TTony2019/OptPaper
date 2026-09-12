@@ -47,9 +47,9 @@ $$
 
 The definition `quadraticApprox` gives
 
-$$
+```math
 Q_L(x,y)=f(y)+\langle \nabla f(y),x-y\rangle+\frac{L}{2}\|x-y\|^2+g(x).
-$$
+```
 
 The FISTA hypothesis `hFISTA` says that for every integer $j\ge 1$,
 
@@ -81,7 +81,7 @@ $$
 L_j\le L_{j+1}.
 $$
 
-The extra hypotheses are $0<L_1$, $t_1=1$, and $y_1=x_0$. The theorem is stated for an integer $k$ with $1\le k$.
+The extra hypotheses are $0\lt L_1$, $t_1=1$, and $y_1=x_0$. The theorem is stated for an integer $k$ with $1\le k$.
 
 The conclusion is stated with the local abbreviations
 
@@ -97,11 +97,11 @@ $$
 
 The theorem concludes
 
-$$
+```math
 \frac{2}{L_k}t_k^2 v_k-\frac{2}{L_{k+1}}t_{k+1}^2 v_{k+1}
 \ge
 \|u_{k+1}\|^2-\|u_k\|^2.
-$$
+```
 
 This is a recursive Lyapunov-type inequality for FISTA: it compares the residual objective values $v_k,v_{k+1}$ with the squared norms of the auxiliary vectors $u_k,u_{k+1}$.
 
@@ -392,7 +392,7 @@ $$
 
 The local definition `F` is introduced as the composite objective $F(x)=\mathrm{compositeObjective} f g x$, and the proof rewrites the acceptance inequality as `h_cond`.
 
-The cited theorem `key_inequality'` says the following. Given `ProblemP f g Lf`, a positive parameter $L>0$, points $y,x,z$, a proximal-point hypothesis
+The cited theorem `key_inequality'` says the following. Given `ProblemP f g Lf`, a positive parameter $L\gt 0$, points $y,x,z$, a proximal-point hypothesis
 
 $$
 \mathrm{IsProxPoint} f g L y z,
@@ -406,27 +406,27 @@ $$
 
 one has
 
-$$
+```math
 F(x)-F(z)\ge \frac{L}{2}\|z-y\|^2+L\langle y-x,z-y\rangle.
-$$
+```
 
 The proof applies this twice with $L=L_{k+1}$, $y=y_{k+1}$, and $z=x_{k+1}$. First, with $x=x_k$, it gets
 
-$$
+```math
 F(x_k)-F(x_{k+1})
 \ge
 \frac{L_{k+1}}2\|x_{k+1}-y_{k+1}\|^2
 +L_{k+1}\langle y_{k+1}-x_k,x_{k+1}-y_{k+1}\rangle.
-$$
+```
 
 Second, with $x=x^\star$, it gets
 
-$$
+```math
 F(x^\star)-F(x_{k+1})
 \ge
 \frac{L_{k+1}}2\|x_{k+1}-y_{k+1}\|^2
 +L_{k+1}\langle y_{k+1}-x^\star,x_{k+1}-y_{k+1}\rangle.
-$$
+```
 
 The proof then rewrites these in terms of $v$. Since
 
@@ -502,16 +502,16 @@ hence $t_k^2=t_{k+1}^2-t_{k+1}$.
 
 The proof then proves a Pythagoras-type identity for vectors $a,b,c$ in Euclidean space:
 
-$$
+```math
 \|b-a\|^2+2\langle b-a,a-c\rangle
 =\|b-c\|^2-\|a-c\|^2.
-$$
+```
 
 It sets $w=b-a$ and $v'=a-c$, so that $w+v'=b-c$, and uses the identity
 
-$$
+```math
 \|w+v'\|^2=\|w\|^2+2\langle w,v'\rangle+\|v'\|^2.
-$$
+```
 
 Rearranging gives the displayed Pythagoras identity.
 
@@ -523,19 +523,19 @@ $$
 
 From the first application of `key_inequality'`, after multiplying by the positive number $2/L$, the proof obtains
 
-$$
+```math
 \frac{2}{L}(v_k-v_{k+1})
 \ge
 \|d\|^2+2\langle d,y_{k+1}-x_k\rangle.
-$$
+```
 
-Here the inner product has been rewritten using symmetry of the real inner product, and the factor $L$ is cancelled using $L>0$. Similarly, from the second application,
+Here the inner product has been rewritten using symmetry of the real inner product, and the factor $L$ is cancelled using $L\gt 0$. Similarly, from the second application,
 
-$$
+```math
 \frac{2}{L}(-v_{k+1})
 \ge
 \|d\|^2+2\langle d,y_{k+1}-x^\star\rangle.
-$$
+```
 
 The proof then uses the vector identity
 
@@ -546,11 +546,11 @@ $$
 
 Multiplying the first inequality by $t-1$ and adding it to the second gives
 
-$$
+```math
 \frac{2}{L}\bigl((t-1)v_k-tv_{k+1}\bigr)
 \ge
 t\|d\|^2+2\langle d,t y_{k+1}-(t-1)x_k-x^\star\rangle.
-$$
+```
 
 This uses linearity of the inner product in its second argument and the displayed vector identity.
 
@@ -562,9 +562,9 @@ $$
 
 On the right side, the proof uses
 
-$$
+```math
 t^2\|d\|^2=\|t d\|^2
-$$
+```
 
 and
 
@@ -580,11 +580,11 @@ $$
 
 Thus
 
-$$
+```math
 \frac{2}{L}\bigl(t_k^2v_k-t^2v_{k+1}\bigr)
 \ge
 \|t d\|^2+2\langle t d,t y_{k+1}-(t-1)x_k-x^\star\rangle.
-$$
+```
 
 Next the Pythagoras identity is applied with
 
@@ -610,12 +610,12 @@ $$
 
 Therefore the previous inequality becomes
 
-$$
+```math
 \frac{2}{L}\bigl(t_k^2v_k-t^2v_{k+1}\bigr)
 \ge
 \|t x_{k+1}-(t-1)x_k-x^\star\|^2
 -\|t y_{k+1}-(t-1)x_k-x^\star\|^2.
-$$
+```
 
 The proof then rewrites the second squared norm using the FISTA $y$-update. From
 
@@ -645,15 +645,15 @@ $$
 
 Hence the inequality becomes
 
-$$
+```math
 \frac{2}{L}\bigl(t_k^2v_k-t^2v_{k+1}\bigr)
 \ge
 \|u_{k+1}\|^2-\|u_k\|^2.
-$$
+```
 
 Since $L=L_{k+1}$ and $t=t_{k+1}$, this is exactly the intermediate inequality proved before the final coefficient comparison.
 
-The last step replaces the coefficient $2/L_k$ on the left by the smaller coefficient $2/L_{k+1}$. The proof first assumes $0<L_k$. Because $L_k\le L_{k+1}=L$ and both are positive, one has
+The last step replaces the coefficient $2/L_k$ on the left by the smaller coefficient $2/L_{k+1}$. The proof first assumes $0\lt L_k$. Because $L_k\le L_{k+1}=L$ and both are positive, one has
 
 $$
 \frac{1}{L}\le \frac{1}{L_k},
@@ -681,13 +681,13 @@ $$
 
 Combining this with the previously established inequality yields
 
-$$
+```math
 \frac{2}{L_k}t_k^2v_k-\frac{2}{L_{k+1}}t_{k+1}^2v_{k+1}
 \ge
 \|u_{k+1}\|^2-\|u_k\|^2.
-$$
+```
 
-Finally, the proof handles the case where $0<L_k$ is not known. If $k=1$, the hypothesis $0<L_1$ immediately contradicts the failure of $0<L_k$. If $k\ne 1$, then since $1\le k$, one has $2\le k$, hence $1\le k-1$. Applying `hFISTA` at index $k-1$ gives $0<L_{(k-1)+1}=L_k$, again contradicting the failure of $0<L_k$. Thus the coefficient comparison is always justified, and the desired recursive inequality follows.
+Finally, the proof handles the case where $0\lt L_k$ is not known. If $k=1$, the hypothesis $0\lt L_1$ immediately contradicts the failure of $0\lt L_k$. If $k\ne 1$, then since $1\le k$, one has $2\le k$, hence $1\le k-1$. Applying `hFISTA` at index $k-1$ gives $0\lt L_{(k-1)+1}=L_k$, again contradicting the failure of $0\lt L_k$. Thus the coefficient comparison is always justified, and the desired recursive inequality follows.
 
 The tactics used along the way reflect these mathematical steps: `ring` and `abel` prove algebraic and vector-space identities; `simp` rewrites definitions and standard identities; `rw` replaces equals by equals; `gcongr` multiplies inequalities by nonnegative or positive factors; `field_simp` cancels positive denominators such as $L$ and $t$; `linarith` and `nlinarith` close real inequalities involving linear and polynomial expressions; `exact` supplies the final proof term for each intermediate statement; and `omega` handles the natural-number arithmetic in the final case split.
 

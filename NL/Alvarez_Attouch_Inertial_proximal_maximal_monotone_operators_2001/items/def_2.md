@@ -12,13 +12,13 @@ theorem resolvent_of_maximal_monotone
 ```
 
 ## Statement explanation
-Let $H$ be the ambient space on which the set-valued operator acts, with the algebraic and topological structure supplied by the surrounding Lean context. The declaration concerns a set-valued operator $A : H \rightrightarrows H$, a hypothesis $hA$ that $A$ is maximal monotone, a real number $\lambda$, and the hypothesis $h\lambda : 0 < \lambda$.
+Let $H$ be the ambient space on which the set-valued operator acts, with the algebraic and topological structure supplied by the surrounding Lean context. The declaration concerns a set-valued operator $A : H \rightrightarrows H$, a hypothesis $hA$ that $A$ is maximal monotone, a real number $\lambda$, and the hypothesis $h\lambda : 0 \lt  \lambda$.
 
-The operator $A.\mathrm{identityAddScaled}\,\lambda$, written mathematically as $I+\lambda A$, is defined by
+The operator $`A.\mathrm{identityAddScaled}\,\lambda`$, written mathematically as$I+\lambda A$, is defined by
 
-$$
+```math
 (I+\lambda A)(z)=\{\, z+\lambda a \mid a\in A(z) \,\}.
-$$
+```
 
 Its resolvent is the inverse of $I+\lambda A$; in the Lean statement this resolvent is denoted by the resolvent notation `J[(lambda • A)]`, i.e. the resolvent of the operator $\lambda A$.
 
@@ -36,17 +36,17 @@ Second, there exists a single-valued map $J:H\to H$ such that:
 
 - for every $u\in H$, $J(u)$ lies in the resolvent of $\lambda A$ at $u$, written in Lean as $J u\in J[(\lambda\cdot A)]u$. By definition of the resolvent, this means
 
-  $$
-  u\in (I+\lambda A)(J(u)),
-  $$
+$$
+u\in (I+\lambda A)(J(u)),
+$$
 
   or equivalently $u\in J(u)+\lambda A(J(u))$. Thus $J$ is a selection of the resolvent.
-- $J$ is $1$-Lipschitz, i.e. nonexpansive: the Lean assertion $\mathrm{LipschitzWith}\,1\,J$ means that the usual Lipschitz condition with constant $1$ holds for $J$.
+- $J$ is $1$-Lipschitz, i.e. nonexpansive: the Lean assertion $`\mathrm{LipschitzWith}\,1\,J`$means that the usual Lipschitz condition with constant$1$holds for$J$.
 - the fixed points of $J$ are exactly the zeros of $A$:
 
-  $$
-  \forall z\in H,\qquad J(z)=z \iff 0\in A(z).
-  $$
+$$
+\forall z\in H,\qquad J(z)=z \iff 0\in A(z).
+$$
 
 So the declaration says that for a maximal monotone operator $A$ and a positive step size $\lambda$, the resolvent of $\lambda A$ is single-valued and uniquely defined, and it admits a nonexpansive selection whose fixed points are precisely the points $z$ with $0\in A(z)$.
 
@@ -82,11 +82,11 @@ by
 ## Proof explanation
 The proof begins with `classical`, because it uses classical choice to select the unique solution of each resolvent equation.
 
-First, the proof invokes the cited result `identityAddScaled_existsUnique_of_maximal_monotone`. Its mathematical content is the following: if $A$ is maximal monotone and $\lambda>0$, then for every $u\in H$ there exists a unique $z\in H$ such that
+First, the proof invokes the cited result `identityAddScaled_existsUnique_of_maximal_monotone`. Its mathematical content is the following: if $A$ is maximal monotone and $\lambda\gt 0$, then for every $u\in H$ there exists a unique $z\in H$ such that
 
-$$
+```math
 u\in A.\mathrm{identityAddScaled}\,\lambda\,z,
-$$
+```
 
 i.e. $u\in (I+\lambda A)(z)$. The proof applies this result to the given $A$, $hA$, $\lambda$, $h\lambda$, and to an arbitrary $u$, obtaining exactly
 
@@ -112,9 +112,9 @@ This is `hJ_identity`. It follows from `Classical.choose_spec (hunique u)`: the 
 
 To show that $J$ is a selection of the resolvent of $\lambda A$, the proof uses `mem_resolvent_smul_iff`. That lemma states that for any set-valued operator $A$, any scalar $\rho$, and any $x,y\in H$,
 
-$$
+```math
 y\in J[(\rho\cdot A)]x \iff x\in A.\mathrm{identityAddScaled}\,\rho\,y.
-$$
+```
 
 In other words, $y$ belongs to the resolvent of $\rho A$ at $x$ exactly when $x\in (I+\rho A)(y)$. Taking $\rho=\lambda$, $x=u$, and $y=J(u)$, the right-hand side is exactly `hJ_identity u`, namely $u\in (I+\lambda A)(J(u))$. The `.mpr` direction of the equivalence therefore gives
 
@@ -124,7 +124,7 @@ $$
 
 for every $u$. This is recorded as `hJ`. Thus $J$ is a single-valued selection of the resolvent.
 
-The proof then assembles the existential part of the theorem with `refine`. The witness for the existential quantifier is the function $J$. The first property required is `hJ`, which says that $J$ is a resolvent selection. The second property, $1$-Lipschitzness, is supplied by the cited theorem `resolvent_selection_lipschitz`. Its content is: if $A$ is maximal monotone, $\lambda>0$, and $J:H\to H$ satisfies $J(u)\in J[(\lambda\cdot A)]u$ for every $u$, then $J$ is $1$-Lipschitz. Applied to the present $A$, $hA$, $h\lambda$, $J$, and `hJ`, it gives $\mathrm{LipschitzWith}\,1\,J$. Mathematically, this is the nonexpansiveness of the resolvent selection.
+The proof then assembles the existential part of the theorem with `refine`. The witness for the existential quantifier is the function $J$. The first property required is `hJ`, which says that $J$ is a resolvent selection. The second property, $1$-Lipschitzness, is supplied by the cited theorem `resolvent_selection_lipschitz`. Its content is: if $A$ is maximal monotone, $\lambda\gt 0$, and $J:H\to H$ satisfies $J(u)\in J[(\lambda\cdot A)]u$ for every $u$, then $J$ is $1$-Lipschitz. Applied to the present $A$, $hA$, $h\lambda$, $J$, and `hJ`, it gives $`\mathrm{LipschitzWith}\,1\,J`$. Mathematically, this is the nonexpansiveness of the resolvent selection.
 
 Only the fixed-point characterization remains. The proof fixes an arbitrary $z\in H$ with `intro z` and splits the biconditional into two implications using `constructor`.
 
@@ -142,7 +142,7 @@ $$
 \lambda a=0.
 $$
 
-The proof now applies `smul_eq_zero.mp hscaled`. This theorem says that in a vector space, $\lambda a=0$ implies $\lambda=0$ or $a=0$. Since $h\lambda$ gives $0<\lambda$, in particular $\lambda\neq 0$, the disjunct $\lambda=0$ is impossible. The tactic `resolve_left` uses this to conclude $a=0$. Therefore the earlier membership $a\in A(z)$ becomes $0\in A(z)$. The final `simpa [hfix, ha_zero] using ha` rewrites the extracted membership into the desired conclusion.
+The proof now applies `smul_eq_zero.mp hscaled`. This theorem says that in a vector space, $\lambda a=0$ implies $\lambda=0$ or $a=0$. Since $h\lambda$ gives $0\lt \lambda$, in particular $\lambda\neq 0$, the disjunct $\lambda=0$ is impossible. The tactic `resolve_left` uses this to conclude $a=0$. Therefore the earlier membership $a\in A(z)$ becomes $0\in A(z)$. The final `simpa [hfix, ha_zero] using ha` rewrites the extracted membership into the desired conclusion.
 
 For the backward direction, assume $0\in A(z)$, recorded as `hzero`. The proof constructs the membership
 

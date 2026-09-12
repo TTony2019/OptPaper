@@ -27,64 +27,64 @@ The fields of the structure encode the following mathematical requirements.
 
 - `closed_convex`: the set $C$ is closed and convex over $\mathbb{R}$, i.e.
 
-  $$
-  \mathrm{IsClosed}(C) \land \mathrm{Convex}_{\mathbb R}(C).
-  $$
+$$
+\mathrm{IsClosed}(C) \land \mathrm{Convex}_{\mathbb R}(C).
+$$
 
 - `x`: there is a trajectory
 
-  $$
-  x : \mathbb{R} \to H.
-  $$
+$$
+x : \mathbb{R} \to H.
+$$
 
 - `path_in_constraint`: for every nonnegative time $t$,
 
-  $$
-  0 \le t \implies x(t) \in C.
-  $$
+$$
+0 \le t \implies x(t) \in C.
+$$
 
   Thus the trajectory remains in the constraint set for forward time.
 
 - `tangent_cone_at_path`: for every nonnegative time $t$,
 
-  $$
-  0 \le t \implies \mathrm{tangentCone}(x(t)) = \mathrm{tangentConeAt}_{\mathbb R}(C, x(t)).
-  $$
+$$
+0 \le t \implies \mathrm{tangentCone}(x(t)) = \mathrm{tangentConeAt}_{\mathbb R}(C, x(t)).
+$$
 
   The user-supplied tangent-cone map agrees, along the trajectory for $t \ge 0$, with the actual tangent cone to $C$ at the point $x(t)$.
 
 - `projection_mem`: for every nonnegative time $t$,
 
-  $$
-  0 \le t \implies
-  \mathrm{projection}\!\left(-(\nabla \Psi)(x(t)), \mathrm{tangentCone}(x(t))\right)
-  \in \mathrm{tangentCone}(x(t)).
-  $$
+```math
+0 \le t \implies
+\mathrm{projection}\!\left(-(\nabla \Psi)(x(t)), \mathrm{tangentCone}(x(t))\right)
+\in \mathrm{tangentCone}(x(t)).
+```
 
   So the projected vector lies in the tangent cone.
 
 - `projection_min_dist`: for every nonnegative time $t$ and every $z \in \mathrm{tangentCone}(x(t))$,
 
-  $$
-  \left\|
-  -(\nabla \Psi)(x(t)) -
-  \mathrm{projection}\!\left(-(\nabla \Psi)(x(t)), \mathrm{tangentCone}(x(t))\right)
-  \right\|
-  \le
-  \left\|
-  -(\nabla \Psi)(x(t)) - z
-  \right\|.
-  $$
+```math
+\left\|
+-(\nabla \Psi)(x(t)) -
+\mathrm{projection}\!\left(-(\nabla \Psi)(x(t)), \mathrm{tangentCone}(x(t))\right)
+\right\|
+\le
+\left\|
+-(\nabla \Psi)(x(t)) - z
+\right\|.
+```
 
   Hence the projected vector is a closest point in the tangent cone to the negative gradient $-\nabla \Psi(x(t))$, i.e. it is a metric projection of that vector onto the tangent cone.
 
 - `differential_equation`: for every nonnegative time $t$,
 
-  $$
-  0 \le t \implies
-  \mathrm{deriv} x(t)
-  =\mathrm{projection}\!\left(-(\nabla \Psi)(x(t)), \mathrm{tangentCone}(x(t))\right).
-  $$
+```math
+0 \le t \implies
+\mathrm{deriv} x(t)
+=\mathrm{projection}\!\left(-(\nabla \Psi)(x(t)), \mathrm{tangentCone}(x(t))\right).
+```
 
   Thus the velocity of the trajectory is the projection of the negative gradient onto the tangent cone at the current point.
 

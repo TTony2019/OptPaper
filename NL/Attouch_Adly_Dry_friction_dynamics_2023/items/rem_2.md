@@ -15,25 +15,25 @@ theorem remark_4_1 {H : Type*} [NormedAddCommGroup H] [NormedSpace ℝ H] {sbar 
 ## Statement explanation
 Let $H$ be a real normed vector space, let $\bar s,\alpha\in\mathbb R$, let $x,y,dx:\mathbb R\to H$ be functions, and let $x_{\mathrm{Limit}}\in H$. The theorem assumes:
 
-- $1<\alpha$;
-- $0<\bar s$;
+- $1\lt \alpha$;
+- $0\lt \bar s$;
 - for every $s\in[\bar s,\infty)$,
 
-  $$
-  x'(s)=dx(s)
-  $$
+$$
+x'(s)=dx(s)
+$$
 
   in the sense of `HasDerivAt`, and
 
-  $$
-  dx(s)+\frac{\alpha-1}{s}\bigl(x(s)-y(s)\bigr)=0;
-  $$
+$$
+dx(s)+\frac{\alpha-1}{s}\bigl(x(s)-y(s)\bigr)=0;
+$$
 
 - for every $s\in[\bar s,\infty)$,
 
-  $$
-  y(s)=x_{\mathrm{Limit}}.
-  $$
+$$
+y(s)=x_{\mathrm{Limit}}.
+$$
 
 The conclusion is that there exists a vector $C\in H$ such that, for every $s\in[\bar s,\infty)$,
 
@@ -125,7 +125,7 @@ $$
 
 In Lean this is `hFzero : ∀ s ∈ Set.Ici sbar, HasDerivAt F 0 s`.
 
-To prove this, the proof fixes an arbitrary $s\in[\bar s,\infty)$. The tactic `intro s hs` introduces $s$ and the hypothesis $hs:s\in[\bar s,\infty)$. Since $\bar s>0$ and $\bar s\le s$, it obtains
+To prove this, the proof fixes an arbitrary $s\in[\bar s,\infty)$. The tactic `intro s hs` introduces $s$ and the hypothesis $hs:s\in[\bar s,\infty)$. Since $\bar s\gt 0$ and $\bar s\le s$, it obtains
 
 $$
 0<s
@@ -145,7 +145,7 @@ $$
 dx(s)+\frac{\alpha-1}{s}\bigl(x(s)-x_{\mathrm{Limit}}\bigr)=0.
 $$
 
-At this point the proof applies the cited private theorem `integrating_factor_deriv_zero`. Its statement, specialized to $p=\alpha-1$, says: if $0<s$, if $x$ has derivative $dx(s)$ at $s$, and if
+At this point the proof applies the cited private theorem `integrating_factor_deriv_zero`. Its statement, specialized to $p=\alpha-1$, says: if $0\lt s$, if $x$ has derivative $dx(s)$ at $s$, and if
 
 $$
 dx(s)+\frac{\alpha-1}{s}\bigl(x(s)-x_{\mathrm{Limit}}\bigr)=0,
@@ -166,15 +166,15 @@ $$
 
 which is
 
-$$
+```math
 s^{\alpha-2}\left((\alpha-1)\bigl(x(s)-x_{\mathrm{Limit}}\bigr)+s\,dx(s)\right).
-$$
+```
 
 Multiplying the ODE by $s$ gives
 
-$$
+```math
 s\,dx(s)+(\alpha-1)\bigl(x(s)-x_{\mathrm{Limit}}\bigr)=0,
-$$
+```
 
 so the derivative is indeed zero. This proves `hFzero`.
 
@@ -203,10 +203,10 @@ This is `hdiff`. It is obtained from `hFzero t ht`: since $F$ has a derivative a
 
 Second, it shows that the within-derivative of $F$ is zero everywhere on the tail:
 
-$$
+```math
 \forall t\in[\bar s,\infty),\quad
 \mathrm{fderivWithin}_{\mathbb R} F\,[\bar s,\infty)\,t=0.
-$$
+```
 
 This is `hderiv`. The proof uses `HasFDerivWithinAt.fderivWithin`: from $F'(t)=0$ one gets a within-derivative $0$ on the tail, and since the interval $[\bar s,\infty)$ is uniquely differentiable at each of its points, the within Fréchet derivative is exactly that zero derivative. The relevant uniqueness fact is supplied by `uniqueDiffOn_Ici sbar t ht`. The tactic `simpa` then simplifies the derivative expression to $0$.
 
@@ -218,7 +218,7 @@ $$
 
 In Lean the membership $s\in[\bar s,\infty)$ is `hs`, and $\bar s\in[\bar s,\infty)$ is proved by `Set.mem_Ici.mpr le_rfl`, since $\bar s\le\bar s$.
 
-The proof then recalls that $s>0$, again from $\bar s>0$ and $\bar s\le s$, and proves that
+The proof then recalls that $s\gt 0$, again from $\bar s\gt 0$ and $\bar s\le s$, and proves that
 
 $$
 s^{\alpha-1}\ne0.

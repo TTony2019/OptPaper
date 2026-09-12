@@ -30,85 +30,85 @@ The declaration states a finite-length and finite-convergence theorem for the se
 
 The hypotheses are:
 
-- $hdf : DF_r(\phi,r)$ is a dry-friction hypothesis on $\phi$ of radius $r$. The proof only uses the following consequences of it: $\phi(0)=0$, $r>0$, the open ball of radius $r$ around $0$ is contained in the subdifferential of $\phi$ at $0$,
+- $hdf : DF_r(\phi,r)$ is a dry-friction hypothesis on $\phi$ of radius $r$. The proof only uses the following consequences of it: $\phi(0)=0$, $r\gt 0$, the open ball of radius $r$ around $0$ is contained in the subdifferential of $\phi$ at $0$,
 
-  $$
-  \mathrm{ball}(0,r)\subseteq \partial\phi(0),
-  $$
+$$
+\mathrm{ball}(0,r)\subseteq \partial\phi(0),
+$$
 
   $\phi$ is continuous, and the extended-real version of $\phi$ belongs to $\Gamma_0(H)$, i.e. it satisfies the convex lower-semicontinuity condition needed for the subdifferential recurrence.
 - $alg : IPAHDDVar\ f\ \phi\ h\ \gamma\ \beta$ is the algorithm sequence; its state sequence is $x_k=\texttt{alg.x}(k)$.
-- $f$ is $C^1$, written $hf : \mathrm{ContDiff}\mathbb R\,1\,f$.
+- $f$ is $C^1$, written $`hf : \mathrm{ContDiff}\mathbb R\,1\,f`$.
 - The gradient of $f$ is $L$-Lipschitz, written $hL : \mathrm{HasLipschitzGradient}(\nabla f,L)$. Thus
 
-  $$
-  \|\nabla f(x)-\nabla f(y)\|\le L\|x-y\|.
-  $$
+```math
+\|\nabla f(x)-\nabla f(y)\|\le L\|x-y\|.
+```
 
 - $f$ is bounded below: there exists $c\in\mathbb R$ such that $c\le f(x)$ for all $x$.
-- $h>0$ and $\gamma>0$, while $L\ge0$ and $\beta\ge0$.
+- $h\gt 0$ and $\gamma\gt 0$, while $L\ge0$ and $\beta\ge0$.
 - The damping parameter satisfies
 
-  $$
-  \gamma \ge L\left(\beta+\frac h2\right)+\frac{\gamma^2h}{2}.
-  $$
+$$
+\gamma \ge L\left(\beta+\frac h2\right)+\frac{\gamma^2h}{2}.
+$$
 
 The conclusion is that there exist a limit point $x_\infty\in H$ and a real number $E_1$, namely the first-step energy
 
-$$
+```math
 E_1=\frac12(1+\beta hL)\left\|\frac1h(x_1-x_0)\right\|^2+f(x_1)-\inf f,
-$$
+```
 
 where $\inf f = \mathrm{sInf}(\mathrm{range} f)$, such that all of the following hold:
 
 1. The sequence has finite length:
 
-   $$
-   \sum_{k=0}^\infty \|x_{k+1}-x_k\|<\infty.
-   $$
+```math
+\sum_{k=0}^\infty \|x_{k+1}-x_k\|<\infty.
+```
 
 2. The sequence converges:
 
-   $$
-   x_k\to x_\infty.
-   $$
+$$
+x_k\to x_\infty.
+$$
 
 3. The tail total variation is bounded by the initial energy:
 
-   $$
-   \sum_{k\ge1}\|x_{k+1}-x_k\|\le \frac{E_1}{r}.
-   $$
+```math
+\sum_{k\ge1}\|x_{k+1}-x_k\|\le \frac{E_1}{r}.
+```
 
 4. The limit is dry-friction critical:
 
-   $$
-   -\nabla f(x_\infty)\in \partial\phi(0).
-   $$
+$$
+-\nabla f(x_\infty)\in \partial\phi(0).
+$$
 
 5. If the damping inequality is strict,
 
-   $$
-   \gamma > L\left(\beta+\frac h2\right)+\frac{\gamma^2h}{2},
-   $$
+$$
+\gamma > L\left(\beta+\frac h2\right)+\frac{\gamma^2h}{2},
+$$
 
    and the limit is interior-critical,
 
-   $$
-   -\nabla f(x_\infty)\in \mathrm{int}\partial\phi(0),
-   $$
+$$
+-\nabla f(x_\infty)\in \mathrm{int}\partial\phi(0),
+$$
 
-   then convergence is at least geometric: there exist $q,C\in\mathbb R$ with $0<q<1$, $C\ge0$, and
+   then convergence is at least geometric: there exist $q,C\in\mathbb R$ with $0\lt q\lt 1$, $C\ge0$, and
 
-   $$
-   \|x_k-x_\infty\|\le Cq^k
-   $$
+```math
+\|x_k-x_\infty\|\le Cq^k
+```
 
    for every $k\in\mathbb N$.
 6. If
 
-   $$
-   \|\nabla f(x_\infty)\|<r,
-   $$
+```math
+\|\nabla f(x_\infty)\|<r,
+```
 
    then the sequence is eventually constant: there exists $N$ such that $x_k=x_N$ for all $k\ge N$.
 
@@ -408,7 +408,7 @@ $$
 d_k=x_{k+1}-x_k,\qquad v_k=\frac1h d_k.
 $$
 
-Thus $d_k=h v_k$. Since $h>0$, this identification is legitimate.
+Thus $d_k=h v_k$. Since $h\gt 0$, this identification is legitimate.
 
 First, the proof applies `IPAHDDVar_shifted_recurrence`. Its content is that for every $k$ there exists $q_k$ such that
 
@@ -438,7 +438,7 @@ $$
 \phi(v_{k+1})\le \langle q_k,v_{k+1}\rangle.
 $$
 
-Multiplying by $h>0$ and substituting into the inner-product identity yields the basic inequality
+Multiplying by $h\gt 0$ and substituting into the inner-product identity yields the basic inequality
 
 $$
 \langle v_{k+1}-v_k,v_{k+1}\rangle
@@ -450,59 +450,59 @@ $$
 
 The tactics `rw`, `simp`, and `field_simp` are used here mainly to rewrite the definitions of $d_k,v_k$, clear the factor $h$, and move scalar factors out of the inner product.
 
-Next, the dry-friction hypothesis gives a linear lower bound. The lemma `subgradient_ball_exact_linear_lower_bound` says that if $\phi(0)=0$, $r>0$, and $\mathrm{ball}(0,r)\subseteq\partial\phi(0)$, then for every $u\in H$,
+Next, the dry-friction hypothesis gives a linear lower bound. The lemma `subgradient_ball_exact_linear_lower_bound` says that if $\phi(0)=0$, $r\gt 0$, and $\mathrm{ball}(0,r)\subseteq\partial\phi(0)$, then for every $u\in H$,
 
-$$
+```math
 r\|u\|\le \phi(u).
-$$
+```
 
 Applying this to $u=v_{k+1}$ and using $d_{k+1}=h v_{k+1}$ gives
 
-$$
+```math
 r\|d_{k+1}\|\le h\phi(v_{k+1}).
-$$
+```
 
 The smooth descent lemma `IPAHDDVar_smooth_descent` states that for $C^1$ $f$ whose gradient is $L$-Lipschitz,
 
-$$
+```math
 f(y)\le f(x)+\langle\nabla f(x),y-x\rangle+\frac L2\|y-x\|^2.
-$$
+```
 
 Taking $x=x_{k+1}$ and $y=x_{k+2}$, using $x_{k+2}-x_{k+1}=d_{k+1}=h v_{k+1}$, gives
 
-$$
+```math
 f(x_{k+2})-f(x_{k+1})-\frac{h^2L}{2}\|v_{k+1}\|^2
 \le \langle\nabla f(x_{k+1}),d_{k+1}\rangle.
-$$
+```
 
 The Lipschitz property of $\nabla f$ also controls the inertial cross term. Since
 
-$$
+```math
 \|\nabla f(x_{k+1})-\nabla f(x_k)\|\le L\|d_k\|=hL\|v_k\|,
-$$
+```
 
 Cauchy–Schwarz gives
 
-$$
+```math
 \langle \nabla f(x_{k+1})-\nabla f(x_k),v_{k+1}\rangle
 \ge -hL\|v_k\|\,\|v_{k+1}\|.
-$$
+```
 
 Multiplying by $\beta\ge0$, and using $2ab\le a^2+b^2$, yields
 
-$$
+```math
 -\frac{hL\beta}{2}\bigl(\|v_k\|^2+\|v_{k+1}\|^2\bigr)
 \le
 \beta\langle \nabla f(x_{k+1})-\nabla f(x_k),v_{k+1}\rangle.
-$$
+```
 
 Now define the Lyapunov energy
 
-$$
+```math
 E_k=\frac12(1+\beta hL)\|v_k\|^2+f(x_{k+1})-\inf f.
-$$
+```
 
-Because $f$ is bounded below, $\inf f$ is finite and $f(x_{k+1})-\inf f\ge0$. Also the coefficient $\frac12(1+\beta hL)$ is nonnegative, since $h>0$, $L\ge0$, and $\beta\ge0$. Hence
+Because $f$ is bounded below, $\inf f$ is finite and $f(x_{k+1})-\inf f\ge0$. Also the coefficient $\frac12(1+\beta hL)$ is nonnegative, since $h\gt 0$, $L\ge0$, and $\beta\ge0$. Hence
 
 $$
 E_k\ge0.
@@ -510,20 +510,20 @@ $$
 
 The crucial one-step inequality is
 
-$$
+```math
 E_{k+1}-E_k+r\|d_{k+1}\|\le0.
-$$
+```
 
 It is obtained by combining several cited facts. The identity `IPAHDDVar_inner_old_damping_identity` says that for all $u,w$,
 
-$$
+```math
 \langle u-w,u\rangle+h\gamma\langle w,u\rangle
 =\frac12\|u\|^2
 -\frac12(1-h\gamma)^2\|w\|^2
 +\frac12\|u-(1-h\gamma)w\|^2.
-$$
+```
 
-This rewrites the two inner-product terms involving $v_{k+1}$ and $v_k$. The lemma `IPAHDDVar_quadratic_dissipation` says that, under $h>0$, $L\ge0$, $\beta\ge0$, and
+This rewrites the two inner-product terms involving $v_{k+1}$ and $v_k$. The lemma `IPAHDDVar_quadratic_dissipation` says that, under $h\gt 0$, $L\ge0$, $\beta\ge0$, and
 
 $$
 L\left(\beta+\frac h2\right)+\frac{\gamma^2h}{2}\le\gamma,
@@ -531,37 +531,37 @@ $$
 
 one has for all $u,w$
 
-$$
+```math
 hL\left(\beta+\frac h2\right)\|u\|^2
 -h\left(\gamma-\frac{\gamma^2h}{2}\right)\|w\|^2
 -\frac12\|u-(1-h\gamma)w\|^2\le0.
-$$
+```
 
 This is exactly what absorbs the positive quadratic terms produced by the damping identity. Combining this with the basic inequality, the dry-friction lower bound, the cross-term estimate, and the descent estimate gives the stated one-step energy decrease.
 
 The proof then telescopes the one-step inequality. Summing from $0$ to $N-1$,
 
-$$
+```math
 E_N-E_0+\sum_{k=0}^{N-1}r\|d_{k+1}\|\le0.
-$$
+```
 
-Since $E_N\ge0$ and $r>0$,
+Since $E_N\ge0$ and $r\gt 0$,
 
-$$
+```math
 \sum_{k=0}^{N-1}\|d_{k+1}\|\le\frac{E_0}{r}.
-$$
+```
 
 The lemma `summable_of_sum_range_le` then implies
 
-$$
+```math
 \sum_{k=0}^{\infty}\|d_{k+1}\|<\infty.
-$$
+```
 
 The auxiliary lemma `IPAHDDVar_summable_real_of_summable_real_succ` shifts the summation index and gives
 
-$$
+```math
 \sum_{k=0}^{\infty}\|d_k\|<\infty.
-$$
+```
 
 By the definition of `HasFiniteLength`, this is precisely
 
@@ -571,32 +571,32 @@ $$
 
 Having finite length, the theorem `IPAHDDVar_finite_length_tendsto` applies. It states that in a complete normed additive group, if
 
-$$
+```math
 \sum_{k=0}^{\infty}\|x_{k+1}-x_k\|<\infty,
-$$
+```
 
 then there exists $x_\infty$ such that $x_k\to x_\infty$. Thus the proof obtains both the finite-length conclusion and the convergence conclusion.
 
 The same partial-sum estimate also gives the total tail bound. The lemma `Real.tsum_le_of_sum_range_le` upgrades the uniform partial-sum bound to a bound on the whole series:
 
-$$
+```math
 \sum_{k=0}^{\infty}\|d_{k+1}\|\le\frac{E_0}{r}.
-$$
+```
 
 Since $E_1=E_0$, and by `tsum_subtype_succ_reindex`,
 
-$$
+```math
 \sum_{k\ge1}\|x_{k+1}-x_k\|
 =\sum_{k=0}^{\infty}\|d_{k+1}\|,
-$$
+```
 
 the proof obtains
 
-$$
+```math
 \sum_{k\ge1}\|x_{k+1}-x_k\|\le\frac{E_1}{r}.
-$$
+```
 
-Next the proof identifies the limiting subgradient. Since $\sum\|d_k\|$ converges, its terms tend to zero, so $d_k\to0$. Because $v_k=h^{-1}d_k$, also $v_k\to0$, and hence $v_{k+1}\to0$ and $v_{k+1}-v_k\to0$. Also $x_k\to x_\infty$, so by continuity of $\nabla f$, which follows from `continuous_gradient_of_contDiff`,
+Next the proof identifies the limiting subgradient. Since $`\sum\|d_k\|`$converges, its terms tend to zero, so$d_k\to0$. Because$v_k=h^{-1}d_k$, also$v_k\to0$, and hence$v_{k+1}\to0$and$v_{k+1}-v_k\to0$. Also$x_k\to x_\infty$, so by continuity of$\nabla f$, which follows from `continuous_gradient_of_contDiff`,
 
 $$
 \nabla f(x_k)\to\nabla f(x_\infty),
@@ -669,37 +669,37 @@ $$
 
 Because $q_k\to-\nabla f(x_\infty)$ and $\mathrm{int}\partial\phi(0)$ is open, the sequence $q_k$ eventually lies in $\mathrm{int}\partial\phi(0)$. The stabilization criterion then shows that $x_k=x_\infty$ for all sufficiently large $k$. Hence convergence is not only geometric but eventually exact. The proof then chooses $\rho=\frac12$ and
 
-$$
+```math
 C=\sum_{i<N}\frac{\|x_i-x_\infty\|}{\rho^i}.
-$$
+```
 
-For $k\ge N$, the left-hand side is zero and the inequality is trivial. For $k<N$, the quantity $\|x_k-x_\infty\|/\rho^k$ is one summand of $C$, so
+For $k\ge N$, the left-hand side is zero and the inequality is trivial. For $k\lt N$, the quantity $`\|x_k-x_\infty\|/\rho^k`$is one summand of$C$, so
 
-$$
+```math
 \|x_k-x_\infty\|\le C\rho^k.
-$$
+```
 
 Thus the asserted geometric bound holds.
 
 Finally, assume
 
-$$
+```math
 \|\nabla f(x_\infty)\|<r.
-$$
+```
 
 Since $q_k\to-\nabla f(x_\infty)$, we have
 
-$$
+```math
 \|q_k\|\to\|\nabla f(x_\infty)\|<r,
-$$
+```
 
-so eventually $\|q_k\|<r$. For such a $k$, take the ball centered at $q_k$ of radius $r-\|q_k\|>0$. If $y$ lies in that ball, then
+so eventually $`\|q_k\|<r`$. For such a$k$, take the ball centered at$q_k$of radius$`r-\|q_k\|>0`$. If$y$ lies in that ball, then
 
-$$
+```math
 \|y\|\le \|y-q_k\|+\|q_k\|<r.
-$$
+```
 
-Thus that ball around $q_k$ is contained in $\mathrm{ball}(0,r)$, and by the dry-friction hypothesis $hdf.ball\_subset$,
+Thus that ball around $q_k$ is contained in $\mathrm{ball}(0,r)$, and by the dry-friction hypothesis $`hdf.ball\_subset`$,
 
 $$
 \mathrm{ball}(0,r)\subseteq\partial\phi(0).

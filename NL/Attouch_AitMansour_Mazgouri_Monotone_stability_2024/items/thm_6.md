@@ -58,7 +58,7 @@ $$
 
 are the position, velocity, and acceleration of a DIN trajectory. The functions $u_0,v_0:M\to H$ give the initial position and velocity, and $\bar x:M\to H$ is a parameter-dependent candidate critical point.
 
-The real parameters are $\beta,\gamma,\delta(\mu),k_1,\gamma_1$. The assumptions are $\beta>0$, $\gamma>0$, $\beta\gamma>1$, $k_1>0$, $0<\gamma_1\le 1$. The function $\delta:M\to\mathbb R$ is the strong-convexity modulus: each $\varphi_\mu$ is assumed strongly convex with modulus $\delta(\mu)$. The strong-convexity hypothesis also supplies the positivity $\delta(\mu)>0$, which is used later. The hypotheses `hdiff` and `hgrad` say that each $\varphi_\mu$ is differentiable and that $\mathrm{grad}\varphi_\mu(q)$ is its gradient at $q$. The hypothesis `hhess` says that $\mathrm{hess}\varphi_\mu(q)$ is the Fréchet derivative of $\mathrm{grad}\varphi_\mu$ at $q$, acting on vectors. The hypothesis `hlip` says that for each $\mu$ and each positive time horizon $T'$, the gradient $\mathrm{grad}\varphi_\mu$ is Lipschitz on the image of $x_\mu$ over the compact interval between $0$ and $T'$.
+The real parameters are $\beta,\gamma,\delta(\mu),k_1,\gamma_1$. The assumptions are $\beta\gt 0$, $\gamma\gt 0$, $\beta\gamma\gt 1$, $k_1\gt 0$, $0\lt \gamma_1\le 1$. The function $\delta:M\to\mathbb R$ is the strong-convexity modulus: each $\varphi_\mu$ is assumed strongly convex with modulus $\delta(\mu)$. The strong-convexity hypothesis also supplies the positivity $\delta(\mu)\gt 0$, which is used later. The hypotheses `hdiff` and `hgrad` say that each $\varphi_\mu$ is differentiable and that $\mathrm{grad}\varphi_\mu(q)$ is its gradient at $q$. The hypothesis `hhess` says that $\mathrm{hess}\varphi_\mu(q)$ is the Fréchet derivative of $\mathrm{grad}\varphi_\mu$ at $q$, acting on vectors. The hypothesis `hlip` says that for each $\mu$ and each positive time horizon $T'$, the gradient $\mathrm{grad}\varphi_\mu$ is Lipschitz on the image of $x_\mu$ over the compact interval between $0$ and $T'$.
 
 The central dynamical assumption is
 
@@ -68,20 +68,20 @@ $$
 
 This packages the second-order DIN system for the family. In the proof it is used through the initial conditions $x_\mu(0)=u_0(\mu)$, $dx_\mu(0)=v_0(\mu)$, local absolute continuity, and the almost-everywhere ordinary differential equation
 
-$$
+```math
 ddx_\mu(t)+\gamma\,dx_\mu(t)+\beta\,\mathrm{hess}\varphi_\mu(x_\mu(t))(dx_\mu(t))
 +\mathrm{grad}\varphi_\mu(x_\mu(t))=0.
-$$
+```
 
 The derivative hypotheses `hderiv` and `hddx` say that $x_\mu$ and $dx_\mu$ have derivatives $dx_\mu(t)$ and $ddx_\mu(t)$ almost everywhere with respect to Lebesgue measure restricted to $[0,\infty)$.
 
 The parameter-regularity hypothesis is
 
-$$
+```math
 \forall x_\ast\in H,\ \forall \mu,\mu'\in M,\qquad
 \|\mathrm{grad}\varphi_\mu(x_\ast)-\mathrm{grad}\varphi_{\mu'}(x_\ast)\|
 \le k_1\,\|\mu-\mu'\|^{\gamma_1}.
-$$
+```
 
 Thus the gradient depends Hölder continuously on the parameter, with exponent $\gamma_1\in(0,1]$. Finally,
 
@@ -112,11 +112,11 @@ $$
 
 and $c_{\max}=\max(r_\mu,r_{\mu'})$, then
 
-$$
+```math
 \|\bar x_\mu-\bar x_{\mu'}\|
 \le
 \frac{\beta k_1}{c_{\max}}\,\|\mu-\mu'\|^{\gamma_1}.
-$$
+```
 
 Here
 
@@ -187,7 +187,7 @@ $$
 \text{`have hlift`}
 $$
 
-invokes `dinGradientLift_of_DIN`. The hypotheses supplied to that result are $\beta>0$, $1<\beta\gamma$, the DIN equations `hDIN`, the almost-everywhere derivative facts `hderiv` and `hddx`, the Hessian compatibility `hhess`, and the local Lipschitz property `hlip`. Its conclusion is
+invokes `dinGradientLift_of_DIN`. The hypotheses supplied to that result are $\beta\gt 0$, $1\lt \beta\gamma$, the DIN equations `hDIN`, the almost-everywhere derivative facts `hderiv` and `hddx`, the Hessian compatibility `hhess`, and the local Lipschitz property `hlip`. Its conclusion is
 
 $$
 \mathrm{DINGradientLift}\mathrm{grad}\varphi\ x\ u_0\ v_0\ \beta\ \gamma.
@@ -204,7 +204,7 @@ v_0(\mu)+\beta\mathrm{grad}\varphi_\mu(u_0(\mu))
 \right).
 $$
 
-Inside the cited change-of-variables proof, `linarith` is used to deduce $1/\beta<\gamma$, hence $\gamma-1/\beta>0$, from $1<\beta\gamma$ and $\beta>0$; `positivity` proves $0<1/\beta$; `rw` and `simp` verify the initial condition and algebraic identities; and `module` finishes linear-algebraic manipulations. In the current proof, the only role of this step is to produce the hypothesis `hlift` required by the convergence theorem.
+Inside the cited change-of-variables proof, `linarith` is used to deduce $1/\beta\lt \gamma$, hence $\gamma-1/\beta\gt 0$, from $1\lt \beta\gamma$ and $\beta\gt 0$; `positivity` proves $0\lt 1/\beta$; `rw` and `simp` verify the initial condition and algebraic identities; and `module` finishes linear-algebraic manipulations. In the current proof, the only role of this step is to produce the hypothesis `hlift` required by the convergence theorem.
 
 Next the proof establishes the first conclusion, convergence of each trajectory. The command
 
@@ -212,7 +212,7 @@ $$
 \text{`have hconv : }\forall \mu,\ x_\mu(t)\to\bar x_\mu
 $$
 
-applies `din_tendsto_to_critical` for each fixed $\mu$. The inputs to `din_tendsto_to_critical` are the lifted trajectory `hlift`, a strong-monotonicity estimate for the lifted field, $\beta>0$, positivity of the strong-monotonicity constant, and the critical-point equation $\mathrm{grad}\varphi_\mu(\bar x_\mu)=0$. The strong-monotonicity estimate is supplied by
+applies `din_tendsto_to_critical` for each fixed $\mu$. The inputs to `din_tendsto_to_critical` are the lifted trajectory `hlift`, a strong-monotonicity estimate for the lifted field, $\beta\gt 0$, positivity of the strong-monotonicity constant, and the critical-point equation $\mathrm{grad}\varphi_\mu(\bar x_\mu)=0$. The strong-monotonicity estimate is supplied by
 
 $$
 \text{`energyStrong\_of\_strongConvex`}
@@ -220,15 +220,15 @@ $$
 
 with $c(\mu)=\mathrm{energyRate}\beta\gamma\delta(\mu)$. That lemma uses the strong convexity of $\varphi_\mu$ with modulus $\delta(\mu)$ and the gradient hypothesis to prove that the lifted field $F_\mu=\mathrm{DINGradientField}\mathrm{grad}\varphi\beta\gamma\mu$ satisfies
 
-$$
+```math
 \mathrm{energyRate}\beta\gamma\delta(\mu)
 \bigl(\|p_1-q_1\|^2+\|p_2-q_2\|^2\bigr)
 \le
 \langle F_\mu(p)_1-F_\mu(q)_1,\ p_1-q_1\rangle
 +\langle F_\mu(p)_2-F_\mu(q)_2,\ p_2-q_2\rangle
-$$
+```
 
-for all $p,q\in H\times H$. This is exactly the strong-monotonicity hypothesis required by `din_tendsto_to_critical`. The positivity requirement $0<\mathrm{energyRate}\beta\gamma\delta(\mu)$ is supplied by `energyRate_pos`, using $\beta>0$, $\gamma>0$, the positivity of $\delta(\mu)$ coming from strong convexity, and $\beta\gamma>1$. The critical-point hypothesis is exactly `hcrit μ`. Therefore `din_tendsto_to_critical` yields
+for all $p,q\in H\times H$. This is exactly the strong-monotonicity hypothesis required by `din_tendsto_to_critical`. The positivity requirement $0\lt \mathrm{energyRate}\beta\gamma\delta(\mu)$ is supplied by `energyRate_pos`, using $\beta\gt 0$, $\gamma\gt 0$, the positivity of $\delta(\mu)$ coming from strong convexity, and $\beta\gamma\gt 1$. The critical-point hypothesis is exactly `hcrit μ`. Therefore `din_tendsto_to_critical` yields
 
 $$
 x_\mu(t)\to \bar x_\mu\qquad\text{as }t\to+\infty.
@@ -247,18 +247,18 @@ for the second part. The cited lemma `mem_argminSet_of_grad_eq_zero` says that i
 
 For the third conjunct, the proof introduces arbitrary parameters with `intro μ μ'` and uses `dsimp only` to unfold the local `let cmax` abbreviation in the goal. Thus the goal becomes
 
-$$
+```math
 \|\bar x_\mu-\bar x_{\mu'}\|
 \le
 \frac{\beta k_1}{\max(r_\mu,r_{\mu'})}
 \|\mu-\mu'\|^{\gamma_1},
-$$
+```
 
 where $r_\mu=\mathrm{energyRate}\beta\gamma\delta(\mu)$ and $r_{\mu'}=\mathrm{energyRate}\beta\gamma\delta(\mu')$.
 
 The estimate for finite times is then obtained from `thm_5_estimate_all`. The proof defines `hpt` as the statement that for every $t\ge0$,
 
-$$
+```math
 \begin{aligned}
 \|x_\mu(t)-x_{\mu'}(t)\|
 &\le
@@ -273,7 +273,7 @@ $$
 \left(1-\exp\!\left(-\max(r_\mu,r_{\mu'})\,t\right)\right)
 \|\mu-\mu'\|^{\gamma_1}.
 \end{aligned}
-$$
+```
 
 The cited result `thm_5_estimate_all` is a Gronwall-type stability estimate for two DIN trajectories with parameters $\mu$ and $\mu'$. It uses the same regularity hypotheses as the theorem, together with the Hölder parameter-gradient assumption `h9`, and yields the displayed bound. The first term measures the initial distance in the lifted coordinates, involving both $u_0$ and the auxiliary initial value `dinAuxInitial`. The second term measures the influence of changing the parameter, with coefficient $\beta k_1/c_{\max}$ and factor $1-e^{-c_{\max}t}$.
 
@@ -283,17 +283,17 @@ $$
 c_{\max}=\max(r_\mu,r_{\mu'}).
 $$
 
-The auxiliary claim `hc` proves $c_{\max}>0$: `energyRate_pos` gives $r_\mu>0$, and `lt_max_of_lt_left` then gives $0<\max(r_\mu,r_{\mu'})$. The claim `hexp` proves
+The auxiliary claim `hc` proves $c_{\max}\gt 0$: `energyRate_pos` gives $r_\mu\gt 0$, and `lt_max_of_lt_left` then gives $0\lt \max(r_\mu,r_{\mu'})$. The claim `hexp` proves
 
 $$
 \exp(-c_{\max}t)\to0\qquad\text{as }t\to+\infty.
 $$
 
-This uses `Real.tendsto_exp_neg_atTop_nhds_zero`, the fact $\exp(-s)\to0$ as $s\to+\infty$, composed with $t\mapsto c_{\max}t$, which tends to $+\infty$ because $c_{\max}>0$. The claim `h1` shows that the first term tends to $0$, since it is $\exp(-c_{\max}t)$ times a constant. The claim `h2` shows that the second term tends to
+This uses `Real.tendsto_exp_neg_atTop_nhds_zero`, the fact $\exp(-s)\to0$ as $s\to+\infty$, composed with $t\mapsto c_{\max}t$, which tends to $+\infty$ because $c_{\max}\gt 0$. The claim `h1` shows that the first term tends to $0$, since it is $\exp(-c_{\max}t)$ times a constant. The claim `h2` shows that the second term tends to
 
-$$
+```math
 \frac{\beta k_1}{c_{\max}}\|\mu-\mu'\|^{\gamma_1},
-$$
+```
 
 because $1-\exp(-c_{\max}t)\to1-0=1$ and the other factors are constant. The command `simpa using h1.add h2` combines these two limits and simplifies the sum to the stated limit `hlim2`.
 
@@ -305,18 +305,18 @@ $$
 
 uses the convergence $x_\mu(t)\to\bar x_\mu$ and $x_{\mu'}(t)\to\bar x_{\mu'}$ to conclude
 
-$$
+```math
 \|x_\mu(t)-x_{\mu'}(t)\|\to\|\bar x_\mu-\bar x_{\mu'}\|.
-$$
+```
 
-The lemma `le_of_tendsto_of_tendsto` states that if one sequence tends to $A$, another tends to $B$, and the first is eventually at most the second, then $A\le B$. Here the first sequence is $\|x_\mu(t)-x_{\mu'}(t)\|$ and the second is the right-hand side from `hlim2`. The eventual inequality is supplied by `filter_upwards` with `eventually_ge_atTop (0 : ℝ)`: for all sufficiently large $t$, one has $t\ge0$, and for such $t$ the pointwise estimate `hpt t ht` holds. Therefore taking the limit gives
+The lemma `le_of_tendsto_of_tendsto` states that if one sequence tends to $A$, another tends to $B$, and the first is eventually at most the second, then $A\le B$. Here the first sequence is $`\|x_\mu(t)-x_{\mu'}(t)\|`$ and the second is the right-hand side from `hlim2`. The eventual inequality is supplied by `filter_upwards` with `eventually_ge_atTop (0 : ℝ)`: for all sufficiently large $t$, one has $t\ge0$, and for such $t$ the pointwise estimate `hpt t ht` holds. Therefore taking the limit gives
 
-$$
+```math
 \|\bar x_\mu-\bar x_{\mu'}\|
 \le
 \frac{\beta k_1}{\max(r_\mu,r_{\mu'})}
 \|\mu-\mu'\|^{\gamma_1}.
-$$
+```
 
 This proves the third conjunct and completes the theorem.
 

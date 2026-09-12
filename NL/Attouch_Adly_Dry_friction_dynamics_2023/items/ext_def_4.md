@@ -29,7 +29,7 @@ $$
 
 and for the point $s_0$. Thus the function $f$ is presented as a quadratic time scale, and $g$ is its proposed derivative.
 
-The defining body of `IsIncreasingC1TimeScaleOn` is not displayed in the supplied source. The proof unpacks the predicate with `refine ⟨?_, ?_⟩`, so it has exactly two obligations. From the way the proof introduces variables, the first obligation is a strict monotonicity statement: for points $a,b$ in the domain, with $s_0\le a$, $s_0\le b$, and $a<b$, one must prove
+The defining body of `IsIncreasingC1TimeScaleOn` is not displayed in the supplied source. The proof unpacks the predicate with `refine ⟨?_, ?_⟩`, so it has exactly two obligations. From the way the proof introduces variables, the first obligation is a strict monotonicity statement: for points $a,b$ in the domain, with $s_0\le a$, $s_0\le b$, and $a\lt b$, one must prove
 
 $$
 f(a)<f(b).
@@ -37,13 +37,13 @@ $$
 
 The second obligation is a differentiability statement: for an admissible point $s$, with the domain hypothesis named `hs`, one must prove that $f$ has derivative $g(s)$ at $s$, i.e.
 
-$$
+```math
 \mathrm{HasDerivAt} f \,(g(s))\, s .
-$$
+```
 
 The proof actually proves the derivative statement without using the content of `hs`.
 
-Mathematically, the theorem says that for $\alpha>1$ and $s_0>0$, the map
+Mathematically, the theorem says that for $\alpha\gt 1$ and $s_0\gt 0$, the map
 
 $$
 s\mapsto \frac{s^2}{2(\alpha-1)}
@@ -55,7 +55,7 @@ $$
 s\mapsto \frac{s}{\alpha-1}.
 $$
 
-The positivity of $s_0$ is used to ensure every admissible point $a$ is positive, so that $a<b$ implies $a^2<b^2$. The positivity of $\alpha-1$ is used to divide by $2(\alpha-1)$ without changing inequalities and to know that the relevant denominators are nonzero.
+The positivity of $s_0$ is used to ensure every admissible point $a$ is positive, so that $a\lt b$ implies $a^2\lt b^2$. The positivity of $\alpha-1$ is used to divide by $2(\alpha-1)$ without changing inequalities and to know that the relevant denominators are nonzero.
 
 ## Lean proof
 ```lean
@@ -83,13 +83,13 @@ $$
 0<2(\alpha-1).
 $$
 
-Here `sub_pos.mpr hα` uses the hypothesis $1<\alpha$ to produce
+Here `sub_pos.mpr hα` uses the hypothesis $1\lt \alpha$ to produce
 
 $$
 0<\alpha-1,
 $$
 
-because $0<a-b$ is equivalent to $b<a$ with $a=\alpha$ and $b=1$. The tactic `norm_num` proves $0<2$, and `mul_pos` combines $0<2$ and $0<\alpha-1$ to conclude that their product is positive. This positivity is essential because the proof will later divide an inequality by $2(\alpha-1)$.
+because $0\lt a-b$ is equivalent to $b\lt a$ with $a=\alpha$ and $b=1$. The tactic `norm_num` proves $0\lt 2$, and `mul_pos` combines $0\lt 2$ and $0\lt \alpha-1$ to conclude that their product is positive. This positivity is essential because the proof will later divide an inequality by $2(\alpha-1)$.
 
 Next,
 `have hαsub : 0 < α - 1 := sub_pos.mpr hα`
@@ -107,7 +107,7 @@ splits the `IsIncreasingC1TimeScaleOn` predicate into its two components.
 
 For the first component, the proof introduces
 `intro a ha b hb hab`.
-The hypothesis used from `ha` is the lower-bound condition $s_0\le a$. The hypothesis `hab` is the ordering condition $a<b$. The proof does not need the further domain information in `hb`.
+The hypothesis used from `ha` is the lower-bound condition $s_0\le a$. The hypothesis `hab` is the ordering condition $a\lt b$. The proof does not need the further domain information in `hb`.
 
 The goal at this point is to prove the monotonicity inequality for $f$, namely
 
@@ -117,7 +117,7 @@ $$
 
 The command
 `apply (div_lt_div_iff_of_pos_right hden).mpr`
-uses the fact that $2(\alpha-1)>0$. For a positive denominator $c$, the inequality $x/c<y/c$ is equivalent to $x<y$. Therefore the goal reduces to proving
+uses the fact that $2(\alpha-1)\gt 0$. For a positive denominator $c$, the inequality $x/c\lt y/c$ is equivalent to $x\lt y$. Therefore the goal reduces to proving
 
 $$
 a^2<b^2.
@@ -125,7 +125,7 @@ $$
 
 Then
 `have ha0 : 0 < a := lt_of_lt_of_le hs₀ ha`
-uses $0<s_0$ and $s_0\le a$ to conclude $0<a$. This is the transitivity step: a strict inequality followed by a non-strict inequality gives a strict inequality.
+uses $0\lt s_0$ and $s_0\le a$ to conclude $0\lt a$. This is the transitivity step: a strict inequality followed by a non-strict inequality gives a strict inequality.
 
 The command
 `have habsq : a ^ 2 < b ^ 2 := by nlinarith`
@@ -135,9 +135,9 @@ $$
 a^2<b^2
 $$
 
-from the available arithmetic hypotheses, in particular $0<a$ and $a<b$. Concretely, if $0<a<b$, then $b^2-a^2=(b-a)(b+a)>0$, hence $a^2<b^2$. The tactic `nlinarith` discharges this nonlinear polynomial inequality. Finally,
+from the available arithmetic hypotheses, in particular $0\lt a$ and $a\lt b$. Concretely, if $0\lt a\lt b$, then $b^2-a^2=(b-a)(b+a)\gt 0$, hence $a^2\lt b^2$. The tactic `nlinarith` discharges this nonlinear polynomial inequality. Finally,
 `exact habsq`
-closes the reduced goal $a^2<b^2$, completing the monotonicity obligation.
+closes the reduced goal $a^2\lt b^2$, completing the monotonicity obligation.
 
 For the second component, the proof introduces
 `intro s hs`.
@@ -179,7 +179,7 @@ $$
 
 The command
 `field_simp [ne_of_gt hαsub]`
-uses $\alpha-1>0$ to obtain $\alpha-1\ne0$, allowing it to clear denominators in this equality. The command
+uses $\alpha-1\gt 0$ to obtain $\alpha-1\ne0$, allowing it to clear denominators in this equality. The command
 `ring`
 then proves the resulting polynomial identity in $s$ and $\alpha$. This completes the differentiability obligation.
 

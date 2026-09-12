@@ -71,9 +71,9 @@ $$
 
 for every $q \in H$. More precisely, in the Lean statement this is written using `scaledProximityOperator`, and the proof unfolds it as the proximity operator of the scaled function $\mu \Phi$. The map $T$ is assumed to be Lipschitz with constant $1/2$:
 
-$$
+```math
 \|T(u)-T(v)\| \le \frac12 \|u-v\|.
-$$
+```
 
 Finally, the trajectory $x$ is assumed to be differentiable at every real $t$, with derivative
 
@@ -205,7 +205,7 @@ $$
 
 so the goal becomes to prove that the proximity operator applied to $z-\mu Bz$ returns $z$.
 
-The proof introduces the positive real number $\gamma=\mu$, using `hmu.1`, which is the assumption $0<\mu$. The cited result `smul_mem_gammaZero` says that if $f \in \Gamma_0(H)$ and $\gamma>0$, then the scaled function $\gamma f$ again belongs to $\Gamma_0(H)$. Applied with $f=\Phi$, it gives
+The proof introduces the positive real number $\gamma=\mu$, using `hmu.1`, which is the assumption $0\lt \mu$. The cited result `smul_mem_gammaZero` says that if $f \in \Gamma_0(H)$ and $\gamma\gt 0$, then the scaled function $\gamma f$ again belongs to $\Gamma_0(H)$. Applied with $f=\Phi$, it gives
 
 $$
 \gamma \Phi \in \Gamma_0(H).
@@ -273,45 +273,45 @@ Combining this with the defining property of $T$ gives $T(z)=z$. The Lean proof 
 
 The proof now establishes an energy inequality. For every real $t$, it wants to show
 
-$$
+```math
 2 \left\langle x(t)-z,\ T(x(t))-x(t)\right\rangle
 \le -\|x(t)-z\|^2.
-$$
+```
 
 First, the contraction hypothesis on $T$ gives
 
-$$
+```math
 \|T(x(t))-T(z)\| \le \frac12 \|x(t)-z\|.
-$$
+```
 
 This is obtained from `hcontraction.norm_sub_le (x t) z` and simplified to the real-valued form. Since $T(z)=z$, this is a Lipschitz estimate for $T(x(t))$ relative to $z$.
 
 Next, the proof uses the Cauchy-Schwarz inequality for the real inner product,
 
-$$
+```math
 \langle u,v\rangle \le \|u\|\,\|v\|,
-$$
+```
 
 with $u=x(t)-z$ and $v=T(x(t))-T(z)$. This yields
 
-$$
+```math
 \left\langle x(t)-z,\ T(x(t))-T(z)\right\rangle
 \le \|x(t)-z\| \cdot \|T(x(t))-T(z)\|.
-$$
+```
 
 Using the Lipschitz bound, the right-hand side is at most
 
-$$
+```math
 \|x(t)-z\| \cdot \left(\frac12 \|x(t)-z\|\right)
 = \frac12 \|x(t)-z\|^2.
-$$
+```
 
 Thus
 
-$$
+```math
 \left\langle x(t)-z,\ T(x(t))-T(z)\right\rangle
 \le \frac12 \|x(t)-z\|^2.
-$$
+```
 
 The proof then rewrites
 
@@ -321,27 +321,27 @@ $$
 
 This equality uses $T(z)=z$. Applying `inner_sub_right` and `real_inner_self_eq_norm_sq`, the proof obtains
 
-$$
+```math
 \left\langle x(t)-z,\ T(x(t))-x(t)\right\rangle
 =\left\langle x(t)-z,\ T(x(t))-T(z)\right\rangle
 -\|x(t)-z\|^2.
-$$
+```
 
 Substituting the previous upper bound gives
 
-$$
+```math
 \left\langle x(t)-z,\ T(x(t))-x(t)\right\rangle
 \le \frac12 \|x(t)-z\|^2 - \|x(t)-z\|^2
 = -\frac12 \|x(t)-z\|^2.
-$$
+```
 
 Multiplying by $2$ gives the desired energy inequality. The tactic `nlinarith` closes this nonlinear arithmetic step.
 
 The proof then introduces the Lyapunov function
 
-$$
+```math
 p(t) = e^t \|x(t)-z\|^2.
-$$
+```
 
 Using the differentiability of $x$, the derivative of $x(t)-z$ is $T(x(t))-x(t)$. The derivative of the squared norm gives the factor
 
@@ -351,20 +351,20 @@ $$
 
 The product rule with $e^t$ therefore gives
 
-$$
+```math
 p'(t)
 =e^t \|x(t)-z\|^2
 +e^t \cdot 2 \left\langle x(t)-z,\ T(x(t))-x(t)\right\rangle.
-$$
+```
 
 This is recorded as `hp`. The proof then shows $p'(t)\le 0$. Indeed, multiplying the energy inequality by the nonnegative factor $e^t$ gives
 
-$$
+```math
 e^t \cdot 2 \left\langle x(t)-z,\ T(x(t))-x(t)\right\rangle
 \le -e^t \|x(t)-z\|^2.
-$$
+```
 
-Adding $e^t \|x(t)-z\|^2$ to both sides yields $p'(t)\le 0$. The tactic `nlinarith` closes this inequality.
+Adding $`e^t \|x(t)-z\|^2`$to both sides yields$p'(t)\le 0$. The tactic `nlinarith` closes this inequality.
 
 Since $p$ is differentiable everywhere and $p'(t)\le 0$ for every $t$, the cited result `antitone_of_deriv_nonpos` implies that $p$ is antitone. In ordinary terms, if $s\le t$, then $p(t)\le p(s)$. In particular, for $t\ge 0$,
 
@@ -374,45 +374,45 @@ $$
 
 Because
 
-$$
+```math
 p(t)=e^t \|x(t)-z\|^2,\qquad p(0)=\|x(0)-z\|^2,
-$$
+```
 
 this gives
 
-$$
+```math
 e^t \|x(t)-z\|^2 \le \|x(0)-z\|^2.
-$$
+```
 
 Multiplying by the positive number $e^{-t}$ yields the bound
 
-$$
+```math
 \|x(t)-z\|^2 \le e^{-t} \|x(0)-z\|^2
-$$
+```
 
 for every $t\ge 0$. This is the exponential decay estimate `hbound`.
 
 To convert this one-sided bound into a limit statement, the proof defines
 
-$$
+```math
 q(t)=
 \begin{cases}
 \|x(t)-z\|^2, & 0\le t,\\
 0, & t<0.
 \end{cases}
-$$
+```
 
 It checks that $q(t)\ge 0$ for all $t$, and that
 
-$$
+```math
 q(t)\le e^{-t}\|x(0)-z\|^2
-$$
+```
 
-for all $t$. For $t\ge 0$, this is the decay bound; for $t<0$, it follows from $q(t)=0$ and the nonnegativity of the right-hand side. Since
+for all $t$. For $t\ge 0$, this is the decay bound; for $t\lt 0$, it follows from $q(t)=0$ and the nonnegativity of the right-hand side. Since
 
-$$
+```math
 e^{-t}\|x(0)-z\|^2 \to 0
-$$
+```
 
 as $t\to +\infty$, the squeeze theorem `squeeze_zero` gives
 
@@ -420,29 +420,29 @@ $$
 q(t)\to 0.
 $$
 
-The proof then uses `hq_zero.congr'` and `filter_upwards` with the eventual condition $t\ge 0$ to replace $q(t)$ by $\|x(t)-z\|^2$ eventually. Hence
+The proof then uses `hq_zero.congr'` and `filter_upwards` with the eventual condition $t\ge 0$ to replace $q(t)$ by $`\|x(t)-z\|^2`$ eventually. Hence
 
-$$
+```math
 \|x(t)-z\|^2 \to 0.
-$$
+```
 
 Applying the continuous square-root function gives
 
-$$
+```math
 \sqrt{\|x(t)-z\|^2} \to 0.
-$$
+```
 
-Since $\|x(t)-z\|\ge 0$, one has
+Since $`\|x(t)-z\|\ge 0`$, one has
 
-$$
+```math
 \sqrt{\|x(t)-z\|^2}=\|x(t)-z\|.
-$$
+```
 
 Therefore
 
-$$
+```math
 \|x(t)-z\|\to 0.
-$$
+```
 
 By the characterization of convergence in a normed group, this is equivalent to strong convergence
 
@@ -460,5 +460,5 @@ $$
 
 This is exactly the weak convergence asserted in the theorem, and the proof finishes by combining this with the already established $z\in S$.
 
-The displayed proof does not use the hypotheses `_hB`, `_hB_maximal_monotone`, or `_hdynamics`, nor does it use the inequality $\mu<2\beta$. Those remain part of the theorem statement, but the argument given here obtains the conclusion from nonemptiness of $S$, the subdifferential characterization of $S$, the proximal definition of $T$, the Lipschitz contraction of $T$, and the differentiability of the trajectory $x$.
+The displayed proof does not use the hypotheses `_hB`, `_hB_maximal_monotone`, or `_hdynamics`, nor does it use the inequality $\mu\lt 2\beta$. Those remain part of the theorem statement, but the argument given here obtains the conclusion from nonemptiness of $S$, the subdifferential characterization of $S$, the proximal definition of $T$, the Lipschitz contraction of $T$, and the differentiability of the trajectory $x$.
 

@@ -27,31 +27,31 @@ The data are:
 
 - a function $\Phi : N \to \mathbb R$, a gradient map $\mathrm{grad}\Phi : N \to N$, with $\Phi$ class $C^1$, the Fréchet derivative of $\Phi$ at $u$ given by
 
-  $$
-  v \mapsto \langle \mathrm{grad}\Phi(u), v\rangle,
-  $$
+$$
+v \mapsto \langle \mathrm{grad}\Phi(u), v\rangle,
+$$
 
   and $\mathrm{grad}\Phi$ continuous;
 - a trajectory $x : [0,\infty) \to N$, meaning $x$ is a function on the subtype of nonnegative reals;
 - $x$ is realized by a continuous flow: there is a continuous $\phi : \mathbb R \to N \to N$ and an initial point $x_0$ such that
 
-  $$
-  x(t)=\phi(t,x_0)
-  $$
+$$
+x(t)=\phi(t,x_0)
+$$
 
   for every $t\ge 0$;
 - the image $\mathrm{range} x$ is bounded;
 - there is a velocity map $\mathrm{velocity} : [0,\infty)\to N$ tending to $0$ at infinity, though this hypothesis is not used in the proof;
 - the gradient along the trajectory tends to zero:
 
-  $$
-  \mathrm{grad}\Phi(x(t)) \to 0
-  \quad\text{as } t\to\infty.
-  $$
+$$
+\mathrm{grad}\Phi(x(t)) \to 0
+\quad\text{as } t\to\infty.
+$$
 
 The $\omega$-limit set is defined as the set of all limit points of $x$ along sequences of times tending to infinity:
 
-$$
+```math
 \omega(x)
 =\left\{
 a\in N:
@@ -59,7 +59,7 @@ a\in N:
 t_n\to\infty,\
 x(t_n)\to a
 \right\}.
-$$
+```
 
 The conclusion is the conjunction of five assertions:
 
@@ -212,9 +212,9 @@ $$
 
 where more explicitly
 
-$$
+```math
 x\bigl([n,\infty)\bigr)=\{x(t): t\in[0,\infty),\ t\ge n\}.
-$$
+```
 
 Thus $K_n$ is the closure of the image of the tail of the trajectory starting at time $n$.
 

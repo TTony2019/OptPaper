@@ -13,14 +13,14 @@ theorem scalar_damped_strong_convergence {H : Type*} [NormedAddCommGroup H]
 ```
 
 ## Statement explanation
-The declaration concerns a complete real inner product space $H$ (a real Hilbert space), a real damping coefficient $\gamma$, a potential $\Phi:H\to\mathbb R$, a gradient map $\mathrm{grad}\Phi:H\to H$, and initial data $u_0,v_0\in H$. It assumes a bundled potential hypothesis `hPhi : HasPotentialAssumption Phi`. The proof uses the consequences of this hypothesis that $\Phi$ is $C^1$, convex on all of $H$, bounded below, that its range is bounded below, and that its infimum is a lower bound for every value of $\Phi$. It also assumes a dissipative second-order system `sys : DissipativeSystem gamma Phi gradPhi u0 v0`, whose trajectory is denoted $u(t)=\text{sys.u}(t)$. From the system the proof uses that $\mathrm{grad}\Phi$ is a gradient of $\Phi$, that the trajectory has the needed smoothness, and that $\gamma>0$.
+The declaration concerns a complete real inner product space $H$ (a real Hilbert space), a real damping coefficient $\gamma$, a potential $\Phi:H\to\mathbb R$, a gradient map $\mathrm{grad}\Phi:H\to H$, and initial data $u_0,v_0\in H$. It assumes a bundled potential hypothesis `hPhi : HasPotentialAssumption Phi`. The proof uses the consequences of this hypothesis that $\Phi$ is $C^1$, convex on all of $H$, bounded below, that its range is bounded below, and that its infimum is a lower bound for every value of $\Phi$. It also assumes a dissipative second-order system `sys : DissipativeSystem gamma Phi gradPhi u0 v0`, whose trajectory is denoted $u(t)=\text{sys.u}(t)$. From the system the proof uses that $\mathrm{grad}\Phi$ is a gradient of $\Phi$, that the trajectory has the needed smoothness, and that $\gamma\gt 0$.
 
 The set
 
-$$
+```math
 \mathrm{argmin}\Phi
 =\{x\in H:\Phi(x)=\inf \Phi(H)\}
-$$
+```
 
 is the set of global minimizers of $\Phi$; in Lean it is written `argmin Phi (potential_range_bddBelow hPhi)`, where the second argument is the proof that the range of $\Phi$ is bounded below. The hypothesis `hcase` is a disjunction of two alternatives. The first alternative says that the minimizer set is nonempty and that $\Phi$ is an even function. The second alternative says that the interior of the minimizer set is nonempty.
 
@@ -198,7 +198,7 @@ The proof splits on `hcase` using `rcases hcase with hEven | hInterior`.
 
 In the first case, $hEven$ consists of a proof $hMin$ that $\mathrm{argmin}\Phi$ is nonempty and a proof $hPhiEven$ that $\Phi$ is even. The proof then applies the previously established theorem `scalar_damped_even_strong_convergence_result`. That theorem states that if $\Phi$ is $C^1$, convex, bounded below, if the system `sys` is dissipative, if the minimizer set is nonempty, and if $\Phi$ is even, then there exists a minimizer $u_\ast$ such that $u(t)\to u_\ast$ strongly. The proof supplies exactly those hypotheses: `hPhi.contDiff` for $C^1$-smoothness, `hPhi.convex` for convexity, `hPhi.bounded_below` for boundedness below, `sys`, `hMin`, and `hPhiEven`. The `simpa only [proof_irrel_heq]` step reconciles the proof argument inside `argmin`: the bounded-below proof used by the theorem may be definitionally different from the one in the current goal, but proofs of propositions are irrelevant, so the result matches the desired conclusion.
 
-In the second case, the hypothesis is that the interior of the minimizer set is nonempty. The theorem `interior_argmin_closedBall` is invoked. Its statement is: if $\Phi$ satisfies the potential assumption and the interior of $\mathrm{argmin}\Phi$ is nonempty, then there exist $z_0\in H$ and $\rho>0$ such that
+In the second case, the hypothesis is that the interior of the minimizer set is nonempty. The theorem `interior_argmin_closedBall` is invoked. Its statement is: if $\Phi$ satisfies the potential assumption and the interior of $\mathrm{argmin}\Phi$ is nonempty, then there exist $z_0\in H$ and $\rho\gt 0$ such that
 
 $$
 \overline{B}(z_0,\rho)\subseteq \mathrm{argmin}\Phi .
@@ -208,17 +208,17 @@ Thus `obtain ⟨z0, rho, hrho, hball⟩` produces a point $z_0$ and a positive r
 
 Next the proof establishes the radial gradient inequality
 
-$$
+```math
 \rho\,\|\mathrm{grad}\Phi(x)\|\le \langle \mathrm{grad}\Phi(x),x-z_0\rangle_{\mathbb R}
-$$
+```
 
 for every $x\in H$. This is exactly the conclusion of `gradient_radial_lower_bound_of_argmin_closedBall`, applied with `hPhi`, the gradient relation `sys.is_gradient`, the positivity `hrho`, the inclusion `hball`, and the arbitrary point $x$. Mathematically, because the closed ball around $z_0$ lies in the minimizer set, the gradient direction at any point cannot point back toward that ball too strongly; rather, its inner product with $x-z_0$ dominates $\rho$ times its norm. This inequality is named `hradial`.
 
 The theorem `scalar_damped_minimizing_property hPhi sys` is then invoked. It returns four facts:
 
-$$
+```math
 \int_0^\infty \|u'(t)\|^2\,dt<\infty,
-$$
+```
 
 $$
 u'(t)\to 0,
@@ -240,21 +240,21 @@ which is recorded as `hz0value`.
 
 The proof then derives the differential inequality
 
-$$
+```math
 \frac{d^2}{dt^2}\left(\frac12\|u(t)-z_0\|^2\right)
 +\gamma\frac{d}{dt}\left(\frac12\|u(t)-z_0\|^2\right)
 \le
 \|u'(t)\|^2
-$$
+```
 
-for every $t>0$. First it applies `scalar_distance_damped_ineq_local`, which gives
+for every $t\gt 0$. First it applies `scalar_distance_damped_ineq_local`, which gives
 
-$$
+```math
 \frac{d^2}{dt^2}\left(\frac12\|u(t)-z_0\|^2\right)
 +\gamma\frac{d}{dt}\left(\frac12\|u(t)-z_0\|^2\right)
 \le
 \Phi(z_0)-\Phi(u(t))+\|u'(t)\|^2.
-$$
+```
 
 Then it uses `potential_sInf_le hPhi (sys.u t)`, which says
 
@@ -272,30 +272,30 @@ Adding this to the previous inequality gives the desired bound, and `linarith` d
 
 With this differential inequality and the integrability `hvel2`, the theorem `shifted_distance_converges` gives the existence of a real number $L$ such that
 
-$$
+```math
 \frac12\|u(s+1)-z_0\|^2\to L
 \qquad (s\to\infty).
-$$
+```
 
 This is stored as `hphiLimit`.
 
-The proof also records the acceleration inequality. From `radial_distance_acceleration_ineq sys hradial ht`, for every $t>0$,
+The proof also records the acceleration inequality. From `radial_distance_acceleration_ineq sys hradial ht`, for every $t\gt 0$,
 
-$$
+```math
 \rho\left\|u''(t)+\gamma u'(t)\right\|
 \le
 -\frac{d^2}{dt^2}\left(\frac12\|u(t)-z_0\|^2\right)
 +\|u'(t)\|^2
 -\gamma\frac{d}{dt}\left(\frac12\|u(t)-z_0\|^2\right).
-$$
+```
 
 This inequality controls the size of the damped acceleration $u''+\gamma u'$ in terms of derivatives of the squared distance and the squared velocity.
 
 The proof now defines
 
-$$
+```math
 \phi(t)=\frac12\|u(t)-z_0\|^2.
-$$
+```
 
 From `hphiLimit`, the shifted function $\phi(s+1)$ converges to $L$. The proof introduces the shift $s\mapsto s-1$, which tends to infinity, and composes `hphiTail` with it. The `convert` and `ext` steps identify $\phi((s-1)+1)=\phi(s)$. Hence
 
@@ -303,11 +303,11 @@ $$
 \phi(t)\to L.
 $$
 
-Then $2\phi(t)=\|u(t)-z_0\|^2$. Using continuity of the square root and the identity $\sqrt{x^2}=|x|$, together with nonnegativity of the norm, the proof obtains
+Then $`2\phi(t)=\|u(t)-z_0\|^2`$. Using continuity of the square root and the identity$\sqrt{x^2}=|x|$, together with nonnegativity of the norm, the proof obtains
 
-$$
+```math
 \|u(t)-z_0\|\to \sqrt{2L}.
-$$
+```
 
 This is `hdist`.
 
@@ -317,7 +317,7 @@ $$
 \phi'(t)\to 0.
 $$
 
-For $t>0$, `scalar_damped_distance_hasDerivAt` gives
+For $t\gt 0$, `scalar_damped_distance_hasDerivAt` gives
 
 $$
 \phi'(t)=\langle u(t)-z_0,u'(t)\rangle_{\mathbb R}.
@@ -325,27 +325,27 @@ $$
 
 By Cauchy–Schwarz,
 
-$$
+```math
 |\phi'(t)|\le \|u(t)-z_0\|\,\|u'(t)\|.
-$$
+```
 
 The right-hand side is the product of a sequence tending to $\sqrt{2L}$ and a sequence tending to $0$, hence tends to $0$. The proof uses `squeeze_zero'` with this product as the dominating sequence. Thus `hderiv0` is established.
 
 The proof then defines
 
-$$
+```math
 q(t)=\|u'(t)\|^2,
 \qquad
 r(t)=u''(t)+\gamma u'(t),
 \qquad
 V=\int_0^\infty q(t)\,dt.
-$$
+```
 
 The function $q$ is nonnegative and, by `hvel2`, integrable on $[0,\infty)$. For every natural number $n$, the interval integral satisfies
 
-$$
+```math
 \int_1^{n+1} q(t)\,dt\le V,
-$$
+```
 
 because $q\ge0$ and $[1,n+1]\subseteq[0,\infty)$. This is `hq_bound`.
 
@@ -357,11 +357,11 @@ $$
 
 The key uniform estimate is `hbound`. It states that eventually in $n$,
 
-$$
+```math
 \int_1^{n+1}\|r(t)\|\,dt
 \le
 \frac{\phi'(1)+1+V+\gamma\phi(1)}{\rho}.
-$$
+```
 
 To obtain it, the proof uses the convergence $\phi'(t)\to0$. Along the sequence $t=n+1$, for all sufficiently large $n$,
 
@@ -371,25 +371,25 @@ $$
 
 For such $n$, the interval form of the acceleration inequality, `radial_acceleration_interval_bound`, gives
 
-$$
+```math
 \rho\int_1^{n+1}\|r(t)\|\,dt
 \le
 \phi'(1)-\phi'(n+1)
 +\int_1^{n+1} q(t)\,dt
 +\gamma\bigl(\phi(1)-\phi(n+1)\bigr).
-$$
+```
 
 Now $-\phi'(n+1)\le1$, the $q$-integral is at most $V$, and $\phi(n+1)\ge0$, so
 
-$$
+```math
 \phi'(1)-\phi'(n+1)
 +\int_1^{n+1} q(t)\,dt
 +\gamma(\phi(1)-\phi(n+1))
 \le
 \phi'(1)+1+V+\gamma\phi(1).
-$$
+```
 
-Since $\rho>0$, dividing by $\rho$ gives the displayed bound. The tactic `nlinarith` handles the final arithmetic combination of these inequalities.
+Since $\rho\gt 0$, dividing by $\rho$ gives the displayed bound. The tactic `nlinarith` handles the final arithmetic combination of these inequalities.
 
 From `hlocal`, the eventual uniform bound `hbound`, and the fact that $n+1\to\infty$, the theorem `integrableOn_Ioi_of_intervalIntegral_norm_bounded` yields
 
@@ -405,7 +405,7 @@ $$
 w(t)=u'(t)+\gamma u(t).
 $$
 
-For $t>1$, hence $t>0$, the theorems `dissipativeSystem_differentiableAt_pos` and `dissipativeSystem_velocity_hasDerivAt_pos` give the derivatives of $u$ and of $u'$. Specifically,
+For $t\gt 1$, hence $t\gt 0$, the theorems `dissipativeSystem_differentiableAt_pos` and `dissipativeSystem_velocity_hasDerivAt_pos` give the derivatives of $u$ and of $u'$. Specifically,
 
 $$
 u'(t)=fderiv_{\mathbb R}u(t)(1),
@@ -435,7 +435,7 @@ $$
 \gamma u(t)=(u'(t)+\gamma u(t))-u'(t)\to wLim.
 $$
 
-Since $\gamma>0$, it is invertible, and multiplying by $\gamma^{-1}$ gives
+Since $\gamma\gt 0$, it is invertible, and multiplying by $\gamma^{-1}$ gives
 
 $$
 u(t)\to \gamma^{-1}wLim.

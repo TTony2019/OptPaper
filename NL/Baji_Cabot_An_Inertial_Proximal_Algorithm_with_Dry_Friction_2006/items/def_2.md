@@ -15,11 +15,11 @@ $$
 
 where $d$ is the metric on $H$. The definition then takes the supremum of these distances as $x$ ranges over $A$:
 
-$$
+```math
 \mathrm{excess}(A,B)
 = \sup_{x\in A} \mathrm{infDist}(x,B)
 = \sup\{\mathrm{infDist}(x,B):x\in A\}.
-$$
+```
 
 Thus $\mathrm{excess}(A,B)$ is the one-sided Hausdorff excess of $A$ over $B$: the least upper bound, when it exists in the usual real sense, of how far points of $A$ are from the set $B$. The Lean notation `⨆ x ∈ A, ...` is an indexed supremum in which the condition $x\in A$ is part of the index. The declaration has no hypotheses beyond the two set parameters: it does not assume that $A$ or $B$ is nonempty, closed, bounded, or otherwise special. The `noncomputable` marker indicates that the definition uses noncomputable order-theoretic operations, namely the indexed supremum and the infimum-distance construction, and is not intended as an executable algorithm.
 

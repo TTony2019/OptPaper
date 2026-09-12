@@ -55,33 +55,33 @@ The hypotheses are as follows.
 - For every $\mu\in V$, $\phi_\mu$ is differentiable over $\mathbb R$: $\mathrm{Differentiable}_{\mathbb R}(\phi_\mu)$.
 - For every $\mu\in V$ and every $q\in H$, $G_\mu(q)$ is the gradient of $\phi_\mu$ at $q$:
 
-  $$
-  \mathrm{HasGradientAt}(\phi_\mu,G_\mu(q),q).
-  $$
+$$
+\mathrm{HasGradientAt}(\phi_\mu,G_\mu(q),q).
+$$
 
-- For every $\mu\in V$, $G_\mu$ is Lipschitz with constant $\mathrm{toNNReal}(1/\beta_\mu)$, where $\beta_\mu=\beta(\mu)$. Since $\beta_\mu>0$ is assumed below, this is the nonnegative real constant $1/\beta_\mu$.
+- For every $\mu\in V$, $G_\mu$ is Lipschitz with constant $\mathrm{toNNReal}(1/\beta_\mu)$, where $\beta_\mu=\beta(\mu)$. Since $\beta_\mu\gt 0$ is assumed below, this is the nonnegative real constant $1/\beta_\mu$.
 - For every $\mu\in V$, the triple $(x_\mu,dx_\mu,ddx_\mu)=(x(\mu),dx(\mu),ddx(\mu))$ satisfies the predicate
 
-  $$
-  \mathrm{ext\_def\_2}(G_\mu,\gamma,u_0(\mu),v_0(\mu),x_\mu,dx_\mu,ddx_\mu).
-  $$
+```math
+\mathrm{ext\_def\_2}(G_\mu,\gamma,u_0(\mu),v_0(\mu),x_\mu,dx_\mu,ddx_\mu).
+```
 
   The internal definition of `ext_def_2` is not included in the supplied context; the statement only uses it as a solution predicate for the second-order problem with operator $G_\mu$, damping $\gamma$, and initial data $u_0(\mu),v_0(\mu)$.
 - The gradients depend Hölder continuously on the parameter: for all $q\in H$ and all $\mu,\mu'\in V$,
 
-  $$
-  \|G_\mu(q)-G_{\mu'}(q)\|\le k_1\|\mu-\mu'\|^{\gamma_1}.
-  $$
+```math
+\|G_\mu(q)-G_{\mu'}(q)\|\le k_1\|\mu-\mu'\|^{\gamma_1}.
+```
 
-- The scalar parameters satisfy $\beta_\mu>0$ for all $\mu\in V$, $k_1>0$, $0<\gamma_1$, and $\gamma_1\le 1$.
+- The scalar parameters satisfy $\beta_\mu\gt 0$ for all $\mu\in V$, $k_1\gt 0$, $0\lt \gamma_1$, and $\gamma_1\le 1$.
 
 The conclusion has two parts.
 
 First, for every $\mu\in V$, there exists a solution triple $(\tilde x_\mu,\widetilde{dx}_\mu,\widetilde{ddx}_\mu):\mathbb R\to H$ of
 
-$$
+```math
 \mathrm{ext\_def\_2}(G_\mu,\gamma,u_0(\mu),v_0(\mu),\tilde x_\mu,\widetilde{dx}_\mu,\widetilde{ddx}_\mu),
-$$
+```
 
 and any other solution $(y,dy,ddy)$ of the same problem satisfies
 
@@ -101,11 +101,11 @@ $$
 
 Then for almost every $t$ with respect to Lebesgue measure on $\mathbb R$, if $0\le t$, the given solutions $x_\mu$ and $x_{\mu'}$ satisfy
 
-$$
+```math
 \|x_\mu(t)-x_{\mu'}(t)\|
 \le e^{mt}\sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}
 +\frac{k_1}{m}(e^{mt}-1)\|\mu-\mu'\|^{\gamma_1}.
-$$
+```
 
 In ordinary language: under convexity, differentiability, gradient, Lipschitz/cocoercivity, and parameter-Hölder assumptions, the family of second-order problems has unique solutions on $[0,\infty)$, and the solutions depend on the parameter with an explicit exponential-in-time Hölder stability estimate.
 
@@ -163,7 +163,7 @@ $$
 0<\gamma
 $$
 
-from `(hsol μ0 hμ0).1`. This means the predicate `ext_def_2`, at the chosen $\mu_0$, has the positivity of the damping parameter as its first component. This is the only structural fact about `ext_def_2` used directly in extracting $0<\gamma$.
+from `(hsol μ0 hμ0).1`. This means the predicate `ext_def_2`, at the chosen $\mu_0$, has the positivity of the damping parameter as its first component. This is the only structural fact about `ext_def_2` used directly in extracting $0\lt \gamma$.
 
 Next the proof constructs the hypothesis `hC1`, which is exactly the pointwise cocoercivity condition required by `thm_1`. For an arbitrary $\mu\in V$, it must prove
 
@@ -173,13 +173,13 @@ $$
 
 and, for all $u,v\in H$,
 
-$$
+```math
 \beta_\mu\|G_\mu(u)-G_\mu(v)\|^2
 \le
 \langle G_\mu(u)-G_\mu(v),u-v\rangle.
-$$
+```
 
-The positivity $0<\beta_\mu$ is supplied by `hβ μ hμ`.
+The positivity $0\lt \beta_\mu$ is supplied by `hβ μ hμ`.
 
 To obtain the cocoercivity inequality, the proof applies the external result `ext_thm_4` to the function $\phi_\mu$, its gradient $G_\mu$, and the constant
 
@@ -187,7 +187,7 @@ $$
 L=\frac{1}{\beta_\mu}.
 $$
 
-The hypotheses of `ext_thm_4` are precisely that $L>0$, $\phi_\mu$ is convex, $\phi_\mu$ is differentiable, $G_\mu(q)$ is the gradient of $\phi_\mu$ at every $q$, and $G_\mu$ is Lipschitz with constant $\mathrm{toNNReal}(L)$. These are supplied respectively by $0<\beta_\mu$, `hconv μ hμ`, `hdiff μ hμ`, `hgrad_id μ hμ`, and `hgrad μ hμ`.
+The hypotheses of `ext_thm_4` are precisely that $L\gt 0$, $\phi_\mu$ is convex, $\phi_\mu$ is differentiable, $G_\mu(q)$ is the gradient of $\phi_\mu$ at every $q$, and $G_\mu$ is Lipschitz with constant $\mathrm{toNNReal}(L)$. These are supplied respectively by $0\lt \beta_\mu$, `hconv μ hμ`, `hdiff μ hμ`, `hgrad_id μ hμ`, and `hgrad μ hμ`.
 
 The mathematical content of `ext_thm_4` is: if a convex differentiable function on a real Hilbert space has gradient map that is $L$-Lipschitz, then that gradient map is $(1/L)$-cocoercive on the whole space. Its conclusion is therefore
 
@@ -201,21 +201,21 @@ $$
 \mathrm{CocoerciveOn}(\beta_\mu,\mathrm{Set.univ},G_\mu).
 $$
 
-The definition of `CocoerciveOn` says that $\beta_\mu>0$ and that for all $x,y$ in the domain,
+The definition of `CocoerciveOn` says that $\beta_\mu\gt 0$ and that for all $x,y$ in the domain,
 
-$$
+```math
 \beta_\mu\|G_\mu(x)-G_\mu(y)\|^2
 \le
 \langle x-y,G_\mu(x)-G_\mu(y)\rangle.
-$$
+```
 
 Applying this to $u,v\in H$ gives
 
-$$
+```math
 \beta_\mu\|G_\mu(u)-G_\mu(v)\|^2
 \le
 \langle u-v,G_\mu(u)-G_\mu(v)\rangle.
-$$
+```
 
 The proof then uses `real_inner_comm`, the symmetry of the real inner product, to rewrite the right-hand side as
 
@@ -233,9 +233,9 @@ $$
 
 and for all $q\in H$ and all $\mu,\mu'\in V$,
 
-$$
+```math
 \|G_\mu(q)-G_{\mu'}(q)\|\le k_1\|\mu-\mu'\|^{\gamma_1}.
-$$
+```
 
 The inner proof simply introduces $q,\mu,\mu'$ and applies `h9`.
 
@@ -245,11 +245,11 @@ $$
 A=G,\qquad \alpha=\beta,\qquad \theta_1=k_1,\qquad \theta_2=\gamma_1.
 $$
 
-The hypotheses of `thm_1` are $0<\gamma$, the pointwise cocoercivity condition `hC1`, and the parameter-Hölder condition `hC2`. Its conclusion is twofold. First, for every $\mu\in V$, there exists a solution triple of
+The hypotheses of `thm_1` are $0\lt \gamma$, the pointwise cocoercivity condition `hC1`, and the parameter-Hölder condition `hC2`. Its conclusion is twofold. First, for every $\mu\in V$, there exists a solution triple of
 
-$$
+```math
 \mathrm{ext\_def\_2}(G_\mu,\gamma,u_0(\mu),v_0(\mu),\cdot,\cdot,\cdot),
-$$
+```
 
 and any two such solutions agree on $[0,\infty)$. Second, for every $\mu,\mu'\in V$, with
 
@@ -261,12 +261,12 @@ $$
 
 there exist solutions $y,y'$ for $\mu,\mu'$ such that for almost every $t$,
 
-$$
+```math
 0\le t\implies
 \|y(t)-y'(t)\|
 \le e^{mt}\sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}
 +\frac{k_1}{m}(e^{mt}-1)\|\mu-\mu'\|^{\gamma_1}.
-$$
+```
 
 The proof binds these two conclusions as `hunique` and `hstable`.
 
@@ -274,11 +274,11 @@ The command `refine ⟨hunique, ?_⟩` uses `hunique` directly for the first ass
 
 Fix $\mu,\mu'\in V$. From `hstable μ hμ μ' hμ'`, the proof obtains solutions $y,y'$, derivative witnesses $dy,ddy,dy',ddy'$, proofs `hy` and `hy'` that these are solutions for $\mu$ and $\mu'$, and an almost-everywhere inequality `hbound`:
 
-$$
+```math
 \|y(t)-y'(t)\|
 \le e^{mt}\sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}
 +\frac{k_1}{m}(e^{mt}-1)\|\mu-\mu'\|^{\gamma_1}
-$$
+```
 
 for almost every $t$ satisfying $0\le t$.
 
@@ -312,11 +312,11 @@ for all $t\ge 0$.
 
 Finally the proof establishes the almost-everywhere estimate for $x_\mu,x_{\mu'}$. The tactic command `filter_upwards [hbound] with t ht` reduces the goal from an almost-everywhere statement to the pointwise situation where the almost-everywhere fact `hbound` is available. The variable `ht` is the inequality from `hbound` at the point $t$. After `intro ht_nonneg`, the proof assumes $0\le t$. The goal is then
 
-$$
+```math
 \|x_\mu(t)-x_{\mu'}(t)\|
 \le e^{mt}\sqrt{\|u_0(\mu)-u_0(\mu')\|^2+\|v_0(\mu)-v_0(\mu')\|^2}
 +\frac{k_1}{m}(e^{mt}-1)\|\mu-\mu'\|^{\gamma_1}.
-$$
+```
 
 Using `rw [hxy ht_nonneg, hxy' ht_nonneg]`, the proof rewrites $x_\mu(t)$ to $y(t)$ and $x_{\mu'}(t)$ to $y'(t)$. The goal becomes exactly the inequality supplied by `ht`. Then `exact ht ht_nonneg` closes the goal. Since this works on the almost-everywhere set where `hbound` holds, the desired almost-everywhere statement follows.
 

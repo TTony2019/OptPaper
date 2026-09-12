@@ -18,7 +18,7 @@ theorem proposition2 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H
 ```
 
 ## Statement explanation
-The declaration `proposition2` is a convergence and descent theorem for an inertial forward-backward trajectory. The ambient space is a real inner product space $H$, equipped with its norm and additive group structure. The data are two extended-real-valued functions $\Phi,\Theta:H\to \mathrm{EReal}$, a real-valued function $\Psi:H\to \mathbb R$, a map $\mathrm{grad}\Psi:H\to H$, real parameters $a,b,\lambda,L$, and two sequences $u,y:\mathbb N\to H$, representing the trajectory and an auxiliary variable. The hypothesis `hH` is an `IFBHypothesis`; the proof uses from it that $b>0$, that the step size $\lambda$ is positive/nonzero, that $\Psi$ is differentiable, that its Fréchet derivative is represented by $\mathrm{grad}\Psi$,
+The declaration `proposition2` is a convergence and descent theorem for an inertial forward-backward trajectory. The ambient space is a real inner product space $H$, equipped with its norm and additive group structure. The data are two extended-real-valued functions $\Phi,\Theta:H\to \mathrm{EReal}$, a real-valued function $\Psi:H\to \mathbb R$, a map $\mathrm{grad}\Psi:H\to H$, real parameters $a,b,\lambda,L$, and two sequences $u,y:\mathbb N\to H$, representing the trajectory and an auxiliary variable. The hypothesis `hH` is an `IFBHypothesis`; the proof uses from it that $b\gt 0$, that the step size $\lambda$ is positive/nonzero, that $\Psi$ is differentiable, that its Fréchet derivative is represented by $\mathrm{grad}\Psi$,
 
 $$
 \mathrm{fderiv}_{\mathbb R}\Psi(x)(h)=\langle \mathrm{grad}\Psi(x),h\rangle,
@@ -26,9 +26,9 @@ $$
 
 that $\mathrm{grad}\Psi$ is $L$-Lipschitz,
 
-$$
+```math
 \|\mathrm{grad}\Psi(x)-\mathrm{grad}\Psi(y)\|\le L\|x-y\|,
-$$
+```
 
 that $\Theta=\Phi+\Psi$ as extended-real functions, and that $\Theta$ is bounded below by a real constant. The hypothesis `hIFB` supplies the forward-backward update equations. In the form used in the proof, for every $k$ there exists $g\in\partial\Phi(u_{k+2})$ such that
 
@@ -44,9 +44,9 @@ $$
 
 The subdifferential is the standard one,
 
-$$
+```math
 \partial\Phi(x)=\{g\mid \forall z,\ \langle z-x,g\rangle+\Phi(x)\le \Phi(z)\},
-$$
+```
 
 with the inequality taken in $\mathrm{EReal}$.
 
@@ -58,9 +58,9 @@ $$
 
 is used to form the mechanical energy
 
-$$
+```math
 \mathcal E_n=\Theta(u_n)+\gamma(a,b,\lambda)\|u_n-u_{n-1}\|^2,\qquad n\ge 1.
-$$
+```
 
 The conclusion has three parts. First, the mechanical energies are nonincreasing along the trajectory:
 
@@ -70,9 +70,9 @@ $$
 
 Second, the squared consecutive differences are summable:
 
-$$
+```math
 \sum_{k=0}^{\infty}\|u_{k+1}-u_k\|^2<\infty.
-$$
+```
 
 Third, there exists an extended-real number $e\in \mathrm{EReal}$ such that both the mechanical energy sequence and the potential sequence converge to $e$:
 
@@ -442,34 +442,34 @@ $$
 
 Substituting this into the inner product and expanding, using $u_{k+1}-u_{k+2}=-(u_{k+2}-u_{k+1})$, yields
 
-$$
+```math
 \langle g,u_{k+1}-u_{k+2}\rangle
 =\frac1\lambda\|u_{k+2}-u_{k+1}\|^2
 +\left\langle a u_{k+1}-b y_{k+1},\,u_{k+2}-u_{k+1}\right\rangle.
-$$
+```
 
 After taking real parts and rearranging, the proof obtains
 
-$$
+```math
 (\Phi(u_{k+2}))^{\mathrm{toReal}}-(\Phi(u_{k+1}))^{\mathrm{toReal}}
 +\frac1\lambda\|u_{k+2}-u_{k+1}\|^2
 +\left\langle a u_{k+1}-b y_{k+1},\,u_{k+2}-u_{k+1}\right\rangle\le 0.
-$$
+```
 
 The second main inequality, `h36`, uses the descent lemma. The result `descent_lemma` states that for a differentiable $\Psi$ whose gradient $\mathrm{grad}\Psi$ has the given derivative representation and is $L$-Lipschitz, one has
 
-$$
+```math
 \Psi(v)\le \Psi(x)+\langle \mathrm{grad}\Psi(x),v-x\rangle+\frac L2\|v-x\|^2.
-$$
+```
 
 Taking $x=u_{k+1}$ and $v=u_{k+2}$, this gives
 
-$$
+```math
 \Psi(u_{k+2})\le
 \Psi(u_{k+1})+
 \langle \mathrm{grad}\Psi(u_{k+1}),u_{k+2}-u_{k+1}\rangle
 +\frac L2\|u_{k+2}-u_{k+1}\|^2.
-$$
+```
 
 The second update equation rearranges to
 
@@ -481,13 +481,13 @@ $$
 
 Substituting this and expanding the inner product gives
 
-$$
+```math
 \Psi(u_{k+2})-\Psi(u_{k+1})
 -\frac L2\|u_{k+2}-u_{k+1}\|^2
 -\left\langle a u_{k+1}-b y_{k+1},\,u_{k+2}-u_{k+1}\right\rangle
 \le
 -\frac1\lambda\left\langle y_{k+1}-y_k,\,u_{k+2}-u_{k+1}\right\rangle.
-$$
+```
 
 The proof then combines the two previous inequalities. Since $\Theta=\Phi+\Psi$, and the values are finite, one has
 
@@ -498,12 +498,12 @@ $$
 
 and similarly at $u_{k+1}$. Adding the $\Phi$-inequality and the $\Psi$-inequality cancels the common inner product term and gives the key energy inequality
 
-$$
+```math
 (\Theta(u_{k+2}))^{\mathrm{toReal}}-(\Theta(u_{k+1}))^{\mathrm{toReal}}
 +\left(\frac1\lambda-\frac L2\right)\|u_{k+2}-u_{k+1}\|^2
 \le
 -\frac1\lambda\left\langle y_{k+1}-y_k,\,u_{k+2}-u_{k+1}\right\rangle.
-$$
+```
 
 The next inequality, `h38`, uses monotonicity of the subdifferential. The proof obtains two subgradients: $g_0\in\partial\Phi(u_{k+1})$ from the first update at index $k$, and $g_1\in\partial\Phi(u_{k+2})$ from the first update at index $k+1$. Applying the subgradient inequalities at $u_{k+2}$ and $u_{k+1}$, respectively, gives
 
@@ -547,55 +547,55 @@ $$
 
 Expanding the inner product,
 
-$$
+```math
 \frac1\lambda(\|v_1\|^2-\langle v_0,v_1\rangle)
 +a\langle v_0,v_1\rangle
 -b\langle z,v_1\rangle\le 0.
-$$
+```
 
 Multiplying by the positive number $1/(b\lambda)$ and using the definition of $\gamma$ gives
 
-$$
+```math
 -\frac1\lambda\langle z,v_1\rangle
 +\frac1{b\lambda^2}\|v_1\|^2
 -2\gamma(a,b,\lambda)\langle v_0,v_1\rangle\le 0.
-$$
+```
 
 The following inequality, `h39`, is obtained from the elementary fact
 
-$$
+```math
 0\le \|v_1-v_0\|^2
 =\|v_0\|^2+\|v_1\|^2-2\langle v_0,v_1\rangle,
-$$
+```
 
 hence
 
-$$
+```math
 2\langle v_0,v_1\rangle\le \|v_0\|^2+\|v_1\|^2.
-$$
+```
 
-Multiplying by $\gamma>0$, and combining with the preceding inequality, yields
+Multiplying by $\gamma\gt 0$, and combining with the preceding inequality, yields
 
-$$
+```math
 -\frac1\lambda\langle z,v_1\rangle
 +\left(\frac1{b\lambda^2}-\gamma\right)\|v_1\|^2
 -\gamma\|v_0\|^2\le 0.
-$$
+```
 
 At this point the proof defines the real sequence
 
-$$
+```math
 E_n=\mathrm{toReal}\bigl(\mathcal E_{n+1}\bigr)
 =(\Theta(u_{n+1}))^{\mathrm{toReal}}
 +\gamma\|u_{n+1}-u_n\|^2,
-$$
+```
 
 and
 
-$$
+```math
 q_n=
 \beta\|u_{n+2}-u_{n+1}\|^2,
-$$
+```
 
 where
 
@@ -603,7 +603,7 @@ $$
 \beta=\frac1\lambda-\frac L2+\frac1{b\lambda^2}-2\gamma.
 $$
 
-Since $\beta>0$, each $q_n\ge0$. Adding the two inequalities above, cancelling the common $-(1/\lambda)\langle z,v_1\rangle$ term, and rearranging gives
+Since $\beta\gt 0$, each $q_n\ge0$. Adding the two inequalities above, cancelling the common $-(1/\lambda)\langle z,v_1\rangle$ term, and rearranging gives
 
 $$
 E_{n+1}+q_n\le E_n.
@@ -615,7 +615,7 @@ $$
 m\le (\Theta(u_{n+1}))^{\mathrm{toReal}},
 $$
 
-and the added term $\gamma\|u_{n+1}-u_n\|^2$ is nonnegative. Hence $E_n\ge m$ for every $n$, so the range of $E$ is bounded below.
+and the added term $`\gamma\|u_{n+1}-u_n\|^2`$is nonnegative. Hence$E_n\ge m$for every$n$, so the range of$E$ is bounded below.
 
 Now the proof applies `descent_summable_real` to the real sequences $E$ and $q$. That result says that if $q_n\ge0$, $E$ is bounded below, and
 
@@ -629,17 +629,17 @@ $$
 E_{n+1}\le E_n,\qquad E_n\to l,\qquad \sum q_n<\infty.
 $$
 
-Since $q_n=\beta\|u_{n+2}-u_{n+1}\|^2$ and $\beta\neq0$, summability of $q$ is equivalent to summability of
+Since $`q_n=\beta\|u_{n+2}-u_{n+1}\|^2`$and$\beta\neq0$, summability of$q$ is equivalent to summability of
 
-$$
+```math
 \|u_{n+2}-u_{n+1}\|^2.
-$$
+```
 
 Shifting the index by one gives
 
-$$
+```math
 \sum_{k=0}^{\infty}\|u_{k+1}-u_k\|^2<\infty,
-$$
+```
 
 which is the second conclusion of the theorem.
 
@@ -663,24 +663,24 @@ $$
 (E_n:\mathrm{EReal})\to(l:\mathrm{EReal}).
 $$
 
-Since $\mathcal E_{n+1}=(E_n:\mathrm{EReal})$, this gives convergence of the mechanical energies to $(l:\mathrm{EReal})$. To handle the $\Theta$-term, the proof notes that summability of $\|u_{n+1}-u_n\|^2$ implies
+Since $\mathcal E_{n+1}=(E_n:\mathrm{EReal})$, this gives convergence of the mechanical energies to $(l:\mathrm{EReal})$. To handle the $\Theta$-term, the proof notes that summability of $`\|u_{n+1}-u_n\|^2`$ implies
 
-$$
+```math
 \|u_{n+1}-u_n\|^2\to 0.
-$$
+```
 
 Multiplying by the constant $\gamma$ gives
 
-$$
+```math
 \gamma\|u_{n+1}-u_n\|^2\to 0.
-$$
+```
 
 But
 
-$$
+```math
 E_n=(\Theta(u_{n+1}))^{\mathrm{toReal}}
 +\gamma\|u_{n+1}-u_n\|^2,
-$$
+```
 
 so subtracting the vanishing correction term yields
 

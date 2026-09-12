@@ -31,27 +31,27 @@ The hypotheses are:
 - $M$ is nonempty.
 - The extended-real-valued function
 
-  $$
-  F(x)=(E(x):\mathrm{EReal})
-  $$
+$$
+F(x)=(E(x):\mathrm{EReal})
+$$
 
   is proper, lower semicontinuous, and has convex epigraph. Here $\mathrm{EReal}$ is the extended real line.
 - There exists an extension $u_{\mathrm{ext}}:\mathbb R\to H$ of $X$ from the nonnegative times such that:
   - $u_{\mathrm{ext}}(t)=X(t)$ for all $t\ge0$;
-  - for every $t\ge0$ with $t>0$, the value $F(X(t))$ is not $+\infty$;
-  - for every $\delta>0$, $u_{\mathrm{ext}}$ is Lipschitz on $[\delta,\infty)$ with some nonnegative real constant $K$;
+  - for every $t\ge0$ with $t\gt 0$, the value $F(X(t))$ is not $+\infty$;
+  - for every $\delta\gt 0$, $u_{\mathrm{ext}}$ is Lipschitz on $[\delta,\infty)$ with some nonnegative real constant $K$;
   - $u_{\mathrm{ext}}$ is continuous on $[0,\infty)$;
   - for almost every $t$ with respect to Lebesgue measure on $\mathbb R$, if $t\ge0$, then
 
-    $$
-    -\mathrm{deriv} u_{\mathrm{ext}}(t)\in \partial F(u_{\mathrm{ext}}(t)).
-    $$
+$$
+-\mathrm{deriv} u_{\mathrm{ext}}(t)\in \partial F(u_{\mathrm{ext}}(t)).
+$$
 
     That is, $u_{\mathrm{ext}}$ satisfies the subgradient-flow differential inclusion
 
-    $$
-    \dot u(t)+\partial F(u(t))\ni0
-    $$
+$$
+\dot u(t)+\partial F(u(t))\ni0
+$$
 
     for almost every nonnegative $t$.
 
@@ -153,23 +153,23 @@ This is the minimizer notion expected by the Bruck convergence theorem.
 
 The proof next restricts $X$ to the nonnegative half-line. It defines
 
-$$
+```math
 u:\{t\in\mathbb R\mid t\ge0\}\to H,\qquad u(t)=X(t).
-$$
+```
 
 The hypothesis `hsol` is then restated as `hsol'` using `simpa [u] using hsol`. This changes the agreement condition $u_{\mathrm{ext}}(t)=X(t)$ into $u_{\mathrm{ext}}(t)=u(t)$, and similarly rewrites the finite-energy condition $F(X(t))\ne\top$ as $F(u(t))\ne\top$. The Lipschitz, continuity, and subgradient-flow conditions are unchanged.
 
 The main convergence input is now invoked:
 
-$$
+```math
 \texttt{bruck\_subgradient\_flow\_convergence}
-$$
+```
 
 applied to the extended-real energy $F(x)=(E(x):\mathrm{EReal})$, its properness `hproper`, lower semicontinuity `hlsc`, convex epigraph `hconvexEpi`, the restricted curve $u$, the existence of a minimizer in `Alvarez2002.argmin`, and the flow data `hsol'`. The proof destructs the conclusion as
 
-$$
+```math
 \langle m,hm,\_,hstrong\rangle.
-$$
+```
 
 The component we use is $hm:m\in \texttt{Alvarez2002.argmin}(F)$. The component `hstrong` is a conditional convergence statement: when it is supplied with a proof that $F$ is even, it yields convergence of the restricted trajectory $u$ to $m$. The ignored component is not used.
 
@@ -183,9 +183,9 @@ so $F(-x)=F(x)$. This is the statement `hevenEreal`.
 
 Applying `hstrong` to `hevenEreal` gives
 
-$$
+```math
 \texttt{hu}:\mathrm{Tendsto}u\,\mathrm{atTop}\,(\mathrm{nhds}m),
-$$
+```
 
 meaning $u(t)\to m$ as $t\to\infty$ along the nonnegative half-line.
 
@@ -209,11 +209,11 @@ $$
 
 Since $y$ was arbitrary, $m$ is a pointwise minimizer of $E$. Rewriting $M=\mathrm{argmin}E$ with `rw [hmin]` then gives `hmM : m ∈ M`.
 
-Finally the proof transfers convergence from the subtype $\{t\ge0\}$ back to the full real line. It defines the map
+Finally the proof transfers convergence from the subtype $`\{t\ge0\}`$ back to the full real line. It defines the map
 
-$$
+```math
 g(t)=(\max(t,0))\in\{s\in\mathbb R\mid s\ge0\}.
-$$
+```
 
 The proof first shows
 
@@ -235,7 +235,7 @@ $$
 u(g(t))=X(g(t))\to m.
 $$
 
-For $t>0$, one has $\max(t,0)=t$, so $g(t)=t$. The proof uses `filter_upwards [Filter.eventually_gt_atTop (0 : ℝ)]` to get an eventual hypothesis $t>0$, then `max_eq_left` to obtain $\max(t,0)=t$, and `simp [u, hmax]` to show that $X(t)$ and $X(g(t))$ agree eventually. Finally `Filter.Tendsto.congr'` transfers the convergence of $X(g(t))$ to convergence of $X(t)$. Therefore
+For $t\gt 0$, one has $\max(t,0)=t$, so $g(t)=t$. The proof uses `filter_upwards [Filter.eventually_gt_atTop (0 : ℝ)]` to get an eventual hypothesis $t\gt 0$, then `max_eq_left` to obtain $\max(t,0)=t$, and `simp [u, hmax]` to show that $X(t)$ and $X(g(t))$ agree eventually. Finally `Filter.Tendsto.congr'` transfers the convergence of $X(g(t))$ to convergence of $X(t)$. Therefore
 
 $$
 X(t)\to m\quad\text{as }t\to\infty.

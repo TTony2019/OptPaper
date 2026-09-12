@@ -18,7 +18,7 @@ This declaration defines the predicate `IsDINTrajectory`. The parameters are:
 - two real scalars $\alpha,\beta \in \mathbb{R}$;
 - a curve $x : \mathbb{R} \to H$, representing a trajectory depending on real time.
 
-The definition returns a proposition, namely the conjunction of three statements. First, $0<\alpha$. Second, $0<\beta$. Third, for every real $t$ with $0\le t$, the following second-order differential equation holds in $H$:
+The definition returns a proposition, namely the conjunction of three statements. First, $0\lt \alpha$. Second, $0\lt \beta$. Third, for every real $t$ with $0\le t$, the following second-order differential equation holds in $H$:
 
 $$
 \mathrm{deriv}(\mathrm{deriv} x)(t)
@@ -30,13 +30,13 @@ $$
 
 Equivalently, writing $\dot{x}(t)=\mathrm{deriv} x(t)$, $\ddot{x}(t)=\mathrm{deriv}(\mathrm{deriv} x)(t)$, and using $\nabla\Phi$ for the gradient map associated with $\Phi$, the equation is
 
-$$
+```math
 \ddot{x}(t)+\alpha\dot{x}(t)
 +\beta\,D(\nabla\Phi)(x(t))(\dot{x}(t))
 +\nabla\Phi(x(t))=0_H.
-$$
+```
 
-Here $\nabla\Phi(x(t))$ is the gradient vector of $\Phi$ at the current point $x(t)$. The term $D(\nabla\Phi)(x(t))$ is the Fréchet derivative of the gradient map at $x(t)$, a continuous linear operator $H\to H$, and it is applied to the velocity $\dot{x}(t)$; this is the Hessian-vector product $\nabla^2\Phi(x(t))(\dot{x}(t))$. The scalar multiplications by $\alpha$ and $\beta$ are real scalar multiplications on $H$, and the sum is taken in $H$. The right-hand side is the zero vector of $H$, while the zeros appearing in $0<\alpha$, $0<\beta$, and $0\le t$ are real zeros.
+Here $\nabla\Phi(x(t))$ is the gradient vector of $\Phi$ at the current point $x(t)$. The term $D(\nabla\Phi)(x(t))$ is the Fréchet derivative of the gradient map at $x(t)$, a continuous linear operator $H\to H$, and it is applied to the velocity $\dot{x}(t)$; this is the Hessian-vector product $\nabla^2\Phi(x(t))(\dot{x}(t))$. The scalar multiplications by $\alpha$ and $\beta$ are real scalar multiplications on $H$, and the sum is taken in $H$. The right-hand side is the zero vector of $H$, while the zeros appearing in $0\lt \alpha$, $0\lt \beta$, and $0\le t$ are real zeros.
 
 Thus the declaration says that $x$ is a DIN trajectory for the potential $\Phi$ and parameters $\alpha,\beta$ precisely when $\alpha$ and $\beta$ are positive and $x$ satisfies the second-order gradient-like dissipative equation with Hessian-driven damping for all nonnegative times. The definition does not assert existence, uniqueness, initial conditions, convexity of $\Phi$, or separate differentiability assumptions; it only defines the property that the displayed equation and the positivity conditions hold.
 
@@ -46,13 +46,13 @@ Thus the declaration says that $x$ is a DIN trajectory for the potential $\Phi$ 
 ```
 
 ## Proof explanation
-There is no separate proof. The declaration is a `def`, not a theorem, and the proof part of the source consists only of the comment `-- No separate proof part.` Therefore no tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` occur, and no named lemmas or theorems are invoked. If one unfolds the definition, the mathematical content is exactly the conjunction described in the first section: the two positivity conditions $0<\alpha$ and $0<\beta$, together with the universal statement that for every $t\ge0$, the vector equation
+There is no separate proof. The declaration is a `def`, not a theorem, and the proof part of the source consists only of the comment `-- No separate proof part.` Therefore no tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` occur, and no named lemmas or theorems are invoked. If one unfolds the definition, the mathematical content is exactly the conjunction described in the first section: the two positivity conditions $0\lt \alpha$ and $0\lt \beta$, together with the universal statement that for every $t\ge0$, the vector equation
 
-$$
+```math
 \ddot{x}(t)+\alpha\dot{x}(t)
 +\beta\,D(\nabla\Phi)(x(t))(\dot{x}(t))
 +\nabla\Phi(x(t))=0_H
-$$
+```
 
 holds. The definition itself does not prove that such an $x$ exists or that any particular curve satisfies this property.
 

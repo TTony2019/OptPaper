@@ -17,9 +17,9 @@ The declaration is a theorem about a complete real inner product space $H$, i.e.
 
 First, `hS : S.Nonempty` says that $S$ is nonempty. Second, `hdist` says that for every $z\in S$, there exists a real number $l$ such that
 
-$$
+```math
 \|x(t)-z\| \to l \qquad \text{as } t\to\infty .
-$$
+```
 
 Thus the distance from the trajectory to each point of $S$ has a finite limit along the continuous parameter $t\to\infty$; the limit may depend on $z$. Third, `hcluster` says that every weak sequential cluster point of the trajectory lies in $S$. More precisely, if there is a sequence $u:\mathbb N\to\mathbb R$ with $u(n)\to\infty$ and if
 
@@ -39,7 +39,7 @@ Equivalently, in Lean notation,
 
 $$
 \mathrm{Tendsto}\bigl(t\mapsto \mathrm{toWeakSpace}_{\mathbb R}(x(t))\bigr)
-\ \text{to}\ 
+\ \text{to}\
 \mathrm{nhds}\bigl(\mathrm{toWeakSpace}_{\mathbb R}(z)\bigr).
 $$
 
@@ -96,7 +96,7 @@ $$
 \mathrm{Tendsto}\bigl(n\mapsto \mathrm{toWeakSpace}_{\mathbb R}(x(u(n)))\bigr)
 \text{ to } \mathrm{nhds}\bigl(\mathrm{toWeakSpace}_{\mathbb R}(z)\bigr)
 \iff
-\forall v:H,\ 
+\forall v:H,\
 \langle x(u(n)),v\rangle_{\mathbb R}\to \langle z,v\rangle_{\mathbb R}.
 $$
 

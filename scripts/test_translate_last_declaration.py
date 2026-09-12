@@ -242,9 +242,13 @@ theorem real : True := by trivial
         self.assertEqual(normalize_bare_latex_brackets(text), expected)
 
     def test_normalizes_legacy_math_delimiters_to_github_dialect(self):
-        text = "A bound \\(0<L\\) holds:\n\\[\nf(x)\\le L\n\\]\nand that is all."
-        expected = "A bound $0<L$ holds:\n\n$$\nf(x)\\le L\n$$\n\nand that is all."
+        text = "A bound \\(0,L\\) holds:\n\\[\nf(x)\\le L\n\\]\nand that is all."
+        expected = "A bound $0,L$ holds:\n\n$$\nf(x)\\le L\n$$\n\nand that is all."
         self.assertEqual(normalize_math_delimiters(text), expected)
+
+    def test_normalizer_spells_angle_brackets_as_commands(self):
+        # A bare ``<`` makes Markdown read an HTML tag and drop the formula.
+        self.assertEqual(normalize_math_delimiters(r"$0<L$ and $t>0$"), r"$0\lt L$ and $t\gt 0$")
 
     def test_normalizer_pads_inline_math_that_follows_a_word_character(self):
         self.assertEqual(normalize_math_delimiters(r"the step-\(r\) map"), "the step- $r$ map")
@@ -277,8 +281,16 @@ theorem real : True := by trivial
         self.assertEqual(normalize_math_delimiters(text), "$$\nf(x)\n=g(x) +\n$$")
 
     def test_normalizer_keeps_code_fences_and_break_commands(self):
+        # A line break ``\\`` loses a backslash on GitHub, so the block moves
+        # into a math fence, where the command survives untouched.
         text = "```lean\n\\(x\\)\n```\n\n$$\na+\\\\[4pt]b\n$$\n"
-        self.assertEqual(normalize_math_delimiters(text), "```lean\n\\(x\\)\n```\n\n$$\na+\\\\[4pt]b\n$$\n")
+        self.assertEqual(normalize_math_delimiters(text), "```lean\n\\(x\\)\n```\n\n```math\na+\\\\[4pt]b\n```\n")
+
+    def test_normalizer_protects_escaped_punctuation(self):
+        self.assertEqual(
+            normalize_math_delimiters("a $\\|x\\| \\le 1$ and\n\n$$\n\\sigma\\,T\n$$\n"),
+            "a $`\\|x\\| \\le 1`$ and\n\n```math\n\\sigma\\,T\n```\n",
+        )
 
     def test_normalizer_is_idempotent(self):
         once = normalize_math_delimiters("inline \\(x\\) then\n\\[\ny\n\\]\ndone")
@@ -306,6 +318,8 @@ theorem real : True := by trivial
         self.assertIn("$$ ... $$", SYSTEM_PROMPT)
         self.assertIn("single Markdown paragraph", SYSTEM_PROMPT)
         self.assertIn("list marker or >", SYSTEM_PROMPT)
+        self.assertIn(r"\lt or \gt", SYSTEM_PROMPT)
+        self.assertIn("```math fence", SYSTEM_PROMPT)
         self.assertIn(r"\mathrm{name}", SYSTEM_PROMPT)
         self.assertIn(r"\operatorname", SYSTEM_PROMPT)
 

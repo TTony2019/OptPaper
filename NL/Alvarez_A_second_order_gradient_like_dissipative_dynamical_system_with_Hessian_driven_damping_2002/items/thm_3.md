@@ -24,26 +24,26 @@ The declaration `din_weakly_converges_to_argmin` is a theorem about a real Hilbe
 - $\Phi$ is convex on all of $H$, in the usual real-valued sense.
 - The global argmin set
 
-  $$
-  \mathrm{argminSet}\Phi=\{\,y\in H\mid \forall p,\ \Phi(y)\le \Phi(p)\,\}
-  $$
+```math
+\mathrm{argminSet}\Phi=\{\,y\in H\mid \forall p,\ \Phi(y)\le \Phi(p)\,\}
+```
 
   is nonempty.
-- $x$ is a trajectory of the DIN second-order gradient-like dissipative system with parameters $\alpha,\beta$. In particular, $\alpha>0$, $\beta>0$, and for every $t\ge0$,
+- $x$ is a trajectory of the DIN second-order gradient-like dissipative system with parameters $\alpha,\beta$. In particular, $\alpha\gt 0$, $\beta\gt 0$, and for every $t\ge0$,
 
-  $$
-  x''(t)=-\alpha x'(t)-\beta\,\bigl(D\nabla\Phi(x(t))\bigr)x'(t)-\nabla\Phi(x(t)).
-  $$
+```math
+x''(t)=-\alpha x'(t)-\beta\,\bigl(D\nabla\Phi(x(t))\bigr)x'(t)-\nabla\Phi(x(t)).
+```
 
   Here $D\nabla\Phi(x(t))$ denotes the Fréchet derivative of $\nabla\Phi$ at $x(t)$, i.e. the Hessian operator.
 
 The conclusion is a conjunction:
 
-$$
+```math
 \Bigl(\forall z,\ z\in\mathrm{argminSet}\Phi
-\ \Rightarrow\ \exists d\in\mathbb R,\ 
+\ \Rightarrow\ \exists d\in\mathbb R,\
 \|x(t)-z\|\to d\Bigr)
-$$
+```
 
 and
 
@@ -580,11 +580,11 @@ by
 ```
 
 ## Proof explanation
-The proof begins by extracting the positivity of the parameters and the differential equation from the hypothesis `hsol : IsDINTrajectory H Φ α β x`. The terms `hsol.1` and `hsol.2.1` give $0<\alpha$ and $0<\beta$. Later, `hsol.2.2 t ht` is used as the second-order equation
+The proof begins by extracting the positivity of the parameters and the differential equation from the hypothesis `hsol : IsDINTrajectory H Φ α β x`. The terms `hsol.1` and `hsol.2.1` give $0\lt \alpha$ and $0\lt \beta$. Later, `hsol.2.2 t ht` is used as the second-order equation
 
-$$
+```math
 x''(t)=-\alpha x'(t)-\beta\,\bigl(D\nabla\Phi(x(t))\bigr)x'(t)-\nabla\Phi(x(t)),
-$$
+```
 
 for $t\ge0$.
 
@@ -627,9 +627,9 @@ $$
 
 The proof then defines the energy
 
-$$
+```math
 E(t)=(\alpha\beta+1)\Phi(x(t))+\frac12\|x'(t)+\beta\nabla\Phi(x(t))\|^2.
-$$
+```
 
 Since $\Phi(x(t))$ converges and $x'(t)+\beta\nabla\Phi(x(t))\to0$, the energy $E(t)$ also converges to a finite limit.
 
@@ -671,7 +671,7 @@ $$
 \epsilon=\min\left(1,\frac{\alpha}{4(\beta+1)}\right).
 $$
 
-Then $0<\epsilon$, $\epsilon\le1$, and $\epsilon\le \alpha/(4(\beta+1))$. These imply the auxiliary coefficient inequalities
+Then $0\lt \epsilon$, $\epsilon\le1$, and $\epsilon\le \alpha/(4(\beta+1))$. These imply the auxiliary coefficient inequalities
 
 $$
 \alpha-\epsilon-\frac{\epsilon\beta}{2}\ge0,
@@ -687,9 +687,9 @@ $$
 
 because $r=x'+\beta\nabla\Phi(x)$ and the Hessian terms cancel. Also $u'(t)=v(t)$. The energy satisfies
 
-$$
+```math
 E'(t)=-\alpha\|v(t)\|^2-\beta\|g(t)\|^2.
-$$
+```
 
 Indeed,
 
@@ -701,32 +701,32 @@ and substituting $r=v+\beta g$, $r'=-\alpha v-g$ gives the displayed cancellatio
 
 The proof then introduces the auxiliary Lyapunov function
 
-$$
+```math
 h(t)=E(t)+\epsilon\left(\frac{\alpha}{2}\|u(t)\|^2+\langle r(t),u(t)\rangle\right).
-$$
+```
 
 A direct differentiation gives
 
-$$
+```math
 h'(t)=-(\alpha-\epsilon)\|v(t)\|^2-\beta\|g(t)\|^2
 -\epsilon\langle g(t),u(t)\rangle
 +\epsilon\beta\langle g(t),v(t)\rangle.
-$$
+```
 
 The convexity inequality gives $\langle g(t),u(t)\rangle\ge0$, so the term $-\epsilon\langle g(t),u(t)\rangle$ is nonpositive. Cauchy–Schwarz and Young’s inequality give
 
-$$
+```math
 \epsilon\beta\langle g(t),v(t)\rangle
 \le \frac{\epsilon\beta}{2}\bigl(\|g(t)\|^2+\|v(t)\|^2\bigr).
-$$
+```
 
 Therefore
 
-$$
+```math
 h'(t)\le
 -\left(\alpha-\epsilon-\frac{\epsilon\beta}{2}\right)\|v(t)\|^2
 -\beta\left(1-\frac{\epsilon}{2}\right)\|g(t)\|^2\le0.
-$$
+```
 
 Thus $h$ is nonincreasing on $[0,\infty)$, by the standard criterion that a differentiable function with nonpositive derivative on an interval is antitone.
 
@@ -738,14 +738,14 @@ $$
 
 Using Cauchy–Schwarz and Young’s inequality again, the proof obtains the lower bound
 
-$$
+```math
 (\alpha\beta+1)m+\frac{\epsilon\alpha}{4}\|u(t)\|^2\le h(t)
 \qquad(t\ge0).
-$$
+```
 
 So $h$ is nonincreasing and bounded below. Defining $q(t)=h(\max(t,0))$, the function $q$ is antitone on all of $\mathbb R$ and bounded below, so it has a limit at $+\infty$. Therefore $h(t)$ has a finite limit, say $l_h$.
 
-Since $h(t)\le h(0)$ and the lower bound controls $\|u(t)\|^2$, the curve $u(t)=x(t)-z$ is bounded. Also $r(t)\to0$ from the residual convergence. By Cauchy–Schwarz,
+Since $h(t)\le h(0)$ and the lower bound controls $`\|u(t)\|^2`$, the curve$u(t)=x(t)-z$is bounded. Also$r(t)\to0$ from the residual convergence. By Cauchy–Schwarz,
 
 $$
 \langle r(t),u(t)\rangle\to0.
@@ -753,24 +753,24 @@ $$
 
 The identity
 
-$$
+```math
 h(t)-E(t)-\epsilon\langle r(t),u(t)\rangle
 =\frac{\epsilon\alpha}{2}\|u(t)\|^2
-$$
+```
 
-then shows that $\|u(t)\|^2$ has a finite limit. Hence $\|u(t)\|=\|x(t)-z\|$ has a finite limit. This proves the first conjunct of the theorem.
+then shows that $`\|u(t)\|^2`$has a finite limit. Hence$`\|u(t)\|=\|x(t)-z\|`$ has a finite limit. This proves the first conjunct of the theorem.
 
-Next the proof shows that $x$ is bounded on $t\ge0$. Choose a minimizer $z_0$. From the just-proved distance convergence, $\|x(t)-z_0\|$ converges to some $d_0$. Hence, for all sufficiently large $t$,
+Next the proof shows that $x$ is bounded on $t\ge0$. Choose a minimizer $z_0$. From the just-proved distance convergence, $`\|x(t)-z_0\|`$converges to some$d_0$. Hence, for all sufficiently large$t$,
 
-$$
+```math
 \|x(t)-z_0\|\le |d_0|+1.
-$$
+```
 
 On a compact interval $[0,T_0]$, the continuous image of $x$ is compact, hence bounded. Combining the compact part with the eventual triangle estimate
 
-$$
+```math
 \|x(t)\|\le \|x(t)-z_0\|+\|z_0\|
-$$
+```
 
 shows that $x$ is bounded on all of $[0,\infty)$.
 
@@ -800,7 +800,7 @@ $$
 \langle a_n,b_n\rangle\to0.
 $$
 
-This follows from Cauchy–Schwarz, $| \langle a_n,b_n\rangle|\le \|a_n\|\,\|b_n\|$, and the squeeze theorem.
+This follows from Cauchy–Schwarz, $`| \langle a_n,b_n\rangle|\le \|a_n\|\,\|b_n\|`$, and the squeeze theorem.
 
 These tools are used to prove that every weak cluster point is a minimizer. Let $s_n\to\infty$ be a sequence of times and suppose
 
@@ -842,11 +842,11 @@ for every $p\in H$. Thus $l$ is a global lower bound for $\Phi$.
 
 To show that $z$ is itself a minimizer, the proof uses weak lower semicontinuity. It defines $f(y)=(\Phi(y):\mathbb R_{\pm\infty})$. Since $\Phi$ is continuous and convex, $f$ is lower semicontinuous in the norm topology. It is also quasiconvex: by `quasiconvexOn_univ_iff_convex_lowerLevelSet`, quasiconvexity on all of $H$ is equivalent to convexity of every lower level set
 
-$$
+```math
 \{y\mid f(y)\le \xi\}.
-$$
+```
 
-Using `mem_lowerLevelSet_iff`, membership in this set is equivalent to $\Phi(y)\le\xi$. Since $\Phi$ is convex, the set $\{y\mid \Phi(y)\le\xi\}$ is convex. Hence $f$ is quasiconvex. The cited result `weaklyLowerSemicontinuous_of_quasiconvexOn_univ` then gives that $f$, transported to the weak topology, is weakly lower semicontinuous.
+Using `mem_lowerLevelSet_iff`, membership in this set is equivalent to $\Phi(y)\le\xi$. Since $\Phi$ is convex, the set $`\{y\mid \Phi(y)\le\xi\}`$is convex. Hence$f$ is quasiconvex. The cited result `weaklyLowerSemicontinuous_of_quasiconvexOn_univ` then gives that $f$, transported to the weak topology, is weakly lower semicontinuous.
 
 Because $x(s_n)\rightharpoonup z$ weakly and $f(x(s_n))\to l$, weak lower semicontinuity gives
 
@@ -862,7 +862,7 @@ $$
 
 for every $p$. Therefore $z\in\mathrm{argminSet}\Phi$. This proves the hypothesis needed for Opial’s theorem.
 
-Finally, the proof applies `opial_continuous_time`. That theorem states that if $x:\mathbb R\to H$, $S\subseteq H$ is nonempty, every sequence of weak cluster points of $x$ along times tending to $+\infty$ lies in $S$, and for every $z\in S$ the distance $\|x(t)-z\|$ converges, then there exists $z\in S$ such that $x(t)$ converges weakly to $z$. Here $S=\mathrm{argminSet}\Phi$, nonemptiness is `hmin`, the cluster-point condition is `hcluster`, and the distance-convergence condition is `hdist`. The conclusion gives some $z\in\mathrm{argminSet}\Phi$ with $x(t)\rightharpoonup z$. Together with the already-proved distance convergence for every minimizer, this proves the stated conjunction.
+Finally, the proof applies `opial_continuous_time`. That theorem states that if $x:\mathbb R\to H$, $S\subseteq H$ is nonempty, every sequence of weak cluster points of $x$ along times tending to $+\infty$ lies in $S$, and for every $z\in S$ the distance $`\|x(t)-z\|`$converges, then there exists$z\in S$such that$x(t)$converges weakly to$z$. Here$S=\mathrm{argminSet}\Phi$, nonemptiness is `hmin`, the cluster-point condition is `hcluster`, and the distance-convergence condition is `hdist`. The conclusion gives some $z\in\mathrm{argminSet}\Phi$ with $x(t)\rightharpoonup z$. Together with the already-proved distance convergence for every minimizer, this proves the stated conjunction.
 
 Throughout the proof, Lean tactics play concrete mathematical roles. Commands such as `intro` introduce the variables and hypotheses of a subgoal; `obtain` and `rcases` destruct existential or conjunctive hypotheses; `rw` rewrites using definitions such as the ODE, the definitions of $E,h,u,r$, or algebraic identities; `simp` and `simpa` perform definitional and algebraic simplification; `exact` closes a goal by supplying a theorem or previously proved fact; `apply` reduces a goal to the hypotheses of a lemma; `linarith` and `nlinarith` solve linear and nonlinear arithmetic inequalities; `positivity` proves nonnegativity of expressions; `field_simp` clears denominators; `ring` and `ring_nf` normalize polynomial and rational identities; `module` solves linear equalities in the vector space; `convert` changes a goal to an equivalent form; and `filter_upwards` handles “for all sufficiently large $t$” statements. The limit arguments use `tendsto_atTop_ciInf` for the limit of an antitone bounded-below function, `squeeze_zero` and `squeeze_zero_norm'` for limits forced between bounds, and `isBounded_iff_forall_norm_le` for converting boundedness into a uniform norm bound.
 

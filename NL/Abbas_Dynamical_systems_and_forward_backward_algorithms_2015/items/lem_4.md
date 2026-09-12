@@ -22,13 +22,13 @@ $$
 
 is proper.
 
-The theorem also assumes a single-valued operator $B:H\to H$, a real number $\beta$ with $0<\beta$, and a subset $S\subseteq H$. The hypothesis `hcoco` says that $B$ is $\beta$-cocoercive on all of $H$, i.e. on `Set.univ`. The concrete consequence used in the proof is that for arbitrary $z,w\in H$, after commuting the real inner product, one has
+The theorem also assumes a single-valued operator $B:H\to H$, a real number $\beta$ with $0\lt \beta$, and a subset $S\subseteq H$. The hypothesis `hcoco` says that $B$ is $\beta$-cocoercive on all of $H$, i.e. on `Set.univ`. The concrete consequence used in the proof is that for arbitrary $z,w\in H$, after commuting the real inner product, one has
 
-$$
+```math
 \beta\,\|B z-B w\|^2 \le \langle B z-B w,z-w\rangle .
-$$
+```
 
-The hypothesis `hBmax` says that the set-valued operator induced by $B$, namely $x\mapsto\{B x\}$, is maximal monotone. This assumption is present in the statement, but it is not invoked anywhere in the displayed proof.
+The hypothesis `hBmax` says that the set-valued operator induced by $B$, namely $`x\mapsto\{B x\}`$, is maximal monotone. This assumption is present in the statement, but it is not invoked anywhere in the displayed proof.
 
 The set $S$ is characterized by
 
@@ -109,9 +109,9 @@ $$
 
 gives
 
-$$
+```math
 0\le \left\langle (-B z)-(-B w),\, z-w\right\rangle .
-$$
+```
 
 The proof next simplifies the left-hand difference. The command `rw [show ... by abel, inner_neg_left] at hmono` first rewrites
 
@@ -141,9 +141,9 @@ This is the inequality `hsubmono`.
 
 Next, the proof uses the cocoercivity hypothesis `hcoco`. The expression `hcoco.ineq` applies the cocoercivity condition to the two points of the subtype `Set.univ` corresponding to $z$ and $w$. Since `Set.univ` contains every point of $H$, this is the cocoercivity inequality for $z$ and $w$. The command `simpa [real_inner_comm] using hc` converts it into the form
 
-$$
+```math
 \beta\,\|B z-B w\|^2 \le \langle B z-B w,z-w\rangle .
-$$
+```
 
 Here `real_inner_comm` is the symmetry of the real inner product,
 
@@ -155,43 +155,43 @@ which allows the order of the two inner-product arguments to be swapped.
 
 The proof then records that
 
-$$
+```math
 0\le \beta\,\|B z-B w\|^2 .
-$$
+```
 
-This is proved by `mul_nonneg hbeta.le (sq_nonneg _)`: the positivity hypothesis $0<\beta$ gives $0\le\beta$, and the square $\|B z-B w\|^2$ is nonnegative.
+This is proved by `mul_nonneg hbeta.le (sq_nonneg _)`: the positivity hypothesis $0\lt \beta$ gives $0\le\beta$, and the square $`\|B z-B w\|^2`$ is nonnegative.
 
 Now the two inequalities are combined. The term `hcobound.trans hsubmono` chains
 
-$$
+```math
 \beta\,\|B z-B w\|^2
 \le \langle B z-B w,z-w\rangle
 \le 0 .
-$$
+```
 
 Together with the previously established reverse inequality
 
-$$
+```math
 0\le \beta\,\|B z-B w\|^2,
-$$
+```
 
 the command `le_antisymm` yields
 
-$$
+```math
 \beta\,\|B z-B w\|^2=0 .
-$$
+```
 
-From this product being zero, the proof extracts $\|B z-B w\|^2=0$. The command `mul_eq_zero.mp hprodzero` says that a product is zero only if one of its factors is zero, so either $\beta=0$ or $\|B z-B w\|^2=0$. The factor $\beta$ is nonzero because $\beta>0$, and `resolve_left hbeta.ne'` rules out the possibility $\beta=0$. Hence
+From this product being zero, the proof extracts $`\|B z-B w\|^2=0`$. The command `mul_eq_zero.mp hprodzero` says that a product is zero only if one of its factors is zero, so either $\beta=0$ or $`\|B z-B w\|^2=0`$. The factor$\beta$is nonzero because$\beta>0$, and `resolve_left hbeta.ne'` rules out the possibility $\beta=0$. Hence
 
-$$
+```math
 \|B z-B w\|^2=0.
-$$
+```
 
 Then `sq_eq_zero_iff.mp` converts a squared real number equal to zero into the number itself being zero, so
 
-$$
+```math
 \|B z-B w\|=0.
-$$
+```
 
 Finally, `norm_eq_zero.mp` converts zero norm into the vector being zero:
 

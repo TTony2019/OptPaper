@@ -32,7 +32,7 @@ is proper.
 
 The subdifferential used here is defined by the subgradient inequality
 
-$$
+```math
 \partial f(x)
 =\left\{\,u\in H \;\middle|\;
 \forall y\in H,\;
@@ -41,7 +41,7 @@ $$
 \le
 (f(y):\mathrm{EReal})
 \,\right\}.
-$$
+```
 
 The hypothesis `hsubgradient` states that for every real $t$ with $0\le t$,
 
@@ -51,7 +51,7 @@ $$
 
 Thus $v(t)$ is a subgradient of $\Phi$ at the point $x(t)$ for every nonnegative time $t$.
 
-The two hypotheses `_hx_ac` and `_hv_ac` say that $x$ and $v$ are absolutely continuous on the interval from $0$ to $b$, for every $b>0$. They are present in the statement, but the proof below does not invoke them.
+The two hypotheses `_hx_ac` and `_hv_ac` say that $x$ and $v$ are absolutely continuous on the interval from $0$ to $b$, for every $b\gt 0$. They are present in the statement, but the proof below does not invoke them.
 
 The differentiability hypotheses `hx_deriv` and `hv_deriv` say that, for almost every $t$ with respect to Lebesgue measure restricted to $(0,\infty)$, the maps $x$ and $v$ have derivatives
 
@@ -109,7 +109,7 @@ $$
 \text{`MeasureTheory.ae\_restrict\_mem measurableSet\_Ioi`}.
 $$
 
-The first two say that $x$ and $v$ are differentiable at almost every point of the restricted measure. The third says that almost every point of that restricted measure belongs to the set $(0,\infty)$. Therefore, after `filter_upwards`, the proof has a point $t$ with $0<t$, together with the differentiability facts
+The first two say that $x$ and $v$ are differentiable at almost every point of the restricted measure. The third says that almost every point of that restricted measure belongs to the set $(0,\infty)$. Therefore, after `filter_upwards`, the proof has a point $t$ with $0\lt t$, together with the differentiability facts
 
 $$
 \mathrm{HasDerivAt} x (\mathrm{deriv} x(t)) t,
@@ -133,9 +133,9 @@ $$
 0\le \langle dx(t),dv(t)\rangle_{\mathbb R}.
 $$
 
-In the present application, $T=\partial F$, the derivative $dx(t)$ is $\mathrm{deriv} x(t)$, and $dv(t)$ is $\mathrm{deriv} v(t)$. The hypothesis $v(s)\in T(x(s))$ for all $s\ge 0$ is exactly `hsubgradient`, after identifying $\partial \Phi$ with $\partial F$ via the coercion. The positivity $0<t$ is supplied by `ht`, and the two derivative facts are exactly the ones introduced by `filter_upwards`.
+In the present application, $T=\partial F$, the derivative $dx(t)$ is $\mathrm{deriv} x(t)$, and $dv(t)$ is $\mathrm{deriv} v(t)$. The hypothesis $v(s)\in T(x(s))$ for all $s\ge 0$ is exactly `hsubgradient`, after identifying $\partial \Phi$ with $\partial F$ via the coercion. The positivity $0\lt t$ is supplied by `ht`, and the two derivative facts are exactly the ones introduced by `filter_upwards`.
 
-Mathematically, the lemma uses monotonicity at the two times $t$ and $t-h$, for small $h>0$. Since both are nonnegative, it obtains
+Mathematically, the lemma uses monotonicity at the two times $t$ and $t-h$, for small $h\gt 0$. Since both are nonnegative, it obtains
 
 $$
 v(t)\in T(x(t)),
@@ -145,23 +145,23 @@ $$
 
 Monotonicity then gives
 
-$$
+```math
 0\le
 \left\langle
 v(t)-v(t-h),\,
 x(t)-x(t-h)
 \right\rangle_{\mathbb R}.
-$$
+```
 
-Dividing by $h^2>0$ yields
+Dividing by $h^2\gt 0$ yields
 
-$$
+```math
 0\le
 \left\langle
 \frac{v(t)-v(t-h)}{h},\,
 \frac{x(t)-x(t-h)}{h}
 \right\rangle_{\mathbb R}.
-$$
+```
 
 As $h\to 0^+$, the two difference quotients converge to $\mathrm{deriv} v(t)$ and $\mathrm{deriv} x(t)$, respectively. Hence
 

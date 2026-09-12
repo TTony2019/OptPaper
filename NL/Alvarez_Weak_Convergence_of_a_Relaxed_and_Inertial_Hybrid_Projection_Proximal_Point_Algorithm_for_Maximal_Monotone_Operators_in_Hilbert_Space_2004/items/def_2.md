@@ -24,19 +24,19 @@ The declaration `ParameterAssumptions.partI` is a noncomputable definition. It t
 
 The input bundle $p$ contains, among others, three parameter sequences that the code names as fields `lam`, `alpha`, and `rho`. In the intended mathematical reading, these are sequences $\lambda$, $\alpha$, and $\rho$ indexed by $k \in \mathbb{N}$. The field `p.lam_lower` is used as an existential statement saying that there is some $\lambda_0$ satisfying
 
-$$
+```math
 0 < \lambda_0
 \quad\text{and}\quad
 \forall k,\; \lambda_0 \le \lambda_k,
-$$
+```
 
 where $\lambda_k = p.\mathrm{lam}(k)$. Thus the full assumptions provide a positive uniform lower bound for the sequence $\lambda$. The remaining fields used are `p.alpha_mem`, `p.alpha_upper`, and `p.alpha_summable`, which are assumptions on the sequence $\alpha$, and `p.rho_lower` and `p.rho_upper`, which are assumptions on the sequence $\rho$. Their exact displayed inequalities are not part of this snippet, but the code carries them over unchanged.
 
 The target structure `ParameterAssumptionsPartI x` is built with fields `lam`, `alpha`, `rho`, `lam_pos`, `alpha_mem`, `alpha_upper`, `alpha_summable`, `rho_lower`, and `rho_upper`. The returned object reuses the original sequences $\lambda$, $\alpha$, and $\rho$ from $p$. It includes a pointwise positivity condition `lam_pos`, namely
 
-$$
+```math
 \forall k,\; 0 < \lambda_k,
-$$
+```
 
 and it copies the assumptions on $\alpha$ and $\rho$. The stronger uniform lower-bound assumption `p.lam_lower` is not itself a field of the Part I structure; only the weaker pointwise positivity is retained. In summary, the definition extracts from the full parameter assumptions exactly the Part I assumptions: the same scalar parameter sequences, pointwise positivity of $\lambda$, and the same $\alpha$- and $\rho$-conditions, while forgetting the uniform lower bound on $\lambda$. It is marked `noncomputable` because it uses classical choice to select the witness $\lambda_0$ from the existential field `p.lam_lower`.
 
@@ -52,29 +52,29 @@ First, the command
 `let lam0 := Classical.choose p.lam_lower`
 introduces a local name $\lambda_0$ for a witness chosen from the existential statement `p.lam_lower`. The mathematical content of `Classical.choose` is that, from a proof of $\exists y, P(y)$, it produces some $y$ satisfying $P$. Here $P(\lambda_0)$ is the assertion that $\lambda_0$ is a positive lower bound:
 
-$$
+```math
 0 < \lambda_0 \quad\text{and}\quad \forall k,\; \lambda_0 \le \lambda_k.
-$$
+```
 
 Next, the command
 `have hlam0 := Classical.choose_spec p.lam_lower`
 uses `Classical.choose_spec`. The content of this theorem is that the witness produced by `Classical.choose` satisfies the predicate from which it was chosen. Thus `hlam0` is a proof of
 
-$$
+```math
 0 < \lambda_0 \land \forall k,\; \lambda_0 \le \lambda_k.
-$$
+```
 
-Its first projection `hlam0.1` has type $0 < \lambda_0$, and its second projection `hlam0.2 k` has type $\lambda_0 \le \lambda_k$ for each $k$.
+Its first projection `hlam0.1` has type $0 \lt  \lambda_0$, and its second projection `hlam0.2 k` has type $\lambda_0 \le \lambda_k$ for each $k$.
 
 Then the `exact` block constructs the target record. The fields `lam`, `alpha`, and `rho` are set equal to the original fields `p.lam`, `p.alpha`, and `p.rho`, so the returned Part I object uses the same parameter sequences. The fields `alpha_mem`, `alpha_upper`, `alpha_summable`, `rho_lower`, and `rho_upper` are copied directly from $p$, so the corresponding assumptions are inherited without change.
 
 The only nontrivial mathematical step is the definition of the field `lam_pos`:
 
-$$
+```math
 \texttt{lam\_pos} := \texttt{fun k => lt\_of\_lt\_of\_le hlam0.1 (hlam0.2 k)}.
-$$
+```
 
-For a fixed $k$, the lemma `lt_of_lt_of_le` says that if $a < b$ and $b \le c$, then $a < c$. Here it is applied with $a = 0$, $b = \lambda_0$, and $c = \lambda_k$. The hypothesis `hlam0.1` gives $0 < \lambda_0$, and `hlam0.2 k` gives $\lambda_0 \le \lambda_k$. Therefore `lt_of_lt_of_le` produces a proof of
+For a fixed $k$, the lemma `lt_of_lt_of_le` says that if $a \lt  b$ and $b \le c$, then $a \lt  c$. Here it is applied with $a = 0$, $b = \lambda_0$, and $c = \lambda_k$. The hypothesis `hlam0.1` gives $0 \lt  \lambda_0$, and `hlam0.2 k` gives $\lambda_0 \le \lambda_k$. Therefore `lt_of_lt_of_le` produces a proof of
 
 $$
 0 < \lambda_k.

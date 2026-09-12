@@ -12,7 +12,7 @@ theorem proposition4 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H
 ```
 
 ## Statement explanation
-The declaration `proposition4` is set in a real inner product space $H$. It takes extended-real functions $\Phi,\Theta:H\to\overline{\mathbb R}$, a real-valued function $\psi:H\to\mathbb R$, a map `gradPsi` from $H$ to $H$, two sequences $u,y:\mathbb N\to H$, real parameters $a,b,\lambda,L_\psi$, an inertial-forward-backward hypothesis `hH`, and a trajectory hypothesis `hIFB` saying that $u,y$ form an inertial forward-backward trajectory for these data. It also takes a point $q\in H$ with $q\in\mathrm{dom}\Phi$; by the cited `mem_dom_iff`, this means precisely that $\Phi(q)<+\infty$.
+The declaration `proposition4` is set in a real inner product space $H$. It takes extended-real functions $\Phi,\Theta:H\to\overline{\mathbb R}$, a real-valued function $\psi:H\to\mathbb R$, a map `gradPsi` from $H$ to $H$, two sequences $u,y:\mathbb N\to H$, real parameters $a,b,\lambda,L_\psi$, an inertial-forward-backward hypothesis `hH`, and a trajectory hypothesis `hIFB` saying that $u,y$ form an inertial forward-backward trajectory for these data. It also takes a point $q\in H$ with $q\in\mathrm{dom}\Phi$; by the cited `mem_dom_iff`, this means precisely that $\Phi(q)\lt +\infty$.
 
 For each $k\ge 2$, the expression `auxiliaryG u y a b lam q k hk` denotes an auxiliary quantity, which we may write as $G_k$. The conclusion is that there exists a real number $M$, independent of $k$, such that for every natural number $k\ge 2$,
 
@@ -229,9 +229,9 @@ This is later specialized to $w=q$ and to $w=u(i)$.
 
 Third, `proposition2` is applied to `hH` and `hIFB`. It provides, among other things, the summability
 
-$$
+```math
 \sum_{n=0}^{\infty}\|u(n+1)-u(n)\|^2<\infty.
-$$
+```
 
 Only this summability part is used, stored as `hsq`. The other conclusions of `proposition2`, namely monotonicity of the mechanical energy and convergence results, are discarded in the proof.
 
@@ -252,7 +252,7 @@ $$
 =(\Phi(u(k)))_{\mathbb R}-(\Phi(u(1)))_{\mathbb R}.
 $$
 
-It is proved by induction on $k$ starting at $2$, using `Nat.le_induction`. In the successor step, `Finset.sum_Icc_succ_top` adds the last term of the sum over $\{2,\dots,k\}$, and `norm_num` simplifies the resulting arithmetic.
+It is proved by induction on $k$ starting at $2$, using `Nat.le_induction`. In the successor step, `Finset.sum_Icc_succ_top` adds the last term of the sum over $`\{2,\dots,k\}`$, and `norm_num` simplifies the resulting arithmetic.
 
 Similarly, `htelTheta` states that for every $k\ge 2$,
 
@@ -279,9 +279,9 @@ $$
 
 and
 
-$$
+```math
 S=\sum_{n=0}^{\infty}\|u(n+1)-u(n)\|^2.
-$$
+```
 
 It proposes the explicit upper bound
 
@@ -295,17 +295,17 @@ It remains to prove $G_k\le M$ for every $k\ge 2$.
 
 The proof fixes such a $k$. It first notes $S\ge 0$ because $S$ is a sum of squares. Then it uses `velocity_Icc_sum_le_tsum` to obtain
 
-$$
+```math
 \sum_{i=2}^{k}\|v_i\|^2\le S,
 \qquad
 v_i=u(i)-u(i-1),
-$$
+```
 
 and it uses `predecessor_velocity_Icc_sum_le_tsum` to obtain
 
-$$
+```math
 \sum_{i=2}^{k}\|v_{i-1}\|^2\le S.
-$$
+```
 
 These are finite partial sums of nonnegative squared velocity terms, bounded by the full summable series.
 
@@ -327,7 +327,7 @@ $$
 (\Phi(u(k)))_{\mathbb R}-(\Phi(u(1)))_{\mathbb R}.
 $$
 
-The proof rewrites the negative sum as the sum of the negatives using `Finset.sum_neg_distrib`. For each $i\in\{2,\dots,k\}$, it applies `predecessor_subgradient_bound`, which gives
+The proof rewrites the negative sum as the sum of the negatives using `Finset.sum_neg_distrib`. For each $`i\in\{2,\dots,k\}`$, it applies `predecessor_subgradient_bound`, which gives
 
 $$
 -\langle z_{i-1},v_i\rangle
@@ -339,22 +339,22 @@ Summing these inequalities with `Finset.sum_le_sum`, converting the attached sum
 
 The proof then proves `hdiff`, the bound
 
-$$
+```math
 -\sum_{i=2}^{k}\langle z_i-z_{i-1},v_i\rangle
 \le
 A\sum_{i=2}^{k}\|v_i\|^2
 +B\sum_{i=2}^{k}\|v_{i-1}\|^2
 +b\lambda\Bigl((\Theta(u(1)))_{\mathbb R}-(\Theta(u(k)))_{\mathbb R}\Bigr).
-$$
+```
 
 To do this, it again rewrites the negative sum as a sum of negatives. For each $i$, `z_difference_bound` gives
 
-$$
+```math
 -\langle z_i-z_{i-1},v_i\rangle
 \le
 A\|v_i\|^2+B\|v_{i-1}\|^2
 +b\lambda\Bigl((\Theta(u(i-1)))_{\mathbb R}-(\Theta(u(i)))_{\mathbb R}\Bigr).
-$$
+```
 
 The proof uses `simpa only [A, B]` to unfold the local definitions $A,B$ so that they match the coefficients in `z_difference_bound`. Then `Finset.sum_le_sum` sums the inequalities. Finally, `Finset.sum_add_distrib`, `Finset.mul_sum`, `Finset.sum_attach`, and the telescoping identity `htelTheta` convert the sum to the displayed form.
 
@@ -374,19 +374,19 @@ b\lambda\Bigl((\Theta(u(1)))_{\mathbb R}-(\Theta(u(k)))_{\mathbb R}\Bigr)
 b\lambda\Bigl((\Theta(u(1)))_{\mathbb R}-m\Bigr).
 $$
 
-This uses that $b\lambda>0$, which follows from `hH.b_pos` and `hH.step_pos`.
+This uses that $b\lambda\gt 0$, which follows from `hH.b_pos` and `hH.step_pos`.
 
 The proof then bounds the two quadratic sums. It proves `hA`:
 
-$$
+```math
 A\sum_{i=2}^{k}\|v_i\|^2\le |A|S.
-$$
+```
 
 Indeed, $A\le |A|$, the finite sum is nonnegative, and the sum is at most $S$. Similarly, `hB` proves
 
-$$
+```math
 B\sum_{i=2}^{k}\|v_{i-1}\|^2\le |B|S.
-$$
+```
 
 Finally, the proof rewrites $G_k$ using `auxiliaryG_summation_by_parts`:
 
@@ -411,11 +411,11 @@ $$
 
 The difference sum is at most
 
-$$
+```math
 A\sum_{i=2}^{k}\|v_i\|^2
 +B\sum_{i=2}^{k}\|v_{i-1}\|^2
 +b\lambda\Bigl((\Theta(u(1)))_{\mathbb R}-(\Theta(u(k)))_{\mathbb R}\Bigr).
-$$
+```
 
 Then the quadratic terms are bounded by
 

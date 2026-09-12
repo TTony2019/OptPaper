@@ -60,24 +60,24 @@ $$
 Lv=\mathrm{hess}\phi_\mu(q)v
 $$
 
-for every $v\in H$. Thus $\mathrm{hess}\phi_\mu$ is the Hessian field of the potential. The hypothesis `hlip` says that for every $\mu$ and every $T'>0$, the gradient field $\mathrm{grad}\phi_\mu$ is Lipschitz on the image $x_\mu([0,T'])$ of the trajectory segment. Finally, `h9` says that for every $x_*\in H$ and all $\mu,\mu'\in M$,
+for every $v\in H$. Thus $\mathrm{hess}\phi_\mu$ is the Hessian field of the potential. The hypothesis `hlip` says that for every $\mu$ and every $T'\gt 0$, the gradient field $\mathrm{grad}\phi_\mu$ is Lipschitz on the image $x_\mu([0,T'])$ of the trajectory segment. Finally, `h9` says that for every $x_*\in H$ and all $\mu,\mu'\in M$,
 
-$$
+```math
 \|\mathrm{grad}\phi_\mu(x_*)-\mathrm{grad}\phi_{\mu'}(x_*)\|
 \le k_1\|\mu-\mu'\|^{\gamma_1}.
-$$
+```
 
 Thus the gradient field depends on the parameter $\mu$ in a uniform Hölder manner with exponent $\gamma_1$.
 
 The conclusion is an estimate for the distance between two trajectories $x_\mu$ and $x_{\mu'}$. For $\mu,\mu'\in M$, define
 
-$$
+```math
 c_{\max}
 =\max\left\{
 \mathrm{energyRate}(\beta,\gamma,\delta(\mu)),
 \mathrm{energyRate}(\beta,\gamma,\delta(\mu'))
 \right\},
-$$
+```
 
 where
 
@@ -88,18 +88,18 @@ $$
 
 Also define the auxiliary initial coordinate
 
-$$
+```math
 \mathrm{dinAuxInitial}(\mu)
 =-\left(\sqrt{\left(\gamma-\frac1\beta\right)\frac1\beta}\right)^{-1}
 \left(
 v_0(\mu)+\beta\,\mathrm{grad}\phi_\mu(u_0(\mu))
 +\left(\gamma-\frac1\beta\right)u_0(\mu)
 \right).
-$$
+```
 
 Then for Lebesgue-almost every $t\in\mathbb R$, if $0\le t$, one has
 
-$$
+```math
 \|x_\mu(t)-x_{\mu'}(t)\|
 \le
 e^{-c_{\max}t}
@@ -110,7 +110,7 @@ e^{-c_{\max}t}
 +\frac{\beta k_1}{c_{\max}}
 \bigl(1-e^{-c_{\max}t}\bigr)
 \|\mu-\mu'\|^{\gamma_1}.
-$$
+```
 
 In words, the two DIN trajectories starting from $u_0(\mu),v_0(\mu)$ and $u_0(\mu'),v_0(\mu')$ remain close for nonnegative times. Their distance is bounded by an exponentially decaying term measuring the mismatch of the initial data, including the transformed auxiliary initial coordinate, plus a term measuring the mismatch of the parameters $\mu,\mu'$ with Hölder exponent $\gamma_1$. The decay rate is the maximum of the two energy rates determined by the strong-convexity moduli $\delta(\mu)$ and $\delta(\mu')$.
 
@@ -136,13 +136,13 @@ $$
 \texttt{intro }\mu\ \mu'.
 $$
 
-Since the goal is $\forall \mu\,\mu':M,\dots$, this introduces two arbitrary parameters $\mu,\mu'\in M$. The remaining goal is the local-let statement with $c_{\max}$ defined from $\delta(\mu)$ and $\delta(\mu')$, followed by an almost-everywhere inequality over Lebesgue measure.
+Since the goal is $`\forall \mu\,\mu':M,\dots`$, this introduces two arbitrary parameters$\mu,\mu'\in M$. The remaining goal is the local-let statement with$c_{\max}$defined from$\delta(\mu)$and$\delta(\mu')$, followed by an almost-everywhere inequality over Lebesgue measure.
 
 Next the proof uses
 
-$$
+```math
 \texttt{filter\_upwards [] with }t.
-$$
+```
 
 The goal at this point is an almost-everywhere assertion of the form
 
@@ -160,7 +160,7 @@ $$
 
 This introduces the hypothesis $0\le t$. The goal is now exactly the displayed inequality for this particular $t$, namely
 
-$$
+```math
 \|x_\mu(t)-x_{\mu'}(t)\|
 \le
 e^{-c_{\max}t}
@@ -171,23 +171,23 @@ e^{-c_{\max}t}
 +\frac{\beta k_1}{c_{\max}}
 \bigl(1-e^{-c_{\max}t}\bigr)
 \|\mu-\mu'\|^{\gamma_1}.
-$$
+```
 
 Finally the proof uses
 
-$$
+```math
 \texttt{exact thm\_5\_estimate\_all }\dots\ \mu\ \mu'\ t\ ht.
-$$
+```
 
 The cited theorem `thm_5_estimate_all` has the same hypotheses as `thm_5`: the potential $\phi$, its gradient $\mathrm{grad}\phi$, its Hessian $\mathrm{hess}\phi$, the trajectory maps $x,dx,ddx$, initial data $u_0,v_0$, parameters $\beta,\gamma,\delta,k_1,\gamma_1$, and all of the assumptions `hβγ`, `hβ`, `hγ`, `hdiff`, `hgrad`, `hstrong`, `hk₁`, `hγ₁_pos`, `hγ₁_le`, `hDIN`, `hderiv`, `hddx`, `hhess`, `hlip`, and `h9`. In the form used here, it takes two parameters $\mu,\mu'$, a real time $t$, and the proof $0\le t$, and returns precisely the inequality displayed above with
 
-$$
+```math
 c_{\max}
 =\max\left\{
 \mathrm{energyRate}(\beta,\gamma,\delta(\mu)),
 \mathrm{energyRate}(\beta,\gamma,\delta(\mu'))
 \right\}.
-$$
+```
 
 Thus the current theorem does not reprove the analytic estimate; it simply packages the pointwise estimate supplied by `thm_5_estimate_all` into an almost-everywhere statement over Lebesgue measure. The `exact` command closes the goal by applying that theorem with all the global hypotheses and the chosen $\mu,\mu',t,ht$. No rewriting, simplification, or arithmetic tactic such as `rw`, `simp`, or `linarith` is used in this proof.
 

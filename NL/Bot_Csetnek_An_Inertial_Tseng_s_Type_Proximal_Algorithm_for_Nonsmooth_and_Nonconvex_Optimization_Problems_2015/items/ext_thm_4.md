@@ -17,11 +17,11 @@ Let $m$ be a natural number, let $E = \text{EuclideanSpace } m$, and let $g : E 
 
 The conclusion is that the function
 
-$$
+```math
 F(x,y) = \mathrm{erealAddReal}\bigl(g(x),\, M_2 \|x-y\|^2\bigr)
-$$
+```
 
-on $E \times E$, taking values in $\overline{\mathbb{R}}$, is a `ProductKLFunction`. Here $x$ and $y$ are the two components of a pair $z : E \times E$, and $\|x-y\|^2$ is the squared Euclidean distance between $x$ and $y$. The term $M_2 \|x-y\|^2$ is real, and `erealAddReal` adds it to the extended-real value $g(x)$, producing an extended-real value. Thus the theorem says, in ordinary language: if $g$ is semialgebraic and if the local bridge statement `SemialgebraicToProductKL g M2` is available, then the product function $F(x,y)=g(x)+M_2\|x-y\|^2$ has the product KL property. No other assumptions are made and no other conclusion is asserted.
+on $E \times E$, taking values in $\overline{\mathbb{R}}$, is a `ProductKLFunction`. Here $x$ and $y$ are the two components of a pair $z : E \times E$, and $`\|x-y\|^2`$is the squared Euclidean distance between$x$and$y$. The term$`M_2 \|x-y\|^2`$ is real, and `erealAddReal` adds it to the extended-real value $g(x)$, producing an extended-real value. Thus the theorem says, in ordinary language: if $g$ is semialgebraic and if the local bridge statement `SemialgebraicToProductKL g M2` is available, then the product function $`F(x,y)=g(x)+M_2\|x-y\|^2`$ has the product KL property. No other assumptions are made and no other conclusion is asserted.
 
 ## Lean proof
 ```lean

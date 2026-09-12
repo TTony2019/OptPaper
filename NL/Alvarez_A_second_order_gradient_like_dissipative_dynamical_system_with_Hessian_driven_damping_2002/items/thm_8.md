@@ -17,11 +17,11 @@ theorem constrained_din_weakly_converges_to_argmin {H : Type*} [NormedAddCommGro
 ```
 
 ## Statement explanation
-The theorem `constrained_din_weakly_converges_to_argmin` is stated for a complete real inner product space $H$, a set $C\subseteq H$, and a function $\Phi:H\to\mathbb R$. The hypothesis `hC : ConstrainedHypothesis C Φ` supplies, as used in the proof, that $C$ is nonempty, closed, and convex, that $\Phi$ is continuously differentiable on some open neighborhood of $C$, and that $\Phi$ is bounded below on $C$. The parameters satisfy $\beta>0$, $a\ne0$, $b>0$, and $b+a>0$. The hypothesis `hconvex : ConvexOn ℝ C Φ` says that $C$ is convex and that $\Phi$ is convex on $C$; in particular, the restriction of $\Phi$ to every segment inside $C$ is convex. The hypothesis `hmin` says that $\mathrm{argminSet}\Phi\cap C\ne\varnothing$, where by definition
+The theorem `constrained_din_weakly_converges_to_argmin` is stated for a complete real inner product space $H$, a set $C\subseteq H$, and a function $\Phi:H\to\mathbb R$. The hypothesis `hC : ConstrainedHypothesis C Φ` supplies, as used in the proof, that $C$ is nonempty, closed, and convex, that $\Phi$ is continuously differentiable on some open neighborhood of $C$, and that $\Phi$ is bounded below on $C$. The parameters satisfy $\beta\gt 0$, $a\ne0$, $b\gt 0$, and $b+a\gt 0$. The hypothesis `hconvex : ConvexOn ℝ C Φ` says that $C$ is convex and that $\Phi$ is convex on $C$; in particular, the restriction of $\Phi$ to every segment inside $C$ is convex. The hypothesis `hmin` says that $\mathrm{argminSet}\Phi\cap C\ne\varnothing$, where by definition
 
-$$
+```math
 \mathrm{argminSet}\Phi=\{x\mid \forall y,\ \Phi(x)\le \Phi(y)\}.
-$$
+```
 
 Thus there is at least one global minimizer of $\Phi$ lying in $C$.
 
@@ -877,9 +877,9 @@ $$
 
 the constrained energy
 
-$$
+```math
 E_\ell(t)=\ell\,\Phi(x(t))+\frac12\|a x(t)+b y(t)\|^2
-$$
+```
 
 is antitone on $[0,\infty)$, bounded below on its range, and has a limit as $t\to\infty$. It also gives that $\dot x$ and $\dot y$ are square-integrable on $(0,\infty)$, that $\Phi(x(t))$ has a real limit, and that $\dot y(t)\to0$. The proof uses the last two facts immediately:
 
@@ -905,9 +905,9 @@ $$
 
 so the middle term $a+2b$ lies between them because the product $\sqrt b\sqrt{b+a}$ is nonnegative. The tactics `nlinarith` and `positivity` are used to verify these inequalities. Hence, with
 
-$$
+```math
 A(t)=\mathrm{constrainedEnergy}\Phi\,a\,b\,\bigl(\beta(a+2b)\bigr)(x(t),y(t)),
-$$
+```
 
 the proof obtains that $A$ is antitone, bounded below, and convergent to some $l_E$.
 
@@ -925,7 +925,7 @@ $$
 
 i.e. `HasGradientAt Φ (gradient Φ q) q`. This is used later to differentiate $t\mapsto \Phi(x(t))$.
 
-For $t>0$, the regularity assumptions imply
+For $t\gt 0$, the regularity assumptions imply
 
 $$
 x'(t)=\dot x(t),\qquad y'(t)=\dot y(t).
@@ -939,22 +939,22 @@ $$
 
 Then it invokes `constrainedDIN_energy_dissipation_at`. Specialized to the present variables, that theorem gives both
 
-$$
+```math
 A'(t)
 =\beta(a+2b)\langle \nabla\Phi(x(t)),\dot x(t)\rangle
 -a\langle \dot x(t),\dot y(t)\rangle
 -b\|\dot y(t)\|^2
-$$
+```
 
 and the dissipation inequality
 
-$$
+```math
 \beta(a+2b)\langle \nabla\Phi(x(t)),\dot x(t)\rangle
 -a\langle \dot x(t),\dot y(t)\rangle
 -b\|\dot y(t)\|^2
 +(a+b)\|\dot x(t)\|^2
 +b\|\dot x(t)-\dot y(t)\|^2\le0.
-$$
+```
 
 This is the main energy estimate used to construct the Lyapunov function later.
 
@@ -976,7 +976,7 @@ $$
 \Phi(x(t))+\langle \nabla\Phi(x(t)),z_0-x(t)\rangle\le \Phi(z_0)
 $$
 
-for $t>0$.
+for $t\gt 0$.
 
 The proof also uses the variational characterization of metric projection. The cited theorem `eq_projectionPoint_iff_mem_and_inner_sub_right_nonpos_of_nonempty_isClosed_convex` states that for a nonempty closed convex set $C$,
 
@@ -995,44 +995,44 @@ $$
 
 and using the trajectory equation, the proof obtains
 
-$$
+```math
 \bigl\langle z_0-(x(t)+\dot x(t)),\,
 x(t)-\beta\nabla\Phi(x(t))-a x(t)-b y(t)-(x(t)+\dot x(t))\bigr\rangle\le0.
-$$
+```
 
 Using $a x(t)+b y(t)=-\dot y(t)$, this is rewritten as the key inequality
 
-$$
+```math
 \langle z_0-x(t),\dot y(t)-\dot x(t)\rangle
 +\beta\langle \dot x(t),\nabla\Phi(x(t))\rangle
 \le
 \beta\langle z_0-x(t),\nabla\Phi(x(t))\rangle
 +\langle \dot x(t),\dot y(t)\rangle
 -\|\dot x(t)\|^2.
-$$
+```
 
 Now the proof defines the auxiliary scalar function
 
-$$
+```math
 F(t)
 =\langle z_0-x(t),q(t)\rangle
 +\frac{a+b}{2}\|z_0-x(t)\|^2
 +b\beta\Phi(x(t)),
-$$
+```
 
 where $q(t)=a x(t)+b y(t)=-\dot y(t)$. Differentiating $F$ and using the key inequality, the Cauchy–Schwarz inequality, and Young’s inequality
 
-$$
+```math
 2\langle \dot x,\dot y-\dot x\rangle
 \le \|\dot x\|^2+\|\dot y-\dot x\|^2,
-$$
+```
 
 yields the estimate
 
-$$
+```math
 F'(t)\le \frac{b+3}{2}\|\dot x(t)\|^2
 +\frac{b+1}{2}\|\dot y(t)-\dot x(t)\|^2.
-$$
+```
 
 The global minimality of $z_0$ is used to know
 
@@ -1074,17 +1074,17 @@ $$
 
 From the bounded-below hypothesis on $\Phi$, let $m\le \Phi(x(t))$ for $x(t)\in C$. Using this and Cauchy–Schwarz to bound the cross term in $H$, the proof obtains a lower bound of the form
 
-$$
+```math
 H(t)\ge K m+\frac{\varepsilon((a+b)-\varepsilon)}{4}\|z_0-x(t)\|^2,
-$$
+```
 
-where $K=\beta(a+2b)+\varepsilon b\beta>0$. Combining this lower bound with the upper bound $H(t)\le H(0)$, the proof concludes that
+where $K=\beta(a+2b)+\varepsilon b\beta\gt 0$. Combining this lower bound with the upper bound $H(t)\le H(0)$, the proof concludes that
 
-$$
+```math
 \|z_0-x(t)\|^2\le Q
-$$
+```
 
-for some $Q\ge0$, hence $\|z_0-x(t)\|\le R$ for all $t\ge0$. Therefore $x$ is bounded on $[0,\infty)$.
+for some $Q\ge0$, hence $`\|z_0-x(t)\|\le R`$for all$t\ge0$. Therefore$x$is bounded on$[0,\infty)$.
 
 At this point the proof applies `constrained_din_global_properties_part_iii` to the boundedness of $x$. That theorem gives:
 
@@ -1140,19 +1140,19 @@ $$
 S=\mathrm{argminSet}\Phi\cap C.
 $$
 
-For an arbitrary $z\in S$, the same argument as for $z_0$ is repeated with $z$ in place of $z_0$. This produces a modified auxiliary function $H_z(t)$ whose derivative is nonpositive, hence $H_z$ is antitone; the same lower and upper bounds show that $\|z-x(t)\|$ is bounded. Since $q(t)\to0$, the cross term $\langle z-x(t),q(t)\rangle\to0$. Because $A(t)\to l_E$, $H_z(t)$ has a limit, and $\Phi(x(t))\to l_\Phi$, the proof solves for the limit of $\|z-x(t)\|^2$. Thus
+For an arbitrary $z\in S$, the same argument as for $z_0$ is repeated with $z$ in place of $z_0$. This produces a modified auxiliary function $H_z(t)$ whose derivative is nonpositive, hence $H_z$ is antitone; the same lower and upper bounds show that $`\|z-x(t)\|`$is bounded. Since$q(t)\to0$, the cross term$\langle z-x(t),q(t)\rangle\to0$. Because$A(t)\to l_E$,$H_z(t)$has a limit, and$\Phi(x(t))\to l_\Phi$, the proof solves for the limit of$`\|z-x(t)\|^2`$. Thus
 
-$$
+```math
 \exists L_z,\qquad \|z-x(t)\|^2\to L_z.
-$$
+```
 
 Since the square is nonnegative, $L_z\ge0$, and by continuity of the square root,
 
-$$
+```math
 \|z-x(t)\|\to \sqrt{L_z}.
-$$
+```
 
-Therefore, for every $z\in S$, the distance $\|z-x(t)\|$ has a real limit as $t\to\infty$. This is exactly the hypothesis required by Opial’s continuous-time lemma.
+Therefore, for every $z\in S$, the distance $`\|z-x(t)\|`$has a real limit as$t\to\infty$. This is exactly the hypothesis required by Opial’s continuous-time lemma.
 
 The proof then verifies the weak-cluster-point hypothesis. Let $s_n\to\infty$ and suppose that
 
@@ -1206,7 +1206,7 @@ $$
 
 so equality holds and $z$ is also a global minimizer. Therefore $z\in\mathrm{argminSet}\Phi\cap C=S$. This proves that every weak sequential cluster point of $x$ at infinity lies in $S$.
 
-Finally, $S$ is nonempty because $z_0\in S$. The proof applies `opial_continuous_time` to the trajectory $x$, the set $S$, the weak-cluster-point hypothesis just proved, and the distance-convergence hypothesis for every $z\in S$. Opial’s lemma states that if $S$ is nonempty, every weak cluster point of $x(t)$ as $t\to\infty$ lies in $S$, and for every $z\in S$ the distance $\|x(t)-z\|$ has a limit, then there exists $z\in S$ such that $x(t)\rightharpoonup z$ weakly as $t\to\infty$. Applying it gives $z\in S$ with weak convergence of $x(t)$ to $z$. Unpacking $z\in S$ yields $z\in C$ and $z\in\mathrm{argminSet}\Phi$, which is exactly the stated conclusion.
+Finally, $S$ is nonempty because $z_0\in S$. The proof applies `opial_continuous_time` to the trajectory $x$, the set $S$, the weak-cluster-point hypothesis just proved, and the distance-convergence hypothesis for every $z\in S$. Opial’s lemma states that if $S$ is nonempty, every weak cluster point of $x(t)$ as $t\to\infty$ lies in $S$, and for every $z\in S$ the distance $`\|x(t)-z\|`$has a limit, then there exists$z\in S$such that$x(t)\rightharpoonup z$weakly as$t\to\infty$. Applying it gives$z\in S$with weak convergence of$x(t)$to$z$. Unpacking$z\in S$yields$z\in C$and$z\in\mathrm{argminSet}\Phi$, which is exactly the stated conclusion.
 
 Throughout the proof, `intro` introduces the arbitrary variables or hypotheses in a universal statement, `rw` and `simp` unfold definitions and rewrite equalities such as the trajectory equations, `exact` supplies the named theorem or the already established fact, and `linarith` and `nlinarith` combine linear and nonlinear arithmetic inequalities. The tactics `field_simp`, `ring`, and `ring_nf` normalize algebraic expressions, `positivity` proves the positivity of constants such as $\varepsilon$ and $K$, and `filter_upwards` converts pointwise estimates into eventual statements as $t\to\infty$.
 

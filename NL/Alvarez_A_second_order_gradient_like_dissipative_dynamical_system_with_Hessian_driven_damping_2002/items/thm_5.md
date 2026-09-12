@@ -40,9 +40,9 @@ $$
 
 The curves satisfy that $x$ is $C^1$ on $[0,\infty)$, that $y$ is $C^2$ on $[0,\infty)$, and that the pair $(x,y)$ is a solution of the `gDIN` system with parameters $\Phi,\beta,a,b$ and initial data $x_0,y_0$. The proof uses the solution predicate through the following two consequences at each $t\ge 0$:
 
-$$
+```math
 \mathrm{deriv}x(t)+\beta\,\nabla\Phi(x(t))+a x(t)+b y(t)=0,
-$$
+```
 
 and
 
@@ -338,13 +338,13 @@ $$
 = a+2b \pm 2\sqrt{a+b}\sqrt b
 $$
 
-are used after rewriting $\sqrt{a+b}^2=a+b$ and $\sqrt b^2=b$, which is legitimate because $a+b>0$ and $b>0$. Since $\sqrt{a+b}\sqrt b\ge 0$, the quantity $a+2b$ lies between the two squared-root expressions. Multiplying by $\beta>0$ gives
+are used after rewriting $\sqrt{a+b}^2=a+b$ and $\sqrt b^2=b$, which is legitimate because $a+b\gt 0$ and $b\gt 0$. Since $\sqrt{a+b}\sqrt b\ge 0$, the quantity $a+2b$ lies between the two squared-root expressions. Multiplying by $\beta\gt 0$ gives
 
 $$
 \beta(\sqrt{a+b}-\sqrt b)^2\le \beta(a+2b)\le \beta(\sqrt{a+b}+\sqrt b)^2.
 $$
 
-The tactic `nlinarith` closes these inequalities. Also, $\ell>0$ because $\beta>0$ and $a+2b=(a+b)+b>0$, the latter proved by `linarith`.
+The tactic `nlinarith` closes these inequalities. Also, $\ell\gt 0$ because $\beta\gt 0$ and $a+2b=(a+b)+b\gt 0$, the latter proved by `linarith`.
 
 Next the proof applies `gdin_lyapunov_energy_properties`. Specialized to this situation, that theorem says that for every real $\ell$ satisfying
 
@@ -354,10 +354,10 @@ $$
 
 the Lyapunov energy
 
-$$
+```math
 E(t)=\ell\,\Phi(x(t))+\frac12\|q(t)\|^2
 =\ell\,\Phi(x(t))+\frac12\|a x(t)+b y(t)\|^2
-$$
+```
 
 is antitone on $[0,\infty)$, bounded below, and has a finite limit as $t\to\infty$. The proof uses only the antitone part, obtaining that for every $t\ge 0$,
 
@@ -367,40 +367,40 @@ $$
 
 Since $\Phi$ is bounded below, there is $m_\Phi$ with $m_\Phi\le \Phi(z)$ for all $z\in H$. From the bound on $x$, using the characterization of bounded sets in a normed group, the proof obtains a constant $C_x$ such that
 
-$$
+```math
 \|x(t)\|\le C_x
-$$
+```
 
 for all $t\ge 0$. The hypothesis `hloclip` is then applied to the bounded set $x([0,\infty))$. This gives a nonnegative Lipschitz constant $K$ for $\nabla\Phi$ on that set, so for $t\ge 0$,
 
-$$
+```math
 \|\nabla\Phi(x(t))-\nabla\Phi(x(0))\|\le K\|x(t)-x(0)\|.
-$$
+```
 
 Using the triangle inequality,
 
-$$
+```math
 \|g(t)\|
 \le \|g(t)-g(0)\|+\|g(0)\|
 \le K\|x(t)-x(0)\|+\|g(0)\|
 \le K(C_x+\|x(0)\|)+\|g(0)\|.
-$$
+```
 
 Thus $g$ is bounded on $[0,\infty)$. The tactics `gcongr` and `calc` carry out the chain of norm inequalities.
 
-The energy inequality is then used to bound $q$. Because $\ell>0$ and $m_\Phi\le \Phi(x(t))$,
+The energy inequality is then used to bound $q$. Because $\ell\gt 0$ and $m_\Phi\le \Phi(x(t))$,
 
-$$
+```math
 \ell m_\Phi+\frac12\|q(t)\|^2
 \le E(t)
 \le E(0).
-$$
+```
 
 Hence
 
-$$
+```math
 \|q(t)\|^2\le 2\bigl(E(0)-\ell m_\Phi\bigr).
-$$
+```
 
 Taking
 
@@ -408,7 +408,7 @@ $$
 C_q=\max\bigl(2(E(0)-\ell m_\Phi),0\bigr),
 $$
 
-we get $\|q(t)\|^2\le C_q$ and therefore $\|q(t)\|\le \sqrt{C_q}$. So $q$ is bounded on $[0,\infty)$. This uses the lemma that for nonnegative real numbers $u,v$, $u^2\le v^2$ implies $u\le v$, together with $\sqrt{C_q}^2=C_q$.
+we get $`\|q(t)\|^2\le C_q`$and therefore$`\|q(t)\|\le \sqrt{C_q}`$. So$q$is bounded on$[0,\infty)$. This uses the lemma that for nonnegative real numbers$u,v$,$u^2\le v^2$implies$u\le v$, together with$\sqrt{C_q}^2=C_q$.
 
 From $q(t)=a x(t)+b y(t)$, the proof also derives
 
@@ -416,13 +416,13 @@ $$
 y(t)=\frac1b\bigl(q(t)-a x(t)\bigr).
 $$
 
-The tactic `field_simp` verifies this algebraic identity using $b\ne 0$, which follows from $b>0$. Therefore,
+The tactic `field_simp` verifies this algebraic identity using $b\ne 0$, which follows from $b\gt 0$. Therefore,
 
-$$
+```math
 \|y(t)\|
 \le \frac1b\bigl(\|q(t)\|+\|a x(t)\|\bigr)
 \le \frac1b\bigl(C_q'+|a|C_x\bigr),
-$$
+```
 
 where $C_q'$ is a norm bound for $q$. This proves $y$ is bounded on $[0,\infty)$, though the later limit argument mainly uses the bounds on $q$ and $v$.
 
@@ -440,11 +440,11 @@ $$
 
 Therefore,
 
-$$
+```math
 \|v(t)\|
 \le \beta\|g(t)\|+\|q(t)\|
 \le \beta\max(C_g,0)+\sqrt{C_q}.
-$$
+```
 
 This proves $v$ is bounded on $[0,\infty)$, which is the first component of the desired conclusion.
 
@@ -456,7 +456,7 @@ $$
 
 and $\beta g+q$ is continuous, $v$ is continuous on $[0,\infty)$.
 
-The proof now wants to apply a uniform-continuity lemma, which requires Lipschitz continuity on $(0,\infty)$. It first shows that $x$ is Lipschitz on $(0,\infty)$. The derivative of $x$ is $v$, and $\|v(t)\|\le C_v$ for all $t\ge 0$. Using the fact that a differentiable function on the convex interval $(0,\infty)$ whose derivative has norm at most $C$ is $C$-Lipschitz, the proof obtains a Lipschitz constant for $x$ on $(0,\infty)$.
+The proof now wants to apply a uniform-continuity lemma, which requires Lipschitz continuity on $(0,\infty)$. It first shows that $x$ is Lipschitz on $(0,\infty)$. The derivative of $x$ is $v$, and $`\|v(t)\|\le C_v`$for all$t\ge 0$. Using the fact that a differentiable function on the convex interval$(0,\infty)$whose derivative has norm at most$C$is$C$-Lipschitz, the proof obtains a Lipschitz constant for$x$on$(0,\infty)$.
 
 It similarly shows that $q$ is Lipschitz on $(0,\infty)$. Differentiating $q=a x+b y$, and using $\mathrm{deriv}y(t)=-q(t)$, gives
 
@@ -466,11 +466,11 @@ $$
 
 Hence
 
-$$
+```math
 \|\mathrm{deriv}q(t)\|
 \le |a|\|v(t)\|+b\|q(t)\|
 \le |a|\max(C_v,0)+b\max(C_q',0).
-$$
+```
 
 The same derivative-to-Lipschitz lemma gives a Lipschitz constant $K_q$ for $q$ on $(0,\infty)$.
 
@@ -498,15 +498,15 @@ $$
 
 is in $L^2$ on $[0,\infty)$. From these membership statements the proof extracts integrability of
 
-$$
+```math
 t\mapsto \|v(t)\|^2
-$$
+```
 
 and of
 
-$$
+```math
 t\mapsto \|g(t)\|^2
-$$
+```
 
 on $[0,\infty)$.
 
@@ -518,17 +518,17 @@ $$
 
 For $g$, the proof uses `gdin_residual_limit`, which states that
 
-$$
+```math
 \mathrm{deriv}x(t)+\beta\,\nabla\Phi(x(t))\to 0
-$$
+```
 
 as $t\to\infty$. Since $\mathrm{deriv}x(t)\to 0$, subtracting gives
 
-$$
+```math
 \beta\,\nabla\Phi(x(t))\to 0.
-$$
+```
 
-Multiplying by the constant $\beta^{-1}$, which is valid because $\beta>0$, yields
+Multiplying by the constant $\beta^{-1}$, which is valid because $\beta\gt 0$, yields
 
 $$
 \nabla\Phi(x(t))\to 0

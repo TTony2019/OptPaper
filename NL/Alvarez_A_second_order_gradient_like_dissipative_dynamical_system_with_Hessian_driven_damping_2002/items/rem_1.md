@@ -24,32 +24,32 @@ The declaration is set in a real Hilbert space $H$. It concerns a potential $\Ph
 - $\Phi$ satisfies the standing regularity hypothesis `AssumptionH H Φ`; its exact content is not unfolded in this proof.
 - $\Phi$ is the quadratic potential
 
-  $$
-  \Phi(u)=\frac12\langle Au,u\rangle
-  $$
+$$
+\Phi(u)=\frac12\langle Au,u\rangle
+$$
 
   for every $u\in H$.
 - $A$ is self-adjoint:
 
-  $$
-  \langle Au,v\rangle=\langle u,Av\rangle
-  $$
+$$
+\langle Au,v\rangle=\langle u,Av\rangle
+$$
 
   for all $u,v\in H$.
 - $A$ is positive semidefinite:
 
-  $$
-  0\le \langle Au,u\rangle
-  $$
+$$
+0\le \langle Au,u\rangle
+$$
 
   for every $u\in H$.
-- $x$ is a trajectory of the second-order dissipative gradient-like system encoded by `IsDINTrajectory H Φ α β x`. The proof uses from this hypothesis that $\alpha>0$, that $\beta>0$, and that the associated differential equation holds at nonnegative times.
+- $x$ is a trajectory of the second-order dissipative gradient-like system encoded by `IsDINTrajectory H Φ α β x`. The proof uses from this hypothesis that $\alpha\gt 0$, that $\beta\gt 0$, and that the associated differential equation holds at nonnegative times.
 - $x$ is twice continuously differentiable, $x\in C^2$.
 - The parameters satisfy
 
-  $$
-  \alpha\beta\le 1.
-  $$
+$$
+\alpha\beta\le 1.
+$$
 
 The conclusion has two parts. First,
 
@@ -59,16 +59,16 @@ $$
 
 where $\mathrm{argminSet}\Phi$ is the set of global minimizers of $\Phi$, i.e.
 
-$$
+```math
 \mathrm{argminSet}\Phi=\{u\in H:\forall y\in H,\ \Phi(u)\le \Phi(y)\}.
-$$
+```
 
 Second, there exists $p\in\ker A$ such that
 
-$$
+```math
 \left\|x(0)+\alpha^{-1}\dot x(0)-p\right\|
 =\mathrm{infDist}\!\left(x(0)+\alpha^{-1}\dot x(0),\ker A\right),
-$$
+```
 
 and
 
@@ -290,7 +290,7 @@ $$
 
 Since $A$ is positive, $\langle Av,v\rangle\ge 0$, and since $\frac12\ge 0$, we get $\Phi(v)\ge 0=\Phi(u)$. Thus $u\in\mathrm{argminSet}\Phi$. The proof uses `mul_nonneg` for the product $\frac12\langle Av,v\rangle\ge 0$ and `norm_num` to verify $\frac12\ge0$.
 
-Next, the proof uses `quadratic_potential_convex`. That result states that if $\Phi(u)=\frac12\langle Au,u\rangle$, $A$ is self-adjoint, and $A$ is positive, then $\Phi$ is convex on all of $H$. Concretely, this means that for all $u,v\in H$ and $0<\lambda<1$,
+Next, the proof uses `quadratic_potential_convex`. That result states that if $\Phi(u)=\frac12\langle Au,u\rangle$, $A$ is self-adjoint, and $A$ is positive, then $\Phi$ is convex on all of $H$. Concretely, this means that for all $u,v\in H$ and $0\lt \lambda\lt 1$,
 
 $$
 \Phi(\lambda u+(1-\lambda)v)
@@ -360,9 +360,9 @@ $$
 
 for all $t\ge T$. Let $T_0=\max(T,0)$. For $t\ge T_0$, the triangle inequality gives
 
-$$
+```math
 \|x(t)\|\le \|p\|+1.
-$$
+```
 
 On the compact interval $[0,T_0]$, the continuous image $x([0,T_0])$ is compact, hence bounded. Combining the bounded initial segment with the bounded tail gives that the whole set $x([0,\infty))$ is bounded. This is needed to apply `din_global_properties_part_iii`.
 
@@ -447,7 +447,7 @@ $$
 \alpha\langle q-p,z\rangle=0.
 $$
 
-Because $\alpha>0$, this implies
+Because $\alpha\gt 0$, this implies
 
 $$
 \langle q-p,z\rangle=0.
@@ -490,19 +490,19 @@ $$
 
 Using $p=\mathrm{projectionPoint} K h_{\mathrm{Cheb}} q$, the proof obtains
 
-$$
+```math
 \|q-p\|
 =\mathrm{dist}(q,p)
 =\mathrm{dist}(q,\mathrm{projectionPoint} K h_{\mathrm{Cheb}} q)
 =\mathrm{infDist}(q,K).
-$$
+```
 
 Substituting $q=x(0)+\alpha^{-1}\dot x(0)$ and $K=\ker A$ gives exactly the claimed equality
 
-$$
+```math
 \left\|x(0)+\alpha^{-1}\dot x(0)-p\right\|
 =\mathrm{infDist}\!\left(x(0)+\alpha^{-1}\dot x(0),\ker A\right).
-$$
+```
 
 Together with the earlier equality $\mathrm{argminSet}\Phi=\ker A$, the inclusion $p\in\ker A$, and the convergence $x(t)\to p$, this completes the proof.
 

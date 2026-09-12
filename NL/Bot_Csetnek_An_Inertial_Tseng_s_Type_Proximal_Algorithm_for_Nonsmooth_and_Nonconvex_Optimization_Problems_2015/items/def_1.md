@@ -22,10 +22,10 @@ where the real number $h(y)$ is regarded inside $\overline{\mathbb R}$; this is 
 
 Let $\partial_L$ denote the limiting, or Mordukhovich, subdifferential, and let $\hat\partial$ denote the Fréchet subdifferential. The theorem states
 
-$$
+```math
 \partial_L(f+h)(x)
 =\left\{\,v\in\mathbb R^m \;\middle|\; \exists w\in \partial_L f(x),\; v=w+\nabla h(x)\,\right\}.
-$$
+```
 
 Thus the limiting subgradients of the sum $f+h$ at $x$ are exactly the limiting subgradients of $f$ at $x$, each shifted by the gradient $\nabla h(x)$ of the smooth summand. Since $h$ is finite-valued, adding it does not change effective domains:
 
@@ -96,11 +96,11 @@ by
 ## Proof explanation
 This declaration has a proof. It proves the set equality by extensionality. The command `ext v` reduces the goal to showing, for each vector $v$, that
 
-$$
+```math
 v\in \partial_L(f+h)(x)
 \iff
 \exists w\in \partial_L f(x),\; v=w+\nabla h(x).
-$$
+```
 
 The command `constructor` splits this equivalence into two implications.
 
@@ -200,9 +200,9 @@ which is discharged by `simp`. Hence $v$ belongs to the right-hand set.
 
 Second inclusion. Assume
 
-$$
+```math
 v\in \left\{\,v \;\middle|\; \exists w\in \partial_L f(x),\; v=w+\nabla h(x)\,\right\}.
-$$
+```
 
 The proof unpacks this as the existence of $w\in\partial_L f(x)$ such that $v=w+\nabla h(x)$. The `rfl` pattern in `rcases` uses this equality to replace $v$ by $w+\nabla h(x)$, so it remains to prove
 

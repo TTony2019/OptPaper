@@ -20,11 +20,11 @@ theorem analytic_bounded_din_converges {N : Type*} [Fintype N]
 The statement concerns a finite-dimensional Euclidean space $E=\mathbb R^N$ with $N$ finite, a potential $\Phi:E\to\mathbb R$, a curve $x:\mathbb R\to E$, and real parameters $\alpha,\beta$ appearing in the trajectory hypothesis. The assumptions are:
 
 - `AssumptionH` for $\Phi$: the proof uses in particular that $\Phi$ is twice continuously differentiable, $C^2$. The full content of `AssumptionH` is not given in the excerpt, so only its visible consequences are used below.
-- $\Phi$ is real analytic on all of $E$, expressed by $\mathrm{AnalyticOnNhd}\mathbb R\,\Phi\,\mathrm{Set.univ}$.
+- $\Phi$ is real analytic on all of $E$, expressed by $`\mathrm{AnalyticOnNhd}\mathbb R\,\Phi\,\mathrm{Set.univ}`$.
 - $\Phi$ satisfies a Lojasiewicz gradient inequality, `HasLojasiewiczGradientInequality Φ`. The proof only uses this through the theorem `connected_critical_set_lojasiewicz`, which extracts a concrete exponent and constant near a compact connected critical set.
-- $x$ is a trajectory of the DIN dynamical system with parameters $\alpha,\beta$, `IsDINTrajectory E Φ α β x`. From this hypothesis the proof first extracts $\alpha>0$ and $\beta>0$.
+- $x$ is a trajectory of the DIN dynamical system with parameters $\alpha,\beta$, `IsDINTrajectory E Φ α β x`. From this hypothesis the proof first extracts $\alpha\gt 0$ and $\beta\gt 0$.
 - $x$ is $C^2$ as a function of time, `ContDiff ℝ 2 x`.
-- The range of $x$ is bounded, `Bornology.IsBounded (Set.range x)`, i.e. the whole trajectory $\{x(t):t\in\mathbb R\}$ is bounded in $E$.
+- The range of $x$ is bounded, `Bornology.IsBounded (Set.range x)`, i.e. the whole trajectory $`\{x(t):t\in\mathbb R\}`$is bounded in$E$.
 
 The conclusion has two parts. First,
 
@@ -523,9 +523,9 @@ by
 ## Proof explanation
 The proof begins by extracting the positivity of the damping parameters from the trajectory hypothesis. From
 
-$$
+```math
 \text{hsol}:\mathrm{IsDINTrajectory} E\,\Phi\,\alpha\,\beta\,x
-$$
+```
 
 the proof obtains
 
@@ -548,7 +548,7 @@ $$
 \nabla\Phi:E\to E
 $$
 
-is $C^1$. The command `simp` and `simpa` unfold the definition of `gradient` and use the continuous linear equivalence between $E$ and its dual, so that the $C^1$ regularity of $fderiv\,\Phi$ transfers to $\nabla\Phi$.
+is $C^1$. The command `simp` and `simpa` unfold the definition of `gradient` and use the continuous linear equivalence between $E$ and its dual, so that the $C^1$ regularity of $`fderiv\,\Phi`$transfers to$\nabla\Phi$.
 
 Next, the lemma `din_trajectory_continuous` is applied to $x$. Its conclusion gives
 
@@ -564,11 +564,11 @@ $$
 
 the forward energy
 
-$$
+```math
 E_\ell(t)
 =\ell\,\Phi(x(t))
 +\frac12\left\|\mathrm{deriv}x(t)+\beta\nabla\Phi(x(t))\right\|^2
-$$
+```
 
 is antitone on $t\ge0$, bounded below, and convergent as $t\to\infty$. In addition,
 
@@ -609,10 +609,10 @@ This is continuous because $x$ is continuous and $(s,y)\mapsto \max(s,0)$ is con
 
 Applying `omega_limit_properties` gives the following facts about the omega-limit set
 
-$$
+```math
 \omega(x_I)
 =\{a\in E:\exists t_n\ge0,\ t_n\to\infty,\ x(t_n)\to a\}.
-$$
+```
 
 The set $\omega(x_I)$ is nonempty, compact, and connected; the distance
 
@@ -626,7 +626,7 @@ $$
 \forall z\in\omega(x_I),\qquad \nabla\Phi(z)=0.
 $$
 
-Now the proof applies `connected_critical_set_lojasiewicz` with $\Omega=\mathrm{Set.univ}$ and $A=\omega(x_I)$. This theorem states that for a $C^2$ and real-analytic potential on an open set, satisfying the Lojasiewicz gradient inequality, any nonempty connected critical set $A$ lying in the open set has constant value of $\Phi$ on $A$. Moreover, if $A$ is compact, then there exist constants $\sigma>0$, $\theta\in(0,1/2)$, and $c$ such that $\Phi=c$ on $A$ and, for every $y$ with
+Now the proof applies `connected_critical_set_lojasiewicz` with $\Omega=\mathrm{Set.univ}$ and $A=\omega(x_I)$. This theorem states that for a $C^2$ and real-analytic potential on an open set, satisfying the Lojasiewicz gradient inequality, any nonempty connected critical set $A$ lying in the open set has constant value of $\Phi$ on $A$. Moreover, if $A$ is compact, then there exist constants $\sigma\gt 0$, $\theta\in(0,1/2)$, and $c$ such that $\Phi=c$ on $A$ and, for every $y$ with
 
 $$
 \mathrm{infDist}(y,A)<\sigma,
@@ -634,17 +634,17 @@ $$
 
 one has the concrete Lojasiewicz inequality
 
-$$
+```math
 |\Phi(y)-c|^{1-\theta}\le \|\nabla\Phi(y)\|.
-$$
+```
 
-In the present proof, this gives a value $c_0$ with $\Phi=c_0$ on $\omega(x_I)$, and constants $\sigma,\theta,c_1$ with $0<\sigma$, $0<\theta<1/2$, $\Phi=c_1$ on $\omega(x_I)$, and
+In the present proof, this gives a value $c_0$ with $\Phi=c_0$ on $\omega(x_I)$, and constants $\sigma,\theta,c_1$ with $0\lt \sigma$, $0\lt \theta\lt 1/2$, $\Phi=c_1$ on $\omega(x_I)$, and
 
-$$
+```math
 \mathrm{infDist}(y,\omega(x_I))<\sigma
 \implies
 |\Phi(y)-c_0|^{1-\theta}\le \|\nabla\Phi(y)\|.
-$$
+```
 
 The proof reconciles $c_1=c_0$ by choosing a point of $\omega(x_I)$. It also shows that $c_0$ equals the limit $l_\Phi$ of $\Phi(x(t))$. Indeed, if $z\in\omega(x_I)$ and $x(t_n)\to z$, then $\Phi(x(t_n))\to l_\Phi$ by the already established limit, and $\Phi(x(t_n))\to \Phi(z)$ by continuity of $\Phi$. Uniqueness of limits gives $l_\Phi=\Phi(z)=c_0$.
 
@@ -662,11 +662,11 @@ $$
 
 so the energy conclusions from `din_global_properties_part_ii` apply to $E$. Hence $E$ is antitone on $t\ge0$, bounded below, and converges to some $l_E$. But $E$ can also be evaluated from its definition:
 
-$$
+```math
 E(t)
 =k\,\Phi(x(t))
 +\frac12\left\|\mathrm{deriv}x(t)+\beta\nabla\Phi(x(t))\right\|^2.
-$$
+```
 
 Since $\Phi(x(t))\to l_\Phi=c_0$ and the residual term tends to $0$, one gets
 
@@ -684,12 +684,12 @@ Then $e(t)\to0$, and because $E$ is antitone and has limit $l_E$, one has $e(t)\
 
 Next, the proof chooses a time $T$ so that for all $t\ge T$,
 
-$$
+```math
 t\ge1,\qquad
 \mathrm{infDist}(x(t),\omega(x_I))<\sigma,\qquad
 \|\mathrm{deriv}x(t)\|\le1,\qquad
 \|\nabla\Phi(x(t))\|\le1.
-$$
+```
 
 The first condition is just eventual positivity, the second follows from the attraction property of the omega-limit set, and the last two follow from the limits of velocity and gradient to $0$.
 
@@ -701,13 +701,13 @@ $$
 
 For $t\ge T$, write
 
-$$
+```math
 v=\|\mathrm{deriv}x(t)\|,\qquad
 g=\|\nabla\Phi(x(t))\|,\qquad
 p=|\Phi(x(t))-c_0|.
-$$
+```
 
-By the Lojasiewicz inequality, since $\mathrm{infDist}(x(t),\omega(x_I))<\sigma$,
+By the Lojasiewicz inequality, since $\mathrm{infDist}(x(t),\omega(x_I))\lt \sigma$,
 
 $$
 p^{1-\theta}\le g.
@@ -715,10 +715,10 @@ $$
 
 The triangle inequality gives
 
-$$
+```math
 \left\|\mathrm{deriv}x(t)+\beta\nabla\Phi(x(t))\right\|
 \le v+|\beta|g.
-$$
+```
 
 Using the elementary inequality
 
@@ -728,10 +728,10 @@ $$
 
 which is exactly `sq_sum_le_two_sq_sum`, one obtains
 
-$$
+```math
 \left\|\mathrm{deriv}x(t)+\beta\nabla\Phi(x(t))\right\|^2
 \le 2(v^2+\beta^2g^2).
-$$
+```
 
 Combining this with $\Phi(x(t))-c_0\le p$ gives
 
@@ -745,7 +745,7 @@ $$
 (a+b)^{1-\theta}\le a^{1-\theta}+b^{1-\theta}
 $$
 
-for $\theta<1$, yields
+for $\theta\lt 1$, yields
 
 $$
 (p+v^2+g^2)^{1-\theta}
@@ -768,10 +768,10 @@ $$
 
 Therefore
 
-$$
+```math
 e(t)^{1-\theta}\le D(v+g)
 =D\bigl(\|\mathrm{deriv}x(t)\|+\|\nabla\Phi(x(t))\|\bigr).
-$$
+```
 
 This is the key estimate on the tail $t\ge T$.
 
@@ -783,9 +783,9 @@ $$
 
 of the energy $E$, of $e$, and of
 
-$$
+```math
 t\mapsto \|\mathrm{deriv}x(t)\|+\|\nabla\Phi(x(t))\|.
-$$
+```
 
 These continuity facts are needed for the later integration arguments.
 
@@ -799,13 +799,13 @@ $$
 
 so $E(s)=l_E$ on $[t_0,\infty)$. Hence the derivative of $E$ is zero on that tail. By `din_energy_hasDerivAt`, for $s\ge0$,
 
-$$
+```math
 \mathrm{deriv}E(s)
 =-\alpha\|\mathrm{deriv}x(s)\|^2
 -\beta\|\nabla\Phi(x(s))\|^2.
-$$
+```
 
-For $s\ge t_0$, the left-hand side is $0$. Since $\alpha>0$, $\beta>0$, and both squared norms are nonnegative, this forces
+For $s\ge t_0$, the left-hand side is $0$. Since $\alpha\gt 0$, $\beta\gt 0$, and both squared norms are nonnegative, this forces
 
 $$
 \mathrm{deriv}x(s)=0,\qquad
@@ -828,24 +828,24 @@ $$
 
 Together with $\nabla\Phi(x(t_0))=0$, this proves the desired conclusion in this case.
 
-Case 2: suppose $e(t)\ne0$ for every $t\ge T$. Since $e(t)\ge0$, actually $e(t)>0$ on the tail. Define
+Case 2: suppose $e(t)\ne0$ for every $t\ge T$. Since $e(t)\ge0$, actually $e(t)\gt 0$ on the tail. Define
 
 $$
 F(t)=e(t)^\theta.
 $$
 
-Then $F$ is continuous, and $F(t)\to0$ because $e(t)\to0$ and $\theta>0$. Using the derivative of $E$ and hence of $e$, the proof obtains
+Then $F$ is continuous, and $F(t)\to0$ because $e(t)\to0$ and $\theta\gt 0$. Using the derivative of $E$ and hence of $e$, the proof obtains
 
-$$
+```math
 \mathrm{deriv}F(t)
 =\left(
 -\alpha\|\mathrm{deriv}x(t)\|^2
 -\beta\|\nabla\Phi(x(t))\|^2
 \right)
 \theta\,e(t)^{\theta-1}.
-$$
+```
 
-The bracketed term is nonpositive because it is the negative sum of nonnegative terms, and $e(t)^{\theta-1}>0$, so $\mathrm{deriv}F(t)\le0$. Thus $F$ is nonincreasing on the tail. The proof invokes `integrableOn_Ioi_deriv_of_nonpos'`, which says that if a function has a nonpositive derivative on a tail and tends to $0$ at infinity, then its derivative is integrable on that tail. Hence
+The bracketed term is nonpositive because it is the negative sum of nonnegative terms, and $e(t)^{\theta-1}\gt 0$, so $\mathrm{deriv}F(t)\le0$. Thus $F$ is nonincreasing on the tail. The proof invokes `integrableOn_Ioi_deriv_of_nonpos'`, which says that if a function has a nonpositive derivative on a tail and tends to $0$ at infinity, then its derivative is integrable on that tail. Hence
 
 $$
 \mathrm{deriv}F\in L^1((T,\infty)).
@@ -860,13 +860,13 @@ $$
 
 Both are positive. The proof proves the pointwise inequality
 
-$$
+```math
 A\bigl(\|\mathrm{deriv}x(t)\|+\|\nabla\Phi(x(t))\|\bigr)
 \le
 -\mathrm{deriv}F(t)
-$$
+```
 
-for all $t\ge T$. To see this, again write $v=\|\mathrm{deriv}x(t)\|$ and $g=\|\nabla\Phi(x(t))\|$. From $m\le\alpha$, $m\le\beta$, and $(v+g)^2\le 2(v^2+g^2)$, one gets
+for all $t\ge T$. To see this, again write $`v=\|\mathrm{deriv}x(t)\|`$and$`g=\|\nabla\Phi(x(t))\|`$. From$m\le\alpha$,$m\le\beta$, and$(v+g)^2\le 2(v^2+g^2)$, one gets
 
 $$
 \frac m2(v+g)^2\le \alpha v^2+\beta g^2.
@@ -894,30 +894,30 @@ using $e(t)^{\theta-1}e(t)^{1-\theta}=e(t)^0=1$. Dividing by the positive number
 
 Integrating this inequality from $T$ to $R\ge T$ gives
 
-$$
+```math
 A\int_T^R
 \bigl(\|\mathrm{deriv}x(s)\|+\|\nabla\Phi(x(s))\|\bigr)\,ds
 \le
 F(T)-F(R)
 \le
 F(T),
-$$
+```
 
 because $F(R)\ge0$. Since
 
-$$
+```math
 \|\mathrm{deriv}x(s)\|
 \le
 \|\mathrm{deriv}x(s)\|+\|\nabla\Phi(x(s))\|,
-$$
+```
 
 one obtains
 
-$$
+```math
 \int_T^R \|\mathrm{deriv}x(s)\|\,ds
 \le
 \frac{F(T)}{A}.
-$$
+```
 
 This is a uniform tail bound. The lemma `integrableOn_of_norm_interval_tail_bound` then applies, because $\mathrm{deriv}x$ is continuous, and yields
 

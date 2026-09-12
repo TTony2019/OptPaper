@@ -9,15 +9,15 @@ recall tendsto_iff_tendsto_weakly_and_tendsto_norm
 ## Statement explanation
 The source contains a `recall` declaration, not a theorem with an explicitly displayed Lean type. The only mathematical information visible is the name `tendsto_iff_tendsto_weakly_and_tendsto_norm`. This name indicates an equivalence between ordinary convergence and the conjunction of weak convergence and convergence of norms. In the usual functional-analytic reading, for a sequence $(x_n)$ and a limit $x$, the recalled statement is
 
-$$
+```math
 x_n \to x \text{ in norm}
 \quad\Longleftrightarrow\quad
 \bigl(x_n \rightharpoonup x \text{ weakly}\bigr)
 \ \text{and}\
 \bigl(\|x_n\| \to \|x\|\bigr).
-$$
+```
 
-Here the left-hand side is strong convergence, meaning $\|x_n-x\|\to 0$. The weak convergence condition means that for every continuous linear functional $f$, one has $f(x_n)\to f(x)$. The final condition is convergence of the scalar sequence of norms. The exact Lean type, the ambient space, the indexing filter, and any completeness or inner-product assumptions are not shown in the provided snippet; they would be supplied by the imported result that this `recall` makes available. No additional hypotheses or conclusions can be read off from the source itself.
+Here the left-hand side is strong convergence, meaning $`\|x_n-x\|\to 0`$. The weak convergence condition means that for every continuous linear functional$f$, one has$f(x_n)\to f(x)$. The final condition is convergence of the scalar sequence of norms. The exact Lean type, the ambient space, the indexing filter, and any completeness or inner-product assumptions are not shown in the provided snippet; they would be supplied by the imported result that this `recall` makes available. No additional hypotheses or conclusions can be read off from the source itself.
 
 ## Lean proof
 ```lean

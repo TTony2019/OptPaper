@@ -94,13 +94,51 @@ def _rewrite_blocked_macros(tex: str) -> str:
     return tex
 
 
-def _convert_inline(line: str, *, pad: bool) -> str:
-    """Convert ``\\(...\\)`` spans on one line into ``$...$`` spans.
+# GitHub's Markdown layer strips the backslash from every ``\`` + punctuation
+# pair inside math, so ``\|x\|`` reaches MathJax as ``|x|``, ``\,`` as a comma
+# and ``\{`` as a plain brace. Formulas containing such a pair are therefore
+# written with GitHub's backtick delimiters, where the text is passed through
+# verbatim.
+ESCAPED_PUNCTUATION = re.compile(r"\\+[!-/:-@\[-`{-~]")
+# A doubled backslash is a line break in LaTeX and loses one backslash too.
+DOUBLED_BACKSLASH = re.compile(r"\\\\")
+PLAIN_INLINE_SPAN = re.compile(r"(?<!\$)\$(?!`)([^$\n`]+)\$(?!\$)")
+PROTECTED_INLINE_SPAN = re.compile(r"(?<!\$)\$`([^`\n]+)`\$")
+FENCE_BODY = re.compile(r"^```")
+
+
+def _needs_protection(tex: str) -> bool:
+    """True when Markdown would eat part of ``tex`` before MathJax sees it."""
+    if "`" in tex:
+        return False
+    return bool(ESCAPED_PUNCTUATION.search(tex) or DOUBLED_BACKSLASH.search(tex))
+
+
+def _inline_span(content: str) -> str:
+    """Delimit one inline formula the way GitHub needs it."""
+    # Markdown reads a bare ``<`` as the start of an HTML tag and then leaves
+    # the whole inline formula unrendered, so the relation is spelled with the
+    # LaTeX aliases. The trailing space only ends the command name; math mode
+    # drops it and text mode swallows it.
+    content = content.replace("<", r"\lt ").replace(">", r"\gt ").strip()
+    if _needs_protection(content):
+        return "$`" + content + "`$"
+    return "$" + content + "$"
+
+
+def _protect_existing_spans(line: str) -> str:
+    """Move escapers already wrapped in ``$...$`` into the protected form."""
+    return PLAIN_INLINE_SPAN.sub(
+        lambda match: _inline_span(_rewrite_blocked_macros(match.group(1))), line
+    )
+
+
+def _convert_inline(line: str, *, pad: bool, protect: bool = True) -> str:
+    """Convert ``\\(...\\)`` spans on one line into the GitHub delimiters.
 
     ``pad`` inserts a space before a span that follows a non-space character,
     which the GitHub renderer requires outside math blocks.
     """
-    line = _rewrite_blocked_macros(line)
     line = GLUED_HYPHEN.sub(r"\\text{-}", line)
     result = ""
     last = 0
@@ -109,14 +147,21 @@ def _convert_inline(line: str, *, pad: bool) -> str:
         result += line[last:start]
         if pad and result and not result[-1].isspace():
             result += " "
-        result += "$" + match.group(1).strip() + "$"
+        result += _inline_span(_rewrite_blocked_macros(match.group(1).strip()))
         # A closing ``$`` followed by a letter or digit is not recognised
         # either, so keep a space in that case as well.
         if pad and end < len(line) and line[end].isalnum():
             result += " "
         last = end
     result += line[last:]
-    return result
+    if not protect:
+        # Inside a display block the ``$`` characters belong to the formula.
+        return result
+    # Whatever the spans looked like before, only their content may be edited.
+    result = _protect_existing_spans(result)
+    return PROTECTED_INLINE_SPAN.sub(
+        lambda match: "$`" + _rewrite_blocked_macros(match.group(1)) + "`$", result
+    )
 
 
 def normalize_math_delimiters(text: str) -> str:
@@ -144,15 +189,31 @@ def normalize_math_delimiters(text: str) -> str:
             while index < len(lines) and lines[index].strip() != closing:
                 # Nested \(\), as emitted by ``\text{\(x\) ...}``, become the
                 # ``$`` switch MathJax understands inside text mode.
-                body.append(_convert_inline(lines[index], pad=False))
+                body.append(_convert_inline(lines[index], pad=False, protect=False))
                 index += 1
             index += 1  # drop the closing delimiter, re-emitted below
+            # A block indented under a list item is not recognised whenever the
+            # list also holds inline math, so every block sits at the margin.
+            body = [
+                entry[len(indent):].rstrip() if entry.startswith(indent) else entry.strip()
+                for entry in body
+            ]
             body = _reflow_display_block(body)
+            # A formula holding a backslash-escaped punctuation character goes
+            # into a math fence, where Markdown passes it through untouched.
+            protected = any(_needs_protection(entry) for entry in body) and not any(
+                FENCE_BODY.match(entry) for entry in body
+            )
             if output and output[-1].strip():
                 output.append("")
-            output.append(f"{indent}$$")
-            output.extend(body)
-            output.append(f"{indent}$$")
+            if protected:
+                output.append("```math")
+                output.extend(body)
+                output.append("```")
+            else:
+                output.append("$$")
+                output.extend(body)
+                output.append("$$")
             if index < len(lines) and lines[index].strip():
                 output.append("")
             continue

@@ -60,42 +60,42 @@ The remaining hypotheses encode regularity, nonnegativity, and limiting behavior
 - $h$, $k$, and $c$ are separately continuous.
 - The costs are nonnegative:
 
-  $$
-  h(x,x')\ge 0,\qquad k(y,y')\ge 0,\qquad c(x,y)\ge 0 .
-  $$
+$$
+h(x,x')\ge 0,\qquad k(y,y')\ge 0,\qquad c(x,y)\ge 0 .
+$$
 
 - The coefficient sequences are nonnegative:
 
-  $$
-  \alpha_n\ge 0,\quad \beta_n\ge 0,\quad \mu_n\ge 0,\quad \nu_n\ge 0 .
-  $$
+$$
+\alpha_n\ge 0,\quad \beta_n\ge 0,\quad \mu_n\ge 0,\quad \nu_n\ge 0 .
+$$
 
 - $\beta$ and $\mu$ converge to real numbers $\beta_\infty$ and $\mu_\infty$.
 - The diagonal costs vanish:
 
-  $$
-  h(x,x)=0,\qquad k(y,y)=0 .
-  $$
+$$
+h(x,x)=0,\qquad k(y,y)=0 .
+$$
 
 - The numbers $\bar\alpha$ and $\bar\nu$ bound the limsups of $\alpha$ and $\nu$ in the following eventual sense:
 
-  $$
-  \forall \varepsilon>0,\ \text{eventually } \alpha_n\le \bar\alpha+\varepsilon,
-  \qquad
-  \forall \varepsilon>0,\ \text{eventually } \nu_n\le \bar\nu+\varepsilon .
-  $$
+$$
+\forall \varepsilon>0,\ \text{eventually } \alpha_n\le \bar\alpha+\varepsilon,
+\qquad
+\forall \varepsilon>0,\ \text{eventually } \nu_n\le \bar\nu+\varepsilon .
+$$
 
 - The final coefficients satisfy
 
-  $$
-  \alpha_{\mathrm{val}}\ge \bar\alpha,\qquad \nu_{\mathrm{val}}\ge \bar\nu .
-  $$
+$$
+\alpha_{\mathrm{val}}\ge \bar\alpha,\qquad \nu_{\mathrm{val}}\ge \bar\nu .
+$$
 
 The conclusion is
 
-$$
+```math
 \text{IsINE }f\,g\,h\,k\,c\,\alpha_{\mathrm{val}}\,\beta_\infty\,\mu_\infty\,\nu_{\mathrm{val}}\,\bar x\,\bar y .
-$$
+```
 
 From the final `refine ⟨?_, ?_⟩`, this conclusion is the conjunction of the following two universal inequalities:
 
@@ -653,7 +653,7 @@ $$
 y\mapsto c(\xi,y).
 $$
 
-The proof then proves that the limsup bounds $\bar\alpha$ and $\bar\nu$ are nonnegative. For $\bar\alpha$, suppose for contradiction that $\bar\alpha<0$. Choose
+The proof then proves that the limsup bounds $\bar\alpha$ and $\bar\nu$ are nonnegative. For $\bar\alpha$, suppose for contradiction that $\bar\alpha\lt 0$. Choose
 
 $$
 \varepsilon=-\frac{\bar\alpha}{2}>0.
@@ -689,7 +689,7 @@ $$
 
 This allows the lower semicontinuity of $c$ on $X\times Y$ to be applied to the sequences of pairs.
 
-Lower semicontinuity of $f$ gives the following eventual lower bound. For every $\varepsilon>0$, since $f(\bar x)-\varepsilon<f(\bar x)$, lower semicontinuity at $\bar x$ gives a neighborhood of $\bar x$ on which $f(z)>f(\bar x)-\varepsilon$. Because $x_{n+1}\to\bar x$, eventually
+Lower semicontinuity of $f$ gives the following eventual lower bound. For every $\varepsilon\gt 0$, since $f(\bar x)-\varepsilon\lt f(\bar x)$, lower semicontinuity at $\bar x$ gives a neighborhood of $\bar x$ on which $f(z)\gt f(\bar x)-\varepsilon$. Because $x_{n+1}\to\bar x$, eventually
 
 $$
 f(\bar x)-\varepsilon<f(x_{n+1}).
@@ -721,7 +721,7 @@ $$
 \beta_\infty-\delta<\beta_n
 $$
 
-for every $\delta>0$: the set $\{x:\beta_\infty-\delta<x\}$ is open and contains $\beta_\infty$, hence is a neighborhood, and convergence eventually lands in it. The same argument gives
+for every $\delta\gt 0$: the set $`\{x:\beta_\infty-\delta<x\}`$is open and contains$\beta_\infty$, hence is a neighborhood, and convergence eventually lands in it. The same argument gives
 
 $$
 \mu_\infty-\delta<\mu_n
@@ -729,26 +729,26 @@ $$
 
 eventually.
 
-The proof then establishes a product lower-bound lemma. Suppose $a_n\ge0$, $b_n\ge0$, $a_n\to a_\infty$, $b_\infty\ge0$, and for every $\delta>0$, eventually
+The proof then establishes a product lower-bound lemma. Suppose $a_n\ge0$, $b_n\ge0$, $a_n\to a_\infty$, $b_\infty\ge0$, and for every $\delta\gt 0$, eventually
 
 $$
 b_\infty-\delta<b_n .
 $$
 
-Then for every $\varepsilon>0$, eventually
+Then for every $\varepsilon\gt 0$, eventually
 
 $$
 a_\infty b_\infty-\varepsilon<a_n b_n .
 $$
 
-The proof first notes that $a_\infty\ge0$, by `ge_of_tendsto` applied to $a_n\ge0$. If $a_\infty=0$, then $a_\infty b_\infty=0$, while $a_n b_n\ge0$, so $-\varepsilon<a_n b_n$. If $a_\infty>0$, the proof sets
+The proof first notes that $a_\infty\ge0$, by `ge_of_tendsto` applied to $a_n\ge0$. If $a_\infty=0$, then $a_\infty b_\infty=0$, while $a_n b_n\ge0$, so $-\varepsilon\lt a_n b_n$. If $a_\infty\gt 0$, the proof sets
 
 $$
 D=a_\infty+b_\infty+1>0,\qquad
 \eta=\min\left(\frac{a_\infty}{2},\frac{\varepsilon}{2D}\right)>0.
 $$
 
-Then $\eta<a_\infty$. It proves the algebraic inequality
+Then $\eta\lt a_\infty$. It proves the algebraic inequality
 
 $$
 a_\infty b_\infty-\varepsilon<(a_\infty-\eta)(b_\infty-\eta)
@@ -760,13 +760,13 @@ $$
 \eta(a_\infty+b_\infty-\eta).
 $$
 
-The choice of $\eta$ makes this less than $\varepsilon$. Eventually $a_n>a_\infty-\eta$ by convergence, and $b_n>b_\infty-\eta$ by hypothesis. If $b_\infty-\eta>0$, monotonicity of multiplication gives
+The choice of $\eta$ makes this less than $\varepsilon$. Eventually $a_n\gt a_\infty-\eta$ by convergence, and $b_n\gt b_\infty-\eta$ by hypothesis. If $b_\infty-\eta\gt 0$, monotonicity of multiplication gives
 
 $$
 (a_\infty-\eta)(b_\infty-\eta)<a_n b_n .
 $$
 
-If $b_\infty-\eta\le0$, then the left side is nonpositive while $a_n b_n\ge0$, so the same strict inequality holds. Thus $a_\infty b_\infty-\varepsilon<a_n b_n$ eventually.
+If $b_\infty-\eta\le0$, then the left side is nonpositive while $a_n b_n\ge0$, so the same strict inequality holds. Thus $a_\infty b_\infty-\varepsilon\lt a_n b_n$ eventually.
 
 This product lemma is used twice. First, with
 
@@ -796,7 +796,7 @@ $$
 \mu_n c(x_{n+1},y_{n+1}).
 $$
 
-The proof next establishes an upper-bound lemma for the terms $\alpha_n h(x_n,\xi)$. Fix $\xi\in X$ and $\varepsilon>0$. Since $h(\bar x,\xi)\ge0$, and since $h(x_n,\xi)\to h(\bar x,\xi)$ by separate continuity, the proof chooses
+The proof next establishes an upper-bound lemma for the terms $\alpha_n h(x_n,\xi)$. Fix $\xi\in X$ and $\varepsilon\gt 0$. Since $h(\bar x,\xi)\ge0$, and since $h(x_n,\xi)\to h(\bar x,\xi)$ by separate continuity, the proof chooses
 
 $$
 C=\bar\alpha+h(\bar x,\xi)+1>0,\qquad
@@ -883,7 +883,7 @@ f(\bar x)+\beta_\infty c(\bar x,\bar y)
 f(\xi)+\beta_\infty c(\xi,\bar y)+\alpha_{\mathrm{val}}h(\bar x,\xi).
 $$
 
-The lemma `le_of_forall_pos_lt_add` reduces this to proving, for every $\varepsilon>0$,
+The lemma `le_of_forall_pos_lt_add` reduces this to proving, for every $\varepsilon\gt 0$,
 
 $$
 f(\bar x)+\beta_\infty c(\bar x,\bar y)
@@ -942,7 +942,7 @@ f(\xi)+\alpha_{\mathrm{val}}h(\bar x,\xi)
 +\beta_\infty c(\xi,\bar y)+4\varepsilon_0.
 $$
 
-Since $4\varepsilon_0=4\varepsilon/5<\varepsilon$, the desired strict inequality with $\varepsilon$ follows. The final `linarith` closes the goal after reordering the summands.
+Since $4\varepsilon_0=4\varepsilon/5\lt \varepsilon$, the desired strict inequality with $\varepsilon$ follows. The final `linarith` closes the goal after reordering the summands.
 
 The second `IsINE` inequality is proved in the same pattern. Fix $\eta\in Y$. The diagonal term $\nu_{\mathrm{val}}k(\bar y,\bar y)$ is rewritten to zero using $k(\bar y,\bar y)=0$. The remaining goal is
 
@@ -994,7 +994,7 @@ g(\eta)+\nu_{\mathrm{val}}k(\bar y,\eta)
 +\mu_\infty c(\bar x,\eta)+4\varepsilon_0,
 $$
 
-and $4\varepsilon_0=4\varepsilon/5<\varepsilon$. The final `nlinarith` and `linarith` close the arithmetic.
+and $4\varepsilon_0=4\varepsilon/5\lt \varepsilon$. The final `nlinarith` and `linarith` close the arithmetic.
 
 Finally, the proof constructs the conjunction in the definition of `IsINE`. The first branch introduces an arbitrary $\xi$, applies the already proved $x$-inequality, and uses `simpa [add_comm, add_left_comm, add_assoc]` to match the exact associativity and commutativity of addition used in `IsINE`. The second branch does the same for an arbitrary $\eta$ with the $y$-inequality. The hypotheses `hh_lsc`, `hk_lsc`, `hf_bdd_below`, and `hg_bdd_below` are present in the theorem statement but are not invoked in the displayed proof; the proof needs only the lower semicontinuity of $f$, $g$, and $c$, the separate continuity components used for $h$, $k$, and $c$, and the nonnegativity, diagonal, convergence, and limsup hypotheses listed above.
 
