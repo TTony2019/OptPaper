@@ -10,9 +10,9 @@ shared concepts under `Foundation/`.
 
 <!-- LOC_STATS:START -->
 
-![foundation_lines](https://img.shields.io/badge/foundation_lines-41022-0f766e?style=flat-square)
-![theoremlib_lines](https://img.shields.io/badge/theoremlib_lines-66091-2563eb?style=flat-square)
-![total_lines](https://img.shields.io/badge/total_lines-107113-16a34a?style=flat-square)
+![foundation_lines](https://img.shields.io/badge/foundation_lines-41495-0f766e?style=flat-square)
+![theoremlib_lines](https://img.shields.io/badge/theoremlib_lines-67963-2563eb?style=flat-square)
+![total_lines](https://img.shields.io/badge/total_lines-109458-16a34a?style=flat-square)
 
 Counting convention:
 
@@ -23,9 +23,9 @@ Counting convention:
 
 | Directory | `.lean` files | Total lines | Code lines |
 | --- | ---: | ---: | ---: |
-| Foundation | 52 | 41022 | 31538 |
-| TheoremLib | 301 | 66091 | 61561 |
-| **Total** | **353** | **107113** | **93099** |
+| Foundation | 54 | 41495 | 31846 |
+| TheoremLib | 315 | 67963 | 63320 |
+| **Total** | **369** | **109458** | **95166** |
 
 <!-- LOC_STATS:END -->
 
@@ -33,10 +33,10 @@ Counting convention:
 
 <!-- FORMALIZATION_STATUS:START -->
 
-![papers](https://img.shields.io/badge/papers-12-0f766e?style=flat-square)
-![defs_items](https://img.shields.io/badge/defs_items-131-2563eb?style=flat-square)
-![proved_theorem-items](https://img.shields.io/badge/proved_theorem--items-168-16a34a?style=flat-square)
-![open_theorem-items](https://img.shields.io/badge/open_theorem--items-1-dc2626?style=flat-square)
+![papers](https://img.shields.io/badge/papers-13-0f766e?style=flat-square)
+![defs_items](https://img.shields.io/badge/defs_items-137-2563eb?style=flat-square)
+![proved_theorem-items](https://img.shields.io/badge/proved_theorem--items-177-16a34a?style=flat-square)
+![open_theorem-items](https://img.shields.io/badge/open_theorem--items-0-dc2626?style=flat-square)
 
 Counting convention:
 
@@ -63,7 +63,8 @@ Counting convention:
 | 9 | [Attouch_FINITE_CONVERGENCE_OF_2020](TheoremLib/Attouch_FINITE_CONVERGENCE_OF_PROXIMAL_GRADIENT_INERTIAL_ALGORITHMS_COMBINING_DRY_FRICTION_WITH_HESSIAN_DRIVEN_DAMPING_2020) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 18](https://img.shields.io/static/v1?label=&message=18&color=2563eb&style=flat-square) | ![proved 14](https://img.shields.io/badge/proved-14-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
 | 10 | [Attouch_Redont_A_New_2007](TheoremLib/Attouch_Redont_A_New_Class_of_Alternating_Proximal_Minimization_Algorithms_with_Costs_to_Move_2007) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 9](https://img.shields.io/static/v1?label=&message=9&color=2563eb&style=flat-square) | ![proved 16](https://img.shields.io/badge/proved-16-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
 | 11 | [Beck_Teboulle_FISTA_2009](TheoremLib/Beck_Teboulle_FISTA_2009) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 11](https://img.shields.io/static/v1?label=&message=11&color=2563eb&style=flat-square) | ![proved 9](https://img.shields.io/badge/proved-9-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
-| 12 | [Burachik_Svaiter_Robustness_HPE_2001](TheoremLib/Burachik_Svaiter_Robustness_HPE_2001) | ![in progress](https://img.shields.io/static/v1?label=&message=in%20progress&color=f59e0b&style=flat-square) | ![definition-like 6](https://img.shields.io/static/v1?label=&message=6&color=2563eb&style=flat-square) | ![proved 12](https://img.shields.io/badge/proved-12-16a34a?style=flat-square) ![open 1](https://img.shields.io/badge/open-1-dc2626?style=flat-square) |
+| 12 | [Burachik_Svaiter_Robustness_HPE_2001](TheoremLib/Burachik_Svaiter_Robustness_HPE_2001) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 6](https://img.shields.io/static/v1?label=&message=6&color=2563eb&style=flat-square) | ![proved 13](https://img.shields.io/badge/proved-13-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
+| 13 | [Dong_A_strong_convergence_2017](TheoremLib/Dong_A_strong_convergence_result_involving_an_inertial_forward_backward_algorithm_for_monotone_inclusions_2017) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 6](https://img.shields.io/static/v1?label=&message=6&color=2563eb&style=flat-square) | ![proved 8](https://img.shields.io/badge/proved-8-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
 
 <!-- FORMALIZATION_STATUS:END -->
 
