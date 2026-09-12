@@ -11,8 +11,8 @@ shared concepts under `Foundation/`.
 <!-- LOC_STATS:START -->
 
 ![foundation_lines](https://img.shields.io/badge/foundation_lines-41510-0f766e?style=flat-square)
-![theoremlib_lines](https://img.shields.io/badge/theoremlib_lines-79883-2563eb?style=flat-square)
-![total_lines](https://img.shields.io/badge/total_lines-121393-16a34a?style=flat-square)
+![theoremlib_lines](https://img.shields.io/badge/theoremlib_lines-81990-2563eb?style=flat-square)
+![total_lines](https://img.shields.io/badge/total_lines-123500-16a34a?style=flat-square)
 
 Counting convention:
 
@@ -24,8 +24,8 @@ Counting convention:
 | Directory | `.lean` files | Total lines | Code lines |
 | --- | ---: | ---: | ---: |
 | Foundation | 54 | 41510 | 31856 |
-| TheoremLib | 358 | 79883 | 74231 |
-| **Total** | **412** | **121393** | **106087** |
+| TheoremLib | 374 | 81990 | 76114 |
+| **Total** | **428** | **123500** | **107970** |
 
 <!-- LOC_STATS:END -->
 
@@ -33,9 +33,9 @@ Counting convention:
 
 <!-- FORMALIZATION_STATUS:START -->
 
-![papers](https://img.shields.io/badge/papers-15-0f766e?style=flat-square)
-![defs_items](https://img.shields.io/badge/defs_items-160-2563eb?style=flat-square)
-![proved_theorem-items](https://img.shields.io/badge/proved_theorem--items-192-16a34a?style=flat-square)
+![papers](https://img.shields.io/badge/papers-16-0f766e?style=flat-square)
+![defs_items](https://img.shields.io/badge/defs_items-169-2563eb?style=flat-square)
+![proved_theorem-items](https://img.shields.io/badge/proved_theorem--items-199-16a34a?style=flat-square)
 ![open_theorem-items](https://img.shields.io/badge/open_theorem--items-5-dc2626?style=flat-square)
 
 Counting convention:
@@ -67,6 +67,7 @@ Counting convention:
 | 13 | [Burachik_Svaiter_Robustness_HPE_2001](TheoremLib/Burachik_Svaiter_Robustness_HPE_2001) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 6](https://img.shields.io/static/v1?label=&message=6&color=2563eb&style=flat-square) | ![proved 13](https://img.shields.io/badge/proved-13-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
 | 14 | [Dong_A_strong_convergence_2017](TheoremLib/Dong_A_strong_convergence_result_involving_an_inertial_forward_backward_algorithm_for_monotone_inclusions_2017) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 6](https://img.shields.io/static/v1?label=&message=6&color=2563eb&style=flat-square) | ![proved 8](https://img.shields.io/badge/proved-8-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
 | 15 | [Moudafi_Oliny_Splitting_inertial](TheoremLib/Moudafi_Oliny_Splitting_inertial_proximal_monotone_operators) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 8](https://img.shields.io/static/v1?label=&message=8&color=2563eb&style=flat-square) | ![proved 3](https://img.shields.io/badge/proved-3-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
+| 16 | [Nesterov_Accelerated_gradient_1983](TheoremLib/Nesterov_Accelerated_gradient_1983) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 9](https://img.shields.io/static/v1?label=&message=9&color=2563eb&style=flat-square) | ![proved 7](https://img.shields.io/badge/proved-7-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
 
 <!-- FORMALIZATION_STATUS:END -->
 
