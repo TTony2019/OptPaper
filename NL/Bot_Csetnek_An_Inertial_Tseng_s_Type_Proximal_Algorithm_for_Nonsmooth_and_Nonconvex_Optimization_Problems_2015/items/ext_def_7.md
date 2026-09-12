@@ -24,7 +24,7 @@ $$
 It returns the real number
 
 $$
-\operatorname{bregmanDistance}(u,x,y)
+\mathrm{bregmanDistance}(u,x,y)
 = u(x)-u(y)-\langle \nabla u(y), x-y\rangle_{\mathbb{R}}.
 $$
 

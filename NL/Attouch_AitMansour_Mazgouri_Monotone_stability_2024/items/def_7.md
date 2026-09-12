@@ -19,7 +19,7 @@ The theorem `def_7_yosida_equivalence` is stated in a complete real inner produc
 Let $J_\lambda^A(u)$ denote the value of the resolvent map of $A$ at parameter $\lambda$ evaluated at $u$, i.e. `SetValuedOperator.resolventMap A hA lam hlam u`, and define $J_\lambda^B(u)$ analogously. The conclusion is the identity
 
 $$
-\operatorname{resolventDistance}(A,B;h_A,h_B,\lambda,\rho;h_\lambda,h_\rho)
+\mathrm{resolventDistance}(A,B;h_A,h_B,\lambda,\rho;h_\lambda,h_\rho)
 =
 \lambda \cdot \sup \left\{
 q \in \mathbb{R}

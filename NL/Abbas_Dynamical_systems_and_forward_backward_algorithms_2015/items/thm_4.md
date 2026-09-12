@@ -17,7 +17,7 @@ theorem semigroup_convergence {H : Type*} [NormedAddCommGroup H] [InnerProductSp
 ```
 
 ## Statement explanation
-The declaration concerns a continuous-time forward-backward trajectory in a real Hilbert space $H$. The function $\Phi:H\to(-\infty,+\infty]$ is extended-real-valued and is assumed to lie in $\Gamma_0(H)$, the class of proper convex lower semicontinuous functions; the Lean type $H\to \operatorname{Ioi}(\bot:\mathbb E\mathbb R)$ encodes that $\Phi$ never takes the value $-\infty$. The set $S\subseteq H$ is nonempty, $B:H\to H$ is a forward operator, $x:\mathbb R\to H$ is a trajectory, and $\beta>0$.
+The declaration concerns a continuous-time forward-backward trajectory in a real Hilbert space $H$. The function $\Phi:H\to(-\infty,+\infty]$ is extended-real-valued and is assumed to lie in $\Gamma_0(H)$, the class of proper convex lower semicontinuous functions; the Lean type $H\to \mathrm{Ioi}(\bot:\mathbb E\mathbb R)$ encodes that $\Phi$ never takes the value $-\infty$. The set $S\subseteq H$ is nonempty, $B:H\to H$ is a forward operator, $x:\mathbb R\to H$ is a trajectory, and $\beta>0$.
 
 The hypotheses are:
 
@@ -478,7 +478,7 @@ The proof proceeds as follows.
 
 First, `rcases horbit` unpacks the forward-backward orbit hypothesis into local absolute continuity of $x$, the selection $v$ from the subdifferential, the effective-domain condition, local $L^2$ bounds, almost-everywhere differentiability, the fundamental-theorem identity, the differential equation, and the residual function $r$ with its membership, derivative identity, and antitone norm.
 
-For each $T>0$, the chain rule `subgradient_chain_rule` is applied to $\Phi$, $x$, and $v$ on $[0,T]$. Its mathematical content is: if $\Phi\in\Gamma_0(H)$, if $x$ is absolutely continuous on $[0,T]$, if $v(t)\in\partial\Phi(x(t))$ almost everywhere, if $x(t)\in\operatorname{dom}\Phi$, if $x$ is differentiable almost everywhere, and if $v,\dot x\in L^2(0,T)$, then
+For each $T>0$, the chain rule `subgradient_chain_rule` is applied to $\Phi$, $x$, and $v$ on $[0,T]$. Its mathematical content is: if $\Phi\in\Gamma_0(H)$, if $x$ is absolutely continuous on $[0,T]$, if $v(t)\in\partial\Phi(x(t))$ almost everywhere, if $x(t)\in\mathrm{dom}\Phi$, if $x$ is differentiable almost everywhere, and if $v,\dot x\in L^2(0,T)$, then
 
 $$
 t\mapsto (\Phi(x(t)))_{\mathbb R}
@@ -555,7 +555,7 @@ $$
 
 The tactic `filter_upwards` combines the almost-everywhere hypotheses, and `linarith` finishes the algebra.
 
-Next, the proof shows that $E_z(t)\ge0$ for $t\ge0$. It applies `subgradient_ineq_toReal_of_mem_gammaZero`: since $-Bz\in\partial\Phi(z)$ and $x(t)\in\operatorname{dom}\Phi$,
+Next, the proof shows that $E_z(t)\ge0$ for $t\ge0$. It applies `subgradient_ineq_toReal_of_mem_gammaZero`: since $-Bz\in\partial\Phi(z)$ and $x(t)\in\mathrm{dom}\Phi$,
 
 $$
 (\Phi(x(t)))_{\mathbb R}

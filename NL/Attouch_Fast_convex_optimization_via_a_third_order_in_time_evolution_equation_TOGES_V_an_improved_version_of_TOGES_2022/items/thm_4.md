@@ -64,7 +64,7 @@ $$
 e_\lambda f(x)=\inf_{y\in H}\left(f(y)+\frac{1}{2\lambda}\|x-y\|^2\right).
 $$
 
-The map $\operatorname{prox}:H\to H$ is a proximal selection. The hypothesis `hProx` says that for every $x$, $\operatorname{prox}(x)$ is a proximal point of $f$ with parameter $\lambda$ at $x$. The trajectory is
+The map $\mathrm{prox}:H\to H$ is a proximal selection. The hypothesis `hProx` says that for every $x$, $\mathrm{prox}(x)$ is a proximal point of $f$ with parameter $\lambda$ at $x$. The trajectory is
 
 $$
 u:\mathbb R\to H,
@@ -112,7 +112,7 @@ $$
 $$
 
 $$
-\bigl(f(\operatorname{prox}(u(t)+\tfrac t4 \dot u(t)))\bigr).toReal-(\inf f).toReal
+\bigl(f(\mathrm{prox}(u(t)+\tfrac t4 \dot u(t)))\bigr).toReal-(\inf f).toReal
 \le \frac{C}{t^3},
 $$
 
@@ -124,7 +124,7 @@ $$
 and
 
 $$
-\bigl(f(\operatorname{prox}(u(t)))\bigr).toReal-(\inf f).toReal
+\bigl(f(\mathrm{prox}(u(t)))\bigr).toReal-(\inf f).toReal
 \le \frac{C}{t^3}.
 $$
 
@@ -182,24 +182,24 @@ by
 ## Proof explanation
 The proof is a reduction to the previously established core theorem `togesVR_rate_and_weak_convergence_core`.
 
-First, the proof invokes `proximal_point_data` with the given objective $f$, parameter $\lambda$, proximal map $\operatorname{prox}$, and the hypotheses that $f$ is proper, lower semicontinuous, convex, and that $\operatorname{prox}$ is a proximal selection. This lemma produces two facts:
+First, the proof invokes `proximal_point_data` with the given objective $f$, parameter $\lambda$, proximal map $\mathrm{prox}$, and the hypotheses that $f$ is proper, lower semicontinuous, convex, and that $\mathrm{prox}$ is a proximal selection. This lemma produces two facts:
 
 $$
-\operatorname{prox}(x)\in \operatorname{resolvent}\bigl(\lambda\,\partial f\bigr)(x)
+\mathrm{prox}(x)\in \mathrm{resolvent}\bigl(\lambda\,\partial f\bigr)(x)
 $$
 
 for every $x$, and
 
 $$
-f(\operatorname{prox}(x))+
-\frac{1}{2\lambda}\|x-\operatorname{prox}(x)\|^2
+f(\mathrm{prox}(x))+
+\frac{1}{2\lambda}\|x-\mathrm{prox}(x)\|^2
 =
 e_\lambda f(x)
 $$
 
 for every $x$. The proof unpacks this conjunction as `hres` and `hformula`. The first fact is the standard proximal first-order/resolvent relation for $\lambda\partial f$. The second is the exact Moreau-envelope formula expressing the envelope value at $x$ in terms of the value at the proximal point and the quadratic penalty.
 
-Next, the proof derives regularity of the real-valued Moreau envelope $F$. It applies `moreau_envelope_regularity_and_minimizers` to $f$, $\lambda$, the envelope $e_\lambda f$, and the map $\operatorname{prox}$. The hypotheses supplied to that result are positivity of $\lambda$, properness, lower semicontinuity, convexity, the resolvent membership `hres`, and the reversed envelope formula `(hformula x).symm`. The theorem `moreau_envelope_regularity_and_minimizers` states, in this setting, that the epigraph of the envelope is convex, that the real-valued function
+Next, the proof derives regularity of the real-valued Moreau envelope $F$. It applies `moreau_envelope_regularity_and_minimizers` to $f$, $\lambda$, the envelope $e_\lambda f$, and the map $\mathrm{prox}$. The hypotheses supplied to that result are positivity of $\lambda$, properness, lower semicontinuity, convexity, the resolvent membership `hres`, and the reversed envelope formula `(hformula x).symm`. The theorem `moreau_envelope_regularity_and_minimizers` states, in this setting, that the epigraph of the envelope is convex, that the real-valued function
 
 $$
 x\mapsto \bigl(e_\lambda f(x)\bigr).toReal

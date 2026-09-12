@@ -62,7 +62,7 @@ $$
 w\in S\implies -Bw\in\partial\Phi(w),
 $$
 
-equivalently $0\in Bw+\partial\Phi(w)$. The domain hypothesis says that $x(t)\in\operatorname{dom}\Phi$ for all $t\ge0$, and that every $w\in S$ lies in $\operatorname{dom}\Phi$. The weak-convergence hypothesis says that there exists $x_\infty\in S$ such that $x(t)$ converges weakly to $x_\infty$ as $t\to\infty$. Finally, `hinfcompact` says that for every radius $r$ and every real level $a$, the set
+equivalently $0\in Bw+\partial\Phi(w)$. The domain hypothesis says that $x(t)\in\mathrm{dom}\Phi$ for all $t\ge0$, and that every $w\in S$ lies in $\mathrm{dom}\Phi$. The weak-convergence hypothesis says that there exists $x_\infty\in S$ such that $x(t)$ converges weakly to $x_\infty$ as $t\to\infty$. Finally, `hinfcompact` says that for every radius $r$ and every real level $a$, the set
 
 $$
 \overline{B}(z_0,r)\cap\{y\in H:\Phi(y)\le a\}
@@ -121,8 +121,8 @@ The proof begins by selecting a point from the nonempty set $S$. The command `le
 Next the proof invokes `proposition_2_16`. That theorem, under the same dynamical, cocoercivity, regularity, subgradient, $L^2$, domain, and weak-convergence assumptions, and given a point $z\in S$, states that the function
 
 $$
-t\mapsto \operatorname{toReal}(\Phi(x(t)))
--\operatorname{toReal}(\Phi(z))
+t\mapsto \mathrm{toReal}(\Phi(x(t)))
+-\mathrm{toReal}(\Phi(z))
 +\langle Bz,x(t)-z\rangle
 $$
 
@@ -135,10 +135,10 @@ $$
 weakly and
 
 $$
-\operatorname{toReal}(\Phi(x(t)))\to \operatorname{toReal}(\Phi(x_\infty)).
+\mathrm{toReal}(\Phi(x(t)))\to \mathrm{toReal}(\Phi(x_\infty)).
 $$
 
-The proof applies this result with $z=z_0$. The `obtain` pattern discards the integrability conclusion and the energy-to-zero conclusion, keeping only the existence of $x_\infty\in S$, its weak convergence property `hxweak`, and the convergence of the real parts of the $\Phi$-values `hvalue`. Thus the proof has a candidate limit $x_\infty\in S$, weak convergence of $x(t)$ to $x_\infty$, and convergence of $\operatorname{toReal}(\Phi(x(t)))$ to $L=\operatorname{toReal}(\Phi(x_\infty))$.
+The proof applies this result with $z=z_0$. The `obtain` pattern discards the integrability conclusion and the energy-to-zero conclusion, keeping only the existence of $x_\infty\in S$, its weak convergence property `hxweak`, and the convergence of the real parts of the $\Phi$-values `hvalue`. Thus the proof has a candidate limit $x_\infty\in S$, weak convergence of $x(t)$ to $x_\infty$, and convergence of $\mathrm{toReal}(\Phi(x(t)))$ to $L=\mathrm{toReal}(\Phi(x_\infty))$.
 
 The next step uses `cor218_eventually_norm_le_of_tendsto_weakly`. This lemma says that if $x(t)$ converges weakly to a point $z$, then there exists a real constant $C$ such that eventually $\|x(t)\|\le C$. Applied to `hxweak`, it gives `hC : ∀ᶠ t, ‖x(t)‖ ≤ C`. This is the uniform eventual boundedness of a weakly convergent trajectory, and it will be used to keep $x(t)$ inside a closed ball.
 
@@ -151,10 +151,10 @@ $$
 
 The set $K$ is an intersection of a closed ball around $z_0$ with a sublevel set of $\Phi$. To prove that $K$ is compact, the proof uses `hinfcompact`, which exactly asserts compactness of sets of this form for the chosen center $z_0$. The tactic `dsimp [K, R, a, z0]` unfolds the local definitions, and `exact hinfcompact (C + ‖Classical.choose hS‖) ((Phi xinf).toReal + 1)` matches the required radius and level. Hence `hK : IsCompact K`.
 
-The proof now shows that $x(t)$ is eventually contained in $K$. From `hvalue`, which says $\operatorname{toReal}(\Phi(x(t)))\to L$, and from $L<a=L+1$, the lemma `eventually_lt_const` gives
+The proof now shows that $x(t)$ is eventually contained in $K$. From `hvalue`, which says $\mathrm{toReal}(\Phi(x(t)))\to L$, and from $L<a=L+1$, the lemma `eventually_lt_const` gives
 
 $$
-\forallᶠ t,\quad \operatorname{toReal}(\Phi(x(t)))<a.
+\forallᶠ t,\quad \mathrm{toReal}(\Phi(x(t)))<a.
 $$
 
 The command `filter_upwards [hC, hlt, eventually_ge_atTop 0]` combines three eventual facts: the norm bound $\|x(t)\|\le C$, the strict upper bound on the real part of $\Phi(x(t))$, and the eventual condition $t\ge0$.
@@ -185,16 +185,16 @@ $$
 \Phi(x(t))\le a.
 $$
 
-From the already established real inequality $\operatorname{toReal}(\Phi(x(t)))<a$, the command `exact_mod_cast le_of_lt htv` coerces the non-strict inequality to $\mathrm{EReal}$:
+From the already established real inequality $\mathrm{toReal}(\Phi(x(t)))<a$, the command `exact_mod_cast le_of_lt htv` coerces the non-strict inequality to $\mathrm{EReal}$:
 
 $$
-(\operatorname{toReal}(\Phi(x(t))):\mathrm{EReal})\le (a:\mathrm{EReal}).
+(\mathrm{toReal}(\Phi(x(t))):\mathrm{EReal})\le (a:\mathrm{EReal}).
 $$
 
-The domain hypothesis `hdom.1 t ht0` says $x(t)\in\operatorname{dom}\Phi$. The lemma `ERealFunction.mem_effectiveDomain_iff` turns this into the side condition needed by `EReal.le_coe_toReal`; that lemma says an extended real number which is not $+\infty$ is bounded above by the coercion of its real part. Thus
+The domain hypothesis `hdom.1 t ht0` says $x(t)\in\mathrm{dom}\Phi$. The lemma `ERealFunction.mem_effectiveDomain_iff` turns this into the side condition needed by `EReal.le_coe_toReal`; that lemma says an extended real number which is not $+\infty$ is bounded above by the coercion of its real part. Thus
 
 $$
-\Phi(x(t))\le (\operatorname{toReal}(\Phi(x(t))):\mathrm{EReal}).
+\Phi(x(t))\le (\mathrm{toReal}(\Phi(x(t))):\mathrm{EReal}).
 $$
 
 Combining this with the previous coercion inequality gives $\Phi(x(t))\le a$. Therefore $x(t)\in K$, and `filter_upwards` packages this as the eventual statement `hEventuallyK`.

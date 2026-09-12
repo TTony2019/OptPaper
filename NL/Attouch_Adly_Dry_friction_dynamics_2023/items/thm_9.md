@@ -31,7 +31,7 @@ The declaration `theorem_A_1` is stated for a real Hilbert space $H$, encoded by
 The conclusion is
 
 $$
-\operatorname{AntitoneOn}\bigl(t\mapsto f(z(t))\bigr)\bigl([t_0,\infty)\bigr).
+\mathrm{AntitoneOn}\bigl(t\mapsto f(z(t))\bigr)\bigl([t_0,\infty)\bigr).
 $$
 
 Mathematically, this says that the energy function $t\mapsto f(z(t))$ is nonincreasing on the interval $[t_0,\infty)$: whenever $t_0\le s\le t$, one has
@@ -53,17 +53,17 @@ The proof is not a tactic proof. It is a single term obtained by applying `theor
 The cited theorem `theorem_2_1` applies under the same typeclass assumptions on $H$ and under the hypotheses $0<r$, $f$ is $C^1$, $f$ is bounded below, $\nabla f$ is locally Lipschitz, $z$ is differentiable, $r<\|\nabla f(z(t_0))\|$, and $z$ is a dry-gradient trajectory for $r$, $f$, and $t_0$. Its conclusion is the conjunction
 
 $$
-\operatorname{AntitoneOn}\bigl(t\mapsto f(z(t))\bigr)\bigl([t_0,\infty)\bigr)
+\mathrm{AntitoneOn}\bigl(t\mapsto f(z(t))\bigr)\bigl([t_0,\infty)\bigr)
 $$
 
 together with
 
 $$
-\operatorname{IntegrableOn}\bigl(t\mapsto \|\operatorname{deriv} z(t)\|^2\bigr)\bigl([t_0,\infty)\bigr),
+\mathrm{IntegrableOn}\bigl(t\mapsto \|\mathrm{deriv} z(t)\|^2\bigr)\bigl([t_0,\infty)\bigr),
 $$
 
 $$
-\operatorname{IntegrableOn}\bigl(t\mapsto \|\operatorname{deriv} z(t)\|\bigr)\bigl([t_0,\infty)\bigr),
+\mathrm{IntegrableOn}\bigl(t\mapsto \|\mathrm{deriv} z(t)\|\bigr)\bigl([t_0,\infty)\bigr),
 $$
 
 and the existence of a limit point $z_\infty\in H$ such that
@@ -89,7 +89,7 @@ The order of `hz_diff` and `hinitial` in this call follows the argument order of
 After `theorem_2_1` produces its conjunction, the projection `.1` extracts the first component, namely
 
 $$
-\operatorname{AntitoneOn}\bigl(t\mapsto f(z(t))\bigr)\bigl([t_0,\infty)\bigr).
+\mathrm{AntitoneOn}\bigl(t\mapsto f(z(t))\bigr)\bigl([t_0,\infty)\bigr).
 $$
 
 This is precisely the conclusion of `theorem_A_1`. No rewriting, simplification, arithmetic reasoning, or logical introduction is performed, so commands such as `intro`, `rw`, `simp`, and `linarith` play no role here. The only proof step is the elimination of a conjunction by taking its first component.

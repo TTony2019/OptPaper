@@ -50,8 +50,8 @@ The ambient types are $H$ and $M$. Here $H$ is a real inner product space and is
 The data are:
 
 - $\phi : M \to H \to \mathbb R$, a family of functions $\phi_\mu : H \to \mathbb R$.
-- $\operatorname{grad}\phi : M \to H \to H$, where $\operatorname{grad}\phi(\mu,q)$ is intended to be the gradient of $\phi_\mu$ at $q$.
-- $\operatorname{hess}\phi : M \to H \to H \to H$, where $\operatorname{hess}\phi(\mu,q)(v)$ is intended to be the Hessian action of $\phi_\mu$ at $q$ on $v$.
+- $\mathrm{grad}\phi : M \to H \to H$, where $\mathrm{grad}\phi(\mu,q)$ is intended to be the gradient of $\phi_\mu$ at $q$.
+- $\mathrm{hess}\phi : M \to H \to H \to H$, where $\mathrm{hess}\phi(\mu,q)(v)$ is intended to be the Hessian action of $\phi_\mu$ at $q$ on $v$.
 - $x,dx,ddx : M \to \mathbb R \to H$, representing for each parameter $\mu$ the trajectory, its first derivative, and its second derivative.
 - $u_0,v_0 : M \to H$, the initial position and initial velocity for each $\mu$.
 - $\bar x : M \to H$, a family of candidate critical points.
@@ -66,26 +66,26 @@ The assumptions are:
 - $c_{\min}>0$, and for every $\mu$,
 
 $$
-c_{\min} \le \operatorname{energyRate}(\beta,\gamma,\delta(\mu)).
+c_{\min} \le \mathrm{energyRate}(\beta,\gamma,\delta(\mu)).
 $$
 
 Here
 
 $$
-\operatorname{energyRate}(\beta,\gamma,\delta)
+\mathrm{energyRate}(\beta,\gamma,\delta)
 =
 \frac{(\beta\delta+\gamma)-\sqrt{(\beta\delta+\gamma)^2-4\delta}}{2}.
 $$
 
 - For every $\mu$, $\phi_\mu$ is differentiable on $H$.
-- For every $\mu$ and every $q\in H$, $\operatorname{grad}\phi(\mu,q)$ is a gradient of $\phi_\mu$ at $q$.
+- For every $\mu$ and every $q\in H$, $\mathrm{grad}\phi(\mu,q)$ is a gradient of $\phi_\mu$ at $q$.
 - For every $\mu$, $\phi_\mu$ is strongly convex with modulus $\delta(\mu)$.
 - $k_1>0$, $0<\gamma_1$, and $\gamma_1\le 1$.
 - For every $\mu$, the triple $(x(\mu),dx(\mu),ddx(\mu))$ satisfies the DIN system
 
 $$
-\operatorname{DIN}(\phi_\mu,\operatorname{grad}\phi_\mu,
- \operatorname{hess}\phi_\mu,\gamma,\beta,
+\mathrm{DIN}(\phi_\mu,\mathrm{grad}\phi_\mu,
+ \mathrm{hess}\phi_\mu,\gamma,\beta,
  u_0(\mu),v_0(\mu),x(\mu),dx(\mu),ddx(\mu)).
 $$
 
@@ -99,34 +99,34 @@ absolute continuity on compact intervals, and almost everywhere the second-order
 
 $$
 ddx(\mu,t)+\gamma\,dx(\mu,t)
-+\beta\,\operatorname{hess}\phi_\mu(x(\mu,t))(dx(\mu,t))
-+\operatorname{grad}\phi_\mu(x(\mu,t))=0.
++\beta\,\mathrm{hess}\phi_\mu(x(\mu,t))(dx(\mu,t))
++\mathrm{grad}\phi_\mu(x(\mu,t))=0.
 $$
 
 - For every $\mu$, almost every $t\in[0,\infty)$,
 
 $$
-\operatorname{HasDerivAt}(x(\mu),dx(\mu,t),t),
+\mathrm{HasDerivAt}(x(\mu),dx(\mu,t),t),
 $$
 
 and almost every $t\in[0,\infty)$,
 
 $$
-\operatorname{HasDerivAt}(dx(\mu),ddx(\mu,t),t).
+\mathrm{HasDerivAt}(dx(\mu),ddx(\mu,t),t).
 $$
 
-- For every $\mu$ and every $q\in H$, there exists a continuous linear map $L:H\to H$ such that $L$ is the Fréchet derivative of $\operatorname{grad}\phi_\mu$ at $q$, and for every $v$,
+- For every $\mu$ and every $q\in H$, there exists a continuous linear map $L:H\to H$ such that $L$ is the Fréchet derivative of $\mathrm{grad}\phi_\mu$ at $q$, and for every $v$,
 
 $$
-L(v)=\operatorname{hess}\phi_\mu(q)(v).
+L(v)=\mathrm{hess}\phi_\mu(q)(v).
 $$
 
-Thus $\operatorname{hess}\phi_\mu(q)$ is the derivative of the gradient map.
-- For every $\mu$ and every $T'>0$, the map $\operatorname{grad}\phi_\mu$ is Lipschitz on the image $x(\mu)([0,T'])$.
+Thus $\mathrm{hess}\phi_\mu(q)$ is the derivative of the gradient map.
+- For every $\mu$ and every $T'>0$, the map $\mathrm{grad}\phi_\mu$ is Lipschitz on the image $x(\mu)([0,T'])$.
 - For every $x_0\in H$ and all $\mu,\mu'\in M$,
 
 $$
-\|\operatorname{grad}\phi_\mu(x_0)-\operatorname{grad}\phi_{\mu'}(x_0)\|
+\|\mathrm{grad}\phi_\mu(x_0)-\mathrm{grad}\phi_{\mu'}(x_0)\|
 \le k_1\,\|\mu-\mu'\|^{\gamma_1}.
 $$
 
@@ -134,7 +134,7 @@ So the gradient depends Hölder continuously on the parameter.
 - For every $\mu$,
 
 $$
-\operatorname{grad}\phi_\mu(\bar x(\mu))=0.
+\mathrm{grad}\phi_\mu(\bar x(\mu))=0.
 $$
 
 Thus each $\bar x(\mu)$ is a critical point.
@@ -161,16 +161,16 @@ This is a local Lyapunov stability assumption at the base parameter.
 
 $$
 \mu\mapsto
-\bigl(u_0(\mu),\operatorname{dinAuxInitial}(\operatorname{grad}\phi,\beta,\gamma,u_0,v_0,\mu)\bigr)
+\bigl(u_0(\mu),\mathrm{dinAuxInitial}(\mathrm{grad}\phi,\beta,\gamma,u_0,v_0,\mu)\bigr)
 $$
 
 is continuous at $\bar\mu$. Here
 
 $$
-\operatorname{dinAuxInitial}(\operatorname{grad}\phi,\beta,\gamma,u_0,v_0,\mu)
+\mathrm{dinAuxInitial}(\mathrm{grad}\phi,\beta,\gamma,u_0,v_0,\mu)
 =
 -\left(\sqrt{(\gamma-1/\beta)(1/\beta)}\right)^{-1}
-\bigl(v_0(\mu)+\beta\,\operatorname{grad}\phi_\mu(u_0(\mu))
+\bigl(v_0(\mu)+\beta\,\mathrm{grad}\phi_\mu(u_0(\mu))
 +(\gamma-1/\beta)u_0(\mu)\bigr).
 $$
 
@@ -179,7 +179,7 @@ The conclusion is a conjunction of two statements.
 First, for every $\varepsilon>0$ there exists $\delta>0$ such that for every $\mu\in M$, if
 
 $$
-\operatorname{dist}(\mu,\bar\mu)<\delta
+\mathrm{dist}(\mu,\bar\mu)<\delta
 \quad\text{and}\quad
 \|u_0(\mu)-\bar x(\bar\mu)\|<\delta,
 $$
@@ -201,7 +201,7 @@ $$
 then for every $\mu$,
 
 $$
-\operatorname{Tendsto}(x(\mu),\operatorname{atTop},\operatorname{nhds}(\bar x(\mu))),
+\mathrm{Tendsto}(x(\mu),\mathrm{atTop},\mathrm{nhds}(\bar x(\mu))),
 $$
 
 meaning
@@ -215,7 +215,7 @@ and in addition
 $$
 \|\bar x(\mu)-\bar x(\bar\mu)\|
 \le
-\frac{\beta k_1}{c_{\min}}\,\operatorname{dist}(\mu,\bar\mu)^{\gamma_1}.
+\frac{\beta k_1}{c_{\min}}\,\mathrm{dist}(\mu,\bar\mu)^{\gamma_1}.
 $$
 
 Thus the limiting critical point depends Hölder continuously on the parameter with exponent $\gamma_1$.
@@ -368,7 +368,7 @@ by
 The proof begins by constructing the lifted first-order formulation. It calls `dinGradientLift_of_DIN` with the hypotheses $\beta>0$, $\beta\gamma>1$, the DIN assumptions for all $\mu$, the almost everywhere derivative assumptions, the Hessian assumption, and the local Lipschitz assumption. The result is
 
 $$
-\operatorname{DINGradientLift}(\operatorname{grad}\phi,x,u_0,v_0,\beta,\gamma).
+\mathrm{DINGradientLift}(\mathrm{grad}\phi,x,u_0,v_0,\beta,\gamma).
 $$
 
 The mathematical content is that the second-order DIN trajectory $x(\mu)$ can be paired with an auxiliary coordinate
@@ -376,19 +376,19 @@ The mathematical content is that the second-order DIN trajectory $x(\mu)$ can be
 $$
 z(\mu,t)
 =
-\operatorname{dinAux}(\operatorname{grad}\phi,\beta,\gamma,x,dx,\mu,t)
+\mathrm{dinAux}(\mathrm{grad}\phi,\beta,\gamma,x,dx,\mu,t)
 $$
 
 so that the pair $(x(\mu,t),z(\mu,t))$ solves a first-order gradient flow with field
 
 $$
-\operatorname{DINGradientField}(\operatorname{grad}\phi,\beta,\gamma,\mu).
+\mathrm{DINGradientField}(\mathrm{grad}\phi,\beta,\gamma,\mu).
 $$
 
 The initial value of this lifted pair is
 
 $$
-(u_0(\mu),\operatorname{dinAuxInitial}(\operatorname{grad}\phi,\beta,\gamma,u_0,v_0,\mu)).
+(u_0(\mu),\mathrm{dinAuxInitial}(\mathrm{grad}\phi,\beta,\gamma,u_0,v_0,\mu)).
 $$
 
 The proof of `dinGradientLift_of_DIN` verifies three things: the lifted initial condition, absolute continuity on compact intervals, and the first-order differential equation almost everywhere. The assumptions $\beta>0$ and $\beta\gamma>1$ ensure $\gamma-1/\beta>0$ and $1/\beta>0$, so the square roots appearing in the auxiliary coordinate are real and positive.
@@ -413,15 +413,15 @@ for every $t\ge 0$, applied to the base DIN trajectory.
 Next, the proof uses `hconv_init`, the continuity at $\bar\mu$ of the lifted initial data. The Tendsto statement is converted, via the metric characterization of convergence in a neighborhood filter, into the existence of a radius $\delta_1>0$ such that if
 
 $$
-\operatorname{dist}(\mu,\bar\mu)<\delta_1,
+\mathrm{dist}(\mu,\bar\mu)<\delta_1,
 $$
 
 then
 
 $$
-\operatorname{dist}\!\left(
-(u_0(\mu),\operatorname{dinAuxInitial}(\ldots,\mu)),
-(u_0(\bar\mu),\operatorname{dinAuxInitial}(\ldots,\bar\mu))
+\mathrm{dist}\!\left(
+(u_0(\mu),\mathrm{dinAuxInitial}(\ldots,\mu)),
+(u_0(\bar\mu),\mathrm{dinAuxInitial}(\ldots,\bar\mu))
 \right)
 <
 \frac{\varepsilon}{3\sqrt2}.
@@ -461,12 +461,12 @@ $$
 \delta=\min(\min(\delta_1,\eta),\delta_{\mathrm{rate}}).
 $$
 
-Now fix $\mu$ with $\operatorname{dist}(\mu,\bar\mu)<\delta$, and fix $t\ge 0$. The proof obtains
+Now fix $\mu$ with $\mathrm{dist}(\mu,\bar\mu)<\delta$, and fix $t\ge 0$. The proof obtains
 
 $$
-\operatorname{dist}(\mu,\bar\mu)<\delta_1,\qquad
-\operatorname{dist}(\mu,\bar\mu)<\eta,\qquad
-\operatorname{dist}(\mu,\bar\mu)<\delta_{\mathrm{rate}}.
+\mathrm{dist}(\mu,\bar\mu)<\delta_1,\qquad
+\mathrm{dist}(\mu,\bar\mu)<\eta,\qquad
+\mathrm{dist}(\mu,\bar\mu)<\delta_{\mathrm{rate}}.
 $$
 
 The base trajectory bound gives
@@ -478,9 +478,9 @@ $$
 The initial lifted distance is then controlled. From the choice of $\delta_1$,
 
 $$
-\operatorname{dist}\!\left(
-(u_0(\mu),\operatorname{dinAuxInitial}(\ldots,\mu)),
-(u_0(\bar\mu),\operatorname{dinAuxInitial}(\ldots,\bar\mu))
+\mathrm{dist}\!\left(
+(u_0(\mu),\mathrm{dinAuxInitial}(\ldots,\mu)),
+(u_0(\bar\mu),\mathrm{dinAuxInitial}(\ldots,\bar\mu))
 \right)
 <
 \frac{\varepsilon}{3\sqrt2}.
@@ -492,8 +492,8 @@ $$
 m=
 \max\left(
 \|u_0(\mu)-u_0(\bar\mu)\|,
-\|\operatorname{dinAuxInitial}(\ldots,\mu)
--\operatorname{dinAuxInitial}(\ldots,\bar\mu)\|
+\|\mathrm{dinAuxInitial}(\ldots,\mu)
+-\mathrm{dinAuxInitial}(\ldots,\bar\mu)\|
 \right),
 $$
 
@@ -503,8 +503,8 @@ $$
 \sqrt{
 \|u_0(\mu)-u_0(\bar\mu)\|^2
 +
-\|\operatorname{dinAuxInitial}(\ldots,\mu)
--\operatorname{dinAuxInitial}(\ldots,\bar\mu)\|^2
+\|\mathrm{dinAuxInitial}(\ldots,\mu)
+-\mathrm{dinAuxInitial}(\ldots,\bar\mu)\|^2
 }
 \le
 \sqrt2\,m.
@@ -516,8 +516,8 @@ $$
 \sqrt{
 \|u_0(\mu)-u_0(\bar\mu)\|^2
 +
-\|\operatorname{dinAuxInitial}(\ldots,\mu)
--\operatorname{dinAuxInitial}(\ldots,\bar\mu)\|^2
+\|\mathrm{dinAuxInitial}(\ldots,\mu)
+-\mathrm{dinAuxInitial}(\ldots,\bar\mu)\|^2
 }
 <
 \frac{\varepsilon}{3}.
@@ -548,8 +548,8 @@ where
 $$
 M=
 \max\left(
-\operatorname{energyRate}(\beta,\gamma,\delta(\mu)),
-\operatorname{energyRate}(\beta,\gamma,\delta(\bar\mu))
+\mathrm{energyRate}(\beta,\gamma,\delta(\mu)),
+\mathrm{energyRate}(\beta,\gamma,\delta(\bar\mu))
 \right),
 $$
 
@@ -557,7 +557,7 @@ and
 
 $$
 z_0(\mu)=
-\operatorname{dinAuxInitial}(\operatorname{grad}\phi,\beta,\gamma,u_0,v_0,\mu).
+\mathrm{dinAuxInitial}(\mathrm{grad}\phi,\beta,\gamma,u_0,v_0,\mu).
 $$
 
 This estimate is the quantitative stability comparison between the two DIN trajectories.
@@ -567,7 +567,7 @@ The proof bounds the first term using $e^{-Mt}\le 1$, which follows because $M>0
 For the second term, the proof uses the lower bound on the decay rates. Since
 
 $$
-c_{\min}\le \operatorname{energyRate}(\beta,\gamma,\delta(\mu)),
+c_{\min}\le \mathrm{energyRate}(\beta,\gamma,\delta(\mu)),
 $$
 
 and $M$ is the maximum of this quantity and the corresponding quantity for $\bar\mu$, we have $c_{\min}\le M$. Therefore
@@ -582,7 +582,7 @@ $$
 \frac{\beta k_1}{c_{\min}}\|\mu-\bar\mu\|^{\gamma_1}.
 $$
 
-Since $\operatorname{dist}(\mu,\bar\mu)<\delta_{\mathrm{rate}}$, monotonicity of the real power gives
+Since $\mathrm{dist}(\mu,\bar\mu)<\delta_{\mathrm{rate}}$, monotonicity of the real power gives
 
 $$
 \|\mu-\bar\mu\|^{\gamma_1}
@@ -621,19 +621,19 @@ The first summand is $<2\varepsilon/3$, and the second is $<\varepsilon/3$, so t
 For the second part, the proof ignores the hypothesis that the initial data are independent of $\mu$, because the argument below proves the convergence assertion for each $\mu$ directly. For a fixed $\mu$, the proof applies `din_tendsto_to_critical` with the decay rate
 
 $$
-c(\mu)=\operatorname{energyRate}(\beta,\gamma,\delta(\mu)).
+c(\mu)=\mathrm{energyRate}(\beta,\gamma,\delta(\mu)).
 $$
 
 The required strong monotonicity of the lifted field is supplied by `energyStrong_of_strongConvex`. That result uses strong convexity of $\phi_\mu$ with modulus $\delta(\mu)$ and the gradient hypothesis to prove that the lifted field
 
 $$
-F_\mu=\operatorname{DINGradientField}(\operatorname{grad}\phi,\beta,\gamma,\mu)
+F_\mu=\mathrm{DINGradientField}(\mathrm{grad}\phi,\beta,\gamma,\mu)
 $$
 
 satisfies, for all $p,q\in H\times H$,
 
 $$
-\operatorname{energyRate}(\beta,\gamma,\delta(\mu))
+\mathrm{energyRate}(\beta,\gamma,\delta(\mu))
 \left(
 \|p_1-q_1\|^2+\|p_2-q_2\|^2
 \right)
@@ -646,7 +646,7 @@ $$
 This is exactly the strong monotonicity needed by `din_tendsto_to_critical`. The positivity of the constant is supplied by `energyRate_pos`, using $\beta>0$, $\gamma>0$, $\delta(\mu)>0$, and $\beta\gamma>1$. The critical-point condition is `hcrit μ`,
 
 $$
-\operatorname{grad}\phi_\mu(\bar x(\mu))=0.
+\mathrm{grad}\phi_\mu(\bar x(\mu))=0.
 $$
 
 Thus `din_tendsto_to_critical` gives
@@ -662,8 +662,8 @@ $$
 \le
 \frac{\beta k_1}{
 \max\left(
-\operatorname{energyRate}(\beta,\gamma,\delta(\mu)),
-\operatorname{energyRate}(\beta,\gamma,\delta(\mu'))
+\mathrm{energyRate}(\beta,\gamma,\delta(\mu)),
+\mathrm{energyRate}(\beta,\gamma,\delta(\mu'))
 \right)}
 \|\mu-\mu'\|^{\gamma_1}.
 $$
@@ -675,8 +675,8 @@ $$
 \le
 \frac{\beta k_1}{
 \max\left(
-\operatorname{energyRate}(\beta,\gamma,\delta(\mu)),
-\operatorname{energyRate}(\beta,\gamma,\delta(\bar\mu))
+\mathrm{energyRate}(\beta,\gamma,\delta(\mu)),
+\mathrm{energyRate}(\beta,\gamma,\delta(\bar\mu))
 \right)}
 \|\mu-\bar\mu\|^{\gamma_1}.
 $$
@@ -684,11 +684,11 @@ $$
 Since
 
 $$
-c_{\min}\le \operatorname{energyRate}(\beta,\gamma,\delta(\mu))
+c_{\min}\le \mathrm{energyRate}(\beta,\gamma,\delta(\mu))
 \le
 \max\left(
-\operatorname{energyRate}(\beta,\gamma,\delta(\mu)),
-\operatorname{energyRate}(\beta,\gamma,\delta(\bar\mu))
+\mathrm{energyRate}(\beta,\gamma,\delta(\mu)),
+\mathrm{energyRate}(\beta,\gamma,\delta(\bar\mu))
 \right),
 $$
 
@@ -697,8 +697,8 @@ the denominator is at least $c_{\min}$, so
 $$
 \frac{\beta k_1}{
 \max\left(
-\operatorname{energyRate}(\beta,\gamma,\delta(\mu)),
-\operatorname{energyRate}(\beta,\gamma,\delta(\bar\mu))
+\mathrm{energyRate}(\beta,\gamma,\delta(\mu)),
+\mathrm{energyRate}(\beta,\gamma,\delta(\bar\mu))
 \right)}
 \le
 \frac{\beta k_1}{c_{\min}}.
@@ -713,5 +713,5 @@ $$
 \|\mu-\bar\mu\|^{\gamma_1}.
 $$
 
-The final rewrite uses $\operatorname{dist}(\mu,\bar\mu)=\|\mu-\bar\mu\|$, giving the stated estimate with $\operatorname{dist}(\mu,\bar\mu)^{\gamma_1}$.
+The final rewrite uses $\mathrm{dist}(\mu,\bar\mu)=\|\mu-\bar\mu\|$, giving the stated estimate with $\mathrm{dist}(\mu,\bar\mu)^{\gamma_1}$.
 

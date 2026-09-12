@@ -25,13 +25,13 @@ The theorem concerns the $\omega$-limit set of a trajectory $x$ in a finite-dime
 
 The data are:
 
-- a function $\Phi : N \to \mathbb R$, a gradient map $\operatorname{grad}\Phi : N \to N$, with $\Phi$ class $C^1$, the Fréchet derivative of $\Phi$ at $u$ given by
+- a function $\Phi : N \to \mathbb R$, a gradient map $\mathrm{grad}\Phi : N \to N$, with $\Phi$ class $C^1$, the Fréchet derivative of $\Phi$ at $u$ given by
 
   $$
-  v \mapsto \langle \operatorname{grad}\Phi(u), v\rangle,
+  v \mapsto \langle \mathrm{grad}\Phi(u), v\rangle,
   $$
 
-  and $\operatorname{grad}\Phi$ continuous;
+  and $\mathrm{grad}\Phi$ continuous;
 - a trajectory $x : [0,\infty) \to N$, meaning $x$ is a function on the subtype of nonnegative reals;
 - $x$ is realized by a continuous flow: there is a continuous $\phi : \mathbb R \to N \to N$ and an initial point $x_0$ such that
 
@@ -40,12 +40,12 @@ The data are:
   $$
 
   for every $t\ge 0$;
-- the image $\operatorname{range} x$ is bounded;
-- there is a velocity map $\operatorname{velocity} : [0,\infty)\to N$ tending to $0$ at infinity, though this hypothesis is not used in the proof;
+- the image $\mathrm{range} x$ is bounded;
+- there is a velocity map $\mathrm{velocity} : [0,\infty)\to N$ tending to $0$ at infinity, though this hypothesis is not used in the proof;
 - the gradient along the trajectory tends to zero:
 
   $$
-  \operatorname{grad}\Phi(x(t)) \to 0
+  \mathrm{grad}\Phi(x(t)) \to 0
   \quad\text{as } t\to\infty.
   $$
 
@@ -77,17 +77,17 @@ $$
 $$
 
 $$
-\operatorname{dist}(x(t),\omega(x))\to 0
+\mathrm{dist}(x(t),\omega(x))\to 0
 \quad\text{as } t\to\infty,
 $$
 
 and
 
 $$
-\forall z\in \omega(x),\qquad \operatorname{grad}\Phi(z)=0.
+\forall z\in \omega(x),\qquad \mathrm{grad}\Phi(z)=0.
 $$
 
-Thus, mathematically, the theorem says that a bounded continuous trajectory whose gradient along the trajectory tends to zero has a nonempty compact connected $\omega$-limit set, the trajectory approaches this limit set in distance, and every point of the limit set is a critical point of $\Phi$. The differentiability assumptions on $\Phi$, the exact gradient identity, and the velocity convergence are part of the statement, but the given proof only uses continuity of the gradient and the convergence $\operatorname{grad}\Phi(x(t))\to 0$.
+Thus, mathematically, the theorem says that a bounded continuous trajectory whose gradient along the trajectory tends to zero has a nonempty compact connected $\omega$-limit set, the trajectory approaches this limit set in distance, and every point of the limit set is a critical point of $\Phi$. The differentiability assumptions on $\Phi$, the exact gradient identity, and the velocity convergence are part of the statement, but the given proof only uses continuity of the gradient and the convergence $\mathrm{grad}\Phi(x(t))\to 0$.
 
 ## Lean proof
 ```lean
@@ -222,10 +222,10 @@ Thus $K_n$ is the closure of the image of the tail of the trajectory starting at
 The proof establishes several properties of the sequence $K_n$. First, each $K_n$ is nonempty: the point $x(\tau_n)=x(n)$ lies in the tail image, hence in its closure. Second,
 
 $$
-K_n\subseteq \overline{\operatorname{range}x},
+K_n\subseteq \overline{\mathrm{range}x},
 $$
 
-because the tail image is contained in the full range of $x$, and closure is monotone. Third, each $K_n$ is compact. Indeed, $\operatorname{range}x$ is bounded, so its closure is compact by properness of $N$; the set $K_n$ is closed and contained in this compact closure, hence compact. Fourth, the sequence is decreasing:
+because the tail image is contained in the full range of $x$, and closure is monotone. Third, each $K_n$ is compact. Indeed, $\mathrm{range}x$ is bounded, so its closure is compact by properness of $N$; the set $K_n$ is closed and contained in this compact closure, hence compact. Fourth, the sequence is decreasing:
 
 $$
 K_{n+1}\subseteq K_n.
@@ -273,7 +273,7 @@ $$
 \bigcap_{n\in\mathbb N}K_n\ne\varnothing.
 $$
 
-Applying this to the present $K_n$ gives $(\omega(x)).\operatorname{Nonempty}$.
+Applying this to the present $K_n$ gives $(\omega(x)).\mathrm{Nonempty}$.
 
 Compactness of $\omega(x)$ is then obtained as follows. The intersection $\bigcap_n K_n$ is closed because it is an intersection of closed sets. It is contained in $K_0$, which is compact. A closed subset of a compact set is compact, so $\omega(x)$ is compact.
 
@@ -285,16 +285,16 @@ $$
 
 is preconnected. The present $K_n$ satisfy all these hypotheses: they are decreasing, compact, closed, nonempty, and preconnected. Therefore $\omega(x)=\bigcap_n K_n$ is preconnected. Since $\omega(x)$ is also nonempty, it is connected. In the final assembly, this is the pair $\langle hOmegaNonempty,hOmegaPreconnected\rangle$ representing connectedness.
 
-The distance convergence is supplied by the cited result `tendsto_infDist_omegaLimit_of_compact_closure`. It states that for a metric-space trajectory $x$, if $\overline{\operatorname{range}x}$ is compact, then
+The distance convergence is supplied by the cited result `tendsto_infDist_omegaLimit_of_compact_closure`. It states that for a metric-space trajectory $x$, if $\overline{\mathrm{range}x}$ is compact, then
 
 $$
-\operatorname{infDist}(x(t),\omega(x))\to 0.
+\mathrm{infDist}(x(t),\omega(x))\to 0.
 $$
 
-In the proof, boundedness of $\operatorname{range}x$ and properness of $N$ give compactness of $\overline{\operatorname{range}x}$, so the lemma yields
+In the proof, boundedness of $\mathrm{range}x$ and properness of $N$ give compactness of $\overline{\mathrm{range}x}$, so the lemma yields
 
 $$
-\operatorname{dist}(x(t),\omega(x))\to 0.
+\mathrm{dist}(x(t),\omega(x))\to 0.
 $$
 
 Finally the proof shows that every point of the $\omega$-limit set is critical. Let $z\in\omega(x)$. By the definition of `omegaLimit`, there is a sequence
@@ -306,25 +306,25 @@ $$
 such that $t_n\to\infty$ in $\mathbb R$ and $x(t_n)\to z$. The proof lifts the convergence $t_n\to\infty$ to the subtype $[0,\infty)$: for every threshold $s\ge 0$, eventually $s\le t_n$, so $t_n\to\infty$ in the order of the subtype. Composing the hypothesis
 
 $$
-\operatorname{grad}\Phi(x(t))\to 0
+\mathrm{grad}\Phi(x(t))\to 0
 $$
 
 with $t_n\to\infty$ gives
 
 $$
-\operatorname{grad}\Phi(x(t_n))\to 0.
+\mathrm{grad}\Phi(x(t_n))\to 0.
 $$
 
-On the other hand, continuity of $\operatorname{grad}\Phi$ and $x(t_n)\to z$ give
+On the other hand, continuity of $\mathrm{grad}\Phi$ and $x(t_n)\to z$ give
 
 $$
-\operatorname{grad}\Phi(x(t_n))\to \operatorname{grad}\Phi(z).
+\mathrm{grad}\Phi(x(t_n))\to \mathrm{grad}\Phi(z).
 $$
 
 Since limits in a Hausdorff space are unique, the two limits must be equal:
 
 $$
-\operatorname{grad}\Phi(z)=0.
+\mathrm{grad}\Phi(z)=0.
 $$
 
 The proof uses `tendsto_nhds_unique h2 h1` to extract this equality.

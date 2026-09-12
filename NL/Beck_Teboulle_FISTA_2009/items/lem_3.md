@@ -38,13 +38,13 @@ $$
 The definitions used in the statement are
 
 $$
-F(x):=\operatorname{compositeObjective} f g x=f(x)+g(x)
+F(x):=\mathrm{compositeObjective} f g x=f(x)+g(x)
 $$
 
 and
 
 $$
-Q_L(x,y):=\operatorname{quadraticApprox} f g L x y
+Q_L(x,y):=\mathrm{quadraticApprox} f g L x y
 =f(y)+\langle\nabla f(y),x-y\rangle+\frac L2\|x-y\|^2+g(x).
 $$
 
@@ -220,7 +220,7 @@ Hence $h_{ab}$ is convex.
 The proof then identifies the derivative of $h_{ab}$ at $0$. From the smoothness field `hP.smooth_f.contDiff.differentiable`, the function $f$ is differentiable, hence differentiable at $b$. The line derivative of $f$ at $b$ in direction $a-b$ is therefore defined, and the lemmas `lineDeriv_eq_fderiv` and `inner_gradient_left` identify it as
 
 $$
-\operatorname{lineDeriv}_{\mathbb R} f(b;a-b)=\langle\nabla f(b),a-b\rangle.
+\mathrm{lineDeriv}_{\mathbb R} f(b;a-b)=\langle\nabla f(b),a-b\rangle.
 $$
 
 Consequently,

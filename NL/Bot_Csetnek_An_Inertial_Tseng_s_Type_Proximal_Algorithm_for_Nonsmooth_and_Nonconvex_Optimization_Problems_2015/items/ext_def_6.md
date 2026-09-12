@@ -24,7 +24,7 @@ More precisely, `IsSemiAlgebraicEReal g` is the proposition that there exists a 
 2. The epigraph of $g$, denoted `ERealFunction.epigraph g`, is exactly the union of the pieces:
 
 $$
-\operatorname{epigraph}(g)
+\mathrm{epigraph}(g)
 =
 \{p \mid \exists s,\; s\in P \land p\in s\}.
 $$

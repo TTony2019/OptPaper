@@ -22,9 +22,9 @@ No convexity, differentiability, monotonicity, convergence, or limit hypothesis 
 The body of the definition is
 
 $$
-\operatorname{dualBregmanDistance}(f^\star,G,g,g_{\mathrm{Limit}})
+\mathrm{dualBregmanDistance}(f^\star,G,g,g_{\mathrm{Limit}})
 =
-\operatorname{bregmanDistance}(f^\star,G,g,g_{\mathrm{Limit}}).
+\mathrm{bregmanDistance}(f^\star,G,g,g_{\mathrm{Limit}}).
 $$
 
 So the definition introduces the dual Bregman distance as exactly the already-existing Bregman distance evaluated with the same four arguments. Since the definition of `bregmanDistance` is not included in the provided source, this explanation does not assert any particular formula for it. The mathematical content of this declaration is precisely the definitional identification: the new name `dualBregmanDistance` is an abbreviation for `bregmanDistance` specialized to $f^\star$, $G$, $g$, and $g_{\mathrm{Limit}}$.
@@ -40,9 +40,9 @@ There is no separate proof part. The Lean source contains only a comment saying 
 The only mathematical content is the definitional equality obtained by unfolding the new name:
 
 $$
-\operatorname{dualBregmanDistance}(f^\star,G,g,g_{\mathrm{Limit}})
+\mathrm{dualBregmanDistance}(f^\star,G,g,g_{\mathrm{Limit}})
 =
-\operatorname{bregmanDistance}(f^\star,G,g,g_{\mathrm{Limit}}).
+\mathrm{bregmanDistance}(f^\star,G,g,g_{\mathrm{Limit}}).
 $$
 
 In Lean terms, `dualBregmanDistance fstar gradFstar g gLimit` is definitionally equal to `bregmanDistance fstar gradFstar g gLimit`. Therefore any later use of the dual Bregman distance can be replaced by the corresponding Bregman distance with the same arguments, without adding any additional hypotheses. No local result is cited because there is no proof to cite one in.

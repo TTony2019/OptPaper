@@ -14,7 +14,7 @@ The declaration introduces a predicate named `IsRealAnalyticOn`. It is parametri
 Its definition is the conjunction
 
 $$
-\operatorname{IsOpen}(\Omega) \land \operatorname{AnalyticOnNhd}_{\mathbb{R}}(\Phi,\Omega).
+\mathrm{IsOpen}(\Omega) \land \mathrm{AnalyticOnNhd}_{\mathbb{R}}(\Phi,\Omega).
 $$
 
 The first conjunct asserts that $\Omega$ is open in the Euclidean topology. The second conjunct is the Mathlib neighborhood-analyticity predicate `AnalyticOnNhd`, applied to the real scalar field $\mathbb{R}$, the function $\Phi$, and the set $\Omega$. Mathematically, this means that $\Phi$ is real analytic at every point of $\Omega$: near each such point it has a convergent power-series expansion in the coordinates. Because the definition also requires $\Omega$ to be open, the whole proposition says exactly that $\Phi$ is real analytic on the open set $\Omega$. There is no additional assertion that $\Phi$ is analytic outside $\Omega$, nor any global analyticity statement on all of $\mathbb{R}^N$.
@@ -28,10 +28,10 @@ The first conjunct asserts that $\Omega$ is open in the Euclidean topology. The 
 There is no separate proof part. The source is a definition, so its body is simply the proposition
 
 $$
-\operatorname{IsOpen}(\Omega) \land \operatorname{AnalyticOnNhd}_{\mathbb{R}}(\Phi,\Omega).
+\mathrm{IsOpen}(\Omega) \land \mathrm{AnalyticOnNhd}_{\mathbb{R}}(\Phi,\Omega).
 $$
 
 No theorem, lemma, or local result is invoked. No proof steps, case splits, rewrites, simplifications, or arithmetic reasoning occur. In particular, Lean commands such as `intro`, `rw`, `simp`, `exact`, and `linarith` do not appear.
 
-Semantically, the declaration only records the meaning of the predicate `IsRealAnalyticOn`. If one wanted to prove $\operatorname{IsRealAnalyticOn}(\Omega,\Phi)$ for a concrete $\Omega$ and $\Phi$, the definition would reduce that goal to two subgoals: prove that $\Omega$ is open, and prove that $\Phi$ is real analytic at every point of $\Omega$. This declaration supplies that reduction, but it does not itself establish either subgoal.
+Semantically, the declaration only records the meaning of the predicate `IsRealAnalyticOn`. If one wanted to prove $\mathrm{IsRealAnalyticOn}(\Omega,\Phi)$ for a concrete $\Omega$ and $\Phi$, the definition would reduce that goal to two subgoals: prove that $\Omega$ is open, and prove that $\Phi$ is real analytic at every point of $\Omega$. This declaration supplies that reduction, but it does not itself establish either subgoal.
 

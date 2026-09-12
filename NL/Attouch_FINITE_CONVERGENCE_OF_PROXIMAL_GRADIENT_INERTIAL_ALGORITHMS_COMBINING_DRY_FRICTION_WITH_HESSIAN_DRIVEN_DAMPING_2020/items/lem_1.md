@@ -17,7 +17,7 @@ theorem proximal_eq_zero_of_norm_le {H : Type*} [NormedAddCommGroup H] [InnerPro
 The declaration `proximal_eq_zero_of_norm_le` is a theorem about a real Hilbert space $H$. The typeclass assumptions say that $H$ is a normed additive commutative group, a real inner product space, and complete. The data are a function $\phi:H\to\mathbb R$, real numbers $r,\lambda$, and a point $x\in H$. The hypotheses are:
 
 - $0<\lambda$;
-- $\phi$ is convex on all of $H$, expressed as $\operatorname{ConvexOn}\ \mathbb R\ \operatorname{Set.univ}\ \phi$;
+- $\phi$ is convex on all of $H$, expressed as $\mathrm{ConvexOn}\ \mathbb R\ \mathrm{Set.univ}\ \phi$;
 - $\phi$ is continuous;
 - $0<r$;
 - the closed ball $B(0,r)=\{u\in H:\|u\|\le r\}$ is contained in the subdifferential $\partial\phi(0)$;
@@ -34,7 +34,7 @@ with the inequality read in the extended reals. Thus the ball hypothesis says th
 The conclusion is that the scaled proximal operator of the extended-real function $\phi.toEReal$, with step $\lambda$, evaluated at $x$, is $0$. The symbol $\phi.toEReal$ denotes the same function $\phi$ regarded as taking values in $]-\infty,+\infty]$, and the argument `toEReal_mem_gammaZero_of_continuous_convexOn_univ hcontinuous hconvex` is the proof that $\phi.toEReal\in\Gamma_0(H)$. In ordinary proximal notation the conclusion is
 
 $$
-\operatorname{prox}_{\lambda\phi}(x)=0.
+\mathrm{prox}_{\lambda\phi}(x)=0.
 $$
 
 Equivalently, $0$ is the proximal point of the function $\lambda\phi$ from the point $x$. The theorem gives a sufficient condition for this: if all vectors of norm at most $r$ are subgradients of $\phi$ at $0$, then any $x$ with $\|x\|\le \lambda r$ has $\lambda^{-1}x$ in that ball, hence $\lambda^{-1}x\in\partial\phi(0)$. Equivalently $x\in\lambda\partial\phi(0)=\partial(\lambda\phi)(0)$, which is exactly the first-order optimality condition for $0$ to be the proximal point of $\lambda\phi$ at $x$.
@@ -72,7 +72,7 @@ $$
 
 Over $\mathbb R$, `Real.norm_eq_abs` replaces $\|\lambda^{-1}\|$ by $|\lambda^{-1}|$. Since $0<\lambda$, `inv_pos.mpr hlam` gives $0<\lambda^{-1}$, so `abs_of_pos` gives $|\lambda^{-1}|=\lambda^{-1}$. The inequality is therefore $\lambda^{-1}\|x\|\le r$. Because $\lambda>0$, `inv_mul_le_iff₀ hlam` rearranges this into $\|x\|\le \lambda r$, up to commutativity of multiplication, which is exactly `hx`. Thus $\lambda^{-1}x$ lies in the closed ball of radius $r$.
 
-3. The line `have hmem : lam⁻¹ • x ∈ subdifferential phi 0` then applies `mem_closedBall_zero_iff.mpr hscaled_norm`. The lemma `mem_closedBall_zero_iff` says that $u\in\operatorname{closedBall}(0,r)$ is equivalent to $\|u\|\le r$. Applying `.mpr` to `hscaled_norm` places $\lambda^{-1}x$ in the closed ball $B(0,r)$. The hypothesis `hball` states that this ball is contained in $\partial\phi(0)$, so applying it gives
+3. The line `have hmem : lam⁻¹ • x ∈ subdifferential phi 0` then applies `mem_closedBall_zero_iff.mpr hscaled_norm`. The lemma `mem_closedBall_zero_iff` says that $u\in\mathrm{closedBall}(0,r)$ is equivalent to $\|u\|\le r$. Applying `.mpr` to `hscaled_norm` places $\lambda^{-1}x$ in the closed ball $B(0,r)$. The hypothesis `hball` states that this ball is contained in $\partial\phi(0)$, so applying it gives
 
 $$
 \lambda^{-1}x\in\partial\phi(0).
@@ -83,13 +83,13 @@ This is the key subgradient information that will be transported back to $x$.
 4. The command `rw [ERealFunction.scaledProximityOperator, eq_comm]` first unfolds the definition of the scaled proximal operator. By definition, `scaledProximityOperator f hf γ` is the proximal operator of the scaled function $\gamma f$, so the goal becomes
 
 $$
-\operatorname{prox}_{\lambda\phi.toEReal}(x)=0.
+\mathrm{prox}_{\lambda\phi.toEReal}(x)=0.
 $$
 
 The rewrite `eq_comm` reverses this equality to
 
 $$
-0=\operatorname{prox}_{\lambda\phi.toEReal}(x),
+0=\mathrm{prox}_{\lambda\phi.toEReal}(x),
 $$
 
 matching the orientation of the proximal characterization theorem.
@@ -97,7 +97,7 @@ matching the orientation of the proximal characterization theorem.
 5. The `refine` step applies `eq_proximityOperator_iff_sub_mem_subdifferential`. That theorem states that for $f\in\Gamma_0(H)$ and points $x,p\in H$,
 
 $$
-p=\operatorname{Prox}_f(x)\quad\Longleftrightarrow\quad x-p\in\partial f(p).
+p=\mathrm{Prox}_f(x)\quad\Longleftrightarrow\quad x-p\in\partial f(p).
 $$
 
 Here the proof chooses
@@ -106,7 +106,7 @@ $$
 f=\lambda\phi.toEReal,\qquad p=0.
 $$
 
-The required membership $f\in\Gamma_0(H)$ is supplied by `smul_mem_gammaZero`: if $g\in\Gamma_0(H)$ and $\gamma$ is a positive real, then $\gamma g\in\Gamma_0(H)$. Since $\phi.toEReal\in\Gamma_0(H)$ and $\lambda>0$, we get $\lambda\phi.toEReal\in\Gamma_0(H)$. The reverse implication `.2` of the characterization turns the equality $0=\operatorname{Prox}_{\lambda\phi}(x)$ into the membership
+The required membership $f\in\Gamma_0(H)$ is supplied by `smul_mem_gammaZero`: if $g\in\Gamma_0(H)$ and $\gamma$ is a positive real, then $\gamma g\in\Gamma_0(H)$. Since $\phi.toEReal\in\Gamma_0(H)$ and $\lambda>0$, we get $\lambda\phi.toEReal\in\Gamma_0(H)$. The reverse implication `.2` of the characterization turns the equality $0=\mathrm{Prox}_{\lambda\phi}(x)$ into the membership
 
 $$
 x-0\in\partial(\lambda\phi.toEReal)(0).

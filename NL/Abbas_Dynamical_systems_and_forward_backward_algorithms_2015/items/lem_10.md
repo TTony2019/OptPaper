@@ -172,7 +172,7 @@ $$
 The proof then sets
 
 $$
-c=\operatorname{compositionAveragingConstant}(\alpha_1,\alpha_2)
+c=\mathrm{compositionAveragingConstant}(\alpha_1,\alpha_2)
 =\frac{\alpha_1+\alpha_2-2\alpha_1\alpha_2}{1-\alpha_1\alpha_2}.
 $$
 

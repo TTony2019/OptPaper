@@ -22,7 +22,7 @@ $$
 where each real inner product $\langle y,x\rangle$ is viewed as an element of the extended real line $\overline{\mathbb R}$. The second is the support function of the particular set $A(0)$:
 
 $$
-S(x)=\operatorname{supportFunction}(A(0),x)
+S(x)=\mathrm{supportFunction}(A(0),x)
 =\sup\bigl\{\langle z,x\rangle_{\overline{\mathbb R}} \mid z\in A(0)\bigr\}.
 $$
 
@@ -177,7 +177,7 @@ $$
 For the second part, the proof assumes
 
 $$
-0\in \operatorname{interior}(A(0)).
+0\in \mathrm{interior}(A(0)).
 $$
 
 The lemma `mem_interior_iff_mem_nhds.mp` converts this into the statement that $A(0)$ is a neighborhood of $0$. Then `Metric.mem_nhds_iff.mp` produces a radius $\epsilon>0$ such that the open ball

@@ -39,7 +39,7 @@ $$
 Finally, `IsDrygradTrajectory r f z t₀` says that $z$ is a dry-gradient trajectory for $f$ with parameter $r$ starting at time $t_0$. In the proof, this hypothesis is used to obtain the velocity relation
 
 $$
-\operatorname{deriv}z(t)=-\operatorname{softThresholder}_r(\nabla f(z(t)))
+\mathrm{deriv}z(t)=-\mathrm{softThresholder}_r(\nabla f(z(t)))
 $$
 
 for $t\ge t_0$.
@@ -51,7 +51,7 @@ First, the energy $t\mapsto f(z(t))$ is antitone on $[t_0,\infty)$, meaning that
 Second, the squared speed is integrable on the half-line:
 
 $$
-t\mapsto \|\operatorname{deriv}z(t)\|^2
+t\mapsto \|\mathrm{deriv}z(t)\|^2
 $$
 
 is integrable on $[t_0,\infty)$.
@@ -59,7 +59,7 @@ is integrable on $[t_0,\infty)$.
 Third, the speed itself is integrable on the half-line:
 
 $$
-t\mapsto \|\operatorname{deriv}z(t)\|
+t\mapsto \|\mathrm{deriv}z(t)\|
 $$
 
 is integrable on $[t_0,\infty)$.
@@ -342,23 +342,23 @@ by
 The proof begins by defining the vector field
 
 $$
-V(x)=-\operatorname{softThresholder}_r(\nabla f(x)).
+V(x)=-\mathrm{softThresholder}_r(\nabla f(x)).
 $$
 
 The soft thresholder is
 
 $$
-\operatorname{softThresholder}_r(x)=
+\mathrm{softThresholder}_r(x)=
 \begin{cases}
 \left(1-\dfrac r{\|x\|}\right)x, & r<\|x\|,\\
 0, & \|x\|\le r.
 \end{cases}
 $$
 
-The cited theorem `softThresholder_firmlyNonexpansive` says that for $r>0$, this map is firmly nonexpansive on all of $H$. The cited lemma `lipschitzWith_one_of_firmlyNonexpansive` converts firm nonexpansiveness into the Lipschitz bound $\|S_r(x)-S_r(y)\|\le\|x-y\|$. Hence the proof obtains that $\operatorname{softThresholder}_r$ is $1$-Lipschitz. The negation map $x\mapsto -x$ is locally Lipschitz, and the assumed local Lipschitzness of $\nabla f$ implies that the composition
+The cited theorem `softThresholder_firmlyNonexpansive` says that for $r>0$, this map is firmly nonexpansive on all of $H$. The cited lemma `lipschitzWith_one_of_firmlyNonexpansive` converts firm nonexpansiveness into the Lipschitz bound $\|S_r(x)-S_r(y)\|\le\|x-y\|$. Hence the proof obtains that $\mathrm{softThresholder}_r$ is $1$-Lipschitz. The negation map $x\mapsto -x$ is locally Lipschitz, and the assumed local Lipschitzness of $\nabla f$ implies that the composition
 
 $$
-x\mapsto -\operatorname{softThresholder}_r(\nabla f(x))
+x\mapsto -\mathrm{softThresholder}_r(\nabla f(x))
 $$
 
 is locally Lipschitz. This is the assertion `hV_lip`.
@@ -380,13 +380,13 @@ $$
 then
 
 $$
-v=-\operatorname{softThresholder}_r(g).
+v=-\mathrm{softThresholder}_r(g).
 $$
 
-Specialized to the current setting, the trajectory condition gives the inclusion for $v=\operatorname{deriv}z(t)$ and $g=\nabla f(z(t))$, and therefore yields
+Specialized to the current setting, the trajectory condition gives the inclusion for $v=\mathrm{deriv}z(t)$ and $g=\nabla f(z(t))$, and therefore yields
 
 $$
-\operatorname{deriv}z(t)=V(z(t))
+\mathrm{deriv}z(t)=V(z(t))
 $$
 
 for every $t\ge t_0$. This is the differential equation satisfied by the trajectory.
@@ -412,31 +412,31 @@ The energy monotonicity is obtained directly from the cited theorem `drygrad_ene
 Next, the cited theorem `hasDerivAt_comp_gradient` gives the chain rule for the energy:
 
 $$
-\frac{d}{dt}f(z(t))=\left\langle \nabla f(z(t)),\operatorname{deriv}z(t)\right\rangle.
+\frac{d}{dt}f(z(t))=\left\langle \nabla f(z(t)),\mathrm{deriv}z(t)\right\rangle.
 $$
 
 The proof then records the pointwise energy-dissipation inequality from `drygrad_energy_deriv_le`: for every $t\ge t_0$,
 
 $$
-\|\operatorname{deriv}z(t)\|^2
-+r\|\operatorname{deriv}z(t)\|
+\|\mathrm{deriv}z(t)\|^2
++r\|\mathrm{deriv}z(t)\|
 +\frac{d}{dt}f(z(t))\le 0.
 $$
 
 Equivalently,
 
 $$
-\|\operatorname{deriv}z(t)\|^2+r\|\operatorname{deriv}z(t)\|
+\|\mathrm{deriv}z(t)\|^2+r\|\mathrm{deriv}z(t)\|
 \le -\frac{d}{dt}f(z(t)).
 $$
 
-To integrate this inequality, the proof establishes continuity of the relevant functions on $[t_0,\infty)$. Since $V$ is continuous and $z$ is continuous, the composition $t\mapsto V(z(t))$ is continuous; because $\operatorname{deriv}z(t)=V(z(t))$ on $[t_0,\infty)$, the derivative $\operatorname{deriv}z$ is continuous there. Therefore $t\mapsto \|\operatorname{deriv}z(t)\|$ and $t\mapsto \|\operatorname{deriv}z(t)\|^2$ are continuous on $[t_0,\infty)$.
+To integrate this inequality, the proof establishes continuity of the relevant functions on $[t_0,\infty)$. Since $V$ is continuous and $z$ is continuous, the composition $t\mapsto V(z(t))$ is continuous; because $\mathrm{deriv}z(t)=V(z(t))$ on $[t_0,\infty)$, the derivative $\mathrm{deriv}z$ is continuous there. Therefore $t\mapsto \|\mathrm{deriv}z(t)\|$ and $t\mapsto \|\mathrm{deriv}z(t)\|^2$ are continuous on $[t_0,\infty)$.
 
 Let $m$ be the lower bound for $f$ supplied by `hf_lower`. For every finite $T\ge t_0$, integration of the pointwise inequality gives
 
 $$
-\int_{t_0}^{T}\left(\|\operatorname{deriv}z(t)\|^2
-+r\|\operatorname{deriv}z(t)\|\right)\,dt
+\int_{t_0}^{T}\left(\|\mathrm{deriv}z(t)\|^2
++r\|\mathrm{deriv}z(t)\|\right)\,dt
 \le \int_{t_0}^{T}-\frac{d}{dt}f(z(t))\,dt.
 $$
 
@@ -456,42 +456,42 @@ $$
 Thus
 
 $$
-\int_{t_0}^{T}\left(\|\operatorname{deriv}z(t)\|^2
-+r\|\operatorname{deriv}z(t)\|\right)\,dt
+\int_{t_0}^{T}\left(\|\mathrm{deriv}z(t)\|^2
++r\|\mathrm{deriv}z(t)\|\right)\,dt
 \le f(z(t_0))-m.
 $$
 
-Because the integrand is nonnegative, the proof drops the nonnegative term $r\|\operatorname{deriv}z\|$ and obtains
+Because the integrand is nonnegative, the proof drops the nonnegative term $r\|\mathrm{deriv}z\|$ and obtains
 
 $$
-\int_{t_0}^{T}\|\operatorname{deriv}z(t)\|^2\,dt
+\int_{t_0}^{T}\|\mathrm{deriv}z(t)\|^2\,dt
 \le f(z(t_0))-m.
 $$
 
 Likewise, dropping the nonnegative squared term and using $r>0$, it obtains
 
 $$
-r\int_{t_0}^{T}\|\operatorname{deriv}z(t)\|\,dt
+r\int_{t_0}^{T}\|\mathrm{deriv}z(t)\|\,dt
 \le f(z(t_0))-m,
 $$
 
 hence
 
 $$
-\int_{t_0}^{T}\|\operatorname{deriv}z(t)\|\,dt
+\int_{t_0}^{T}\|\mathrm{deriv}z(t)\|\,dt
 \le \frac{f(z(t_0))-m}{r}.
 $$
 
 Now the cited theorem `integrableOn_Ici_of_nonneg_prefix_bound` is applied. It says that if a continuous nonnegative function on $[t_0,\infty)$ has uniformly bounded finite integrals $\int_{t_0}^{T}g\le B$, then it is integrable on $[t_0,\infty)$. The squared speed and the speed satisfy these hypotheses, so the proof obtains
 
 $$
-\operatorname{IntegrableOn}(\|\operatorname{deriv}z\|^2,[t_0,\infty))
+\mathrm{IntegrableOn}(\|\mathrm{deriv}z\|^2,[t_0,\infty))
 $$
 
 and
 
 $$
-\operatorname{IntegrableOn}(\|\operatorname{deriv}z\|,[t_0,\infty)).
+\mathrm{IntegrableOn}(\|\mathrm{deriv}z\|,[t_0,\infty)).
 $$
 
 These are the second and third conclusions of the theorem.
@@ -499,10 +499,10 @@ These are the second and third conclusions of the theorem.
 For the limit, the proof defines the candidate
 
 $$
-z_\infty:=\operatorname{Filter.atTop.limUnder}z.
+z_\infty:=\mathrm{Filter.atTop.limUnder}z.
 $$
 
-It converts integrability on $[t_0,\infty)$ to integrability on $(t_0,\infty)$. Since $\|\operatorname{deriv}z\|$ is integrable on $(t_0,\infty)$, the integrability of the norm implies the integrability of $\operatorname{deriv}z$ itself on $(t_0,\infty)$. The proof then invokes `MeasureTheory.tendsto_limUnder_of_hasDerivAt_of_integrableOn_Ioi` with $z$ as the function, $\operatorname{deriv}z$ as its derivative, and $t_0$ as the left endpoint. The visible conclusion is exactly
+It converts integrability on $[t_0,\infty)$ to integrability on $(t_0,\infty)$. Since $\|\mathrm{deriv}z\|$ is integrable on $(t_0,\infty)$, the integrability of the norm implies the integrability of $\mathrm{deriv}z$ itself on $(t_0,\infty)$. The proof then invokes `MeasureTheory.tendsto_limUnder_of_hasDerivAt_of_integrableOn_Ioi` with $z$ as the function, $\mathrm{deriv}z$ as its derivative, and $t_0$ as the left endpoint. The visible conclusion is exactly
 
 $$
 z(t)\to z_\infty\quad\text{as }t\to\infty.
@@ -514,7 +514,7 @@ $$
 V(z(t))\to V(z_\infty).
 $$
 
-It also knows that $\|V(z(t))\|=\|\operatorname{deriv}z(t)\|$ is integrable on $[t_0,\infty)$. To prove $V(z_\infty)=0$, the proof argues by contradiction. If $V(z_\infty)\ne 0$, let
+It also knows that $\|V(z(t))\|=\|\mathrm{deriv}z(t)\|$ is integrable on $[t_0,\infty)$. To prove $V(z_\infty)=0$, the proof argues by contradiction. If $V(z_\infty)\ne 0$, let
 
 $$
 c=\frac{\|V(z_\infty)\|}{2}>0.
@@ -529,10 +529,10 @@ $$
 From $V(z_\infty)=0$, the proof also derives
 
 $$
-\operatorname{deriv}z(t)\to 0
+\mathrm{deriv}z(t)\to 0
 $$
 
-and, using $\operatorname{deriv}z(t)=V(z(t))$ eventually, again $V(z(t))\to0$. By uniqueness of limits, this is consistent with $V(z(t))\to V(z_\infty)$, so $V(z_\infty)=0$. Applying the earlier equivalence for the zeros of $V$, the proof obtains
+and, using $\mathrm{deriv}z(t)=V(z(t))$ eventually, again $V(z(t))\to0$. By uniqueness of limits, this is consistent with $V(z(t))\to V(z_\infty)$, so $V(z_\infty)=0$. Applying the earlier equivalence for the zeros of $V$, the proof obtains
 
 $$
 \|\nabla f(z_\infty)\|\le r.
@@ -592,5 +592,5 @@ $$
 
 The strict inequality $r<\|\nabla f(z(t))\|$ for all $t\ge t_0$ is exactly the second alternative in the theorem.
 
-Throughout, tactics such as `intro` introduce variables or assumptions into the local context, `rw` replaces expressions by equal definitions or previously proved equalities, `simp` simplifies definitions such as the soft thresholder and elementary logical reductions, `exact` closes a goal by supplying the required proof term, `linarith` solves linear inequalities, `ring` performs algebraic simplification, `by_contra` begins a proof by contradiction, `rcases` destructs existential or conjunctive hypotheses, `filter_upwards` proves eventually statements along the filter $\operatorname{atTop}$, and `refine` assembles the final conjunction and existential conclusions.
+Throughout, tactics such as `intro` introduce variables or assumptions into the local context, `rw` replaces expressions by equal definitions or previously proved equalities, `simp` simplifies definitions such as the soft thresholder and elementary logical reductions, `exact` closes a goal by supplying the required proof term, `linarith` solves linear inequalities, `ring` performs algebraic simplification, `by_contra` begins a proof by contradiction, `rcases` destructs existential or conjunctive hypotheses, `filter_upwards` proves eventually statements along the filter $\mathrm{atTop}$, and `refine` assembles the final conjunction and existential conclusions.
 

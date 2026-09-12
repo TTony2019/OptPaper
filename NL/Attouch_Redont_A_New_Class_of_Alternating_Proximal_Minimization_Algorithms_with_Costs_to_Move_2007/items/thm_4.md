@@ -58,7 +58,7 @@ $$
 the condition
 
 $$
-\operatorname{IsINE}(f,g,d,d,d,0,\beta,\mu,0,\bar x,\bar y)
+\mathrm{IsINE}(f,g,d,d,d,0,\beta,\mu,0,\bar x,\bar y)
 $$
 
 means
@@ -96,7 +96,7 @@ $$
 weakly in $H$;
 
 $$
-\operatorname{IsINE}(f,g,d,d,d,0,\beta,\mu,0,\bar x,\bar y)
+\mathrm{IsINE}(f,g,d,d,d,0,\beta,\mu,0,\bar x,\bar y)
 $$
 
 holds for the limit pair;
@@ -902,11 +902,11 @@ From `H47`, the proof uses `bounded_of_H47_posPart`. That lemma says: if $s_n\ge
 The proof then defines two candidate limit sets:
 
 $$
-S_x=\{\bar x\mid \exists \bar y,\ \operatorname{IsINE}(f,g,d,d,d,0,\beta,\mu,0,\bar x,\bar y)\},
+S_x=\{\bar x\mid \exists \bar y,\ \mathrm{IsINE}(f,g,d,d,d,0,\beta,\mu,0,\bar x,\bar y)\},
 $$
 
 $$
-S_y=\{\bar y\mid \exists \bar x,\ \operatorname{IsINE}(f,g,d,d,d,0,\beta,\mu,0,\bar x,\bar y)\}.
+S_y=\{\bar y\mid \exists \bar x,\ \mathrm{IsINE}(f,g,d,d,d,0,\beta,\mu,0,\bar x,\bar y)\}.
 $$
 
 Both are nonempty because of the initial `IsINE` pair. For every $z\in S_x$, the proof applies Proposition 4.5 with the initial equilibrium pair $(z,y_z)$, where $y_z$ witnesses $z\in S_x$. This gives convergence of $\|x_{n+1}-z\|$ to some real number $l_z$; the lemma `tendsto_of_tendsto_nat_succ` then removes the shift and gives
@@ -1064,7 +1064,7 @@ $$
 for every $\eta$. Together with the $f$-inequality, this proves
 
 $$
-\operatorname{IsINE}(f,g,d,d,d,0,\beta,\mu,0,z,\tilde y),
+\mathrm{IsINE}(f,g,d,d,d,0,\beta,\mu,0,z,\tilde y),
 $$
 
 so $z\in S_x$. The proof `hSy_cluster` is the same argument with the roles of $x$ and $y$ interchanged.
@@ -1098,7 +1098,7 @@ $$
 Strong convergence implies weak convergence, so uniqueness of limits gives $y_x-\bar x=\bar y-\bar x$, hence $y_x=\bar y$. Therefore
 
 $$
-\operatorname{IsINE}(f,g,d,d,d,0,\beta,\mu,0,\bar x,\bar y)
+\mathrm{IsINE}(f,g,d,d,d,0,\beta,\mu,0,\bar x,\bar y)
 $$
 
 holds. Applying Proposition 4.5 once more to this pair gives the final strong convergence

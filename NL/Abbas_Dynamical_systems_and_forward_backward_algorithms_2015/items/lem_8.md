@@ -43,7 +43,7 @@ $$
 
 which is the stationarity condition $0\in B(w)+\partial\Phi(w)$ for every $w\in S$.
 
-There are also regularity assumptions. For every $b>0$, the curves $x$ and $v$ are absolutely continuous on $[0,b]$, and almost everywhere on $[0,b]$ they have derivatives $\operatorname{deriv}x(t)$ and $\operatorname{deriv}v(t)$. Moreover $v$ and $\operatorname{deriv}x$ are square-integrable on each $[0,b]$. These are exactly the hypotheses needed to apply the subgradient chain rule on finite intervals.
+There are also regularity assumptions. For every $b>0$, the curves $x$ and $v$ are absolutely continuous on $[0,b]$, and almost everywhere on $[0,b]$ they have derivatives $\mathrm{deriv}x(t)$ and $\mathrm{deriv}v(t)$. Moreover $v$ and $\mathrm{deriv}x$ are square-integrable on each $[0,b]$. These are exactly the hypotheses needed to apply the subgradient chain rule on finite intervals.
 
 A real-valued function $g:\mathbb R\to\mathbb R$ is then assumed to satisfy, for every $t$,
 
@@ -63,7 +63,7 @@ $$
 and, almost everywhere with respect to Lebesgue measure restricted to $[0,\infty)$,
 
 $$
-\operatorname{deriv}g(t)=\langle x(t)-z,\operatorname{deriv}v(t)\rangle .
+\mathrm{deriv}g(t)=\langle x(t)-z,\mathrm{deriv}v(t)\rangle .
 $$
 
 Thus the Bregman gap is nonnegative along nonnegative times, and its derivative is given almost everywhere by the inner product of $x(t)-z$ with the derivative of $v$.
@@ -165,7 +165,7 @@ It then rewrites $\langle z-x(t),v(t)\rangle$ as $\langle v(t),z-x(t)\rangle$ us
 
 For the second part, the proof proves the derivative identity locally on every interval $[0,T]$ with $T=n+1$ for $n\in\mathbb N$, and then passes to the countable union $[0,\infty)=\bigcup_{n\in\mathbb N}[0,n+1]$.
 
-For a fixed $n$, it sets $T=n+1$ and proves $0<T$ using `positivity`. It then applies `subgradient_chain_rule`. That theorem says: if $\Phi\in\Gamma_0(H)$, $x$ is absolutely continuous on $[0,b]$, $v(t)\in\partial\Phi(x(t))$ for almost every $t\in[0,b]$, $x(t)$ lies in the effective domain of $\Phi$ for every $t\in[0,b]$, $x$ is differentiable almost everywhere with derivative $\operatorname{deriv}x(t)$, and both $v$ and $\operatorname{deriv}x$ are in $L^2([0,b])$, then the function
+For a fixed $n$, it sets $T=n+1$ and proves $0<T$ using `positivity`. It then applies `subgradient_chain_rule`. That theorem says: if $\Phi\in\Gamma_0(H)$, $x$ is absolutely continuous on $[0,b]$, $v(t)\in\partial\Phi(x(t))$ for almost every $t\in[0,b]$, $x(t)$ lies in the effective domain of $\Phi$ for every $t\in[0,b]$, $x$ is differentiable almost everywhere with derivative $\mathrm{deriv}x(t)$, and both $v$ and $\mathrm{deriv}x$ are in $L^2([0,b])$, then the function
 
 $$
 t\mapsto (\Phi(x(t)))_{\mathbb R}
@@ -174,20 +174,20 @@ $$
 is absolutely continuous on $[0,b]$, and for almost every $t\in[0,b]$,
 
 $$
-\operatorname{deriv}\bigl(t\mapsto (\Phi(x(t)))_{\mathbb R}\bigr)(t)
-=\langle v(t),\operatorname{deriv}x(t)\rangle .
+\mathrm{deriv}\bigl(t\mapsto (\Phi(x(t)))_{\mathbb R}\bigr)(t)
+=\langle v(t),\mathrm{deriv}x(t)\rangle .
 $$
 
 In the proof, the almost-everywhere subgradient hypothesis is supplied by restricting `hsubgradient` to the interval using `ae_restrict_mem measurableSet_Icc`: almost every $t$ in the restricted interval lies in $[0,T]$, so $t\ge0$, and then `hsubgradient t ht.1` applies. The effective-domain hypothesis is obtained pointwise from `SubdifferentiableAt.mem_effectiveDomain`: since $v(t)\in\partial\Phi(x(t))$, the point $x(t)$ lies in the effective domain of $\Phi$. The remaining inputs are `hx_ac T hT`, `hx_deriv T hT`, `hvL2 T hT`, and `hdxL2 T hT`. Let $\phi(t)=(\Phi(x(t)))_{\mathbb R}$. The chain rule returns that $\phi$ is absolutely continuous on $[0,T]$ and that almost everywhere on $[0,T]$,
 
 $$
-\operatorname{deriv}\phi(t)=\langle v(t),\operatorname{deriv}x(t)\rangle .
+\mathrm{deriv}\phi(t)=\langle v(t),\mathrm{deriv}x(t)\rangle .
 $$
 
 Next, the proof uses `filter_upwards` to combine several almost-everywhere facts on $[0,T]$: differentiability of $x$, differentiability of $v$, the chain-rule derivative identity for $\phi$, membership of $t$ in $[0,T]$, and almost-everywhere differentiability of $\phi$ coming from its absolute continuity. The fact `hchain.1.ae_differentiableAt` says that the absolutely continuous function $\phi$ is differentiable almost everywhere; after restricting to $[0,T]$, it gives differentiability of $\phi$ at the current $t$. Since $0<T$, the unordered interval `uIcc 0 T` is the same as the ordered interval $[0,T]$, so the proof converts the membership `ht` accordingly. Then `.hasDerivAt` turns differentiability of $\phi$ at $t$ into the statement that $\phi$ has derivative
 
 $$
-\operatorname{deriv}\phi(t)
+\mathrm{deriv}\phi(t)
 $$
 
 at $t$.
@@ -201,15 +201,15 @@ $$
 Using the constant rule, the difference rule, and the product rule for the real inner product, its derivative is
 
 $$
-\langle -\operatorname{deriv}x(t),v(t)\rangle
-+\langle z-x(t),\operatorname{deriv}v(t)\rangle ,
+\langle -\mathrm{deriv}x(t),v(t)\rangle
++\langle z-x(t),\mathrm{deriv}v(t)\rangle ,
 $$
 
 which is rewritten as
 
 $$
-\langle z-x(t),\operatorname{deriv}v(t)\rangle
--\langle \operatorname{deriv}x(t),v(t)\rangle .
+\langle z-x(t),\mathrm{deriv}v(t)\rangle
+-\langle \mathrm{deriv}x(t),v(t)\rangle .
 $$
 
 The Lean proof implements this by applying `HasDerivAt.sub` and `HasDerivAt.inner`, then simplifying with `inner_sub_left` and `real_inner_comm`.
@@ -225,16 +225,16 @@ $$
 The derivative of the constant term $(\Phi(z))_{\mathbb R}$ is $0$. Subtracting the derivative of the $\Phi(x(t))$ term and the derivative of the inner-product term gives
 
 $$
--\langle v(t),\operatorname{deriv}x(t)\rangle
--\langle z-x(t),\operatorname{deriv}v(t)\rangle
-+\langle \operatorname{deriv}x(t),v(t)\rangle .
+-\langle v(t),\mathrm{deriv}x(t)\rangle
+-\langle z-x(t),\mathrm{deriv}v(t)\rangle
++\langle \mathrm{deriv}x(t),v(t)\rangle .
 $$
 
 By symmetry of the real inner product, the first and third terms cancel, leaving
 
 $$
--\langle z-x(t),\operatorname{deriv}v(t)\rangle
-=\langle x(t)-z,\operatorname{deriv}v(t)\rangle .
+-\langle z-x(t),\mathrm{deriv}v(t)\rangle
+=\langle x(t)-z,\mathrm{deriv}v(t)\rangle .
 $$
 
 The Lean proof carries out these algebraic rearrangements with `convert`, `simp only [hphit, sub_eq_add_neg, real_inner_comm]`, `rw` using $x(t)-z=-(z-x(t))$, `inner_neg_right`, and `ring`.

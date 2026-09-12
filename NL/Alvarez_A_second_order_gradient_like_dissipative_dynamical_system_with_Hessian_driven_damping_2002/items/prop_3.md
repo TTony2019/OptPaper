@@ -27,7 +27,7 @@ The declaration is a strong convergence theorem for a second-order dissipative d
 - `hmin`: the set of global minimizers
 
   $$
-  \operatorname{argminSet}(\Phi)=\{z\in H\mid \forall y\in H,\ \Phi(z)\le \Phi(y)\}
+  \mathrm{argminSet}(\Phi)=\{z\in H\mid \forall y\in H,\ \Phi(z)\le \Phi(y)\}
   $$
 
   is nonempty.
@@ -51,7 +51,7 @@ $$
 \le \frac12\Phi(y)+\frac12\Phi(-y)=\Phi(y),
 $$
 
-and the argument of $\Phi$ on the left is $0$. Hence $\Phi(0)\le \Phi(y)$ for every $y$, so $0\in\operatorname{argminSet}(\Phi)$. This fact is then used together with convex supporting hyperplane inequalities to obtain the crucial estimates that show the trajectory is Cauchy.
+and the argument of $\Phi$ on the left is $0$. Hence $\Phi(0)\le \Phi(y)$ for every $y$, so $0\in\mathrm{argminSet}(\Phi)$. This fact is then used together with convex supporting hyperplane inequalities to obtain the crucial estimates that show the trajectory is Cauchy.
 
 ## Lean proof
 ```lean
@@ -783,15 +783,15 @@ by
 ## Proof explanation
 The proof proceeds by first obtaining weak convergence from the cited Alvarez convergence theorem, then proving that the trajectory is actually Cauchy in norm, and finally identifying the strong limit with the weak limit.
 
-First, the proof applies `din_weakly_converges_to_argmin` to $\Phi,\alpha,\beta,x$. The hypotheses match: `hΦ`, `hx`, `hconvex`, `hmin`, and `hsol`. That theorem states two things. First, for every minimizer $z$, the distance $\|x(t)-z\|$ converges to some real number. Second, there exists a minimizer $z$ such that $x(t)$ converges weakly to $z$, expressed through the weak-space embedding. The proof unpacks this as `hweak`, obtaining `hdist` for distances and a triple $z$, $hzmin$, $hzweak$. Thus $z\in\operatorname{argminSet}(\Phi)$ and
+First, the proof applies `din_weakly_converges_to_argmin` to $\Phi,\alpha,\beta,x$. The hypotheses match: `hΦ`, `hx`, `hconvex`, `hmin`, and `hsol`. That theorem states two things. First, for every minimizer $z$, the distance $\|x(t)-z\|$ converges to some real number. Second, there exists a minimizer $z$ such that $x(t)$ converges weakly to $z$, expressed through the weak-space embedding. The proof unpacks this as `hweak`, obtaining `hdist` for distances and a triple $z$, $hzmin$, $hzweak$. Thus $z\in\mathrm{argminSet}(\Phi)$ and
 
 $$
-\operatorname{toWeakSpace}(x(t))\to \operatorname{toWeakSpace}(z)
+\mathrm{toWeakSpace}(x(t))\to \mathrm{toWeakSpace}(z)
 $$
 
 as $t\to\infty$. The proof also uses the same distance-convergence statement later, for the particular minimizer $0$.
 
-Next, the proof shows $0\in\operatorname{argminSet}(\Phi)$. For arbitrary $y$, convexity gives
+Next, the proof shows $0\in\mathrm{argminSet}(\Phi)$. For arbitrary $y$, convexity gives
 
 $$
 \Phi\left(\frac12 y+\frac12(-y)\right)
@@ -1052,7 +1052,7 @@ $$
 
 Then $K_T'(t)=J_T(t)$ and $K_T''(t)=J_T'(t)$. In particular, $K_T$ is $C^2$. The proof verifies the regularity needed to apply the cited two-time integral bound to $K_T$.
 
-The cited `damped_two_time_integral_bound` theorem has the following content. For functions $g,q:\mathbb R\to\mathbb R$, parameters $\gamma,a,t,T$, if $g$ is $C^1$ on $[a,\infty)$, $\operatorname{deriv}g$ is $C^1$ on $[a,\infty)$, $q$ is continuous on $[a,T]$, a certain nested integral is interval-integrable, $\gamma>0$, $a\le t\le T$, and
+The cited `damped_two_time_integral_bound` theorem has the following content. For functions $g,q:\mathbb R\to\mathbb R$, parameters $\gamma,a,t,T$, if $g$ is $C^1$ on $[a,\infty)$, $\mathrm{deriv}g$ is $C^1$ on $[a,\infty)$, $q$ is continuous on $[a,T]$, a certain nested integral is interval-integrable, $\gamma>0$, $a\le t\le T$, and
 
 $$
 g''(s)+\gamma g'(s)\le q(s)
@@ -1187,22 +1187,22 @@ $$
 The continuous embedding into the weak space then yields weak convergence
 
 $$
-\operatorname{toWeakSpace}(x(t))\to \operatorname{toWeakSpace}(w).
+\mathrm{toWeakSpace}(x(t))\to \mathrm{toWeakSpace}(w).
 $$
 
 But the weak convergence theorem already gave
 
 $$
-\operatorname{toWeakSpace}(x(t))\to \operatorname{toWeakSpace}(z).
+\mathrm{toWeakSpace}(x(t))\to \mathrm{toWeakSpace}(z).
 $$
 
-Weak limits are unique and $\operatorname{toWeakSpace}$ is injective, so $w=z$. The proof substitutes $w=z$ and concludes that
+Weak limits are unique and $\mathrm{toWeakSpace}$ is injective, so $w=z$. The proof substitutes $w=z$ and concludes that
 
 $$
 x(t)\to z
 $$
 
-strongly, with $z\in\operatorname{argminSet}(\Phi)$.
+strongly, with $z\in\mathrm{argminSet}(\Phi)$.
 
 Throughout the Lean proof, `intro` introduces an arbitrary variable when proving a universal statement, `rw` rewrites equalities, `simp` and `simpa` simplify expressions using known definitions and lemmas, `linarith` and `nlinarith` combine linear and nonlinear inequalities, `positivity` proves positivity goals, `filter_upwards` proves eventual equality, `obtain` and `rcases` destruct existential and conjunctive hypotheses, `calc` chains inequalities, `convert` changes a goal up to definitional or algebraic equality, and `subst` replaces a variable by an equal one.
 

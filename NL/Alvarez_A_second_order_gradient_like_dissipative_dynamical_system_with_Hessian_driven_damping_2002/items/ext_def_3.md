@@ -19,7 +19,7 @@ $$
 \forall v\in C,\ \langle v-p,\,u-p\rangle\le 0 .
 $$
 
-The first conjunct is the imported predicate `IsBestApproximation u C p`, whose mathematical role is that $p$ is a best approximation to $u$ from the set $C$. In the usual Mathlib formulation this means that $p\in C$ and $\operatorname{dist}(u,p)\le \operatorname{dist}(u,y)$ for every $y\in C$; the source here does not unfold that imported predicate further. The second conjunct says that for every $v\in C$, the real inner product of the difference $v-p$ with the residual $u-p$ is nonpositive. Since the inner product is symmetric on a real inner product space, this is the same as requiring
+The first conjunct is the imported predicate `IsBestApproximation u C p`, whose mathematical role is that $p$ is a best approximation to $u$ from the set $C$. In the usual Mathlib formulation this means that $p\in C$ and $\mathrm{dist}(u,p)\le \mathrm{dist}(u,y)$ for every $y\in C$; the source here does not unfold that imported predicate further. The second conjunct says that for every $v\in C$, the real inner product of the difference $v-p$ with the residual $u-p$ is nonpositive. Since the inner product is symmetric on a real inner product space, this is the same as requiring
 
 $$
 \langle u-p,\,v-p\rangle\le 0

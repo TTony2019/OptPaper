@@ -35,6 +35,19 @@ INLINE_MATH = re.compile(r"(?<!\\)\\\((.*?)\\\)")
 # A hyphen sandwiched between two inline formulas, as in ``\(a\)-\(b\)``: the
 # hyphen glues the two spans together, so they are merged into a single formula.
 GLUED_HYPHEN = re.compile(r"\\\)\s*-\s*\\\(")
+# GitHub's MathJax build refuses these, reporting "The following macros are not
+# allowed: <name>", so they are rewritten to the equivalent it does accept.
+BLOCKED_MACROS = [
+    (re.compile(r"\\operatorname\*?\{(?:[^{}]|\{[^{}]*\})*\}"),
+     lambda match: r"\mathrm{" + match.group(0)[match.group(0).index("{") + 1:-1] + "}"),
+    (re.compile(r"\\operatorname\*?"), r"\\mathrm"),
+]
+
+
+def _rewrite_blocked_macros(tex: str) -> str:
+    for pattern, replacement in BLOCKED_MACROS:
+        tex = pattern.sub(replacement, tex)
+    return tex
 
 
 def _convert_inline(line: str, *, pad: bool) -> str:
@@ -43,6 +56,7 @@ def _convert_inline(line: str, *, pad: bool) -> str:
     ``pad`` inserts a space before a span that follows a non-space character,
     which the GitHub renderer requires outside math blocks.
     """
+    line = _rewrite_blocked_macros(line)
     line = GLUED_HYPHEN.sub(r"\\text{-}", line)
     result = ""
     last = 0

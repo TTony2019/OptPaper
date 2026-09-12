@@ -28,7 +28,7 @@ theorem thm_5 {H M : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 ```
 
 ## Statement explanation
-The declaration `thm_5` is a stability estimate for two trajectories of the DIN system, parametrized by elements of $M$. The space $H$ is a complete real inner product space, hence a real Hilbert space, and $M$ is a real normed additive commutative group used as a parameter space. For each $\mu\in M$, the function $\phi_\mu=\phi(\mu,\cdot)$ is a real-valued potential on $H$, with gradient field $\operatorname{grad}\phi_\mu=\operatorname{grad}\phi(\mu,\cdot)$ and Hessian field $\operatorname{hess}\phi_\mu=\operatorname{hess}\phi(\mu,\cdot)$. The functions
+The declaration `thm_5` is a stability estimate for two trajectories of the DIN system, parametrized by elements of $M$. The space $H$ is a complete real inner product space, hence a real Hilbert space, and $M$ is a real normed additive commutative group used as a parameter space. For each $\mu\in M$, the function $\phi_\mu=\phi(\mu,\cdot)$ is a real-valued potential on $H$, with gradient field $\mathrm{grad}\phi_\mu=\mathrm{grad}\phi(\mu,\cdot)$ and Hessian field $\mathrm{hess}\phi_\mu=\mathrm{hess}\phi(\mu,\cdot)$. The functions
 
 $$
 x,dx,ddx:M\to \mathbb R\to H
@@ -42,28 +42,28 @@ $$
 \beta\gamma>1,\qquad \beta>0,\qquad \gamma>0.
 $$
 
-For every $\mu$, the potential $\phi_\mu$ is differentiable on $H$, and $\operatorname{grad}\phi_\mu(q)$ is the actual gradient of $\phi_\mu$ at $q$, meaning that the derivative of $\phi_\mu$ at $q$ is represented by the inner product with $\operatorname{grad}\phi_\mu(q)$. Each $\phi_\mu$ is strongly convex with modulus $\delta(\mu)$. The constants satisfy
+For every $\mu$, the potential $\phi_\mu$ is differentiable on $H$, and $\mathrm{grad}\phi_\mu(q)$ is the actual gradient of $\phi_\mu$ at $q$, meaning that the derivative of $\phi_\mu$ at $q$ is represented by the inner product with $\mathrm{grad}\phi_\mu(q)$. Each $\phi_\mu$ is strongly convex with modulus $\delta(\mu)$. The constants satisfy
 
 $$
 k_1>0,\qquad 0<\gamma_1,\qquad \gamma_1\le 1.
 $$
 
-The hypothesis `hDIN` says that for each $\mu$, the triple $(x_\mu,dx_\mu,ddx_\mu)$ is a DIN trajectory associated with $\phi_\mu$, $\operatorname{grad}\phi_\mu$, $\operatorname{hess}\phi_\mu$, parameters $\gamma,\beta$, and initial data $u_0(\mu),v_0(\mu)$. The hypotheses `hderiv` and `hddx` say that, for almost every $t\ge 0$ with respect to Lebesgue measure restricted to $[0,\infty)$,
+The hypothesis `hDIN` says that for each $\mu$, the triple $(x_\mu,dx_\mu,ddx_\mu)$ is a DIN trajectory associated with $\phi_\mu$, $\mathrm{grad}\phi_\mu$, $\mathrm{hess}\phi_\mu$, parameters $\gamma,\beta$, and initial data $u_0(\mu),v_0(\mu)$. The hypotheses `hderiv` and `hddx` say that, for almost every $t\ge 0$ with respect to Lebesgue measure restricted to $[0,\infty)$,
 
 $$
 x_\mu'(t)=dx_\mu(t),\qquad dx_\mu'(t)=ddx_\mu(t),
 $$
 
-so $x_\mu$ is a twice differentiable trajectory in the almost-everywhere sense. The hypothesis `hhess` says that for every $\mu$ and $q$, the Fréchet derivative of $\operatorname{grad}\phi_\mu$ at $q$ is a continuous linear map $L$ satisfying
+so $x_\mu$ is a twice differentiable trajectory in the almost-everywhere sense. The hypothesis `hhess` says that for every $\mu$ and $q$, the Fréchet derivative of $\mathrm{grad}\phi_\mu$ at $q$ is a continuous linear map $L$ satisfying
 
 $$
-Lv=\operatorname{hess}\phi_\mu(q)v
+Lv=\mathrm{hess}\phi_\mu(q)v
 $$
 
-for every $v\in H$. Thus $\operatorname{hess}\phi_\mu$ is the Hessian field of the potential. The hypothesis `hlip` says that for every $\mu$ and every $T'>0$, the gradient field $\operatorname{grad}\phi_\mu$ is Lipschitz on the image $x_\mu([0,T'])$ of the trajectory segment. Finally, `h9` says that for every $x_*\in H$ and all $\mu,\mu'\in M$,
+for every $v\in H$. Thus $\mathrm{hess}\phi_\mu$ is the Hessian field of the potential. The hypothesis `hlip` says that for every $\mu$ and every $T'>0$, the gradient field $\mathrm{grad}\phi_\mu$ is Lipschitz on the image $x_\mu([0,T'])$ of the trajectory segment. Finally, `h9` says that for every $x_*\in H$ and all $\mu,\mu'\in M$,
 
 $$
-\|\operatorname{grad}\phi_\mu(x_*)-\operatorname{grad}\phi_{\mu'}(x_*)\|
+\|\mathrm{grad}\phi_\mu(x_*)-\mathrm{grad}\phi_{\mu'}(x_*)\|
 \le k_1\|\mu-\mu'\|^{\gamma_1}.
 $$
 
@@ -75,15 +75,15 @@ $$
 c_{\max}
 =
 \max\left\{
-\operatorname{energyRate}(\beta,\gamma,\delta(\mu)),
-\operatorname{energyRate}(\beta,\gamma,\delta(\mu'))
+\mathrm{energyRate}(\beta,\gamma,\delta(\mu)),
+\mathrm{energyRate}(\beta,\gamma,\delta(\mu'))
 \right\},
 $$
 
 where
 
 $$
-\operatorname{energyRate}(\beta,\gamma,\delta)
+\mathrm{energyRate}(\beta,\gamma,\delta)
 =
 \frac{(\beta\delta+\gamma)-\sqrt{(\beta\delta+\gamma)^2-4\delta}}{2}.
 $$
@@ -91,11 +91,11 @@ $$
 Also define the auxiliary initial coordinate
 
 $$
-\operatorname{dinAuxInitial}(\mu)
+\mathrm{dinAuxInitial}(\mu)
 =
 -\left(\sqrt{\left(\gamma-\frac1\beta\right)\frac1\beta}\right)^{-1}
 \left(
-v_0(\mu)+\beta\,\operatorname{grad}\phi_\mu(u_0(\mu))
+v_0(\mu)+\beta\,\mathrm{grad}\phi_\mu(u_0(\mu))
 +\left(\gamma-\frac1\beta\right)u_0(\mu)
 \right).
 $$
@@ -109,7 +109,7 @@ e^{-c_{\max}t}
 \sqrt{
 \|u_0(\mu)-u_0(\mu')\|^2
 +
-\|\operatorname{dinAuxInitial}(\mu)-\operatorname{dinAuxInitial}(\mu')\|^2
+\|\mathrm{dinAuxInitial}(\mu)-\mathrm{dinAuxInitial}(\mu')\|^2
 }
 +
 \frac{\beta k_1}{c_{\max}}
@@ -172,7 +172,7 @@ e^{-c_{\max}t}
 \sqrt{
 \|u_0(\mu)-u_0(\mu')\|^2
 +
-\|\operatorname{dinAuxInitial}(\mu)-\operatorname{dinAuxInitial}(\mu')\|^2
+\|\mathrm{dinAuxInitial}(\mu)-\mathrm{dinAuxInitial}(\mu')\|^2
 }
 +
 \frac{\beta k_1}{c_{\max}}
@@ -186,14 +186,14 @@ $$
 \texttt{exact thm\_5\_estimate\_all }\dots\ \mu\ \mu'\ t\ ht.
 $$
 
-The cited theorem `thm_5_estimate_all` has the same hypotheses as `thm_5`: the potential $\phi$, its gradient $\operatorname{grad}\phi$, its Hessian $\operatorname{hess}\phi$, the trajectory maps $x,dx,ddx$, initial data $u_0,v_0$, parameters $\beta,\gamma,\delta,k_1,\gamma_1$, and all of the assumptions `hβγ`, `hβ`, `hγ`, `hdiff`, `hgrad`, `hstrong`, `hk₁`, `hγ₁_pos`, `hγ₁_le`, `hDIN`, `hderiv`, `hddx`, `hhess`, `hlip`, and `h9`. In the form used here, it takes two parameters $\mu,\mu'$, a real time $t$, and the proof $0\le t$, and returns precisely the inequality displayed above with
+The cited theorem `thm_5_estimate_all` has the same hypotheses as `thm_5`: the potential $\phi$, its gradient $\mathrm{grad}\phi$, its Hessian $\mathrm{hess}\phi$, the trajectory maps $x,dx,ddx$, initial data $u_0,v_0$, parameters $\beta,\gamma,\delta,k_1,\gamma_1$, and all of the assumptions `hβγ`, `hβ`, `hγ`, `hdiff`, `hgrad`, `hstrong`, `hk₁`, `hγ₁_pos`, `hγ₁_le`, `hDIN`, `hderiv`, `hddx`, `hhess`, `hlip`, and `h9`. In the form used here, it takes two parameters $\mu,\mu'$, a real time $t$, and the proof $0\le t$, and returns precisely the inequality displayed above with
 
 $$
 c_{\max}
 =
 \max\left\{
-\operatorname{energyRate}(\beta,\gamma,\delta(\mu)),
-\operatorname{energyRate}(\beta,\gamma,\delta(\mu'))
+\mathrm{energyRate}(\beta,\gamma,\delta(\mu)),
+\mathrm{energyRate}(\beta,\gamma,\delta(\mu'))
 \right\}.
 $$
 

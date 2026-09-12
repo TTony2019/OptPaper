@@ -37,7 +37,7 @@ as an extended real number. Thus $f$ is the scaled $\ell_1$-type regularizer. Th
 The proposition defined by the declaration is: for every $k\in\mathbb N$,
 
 $$
-u_{k+1}=\operatorname{prox}\bigl((1-\lambda a)u_k+(\lambda b)y_k\bigr)
+u_{k+1}=\mathrm{prox}\bigl((1-\lambda a)u_k+(\lambda b)y_k\bigr)
 $$
 
 and

@@ -18,7 +18,7 @@ theorem cor_2 {H M : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 The theorem `cor_2` is a stability corollary for a parameter-dependent family of contraction-type maps $T_\mu$ on a real Hilbert space $H$. The parameter space is a normed additive commutative group $M$, and $V \subseteq M$ is the set of admissible parameters. For each parameter $\mu$, the map is
 
 $$
-T_\mu := \operatorname{Tmap}(\mu) : H \to H .
+T_\mu := \mathrm{Tmap}(\mu) : H \to H .
 $$
 
 The theorem studies the residual maps
@@ -46,19 +46,19 @@ The condition on $c$ is then used to compare $c$ with $1$, so that $T_\mu$ can b
 The hypothesis `hsol` says that for every $\mu\in V$,
 
 $$
-\operatorname{ext\_def\_2}(A_\mu,\gamma,u_0(\mu),v_0(\mu),x_\mu,dx_\mu,ddx_\mu)
+\mathrm{ext\_def\_2}(A_\mu,\gamma,u_0(\mu),v_0(\mu),x_\mu,dx_\mu,ddx_\mu)
 $$
 
 holds, where $A_\mu(u)=u-T_\mu(u)$. In the given context,
 
 $$
-\operatorname{ext\_def\_2}(A,\gamma,u_0,v_0,x,dx,ddx)
+\mathrm{ext\_def\_2}(A,\gamma,u_0,v_0,x,dx,ddx)
 $$
 
 means
 
 $$
-0<\gamma \;\land\; \operatorname{def\_3}(A,\gamma,u_0,v_0,x,dx,ddx).
+0<\gamma \;\land\; \mathrm{def\_3}(A,\gamma,u_0,v_0,x,dx,ddx).
 $$
 
 The inner predicate `def_3` is not unfolded in the proof; it is the actual solution property for the second-order problem associated with $A$. Thus `hsol` says the given curves solve that problem for the residual operator $I-T_\mu$, with initial data $u_0(\mu),v_0(\mu)$.
@@ -228,7 +228,7 @@ $$
 That theorem states that a map $T:D\to H$ is $1$-Lipschitz if and only if its residual map
 
 $$
-\operatorname{residualMap}(D,T)(x)=x-T(x)
+\mathrm{residualMap}(D,T)(x)=x-T(x)
 $$
 
 is $(1/2)$-cocoercive on $D$. Here $D=\text{Set.univ}$ and $T=T_\mu$. Since $T_\mu$ has just been shown to be $1$-Lipschitz, the forward direction `.mp` gives that the residual map

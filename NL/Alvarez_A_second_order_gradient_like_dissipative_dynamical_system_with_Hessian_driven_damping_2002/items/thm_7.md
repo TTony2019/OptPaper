@@ -597,7 +597,7 @@ $$
 In Lean this is expressed as
 
 $$
-\operatorname{MemLp}(\dot x,2,\text{volume restricted to }(0,\infty)).
+\mathrm{MemLp}(\dot x,2,\text{volume restricted to }(0,\infty)).
 $$
 
 The equivalence `memLp_two_iff_integrable_sq_norm` converts this into integrability of $t\mapsto\|\dot x(t)\|^2$ on $(0,\infty)$. Since the single point $0$ has measure zero, `integrableOn_Ici_iff_integrableOn_Ioi` upgrades this to integrability on $[0,\infty)$. The lemma `constrainedDIN_uniformContinuousOn_sq_integrable_tendsto_zero` then applies: a function that is uniformly continuous on $[0,\infty)$ and whose squared norm is integrable on $[0,\infty)$ must tend to $0$ at infinity. Hence

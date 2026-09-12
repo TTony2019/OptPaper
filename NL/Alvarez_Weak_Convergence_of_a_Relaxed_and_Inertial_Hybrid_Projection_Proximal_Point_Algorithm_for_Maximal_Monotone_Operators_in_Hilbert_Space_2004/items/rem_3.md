@@ -238,16 +238,16 @@ $$
 \psi_k=\phi_k-s_k\ge -B_u.
 $$
 
-So $\psi$ is bounded below. The lemma `tendsto_atTop_ciInf` states that an antitone sequence of real numbers which is bounded below converges to its infimum. The proof sets $\operatorname{psiInf}=\inf_n \psi_n$ and obtains
+So $\psi$ is bounded below. The lemma `tendsto_atTop_ciInf` states that an antitone sequence of real numbers which is bounded below converges to its infimum. The proof sets $\mathrm{psiInf}=\inf_n \psi_n$ and obtains
 
 $$
-\psi_k\to \operatorname{psiInf}.
+\psi_k\to \mathrm{psiInf}.
 $$
 
 Since $s_k\to \sum_{k=0}^{\infty}d_k$, and since $\phi=\psi+s$, the addition rule for limits gives
 
 $$
-\phi_k=\|x_k-\bar x\|\to \operatorname{psiInf}+\sum_{k=0}^{\infty}d_k.
+\phi_k=\|x_k-\bar x\|\to \mathrm{psiInf}+\sum_{k=0}^{\infty}d_k.
 $$
 
 This proves the first part of the conclusion: the distance sequence converges.
@@ -346,7 +346,7 @@ Thus $\|y_k\|\le C$ for all $k$.
 To prove that the range of $y$ is bounded, the proof rewrites boundedness using `Metric.isBounded_iff`. In a metric space this says that a set is bounded exactly when there is a radius bounding all pairwise distances between points of the set. The proof chooses radius $2C$. For any two indices $i,j$,
 
 $$
-\operatorname{dist}(y_i,y_j)
+\mathrm{dist}(y_i,y_j)
 =
 \|y_i-y_j\|
 \le

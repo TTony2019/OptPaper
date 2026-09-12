@@ -13,7 +13,7 @@ noncomputable def constrainedEnergy {H : Type*} [NormedAddCommGroup H] [NormedSp
 The definition assigns to these data the real number
 
 $$
-\operatorname{constrainedEnergy}(\Phi,a,b,\ell,x,y)
+\mathrm{constrainedEnergy}(\Phi,a,b,\ell,x,y)
 =
 \ell\,\Phi(x) + \frac12\,\lVert a \bullet x + b \bullet y\rVert^2 .
 $$
@@ -29,7 +29,7 @@ Here $a \bullet x$ and $b \bullet y$ are the scalar multiples of $x$ and $y$ by 
 There is no separate proof part for this declaration because it is a definition, not a theorem or lemma. The Lean proof block contains only the comment that no separate proof part exists. Consequently there are no tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` to explain, and no named local theorem, lemma, or previously established fact is invoked. The entire mathematical content is the definitional equation
 
 $$
-\operatorname{constrainedEnergy}(\Phi,a,b,\ell,x,y)
+\mathrm{constrainedEnergy}(\Phi,a,b,\ell,x,y)
 =
 \ell\,\Phi(x) + \frac12\,\lVert a \bullet x + b \bullet y\rVert^2 .
 $$

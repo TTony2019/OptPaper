@@ -24,7 +24,7 @@ u'''(t)+\frac{\alpha+7}{t}u''(t)+\frac{5(\alpha+1)}{t^{2}}u'(t)
 +\nabla f\!\left(u(t)+\frac{t}{4}u'(t)\right)=0.
 $$
 
-Here $u'$, $u''$, and $u'''$ denote the first, second, and third derivatives of the curve $u$, as formalized by the Lean operators $\operatorname{deriv}u$, $\operatorname{deriv}(\operatorname{deriv}u)$, and $\operatorname{deriv}(\operatorname{deriv}(\operatorname{deriv}u))$. The expression $\nabla f$ is the gradient of $f$, and $D(\nabla f)$ is the Fréchet derivative of the gradient field, so $D(\nabla f)(z)(w)$ is the directional derivative of $\nabla f$ at the point $z$ in the direction $w$. Thus the last two terms use the gradient and its derivative at the shifted point
+Here $u'$, $u''$, and $u'''$ denote the first, second, and third derivatives of the curve $u$, as formalized by the Lean operators $\mathrm{deriv}u$, $\mathrm{deriv}(\mathrm{deriv}u)$, and $\mathrm{deriv}(\mathrm{deriv}(\mathrm{deriv}u))$. The expression $\nabla f$ is the gradient of $f$, and $D(\nabla f)$ is the Fréchet derivative of the gradient field, so $D(\nabla f)(z)(w)$ is the directional derivative of $\nabla f$ at the point $z$ in the direction $w$. Thus the last two terms use the gradient and its derivative at the shifted point
 
 $$
 z(t)=u(t)+\frac{t}{4}u'(t),

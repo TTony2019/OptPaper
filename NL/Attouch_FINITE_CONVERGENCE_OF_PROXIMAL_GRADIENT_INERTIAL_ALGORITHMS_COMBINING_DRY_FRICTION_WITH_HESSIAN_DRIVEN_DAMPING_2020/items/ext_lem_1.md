@@ -36,7 +36,7 @@ The theorem asserts three equivalences, which together say that four conditions 
 1. $0$ lies in the interior of the subdifferential at zero:
 
    $$
-   0\in \operatorname{int}\bigl(\partial \phi(0)\bigr).
+   0\in \mathrm{int}\bigl(\partial \phi(0)\bigr).
    $$
 
 2. There is an open ball around $0$ contained in the subdifferential:
@@ -111,20 +111,20 @@ The proof is a sequence of splits of the conjunction and of the biconditionals.
 The first `constructor` separates the first equivalence
 
 $$
-0\in \operatorname{int}(\partial \phi(0))
+0\in \mathrm{int}(\partial \phi(0))
 \iff
 \exists r>0,\ B(0,r)\subseteq \partial \phi(0)
 $$
 
 from the remaining two equivalences. The next `constructor` splits this first biconditional into its two directions.
 
-For the forward direction $0\in \operatorname{int}(\partial \phi(0))\Rightarrow \exists r>0,\ B(0,r)\subseteq \partial \phi(0)$, the proof applies `mem_interior_iff_mem_nhds`. This is the standard topological fact that
+For the forward direction $0\in \mathrm{int}(\partial \phi(0))\Rightarrow \exists r>0,\ B(0,r)\subseteq \partial \phi(0)$, the proof applies `mem_interior_iff_mem_nhds`. This is the standard topological fact that
 
 $$
-x\in \operatorname{int} S \iff S\in \mathcal N(x),
+x\in \mathrm{int} S \iff S\in \mathcal N(x),
 $$
 
-where $\mathcal N(x)$ is the neighborhood filter at $x$. Thus from $0\in \operatorname{int}(\partial \phi(0))$ we obtain that $\partial \phi(0)$ is a neighborhood of $0$. Then `Metric.mem_nhds_iff` converts this neighborhood statement into the metric-ball statement
+where $\mathcal N(x)$ is the neighborhood filter at $x$. Thus from $0\in \mathrm{int}(\partial \phi(0))$ we obtain that $\partial \phi(0)$ is a neighborhood of $0$. Then `Metric.mem_nhds_iff` converts this neighborhood statement into the metric-ball statement
 
 $$
 \exists r>0,\qquad B(0,r)\subseteq \partial \phi(0).
@@ -132,7 +132,7 @@ $$
 
 The `rcases` tactic destructs that existential into a radius $r$, its positivity $0<r$, and the inclusion $B(0,r)\subseteq \partial \phi(0)$. These are exactly the data required for the desired existential.
 
-For the reverse direction, `rintro ⟨r, hr, hball⟩` assumes $r>0$ and $B(0,r)\subseteq \partial \phi(0)$. Then `Metric.mem_nhds_iff.mpr` turns the containment of a metric ball into the statement that $\partial \phi(0)$ is a neighborhood of $0$. Finally `mem_interior_iff_mem_nhds.mpr` converts that neighborhood statement back into $0\in \operatorname{int}(\partial \phi(0))$.
+For the reverse direction, `rintro ⟨r, hr, hball⟩` assumes $r>0$ and $B(0,r)\subseteq \partial \phi(0)$. Then `Metric.mem_nhds_iff.mpr` turns the containment of a metric ball into the statement that $\partial \phi(0)$ is a neighborhood of $0$. Finally `mem_interior_iff_mem_nhds.mpr` converts that neighborhood statement back into $0\in \mathrm{int}(\partial \phi(0))$.
 
 The second part of the proof handles the equivalence
 

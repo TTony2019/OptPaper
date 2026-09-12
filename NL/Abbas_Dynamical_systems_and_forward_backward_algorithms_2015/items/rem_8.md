@@ -66,7 +66,7 @@ for every $z \in H$. Thus $S$ is the solution set of the inclusion $0 \in Bz + \
 The map $T$ is the forward-backward/proximal-gradient operator associated with $\Phi$ and $B$ with step size $\mu$:
 
 $$
-T(q) = \operatorname{Prox}_{\mu \Phi}\bigl(q - \mu B(q)\bigr)
+T(q) = \mathrm{Prox}_{\mu \Phi}\bigl(q - \mu B(q)\bigr)
 $$
 
 for every $q \in H$. More precisely, in the Lean statement this is written using `scaledProximityOperator`, and the proof unfolds it as the proximity operator of the scaled function $\mu \Phi$. The map $T$ is assumed to be Lipschitz with constant $1/2$:
@@ -86,7 +86,7 @@ so $x$ solves the dynamical system $\dot x(t) = T(x(t)) - x(t)$. The equivalent 
 The conclusion is that there exists $z \in S$ such that, as $t \to +\infty$,
 
 $$
-\operatorname{toWeakSpace}(x(t)) \to \operatorname{toWeakSpace}(z)
+\mathrm{toWeakSpace}(x(t)) \to \mathrm{toWeakSpace}(z)
 $$
 
 in the weak space associated with $H$. In ordinary mathematical language, the trajectory $x(t)$ converges weakly to some solution $z \in S$.
@@ -200,7 +200,7 @@ This is recorded as `hzsub`.
 Next the proof shows that the chosen solution $z$ is a fixed point of $T$, namely $T(z)=z$. It rewrites $T(z)$ using the hypothesis
 
 $$
-T(q)=\operatorname{Prox}_{\mu \Phi}\bigl(q-\mu B(q)\bigr),
+T(q)=\mathrm{Prox}_{\mu \Phi}\bigl(q-\mu B(q)\bigr),
 $$
 
 so the goal becomes to prove that the proximity operator applied to $z-\mu Bz$ returns $z$.
@@ -242,7 +242,7 @@ This is precisely the membership needed. In the Lean proof, `rw [ERealFunction.s
 The proof then invokes the cited equivalence `eq_proximityOperator_iff_sub_mem_subdifferential`. For $f \in \Gamma_0(H)$, this equivalence states
 
 $$
-p = \operatorname{Prox}_f(x) \quad\Longleftrightarrow\quad x-p \in \partial f(p).
+p = \mathrm{Prox}_f(x) \quad\Longleftrightarrow\quad x-p \in \partial f(p).
 $$
 
 It is applied with
@@ -260,13 +260,13 @@ $$
 so the equivalence gives
 
 $$
-z = \operatorname{Prox}_{\gamma \Phi}(z-\mu Bz).
+z = \mathrm{Prox}_{\gamma \Phi}(z-\mu Bz).
 $$
 
 Since $\gamma=\mu$, this is
 
 $$
-z = \operatorname{Prox}_{\mu \Phi}(z-\mu Bz).
+z = \mathrm{Prox}_{\mu \Phi}(z-\mu Bz).
 $$
 
 Combining this with the defining property of $T$ gives $T(z)=z$. The Lean proof uses `change` to expose the proximity operator form, applies the equivalence with `.mpr`, and uses `.symm` to orient the equality from the proximity operator back to $z$.
@@ -458,7 +458,7 @@ The proof records this as `hstrong`.
 Finally, the proof uses the canonical continuous linear map from $H$ to its weak space. Since continuous maps preserve limits, strong convergence $x(t)\to z$ implies convergence of the images:
 
 $$
-\operatorname{toWeakSpace}(x(t))\to \operatorname{toWeakSpace}(z).
+\mathrm{toWeakSpace}(x(t))\to \mathrm{toWeakSpace}(z).
 $$
 
 This is exactly the weak convergence asserted in the theorem, and the proof finishes by combining this with the already established $z\in S$.

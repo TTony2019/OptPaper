@@ -25,7 +25,7 @@ The declaration `din_weakly_converges_to_argmin` is a theorem about a real Hilbe
 - The global argmin set
 
   $$
-  \operatorname{argminSet}\Phi=\{\,y\in H\mid \forall p,\ \Phi(y)\le \Phi(p)\,\}
+  \mathrm{argminSet}\Phi=\{\,y\in H\mid \forall p,\ \Phi(y)\le \Phi(p)\,\}
   $$
 
   is nonempty.
@@ -40,7 +40,7 @@ The declaration `din_weakly_converges_to_argmin` is a theorem about a real Hilbe
 The conclusion is a conjunction:
 
 $$
-\Bigl(\forall z,\ z\in\operatorname{argminSet}\Phi
+\Bigl(\forall z,\ z\in\mathrm{argminSet}\Phi
 \ \Rightarrow\ \exists d\in\mathbb R,\ 
 \|x(t)-z\|\to d\Bigr)
 $$
@@ -48,11 +48,11 @@ $$
 and
 
 $$
-\exists z,\ z\in\operatorname{argminSet}\Phi
+\exists z,\ z\in\mathrm{argminSet}\Phi
 \ \wedge\ x(t)\rightharpoonup z
 $$
 
-where the weak convergence is written in Lean as convergence of $t\mapsto \operatorname{toWeakSpace}_{\mathbb R,H}(x(t))$ to $\operatorname{toWeakSpace}_{\mathbb R,H}(z)$.
+where the weak convergence is written in Lean as convergence of $t\mapsto \mathrm{toWeakSpace}_{\mathbb R,H}(x(t))$ to $\mathrm{toWeakSpace}_{\mathbb R,H}(z)$.
 
 In ordinary language: along every global minimizer $z$ of $\Phi$, the distance from the trajectory $x(t)$ to $z$ converges to a finite limit as $t\to\infty$; moreover, the trajectory converges weakly to some global minimizer of $\Phi$.
 
@@ -633,7 +633,7 @@ $$
 
 Since $\Phi(x(t))$ converges and $x'(t)+\beta\nabla\Phi(x(t))\to0$, the energy $E(t)$ also converges to a finite limit.
 
-The core of the proof is the distance-convergence statement. Fix $z\in\operatorname{argminSet}\Phi$. First, $\nabla\Phi(z)=0$. The proof then derives the convexity inequality
+The core of the proof is the distance-convergence statement. Fix $z\in\mathrm{argminSet}\Phi$. First, $\nabla\Phi(z)=0$. The proof then derives the convexity inequality
 
 $$
 \langle \nabla\Phi(y),y-z\rangle\ge0
@@ -860,9 +860,9 @@ $$
 \Phi(z)\le\Phi(p)
 $$
 
-for every $p$. Therefore $z\in\operatorname{argminSet}\Phi$. This proves the hypothesis needed for Opial’s theorem.
+for every $p$. Therefore $z\in\mathrm{argminSet}\Phi$. This proves the hypothesis needed for Opial’s theorem.
 
-Finally, the proof applies `opial_continuous_time`. That theorem states that if $x:\mathbb R\to H$, $S\subseteq H$ is nonempty, every sequence of weak cluster points of $x$ along times tending to $+\infty$ lies in $S$, and for every $z\in S$ the distance $\|x(t)-z\|$ converges, then there exists $z\in S$ such that $x(t)$ converges weakly to $z$. Here $S=\operatorname{argminSet}\Phi$, nonemptiness is `hmin`, the cluster-point condition is `hcluster`, and the distance-convergence condition is `hdist`. The conclusion gives some $z\in\operatorname{argminSet}\Phi$ with $x(t)\rightharpoonup z$. Together with the already-proved distance convergence for every minimizer, this proves the stated conjunction.
+Finally, the proof applies `opial_continuous_time`. That theorem states that if $x:\mathbb R\to H$, $S\subseteq H$ is nonempty, every sequence of weak cluster points of $x$ along times tending to $+\infty$ lies in $S$, and for every $z\in S$ the distance $\|x(t)-z\|$ converges, then there exists $z\in S$ such that $x(t)$ converges weakly to $z$. Here $S=\mathrm{argminSet}\Phi$, nonemptiness is `hmin`, the cluster-point condition is `hcluster`, and the distance-convergence condition is `hdist`. The conclusion gives some $z\in\mathrm{argminSet}\Phi$ with $x(t)\rightharpoonup z$. Together with the already-proved distance convergence for every minimizer, this proves the stated conjunction.
 
 Throughout the proof, Lean tactics play concrete mathematical roles. Commands such as `intro` introduce the variables and hypotheses of a subgoal; `obtain` and `rcases` destruct existential or conjunctive hypotheses; `rw` rewrites using definitions such as the ODE, the definitions of $E,h,u,r$, or algebraic identities; `simp` and `simpa` perform definitional and algebraic simplification; `exact` closes a goal by supplying a theorem or previously proved fact; `apply` reduces a goal to the hypotheses of a lemma; `linarith` and `nlinarith` solve linear and nonlinear arithmetic inequalities; `positivity` proves nonnegativity of expressions; `field_simp` clears denominators; `ring` and `ring_nf` normalize polynomial and rational identities; `module` solves linear equalities in the vector space; `convert` changes a goal to an equivalent form; and `filter_upwards` handles “for all sufficiently large $t$” statements. The limit arguments use `tendsto_atTop_ciInf` for the limit of an antitone bounded-below function, `squeeze_zero` and `squeeze_zero_norm'` for limits forced between bounds, and `isBounded_iff_forall_norm_le` for converting boundedness into a uniform norm bound.
 

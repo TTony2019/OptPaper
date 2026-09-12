@@ -23,7 +23,7 @@ theorem proposition_4_5 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace �
 The declaration `proposition_4_5` is an asymptotic convergence theorem for the two-coordinate iterates of a CA2 alternating proximal-minimization algorithm. Let
 
 $$
-x_n:=\operatorname{alg.x}(n),\qquad y_n:=\operatorname{alg.y}(n)
+x_n:=\mathrm{alg.x}(n),\qquad y_n:=\mathrm{alg.y}(n)
 $$
 
 be the two sequences produced by the algorithm. The ambient space $H$ is a real inner product space, hence a normed additive commutative group, with norm $\|\cdot\|$ and inner product $\langle\cdot,\cdot\rangle$. The functions $f,g:H\to\mathbb R$ are the two objective functions, $\beta,\mu\in\mathbb R$ are real parameters, and $\alpha,\nu:\mathbb N\to\mathbb R$ are real sequences. The costs used in the algorithm are the half-squared-distance costs
@@ -923,7 +923,7 @@ by
 ```
 
 ## Proof explanation
-Write $x_n=\operatorname{alg.x}(n)$, $y_n=\operatorname{alg.y}(n)$, $\alpha_n=\alpha(n)$, $\nu_n=\nu(n)$, and $a^+:=\max(a,0)$. The proof proceeds in several stages.
+Write $x_n=\mathrm{alg.x}(n)$, $y_n=\mathrm{alg.y}(n)$, $\alpha_n=\alpha(n)$, $\nu_n=\nu(n)$, and $a^+:=\max(a,0)$. The proof proceeds in several stages.
 
 First, the proof extracts the positivity of the parameters and splits the summability hypothesis. The command `have hβpos : β > 0 := h41toh46.beta_pos` and the corresponding line for $\mu$ give $\beta>0$ and $\mu>0$. The command `rcases h47 with ⟨h_summable_alpha, h_summable_nu⟩` separates $H47(\alpha,\nu)$ into the summability of the positive parts of the $\alpha$-increments and of the $\nu$-increments.
 

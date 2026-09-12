@@ -33,7 +33,7 @@ $$
 is $1$-Lipschitz, i.e. nonexpansive:
 
 $$
-\operatorname{dist}(T_\mu x,T_\mu y)\le 1\cdot \operatorname{dist}(x,y)
+\mathrm{dist}(T_\mu x,T_\mu y)\le 1\cdot \mathrm{dist}(x,y)
 $$
 
 for all $x,y\in H$, equivalently
@@ -89,7 +89,7 @@ by
 The proof starts with `refine LipschitzWith.of_dist_le_mul ?_`. The lemma `LipschitzWith.of_dist_le_mul` is the pointwise criterion for being Lipschitz: if a function $f$ satisfies
 
 $$
-\operatorname{dist}(f x,f y)\le K\operatorname{dist}(x,y)
+\mathrm{dist}(f x,f y)\le K\mathrm{dist}(x,y)
 $$
 
 for all $x,y$, then $f$ is $K$-Lipschitz. Here $K=1$ and $f(x)=x-\mu Bx$. The `refine` command applies this criterion and leaves the pointwise estimate as the new goal.
@@ -233,7 +233,7 @@ This uses `sq_le_sq₀ (norm_nonneg _) (norm_nonneg _)`. That lemma says that fo
 Finally, `simpa [dist_eq_norm] using hnorm` converts the norm inequality into the required distance inequality. The lemma `dist_eq_norm` states that in a normed additive group,
 
 $$
-\operatorname{dist}(u,v)=\|u-v\| .
+\mathrm{dist}(u,v)=\|u-v\| .
 $$
 
 Thus the inequality
@@ -245,7 +245,7 @@ $$
 is exactly
 
 $$
-\operatorname{dist}(x-\mu Bx,y-\mu By)\le \operatorname{dist}(x,y),
+\mathrm{dist}(x-\mu Bx,y-\mu By)\le \mathrm{dist}(x,y),
 $$
 
 which is the pointwise form of the claim that $x\mapsto x-\mu Bx$ is $1$-Lipschitz.

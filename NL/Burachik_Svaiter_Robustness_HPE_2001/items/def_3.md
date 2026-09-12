@@ -10,7 +10,7 @@ recall Set.mem_normalCone_iff_forall
 The declaration is a recall of the existing Mathlib theorem `Set.mem_normalCone_iff_forall`. In the usual Mathlib setting, this theorem concerns a real inner product space $H$, a subset $s \subseteq H$, and points $x,y \in H$. It characterizes membership in the normal cone of $s$ at $x$. The statement is
 
 $$
-y \in \operatorname{normalCone}(s,x)
+y \in \mathrm{normalCone}(s,x)
 \quad\Longleftrightarrow\quad
 \forall z,\; z \in s \;\to\; \langle y, z-x\rangle_{\mathbb R} \le 0.
 $$

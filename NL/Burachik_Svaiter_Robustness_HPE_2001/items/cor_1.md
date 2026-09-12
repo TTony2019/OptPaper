@@ -15,13 +15,13 @@ The declaration `hpe_distance_bound` states a one-step distance estimate for an 
 The object $A$ packages the iteration data. The conclusion uses the main iterate $A.x_k$, the next iterate $A.x_{k+1}$, and the real parameters $A.\alpha_k$ and $A.\delta_k$. The proof also uses the auxiliary fields $A.y_k$, $A.c_k$, $A.v_k$, and $A.\sigma_k$. The cited definition of `extragradientStep` says that the extragradient point is
 
 $$
-\operatorname{extragradientStep}(A,k)=A.x_k-A.c_k\cdot A.v_k,
+\mathrm{extragradientStep}(A,k)=A.x_k-A.c_k\cdot A.v_k,
 $$
 
 where $\cdot$ is scalar multiplication. The cited theorem `hpe_descent` says that if $0\in T(x^\star)$, then
 
 $$
-\|x^\star-A.x_k\|^2-\|x^\star-\operatorname{extragradientStep}(A,k)\|^2
+\|x^\star-A.x_k\|^2-\|x^\star-\mathrm{extragradientStep}(A,k)\|^2
 \ge
 (1-(A.\sigma_k)^2)\|A.y_k-A.x_k\|^2-A.\delta_k.
 $$
@@ -77,7 +77,7 @@ by
 The proof starts by defining the local abbreviation $z$ as the extragradient step:
 
 $$
-z := \operatorname{extragradientStep}(A,k).
+z := \mathrm{extragradientStep}(A,k).
 $$
 
 This lets the rest of the proof refer to that intermediate point concisely. The first auxiliary claim is

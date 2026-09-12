@@ -22,18 +22,18 @@ and second, no pair $(x,u)$ outside the graph can be added without violating thi
 The hypothesis `hdom : Bornology.IsBounded U.dom` says that the domain of $U$,
 
 $$
-U.\operatorname{dom}=\{x\in H: U x\ne \varnothing\},
+U.\mathrm{dom}=\{x\in H: U x\ne \varnothing\},
 $$
 
 is bounded in the norm topology of $H$. The conclusion is the conjunction
 
 $$
-U.\operatorname{range}=\operatorname{Set.univ}
+U.\mathrm{range}=\mathrm{Set.univ}
 \quad\text{and}\quad
-U.\operatorname{zeros}\ne \varnothing.
+U.\mathrm{zeros}\ne \varnothing.
 $$
 
-Here $U.\operatorname{range}=\bigcup_{x\in H} U x$, so the first part says that every point $p\in H$ belongs to $U x$ for some $x\in H$. The second part says that there exists $x\in H$ such that $0\in U x$; in the proof this is obtained from the first part by specializing to $p=0$, using the characterization that $x\in U.\operatorname{zeros}$ exactly when $0\in U x$. Thus the theorem says that a maximal monotone operator on a real Hilbert space whose domain is bounded is automatically surjective and has nonempty zero set.
+Here $U.\mathrm{range}=\bigcup_{x\in H} U x$, so the first part says that every point $p\in H$ belongs to $U x$ for some $x\in H$. The second part says that there exists $x\in H$ such that $0\in U x$; in the proof this is obtained from the first part by specializing to $p=0$, using the characterization that $x\in U.\mathrm{zeros}$ exactly when $0\in U x$. Thus the theorem says that a maximal monotone operator on a real Hilbert space whose domain is bounded is automatically surjective and has nonempty zero set.
 
 ## Lean proof
 ```lean
@@ -183,10 +183,10 @@ $$
 Because $u_n\in U x_n$, the set $U x_n$ is nonempty. The lemma `SetValuedOperator.mem_dom_iff` says that
 
 $$
-x\in U.\operatorname{dom}\iff U x\ne\varnothing.
+x\in U.\mathrm{dom}\iff U x\ne\varnothing.
 $$
 
-Therefore $x_n\in U.\operatorname{dom}$ for every $n$. Since $U.\operatorname{dom}$ is bounded, the range of the sequence $x_n$ is bounded. The proof records this as `hxbounded`.
+Therefore $x_n\in U.\mathrm{dom}$ for every $n$. Since $U.\mathrm{dom}$ is bounded, the range of the sequence $x_n$ is bounded. The proof records this as `hxbounded`.
 
 The proof then shows that $c_n^{-1}\to 0$. Indeed, $(n:\mathbb R)\to\infty$, hence $(n:\mathbb R)+1\to\infty$, and therefore the reciprocal tends to $0$. This is `hinv`. Using the boundedness of the $x_n$, the proof writes $\|x_n\|\le M$ for all $n$. Then
 
@@ -273,7 +273,7 @@ The first term $\langle us_k-p,xs_k\rangle$ tends to $0$ because $us_k-p\to 0$ s
 The terms involving the weakly convergent subsequence are handled using `weakSpace_continuous_inner_right`. That lemma says that for fixed $y\in H$, the map on the weak space
 
 $$
-X\mapsto \left\langle ( \operatorname{toWeakSpace}_{\mathbb R}^H)^{-1}X, y\right\rangle
+X\mapsto \left\langle ( \mathrm{toWeakSpace}_{\mathbb R}^H)^{-1}X, y\right\rangle
 $$
 
 is continuous. Therefore weak convergence $xs_k\rightharpoonup \bar x$ implies
@@ -321,19 +321,19 @@ $$
 Therefore $p$ belongs to the range of $U$, because `SetValuedOperator.mem_range_iff` states
 
 $$
-p\in U.\operatorname{range}\iff \exists x,\ p\in U x.
+p\in U.\mathrm{range}\iff \exists x,\ p\in U x.
 $$
 
 Since $p\in H$ was arbitrary, `Set.eq_univ_of_forall` yields
 
 $$
-U.\operatorname{range}=\operatorname{Set.univ}.
+U.\mathrm{range}=\mathrm{Set.univ}.
 $$
 
-Finally, the proof establishes that the zero set is nonempty. Applying the already proved surjectivity to $p=0$ gives $0\in U.\operatorname{range}$. By `SetValuedOperator.mem_range_iff`, there exists $x\in H$ such that $0\in U x$. The final step uses `SetValuedOperator.mem_zeros_iff`, whose consequence in this context is that $x\in U.\operatorname{zeros}$ exactly when $0\in U x$. Hence there exists $x$ with $x\in U.\operatorname{zeros}$, so
+Finally, the proof establishes that the zero set is nonempty. Applying the already proved surjectivity to $p=0$ gives $0\in U.\mathrm{range}$. By `SetValuedOperator.mem_range_iff`, there exists $x\in H$ such that $0\in U x$. The final step uses `SetValuedOperator.mem_zeros_iff`, whose consequence in this context is that $x\in U.\mathrm{zeros}$ exactly when $0\in U x$. Hence there exists $x$ with $x\in U.\mathrm{zeros}$, so
 
 $$
-U.\operatorname{zeros}\ne\varnothing.
+U.\mathrm{zeros}\ne\varnothing.
 $$
 
 This completes the proof of both conclusions. No `linarith` step occurs in this proof; the algebraic rearrangements are handled by `rw`, `simp`, `abel`, and `ring`, while `intro`, `rcases`, `choose`, `exact`, `simpa`, `constructor`, and `convert` manage the logical structure and term construction.

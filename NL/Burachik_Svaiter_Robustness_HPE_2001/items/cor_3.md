@@ -197,7 +197,7 @@ The `calc` block carries out exactly this chain, using the triangle inequality `
 4. The proof next shows that the exact extragradient point has the same limiting distance to $x^*$ as the actual next iterate. By definition,
 
 $$
-\operatorname{extragradientStep} A k=x_k-c_k v_k.
+\mathrm{extragradientStep} A k=x_k-c_k v_k.
 $$
 
 The sequence $k\mapsto \|x_{k+1}-x^*\|$ still tends to $L$, by shifting the index by $1$ using `Filter.tendsto_add_atTop_nat 1`.

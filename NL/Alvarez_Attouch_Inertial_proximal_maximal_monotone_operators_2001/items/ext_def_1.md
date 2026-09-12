@@ -11,7 +11,7 @@ noncomputable def distanceToSet (y : H) (C : Set H) : EReal :=
 `distanceToSet` is a noncomputable definition. It has an ambient type $H$, whose subtraction and norm operations are used in the expression, and it has two explicit arguments: a point $y : H$ and a set $C : \mathrm{Set}\,H$. It returns a value of type `EReal`, the extended real numbers. The defining equation is
 
 $$
-\operatorname{distanceToSet}(y,C)
+\mathrm{distanceToSet}(y,C)
 =
 \inf \left\{\|y-c\| : c \in C\right\},
 $$

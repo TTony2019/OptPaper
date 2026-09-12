@@ -15,12 +15,12 @@ The declaration introduces a noncomputable real-valued auxiliary function `auxil
 For such data, `auxiliaryA` is defined by
 
 $$
-\operatorname{auxiliaryA}(u,y,a,b,\lambda,q,k,hk)
+\mathrm{auxiliaryA}(u,y,a,b,\lambda,q,k,hk)
 =
 \frac{a+b}{2\lambda}\,\|u_k-q\|^2
 -
 \left(\frac{1}{\lambda}+b\right)\,
-\operatorname{auxiliaryG}(u,y,a,b,\lambda,q,k+1,\text{proof}).
+\mathrm{auxiliaryG}(u,y,a,b,\lambda,q,k+1,\text{proof}).
 $$
 
 Here $u_k$ denotes the $k$-th term of the sequence $u$, and $\|u_k-q\|^2$ is the squared distance, in $H$, from that term to $q$. The second summand uses the previously defined auxiliary quantity `auxiliaryG`, evaluated with the same sequences and parameters but at the next index $k+1$. The final argument `(by omega)` is a proof term needed because `auxiliaryG` requires an arithmetic side condition for the index at which it is evaluated. The exact proposition required by `auxiliaryG` is not shown in the provided source, but the visible role of `omega` is to discharge that arithmetic requirement for the index $k+1$. There is no assumption in the declaration that $\lambda\neq 0$; Lean’s real division is total, so the displayed expression is still formally defined even when $\lambda=0$.

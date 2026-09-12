@@ -19,14 +19,14 @@ The declaration `weak_strong_closedness_maximal_monotone_graph` concerns a set-v
 - $hxs$: the sequence $xs$ converges weakly to $x$, i.e.
 
   $$
-  \operatorname{toWeakSpace}_{\mathbb R,H}(xs_i)\to \operatorname{toWeakSpace}_{\mathbb R,H}(x)
+  \mathrm{toWeakSpace}_{\mathbb R,H}(xs_i)\to \mathrm{toWeakSpace}_{\mathbb R,H}(x)
   $$
 
   as $i\to\infty$. Equivalently, $xs_i\rightharpoonup x$.
 - $hvs$: the sequence $vs$ converges strongly to $v$, i.e. $vs_i\to v$ in norm.
 - $hmem$: for every $i$, the pair $(xs_i,vs_i)$ lies in the graph of $A$, i.e. $vs_i\in A(xs_i)$.
 
-The conclusion is $v\in A x$. Thus the theorem says that the graph of a maximal monotone operator is sequentially closed when the first coordinate converges weakly and the second coordinate converges strongly: if $(xs_i,vs_i)\in \operatorname{graph}(A)$, $xs_i\rightharpoonup x$, and $vs_i\to v$, then $(x,v)\in \operatorname{graph}(A)$.
+The conclusion is $v\in A x$. Thus the theorem says that the graph of a maximal monotone operator is sequentially closed when the first coordinate converges weakly and the second coordinate converges strongly: if $(xs_i,vs_i)\in \mathrm{graph}(A)$, $xs_i\rightharpoonup x$, and $vs_i\to v$, then $(x,v)\in \mathrm{graph}(A)$.
 
 ## Lean proof
 ```lean

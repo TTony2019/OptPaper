@@ -18,7 +18,7 @@ theorem proposition12 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ 
 ```
 
 ## Statement explanation
-Let $H$ be a complete real inner product space, i.e. a real Hilbert space. The theorem has two real-valued functions and one vector field: $\phi : H \to \overline{\mathbb R}$ takes values in the extended reals, $\psi : H \to \mathbb R$ is finite-valued, and $g := \operatorname{gradPsi} : H \to H$ is the map denoted `gradPsi`. It also has real parameters $a,b,\lambda$, two sequences $u=(u_k)_{k\in\mathbb N}$ and $y=(y_k)_{k\in\mathbb N}$ in $H$, a point $u_\infty \in H$, and a continuity hypothesis $g$ continuous.
+Let $H$ be a complete real inner product space, i.e. a real Hilbert space. The theorem has two real-valued functions and one vector field: $\phi : H \to \overline{\mathbb R}$ takes values in the extended reals, $\psi : H \to \mathbb R$ is finite-valued, and $g := \mathrm{gradPsi} : H \to H$ is the map denoted `gradPsi`. It also has real parameters $a,b,\lambda$, two sequences $u=(u_k)_{k\in\mathbb N}$ and $y=(y_k)_{k\in\mathbb N}$ in $H$, a point $u_\infty \in H$, and a continuity hypothesis $g$ continuous.
 
 The hypothesis `IsIFBTrajectory phi psi gradPsi a b lam u y` says that $(u,y)$ is an inertial forward-backward trajectory associated with $\phi,\psi,g,a,b,\lambda$. The complete definition of this predicate is not shown, but the proof uses only the following consequences of it: $b>0$, $\lambda>0$, and, for every $k$, the second update equation
 

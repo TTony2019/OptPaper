@@ -34,7 +34,7 @@ Let $H$ be a complete real inner product space, i.e. a real Hilbert space. Let $
 Write
 
 $$
-g(t)=\nabla f(z(t)),\qquad d(t)=\operatorname{infDist}\bigl(g(t),B(0,r)\bigr),
+g(t)=\nabla f(z(t)),\qquad d(t)=\mathrm{infDist}\bigl(g(t),B(0,r)\bigr),
 $$
 
 where $B(0,r)$ is the closed ball of radius $r$ centered at $0$, called the friction ball. The theorem has four conclusions.
@@ -42,7 +42,7 @@ where $B(0,r)$ is the closed ball of radius $r$ centered at $0$, called the fric
 First, there exists a function $p:\mathbb R\to H$ such that for every $t\in[t_0,\infty)$,
 
 $$
-p(t)\in \operatorname{frictionBallProjector}_r(g(t))
+p(t)\in \mathrm{frictionBallProjector}_r(g(t))
 $$
 
 and
@@ -51,16 +51,16 @@ $$
 z \text{ has derivative } p(t)-g(t) \text{ at } t.
 $$
 
-The statement $p(t)\in \operatorname{frictionBallProjector}_r(g(t))$ means that $p(t)$ is a best approximation to $g(t)$ from the friction ball: $p(t)\in B(0,r)$ and
+The statement $p(t)\in \mathrm{frictionBallProjector}_r(g(t))$ means that $p(t)$ is a best approximation to $g(t)$ from the friction ball: $p(t)\in B(0,r)$ and
 
 $$
-\operatorname{dist}(g(t),p(t))=\operatorname{infDist}(g(t),B(0,r)).
+\mathrm{dist}(g(t),p(t))=\mathrm{infDist}(g(t),B(0,r)).
 $$
 
 Thus $p(t)$ is the metric projection of the gradient $g(t)$ onto the ball $B(0,r)$. The second part says
 
 $$
-\operatorname{HasDerivAt} z \bigl(p(t)-g(t)\bigr) t.
+\mathrm{HasDerivAt} z \bigl(p(t)-g(t)\bigr) t.
 $$
 
 Second, the squared distance from the gradient to the friction ball is nonincreasing:
@@ -87,7 +87,7 @@ Equivalently $d(t)=o(1/\sqrt t)$.
 Fourth, for every $g_\infty\in B(0,r)$, the dual Bregman energy
 
 $$
-t\mapsto \operatorname{dualBregmanEnergy}(f,z,g_\infty,t)
+t\mapsto \mathrm{dualBregmanEnergy}(f,z,g_\infty,t)
 =f(z(t))-\langle g_\infty,z(t)\rangle
 $$
 
@@ -309,7 +309,7 @@ The proof starts with `classical` and then introduces the abbreviations
 
 $$
 g(t)=\nabla f(z(t)),\qquad
-p(t)=\operatorname{frictionBallProjection}_r(g(t)).
+p(t)=\mathrm{frictionBallProjection}_r(g(t)).
 $$
 
 Here `frictionBallProjection r hr` is the single-valued nearest-point projection onto the closed ball $B(0,r)$, obtained by choosing the unique point supplied by the Chebyshev property of the ball.
@@ -339,14 +339,14 @@ This identity is used later in computing the derivative of $\|g(t)\|$.
 Next, the proof records the projection properties of $p(t)$. The theorem `frictionBall_isChebyshev` says that in a complete real Hilbert space, every point has a unique best approximation in the closed ball of radius $r$ when $r\ge0$. Since $0<r$, the projection is well-defined. From the defining choice of `frictionBallProjection`, the proof obtains
 
 $$
-p(t)\in \operatorname{frictionBallProjector}_r(g(t)).
+p(t)\in \mathrm{frictionBallProjector}_r(g(t)).
 $$
 
 Thus $p(t)\in B(0,r)$ and
 
 $$
-\operatorname{dist}(g(t),p(t))
-=\operatorname{infDist}(g(t),B(0,r)).
+\mathrm{dist}(g(t),p(t))
+=\mathrm{infDist}(g(t),B(0,r)).
 $$
 
 The proof also uses the relation between ball projection and soft thresholding. The soft thresholder is
@@ -483,7 +483,7 @@ $$
 Next, the theorem `infDist_frictionBall_eq` gives the exact formula
 
 $$
-\operatorname{infDist}(g(t),B(0,r))
+\mathrm{infDist}(g(t),B(0,r))
 =
 \max\bigl(\|g(t)\|-r,0\bigr).
 $$
@@ -491,7 +491,7 @@ $$
 Since $\|g\|$ is antitone and $x\mapsto \max(x-r,0)$ is nondecreasing, the distance
 
 $$
-d(t)=\operatorname{infDist}(g(t),B(0,r))
+d(t)=\mathrm{infDist}(g(t),B(0,r))
 $$
 
 is antitone. Squaring preserves this order on nonnegative values, so
@@ -525,7 +525,7 @@ $$
 Indeed, since $p(t)$ is a best approximation,
 
 $$
-d(t)=\operatorname{dist}(g(t),p(t))=\|g(t)-p(t)\|=\|p(t)-g(t)\|=\|z'(t)\|.
+d(t)=\mathrm{dist}(g(t),p(t))=\|g(t)-p(t)\|=\|p(t)-g(t)\|=\|z'(t)\|.
 $$
 
 Therefore $d(t)^2=\|z'(t)\|^2$, so $d^2$ is integrable. Dividing by the constant $2$ gives integrability of $d(t)^2/2$.
@@ -661,5 +661,5 @@ $$
 
 is antitone on $[t_0,\infty)$. This proves the fourth conclusion.
 
-At the end, the proof assembles the results. It returns the function $p$ and uses the projection property $p(t)\in\operatorname{frictionBallProjector}_r(g(t))$ together with the velocity identity to obtain the derivative statement. The previously proved antitone statement for $d(t)^2$, the weighted limit $\sqrt t\,d(t)\to0$, and the Bregman-energy monotonicity are then exactly the remaining conclusions of `theorem_3_2`. The Lean tactics `intro`, `rw`, and `simp` introduce variables and hypotheses and perform the algebraic rewrites, while `exact` supplies the named results and `linarith` or `nlinarith` combines the resulting inequalities.
+At the end, the proof assembles the results. It returns the function $p$ and uses the projection property $p(t)\in\mathrm{frictionBallProjector}_r(g(t))$ together with the velocity identity to obtain the derivative statement. The previously proved antitone statement for $d(t)^2$, the weighted limit $\sqrt t\,d(t)\to0$, and the Bregman-energy monotonicity are then exactly the remaining conclusions of `theorem_3_2`. The Lean tactics `intro`, `rw`, and `simp` introduce variables and hypotheses and perform the algebraic rewrites, while `exact` supplies the named results and `linarith` or `nlinarith` combines the resulting inequalities.
 

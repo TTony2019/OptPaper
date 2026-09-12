@@ -36,13 +36,13 @@ is bounded in the metric sense.
 The conclusion is the conjunction of two statements. First, the infimum of the range of $g$,
 
 $$
-\operatorname{sInf}(\operatorname{range} g),
+\mathrm{sInf}(\mathrm{range} g),
 $$
 
 is a finite real extended value: there exists $r\in\mathbb R$ such that
 
 $$
-\operatorname{sInf}(\operatorname{range} g)=(r:\mathrm{EReal}).
+\mathrm{sInf}(\mathrm{range} g)=(r:\mathrm{EReal}).
 $$
 
 Second, there exists $x\in\mathbb R^m$ such that $x$ is a global minimizer of $g$, meaning
@@ -54,7 +54,7 @@ $$
 and moreover
 
 $$
-g(x)=\operatorname{sInf}(\operatorname{range} g).
+g(x)=\mathrm{sInf}(\mathrm{range} g).
 $$
 
 Thus the theorem says that a proper, lower semicontinuous, coercive extended-real-valued function on Euclidean space attains its infimum, and that the infimum is a finite real number.
@@ -111,7 +111,7 @@ by
 The proof begins by unpacking properness. The tactic `rcases hproper with ⟨hg_ne_bot, x0, hx0_dom⟩` extracts the fact that $g$ is never $-\infty$, a point $x_0$, and the inequality $g(x_0)<+\infty$. From $g(x_0)<+\infty$ the proof derives $g(x_0)\neq+\infty$ using `ne_of_lt`. Since properness also gives $g(x_0)\neq-\infty$, the lemma `ERealFunction.mem_effectiveDom_iff` shows
 
 $$
-x_0\in \operatorname{effectiveDom} g.
+x_0\in \mathrm{effectiveDom} g.
 $$
 
 The effective domain consists exactly of the points where the value is finite, neither $+\infty$ nor $-\infty$.
@@ -125,7 +125,7 @@ $$
 Next, the proof defines
 
 $$
-C=\operatorname{lowerLevelSet} g c_0=\{x\mid g(x)\le (c_0:\mathrm{EReal})\}.
+C=\mathrm{lowerLevelSet} g c_0=\{x\mid g(x)\le (c_0:\mathrm{EReal})\}.
 $$
 
 Since $g(x_0)=c_0$, the simplification `simp [C, ERealFunction.lowerLevelSet, hc0]` proves $x_0\in C$.
@@ -133,7 +133,7 @@ Since $g(x_0)=c_0$, the simplification `simp [C, ERealFunction.lowerLevelSet, hc
 The coercivity hypothesis is then used in the form `hcoercive c0`, giving that $C$ is bounded:
 
 $$
-\operatorname{Bornology.IsBounded} C.
+\mathrm{Bornology.IsBounded} C.
 $$
 
 Lower semicontinuity is used through the theorem `ERealFunction.lowerSemicontinuous_iff_isClosed_lowerLevelSet`, which states that a function is lower semicontinuous exactly when each real lower level set is closed. Applying it to $c_0$ gives that $C$ is closed. Since $C$ is both closed and bounded in Euclidean space, the metric theorem `Metric.isCompact_iff_isClosed_bounded` yields that $C$ is compact.
@@ -175,7 +175,7 @@ $$
 Combining $g(x_{\min})\le c_0$ with $c_0<g(y)$ gives $g(x_{\min})\le g(y)$. Thus
 
 $$
-\operatorname{IsMinOn} g \operatorname{Set.univ} x_{\min},
+\mathrm{IsMinOn} g \mathrm{Set.univ} x_{\min},
 $$
 
 meaning $g(x_{\min})\le g(y)$ for every $y\in\mathbb R^m$.
@@ -183,7 +183,7 @@ meaning $g(x_{\min})\le g(y)$ for every $y\in\mathbb R^m$.
 The proof then shows that $g(x_{\min})$ is finite. Since $g(x_{\min})\le c_0$ and $c_0\neq+\infty$, the lemma `ne_top_of_le_ne_top` gives $g(x_{\min})\neq+\infty$. Properness supplies $g(x_{\min})\neq-\infty$. Therefore, by `ERealFunction.mem_effectiveDom_iff`,
 
 $$
-x_{\min}\in \operatorname{effectiveDom} g.
+x_{\min}\in \mathrm{effectiveDom} g.
 $$
 
 Applying `ERealFunction.mem_effectiveDom_iff_exists_real` again, there exists $c_{\min}\in\mathbb R$ such that
@@ -195,39 +195,39 @@ $$
 The key identification with the infimum uses `ERealFunction.eq_sInf_image_of_isMinOn`. That lemma says that if $x\in C$ and $x$ minimizes $f$ over $C$, then
 
 $$
-f(x)=\operatorname{sInf}(f''C).
+f(x)=\mathrm{sInf}(f''C).
 $$
 
-Here it is applied with $f=g$, $C=\operatorname{Set.univ}$, and $x=x_{\min}$. The membership $x_{\min}\in\operatorname{Set.univ}$ is trivial, and the minimization hypothesis is the global minimality just proved. Hence
+Here it is applied with $f=g$, $C=\mathrm{Set.univ}$, and $x=x_{\min}$. The membership $x_{\min}\in\mathrm{Set.univ}$ is trivial, and the minimization hypothesis is the global minimality just proved. Hence
 
 $$
-g(x_{\min})=\operatorname{sInf}(g''\operatorname{Set.univ}).
+g(x_{\min})=\mathrm{sInf}(g''\mathrm{Set.univ}).
 $$
 
 Since the image of the whole space under $g$ is exactly the range of $g$, the `simpa` step rewrites this as
 
 $$
-g(x_{\min})=\operatorname{sInf}(\operatorname{range} g).
+g(x_{\min})=\mathrm{sInf}(\mathrm{range} g).
 $$
 
 Finally, the proof assembles the two conclusions of the conjunction. For the first conclusion, it chooses $r=c_{\min}$. The goal is
 
 $$
-\operatorname{sInf}(\operatorname{range} g)=(c_{\min}:\mathrm{EReal}).
+\mathrm{sInf}(\mathrm{range} g)=(c_{\min}:\mathrm{EReal}).
 $$
 
-Using the equality $g(x_{\min})=\operatorname{sInf}(\operatorname{range} g)$ in reverse and then $g(x_{\min})=(c_{\min}:\mathrm{EReal})$ closes the goal. Thus the infimum of $g$ is a finite real value.
+Using the equality $g(x_{\min})=\mathrm{sInf}(\mathrm{range} g)$ in reverse and then $g(x_{\min})=(c_{\min}:\mathrm{EReal})$ closes the goal. Thus the infimum of $g$ is a finite real value.
 
 For the second conclusion, the proof chooses $x=x_{\min}$. It has already established both
 
 $$
-\operatorname{IsMinOn} g \operatorname{Set.univ} x_{\min}
+\mathrm{IsMinOn} g \mathrm{Set.univ} x_{\min}
 $$
 
 and
 
 $$
-g(x_{\min})=\operatorname{sInf}(\operatorname{range} g).
+g(x_{\min})=\mathrm{sInf}(\mathrm{range} g).
 $$
 
 Therefore $x_{\min}$ is a global minimizer and its value is exactly the infimum of the range of $g$. The proof uses `constructor` to prove the final conjunction and `exact` to provide the witnesses. No `linarith` is used; the only order reasoning is the elementary passage from $\neg(g(y)\le c_0)$ to $c_0<g(y)$, followed by transitivity of $\le$.

@@ -20,7 +20,7 @@ $$
 so $b$ is nonnegative;
 
 $$
-\operatorname{BddBelow}(\{a_n:n\in\mathbb N\}),
+\mathrm{BddBelow}(\{a_n:n\in\mathbb N\}),
 $$
 
 meaning there exists $L\in\mathbb R$ such that $L\le a_n$ for every $n$; and
@@ -32,7 +32,7 @@ $$
 The last inequality says that the drop from $a_n$ to $a_{n+1}$ is at least $b_n$, since it is equivalent to $a_n-a_{n+1}\ge b_n$. Its conclusion is the conjunction of three facts:
 
 $$
-\operatorname{Antitone}(a),
+\mathrm{Antitone}(a),
 $$
 
 meaning that if $m\le n$, then $a_n\le a_m$, so $a$ is nonincreasing;
@@ -44,7 +44,7 @@ $$
 so $a$ converges to some real limit; and
 
 $$
-\operatorname{Summable}(b),
+\mathrm{Summable}(b),
 $$
 
 so the series $\sum_{n=0}^{\infty} b_n$ converges.
@@ -103,7 +103,7 @@ The proof then proves `hanti : Antitone a`. After introducing arbitrary $m,n$ wi
 For convergence, the proof invokes `tendsto_atTop_ciInf hanti hbdd`. In this context, this theorem says that an antitone real sequence which is bounded below converges to its infimum. Concretely, it provides
 
 $$
-\operatorname{Tendsto}\ a\ \operatorname{atTop}\ (\operatorname{nhds}(\bigwedge_n a_n)),
+\mathrm{Tendsto}\ a\ \mathrm{atTop}\ (\mathrm{nhds}(\bigwedge_n a_n)),
 $$
 
 where $\bigwedge_n a_n$ is the infimum of the values of $a$. The proof packages this as the existential statement $\exists l\in\mathbb R,\ a_n\to l$ by choosing $l=\bigwedge_n a_n$.

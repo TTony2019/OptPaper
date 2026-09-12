@@ -25,19 +25,19 @@ This declaration concerns a second-order gradient-like dissipative dynamical sys
 The conclusion is an implication. If the image of $x$ over nonnegative times is bounded,
 
 $$
-\operatorname{IsBounded}\bigl(x([0,\infty))\bigr),
+\mathrm{IsBounded}\bigl(x([0,\infty))\bigr),
 $$
 
 then the following seven facts hold. The velocity image, the acceleration image, the gradient image, and the Hessian image are all bounded:
 
 $$
-\operatorname{IsBounded}\bigl(\dot x([0,\infty))\bigr),\qquad
-\operatorname{IsBounded}\bigl(\ddot x([0,\infty))\bigr),
+\mathrm{IsBounded}\bigl(\dot x([0,\infty))\bigr),\qquad
+\mathrm{IsBounded}\bigl(\ddot x([0,\infty))\bigr),
 $$
 
 $$
-\operatorname{IsBounded}\bigl((\nabla\Phi\circ x)([0,\infty))\bigr),\qquad
-\operatorname{IsBounded}\bigl((D(\nabla\Phi)\circ x)([0,\infty))\bigr),
+\mathrm{IsBounded}\bigl((\nabla\Phi\circ x)([0,\infty))\bigr),\qquad
+\mathrm{IsBounded}\bigl((D(\nabla\Phi)\circ x)([0,\infty))\bigr),
 $$
 
 where $D(\nabla\Phi)(x(t))$ is the Fréchet derivative of $\nabla\Phi$ at $x(t)$, i.e. the Hessian as a continuous linear map. Moreover, the velocity, acceleration, and gradient tend to zero as $t\to\infty$:
@@ -278,15 +278,15 @@ Since `hacc_formula` says that this expression equals $\ddot x(t)$ for all $t\ge
 Finally, the proof assembles the seven conclusions in the required order:
 
 $$
-\operatorname{IsBounded}(\dot x([0,\infty))),
+\mathrm{IsBounded}(\dot x([0,\infty))),
 \quad
-\operatorname{IsBounded}(\ddot x([0,\infty))),
+\mathrm{IsBounded}(\ddot x([0,\infty))),
 \quad
-\operatorname{IsBounded}((\nabla\Phi\circ x)([0,\infty))),
+\mathrm{IsBounded}((\nabla\Phi\circ x)([0,\infty))),
 $$
 
 $$
-\operatorname{IsBounded}((D(\nabla\Phi)\circ x)([0,\infty))),
+\mathrm{IsBounded}((D(\nabla\Phi)\circ x)([0,\infty))),
 \quad
 \dot x(t)\to0,
 \quad

@@ -45,17 +45,17 @@ So $M$ is self-adjoint with respect to the real inner product.
 The field `positive_definite` states that
 
 $$
-\forall x\in H,\qquad x\ne 0 \implies 0 < \operatorname{metricNormSq}(M,x).
+\forall x\in H,\qquad x\ne 0 \implies 0 < \mathrm{metricNormSq}(M,x).
 $$
 
-The expression $\operatorname{metricNormSq}(M,x)$ is the metric squared norm associated with $M$; its exact definition is not included in this declaration, but the visible condition is that it is strictly positive on nonzero vectors.
+The expression $\mathrm{metricNormSq}(M,x)$ is the metric squared norm associated with $M$; its exact definition is not included in this declaration, but the visible condition is that it is strictly positive on nonzero vectors.
 
 The fields `envelope : H → ℝ` and `prox : H → H` are the variable-metric Moreau envelope and the proximal map. The field `envelope_eq` says that for every $x\in H$,
 
 $$
-\operatorname{envelope}(x)
+\mathrm{envelope}(x)
 =
-\operatorname{variableMetricMoreauEnvelope}(f,M,\lambda,h_\lambda,x),
+\mathrm{variableMetricMoreauEnvelope}(f,M,\lambda,h_\lambda,x),
 $$
 
 with the Lean term also passing the symmetry and positive-definiteness proofs as explicit arguments. This makes the envelope the variable-metric Moreau envelope determined by $f$, $M$, and $\lambda$. The exact definition of `variableMetricMoreauEnvelope` is not part of this declaration.
@@ -63,39 +63,39 @@ with the Lean term also passing the symmetry and positive-definiteness proofs as
 The field `prox_minimizes` says that for all $x,\xi\in H$,
 
 $$
-f(\operatorname{prox}(x))
+f(\mathrm{prox}(x))
 +
-\frac{\operatorname{metricNormSq}(M,x-\operatorname{prox}(x))}{2\lambda}
+\frac{\mathrm{metricNormSq}(M,x-\mathrm{prox}(x))}{2\lambda}
 \le
 f(\xi)
 +
-\frac{\operatorname{metricNormSq}(M,x-\xi)}{2\lambda}.
+\frac{\mathrm{metricNormSq}(M,x-\xi)}{2\lambda}.
 $$
 
-Thus $\operatorname{prox}(x)$ is a global minimizer of the Moreau objective
+Thus $\mathrm{prox}(x)$ is a global minimizer of the Moreau objective
 
 $$
-\xi \mapsto f(\xi)+\frac{1}{2\lambda}\operatorname{metricNormSq}(M,x-\xi).
+\xi \mapsto f(\xi)+\frac{1}{2\lambda}\mathrm{metricNormSq}(M,x-\xi).
 $$
 
 The field `prox_unique` says that if a point $p$ satisfies
 
 $$
-f(p)+\frac{\operatorname{metricNormSq}(M,x-p)}{2\lambda}=\operatorname{envelope}(x),
+f(p)+\frac{\mathrm{metricNormSq}(M,x-p)}{2\lambda}=\mathrm{envelope}(x),
 $$
 
-then $p=\operatorname{prox}(x)$. So the proximal minimizer is unique.
+then $p=\mathrm{prox}(x)$. So the proximal minimizer is unique.
 
 The field `optimality` states that
 
 $$
-M(x-\operatorname{prox}(x))\in \lambda\cdot \partial f(\operatorname{prox}(x)),
+M(x-\mathrm{prox}(x))\in \lambda\cdot \partial f(\mathrm{prox}(x)),
 $$
 
-where $\lambda\cdot \partial f(\operatorname{prox}(x))$ is the image of the subdifferential under the map $u\mapsto \lambda u$. Equivalently, there exists $u\in \partial f(\operatorname{prox}(x))$ such that
+where $\lambda\cdot \partial f(\mathrm{prox}(x))$ is the image of the subdifferential under the map $u\mapsto \lambda u$. Equivalently, there exists $u\in \partial f(\mathrm{prox}(x))$ such that
 
 $$
-M(x-\operatorname{prox}(x))=\lambda u.
+M(x-\mathrm{prox}(x))=\lambda u.
 $$
 
 This is the first-order optimality condition for the proximal minimization problem.
@@ -103,9 +103,9 @@ This is the first-order optimality condition for the proximal minimization probl
 The fields `gradient : H → H` and `gradient_eq` define the gradient map by
 
 $$
-\operatorname{gradient}(x)
+\mathrm{gradient}(x)
 =
-\frac{1}{\lambda}M(x-\operatorname{prox}(x)).
+\frac{1}{\lambda}M(x-\mathrm{prox}(x)).
 $$
 
 So the gradient is the scaled metric displacement between $x$ and its proximal point.
@@ -115,7 +115,7 @@ The real numbers `muMin` and `muMax` represent the extremal eigenvalues of $M$. 
 The field `prox_lipschitz` states that for all $x,y\in H$,
 
 $$
-\|\operatorname{prox}(x)-\operatorname{prox}(y)\|
+\|\mathrm{prox}(x)-\mathrm{prox}(y)\|
 \le
 \frac{\mu_{\max}}{\mu_{\min}}\,\|x-y\|.
 $$
@@ -125,7 +125,7 @@ Thus the proximal map is Lipschitz with constant equal to the ratio of the large
 The field `gradient_lipschitz` states that for all $x,y\in H$,
 
 $$
-\|\operatorname{gradient}(x)-\operatorname{gradient}(y)\|
+\|\mathrm{gradient}(x)-\mathrm{gradient}(y)\|
 \le
 \frac{1}{\lambda}\sqrt{\frac{\mu_{\max}}{\mu_{\min}}}\,\|x-y\|.
 $$
@@ -135,7 +135,7 @@ Thus the gradient map is Lipschitz with constant involving the square root of th
 Finally, the field `minimizers` states that for every $x\in H$,
 
 $$
-\operatorname{envelope}(x)=\inf_{z\in H} f(z)
+\mathrm{envelope}(x)=\inf_{z\in H} f(z)
 \quad\Longleftrightarrow\quad
 f(x)=\inf_{z\in H} f(z).
 $$

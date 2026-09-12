@@ -30,7 +30,7 @@ $$
 0\le \langle u-v,x-y\rangle .
 $$
 
-- The domain of $A$ is all of $H$: $\operatorname{dom}A=H$, where $z\in\operatorname{dom}A$ means $A z\ne\varnothing$.
+- The domain of $A$ is all of $H$: $\mathrm{dom}A=H$, where $z\in\mathrm{dom}A$ means $A z\ne\varnothing$.
 - $0\in A(0)$.
 - $f$ is convex in the extended-real sense: for all $x,y\in H$ and all real $a,b\ge0$ with $a+b=1$,
 
@@ -54,16 +54,16 @@ $$
 $$
 d_2=x_{n+2}-x_{n+1},\qquad
 v=\lambda_n^{-1}d_2,\qquad
-\operatorname{acc}=\lambda_n^{-2}(x_{n+2}-2x_{n+1}+x_n),
+\mathrm{acc}=\lambda_n^{-2}(x_{n+2}-2x_{n+1}+x_n),
 $$
 
 then
 
 $$
-0\in \{\operatorname{acc}\}+A v+B(x_{n+2}).
+0\in \{\mathrm{acc}\}+A v+B(x_{n+2}).
 $$
 
-- $x_1\in \operatorname{dom}f$, meaning $f(x_1)<\top$, where $\top=+\infty$ in $\overline{\mathbb R}$.
+- $x_1\in \mathrm{dom}f$, meaning $f(x_1)<\top$, where $\top=+\infty$ in $\overline{\mathbb R}$.
 
 The energy sequence is defined by
 
@@ -460,20 +460,20 @@ where $a_{\mathbb R}$ denotes the real part `toReal` of an extended real $a$. Th
 
 It first proves that no $f(x_n)$ is $-\infty$. If $f(x_n)=\bot$, then the lower bound $(m:\overline{\mathbb R})\le f(x_n)$ would give $(m:\overline{\mathbb R})\le\bot$, which is impossible for a real $m$. This is the argument behind `hf_iter_ne_bot`.
 
-Next it proves $f(x_1)\ne\top$. The hypothesis $x_1\in\operatorname{dom}f$ means $f(x_1)<\top$, using the definition of `ERealFunction.dom`. Hence $f(x_1)$ is not $+\infty$. This is `hx1_ne_top`.
+Next it proves $f(x_1)\ne\top$. The hypothesis $x_1\in\mathrm{dom}f$ means $f(x_1)<\top$, using the definition of `ERealFunction.dom`. Hence $f(x_1)$ is not $+\infty$. This is `hx1_ne_top`.
 
 Then it proves by induction that $f(x_{n+1})\ne\top$ for all $n$. The base case is $f(x_1)\ne\top$. For the step, suppose the claim is known up to a certain point and consider the algorithm relation at index $k$. The proof sets
 
 $$
 d_2=x_{k+2}-x_{k+1},\qquad
 v=\lambda_k^{-1}d_2,\qquad
-\operatorname{acc}=\lambda_k^{-2}(x_{k+2}-2x_{k+1}+x_k).
+\mathrm{acc}=\lambda_k^{-2}(x_{k+2}-2x_{k+1}+x_k).
 $$
 
 The visible consequence of `halg.step k` is
 
 $$
-0\in \{\operatorname{acc}\}+A v+B(x_{k+2}).
+0\in \{\mathrm{acc}\}+A v+B(x_{k+2}).
 $$
 
 Decomposing this membership gives in particular an element $b\in B(x_{k+2})$. Since $B$ is the subdifferential of $f$, the defining property of $B(x_{k+2})$ gives, for every $t\in H$,
@@ -504,7 +504,7 @@ $$
 
 This is the role of `EReal.coe_toReal`.
 
-Next the proof studies $\Phi_A$. First it proves $\Phi_A(z)\ge0$ for every $z$. Since $\operatorname{dom}A=H$, every $z$ lies in the domain of $A$, so by the definition of the domain of a set-valued operator, $A z\ne\varnothing$. Choose $y\in A z$. Monotonicity applied to $y\in A z$ and $0\in A(0)$ gives
+Next the proof studies $\Phi_A$. First it proves $\Phi_A(z)\ge0$ for every $z$. Since $\mathrm{dom}A=H$, every $z$ lies in the domain of $A$, so by the definition of the domain of a set-valued operator, $A z\ne\varnothing$. Choose $y\in A z$. Monotonicity applied to $y\in A z$ and $0\in A(0)$ gives
 
 $$
 0\le \langle y-0,z-0\rangle=\langle y,z\rangle.
@@ -525,13 +525,13 @@ $$
 and
 
 $$
-\operatorname{acc}=\lambda_n^{-2}(x_{n+2}-2x_{n+1}+x_n).
+\mathrm{acc}=\lambda_n^{-2}(x_{n+2}-2x_{n+1}+x_n).
 $$
 
 The algorithm step gives
 
 $$
-0\in \{\operatorname{acc}\}+A v+B(x_{n+2}).
+0\in \{\mathrm{acc}\}+A v+B(x_{n+2}).
 $$
 
 Using `Set.mem_add` twice decomposes this as
@@ -540,16 +540,16 @@ $$
 a+y+b=0
 $$
 
-with $a=\operatorname{acc}$, $y\in A v$, and $b\in B(x_{n+2})$. In particular,
+with $a=\mathrm{acc}$, $y\in A v$, and $b\in B(x_{n+2})$. In particular,
 
 $$
-\operatorname{acc}+y+b=0,
+\mathrm{acc}+y+b=0,
 $$
 
 so
 
 $$
-\operatorname{acc}+b=-y.
+\mathrm{acc}+b=-y.
 $$
 
 Because $b\in B(x_{n+2})$, the subdifferential inequality gives for every $t$,
@@ -628,13 +628,13 @@ This is `hnorm_scaled`.
 Since
 
 $$
-\operatorname{acc}=\lambda_n^{-2}(d_2-d_1),
+\mathrm{acc}=\lambda_n^{-2}(d_2-d_1),
 $$
 
 we have
 
 $$
-\langle \operatorname{acc},d_2\rangle
+\langle \mathrm{acc},d_2\rangle
 =
 \lambda_n^{-2}\langle d_2-d_1,d_2\rangle.
 $$
@@ -642,10 +642,10 @@ $$
 Therefore the previous two inequalities combine to
 
 $$
-R_{n+1}-R_n\le \langle \operatorname{acc}+b,d_2\rangle.
+R_{n+1}-R_n\le \langle \mathrm{acc}+b,d_2\rangle.
 $$
 
-Using $\operatorname{acc}+b=-y$, this becomes
+Using $\mathrm{acc}+b=-y$, this becomes
 
 $$
 R_{n+1}-R_n\le -\langle y,d_2\rangle.

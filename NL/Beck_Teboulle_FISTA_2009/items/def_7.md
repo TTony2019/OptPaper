@@ -18,13 +18,13 @@ $$
 a real number $L$, and two points $y,z\in\mathbb{R}^n$. The type $\mathbb{R}^n$ is written in Lean as `EuclideanSpace ℝ (Fin n)`. The predicate is defined so that `IsProxPoint f g L y z` holds exactly when
 
 $$
-\texttt{IsMinOn}\left(x\mapsto \operatorname{quadraticApprox}(f,g,L,x,y)\right)\ \mathrm{univ}\ z.
+\texttt{IsMinOn}\left(x\mapsto \mathrm{quadraticApprox}(f,g,L,x,y)\right)\ \mathrm{univ}\ z.
 $$
 
 Thus, after fixing $f,g,L,y$, one forms the real-valued function
 
 $$
-F(x)=\operatorname{quadraticApprox}(f,g,L,x,y)
+F(x)=\mathrm{quadraticApprox}(f,g,L,x,y)
 $$
 
 on $\mathbb{R}^n$. The proposition says that $z$ is a minimum point of $F$ over the whole space $\mathbb{R}^n$. In Mathlib, `IsMinOn F s z` means that $z\in s$ and $F(z)\le F(x)$ for every $x\in s$; here $s=\mathrm{univ}$, so the membership condition is automatic and the substantive content is that
@@ -44,7 +44,7 @@ Therefore `IsProxPoint f g L y z` is the statement that $z$ globally minimizes t
 There is no separate proof part. This declaration is a definition, not a theorem. Lean accepts it by checking that the right-hand side
 
 $$
-\texttt{IsMinOn}\left(x\mapsto \operatorname{quadraticApprox}(f,g,L,x,y)\right)\ \mathrm{univ}\ z
+\texttt{IsMinOn}\left(x\mapsto \mathrm{quadraticApprox}(f,g,L,x,y)\right)\ \mathrm{univ}\ z
 $$
 
 is a well-typed term of type `Prop`. No tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` occur, because no mathematical reasoning is being performed.
@@ -52,7 +52,7 @@ is a well-typed term of type `Prop`. No tactics such as `intro`, `rw`, `simp`, `
 If one later unfolds `IsProxPoint`, the expression `IsProxPoint f g L y z` is replaced by its defining right-hand side. Then, using the meaning of `IsMinOn` specialized to the universal set `univ`, one obtains exactly that $z$ is a global minimum of the function
 
 $$
-F(x)=\operatorname{quadraticApprox}(f,g,L,x,y),
+F(x)=\mathrm{quadraticApprox}(f,g,L,x,y),
 $$
 
 that is,

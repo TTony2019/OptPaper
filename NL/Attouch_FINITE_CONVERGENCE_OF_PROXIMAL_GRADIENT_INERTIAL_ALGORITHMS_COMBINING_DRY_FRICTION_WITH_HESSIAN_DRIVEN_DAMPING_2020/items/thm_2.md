@@ -48,7 +48,7 @@ $$
 and asserts a conjunction of two implications. First, if
 
 $$
--\nabla f(x_\infty)\in \operatorname{interior}\bigl(\partial\phi(0)\bigr),
+-\nabla f(x_\infty)\in \mathrm{interior}\bigl(\partial\phi(0)\bigr),
 $$
 
 then $0<q<1$ and there exists $k_0$ such that for every $k\ge k_0$,
@@ -515,7 +515,7 @@ The proof then uses `constructor` to split the conjunction into two goals.
 For the first goal, the proof introduces `hinterior`, the hypothesis
 
 $$
--\nabla f(x_\infty)\in\operatorname{interior}\bigl(\partial\phi(0)\bigr),
+-\nabla f(x_\infty)\in\mathrm{interior}\bigl(\partial\phi(0)\bigr),
 $$
 
 and refines the goal to $\langle hq.1,hq.2,?\rangle$, leaving only the existence of $k_0$ and the two geometric bounds.
@@ -743,7 +743,7 @@ $$
 Since $\lambda>0$, this means that $0$ is a proximal point of $\phi$ at $z_j$ with parameter $\lambda$, i.e.
 
 $$
-\operatorname{IsProximalPoint}(\phi,\lambda,z_j,0).
+\mathrm{IsProximalPoint}(\phi,\lambda,z_j,0).
 $$
 
 The definition of `IsProximalPoint` is precisely that $0<\lambda$ and $\lambda^{-1}(z_j-0)\in\partial\phi(0)$.
@@ -751,7 +751,7 @@ The definition of `IsProximalPoint` is precisely that $0<\lambda$ and $\lambda^{
 On the other hand, the cited theorem `scaledProximityOperator_residual_mem` says that the true scaled proximal point
 
 $$
-p=\operatorname{Prox}_{\lambda\phi}(z_j)
+p=\mathrm{Prox}_{\lambda\phi}(z_j)
 $$
 
 satisfies
@@ -763,13 +763,13 @@ $$
 so $p$ is also a proximal point of $\phi$ at $z_j$ with parameter $\lambda$. The cited theorem `proximal_point_eq_zero_of_subgradient_ball` then applies: if $p$ and $0$ are both proximal points for the same $\phi,\lambda,z_j$, then $p=0$. Hence
 
 $$
-\operatorname{Prox}_{\lambda\phi}(z_j)=0.
+\mathrm{Prox}_{\lambda\phi}(z_j)=0.
 $$
 
 Finally, the algorithm update relation `alg.update j` gives
 
 $$
-x_{j+2}=x_{j+1}+h\operatorname{Prox}_{\lambda\phi}(z_j).
+x_{j+2}=x_{j+1}+h\mathrm{Prox}_{\lambda\phi}(z_j).
 $$
 
 Since the proximal point is $0$, this reduces to

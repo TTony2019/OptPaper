@@ -20,12 +20,12 @@ theorem classical_gradient_flow_value_rate {H : Type*} [NormedAddCommGroup H] [I
 - $f : H \to \mathbb{R}$ is a real-valued function on $H$.
 - $y : \mathbb{R} \to H$ is the trajectory, and $dy : \mathbb{R} \to H$ is its derivative.
 - $f^\star \in \mathbb{R}$ is intended to be the minimal value of $f$.
-- $f$ is convex on all of $H$, expressed as $\operatorname{ConvexOn} \mathbb{R} \operatorname{Set.univ} f$.
-- $f$ is differentiable over $\mathbb{R}$, expressed as $\operatorname{Differentiable} \mathbb{R} f$.
+- $f$ is convex on all of $H$, expressed as $\mathrm{ConvexOn} \mathbb{R} \mathrm{Set.univ} f$.
+- $f$ is differentiable over $\mathbb{R}$, expressed as $\mathrm{Differentiable} \mathbb{R} f$.
 - For every $s \in [s_0,\infty)$, the curve $y$ has derivative $dy(s)$ at time $s$:
 
   $$
-  \operatorname{HasDerivAt} y (dy(s)) s.
+  \mathrm{HasDerivAt} y (dy(s)) s.
   $$
 
 - For every $s \in [s_0,\infty)$, the flow equation holds:
@@ -48,10 +48,10 @@ theorem classical_gradient_flow_value_rate {H : Type*} [NormedAddCommGroup H] [I
 The conclusion is
 
 $$
-\operatorname{Tendsto}
+\mathrm{Tendsto}
 \left(s \mapsto s\bigl(f(y(s)) - f^\star\bigr)\right)
-\operatorname{atTop}
-(\operatorname{nhds} 0),
+\mathrm{atTop}
+(\mathrm{nhds} 0),
 $$
 
 which means
@@ -193,7 +193,7 @@ by
 The proof begins by recording how the Fréchet derivative of $f$ is represented by its gradient. For every $x \in H$ and $v \in H$, the proof establishes
 
 $$
-\operatorname{fderiv}_{\mathbb R} f(x)(v)
+\mathrm{fderiv}_{\mathbb R} f(x)(v)
 =
 \langle \nabla f(x), v\rangle .
 $$

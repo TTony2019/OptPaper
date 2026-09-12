@@ -17,7 +17,7 @@ structure IsIFBTrajectory {H : Type*} [NormedAddCommGroup H] [InnerProductSpace 
 ```
 
 ## Statement explanation
-The declaration defines a proposition-valued structure `IsIFBTrajectory`. Its parameters are a real inner product space $H$, a function $\phi : H \to \overline{\mathbb R}$ into the extended real numbers, a finite-valued function $\psi : H \to \mathbb R$, a map $\operatorname{gradPsi} : H \to H$, real numbers $a,b,\lambda$, and two sequences $u : \mathbb N \to H$ and $y : \mathbb N \to H$. The typeclass assumptions on $H$ provide a normed additive group structure and a real inner product space structure, so expressions such as vector subtraction, addition, scalar multiplication by real numbers, and the zero vector are available.
+The declaration defines a proposition-valued structure `IsIFBTrajectory`. Its parameters are a real inner product space $H$, a function $\phi : H \to \overline{\mathbb R}$ into the extended real numbers, a finite-valued function $\psi : H \to \mathbb R$, a map $\mathrm{gradPsi} : H \to H$, real numbers $a,b,\lambda$, and two sequences $u : \mathbb N \to H$ and $y : \mathbb N \to H$. The typeclass assumptions on $H$ provide a normed additive group structure and a real inner product space structure, so expressions such as vector subtraction, addition, scalar multiplication by real numbers, and the zero vector are available.
 
 A term of `IsIFBTrajectory phi psi gradPsi a b lam u y` is exactly a proof that all of the following conditions hold:
 
@@ -52,10 +52,10 @@ A term of `IsIFBTrajectory phi psi gradPsi a b lam u y` is exactly a proof that 
 - For every $k\in\mathbb N$,
 
   $$
-  \frac{1}{\lambda}(y_{k+1}-y_k)+\operatorname{gradPsi}(u_{k+1})-a\,u_{k+1}+b\,y_{k+1}=0.
+  \frac{1}{\lambda}(y_{k+1}-y_k)+\mathrm{gradPsi}(u_{k+1})-a\,u_{k+1}+b\,y_{k+1}=0.
   $$
 
-  This is also a vector equation in $H$. It relates $y_{k+1}$ to $y_k$, to the map $\operatorname{gradPsi}$ evaluated at $u_{k+1}$, and to $u_{k+1}$ and $y_{k+1}$ themselves.
+  This is also a vector equation in $H$. It relates $y_{k+1}$ to $y_k$, to the map $\mathrm{gradPsi}$ evaluated at $u_{k+1}$, and to $u_{k+1}$ and $y_{k+1}$ themselves.
 
 Thus the predicate asserts that the coupled sequences $u$ and $y$ satisfy these two implicit difference relations, with positive parameters $a,b,\lambda$ and with $\phi$ proper. The declaration itself does not assert the existence of such sequences, nor does it assert convergence of any algorithm. It also does not state convexity of $\phi$ or $\psi$, differentiability of $\psi$, or that the map called `gradPsi` is actually the gradient of $\psi$; the second recurrence only uses `gradPsi` as a given map $H \to H$.
 

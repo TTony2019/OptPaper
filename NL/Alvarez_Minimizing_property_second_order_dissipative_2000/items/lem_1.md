@@ -98,9 +98,9 @@ $$
 
 for every $x$, which are the elementary inequalities $0\le \max(a,0)$ and $a\le \max(a,0)$. These are used later to make the adjusted function $\mathrm{rawW}$ nonincreasing and bounded below.
 
-Next, the proof obtains integrability of $g$ on $(0,\infty)$. The hypothesis `hInt` gives integrability on $[0,\infty)$. The invocation `(integrableOn_Ici_iff_integrableOn_Ioi).mp hInt` uses the fact that the single point $0$ is null for Lebesgue measure, so integrability on $[0,\infty)$ is equivalent to integrability on $(0,\infty)$. Thus `hIntIoi` says $g$ is integrable on $\operatorname{Ioi}0=(0,\infty)$.
+Next, the proof obtains integrability of $g$ on $(0,\infty)$. The hypothesis `hInt` gives integrability on $[0,\infty)$. The invocation `(integrableOn_Ici_iff_integrableOn_Ioi).mp hInt` uses the fact that the single point $0$ is null for Lebesgue measure, so integrability on $[0,\infty)$ is equivalent to integrability on $(0,\infty)$. Thus `hIntIoi` says $g$ is integrable on $\mathrm{Ioi}0=(0,\infty)$.
 
-The proof then shows that for any $0\le s\le t$, $g$ is interval-integrable on the interval from $s$ to $t$. Since $s\le t$, the unordered interval $\operatorname{uIcc}s t$ is just $[s,t]$. The subset $[s,t]\subseteq[0,\infty)$ holds because $0\le s$. The command `hInt.mono_set` restricts the integrability on $[0,\infty)$ to this smaller interval, and `IntegrableOn.intervalIntegrable` converts integrability on the interval set into `IntervalIntegrable g volume s t`. This supplies the interval-integrability hypothesis needed by the local lemma `rawW_antitoneOn_Ici`.
+The proof then shows that for any $0\le s\le t$, $g$ is interval-integrable on the interval from $s$ to $t$. Since $s\le t$, the unordered interval $\mathrm{uIcc}s t$ is just $[s,t]$. The subset $[s,t]\subseteq[0,\infty)$ holds because $0\le s$. The command `hInt.mono_set` restricts the integrability on $[0,\infty)$ to this smaller interval, and `IntegrableOn.intervalIntegrable` converts integrability on the interval set into `IntervalIntegrable g volume s t`. This supplies the interval-integrability hypothesis needed by the local lemma `rawW_antitoneOn_Ici`.
 
 Now the proof defines
 

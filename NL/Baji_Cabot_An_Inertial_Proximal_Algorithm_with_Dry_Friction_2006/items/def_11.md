@@ -20,10 +20,10 @@ The declaration `secondEnergySeq` defines a real-valued function of five argumen
 The value produced is a real number. The defining formula is
 
 $$
-\operatorname{secondEnergySeq}(x,\lambda,f,x_\infty,n)
+\mathrm{secondEnergySeq}(x,\lambda,f,x_\infty,n)
 =
-\operatorname{toReal}\!\left(
-  \operatorname{energySeq}\!\left(
+\mathrm{toReal}\!\left(
+  \mathrm{energySeq}\!\left(
     x,\lambda,\left(y \mapsto (f(y):\overline{\mathbb R})\right),n
   \right)
 \right)

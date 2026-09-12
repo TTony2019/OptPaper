@@ -33,7 +33,7 @@ $$
 Second, the update equation is
 
 $$
-x_{k+2} = x_{k+1} + h\, \operatorname{prox}_{\frac{h}{1+h\gamma}\phi}\left(
+x_{k+2} = x_{k+1} + h\, \mathrm{prox}_{\frac{h}{1+h\gamma}\phi}\left(
 \frac{1}{h}(y_k-x_{k+1})
 - \frac{\beta}{1+h\gamma}\bigl(\nabla f(x_{k+1})-\nabla f(x_k)\bigr)
 - \frac{h}{1+h\gamma}\nabla f(y_k)

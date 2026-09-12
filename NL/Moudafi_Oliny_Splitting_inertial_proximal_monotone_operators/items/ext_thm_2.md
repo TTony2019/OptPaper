@@ -16,7 +16,7 @@ theorem demiclosed_weak_x_strong_u {T : SetValuedOperator H H}
 ## Statement explanation
 The declaration `demiclosed_weak_x_strong_u` is a closure or demiclosedness statement for the enlargement of a set-valued operator. Let $H$ be the underlying real Hilbert space, with inner product $\langle \cdot,\cdot\rangle_{\mathbb R}$, norm $\|\cdot\|$, and weak topology represented by `WeakSpace ℝ H`. A set-valued operator $T:H\to \mathcal P(H)$ is a function assigning to each $x\in H$ a subset $T(x)\subseteq H$. The hypothesis `hT_mono` says that $T$ is monotone, although this hypothesis is not used in the proof below.
 
-For a real number $\epsilon$ and point $x\in H$, the enlargement $\operatorname{enlargement}(T,\epsilon)(x)$, written here as $T_\epsilon(x)$, is defined by
+For a real number $\epsilon$ and point $x\in H$, the enlargement $\mathrm{enlargement}(T,\epsilon)(x)$, written here as $T_\epsilon(x)$, is defined by
 
 $$
 T_\epsilon(x)

@@ -24,15 +24,15 @@ $$
 so $P$ says that the sequence $x$ is eventually constant, i.e. the algorithm terminates finitely. Let
 
 $$
-Q := \operatorname{normalizedIncrementLimitPoints}(x)
+Q := \mathrm{normalizedIncrementLimitPoints}(x)
 \subseteq
-\operatorname{normalConeSet}\bigl(A(0),\, -B(x_\infty)\bigr),
+\mathrm{normalConeSet}\bigl(A(0),\, -B(x_\infty)\bigr),
 $$
 
 and let
 
 $$
-R := -B(x_\infty) \subseteq \operatorname{interior}(A(0)).
+R := -B(x_\infty) \subseteq \mathrm{interior}(A(0)).
 $$
 
 Then the theorem states
@@ -43,27 +43,27 @@ $$
 
 Thus the first conjunct says: either the iterates are eventually constant, or every limit direction of normalized increments lies in the normal-cone set determined by $A(0)$ and the negative of $B(x_\infty)$. The second conjunct says: if every element of $-B(x_\infty)$ lies in the interior of $A(0)$, then the iterates are eventually constant.
 
-The set $\operatorname{normalizedIncrementLimitPoints}(x)$ is defined by saying that $d$ belongs to it if and only if there exists a strictly increasing map $\varphi: \mathbb{N} \to \mathbb{N}$ such that every selected index $\varphi(n)$ is not a stationary index of $x$, and the normalized increment directions along the subsequence converge to $d$:
+The set $\mathrm{normalizedIncrementLimitPoints}(x)$ is defined by saying that $d$ belongs to it if and only if there exists a strictly increasing map $\varphi: \mathbb{N} \to \mathbb{N}$ such that every selected index $\varphi(n)$ is not a stationary index of $x$, and the normalized increment directions along the subsequence converge to $d$:
 
 $$
-d \in \operatorname{normalizedIncrementLimitPoints}(x)
+d \in \mathrm{normalizedIncrementLimitPoints}(x)
 \iff
 \exists \varphi,\ 
-\operatorname{StrictMono}(\varphi)
+\mathrm{StrictMono}(\varphi)
 \land
-\bigl(\forall n,\ \varphi(n) \notin \operatorname{stationaryIndices}(x)\bigr)
+\bigl(\forall n,\ \varphi(n) \notin \mathrm{stationaryIndices}(x)\bigr)
 \land
-\operatorname{normalizedIncrementDirection}(x,\varphi(n)) \to d.
+\mathrm{normalizedIncrementDirection}(x,\varphi(n)) \to d.
 $$
 
 The exact definitions of `stationaryIndices` and `normalizedIncrementDirection` are not provided in the source, so only their role in this limit-point definition is used.
 
-The set $\operatorname{normalConeSet}$ is defined by
+The set $\mathrm{normalConeSet}$ is defined by
 
 $$
-\operatorname{normalConeSet}(C,S)
+\mathrm{normalConeSet}(C,S)
 =
-\bigcup_{\xi \in S} \operatorname{normalCone}(C,\xi).
+\bigcup_{\xi \in S} \mathrm{normalCone}(C,\xi).
 $$
 
 Hence $Q$ says that for every limit direction $d$ of normalized increments, there exists some $\xi \in -B(x_\infty)$ such that $d$ lies in the normal cone to $A(0)$ at $\xi$. Equivalently, since $\xi \in -B(x_\infty)$ means $\xi = -b$ for some $b \in B(x_\infty)$, every such limit direction lies in the normal cone to $A(0)$ at some point $-b$ with $b \in B(x_\infty)$. The interior condition $R$ says that every negative of an element of the set value $B(x_\infty)$ lies in the interior of the set value $A(0)$.
@@ -102,9 +102,9 @@ $$
 with the arguments $A,B,f,\lambda,x,h,x_\infty,hxInf,hFinite$. The cited theorem states that, under the finite-dimensionality assumption, the standing assumptions `Theorem31Assumptions A B f lam x`, the convergence $x_n \to x_\infty$, and the non-eventual-constancy hypothesis $\neg P$, one obtains exactly
 
 $$
-\operatorname{normalizedIncrementLimitPoints}(x)
+\mathrm{normalizedIncrementLimitPoints}(x)
 \subseteq
-\operatorname{normalConeSet}\bigl(A(0),\, -B(x_\infty)\bigr),
+\mathrm{normalConeSet}\bigl(A(0),\, -B(x_\infty)\bigr),
 $$
 
 which is $Q$. The proof wraps this conclusion with `Or.inr`, thereby proving $P \lor Q$ by selecting the right disjunct. This completes the first conjunct.
@@ -112,7 +112,7 @@ which is $Q$. The proof wraps this conclusion with `Or.inr`, thereby proving $P 
 For the second goal, the proof must show $R \to P$. The command `intro hInterior` introduces the hypothesis $R$, namely
 
 $$
--B(x_\infty) \subseteq \operatorname{interior}(A(0)).
+-B(x_\infty) \subseteq \mathrm{interior}(A(0)).
 $$
 
 The new goal is $P$. The proof then uses `by_contra hnotFinite`, which is proof by contradiction: it assumes $\neg P$, i.e.
@@ -132,9 +132,9 @@ $$
 with the same data and with `hnotFinite`. Since the hypotheses of that theorem are exactly the standing assumptions, convergence $x_n \to x_\infty$, and non-eventual constancy $\neg P$, the theorem yields the inclusion
 
 $$
-\operatorname{normalizedIncrementLimitPoints}(x)
+\mathrm{normalizedIncrementLimitPoints}(x)
 \subseteq
-\operatorname{normalConeSet}\bigl(A(0),\, -B(x_\infty)\bigr).
+\mathrm{normalConeSet}\bigl(A(0),\, -B(x_\infty)\bigr).
 $$
 
 This is precisely the statement $Q$.

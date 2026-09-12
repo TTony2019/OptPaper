@@ -57,7 +57,7 @@ $$
 The conclusion is that for all $\mu,\mu'\in V$,
 
 $$
-\operatorname{pathSupNorm}_T\bigl(t\mapsto x_\mu(t)-x_{\mu'}(t)\bigr)
+\mathrm{pathSupNorm}_T\bigl(t\mapsto x_\mu(t)-x_{\mu'}(t)\bigr)
 \le
 \frac{\alpha}{\alpha-\alpha\gamma T-T^2}
 \left(
@@ -97,7 +97,7 @@ After supplying this projected solution hypothesis, all remaining hypotheses are
 
 $$
 \forall \mu\in V,\ \forall \mu'\in V,\quad
-\operatorname{pathSupNorm}_T\bigl(t\mapsto x_\mu(t)-x_{\mu'}(t)\bigr)
+\mathrm{pathSupNorm}_T\bigl(t\mapsto x_\mu(t)-x_{\mu'}(t)\bigr)
 \le
 \frac{\alpha}{\alpha-\alpha\gamma T-T^2}
 \left(

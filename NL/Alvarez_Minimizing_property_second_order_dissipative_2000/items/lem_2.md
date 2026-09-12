@@ -14,7 +14,7 @@ theorem positive_part_integrable_of_damped_inequality (omega g : ℝ → ℝ) (g
 The declaration states the following. Let $\omega:\mathbb R\to\mathbb R$, $g:\mathbb R\to\mathbb R$, and $\gamma\in\mathbb R$. Assume that $\omega$ is $C^1$ on the ray $[0,\infty)$, in the sense of one-sided differentiability on that set; that $\gamma>0$; that for every $t\ge 0$,
 
 $$
-\operatorname{deriv}\omega(t)+\gamma\,\omega(t)\le g(t);
+\mathrm{deriv}\omega(t)+\gamma\,\omega(t)\le g(t);
 $$
 
 and that $g$ is Lebesgue integrable on $[0,\infty)$. The conclusion is that the positive part of $\omega$,
@@ -94,13 +94,13 @@ First, the proof records that $|g|$ is integrable on $[0,\infty)$. Indeed, if $g
 Next, the hypothesis
 
 $$
-\operatorname{deriv}\omega(t)+\gamma\,\omega(t)\le g(t)
+\mathrm{deriv}\omega(t)+\gamma\,\omega(t)\le g(t)
 $$
 
 is strengthened to
 
 $$
-\operatorname{deriv}\omega(t)+\gamma\,\omega(t)\le |g(t)|
+\mathrm{deriv}\omega(t)+\gamma\,\omega(t)\le |g(t)|
 $$
 
 for every $t\ge 0$. This uses the elementary inequality $g(t)\le |g(t)|$. The proof introduces an arbitrary $t\ge0$, applies the assumed inequality at $t$, and then transits to $|g(t)|$. The resulting hypothesis is exactly the absolute-value form required by the damped comparison lemma.
@@ -108,7 +108,7 @@ for every $t\ge 0$. This uses the elementary inequality $g(t)\le |g(t)|$. The pr
 The damped comparison lemma is then applied with $\omega$, $g$, and $\gamma$. Its content, specialized here, is: if $\omega$ is $C^1$ on $[0,\infty)$, if
 
 $$
-\operatorname{deriv}\omega(t)+\gamma\,\omega(t)\le |g(t)|
+\mathrm{deriv}\omega(t)+\gamma\,\omega(t)\le |g(t)|
 $$
 
 for all $t\ge0$, and if $g$ is integrable on $[0,\infty)$, then for every $t\ge0$,

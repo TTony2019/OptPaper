@@ -14,7 +14,7 @@ theorem metric_projection_pythagorean {C : Set H} (hC : C.Nonempty) (hClosed : I
 The declaration `metric_projection_pythagorean` is stated in an ambient real Hilbert space $H$. It concerns a subset $C\subseteq H$ that is assumed nonempty, closed, and convex over $\mathbb R$. It also fixes two points $x\in H$ and $y\in H$, with the hypothesis $y\in C$. The expression
 
 $$
-\operatorname{proj}_C(x)
+\mathrm{proj}_C(x)
 $$
 
 denotes the metric projection of $x$ onto $C$, implemented by `projectionPoint C (isChebyshev_of_nonempty_isClosed_convex hC hClosed hConvex) x`. The auxiliary theorem `isChebyshev_of_nonempty_isClosed_convex` is what makes this projection well-defined: a nonempty closed convex subset of a real Hilbert space is Chebyshev, meaning every point of the Hilbert space has a unique nearest point in the set. Thus the chosen projection point belongs to $C$ and is the nearest point of $C$ to $x$.
@@ -25,7 +25,7 @@ $$
 \|y-p\|^2+\|x-p\|^2\le \|x-y\|^2,
 $$
 
-where $p=\operatorname{proj}_C(x)$. In words, if $p$ is the nearest point of $C$ to $x$, then for every $y\in C$, the squared distance from $y$ to $p$ plus the squared distance from $x$ to $p$ is at most the squared distance from $x$ to $y$. This is the usual obtuse-angle or Pythagorean inequality for projection onto a closed convex set: the vector $x-p$ has nonpositive inner product with every vector $y-p$ with $y\in C$, so the angle at $p$ between $x-p$ and $y-p$ is at least a right angle. The law of cosines then gives the displayed inequality.
+where $p=\mathrm{proj}_C(x)$. In words, if $p$ is the nearest point of $C$ to $x$, then for every $y\in C$, the squared distance from $y$ to $p$ plus the squared distance from $x$ to $p$ is at most the squared distance from $x$ to $y$. This is the usual obtuse-angle or Pythagorean inequality for projection onto a closed convex set: the vector $x-p$ has nonpositive inner product with every vector $y-p$ with $y\in C$, so the angle at $p$ between $x-p$ and $y-p$ is at least a right angle. The law of cosines then gives the displayed inequality.
 
 ## Lean proof
 ```lean
@@ -54,7 +54,7 @@ by
 The proof begins by introducing a local abbreviation $p$ for the projection point:
 
 $$
-p=\operatorname{proj}_C(x).
+p=\mathrm{proj}_C(x).
 $$
 
 This is done with `let p : H := ...`. There is no use of `intro` here because the hypotheses $hC, hClosed, hConvex, x, y, hy$ are already parameters of the theorem. The proof then proceeds by establishing intermediate facts.
@@ -68,7 +68,7 @@ $$
 This is obtained from the theorem `eq_projectionPoint_iff_mem_and_inner_sub_right_nonpos_of_nonempty_isClosed_convex`. That theorem, specialized to the same nonempty closed convex set $C$, says
 
 $$
-p = \operatorname{proj}_C(x)
+p = \mathrm{proj}_C(x)
 \iff
 p\in C \land \forall z\in C,\ \langle z-p,x-p\rangle_{\mathbb R}\le 0.
 $$

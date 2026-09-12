@@ -15,7 +15,7 @@ theorem browder_demiclosedness_lemma
 ```
 
 ## Statement explanation
-The declaration `browder_demiclosedness_lemma` is a theorem about a subset $C$ of an ambient space $H$, a map $T : H \to H$, and a sequence $x_n$ in $H$. The notation $\|T a - T b\|$ indicates that $H$ carries a norm, and the map to the weak space over $\mathbb R$ is used to express weak convergence. The fixed-point set $\operatorname{fixedPointSetOn} C T$ is the set of points of $C$ that are fixed by $T$.
+The declaration `browder_demiclosedness_lemma` is a theorem about a subset $C$ of an ambient space $H$, a map $T : H \to H$, and a sequence $x_n$ in $H$. The notation $\|T a - T b\|$ indicates that $H$ carries a norm, and the map to the weak space over $\mathbb R$ is used to express weak convergence. The fixed-point set $\mathrm{fixedPointSetOn} C T$ is the set of points of $C$ that are fixed by $T$.
 
 The hypotheses are as follows. First, $C$ is assumed nonempty, closed, and convex over $\mathbb R$. The map $T$ is assumed to send $C$ into itself: $T(C) \subseteq C$. It is also assumed to be nonexpansive on $C$, meaning that for all $a,b \in C$,
 
@@ -23,7 +23,7 @@ $$
 \|T a - T b\| \le \|a-b\|.
 $$
 
-There is an additional assumption that $T$ has at least one fixed point in $C$, i.e. $\operatorname{fixedPointSetOn} C T$ is nonempty. The sequence $x_n$ satisfies $x_n \in C$ for every $n$. It is assumed to converge weakly to $x$, encoded by convergence of the image of $x_n$ under the weak-space map to the image of $x$. Finally, the residuals $x_n - T x_n$ are assumed to converge in the ordinary topology to $y$.
+There is an additional assumption that $T$ has at least one fixed point in $C$, i.e. $\mathrm{fixedPointSetOn} C T$ is nonempty. The sequence $x_n$ satisfies $x_n \in C$ for every $n$. It is assumed to converge weakly to $x$, encoded by convergence of the image of $x_n$ under the weak-space map to the image of $x$. Finally, the residuals $x_n - T x_n$ are assumed to converge in the ordinary topology to $y$.
 
 The conclusion is the conjunction
 
@@ -34,10 +34,10 @@ $$
 and
 
 $$
-y = 0 \implies x \in \operatorname{fixedPointSetOn} C T.
+y = 0 \implies x \in \mathrm{fixedPointSetOn} C T.
 $$
 
-Since $\operatorname{fixedPointSetOn} C T$ consists exactly of the points $z \in C$ with $T z = z$, the second conclusion says that if the residual limit is zero, then the weak limit $x$ is a fixed point of $T$ lying in $C$. The hypotheses that $C$ is nonempty, that $T$ maps $C$ into itself, and that $T$ has a fixed point in $C$ are present in the statement, but the proof does not use them.
+Since $\mathrm{fixedPointSetOn} C T$ consists exactly of the points $z \in C$ with $T z = z$, the second conclusion says that if the residual limit is zero, then the weak limit $x$ is a fixed point of $T$ lying in $C$. The hypotheses that $C$ is nonempty, that $T$ maps $C$ into itself, and that $T$ has a fixed point in $C$ are present in the statement, but the proof does not use them.
 
 ## Lean proof
 ```lean
@@ -83,10 +83,10 @@ This is the demiclosedness content: the strong limit of the residuals determines
 
 The proof then proves the conjunction. The tactic `constructor` splits the goal into the two conjuncts. The first conjunct is $x - T x = y$, and it is closed immediately by `exact hresidual`.
 
-For the second conjunct, the tactic `intro hy_zero` assumes $y = 0$. The goal is then to show $x \in \operatorname{fixedPointSetOn} C T$. The rewrite `rw [mem_fixedPointSetOn_iff]` replaces this membership with the equivalent condition given by the cited lemma `mem_fixedPointSetOn_iff`:
+For the second conjunct, the tactic `intro hy_zero` assumes $y = 0$. The goal is then to show $x \in \mathrm{fixedPointSetOn} C T$. The rewrite `rw [mem_fixedPointSetOn_iff]` replaces this membership with the equivalent condition given by the cited lemma `mem_fixedPointSetOn_iff`:
 
 $$
-x \in \operatorname{fixedPointSetOn} C T
+x \in \mathrm{fixedPointSetOn} C T
 \iff
 x \in C \land T x = x.
 $$
@@ -101,5 +101,5 @@ $$
 x - T x = 0.
 $$
 
-The lemma used by `sub_eq_zero.mp` states that $a - b = 0$ implies $a = b$. Applying it here gives $x = T x$, and taking symmetry with `.symm` changes this to $T x = x$. This proves the second component of the fixed-point membership. Combining $x \in C$ and $T x = x$ gives $x \in \operatorname{fixedPointSetOn} C T$, so the implication $y = 0 \implies x \in \operatorname{fixedPointSetOn} C T$ is proved, and hence the whole conjunction is proved.
+The lemma used by `sub_eq_zero.mp` states that $a - b = 0$ implies $a = b$. Applying it here gives $x = T x$, and taking symmetry with `.symm` changes this to $T x = x$. This proves the second component of the fixed-point membership. Combining $x \in C$ and $T x = x$ gives $x \in \mathrm{fixedPointSetOn} C T$, so the implication $y = 0 \implies x \in \mathrm{fixedPointSetOn} C T$ is proved, and hence the whole conjunction is proved.
 

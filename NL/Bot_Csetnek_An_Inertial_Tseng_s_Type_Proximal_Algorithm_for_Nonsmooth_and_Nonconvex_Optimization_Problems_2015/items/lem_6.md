@@ -18,7 +18,7 @@ theorem lemma_3_6_cluster_points {m : Nat} {P : ProblemData m} (A : AlgorithmDat
 Let $m$ be a natural number and let $P$ be problem data on $\mathbb R^m$. The objective is $f=P.objective$, an extended-real-valued function $f:\mathbb R^m\to\overline{\mathbb R}$. Let $A$ be algorithm data for $P$; it supplies the sequences $A.x_n$ and $A.p_n$ in $\mathbb R^m$. Let $\nu,\mu\in\mathbb R$. The assumption `hchosen` is the named parameter condition `chosenAsInLemma33 A nu mu`; `hcoercive` is the coercivity assumption on $f$. For a sequence $z_n$, $\omega(z)$ denotes its set of sequential cluster points. For a function $g$,
 
 $$
-\operatorname{criticalPoints}(g)=\{x:0\in\partial_L g(x)\},
+\mathrm{criticalPoints}(g)=\{x:0\in\partial_L g(x)\},
 $$
 
 where $\partial_L$ is the limiting subdifferential. The theorem asserts, under `hchosen` and `hcoercive`, that: $\omega(A.p)$ is nonempty; every element of $\omega(A.p)$ is a critical point of $f$; the distance from $A.p_n$ to $\omega(A.p)$ tends to $0$; $\omega(A.p)$ is compact; $\omega(A.p)$ is connected; and there is a real $c$ such that $f(p)=(c:\overline{\mathbb R})$ for every $p\in\omega(A.p)$. In words, the sequence $A.p_n$ has a nonempty compact connected cluster set, approaches that set asymptotically, and the objective is constant on that set with value a real number; moreover all points of that set are critical points of the nonsmooth objective.
@@ -64,13 +64,13 @@ by
 The proof first establishes that $f$ is bounded below by a real constant. It invokes `exists_minimizer_of_proper_lsc_coercive` with $g=f$. The hypotheses supplied to this theorem are properness, via `objective_isProper P`, lower semicontinuity, via `objective_lowerSemicontinuous P`, and coercivity, via `hcoercive`. Its conclusion is that there is a real $C$ and a point $x_{\min}$ such that
 
 $$
-\inf(\operatorname{range} f)=(C:\overline{\mathbb R}),
+\inf(\mathrm{range} f)=(C:\overline{\mathbb R}),
 $$
 
 that $x_{\min}$ minimizes $f$ on all of $\mathbb R^m$, and that
 
 $$
-f(x_{\min})=\inf(\operatorname{range} f).
+f(x_{\min})=\inf(\mathrm{range} f).
 $$
 
 The proof destructs this pair of conclusions. The `simpa` step unfolding `IsMinOn` and `IsMinFilter` converts the minimizing property of $x_{\min}$ into the pointwise inequality $f(x_{\min})\le f(x)$ for every $x$. Then, for an arbitrary $x$, the goal $(C:\overline{\mathbb R})\le f(x)$ is rewritten in reverse using the two equalities above: first $C$ is replaced by the infimum, and then the infimum is replaced by $f(x_{\min})$. The goal becomes $f(x_{\min})\le f(x)$, which is exactly the pointwise inequality. Hence $f$ is bounded below by the real constant $C$, giving `hboundedBelow`.
@@ -100,16 +100,16 @@ This is the vanishing-increment property for the sequence $A.p_n$. Separately, `
 Now the sequence $z_n=A.p_n$ satisfies both hypotheses of `cluster_set_properties_of_vanishing_increments`: its range is bounded and its increments tend to $0$. Applying that theorem to $z=A.p$ gives four properties of the cluster set $\omega(A.p)$: it is nonempty, compact, connected, and
 
 $$
-\operatorname{infDist}(A.p_n,\omega(A.p))\to 0.
+\mathrm{infDist}(A.p_n,\omega(A.p))\to 0.
 $$
 
 Next, to identify cluster points as critical points, take any $p^\star\in\omega(A.p)$. The theorem `cluster_point_critical_core` is applied with the same data $A,\nu,\mu$, the assumption `hchosen`, the bounded-below fact just proved, the two summability facts, the objective convergence fact, and the membership $p^\star\in\omega(A.p)$. Its conclusion is
 
 $$
-p^\star\in\operatorname{criticalPoints}(f).
+p^\star\in\mathrm{criticalPoints}(f).
 $$
 
-Since $p^\star$ was arbitrary, this proves $\omega(A.p)\subseteq\operatorname{criticalPoints}(f)$.
+Since $p^\star$ was arbitrary, this proves $\omega(A.p)\subseteq\mathrm{criticalPoints}(f)$.
 
 Then `objective_constant_on_omega_core`, using the same hypotheses, gives a real $c$ such that
 

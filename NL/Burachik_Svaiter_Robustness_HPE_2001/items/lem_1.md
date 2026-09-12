@@ -27,7 +27,7 @@ $$
 The extragradient step is defined by
 
 $$
-z_k = \operatorname{extragradientStep} A k = x_k - c_k v_k.
+z_k = \mathrm{extragradientStep} A k = x_k - c_k v_k.
 $$
 
 The point $x^\star$ is assumed to be a zero of $T$ in the precise sense that $0 \in T x^\star$. The conclusion is
@@ -114,7 +114,7 @@ The next step is
 $$
 \texttt{hinner}:\quad -c_k\varepsilon_k
 \le
-\langle \operatorname{extragradientStep} A k - x_k,\,
+\langle \mathrm{extragradientStep} A k - x_k,\,
 x^\star-y_k\rangle.
 $$
 
@@ -129,7 +129,7 @@ $$
 Then the proof rewrites
 
 $$
-\operatorname{extragradientStep} A k - x_k
+\mathrm{extragradientStep} A k - x_k
 =
 (x_k-c_kv_k)-x_k
 =

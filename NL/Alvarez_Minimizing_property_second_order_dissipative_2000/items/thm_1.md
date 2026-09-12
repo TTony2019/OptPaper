@@ -21,7 +21,7 @@ The declaration concerns a real Hilbert space $H$, a potential $\Phi:H\to\mathbb
 The Lean expression `fderiv ℝ sys.u t 1` denotes the derivative $u'(t)$ of the trajectory, viewed as the continuous linear map $\mathbb R\to H$ evaluated at $1$. Thus $\|u'(t)\|^2$ is the squared speed. The value `sInf (Set.range Phi)` is the infimum of the set of all potential values, written below as $\inf \Phi(H)$. The set `argmin Phi (potential_range_bddBelow hPhi)` is the set of global minimizers of $\Phi$, namely
 
 $$
-\operatorname{argmin}\Phi
+\mathrm{argmin}\Phi
 =
 \left\{x\in H:\Phi(x)=\inf\Phi(H)\right\}.
 $$
@@ -48,7 +48,7 @@ $$
 \qquad (t\to\infty).
 $$
 
-Fourth, if the minimizer set is nonempty, then there is a minimizer $\hat u\in \operatorname{argmin}\Phi$ such that the trajectory converges weakly to $\hat u$:
+Fourth, if the minimizer set is nonempty, then there is a minimizer $\hat u\in \mathrm{argmin}\Phi$ such that the trajectory converges weakly to $\hat u$:
 
 $$
 u(t)\rightharpoonup \hat u
@@ -755,7 +755,7 @@ $$
 u'(t)\to 0.
 $$
 
-For the minimizer statement, the proof first shows that for every $z\in\operatorname{argmin}\Phi$, the distance $\|u(t)-z\|$ has a limit as $t\to\infty$. This is exactly the content of `scalar_distance_to_minimizer_converges`, applied to $z$, the minimizer hypothesis $z\in\operatorname{argmin}\Phi$, and the already established integrability of $\|u'(t)\|^2$ on $[0,\infty)$.
+For the minimizer statement, the proof first shows that for every $z\in\mathrm{argmin}\Phi$, the distance $\|u(t)-z\|$ has a limit as $t\to\infty$. This is exactly the content of `scalar_distance_to_minimizer_converges`, applied to $z$, the minimizer hypothesis $z\in\mathrm{argmin}\Phi$, and the already established integrability of $\|u'(t)\|^2$ on $[0,\infty)$.
 
 Finally the proof assumes the minimizer set is nonempty. It must show that some minimizer is the weak limit of $u(t)$. First it proves that every weak sequential cluster point of the trajectory is a minimizer. Suppose a sequence of times $u_n\to\infty$ and $u(u_n)$ converges weakly to some $z$, meaning that for every continuous linear functional $f:H\to\mathbb R$,
 
@@ -787,7 +787,7 @@ $$
 \Phi(z)\le \inf\Phi(H).
 $$
 
-The reverse inequality $\inf\Phi(H)\le \Phi(z)$ is `potential_sInf_le hPhi z`. Hence $\Phi(z)=\inf\Phi(H)$, so $z\in\operatorname{argmin}\Phi$.
+The reverse inequality $\inf\Phi(H)\le \Phi(z)$ is `potential_sInf_le hPhi z`. Hence $\Phi(z)=\inf\Phi(H)$, so $z\in\mathrm{argmin}\Phi$.
 
 The proof now applies Opial’s lemma in the form `opial_lemma_continuous_weak`. Its hypotheses are: the minimizer set is nonempty; for every minimizer $z$, the distance $\|u(t)-z\|$ has a limit; and every weak sequential cluster point of the trajectory lies in the minimizer set. Its conclusion is that there exists a minimizer $\hat u$ such that for every continuous linear functional $f$,
 

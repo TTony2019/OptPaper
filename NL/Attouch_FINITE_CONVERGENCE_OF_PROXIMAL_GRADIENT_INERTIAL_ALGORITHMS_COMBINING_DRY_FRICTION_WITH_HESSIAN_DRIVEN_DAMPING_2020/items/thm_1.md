@@ -34,10 +34,10 @@ holds. The algorithm `alg` is an IPAHDD trajectory for $f$ and $\phi$; the proof
 The conclusion asserts the existence of a limit point $x_\infty$ and of a number $E_1$ such that
 
 $$
-E_1=\frac12\left\|\frac1h(x_1-x_0)\right\|^2+f(x_1)-\operatorname{sInf}(\operatorname{range}f).
+E_1=\frac12\left\|\frac1h(x_1-x_0)\right\|^2+f(x_1)-\mathrm{sInf}(\mathrm{range}f).
 $$
 
-Here $x_k$ denotes the trajectory `alg.x k`, and $\operatorname{sInf}(\operatorname{range}f)$ is the infimum of $f$ over $H$. The theorem then states:
+Here $x_k$ denotes the trajectory `alg.x k`, and $\mathrm{sInf}(\mathrm{range}f)$ is the infimum of $f$ over $H$. The theorem then states:
 
 - the trajectory has finite length, i.e.
 
@@ -648,12 +648,12 @@ This lower bound is the one used in the Lyapunov inequality.
 The proof then defines
 
 $$
-E_k=\frac12\|v_k\|^2+f(x_{k+1})-\operatorname{sInf}(\operatorname{range}f),
+E_k=\frac12\|v_k\|^2+f(x_{k+1})-\mathrm{sInf}(\mathrm{range}f),
 \qquad
 M_k=E_k+c\|d_k\|^2.
 $$
 
-The bounded-below hypothesis on $f$ makes $\operatorname{range}f$ bounded below, so $\operatorname{sInf}(\operatorname{range}f)\le f(x_{k+1})$. Hence $E_k\ge0$, and since $c\ge0$, also $M_k\ge0$. The damping condition $\gamma\ge L(h/2+\beta)$ is rewritten as
+The bounded-below hypothesis on $f$ makes $\mathrm{range}f$ bounded below, so $\mathrm{sInf}(\mathrm{range}f)\le f(x_{k+1})$. Hence $E_k\ge0$, and since $c\ge0$, also $M_k\ge0$. The damping condition $\gamma\ge L(h/2+\beta)$ is rewritten as
 
 $$
 c\le \frac{\gamma}{h}-\frac L2-c.
@@ -738,7 +738,7 @@ The proof defines
 
 $$
 E_1=\frac12\left\|\frac1h(x_1-x_0)\right\|^2
-+f(x_1)-\operatorname{sInf}(\operatorname{range}f).
++f(x_1)-\mathrm{sInf}(\mathrm{range}f).
 $$
 
 This is the same as $E_0$ in the Lyapunov notation, because $v_0=(1/h)(x_1-x_0)$. It also observes that

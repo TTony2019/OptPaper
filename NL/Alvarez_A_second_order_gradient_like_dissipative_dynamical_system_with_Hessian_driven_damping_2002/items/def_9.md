@@ -19,20 +19,20 @@ The declaration is a theorem about two predicates on curves in a real Hilbert sp
 The conclusion is the equivalence
 
 $$
-\operatorname{IsRescaledGDINTrajectory}(\Phi,\beta,a,b,x_0,z_0,x,z)
+\mathrm{IsRescaledGDINTrajectory}(\Phi,\beta,a,b,x_0,z_0,x,z)
 \iff
-\operatorname{IsGradientSystemTrajectory}(\Phi,\beta,a,b,x_0,z_0,x,z).
+\mathrm{IsGradientSystemTrajectory}(\Phi,\beta,a,b,x_0,z_0,x,z).
 $$
 
 The proof shows that `IsRescaledGDINTrajectory` consists of four pieces: a first scalar differential equation for $x$, a second scalar differential equation for $z$, and the initial conditions $x(0)=x_0$ and $z(0)=z_0$. The predicate `IsGradientSystemTrajectory` also has four pieces: first, for every time $t$, two differentiability assertions for the energy function denoted by `gradientSystemEnergy Φ β a b`; second, the pair form of the same two scalar differential equations; third and fourth, the same initial conditions.
 
-The two energy differentiability assertions are precisely the ones supplied by the cited lemmas. For the first argument, the derivative of $v\mapsto \operatorname{gradientSystemEnergy}(\Phi,\beta,a,b,v,w)$ at $u$ is the continuous linear functional
+The two energy differentiability assertions are precisely the ones supplied by the cited lemmas. For the first argument, the derivative of $v\mapsto \mathrm{gradientSystemEnergy}(\Phi,\beta,a,b,v,w)$ at $u$ is the continuous linear functional
 
 $$
 v \mapsto \bigl\langle \beta \nabla \Phi(u)+a u+\sqrt{ab}\,w,\; v\bigr\rangle .
 $$
 
-For the second argument, the derivative of $v\mapsto \operatorname{gradientSystemEnergy}(\Phi,\beta,a,b,u,v)$ at $w$ is the continuous linear functional
+For the second argument, the derivative of $v\mapsto \mathrm{gradientSystemEnergy}(\Phi,\beta,a,b,u,v)$ at $w$ is the continuous linear functional
 
 $$
 v \mapsto \bigl\langle \sqrt{ab}\,u+b w,\; v\bigr\rangle .
@@ -70,10 +70,10 @@ by
 The proof first constructs a Fréchet-derivative form of the gradient of $\Phi$. The `have hgradΦ` block proves
 
 $$
-\forall u,\quad \operatorname{HasFDerivAt}\ \Phi\ \bigl(\operatorname{innerSL}\mathbb R(\nabla\Phi(u))\bigr)\ u.
+\forall u,\quad \mathrm{HasFDerivAt}\ \Phi\ \bigl(\mathrm{innerSL}\mathbb R(\nabla\Phi(u))\bigr)\ u.
 $$
 
-Inside this block, `intro u` fixes an arbitrary point $u\in H$. The hypothesis $h\Phi:\operatorname{ContDiff}\mathbb R 1 \Phi$ implies that $\Phi$ is differentiable at $u$, because $1\neq 0$; the side condition is discharged by `by norm_num`. The resulting `HasGradientAt` statement says that the gradient of $\Phi$ at $u$ is $\nabla\Phi(u)$. The theorem `HasGradientAt.hasFDerivAt` converts this into the Fréchet derivative statement that the derivative is the continuous linear map $v\mapsto\langle \nabla\Phi(u),v\rangle$. The `simpa [innerSL]` step unfolds the definition of `innerSL`, putting the derivative into exactly the form required by the first energy lemma. This `hgradΦ` is the hypothesis passed to `gradientSystemEnergy_hasFDerivAt_fst`.
+Inside this block, `intro u` fixes an arbitrary point $u\in H$. The hypothesis $h\Phi:\mathrm{ContDiff}\mathbb R 1 \Phi$ implies that $\Phi$ is differentiable at $u$, because $1\neq 0$; the side condition is discharged by `by norm_num`. The resulting `HasGradientAt` statement says that the gradient of $\Phi$ at $u$ is $\nabla\Phi(u)$. The theorem `HasGradientAt.hasFDerivAt` converts this into the Fréchet derivative statement that the derivative is the continuous linear map $v\mapsto\langle \nabla\Phi(u),v\rangle$. The `simpa [innerSL]` step unfolds the definition of `innerSL`, putting the derivative into exactly the form required by the first energy lemma. This `hgradΦ` is the hypothesis passed to `gradientSystemEnergy_hasFDerivAt_fst`.
 
 Next, `constructor` splits the iff into two implications.
 
@@ -92,7 +92,7 @@ $$
 The first cited lemma, applied with $u=x(t)$ and $w=z(t)$, uses $a>0$, $b>0$, and the previously established `hgradΦ`. It concludes that the function
 
 $$
-v\mapsto \operatorname{gradientSystemEnergy}(\Phi,\beta,a,b,v,z(t))
+v\mapsto \mathrm{gradientSystemEnergy}(\Phi,\beta,a,b,v,z(t))
 $$
 
 has Fréchet derivative at $x(t)$ equal to
@@ -104,7 +104,7 @@ $$
 The second cited lemma, applied with the same $u=x(t)$ and $w=z(t)$, concludes that the function
 
 $$
-v\mapsto \operatorname{gradientSystemEnergy}(\Phi,\beta,a,b,x(t),v)
+v\mapsto \mathrm{gradientSystemEnergy}(\Phi,\beta,a,b,x(t),v)
 $$
 
 has Fréchet derivative at $z(t)$ equal to

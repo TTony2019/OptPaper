@@ -36,7 +36,7 @@ The fields record the following data and properties.
 
   for all $y,z\in\mathbb R^m$ and $t\in[0,1]$. The field `F_homogeneous` says that $F$ is positively homogeneous, i.e. scaling the argument by a nonnegative real scalar scales the value by the same scalar.
 
-- $f_i:E\to\mathbb R$ for $i\in\operatorname{Fin} m$ is a finite family of real-valued functions on $E$. Each `f i` is convex on all of $E$, and each `f i` is of differentiability class $C^1$, recorded by `ContDiff ℝ 1`.
+- $f_i:E\to\mathbb R$ for $i\in\mathrm{Fin} m$ is a finite family of real-valued functions on $E$. Each `f i` is convex on all of $E$, and each `f i` is of differentiability class $C^1$, recorded by `ContDiff ℝ 1`.
 
 - `solutionSet` is a subset $S\subseteq E$. The field `solutions_nonempty` asserts that $S$ is nonempty.
 
@@ -48,15 +48,15 @@ The fields record the following data and properties.
   x\in Q
   \ \text{and}\ 
   \forall z\in Q,\quad
-  F\bigl((f_i(x))_{i\in\operatorname{Fin} m}\bigr)
+  F\bigl((f_i(x))_{i\in\mathrm{Fin} m}\bigr)
   \le
-  F\bigl((f_i(z))_{i\in\operatorname{Fin} m}\bigr).
+  F\bigl((f_i(z))_{i\in\mathrm{Fin} m}\bigr).
   $$
 
   Here `WithLp.toLp 2 (fun i => f i x)` is the Euclidean vector in $\mathbb R^m$ whose $i$-th coordinate is $f_i(x)$. Thus $S$ is exactly the set of feasible points $x\in Q$ that globally minimize the composite objective
 
   $$
-  x\mapsto F\bigl((f_i(x))_{i\in\operatorname{Fin} m}\bigr)
+  x\mapsto F\bigl((f_i(x))_{i\in\mathrm{Fin} m}\bigr)
   $$
 
   over $Q$.

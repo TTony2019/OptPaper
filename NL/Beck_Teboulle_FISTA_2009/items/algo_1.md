@@ -20,7 +20,7 @@ where $\mathbb R^n$ is `EuclideanSpace ℝ (Fin n)` in Lean; a real parameter $L
 The conclusion is
 
 $$
-\operatorname{IsProxPoint} f g L_f \bigl(A.y(k+1)\bigr) \bigl(A.x(k+1)\bigr).
+\mathrm{IsProxPoint} f g L_f \bigl(A.y(k+1)\bigr) \bigl(A.x(k+1)\bigr).
 $$
 
 Writing $y_{k+1}$ for the value of the `A.y` iterate at $k+1$, and $x_{k+1}$ for the value of the `A.x` iterate at $k+1$, the theorem says that the pair consisting of $y_{k+1}$ and $x_{k+1}$ satisfies the predicate `IsProxPoint` for the functions $f,g$ and the parameter $L_f$. In FISTA terminology, this is the assertion that the iterate $x_{k+1}$ is a proximal point associated to the current auxiliary point $y_{k+1}$. The declaration does not expand the exact formula defining `IsProxPoint`; it only records that this proximal-point relation holds at the shifted index $k+1$. Thus the theorem states that the proximal-step relation is available for every positive time $k+1$, not merely for some specially chosen index.
@@ -41,7 +41,7 @@ The term `A.proximal_step` is the component of the structure `FISTAConstantSteps
 After those arguments are supplied, `A.proximal_step (k+1) (by omega)` has exactly the type
 
 $$
-\operatorname{IsProxPoint} f g L_f \bigl(A.y(k+1)\bigr) \bigl(A.x(k+1)\bigr),
+\mathrm{IsProxPoint} f g L_f \bigl(A.y(k+1)\bigr) \bigl(A.x(k+1)\bigr),
 $$
 
 which is the goal. The `exact` tactic therefore closes the theorem immediately. There are no further mathematical transformations in the proof: the only subsidiary reasoning is the `omega` arithmetic proof that the index $k+1$ satisfies the side condition required by `A.proximal_step`.

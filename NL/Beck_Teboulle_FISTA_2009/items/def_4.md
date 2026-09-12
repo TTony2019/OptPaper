@@ -18,7 +18,7 @@ $$
 Thus, mathematically,
 
 $$
-\operatorname{subdifferential}(g,x)
+\mathrm{subdifferential}(g,x)
 =
 \left\{
 \gamma \in \mathbb R^n
@@ -45,7 +45,7 @@ lies below the graph of $g$ everywhere. The vector $\gamma$ is the slope of this
 There is no separate proof part. The declaration is a definition, so its mathematical content is exactly the set-builder condition
 
 $$
-\gamma \in \operatorname{subdifferential}(g,x)
+\gamma \in \mathrm{subdifferential}(g,x)
 \iff
 \forall y \in \mathbb R^n,\;
 g(x) + \langle \gamma, y - x \rangle \le g(y).

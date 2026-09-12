@@ -31,7 +31,7 @@ theorem subgradient_gap_tendsto_zero {H : Type*} [NormedAddCommGroup H] [InnerPr
 ## Statement explanation
 The declaration `subgradient_gap_tendsto_zero` is a convergence theorem for a continuous-time dynamical system in a real Hilbert space $H$. The data are a set $S\subseteq H$, a point $z\in S$, an extended-real function $\Phi:H\to\mathrm{EReal}$ whose values lie above the bottom element of $\mathrm{EReal}$, a map $B:H\to H$, two trajectories $x,v:\mathbb R\to H$, and positive parameters $\lambda,\mu,\beta$ satisfying $\mu\lambda=1$.
 
-The hypotheses say the following. The set $S$ is nonempty and $z\in S$. The function $\Phi$ belongs to the class `ERealFunction.gammaZero H`; in the proof this membership is used exactly as the hypothesis that permits the cited subgradient inequality for $\Phi$. The map $B$ is $\beta$-cocoercive on all of $H$. The trajectories $x$ and $v$ are absolutely continuous on every interval $[0,b]$ with $b>0$, their derivatives exist almost everywhere on every $[0,T]$ with $T>0$, and $v$ and $\operatorname{deriv} x$ are $L^2$ on every such interval. For every $t\ge 0$, the vector $v(t)$ is a subgradient of $\Phi$ at $x(t)$, i.e.
+The hypotheses say the following. The set $S$ is nonempty and $z\in S$. The function $\Phi$ belongs to the class `ERealFunction.gammaZero H`; in the proof this membership is used exactly as the hypothesis that permits the cited subgradient inequality for $\Phi$. The map $B$ is $\beta$-cocoercive on all of $H$. The trajectories $x$ and $v$ are absolutely continuous on every interval $[0,b]$ with $b>0$, their derivatives exist almost everywhere on every $[0,T]$ with $T>0$, and $v$ and $\mathrm{deriv} x$ are $L^2$ on every such interval. For every $t\ge 0$, the vector $v(t)$ is a subgradient of $\Phi$ at $x(t)$, i.e.
 
 $$
 v(t)\in \partial \Phi(x(t)).
@@ -40,7 +40,7 @@ $$
 Almost everywhere for $t\ge 0$, the dynamical equation
 
 $$
-\lambda \operatorname{deriv} x(t)+\operatorname{deriv} v(t)+v(t)+B(x(t))=0
+\lambda \mathrm{deriv} x(t)+\mathrm{deriv} v(t)+v(t)+B(x(t))=0
 $$
 
 holds. For every $w$, membership in $S$ is equivalent to
@@ -149,7 +149,7 @@ by
 ```
 
 ## Proof explanation
-The proof first establishes that the gap expression is nonnegative. For any $t\ge 0$, the hypothesis $hsubgradient$ gives $v(t)\in \partial \Phi(x(t))$. The hypothesis $hdomS$ gives $z\in \operatorname{dom}\Phi$, since $z\in S$. Applying `subgradient_ineq_toReal_of_mem_gammaZero` with $f=\Phi$, $x=x(t)$, $u=v(t)$, and $y=z$ yields
+The proof first establishes that the gap expression is nonnegative. For any $t\ge 0$, the hypothesis $hsubgradient$ gives $v(t)\in \partial \Phi(x(t))$. The hypothesis $hdomS$ gives $z\in \mathrm{dom}\Phi$, since $z\in S$. Applying `subgradient_ineq_toReal_of_mem_gammaZero` with $f=\Phi$, $x=x(t)$, $u=v(t)$, and $y=z$ yields
 
 $$
 (\Phi(z):\mathrm{EReal}).\mathrm{toReal}
@@ -177,7 +177,7 @@ Next, the proof forms an almost-everywhere statement that is acceptable to `prop
 $$
 v(t)\in \partial \Phi(x(t))
 \quad\text{and}\quad
-\lambda \operatorname{deriv} x(t)+\operatorname{deriv} v(t)+v(t)+B(x(t))=0.
+\lambda \mathrm{deriv} x(t)+\mathrm{deriv} v(t)+v(t)+B(x(t))=0.
 $$
 
 This is the almost-everywhere conjunction required by `proposition_2_12`; the tactic `filter_upwards` performs the passage from the separate almost-everywhere facts to the combined one.
@@ -265,7 +265,7 @@ $$
 -B(z)\in \partial \Phi(z).
 $$
 
-Also $x(t)\in \operatorname{dom}\Phi$ by `hdom`. Applying `subgradient_ineq_toReal_of_mem_gammaZero` with $f=\Phi$, $x=z$, $u=-B(z)$, and $y=x(t)$ yields
+Also $x(t)\in \mathrm{dom}\Phi$ by `hdom`. Applying `subgradient_ineq_toReal_of_mem_gammaZero` with $f=\Phi$, $x=z$, $u=-B(z)$, and $y=x(t)$ yields
 
 $$
 (\Phi(x(t)):\mathrm{EReal}).\mathrm{toReal}

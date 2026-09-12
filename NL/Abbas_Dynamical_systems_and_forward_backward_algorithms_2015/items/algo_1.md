@@ -21,7 +21,7 @@ This declaration introduces a `structure` named `VariableRelaxationBackwardForwa
 The function $f$ has type
 
 $$
-f:H\to \operatorname{Set.Ioi}(\bot : \mathrm{EReal}),
+f:H\to \mathrm{Set.Ioi}(\bot : \mathrm{EReal}),
 $$
 
 so for each $x\in H$, the value $f(x)$ is an extended real number strictly greater than the bottom element $\bot$. The hypothesis
@@ -51,7 +51,7 @@ The fields of the structure are the data and properties that an inhabitant must 
   $$
   x_k
   =
-  \operatorname{scaledProximityOperator}\bigl(f,hf,\langle \mu,\mu_{\mathrm{pos}}\rangle,y_k\bigr).
+  \mathrm{scaledProximityOperator}\bigl(f,hf,\langle \mu,\mu_{\mathrm{pos}}\rangle,y_k\bigr).
   $$
 
   Here $\langle \mu,\mu_{\mathrm{pos}}\rangle$ is the positive real $\mu$, packaged as a subtype element using the proof `mu_pos`. This is the backward/proximal step: $x_k$ is obtained from $y_k$ by applying the scaled proximity operator of $f$ with scale $\mu$.

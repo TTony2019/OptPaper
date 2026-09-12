@@ -157,7 +157,7 @@ $$
 Concretely, this package says that for every nonempty compact set $\Omega$ of pairs on which $H$ is constant, and for every $z^*\in\Omega$, there exist $\epsilon>0$, $\eta>0$, and a desingularizing function $\phi$ such that, for every $n\ge2$, if
 
 $$
-\operatorname{infDist}\bigl((p_n,x_n),\Omega\bigr)<\epsilon
+\mathrm{infDist}\bigl((p_n,x_n),\Omega\bigr)<\epsilon
 $$
 
 and

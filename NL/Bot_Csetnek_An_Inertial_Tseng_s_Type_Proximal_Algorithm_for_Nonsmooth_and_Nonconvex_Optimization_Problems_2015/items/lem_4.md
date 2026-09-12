@@ -42,15 +42,15 @@ $$
 where $\oplus$ denotes addition in the extended reals. When $z$ lies in the effective domain of $P.objective$, meaning that $P.objective(z)$ is neither $+\infty$ nor $-\infty$, this quantity is finite and satisfies
 
 $$
-Q_M(z,w) = \bigl((P.objective(z)).\operatorname{toReal} + M\|z-w\|^2 : \overline{\mathbb R}\bigr),
+Q_M(z,w) = \bigl((P.objective(z)).\mathrm{toReal} + M\|z-w\|^2 : \overline{\mathbb R}\bigr),
 $$
 
 and consequently
 
 $$
-(Q_M(z,w)).\operatorname{toReal}
+(Q_M(z,w)).\mathrm{toReal}
 =
-(P.objective(z)).\operatorname{toReal} + M\|z-w\|^2.
+(P.objective(z)).\mathrm{toReal} + M\|z-w\|^2.
 $$
 
 These are exactly the contents of the cited lemmas `objectiveWithQuadratic_eq_coe` and `objectiveWithQuadratic_toReal_eq`.
@@ -317,7 +317,7 @@ This is the concrete content of `m2_nonneg`: for positive $\nu,\mu$, the algorit
 Next the proof defines two real sequences:
 
 $$
-a_k = (Q_{M_2}(p_{k+2},x_{k+2})).\operatorname{toReal},
+a_k = (Q_{M_2}(p_{k+2},x_{k+2})).\mathrm{toReal},
 $$
 
 $$
@@ -344,7 +344,7 @@ $$
 for every $x$. For each $k$, the cited result `p_objective_effectiveDom` gives
 
 $$
-p_{k+2} \in \operatorname{effectiveDom}(P.objective),
+p_{k+2} \in \mathrm{effectiveDom}(P.objective),
 $$
 
 because $k+2\ge 1$. Membership in the effective domain means, by `ERealFunction.mem_effectiveDom_iff`, that
@@ -360,13 +360,13 @@ The extended-real lemma `EReal.coe_toReal` then yields
 $$
 P.objective(p_{k+2})
 =
-\bigl((P.objective(p_{k+2})).\operatorname{toReal} : \overline{\mathbb R}\bigr).
+\bigl((P.objective(p_{k+2})).\mathrm{toReal} : \overline{\mathbb R}\bigr).
 $$
 
 Using the lower bound $C\le P.objective(p_{k+2})$ and the lemma `EReal.coe_le_coe_iff`, the proof extracts the real inequality
 
 $$
-C \le (P.objective(p_{k+2})).\operatorname{toReal}.
+C \le (P.objective(p_{k+2})).\mathrm{toReal}.
 $$
 
 Since $0\le M_2$ and $\|p_{k+2}-x_{k+2}\|^2\ge 0$, the quadratic term
@@ -380,7 +380,7 @@ is nonnegative. Rewriting $a_k$ using `objectiveWithQuadratic_toReal_eq`, namely
 $$
 a_k
 =
-(P.objective(p_{k+2})).\operatorname{toReal}
+(P.objective(p_{k+2})).\mathrm{toReal}
 +
 M_2\|p_{k+2}-x_{k+2}\|^2,
 $$
@@ -411,11 +411,11 @@ $$
 Both $p_{k+3}$ and $p_{k+2}$ lie in the effective domain of $P.objective$, again by `p_objective_effectiveDom`. Therefore the cited lemma `objectiveWithQuadratic_eq_coe` rewrites both sides as extended-real coercions of real numbers. The inequality becomes
 
 $$
-\bigl((P.objective(p_{k+3})).\operatorname{toReal}
+\bigl((P.objective(p_{k+3})).\mathrm{toReal}
 +
 M_1\|p_{k+3}-x_{k+3}\|^2 : \overline{\mathbb R}\bigr)
 \le
-\bigl((P.objective(p_{k+2})).\operatorname{toReal}
+\bigl((P.objective(p_{k+2})).\mathrm{toReal}
 +
 M_2\|p_{k+2}-x_{k+2}\|^2 : \overline{\mathbb R}\bigr).
 $$
@@ -423,11 +423,11 @@ $$
 Applying `EReal.coe_le_coe_iff` removes the coercions and gives the corresponding real inequality:
 
 $$
-(P.objective(p_{k+3})).\operatorname{toReal}
+(P.objective(p_{k+3})).\mathrm{toReal}
 +
 M_1\|p_{k+3}-x_{k+3}\|^2
 \le
-(P.objective(p_{k+2})).\operatorname{toReal}
+(P.objective(p_{k+2})).\mathrm{toReal}
 +
 M_2\|p_{k+2}-x_{k+2}\|^2.
 $$
@@ -435,7 +435,7 @@ $$
 Now the proof unfolds the definitions of $a$ and $b$, uses `objectiveWithQuadratic_toReal_eq`, uses the symmetry of the norm $\|x_{k+3}-p_{k+3}\|=\|p_{k+3}-x_{k+3}\|$, and rewrites $D=M_1-M_2$. The left side $a_{k+1}+b_k$ becomes exactly
 
 $$
-(P.objective(p_{k+3})).\operatorname{toReal}
+(P.objective(p_{k+3})).\mathrm{toReal}
 +
 M_1\|p_{k+3}-x_{k+3}\|^2,
 $$
@@ -443,7 +443,7 @@ $$
 while $a_k$ is
 
 $$
-(P.objective(p_{k+2})).\operatorname{toReal}
+(P.objective(p_{k+2})).\mathrm{toReal}
 +
 M_2\|p_{k+2}-x_{k+2}\|^2.
 $$
@@ -623,7 +623,7 @@ Recall that $a_k\to l_a$. By the definition of $a_k$ and the effective-domain re
 $$
 a_k
 =
-(P.objective(p_{k+2})).\operatorname{toReal}
+(P.objective(p_{k+2})).\mathrm{toReal}
 +
 M_2\|p_{k+2}-x_{k+2}\|^2.
 $$
@@ -631,7 +631,7 @@ $$
 Subtracting the vanishing quadratic term gives
 
 $$
-(P.objective(p_{k+2})).\operatorname{toReal}
+(P.objective(p_{k+2})).\mathrm{toReal}
 \longrightarrow l_a.
 $$
 
@@ -642,7 +642,7 @@ Since each $p_{k+2}$ is in the effective domain of $P.objective$, the extended-r
 $$
 P.objective(p_{k+2})
 =
-\bigl((P.objective(p_{k+2})).\operatorname{toReal} : \overline{\mathbb R}\bigr).
+\bigl((P.objective(p_{k+2})).\mathrm{toReal} : \overline{\mathbb R}\bigr).
 $$
 
 Therefore `EReal.tendsto_coe` upgrades the real convergence to extended-real convergence:

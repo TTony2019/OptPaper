@@ -12,7 +12,7 @@ theorem proposition4 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H
 ```
 
 ## Statement explanation
-The declaration `proposition4` is set in a real inner product space $H$. It takes extended-real functions $\Phi,\Theta:H\to\overline{\mathbb R}$, a real-valued function $\psi:H\to\mathbb R$, a map `gradPsi` from $H$ to $H$, two sequences $u,y:\mathbb N\to H$, real parameters $a,b,\lambda,L_\psi$, an inertial-forward-backward hypothesis `hH`, and a trajectory hypothesis `hIFB` saying that $u,y$ form an inertial forward-backward trajectory for these data. It also takes a point $q\in H$ with $q\in\operatorname{dom}\Phi$; by the cited `mem_dom_iff`, this means precisely that $\Phi(q)<+\infty$.
+The declaration `proposition4` is set in a real inner product space $H$. It takes extended-real functions $\Phi,\Theta:H\to\overline{\mathbb R}$, a real-valued function $\psi:H\to\mathbb R$, a map `gradPsi` from $H$ to $H$, two sequences $u,y:\mathbb N\to H$, real parameters $a,b,\lambda,L_\psi$, an inertial-forward-backward hypothesis `hH`, and a trajectory hypothesis `hIFB` saying that $u,y$ form an inertial forward-backward trajectory for these data. It also takes a point $q\in H$ with $q\in\mathrm{dom}\Phi$; by the cited `mem_dom_iff`, this means precisely that $\Phi(q)<+\infty$.
 
 For each $k\ge 2$, the expression `auxiliaryG u y a b lam q k hk` denotes an auxiliary quantity, which we may write as $G_k$. The conclusion is that there exists a real number $M$, independent of $k$, such that for every natural number $k\ge 2$,
 
@@ -265,10 +265,10 @@ $$
 (\Theta(u(1)))_{\mathbb R}-(\Theta(u(k)))_{\mathbb R}.
 $$
 
-Next, from $q\in\operatorname{dom}\Phi$, the proof obtains `hqtop` using `ERealFunction.mem_dom_iff`, which says
+Next, from $q\in\mathrm{dom}\Phi$, the proof obtains `hqtop` using `ERealFunction.mem_dom_iff`, which says
 
 $$
-q\in\operatorname{dom}\Phi \iff \Phi(q)<+\infty.
+q\in\mathrm{dom}\Phi \iff \Phi(q)<+\infty.
 $$
 
 Hence $\Phi(q)\ne +\infty$.

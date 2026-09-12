@@ -10,13 +10,13 @@ abbrev PM {H : Type*} (φ : H → ℝ) : Prop := (Optimization.argminSet φ).Non
 The declaration defines a predicate named `PM`. It is parameterized by an arbitrary type $H$ and a function $\varphi : H \to \mathbb{R}$. There are no further hypotheses on $H$ or $\varphi$. The body says that `PM φ` is the proposition
 
 $$
-(\operatorname{argminSet}\varphi).\operatorname{Nonempty}.
+(\mathrm{argminSet}\varphi).\mathrm{Nonempty}.
 $$
 
 In Lean, for a set $s$, `s.Nonempty` means that there exists some element $x$ with $x \in s$. Therefore
 
 $$
-\operatorname{PM}(\varphi)
+\mathrm{PM}(\varphi)
 $$
 
 holds exactly when there exists $x \in H$ such that $x$ belongs to the argmin set of $\varphi$. Mathematically, this is the statement that $\varphi$ attains a minimum on $H$, i.e. that at least one minimizer of $\varphi$ exists. No compactness, continuity, boundedness below, convexity, or lower semicontinuity assumption is present. The declaration is an abbreviation, not a theorem asserting that every such $\varphi$ has a minimizer; it only names the proposition that such a minimizer exists.

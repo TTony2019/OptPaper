@@ -34,7 +34,7 @@ Thus $y\in J_{\lambda A}(x)$ holds exactly when there exists $a\in A(y)$ such th
 The conclusion is
 
 $$
-\operatorname{IsAtMostSingleValued}(J_{\lambda A}),
+\mathrm{IsAtMostSingleValued}(J_{\lambda A}),
 $$
 
 which means that for every $x\in H$, the set $J_{\lambda A}(x)$ has at most one element. Equivalently, if $y_1,y_2\in J_{\lambda A}(x)$, then $y_1=y_2$. So the theorem states that a positive scalar multiple of a maximal monotone set-valued operator has an at-most-single-valued resolvent.

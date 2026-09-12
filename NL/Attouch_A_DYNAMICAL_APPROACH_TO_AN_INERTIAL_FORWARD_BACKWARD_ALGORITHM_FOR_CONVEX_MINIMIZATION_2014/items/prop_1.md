@@ -18,16 +18,16 @@ theorem proposition2 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H
 ```
 
 ## Statement explanation
-The declaration `proposition2` is a convergence and descent theorem for an inertial forward-backward trajectory. The ambient space is a real inner product space $H$, equipped with its norm and additive group structure. The data are two extended-real-valued functions $\Phi,\Theta:H\to \mathrm{EReal}$, a real-valued function $\Psi:H\to \mathbb R$, a map $\operatorname{grad}\Psi:H\to H$, real parameters $a,b,\lambda,L$, and two sequences $u,y:\mathbb N\to H$, representing the trajectory and an auxiliary variable. The hypothesis `hH` is an `IFBHypothesis`; the proof uses from it that $b>0$, that the step size $\lambda$ is positive/nonzero, that $\Psi$ is differentiable, that its Fréchet derivative is represented by $\operatorname{grad}\Psi$,
+The declaration `proposition2` is a convergence and descent theorem for an inertial forward-backward trajectory. The ambient space is a real inner product space $H$, equipped with its norm and additive group structure. The data are two extended-real-valued functions $\Phi,\Theta:H\to \mathrm{EReal}$, a real-valued function $\Psi:H\to \mathbb R$, a map $\mathrm{grad}\Psi:H\to H$, real parameters $a,b,\lambda,L$, and two sequences $u,y:\mathbb N\to H$, representing the trajectory and an auxiliary variable. The hypothesis `hH` is an `IFBHypothesis`; the proof uses from it that $b>0$, that the step size $\lambda$ is positive/nonzero, that $\Psi$ is differentiable, that its Fréchet derivative is represented by $\mathrm{grad}\Psi$,
 
 $$
-\operatorname{fderiv}_{\mathbb R}\Psi(x)(h)=\langle \operatorname{grad}\Psi(x),h\rangle,
+\mathrm{fderiv}_{\mathbb R}\Psi(x)(h)=\langle \mathrm{grad}\Psi(x),h\rangle,
 $$
 
-that $\operatorname{grad}\Psi$ is $L$-Lipschitz,
+that $\mathrm{grad}\Psi$ is $L$-Lipschitz,
 
 $$
-\|\operatorname{grad}\Psi(x)-\operatorname{grad}\Psi(y)\|\le L\|x-y\|,
+\|\mathrm{grad}\Psi(x)-\mathrm{grad}\Psi(y)\|\le L\|x-y\|,
 $$
 
 that $\Theta=\Phi+\Psi$ as extended-real functions, and that $\Theta$ is bounded below by a real constant. The hypothesis `hIFB` supplies the forward-backward update equations. In the form used in the proof, for every $k$ there exists $g\in\partial\Phi(u_{k+2})$ such that
@@ -39,7 +39,7 @@ $$
 and also
 
 $$
-\frac1\lambda(y_{k+1}-y_k)+\operatorname{grad}\Psi(u_{k+1})-a u_{k+1}+b y_{k+1}=0.
+\frac1\lambda(y_{k+1}-y_k)+\mathrm{grad}\Psi(u_{k+1})-a u_{k+1}+b y_{k+1}=0.
 $$
 
 The subdifferential is the standard one,
@@ -423,10 +423,10 @@ $$
 From `hIFB.second_update k` it obtains
 
 $$
-\frac1\lambda(y_{k+1}-y_k)+\operatorname{grad}\Psi(u_{k+1})-a u_{k+1}+b y_{k+1}=0.
+\frac1\lambda(y_{k+1}-y_k)+\mathrm{grad}\Psi(u_{k+1})-a u_{k+1}+b y_{k+1}=0.
 $$
 
-It also invokes `trajectory_phi_theta_finite`, which says that for every $n$, both $\Phi(u_{n+1})$ and $\Theta(u_{n+1})$ are neither $\top$ nor $\bot$. This finiteness is what allows all subsequent extended-real inequalities to be converted to ordinary real inequalities via $\operatorname{toReal}$, and later to be coerced back.
+It also invokes `trajectory_phi_theta_finite`, which says that for every $n$, both $\Phi(u_{n+1})$ and $\Theta(u_{n+1})$ are neither $\top$ nor $\bot$. This finiteness is what allows all subsequent extended-real inequalities to be converted to ordinary real inequalities via $\mathrm{toReal}$, and later to be coerced back.
 
 The first main inequality, called `h35` in the proof, comes from the subgradient inequality for $\Phi$. Since $g\in\partial\Phi(u_{k+2})$, applying the definition with $z=u_{k+1}$ gives
 
@@ -453,15 +453,15 @@ $$
 After taking real parts and rearranging, the proof obtains
 
 $$
-(\Phi(u_{k+2}))^{\operatorname{toReal}}-(\Phi(u_{k+1}))^{\operatorname{toReal}}
+(\Phi(u_{k+2}))^{\mathrm{toReal}}-(\Phi(u_{k+1}))^{\mathrm{toReal}}
 +\frac1\lambda\|u_{k+2}-u_{k+1}\|^2
 +\left\langle a u_{k+1}-b y_{k+1},\,u_{k+2}-u_{k+1}\right\rangle\le 0.
 $$
 
-The second main inequality, `h36`, uses the descent lemma. The result `descent_lemma` states that for a differentiable $\Psi$ whose gradient $\operatorname{grad}\Psi$ has the given derivative representation and is $L$-Lipschitz, one has
+The second main inequality, `h36`, uses the descent lemma. The result `descent_lemma` states that for a differentiable $\Psi$ whose gradient $\mathrm{grad}\Psi$ has the given derivative representation and is $L$-Lipschitz, one has
 
 $$
-\Psi(v)\le \Psi(x)+\langle \operatorname{grad}\Psi(x),v-x\rangle+\frac L2\|v-x\|^2.
+\Psi(v)\le \Psi(x)+\langle \mathrm{grad}\Psi(x),v-x\rangle+\frac L2\|v-x\|^2.
 $$
 
 Taking $x=u_{k+1}$ and $v=u_{k+2}$, this gives
@@ -469,14 +469,14 @@ Taking $x=u_{k+1}$ and $v=u_{k+2}$, this gives
 $$
 \Psi(u_{k+2})\le
 \Psi(u_{k+1})+
-\langle \operatorname{grad}\Psi(u_{k+1}),u_{k+2}-u_{k+1}\rangle
+\langle \mathrm{grad}\Psi(u_{k+1}),u_{k+2}-u_{k+1}\rangle
 +\frac L2\|u_{k+2}-u_{k+1}\|^2.
 $$
 
 The second update equation rearranges to
 
 $$
-\operatorname{grad}\Psi(u_{k+1})
+\mathrm{grad}\Psi(u_{k+1})
 =
 a u_{k+1}-b y_{k+1}
 -\frac1\lambda(y_{k+1}-y_k).
@@ -496,15 +496,15 @@ $$
 The proof then combines the two previous inequalities. Since $\Theta=\Phi+\Psi$, and the values are finite, one has
 
 $$
-(\Theta(u_{k+2}))^{\operatorname{toReal}}
+(\Theta(u_{k+2}))^{\mathrm{toReal}}
 =
-(\Phi(u_{k+2}))^{\operatorname{toReal}}+\Psi(u_{k+2}),
+(\Phi(u_{k+2}))^{\mathrm{toReal}}+\Psi(u_{k+2}),
 $$
 
 and similarly at $u_{k+1}$. Adding the $\Phi$-inequality and the $\Psi$-inequality cancels the common inner product term and gives the key energy inequality
 
 $$
-(\Theta(u_{k+2}))^{\operatorname{toReal}}-(\Theta(u_{k+1}))^{\operatorname{toReal}}
+(\Theta(u_{k+2}))^{\mathrm{toReal}}-(\Theta(u_{k+1}))^{\mathrm{toReal}}
 +\left(\frac1\lambda-\frac L2\right)\|u_{k+2}-u_{k+1}\|^2
 \le
 -\frac1\lambda\left\langle y_{k+1}-y_k,\,u_{k+2}-u_{k+1}\right\rangle.
@@ -592,9 +592,9 @@ $$
 At this point the proof defines the real sequence
 
 $$
-E_n=\operatorname{toReal}\bigl(\mathcal E_{n+1}\bigr)
+E_n=\mathrm{toReal}\bigl(\mathcal E_{n+1}\bigr)
 =
-(\Theta(u_{n+1}))^{\operatorname{toReal}}
+(\Theta(u_{n+1}))^{\mathrm{toReal}}
 +\gamma\|u_{n+1}-u_n\|^2,
 $$
 
@@ -620,7 +620,7 @@ $$
 The proof also shows that $E$ is bounded below. Indeed, the hypothesis `hH.theta_bounded_below` gives a real constant $m$ such that $m\le \Theta(x)$ for all $x$. Since $\Theta(u_{n+1})$ is finite, this implies
 
 $$
-m\le (\Theta(u_{n+1}))^{\operatorname{toReal}},
+m\le (\Theta(u_{n+1}))^{\mathrm{toReal}},
 $$
 
 and the added term $\gamma\|u_{n+1}-u_n\|^2$ is nonnegative. Hence $E_n\ge m$ for every $n$, so the range of $E$ is bounded below.
@@ -686,20 +686,20 @@ $$
 But
 
 $$
-E_n=(\Theta(u_{n+1}))^{\operatorname{toReal}}
+E_n=(\Theta(u_{n+1}))^{\mathrm{toReal}}
 +\gamma\|u_{n+1}-u_n\|^2,
 $$
 
 so subtracting the vanishing correction term yields
 
 $$
-(\Theta(u_{n+1}))^{\operatorname{toReal}}\to l.
+(\Theta(u_{n+1}))^{\mathrm{toReal}}\to l.
 $$
 
 Coercing back to $\mathrm{EReal}$, and using that $\Theta(u_{n+1})$ is finite so that
 
 $$
-\bigl((\Theta(u_{n+1}))^{\operatorname{toReal}}:\mathrm{EReal}\bigr)=\Theta(u_{n+1}),
+\bigl((\Theta(u_{n+1}))^{\mathrm{toReal}}:\mathrm{EReal}\bigr)=\Theta(u_{n+1}),
 $$
 
 gives

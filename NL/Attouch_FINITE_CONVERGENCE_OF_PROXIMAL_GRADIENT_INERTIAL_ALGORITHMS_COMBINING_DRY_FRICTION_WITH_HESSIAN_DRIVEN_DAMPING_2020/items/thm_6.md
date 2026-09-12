@@ -48,7 +48,7 @@ The declaration `IPAHDDNonsmooth_finiteLength` is a convergence theorem for a no
 - the real-valued Moreau envelope
 
   $$
-  f_\lambda = \operatorname{moreauEnvelopeReal} F \langle \lambda,h_\lambda\rangle,
+  f_\lambda = \mathrm{moreauEnvelopeReal} F \langle \lambda,h_\lambda\rangle,
   $$
 
   where $h_\lambda$ is the proof that $\lambda>0$;
@@ -90,7 +90,7 @@ $$
 -\nabla f_\lambda(x_\infty)\in \partial\phi(0).
 $$
 
-If $P=\operatorname{Prox}_{\lambda F}$, then the proximal sequence $P(x_k)$ also has finite length and converges to some $p_\infty$, with
+If $P=\mathrm{Prox}_{\lambda F}$, then the proximal sequence $P(x_k)$ also has finite length and converges to some $p_\infty$, with
 
 $$
 p_\infty=P(x_\infty).
@@ -105,7 +105,7 @@ $$
 Finally, the theorem gives two conditional convergence refinements. If
 
 $$
--\nabla f_\lambda(x_\infty)\in \operatorname{int}\partial\phi(0),
+-\nabla f_\lambda(x_\infty)\in \mathrm{int}\partial\phi(0),
 $$
 
 then with
@@ -292,10 +292,10 @@ The proof first identifies the Moreau envelope $f_\lambda$ with a smooth functio
 The proof defines
 
 $$
-P=\operatorname{scaledProximityOperator} F h_F \langle \lambda,h_\lambda\rangle,
+P=\mathrm{scaledProximityOperator} F h_F \langle \lambda,h_\lambda\rangle,
 $$
 
-so $P$ is the scaled proximity operator $\operatorname{Prox}_{\lambda F}$. It then proves that $P$ is firmly nonexpansive. For this, it applies `proximityOperator_firmlyNonexpansive_of_mem_gammaZero` to the function $\lambda F$. The cited result says that if a function belongs to $\Gamma_0(H)$, then its proximity operator is firmly nonexpansive. The hypothesis $\lambda F\in\Gamma_0(H)$ is supplied by `smul_mem_gammaZero`, which states that a positive scalar multiple of a $\Gamma_0(H)$ function remains in $\Gamma_0(H)$. Since firm nonexpansiveness implies $1$-Lipschitz continuity by `lipschitzWith_one_of_firmlyNonexpansive`, the proof obtains
+so $P$ is the scaled proximity operator $\mathrm{Prox}_{\lambda F}$. It then proves that $P$ is firmly nonexpansive. For this, it applies `proximityOperator_firmlyNonexpansive_of_mem_gammaZero` to the function $\lambda F$. The cited result says that if a function belongs to $\Gamma_0(H)$, then its proximity operator is firmly nonexpansive. The hypothesis $\lambda F\in\Gamma_0(H)$ is supplied by `smul_mem_gammaZero`, which states that a positive scalar multiple of a $\Gamma_0(H)$ function remains in $\Gamma_0(H)$. Since firm nonexpansiveness implies $1$-Lipschitz continuity by `lipschitzWith_one_of_firmlyNonexpansive`, the proof obtains
 
 $$
 \|P x-P y\|\le \|x-y\|
@@ -303,10 +303,10 @@ $$
 
 for all $x,y$.
 
-Next, the proof uses `hasFDerivAt_moreauEnvelopeReal`. This theorem says that for $F\in\Gamma_0(H)$ and $\gamma>0$, the Moreau envelope $x\mapsto \operatorname{moreauEnvelopeReal} F \gamma(x)$ is Fréchet differentiable at $x$, with derivative equal to the continuous linear functional
+Next, the proof uses `hasFDerivAt_moreauEnvelopeReal`. This theorem says that for $F\in\Gamma_0(H)$ and $\gamma>0$, the Moreau envelope $x\mapsto \mathrm{moreauEnvelopeReal} F \gamma(x)$ is Fréchet differentiable at $x$, with derivative equal to the continuous linear functional
 
 $$
-v\mapsto \left\langle \gamma^{-1}\bigl(x-\operatorname{Prox}_{\gamma F}(x)\bigr),v\right\rangle.
+v\mapsto \left\langle \gamma^{-1}\bigl(x-\mathrm{Prox}_{\gamma F}(x)\bigr),v\right\rangle.
 $$
 
 With $\gamma=\lambda$, this gives
@@ -431,7 +431,7 @@ $$
 For the geometric rate, the proof applies `IPAHDD_geometric_and_finite` to $f_\lambda$, $\phi$, the same parameters, $L=1/\lambda$, and the already established limit $x_\infty$. The provided statement of that theorem is truncated after `let q`, but the proof uses two consequences. The first, `hgeo.1`, gives the geometric implication: if
 
 $$
--\nabla f_\lambda(x_\infty)\in \operatorname{int}\partial\phi(0),
+-\nabla f_\lambda(x_\infty)\in \mathrm{int}\partial\phi(0),
 $$
 
 then the explicit factor lies in $(0,1)$ and the geometric decay estimates hold. The proof then rewrites the factor from the smooth form

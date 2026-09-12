@@ -30,9 +30,9 @@ The hypotheses are:
 Write
 
 $$
-u'(t):=\operatorname{deriv}u(t),\qquad
-u''(t):=\operatorname{deriv}(\operatorname{deriv}u)(t),\qquad
-u'''(t):=\operatorname{deriv}(\operatorname{deriv}(\operatorname{deriv}u))(t).
+u'(t):=\mathrm{deriv}u(t),\qquad
+u''(t):=\mathrm{deriv}(\mathrm{deriv}u)(t),\qquad
+u'''(t):=\mathrm{deriv}(\mathrm{deriv}(\mathrm{deriv}u))(t).
 $$
 
 The conclusion is an implication: if
@@ -53,21 +53,21 @@ $$
 and define the energy
 
 $$
-E_1=\operatorname{togesVLyapunov}(f,u,z,\alpha,\beta,t_{\mathrm{start}}).
+E_1=\mathrm{togesVLyapunov}(f,u,z,\alpha,\beta,t_{\mathrm{start}}).
 $$
 
 The definition of `togesVLyapunov` gives
 
 $$
-\operatorname{togesVLyapunov}(f,u,z,\alpha,\beta,t)
+\mathrm{togesVLyapunov}(f,u,z,\alpha,\beta,t)
 =
-4t\,\operatorname{togesVDelta}(\beta,t)
-\left(f(\operatorname{togesVAuxiliary}(u,t))-\inf(\operatorname{range}f)\right)
+4t\,\mathrm{togesVDelta}(\beta,t)
+\left(f(\mathrm{togesVAuxiliary}(u,t))-\inf(\mathrm{range}f)\right)
 +\frac12
-\left\|\operatorname{togesVLyapunovVector}(u,z,\alpha,\beta,t,f)\right\|^2.
+\left\|\mathrm{togesVLyapunovVector}(u,z,\alpha,\beta,t,f)\right\|^2.
 $$
 
-Here $\inf(\operatorname{range}f)$ is the infimum of the values of $f$, i.e. $\inf_{x\in H}f(x)$.
+Here $\inf(\mathrm{range}f)$ is the infimum of the values of $f$, i.e. $\inf_{x\in H}f(x)$.
 
 The conclusion then says that for every $t\ge t_{\mathrm{start}}$,
 
@@ -175,7 +175,7 @@ The proof reduces the smoothness hypotheses to the pointwise derivative hypothes
 First, the proof establishes
 
 $$
-\forall x,\quad \operatorname{HasFDerivAt} f(\operatorname{innerSL} \mathbb R(\nabla f(x)))x.
+\forall x,\quad \mathrm{HasFDerivAt} f(\mathrm{innerSL} \mathbb R(\nabla f(x)))x.
 $$
 
 For arbitrary $x$, the hypothesis `hFContDiff : ContDiff ℝ 2 f` gives differentiability of $f$ at $x$. Since $H$ is an inner product space, the gradient $\nabla f(x)$ is the Riesz representative of the Fréchet derivative, so the derivative is the continuous linear functional
@@ -198,9 +198,9 @@ The proof then packages the derivative relations into
 
 $$
 \begin{aligned}
-&\forall t,\ t_0\le t\to \operatorname{HasDerivAt} u\ (u'(t))\ t,\\
-&\forall t,\ t_0\le t\to \operatorname{HasDerivAt} u'\ (u''(t))\ t,\\
-&\forall t,\ t_0\le t\to \operatorname{HasDerivAt} u''\ (u'''(t))\ t.
+&\forall t,\ t_0\le t\to \mathrm{HasDerivAt} u\ (u'(t))\ t,\\
+&\forall t,\ t_0\le t\to \mathrm{HasDerivAt} u'\ (u''(t))\ t,\\
+&\forall t,\ t_0\le t\to \mathrm{HasDerivAt} u''\ (u'''(t))\ t.
 \end{aligned}
 $$
 
@@ -209,7 +209,7 @@ This is the `hRegularity` conjunction. The tactic `refine ⟨?_, ?_, ?_⟩` spli
 The proof also shows that the gradient map is $C^1$:
 
 $$
-\operatorname{ContDiff}\mathbb R 1(\nabla f).
+\mathrm{ContDiff}\mathbb R 1(\nabla f).
 $$
 
 From `hFContDiff : ContDiff ℝ 2 f`, the lemma `contDiff_succ_iff_fderiv` extracts that the Fréchet derivative $Df$ is $C^1$. The Riesz isomorphism `InnerProductSpace.toDual ℝ H` identifies $Df(x)$ with $\nabla f(x)$; composing its inverse with $Df$ gives the gradient. Since continuous linear equivalences are smooth, this composition is $C^1$. This regularity of $\nabla f$ is used to apply the chain rule to $s\mapsto \nabla f(u(s)+(s/4)u'(s))$.

@@ -50,10 +50,10 @@ The fields of the structure impose the following requirements on any inhabitant 
 - Definition of $z$: for every $k \in \mathbb N$,
 
 $$
-z_k = \frac{1}{\lambda} M\left(x_k - \operatorname{prox}_{\lambda G}\left(x_k - \lambda A^*(A x_k - b)\right)\right).
+z_k = \frac{1}{\lambda} M\left(x_k - \mathrm{prox}_{\lambda G}\left(x_k - \lambda A^*(A x_k - b)\right)\right).
 $$
 
-Here $\operatorname{prox}_{\lambda G}$ denotes the scaled proximal operator of $G$ with scale $\lambda$, namely the Lean expression `ERealFunction.scaledProximityOperator G hG ⟨lam, lam_pos⟩`.
+Here $\mathrm{prox}_{\lambda G}$ denotes the scaled proximal operator of $G$ with scale $\lambda$, namely the Lean expression `ERealFunction.scaledProximityOperator G hG ⟨lam, lam_pos⟩`.
 - Definition of $y$: for every $k \in \mathbb N$,
 
 $$
@@ -65,10 +65,10 @@ $$
 - Update for $x$: for every $k \in \mathbb N$,
 
 $$
-x_{k+2} = x_{k+1} + h\,\operatorname{prox}_{\frac{h}{1+h\gamma}\Phi}(y_k),
+x_{k+2} = x_{k+1} + h\,\mathrm{prox}_{\frac{h}{1+h\gamma}\Phi}(y_k),
 $$
 
-where $\operatorname{prox}_{\frac{h}{1+h\gamma}\Phi}$ is the scaled proximal operator of $\Phi$ with scale $h/(1+h\gamma)$.
+where $\mathrm{prox}_{\frac{h}{1+h\gamma}\Phi}$ is the scaled proximal operator of $\Phi$ with scale $h/(1+h\gamma)$.
 
 Thus the structure says: a valid `IPAHDDLasso` run consists of two initial points, three sequences, positive step/damping parameters $h,\gamma,\lambda$, the operator identity $M=I-\lambda A^*A$, the smallness condition $\lambda\|A\|^2<1$, and the pointwise recurrences above. It does not assert existence of such a run, nor convergence, nor any algorithmic theorem.
 

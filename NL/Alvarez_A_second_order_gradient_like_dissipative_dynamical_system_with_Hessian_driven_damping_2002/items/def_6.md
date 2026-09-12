@@ -23,7 +23,7 @@ $$
 D(\nabla\Phi)(x(t))\bigl(\dot x(t)\bigr)+\nabla\Phi(x(t))=0,
 $$
 
-where $\dot x(t)$ denotes $\operatorname{deriv}x(t)$, the derivative of the trajectory at $t$, and $D(\nabla\Phi)(x(t))$ denotes the Fréchet derivative over $\mathbb R$ of the gradient vector field $\nabla\Phi$ at the point $x(t)$. Thus the second condition says that the derivative of the gradient along the trajectory direction is exactly the negative of the gradient at the current point:
+where $\dot x(t)$ denotes $\mathrm{deriv}x(t)$, the derivative of the trajectory at $t$, and $D(\nabla\Phi)(x(t))$ denotes the Fréchet derivative over $\mathbb R$ of the gradient vector field $\nabla\Phi$ at the point $x(t)$. Thus the second condition says that the derivative of the gradient along the trajectory direction is exactly the negative of the gradient at the current point:
 
 $$
 D(\nabla\Phi)(x(t))\bigl(\dot x(t)\bigr)=-\nabla\Phi(x(t)).

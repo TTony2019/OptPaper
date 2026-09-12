@@ -23,7 +23,7 @@ $$
 real parameters $\beta,\mu\in\mathbb R$, and points $\bar x\in X$, $\bar y\in Y$. There are no additional hypotheses on any of these objects. The predicate `IsINE` is defined by a conjunction of two inequalities:
 
 $$
-\operatorname{IsINE}(f,g,h,k,c,\alpha,\beta,\mu,\nu,\bar x,\bar y)
+\mathrm{IsINE}(f,g,h,k,c,\alpha,\beta,\mu,\nu,\bar x,\bar y)
 $$
 
 means
@@ -45,7 +45,7 @@ $$
 The theorem specializes this definition to $\alpha=0$ and $\nu=0$, keeping $\beta$ and $\mu$ as they are. The statement asserts that
 
 $$
-\operatorname{IsINE}(f,g,h,k,c,0,\beta,\mu,0,\bar x,\bar y)
+\mathrm{IsINE}(f,g,h,k,c,0,\beta,\mu,0,\bar x,\bar y)
 $$
 
 is equivalent to the pair of inequalities

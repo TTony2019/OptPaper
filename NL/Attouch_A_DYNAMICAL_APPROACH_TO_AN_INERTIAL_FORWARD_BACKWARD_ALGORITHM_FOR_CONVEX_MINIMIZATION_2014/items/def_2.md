@@ -9,10 +9,10 @@ theorem gamma_pos {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 ```
 
 ## Statement explanation
-The theorem `gamma_pos` concerns a real inner product space $H$, functions $\phi,\theta:H\to\overline{\mathbb R}$, $\psi:H\to\mathbb R$, a map $\operatorname{gradPsi}:H\to H$, real parameters $a,b,\lambda,L_{\psi}$, and a hypothesis
+The theorem `gamma_pos` concerns a real inner product space $H$, functions $\phi,\theta:H\to\overline{\mathbb R}$, $\psi:H\to\mathbb R$, a map $\mathrm{gradPsi}:H\to H$, real parameters $a,b,\lambda,L_{\psi}$, and a hypothesis
 
 $$
-hH : \texttt{IFBHypothesis}(\phi,\theta,\psi,\operatorname{gradPsi},a,b,\lambda,L_{\psi}).
+hH : \texttt{IFBHypothesis}(\phi,\theta,\psi,\mathrm{gradPsi},a,b,\lambda,L_{\psi}).
 $$
 
 The only numerical object defined locally is
@@ -33,7 +33,7 @@ $$
 \lambda<\frac1a.
 $$
 
-From $\lambda<1/a$ and $a>0$, it follows that $a\lambda<1$, hence the numerator $1-a\lambda$ is positive. Also $2b>0$ and $\lambda^{2}>0$, so the denominator $2b\lambda^{2}$ is positive. Therefore the quotient $(1-a\lambda)/(2b\lambda^{2})$ is positive. The other ingredients of `IFBHypothesis`, such as $\phi,\theta,\psi,\operatorname{gradPsi},L_{\psi}$, do not enter the proof except as part of the hypothesis `hH`.
+From $\lambda<1/a$ and $a>0$, it follows that $a\lambda<1$, hence the numerator $1-a\lambda$ is positive. Also $2b>0$ and $\lambda^{2}>0$, so the denominator $2b\lambda^{2}$ is positive. Therefore the quotient $(1-a\lambda)/(2b\lambda^{2})$ is positive. The other ingredients of `IFBHypothesis`, such as $\phi,\theta,\psi,\mathrm{gradPsi},L_{\psi}$, do not enter the proof except as part of the hypothesis `hH`.
 
 ## Lean proof
 ```lean

@@ -18,9 +18,9 @@ The theorem `ista_convergence_rate` is a convergence-rate statement for an ISTA 
 Let $A_k$ denote the iterate `A.x k`, and let $\alpha_A$ denote the scalar `A.alpha`. The conclusion is
 
 $$
-\operatorname{compositeObjective}(f,g)(A_k)
+\mathrm{compositeObjective}(f,g)(A_k)
 -
-\operatorname{compositeObjective}(f,g)(x_\star)
+\mathrm{compositeObjective}(f,g)(x_\star)
 \le
 \frac{\alpha_A L_f \|x_0-x_\star\|^2}{2 (k:\mathbb R)}.
 $$
@@ -45,9 +45,9 @@ The proof is a case analysis on the inductive type `ISTARun`. The command `cases
 In the constant branch, $A$ is `ISTARun.constant run`, where `run` is a constant-stepsize ISTA run. The definition of `ISTARun.x` gives that the iterate sequence of $A$ is the iterate sequence of `run`, so `A.x k` becomes `run.x k`. The definition of `ISTARun.alpha` gives $\alpha_A=1$. Therefore the goal in this branch reduces to
 
 $$
-\operatorname{compositeObjective}(f,g)(run.x(k))
+\mathrm{compositeObjective}(f,g)(run.x(k))
 -
-\operatorname{compositeObjective}(f,g)(x_\star)
+\mathrm{compositeObjective}(f,g)(x_\star)
 \le
 \frac{L_f \|x_0-x_\star\|^2}{2 (k:\mathbb R)}.
 $$
@@ -57,9 +57,9 @@ The theorem `ista_constant_stepsize_rate` says exactly this: under the same prob
 In the backtracking branch, $A$ is `ISTARun.backtracking run bounds`. Here `run` is the underlying backtracking ISTA run and `bounds` is the bundled proof of the backtracking step-size bounds required by the backtracking rate theorem. The definition of `ISTARun.x` again gives `A.x k = run.x k`. The definition of `ISTARun.alpha` gives $\alpha_A=\texttt{run.eta}$, the backtracking parameter. Hence the goal in this branch reduces to
 
 $$
-\operatorname{compositeObjective}(f,g)(run.x(k))
+\mathrm{compositeObjective}(f,g)(run.x(k))
 -
-\operatorname{compositeObjective}(f,g)(x_\star)
+\mathrm{compositeObjective}(f,g)(x_\star)
 \le
 \frac{\eta L_f \|x_0-x_\star\|^2}{2 (k:\mathbb R)},
 $$

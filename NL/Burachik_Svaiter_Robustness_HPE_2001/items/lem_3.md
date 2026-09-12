@@ -10,13 +10,13 @@ theorem hpe_unbounded_of_no_zero {H : Type*} [NormedAddCommGroup H]
 ```
 
 ## Statement explanation
-The declaration is stated for a real Hilbert space $H$, namely a complete real inner product space. The operator $T$ is a set-valued operator from $H$ to subsets of $H$, written $T:H\to \mathcal P(H)$. The hypothesis $h_T$ says that $T$ is maximal monotone: $T$ is monotone, and its graph is maximal among the graphs of monotone operators. The variable $A$ is an HPE iterate object for $T$; in the proof it supplies sequences $x_k,y_k,v_k\in H$ and real sequences $c_k,\varepsilon_k,\alpha_k,\delta_k,\sigma_k$, together with the standard HPE error, residual, summability, and enlargement properties used below. The hypothesis $hzero$ says $T.\operatorname{zeros}=\varnothing$, meaning that there is no $x\in H$ such that $0\in T x$. The conclusion is
+The declaration is stated for a real Hilbert space $H$, namely a complete real inner product space. The operator $T$ is a set-valued operator from $H$ to subsets of $H$, written $T:H\to \mathcal P(H)$. The hypothesis $h_T$ says that $T$ is maximal monotone: $T$ is monotone, and its graph is maximal among the graphs of monotone operators. The variable $A$ is an HPE iterate object for $T$; in the proof it supplies sequences $x_k,y_k,v_k\in H$ and real sequences $c_k,\varepsilon_k,\alpha_k,\delta_k,\sigma_k$, together with the standard HPE error, residual, summability, and enlargement properties used below. The hypothesis $hzero$ says $T.\mathrm{zeros}=\varnothing$, meaning that there is no $x\in H$ such that $0\in T x$. The conclusion is
 
 $$
-\neg \operatorname{Bornology.IsBounded}\bigl(\operatorname{Set.range} A.x\bigr),
+\neg \mathrm{Bornology.IsBounded}\bigl(\mathrm{Set.range} A.x\bigr),
 $$
 
-which means that the set of iterates $\{x_k:k\in\mathbb N\}$ is not bounded in the norm topology. Equivalently, if the HPE iterates $x_k$ are bounded, then $T$ must have a zero. The proof proves this contrapositive: it assumes boundedness of the iterates and constructs a point $\bar x$ with $0\in T\bar x$, contradicting $T.\operatorname{zeros}=\varnothing$.
+which means that the set of iterates $\{x_k:k\in\mathbb N\}$ is not bounded in the norm topology. Equivalently, if the HPE iterates $x_k$ are bounded, then $T$ must have a zero. The proof proves this contrapositive: it assumes boundedness of the iterates and constructs a point $\bar x$ with $0\in T\bar x$, contradicting $T.\mathrm{zeros}=\varnothing$.
 
 ## Lean proof
 ```lean
@@ -315,7 +315,7 @@ $$
 \le R+B_x=B_y.
 $$
 
-The proof then uses `minty_surjective_of_maximal_monotone`. That theorem says that if $T$ is maximal monotone, then for every $y\in H$ there exist $x\in H$ and $u\in T x$ such that $y=x+u$. Taking $y=0$, the proof obtains $z_0,u_0$ with $u_0\in T z_0$ and $0=z_0+u_0$. In particular, using `SetValuedOperator.mem_dom_iff`, the point $z_0$ lies in $T.\operatorname{dom}$.
+The proof then uses `minty_surjective_of_maximal_monotone`. That theorem says that if $T$ is maximal monotone, then for every $y\in H$ there exist $x\in H$ and $u\in T x$ such that $y=x+u$. Taking $y=0$, the proof obtains $z_0,u_0$ with $u_0\in T z_0$ and $0=z_0+u_0$. In particular, using `SetValuedOperator.mem_dom_iff`, the point $z_0$ lies in $T.\mathrm{dom}$.
 
 The proof defines
 
@@ -326,31 +326,31 @@ $$
 Then $M>0$, and the inequalities $\|z_0\|<M$, $\|x_k\|<M$, $\|y_k\|<M$, and $B_x<M$ all hold. The definition
 
 $$
-\operatorname{relatedBall}(M)=\operatorname{closedBall}(0,2M)
+\mathrm{relatedBall}(M)=\mathrm{closedBall}(0,2M)
 $$
 
-is then used. Since $\|z_0\|<M<2M$, and similarly for $x_k$, $y_k$, and since $B_x<M<2M$, all these points lie in the open ball of radius $2M$. The lemma `Metric.ball_subset_interior_closedBall` converts that into membership in the interior of $\operatorname{relatedBall}(M)$. Also, $\operatorname{relatedBall}(M)$ is nonempty, closed, and convex, using respectively $0\in\operatorname{closedBall}(0,2M)$, `Metric.isClosed_closedBall`, and `convex_closedBall`.
+is then used. Since $\|z_0\|<M<2M$, and similarly for $x_k$, $y_k$, and since $B_x<M<2M$, all these points lie in the open ball of radius $2M$. The lemma `Metric.ball_subset_interior_closedBall` converts that into membership in the interior of $\mathrm{relatedBall}(M)$. Also, $\mathrm{relatedBall}(M)$ is nonempty, closed, and convex, using respectively $0\in\mathrm{closedBall}(0,2M)$, `Metric.isClosed_closedBall`, and `convex_closedBall`.
 
 The operator
 
 $$
-U=\operatorname{relatedOperator}(T,M)=T+N_{\operatorname{relatedBall}(M)}
+U=\mathrm{relatedOperator}(T,M)=T+N_{\mathrm{relatedBall}(M)}
 $$
 
-is introduced. To prove $U$ is maximal monotone, the proof applies `rockafellar_sum_maximal`. This theorem says that if $T$ is maximal monotone, $C$ is a nonempty closed convex set, and $T.\operatorname{dom}\cap\operatorname{int} C\neq\varnothing$, then $T+N_C$ is maximal monotone. Here $C=\operatorname{relatedBall}(M)$, and the required nonempty intersection holds because $z_0\in T.\operatorname{dom}$ and $z_0\in\operatorname{int}\operatorname{relatedBall}(M)$. Thus $U$ is maximal monotone.
+is introduced. To prove $U$ is maximal monotone, the proof applies `rockafellar_sum_maximal`. This theorem says that if $T$ is maximal monotone, $C$ is a nonempty closed convex set, and $T.\mathrm{dom}\cap\mathrm{int} C\neq\varnothing$, then $T+N_C$ is maximal monotone. Here $C=\mathrm{relatedBall}(M)$, and the required nonempty intersection holds because $z_0\in T.\mathrm{dom}$ and $z_0\in\mathrm{int}\mathrm{relatedBall}(M)$. Thus $U$ is maximal monotone.
 
-Next the proof shows that $U.\operatorname{dom}$ is bounded. The lemma `related_operator_dom_subset_ball` states that
+Next the proof shows that $U.\mathrm{dom}$ is bounded. The lemma `related_operator_dom_subset_ball` states that
 
 $$
-(\operatorname{relatedOperator}(T,M)).\operatorname{dom}\subseteq \operatorname{relatedBall}(M).
+(\mathrm{relatedOperator}(T,M)).\mathrm{dom}\subseteq \mathrm{relatedBall}(M).
 $$
 
-Since $\operatorname{relatedBall}(M)$ is a closed ball, it is bounded, and any subset of a bounded set is bounded. Hence $U.\operatorname{dom}$ is bounded. The theorem `maximal_monotone_surjective_of_bounded_domain` then applies to the maximal monotone operator $U$ with bounded domain. It gives two conclusions: $U.\operatorname{range}=H$ and $U.\operatorname{zeros}\neq\varnothing$. The proof only uses the second part, obtaining some $x_{\text{zero}}$ with $0\in U x_{\text{zero}}$.
+Since $\mathrm{relatedBall}(M)$ is a closed ball, it is bounded, and any subset of a bounded set is bounded. Hence $U.\mathrm{dom}$ is bounded. The theorem `maximal_monotone_surjective_of_bounded_domain` then applies to the maximal monotone operator $U$ with bounded domain. It gives two conclusions: $U.\mathrm{range}=H$ and $U.\mathrm{zeros}\neq\varnothing$. The proof only uses the second part, obtaining some $x_{\text{zero}}$ with $0\in U x_{\text{zero}}$.
 
 The proof then builds HPE iterates for $U$. It must show
 
 $$
-A.v(k)\in \operatorname{epsilonEnlargement}(U,A.\varepsilon(k),A.\varepsilon_{\text{nonneg}}(k))(A.y(k)).
+A.v(k)\in \mathrm{epsilonEnlargement}(U,A.\varepsilon(k),A.\varepsilon_{\text{nonneg}}(k))(A.y(k)).
 $$
 
 By definition of `epsilonEnlargement`, this means that for every $z,w$ with $w\in U z$,
@@ -359,13 +359,13 @@ $$
 -A.\varepsilon(k)\le \langle w-A.v(k),z-A.y(k)\rangle.
 $$
 
-Since $U z=T z+N_{\operatorname{relatedBall}(M)}z$, any $w\in U z$ decomposes as $w=u+\eta$ with $u\in T z$ and $\eta\in N_{\operatorname{relatedBall}(M)}z$. The HPE enlargement property of $A$ for $T$ gives
+Since $U z=T z+N_{\mathrm{relatedBall}(M)}z$, any $w\in U z$ decomposes as $w=u+\eta$ with $u\in T z$ and $\eta\in N_{\mathrm{relatedBall}(M)}z$. The HPE enlargement property of $A$ for $T$ gives
 
 $$
 -A.\varepsilon(k)\le \langle u-A.v(k),z-A.y(k)\rangle.
 $$
 
-Because $A.y(k)$ lies in the interior of $\operatorname{relatedBall}(M)$, the normal-cone inequality for $\eta$ gives
+Because $A.y(k)$ lies in the interior of $\mathrm{relatedBall}(M)$, the normal-cone inequality for $\eta$ gives
 
 $$
 \langle A.y(k)-z,\eta\rangle\le0,
@@ -400,24 +400,24 @@ $$
 
 weakly as $k\to\infty$.
 
-The weak limit $\bar x$ is then shown to lie in the closed ball of radius $B_x$. Indeed, each $A.x(k)$ satisfies $\|A.x(k)\|\le B_x$, so each lies in $\operatorname{closedBall}(0,B_x)$. This closed ball is closed and convex. The lemma `mem_of_tendsto_weakly_of_isClosed_convex` states that a weak limit of a sequence in a closed convex set again lies in that set. Hence
+The weak limit $\bar x$ is then shown to lie in the closed ball of radius $B_x$. Indeed, each $A.x(k)$ satisfies $\|A.x(k)\|\le B_x$, so each lies in $\mathrm{closedBall}(0,B_x)$. This closed ball is closed and convex. The lemma `mem_of_tendsto_weakly_of_isClosed_convex` states that a weak limit of a sequence in a closed convex set again lies in that set. Hence
 
 $$
-\bar x\in\operatorname{closedBall}(0,B_x),
+\bar x\in\mathrm{closedBall}(0,B_x),
 $$
 
-so $\|\bar x\|\le B_x$. Since $B_x<M$, it follows that $\bar x$ lies in the interior of $\operatorname{relatedBall}(M)$.
+so $\|\bar x\|\le B_x$. Since $B_x<M$, it follows that $\bar x$ lies in the interior of $\mathrm{relatedBall}(M)$.
 
-Finally the proof uses $0\in U\bar x$. Unfolding $U=T+N_{\operatorname{relatedBall}(M)}$, this means
+Finally the proof uses $0\in U\bar x$. Unfolding $U=T+N_{\mathrm{relatedBall}(M)}$, this means
 
 $$
 0=u+\eta
 $$
 
-for some $u\in T\bar x$ and $\eta\in N_{\operatorname{relatedBall}(M)}\bar x$. Since $\bar x$ lies in the interior of $\operatorname{relatedBall}(M)$, the lemma `normalCone_zero_of_interior` applies: if a point is in the interior of a set and a vector is in the normal cone to that set at the point, then that vector is zero. Thus $\eta=0$. Then $u=0$, so $0\in T\bar x$. By `SetValuedOperator.mem_zeros_iff`, this means $\bar x\in T.\operatorname{zeros}$, contradicting the hypothesis $T.\operatorname{zeros}=\varnothing$. Therefore the original assumption that the range of $A.x$ is bounded was false, which proves
+for some $u\in T\bar x$ and $\eta\in N_{\mathrm{relatedBall}(M)}\bar x$. Since $\bar x$ lies in the interior of $\mathrm{relatedBall}(M)$, the lemma `normalCone_zero_of_interior` applies: if a point is in the interior of a set and a vector is in the normal cone to that set at the point, then that vector is zero. Thus $\eta=0$. Then $u=0$, so $0\in T\bar x$. By `SetValuedOperator.mem_zeros_iff`, this means $\bar x\in T.\mathrm{zeros}$, contradicting the hypothesis $T.\mathrm{zeros}=\varnothing$. Therefore the original assumption that the range of $A.x$ is bounded was false, which proves
 
 $$
-\neg \operatorname{Bornology.IsBounded}\bigl(\operatorname{Set.range} A.x\bigr).
+\neg \mathrm{Bornology.IsBounded}\bigl(\mathrm{Set.range} A.x\bigr).
 $$
 
 The Lean tactics used along the way reflect the mathematical steps: `intro` begins the contradiction; `rcases` extracts witnesses from existential and conjunctive hypotheses; `have` records intermediate inequalities and membership facts; `let` introduces abbreviations such as $C,R,B_y,U$; `calc` chains equalities and inequalities; `rw`, `simpa`, and `change` unfold definitions such as `relatedOperator`, `relatedBall`, and `epsilonEnlargement`; `apply` and `exact` invoke the cited lemmas; `linarith` and `nlinarith` combine the displayed linear and quadratic inequalities; `positivity` proves nonnegativity of the constants; `gcongr` uses monotonicity of multiplication and addition; `abel` rearranges additive expressions; and `rfl` closes definitional equalities.

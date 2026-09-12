@@ -20,7 +20,7 @@ The data are:
 
 - $\phi,\Theta:H\to\overline{\mathbb R}$, extended-real functions;
 - $\psi:H\to\mathbb R$, a real-valued function;
-- $\operatorname{grad}\psi:H\to H$, a map denoted `gradPsi`;
+- $\mathrm{grad}\psi:H\to H$, a map denoted `gradPsi`;
 - $a,b,\lambda,L_\psi\in\mathbb R$, real parameters;
 - $u,y:\mathbb N\to H$, two sequences, written $u_k$ and $y_k$;
 - $\rho\in\mathbb R$, the strong-convexity parameter.
@@ -35,7 +35,7 @@ The hypotheses are:
 The conclusion is:
 
 $$
-\exists q\in \operatorname{argminSet}\Theta,\qquad
+\exists q\in \mathrm{argminSet}\Theta,\qquad
 u_k \to q \quad \text{as } k\to\infty,
 $$
 
@@ -104,7 +104,7 @@ by
 The proof begins by destructing the assumed nonemptiness of the minimizer set. The tactic `rcases hS with ⟨q, hq⟩` chooses a point $q$ and a proof $hq$ that
 
 $$
-q\in \operatorname{argminSet}\Theta.
+q\in \mathrm{argminSet}\Theta.
 $$
 
 The rest of the proof is devoted to showing that the original sequence $u_k$ converges to this particular minimizer $q$.
@@ -126,25 +126,25 @@ $$
 The proof rewrites $hq$ using `Optimization.mem_argminSet_iff_eq_sInf`. That theorem says that, in a complete linear order, a point $x$ lies in the argmin set of $f$ exactly when
 
 $$
-f(x)=\inf(\operatorname{range} f).
+f(x)=\inf(\mathrm{range} f).
 $$
 
 Applying it to $f=\Theta$ and $x=q$, the hypothesis $hq$ becomes
 
 $$
-\Theta(q)=\inf(\operatorname{range}\Theta).
+\Theta(q)=\inf(\mathrm{range}\Theta).
 $$
 
-Since $\Theta(x_0)$ belongs to $\operatorname{range}\Theta$, the lemma `sInf_le` gives
+Since $\Theta(x_0)$ belongs to $\mathrm{range}\Theta$, the lemma `sInf_le` gives
 
 $$
-\inf(\operatorname{range}\Theta)\le \Theta(x_0).
+\inf(\mathrm{range}\Theta)\le \Theta(x_0).
 $$
 
 Together with $\Theta(x_0)<\top$, this yields $\Theta(q)<\top$. The proof then converts this into membership in the extended-real domain: `hqdom` uses `ERealFunction.mem_dom_iff`, which states that
 
 $$
-q\in \operatorname{dom}\Theta \iff \Theta(q)<\top.
+q\in \mathrm{dom}\Theta \iff \Theta(q)<\top.
 $$
 
 So $q$ lies in the domain of $\Theta$.
@@ -166,7 +166,7 @@ This is important because later inequalities need to treat $\Theta(q)$ as a real
 Next, the proof records domain and bottom facts along the trajectory. For every $k$, `hdom k` applies `trajectory_theta_mem_dom`, which says that under `hH` and `hIFB`,
 
 $$
-u_{k+1}\in \operatorname{dom}\Theta,
+u_{k+1}\in \mathrm{dom}\Theta,
 $$
 
 equivalently $\Theta(u_{k+1})<\top$. Also, `hbot k` applies `theta_ne_bot` again, giving
@@ -187,16 +187,16 @@ Thus strong convexity supplies a quadratic lower bound for $\Theta(u_{k+1})$ in 
 The proof then obtains convergence of the objective values. The fact `hobj` first rewrites $hq$ using `Optimization.mem_argminSet_iff_eq_sInf`, turning it into
 
 $$
-\Theta(q)=\inf(\operatorname{range}\Theta).
+\Theta(q)=\inf(\mathrm{range}\Theta).
 $$
 
 Then the first part of `proposition6` is used. That theorem assumes the same hypotheses `hH` and `hIFB` and states three things: first, that
 
 $$
-\Theta(u_k)\to \inf(\operatorname{range}\Theta);
+\Theta(u_k)\to \inf(\mathrm{range}\Theta);
 $$
 
-second, that every sequential weak cluster point of $u_k$ is a minimizer of $\Theta$; and third, that if the argmin set of $\Theta$ is empty, then $\|u_k\|\to\infty$. Only the first conclusion is used here. Combining it with $\Theta(q)=\inf(\operatorname{range}\Theta)$, the proof obtains
+second, that every sequential weak cluster point of $u_k$ is a minimizer of $\Theta$; and third, that if the argmin set of $\Theta$ is empty, then $\|u_k\|\to\infty$. Only the first conclusion is used here. Combining it with $\Theta(q)=\inf(\mathrm{range}\Theta)$, the proof obtains
 
 $$
 \Theta(u_k)\to \Theta(q).
@@ -219,7 +219,7 @@ $$
 The command `rw [Metric.tendsto_atTop]` converts the goal into the usual $\varepsilon\text{-}N$ formulation: for every $\varepsilon>0$, there is $N$ such that for every $k\ge N$,
 
 $$
-\operatorname{dist}\bigl(\|u_{k+1}-q\|,0\bigr)<\varepsilon.
+\mathrm{dist}\bigl(\|u_{k+1}-q\|,0\bigr)<\varepsilon.
 $$
 
 The command `intro` introduces an arbitrary $\varepsilon$ and its positivity hypothesis. Let
@@ -318,5 +318,5 @@ $$
 u_k\to q.
 $$
 
-The existential conclusion is then closed with the chosen minimizer $q$, the proof `hq` that $q\in \operatorname{argminSet}\Theta$, and the just-proved convergence $u_k\to q$.
+The existential conclusion is then closed with the chosen minimizer $q$, the proof `hq` that $q\in \mathrm{argminSet}\Theta$, and the just-proved convergence $u_k\to q$.
 

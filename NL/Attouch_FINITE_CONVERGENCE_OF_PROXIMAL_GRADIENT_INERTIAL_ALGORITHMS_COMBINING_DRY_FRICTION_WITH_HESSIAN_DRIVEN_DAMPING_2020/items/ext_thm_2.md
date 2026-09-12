@@ -31,7 +31,7 @@ $$
 M=I-\lambda A^*A;
 $$
 
-that $M$ is positive definite, meaning $\langle Mv,v\rangle>0$ for every $v\ne0$; and that a function $\operatorname{prox}_F:H\to H$ satisfies the variable-metric proximal optimality condition: for each $x$, with $p=\operatorname{prox}_F x$, there exists $u\in\partial f(p)$ such that
+that $M$ is positive definite, meaning $\langle Mv,v\rangle>0$ for every $v\ne0$; and that a function $\mathrm{prox}_F:H\to H$ satisfies the variable-metric proximal optimality condition: for each $x$, with $p=\mathrm{prox}_F x$, there exists $u\in\partial f(p)$ such that
 
 $$
 M(x-p)=\lambda u,
@@ -45,7 +45,7 @@ $$
 \langle y-p,u\rangle+h(p)\le h(y)
 $$
 
-for every $y\in H$. The expression `properIoi g hproper` is the same function $g$, but regarded as a function whose values lie in $\{z\in\overline{\mathbb R}:z>-\infty\}$; properness supplies the fact that $g$ never takes the value $-\infty$. The cited result `properIoi_mem_gammaZero_of_epigraph_convex_lsc` says that because $g$ is proper, convex in the epigraph sense, and lower semicontinuous, this version of $g$ belongs to $\Gamma_0(H)$. For a function $h\in\Gamma_0(H)$ and $\lambda>0$, the scaled proximity operator $\operatorname{Prox}_{\lambda h}(z)$ is the unique minimizer of
+for every $y\in H$. The expression `properIoi g hproper` is the same function $g$, but regarded as a function whose values lie in $\{z\in\overline{\mathbb R}:z>-\infty\}$; properness supplies the fact that $g$ never takes the value $-\infty$. The cited result `properIoi_mem_gammaZero_of_epigraph_convex_lsc` says that because $g$ is proper, convex in the epigraph sense, and lower semicontinuous, this version of $g$ belongs to $\Gamma_0(H)$. For a function $h\in\Gamma_0(H)$ and $\lambda>0$, the scaled proximity operator $\mathrm{Prox}_{\lambda h}(z)$ is the unique minimizer of
 
 $$
 y\mapsto \lambda h(y)+\frac12\|z-y\|^2.
@@ -54,9 +54,9 @@ $$
 The conclusion of the theorem is
 
 $$
-\operatorname{prox}_F(x)
+\mathrm{prox}_F(x)
 =
-\operatorname{Prox}_{\lambda \iota(g)}
+\mathrm{Prox}_{\lambda \iota(g)}
 \bigl(x-\lambda A^*(Ax-b)\bigr),
 $$
 
@@ -99,7 +99,7 @@ by
 ```
 
 ## Proof explanation
-Fix $x$, and write $p=\operatorname{prox}_F x$. The proof begins by using `rcases` on the hypothesis `hproxF x`. This destroys the existential statement and produces a proof $hp:f(p)\ne+\infty$, a vector $u$, a proof $hu:u\in\partial f(p)$, and an equality
+Fix $x$, and write $p=\mathrm{prox}_F x$. The proof begins by using `rcases` on the hypothesis `hproxF x`. This destroys the existential statement and produces a proof $hp:f(p)\ne+\infty$, a vector $u$, a proof $hu:u\in\partial f(p)$, and an equality
 
 $$
 \lambda u=M(x-p).
@@ -174,7 +174,7 @@ Mathematically, this is the subgradient decomposition for a smooth quadratic plu
 Next, the proof applies `properIoi_mem_gammaZero_of_epigraph_convex_lsc` to $g$, using properness, convexity of the epigraph, and lower semicontinuity. It concludes
 
 $$
-\iota(g):=\operatorname{properIoi}(g,\text{hproper})\in\Gamma_0(H).
+\iota(g):=\mathrm{properIoi}(g,\text{hproper})\in\Gamma_0(H).
 $$
 
 Thus $g$, viewed as a function with values greater than $-\infty$, is a proper convex lower semicontinuous function in the sense required for proximal theory.
@@ -182,7 +182,7 @@ Thus $g$, viewed as a function with values greater than $-\infty$, is a proper c
 The definition of `scaledProximityOperator` is then unfolded with `rw`. The goal becomes an equality with the proximity operator of the scaled function $\lambda\iota(g)$. To prove it, the proof invokes the cited equivalence `eq_proximityOperator_iff_sub_mem_subdifferential`. For a function $h\in\Gamma_0(H)$ and points $z,p\in H$, that theorem states
 
 $$
-p=\operatorname{Prox}_h(z)
+p=\mathrm{Prox}_h(z)
 \iff
 z-p\in\partial h(p).
 $$
@@ -252,9 +252,9 @@ $$
 therefore proves the desired membership. Consequently the backward direction of the proximal characterization applies, and
 
 $$
-p=\operatorname{prox}_F x
+p=\mathrm{prox}_F x
 =
-\operatorname{Prox}_{\lambda\iota(g)}
+\mathrm{Prox}_{\lambda\iota(g)}
 \bigl(x-\lambda A^*(Ax-b)\bigr),
 $$
 

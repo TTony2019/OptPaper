@@ -23,7 +23,7 @@ theorem lemma_4_3_c {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 The declaration `lemma_4_3_c` is a theorem about two sequences in a real inner product space $H$. The ambient assumptions on $H$ are that it is a normed additive commutative group and a real inner product space, so expressions such as $\|u-v\|^2$ are squared distances in $H$. The data are functions $f,g:H\to\mathbb R$, real parameters $\beta,\mu$, sequences $\alpha,\nu:\mathbb N\to\mathbb R$, a bundled hypothesis `hyp : H41toH46 H f g β μ`, reference points $x,y\in H$, global nonnegativity assumptions $hα_nonneg:\forall n,\ \alpha_n\ge0$ and $hν_nonneg:\forall n,\ \nu_n\ge0$, an algorithm/iteration object `alg : CA2 ...`, and an additional bundled condition `hine : IsINE ...`. The object `alg` supplies the two iterate sequences; write
 
 $$
-x_n:=\operatorname{alg.x}(n),\qquad y_n:=\operatorname{alg.y}(n).
+x_n:=\mathrm{alg.x}(n),\qquad y_n:=\mathrm{alg.y}(n).
 $$
 
 The three functions $(\xi,\eta)\mapsto \|\xi-\eta\|^2/2$ supplied to `CA2` and to `IsINE` are the quadratic move-cost functions used in the hypotheses; the definitions of `H41toH46`, `CA2`, and `IsINE` are not expanded here. From `hyp` the proof uses the positivity fields `hyp.beta_pos` and `hyp.mu_pos`, so the bundled hypothesis supplies $\beta>0$ and $\mu>0$.
@@ -123,10 +123,10 @@ by
 The proof begins by introducing local abbreviations:
 
 $$
-x_{n+1}:=\operatorname{alg.x}(n+1),\quad
-x_n:=\operatorname{alg.x}(n),\quad
-y_{n+1}:=\operatorname{alg.y}(n+1),\quad
-y_n:=\operatorname{alg.y}(n).
+x_{n+1}:=\mathrm{alg.x}(n+1),\quad
+x_n:=\mathrm{alg.x}(n),\quad
+y_{n+1}:=\mathrm{alg.y}(n+1),\quad
+y_n:=\mathrm{alg.y}(n).
 $$
 
 The `set` commands only create notation and do not change the mathematical content. Next, `hyp.beta_pos` and `hyp.mu_pos` give $\beta>0$ and $\mu>0$. Specializing the global nonnegativity hypotheses gives $\alpha_n\ge0$ and $\nu_n\ge0$. From $\alpha_n\ge0$ and $\beta>0$, `linarith` proves

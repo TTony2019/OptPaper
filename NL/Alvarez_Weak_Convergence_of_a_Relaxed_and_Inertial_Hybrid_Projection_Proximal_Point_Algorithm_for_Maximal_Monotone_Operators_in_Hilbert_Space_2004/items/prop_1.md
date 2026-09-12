@@ -64,7 +64,7 @@ $$
 The hypothesis `hp_pos_alphaBar_R1_R2` says that the Lean quantity `pCoeff R1 R2 alphaBar`, a coefficient depending on $R_1,R_2,\bar\alpha$, is positive:
 
 $$
-\operatorname{pCoeff}(R_1,R_2,\bar\alpha)>0.
+\mathrm{pCoeff}(R_1,R_2,\bar\alpha)>0.
 $$
 
 The number $\bar\alpha$ satisfies
@@ -96,7 +96,7 @@ By the definition of `zeros`, $A.\texttt{zeros}=A.\texttt{inverse}\,0$, and by `
 The conclusion of the theorem is a conjunction. First,
 
 $$
-\operatorname{Summable}\left(k\mapsto \|x_k-x_{k-1}\|^2\right),
+\mathrm{Summable}\left(k\mapsto \|x_k-x_{k-1}\|^2\right),
 $$
 
 so the squared successive differences of the $x$-iterates are summable. Here Lean's natural-number subtraction is truncated, so for $k=0$ the term is $\|x_0-x_0\|^2=0$. Second, there exists a zero $\hat x$ of $A$,
@@ -178,7 +178,7 @@ The two cases correspond to the nonterminating and terminating behavior of the a
 In the first case, $v_k\neq 0$ for every $k$. The proof applies the previously established theorem `proposition_2_5_nonterminating`, passing to it exactly the same operator $A$, maximal monotonicity hypothesis, parameter $\sigma$, its bound $0\le \sigma<1$, the algorithm object `alg`, the nonvanishing hypothesis, and all the remaining hypotheses of the current theorem. That theorem says, under precisely these assumptions plus $\forall k,\ v_k\neq0$, that
 
 $$
-\operatorname{Summable}\left(k\mapsto \|x_k-x_{k-1}\|^2\right)
+\mathrm{Summable}\left(k\mapsto \|x_k-x_{k-1}\|^2\right)
 $$
 
 and that there exists a zero $\hat x\in A.\texttt{zeros}$ to which $x_k$ converges weakly. Therefore `exact proposition_2_5_nonterminating ...` directly proves the desired conjunction in this case.
@@ -203,7 +203,7 @@ Next the proof establishes
 
 $$
 \texttt{hsummable\_sq} :
-\operatorname{Summable}\left(k\mapsto \|x_k-x_{k-1}\|^2\right).
+\mathrm{Summable}\left(k\mapsto \|x_k-x_{k-1}\|^2\right).
 $$
 
 It uses `summable_of_hasFiniteSupport`, which says that if a sequence has finite support, then it is summable. The tactic `rw [Function.HasFiniteSupport]` rewrites the goal into the form that the support of the sequence is contained in a finite set. The proof chooses the finite initial segment
@@ -232,7 +232,7 @@ The proof then derives a summability statement for the weighted sequence:
 
 $$
 \texttt{halpha\_summable} :
-\operatorname{Summable}\left(k\mapsto \alpha_k\,\|x_k-x_{k-1}\|^2\right).
+\mathrm{Summable}\left(k\mapsto \alpha_k\,\|x_k-x_{k-1}\|^2\right).
 $$
 
 It uses `hsummable_sq.of_nonneg_of_le`, a comparison principle for summability: if a nonnegative sequence is pointwise bounded above by a summable nonnegative sequence, then it is summable. The nonnegativity proof uses the hypothesis $0\le \alpha_k$ from `halpha_mem k`, together with the fact that a squared norm is nonnegative. The comparison proof uses $\alpha_k<1$ from `halpha_mem k`, hence $\alpha_k\le1$, and the fact that $\|x_k-x_{k-1}\|^2\ge0$. The lemma `mul_le_of_le_one_left` gives

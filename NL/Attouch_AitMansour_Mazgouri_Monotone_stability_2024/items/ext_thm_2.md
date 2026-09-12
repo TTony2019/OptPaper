@@ -19,29 +19,29 @@ theorem ext_thm_2 {X : Type*} [MetricSpace X] [CompleteSpace X]
 This declaration, `ext_thm_2`, is a stability theorem for fixed point sets of set-valued contractions in a complete metric space. Let $X$ be a complete metric space. Let $T_1,T_2:X\to \mathcal P(X)$ be set-valued maps, and let $\lambda$ be a real number with $0\le \lambda$ and $\lambda<1$. For each $x\in X$, both $T_1(x)$ and $T_2(x)$ are assumed to be closed and nonempty. The hypothesis `hlip` says that for every $x,y\in X$,
 
 $$
-d_H(T_1(x),T_1(y))\le \operatorname{ENNReal.ofReal}\lambda \cdot \operatorname{edist}(x,y)
+d_H(T_1(x),T_1(y))\le \mathrm{ENNReal.ofReal}\lambda \cdot \mathrm{edist}(x,y)
 $$
 
 and also
 
 $$
-d_H(T_2(x),T_2(y))\le \operatorname{ENNReal.ofReal}\lambda \cdot \operatorname{edist}(x,y).
+d_H(T_2(x),T_2(y))\le \mathrm{ENNReal.ofReal}\lambda \cdot \mathrm{edist}(x,y).
 $$
 
-Here $d_H$ denotes `Metric.hausdorffEDist`, the Hausdorff distance between sets taking values in the extended nonnegative reals, and $\operatorname{edist}$ is the extended distance between points. Thus each $T_i$ is a $\lambda$-contraction in the Hausdorff extended distance.
+Here $d_H$ denotes `Metric.hausdorffEDist`, the Hausdorff distance between sets taking values in the extended nonnegative reals, and $\mathrm{edist}$ is the extended distance between points. Thus each $T_i$ is a $\lambda$-contraction in the Hausdorff extended distance.
 
 The Lean definition `fixedPoints T` is
 
 $$
-\operatorname{fixedPoints}(T)=\{x\in X\mid x\in T(x)\}.
+\mathrm{fixedPoints}(T)=\{x\in X\mid x\in T(x)\}.
 $$
 
 For a set-valued map, this is the set of points contained in their own image under $T$. The conclusion of `ext_thm_2` is
 
 $$
-d_H\bigl(\operatorname{fixedPoints}(T_1),\operatorname{fixedPoints}(T_2)\bigr)
+d_H\bigl(\mathrm{fixedPoints}(T_1),\mathrm{fixedPoints}(T_2)\bigr)
 \le
-\bigl(1-\operatorname{ENNReal.ofReal}\lambda\bigr)^{-1}
+\bigl(1-\mathrm{ENNReal.ofReal}\lambda\bigr)^{-1}
 \cdot
 \sup_{x\in X} d_H(T_1(x),T_2(x)).
 $$
@@ -90,7 +90,7 @@ by
 The proof begins by introducing two abbreviations. Let
 
 $$
-K:=\operatorname{ENNReal.ofReal}\lambda
+K:=\mathrm{ENNReal.ofReal}\lambda
 $$
 
 and
@@ -99,7 +99,7 @@ $$
 D:=\sup_{x\in X} d_H(T_1(x),T_2(x)).
 $$
 
-These are the Lean local definitions `K` and `D`. The first step is to prove $K<1$. The proof uses `ENNReal.ofReal_lt_one.2 hlam₂`. The theorem `ENNReal.ofReal_lt_one` says that a real number is less than $1$ exactly when its image in the extended nonnegative reals is less than $1$. Applying it to $\lambda<1$ gives $\operatorname{ENNReal.ofReal}\lambda<1$, and `simpa [K]` converts this to $K<1$.
+These are the Lean local definitions `K` and `D`. The first step is to prove $K<1$. The proof uses `ENNReal.ofReal_lt_one.2 hlam₂`. The theorem `ENNReal.ofReal_lt_one` says that a real number is less than $1$ exactly when its image in the extended nonnegative reals is less than $1$. Applying it to $\lambda<1$ gives $\mathrm{ENNReal.ofReal}\lambda<1$, and `simpa [K]` converts this to $K<1$.
 
 Next the proof splits by cases on whether $D=\top$.
 
@@ -122,9 +122,9 @@ for every $x\in X$. This is exactly the supremum property `le_iSup`: for any ind
 The proof then introduces an auxiliary claim `hside`. It says that for arbitrary set-valued maps $S,U:X\to\mathcal P(X)$, if both have closed nonempty values, if both are $K$-Lipschitz in the Hausdorff extended distance,
 
 $$
-d_H(S(x),S(y))\le K\cdot \operatorname{edist}(x,y),
+d_H(S(x),S(y))\le K\cdot \mathrm{edist}(x,y),
 \qquad
-d_H(U(x),U(y))\le K\cdot \operatorname{edist}(x,y),
+d_H(U(x),U(y))\le K\cdot \mathrm{edist}(x,y),
 $$
 
 and if they are uniformly pointwise close,
@@ -133,10 +133,10 @@ $$
 d_H(S(x),U(x))\le D
 $$
 
-for every $x$, then every fixed point $p\in\operatorname{fixedPoints}(S)$ satisfies
+for every $x$, then every fixed point $p\in\mathrm{fixedPoints}(S)$ satisfies
 
 $$
-\operatorname{infEDist}\bigl(p,\operatorname{fixedPoints}(U)\bigr)
+\mathrm{infEDist}\bigl(p,\mathrm{fixedPoints}(U)\bigr)
 \le (1-K)^{-1}D.
 $$
 
@@ -157,7 +157,7 @@ It obtains this from $d_H(T_1(x),T_2(x))\le D$ using `Metric.hausdorffEDist_comm
 Finally, `Metric.hausdorffEDist_le_of_infEDist` combines the two one-sided bounds and yields the desired inequality
 
 $$
-d_H\bigl(\operatorname{fixedPoints}(T_1),\operatorname{fixedPoints}(T_2)\bigr)
+d_H\bigl(\mathrm{fixedPoints}(T_1),\mathrm{fixedPoints}(T_2)\bigr)
 \le (1-K)^{-1}D,
 $$
 

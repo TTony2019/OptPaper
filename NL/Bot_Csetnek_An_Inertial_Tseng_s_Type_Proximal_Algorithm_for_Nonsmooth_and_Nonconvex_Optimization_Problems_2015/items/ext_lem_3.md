@@ -122,7 +122,7 @@ by
 The proof begins with `intro x y`, so it fixes arbitrary points $x,y\in\mathbb R^m$. It then defines the affine line
 
 $$
-\varphi(t)=\operatorname{lineMap}_{x,y}(t),
+\varphi(t)=\mathrm{lineMap}_{x,y}(t),
 $$
 
 which is the straight segment from $x$ to $y$, and the auxiliary real-valued function
@@ -215,10 +215,10 @@ $$
 L\|\varphi(t)-x\|.
 $$
 
-The proof then computes $\|\varphi(t)-x\|$. Using `dist_left_lineMap`, the distance from $x$ to $\varphi(t)=\operatorname{lineMap}_{x,y}(t)$ is
+The proof then computes $\|\varphi(t)-x\|$. Using `dist_left_lineMap`, the distance from $x$ to $\varphi(t)=\mathrm{lineMap}_{x,y}(t)$ is
 
 $$
-\operatorname{dist}(x,\varphi(t))=|t|\operatorname{dist}(x,y).
+\mathrm{dist}(x,\varphi(t))=|t|\mathrm{dist}(x,y).
 $$
 
 Since $t>0$, $|t|=t$, and therefore

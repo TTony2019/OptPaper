@@ -33,8 +33,8 @@ $$
 Second, there exists a zero $x^\star$ of $A$ such that the iterates $x_k$ converge weakly to $x^\star$. In the Lean statement this weak convergence is expressed by
 
 $$
-\operatorname{Tendsto}\!\left(k \mapsto \operatorname{toWeakSpace}_{\mathbb R,H}(alg.x\,k)\right)_{\mathrm{atTop}}
-\ \mathcal N\!\left(\operatorname{toWeakSpace}_{\mathbb R,H}(x^\star)\right),
+\mathrm{Tendsto}\!\left(k \mapsto \mathrm{toWeakSpace}_{\mathbb R,H}(alg.x\,k)\right)_{\mathrm{atTop}}
+\ \mathcal N\!\left(\mathrm{toWeakSpace}_{\mathbb R,H}(x^\star)\right),
 $$
 
 where `toWeakSpace` regards an element of $H$ as an element of $H$ with the weak topology. Thus, in ordinary mathematical language, the declaration says that under maximal monotonicity of $A$, the relaxation condition $0 \le \sigma < 1$, the parameter assumptions, and the existence of at least one zero of $A$, the inertial sequence $v_k$ vanishes in norm and the sequence of iterates $x_k$ has a weak limit which is some zero of $A$.
@@ -52,11 +52,11 @@ The proof is a direct projection from a stronger theorem. It begins with `by`, o
 
 $$
 \begin{aligned}
-&\forall \bar x \in \operatorname{zeros}(A),\ \exists l \in \mathbb R,\ 
+&\forall \bar x \in \mathrm{zeros}(A),\ \exists l \in \mathbb R,\ 
   \|x_k-\bar x\| \to l,\\
 &\left\|x_{k+1}-\left((\rho_k)^{-1} z_k+\left(1-(\rho_k)^{-1}\right)y_k\right)\right\| \to 0,\\
 &\|v_k\| \to 0,\\
-&\exists x^\star \in \operatorname{zeros}(A),\
+&\exists x^\star \in \mathrm{zeros}(A),\
   x_k \rightharpoonup x^\star.
 \end{aligned}
 $$

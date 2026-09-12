@@ -30,13 +30,13 @@ The hypothesis `hP : ProblemP f g Lf` is the standing problem assumption for the
 The definition `compositeObjective f g x = f x + g x` gives
 
 $$
-F(x)=\operatorname{compositeObjective}(f,g)(x)=f(x)+g(x).
+F(x)=\mathrm{compositeObjective}(f,g)(x)=f(x)+g(x).
 $$
 
 The definition `solutionSet f g = {x \mid IsMinOn (compositeObjective f g) univ x}` means that
 
 $$
-x^\star\in \operatorname{solutionSet}(f,g)
+x^\star\in \mathrm{solutionSet}(f,g)
 $$
 
 says that $x^\star$ minimizes $F$ over the entire space:
@@ -363,7 +363,7 @@ $$
 the proximal-point relation
 
 $$
-\operatorname{IsProxPoint} f g L_{k+1} y_{k+1} x_{k+1},
+\mathrm{IsProxPoint} f g L_{k+1} y_{k+1} x_{k+1},
 $$
 
 the acceptance inequality
@@ -390,12 +390,12 @@ $$
 L_k\le L_{k+1}.
 $$
 
-The local definition `F` is introduced as the composite objective $F(x)=\operatorname{compositeObjective} f g x$, and the proof rewrites the acceptance inequality as `h_cond`.
+The local definition `F` is introduced as the composite objective $F(x)=\mathrm{compositeObjective} f g x$, and the proof rewrites the acceptance inequality as `h_cond`.
 
 The cited theorem `key_inequality'` says the following. Given `ProblemP f g Lf`, a positive parameter $L>0$, points $y,x,z$, a proximal-point hypothesis
 
 $$
-\operatorname{IsProxPoint} f g L y z,
+\mathrm{IsProxPoint} f g L y z,
 $$
 
 and the inequality
@@ -456,7 +456,7 @@ $$
 0\le v_m\qquad\text{for every }m.
 $$
 
-Indeed, from $x^\star\in\operatorname{solutionSet}(f,g)$, the point $x^\star$ minimizes $F$ over all space, so in particular
+Indeed, from $x^\star\in\mathrm{solutionSet}(f,g)$, the point $x^\star$ minimizes $F$ over all space, so in particular
 
 $$
 F(x^\star)\le F(x_m).

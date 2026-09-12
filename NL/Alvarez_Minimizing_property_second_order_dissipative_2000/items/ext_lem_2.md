@@ -19,7 +19,7 @@ theorem alvarez_sequence_convergence
 ```
 
 ## Statement explanation
-The theorem `alvarez_sequence_convergence` concerns three real sequences indexed by the natural numbers. Write $a_n=\operatorname{alphaSeq}_n$, $\delta_n$, and $\psi_n$. The hypotheses are:
+The theorem `alvarez_sequence_convergence` concerns three real sequences indexed by the natural numbers. Write $a_n=\mathrm{alphaSeq}_n$, $\delta_n$, and $\psi_n$. The hypotheses are:
 
 - $\psi_n\ge 0$ for every $n$;
 - $\delta_n\ge 0$ for every $n$;

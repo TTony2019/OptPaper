@@ -12,25 +12,25 @@ The declaration is a `recall` command for the theorem named `isNonexpansiveOn_re
 Let $\alpha$ and $\beta$ be pseudo-extended metric spaces, let $s \subseteq \alpha$ be a set, and let $f : \alpha \to \beta$ be a function. Write $f|_s : s \to \beta$ for the restriction of $f$ to the subtype $s$, so $(f|_s)(x) = f(x)$ for $x \in s$. The theorem states
 
 $$
-\operatorname{IsNonexpansiveOn}(f|_s, \operatorname{univ})
+\mathrm{IsNonexpansiveOn}(f|_s, \mathrm{univ})
 \longleftrightarrow
-\operatorname{LipschitzOnWith}(1, f, s).
+\mathrm{LipschitzOnWith}(1, f, s).
 $$
 
 The left-hand side says that the restricted map $f|_s$ is nonexpansive on its entire domain $s$: for all $x,y \in s$,
 
 $$
-\operatorname{edist}(f(x), f(y)) \le \operatorname{edist}(x,y).
+\mathrm{edist}(f(x), f(y)) \le \mathrm{edist}(x,y).
 $$
 
 The right-hand side says that $f$ is Lipschitz on the set $s$ with constant $1$: for all $x,y \in s$,
 
 $$
-\operatorname{edist}(f(x), f(y)) \le 1 \cdot \operatorname{edist}(x,y)
-= \operatorname{edist}(x,y).
+\mathrm{edist}(f(x), f(y)) \le 1 \cdot \mathrm{edist}(x,y)
+= \mathrm{edist}(x,y).
 $$
 
-Thus the two sides express exactly the same pointwise inequality. The left side phrases it for the subtype $s$, while the right side phrases it for the ambient set $s$. In the ordinary metric-space case, $\operatorname{edist}$ is the usual distance $\operatorname{dist}$. The theorem has no additional side conditions beyond the ambient pseudo-extended metric structure.
+Thus the two sides express exactly the same pointwise inequality. The left side phrases it for the subtype $s$, while the right side phrases it for the ambient set $s$. In the ordinary metric-space case, $\mathrm{edist}$ is the usual distance $\mathrm{dist}$. The theorem has no additional side conditions beyond the ambient pseudo-extended metric structure.
 
 ## Lean proof
 ```lean

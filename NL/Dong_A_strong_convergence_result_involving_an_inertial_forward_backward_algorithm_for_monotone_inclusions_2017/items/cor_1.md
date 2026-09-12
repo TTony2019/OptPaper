@@ -33,7 +33,7 @@ $$
 where $J_{rB}=(I+rB)^{-1}$ is the resolvent of $rB$, and
 
 $$
-x_{n+1}\in \operatorname{Proj}_{C_n\cap Q_n}(x_0),
+x_{n+1}\in \mathrm{Proj}_{C_n\cap Q_n}(x_0),
 $$
 
 where
@@ -75,7 +75,7 @@ $$
 strongly in norm, where
 
 $$
-p=\operatorname{proj}_{B^{-1}(0)}(x_0)
+p=\mathrm{proj}_{B^{-1}(0)}(x_0)
 $$
 
 is the projection of the initial point $x_0$ onto the zero set $B^{-1}(0)$. In other words, under bounded inertia, a positive lower liminf for the step sizes, a nonempty Chebyshev zero set, and initial feasibility, the inertial proximal-point method converges strongly, not merely weakly, to the metric projection of the initial point onto the zero set.
@@ -575,7 +575,7 @@ $$
 and in fact
 
 $$
-x_n=\operatorname{proj}_{Q_n}(x_0).
+x_n=\mathrm{proj}_{Q_n}(x_0).
 $$
 
 The first fact is immediate from the definition of $Q_n$, since
@@ -595,7 +595,7 @@ Since $Q_n$ is nonempty closed convex, the projection characterization of `eq_pr
 Let
 
 $$
-p=\operatorname{proj}_{B^{-1}(0)}(x_0)
+p=\mathrm{proj}_{B^{-1}(0)}(x_0)
 $$
 
 and
@@ -776,7 +776,7 @@ $$
 The theorem `forward_backward_nonexpansive_and_fixedPoints` is applied with $A=0$, the same $B$, $\alpha=\varepsilon/2$, and $\varepsilon$ as the step parameter. The hypotheses are $\varepsilon>0$ and $\varepsilon\le 2(\varepsilon/2)$, which are immediate, and $T(x)\in J_{\varepsilon B}(x)$. The theorem concludes that $T$ is $1$-Lipschitz and that its fixed point set is the zero set of $0+B=B$. Since the zero set of the sum is $B^{-1}(0)$, the proof obtains
 
 $$
-\operatorname{Fix}(T)=B^{-1}(0).
+\mathrm{Fix}(T)=B^{-1}(0).
 $$
 
 The translation from the operator-sum zero set to $B^{-1}(0)$ is done by unfolding `operatorSumZeroSet` and `operatorSum`.
@@ -809,7 +809,7 @@ $$
 w-T(w)=0.
 $$
 
-Thus $w$ is a fixed point of $T$. Since $\operatorname{Fix}(T)=B^{-1}(0)$, every weak sequential cluster point $w$ of $x_n$ belongs to $B^{-1}(0)$. The proof also uses `mem_of_tendsto_weakly_of_isClosed_convex` to record that $w$ lies in the closed convex set $H$, and `mem_fixedPointSetOn_iff` to translate between fixed points on $H$ and fixed points of $T$.
+Thus $w$ is a fixed point of $T$. Since $\mathrm{Fix}(T)=B^{-1}(0)$, every weak sequential cluster point $w$ of $x_n$ belongs to $B^{-1}(0)$. The proof also uses `mem_of_tendsto_weakly_of_isClosed_convex` to record that $w$ lies in the closed convex set $H$, and `mem_fixedPointSetOn_iff` to translate between fixed points on $H$ and fixed points of $T$.
 
 The proof then shows that every such weak cluster point must equal $p$. Let $x_{\phi(k)}\rightharpoonup w$. Since $w\in B^{-1}(0)$, the weak convergence and the characterization `weakConvergence_iff_forall_tendsto_inner_right` give
 

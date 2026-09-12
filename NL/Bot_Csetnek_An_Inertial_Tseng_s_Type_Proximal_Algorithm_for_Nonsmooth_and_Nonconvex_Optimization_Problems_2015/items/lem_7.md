@@ -26,13 +26,13 @@ $$
 and
 
 $$
-\operatorname{CoerciveEReal}(P.\mathrm{objective}).
+\mathrm{CoerciveEReal}(P.\mathrm{objective}).
 $$
 
 Write $p_n=A.p\,n$ and $x_n=A.x\,n$, and let the paired sequence be
 
 $$
-S_n=\operatorname{pairSequence}(A)(n)=(p_n,x_n).
+S_n=\mathrm{pairSequence}(A)(n)=(p_n,x_n).
 $$
 
 The set $\omega(z)$ is the set of sequential cluster points of the sequence $z$. Thus $\omega(A.p)$ is the set of cluster points of the $p$-sequence, while $\omega(S)$ is the set of cluster points of the pair sequence $(p_n,x_n)$.
@@ -42,21 +42,21 @@ The conclusion is the conjunction of seven assertions:
 $$
 \begin{aligned}
 &\omega(S)\neq \varnothing,\\
-&\omega(S)\subseteq \operatorname{HCriticalSet}(P,A.\mathrm{M2}(\nu,\mu)),\\
-&\operatorname{HCriticalSet}(P,A.\mathrm{M2}(\nu,\mu))
-  =\operatorname{diagonalCriticalSet}(P),\\
-&\operatorname{infDist}(S_n,\omega(S))\to 0,\\
+&\omega(S)\subseteq \mathrm{HCriticalSet}(P,A.\mathrm{M2}(\nu,\mu)),\\
+&\mathrm{HCriticalSet}(P,A.\mathrm{M2}(\nu,\mu))
+  =\mathrm{diagonalCriticalSet}(P),\\
+&\mathrm{infDist}(S_n,\omega(S))\to 0,\\
 &\omega(S)\text{ is compact},\\
 &\omega(S)\text{ is connected},\\
 &\exists c\in \overline{\mathbb R},\ \forall z\in\omega(S),\
-  \operatorname{HFunction}(P,A.\mathrm{M2}(\nu,\mu),z)=c.
+  \mathrm{HFunction}(P,A.\mathrm{M2}(\nu,\mu),z)=c.
 \end{aligned}
 $$
 
 The set `diagonalCriticalSet P` is defined as
 
 $$
-\{z\mid z_1=z_2\ \text{and}\ z_1\in \operatorname{criticalPoints}(P.\mathrm{objective})\}.
+\{z\mid z_1=z_2\ \text{and}\ z_1\in \mathrm{criticalPoints}(P.\mathrm{objective})\}.
 $$
 
 The definition `HCriticalSet P M2` is exactly `diagonalCriticalSet P`, independently of the real parameter `M2`. Hence the third conjunct is a definitional identity. The second conjunct therefore says that every cluster point of the paired sequence is a diagonal point whose common coordinate is a critical point of the objective.
@@ -64,9 +64,9 @@ The definition `HCriticalSet P M2` is exactly `diagonalCriticalSet P`, independe
 The function `HFunction P M2` is defined by applying `objectiveWithQuadratic P M2` to the two coordinates of $z$. The proof uses the unfolding
 
 $$
-\operatorname{HFunction}(P,M2,z)
+\mathrm{HFunction}(P,M2,z)
 =
-\operatorname{erealAddReal}
+\mathrm{erealAddReal}
 \bigl(P.\mathrm{objective}(z_1),\, M2\,\|z_1-z_2\|^2\bigr).
 $$
 
@@ -203,8 +203,8 @@ The proof first obtains the one-coordinate cluster-point information for the $p$
    $$
    \begin{aligned}
    &\omega(A.p)\neq\varnothing,\\
-   &\omega(A.p)\subseteq \operatorname{criticalPoints}(P.\mathrm{objective}),\\
-   &\operatorname{infDist}(A.p_n,\omega(A.p))\to 0,\\
+   &\omega(A.p)\subseteq \mathrm{criticalPoints}(P.\mathrm{objective}),\\
+   &\mathrm{infDist}(A.p_n,\omega(A.p))\to 0,\\
    &\omega(A.p)\text{ is compact},\\
    &\omega(A.p)\text{ is connected},\\
    &\exists c_R\in\mathbb R,\ \forall p\in\omega(A.p),\
@@ -251,7 +251,7 @@ The proof first obtains the one-coordinate cluster-point information for the $p$
 6. The proof uses `omega_pair_eq_diag_image` with `hxp_vec`. This theorem states that if $A.x\,n-A.p\,n\to 0$, then
 
    $$
-   \omega(\operatorname{pairSequence}(A))
+   \omega(\mathrm{pairSequence}(A))
    =
    d\bigl(\omega(A.p)\bigr).
    $$
@@ -264,17 +264,17 @@ The proof first obtains the one-coordinate cluster-point information for the $p$
 
 9. Connectedness is similar. A continuous image of a connected set is connected. Since $\omega(A.p)$ is connected and $d$ is continuous, $d(\omega(A.p))=\omega(S)$ is connected. This gives `homega_connected`.
 
-10. To prove $\omega(S)\subseteq \operatorname{diagonalCriticalSet}(P)$, the proof takes arbitrary $z\in\omega(S)$. Two cited facts are used:
+10. To prove $\omega(S)\subseteq \mathrm{diagonalCriticalSet}(P)$, the proof takes arbitrary $z\in\omega(S)$. Two cited facts are used:
 
     - `omega_pair_diagonal hxp_vec hz`: since $x_n-p_n\to0$, every cluster point $z=(z_1,z_2)$ of the pair sequence satisfies $z_1=z_2$.
     - `omega_pair_fst_mem hz`: the first coordinate satisfies $z_1\in\omega(A.p)$.
 
-    From Lemma 3.6, `hp_crit` gives $\omega(A.p)\subseteq \operatorname{criticalPoints}(P.\mathrm{objective})$. Therefore $z_1\in\operatorname{criticalPoints}(P.\mathrm{objective})$. Together with $z_1=z_2$, this means $z\in\operatorname{diagonalCriticalSet}(P)$. This is `hsubset_diag`.
+    From Lemma 3.6, `hp_crit` gives $\omega(A.p)\subseteq \mathrm{criticalPoints}(P.\mathrm{objective})$. Therefore $z_1\in\mathrm{criticalPoints}(P.\mathrm{objective})$. Together with $z_1=z_2$, this means $z\in\mathrm{diagonalCriticalSet}(P)$. This is `hsubset_diag`.
 
 11. The distance-convergence conjunct is
 
     $$
-    \operatorname{infDist}(S_n,\omega(S))\to 0.
+    \mathrm{infDist}(S_n,\omega(S))\to 0.
     $$
 
     The proof first obtains two auxiliary limits. From `hxp_sum` and `tendsto_norm_of_summable_norm_sq_local`, it gets
@@ -286,25 +286,25 @@ The proof first obtains the one-coordinate cluster-point information for the $p$
     Using `dist_eq_norm`, this becomes
 
     $$
-    \operatorname{dist}(x_n,p_n)\to 0.
+    \mathrm{dist}(x_n,p_n)\to 0.
     $$
 
     Lemma 3.6 gives
 
     $$
-    \operatorname{infDist}(p_n,\omega(A.p))\to 0.
+    \mathrm{infDist}(p_n,\omega(A.p))\to 0.
     $$
 
     Now fix $\varepsilon>0$. Since $\varepsilon/3>0$, the two limits provide $N_p$ and $N_x$ such that for $n\ge N_p$,
 
     $$
-    \operatorname{infDist}(p_n,\omega(A.p))<\varepsilon/3,
+    \mathrm{infDist}(p_n,\omega(A.p))<\varepsilon/3,
     $$
 
     and for $n\ge N_x$,
 
     $$
-    \operatorname{dist}(x_n,p_n)<\varepsilon/3.
+    \mathrm{dist}(x_n,p_n)<\varepsilon/3.
     $$
 
     Taking $N=\max(N_p,N_x)$, both inequalities hold for $n\ge N$.
@@ -312,7 +312,7 @@ The proof first obtains the one-coordinate cluster-point information for the $p$
     Because $\omega(A.p)$ is nonempty, `Metric.infDist_lt_iff` gives a point $q\in\omega(A.p)$ with
 
     $$
-    \operatorname{dist}(p_n,q)<\varepsilon/3.
+    \mathrm{dist}(p_n,q)<\varepsilon/3.
     $$
 
     Since $q\in\omega(A.p)$, the pair $(q,q)$ lies in $\omega(S)$ by the diagonal-image description `homega_eq`.
@@ -320,33 +320,33 @@ The proof first obtains the one-coordinate cluster-point information for the $p$
     The triangle inequality gives
 
     $$
-    \operatorname{dist}(x_n,q)
-    \le \operatorname{dist}(x_n,p_n)+\operatorname{dist}(p_n,q)
+    \mathrm{dist}(x_n,q)
+    \le \mathrm{dist}(x_n,p_n)+\mathrm{dist}(p_n,q)
     < \frac{\varepsilon}{3}+\frac{\varepsilon}{3}
     < \varepsilon.
     $$
 
-    Also $\operatorname{dist}(p_n,q)<\varepsilon$. Using `Prod.dist_eq`, the distance between the pairs is the maximum of the coordinate distances, so
+    Also $\mathrm{dist}(p_n,q)<\varepsilon$. Using `Prod.dist_eq`, the distance between the pairs is the maximum of the coordinate distances, so
 
     $$
-    \operatorname{dist}(S_n,(q,q))<\varepsilon.
+    \mathrm{dist}(S_n,(q,q))<\varepsilon.
     $$
 
     Since $(q,q)\in\omega(S)$, the definition of infimum distance gives
 
     $$
-    \operatorname{infDist}(S_n,\omega(S))
-    \le \operatorname{dist}(S_n,(q,q))
+    \mathrm{infDist}(S_n,\omega(S))
+    \le \mathrm{dist}(S_n,(q,q))
     < \varepsilon.
     $$
 
-    Finally, because $\operatorname{infDist}$ is nonnegative, this is the same as
+    Finally, because $\mathrm{infDist}$ is nonnegative, this is the same as
 
     $$
-    \operatorname{dist}\bigl(\operatorname{infDist}(S_n,\omega(S)),0\bigr)<\varepsilon.
+    \mathrm{dist}\bigl(\mathrm{infDist}(S_n,\omega(S)),0\bigr)<\varepsilon.
     $$
 
-    Therefore $\operatorname{infDist}(S_n,\omega(S))\to 0$, proving `hdist_pair`.
+    Therefore $\mathrm{infDist}(S_n,\omega(S))\to 0$, proving `hdist_pair`.
 
 12. The final substantive conjunct is the constancy of `HFunction`. Lemma 3.6 provides a real number $c_R$ such that
 
@@ -365,13 +365,13 @@ The proof first obtains the one-coordinate cluster-point information for the $p$
 
     $$
     \begin{aligned}
-    \operatorname{HFunction}(P,A.\mathrm{M2}(\nu,\mu),z)
+    \mathrm{HFunction}(P,A.\mathrm{M2}(\nu,\mu),z)
     &=
-    \operatorname{erealAddReal}
+    \mathrm{erealAddReal}
     \bigl(P.\mathrm{objective}(z_1),
       A.\mathrm{M2}(\nu,\mu)\|z_1-z_2\|^2\bigr)\\
     &=
-    \operatorname{erealAddReal}
+    \mathrm{erealAddReal}
     \bigl(P.\mathrm{objective}(z_1),0\bigr)\\
     &=
     P.\mathrm{objective}(z_1)\\
@@ -383,7 +383,7 @@ The proof first obtains the one-coordinate cluster-point information for the $p$
     The first equality is the definitional unfolding of `HFunction`. The second uses $z_1=z_2$, so $z_1-z_2=0$ and the quadratic penalty is $0$. The third uses `erealAddReal_zero`, which states that for every extended real $a$,
 
     $$
-    \operatorname{erealAddReal}(a,0)=a.
+    \mathrm{erealAddReal}(a,0)=a.
     $$
 
     The last equality uses the constancy result from Lemma 3.6 applied to $z_1\in\omega(A.p)$. Thus $c=(c_R:\overline{\mathbb R})$ witnesses that `HFunction` is constant on $\omega(S)$.
@@ -393,8 +393,8 @@ The proof first obtains the one-coordinate cluster-point information for the $p$
     $$
     \langle
     \text{homega\_nonempty},
-    \text{subset into } \operatorname{HCriticalSet},
-    \operatorname{HCriticalSet}=\operatorname{diagonalCriticalSet},
+    \text{subset into } \mathrm{HCriticalSet},
+    \mathrm{HCriticalSet}=\mathrm{diagonalCriticalSet},
     \text{hdist\_pair},
     \text{homega\_compact},
     \text{homega\_connected},
@@ -402,5 +402,5 @@ The proof first obtains the one-coordinate cluster-point information for the $p$
     \rangle.
     $$
 
-    The subset `hsubset_diag` was stated for `diagonalCriticalSet P`; the command `simpa [HCriticalSet]` rewrites it into a subset of `HCriticalSet P (A.M2 nu mu)`, using the definition of `HCriticalSet`. The equality $\operatorname{HCriticalSet}(P,A.\mathrm{M2}(\nu,\mu))=\operatorname{diagonalCriticalSet}(P)$ is proved by `rfl`, again because it is definitional. Thus the proof establishes the paired cluster-point theorem.
+    The subset `hsubset_diag` was stated for `diagonalCriticalSet P`; the command `simpa [HCriticalSet]` rewrites it into a subset of `HCriticalSet P (A.M2 nu mu)`, using the definition of `HCriticalSet`. The equality $\mathrm{HCriticalSet}(P,A.\mathrm{M2}(\nu,\mu))=\mathrm{diagonalCriticalSet}(P)$ is proved by `rfl`, again because it is definitional. Thus the proof establishes the paired cluster-point theorem.
 

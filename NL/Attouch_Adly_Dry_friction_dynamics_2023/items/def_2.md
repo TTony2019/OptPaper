@@ -17,7 +17,7 @@ The declaration defines a predicate `IsDrygradTrajectory` on a real Hilbert spac
 The predicate
 
 $$
-\operatorname{IsDrygradTrajectory}(r,f,z,t_0)
+\mathrm{IsDrygradTrajectory}(r,f,z,t_0)
 $$
 
 holds exactly when, for every time $t$ in the right-closed interval $[t_0,\infty)$, there exists a vector $u\in H$ such that

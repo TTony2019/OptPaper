@@ -155,7 +155,7 @@ The `let` commands only name these expressions; they add no new hypotheses.
 First, `bounded_range_of_tendsto_weakly hx` is applied. This lemma says that if a sequence converges weakly to a limit, then its range is norm-bounded. Applied to $hx$, it gives
 
 $$
-\operatorname{Bornology.IsBounded}(\operatorname{Set.range} x).
+\mathrm{Bornology.IsBounded}(\mathrm{Set.range} x).
 $$
 
 Then `isBounded_iff_forall_norm_le.mp` converts this boundedness into an explicit real number $R$ such that

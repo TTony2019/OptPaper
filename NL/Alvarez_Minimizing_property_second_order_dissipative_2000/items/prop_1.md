@@ -34,21 +34,21 @@ theorem projection_estimate_for_scalar_damped_limit {H : Type*} [NormedAddCommGr
 ```
 
 ## Statement explanation
-The declaration is a theorem about a damped second-order dissipative system in a complete real inner product space $H$, i.e. a real Hilbert space. The data are a damping coefficient $\gamma \in \mathbb{R}$, a potential $\Phi : H \to \mathbb{R}$, a gradient field $\operatorname{gradPhi} : H \to H$, initial position $u_0 \in H$, initial velocity $v_0 \in H$, a weak limit $\hat u \in H$, and a minimizer $x \in H$. Let
+The declaration is a theorem about a damped second-order dissipative system in a complete real inner product space $H$, i.e. a real Hilbert space. The data are a damping coefficient $\gamma \in \mathbb{R}$, a potential $\Phi : H \to \mathbb{R}$, a gradient field $\mathrm{gradPhi} : H \to H$, initial position $u_0 \in H$, initial velocity $v_0 \in H$, a weak limit $\hat u \in H$, and a minimizer $x \in H$. Let
 
 $$
 S=\{q\in H:\Phi(q)=\inf \Phi(H)\}
 $$
 
-be the set of global minimizers of $\Phi$, represented in Lean by `argmin Phi (potential_range_bddBelow hPhi)`. The definition of `argmin` says that $q \in S$ exactly when $\Phi(q)=\operatorname{sInf}(\operatorname{range}\Phi)$, i.e. exactly when $\Phi(q)$ is the infimum of the values of $\Phi$.
+be the set of global minimizers of $\Phi$, represented in Lean by `argmin Phi (potential_range_bddBelow hPhi)`. The definition of `argmin` says that $q \in S$ exactly when $\Phi(q)=\mathrm{sInf}(\mathrm{range}\Phi)$, i.e. exactly when $\Phi(q)$ is the infimum of the values of $\Phi$.
 
 The hypotheses are:
 
-- `hPhi : HasPotentialAssumption Phi`: a potential-theoretic hypothesis on $\Phi$. The proof uses visible consequences of it: $\Phi$ is convex, its range is bounded below, and $\operatorname{sInf}(\operatorname{range}\Phi)\le \Phi(q)$ for every $q$.
-- `sys : DissipativeSystem gamma Phi gradPhi u0 v0`: the dissipative system. It supplies the trajectory $u=\texttt{sys.u}$, the gradient relation between $\operatorname{gradPhi}$ and $\Phi$, and the differential equation. In the proof the equation is used in the form
+- `hPhi : HasPotentialAssumption Phi`: a potential-theoretic hypothesis on $\Phi$. The proof uses visible consequences of it: $\Phi$ is convex, its range is bounded below, and $\mathrm{sInf}(\mathrm{range}\Phi)\le \Phi(q)$ for every $q$.
+- `sys : DissipativeSystem gamma Phi gradPhi u0 v0`: the dissipative system. It supplies the trajectory $u=\texttt{sys.u}$, the gradient relation between $\mathrm{gradPhi}$ and $\Phi$, and the differential equation. In the proof the equation is used in the form
 
   $$
-  u''(t)+\gamma u'(t)+\operatorname{gradPhi}(u(t))=0.
+  u''(t)+\gamma u'(t)+\mathrm{gradPhi}(u(t))=0.
   $$
 
 - `hgamma : 0 < gamma`: the damping coefficient is positive.
@@ -79,14 +79,14 @@ $$
 Also write $P_S(y)$ for the Chebyshev projection point of $y$ onto $S$, i.e. `projectionPoint (argmin Phi …) hS_cheb (u0 + gamma⁻¹ • v0)`. The four conclusions are:
 
 1. $\|\hat u-x\|\le \|y-x\|+c$. Thus the weak limit is controlled in norm by the projected initial “damped” point $y$ and by the energy gap $\Delta$.
-2. $\|\hat u-P_S(y)\|\le \operatorname{infDist}(y,S)+c$. This is the same estimate after replacing $x$ by the projection of $y$ onto $S$.
+2. $\|\hat u-P_S(y)\|\le \mathrm{infDist}(y,S)+c$. This is the same estimate after replacing $x$ by the projection of $y$ onto $S$.
 3. If $S$ happens to be an affine subspace of $H$, then the stronger bound
 
    $$
    \|\hat u-P_S(y)\|\le c
    $$
 
-   holds, with no $\operatorname{infDist}(y,S)$ term.
+   holds, with no $\mathrm{infDist}(y,S)$ term.
 4. If $\Phi$ is quadratic, i.e. there is a self-adjoint positive semidefinite continuous linear operator $A:H\to H$ such that
 
    $$
@@ -850,7 +850,7 @@ $$
 for every $z\in S$, then
 
 $$
-\|\hat u-P_S(y)\|\le \operatorname{infDist}(y,S)+d.
+\|\hat u-P_S(y)\|\le \mathrm{infDist}(y,S)+d.
 $$
 
 Here $y=u_0+\gamma^{-1}v_0$ and $d=\gamma^{-1}\sqrt{2\Delta}$. This is exactly the second conjunct.
@@ -860,7 +860,7 @@ The third conclusion treats the case where $S$ is an affine subspace $L$. The pr
 Let
 
 $$
-p=P_S(y),\qquad e=\hat u-p,\qquad d=\operatorname{infDist}(y,S).
+p=P_S(y),\qquad e=\hat u-p,\qquad d=\mathrm{infDist}(y,S).
 $$
 
 The cited theorem `projectionPoint_isBestApproximation` gives that $p$ is a best approximation to $y$ in $S$, so
@@ -935,10 +935,10 @@ $$
 \Phi(q)=\frac12\langle Aq,q\rangle
 $$
 
-for a self-adjoint positive semidefinite continuous linear operator $A$. The proof first identifies the gradient. The cited Mathlib lemma accessed as `hAself.isSymmetric.hasStrictFDerivAt_reApplyInnerSelf q` says that the derivative of $q\mapsto \langle Aq,q\rangle$ at $q$ is $2\langle Aq,\cdot\rangle$; after multiplying by $1/2$, the derivative of $\Phi$ is the continuous linear functional $v\mapsto \langle Aq,v\rangle$. The gradient relation `sys.is_gradient q` says that the Fréchet derivative of $\Phi$ at $q$ is represented by $\operatorname{gradPhi}(q)$ under the Riesz isomorphism. By uniqueness of the derivative, the proof obtains
+for a self-adjoint positive semidefinite continuous linear operator $A$. The proof first identifies the gradient. The cited Mathlib lemma accessed as `hAself.isSymmetric.hasStrictFDerivAt_reApplyInnerSelf q` says that the derivative of $q\mapsto \langle Aq,q\rangle$ at $q$ is $2\langle Aq,\cdot\rangle$; after multiplying by $1/2$, the derivative of $\Phi$ is the continuous linear functional $v\mapsto \langle Aq,v\rangle$. The gradient relation `sys.is_gradient q` says that the Fréchet derivative of $\Phi$ at $q$ is represented by $\mathrm{gradPhi}(q)$ under the Riesz isomorphism. By uniqueness of the derivative, the proof obtains
 
 $$
-\operatorname{gradPhi}(q)=Aq
+\mathrm{gradPhi}(q)=Aq
 $$
 
 for every $q\in H$.
@@ -949,7 +949,7 @@ $$
 Az=0.
 $$
 
-Indeed, since $z$ minimizes $\Phi$, its derivative is zero at $z$. Using `sys.is_gradient z`, this means $\operatorname{gradPhi}(z)=0$. Since $\operatorname{gradPhi}(z)=Az$, we get $Az=0$.
+Indeed, since $z$ minimizes $\Phi$, its derivative is zero at $z$. Using `sys.is_gradient z`, this means $\mathrm{gradPhi}(z)=0$. Since $\mathrm{gradPhi}(z)=Az$, we get $Az=0$.
 
 The proof also shows that $S$ is convex. If $a,b\in S$, $\alpha,\beta\ge 0$, and $\alpha+\beta=1$, then convexity of $\Phi$, coming from `hPhi.convex`, gives
 
@@ -980,13 +980,13 @@ $$
 The system equation gives
 
 $$
-u''(t)+\gamma u'(t)+\operatorname{gradPhi}(u(t))=0.
+u''(t)+\gamma u'(t)+\mathrm{gradPhi}(u(t))=0.
 $$
 
 Taking inner product with $z$ and using $Az=0$ together with self-adjointness gives
 
 $$
-\langle \operatorname{gradPhi}(u(t)),z\rangle
+\langle \mathrm{gradPhi}(u(t)),z\rangle
 =
 \langle A u(t),z\rangle
 =

@@ -67,7 +67,7 @@ $$
 R=\frac{K}{1-q}\,q^n.
 $$
 
-The first main step is to show that the values $\|x_n-x_m\|$ are eventually bounded by $R$. In Lean this is expressed by proving that the function $m\mapsto \|x_n-x_m\|$ is eventually less than or equal to the constant function $m\mapsto R$ along $\operatorname{atTop}$. After rewriting the eventual statement using `Filter.eventually_atTop`, this becomes the assertion that there exists a threshold $N$ such that for every $m\ge N$,
+The first main step is to show that the values $\|x_n-x_m\|$ are eventually bounded by $R$. In Lean this is expressed by proving that the function $m\mapsto \|x_n-x_m\|$ is eventually less than or equal to the constant function $m\mapsto R$ along $\mathrm{atTop}$. After rewriting the eventual statement using `Filter.eventually_atTop`, this becomes the assertion that there exists a threshold $N$ such that for every $m\ge N$,
 
 $$
 \|x_n-x_m\|\le R.

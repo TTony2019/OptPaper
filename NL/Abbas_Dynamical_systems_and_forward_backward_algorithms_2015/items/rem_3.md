@@ -33,11 +33,11 @@ where $\bot$ is the bottom element of the extended real numbers, corresponding t
 
 The main hypothesis is `hKadecKlee`. It asserts that for every sequence $x_k$ in $H$ and every point $x \in H$, if two convergence statements hold, then a third one holds:
 
-1. $x_k \to x$ in the weak topology, expressed as convergence of $\operatorname{toWeakSpace}_{\mathbb R,H}(x_k)$ to $\operatorname{toWeakSpace}_{\mathbb R,H}(x)$;
+1. $x_k \to x$ in the weak topology, expressed as convergence of $\mathrm{toWeakSpace}_{\mathbb R,H}(x_k)$ to $\mathrm{toWeakSpace}_{\mathbb R,H}(x)$;
 2. $\Phi(x_k) \to \Phi(x)$ in the topology on $\overline{\mathbb R}$, expressed by `Tendsto (fun k => (Phi (xSeq k) : EReal)) atTop (nhds (Phi x : EReal))`;
 3. then $\lVert x_k - x\rVert \to 0$, expressed by convergence of the real sequence $k \mapsto \lVert x_k-x\rVert$ to $0$.
 
-The conclusion of the theorem is exactly the same universal statement: for every sequence $x_k$ and every $x$, weak convergence together with $\Phi(x_k)\to \Phi(x)$ implies norm convergence $x_k\to x$. Therefore the theorem says, in ordinary language: assuming the Kadec–Klee-type property for $\Phi$, the same Kadec–Klee-type property holds for $\Phi$. The membership $\Phi \in \operatorname{gammaZero}(H)$ is not used to obtain the conclusion.
+The conclusion of the theorem is exactly the same universal statement: for every sequence $x_k$ and every $x$, weak convergence together with $\Phi(x_k)\to \Phi(x)$ implies norm convergence $x_k\to x$. Therefore the theorem says, in ordinary language: assuming the Kadec–Klee-type property for $\Phi$, the same Kadec–Klee-type property holds for $\Phi$. The membership $\Phi \in \mathrm{gammaZero}(H)$ is not used to obtain the conclusion.
 
 ## Lean proof
 ```lean

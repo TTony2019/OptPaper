@@ -38,7 +38,7 @@ $$
 The second obligation is a differentiability statement: for an admissible point $s$, with the domain hypothesis named `hs`, one must prove that $f$ has derivative $g(s)$ at $s$, i.e.
 
 $$
-\operatorname{HasDerivAt} f \,(g(s))\, s .
+\mathrm{HasDerivAt} f \,(g(s))\, s .
 $$
 
 The proof actually proves the derivative statement without using the content of `hs`.

@@ -20,7 +20,7 @@ $$
 the definition says
 
 $$
-\operatorname{extragradientStep}(A,k)=x_k-c_kv_k.
+\mathrm{extragradientStep}(A,k)=x_k-c_kv_k.
 $$
 
 Here $c_kv_k$ is the scalar multiplication of the vector $v_k$ by the scalar $c_k$, which in this real inner product-space setting is a real scalar. The result is therefore an element of $H$. Mathematically, the extragradient step is the vector obtained from the $k$-th $x$-iterate by subtracting the $k$-th $v$-iterate scaled by the $k$-th coefficient $c$. The declaration asserts no property of $T$, no feasibility or convergence condition, and no relation among the iterates; it is purely a definition of this derived vector.

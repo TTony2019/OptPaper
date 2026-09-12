@@ -13,17 +13,17 @@ This is a definition, not a theorem. It introduces a function named `operatorSum
 The defining body is `(operatorSum A B).zeros`. Thus `operatorSumZeroSet A B` is the zero set of the set-valued operator obtained by summing $A$ and $B$. In symbols,
 
 $$
-\operatorname{operatorSumZeroSet}(A,B)
+\mathrm{operatorSumZeroSet}(A,B)
 =
-\operatorname{zeros}\bigl(\operatorname{operatorSum}(A,B)\bigr).
+\mathrm{zeros}\bigl(\mathrm{operatorSum}(A,B)\bigr).
 $$
 
-If $T = \operatorname{operatorSum}(A,B)$, then membership in this set means
+If $T = \mathrm{operatorSum}(A,B)$, then membership in this set means
 
 $$
-x \in \operatorname{operatorSumZeroSet}(A,B)
+x \in \mathrm{operatorSumZeroSet}(A,B)
 \iff
-x \in T.\operatorname{zeros}
+x \in T.\mathrm{zeros}
 \iff
 0 \in T(x).
 $$
@@ -39,19 +39,19 @@ So mathematically the definition names the set of all points $x \in H$ such that
 There is no separate proof part. The declaration is a `def`, so there are no proof tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith`, and no theorem or lemma is invoked. The only content is the definitional equality
 
 $$
-\operatorname{operatorSumZeroSet}(A,B)
+\mathrm{operatorSumZeroSet}(A,B)
 :=
-\bigl(\operatorname{operatorSum}(A,B)\bigr).\operatorname{zeros}.
+\bigl(\mathrm{operatorSum}(A,B)\bigr).\mathrm{zeros}.
 $$
 
 Unfolding this definition, a membership statement reduces to
 
 $$
-x \in \operatorname{operatorSumZeroSet}(A,B)
+x \in \mathrm{operatorSumZeroSet}(A,B)
 \iff
-x \in \bigl(\operatorname{operatorSum}(A,B)\bigr).\operatorname{zeros}
+x \in \bigl(\mathrm{operatorSum}(A,B)\bigr).\mathrm{zeros}
 \iff
-0 \in \bigl(\operatorname{operatorSum}(A,B)\bigr)(x).
+0 \in \bigl(\mathrm{operatorSum}(A,B)\bigr)(x).
 $$
 
 So the mathematical role of the definition is exactly to package the zero set of the operator sum $A+B$ under a single name. The provided declaration does not expand the definitions of `operatorSum` or `.zeros`; therefore the only exact consequence visible here is that `operatorSumZeroSet A B` is the zero set of the sum operator `operatorSum A B`.

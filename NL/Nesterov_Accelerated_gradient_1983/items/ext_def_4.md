@@ -31,7 +31,7 @@ The explicit data are:
 The predicate
 
 $$
-\operatorname{IsSaddlePoint}(F,\bar f,Q,l^\star,x^\star)
+\mathrm{IsSaddlePoint}(F,\bar f,Q,l^\star,x^\star)
 $$
 
 asserts three things. First,

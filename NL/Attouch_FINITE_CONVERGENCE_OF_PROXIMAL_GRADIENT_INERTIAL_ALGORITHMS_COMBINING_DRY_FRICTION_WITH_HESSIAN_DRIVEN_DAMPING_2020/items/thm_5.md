@@ -561,7 +561,7 @@ $$
 The proof then bounds the friction term. The hypothesis `hdf` supplies the ball condition
 
 $$
-\operatorname{ball}(0,r)\subseteq \partial\phi(0),
+\mathrm{ball}(0,r)\subseteq \partial\phi(0),
 $$
 
 along with $\phi(0)=0$ and $r>0$. The cited theorem `subgradient_ball_exact_linear_lower_bound` then gives
@@ -757,7 +757,7 @@ $$
 By the definition of `HasFiniteLength`, this is exactly
 
 $$
-\operatorname{HasFiniteLength}(x).
+\mathrm{HasFiniteLength}(x).
 $$
 
 Now the finite-length convergence result `IPAHDDN_finite_length_tendsto` is applied. It states that if $x:\mathbb N\to H$ has summable successive distances, then there exists $x_\infty\in H$ such that

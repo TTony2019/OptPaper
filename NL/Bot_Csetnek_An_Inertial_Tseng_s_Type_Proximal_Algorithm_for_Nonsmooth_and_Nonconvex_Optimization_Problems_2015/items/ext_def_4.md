@@ -27,14 +27,14 @@ $$
 \{G(x):x\in \text{EuclideanSpace }m\},
 $$
 
-and `sInf (Set.range G)` is the infimum of that set of extended real values, computed in the complete order on `EReal`. Thus $\operatorname{sInf}(\operatorname{range} G)$ is the greatest lower bound of all values taken by $G$ on its whole domain. The set `argminSet G` is the global argmin set, i.e. the set of points at which $G$ attains its global minimum value.
+and `sInf (Set.range G)` is the infimum of that set of extended real values, computed in the complete order on `EReal`. Thus $\mathrm{sInf}(\mathrm{range} G)$ is the greatest lower bound of all values taken by $G$ on its whole domain. The set `argminSet G` is the global argmin set, i.e. the set of points at which $G$ attains its global minimum value.
 
 The theorem states
 
 $$
-p\in \operatorname{argminSet} G
+p\in \mathrm{argminSet} G
 \quad\Longleftrightarrow\quad
-G(p)=\operatorname{sInf}(\operatorname{range} G).
+G(p)=\mathrm{sInf}(\mathrm{range} G).
 $$
 
 In ordinary mathematical language: a point $p$ belongs to the set of global minimizers of $G$ exactly when its value $G(p)$ is the infimum of all values of $G$. Since the codomain is `EReal`, the infimum may be $-\infty$, and the criterion still has the same meaning in the extended-real order.
@@ -54,16 +54,16 @@ $$
 For `Iff.rfl` to prove the stated biconditional, Lean must regard the left-hand proposition
 
 $$
-p\in \operatorname{argminSet} G
+p\in \mathrm{argminSet} G
 $$
 
 and the right-hand proposition
 
 $$
-G(p)=\operatorname{sInf}(\operatorname{range} G)
+G(p)=\mathrm{sInf}(\mathrm{range} G)
 $$
 
-as definitionally the same proposition. This is exactly what the definition of `argminSet` provides: membership $p\in \operatorname{argminSet} G$ unfolds to the condition that $G(p)$ equals the infimum of the range of $G$. Therefore the two sides of the biconditional are not merely logically equivalent by some external argument; they are the same condition after unfolding the definition.
+as definitionally the same proposition. This is exactly what the definition of `argminSet` provides: membership $p\in \mathrm{argminSet} G$ unfolds to the condition that $G(p)$ equals the infimum of the range of $G$. Therefore the two sides of the biconditional are not merely logically equivalent by some external argument; they are the same condition after unfolding the definition.
 
 Consequently, the forward direction says that if $p$ is a global minimizer, then by definition its value is the infimum of all values of $G$. The reverse direction says that if $G(p)$ is that infimum, then by definition $p$ belongs to the global argmin set. The proof uses no named theorem, no arithmetic reasoning, and no tactics such as `intro`, `rw`, `simp`, or `linarith`; its entire mathematical content is the definitional characterization of the global argmin set.
 

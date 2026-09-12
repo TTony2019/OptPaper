@@ -23,7 +23,7 @@ theorem theorem_3_1
 ## Statement explanation
 The declaration is a convergence theorem for an inexact relaxed inertial proximal-point method for a maximal monotone set-valued operator $A$ on the ambient real Hilbert space $H$. The operator is $A:H\to 2^H$, and $h_A$ says that $A$ is maximal monotone. The sequences $x,y,v,\eta:\mathbb N\to H$ and the scalar sequences $\lambda,\alpha,\rho:\mathbb N\to\mathbb R$ encode the iterates, an auxiliary sequence $y$, the inexactness/residual sequence $v$, the error sequence $\eta$, and the step, inertia, and relaxation parameters. The hypothesis `rec : InexactProximalRecurrence A x y v eta lam alpha rho` packages the recurrence. The proof uses its fields in the following visible ways: $y_k=x_k+\alpha_k(x_k-x_{k-1})$; $\eta_k=\lambda_k^{-1}(x_{k+1}-y_k)+v_k$; and, after unfolding the scalar multiple of a set-valued operator, $v_k=\rho_k a_k$ for some $a_k\in A(z_k)$, where $z_k=\rho_k^{-1}x_{k+1}+(1-\rho_k^{-1})y_k$. The hypothesis `params : ParameterAssumptions x` supplies the parameter bounds and summability properties for $x$. The equalities `hlam_eq`, `halpha_eq`, and `hrho_eq` identify the recurrence parameters with those parameter assumptions.
 
-The parameter assumptions used in the proof are: there is $\lambda_0>0$ with $\lambda_0\le \lambda_k$ for all $k$; for all $k$, $0\le \alpha_k<1$; there is $\alpha_0<1$ with $\alpha_k\le \alpha_0$ for all $k$; the series $\sum_k \alpha_k\|x_k-x_{k-1}\|^2$ converges; there is $R_1>0$ with $R_1\le \rho_k$ for all $k$; and there is $R_2<2$ with $\rho_k\le R_2$ for all $k$. The extra hypotheses are that the zero set of $A$, $A^{-1}(0)=\{x:0\in A x\}$, is nonempty; that $\sum_k \lambda_k\|\eta_k\|<\infty$; and that $\sum_k \lambda_k\|\eta_k\|\|y_k\|<\infty$. The conclusion is the conjunction of two statements: first, $v_k\to 0$ strongly in $H$; second, there exists $x_\star\in A^{-1}(0)$ such that $x_k$ converges weakly to $x_\star$, expressed by convergence of $\operatorname{toWeakSpace}_{\mathbb R,H}(x_k)$ to $\operatorname{toWeakSpace}_{\mathbb R,H}(x_\star)$.
+The parameter assumptions used in the proof are: there is $\lambda_0>0$ with $\lambda_0\le \lambda_k$ for all $k$; for all $k$, $0\le \alpha_k<1$; there is $\alpha_0<1$ with $\alpha_k\le \alpha_0$ for all $k$; the series $\sum_k \alpha_k\|x_k-x_{k-1}\|^2$ converges; there is $R_1>0$ with $R_1\le \rho_k$ for all $k$; and there is $R_2<2$ with $\rho_k\le R_2$ for all $k$. The extra hypotheses are that the zero set of $A$, $A^{-1}(0)=\{x:0\in A x\}$, is nonempty; that $\sum_k \lambda_k\|\eta_k\|<\infty$; and that $\sum_k \lambda_k\|\eta_k\|\|y_k\|<\infty$. The conclusion is the conjunction of two statements: first, $v_k\to 0$ strongly in $H$; second, there exists $x_\star\in A^{-1}(0)$ such that $x_k$ converges weakly to $x_\star$, expressed by convergence of $\mathrm{toWeakSpace}_{\mathbb R,H}(x_k)$ to $\mathrm{toWeakSpace}_{\mathbb R,H}(x_\star)$.
 
 ## Lean proof
 ```lean
@@ -1057,7 +1057,7 @@ The proof then shows that $\delta(\bar x')$ is summable for each $\bar x'\in A^{
 Now `lemma_2_3` is applied to $\phi(\bar x')$ and $\delta(\bar x')$ with $\alpha_k$ and the upper bound $\alpha_0<1$. Its hypotheses are that $\phi$ and $\delta$ are nonnegative, that the recurrence above holds, that $\delta$ is summable, and that $0\le \alpha_k\le \alpha_0<1$. Its conclusion is
 
 $$
-\sum_k \operatorname{posPart}\bigl(\phi(\bar x',k)-\phi(\bar x',k-1)\bigr)<\infty
+\sum_k \mathrm{posPart}\bigl(\phi(\bar x',k)-\phi(\bar x',k-1)\bigr)<\infty
 $$
 
 and there is $\phi_\star\ge 0$ with
@@ -1066,7 +1066,7 @@ $$
 \phi(\bar x',k)\to \phi_\star.
 $$
 
-Here $\operatorname{posPart}(t)=\max(t,0)$. Since $\phi(\bar x',k)=\frac12\|x_k-\bar x'\|^2$, this implies
+Here $\mathrm{posPart}(t)=\max(t,0)$. Since $\phi(\bar x',k)=\frac12\|x_k-\bar x'\|^2$, this implies
 
 $$
 \|x_k-\bar x'\|^2\to 2\phi_\star,
@@ -1188,9 +1188,9 @@ $$
 weakly, i.e.
 
 $$
-\operatorname{toWeakSpace}_{\mathbb R,H}(x_k)
+\mathrm{toWeakSpace}_{\mathbb R,H}(x_k)
 \to
-\operatorname{toWeakSpace}_{\mathbb R,H}(x_\star).
+\mathrm{toWeakSpace}_{\mathbb R,H}(x_\star).
 $$
 
 Combining this weak convergence with the already proved strong convergence $v_k\to0$ gives the two asserted conclusions.

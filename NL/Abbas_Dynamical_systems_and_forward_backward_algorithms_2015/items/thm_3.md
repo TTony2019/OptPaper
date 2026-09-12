@@ -28,7 +28,7 @@ theorem bf_convergence {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ
 ```
 
 ## Statement explanation
-The theorem `bf_convergence` is a convergence statement for a backward-forward discretization in a real Hilbert space $H$. The space $H$ is assumed to be a complete real inner product space. The function $\Phi:H\to \operatorname{EReal}$ takes values strictly above the bottom element $\bot=-\infty$, and the hypothesis $\Phi\in\Gamma_0(H)$ says that $\Phi$ is a proper, convex, lower semicontinuous extended-real-valued function. The set $S\subseteq H$ is the solution set, characterized by the equivalence
+The theorem `bf_convergence` is a convergence statement for a backward-forward discretization in a real Hilbert space $H$. The space $H$ is assumed to be a complete real inner product space. The function $\Phi:H\to \mathrm{EReal}$ takes values strictly above the bottom element $\bot=-\infty$, and the hypothesis $\Phi\in\Gamma_0(H)$ says that $\Phi$ is a proper, convex, lower semicontinuous extended-real-valued function. The set $S\subseteq H$ is the solution set, characterized by the equivalence
 
 $$
 z\in S \quad\Longleftrightarrow\quad -Bz\in \partial\Phi(z)
@@ -52,7 +52,7 @@ The object `alg` is a `BackwardForwardDiscretization` with parameter $\mu$, step
 The conclusion is that there exist $ybar,xbar\in H$ such that
 
 $$
-xbar=\operatorname{Prox}_{\mu\Phi}(ybar),
+xbar=\mathrm{Prox}_{\mu\Phi}(ybar),
 $$
 
 where the scaled proximity operator is formed using $hPhi$ and the positivity of $\mu$, and such that
@@ -365,7 +365,7 @@ by
 The proof begins by introducing three auxiliary operators. Let
 
 $$
-P(y)=\operatorname{Prox}_{\mu\Phi}(y),
+P(y)=\mathrm{Prox}_{\mu\Phi}(y),
 \qquad
 F(x)=x-\mu Bx,
 \qquad
@@ -525,8 +525,8 @@ $$
 This follows from the cited theorem `scaledProximityOperator_residual_mem`, which says that for a $\Gamma_0$-function $f$, a positive parameter $\gamma$, and a point $y$,
 
 $$
-\gamma^{-1}\bigl(y-\operatorname{Prox}_{\gamma f}(y)\bigr)
-\in \partial f\bigl(\operatorname{Prox}_{\gamma f}(y)\bigr).
+\gamma^{-1}\bigl(y-\mathrm{Prox}_{\gamma f}(y)\bigr)
+\in \partial f\bigl(\mathrm{Prox}_{\gamma f}(y)\bigr).
 $$
 
 Since $x_k$ is the proximal image of $y_k$, this gives $v_k=\mu^{-1}(y_k-x_k)\in\partial\Phi(x_k)$. Also, from the solution characterization,

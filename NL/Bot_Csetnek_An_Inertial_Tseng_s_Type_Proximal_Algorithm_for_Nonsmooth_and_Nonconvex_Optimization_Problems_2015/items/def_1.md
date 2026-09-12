@@ -31,7 +31,7 @@ $$
 Thus the limiting subgradients of the sum $f+h$ at $x$ are exactly the limiting subgradients of $f$ at $x$, each shifted by the gradient $\nabla h(x)$ of the smooth summand. Since $h$ is finite-valued, adding it does not change effective domains:
 
 $$
-y\in\operatorname{dom}(f+h) \iff y\in\operatorname{dom} f.
+y\in\mathrm{dom}(f+h) \iff y\in\mathrm{dom} f.
 $$
 
 The statement includes properness and lower semicontinuity of $f$, but the formal proof below does not invoke those two hypotheses.
@@ -111,7 +111,7 @@ $$
 v\in \partial_L(f+h)(x).
 $$
 
-The proof unpacks this assumption as follows: $x\in\operatorname{dom}(f+h)$, there are sequences $z_n$ and $u_n$, one has $z_n\to x$, $u_n\to v$, $(f+h)(z_n)\to (f+h)(x)$, and for every $n$,
+The proof unpacks this assumption as follows: $x\in\mathrm{dom}(f+h)$, there are sequences $z_n$ and $u_n$, one has $z_n\to x$, $u_n\to v$, $(f+h)(z_n)\to (f+h)(x)$, and for every $n$,
 
 $$
 u_n\in \hat\partial(f+h)(z_n).
@@ -122,13 +122,13 @@ The Lean names for these data are `hobj_eff`, `zs`, `us`, `hzs`, `hobjVal`, `hus
 Applying `objectiveSum_effectiveDom_iff` to $x$ gives
 
 $$
-x\in\operatorname{dom}(f+h) \iff x\in\operatorname{dom} f.
+x\in\mathrm{dom}(f+h) \iff x\in\mathrm{dom} f.
 $$
 
-Since $x\in\operatorname{dom}(f+h)$, the result is $x\in\operatorname{dom} f$. Similarly, for every $n$, because $u_n\in \hat\partial(f+h)(z_n)$, the definition of the Fréchet subdifferential includes $z_n\in\operatorname{dom}(f+h)$. Applying `objectiveSum_effectiveDom_iff` again gives
+Since $x\in\mathrm{dom}(f+h)$, the result is $x\in\mathrm{dom} f$. Similarly, for every $n$, because $u_n\in \hat\partial(f+h)(z_n)$, the definition of the Fréchet subdifferential includes $z_n\in\mathrm{dom}(f+h)$. Applying `objectiveSum_effectiveDom_iff` again gives
 
 $$
-z_n\in\operatorname{dom} f
+z_n\in\mathrm{dom} f
 $$
 
 for every $n$.
@@ -139,7 +139,7 @@ $$
 h(z_n)\to h(x).
 $$
 
-Now apply `objectiveSum_value_tendsto_iff` to the sequences $z_n$, with the facts $z_n\in\operatorname{dom} f$, $x\in\operatorname{dom} f$, and $h(z_n)\to h(x)$. That theorem states that, under these hypotheses,
+Now apply `objectiveSum_value_tendsto_iff` to the sequences $z_n$, with the facts $z_n\in\mathrm{dom} f$, $x\in\mathrm{dom} f$, and $h(z_n)\to h(x)$. That theorem states that, under these hypotheses,
 
 $$
 (f+h)(z_n)\to (f+h)(x)
@@ -185,7 +185,7 @@ $$
 w=v-\nabla h(x).
 $$
 
-The facts $x\in\operatorname{dom} f$, $z_n\to x$, $f(z_n)\to f(x)$, the Fréchet memberships $u_n-\nabla h(z_n)\in \hat\partial f(z_n)$, and the convergence $u_n-\nabla h(z_n)\to w$ together witness
+The facts $x\in\mathrm{dom} f$, $z_n\to x$, $f(z_n)\to f(x)$, the Fréchet memberships $u_n-\nabla h(z_n)\in \hat\partial f(z_n)$, and the convergence $u_n-\nabla h(z_n)\to w$ together witness
 
 $$
 w\in \partial_L f(x).
@@ -211,7 +211,7 @@ $$
 w+\nabla h(x)\in \partial_L(f+h)(x).
 $$
 
-The membership $w\in\partial_L f(x)$ is unpacked as: $x\in\operatorname{dom} f$, sequences $z_n$ and $w_n$, with $z_n\to x$, $w_n\to w$, $f(z_n)\to f(x)$, and for every $n$,
+The membership $w\in\partial_L f(x)$ is unpacked as: $x\in\mathrm{dom} f$, sequences $z_n$ and $w_n$, with $z_n\to x$, $w_n\to w$, $f(z_n)\to f(x)$, and for every $n$,
 
 $$
 w_n\in \hat\partial f(z_n).
@@ -220,10 +220,10 @@ $$
 Applying `objectiveSum_effectiveDom_iff` in the reverse direction gives
 
 $$
-x\in\operatorname{dom}(f+h).
+x\in\mathrm{dom}(f+h).
 $$
 
-For each $n$, the Fréchet membership $w_n\in \hat\partial f(z_n)$ includes $z_n\in\operatorname{dom} f$. As before, continuity of $h$ and $z_n\to x$ give
+For each $n$, the Fréchet membership $w_n\in \hat\partial f(z_n)$ includes $z_n\in\mathrm{dom} f$. As before, continuity of $h$ and $z_n\to x$ give
 
 $$
 h(z_n)\to h(x).
@@ -261,7 +261,7 @@ $$
 w_n+\nabla h(z_n)\to w+\nabla h(x).
 $$
 
-The facts $x\in\operatorname{dom}(f+h)$, $z_n\to x$, $(f+h)(z_n)\to(f+h)(x)$, the Fréchet memberships $w_n+\nabla h(z_n)\in\hat\partial(f+h)(z_n)$, and the convergence $w_n+\nabla h(z_n)\to w+\nabla h(x)$ together witness
+The facts $x\in\mathrm{dom}(f+h)$, $z_n\to x$, $(f+h)(z_n)\to(f+h)(x)$, the Fréchet memberships $w_n+\nabla h(z_n)\in\hat\partial(f+h)(z_n)$, and the convergence $w_n+\nabla h(z_n)\to w+\nabla h(x)$ together witness
 
 $$
 w+\nabla h(x)\in \partial_L(f+h)(x).

@@ -35,7 +35,7 @@ So all proximal step sizes $\lambda_k$ are strictly positive.
 Third, `update` states that for every $k\in\mathbb N$ with $1\le k$,
 
 $$
-x_{k+1}\in (\lambda_k A).\operatorname{resolvent}\!\left(x_k+\alpha_k(x_k-x_{k-1})\right).
+x_{k+1}\in (\lambda_k A).\mathrm{resolvent}\!\left(x_k+\alpha_k(x_k-x_{k-1})\right).
 $$
 
 Here $x_k+\alpha_k(x_k-x_{k-1})$ is the inertial, or extrapolated, point obtained from the current iterate $x_k$ and the previous iterate $x_{k-1}$. The next iterate $x_{k+1}$ is required to lie in the resolvent of the scaled operator $\lambda_k A$ at that extrapolated point. In the usual set-valued notation, if $J_{\lambda_k A}=(I+\lambda_k A)^{-1}$ is the resolvent, then this membership is equivalent to
@@ -66,7 +66,7 @@ Mathematically, to use an assumption that `InertialProximalPointAlgorithm A x al
 - `update k hk` for $k\ge 1$, giving
 
 $$
-x_{k+1}\in (\lambda_k A).\operatorname{resolvent}\!\left(x_k+\alpha_k(x_k-x_{k-1})\right).
+x_{k+1}\in (\lambda_k A).\mathrm{resolvent}\!\left(x_k+\alpha_k(x_k-x_{k-1})\right).
 $$
 
 Conversely, to prove that $x,\alpha,\lambda$ form an inertial proximal point algorithm for $A$, one must supply exactly these three fields. No named local theorem or lemma is cited, and no tactic commands such as `intro`, `rw`, `simp`, `exact`, or `linarith` occur in this declaration.

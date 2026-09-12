@@ -67,19 +67,19 @@ The proof begins by applying the cited result `SetValuedOperator.mem_resolvent_s
 
 $$
 y \in J_{\rho A}(x) \quad\Longleftrightarrow\quad
-x \in A.\operatorname{identityAddScaled}(\rho)(y).
+x \in A.\mathrm{identityAddScaled}(\rho)(y).
 $$
 
 The proof specializes this to $\rho=\lambda$. Thus the hypothesis `hy : y ∈ J[(lam • A)] x` is rewritten as
 
 $$
-x \in A.\operatorname{identityAddScaled}(\lambda)(y).
+x \in A.\mathrm{identityAddScaled}(\lambda)(y).
 $$
 
 Next, the proof unfolds the definition of `SetValuedOperator.identityAddScaled`. By definition,
 
 $$
-A.\operatorname{identityAddScaled}(\lambda)(y)
+A.\mathrm{identityAddScaled}(\lambda)(y)
 =
 \{\,y+\lambda\bullet a \mid a \in A(y)\,\}.
 $$

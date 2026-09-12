@@ -12,7 +12,7 @@ theorem remark_2_unrelaxed_root (alpha : ℝ) :
 The declaration `remark_2_unrelaxed_root` is a theorem about one real variable $\alpha$. There are no hypotheses other than the parameter $\alpha \in \mathbb R$. The relevant coefficient function is defined locally by
 
 $$
-\operatorname{pCoeff}(R_1,R_2,\alpha)
+\mathrm{pCoeff}(R_1,R_2,\alpha)
 =
 \frac{1}{R_2}
 -\frac{1}{2}
@@ -23,13 +23,13 @@ $$
 The theorem asserts the conjunction of two equalities:
 
 $$
-\operatorname{pCoeff}(1,1,\alpha)=\frac{1}{2}-\frac{3}{2}\alpha
+\mathrm{pCoeff}(1,1,\alpha)=\frac{1}{2}-\frac{3}{2}\alpha
 $$
 
 and
 
 $$
-\operatorname{pCoeff}\left(1,1,\frac{1}{3}\right)=0 .
+\mathrm{pCoeff}\left(1,1,\frac{1}{3}\right)=0 .
 $$
 
 The first equality says that after specializing both parameters $R_1$ and $R_2$ to $1$, the quadratic coefficient function collapses to the affine expression $\frac{1}{2}-\frac{3}{2}\alpha$. Indeed, substituting $R_1=R_2=1$ into the definition gives
@@ -52,7 +52,7 @@ $$
 0 .
 $$
 
-Thus, in ordinary language, the theorem states that for every real $\alpha$, the coefficient $\operatorname{pCoeff}(1,1,\alpha)$ is the linear function $\frac{1}{2}-\frac{3}{2}\alpha$, and $\alpha=\frac{1}{3}$ is a root of that unrelaxed coefficient.
+Thus, in ordinary language, the theorem states that for every real $\alpha$, the coefficient $\mathrm{pCoeff}(1,1,\alpha)$ is the linear function $\frac{1}{2}-\frac{3}{2}\alpha$, and $\alpha=\frac{1}{3}$ is a root of that unrelaxed coefficient.
 
 ## Lean proof
 ```lean
@@ -68,13 +68,13 @@ by
 The proof begins with `constructor`. Since the goal is a conjunction, this tactic splits it into two subgoals: the first is
 
 $$
-\operatorname{pCoeff}(1,1,\alpha)=\frac{1}{2}-\frac{3}{2}\alpha,
+\mathrm{pCoeff}(1,1,\alpha)=\frac{1}{2}-\frac{3}{2}\alpha,
 $$
 
 and the second is
 
 $$
-\operatorname{pCoeff}\left(1,1,\frac{1}{3}\right)=0.
+\mathrm{pCoeff}\left(1,1,\frac{1}{3}\right)=0.
 $$
 
 For the first subgoal, the proof uses `unfold pCoeff`. This replaces the identifier `pCoeff` by its defining expression, so the left-hand side becomes

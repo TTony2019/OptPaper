@@ -14,7 +14,7 @@ Mathematically, the definition is
 
 $$
 \Phi_A(x)
-= \operatorname{sInf}\left(\left\{ \iota(\langle y,x\rangle_{\mathbb R}) : y\in A(x)\right\}\right),
+= \mathrm{sInf}\left(\left\{ \iota(\langle y,x\rangle_{\mathbb R}) : y\in A(x)\right\}\right),
 $$
 
 where $\iota:\mathbb R\to \overline{\mathbb R}$ is the canonical embedding of the real numbers into the extended reals, and the infimum is taken in the extended-real order. Equivalently,

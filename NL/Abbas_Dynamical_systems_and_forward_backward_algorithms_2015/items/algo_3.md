@@ -18,7 +18,7 @@ theorem forward_backward_stepsize_convergence {H : Type*} [NormedAddCommGroup H]
 ```
 
 ## Statement explanation
-The theorem `forward_backward_stepsize_convergence` is a weak-convergence theorem for the forward-backward splitting algorithm. It assumes that $H$ is a complete real inner product space, that $\Phi : H \to \operatorname{EReal}_{>\bot}$ belongs to the class $\Gamma_0(H)$ of proper lower semicontinuous convex extended-real-valued functions, and that $B : H \to H$ is a single-valued operator. The parameter $h$ is the algorithm step size, $\beta$ is the cocoercivity constant of $B$, and `alg` packages the forward-backward iteration for $(\Phi,B)$ with step $h$. The set $S \subseteq H$ is the solution set, characterized by
+The theorem `forward_backward_stepsize_convergence` is a weak-convergence theorem for the forward-backward splitting algorithm. It assumes that $H$ is a complete real inner product space, that $\Phi : H \to \mathrm{EReal}_{>\bot}$ belongs to the class $\Gamma_0(H)$ of proper lower semicontinuous convex extended-real-valued functions, and that $B : H \to H$ is a single-valued operator. The parameter $h$ is the algorithm step size, $\beta$ is the cocoercivity constant of $B$, and `alg` packages the forward-backward iteration for $(\Phi,B)$ with step $h$. The set $S \subseteq H$ is the solution set, characterized by
 
 $$
 z \in S \iff -B z \in \partial \Phi(z).
@@ -27,9 +27,9 @@ $$
 Thus $z \in S$ means that $0 \in \partial \Phi(z) + B z$, i.e. $z$ solves the monotone inclusion associated with $\Phi$ and $B$. The hypotheses are that $0<h<2\beta$, that $S\neq\emptyset$, and that the restriction of $B$ to all of $H$ is $\beta$-cocoercive. The conclusion is that there exists $z\in S$ such that the algorithm sequence `alg.x` converges weakly to $z$:
 
 $$
-\operatorname{toWeakSpace}_{\mathbb R}^{H}(\texttt{alg.x } k)
+\mathrm{toWeakSpace}_{\mathbb R}^{H}(\texttt{alg.x } k)
 \longrightarrow
-\operatorname{toWeakSpace}_{\mathbb R}^{H}(z).
+\mathrm{toWeakSpace}_{\mathbb R}^{H}(z).
 $$
 
 Equivalently, `alg.x` converges to $z$ in the weak topology of $H$.
@@ -108,7 +108,7 @@ Write $x_n$ for `alg.x n`. The proof defines the forward-backward operator
 $$
 T(z)
 =
-\operatorname{Prox}_{h\Phi}\bigl(z-hBz\bigr)
+\mathrm{Prox}_{h\Phi}\bigl(z-hBz\bigr)
 =
 \texttt{ERealFunction.scaledProximityOperator }\Phi\ h\Phi\ \langle h,\texttt{alg.h\_pos}\rangle
 \bigl(z-hBz\bigr).
@@ -119,17 +119,17 @@ Here the scaled proximity operator is the proximal operator of the positively re
 1. The first algebraic step is
 
 $$
-\operatorname{Fix}(T)=S.
+\mathrm{Fix}(T)=S.
 $$
 
-The proof uses `ext z` to reduce equality of sets to equality of membership for an arbitrary $z$, and `simp only [Function.mem_fixedPoints, Function.IsFixedPt]` to rewrite $z\in\operatorname{Fix}(T)$ as $Tz=z$. It then proves the two directions of the equivalence.
+The proof uses `ext z` to reduce equality of sets to equality of membership for an arbitrary $z$, and `simp only [Function.mem_fixedPoints, Function.IsFixedPt]` to rewrite $z\in\mathrm{Fix}(T)$ as $Tz=z$. It then proves the two directions of the equivalence.
 
 For the direction $Tz=z \Rightarrow z\in S$, the proof invokes
 `scaled_forward_backward_fixed_implies_solution_local`.
 That result says that if $\Phi\in\Gamma_0(H)$, if $h>0$, and if
 
 $$
-\operatorname{Prox}_{h\Phi}\bigl(z-hBz\bigr)=z,
+\mathrm{Prox}_{h\Phi}\bigl(z-hBz\bigr)=z,
 $$
 
 then
@@ -151,7 +151,7 @@ For the reverse direction $z\in S \Rightarrow Tz=z$, the proof uses `(hsolution 
 That result is the converse of the previous one: if $\Phi\in\Gamma_0(H)$, $h>0$, and $-Bz\in\partial\Phi(z)$, then
 
 $$
-\operatorname{Prox}_{h\Phi}\bigl(z-hBz\bigr)=z.
+\mathrm{Prox}_{h\Phi}\bigl(z-hBz\bigr)=z.
 $$
 
 This is exactly $Tz=z$, so the reverse implication is proved.
@@ -159,7 +159,7 @@ This is exactly $Tz=z$, so the reverse implication is proved.
 2. The proof next shows that the proximal part is firmly nonexpansive. It defines
 
 $$
-P(z)=\operatorname{Prox}_{h\Phi}(z).
+P(z)=\mathrm{Prox}_{h\Phi}(z).
 $$
 
 The theorem `smul_mem_gammaZero` states that if $\Phi\in\Gamma_0(H)$ and $\gamma>0$, then $\gamma\Phi\in\Gamma_0(H)$. Here it is applied with $\gamma=h$, using `alg.h_pos`, so $h\Phi\in\Gamma_0(H)$. The theorem
@@ -167,7 +167,7 @@ The theorem `smul_mem_gammaZero` states that if $\Phi\in\Gamma_0(H)$ and $\gamma
 then says that for any function in $\Gamma_0(H)$, its proximal operator is firmly nonexpansive. Applied to $h\Phi$, and using the definition of `scaledProximityOperator`, this gives that
 
 $$
-P=\operatorname{Prox}_{h\Phi}
+P=\mathrm{Prox}_{h\Phi}
 $$
 
 is firmly nonexpansive. Equivalently, for all $u,v$,
@@ -202,13 +202,13 @@ $$
 
 The composition of two $1$-Lipschitz maps is $1$-Lipschitz, so `hTlip` proves that $T$ is $1$-Lipschitz. In Lean this is `hPlip.comp hF`, followed by `simpa [T, Function.comp_def]` to identify the composition with $T$.
 
-5. Because $S$ is nonempty and $\operatorname{Fix}(T)=S$, the proof obtains a fixed point $p_0$ of $T$:
+5. Because $S$ is nonempty and $\mathrm{Fix}(T)=S$, the proof obtains a fixed point $p_0$ of $T$:
 
 $$
 Tp_0=p_0.
 $$
 
-This uses `hC : (Function.fixedPoints T).Nonempty := by rwa [hfixed]`, where `rwa` rewrites $\operatorname{Fix}(T)$ to $S$ and then applies `hS`.
+This uses `hC : (Function.fixedPoints T).Nonempty := by rwa [hfixed]`, where `rwa` rewrites $\mathrm{Fix}(T)$ to $S$ and then applies `hS`.
 
 6. The proof now applies the convergence theorem
 `forward_backward_distance_and_residual_tendsto_local`.
@@ -230,7 +230,7 @@ $$
 x_n-P\bigl(x_n-\mu Bx_n\bigr)\to 0.
 $$
 
-In the present proof, the theorem is applied with $P=\operatorname{Prox}_{h\Phi}$, $\mu=h$, and relaxation parameter $\eta=1$. The proof checks $0<1\le 1$ by `norm_num`. The algorithm update is converted into the required update with $\eta=1$: after simplifying $(1-1)\bullet x_n+1\bullet P(\cdots)$, the displayed equality is exactly the algorithm’s update law. This is done in the `hupdate` step using `simpa using alg.update n`.
+In the present proof, the theorem is applied with $P=\mathrm{Prox}_{h\Phi}$, $\mu=h$, and relaxation parameter $\eta=1$. The proof checks $0<1\le 1$ by `norm_num`. The algorithm update is converted into the required update with $\eta=1$: after simplifying $(1-1)\bullet x_n+1\bullet P(\cdots)$, the displayed equality is exactly the algorithm’s update law. This is done in the `hupdate` step using `simpa using alg.update n`.
 
 Applying the local theorem to the fixed point $p_0$ gives:
 
@@ -256,7 +256,7 @@ $$
 
 So the sequence $x_n$ is bounded.
 
-8. The proof then verifies the distance hypothesis needed for Opial’s lemma. For every fixed point $z$ of $T$, it reapplies `forward_backward_distance_and_residual_tendsto_local`, this time with $p=z$. Since $z\in\operatorname{Fix}(T)$, it satisfies
+8. The proof then verifies the distance hypothesis needed for Opial’s lemma. For every fixed point $z$ of $T$, it reapplies `forward_backward_distance_and_residual_tendsto_local`, this time with $p=z$. Since $z\in\mathrm{Fix}(T)$, it satisfies
 
 $$
 P\bigl(z-hBz\bigr)=z,
@@ -268,14 +268,14 @@ $$
 \exists l,\quad \|x_n-z\|\to l.
 $$
 
-Thus for every $z\in\operatorname{Fix}(T)$, the distance sequence to $z$ converges.
+Thus for every $z\in\mathrm{Fix}(T)$, the distance sequence to $z$ converges.
 
-9. Next the proof shows that every weak sequential cluster point of $x_n$ lies in $\operatorname{Fix}(T)$. Suppose
+9. Next the proof shows that every weak sequential cluster point of $x_n$ lies in $\mathrm{Fix}(T)$. Suppose
 
 $$
-\operatorname{toWeakSpace}_{\mathbb R}^{H}(x_{\varphi(n)})
+\mathrm{toWeakSpace}_{\mathbb R}^{H}(x_{\varphi(n)})
 \to
-\operatorname{toWeakSpace}_{\mathbb R}^{H}(z)
+\mathrm{toWeakSpace}_{\mathbb R}^{H}(z)
 $$
 
 for some strictly increasing $\varphi:\mathbb N\to\mathbb N$. This is the content of `IsSequentialClusterPt`.
@@ -304,23 +304,23 @@ $$
 Tz=z.
 $$
 
-Taking $u_n=x_{\varphi(n)}$, the hypotheses have just been verified. Therefore $Tz=z$, i.e. $z\in\operatorname{Fix}(T)$. This is a demiclosedness-type step: weak cluster points of the sequence are fixed points of the nonexpansive operator $T$.
+Taking $u_n=x_{\varphi(n)}$, the hypotheses have just been verified. Therefore $Tz=z$, i.e. $z\in\mathrm{Fix}(T)$. This is a demiclosedness-type step: weak cluster points of the sequence are fixed points of the nonexpansive operator $T$.
 
 10. Finally the proof applies `opial_lemma`. Opial’s lemma states that if $C$ is a nonempty set, if the distances from $x_n$ to every point of $C$ converge, and if every weak sequential cluster point of $x_n$ belongs to $C$, then there exists $z\in C$ such that $x_n$ converges weakly to $z$. The proof applies it with
 
 $$
-C=\operatorname{Fix}(T).
+C=\mathrm{Fix}(T).
 $$
 
-The set $C$ is nonempty because $p_0\in C$. The distance convergence was proved in step 8, and the cluster-point condition in step 9. Therefore Opial’s lemma gives some $z\in\operatorname{Fix}(T)$ such that
+The set $C$ is nonempty because $p_0\in C$. The distance convergence was proved in step 8, and the cluster-point condition in step 9. Therefore Opial’s lemma gives some $z\in\mathrm{Fix}(T)$ such that
 
 $$
-\operatorname{toWeakSpace}_{\mathbb R}^{H}(x_n)
+\mathrm{toWeakSpace}_{\mathbb R}^{H}(x_n)
 \to
-\operatorname{toWeakSpace}_{\mathbb R}^{H}(z).
+\mathrm{toWeakSpace}_{\mathbb R}^{H}(z).
 $$
 
-Since $\operatorname{Fix}(T)=S$, the final rewrite `rwa [← hfixed]` converts $z\in\operatorname{Fix}(T)$ into $z\in S$. Hence the algorithm sequence converges weakly to a point of the solution set $S$, which is exactly the claimed conclusion.
+Since $\mathrm{Fix}(T)=S$, the final rewrite `rwa [← hfixed]` converts $z\in\mathrm{Fix}(T)$ into $z\in S$. Hence the algorithm sequence converges weakly to a point of the solution set $S$, which is exactly the claimed conclusion.
 
-The tactics in the proof play the following roles: `let` introduces the abbreviation $T$; `ext` proves the set equality $\operatorname{Fix}(T)=S$ pointwise; `simp` and `simpa` unfold definitions and normalize scalar arithmetic; `exact` closes goals with the cited results; `rwa` rewrites and then applies an existing hypothesis; `obtain` and `rcases` destruct nonemptiness, fixed-point, and cluster-point hypotheses; `intro` introduces arbitrary points and indices; `norm_num` proves the numerical fact $0<1\le 1$; and `calc` performs the triangle-inequality bound. `linarith` is not used in this proof.
+The tactics in the proof play the following roles: `let` introduces the abbreviation $T$; `ext` proves the set equality $\mathrm{Fix}(T)=S$ pointwise; `simp` and `simpa` unfold definitions and normalize scalar arithmetic; `exact` closes goals with the cited results; `rwa` rewrites and then applies an existing hypothesis; `obtain` and `rcases` destruct nonemptiness, fixed-point, and cluster-point hypotheses; `intro` introduces arbitrary points and indices; `norm_num` proves the numerical fact $0<1\le 1$; and `calc` performs the triangle-inequality bound. `linarith` is not used in this proof.
 

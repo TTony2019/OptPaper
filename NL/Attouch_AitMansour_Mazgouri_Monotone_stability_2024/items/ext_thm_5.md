@@ -27,19 +27,19 @@ The declaration `ext_thm_5` is an abbreviation. It has an implicit type paramete
 The conclusion is the unique existence of a function $x : \mathbb{R} \to X$ such that $x$ is differentiable, its derivative is continuous, and for every real $t$,
 
 $$
-\operatorname{deriv} x(t) = F(x(t)) \quad\text{and}\quad x(0)=x_0.
+\mathrm{deriv} x(t) = F(x(t)) \quad\text{and}\quad x(0)=x_0.
 $$
 
 More precisely, the Lean statement is
 
 $$
 \exists! x : \mathbb{R} \to X,\quad
-\operatorname{Differentiable}_{\mathbb{R}}(x)
+\mathrm{Differentiable}_{\mathbb{R}}(x)
 \ \wedge\
-\operatorname{Continuous}(\operatorname{deriv} x)
+\mathrm{Continuous}(\mathrm{deriv} x)
 \ \wedge\
 \forall t \in \mathbb{R},\ 
-\operatorname{deriv} x(t)=F(x(t)) \ \wedge\ x(0)=x_0 .
+\mathrm{deriv} x(t)=F(x(t)) \ \wedge\ x(0)=x_0 .
 $$
 
 As written, the second conjunct $x(0)=x_0$ lies inside the scope of the universal quantifier over $t$. Since it does not depend on $t$, this is equivalent to requiring the differential equation for all $t \in \mathbb{R}$ together with the single initial condition $x(0)=x_0$.
@@ -69,7 +69,7 @@ That is, the claimed unique-existence statement is obtained by applying the impo
 The visible consequence of that imported result, specialized to these arguments, is exactly the displayed unique existence of a differentiable function $x : \mathbb{R} \to X$ whose derivative is continuous and which satisfies
 
 $$
-\operatorname{deriv} x(t)=F(x(t))
+\mathrm{deriv} x(t)=F(x(t))
 $$
 
 for all $t \in \mathbb{R}$, together with $x(0)=x_0$. The hypotheses $hL$ and $hlip$ supply precisely the positivity and Lipschitz assumptions required for that result to produce this conclusion. No `intro`, `rw`, `simp`, `exact`, `linarith`, or other tactic steps occur, because there is no proof script to analyze. Since `ext_thm_5` is an abbreviation, it is definitionally transparent: using it unfolds to the imported theorem applied to $F,L,hL,hlip,x_0$, so it adds no new assumptions and no new conclusions beyond that unique global solution property.

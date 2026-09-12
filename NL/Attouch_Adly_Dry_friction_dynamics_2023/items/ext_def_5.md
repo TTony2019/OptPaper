@@ -17,7 +17,7 @@ The declaration `bregmanDistance` defines a real-valued function associated with
 The value returned is the real number
 
 $$
-\operatorname{bregmanDistance}(F,gradF,a,b)
+\mathrm{bregmanDistance}(F,gradF,a,b)
 = F(b)-F(a)-\langle gradF(a),\, b-a\rangle,
 $$
 

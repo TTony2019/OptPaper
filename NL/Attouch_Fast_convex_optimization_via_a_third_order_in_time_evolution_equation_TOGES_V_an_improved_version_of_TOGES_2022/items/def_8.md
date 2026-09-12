@@ -35,15 +35,15 @@ where $\lambda_{\mathbb R}$ is the real value obtained from the positive-real pa
 Second, for every $x\in H$, the point $prox(x)$ is asserted to be a proximal point of the function
 
 $$
-\lambda_{\mathbb R}\cdot \operatorname{properIoi}(f,hProper)
+\lambda_{\mathbb R}\cdot \mathrm{properIoi}(f,hProper)
 $$
 
 at $x$. In symbols,
 
 $$
 \forall x\in H,\quad
-\operatorname{IsProxPoint}
-\bigl(\lambda_{\mathbb R}\cdot \operatorname{properIoi}(f,hProper),\,x,\,prox(x)\bigr).
+\mathrm{IsProxPoint}
+\bigl(\lambda_{\mathbb R}\cdot \mathrm{properIoi}(f,hProper),\,x,\,prox(x)\bigr).
 $$
 
 The source does not unfold `ERealFunction.properIoi` or `ERealFunction.IsProxPoint`; the visible mathematical content is that $prox$ is tied to the proximal-point relation for that $\lambda$-scaled function.
@@ -70,7 +70,7 @@ $$
 
 Here $u'$, $u''$, and $u'''$ are the first, second, and third derivatives of the curve $u:\mathbb R\to H$, and the equality takes place in $H$. The hypothesis $t\neq 0$ makes the divisions by $t$ and $t^2$ meaningful. The time interval is restricted to $t\ge t_0$.
 
-In summary, `IsTOGESVR` says that $\lambda$ is positive, that `prox` is a proximal mapping associated with $\lambda_{\mathbb R}\cdot \operatorname{properIoi}(f,hProper)$, that the gradient of the Moreau envelope of $f$ determines $x-prox(x)$ by the factor $1/\lambda_{\mathbb R}$, and that the curve $u$ satisfies a third-order vector differential equation with time-dependent damping coefficients and a gradient-of-Moreau-envelope term evaluated at $u(t)+\frac{t}{4}u'(t)$.
+In summary, `IsTOGESVR` says that $\lambda$ is positive, that `prox` is a proximal mapping associated with $\lambda_{\mathbb R}\cdot \mathrm{properIoi}(f,hProper)$, that the gradient of the Moreau envelope of $f$ determines $x-prox(x)$ by the factor $1/\lambda_{\mathbb R}$, and that the curve $u$ satisfies a third-order vector differential equation with time-dependent damping coefficients and a gradient-of-Moreau-envelope term evaluated at $u(t)+\frac{t}{4}u'(t)$.
 
 ## Lean proof
 ```lean

@@ -22,19 +22,19 @@ The first parameters are type-level data. The type $n$ is a finite index type wi
 
 The non-type parameters are:
 
-- $\operatorname{prox} : (n \to \mathbb{R}) \to (n \to \mathbb{R})$, a map from vectors in $\mathbb{R}^n$ to vectors in $\mathbb{R}^n$.
+- $\mathrm{prox} : (n \to \mathbb{R}) \to (n \to \mathbb{R})$, a map from vectors in $\mathbb{R}^n$ to vectors in $\mathbb{R}^n$.
 - $A : (n \to \mathbb{R}) \to K$, a map from $\mathbb{R}^n$ to $K$.
-- $\operatorname{At} : K \to (n \to \mathbb{R})$, a map from $K$ back to $\mathbb{R}^n$.
+- $\mathrm{At} : K \to (n \to \mathbb{R})$, a map from $K$ back to $\mathbb{R}^n$.
 - $d \in K$, called `data`.
 - real scalars $\lambda$ and $\gamma$.
 
 There is a hypothesis `_hAt` saying that for every $x \in n \to \mathbb{R}$ and every $z \in K$,
 
 $$
-\langle A x, z\rangle_K = \sum_{i \in n} x_i\,(\operatorname{At} z)_i .
+\langle A x, z\rangle_K = \sum_{i \in n} x_i\,(\mathrm{At} z)_i .
 $$
 
-This is an adjoint-pairing identity: the inner product in $K$ between $A x$ and $z$ equals the Euclidean dot product in $\mathbb{R}^n$ between $x$ and $\operatorname{At} z$. It does not by itself assert that $A$ or $\operatorname{At}$ is linear; it states this pairing identity for all $x$ and $z$.
+This is an adjoint-pairing identity: the inner product in $K$ between $A x$ and $z$ equals the Euclidean dot product in $\mathbb{R}^n$ between $x$ and $\mathrm{At} z$. It does not by itself assert that $A$ or $\mathrm{At}$ is linear; it states this pairing identity for all $x$ and $z$.
 
 There is also an extended-real-valued function $f : (n \to \mathbb{R}) \to \overline{\mathbb{R}}$. The hypothesis `_hf` states that for every $v \in n \to \mathbb{R}$,
 
@@ -47,18 +47,18 @@ where the right-hand side is first computed as a real number and then coerced in
 The remaining hypotheses on $f$ are that $f$ is proper, that its epigraph is closed, and that its epigraph is convex over $\mathbb{R}$:
 
 $$
-\operatorname{IsProper}(f), \qquad
-\operatorname{epi}(f) \text{ is closed}, \qquad
-\operatorname{epi}(f) \text{ is convex over } \mathbb{R}.
+\mathrm{IsProper}(f), \qquad
+\mathrm{epi}(f) \text{ is closed}, \qquad
+\mathrm{epi}(f) \text{ is convex over } \mathbb{R}.
 $$
 
 These are the properness, closedness, and convexity assumptions for an extended-real function. Their exact internal definitions are not expanded in the source.
 
-The hypothesis `_hprox` states that for every $x \in n \to \mathbb{R}$, the point $\operatorname{prox}(x)$ is a proximal point of the auxiliary function `ERealFunction.properIoi f hfproper` at $x$. In symbols, it says
+The hypothesis `_hprox` states that for every $x \in n \to \mathbb{R}$, the point $\mathrm{prox}(x)$ is a proximal point of the auxiliary function `ERealFunction.properIoi f hfproper` at $x$. In symbols, it says
 
 $$
 \forall x,\quad
-\operatorname{IsProxPoint}\bigl(\operatorname{properIoi}(f), x, \operatorname{prox}(x)\bigr).
+\mathrm{IsProxPoint}\bigl(\mathrm{properIoi}(f), x, \mathrm{prox}(x)\bigr).
 $$
 
 The exact defining inequality of `ERealFunction.IsProxPoint`, and the exact definition of `ERealFunction.properIoi`, are not present in the supplied source, so the visible content is exactly that this proximal-point predicate holds for the auxiliary function constructed from $f$.
@@ -69,8 +69,8 @@ $$
 \forall k \in \mathbb{N},\qquad
 u_{k+1}
 =
-\operatorname{prox}\left(
-u_k - (2\lambda)\operatorname{At}\bigl(A(u_k)-d\bigr)
+\mathrm{prox}\left(
+u_k - (2\lambda)\mathrm{At}\bigl(A(u_k)-d\bigr)
 \right).
 $$
 
@@ -90,8 +90,8 @@ $$
 \forall k \in \mathbb{N},\qquad
 u_{k+1}
 =
-\operatorname{prox}\left(
-u_k - (2\lambda)\operatorname{At}\bigl(A(u_k)-d\bigr)
+\mathrm{prox}\left(
+u_k - (2\lambda)\mathrm{At}\bigl(A(u_k)-d\bigr)
 \right).
 $$
 

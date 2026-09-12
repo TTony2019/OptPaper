@@ -31,13 +31,13 @@ The declaration is stated for a complete real inner product space $H$, a functio
 - `hε`: for every $\epsilon>0$, the curve $x_\epsilon=xε\,\epsilon$ is an $\epsilon$-DIN trajectory. The proof extracts from this that $x_\epsilon(0)=x_0$, $\dot x_\epsilon(0)=v_0$, and, writing $v_\epsilon=\dot x_\epsilon$ and $a_\epsilon=\ddot x_\epsilon$, that for every $s>0$,
 
   $$
-  \epsilon a_\epsilon(s)+\operatorname{Hess}\Phi(x_\epsilon(s))v_\epsilon(s)+\nabla\Phi(x_\epsilon(s))=0.
+  \epsilon a_\epsilon(s)+\mathrm{Hess}\Phi(x_\epsilon(s))v_\epsilon(s)+\nabla\Phi(x_\epsilon(s))=0.
   $$
 
 - `hcn`: $x$ is a continuous Newton trajectory. The proof extracts $x(0)=x_0$ and the Newton equation
 
   $$
-  \operatorname{Hess}\Phi(x(s))\dot x(s)+\nabla\Phi(x(s))=0
+  \mathrm{Hess}\Phi(x(s))\dot x(s)+\nabla\Phi(x(s))=0
   \qquad(s>0).
   $$
 
@@ -389,14 +389,14 @@ by
 The proof first fixes abbreviations
 
 $$
-\operatorname{grad}\Phi=\nabla\Phi,\qquad
-\operatorname{hess}\Phi=D(\nabla\Phi),
+\mathrm{grad}\Phi=\nabla\Phi,\qquad
+\mathrm{hess}\Phi=D(\nabla\Phi),
 $$
 
 where the derivative is the Fréchet derivative over $\mathbb R$. From `AssumptionH`, the proof obtains that $\Phi$ is $C^1$. It also shows that $\nabla\Phi$ is $C^1$: the derivative $D\Phi$ is $C^1$ because $\Phi$ is $C^2$, and the gradient is obtained from $D\Phi$ through the Riesz isomorphism $H\to H^*$. Consequently, for every $z$, $\Phi$ has gradient $\nabla\Phi(z)$ at $z$, and
 
 $$
-D(\nabla\Phi)(z)=\operatorname{hess}\Phi(z)
+D(\nabla\Phi)(z)=\mathrm{hess}\Phi(z)
 $$
 
 as a continuous linear map $H\to H$. These facts are used later to apply the energy and variation-of-constants lemmas.
@@ -416,7 +416,7 @@ $$
 that $x_\epsilon'=v_\epsilon$ and $v_\epsilon'=a_\epsilon$, and the second-order equation
 
 $$
-\epsilon a_\epsilon(s)+\operatorname{hess}\Phi(x_\epsilon(s))v_\epsilon(s)
+\epsilon a_\epsilon(s)+\mathrm{hess}\Phi(x_\epsilon(s))v_\epsilon(s)
 +\nabla\Phi(x_\epsilon(s))=0
 $$
 
@@ -424,15 +424,15 @@ for $s>0$. From `hcn` it records
 
 $$
 x(0)=x_0,\qquad
-\operatorname{hess}\Phi(x(s))\dot x(s)+\nabla\Phi(x(s))=0
+\mathrm{hess}\Phi(x(s))\dot x(s)+\nabla\Phi(x(s))=0
 $$
 
 for $s>0$. Here `intro`, `rcases`, and `exact` are used to expose and specialize these hypotheses; `simpa` rewrites definitions such as $v_\epsilon=\dot x_\epsilon$.
 
-A key consequence of strong monotonicity is then established. The cited result `strong_mono_hessian_nonneg` says that if $\nabla\Phi$ is strongly monotone on bounded subsets and $\operatorname{hess}\Phi$ is its derivative, then for all $z,w\in H$,
+A key consequence of strong monotonicity is then established. The cited result `strong_mono_hessian_nonneg` says that if $\nabla\Phi$ is strongly monotone on bounded subsets and $\mathrm{hess}\Phi$ is its derivative, then for all $z,w\in H$,
 
 $$
-0\le \langle \operatorname{hess}\Phi(z)w,w\rangle .
+0\le \langle \mathrm{hess}\Phi(z)w,w\rangle .
 $$
 
 The proof applies this with $z$ and $w$ arbitrary, using `hstrong` and the previously proved derivative formula for $\nabla\Phi$. This nonnegativity is the source of the monotonicity of the energy and potential below.
@@ -443,12 +443,12 @@ $$
 U_\epsilon(s)=\frac{\epsilon}{2}\|v_\epsilon(s)\|^2+\Phi(x_\epsilon(s)).
 $$
 
-The cited lemma `epsilon_energy_deriv` applies to $\Phi$, $\nabla\Phi$, $\operatorname{hess}\Phi$, the trajectory $x_\epsilon$, its velocity $v_\epsilon$, its acceleration $a_\epsilon$, and the $\epsilon$-DIN equation. It states that for every $s>0$,
+The cited lemma `epsilon_energy_deriv` applies to $\Phi$, $\nabla\Phi$, $\mathrm{hess}\Phi$, the trajectory $x_\epsilon$, its velocity $v_\epsilon$, its acceleration $a_\epsilon$, and the $\epsilon$-DIN equation. It states that for every $s>0$,
 
 $$
 \frac{d}{ds}U_\epsilon(s)
 =
--\left\langle \operatorname{hess}\Phi(x_\epsilon(s))v_\epsilon(s),v_\epsilon(s)\right\rangle .
+-\left\langle \mathrm{hess}\Phi(x_\epsilon(s))v_\epsilon(s),v_\epsilon(s)\right\rangle .
 $$
 
 By the Hessian nonnegativity just proved, this derivative is $\le0$. The proof also checks continuity of $U_\epsilon$ and differentiability on the interior of $[0,\infty)$, then invokes `antitoneOn_of_deriv_nonpos`, which says that a continuous function on a convex interval whose derivative is nonpositive on the interior is antitone there. Hence $U_\epsilon$ is nonincreasing on $[0,\infty)$. Evaluating at $0$ and $t$ gives
@@ -474,13 +474,13 @@ $$
 Using the Newton equation,
 
 $$
-\operatorname{hess}\Phi(x(s))\dot x(s)=-\nabla\Phi(x(s)),
+\mathrm{hess}\Phi(x(s))\dot x(s)=-\nabla\Phi(x(s)),
 $$
 
 so
 
 $$
-V'(s)=-\langle \operatorname{hess}\Phi(x(s))\dot x(s),\dot x(s)\rangle\le0.
+V'(s)=-\langle \mathrm{hess}\Phi(x(s))\dot x(s),\dot x(s)\rangle\le0.
 $$
 
 Thus $V$ is nonincreasing on $[0,\infty)$, and therefore
@@ -596,7 +596,7 @@ Using the $\epsilon$-DIN equation,
 
 $$
 \omega'(r)
-=\epsilon a_\epsilon(r)+\operatorname{hess}\Phi(x_\epsilon(r))v_\epsilon(r)
+=\epsilon a_\epsilon(r)+\mathrm{hess}\Phi(x_\epsilon(r))v_\epsilon(r)
 =-\nabla\Phi(x_\epsilon(r))
 =-\omega(r)+\epsilon v_\epsilon(r).
 $$

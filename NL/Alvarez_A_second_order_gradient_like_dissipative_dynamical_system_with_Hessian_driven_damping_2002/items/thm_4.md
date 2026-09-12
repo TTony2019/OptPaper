@@ -47,9 +47,9 @@ y_0
 -\Bigl(\beta\,\dot x(0)+\beta^2\,\nabla\Phi(x_0)+\beta a\,x_0\Bigr).
 $$
 
-Here $\nabla\Phi$ is the gradient of $\Phi$, and $\dot x(0)=\operatorname{deriv}x(0)$.
+Here $\nabla\Phi$ is the gradient of $\Phi$, and $\dot x(0)=\mathrm{deriv}x(0)$.
 
-The left-hand predicate $\operatorname{IsDINTrajectory}_H(\Phi,\alpha,\beta,x)$ is not defined in the cited declarations, but the proof treats it as a triple whose first two components are the positivity assumptions $\alpha>0$, $\beta>0$, and whose third component is the second-order equation on $t\ge 0$,
+The left-hand predicate $\mathrm{IsDINTrajectory}_H(\Phi,\alpha,\beta,x)$ is not defined in the cited declarations, but the proof treats it as a triple whose first two components are the positivity assumptions $\alpha>0$, $\beta>0$, and whose third component is the second-order equation on $t\ge 0$,
 
 $$
 \ddot x(t)+\alpha \dot x(t)
@@ -62,7 +62,7 @@ Here $D(\nabla\Phi)(x(t))$ is the Fréchet derivative of $\nabla\Phi$ at $x(t)$,
 The right-hand side says that there exists a curve $y:\mathbb R\to H$ which is $C^2$ on $[0,\infty)$ and which, together with $x$, satisfies the generalized damped inertial system
 
 $$
-\operatorname{IsSolution\_gDIN}(\Phi,\beta,a,b,x_0,y_0,x,y).
+\mathrm{IsSolution\_gDIN}(\Phi,\beta,a,b,x_0,y_0,x,y).
 $$
 
 According to its definition, this means the following four conditions. For every $t\ge 0$,
@@ -284,7 +284,7 @@ $$
 
 is $C^1$. These facts are `hxDeriv`, `hvDeriv`, `hvC1`, and `hgradCompC1`.
 
-For the forward implication, assume $\operatorname{IsDINTrajectory}_H(\Phi,\alpha,\beta,x)$. The proof destructs this predicate into a triple and keeps the third component, `hEq`, which is the second-order equation
+For the forward implication, assume $\mathrm{IsDINTrajectory}_H(\Phi,\alpha,\beta,x)$. The proof destructs this predicate into a triple and keeps the third component, `hEq`, which is the second-order equation
 
 $$
 \ddot x(t)+\alpha\dot x(t)
@@ -308,7 +308,7 @@ $$
 dy(t)=\dot x(t)+\beta\,\nabla\Phi(x(t)).
 $$
 
-The goal is to show that this $y$ is $C^2$ on $[0,\infty)$ and satisfies $\operatorname{IsSolution\_gDIN}$.
+The goal is to show that this $y$ is $C^2$ on $[0,\infty)$ and satisfies $\mathrm{IsSolution\_gDIN}$.
 
 First, using the chain rule, the proof computes the derivative of $t\mapsto \nabla\Phi(x(t))$:
 
@@ -388,7 +388,7 @@ $$
 
 Thus the forward direction produces the required $y$.
 
-For the reverse implication, assume there exists a curve $y$ which is $C^2$ on $[0,\infty)$ and satisfies $\operatorname{IsSolution\_gDIN}$. The proof extracts the two differential equations, the initial conditions, and then must prove $\operatorname{IsDINTrajectory}_H(\Phi,\alpha,\beta,x)$. It constructs this predicate using the already available hypotheses $\alpha>0$ and $\beta>0$, and it remains to prove the second-order equation.
+For the reverse implication, assume there exists a curve $y$ which is $C^2$ on $[0,\infty)$ and satisfies $\mathrm{IsSolution\_gDIN}$. The proof extracts the two differential equations, the initial conditions, and then must prove $\mathrm{IsDINTrajectory}_H(\Phi,\alpha,\beta,x)$. It constructs this predicate using the already available hypotheses $\alpha>0$ and $\beta>0$, and it remains to prove the second-order equation.
 
 For $t>0$, the proof first derives
 
@@ -455,14 +455,14 @@ for every $t>0$. This is `hDIN_pos`.
 It remains to extend this equation to $t=0$. The proof defines
 
 $$
-\operatorname{res}(t)
+\mathrm{res}(t)
 =
 \ddot x(t)+\alpha\dot x(t)
 +\beta\bigl(D(\nabla\Phi)(x(t))\bigr)\dot x(t)
 +\nabla\Phi(x(t)).
 $$
 
-It proves $\operatorname{res}$ is continuous. The term $t\mapsto \ddot x(t)$ is continuous because $\dot x$ is $C^1$. The term $t\mapsto \alpha\dot x(t)$ is continuous because $x$ is $C^2$. The term
+It proves $\mathrm{res}$ is continuous. The term $t\mapsto \ddot x(t)$ is continuous because $\dot x$ is $C^1$. The term $t\mapsto \alpha\dot x(t)$ is continuous because $x$ is $C^2$. The term
 
 $$
 t\mapsto \bigl(D(\nabla\Phi)(x(t))\bigr)\dot x(t)
@@ -470,15 +470,15 @@ $$
 
 is continuous because $D(\nabla\Phi)$ is continuous, $x$ is continuous, and $\dot x$ is continuous. Finally $t\mapsto \nabla\Phi(x(t))$ is continuous. Hence the sum is continuous.
 
-The proof already knows that $\operatorname{res}(t)=0$ for all $t>0$. Since $\operatorname{res}$ is continuous and agrees with the zero function on $(0,\infty)$, it agrees with zero on the closure of $(0,\infty)$, which is $[0,\infty)$. In particular,
+The proof already knows that $\mathrm{res}(t)=0$ for all $t>0$. Since $\mathrm{res}$ is continuous and agrees with the zero function on $(0,\infty)$, it agrees with zero on the closure of $(0,\infty)$, which is $[0,\infty)$. In particular,
 
 $$
-\operatorname{res}(0)=0.
+\mathrm{res}(0)=0.
 $$
 
 Thus the second-order equation holds at $t=0$ as well.
 
-Finally, for an arbitrary $t\ge 0$, the proof splits into the cases $t=0$ and $t\neq 0$. If $t=0$, it uses $\operatorname{res}(0)=0$. If $t\neq 0$, then $t>0$, and the already proved `hDIN_pos` gives the equation. Therefore $x$ satisfies the full second-order equation for all $t\ge 0$, completing the reverse implication and hence the equivalence.
+Finally, for an arbitrary $t\ge 0$, the proof splits into the cases $t=0$ and $t\neq 0$. If $t=0$, it uses $\mathrm{res}(0)=0$. If $t\neq 0$, then $t>0$, and the already proved `hDIN_pos` gives the equation. Therefore $x$ satisfies the full second-order equation for all $t\ge 0$, completing the reverse implication and hence the equivalence.
 
 The proof does not use `linarith`; scalar arithmetic is handled by `field_simp` and `ring`, while vector-space linear algebra is handled by `module`.
 

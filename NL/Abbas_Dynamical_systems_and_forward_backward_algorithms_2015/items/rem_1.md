@@ -35,12 +35,12 @@ The returned `Prop` is a unique-existence statement. It says there exists exactl
 
 - for every $b>0$, $x$ is absolutely continuous on $[0,b]$;
 - for every $b>0$, $v$ is absolutely continuous on $[0,b]$;
-- for every $t\ge 0$, $v(t)$ belongs to the subdifferential of $\Phi$ at $x(t)$, formally $v(t)\in \operatorname{subdifferential}\Phi(x(t))$;
+- for every $t\ge 0$, $v(t)$ belongs to the subdifferential of $\Phi$ at $x(t)$, formally $v(t)\in \mathrm{subdifferential}\Phi(x(t))$;
 - for almost every $t$ in $[0,\infty)$ with respect to Lebesgue measure restricted to $[0,\infty)$,
 
 $$
-\lambda(t)\operatorname{deriv}(x)(t)
-+\operatorname{deriv}(v)(t)
+\lambda(t)\mathrm{deriv}(x)(t)
++\mathrm{deriv}(v)(t)
 +v(t)+B(x(t))=0;
 $$
 

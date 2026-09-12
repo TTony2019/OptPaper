@@ -33,13 +33,13 @@ The hypotheses are:
 - $hdf : DF_r(\phi,r)$ is a dry-friction hypothesis on $\phi$ of radius $r$. The proof only uses the following consequences of it: $\phi(0)=0$, $r>0$, the open ball of radius $r$ around $0$ is contained in the subdifferential of $\phi$ at $0$,
 
   $$
-  \operatorname{ball}(0,r)\subseteq \partial\phi(0),
+  \mathrm{ball}(0,r)\subseteq \partial\phi(0),
   $$
 
   $\phi$ is continuous, and the extended-real version of $\phi$ belongs to $\Gamma_0(H)$, i.e. it satisfies the convex lower-semicontinuity condition needed for the subdifferential recurrence.
 - $alg : IPAHDDVar\ f\ \phi\ h\ \gamma\ \beta$ is the algorithm sequence; its state sequence is $x_k=\texttt{alg.x}(k)$.
-- $f$ is $C^1$, written $hf : \operatorname{ContDiff}\mathbb R\,1\,f$.
-- The gradient of $f$ is $L$-Lipschitz, written $hL : \operatorname{HasLipschitzGradient}(\nabla f,L)$. Thus
+- $f$ is $C^1$, written $hf : \mathrm{ContDiff}\mathbb R\,1\,f$.
+- The gradient of $f$ is $L$-Lipschitz, written $hL : \mathrm{HasLipschitzGradient}(\nabla f,L)$. Thus
 
   $$
   \|\nabla f(x)-\nabla f(y)\|\le L\|x-y\|.
@@ -59,7 +59,7 @@ $$
 E_1=\frac12(1+\beta hL)\left\|\frac1h(x_1-x_0)\right\|^2+f(x_1)-\inf f,
 $$
 
-where $\inf f = \operatorname{sInf}(\operatorname{range} f)$, such that all of the following hold:
+where $\inf f = \mathrm{sInf}(\mathrm{range} f)$, such that all of the following hold:
 
 1. The sequence has finite length:
 
@@ -94,7 +94,7 @@ where $\inf f = \operatorname{sInf}(\operatorname{range} f)$, such that all of t
    and the limit is interior-critical,
 
    $$
-   -\nabla f(x_\infty)\in \operatorname{int}\partial\phi(0),
+   -\nabla f(x_\infty)\in \mathrm{int}\partial\phi(0),
    $$
 
    then convergence is at least geometric: there exist $q,C\in\mathbb R$ with $0<q<1$, $C\ge0$, and
@@ -450,7 +450,7 @@ $$
 
 The tactics `rw`, `simp`, and `field_simp` are used here mainly to rewrite the definitions of $d_k,v_k$, clear the factor $h$, and move scalar factors out of the inner product.
 
-Next, the dry-friction hypothesis gives a linear lower bound. The lemma `subgradient_ball_exact_linear_lower_bound` says that if $\phi(0)=0$, $r>0$, and $\operatorname{ball}(0,r)\subseteq\partial\phi(0)$, then for every $u\in H$,
+Next, the dry-friction hypothesis gives a linear lower bound. The lemma `subgradient_ball_exact_linear_lower_bound` says that if $\phi(0)=0$, $r>0$, and $\mathrm{ball}(0,r)\subseteq\partial\phi(0)$, then for every $u\in H$,
 
 $$
 r\|u\|\le \phi(u).
@@ -567,7 +567,7 @@ $$
 By the definition of `HasFiniteLength`, this is precisely
 
 $$
-\operatorname{HasFiniteLength}(x).
+\mathrm{HasFiniteLength}(x).
 $$
 
 Having finite length, the theorem `IPAHDDVar_finite_length_tendsto` applies. It states that in a complete normed additive group, if
@@ -640,7 +640,7 @@ which is exactly `IsDryFrictionCritical`.
 For the final convergence refinements, the proof first establishes a stabilization criterion. Suppose eventually
 
 $$
-q_k\in\operatorname{int}\partial\phi(0).
+q_k\in\mathrm{int}\partial\phi(0).
 $$
 
 Then for all sufficiently large $k$, one has simultaneously
@@ -652,10 +652,10 @@ $$
 and
 
 $$
-q_k\in\operatorname{int}\partial\phi(0).
+q_k\in\mathrm{int}\partial\phi(0).
 $$
 
-The lemma `IPAHDDVar_subgradient_interior_forces_zero` says that if $\phi(0)=0$, $p\in\partial\phi(u)$, and $p\in\operatorname{int}\partial\phi(0)$, then $u=0$. Therefore $v_{k+1}=0$ for all sufficiently large $k$. Since $d_{k+1}=h v_{k+1}$, this gives $d_{k+1}=0$, i.e.
+The lemma `IPAHDDVar_subgradient_interior_forces_zero` says that if $\phi(0)=0$, $p\in\partial\phi(u)$, and $p\in\mathrm{int}\partial\phi(0)$, then $u=0$. Therefore $v_{k+1}=0$ for all sufficiently large $k$. Since $d_{k+1}=h v_{k+1}$, this gives $d_{k+1}=0$, i.e.
 
 $$
 x_{k+2}=x_{k+1}.
@@ -666,10 +666,10 @@ By induction, the sequence is eventually constant.
 Now assume the strict damping inequality and
 
 $$
--\nabla f(x_\infty)\in\operatorname{int}\partial\phi(0).
+-\nabla f(x_\infty)\in\mathrm{int}\partial\phi(0).
 $$
 
-Because $q_k\to-\nabla f(x_\infty)$ and $\operatorname{int}\partial\phi(0)$ is open, the sequence $q_k$ eventually lies in $\operatorname{int}\partial\phi(0)$. The stabilization criterion then shows that $x_k=x_\infty$ for all sufficiently large $k$. Hence convergence is not only geometric but eventually exact. The proof then chooses $\rho=\frac12$ and
+Because $q_k\to-\nabla f(x_\infty)$ and $\mathrm{int}\partial\phi(0)$ is open, the sequence $q_k$ eventually lies in $\mathrm{int}\partial\phi(0)$. The stabilization criterion then shows that $x_k=x_\infty$ for all sufficiently large $k$. Hence convergence is not only geometric but eventually exact. The proof then chooses $\rho=\frac12$ and
 
 $$
 C=\sum_{i<N}\frac{\|x_i-x_\infty\|}{\rho^i}.
@@ -701,16 +701,16 @@ $$
 \|y\|\le \|y-q_k\|+\|q_k\|<r.
 $$
 
-Thus that ball around $q_k$ is contained in $\operatorname{ball}(0,r)$, and by the dry-friction hypothesis $hdf.ball\_subset$,
+Thus that ball around $q_k$ is contained in $\mathrm{ball}(0,r)$, and by the dry-friction hypothesis $hdf.ball\_subset$,
 
 $$
-\operatorname{ball}(0,r)\subseteq\partial\phi(0).
+\mathrm{ball}(0,r)\subseteq\partial\phi(0).
 $$
 
 Therefore a whole neighborhood of $q_k$ is contained in $\partial\phi(0)$, meaning
 
 $$
-q_k\in\operatorname{int}\partial\phi(0).
+q_k\in\mathrm{int}\partial\phi(0).
 $$
 
 The stabilization criterion now applies again, so $x_k$ is eventually constant.

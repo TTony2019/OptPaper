@@ -24,7 +24,7 @@ for every $x$, where $J_{rB}$ is the resolvent of $rB$, i.e. the inverse of $I+r
 The conclusion is the conjunction
 
 $$
-\operatorname{Fix}(T_r)=Z(A+B)
+\mathrm{Fix}(T_r)=Z(A+B)
 \quad\text{and}\quad
 \forall x\in H,\quad \|x-T_s x\|\le 2\|x-T_r x\|.
 $$
@@ -146,7 +146,7 @@ by
 ## Proof explanation
 The proof starts with `hr : 0 < r := lt_of_lt_of_le hs hsr`, which combines $0<s$ and $s\le r$ to get $r>0$. The command `constructor` splits the conjunction into the set equality and the universal residual bound.
 
-For the set equality, `Set.Subset.antisymm` reduces it to two inclusions. First let $x\in\operatorname{Fix}(T_r)$, so $T_r x=x$. The selection hypothesis gives $T_r x\in J_{rB}(x-rA x)$. The lemma `mem_resolvent_smul_iff` converts this to
+For the set equality, `Set.Subset.antisymm` reduces it to two inclusions. First let $x\in\mathrm{Fix}(T_r)$, so $T_r x=x$. The selection hypothesis gives $T_r x\in J_{rB}(x-rA x)$. The lemma `mem_resolvent_smul_iff` converts this to
 
 $$
 x-rA x\in (I+rB)(T_r x).
@@ -178,7 +178,7 @@ $$
 x-rA x=x+r b,
 $$
 
-because $b=-A x$. Thus both $T_r x$ and $x$ belong to $J_{rB}(x-rA x)$. The theorem `resolvent_unique_of_monotone` says that if $B$ is monotone, $r>0$, and two points lie in the same resolvent value $J_{rB}(y)$, then those points are equal. Applying it with $y=x-rA x$, `hB.1` (the monotonicity part of `hB`) and `hr` yields $T_r x=x$, i.e. $x\in\operatorname{Fix}(T_r)$. This proves the reverse inclusion and hence the set equality.
+because $b=-A x$. Thus both $T_r x$ and $x$ belong to $J_{rB}(x-rA x)$. The theorem `resolvent_unique_of_monotone` says that if $B$ is monotone, $r>0$, and two points lie in the same resolvent value $J_{rB}(y)$, then those points are equal. Applying it with $y=x-rA x$, `hB.1` (the monotonicity part of `hB`) and `hr` yields $T_r x=x$, i.e. $x\in\mathrm{Fix}(T_r)$. This proves the reverse inclusion and hence the set equality.
 
 For the residual bound, fix an arbitrary $x$. From the selection hypotheses, after the same resolvent rewriting and unfolding, choose $b_p\in B(T_r x)$ and $b_q\in B(T_s x)$ such that
 

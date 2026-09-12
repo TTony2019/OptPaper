@@ -46,7 +46,7 @@ The hypothesis `hyp : H21toH24 X Y f g h k c α β μ ν` is a bundle of assumpt
 - $h(x,x')\ge0$ for all $x,x'$.
 - $k(y,y')\ge0$ for all $y,y'$.
 
-The parameters `β_behavior` and `μ_behavior` are monotonicity choices for $\beta$ and $\mu$. The hypotheses `hβ_prop` and `hμ_prop` assert that $\beta$ and $\mu$ have those chosen behaviors. The sequence $\delta_n = \operatorname{deltaSeq}(\beta,\mu,\beta_{\rm behavior},\mu_{\rm behavior})$ is defined by four cases:
+The parameters `β_behavior` and `μ_behavior` are monotonicity choices for $\beta$ and $\mu$. The hypotheses `hβ_prop` and `hμ_prop` assert that $\beta$ and $\mu$ have those chosen behaviors. The sequence $\delta_n = \mathrm{deltaSeq}(\beta,\mu,\beta_{\rm behavior},\mu_{\rm behavior})$ is defined by four cases:
 
 $$
 \delta_n=
@@ -260,7 +260,7 @@ produces $inf_g$ and $hg:\forall y,\ g(y)\ge inf_g$. These are exactly the first
 Next the proof defines
 
 $$
-\delta_n=\operatorname{deltaSeq}(\beta,\mu,\beta_{\rm behavior},\mu_{\rm behavior}).
+\delta_n=\mathrm{deltaSeq}(\beta,\mu,\beta_{\rm behavior},\mu_{\rm behavior}).
 $$
 
 It proves `hdelta_pos : ∀ n, 0 < δ_n`. The proof is by cases on the two selected monotonicity behaviors. If both are nonincreasing, then $\delta_n=1$, so positivity is immediate. If $\beta$ is nonincreasing and $\mu$ is nondecreasing, then $\delta_n=\mu_n$, and `hyp.mu_pos n` gives $\mu_n>0$. If $\beta$ is nondecreasing and $\mu$ is nonincreasing, then $\delta_n=\beta_n$, and `hyp.beta_pos n` gives $\beta_n>0$. If both are nondecreasing, then $\delta_n=\beta_n\mu_n$, and positivity follows from $\beta_n>0$ and $\mu_n>0$ by `mul_pos`.

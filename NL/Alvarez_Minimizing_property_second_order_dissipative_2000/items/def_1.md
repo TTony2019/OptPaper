@@ -17,12 +17,12 @@ structure DissipativeSystem {H : Type*} [NormedAddCommGroup H] [InnerProductSpac
 ```
 
 ## Statement explanation
-This declaration is a Lean `structure`, not a theorem, so it introduces a type of records rather than proving a proposition. The structure `DissipativeSystem` is parameterized by a type $H$, a real number $\gamma$, a function $\Phi : H \to \mathbb R$, a map $\operatorname{gradPhi} : H \to H$, and two initial vectors $u_0, v_0 \in H$. The type $H$ carries the typeclass assumptions that it is a normed additive commutative group, a real inner product space, and complete; together these make $H$ a real Hilbert space.
+This declaration is a Lean `structure`, not a theorem, so it introduces a type of records rather than proving a proposition. The structure `DissipativeSystem` is parameterized by a type $H$, a real number $\gamma$, a function $\Phi : H \to \mathbb R$, a map $\mathrm{gradPhi} : H \to H$, and two initial vectors $u_0, v_0 \in H$. The type $H$ carries the typeclass assumptions that it is a normed additive commutative group, a real inner product space, and complete; together these make $H$ a real Hilbert space.
 
 A term of type `DissipativeSystem gamma Phi gradPhi u0 v0` packages the following data and properties:
 
 - A proof that $0 < \gamma$. Thus $\gamma$ is a positive real parameter, intended as a damping or friction coefficient.
-- A proof that for every $x \in H$, the predicate `HasGradientAt Phi (gradPhi x) x` holds. Mathematically, this means that at every point $x$, the vector $\operatorname{gradPhi}(x)$ is the gradient of the potential $\Phi$ at $x$. The exact library definition of `HasGradientAt` is not expanded in the source, but the visible content is precisely this gradient assertion for each $x \in H$.
+- A proof that for every $x \in H$, the predicate `HasGradientAt Phi (gradPhi x) x` holds. Mathematically, this means that at every point $x$, the vector $\mathrm{gradPhi}(x)$ is the gradient of the potential $\Phi$ at $x$. The exact library definition of `HasGradientAt` is not expanded in the source, but the visible content is precisely this gradient assertion for each $x \in H$.
 - A trajectory function $u : \mathbb R \to H$.
 - A proof that $u$ is twice continuously differentiable on the half-line $[0,\infty)$, expressed by `ContDiffOn ℝ 2 u (Set.Ici 0)`. Thus the differentiability is required only for nonnegative times.
 - The initial condition $u(0) = u_0$. So the trajectory starts at the prescribed position $u_0$.
@@ -30,7 +30,7 @@ A term of type `DissipativeSystem gamma Phi gradPhi u0 v0` packages the followin
 - For every $t \in [0,\infty)$, the second-order differential equation
 
   $$
-  u''(t) + \gamma u'(t) + \operatorname{gradPhi}(u(t)) = 0
+  u''(t) + \gamma u'(t) + \mathrm{gradPhi}(u(t)) = 0
   $$
 
   holds in $H$. Here $u'(t) = D u(t)(1)$ and
@@ -39,7 +39,7 @@ A term of type `DissipativeSystem gamma Phi gradPhi u0 v0` packages the followin
   u''(t) = D\bigl(s \mapsto D u(s)(1)\bigr)(t)(1),
   $$
 
-  exactly as encoded by the nested uses of `fderiv ℝ`. The term $\gamma u'(t)$ is scalar multiplication of the velocity by $\gamma$, and $\operatorname{gradPhi}(u(t))$ is the gradient force evaluated along the trajectory.
+  exactly as encoded by the nested uses of `fderiv ℝ`. The term $\gamma u'(t)$ is scalar multiplication of the velocity by $\gamma$, and $\mathrm{gradPhi}(u(t))$ is the gradient force evaluated along the trajectory.
 
 Thus the declaration defines what it means to be a dissipative system: a real Hilbert space, a positive damping coefficient, a potential with a chosen gradient field, initial position and velocity, and a $C^2$ half-line trajectory satisfying the damped gradient-flow equation. It is a bundle of data and hypotheses; it does not assert that such a trajectory exists.
 

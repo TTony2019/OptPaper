@@ -20,10 +20,10 @@ The conclusion is that for every index $k$,
 $$
 x_{k+1}
 =
-\operatorname{Prox}_{\mu f}\bigl(x_k-\mu B(x_k)\bigr),
+\mathrm{Prox}_{\mu f}\bigl(x_k-\mu B(x_k)\bigr),
 $$
 
-where $\operatorname{Prox}_{\mu f}$ denotes `scaledProximityOperator f hf ⟨mu, alg.mu_pos⟩`. The cited definition says this is the proximity operator of the pointwise scaled function $\gamma f$, where the positive real $\gamma$ is represented by the value $\mu$ together with the proof `alg.mu_pos`. The auxiliary facts in that definition, `smul_mem_gammaZero` and `hasUniqueProxPoint_of_mem_gammaZero`, ensure that positive scaling preserves membership in $\Gamma_0(H)$ and that the scaled function has a unique proximity point. Thus the theorem says that for the unit parameter choice, the next iterate is obtained by first taking the forward step $x_k \mapsto x_k-\mu B(x_k)$ and then applying the proximal map of $\mu f$, i.e. the standard proximal-gradient/backward-forward update.
+where $\mathrm{Prox}_{\mu f}$ denotes `scaledProximityOperator f hf ⟨mu, alg.mu_pos⟩`. The cited definition says this is the proximity operator of the pointwise scaled function $\gamma f$, where the positive real $\gamma$ is represented by the value $\mu$ together with the proof `alg.mu_pos`. The auxiliary facts in that definition, `smul_mem_gammaZero` and `hasUniqueProxPoint_of_mem_gammaZero`, ensure that positive scaling preserves membership in $\Gamma_0(H)$ and that the scaled function has a unique proximity point. Thus the theorem says that for the unit parameter choice, the next iterate is obtained by first taking the forward step $x_k \mapsto x_k-\mu B(x_k)$ and then applying the proximal map of $\mu f$, i.e. the standard proximal-gradient/backward-forward update.
 
 ## Lean proof
 ```lean
@@ -47,7 +47,7 @@ First,
 $$
 x_{k+1}
 =
-\operatorname{Prox}_{\mu f}\bigl(y_{k+1}\bigr)
+\mathrm{Prox}_{\mu f}\bigl(y_{k+1}\bigr)
 $$
 
 by `alg.prox_step (k+1)`. The field `alg.prox_step` is the proximal/backward step of the discretization: for every index $n$, it states
@@ -55,7 +55,7 @@ by `alg.prox_step (k+1)`. The field `alg.prox_step` is the proximal/backward ste
 $$
 x_{n+1}
 =
-\operatorname{Prox}_{\mu f}\bigl(y_{n+1}\bigr).
+\mathrm{Prox}_{\mu f}\bigl(y_{n+1}\bigr).
 $$
 
 Specializing to $n=k+1$ gives the first equality. Mathematically, this says that the new $x$-iterate is obtained by applying the proximal map of $\mu f$ to the current $y$-iterate.
@@ -68,10 +68,10 @@ y_{k+1}
 (1-1)\cdot y_k+1\cdot \bigl(x_k-\mu B(x_k)\bigr).
 $$
 
-The `rw [alg.equation_step]` tactic performs exactly this replacement inside the argument of the fixed function $\operatorname{Prox}_{\mu f}$. Therefore the middle line of the `calc` block is
+The `rw [alg.equation_step]` tactic performs exactly this replacement inside the argument of the fixed function $\mathrm{Prox}_{\mu f}$. Therefore the middle line of the `calc` block is
 
 $$
-\operatorname{Prox}_{\mu f}\left((1-1)\cdot y_k+1\cdot \bigl(x_k-\mu B(x_k)\bigr)\right).
+\mathrm{Prox}_{\mu f}\left((1-1)\cdot y_k+1\cdot \bigl(x_k-\mu B(x_k)\bigr)\right).
 $$
 
 The equality with the previous line is simply the fact that applying the same function to equal arguments gives equal values.
@@ -91,7 +91,7 @@ $$
 These simplifications use elementary real arithmetic and the vector-space laws for scalar multiplication, such as $1\cdot z=z$ and $0\cdot y=0$. Hence the last line of the `calc` block is
 
 $$
-\operatorname{Prox}_{\mu f}\bigl(x_k-\mu B(x_k)\bigr),
+\mathrm{Prox}_{\mu f}\bigl(x_k-\mu B(x_k)\bigr),
 $$
 
 which is exactly the desired conclusion. The proof does not use any further minimization property of the proximity operator beyond the fact that it is a function, nor does it explicitly invoke the completeness of $H$; completeness is part of the ambient Hilbert-space setting. No separate `exact` or `linarith` step occurs; the final equality is closed by simplification.

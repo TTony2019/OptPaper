@@ -18,7 +18,7 @@ The declaration `energySeq` defines an extended-real-valued energy expression as
 The definition returns an element of `EReal`, namely
 
 $$
-\operatorname{energySeq}(x,\lambda,f,n)
+\mathrm{energySeq}(x,\lambda,f,n)
 =
 \left(\left(2(\lambda_n)^2\right)^{-1}\left\|x_{n+1}-x_n\right\|^2\right)
 +
@@ -45,7 +45,7 @@ Lean's real inverse is total, so if $\lambda_n = 0$, the value of $\left(2(\lamb
 ```
 
 ## Proof explanation
-There is no separate proof part. The source states that there is no proof, and the declaration is a `def`, so its mathematical content is exactly the defining equation displayed above. There are no tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` to explain, because no proof script is present. No named theorem, lemma, or previously established local result is invoked. Unfolding `energySeq` with arguments $x$, $\lambda$, $f$, and $n$ simply replaces $\operatorname{energySeq}(x,\lambda,f,n)$ by
+There is no separate proof part. The source states that there is no proof, and the declaration is a `def`, so its mathematical content is exactly the defining equation displayed above. There are no tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` to explain, because no proof script is present. No named theorem, lemma, or previously established local result is invoked. Unfolding `energySeq` with arguments $x$, $\lambda$, $f$, and $n$ simply replaces $\mathrm{energySeq}(x,\lambda,f,n)$ by
 
 $$
 \left(\left(2(\lambda_n)^2\right)^{-1}\left\|x_{n+1}-x_n\right\|^2\right)

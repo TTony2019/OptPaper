@@ -19,7 +19,7 @@ theorem derivative_inner_nonnegative {H : Type*} [NormedAddCommGroup H] [InnerPr
 Let $H$ be a normed additive group with a real inner product space structure. The theorem concerns maps $x,v:\mathbb R\to H$ and an extended-real-valued function
 
 $$
-\Phi:H\to \operatorname{Set.Ioi}(\bot:\mathrm{EReal}),
+\Phi:H\to \mathrm{Set.Ioi}(\bot:\mathrm{EReal}),
 $$
 
 meaning that each $\Phi(y)$ is an extended real number strictly above the bottom element $\bot$. The hypothesis `hPhi` says that $\Phi$ belongs to the class `ERealFunction.gammaZero H`, written $\Gamma_0(H)$ in the cited context. The proof uses this membership only through the fact that the coerced function
@@ -57,9 +57,9 @@ The two hypotheses `_hx_ac` and `_hv_ac` say that $x$ and $v$ are absolutely con
 The differentiability hypotheses `hx_deriv` and `hv_deriv` say that, for almost every $t$ with respect to Lebesgue measure restricted to $(0,\infty)$, the maps $x$ and $v$ have derivatives
 
 $$
-\operatorname{deriv} x(t)
+\mathrm{deriv} x(t)
 \qquad\text{and}\qquad
-\operatorname{deriv} v(t)
+\mathrm{deriv} v(t)
 $$
 
 at $t$, respectively. The conclusion is that, for almost every $t\in(0,\infty)$,
@@ -67,8 +67,8 @@ at $t$, respectively. The conclusion is that, for almost every $t\in(0,\infty)$,
 $$
 0\le
 \left\langle
-\operatorname{deriv} x(t),
-\operatorname{deriv} v(t)
+\mathrm{deriv} x(t),
+\mathrm{deriv} v(t)
 \right\rangle_{\mathbb R}.
 $$
 
@@ -94,7 +94,7 @@ $$
 F(y)=(\Phi(y):\mathrm{EReal}).
 $$
 
-The cited result `ERealFunction.isProper_of_mem_gammaZero` has the following content: if $f:H\to \operatorname{Set.Ioi}(\bot:\mathrm{EReal})$ lies in $\Gamma_0(H)$, then the coerced function $y\mapsto (f(y):\mathrm{EReal})$ is proper. Applying it to $\Phi$ and `hPhi` gives that $F$ is proper.
+The cited result `ERealFunction.isProper_of_mem_gammaZero` has the following content: if $f:H\to \mathrm{Set.Ioi}(\bot:\mathrm{EReal})$ lies in $\Gamma_0(H)$, then the coerced function $y\mapsto (f(y):\mathrm{EReal})$ is proper. Applying it to $\Phi$ and `hPhi` gives that $F$ is proper.
 
 Next, the cited theorem `ERealFunction.isMonotone_subdifferential` states that if $F:H\to\mathrm{EReal}$ is proper, then its subdifferential operator $\partial F$ is monotone as a set-valued operator. In concrete terms, for all $p,q\in H$, all $u\in\partial F(p)$, and all $w\in\partial F(q)$,
 
@@ -113,9 +113,9 @@ $$
 The first two say that $x$ and $v$ are differentiable at almost every point of the restricted measure. The third says that almost every point of that restricted measure belongs to the set $(0,\infty)$. Therefore, after `filter_upwards`, the proof has a point $t$ with $0<t$, together with the differentiability facts
 
 $$
-\operatorname{HasDerivAt} x (\operatorname{deriv} x(t)) t,
+\mathrm{HasDerivAt} x (\mathrm{deriv} x(t)) t,
 \qquad
-\operatorname{HasDerivAt} v (\operatorname{deriv} v(t)) t.
+\mathrm{HasDerivAt} v (\mathrm{deriv} v(t)) t.
 $$
 
 The remaining goal at that point is
@@ -123,8 +123,8 @@ The remaining goal at that point is
 $$
 0\le
 \left\langle
-\operatorname{deriv} x(t),
-\operatorname{deriv} v(t)
+\mathrm{deriv} x(t),
+\mathrm{deriv} v(t)
 \right\rangle_{\mathbb R}.
 $$
 
@@ -134,7 +134,7 @@ $$
 0\le \langle dx(t),dv(t)\rangle_{\mathbb R}.
 $$
 
-In the present application, $T=\partial F$, the derivative $dx(t)$ is $\operatorname{deriv} x(t)$, and $dv(t)$ is $\operatorname{deriv} v(t)$. The hypothesis $v(s)\in T(x(s))$ for all $s\ge 0$ is exactly `hsubgradient`, after identifying $\partial \Phi$ with $\partial F$ via the coercion. The positivity $0<t$ is supplied by `ht`, and the two derivative facts are exactly the ones introduced by `filter_upwards`.
+In the present application, $T=\partial F$, the derivative $dx(t)$ is $\mathrm{deriv} x(t)$, and $dv(t)$ is $\mathrm{deriv} v(t)$. The hypothesis $v(s)\in T(x(s))$ for all $s\ge 0$ is exactly `hsubgradient`, after identifying $\partial \Phi$ with $\partial F$ via the coercion. The positivity $0<t$ is supplied by `ht`, and the two derivative facts are exactly the ones introduced by `filter_upwards`.
 
 Mathematically, the lemma uses monotonicity at the two times $t$ and $t-h$, for small $h>0$. Since both are nonnegative, it obtains
 
@@ -164,18 +164,18 @@ $$
 \right\rangle_{\mathbb R}.
 $$
 
-As $h\to 0^+$, the two difference quotients converge to $\operatorname{deriv} v(t)$ and $\operatorname{deriv} x(t)$, respectively. Hence
+As $h\to 0^+$, the two difference quotients converge to $\mathrm{deriv} v(t)$ and $\mathrm{deriv} x(t)$, respectively. Hence
 
 $$
 0\le
 \left\langle
-\operatorname{deriv} v(t),
-\operatorname{deriv} x(t)
+\mathrm{deriv} v(t),
+\mathrm{deriv} x(t)
 \right\rangle_{\mathbb R}
 =
 \left\langle
-\operatorname{deriv} x(t),
-\operatorname{deriv} v(t)
+\mathrm{deriv} x(t),
+\mathrm{deriv} v(t)
 \right\rangle_{\mathbb R},
 $$
 

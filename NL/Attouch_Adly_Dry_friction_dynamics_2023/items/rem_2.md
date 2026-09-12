@@ -205,7 +205,7 @@ Second, it shows that the within-derivative of $F$ is zero everywhere on the tai
 
 $$
 \forall t\in[\bar s,\infty),\quad
-\operatorname{fderivWithin}_{\mathbb R} F\,[\bar s,\infty)\,t=0.
+\mathrm{fderivWithin}_{\mathbb R} F\,[\bar s,\infty)\,t=0.
 $$
 
 This is `hderiv`. The proof uses `HasFDerivWithinAt.fderivWithin`: from $F'(t)=0$ one gets a within-derivative $0$ on the tail, and since the interval $[\bar s,\infty)$ is uniquely differentiable at each of its points, the within Fréchet derivative is exactly that zero derivative. The relevant uniqueness fact is supplied by `uniqueDiffOn_Ici sbar t ht`. The tactic `simpa` then simplifies the derivative expression to $0$.

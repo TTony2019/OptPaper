@@ -13,20 +13,20 @@ abbrev ext_thm_4 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 ```
 
 ## Statement explanation
-`ext_thm_4` is an abbreviation stating a form of the Baillon–Haddad theorem for a real Hilbert space. The ambient space $H$ is assumed to be a complete real inner product space, i.e. a real Hilbert space: it has a normed additive commutative group structure, an inner product over $\mathbb R$, and completeness. The data are a function $f : H \to \mathbb R$, a map $\operatorname{gradf} : H \to H$, and a real number $L$ with $0 < L$. The hypotheses say:
+`ext_thm_4` is an abbreviation stating a form of the Baillon–Haddad theorem for a real Hilbert space. The ambient space $H$ is assumed to be a complete real inner product space, i.e. a real Hilbert space: it has a normed additive commutative group structure, an inner product over $\mathbb R$, and completeness. The data are a function $f : H \to \mathbb R$, a map $\mathrm{gradf} : H \to H$, and a real number $L$ with $0 < L$. The hypotheses say:
 
 - `hconv : IsConvex f`: the function $f$ is convex.
 - `hdiff : Differentiable ℝ f`: $f$ is differentiable over $\mathbb R$.
-- `hgrad : ∀ x, HasGradientAt f (gradf x) x`: for every point $x \in H$, the vector $\operatorname{gradf}(x)$ is a gradient of $f$ at $x$. Concretely, the derivative of $f$ at $x$ is the continuous linear functional
+- `hgrad : ∀ x, HasGradientAt f (gradf x) x`: for every point $x \in H$, the vector $\mathrm{gradf}(x)$ is a gradient of $f$ at $x$. Concretely, the derivative of $f$ at $x$ is the continuous linear functional
 
   $$
-  v \mapsto \langle \operatorname{gradf}(x), v\rangle.
+  v \mapsto \langle \mathrm{gradf}(x), v\rangle.
   $$
 
-- `hlip : LipschitzWith (Real.toNNReal L) gradf`: the map $\operatorname{gradf}$ is Lipschitz with constant $\operatorname{Real.toNNReal} L$. Since $L>0$, this is the usual condition
+- `hlip : LipschitzWith (Real.toNNReal L) gradf`: the map $\mathrm{gradf}$ is Lipschitz with constant $\mathrm{Real.toNNReal} L$. Since $L>0$, this is the usual condition
 
   $$
-  \|\operatorname{gradf}(x)-\operatorname{gradf}(y)\|
+  \|\mathrm{gradf}(x)-\mathrm{gradf}(y)\|
   \le L\,\|x-y\|
   $$
 
@@ -35,19 +35,19 @@ abbrev ext_thm_4 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 The conclusion is
 
 $$
-\operatorname{CocoerciveOn}\!\left(\frac{1}{L},\ \operatorname{Set.univ},\ 
-  \bigl(x \mapsto \operatorname{gradf}(x)\bigr)\right).
+\mathrm{CocoerciveOn}\!\left(\frac{1}{L},\ \mathrm{Set.univ},\ 
+  \bigl(x \mapsto \mathrm{gradf}(x)\bigr)\right).
 $$
 
-Here the function is written on the subtype `Set.univ`, which is canonically identified with all of $H$. Thus the conclusion says that $\operatorname{gradf}$ is $\frac{1}{L}$-cocoercive on all of $H$: for all $x,y \in H$,
+Here the function is written on the subtype `Set.univ`, which is canonically identified with all of $H$. Thus the conclusion says that $\mathrm{gradf}$ is $\frac{1}{L}$-cocoercive on all of $H$: for all $x,y \in H$,
 
 $$
-\frac{1}{L}\|\operatorname{gradf}(x)-\operatorname{gradf}(y)\|^2
+\frac{1}{L}\|\mathrm{gradf}(x)-\mathrm{gradf}(y)\|^2
 \le
-\bigl\langle \operatorname{gradf}(x)-\operatorname{gradf}(y),\ x-y\bigr\rangle .
+\bigl\langle \mathrm{gradf}(x)-\mathrm{gradf}(y),\ x-y\bigr\rangle .
 $$
 
-So the declaration says: if $f$ is convex, differentiable, has gradient $\operatorname{gradf}$ everywhere, and $\operatorname{gradf}$ is $L$-Lipschitz, then $\operatorname{gradf}$ is $\frac{1}{L}$-cocoercive everywhere.
+So the declaration says: if $f$ is convex, differentiable, has gradient $\mathrm{gradf}$ everywhere, and $\mathrm{gradf}$ is $L$-Lipschitz, then $\mathrm{gradf}$ is $\frac{1}{L}$-cocoercive everywhere.
 
 ## Lean proof
 ```lean
@@ -78,13 +78,13 @@ Step by step:
 3. The visible consequence of applying `baillon_haddad` to these arguments is exactly the target conclusion:
 
    $$
-   \operatorname{CocoerciveOn}\!\left(\frac{1}{L},\ \operatorname{Set.univ},\ 
-     \bigl(x \mapsto \operatorname{gradf}(x)\bigr)\right).
+   \mathrm{CocoerciveOn}\!\left(\frac{1}{L},\ \mathrm{Set.univ},\ 
+     \bigl(x \mapsto \mathrm{gradf}(x)\bigr)\right).
    $$
 
-   Mathematically this is the Baillon–Haddad implication: a convex differentiable function whose gradient is $L$-Lipschitz has a $\frac{1}{L}$-cocoercive gradient. The positivity assumption $0<L$ makes $\frac{1}{L}$ the intended positive cocoercivity modulus and makes $\operatorname{Real.toNNReal} L = L$ in the Lipschitz hypothesis.
+   Mathematically this is the Baillon–Haddad implication: a convex differentiable function whose gradient is $L$-Lipschitz has a $\frac{1}{L}$-cocoercive gradient. The positivity assumption $0<L$ makes $\frac{1}{L}$ the intended positive cocoercivity modulus and makes $\mathrm{Real.toNNReal} L = L$ in the Lipschitz hypothesis.
 
-4. The function `fun x : Set.univ => gradf x` is just $\operatorname{gradf}$ viewed as a function on the subtype of elements of `Set.univ`. Since `Set.univ` contains every element of $H$, this is the same as saying that the cocoercivity inequality holds globally on $H$.
+4. The function `fun x : Set.univ => gradf x` is just $\mathrm{gradf}$ viewed as a function on the subtype of elements of `Set.univ`. Since `Set.univ` contains every element of $H$, this is the same as saying that the cocoercivity inequality holds globally on $H$.
 
 Thus the abbreviation is a wrapper: it specializes the Baillon–Haddad theorem to the case where convexity is given as `IsConvex f` rather than directly as `ConvexOn ℝ Set.univ f`.
 

@@ -182,7 +182,7 @@ with $a=\alpha-1/\beta$. This is exactly the initial datum required by the cited
 The theorem `din_iff_gdin` states, for the present parameters $a=\alpha-1/\beta$ and $b=1/\beta$, that under the $C^2$ hypotheses on $\Phi$ and $x$, the positivity of $\alpha,\beta$, the identities $a=\alpha-1/\beta$, $b=1/\beta$, and $x(0)=x_0$, and the above formula for $y_0$, the assertion that $x$ is a DIN trajectory is equivalent to the existence of a curve $y:\mathbb R\to H$ that is twice continuously differentiable on $[0,\infty)$ and satisfies the gDIN solution predicate
 
 $$
-\operatorname{IsSolution\_gDIN}\Phi\beta a b x_0 y_0 x y.
+\mathrm{IsSolution\_gDIN}\Phi\beta a b x_0 y_0 x y.
 $$
 
 Applying the forward implication `.mp` of this equivalence with $x_0=x(0)$, $a=\alpha-1/\beta$, $b=1/\beta$, and the displayed $y_0$, the proof obtains such a curve $y$, its $C^2$-regularity `hyC2`, and the gDIN solution `hsol`.
@@ -198,7 +198,7 @@ $$
 It applies the cited theorem `isSolution_gDIN_iff_rescaled_gDIN` in the forward direction to `hsol`. That theorem says that for positive $a,b$, being a gDIN solution is equivalent to being a rescaled gDIN trajectory after scaling the auxiliary curve by $\sqrt{b/a}$. Concretely, it gives
 
 $$
-\operatorname{IsRescaledGDINTrajectory}
+\mathrm{IsRescaledGDINTrajectory}
 \Phi\beta a b x(0) \bigl(\sqrt{b/a}\,y_0\bigr) x
 \bigl(t\mapsto \sqrt{b/a}\,y(t)\bigr).
 $$
@@ -206,7 +206,7 @@ $$
 Using the definition of $z$ and the initial condition component of `hsol`, which identifies $y(0)$ with $y_0$, the proof rewrites this into
 
 $$
-\operatorname{IsRescaledGDINTrajectory}
+\mathrm{IsRescaledGDINTrajectory}
 \Phi\beta a b x(0) (z(0)) x z.
 $$
 
@@ -217,7 +217,7 @@ The regularity of $z$ is obtained by `hyC2.const_smul`, because multiplying a $C
 The proof then applies `rescaled_gDIN_iff_gradient_system` in the forward direction. This theorem states that, under $a>0$, $b>0$, and $\Phi$ being $C^1$, the rescaled gDIN trajectory predicate is equivalent to the gradient-system trajectory predicate with the same data. Since the proof has already established $a>0$, $b>0$, and $\Phi$ is $C^1$, it obtains
 
 $$
-\operatorname{IsGradientSystemTrajectory}
+\mathrm{IsGradientSystemTrajectory}
 \Phi\beta a b x(0) z(0) x z.
 $$
 
@@ -227,7 +227,7 @@ For the backward direction, assume
 
 $$
 \exists z,\quad z \text{ is } C^2 \text{ on } [0,\infty),\quad
-\operatorname{IsRescaledGDINTrajectory}\Phi\beta a b x(0) z(0) x z,
+\mathrm{IsRescaledGDINTrajectory}\Phi\beta a b x(0) z(0) x z,
 $$
 
 and also a gradient-system trajectory condition, which is not used. The proof introduces such a $z$, its regularity `hzC2`, and the rescaled trajectory property `hR`.
@@ -269,7 +269,7 @@ Therefore the rescaled trajectory property `hR` for $z$ can be rewritten as a re
 Now the proof applies the reverse direction `.mpr` of `isSolution_gDIN_iff_rescaled_gDIN`. Since the scaled curve and scaled initial datum satisfy the rescaled gDIN trajectory predicate, the theorem yields
 
 $$
-\operatorname{IsSolution\_gDIN}\Phi\beta a b x(0) y_0 x y.
+\mathrm{IsSolution\_gDIN}\Phi\beta a b x(0) y_0 x y.
 $$
 
 The regularity of $y$ follows from `hzC2.const_smul`, since $y$ is a constant scalar multiple of $z$.
@@ -293,7 +293,7 @@ The tactic `eq_neg_iff_add_eq_zero.mpr` is used to turn the goal $y_0=-V$ into t
 Finally, the proof applies the reverse direction `.mpr` of `din_iff_gdin`. The hypotheses are $\Phi$ and $x$ being $C^2$, $\alpha>0$, $\beta>0$, the definitional identities $a=\alpha-1/\beta$, $b=1/\beta$, the initial condition $x(0)=x(0)$, the formula for $y_0$, and the existence of the $C^2$ curve $y$ satisfying the gDIN solution predicate. The conclusion is precisely
 
 $$
-\operatorname{IsDINTrajectory} H \Phi \alpha \beta x,
+\mathrm{IsDINTrajectory} H \Phi \alpha \beta x,
 $$
 
 which completes the equivalence.

@@ -369,7 +369,7 @@ by
 The proof first converts the cocoercivity of $B$ into a Lipschitz estimate. Applying `cocoercive_implies_lipschitz` to $B$, $\beta$, and `hB` gives
 
 $$
-\operatorname{LipschitzWith}(\operatorname{toNNReal}(1/\beta))\,B.
+\mathrm{LipschitzWith}(\mathrm{toNNReal}(1/\beta))\,B.
 $$
 
 Concretely, for all $p,q\in H$,
@@ -389,7 +389,7 @@ $$
 and the scaled proximity operator
 
 $$
-P=\operatorname{Prox}[\gamma,\Phi,hPhi].
+P=\mathrm{Prox}[\gamma,\Phi,hPhi].
 $$
 
 Since $\gamma>0$, the lemma `smul_mem_gammaZero` says that $\gamma\Phi$ again belongs to $\Gamma_0(H)$. Therefore the proximity operator of $\gamma\Phi$ exists, and the theorem `proximityOperator_firmlyNonexpansive_of_mem_gammaZero` says that it is firmly nonexpansive. Because $P$ is precisely the proximity operator of $\gamma\Phi$, this gives
@@ -421,7 +421,7 @@ $$
 It wants $F$ to be globally Lipschitz. Let
 
 $$
-K=\operatorname{toNNReal}\bigl(2+|\lambda^{-1}|/\beta\bigr).
+K=\mathrm{toNNReal}\bigl(2+|\lambda^{-1}|/\beta\bigr).
 $$
 
 For $p,q\in H$, the triangle inequality gives
@@ -457,7 +457,7 @@ $$
 Let $q_0=x_0+\lambda^{-1}v_0$. Since $P$ is the proximity operator of $\gamma\Phi$, the characterization
 
 $$
-p=\operatorname{Prox}[f,hf](x)
+p=\mathrm{Prox}[f,hf](x)
 \quad\Longleftrightarrow\quad
 x-p\in\partial f(p)
 $$
@@ -501,7 +501,7 @@ $$
 The lemma `exists_global_solution_of_lipschitz` applies because $F$ is Lipschitz on the complete space $H$. It gives a global trajectory $z:\mathbb R\to H$ satisfying
 
 $$
-z(0)=q_0,\qquad \forall t,\ \operatorname{HasDerivAt} z\,(F(z(t)))\,t.
+z(0)=q_0,\qquad \forall t,\ \mathrm{HasDerivAt} z\,(F(z(t)))\,t.
 $$
 
 In particular $z$ is differentiable everywhere, hence continuous. Since $F$ is Lipschitz, $F$ is continuous, so $t\mapsto F(z(t))$ is continuous. For each $b>0$, this continuous function is bounded on the compact interval $[0,b]$ by some $C$. The derivative bound
@@ -547,9 +547,9 @@ $$
 The subgradient condition is obtained from `scaledProximityOperator_residual_mem`, which says that for $f\in\Gamma_0(H)$ and $\gamma>0$,
 
 $$
-\gamma^{-1}\bigl(z-\operatorname{Prox}[\gamma,f](z)\bigr)
+\gamma^{-1}\bigl(z-\mathrm{Prox}[\gamma,f](z)\bigr)
 \in
-\partial f\bigl(\operatorname{Prox}[\gamma,f](z)\bigr).
+\partial f\bigl(\mathrm{Prox}[\gamma,f](z)\bigr).
 $$
 
 Here $f=\Phi$, $\gamma=\lambda^{-1}$, and $P(z(t))=x(t)$, so
@@ -698,7 +698,7 @@ The proof then upgrades this almost-everywhere derivative to a right derivative 
 
 $$
 \forall t\in[0,b),\quad
-\operatorname{HasDerivWithinAt} q\,(F(q(t)))\,([t,\infty))\,t.
+\mathrm{HasDerivWithinAt} q\,(F(q(t)))\,([t,\infty))\,t.
 $$
 
 Now both $q$ and $z$ are continuous on $[0,b]$, have the same initial value $q(0)=q_0=z(0)$, and satisfy the same ODE $u'=F(u)$ on $[0,b]$, with $q$ in right-derivative form and $z$ in ordinary derivative form. Since $F$ is Lipschitz with constant $K$, the ODE uniqueness lemma `ODE_solution_unique_of_mem_Icc_right` applies. Its consequence in this situation is exactly

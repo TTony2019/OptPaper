@@ -30,7 +30,7 @@ An element of this structure consists of four data fields:
 - $\lambda:\mathbb N\to \mathbb R$, a sequence of positive step sizes $\lambda_k$;
 - $\alpha:\mathbb N\to \mathbb R$, a sequence of inertial parameters $\alpha_k$.
 
-In addition, the structure requires the following propositional fields. The field `proper` asserts that $f$ is proper in the extended-real sense used by `ERealFunction.IsProper`; standardly this means that $f$ is not identically $+\infty$ and never takes the value $-\infty$. The field `closed_epigraph` asserts that the epigraph $\operatorname{epi} f$, as given by `ERealFunction.epigraph f`, is closed. The field `convex` asserts that this epigraph is convex over $\mathbb R$. Thus $f$ is assumed to be a proper closed convex extended-real-valued function.
+In addition, the structure requires the following propositional fields. The field `proper` asserts that $f$ is proper in the extended-real sense used by `ERealFunction.IsProper`; standardly this means that $f$ is not identically $+\infty$ and never takes the value $-\infty$. The field `closed_epigraph` asserts that the epigraph $\mathrm{epi} f$, as given by `ERealFunction.epigraph f`, is closed. The field `convex` asserts that this epigraph is convex over $\mathbb R$. Thus $f$ is assumed to be a proper closed convex extended-real-valued function.
 
 The numerical parameter fields are:
 

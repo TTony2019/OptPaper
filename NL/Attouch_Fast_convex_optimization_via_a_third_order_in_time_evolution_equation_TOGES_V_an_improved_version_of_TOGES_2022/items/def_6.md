@@ -19,9 +19,9 @@ $$
 Thus $x^\star$ is a global minimizer of $f$, and it is the unique point at which the minimum value is attained. The definition then returns the real number
 
 $$
-\operatorname{stronglyConvexEnergyConstant}(f,u,x^\star,\mu,t_0,h_{x^\star})
+\mathrm{stronglyConvexEnergyConstant}(f,u,x^\star,\mu,t_0,h_{x^\star})
 =
-\operatorname{stronglyConvexLyapunov}(f,u,x^\star,\mu,t_0,h_{x^\star})
+\mathrm{stronglyConvexLyapunov}(f,u,x^\star,\mu,t_0,h_{x^\star})
 \cdot
 \exp\!\left(\sqrt{\mu}\,t_0\right).
 $$
@@ -37,9 +37,9 @@ In words, it takes the value of the previously defined quantity `stronglyConvexL
 There is no separate proof. This is a `def`, not a theorem, and the Lean source contains no `:= by` proof block or tactic sequence. The entire mathematical content is the defining term
 
 $$
-\operatorname{stronglyConvexLyapunov}(f,u,x^\star,\mu,t_0,h_{x^\star})
+\mathrm{stronglyConvexLyapunov}(f,u,x^\star,\mu,t_0,h_{x^\star})
 \cdot
-\operatorname{Real.exp}\!\left(\operatorname{Real.sqrt}(\mu)\cdot t_0\right).
+\mathrm{Real.exp}\!\left(\mathrm{Real.sqrt}(\mu)\cdot t_0\right).
 $$
 
 Unfolding `stronglyConvexEnergyConstant` on given arguments therefore yields exactly this product. The first factor is the result of applying the earlier function `stronglyConvexLyapunov` to the arguments $f,u,x^\star,\mu,t_0,h_{x^\star}$. Since no statement of `stronglyConvexLyapunov` is supplied, its internal formula cannot be determined from the source, and the only precise fact available here is that it supplies the first factor as a real number. The second factor is computed using the real square root and real exponential functions: it is $\exp(\sqrt{\mu}\,t_0)$. No named theorem or lemma is invoked, and no rewriting, simplification, or arithmetic tactic such as `rw`, `simp`, `exact`, or `linarith` occurs. The proof argument $h_{x^\star}$ is not analyzed in this definition; it is merely passed as an input to `stronglyConvexLyapunov`.

@@ -20,7 +20,7 @@ The declaration `limit_zero_of_memLp_deriv_bound` is a theorem about two functio
 - For almost every $t$ with respect to Lebesgue measure,
 
   $$
-  \operatorname{deriv}F(t)\le G(t).
+  \mathrm{deriv}F(t)\le G(t).
   $$
 
 The conclusion is
@@ -186,7 +186,7 @@ $$
 F(b)-F(a)\le \int_a^b G(x)\,dx
 $$
 
-for all $0\le a\le b$. This is exactly the conclusion of `increment_le_interval_integral`, applied with the present $F,G,r$. The hypotheses supplied to that lemma are $1\le r$, the absolute continuity of $F$ on every $[0,b]$ with $b>0$, the membership $G\in L^r$, and the almost-everywhere derivative bound $\operatorname{deriv}F(t)\le G(t)$. The lemma converts the pointwise almost-everywhere differential inequality into an integral inequality controlling the increase of $F$.
+for all $0\le a\le b$. This is exactly the conclusion of `increment_le_interval_integral`, applied with the present $F,G,r$. The hypotheses supplied to that lemma are $1\le r$, the absolute continuity of $F$ on every $[0,b]$ with $b>0$, the membership $G\in L^r$, and the almost-everywhere derivative bound $\mathrm{deriv}F(t)\le G(t)$. The lemma converts the pointwise almost-everywhere differential inequality into an integral inequality controlling the increase of $F$.
 
 Second, the proof records the small-interval property
 
@@ -207,10 +207,10 @@ This is the conclusion of `eventual_interval_integral_upper`, applied with $1\le
 The proof then argues by contradiction. It assumes the negation of $F(t)\to0$. Using the metric characterization of convergence along `atTop`, the negation becomes: there exists $\varepsilon>0$ such that for every $R$ there is some $t\ge R$ with
 
 $$
-\varepsilon\le \operatorname{dist}(F(t),0).
+\varepsilon\le \mathrm{dist}(F(t),0).
 $$
 
-Because $F(t)\ge0$, we have $\operatorname{dist}(F(t),0)=|F(t)|=F(t)$. Thus there are arbitrarily large $t$ with
+Because $F(t)\ge0$, we have $\mathrm{dist}(F(t),0)=|F(t)|=F(t)$. Thus there are arbitrarily large $t$ with
 
 $$
 \varepsilon\le F(t).

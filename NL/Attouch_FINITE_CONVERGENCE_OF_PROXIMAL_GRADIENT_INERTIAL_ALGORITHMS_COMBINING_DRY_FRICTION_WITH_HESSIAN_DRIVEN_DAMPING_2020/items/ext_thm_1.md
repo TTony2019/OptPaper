@@ -12,12 +12,12 @@ The recalled declaration is `ERealFunction.eq_proximityOperator_iff_sub_mem_subd
 What is determined by the identifier is the mathematical equivalence it names. The name says that, for an extended-real-valued function $f$, equality with the proximity operator is equivalent to membership of a difference in the subdifferential. In the usual convex-analysis formulation, this is the statement
 
 $$
-p = \operatorname{prox}_f(x)
+p = \mathrm{prox}_f(x)
 \quad\Longleftrightarrow\quad
 x-p \in \partial f(p),
 $$
 
-up to any scaling or indexing convention that may be hidden in the full Lean type. Here $\operatorname{prox}_f(x)$ is the point minimizing the prox objective
+up to any scaling or indexing convention that may be hidden in the full Lean type. Here $\mathrm{prox}_f(x)$ is the point minimizing the prox objective
 
 $$
 y \mapsto f(y)+\frac{1}{2}\lVert y-x\rVert^2,
@@ -49,5 +49,5 @@ There is no separate proof part. The Lean source contains only the `recall` comm
 
 and the comment `-- No separate proof part.` No tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` occur. No local hypotheses are introduced, no goal is transformed, and no previously established result is applied step by step. The `recall` command does not prove the equivalence; it simply makes the already existing declaration available by name.
 
-Consequently, the mathematical content to be explained is exactly the content of the recalled theorem described above: the equivalence between $p=\operatorname{prox}_f(x)$ and $x-p\in\partial f(p)$. Because the supplied source does not include the theorem’s full type, no further proof-level verification of its hypotheses or of the subdifferential characterization can be given from the provided code.
+Consequently, the mathematical content to be explained is exactly the content of the recalled theorem described above: the equivalence between $p=\mathrm{prox}_f(x)$ and $x-p\in\partial f(p)$. Because the supplied source does not include the theorem’s full type, no further proof-level verification of its hypotheses or of the subdifferential characterization can be given from the provided code.
 

@@ -41,13 +41,13 @@ $$
 The curves satisfy that $x$ is $C^1$ on $[0,\infty)$, that $y$ is $C^2$ on $[0,\infty)$, and that the pair $(x,y)$ is a solution of the `gDIN` system with parameters $\Phi,\beta,a,b$ and initial data $x_0,y_0$. The proof uses the solution predicate through the following two consequences at each $t\ge 0$:
 
 $$
-\operatorname{deriv}x(t)+\beta\,\nabla\Phi(x(t))+a x(t)+b y(t)=0,
+\mathrm{deriv}x(t)+\beta\,\nabla\Phi(x(t))+a x(t)+b y(t)=0,
 $$
 
 and
 
 $$
-\operatorname{deriv}y(t)+a x(t)+b y(t)=0.
+\mathrm{deriv}y(t)+a x(t)+b y(t)=0.
 $$
 
 Finally, the hypothesis `hxbounded` says that $x$ is bounded on $[0,\infty)$, meaning that the image $x([0,\infty))$ is a bounded subset of $H$.
@@ -55,7 +55,7 @@ Finally, the hypothesis `hxbounded` says that $x$ is bounded on $[0,\infty)$, me
 The conclusion is a four-part conjunction:
 
 $$
-\operatorname{deriv}x \text{ is bounded on } [0,\infty),
+\mathrm{deriv}x \text{ is bounded on } [0,\infty),
 $$
 
 $$
@@ -63,7 +63,7 @@ t\mapsto \nabla\Phi(x(t)) \text{ is bounded on } [0,\infty),
 $$
 
 $$
-\operatorname{deriv}x(t)\to 0 \quad \text{as } t\to\infty,
+\mathrm{deriv}x(t)\to 0 \quad \text{as } t\to\infty,
 $$
 
 and
@@ -72,7 +72,7 @@ $$
 \nabla\Phi(x(t))\to 0 \quad \text{as } t\to\infty.
 $$
 
-Here boundedness on $[0,\infty)$ is expressed by `BoundedOnNonnegative`, which means that the image of $[0,\infty)$ under the given function is bounded in the norm of $H$. Thus the theorem says that both the velocity $\operatorname{deriv}x$ and the gradient term $\nabla\Phi(x(t))$ are bounded and asymptotically vanish.
+Here boundedness on $[0,\infty)$ is expressed by `BoundedOnNonnegative`, which means that the image of $[0,\infty)$ under the given function is bounded in the norm of $H$. Thus the theorem says that both the velocity $\mathrm{deriv}x$ and the gradient term $\nabla\Phi(x(t))$ are bounded and asymptotically vanish.
 
 ## Lean proof
 ```lean
@@ -321,7 +321,7 @@ The proof begins by introducing abbreviations:
 
 $$
 q(t)=a x(t)+b y(t),\qquad
-v(t)=\operatorname{deriv}x(t),\qquad
+v(t)=\mathrm{deriv}x(t),\qquad
 g(t)=\nabla\Phi(x(t)),
 $$
 
@@ -459,16 +459,16 @@ and $\beta g+q$ is continuous, $v$ is continuous on $[0,\infty)$.
 
 The proof now wants to apply a uniform-continuity lemma, which requires Lipschitz continuity on $(0,\infty)$. It first shows that $x$ is Lipschitz on $(0,\infty)$. The derivative of $x$ is $v$, and $\|v(t)\|\le C_v$ for all $t\ge 0$. Using the fact that a differentiable function on the convex interval $(0,\infty)$ whose derivative has norm at most $C$ is $C$-Lipschitz, the proof obtains a Lipschitz constant for $x$ on $(0,\infty)$.
 
-It similarly shows that $q$ is Lipschitz on $(0,\infty)$. Differentiating $q=a x+b y$, and using $\operatorname{deriv}y(t)=-q(t)$, gives
+It similarly shows that $q$ is Lipschitz on $(0,\infty)$. Differentiating $q=a x+b y$, and using $\mathrm{deriv}y(t)=-q(t)$, gives
 
 $$
-\operatorname{deriv}q(t)=a v(t)-b q(t).
+\mathrm{deriv}q(t)=a v(t)-b q(t).
 $$
 
 Hence
 
 $$
-\|\operatorname{deriv}q(t)\|
+\|\mathrm{deriv}q(t)\|
 \le |a|\|v(t)\|+b\|q(t)\|
 \le |a|\max(C_v,0)+b\max(C_q',0).
 $$
@@ -488,7 +488,7 @@ At this point the proof applies `gdin_uniformContinuousOn_Ici_of_lipschitzOn_Ioi
 The proof next uses the square-integrability results. The theorem `gdin_x_derivative_memL2` says, under the standing hypotheses, that
 
 $$
-t\mapsto \operatorname{deriv}x(t)
+t\mapsto \mathrm{deriv}x(t)
 $$
 
 is in $L^2$ on $[0,\infty)$. The theorem `gdin_gradient_memL2` says similarly that
@@ -514,16 +514,16 @@ on $[0,\infty)$.
 Now the limit conclusion is obtained. The lemma `gdin_uniformContinuousOn_sq_integrable_tendsto_zero` says that if a function on $[0,\infty)$ is uniformly continuous and its squared norm is integrable on $[0,\infty)$, then the function tends to $0$ at infinity. Applied to $v$, this gives
 
 $$
-\operatorname{deriv}x(t)\to 0 \quad \text{as } t\to\infty.
+\mathrm{deriv}x(t)\to 0 \quad \text{as } t\to\infty.
 $$
 
 For $g$, the proof uses `gdin_residual_limit`, which states that
 
 $$
-\operatorname{deriv}x(t)+\beta\,\nabla\Phi(x(t))\to 0
+\mathrm{deriv}x(t)+\beta\,\nabla\Phi(x(t))\to 0
 $$
 
-as $t\to\infty$. Since $\operatorname{deriv}x(t)\to 0$, subtracting gives
+as $t\to\infty$. Since $\mathrm{deriv}x(t)\to 0$, subtracting gives
 
 $$
 \beta\,\nabla\Phi(x(t))\to 0.
@@ -537,5 +537,5 @@ $$
 
 as $t\to\infty$.
 
-Finally, the four established facts — boundedness of $v=\operatorname{deriv}x$, boundedness of $g=\nabla\Phi(x(\cdot))$, convergence of $v$ to $0$, and convergence of $g$ to $0$ — are assembled into the required conjunction. The final `simpa` steps unfold the abbreviations $v$ and $g$, returning exactly the statement of `gdin_bounded_asymptotics`.
+Finally, the four established facts — boundedness of $v=\mathrm{deriv}x$, boundedness of $g=\nabla\Phi(x(\cdot))$, convergence of $v$ to $0$, and convergence of $g$ to $0$ — are assembled into the required conjunction. The final `simpa` steps unfold the abbreviations $v$ and $g$, returning exactly the statement of `gdin_bounded_asymptotics`.
 

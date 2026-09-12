@@ -21,14 +21,14 @@ structure GradientProjectionDynamics {H : Type*} [NormedAddCommGroup H]
 ```
 
 ## Statement explanation
-The declaration introduces a structure named `GradientProjectionDynamics`. Its ambient data are a type $H$ equipped with a normed additive commutative group structure, a real inner product space structure, and a completeness assumption. Thus $H$ is a real Hilbert space. The structure is parameterized by a function $\Psi : H \to \mathbb{R}$, which is a scalar potential or objective; a set $C \subseteq H$, which is the constraint set; a function $\operatorname{tangentCone} : H \to \mathcal{P}(H)$, assigning to each point a set of tangent vectors; and a function $\operatorname{projection} : H \to \mathcal{P}(H) \to H$, which takes a vector and a set and returns a vector of $H$.
+The declaration introduces a structure named `GradientProjectionDynamics`. Its ambient data are a type $H$ equipped with a normed additive commutative group structure, a real inner product space structure, and a completeness assumption. Thus $H$ is a real Hilbert space. The structure is parameterized by a function $\Psi : H \to \mathbb{R}$, which is a scalar potential or objective; a set $C \subseteq H$, which is the constraint set; a function $\mathrm{tangentCone} : H \to \mathcal{P}(H)$, assigning to each point a set of tangent vectors; and a function $\mathrm{projection} : H \to \mathcal{P}(H) \to H$, which takes a vector and a set and returns a vector of $H$.
 
 The fields of the structure encode the following mathematical requirements.
 
 - `closed_convex`: the set $C$ is closed and convex over $\mathbb{R}$, i.e.
 
   $$
-  \operatorname{IsClosed}(C) \land \operatorname{Convex}_{\mathbb R}(C).
+  \mathrm{IsClosed}(C) \land \mathrm{Convex}_{\mathbb R}(C).
   $$
 
 - `x`: there is a trajectory
@@ -48,7 +48,7 @@ The fields of the structure encode the following mathematical requirements.
 - `tangent_cone_at_path`: for every nonnegative time $t$,
 
   $$
-  0 \le t \implies \operatorname{tangentCone}(x(t)) = \operatorname{tangentConeAt}_{\mathbb R}(C, x(t)).
+  0 \le t \implies \mathrm{tangentCone}(x(t)) = \mathrm{tangentConeAt}_{\mathbb R}(C, x(t)).
   $$
 
   The user-supplied tangent-cone map agrees, along the trajectory for $t \ge 0$, with the actual tangent cone to $C$ at the point $x(t)$.
@@ -57,18 +57,18 @@ The fields of the structure encode the following mathematical requirements.
 
   $$
   0 \le t \implies
-  \operatorname{projection}\!\left(-(\nabla \Psi)(x(t)), \operatorname{tangentCone}(x(t))\right)
-  \in \operatorname{tangentCone}(x(t)).
+  \mathrm{projection}\!\left(-(\nabla \Psi)(x(t)), \mathrm{tangentCone}(x(t))\right)
+  \in \mathrm{tangentCone}(x(t)).
   $$
 
   So the projected vector lies in the tangent cone.
 
-- `projection_min_dist`: for every nonnegative time $t$ and every $z \in \operatorname{tangentCone}(x(t))$,
+- `projection_min_dist`: for every nonnegative time $t$ and every $z \in \mathrm{tangentCone}(x(t))$,
 
   $$
   \left\|
   -(\nabla \Psi)(x(t)) -
-  \operatorname{projection}\!\left(-(\nabla \Psi)(x(t)), \operatorname{tangentCone}(x(t))\right)
+  \mathrm{projection}\!\left(-(\nabla \Psi)(x(t)), \mathrm{tangentCone}(x(t))\right)
   \right\|
   \le
   \left\|
@@ -82,9 +82,9 @@ The fields of the structure encode the following mathematical requirements.
 
   $$
   0 \le t \implies
-  \operatorname{deriv} x(t)
+  \mathrm{deriv} x(t)
   =
-  \operatorname{projection}\!\left(-(\nabla \Psi)(x(t)), \operatorname{tangentCone}(x(t))\right).
+  \mathrm{projection}\!\left(-(\nabla \Psi)(x(t)), \mathrm{tangentCone}(x(t))\right).
   $$
 
   Thus the velocity of the trajectory is the projection of the negative gradient onto the tangent cone at the current point.

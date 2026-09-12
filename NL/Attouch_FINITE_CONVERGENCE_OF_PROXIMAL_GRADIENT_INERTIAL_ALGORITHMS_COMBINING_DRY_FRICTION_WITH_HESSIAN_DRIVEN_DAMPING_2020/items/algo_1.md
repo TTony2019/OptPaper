@@ -26,7 +26,7 @@ structure IPAHDD {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [C
 The declaration `IPAHDD` is a structure, i.e. a record type, describing an iterative algorithm rather than proving a theorem. Its ambient space is a real Hilbert space $H$: the assumptions `NormedAddCommGroup H`, `InnerProductSpace ℝ H`, and `CompleteSpace H` say that $H$ is a complete real inner-product space. The structure is parameterized by:
 
 - an objective function $f : H \to \mathbb R$;
-- an extended-real-valued function $\phi : H \to \operatorname{Ioi}(\bot_{\overline{\mathbb R}})$, whose codomain is the set of extended reals strictly larger than the bottom element; in ordinary notation this means $\phi$ takes values in $(-\infty,+\infty]$ and never takes the value $-\infty$;
+- an extended-real-valued function $\phi : H \to \mathrm{Ioi}(\bot_{\overline{\mathbb R}})$, whose codomain is the set of extended reals strictly larger than the bottom element; in ordinary notation this means $\phi$ takes values in $(-\infty,+\infty]$ and never takes the value $-\infty$;
 - a proof $hφ$ that $\phi$ lies in $\Gamma_0(H)$, the class of proper, convex, lower semicontinuous extended-real-valued functions on $H$;
 - real parameters $h,\gamma,\beta$.
 

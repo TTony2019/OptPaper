@@ -46,7 +46,7 @@ The hypotheses say:
 - $A^{-1}$ is a two-sided inverse of $A$:
 
   $$
-  A\circ A^{-1}=\operatorname{id}_E,\qquad A^{-1}\circ A=\operatorname{id}_E.
+  A\circ A^{-1}=\mathrm{id}_E,\qquad A^{-1}\circ A=\mathrm{id}_E.
   $$
 
 - $f$ is finite near the origin: eventually, as $x\to0$, one has $f(x)\ne+\infty$. Together with properness this makes $f(x)$ a real number near $0$.
@@ -380,13 +380,13 @@ $$
 f(0)\ne-\infty.
 $$
 
-Next it uses the two inverse identities. Applying the equality of continuous linear maps $A\circ A^{-1}=\operatorname{id}$ to a vector $y$ gives
+Next it uses the two inverse identities. Applying the equality of continuous linear maps $A\circ A^{-1}=\mathrm{id}$ to a vector $y$ gives
 
 $$
 A(A^{-1}y)=y.
 $$
 
-Similarly, applying $A^{-1}\circ A=\operatorname{id}$ to $x$ gives
+Similarly, applying $A^{-1}\circ A=\mathrm{id}$ to $x$ gives
 
 $$
 A^{-1}(Ax)=x.
@@ -661,7 +661,7 @@ $$
 If $\|x\|<r$ and $x\ne0$, the local lower quadratic bound for $f$ applies. The lemma `local_supremand_upper_real` is used here. It says that under the hypotheses
 
 $$
-A \text{ symmetric},\qquad A\circ A^{-1}=\operatorname{id},
+A \text{ symmetric},\qquad A\circ A^{-1}=\mathrm{id},
 $$
 
 with $\eta'\ge0$, $m\|z\|^2\le\langle Az,z\rangle$, $2\eta'\le m/2$, and

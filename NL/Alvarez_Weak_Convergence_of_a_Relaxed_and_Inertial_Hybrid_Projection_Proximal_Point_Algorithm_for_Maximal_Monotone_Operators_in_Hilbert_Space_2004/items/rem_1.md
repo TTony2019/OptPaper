@@ -36,7 +36,7 @@ The numerical hypotheses are:
 - $hlam\_sq\_diverges$: the series $\sum_k (\lambda_k)^2$ is not summable.
 - $hweighted$: the weighted series $\sum_k (\lambda_k)^2\|v_k\|^2$ is summable.
 - $hfinite$: $H$ is finite-dimensional over $\mathbb R$.
-- $hdist$: for every zero $\bar x\in \operatorname{zeros}(A)$, the real sequence $\|x_k-\bar x\|$ converges to some limit $l$.
+- $hdist$: for every zero $\bar x\in \mathrm{zeros}(A)$, the real sequence $\|x_k-\bar x\|$ converges to some limit $l$.
 - $hR1\_pos$: there exists $R_1>0$ such that $R_1\le \rho_k$ for all $k$.
 - $hR2\_lt\_two$: there exists $R_2<2$ such that $\rho_k\le R_2$ for all $k$.
 
@@ -58,7 +58,7 @@ $$
 (\rho_k)^{-1}v_k\in A(p_k).
 $$
 
-The conclusion is that there exists a zero $\hat x\in \operatorname{zeros}(A)$ such that
+The conclusion is that there exists a zero $\hat x\in \mathrm{zeros}(A)$ such that
 
 $$
 x_k\to \hat x
@@ -310,7 +310,7 @@ $$
 By the definition of `SetValuedOperator.zeros`, this means
 
 $$
-\hat x\in \operatorname{zeros}(A).
+\hat x\in \mathrm{zeros}(A).
 $$
 
 Now the distance-convergence hypothesis $hdist$ is applied to this zero $\hat x$, producing a real number $\hat l$ such that
@@ -337,5 +337,5 @@ $$
 (x_k-\hat x)+\hat x=x_k\to \hat x.
 $$
 
-Thus the proof concludes with the witness $\hat x$, the established fact that $\hat x\in \operatorname{zeros}(A)$, and the strong convergence $x_k\to\hat x$.
+Thus the proof concludes with the witness $\hat x$, the established fact that $\hat x\in \mathrm{zeros}(A)$, and the strong convergence $x_k\to\hat x$.
 

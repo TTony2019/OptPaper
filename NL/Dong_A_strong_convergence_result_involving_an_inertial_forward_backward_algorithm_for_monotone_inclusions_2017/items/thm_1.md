@@ -28,7 +28,7 @@ $$
 where $A:H\to H$ is a single-valued operator and $B:H\rightrightarrows H$ is a set-valued operator. The zero set is denoted
 
 $$
-Z=\operatorname{operatorSumZeroSet} A B
+Z=\mathrm{operatorSumZeroSet} A B
 =\{u\in H:0\in A u+B u\}.
 $$
 
@@ -90,7 +90,7 @@ the zero set $Z$ is nonempty, and $Z$ is Chebyshev, so that the metric projectio
 
 $$
 x_n\longrightarrow
-\operatorname{projectionPoint} Z\,(\text{Chebyshev witness})\,x_0
+\mathrm{projectionPoint} Z\,(\text{Chebyshev witness})\,x_0
 \quad\text{strongly in }H.
 $$
 
@@ -758,7 +758,7 @@ $$
 so $T$ is a forward-backward selection with constant step $\varepsilon$. The theorem `forward_backward_nonexpansive_and_fixedPoints` then says that $T$ is $1$-Lipschitz and that
 
 $$
-\operatorname{fixedPoints} T=Z.
+\mathrm{fixedPoints} T=Z.
 $$
 
 Because $\varepsilon<\liminf r_n$, eventually the algorithmic step sizes satisfy $\varepsilon\le r_n$. The proof defines a variable-step selection $R_n$ such that
@@ -793,7 +793,7 @@ $$
 x-T x=u.
 $$
 
-Here $D=H$, $u=0$, so $w-T w=0$. Hence $w$ is a fixed point of $T$. Since $\operatorname{fixedPoints} T=Z$, every weak sequential cluster point $w$ of $x_n$ belongs to $Z$. The proof also uses `isClosed_iff_weak_image_isClosed_of_convex` on the whole space to know that the weak image of $H$ is sequentially closed, and `mem_of_tendsto_weakly_of_isClosed_convex` to record weak closedness of the whole space.
+Here $D=H$, $u=0$, so $w-T w=0$. Hence $w$ is a fixed point of $T$. Since $\mathrm{fixedPoints} T=Z$, every weak sequential cluster point $w$ of $x_n$ belongs to $Z$. The proof also uses `isClosed_iff_weak_image_isClosed_of_convex` on the whole space to know that the weak image of $H$ is sequentially closed, and `mem_of_tendsto_weakly_of_isClosed_convex` to record weak closedness of the whole space.
 
 Ninth, the proof shows that there is at most one weak sequential cluster point, and that it must equal $q=P_Z(x_0)$. If $w$ is a weak cluster point, then by the previous paragraph $w\in Z$. Along a weakly convergent subsequence,
 
@@ -883,5 +883,5 @@ $$
 x_n\to q.
 $$
 
-Thus the inertial forward-backward algorithm converges strongly to the metric projection of the initial point onto the zero set $Z=\operatorname{operatorSumZeroSet} A B$.
+Thus the inertial forward-backward algorithm converges strongly to the metric projection of the initial point onto the zero set $Z=\mathrm{operatorSumZeroSet} A B$.
 

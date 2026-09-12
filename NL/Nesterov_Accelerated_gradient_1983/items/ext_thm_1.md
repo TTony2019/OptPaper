@@ -9,7 +9,7 @@ theorem descent_lemma {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ 
 ```
 
 ## Statement explanation
-The declaration `descent_lemma` is a theorem about a complete real inner product space $E$. The assumptions say that $E$ is a normed additive commutative group, is an inner product space over $\mathbb R$, and is complete; together these make $E$ a real Hilbert space. The theorem takes a function $f:E\to\mathbb R$, a real constant $L$, a hypothesis $h:\operatorname{IsC11} f L$, and two points $x,y\in E$. In the proof, the hypothesis $h$ is used through two concrete consequences: first, at each point $u$, $f$ has a gradient $\nabla f(u)$, so that the gradient is available in a chain rule; second, for all points $u,v$, the gradient is $L$-Lipschitz in the sense
+The declaration `descent_lemma` is a theorem about a complete real inner product space $E$. The assumptions say that $E$ is a normed additive commutative group, is an inner product space over $\mathbb R$, and is complete; together these make $E$ a real Hilbert space. The theorem takes a function $f:E\to\mathbb R$, a real constant $L$, a hypothesis $h:\mathrm{IsC11} f L$, and two points $x,y\in E$. In the proof, the hypothesis $h$ is used through two concrete consequences: first, at each point $u$, $f$ has a gradient $\nabla f(u)$, so that the gradient is available in a chain rule; second, for all points $u,v$, the gradient is $L$-Lipschitz in the sense
 
 $$
 \|\nabla f(u)-\nabla f(v)\|\le L\|u-v\|.
@@ -109,7 +109,7 @@ by
 The proof begins by defining the affine line segment
 
 $$
-\phi(t)=\operatorname{lineMap}(x,y,t),
+\phi(t)=\mathrm{lineMap}(x,y,t),
 $$
 
 so that $\phi(0)=x$, $\phi(1)=y$, and $\phi'(t)=y-x$. It then defines the auxiliary function

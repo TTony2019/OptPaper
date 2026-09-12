@@ -18,8 +18,8 @@ The declaration `hpe_weakly_converges_to_zero` is a weak-convergence theorem for
 The conclusion is existential: there exists $x_* \in H$ such that $0 \in T x_*$ and the primal sequence $A.x_k$ converges weakly to $x_*$. The weak convergence is expressed as convergence in the weak space, namely
 
 $$
-\operatorname{toWeakSpace}_{\mathbb R,H}(A.x_k) \longrightarrow
-\operatorname{toWeakSpace}_{\mathbb R,H}(x_*).
+\mathrm{toWeakSpace}_{\mathbb R,H}(A.x_k) \longrightarrow
+\mathrm{toWeakSpace}_{\mathbb R,H}(x_*).
 $$
 
 In ordinary Hilbert-space language, this means that every weak sequential cluster point of $A.x_k$ is a zero of $T$, that there is at most one such weak sequential cluster point, and hence the whole sequence $A.x_k$ weakly converges to a zero of $T$. The statement does not assert strong convergence, nor does it assert that $T$ has a unique zero.
@@ -87,7 +87,7 @@ by
 First, the proof invokes `hpe_asymptotics A hzero` and destructs its five-part conclusion. This theorem says that if $A$ is an HPE iteration and $T$ has a zero, then the primal iterates are bounded,
 
 $$
-\operatorname{range}(A.x) \text{ is bounded},
+\mathrm{range}(A.x) \text{ is bounded},
 $$
 
 and the following asymptotic relations hold:
@@ -101,19 +101,19 @@ $$
 
 The proof keeps the first four facts as $hxBounded$, $hyx0$, $hε0$, and $hvNorm0$, and discards the last one. These facts are then used to identify weak cluster points and to control the auxiliary sequences.
 
-Next, the proof establishes `hcluster_zero`, which states that for every $p \in H$, if $\operatorname{toWeakSpace}_{\mathbb R,H}(p)$ is a sequential cluster point of the sequence
+Next, the proof establishes `hcluster_zero`, which states that for every $p \in H$, if $\mathrm{toWeakSpace}_{\mathbb R,H}(p)$ is a sequential cluster point of the sequence
 
 $$
-u_k = \operatorname{toWeakSpace}_{\mathbb R,H}(A.x_k),
+u_k = \mathrm{toWeakSpace}_{\mathbb R,H}(A.x_k),
 $$
 
-then $0 \in T p$. The definition of `IsSequentialClusterPt` says that there is a strictly increasing subsequence $\varphi : \mathbb N \to \mathbb N$ such that $u_{\varphi(j)}$ converges to $\operatorname{toWeakSpace}_{\mathbb R,H}(p)$. The proof introduces $p$ and the cluster-point hypothesis with `intro`, then destructs it with `rcases` into a strictly increasing $\varphi$ and the convergence
+then $0 \in T p$. The definition of `IsSequentialClusterPt` says that there is a strictly increasing subsequence $\varphi : \mathbb N \to \mathbb N$ such that $u_{\varphi(j)}$ converges to $\mathrm{toWeakSpace}_{\mathbb R,H}(p)$. The proof introduces $p$ and the cluster-point hypothesis with `intro`, then destructs it with `rcases` into a strictly increasing $\varphi$ and the convergence
 
 $$
 A.x_{\varphi(j)} \rightharpoonup p.
 $$
 
-The `simpa [Function.comp]` step rewrites the composition $u \circ \varphi$ as the explicit sequence $j \mapsto \operatorname{toWeakSpace}_{\mathbb R,H}(A.x_{\varphi(j)})$.
+The `simpa [Function.comp]` step rewrites the composition $u \circ \varphi$ as the explicit sequence $j \mapsto \mathrm{toWeakSpace}_{\mathbb R,H}(A.x_{\varphi(j)})$.
 
 The theorem `hpe_y_subseq_tendsto_weakly_of_x_subseq` is then applied to $A$, the strictly increasing sequence $\varphi$, the weak convergence $A.x_{\varphi(j)} \rightharpoonup p$, and the asymptotic relation $\|A.y_k - A.x_k\| \to 0$. Its conclusion is
 
@@ -233,9 +233,9 @@ The inequalities $L_q > L_p$ and $L_p > L_q$ are contradictory, and `linarith` c
 Finally, the proof applies `weaklyConvergent_iff_bounded_and_atMostOne_weakSequentialClusterPoint` to the sequence $A.x$. This theorem states that a sequence in the Hilbert space is weakly convergent if and only if it is bounded and has at most one weak sequential cluster point. Using the reverse direction, the proof supplies the boundedness obtained from `hpe_asymptotics` and the uniqueness obtained as `hunique`. It obtains a point $x_*$ such that
 
 $$
-\operatorname{toWeakSpace}_{\mathbb R,H}(A.x_k)
+\mathrm{toWeakSpace}_{\mathbb R,H}(A.x_k)
 \longrightarrow
-\operatorname{toWeakSpace}_{\mathbb R,H}(x_*).
+\mathrm{toWeakSpace}_{\mathbb R,H}(x_*).
 $$
 
 The proof then observes that $x_*$ itself is a weak sequential cluster point: take the identity subsequence, which is strictly monotone by `strictMono_id`, and use the already-established weak convergence. The `simpa [Function.comp]` step removes the identity composition. Therefore `hcluster_zero xStar hxStarCluster` gives

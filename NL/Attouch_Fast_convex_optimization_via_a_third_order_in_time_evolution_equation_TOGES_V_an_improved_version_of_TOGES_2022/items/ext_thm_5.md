@@ -32,7 +32,7 @@ where the real quantity $\frac{1}{2\lambda}\|x-p(x)\|^2$ is coerced into the ext
 The conclusion is a five-part conjunction. First, the epigraph of the envelope is convex:
 
 $$
-\operatorname{epi}(e)\ \text{is convex over }\mathbb R.
+\mathrm{epi}(e)\ \text{is convex over }\mathbb R.
 $$
 
 Second, the real-valued function obtained from the envelope by applying `toReal` is $C^1$:
@@ -129,7 +129,7 @@ by
 The proof begins by building the five-part conjunction with `refine ⟨?_, ?_, moreau_infimum_eq f lam hlam hProper hconvex envelope prox hprox henvelope, ?_, ?_⟩`. The third conjunct is filled immediately by the theorem `moreau_infimum_eq`. In its stated form, `moreau_infimum_eq` takes a positive $\lambda$, a proper convex extended-real function $f$, an envelope $e$, and a prox selection $p$ satisfying the resolvent and envelope hypotheses, and concludes
 
 $$
-\inf \operatorname{range}(e)=\inf \operatorname{range}(f).
+\inf \mathrm{range}(e)=\inf \mathrm{range}(f).
 $$
 
 The two remaining explicit conjuncts are then proved. The first is proved by `moreau_envelope_convex`, which has the same hypotheses as `moreau_infimum_eq` and concludes that the epigraph of the envelope is convex. The second is proved by `moreau_envelope_contDiff`, which under the same hypotheses concludes that
@@ -143,17 +143,17 @@ is $C^1$. These two lemmas directly supply the first two conclusions of the theo
 The proof then turns to the equality of minimizer sets. It uses `ext x` to reduce equality of sets to proving, for an arbitrary $x$, the equivalence
 
 $$
-e(x)=\inf \operatorname{range}(e)
+e(x)=\inf \mathrm{range}(e)
 \iff
-f(x)=\inf \operatorname{range}(f).
+f(x)=\inf \mathrm{range}(f).
 $$
 
 The tactic `constructor` splits this equivalence into the forward and backward implications.
 
-For the forward direction, assume $e(x)=\inf \operatorname{range}(e)$. The proof again obtains `hinfs`, the equality
+For the forward direction, assume $e(x)=\inf \mathrm{range}(e)$. The proof again obtains `hinfs`, the equality
 
 $$
-\inf \operatorname{range}(e)=\inf \operatorname{range}(f)
+\inf \mathrm{range}(e)=\inf \mathrm{range}(f)
 $$
 
 from `moreau_infimum_eq`. It then applies `moreau_prox_mem_dom`, whose content is that, for proper convex $f$ and a prox selection from the resolvent of $\lambda\,\partial f$, the point $p(x)$ belongs to the domain of $f$. Hence $f(p(x))<+\infty$. This is used to make the real value of $f(p(x))$ usable. Specifically, `hpfin` proves
@@ -182,28 +182,28 @@ $$
 f(p(x))\le f(p(x))+\left(\frac{1}{2\lambda}\|x-p(x)\|^2:\overline{\mathbb R}\right)=e(x).
 $$
 
-Using the assumed $e(x)=\inf \operatorname{range}(e)$ and the equality of infima, the proof gets
+Using the assumed $e(x)=\inf \mathrm{range}(e)$ and the equality of infima, the proof gets
 
 $$
-e(x)=\inf \operatorname{range}(f).
+e(x)=\inf \mathrm{range}(f).
 $$
 
 Combining this with $f(p(x))\le e(x)$ gives
 
 $$
-f(p(x))\le \inf \operatorname{range}(f).
+f(p(x))\le \inf \mathrm{range}(f).
 $$
 
-The reverse inequality comes from `isGLB_sInf`. The theorem `isGLB_sInf` says that $\inf \operatorname{range}(f)$ is a greatest lower bound of the set of values of $f$; in particular it is a lower bound, so for every value in the range, the infimum is at most that value. Since $f(p(x))\in \operatorname{range}(f)$, this gives
+The reverse inequality comes from `isGLB_sInf`. The theorem `isGLB_sInf` says that $\inf \mathrm{range}(f)$ is a greatest lower bound of the set of values of $f$; in particular it is a lower bound, so for every value in the range, the infimum is at most that value. Since $f(p(x))\in \mathrm{range}(f)$, this gives
 
 $$
-\inf \operatorname{range}(f)\le f(p(x)).
+\inf \mathrm{range}(f)\le f(p(x)).
 $$
 
 Therefore
 
 $$
-f(p(x))=\inf \operatorname{range}(f).
+f(p(x))=\inf \mathrm{range}(f).
 $$
 
 Now the proof shows that the quadratic term must vanish. From the envelope identity and the two infimum equalities, it obtains
@@ -240,12 +240,12 @@ $$
 \|x-p(x)\|=0.
 $$
 
-Then `norm_eq_zero.mp` gives $x-p(x)=0$, and `sub_eq_zero.mp` gives $x=p(x)$. Rewriting the goal with $x=p(x)$, the desired equality $f(x)=\inf \operatorname{range}(f)$ becomes $f(p(x))=\inf \operatorname{range}(f)$, which is exactly the previously proved statement `hp_eq`. This proves the forward implication.
+Then `norm_eq_zero.mp` gives $x-p(x)=0$, and `sub_eq_zero.mp` gives $x=p(x)$. Rewriting the goal with $x=p(x)$, the desired equality $f(x)=\inf \mathrm{range}(f)$ becomes $f(p(x))=\inf \mathrm{range}(f)$, which is exactly the previously proved statement `hp_eq`. This proves the forward implication.
 
 For the backward direction, assume
 
 $$
-f(x)=\inf \operatorname{range}(f).
+f(x)=\inf \mathrm{range}(f).
 $$
 
 The proof again uses the equality of infima from `moreau_infimum_eq`. It first proves
@@ -273,19 +273,19 @@ Since $\|x-x\|^2=0$, the right-hand side simplifies by `simp` to $f(x)$. Hence $
 Now the proof applies `le_antisymm` to prove
 
 $$
-e(x)=\inf \operatorname{range}(e).
+e(x)=\inf \mathrm{range}(e).
 $$
 
 One inequality is
 
 $$
-e(x)\le f(x)=\inf \operatorname{range}(f)=\inf \operatorname{range}(e),
+e(x)\le f(x)=\inf \mathrm{range}(f)=\inf \mathrm{range}(e),
 $$
 
-using the assumed equality for $f(x)$ and the equality of infima. The reverse inequality is again supplied by `isGLB_sInf`: since $e(x)$ belongs to $\operatorname{range}(e)$, the infimum $\inf \operatorname{range}(e)$ is a lower bound, so
+using the assumed equality for $f(x)$ and the equality of infima. The reverse inequality is again supplied by `isGLB_sInf`: since $e(x)$ belongs to $\mathrm{range}(e)$, the infimum $\inf \mathrm{range}(e)$ is a lower bound, so
 
 $$
-\inf \operatorname{range}(e)\le e(x).
+\inf \mathrm{range}(e)\le e(x).
 $$
 
 Thus the backward implication is proved, completing the equality of the two minimizer sets.

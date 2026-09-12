@@ -56,14 +56,14 @@ $$
 Finally, the hypothesis `hfLam_def` identifies $f_\lambda$ with the variable-metric Moreau envelope of the Lasso objective. Concretely, with the Lasso proximal map
 
 $$
-p_\lambda(x)=\operatorname{Prox}_{\lambda G}\bigl(x-\lambda A^*(Ax-b)\bigr),
+p_\lambda(x)=\mathrm{Prox}_{\lambda G}\bigl(x-\lambda A^*(Ax-b)\bigr),
 $$
 
 the envelope is
 
 $$
 F_\lambda(x)=\frac12\|A p_\lambda(x)-b\|^2
-+\operatorname{toReal}\bigl(G(p_\lambda(x))\bigr)
++\mathrm{toReal}\bigl(G(p_\lambda(x))\bigr)
 +\frac{\langle M(x-p_\lambda(x)),x-p_\lambda(x)\rangle}{2\lambda},
 $$
 
@@ -258,7 +258,7 @@ $$
 for every $y$. To prove this, the proof uses the proximal residual lemma `scaledProximityOperator_residual_mem`. Specialized here, it says that if $G\in\Gamma_0(H)$, $\lambda>0$, and
 
 $$
-p_\lambda(y)=\operatorname{Prox}_{\lambda G}\bigl(y-\lambda A^*(Ay-b)\bigr),
+p_\lambda(y)=\mathrm{Prox}_{\lambda G}\bigl(y-\lambda A^*(Ay-b)\bigr),
 $$
 
 then
@@ -274,21 +274,21 @@ Thus the subdifferential of $G$ at $p_\lambda(y)$ is nonempty. Using `SetValuedO
 Using that finiteness, the proof derives a real lower bound for the envelope $f_\lambda$ from the assumed lower bound on the extended Lasso objective. The hypothesis `hbelow` gives a real $c$ such that
 
 $$
-c\le \operatorname{lassoObjectiveE}(G,A,b,p)
+c\le \mathrm{lassoObjectiveE}(G,A,b,p)
 $$
 
 for every $p$. For an arbitrary $x$, the proof sets $p=p_\lambda(x)$. Because $G(p)$ is finite, the real part of the extended Lasso objective equals the real-valued Lasso objective:
 
 $$
-\operatorname{toReal}\bigl(\operatorname{lassoObjectiveE}(G,A,b,p)\bigr)
+\mathrm{toReal}\bigl(\mathrm{lassoObjectiveE}(G,A,b,p)\bigr)
 =
-\operatorname{lassoObjectiveReal}(G,A,b,p).
+\mathrm{lassoObjectiveReal}(G,A,b,p).
 $$
 
 The proof uses the facts `EReal.toReal_add`, `EReal.toReal_coe`, and finite/non-bottom/non-top side conditions to justify this passage. It then applies monotonicity of taking real parts in the extended real line, `EReal.toReal_le_toReal`, to obtain
 
 $$
-c\le \operatorname{toReal}\bigl(\operatorname{lassoObjectiveE}(G,A,b,p)\bigr).
+c\le \mathrm{toReal}\bigl(\mathrm{lassoObjectiveE}(G,A,b,p)\bigr).
 $$
 
 On the other hand, the definition of `lassoEnvelope` gives
@@ -296,7 +296,7 @@ On the other hand, the definition of `lassoEnvelope` gives
 $$
 f_\lambda(x)
 =
-\operatorname{lassoObjectiveReal}(G,A,b,p)
+\mathrm{lassoObjectiveReal}(G,A,b,p)
 +
 \frac{\langle M(x-p),x-p\rangle}{2\lambda}.
 $$

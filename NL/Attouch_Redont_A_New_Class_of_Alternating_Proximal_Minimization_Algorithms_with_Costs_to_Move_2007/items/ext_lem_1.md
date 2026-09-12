@@ -18,7 +18,7 @@ The first hypothesis, `h_cluster`, says that for every $w\in H$ and every strict
 
 $$
 \forall w\in H,\ \forall \varphi:\mathbb N\to\mathbb N,\ 
-\operatorname{StrictMono}(\varphi)\implies
+\mathrm{StrictMono}(\varphi)\implies
 \bigl(\iota_H(z_{\varphi(k)})\to \iota_H(w)\ \text{as }k\to\infty\bigr)
 \implies w\in S .
 $$
@@ -150,7 +150,7 @@ $$
 
 It then applies the standard criterion `tendsto_of_subseq_tendsto`. The exact full statement of this Mathlib lemma is not included in the provided context, but the consequence used here is: to prove $x_n\to a$, it suffices to show that for every index sequence $ns:\mathbb N\to\mathbb N$ tending to infinity, there is a further index sequence $ms'$ such that $x_{ns(ms'(n))}\to a$. The tactic `apply tendsto_of_subseq_tendsto` reduces the goal to exactly this subsequence criterion.
 
-The proof then introduces an arbitrary $ns$ with $hns_tendsto:\operatorname{Tendsto}(ns,\operatorname{atTop},\operatorname{atTop})$, meaning $ns(n)\to\infty$. The cited lemma `exists_strictMono_subseq_of_tendsto_atTop` is applied to $ns$. Its mathematical content is that from any sequence $ns$ tending to infinity one can choose a strictly increasing sequence $ms:\mathbb N\to\mathbb N$ such that the composed sequence $ns\circ ms$ is also strictly increasing. The proof obtains such an $ms$.
+The proof then introduces an arbitrary $ns$ with $hns_tendsto:\mathrm{Tendsto}(ns,\mathrm{atTop},\mathrm{atTop})$, meaning $ns(n)\to\infty$. The cited lemma `exists_strictMono_subseq_of_tendsto_atTop` is applied to $ns$. Its mathematical content is that from any sequence $ns$ tending to infinity one can choose a strictly increasing sequence $ms:\mathbb N\to\mathbb N$ such that the composed sequence $ns\circ ms$ is also strictly increasing. The proof obtains such an $ms$.
 
 Because $ns\circ ms$ is strictly increasing, the earlier result `h_all_to_a` applies to it, producing a strictly increasing $\psi$ such that
 

@@ -19,7 +19,7 @@ theorem proposition3 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H
 ```
 
 ## Statement explanation
-`proposition3` is a theorem about a real inner product space $H$. The data are two extended-real functions $\phi,\Theta:H\to\overline{\mathbb R}$, a real function $\psi:H\to\mathbb R$, its specified gradient $\operatorname{grad}\psi:H\to H$, two sequences $u,y:\mathbb N\to H$, real parameters $a,b,\lambda,L_\psi$, a point $q\in H$, and an index $k\in\mathbb N$. The hypotheses say that $k\ge1$, that $hH$ is an `IFBHypothesis` for $(\phi,\Theta,\psi,\operatorname{grad}\psi,a,b,\lambda,L_\psi)$, that `hIFB` is an `IsIFBTrajectory` for $(\phi,\psi,\operatorname{grad}\psi,a,b,\lambda,u,y)$, and that the epigraph of $\Theta$ is convex over $\mathbb R$, i.e. $\Theta$ is an extended-real convex function. The proof uses in particular that $b>0$ and that $\Theta(q)$ can be rewritten through `hH.theta_eq` in terms of $\phi(q)$ and a real term, while `hH.phi_proper` gives that $\phi(q)\ne\bot$.
+`proposition3` is a theorem about a real inner product space $H$. The data are two extended-real functions $\phi,\Theta:H\to\overline{\mathbb R}$, a real function $\psi:H\to\mathbb R$, its specified gradient $\mathrm{grad}\psi:H\to H$, two sequences $u,y:\mathbb N\to H$, real parameters $a,b,\lambda,L_\psi$, a point $q\in H$, and an index $k\in\mathbb N$. The hypotheses say that $k\ge1$, that $hH$ is an `IFBHypothesis` for $(\phi,\Theta,\psi,\mathrm{grad}\psi,a,b,\lambda,L_\psi)$, that `hIFB` is an `IsIFBTrajectory` for $(\phi,\psi,\mathrm{grad}\psi,a,b,\lambda,u,y)$, and that the epigraph of $\Theta$ is convex over $\mathbb R$, i.e. $\Theta$ is an extended-real convex function. The proof uses in particular that $b>0$ and that $\Theta(q)$ can be rewritten through `hH.theta_eq` in terms of $\phi(q)$ and a real term, while `hH.phi_proper` gives that $\phi(q)\ne\bot$.
 
 For $k\ge1$, write
 
@@ -42,7 +42,7 @@ $$
 Let
 
 $$
-F_k=\operatorname{liapunovF}(u,y,a,b,\lambda,q,k)
+F_k=\mathrm{liapunovF}(u,y,a,b,\lambda,q,k)
 $$
 
 be the Liapunov expression from the statement. Its definition is
@@ -82,7 +82,7 @@ b\langle S_k,u_{k+1}-q\rangle
 F_{k+1}-F_k.
 $$
 
-3. If $q$ is a minimizer of $\Theta$, i.e. $q\in\operatorname{argminSet}\Theta$, then
+3. If $q$ is a minimizer of $\Theta$, i.e. $q\in\mathrm{argminSet}\Theta$, then
 
 $$
 F_{k+1}\le F_k.
@@ -199,7 +199,7 @@ $$
 such that
 
 $$
-g+\operatorname{grad}\psi(u_{k+1})
+g+\mathrm{grad}\psi(u_{k+1})
 =
 -\left(
 \left(\frac1\lambda-a\right)v_{k+1}
@@ -226,10 +226,10 @@ To prove the first component, the proof invokes `theta_support_of_phi_subgradien
 
 $$
 \Theta(q)\ge
-\Theta(x)+\langle g+\operatorname{grad}\psi(x),q-x\rangle
+\Theta(x)+\langle g+\mathrm{grad}\psi(x),q-x\rangle
 $$
 
-for every $q\in H$. Taking $x=u_{k+1}$, this is a subgradient inequality for $\Theta$ at $u_{k+1}$. The proof rewrites the supporting vector $g+\operatorname{grad}\psi(u_{k+1})$ using `hvector`, obtaining
+for every $q\in H$. Taking $x=u_{k+1}$, this is a subgradient inequality for $\Theta$ at $u_{k+1}$. The proof rewrites the supporting vector $g+\mathrm{grad}\psi(u_{k+1})$ using `hvector`, obtaining
 
 $$
 \Theta(q)\ge
@@ -350,7 +350,7 @@ Then the proof expands all inner products using bilinearity of the real inner pr
 Finally, the proof establishes the third component. It assumes `hq : q ∈ Optimization.argminSet Θ`. The lemma `mem_argminSet_iff_eq_sInf` says that, for a complete linear order and a function $f:X\to R$, one has
 
 $$
-x\in\operatorname{argminSet} f
+x\in\mathrm{argminSet} f
 \quad\Longleftrightarrow\quad
 f(x)=\inf\{f(y):y\in X\}.
 $$

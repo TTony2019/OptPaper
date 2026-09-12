@@ -30,8 +30,8 @@ The hypotheses are:
 - $v(t)$ converges to $v_\infty$ in the weak topology as $t\to+\infty$, expressed by
 
   $$
-  \operatorname{toWeakSpace}_{\mathbb R,H}(v(t))\to
-  \operatorname{toWeakSpace}_{\mathbb R,H}(v_\infty).
+  \mathrm{toWeakSpace}_{\mathbb R,H}(v(t))\to
+  \mathrm{toWeakSpace}_{\mathbb R,H}(v_\infty).
   $$
 
 - The weight is eventually nonnegative: $w(t)\ge 0$ for every $t\ge t_0$.
@@ -134,8 +134,8 @@ The proof uses both directions of this equivalence.
 First, the goal is to prove
 
 $$
-\operatorname{toWeakSpace}_{\mathbb R,H}(A(t))\to
-\operatorname{toWeakSpace}_{\mathbb R,H}(v_\infty).
+\mathrm{toWeakSpace}_{\mathbb R,H}(A(t))\to
+\mathrm{toWeakSpace}_{\mathbb R,H}(v_\infty).
 $$
 
 The proof applies the reverse implication of the weak-convergence equivalence to the function $t\mapsto A(t)$ and the limit $v_\infty$. This reduces the goal to showing that for every $u\in H$,

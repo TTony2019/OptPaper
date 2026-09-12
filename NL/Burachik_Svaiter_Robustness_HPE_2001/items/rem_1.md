@@ -125,7 +125,7 @@ for all $x,y \in H$ and all $a \in \mathbb R$ with $0 \le a \le 1$. Thus it obta
 The proof then passes from $f$ to the function
 
 $$
-f_I := \operatorname{properIoi} f hf,
+f_I := \mathrm{properIoi} f hf,
 $$
 
 which is the same function viewed as taking values in $(-\infty,+\infty]$. The lemma `properIoi_mem_gammaZero_of_mem_gamma` says that if $f$ is proper and $f \in \Gamma(H)$, then $f_I \in \Gamma_0(H)$. Here $\Gamma_0(H)$ consists of lower semicontinuous functions into $(-\infty,+\infty]$ that are convex on their effective domain. This gives `hfI : fI ∈ ERealFunction.gammaZero H`.

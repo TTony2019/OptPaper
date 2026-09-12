@@ -54,19 +54,19 @@ Let $H$ be a nontrivial finite-dimensional real Hilbert space. The declaration i
 - The dual-flow condition says that for every $t$,
 
   $$
-  q(t)\in \operatorname{frictionBallProjector}_r(g(t)),
+  q(t)\in \mathrm{frictionBallProjector}_r(g(t)),
   $$
 
   and, writing
 
   $$
-  \Phi(u)=\left(\operatorname{conj}\bigl(v\mapsto f(v)\bigr)(u)\right)_{\mathbb R}
+  \Phi(u)=\left(\mathrm{conj}\bigl(v\mapsto f(v)\bigr)(u)\right)_{\mathbb R}
   $$
 
   for the real value of the extended-real Fenchel conjugate of $f$,
 
   $$
-  \left(\operatorname{fderiv}_{\mathbb R}(\nabla \Phi)(g(t))\right)(g'(t))
+  \left(\mathrm{fderiv}_{\mathbb R}(\nabla \Phi)(g(t))\right)(g'(t))
   +g(t)-q(t)=0.
   $$
 
@@ -80,9 +80,9 @@ Let $H$ be a nontrivial finite-dimensional real Hilbert space. The declaration i
 The conclusion is that there exist positive constants $C$ and $\mu$ such that for every $s\ge s_0$,
 
 $$
-\operatorname{infDist}\!\left(
+\mathrm{infDist}\!\left(
 A\!\left(x(s)+\frac{s}{\alpha-1}\,dx(s)\right),
-\operatorname{frictionBall}_r
+\mathrm{frictionBall}_r
 \right)
 \le C e^{-\mu s^2}.
 $$
@@ -108,7 +108,7 @@ by
 The proof first invokes the previously established theorem `theorem_3_3`. In its own variables, that theorem assumes a symmetric positive definite continuous linear operator, the associated quadratic form $f(x)=\frac12\langle Ax,x\rangle$, a differentiable path $g$, a path $p$ satisfying the friction-ball projector and dual-flow condition, and an initial condition $r<\|g(t_0)\|$. It then produces positive constants $C_{\text{upper}},C_{\text{lower}},\mu,\nu$ such that for every $t\ge t_0$,
 
 $$
-\operatorname{infDist}(g(t),\operatorname{frictionBall}_r)\le C_{\text{upper}}e^{-\mu t},
+\mathrm{infDist}(g(t),\mathrm{frictionBall}_r)\le C_{\text{upper}}e^{-\mu t},
 $$
 
 together with a lower exponential bound and the statement that $g(t)$ never lies in the friction ball.
@@ -142,7 +142,7 @@ $$
 
 first uses $\alpha>1$ to get $\alpha-1>0$, then combines $0<2$ with $0<\alpha-1$ to get $0<2(\alpha-1)$, and finally divides the positive numerator `rate` by this positive denominator. Hence $0<\mu$.
 
-Next `intro s hs` introduces an arbitrary $s$ together with the hypothesis $hs:s\in \operatorname{Ici}s_0$, i.e. $s\ge s_0$. The goal is to prove the desired decay inequality at this arbitrary $s$.
+Next `intro s hs` introduces an arbitrary $s$ together with the hypothesis $hs:s\in \mathrm{Ici}s_0$, i.e. $s\ge s_0$. The goal is to prove the desired decay inequality at this arbitrary $s$.
 
 The upper bound from `theorem_3_3` is then applied at the transformed time
 
@@ -155,7 +155,7 @@ To use it, the proof needs
 $$
 \frac{s^2}{2(\alpha-1)}
 \in
-\operatorname{Ici}\!\left(\frac{s_0^2}{2(\alpha-1)}\right),
+\mathrm{Ici}\!\left(\frac{s_0^2}{2(\alpha-1)}\right),
 $$
 
 that is,
@@ -171,9 +171,9 @@ This is supplied by `scaled_time_mem_Ici`. That lemma uses $s_0>0$, $\alpha>1$, 
 Consequently, the hypothesis `hbound` contains
 
 $$
-\operatorname{infDist}\!\left(
+\mathrm{infDist}\!\left(
 g\!\left(\frac{s^2}{2(\alpha-1)}\right),
-\operatorname{frictionBall}_r
+\mathrm{frictionBall}_r
 \right)
 \le
 C_{\text{upper}}
@@ -209,9 +209,9 @@ $$
 After these rewrites, `hbound` has the form
 
 $$
-\operatorname{infDist}\!\left(
+\mathrm{infDist}\!\left(
 A\!\left(x(s)+\frac{s}{\alpha-1}\,dx(s)\right),
-\operatorname{frictionBall}_r
+\mathrm{frictionBall}_r
 \right)
 \le
 C_{\text{upper}}e^{-\mu s^2},

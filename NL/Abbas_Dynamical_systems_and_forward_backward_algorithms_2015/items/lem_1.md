@@ -31,7 +31,7 @@ That nonnegativity proof is `le_of_lt (one_div_pos.mpr hB.pos)`: from $0<\beta$ 
 
 $$
 \forall x,y\in H,\qquad
-\operatorname{dist}(B x,B y)\le \frac1\beta\,\operatorname{dist}(x,y).
+\mathrm{dist}(B x,B y)\le \frac1\beta\,\mathrm{dist}(x,y).
 $$
 
 Since $H$ is a normed group, this is the usual inequality
@@ -67,7 +67,7 @@ have heq : Real.toNNReal (1 / beta) =
 establishes
 
 $$
-\operatorname{Real.toNNReal}\!\left(\frac1\beta\right)
+\mathrm{Real.toNNReal}\!\left(\frac1\beta\right)
 =
 \left\langle \frac1\beta,\; 0\le \frac1\beta\right\rangle
 $$

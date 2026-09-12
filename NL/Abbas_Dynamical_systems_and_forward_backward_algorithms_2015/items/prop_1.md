@@ -40,7 +40,7 @@ theorem proposition_2_12 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace �
 ```
 
 ## Statement explanation
-The theorem `proposition_2_12` is set in a complete real inner product space $H$, i.e. a real Hilbert space. It fixes a nonempty set $S\subseteq H$, a function $\Phi:H\to \operatorname{Set.Ioi}(\bot_{\mathrm{EReal}})$ in the library’s $\Gamma_0(H)$ class, a map $B:H\to H$, two curves $x,v:\mathbb R\to H$, a point $z\in S$, and positive real numbers $\lambda,\mu,\beta$ satisfying
+The theorem `proposition_2_12` is set in a complete real inner product space $H$, i.e. a real Hilbert space. It fixes a nonempty set $S\subseteq H$, a function $\Phi:H\to \mathrm{Set.Ioi}(\bot_{\mathrm{EReal}})$ in the library’s $\Gamma_0(H)$ class, a map $B:H\to H$, two curves $x,v:\mathbb R\to H$, a point $z\in S$, and positive real numbers $\lambda,\mu,\beta$ satisfying
 
 $$
 \mu\lambda=1.
@@ -793,7 +793,7 @@ $$
 and from the second part of `hdom` it obtains
 
 $$
-z\in\operatorname{dom}\Phi.
+z\in\mathrm{dom}\Phi.
 $$
 
 The latter is needed because the subgradient inequality is only converted to real values when the point at which $\Phi$ is evaluated lies in the effective domain.
@@ -978,7 +978,7 @@ $$
 E'(t)=\Gamma'(t)+2\beta\left(\langle v(t),x'(t)\rangle+\langle x'(t),Bz\rangle\right).
 $$
 
-At such a point, the algebraic lemma `prop212_augmented_dissipation_algebra` is applied. Its content is this: given scalars $\lambda,\mu,\beta$, vectors $dx,dv,vv,bx,bz$, and real numbers $d\Gamma,d\Phi,d\operatorname{Inner}$, if
+At such a point, the algebraic lemma `prop212_augmented_dissipation_algebra` is applied. Its content is this: given scalars $\lambda,\mu,\beta$, vectors $dx,dv,vv,bx,bz$, and real numbers $d\Gamma,d\Phi,d\mathrm{Inner}$, if
 
 $$
 \mu\lambda=1,\qquad \beta\ge0,\qquad 0\le\langle dx,dv\rangle,
@@ -993,7 +993,7 @@ $$
 holds, if
 
 $$
-d\Phi=\langle dx,vv\rangle,\qquad d\operatorname{Inner}=\langle dx,bz\rangle,
+d\Phi=\langle dx,vv\rangle,\qquad d\mathrm{Inner}=\langle dx,bz\rangle,
 $$
 
 and if
@@ -1005,7 +1005,7 @@ $$
 then
 
 $$
-d\Gamma+2\beta(d\Phi+d\operatorname{Inner})+\beta\lambda\|dx\|^2
+d\Gamma+2\beta(d\Phi+d\mathrm{Inner})+\beta\lambda\|dx\|^2
 +\mu\beta\|dv+vv+bz\|^2\le0.
 $$
 
@@ -1013,7 +1013,7 @@ The proof specializes it to
 
 $$
 d\Gamma=\Gamma'(t),\quad d\Phi=\langle x'(t),v(t)\rangle,\quad
-d\operatorname{Inner}=\langle x'(t),Bz\rangle,
+d\mathrm{Inner}=\langle x'(t),Bz\rangle,
 $$
 
 $$
@@ -1057,7 +1057,7 @@ $$
 
 The first term is integrable from the $L^2$ hypothesis on $x'$, and the second is continuous because $B$ is continuous. The continuity of $B$ comes from `lipschitzWith_of_cocoercive`: a $\beta$-cocoercive map is Lipschitz with constant $1/\beta$, hence continuous. Thus $q$ is locally integrable.
 
-To apply `prop212_dissipation_on_Ici` to $E$ and $q$, the proof also needs a lower bound for $E$. The subgradient inequality is applied again, now to $-Bz\in\partial\Phi(z)$ and $x(t)\in\operatorname{dom}\Phi$. It gives
+To apply `prop212_dissipation_on_Ici` to $E$ and $q$, the proof also needs a lower bound for $E$. The subgradient inequality is applied again, now to $-Bz\in\partial\Phi(z)$ and $x(t)\in\mathrm{dom}\Phi$. It gives
 
 $$
 \Phi(x(t))\ge \Phi(z)+\langle -Bz,x(t)-z\rangle.

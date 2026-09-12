@@ -30,7 +30,7 @@ abbrev ext_lem_1 {w a b : ℝ → ℝ} {t₀ T α : ℝ} (hT : 0 < T) (hα₁ : 
 - the nonlinear differential inequality holds almost everywhere: for almost every $t$, if $t\in [t_0,t_0+T]$, then
 
   $$
-  (1-\alpha)\operatorname{deriv} w(t)
+  (1-\alpha)\mathrm{deriv} w(t)
   \le a(t)w(t)+b(t)(w(t))^\alpha .
   $$
 
@@ -63,7 +63,7 @@ So the proof field is not a tactic proof; it is a direct term-level application 
 The arguments supplied to that result are exactly the hypotheses of `ext_lem_1`: the positivity $0<T$, the two assumptions $0\le\alpha$ and $\alpha<1$, absolute continuity of $w$, nonnegativity of $w$ on $[t_0,t_0+T]$, integrability of $a$ and $b$ on $[t_0,t_0+T]$, almost-everywhere nonnegativity of $b$ on that interval, and the almost-everywhere inequality
 
 $$
-(1-\alpha)\operatorname{deriv} w(t)
+(1-\alpha)\mathrm{deriv} w(t)
 \le a(t)w(t)+b(t)(w(t))^\alpha .
 $$
 

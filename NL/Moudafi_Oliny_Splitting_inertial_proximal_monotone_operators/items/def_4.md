@@ -17,7 +17,7 @@ $$
 is defined, and $T$ is a set-valued operator from $H$ to $H$: for each $y \in H$, the value $T y$ is a subset of $H$. For a real parameter $\epsilon$, the enlargement is defined by
 
 $$
-(\operatorname{enlargement} T \epsilon)(x)
+(\mathrm{enlargement} T \epsilon)(x)
 =
 \left\{
 v \in H :
@@ -26,7 +26,7 @@ v \in H :
 \right\}.
 $$
 
-Thus $(\operatorname{enlargement} T \epsilon)(x)$ is the set of all vectors $v$ such that, for every point $y$ and every $u$ in the value $T y$, the real inner product $\langle u-v, y-x\rangle_{\mathbb R}$ is bounded below by $-\epsilon$. The declaration takes real numbers $\epsilon_1,\epsilon_2$ satisfying
+Thus $(\mathrm{enlargement} T \epsilon)(x)$ is the set of all vectors $v$ such that, for every point $y$ and every $u$ in the value $T y$, the real inner product $\langle u-v, y-x\rangle_{\mathbb R}$ is bounded below by $-\epsilon$. The declaration takes real numbers $\epsilon_1,\epsilon_2$ satisfying
 
 $$
 \epsilon_1 \le \epsilon_2
@@ -35,9 +35,9 @@ $$
 and an arbitrary point $x \in H$, and concludes
 
 $$
-(\operatorname{enlargement} T \epsilon_1)(x)
+(\mathrm{enlargement} T \epsilon_1)(x)
 \subseteq
-(\operatorname{enlargement} T \epsilon_2)(x).
+(\mathrm{enlargement} T \epsilon_2)(x).
 $$
 
 In words: if $\epsilon_1$ is no larger than $\epsilon_2$, then the $\epsilon_1$-enlargement at any point is contained in the $\epsilon_2$-enlargement at that same point. The reason is that increasing $\epsilon$ makes the lower bound $-\epsilon$ smaller, hence makes the defining inequality weaker, so the corresponding enlargement set can only grow. No monotonicity assumption on $T$ itself is needed for this statement.
@@ -56,21 +56,21 @@ by
 The proof begins with `intro v hv`. Since the goal is a subset inclusion
 
 $$
-(\operatorname{enlargement} T \epsilon_1)(x)
+(\mathrm{enlargement} T \epsilon_1)(x)
 \subseteq
-(\operatorname{enlargement} T \epsilon_2)(x),
+(\mathrm{enlargement} T \epsilon_2)(x),
 $$
 
 Lean expands this as a universal statement over elements of $H$. The command introduces an arbitrary $v$ and assumes
 
 $$
-hv : v \in (\operatorname{enlargement} T \epsilon_1)(x).
+hv : v \in (\mathrm{enlargement} T \epsilon_1)(x).
 $$
 
 The goal is now to show
 
 $$
-v \in (\operatorname{enlargement} T \epsilon_2)(x).
+v \in (\mathrm{enlargement} T \epsilon_2)(x).
 $$
 
 Next, `rw [enlargement, Set.mem_setOf_eq] at hv ⊢` unfolds the definition of `enlargement` and converts membership in a set-builder into the corresponding predicate, both in the hypothesis `hv` and in the current goal. After this rewrite, `hv` says
@@ -137,5 +137,5 @@ $$
 -\epsilon_2 \le \langle u-v, y-x\rangle_{\mathbb R}.
 $$
 
-The inner-product expression is treated as an opaque real number for the purposes of this linear arithmetic step. Since $y$ and $u \in T y$ were arbitrary, the universal goal is proved, so $v$ belongs to $(\operatorname{enlargement} T \epsilon_2)(x)$. Since $v$ was an arbitrary element of $(\operatorname{enlargement} T \epsilon_1)(x)$, the desired subset inclusion follows.
+The inner-product expression is treated as an opaque real number for the purposes of this linear arithmetic step. Since $y$ and $u \in T y$ were arbitrary, the universal goal is proved, so $v$ belongs to $(\mathrm{enlargement} T \epsilon_2)(x)$. Since $v$ was an arbitrary element of $(\mathrm{enlargement} T \epsilon_1)(x)$, the desired subset inclusion follows.
 

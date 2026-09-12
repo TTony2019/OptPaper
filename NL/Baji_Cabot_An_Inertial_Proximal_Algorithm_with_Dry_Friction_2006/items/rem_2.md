@@ -26,10 +26,10 @@ The theorem `rem_5_1` is a conditional convergence-rate statement for a sequence
 
 The hypotheses are the following.
 
-- $A$ is a set-valued operator from $H$ to $H$. The assumption $hA$ says that $A$ is maximal monotone. The assumption $hdomA$ says that $\operatorname{dom}(A)=H$, so $A$ is defined on the whole space. The assumption $hAzero_int$ says that
+- $A$ is a set-valued operator from $H$ to $H$. The assumption $hA$ says that $A$ is maximal monotone. The assumption $hdomA$ says that $\mathrm{dom}(A)=H$, so $A$ is defined on the whole space. The assumption $hAzero_int$ says that
 
   $$
-  0\in\operatorname{interior}(A(0)).
+  0\in\mathrm{interior}(A(0)).
   $$
 
   Thus the value of $A$ at the origin is a set containing an open ball around $0$.
@@ -59,7 +59,7 @@ The hypotheses are the following.
   The hypothesis $h_condition$ says that the function
 
   $$
-  x\mapsto \operatorname{excess}\!\left(A(x),\,\partial\sigma_{A(0)}(x)+\{Lx\}\right)
+  x\mapsto \mathrm{excess}\!\left(A(x),\,\partial\sigma_{A(0)}(x)+\{Lx\}\right)
   $$
 
   is $O(\|x\|^2)$ as $x\to 0$. In words, near the origin the set $A(x)$ is approximated by the set $\partial\sigma_{A(0)}(x)$, shifted by the singleton $\{Lx\}$, with an error of quadratic order in $\|x\|$.

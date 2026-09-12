@@ -51,10 +51,10 @@ the following estimate holds for almost every $t\in[0,T]$:
 $$
 \|x_\mu(t)-x_{\mu'}(t)\|
 \le e^{mT}\sqrt{\|u_{0,\mu}-u_{0,\mu'}\|^2+\|v_{0,\mu}-v_{0,\mu'}\|^2}
-+m^{-1}(e^{mT}-1)\operatorname{def}_6(r,hr,A_\mu,A_{\mu'}).
++m^{-1}(e^{mT}-1)\mathrm{def}_6(r,hr,A_\mu,A_{\mu'}).
 $$
 
-Here $\operatorname{def}_6(r,hr,A_\mu,A_{\mu'})$ is the quantity introduced by the abbreviation `def_6`, namely `supDiscrepancyOnBall r hr (A μ) (A μ')`. The cited lemmas `def_6_bddAbove_of_cocoercive` and `def_6_le_of_norm_le` show that, under the cocoercivity assumptions, the set of values $\|A_\mu u-A_{\mu'}u\|$ for $\|u\|\le r$ is bounded above and that $\operatorname{def}_6(r,hr,A_\mu,A_{\mu'})$ is an upper bound for those values. Thus the theorem says that the distance between two trajectories is controlled by the initial data difference plus the discrepancy between the two operators on the ball of radius $r$, with an exponential factor in time depending on $\gamma$ and the cocoercivity moduli.
+Here $\mathrm{def}_6(r,hr,A_\mu,A_{\mu'})$ is the quantity introduced by the abbreviation `def_6`, namely `supDiscrepancyOnBall r hr (A μ) (A μ')`. The cited lemmas `def_6_bddAbove_of_cocoercive` and `def_6_le_of_norm_le` show that, under the cocoercivity assumptions, the set of values $\|A_\mu u-A_{\mu'}u\|$ for $\|u\|\le r$ is bounded above and that $\mathrm{def}_6(r,hr,A_\mu,A_{\mu'})$ is an upper bound for those values. Thus the theorem says that the distance between two trajectories is controlled by the initial data difference plus the discrepancy between the two operators on the ball of radius $r$, with an exponential factor in time depending on $\gamma$ and the cocoercivity moduli.
 
 ## Lean proof
 ```lean
@@ -285,7 +285,7 @@ $$
 is bounded above. Hence the discrepancy values $\|A_\mu u-A_{\mu'}u\|$ on the ball $\|u\|\le r$ are bounded above. Then `def_6_le_of_norm_le` is applied. This lemma says that if $r>0$, the above set is bounded above, and $\|u\|\le r$, then
 
 $$
-\|Au-Bu\|\le \operatorname{def}_6(r,hr,A,B).
+\|Au-Bu\|\le \mathrm{def}_6(r,hr,A,B).
 $$
 
 Thus the proof obtains the pointwise bound
@@ -294,7 +294,7 @@ $$
 \|u\|\le r\implies \|A_\mu u-A_{\mu'}u\|\le D,
 $$
 
-where $D=\operatorname{def}_6(r,hr,A_\mu,A_{\mu'})$. Taking $u=0$, which is allowed because $r>0$, gives $\|A_\mu0-A_{\mu'}0\|\le D$; since the left side is nonnegative, this yields $D\ge0$.
+where $D=\mathrm{def}_6(r,hr,A_\mu,A_{\mu'})$. Taking $u=0$, which is allowed because $r>0$, gives $\|A_\mu0-A_{\mu'}0\|\le D$; since the left side is nonnegative, this yields $D\ge0$.
 
 The proof next introduces the energy variables
 
@@ -321,7 +321,7 @@ almost everywhere for $t\ge0$.
 To bound the first inner product term, the proof defines
 
 $$
-D=\operatorname{def}_6(r,hr,A_\mu,A_{\mu'}),\qquad
+D=\mathrm{def}_6(r,hr,A_\mu,A_{\mu'}),\qquad
 m=\max\left(
 \sqrt{1+2\gamma^2+\frac{2}{(\alpha_\mu)^2}},
 \sqrt{1+2\gamma^2+\frac{2}{(\alpha_{\mu'})^2}}
@@ -486,5 +486,5 @@ $$
 +m^{-1}(e^{mT}-1)D.
 $$
 
-Rewriting $D=\operatorname{def}_6(r,hr,A_\mu,A_{\mu'})$ and rearranging the first product into the displayed order gives exactly the estimate stated in `thm_2`. The use of `filter_upwards` combines the almost-everywhere ODE, derivative, and ball hypotheses into a single almost-everywhere event, and the final `calc` block chains the norm bound, the Gronwall bound, the time-monotonicity step, and the final algebraic rewriting.
+Rewriting $D=\mathrm{def}_6(r,hr,A_\mu,A_{\mu'})$ and rearranging the first product into the displayed order gives exactly the estimate stated in `thm_2`. The use of `filter_upwards` combines the almost-everywhere ODE, derivative, and ball hypotheses into a single almost-everywhere event, and the final `calc` block chains the norm bound, the Gronwall bound, the time-monotonicity step, and the final algebraic rewriting.
 

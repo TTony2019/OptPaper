@@ -19,8 +19,8 @@ takes values in the extended real numbers. For such an $f$, the proposition `IsB
 
 $$
 \forall r,R\in\mathbb R,\quad 0<R \implies
-\operatorname{IsCompact}\!\left(
-\operatorname{closure}\{v\in H : f(v)\le (r:\mathrm{EReal}) \ \text{and}\ \|v\|\le R\}
+\mathrm{IsCompact}\!\left(
+\mathrm{closure}\{v\in H : f(v)\le (r:\mathrm{EReal}) \ \text{and}\ \|v\|\le R\}
 \right).
 $$
 
@@ -44,8 +44,8 @@ Mathematically, the entire content is the defining equation of the predicate. If
 
 $$
 \forall r,R\in\mathbb R,\quad 0<R \implies
-\operatorname{IsCompact}\!\left(
-\operatorname{closure}\{v\in H : f(v)\le (r:\mathrm{EReal}) \ \text{and}\ \|v\|\le R\}
+\mathrm{IsCompact}\!\left(
+\mathrm{closure}\{v\in H : f(v)\le (r:\mathrm{EReal}) \ \text{and}\ \|v\|\le R\}
 \right).
 $$
 

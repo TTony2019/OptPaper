@@ -117,15 +117,15 @@ by
 The proof begins by defining the forward-backward operator
 
 $$
-T(z)=\operatorname{Prox}_{\mu\Phi}\bigl(z-\mu Bz\bigr).
+T(z)=\mathrm{Prox}_{\mu\Phi}\bigl(z-\mu Bz\bigr).
 $$
 
-Here $\operatorname{Prox}_{\mu\Phi}$ is the scaled proximity operator of $\Phi$ with scale $\mu$, using the positivity proof `alg.mu_pos` to regard $\mu$ as a positive real. The local `let` command introduces the abbreviation $T$ so that later statements can be written in terms of this operator.
+Here $\mathrm{Prox}_{\mu\Phi}$ is the scaled proximity operator of $\Phi$ with scale $\mu$, using the positivity proof `alg.mu_pos` to regard $\mu$ as a positive real. The local `let` command introduces the abbreviation $T$ so that later statements can be written in terms of this operator.
 
 First the proof establishes that the fixed points of $T$ are exactly the solution set $S$:
 
 $$
-\operatorname{Fix}(T)=S.
+\mathrm{Fix}(T)=S.
 $$
 
 The command `ext z` reduces the equality of sets to the pointwise equivalence for an arbitrary $z$. Then `simp only [Function.mem_fixedPoints, Function.IsFixedPt]` unfolds the meaning of being a fixed point, so the goal becomes an equivalence between $T(z)=z$ and $z\in S$.
@@ -133,7 +133,7 @@ The command `ext z` reduces the equality of sets to the pointwise equivalence fo
 For the forward direction, if $T(z)=z$, then by definition of $T$,
 
 $$
-\operatorname{Prox}_{\mu\Phi}(z-\mu Bz)=z.
+\mathrm{Prox}_{\mu\Phi}(z-\mu Bz)=z.
 $$
 
 The cited result `scaled_forward_backward_fixed_implies_solution` says precisely that for $\Phi\in\Gamma_0(H)$, for positive $\mu$, and for this $z$, this fixed-point equation implies
@@ -145,7 +145,7 @@ $$
 The hypothesis `hsolution` then gives $z\in S$. In the reverse direction, if $z\in S$, then `hsolution` gives $-Bz\in\partial\Phi(z)$. The cited result `scaled_forward_backward_solution_implies_fixed` says that this subdifferential inclusion implies
 
 $$
-\operatorname{Prox}_{\mu\Phi}(z-\mu Bz)=z,
+\mathrm{Prox}_{\mu\Phi}(z-\mu Bz)=z,
 $$
 
 which is exactly $T(z)=z$. Thus the fixed points of $T$ and the solution set $S$ coincide.
@@ -153,10 +153,10 @@ which is exactly $T(z)=z$. Thus the fixed points of $T$ and the solution set $S$
 Next the proof shows that the proximity part
 
 $$
-P=\operatorname{Prox}_{\mu\Phi}
+P=\mathrm{Prox}_{\mu\Phi}
 $$
 
-is firmly nonexpansive. It first applies the cited theorem `smul_mem_gammaZero`: since $\Phi\in\Gamma_0(H)$ and $\mu>0$, the scaled function $\mu\Phi$ again lies in $\Gamma_0(H)$. Then it applies the cited theorem `proximityOperator_firmlyNonexpansive_of_mem_gammaZero`, which says that if a function lies in $\Gamma_0(H)$, then its proximity operator is firmly nonexpansive. Specialized here, this gives that $\operatorname{Prox}_{\mu\Phi}$ is firmly nonexpansive. The `simpa` command unfolds the definition of the scaled proximity operator to identify $\operatorname{Prox}_{\mu\Phi}$ with the operator appearing in the theorem.
+is firmly nonexpansive. It first applies the cited theorem `smul_mem_gammaZero`: since $\Phi\in\Gamma_0(H)$ and $\mu>0$, the scaled function $\mu\Phi$ again lies in $\Gamma_0(H)$. Then it applies the cited theorem `proximityOperator_firmlyNonexpansive_of_mem_gammaZero`, which says that if a function lies in $\Gamma_0(H)$, then its proximity operator is firmly nonexpansive. Specialized here, this gives that $\mathrm{Prox}_{\mu\Phi}$ is firmly nonexpansive. The `simpa` command unfolds the definition of the scaled proximity operator to identify $\mathrm{Prox}_{\mu\Phi}$ with the operator appearing in the theorem.
 
 The forward step
 
@@ -168,7 +168,7 @@ is then shown to be $1$-Lipschitz by the cited result `forward_step_lipschitz_on
 
 The proof next combines these two facts to show that $T=P\circ F$ is also $1$-Lipschitz. The cited lemma `lipschitzWith_one_of_firmlyNonexpansive` says that firm nonexpansiveness implies Lipschitz constant $1$. Hence $P$ is $1$-Lipschitz, and $F$ is $1$-Lipschitz. The composition of two $1$-Lipschitz maps is again $1$-Lipschitz, so $T=P\circ F$ is $1$-Lipschitz. This will be used later to identify weak cluster points as fixed points.
 
-Since $S$ is nonempty and $\operatorname{Fix}(T)=S$, the set of fixed points of $T$ is nonempty. The proof chooses a fixed point $p_0$, so that
+Since $S$ is nonempty and $\mathrm{Fix}(T)=S$, the set of fixed points of $T$ is nonempty. The proof chooses a fixed point $p_0$, so that
 
 $$
 T(p_0)=p_0.
@@ -177,10 +177,10 @@ $$
 Equivalently, $p_0$ satisfies
 
 $$
-\operatorname{Prox}_{\mu\Phi}(p_0-\mu Bp_0)=p_0.
+\mathrm{Prox}_{\mu\Phi}(p_0-\mu Bp_0)=p_0.
 $$
 
-The main convergence lemma `forward_backward_distance_and_residual_tendsto` is now applied to the proximity operator $P=\operatorname{Prox}_{\mu\Phi}$, the operator $B$, the parameters $\beta,\mu,h$, the sequence $x_k$, the update rule supplied by `alg.update`, and the fixed point $p_0$. Its hypotheses are the step-size range $0<\mu<2\beta$, the relaxation range $0<h\le 1$, the $\beta$-cocoercivity of $B$, the firm nonexpansiveness of $P$, the forward-backward recursion for $x_k$, and the fixed-point equation for $p_0$. Its conclusion is twofold:
+The main convergence lemma `forward_backward_distance_and_residual_tendsto` is now applied to the proximity operator $P=\mathrm{Prox}_{\mu\Phi}$, the operator $B$, the parameters $\beta,\mu,h$, the sequence $x_k$, the update rule supplied by `alg.update`, and the fixed point $p_0$. Its hypotheses are the step-size range $0<\mu<2\beta$, the relaxation range $0<h\le 1$, the $\beta$-cocoercivity of $B$, the firm nonexpansiveness of $P$, the forward-backward recursion for $x_k$, and the fixed-point equation for $p_0$. Its conclusion is twofold:
 
 $$
 \exists l\in\mathbb R,\qquad \|x_k-p_0\|\to l,
@@ -208,7 +208,7 @@ $$
 
 for all $k$.
 
-The proof also records a stronger distance-convergence fact: for every fixed point $z\in\operatorname{Fix}(T)$, the same convergence lemma applied with $p=z$ gives
+The proof also records a stronger distance-convergence fact: for every fixed point $z\in\mathrm{Fix}(T)$, the same convergence lemma applied with $p=z$ gives
 
 $$
 \exists l\in\mathbb R,\qquad \|x_k-z\|\to l.
@@ -236,21 +236,21 @@ $$
 
 This uses the triangle inequality and the previously extracted bound on $\|x_{\varphi(k)}\|$.
 
-Now the cited result `nonexpansive_eq_of_tendsto_weakly_of_residual_tendsto_zero` is applied. Its content is: if $T$ is $1$-Lipschitz, if a sequence $u_k$ converges weakly to a point $z$, if the residual $u_k-T(u_k)$ tends to $0$, and if $u_k-z$ is bounded, then $T(z)=z$. Here $u_k=x_{\varphi(k)}$. Therefore $z\in\operatorname{Fix}(T)$. This proves the cluster-point hypothesis `hcluster`.
+Now the cited result `nonexpansive_eq_of_tendsto_weakly_of_residual_tendsto_zero` is applied. Its content is: if $T$ is $1$-Lipschitz, if a sequence $u_k$ converges weakly to a point $z$, if the residual $u_k-T(u_k)$ tends to $0$, and if $u_k-z$ is bounded, then $T(z)=z$. Here $u_k=x_{\varphi(k)}$. Therefore $z\in\mathrm{Fix}(T)$. This proves the cluster-point hypothesis `hcluster`.
 
 Finally, the proof applies Opial’s lemma. The cited statement says that if $C$ is a nonempty set, if for every $z\in C$ the distances $\|x_k-z\|$ converge, and if every weak sequential cluster point of $x_k$ lies in $C$, then the whole sequence $x_k$ converges weakly to some point $z\in C$. The proof uses
 
 $$
-C=\operatorname{Fix}(T).
+C=\mathrm{Fix}(T).
 $$
 
-The nonemptiness hypothesis is supplied by $p_0$, the distance-convergence hypothesis is `hdist`, and the cluster-point hypothesis is `hcluster`. Opial’s lemma therefore yields some $z\in\operatorname{Fix}(T)$ such that
+The nonemptiness hypothesis is supplied by $p_0$, the distance-convergence hypothesis is `hdist`, and the cluster-point hypothesis is `hcluster`. Opial’s lemma therefore yields some $z\in\mathrm{Fix}(T)$ such that
 
 $$
 x_k\rightharpoonup z
 $$
 
-weakly. Since $\operatorname{Fix}(T)=S$, this same $z$ lies in $S$. The final `exact` command packages this $z$ together with its membership in $S$ and the weak convergence as the required existential conclusion.
+weakly. Since $\mathrm{Fix}(T)=S$, this same $z$ lies in $S$. The final `exact` command packages this $z$ together with its membership in $S$ and the weak convergence as the required existential conclusion.
 
 The proof does not use `linarith`. The main Lean commands used are `let` to define $T$, `have` to record intermediate facts, `ext` to prove set equality pointwise, `simp` and `simpa` to unfold definitions and rewrite with the local abbreviation $T$, `constructor` to split the fixed-point equivalence into two implications, `intro` to introduce variables and hypotheses, `exact` to supply proof terms, `rcases` and `obtain` to destruct existential and cluster-point hypotheses, and `calc` to prove the norm bound via the triangle inequality.
 

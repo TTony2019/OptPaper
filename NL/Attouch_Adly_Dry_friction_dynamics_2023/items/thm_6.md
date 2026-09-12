@@ -44,7 +44,7 @@ Second, for every $s\ge s_0$,
 $$
 z\!\left(\frac{s^2}{2(\alpha-1)}\right)
 =
-x(s)+\frac{s}{\alpha-1}\operatorname{deriv}x(s).
+x(s)+\frac{s}{\alpha-1}\mathrm{deriv}x(s).
 $$
 
 Finally, the initial friction condition is
@@ -56,11 +56,11 @@ $$
 The conclusion is the conjunction of three statements. First, the weighted velocity of $x$ vanishes at infinity:
 
 $$
-s\|\operatorname{deriv}x(s)\|\longrightarrow 0
+s\|\mathrm{deriv}x(s)\|\longrightarrow 0
 \quad\text{as }s\to\infty.
 $$
 
-Second, the speed $\|\operatorname{deriv}x\|$ is integrable on $[s_0,\infty)$. Third, there exists a limit point $x_\infty\in H$ such that
+Second, the speed $\|\mathrm{deriv}x\|$ is integrable on $[s_0,\infty)$. Third, there exists a limit point $x_\infty\in H$ such that
 
 $$
 x(s)\to x_\infty\quad\text{as }s\to\infty,
@@ -154,15 +154,15 @@ $$
 r<\|\nabla f(z(t_0))\|.
 $$
 
-Its conclusion is that $t\mapsto\|\operatorname{deriv}z(t)\|$ is nonincreasing on $[t_0,\infty)$ and that
+Its conclusion is that $t\mapsto\|\mathrm{deriv}z(t)\|$ is nonincreasing on $[t_0,\infty)$ and that
 
 $$
-t\|\operatorname{deriv}z(t)\|\to 0\quad\text{as }t\to\infty.
+t\|\mathrm{deriv}z(t)\|\to 0\quad\text{as }t\to\infty.
 $$
 
 The proof uses the second component, `hzrate.2`, as the weighted velocity estimate for $z$.
 
-The proof then invokes `theorem_2_1` as `hzmain`. This theorem assumes $r>0$, $f$ of class $C^1$, a lower bound for $f$, local Lipschitzness of $\nabla f$, differentiability of $z$, the dry-gradient trajectory condition, and the same initial inequality. It concludes that $t\mapsto f(z(t))$ is nonincreasing on $[t_0,\infty)$, that $\|\operatorname{deriv}z\|^2$ and $\|\operatorname{deriv}z\|$ are integrable on $[t_0,\infty)$, and that there exists $z_\infty\in H$ such that
+The proof then invokes `theorem_2_1` as `hzmain`. This theorem assumes $r>0$, $f$ of class $C^1$, a lower bound for $f$, local Lipschitzness of $\nabla f$, differentiability of $z$, the dry-gradient trajectory condition, and the same initial inequality. It concludes that $t\mapsto f(z(t))$ is nonincreasing on $[t_0,\infty)$, that $\|\mathrm{deriv}z\|^2$ and $\|\mathrm{deriv}z\|$ are integrable on $[t_0,\infty)$, and that there exists $z_\infty\in H$ such that
 
 $$
 z(t)\to z_\infty\quad\text{as }t\to\infty,
@@ -170,41 +170,41 @@ z(t)\to z_\infty\quad\text{as }t\to\infty,
 \|\nabla f(z_\infty)\|=r,
 $$
 
-together with a final alternative which is not needed here. From this result the proof later uses `hzmain.2.2.1`, the integrability of $\|\operatorname{deriv}z\|$ on $[t_0,\infty)$, and `hzmain.2.2.2`, the existence of the limit point $z_\infty$ with the gradient-norm equality.
+together with a final alternative which is not needed here. From this result the proof later uses `hzmain.2.2.1`, the integrability of $\|\mathrm{deriv}z\|$ on $[t_0,\infty)$, and `hzmain.2.2.2`, the existence of the limit point $z_\infty$ with the gradient-norm equality.
 
 Next the proof applies `reverse_time_scaling_average`. This theorem assumes $\alpha>1$, $s_0>0$, $x,z$ of class $C^2$, the initial bridge equality, and the bridge relation
 
 $$
 z\!\left(\frac{s^2}{2(\alpha-1)}\right)
 =
-x(s)+\frac{s}{\alpha-1}\operatorname{deriv}x(s)
+x(s)+\frac{s}{\alpha-1}\mathrm{deriv}x(s)
 \quad(s\ge s_0).
 $$
 
 It produces a curve $y:\mathbb R\to H$ such that
 
 $$
-y=\operatorname{timeScaledTrajectory} z\!\left(s\mapsto \frac{s^2}{2(\alpha-1)}\right)
+y=\mathrm{timeScaledTrajectory} z\!\left(s\mapsto \frac{s^2}{2(\alpha-1)}\right)
 $$
 
 and such that the weighted-average predicate
 
 $$
-\operatorname{IsWeightedAverageOn}
+\mathrm{IsWeightedAverageOn}
 \left(s\mapsto \frac{s^2}{2(\alpha-1)}\right)
 \left(s\mapsto \frac{s}{\alpha-1}\right)
-x\,y\,(\operatorname{deriv}x)\,s_0
+x\,y\,(\mathrm{deriv}x)\,s_0
 $$
 
-holds. In other words, $y(s)=z(s^2/(2(\alpha-1)))$, and this curve satisfies the weighted-average relation with $x$ and $\operatorname{deriv}x$.
+holds. In other words, $y(s)=z(s^2/(2(\alpha-1)))$, and this curve satisfies the weighted-average relation with $x$ and $\mathrm{deriv}x$.
 
-Using this $y$, the proof applies `time_scale_velocity_transfer`. That theorem takes $z$, $y$, the equality $y=\operatorname{timeScaledTrajectory} z\,\varphi$ for
+Using this $y$, the proof applies `time_scale_velocity_transfer`. That theorem takes $z$, $y$, the equality $y=\mathrm{timeScaledTrajectory} z\,\varphi$ for
 
 $$
 \varphi(s)=\frac{s^2}{2(\alpha-1)},
 $$
 
-the weighted velocity limit for $z$, and the integrability of $\|\operatorname{deriv}z\|$ on the image interval $[\varphi(s_0),\infty)$. It returns a curve $dy:\mathbb R\to H$ such that, for every $s\ge s_0$,
+the weighted velocity limit for $z$, and the integrability of $\|\mathrm{deriv}z\|$ on the image interval $[\varphi(s_0),\infty)$. It returns a curve $dy:\mathbb R\to H$ such that, for every $s\ge s_0$,
 
 $$
 y\text{ has derivative }dy(s)\text{ at }s,
@@ -224,16 +224,16 @@ $$
 
 This packages the derivative, weighted-speed, and integrability information for the intermediate curve $y$.
 
-The proof then applies `weighted_average_velocity_transfer`. Its hypotheses are the weighted-average relation between $x$, $y$, and $\operatorname{deriv}x$, the derivative statement for $y$, the weighted velocity limit for $y$, and the integrability of $\|dy\|$. Its conclusion transfers these estimates from $y$ to $x$:
+The proof then applies `weighted_average_velocity_transfer`. Its hypotheses are the weighted-average relation between $x$, $y$, and $\mathrm{deriv}x$, the derivative statement for $y$, the weighted velocity limit for $y$, and the integrability of $\|dy\|$. Its conclusion transfers these estimates from $y$ to $x$:
 
 $$
-s\|\operatorname{deriv}x(s)\|\to 0\quad\text{as }s\to\infty,
+s\|\mathrm{deriv}x(s)\|\to 0\quad\text{as }s\to\infty,
 $$
 
 and
 
 $$
-\|\operatorname{deriv}x\|\text{ is integrable on }[s_0,\infty).
+\|\mathrm{deriv}x\|\text{ is integrable on }[s_0,\infty).
 $$
 
 This is the pair `hxt`; its first and second components will become the first two conclusions of the theorem.
@@ -304,7 +304,7 @@ $$
 x(s)\to z_\infty\quad\text{as }s\to\infty.
 $$
 
-The final `refine` assembles the three required conclusions: the weighted velocity limit from `hxt.1`, the integrability of $\|\operatorname{deriv}x\|$ from `hxt.2`, and the limit statement with $x_\infty=z_\infty$. The remaining goal
+The final `refine` assembles the three required conclusions: the weighted velocity limit from `hxt.1`, the integrability of $\|\mathrm{deriv}x\|$ from `hxt.2`, and the limit statement with $x_\infty=z_\infty$. The remaining goal
 
 $$
 \|\nabla f(z_\infty)\|=r

@@ -28,7 +28,7 @@ $$
 The hypothesis `alg` is an object of type `CA2 X Y f g h k c α β μ ν`; from the proof it supplies the algorithm’s iterates, written
 
 $$
-x_n=\operatorname{alg}.x\,n,\qquad y_n=\operatorname{alg}.y\,n,
+x_n=\mathrm{alg}.x\,n,\qquad y_n=\mathrm{alg}.y\,n,
 $$
 
 as well as the two one-step inequalities for the $x$- and $y$-updates. The hypothesis `hyp` is an object of type `H21toH24 X Y f g h k c α β μ ν`; the proof uses from it the diagonal vanishings $h(x_n,x_n)=0$ and $k(y_n,y_n)=0$, together with the positivity information that yields $0\le \mu_n$ and $0\le \beta_n$.

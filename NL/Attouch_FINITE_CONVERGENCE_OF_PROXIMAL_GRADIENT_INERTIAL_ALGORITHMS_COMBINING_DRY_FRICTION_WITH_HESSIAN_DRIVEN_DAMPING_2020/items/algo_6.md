@@ -64,13 +64,13 @@ $$
 In the standard convex-analytic normalization, the scaled proximity operator is related to the proximal map by
 
 $$
-G_{s\phi}(z)=\frac{z-\operatorname{prox}_{s\phi}(z)}{s},
+G_{s\phi}(z)=\frac{z-\mathrm{prox}_{s\phi}(z)}{s},
 $$
 
 where
 
 $$
-\operatorname{prox}_{s\phi}(z)=\arg\min_{u\in H}\left(\phi(u)+\frac{1}{2s}\lVert u-z\rVert^2\right).
+\mathrm{prox}_{s\phi}(z)=\arg\min_{u\in H}\left(\phi(u)+\frac{1}{2s}\lVert u-z\rVert^2\right).
 $$
 
 The terms $\nabla f(x_k)$, $\nabla f(x_{k+1})$, and $\nabla f(y_k)$ are the gradient vectors produced by Mathlib's `gradient f`; the structure does not separately assume that $f$ is differentiable.

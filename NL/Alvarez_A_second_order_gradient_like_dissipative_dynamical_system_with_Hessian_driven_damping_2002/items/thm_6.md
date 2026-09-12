@@ -37,13 +37,13 @@ The hypotheses are:
 - The set of global minimizers of $\Phi$,
 
   $$
-  \operatorname{argminSet}\Phi=\{u\in H\mid \forall v\in H,\ \Phi(u)\le \Phi(v)\},
+  \mathrm{argminSet}\Phi=\{u\in H\mid \forall v\in H,\ \Phi(u)\le \Phi(v)\},
   $$
 
   is nonempty.
 - The pair $(x,y)$ is a solution of the gDIN system with potential $\Phi$, parameters $\beta,a,b$, and initial data $x_0,y_0$, expressed by the predicate `IsSolution_gDIN`. The exact differential equations of that predicate are not defined in the supplied source; the proof only passes this hypothesis to the cited gDIN results.
 
-The conclusion is that there exists a global minimizer $z\in \operatorname{argminSet}\Phi$ such that
+The conclusion is that there exists a global minimizer $z\in \mathrm{argminSet}\Phi$ such that
 
 $$
 x(t)\rightharpoonup z \qquad \text{as } t\to\infty,
@@ -52,9 +52,9 @@ $$
 i.e. $x(t)$ converges weakly to $z$. In Lean this is written using the canonical map `toWeakSpace ℝ H` from $H$ to the same space with the weak topology:
 
 $$
-\operatorname{Tendsto}\bigl(t\mapsto \operatorname{toWeakSpace}_{\mathbb R,H}(x(t))\bigr)
-\ \operatorname{atTop}\
-\bigl(\operatorname{nhds}(\operatorname{toWeakSpace}_{\mathbb R,H}(z))\bigr).
+\mathrm{Tendsto}\bigl(t\mapsto \mathrm{toWeakSpace}_{\mathbb R,H}(x(t))\bigr)
+\ \mathrm{atTop}\
+\bigl(\mathrm{nhds}(\mathrm{toWeakSpace}_{\mathbb R,H}(z))\bigr).
 $$
 
 Thus, in ordinary mathematical language, the theorem says that under convexity, $C^1$, local Lipschitz gradient, boundedness below, positivity of the damping parameters, and the existence of a minimizer, every solution trajectory of the gDIN system converges weakly to some global minimizer of $\Phi$.
@@ -240,7 +240,7 @@ $$
 t\mapsto \|x(t)-z\|
 $$
 
-has a finite limit as $t\to\infty$. This is obtained from the cited theorem `gdin_distance_limit`. That theorem says that, under the same boundedness, $C^1$, local-Lipschitz-gradient, positivity, convexity, regularity, and solution assumptions, if $z\in\operatorname{argminSet}\Phi$, then there exists $d\in\mathbb R$ such that
+has a finite limit as $t\to\infty$. This is obtained from the cited theorem `gdin_distance_limit`. That theorem says that, under the same boundedness, $C^1$, local-Lipschitz-gradient, positivity, convexity, regularity, and solution assumptions, if $z\in\mathrm{argminSet}\Phi$, then there exists $d\in\mathbb R$ such that
 
 $$
 \|x(t)-z\|\to d.
@@ -265,7 +265,7 @@ $$
 The characterization `Metric.tendsto_atTop` converts this into an $\varepsilon\text{-}T$ statement. Taking $\varepsilon=1$, the proof obtains a time $T$ such that for all $t\ge T$,
 
 $$
-\operatorname{dist}\bigl(\|x(t)-z_0\|,d_0\bigr)<1.
+\mathrm{dist}\bigl(\|x(t)-z_0\|,d_0\bigr)<1.
 $$
 
 Since distance on $\mathbb R$ is absolute value, this says
@@ -331,7 +331,7 @@ $$
 In Lean this is `HasGradientAt Φ (gradient Φ u) u`, obtained from differentiability of $\Phi$. This is used to invoke the cited convex supporting inequality `convex_supporting_baillon_haddad`. That theorem states that if $f:H\to\mathbb R$ is convex on all of $H$, and if `grad` is a gradient of $f$ at every point, then for all $y,p\in H$,
 
 $$
-f(y)+\langle \operatorname{grad}(y),p-y\rangle\le f(p).
+f(y)+\langle \mathrm{grad}(y),p-y\rangle\le f(p).
 $$
 
 Applied to $f=\Phi$ and `grad = gradient Φ`, this gives the supporting-hyperplane inequality
@@ -368,7 +368,7 @@ $$
 x(s_n)\rightharpoonup z
 $$
 
-weakly, then $z\in\operatorname{argminSet}\Phi$. This is the key Opial-type condition.
+weakly, then $z\in\mathrm{argminSet}\Phi$. This is the key Opial-type condition.
 
 Inside the proof of `hcluster`, let $s_n\to\infty$ and suppose $x(s_n)\rightharpoonup z$. From `hphi_x`, the proof has
 
@@ -421,7 +421,7 @@ $$
 Since the coercion $\mathbb R\to\mathrm{EReal}$ is continuous and $\Phi$ is continuous, $f$ is lower semicontinuous. The proof also shows that $f$ is quasiconvex. The cited equivalence `quasiconvexOn_univ_iff_convex_lowerLevelSet` says that quasiconvexity of $f$ on all of $H$ is equivalent to convexity of every lower level set
 
 $$
-\operatorname{lowerLevelSet} f \xi=\{u\in H\mid f(u)\le (\xi:\mathrm{EReal})\}.
+\mathrm{lowerLevelSet} f \xi=\{u\in H\mid f(u)\le (\xi:\mathrm{EReal})\}.
 $$
 
 The proof checks this convexity directly. If $a,b$ satisfy $\Phi(a)\le \xi$ and $\Phi(b)\le \xi$, then for positive weights $w_a,w_b$ with $w_a+w_b=1$, convexity of $\Phi$ gives
@@ -432,7 +432,7 @@ $$
 
 Thus the lower level sets of $f$ are convex, so $f$ is quasiconvex. The proof uses `convex_iff_forall_pos` to check convexity by positive convex combinations, `exact_mod_cast` to pass between inequalities in $\mathbb R$ and their images in $\mathrm{EReal}$, and `mem_lowerLevelSet_iff` to translate membership in a lower level set into the corresponding inequality.
 
-Now the cited theorem `weaklyLowerSemicontinuous_of_quasiconvexOn_univ` applies: a quasiconvex and lower semicontinuous function $f:H\to\mathrm{EReal}$ becomes lower semicontinuous when $H$ is equipped with the weak topology, i.e. $f\circ(\operatorname{toWeakSpace}_{\mathbb R,H})^{-1}$ is lower semicontinuous. Since $x(s_n)\rightharpoonup z$, this weak lower semicontinuity gives
+Now the cited theorem `weaklyLowerSemicontinuous_of_quasiconvexOn_univ` applies: a quasiconvex and lower semicontinuous function $f:H\to\mathrm{EReal}$ becomes lower semicontinuous when $H$ is equipped with the weak topology, i.e. $f\circ(\mathrm{toWeakSpace}_{\mathbb R,H})^{-1}$ is lower semicontinuous. Since $x(s_n)\rightharpoonup z$, this weak lower semicontinuity gives
 
 $$
 f(z)\le \liminf_n f(x(s_n)).
@@ -468,15 +468,15 @@ $$
 \Phi(z)\le \Phi(y).
 $$
 
-Thus $z\in\operatorname{argminSet}\Phi$. This completes the proof of `hcluster`.
+Thus $z\in\mathrm{argminSet}\Phi$. This completes the proof of `hcluster`.
 
 Finally, the proof applies the cited continuous-time Opial theorem `opial_continuous_time`. That theorem says: if $S\subseteq H$ is nonempty, if every weak cluster point of a curve $x(t)$ along sequences $t_n\to\infty$ lies in $S$, and if for every $z\in S$ the distance $\|x(t)-z\|$ has a limit as $t\to\infty$, then there exists $z\in S$ such that $x(t)\rightharpoonup z$. The proof instantiates this with
 
 $$
-S=\operatorname{argminSet}\Phi.
+S=\mathrm{argminSet}\Phi.
 $$
 
-The nonemptiness hypothesis is `hmin`. The cluster-point hypothesis is `hcluster`. The distance-limit hypothesis is `hdist`. The theorem's conclusion is exactly the desired statement: there exists $z\in\operatorname{argminSet}\Phi$ such that $x(t)$ converges weakly to $z$.
+The nonemptiness hypothesis is `hmin`. The cluster-point hypothesis is `hcluster`. The distance-limit hypothesis is `hdist`. The theorem's conclusion is exactly the desired statement: there exists $z\in\mathrm{argminSet}\Phi$ such that $x(t)$ converges weakly to $z$.
 
 Throughout the proof, `intro` introduces an arbitrary object or hypothesis, `rw` and `simp` rewrite definitions and known identities, `exact` closes a goal by supplying a term of the required type, and `linarith` or `nlinarith` close arithmetic and inequality goals. The proof also uses `rcases` and `obtain` to eliminate existential and conjunction hypotheses, `calc` to organize chains of inequalities, `apply` to reduce a goal to a known lemma, and `exact_mod_cast` to transfer order statements between $\mathbb R$ and $\mathrm{EReal}$.
 

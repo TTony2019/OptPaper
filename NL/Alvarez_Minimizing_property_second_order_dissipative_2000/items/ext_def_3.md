@@ -12,7 +12,7 @@ def epsilonSubdifferential {H : Type*} [NormedAddCommGroup H] [InnerProductSpace
 The declaration `epsilonSubdifferential` takes a type $H$ equipped with a normed additive commutative group structure and a real inner product space structure, a function $f\colon H\to\overline{\mathbb R}$ with values in the extended real numbers (Lean type `EReal`), a real number $\varepsilon$ (Lean variable `eps`), and a point $x\in H$. It returns the subset of $H$ defined by
 
 $$
-\operatorname{epsilonSubdifferential}(f,\varepsilon,x)
+\mathrm{epsilonSubdifferential}(f,\varepsilon,x)
 =
 \{\,p\in H \mid \forall y\in H,\;
 f(y) \ge f(x) + \langle p, y-x\rangle_{\mathbb R} - \varepsilon \,\}.
@@ -32,7 +32,7 @@ holds for all $y\in H$. When $\varepsilon=0$, this is the usual subgradient ineq
 ```
 
 ## Proof explanation
-There is no separate proof part for this declaration. It is a definition, and the Lean source contains no proof term or tactic script. Consequently there are no applications of named theorems, lemmas, or previously established facts to explain, and no `intro`, `rw`, `simp`, `exact`, or `linarith` steps occur. The mathematical content is entirely the set-builder definition described above: to show that $p$ lies in $\operatorname{epsilonSubdifferential}(f,\varepsilon,x)$, one must establish
+There is no separate proof part for this declaration. It is a definition, and the Lean source contains no proof term or tactic script. Consequently there are no applications of named theorems, lemmas, or previously established facts to explain, and no `intro`, `rw`, `simp`, `exact`, or `linarith` steps occur. The mathematical content is entirely the set-builder definition described above: to show that $p$ lies in $\mathrm{epsilonSubdifferential}(f,\varepsilon,x)$, one must establish
 
 $$
 \forall y\in H,\quad

@@ -13,19 +13,19 @@ theorem scalar_damped_strong_convergence {H : Type*} [NormedAddCommGroup H]
 ```
 
 ## Statement explanation
-The declaration concerns a complete real inner product space $H$ (a real Hilbert space), a real damping coefficient $\gamma$, a potential $\Phi:H\to\mathbb R$, a gradient map $\operatorname{grad}\Phi:H\to H$, and initial data $u_0,v_0\in H$. It assumes a bundled potential hypothesis `hPhi : HasPotentialAssumption Phi`. The proof uses the consequences of this hypothesis that $\Phi$ is $C^1$, convex on all of $H$, bounded below, that its range is bounded below, and that its infimum is a lower bound for every value of $\Phi$. It also assumes a dissipative second-order system `sys : DissipativeSystem gamma Phi gradPhi u0 v0`, whose trajectory is denoted $u(t)=\text{sys.u}(t)$. From the system the proof uses that $\operatorname{grad}\Phi$ is a gradient of $\Phi$, that the trajectory has the needed smoothness, and that $\gamma>0$.
+The declaration concerns a complete real inner product space $H$ (a real Hilbert space), a real damping coefficient $\gamma$, a potential $\Phi:H\to\mathbb R$, a gradient map $\mathrm{grad}\Phi:H\to H$, and initial data $u_0,v_0\in H$. It assumes a bundled potential hypothesis `hPhi : HasPotentialAssumption Phi`. The proof uses the consequences of this hypothesis that $\Phi$ is $C^1$, convex on all of $H$, bounded below, that its range is bounded below, and that its infimum is a lower bound for every value of $\Phi$. It also assumes a dissipative second-order system `sys : DissipativeSystem gamma Phi gradPhi u0 v0`, whose trajectory is denoted $u(t)=\text{sys.u}(t)$. From the system the proof uses that $\mathrm{grad}\Phi$ is a gradient of $\Phi$, that the trajectory has the needed smoothness, and that $\gamma>0$.
 
 The set
 
 $$
-\operatorname{argmin}\Phi
+\mathrm{argmin}\Phi
 =
 \{x\in H:\Phi(x)=\inf \Phi(H)\}
 $$
 
 is the set of global minimizers of $\Phi$; in Lean it is written `argmin Phi (potential_range_bddBelow hPhi)`, where the second argument is the proof that the range of $\Phi$ is bounded below. The hypothesis `hcase` is a disjunction of two alternatives. The first alternative says that the minimizer set is nonempty and that $\Phi$ is an even function. The second alternative says that the interior of the minimizer set is nonempty.
 
-The conclusion is that there exists a minimizer $u_\ast\in\operatorname{argmin}\Phi$ such that
+The conclusion is that there exists a minimizer $u_\ast\in\mathrm{argmin}\Phi$ such that
 
 $$
 u(t)\to u_\ast
@@ -197,12 +197,12 @@ by
 ## Proof explanation
 The proof splits on `hcase` using `rcases hcase with hEven | hInterior`.
 
-In the first case, $hEven$ consists of a proof $hMin$ that $\operatorname{argmin}\Phi$ is nonempty and a proof $hPhiEven$ that $\Phi$ is even. The proof then applies the previously established theorem `scalar_damped_even_strong_convergence_result`. That theorem states that if $\Phi$ is $C^1$, convex, bounded below, if the system `sys` is dissipative, if the minimizer set is nonempty, and if $\Phi$ is even, then there exists a minimizer $u_\ast$ such that $u(t)\to u_\ast$ strongly. The proof supplies exactly those hypotheses: `hPhi.contDiff` for $C^1$-smoothness, `hPhi.convex` for convexity, `hPhi.bounded_below` for boundedness below, `sys`, `hMin`, and `hPhiEven`. The `simpa only [proof_irrel_heq]` step reconciles the proof argument inside `argmin`: the bounded-below proof used by the theorem may be definitionally different from the one in the current goal, but proofs of propositions are irrelevant, so the result matches the desired conclusion.
+In the first case, $hEven$ consists of a proof $hMin$ that $\mathrm{argmin}\Phi$ is nonempty and a proof $hPhiEven$ that $\Phi$ is even. The proof then applies the previously established theorem `scalar_damped_even_strong_convergence_result`. That theorem states that if $\Phi$ is $C^1$, convex, bounded below, if the system `sys` is dissipative, if the minimizer set is nonempty, and if $\Phi$ is even, then there exists a minimizer $u_\ast$ such that $u(t)\to u_\ast$ strongly. The proof supplies exactly those hypotheses: `hPhi.contDiff` for $C^1$-smoothness, `hPhi.convex` for convexity, `hPhi.bounded_below` for boundedness below, `sys`, `hMin`, and `hPhiEven`. The `simpa only [proof_irrel_heq]` step reconciles the proof argument inside `argmin`: the bounded-below proof used by the theorem may be definitionally different from the one in the current goal, but proofs of propositions are irrelevant, so the result matches the desired conclusion.
 
-In the second case, the hypothesis is that the interior of the minimizer set is nonempty. The theorem `interior_argmin_closedBall` is invoked. Its statement is: if $\Phi$ satisfies the potential assumption and the interior of $\operatorname{argmin}\Phi$ is nonempty, then there exist $z_0\in H$ and $\rho>0$ such that
+In the second case, the hypothesis is that the interior of the minimizer set is nonempty. The theorem `interior_argmin_closedBall` is invoked. Its statement is: if $\Phi$ satisfies the potential assumption and the interior of $\mathrm{argmin}\Phi$ is nonempty, then there exist $z_0\in H$ and $\rho>0$ such that
 
 $$
-\overline{B}(z_0,\rho)\subseteq \operatorname{argmin}\Phi .
+\overline{B}(z_0,\rho)\subseteq \mathrm{argmin}\Phi .
 $$
 
 Thus `obtain ⟨z0, rho, hrho, hball⟩` produces a point $z_0$ and a positive radius $\rho$ whose closed ball lies entirely in the minimizer set.
@@ -210,7 +210,7 @@ Thus `obtain ⟨z0, rho, hrho, hball⟩` produces a point $z_0$ and a positive r
 Next the proof establishes the radial gradient inequality
 
 $$
-\rho\,\|\operatorname{grad}\Phi(x)\|\le \langle \operatorname{grad}\Phi(x),x-z_0\rangle_{\mathbb R}
+\rho\,\|\mathrm{grad}\Phi(x)\|\le \langle \mathrm{grad}\Phi(x),x-z_0\rangle_{\mathbb R}
 $$
 
 for every $x\in H$. This is exactly the conclusion of `gradient_radial_lower_bound_of_argmin_closedBall`, applied with `hPhi`, the gradient relation `sys.is_gradient`, the positivity `hrho`, the inclusion `hball`, and the arbitrary point $x$. Mathematically, because the closed ball around $z_0$ lies in the minimizer set, the gradient direction at any point cannot point back toward that ball too strongly; rather, its inner product with $x-z_0$ dominates $\rho$ times its norm. This inequality is named `hradial`.
@@ -231,7 +231,7 @@ $$
 
 and, if the minimizer set is nonempty, weak convergence of $u(t)$ to some minimizer in the weak space. The proof stores these as `hvel2`, `hvel0`, `hPhi0`, and `hweak`. The later argument mainly uses `hvel2`, `hvel0`, and `hweak`.
 
-Since $z_0\in \overline{B}(z_0,\rho)$ and the closed ball is contained in $\operatorname{argmin}\Phi$, the proof obtains `hz0min : z0 ∈ argmin Phi ...`. From the definition of `argmin`, membership means
+Since $z_0\in \overline{B}(z_0,\rho)$ and the closed ball is contained in $\mathrm{argmin}\Phi$, the proof obtains `hz0min : z0 ∈ argmin Phi ...`. From the definition of `argmin`, membership means
 
 $$
 \Phi(z_0)=\inf \Phi(H),
@@ -429,7 +429,7 @@ $$
 Since $r\in L^1((1,\infty))$, the theorem `tendsto_limUnder_of_hasDerivAt_of_integrableOn_Ioi` gives
 
 $$
-w(t)\to \operatorname{limUnder}_{t\to\infty} w(t).
+w(t)\to \mathrm{limUnder}_{t\to\infty} w(t).
 $$
 
 The proof names this limit `wLim`. Thus
@@ -452,10 +452,10 @@ $$
 
 This is `huLim`.
 
-At this point the proof returns to the weak convergence obtained earlier. Since $z_0\in\operatorname{argmin}\Phi$, the minimizer set is nonempty, so `hweak hMin` produces some
+At this point the proof returns to the weak convergence obtained earlier. Since $z_0\in\mathrm{argmin}\Phi$, the minimizer set is nonempty, so `hweak hMin` produces some
 
 $$
-u_\ast\in\operatorname{argmin}\Phi
+u_\ast\in\mathrm{argmin}\Phi
 $$
 
 such that
@@ -476,5 +476,5 @@ $$
 u(t)\to u_\ast
 $$
 
-with $u_\ast\in\operatorname{argmin}\Phi$, which is exactly the desired strong convergence statement.
+with $u_\ast\in\mathrm{argmin}\Phi$, which is exactly the desired strong convergence statement.
 

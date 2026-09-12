@@ -12,26 +12,26 @@ theorem sum_maximal_monotone (A B : SetValuedOperator H H) (hA : IsMaximalMonoto
 Let $H$ be the ambient real inner product space on which the set-valued operators act. A set-valued operator $A : H \rightrightarrows H$ assigns to each point $x \in H$ a subset $A(x) \subseteq H$, and its domain is
 
 $$
-\operatorname{dom} A = \{x \in H : A(x) \neq \varnothing\}.
+\mathrm{dom} A = \{x \in H : A(x) \neq \varnothing\}.
 $$
 
 The theorem `sum_maximal_monotone` takes two set-valued operators $A$ and $B$ on $H$, together with three hypotheses:
 
 - `hA : IsMaximalMonotone A`, meaning that $A$ is a maximal monotone set-valued operator.
 - `hB : IsMaximalMonotone B`, meaning that $B$ is a maximal monotone set-valued operator.
-- `hdom : (interior A.dom ∩ B.dom).Nonempty`, meaning that there exists a point lying simultaneously in the topological interior of $\operatorname{dom} A$ and in $\operatorname{dom} B$:
+- `hdom : (interior A.dom ∩ B.dom).Nonempty`, meaning that there exists a point lying simultaneously in the topological interior of $\mathrm{dom} A$ and in $\mathrm{dom} B$:
 
   $$
-  \exists x,\quad x \in \operatorname{int}(\operatorname{dom} A) \cap \operatorname{dom} B.
+  \exists x,\quad x \in \mathrm{int}(\mathrm{dom} A) \cap \mathrm{dom} B.
   $$
 
 The conclusion is
 
 $$
-\operatorname{IsMaximalMonotone}(A+B).
+\mathrm{IsMaximalMonotone}(A+B).
 $$
 
-Here $A+B$ is the sum of the two set-valued operators, formed pointwise. Thus the theorem says that if two maximal monotone set-valued operators satisfy the domain/interior condition that the interior of the first domain meets the second domain, then their sum is again maximal monotone. The cited equivalence `isMaximalMonotone_iff_maximal_isMonotone` identifies the operator-theoretic notion $\operatorname{IsMaximalMonotone}(A)$ with the order-theoretic maximality statement $\operatorname{Maximal}(\operatorname{IsMonotone})(A)$, i.e. maximality among monotone set-valued operators.
+Here $A+B$ is the sum of the two set-valued operators, formed pointwise. Thus the theorem says that if two maximal monotone set-valued operators satisfy the domain/interior condition that the interior of the first domain meets the second domain, then their sum is again maximal monotone. The cited equivalence `isMaximalMonotone_iff_maximal_isMonotone` identifies the operator-theoretic notion $\mathrm{IsMaximalMonotone}(A)$ with the order-theoretic maximality statement $\mathrm{Maximal}(\mathrm{IsMonotone})(A)$, i.e. maximality among monotone set-valued operators.
 
 ## Lean proof
 ```lean
@@ -48,21 +48,21 @@ The proof is a single term-style proof introduced by `by` and completed by `exac
 The target goal is
 
 $$
-\operatorname{IsMaximalMonotone}(A+B).
+\mathrm{IsMaximalMonotone}(A+B).
 $$
 
 The proof first applies the cited equivalence `isMaximalMonotone_iff_maximal_isMonotone` to the operator $A+B$. Specialized to $A+B$, that theorem gives
 
 $$
-\operatorname{IsMaximalMonotone}(A+B)
+\mathrm{IsMaximalMonotone}(A+B)
 \longleftrightarrow
-\operatorname{Maximal}(\operatorname{IsMonotone})(A+B).
+\mathrm{Maximal}(\mathrm{IsMonotone})(A+B).
 $$
 
 The term `(isMaximalMonotone_iff_maximal_isMonotone (A + B)).2` is the backward direction of this equivalence. Therefore, to prove the desired conclusion, it is enough to prove
 
 $$
-\operatorname{Maximal}(\operatorname{IsMonotone})(A+B),
+\mathrm{Maximal}(\mathrm{IsMonotone})(A+B),
 $$
 
 namely that $A+B$ is maximal among monotone set-valued operators.
@@ -75,13 +75,13 @@ To obtain that maximality statement, the proof invokes
 - the hypothesis `hdom`, that
 
   $$
-  \operatorname{int}(\operatorname{dom} A) \cap \operatorname{dom} B \neq \varnothing.
+  \mathrm{int}(\mathrm{dom} A) \cap \mathrm{dom} B \neq \varnothing.
   $$
 
 It returns a proof that $A+B$ is maximal among monotone set-valued operators:
 
 $$
-\operatorname{Maximal}(\operatorname{IsMonotone})(A+B).
+\mathrm{Maximal}(\mathrm{IsMonotone})(A+B).
 $$
 
 The first two arguments to this additivity result are produced by converting the maximal-monotone hypotheses `hA` and `hB` into maximality statements. For $A$, the proof uses
@@ -93,35 +93,35 @@ $$
 The direction `.1` of the equivalence for $A$ is
 
 $$
-\operatorname{IsMaximalMonotone}(A)
+\mathrm{IsMaximalMonotone}(A)
 \longrightarrow
-\operatorname{Maximal}(\operatorname{IsMonotone})(A),
+\mathrm{Maximal}(\mathrm{IsMonotone})(A),
 $$
 
-so applying it to `hA` gives $\operatorname{Maximal}(\operatorname{IsMonotone})(A)$. The analogous expression
+so applying it to `hA` gives $\mathrm{Maximal}(\mathrm{IsMonotone})(A)$. The analogous expression
 
 $$
 \texttt{(isMaximalMonotone\_iff\_maximal\_isMonotone B).1 hB}
 $$
 
-gives $\operatorname{Maximal}(\operatorname{IsMonotone})(B)$.
+gives $\mathrm{Maximal}(\mathrm{IsMonotone})(B)$.
 
 Thus the additivity result receives exactly the two maximality hypotheses it needs, together with the interior-domain-intersection hypothesis `hdom`, and produces
 
 $$
-\operatorname{Maximal}(\operatorname{IsMonotone})(A+B).
+\mathrm{Maximal}(\mathrm{IsMonotone})(A+B).
 $$
 
 Finally, the surrounding expression applies the backward direction `.2` of the equivalence for $A+B$ to this maximality proof, converting
 
 $$
-\operatorname{Maximal}(\operatorname{IsMonotone})(A+B)
+\mathrm{Maximal}(\mathrm{IsMonotone})(A+B)
 $$
 
 back into
 
 $$
-\operatorname{IsMaximalMonotone}(A+B).
+\mathrm{IsMaximalMonotone}(A+B).
 $$
 
 The `exact` command then checks that this entire proof term has precisely the declared goal type.

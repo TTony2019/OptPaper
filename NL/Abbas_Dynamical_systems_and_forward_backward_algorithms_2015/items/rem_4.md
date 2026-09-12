@@ -43,7 +43,7 @@ The assumption `hS` says $S$ is nonempty.
 The conclusion is that there exists a point $\bar y\in H$ such that
 
 $$
-\operatorname{Prox}_{\mu\Phi}(\bar y)\in S
+\mathrm{Prox}_{\mu\Phi}(\bar y)\in S
 $$
 
 and the algorithm’s iterates $y_k$, where $y_k$ denotes `alg.y k`, converge weakly to $\bar y$:
@@ -52,7 +52,7 @@ $$
 y_k \rightharpoonup \bar y.
 $$
 
-Thus the proximal image of the weak limit belongs to the solution set. The theorem does not assert that $\bar y$ itself belongs to $S$; it asserts that $\operatorname{Prox}_{\mu\Phi}(\bar y)$ does.
+Thus the proximal image of the weak limit belongs to the solution set. The theorem does not assert that $\bar y$ itself belongs to $S$; it asserts that $\mathrm{Prox}_{\mu\Phi}(\bar y)$ does.
 
 ## Lean proof
 ```lean
@@ -120,7 +120,7 @@ by
 The proof first defines two maps. It sets
 
 $$
-P=\operatorname{Prox}_{\mu\Phi},
+P=\mathrm{Prox}_{\mu\Phi},
 $$
 
 the scaled proximity operator of $\Phi$ with parameter $\mu$, and
@@ -131,7 +131,7 @@ $$
 
 The map $T$ is the fixed-point map associated with the backward-forward step.
 
-The first important fact is that $P$ is firmly nonexpansive. To see this, Lean uses `smul_mem_gammaZero`, which says that if $\Phi\in\Gamma_0(H)$ and $\mu>0$, then $\mu\Phi\in\Gamma_0(H)$. The proof `hmu.1` supplies $0<\mu$. Then it applies `proximityOperator_firmlyNonexpansive_of_mem_gammaZero`, which states that if $f\in\Gamma_0(H)$, then the proximity operator $\operatorname{Prox}_f$ is firmly nonexpansive. Specialized here, $\operatorname{Prox}_{\mu\Phi}$ is firmly nonexpansive, because $\mu\Phi\in\Gamma_0(H)$. In Hilbert-space form, firm nonexpansiveness of $P$ means
+The first important fact is that $P$ is firmly nonexpansive. To see this, Lean uses `smul_mem_gammaZero`, which says that if $\Phi\in\Gamma_0(H)$ and $\mu>0$, then $\mu\Phi\in\Gamma_0(H)$. The proof `hmu.1` supplies $0<\mu$. Then it applies `proximityOperator_firmlyNonexpansive_of_mem_gammaZero`, which states that if $f\in\Gamma_0(H)$, then the proximity operator $\mathrm{Prox}_f$ is firmly nonexpansive. Specialized here, $\mathrm{Prox}_{\mu\Phi}$ is firmly nonexpansive, because $\mu\Phi\in\Gamma_0(H)$. In Hilbert-space form, firm nonexpansiveness of $P$ means
 
 $$
 \|P(x)-P(y)\|^2\le \langle P(x)-P(y),x-y\rangle
@@ -171,7 +171,7 @@ $$
 T(z-\mu Bz)=P(z-\mu Bz)-\mu B(P(z-\mu Bz))=z-\mu Bz.
 $$
 
-The Lean commands `change`, `dsimp [T, P]`, and `rw [hzfix]` carry out this rewriting. Hence $\operatorname{Fix}(T)$ is nonempty. The proof stores this as `hC` and then obtains a point $p_0$ with $T(p_0)=p_0$.
+The Lean commands `change`, `dsimp [T, P]`, and `rw [hzfix]` carry out this rewriting. Hence $\mathrm{Fix}(T)$ is nonempty. The proof stores this as `hC` and then obtains a point $p_0$ with $T(p_0)=p_0$.
 
 Next, the proof derives the recurrence satisfied by the algorithm iterates. The algorithm fields `alg.forward_step` and `alg.prox_step`, rewritten by `rw`, give
 
@@ -229,15 +229,15 @@ $$
 \|y_{\varphi(n)}-z\|\le \|y_{\varphi(n)}\|+\|z\|\le C+\|z\|.
 $$
 
-Thus the subsequence is bounded relative to $z$. Now the proof applies `nonexpansive_eq_of_tendsto_weakly_of_residual_tendsto_zero_local`. This theorem states that if $T$ is $1$-Lipschitz, $u_n$ converges weakly to $z$, $u_n-T(u_n)\to0$, and $u_n$ is bounded relative to $z$, then $T(z)=z$. Here $u_n=y_{\varphi(n)}$, so the theorem gives $T(z)=z$, i.e. $z\in\operatorname{Fix}(T)$. This is the cluster-point condition `hcluster`.
+Thus the subsequence is bounded relative to $z$. Now the proof applies `nonexpansive_eq_of_tendsto_weakly_of_residual_tendsto_zero_local`. This theorem states that if $T$ is $1$-Lipschitz, $u_n$ converges weakly to $z$, $u_n-T(u_n)\to0$, and $u_n$ is bounded relative to $z$, then $T(z)=z$. Here $u_n=y_{\varphi(n)}$, so the theorem gives $T(z)=z$, i.e. $z\in\mathrm{Fix}(T)$. This is the cluster-point condition `hcluster`.
 
-At this point all hypotheses of `opial_lemma` are available: the set $\operatorname{Fix}(T)$ is nonempty, for every point in it the distances $\|y_k-z\|$ converge, and every weak sequential cluster point of $y_k$ lies in it. The Opial lemma concludes that there exists $\bar y\in\operatorname{Fix}(T)$ such that
+At this point all hypotheses of `opial_lemma` are available: the set $\mathrm{Fix}(T)$ is nonempty, for every point in it the distances $\|y_k-z\|$ converge, and every weak sequential cluster point of $y_k$ lies in it. The Opial lemma concludes that there exists $\bar y\in\mathrm{Fix}(T)$ such that
 
 $$
 y_k\rightharpoonup \bar y.
 $$
 
-Finally, the proof converts the fixed-point property of $\bar y$ into the required solution property. Since $\bar y\in\operatorname{Fix}(T)$, we have
+Finally, the proof converts the fixed-point property of $\bar y$ into the required solution property. Since $\bar y\in\mathrm{Fix}(T)$, we have
 
 $$
 P(\bar y)-\mu B(P(\bar y))=\bar y.
@@ -246,7 +246,7 @@ $$
 The theorem `fixed_backward_forward_prox_mem_solution_local` states that under the standing hypotheses on $\Phi$, $B$, $\mu$, and the solution characterization `hsolution`, any point $y$ satisfying $P(y)-\mu B(P(y))=y$ has $P(y)\in S$. Applying it to $y=\bar y$ gives
 
 $$
-P(\bar y)=\operatorname{Prox}_{\mu\Phi}(\bar y)\in S.
+P(\bar y)=\mathrm{Prox}_{\mu\Phi}(\bar y)\in S.
 $$
 
 Together with the weak convergence $y_k\rightharpoonup\bar y$, this proves the existential conclusion.

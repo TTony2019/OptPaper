@@ -17,12 +17,12 @@ Let $H$ be a complete real inner product space. The functions in the statement a
 
 $$
 \phi,\Theta:H\to \mathrm{EReal},\qquad \psi:H\to\mathbb R,\qquad
-\operatorname{gradPsi}:H\to H,
+\mathrm{gradPsi}:H\to H,
 $$
 
 where $\mathrm{EReal}=\mathbb R\cup\{-\infty,+\infty\}$ is the extended real line. The real parameters are $a,b,\lambda,L_{\psi}\in\mathbb R$. The sequences are $u,y:\mathbb N\to H$, and $q\in H$. The hypotheses are:
 
-- `hH : IFBHypothesis phi Theta psi gradPsi a b lam Lpsi`, the standing hypotheses of the inertial forward-backward setting relating $\phi,\Theta,\psi,\operatorname{gradPsi}$ and the parameters. In the proof, the used parts are `hH.theta_bounded_below`, `hH.phi_proper.2`, and `hH.theta_eq`: a lower bound for $\Theta$, a point at which $\phi$ is not $+\infty$, and an identity rewriting $\Theta$ in terms of $\phi$ and $\psi$.
+- `hH : IFBHypothesis phi Theta psi gradPsi a b lam Lpsi`, the standing hypotheses of the inertial forward-backward setting relating $\phi,\Theta,\psi,\mathrm{gradPsi}$ and the parameters. In the proof, the used parts are `hH.theta_bounded_below`, `hH.phi_proper.2`, and `hH.theta_eq`: a lower bound for $\Theta$, a point at which $\phi$ is not $+\infty$, and an identity rewriting $\Theta$ in terms of $\phi$ and $\psi$.
 - `hIFB : IsIFBTrajectory phi psi gradPsi a b lam u y`, saying that $(u,y)$ is an inertial forward-backward trajectory for those data.
 - `hcompact : IsBoundedlyInfCompact Θ`, a compactness assumption on $\Theta$. In the proof it is used exactly to assert that for every real $r$ and every $R>0$, the closure of
 
@@ -38,13 +38,13 @@ The conclusion is the conjunction
 $$
 \Bigl(u_k\to q\ \text{in the norm topology of }H\Bigr)
 \quad\land\quad
-\Bigl(q\in\operatorname{argminSet}\Theta\Bigr).
+\Bigl(q\in\mathrm{argminSet}\Theta\Bigr).
 $$
 
-The set $\operatorname{argminSet}\Theta$ is defined by
+The set $\mathrm{argminSet}\Theta$ is defined by
 
 $$
-\operatorname{argminSet}\Theta
+\mathrm{argminSet}\Theta
 =
 \{x\in H:\forall y\in H,\ \Theta(x)\le \Theta(y)\}.
 $$
@@ -126,7 +126,7 @@ by
 ```
 
 ## Proof explanation
-The proof first invokes `proposition6` with the same data $\phi,\Theta,\psi,\operatorname{gradPsi},a,b,\lambda,L_{\psi},u,y$ and the hypotheses `hH` and `hIFB`. That proposition gives three facts. The first is
+The proof first invokes `proposition6` with the same data $\phi,\Theta,\psi,\mathrm{gradPsi},a,b,\lambda,L_{\psi},u,y$ and the hypotheses `hH` and `hIFB`. That proposition gives three facts. The first is
 
 $$
 \Theta(u_k)\longrightarrow \inf_{x\in H}\Theta(x)
@@ -137,16 +137,16 @@ The proof names this `hTheta`. The second is that every weak sequential cluster 
 
 $$
 \forall r\in H,\quad
-\operatorname{IsSequentialClusterPt}\bigl(k\mapsto \operatorname{toWeakSpace}(u_k),\operatorname{toWeakSpace}(r)\bigr)
-\implies r\in\operatorname{argminSet}\Theta .
+\mathrm{IsSequentialClusterPt}\bigl(k\mapsto \mathrm{toWeakSpace}(u_k),\mathrm{toWeakSpace}(r)\bigr)
+\implies r\in\mathrm{argminSet}\Theta .
 $$
 
 The proof names this `hclusterMin`. The third conclusion of `proposition6` is discarded with the wildcard in the `rcases`. Here `IsSequentialClusterPt(u,x)` means that there exists a strictly increasing subsequence $u_{\varphi(n)}$ converging to $x$.
 
-Because `hweak` itself says that the whole weak-space sequence $\operatorname{toWeakSpace}(u_k)$ converges to $\operatorname{toWeakSpace}(q)$, the point $q$ is a weak sequential cluster point: one may take the subsequence to be the identity map, which is strictly monotone. The proof records this as `hqcluster`, and then applies `hclusterMin` to obtain
+Because `hweak` itself says that the whole weak-space sequence $\mathrm{toWeakSpace}(u_k)$ converges to $\mathrm{toWeakSpace}(q)$, the point $q$ is a weak sequential cluster point: one may take the subsequence to be the identity map, which is strictly monotone. The proof records this as `hqcluster`, and then applies `hclusterMin` to obtain
 
 $$
-q\in\operatorname{argminSet}\Theta .
+q\in\mathrm{argminSet}\Theta .
 $$
 
 This is the first half of the final conclusion.
@@ -186,7 +186,7 @@ Using that, the proof shows that the infimum itself is not $+\infty$. If it were
 Since the infimum is neither $-\infty$ nor $+\infty$, it is a finite extended real number. The proof defines
 
 $$
-r=\bigl(\inf\Theta\bigr)_{\operatorname{toReal}}+1.
+r=\bigl(\inf\Theta\bigr)_{\mathrm{toReal}}+1.
 $$
 
 The lemma `EReal.coe_toReal` identifies the finite extended real $\inf\Theta$ with the coercion of its real part, so the inequality $a<a+1$ for real numbers gives
@@ -226,19 +226,19 @@ $$
 in the norm topology. Since $f(n)\to\infty$, also $N+f(n)\to\infty$. Composing the weak convergence $u_k\rightharpoonup q$ with the index map $n\mapsto N+f(n)$ gives
 
 $$
-\operatorname{toWeakSpace}(u_{N+f(n)})\to \operatorname{toWeakSpace}(q).
+\mathrm{toWeakSpace}(u_{N+f(n)})\to \mathrm{toWeakSpace}(q).
 $$
 
 On the other hand, the canonical map from $H$ to its weak topology is continuous, so the strong convergence $u_{N+f(n)}\to p$ implies weak convergence
 
 $$
-\operatorname{toWeakSpace}(u_{N+f(n)})\to \operatorname{toWeakSpace}(p).
+\mathrm{toWeakSpace}(u_{N+f(n)})\to \mathrm{toWeakSpace}(p).
 $$
 
 Limits in the weak topology are unique, so
 
 $$
-\operatorname{toWeakSpace}(p)=\operatorname{toWeakSpace}(q).
+\mathrm{toWeakSpace}(p)=\mathrm{toWeakSpace}(q).
 $$
 
 The canonical map to the weak space is injective, hence $p=q$. Therefore $q$ is the only sequential cluster point of the tail $n\mapsto u_{N+n}$.
@@ -257,7 +257,7 @@ $$
 u_k\to q
 $$
 
-strongly. Together with the earlier minimizer property $q\in\operatorname{argminSet}\Theta$, this proves the theorem.
+strongly. Together with the earlier minimizer property $q\in\mathrm{argminSet}\Theta$, this proves the theorem.
 
 The Lean tactics reflect these mathematical steps: `rcases` destructs the conjunction from `proposition6` and the eventual-at-top statement; `intro` introduces a hypothetical point or assumption; `rw` rewrites with equalities such as the minimizer characterization, the lower-bound contradiction, and `hH.theta_eq`; `apply` reduces a goal to a sufficient subgoal; `simpa` handles definitional simplifications such as the identity subsequence and the weak-space embedding; `exact` closes the goals with the established inequality or convergence; `let` introduces the abbreviations $r$, $A$, and $K$; `dsimp` unfolds those local abbreviations before applying `hcompact`; and `exact_mod_cast` converts the real inequality $a<a+1$ to the corresponding extended-real inequality. No use of `linarith` occurs in this proof.
 

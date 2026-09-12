@@ -26,7 +26,7 @@ The declaration `cor_3` states a stability and uniqueness result for a parametri
 For each $\mu\in M$, $A_\mu$ is a set-valued operator on $H$. The hypothesis `hA` says that for every $\mu\in V$, $A_\mu$ is maximal monotone. The map $J$ chooses, for each $\mu$, a point $J_\mu(x)$ in the resolvent of $\lambda A_\mu$ at $x$. Concretely, `hJ` says that for every $\mu\in V$ and every $x\in H$,
 
 $$
-J_\mu(x)\in \operatorname{resolvent}(\lambda A_\mu)(x).
+J_\mu(x)\in \mathrm{resolvent}(\lambda A_\mu)(x).
 $$
 
 Thus $J_\mu$ is a selected resolvent map for the operator $\lambda A_\mu$.
@@ -233,15 +233,15 @@ This is the coercivity/monotonicity condition needed by `thm_1`.
 Fix $\mu\in V$ and $u,v\in H$. From `hJ`, we know
 
 $$
-J_\mu(u)\in \operatorname{resolvent}(\lambda A_\mu)(u),
+J_\mu(u)\in \mathrm{resolvent}(\lambda A_\mu)(u),
 \qquad
-J_\mu(v)\in \operatorname{resolvent}(\lambda A_\mu)(v).
+J_\mu(v)\in \mathrm{resolvent}(\lambda A_\mu)(v).
 $$
 
 The cited theorem `mem_resolvent_smul_iff` says, specialized to this situation, that
 
 $$
-J_\mu(u)\in \operatorname{resolvent}(\lambda A_\mu)(u)
+J_\mu(u)\in \mathrm{resolvent}(\lambda A_\mu)(u)
 \iff
 u\in (A_\mu).\text{identityAddScaled}(\lambda)(J_\mu(u)).
 $$

@@ -46,7 +46,7 @@ $$
 \Phi:H\to (-\infty,\infty]
 $$
 
-modeled as $H\to \{r\in \overline{\mathbb R}: r>-\infty\}$, a map $B:H\to H$, curves $x,v:\mathbb R\to H$, and positive parameters $\lambda,\mu,\beta$ with $\mu\lambda=1$. The hypothesis $\Phi\in\operatorname{gammaZero}(H)$ says that $\Phi$ belongs to the class $\Gamma_0(H)$, and the hypothesis on $B$ says that $B$ is $\beta$-cocoercive on all of $H$, i.e. for all $u,w\in H$,
+modeled as $H\to \{r\in \overline{\mathbb R}: r>-\infty\}$, a map $B:H\to H$, curves $x,v:\mathbb R\to H$, and positive parameters $\lambda,\mu,\beta$ with $\mu\lambda=1$. The hypothesis $\Phi\in\mathrm{gammaZero}(H)$ says that $\Phi$ belongs to the class $\Gamma_0(H)$, and the hypothesis on $B$ says that $B$ is $\beta$-cocoercive on all of $H$, i.e. for all $u,w\in H$,
 
 $$
 \beta\|Bu-Bw\|^2\le \langle u-w,Bu-Bw\rangle .
@@ -70,7 +70,7 @@ $$
 -Bw\in \partial\Phi(w),
 $$
 
-equivalently $0\in Bw+\partial\Phi(w)$. The effective-domain hypotheses say that $x(t)\in\operatorname{dom}\Phi$ for all $t\ge 0$, and that every $w\in S$ lies in $\operatorname{dom}\Phi$. Finally, the weak-convergence hypothesis says that there exists $x_\infty\in S$ such that
+equivalently $0\in Bw+\partial\Phi(w)$. The effective-domain hypotheses say that $x(t)\in\mathrm{dom}\Phi$ for all $t\ge 0$, and that every $w\in S$ lies in $\mathrm{dom}\Phi$. Finally, the weak-convergence hypothesis says that there exists $x_\infty\in S$ such that
 
 $$
 x(t)\rightharpoonup x_\infty
@@ -485,7 +485,7 @@ F(t)=(\Phi(x(t)))_{\mathbb R}-(\Phi z)_{\mathbb R}
 +\langle Bz,x(t)-z\rangle.
 $$
 
-It first shows $F(t)\ge 0$ for every $t\ge 0$. For this it uses the subgradient inequality `subgradient_ineq_toReal_of_mem_gammaZero`. Since $-Bz\in\partial\Phi(z)$, since $x(t)\in\operatorname{dom}\Phi$, and since $\Phi\in\Gamma_0(H)$, that inequality gives
+It first shows $F(t)\ge 0$ for every $t\ge 0$. For this it uses the subgradient inequality `subgradient_ineq_toReal_of_mem_gammaZero`. Since $-Bz\in\partial\Phi(z)$, since $x(t)\in\mathrm{dom}\Phi$, and since $\Phi\in\Gamma_0(H)$, that inequality gives
 
 $$
 (\Phi(x(t)))_{\mathbb R}
@@ -507,7 +507,7 @@ $$
 =\langle v(t),\dot x(t)\rangle.
 $$
 
-This is exactly the conclusion of `subgradient_chain_rule`, applied with $b=T$. Its hypotheses are supplied as follows: $\Phi\in\Gamma_0(H)$, $x$ is absolutely continuous on $[0,T]$, $v(t)\in\partial\Phi(x(t))$ for almost every $t\in[0,T]$, $x(t)\in\operatorname{dom}\Phi$ on $[0,T]$, $x$ is differentiable almost everywhere, and $v,\dot x\in L^2([0,T])$.
+This is exactly the conclusion of `subgradient_chain_rule`, applied with $b=T$. Its hypotheses are supplied as follows: $\Phi\in\Gamma_0(H)$, $x$ is absolutely continuous on $[0,T]$, $v(t)\in\partial\Phi(x(t))$ for almost every $t\in[0,T]$, $x(t)\in\mathrm{dom}\Phi$ on $[0,T]$, $x$ is differentiable almost everywhere, and $v,\dot x\in L^2([0,T])$.
 
 The proof then defines the same auxiliary function $\Gamma$ from `proposition_2_12` and proves that it is absolutely continuous on every $[0,T]$. It uses three closure facts. First, `prop216_inner_ac` says that the real inner product of two absolutely continuous curves is absolutely continuous. Applying it to $z-x(t)$ and $v(t)$, and using
 
@@ -611,7 +611,7 @@ $$
 \le \mu\langle x(t)-z,B(x(t))-Bz\rangle.
 $$
 
-Third, the subgradient inequality with $v(t)\in\partial\Phi(x(t))$ and $z\in\operatorname{dom}\Phi$ gives
+Third, the subgradient inequality with $v(t)\in\partial\Phi(x(t))$ and $z\in\mathrm{dom}\Phi$ gives
 
 $$
 (\Phi z)_{\mathbb R}
@@ -767,14 +767,14 @@ $$
 \langle Bz,x(t)-x_\infty\rangle\to0.
 $$
 
-The proof then applies the subgradient inequality twice. From $-Bz\in\partial\Phi(z)$ and $x_\infty\in\operatorname{dom}\Phi$,
+The proof then applies the subgradient inequality twice. From $-Bz\in\partial\Phi(z)$ and $x_\infty\in\mathrm{dom}\Phi$,
 
 $$
 (\Phi(x_\infty))_{\mathbb R}
 \ge (\Phi z)_{\mathbb R}-\langle Bz,x_\infty-z\rangle.
 $$
 
-From $-Bx_\infty\in\partial\Phi(x_\infty)$ and $z\in\operatorname{dom}\Phi$, together with the already proved $Bx_\infty=Bz$,
+From $-Bx_\infty\in\partial\Phi(x_\infty)$ and $z\in\mathrm{dom}\Phi$, together with the already proved $Bx_\infty=Bz$,
 
 $$
 (\Phi z)_{\mathbb R}

@@ -25,7 +25,7 @@ theorem proximal_gradient_gradient_case {H : Type*} [NormedAddCommGroup H] [Inne
 ```
 
 ## Statement explanation
-The theorem `proximal_gradient_gradient_case` is a convergence theorem for a continuous-time proximal-gradient trajectory in a real Hilbert space $H$, formalized as a complete real inner product space. The extended-real function $\Phi : H \to \operatorname{Set}_{\operatorname{Ioi}(\bot)}(\mathrm{EReal})$, with hypothesis `hPhi`, belongs to the class $\Gamma_0(H)$: it is a proper convex lower semicontinuous function with values in $\mathbb R \cup \{+\infty\}$. The function $\Psi : H \to \mathbb R$ is convex on all of $H$, has gradient $\nabla \Psi$, and its gradient map is $\beta$-cocoercive on all of $H$, meaning that for all $u,v \in H$,
+The theorem `proximal_gradient_gradient_case` is a convergence theorem for a continuous-time proximal-gradient trajectory in a real Hilbert space $H$, formalized as a complete real inner product space. The extended-real function $\Phi : H \to \mathrm{Set}_{\mathrm{Ioi}(\bot)}(\mathrm{EReal})$, with hypothesis `hPhi`, belongs to the class $\Gamma_0(H)$: it is a proper convex lower semicontinuous function with values in $\mathbb R \cup \{+\infty\}$. The function $\Psi : H \to \mathbb R$ is convex on all of $H$, has gradient $\nabla \Psi$, and its gradient map is $\beta$-cocoercive on all of $H$, meaning that for all $u,v \in H$,
 
 $$
 \beta \|\nabla \Psi(u)-\nabla \Psi(v)\|^2
@@ -43,17 +43,17 @@ where $\partial \Phi$ is the convex subdifferential. Thus $S$ is the set of crit
 The parameters satisfy $\mu>0$ and $\beta>0$. The trajectory $x : \mathbb R \to H$ is differentiable on $t \ge 0$, absolutely continuous on every interval $[0,b]$ with $b>0$, and satisfies the proximal-gradient differential equation
 
 $$
-\dot x(t)+x(t)-\operatorname{prox}_{\mu \Phi}\!\bigl(x(t)-\mu \nabla \Psi(x(t))\bigr)=0,
+\dot x(t)+x(t)-\mathrm{prox}_{\mu \Phi}\!\bigl(x(t)-\mu \nabla \Psi(x(t))\bigr)=0,
 \qquad t \ge 0,
 $$
 
 or equivalently
 
 $$
-\dot x(t)=\operatorname{prox}_{\mu \Phi}\!\bigl(x(t)-\mu \nabla \Psi(x(t))\bigr)-x(t).
+\dot x(t)=\mathrm{prox}_{\mu \Phi}\!\bigl(x(t)-\mu \nabla \Psi(x(t))\bigr)-x(t).
 $$
 
-Here $\operatorname{prox}_{\mu \Phi}$ denotes the scaled proximity operator of $\mu \Phi$, as given by `ERealFunction.scaledProximityOperator`.
+Here $\mathrm{prox}_{\mu \Phi}$ denotes the scaled proximity operator of $\mu \Phi$, as given by `ERealFunction.scaledProximityOperator`.
 
 The conclusion has three parts. First, there exists $x_\infty \in S$ such that $x(t)$ converges weakly to $x_\infty$ as $t \to \infty$, formalized by convergence in the weak topology via `toWeakSpace`. Second, for every $z \in S$, the gradients converge strongly,
 
@@ -612,10 +612,10 @@ $$
 
 This is a standard fact: a nonnegative antitone real function on $[0,\infty)$ has a limit in $[0,\infty)$.
 
-The proof next establishes continuity of the relevant fields. The lemma `lipschitzWith_of_cocoercive` says that a cocoercive map is Lipschitz with constant $\operatorname{toNNReal}(1/\beta)$. Since $\nabla\Psi$ is cocoercive by `hB`, it is continuous. The theorem `proximal_gradient_field_continuous` then gives continuity of the proximal-gradient field
+The proof next establishes continuity of the relevant fields. The lemma `lipschitzWith_of_cocoercive` says that a cocoercive map is Lipschitz with constant $\mathrm{toNNReal}(1/\beta)$. Since $\nabla\Psi$ is cocoercive by `hB`, it is continuous. The theorem `proximal_gradient_field_continuous` then gives continuity of the proximal-gradient field
 
 $$
-u \mapsto \operatorname{prox}_{\mu\Phi}\!\bigl(u-\mu\nabla\Psi(u)\bigr)-u.
+u \mapsto \mathrm{prox}_{\mu\Phi}\!\bigl(u-\mu\nabla\Psi(u)\bigr)-u.
 $$
 
 From the dynamics, the proof rewrites the derivative as
@@ -623,7 +623,7 @@ From the dynamics, the proof rewrites the derivative as
 $$
 \dot x(t)
 =
-\operatorname{prox}_{\mu\Phi}\!\bigl(x(t)-\mu\nabla\Psi(x(t))\bigr)-x(t).
+\mathrm{prox}_{\mu\Phi}\!\bigl(x(t)-\mu\nabla\Psi(x(t))\bigr)-x(t).
 $$
 
 Using that $x$ is continuous on every $[0,T]$ by absolute continuity, and that the field above is continuous, the proof obtains continuity of $\dot x$ on every $[0,T]$. It also obtains continuity of the dissipation integrand
@@ -718,7 +718,7 @@ The theorem `proximal_gradient_field_lipschitz` supplies a nonnegative constant 
 $$
 V(u)
 =
-\operatorname{prox}_{\mu\Phi}\!\bigl(u-\mu\nabla\Psi(u)\bigr)-u
+\mathrm{prox}_{\mu\Phi}\!\bigl(u-\mu\nabla\Psi(u)\bigr)-u
 $$
 
 is Lipschitz with constant $L$. Since $\dot x(t)=V(x(t))$, the proof bounds the velocity by

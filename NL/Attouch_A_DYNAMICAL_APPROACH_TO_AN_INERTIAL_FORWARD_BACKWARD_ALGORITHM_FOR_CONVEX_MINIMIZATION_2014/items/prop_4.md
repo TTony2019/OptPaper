@@ -14,7 +14,7 @@ theorem proposition6 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H
 ```
 
 ## Statement explanation
-`proposition6` is a theorem about a complete real inner product space $H$, i.e. a real Hilbert space. The data are two extended-real-valued functions $\phi,\Theta:H\to\overline{\mathbb R}$, a real-valued function $\psi:H\to\mathbb R$, a map $\operatorname{gradPsi}:H\to H$, real parameters $a,b,\lambda,L_\psi$, and two sequences $u,y:\mathbb N\to H$. The hypotheses `hH : IFBHypothesis phi Θ psi gradPsi a b lam Lpsi` and `hIFB : IsIFBTrajectory phi psi gradPsi a b lam u y` are the standing assumptions of the inertial forward-backward method. The proof uses in particular that $\Theta$ has convex epigraph, that $\Theta$ is bounded below by a real constant, that $\Theta$ is related to $\phi$ and $\psi$ by the identity encoded in `hH.theta_eq`, and that $b>0$ and $\lambda>0$.
+`proposition6` is a theorem about a complete real inner product space $H$, i.e. a real Hilbert space. The data are two extended-real-valued functions $\phi,\Theta:H\to\overline{\mathbb R}$, a real-valued function $\psi:H\to\mathbb R$, a map $\mathrm{gradPsi}:H\to H$, real parameters $a,b,\lambda,L_\psi$, and two sequences $u,y:\mathbb N\to H$. The hypotheses `hH : IFBHypothesis phi Θ psi gradPsi a b lam Lpsi` and `hIFB : IsIFBTrajectory phi psi gradPsi a b lam u y` are the standing assumptions of the inertial forward-backward method. The proof uses in particular that $\Theta$ has convex epigraph, that $\Theta$ is bounded below by a real constant, that $\Theta$ is related to $\phi$ and $\psi$ by the identity encoded in `hH.theta_eq`, and that $b>0$ and $\lambda>0$.
 
 The conclusion is a conjunction of three statements.
 
@@ -28,7 +28,7 @@ $$
 Second, every weak sequential cluster point of the sequence $(u_k)$ is a minimizer of $\Theta$. More precisely, if $q$ is such that some strictly increasing subsequence of $(u_k)$ converges weakly to $q$, then
 
 $$
-q\in \operatorname{argmin}\Theta,
+q\in \mathrm{argmin}\Theta,
 $$
 
 meaning
@@ -40,7 +40,7 @@ $$
 Third, if $\Theta$ has no minimizer at all, i.e.
 
 $$
-\operatorname{argmin}\Theta=\varnothing,
+\mathrm{argmin}\Theta=\varnothing,
 $$
 
 then the norms of the iterates diverge to infinity:
@@ -283,7 +283,7 @@ for every $x\in H$. Hence the range of $\Theta$ is bounded below, which is recor
 The main work of the first part is to prove
 
 $$
-e=\inf(\operatorname{range}\Theta).
+e=\inf(\mathrm{range}\Theta).
 $$
 
 This is shown by antisymmetry.
@@ -291,10 +291,10 @@ This is shown by antisymmetry.
 For the inequality
 
 $$
-e\le \inf(\operatorname{range}\Theta),
+e\le \inf(\mathrm{range}\Theta),
 $$
 
-the proof uses `le_csInf`: it suffices to show that $e$ is below every element of the range. So take an arbitrary value $\Theta(q)$. If $\Theta(q)=\top$, then $e\le\top$ is trivial. Otherwise, `theta_ne_bot` gives $\Theta(q)\ne\bot$. To apply the Liapunov estimate, the proof needs $q\in \operatorname{dom}\phi$, meaning $\phi(q)<\top$. Using `ERealFunction.mem_dom_iff`, this is reduced to showing $\phi(q)\ne\top$. If $\phi(q)=\top$, then the identity in `hH.theta_eq` together with the fact that $\psi(q)$ is a real number, hence not $\bot$, would imply $\Theta(q)=\top$, contradicting the case assumption. Therefore $q\in\operatorname{dom}\phi$.
+the proof uses `le_csInf`: it suffices to show that $e$ is below every element of the range. So take an arbitrary value $\Theta(q)$. If $\Theta(q)=\top$, then $e\le\top$ is trivial. Otherwise, `theta_ne_bot` gives $\Theta(q)\ne\bot$. To apply the Liapunov estimate, the proof needs $q\in \mathrm{dom}\phi$, meaning $\phi(q)<\top$. Using `ERealFunction.mem_dom_iff`, this is reduced to showing $\phi(q)\ne\top$. If $\phi(q)=\top$, then the identity in `hH.theta_eq` together with the fact that $\psi(q)$ is a real number, hence not $\bot$, would imply $\Theta(q)=\top$, contradicting the case assumption. Therefore $q\in\mathrm{dom}\phi$.
 
 At this point the cited lemma `liapunov_distance_increment_le` is applied. It provides a constant $C$ such that for every $k\ge 1$,
 
@@ -303,7 +303,7 @@ $$
 -
 \frac{1+b\lambda}{2\lambda^2}\|u_k-q\|^2
 \le
-\operatorname{liapunovF}(u,y,a,b,\lambda,q,k)-C.
+\mathrm{liapunovF}(u,y,a,b,\lambda,q,k)-C.
 $$
 
 Thus the Liapunov function controls the increment of the squared distance to $q$, up to the constant $C$. The proof denotes
@@ -315,7 +315,7 @@ $$
 and defines
 
 $$
-aF_k=\operatorname{liapunovF}(u,y,a,b,\lambda,q,k+1)-C,
+aF_k=\mathrm{liapunovF}(u,y,a,b,\lambda,q,k+1)-C,
 \qquad
 bDist_k=\alpha\|u_{k+1}-q\|^2,
 \qquad
@@ -345,9 +345,9 @@ then necessarily $\theta\ge 0$.
 The first inequality for `lemma5` is established using `liapunov_succ_increment_le_gap_local`, which states that, at the current finite values of $\Theta(q)$ and $\Theta(u_{k+1})$,
 
 $$
-\operatorname{liapunovF}(u,y,a,b,\lambda,q,k+1)
+\mathrm{liapunovF}(u,y,a,b,\lambda,q,k+1)
 -
-\operatorname{liapunovF}(u,y,a,b,\lambda,q,k)
+\mathrm{liapunovF}(u,y,a,b,\lambda,q,k)
 \le
 b\left((\Theta(q))_{\mathbb R}-(\Theta(u_{k+1}))_{\mathbb R}\right).
 $$
@@ -405,25 +405,25 @@ $$
 Since $q$ was arbitrary, $e$ is below every element of the range of $\Theta$, so
 
 $$
-e\le \inf(\operatorname{range}\Theta).
+e\le \inf(\mathrm{range}\Theta).
 $$
 
 For the reverse inequality, the proof uses the convergence $\Theta(u_k)\to e$. For every $k$, the value $\Theta(u_k)$ lies in the range of $\Theta$, so
 
 $$
-\inf(\operatorname{range}\Theta)\le \Theta(u_k).
+\inf(\mathrm{range}\Theta)\le \Theta(u_k).
 $$
 
 Passing to the limit and using `ge_of_tendsto` yields
 
 $$
-\inf(\operatorname{range}\Theta)\le e.
+\inf(\mathrm{range}\Theta)\le e.
 $$
 
 Therefore
 
 $$
-e=\inf(\operatorname{range}\Theta),
+e=\inf(\mathrm{range}\Theta),
 $$
 
 and since $\Theta(u_k)\to e$, the first conjunct of the theorem follows.
@@ -434,25 +434,25 @@ $$
 u_{\sigma(n)}\rightharpoonup q
 $$
 
-weakly. Since $\Theta(u_k)\to \inf(\operatorname{range}\Theta)$, the subsequence also satisfies
+weakly. Since $\Theta(u_k)\to \inf(\mathrm{range}\Theta)$, the subsequence also satisfies
 
 $$
-\Theta(u_{\sigma(n)})\to \inf(\operatorname{range}\Theta).
+\Theta(u_{\sigma(n)})\to \inf(\mathrm{range}\Theta).
 $$
 
-The proof shows $\Theta(q)\le \inf(\operatorname{range}\Theta)$. Suppose not. Then
+The proof shows $\Theta(q)\le \inf(\mathrm{range}\Theta)$. Suppose not. Then
 
 $$
-\inf(\operatorname{range}\Theta)<\Theta(q).
+\inf(\mathrm{range}\Theta)<\Theta(q).
 $$
 
 The lemma `EReal.exists_between_coe_real` provides a real number $r$ with
 
 $$
-\inf(\operatorname{range}\Theta)<(r:\overline{\mathbb R})<\Theta(q).
+\inf(\mathrm{range}\Theta)<(r:\overline{\mathbb R})<\Theta(q).
 $$
 
-Because $\Theta(u_{\sigma(n)})\to \inf(\operatorname{range}\Theta)$ and $\inf(\operatorname{range}\Theta)<r$, eventually
+Because $\Theta(u_{\sigma(n)})\to \inf(\mathrm{range}\Theta)$ and $\inf(\mathrm{range}\Theta)<r$, eventually
 
 $$
 \Theta(u_{\sigma(n)})<r.
@@ -481,25 +481,25 @@ $$
 This contradicts the choice $r<\Theta(q)$. Therefore
 
 $$
-\Theta(q)\le \inf(\operatorname{range}\Theta).
+\Theta(q)\le \inf(\mathrm{range}\Theta).
 $$
 
 On the other hand, $\Theta(q)$ belongs to the range of $\Theta$, so
 
 $$
-\inf(\operatorname{range}\Theta)\le \Theta(q).
+\inf(\mathrm{range}\Theta)\le \Theta(q).
 $$
 
 Hence
 
 $$
-\Theta(q)=\inf(\operatorname{range}\Theta).
+\Theta(q)=\inf(\mathrm{range}\Theta).
 $$
 
 The theorem `Optimization.mem_argminSet_iff_eq_sInf` says that, in a complete linear order, a point $q$ belongs to the argmin set of $\Theta$ exactly when $\Theta(q)$ equals the infimum of the range of $\Theta$. Applying this equivalence gives
 
 $$
-q\in\operatorname{argmin}\Theta.
+q\in\mathrm{argmin}\Theta.
 $$
 
 This proves the second conjunct.
@@ -507,10 +507,10 @@ This proves the second conjunct.
 Finally, assume
 
 $$
-\operatorname{argmin}\Theta=\varnothing.
+\mathrm{argmin}\Theta=\varnothing.
 $$
 
-The proof applies `tendsto_norm_atTop_of_no_weak_cluster`. This theorem states that, in a complete space, if a sequence has no weak sequential cluster point, then its norm tends to $+\infty$. To verify its hypothesis, suppose $q$ were a weak sequential cluster point of $(u_k)$. By the just-proved second conjunct, $q\in\operatorname{argmin}\Theta$. But the argmin set is assumed empty, a contradiction. Therefore no such $q$ exists, and `tendsto_norm_atTop_of_no_weak_cluster` yields
+The proof applies `tendsto_norm_atTop_of_no_weak_cluster`. This theorem states that, in a complete space, if a sequence has no weak sequential cluster point, then its norm tends to $+\infty$. To verify its hypothesis, suppose $q$ were a weak sequential cluster point of $(u_k)$. By the just-proved second conjunct, $q\in\mathrm{argmin}\Theta$. But the argmin set is assumed empty, a contradiction. Therefore no such $q$ exists, and `tendsto_norm_atTop_of_no_weak_cluster` yields
 
 $$
 \|u_k\|\longrightarrow +\infty.

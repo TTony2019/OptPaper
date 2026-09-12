@@ -62,7 +62,7 @@ $$
 i.e. $0\in A(\hat x)$, and the sequence $x_k$ converges weakly to $\hat x$. The weak convergence is expressed by the Lean conclusion
 
 $$
-\operatorname{Tendsto}\!\left(k\mapsto \operatorname{toWeakSpace}_{\mathbb R,H}(x_k)\right)\ \operatorname{atTop}\ \left(\mathcal N\!\left(\operatorname{toWeakSpace}_{\mathbb R,H}(\hat x)\right)\right),
+\mathrm{Tendsto}\!\left(k\mapsto \mathrm{toWeakSpace}_{\mathbb R,H}(x_k)\right)\ \mathrm{atTop}\ \left(\mathcal N\!\left(\mathrm{toWeakSpace}_{\mathbb R,H}(\hat x)\right)\right),
 $$
 
 which means that the images of $x_k$ in the weak space converge to the image of $\hat x$ as $k\to\infty$. In ordinary terms: under maximal monotonicity of $A$, existence of a zero, uniformly positive lower bounded step sizes, and nonnegative nondecreasing inertial parameters bounded by a constant strictly below $1/3$, the inertial proximal point algorithm has finite total squared movement and converges weakly to some zero of $A$.

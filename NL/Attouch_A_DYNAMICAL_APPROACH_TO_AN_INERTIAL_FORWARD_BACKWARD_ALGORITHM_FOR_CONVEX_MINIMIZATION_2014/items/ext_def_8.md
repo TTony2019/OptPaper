@@ -19,7 +19,7 @@ $$
 Finally, `sInf` takes the infimum of this set in the order on $\overline{\mathbb{R}}$. Thus the declaration defines
 
 $$
-\operatorname{distanceToSet}(x,C)
+\mathrm{distanceToSet}(x,C)
 = \inf \{\, d(x,v) : v \in C \,\},
 $$
 

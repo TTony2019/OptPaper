@@ -14,7 +14,7 @@ The declaration is a noncomputable definition named `T_n_g`. It takes an implici
 $$
 T_n^g(g,\mu,\nu_n,x)
 =
-\operatorname{resolventOperator}\!\left(g,\frac{1}{\mu+\nu_n},x\right).
+\mathrm{resolventOperator}\!\left(g,\frac{1}{\mu+\nu_n},x\right).
 $$
 
 Mathematically, once $g$, $\mu$, and $\nu_n$ are fixed, this defines a mapping $T_n^g:H\to H$ sending each $x$ to the resolvent operator of $g$ at the scalar step $1/(\mu+\nu_n)$. In convex-analytic language, this is the proximal/resolvent step associated with the function $g$ and that step size. The parameter $\nu_n$ enters only through the reciprocal $1/(\mu+\nu_n)$. The declaration itself imposes no convexity assumption on $g$, no positivity assumption on $\mu+\nu_n$, and no condition that $\mu+\nu_n\neq 0$. The `noncomputable` marker indicates that the definition may rely on noncomputable choice inside `resolventOperator`; it adds no mathematical hypothesis.

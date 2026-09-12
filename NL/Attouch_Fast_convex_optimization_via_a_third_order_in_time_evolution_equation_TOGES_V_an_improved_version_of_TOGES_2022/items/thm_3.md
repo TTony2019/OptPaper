@@ -59,7 +59,7 @@ $$
 G=\text{the value of } \texttt{initialObjectiveGap f u xStar t0}.
 $$
 
-The exact definitions of these three constants are not included in the supplied excerpt; only their roles in the estimates are visible. Also, $\operatorname{sInf}(\operatorname{Set.range} f)$ is the infimum of the set of values of $f$, i.e. $\inf_{x\in H} f(x)$. The four estimates are:
+The exact definitions of these three constants are not included in the supplied excerpt; only their roles in the estimates are visible. Also, $\mathrm{sInf}(\mathrm{Set.range} f)$ is the infimum of the set of values of $f$, i.e. $\inf_{x\in H} f(x)$. The four estimates are:
 
 1. an exponential decay bound for the objective gap at the shifted point $u(t)+(\sqrt{\mu})^{-1}\dot u(t)$:
 
@@ -163,7 +163,7 @@ $$
 
 So `hGradient` is exactly the core lemma's hypothesis `hGrad` with $g=\nabla f$.
 
-Next, the proof extracts differentiability of $u$, $\operatorname{deriv}u$, and $\operatorname{deriv}(\operatorname{deriv}u)$. From `hUContDiff`, which says $u$ is $C^3$, it obtains `huDiff : Differentiable ℝ u`. It also proves
+Next, the proof extracts differentiability of $u$, $\mathrm{deriv}u$, and $\mathrm{deriv}(\mathrm{deriv}u)$. From `hUContDiff`, which says $u$ is $C^3$, it obtains `huDiff : Differentiable ℝ u`. It also proves
 
 $$
 \texttt{hFirstDiff}:\quad \texttt{Differentiable ℝ (deriv u)}
@@ -191,7 +191,7 @@ $$
 \forall t,\ t_0\le t\ \Rightarrow\ \texttt{HasDerivAt (deriv (deriv u)) (deriv (deriv (deriv u)) t) t}.
 $$
 
-The tactic `refine ⟨?_, ?_, ?_⟩` splits the conjunction into three goals. In each goal, `intro t _` introduces the time $t$ and ignores the inequality $t_0\le t$, since the differentiability results are global. Then `exact (huDiff t).hasDerivAt`, `exact (hFirstDiff t).hasDerivAt`, and `exact (hSecondDiff t).hasDerivAt` supply, respectively, the derivative of $u$, of $\operatorname{deriv}u$, and of $\operatorname{deriv}(\operatorname{deriv}u)$. Thus the first, second, and third derivatives of $u$ are represented by the iterated `deriv` operators.
+The tactic `refine ⟨?_, ?_, ?_⟩` splits the conjunction into three goals. In each goal, `intro t _` introduces the time $t$ and ignores the inequality $t_0\le t$, since the differentiability results are global. Then `exact (huDiff t).hasDerivAt`, `exact (hFirstDiff t).hasDerivAt`, and `exact (hSecondDiff t).hasDerivAt` supply, respectively, the derivative of $u$, of $\mathrm{deriv}u$, and of $\mathrm{deriv}(\mathrm{deriv}u)$. Thus the first, second, and third derivatives of $u$ are represented by the iterated `deriv` operators.
 
 Finally, the proof applies the core lemma:
 
@@ -202,9 +202,9 @@ $$
 It instantiates the core lemma's abstract derivative functions as
 
 $$
-\text{firstDerivative}=\operatorname{deriv}u,\qquad
-\text{secondDerivative}=\operatorname{deriv}(\operatorname{deriv}u),\qquad
-\text{thirdDerivative}=\operatorname{deriv}(\operatorname{deriv}(\operatorname{deriv}u)),
+\text{firstDerivative}=\mathrm{deriv}u,\qquad
+\text{secondDerivative}=\mathrm{deriv}(\mathrm{deriv}u),\qquad
+\text{thirdDerivative}=\mathrm{deriv}(\mathrm{deriv}(\mathrm{deriv}u)),
 $$
 
 and its gradient map as $g=\nabla f$. The arguments `hStrong`, `hxStar`, and `hTrajectory` are passed through unchanged. The newly proved `hGradient` supplies the core lemma's `hGrad`. The three components of `hRegularity` supply the core lemma's `hu`, `hFirst`, and `hSecond`. The compatibility condition required by the core lemma is proved by
@@ -213,5 +213,5 @@ $$
 \texttt{(fun t => ⟨rfl, rfl, rfl⟩)},
 $$
 
-because the chosen first, second, and third derivative functions are definitionally the same as the corresponding iterated `deriv` expressions. Therefore the core lemma yields exactly the four estimates stated in the theorem, with $\operatorname{deriv}u$ appearing in the shifted point. The final `exact` closes the goal by this direct application. The proof does not use `rw` or `linarith`; the main tactics are `intro`, `simpa`, `refine`, and `exact`.
+because the chosen first, second, and third derivative functions are definitionally the same as the corresponding iterated `deriv` expressions. Therefore the core lemma yields exactly the four estimates stated in the theorem, with $\mathrm{deriv}u$ appearing in the shifted point. The final `exact` closes the goal by this direct application. The proof does not use `rw` or `linarith`; the main tactics are `intro`, `simpa`, `refine`, and `exact`.
 

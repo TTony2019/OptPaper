@@ -14,17 +14,17 @@ theorem lemma_3_2_descent {m : Nat} {P : ProblemData m} (A : AlgorithmData P)
 The theorem `lemma_3_2_descent` is a descent estimate for the inertial Tseng-type proximal algorithm. It fixes a dimension $m$, problem data $P$ for a problem in the Euclidean space of dimension $m$, algorithm data $A$ for $P$, and positive real parameters $\nu$ and $\mu$. For every natural number $n$ with $n\ge 2$, it asserts
 
 $$
-\operatorname{objectiveWithQuadratic}_P\bigl(A.M_1(\nu,\mu),\,A.p_n,\,A.x_n\bigr)
+\mathrm{objectiveWithQuadratic}_P\bigl(A.M_1(\nu,\mu),\,A.p_n,\,A.x_n\bigr)
 \le
-\operatorname{objectiveWithQuadratic}_P\bigl(A.M_2(\nu,\mu),\,A.p_{n-1},\,A.x_{n-1}\bigr).
+\mathrm{objectiveWithQuadratic}_P\bigl(A.M_2(\nu,\mu),\,A.p_{n-1},\,A.x_{n-1}\bigr).
 $$
 
 Here $A.p_n$ denotes $A.p(n)$, $A.x_n$ denotes $A.x(n)$, and
 
 $$
-\operatorname{objectiveWithQuadratic}_P(M,y,z)
+\mathrm{objectiveWithQuadratic}_P(M,y,z)
 =
-\operatorname{erealAddReal}\bigl(P.\mathrm{objective}(y),\,M\|y-z\|^2\bigr).
+\mathrm{erealAddReal}\bigl(P.\mathrm{objective}(y),\,M\|y-z\|^2\bigr).
 $$
 
 Thus the left-hand side is the extended-real objective at the current proximal point $p_n$, plus the quadratic term $M_1(\nu,\mu)\|p_n-x_n\|^2$, while the right-hand side is the extended-real objective at the previous proximal point $p_{n-1}$, plus the quadratic term $M_2(\nu,\mu)\|p_{n-1}-x_{n-1}\|^2$. The constants $M_1(\nu,\mu)$ and $M_2(\nu,\mu)$ are algorithm constants depending on $\nu$ and $\mu$. The theorem says that the $M_1$-penalized value at step $n$ is bounded above by the $M_2$-penalized value at the previous step. This is the form of a decrease inequality: the theorem compares two penalized objective values rather than proving equality of objective values.
@@ -476,7 +476,7 @@ $$
 \alpha_n\ge 0,
 $$
 
-where $\alpha_n=A.\operatorname{alphaSeq}(n)$. It also records
+where $\alpha_n=A.\mathrm{alphaSeq}(n)$. It also records
 
 $$
 L_h=P.Lgrad_h\ge 0,\qquad L_u=A.Lgrad_u\ge 0,\qquad \sigma=A.\sigma>0.
@@ -489,7 +489,7 @@ The first main inequality is the minimization property of $p_n$. The proof defin
 $$
 J_n(y)
 =
-\operatorname{erealAddReal}\Bigl(
+\mathrm{erealAddReal}\Bigl(
 P.f(y),\,
 \frac1{\lambda_n}D_u(y,x_n)
 +\langle y,\nabla h(x_n)\rangle
@@ -506,7 +506,7 @@ $$
 and $\langle\cdot,\cdot\rangle$ is the real inner product. This is the algorithm step objective. The fact `A.p_argmin n hn1` says that $p_n$ belongs to the argmin set of $J_n$. The cited lemma `argminSet_le` states that if a point belongs to the argmin set of a function $G$, then its value is no larger than the value at any other point:
 
 $$
-p\in\operatorname{argminSet}G \implies G(p)\le G(y).
+p\in\mathrm{argminSet}G \implies G(p)\le G(y).
 $$
 
 Specialized here to $G=J_n$, $p=p_n$, and $y=p_{n-1}$, it gives
@@ -725,10 +725,10 @@ This is `hhdesc`.
 At this point the proof has all ingredients for the main algorithmic inequality. It applies `algorithm_descent_ineq_12` with the index $n$, the positivity $\lambda_n>0$, the minimization inequality `hmin`, the two scaled Bregman inequalities, and the descent inequality `hhdesc`. The conclusion is
 
 $$
-\operatorname{erealAddReal}\left(P.\mathrm{objective}(p_n),
+\mathrm{erealAddReal}\left(P.\mathrm{objective}(p_n),
 \frac{\sigma}{2\lambda_n}\|p_n-x_n\|^2\right)
 \le
-\operatorname{erealAddReal}\left(P.\mathrm{objective}(p_{n-1}),R_n\right),
+\mathrm{erealAddReal}\left(P.\mathrm{objective}(p_{n-1}),R_n\right),
 $$
 
 where
@@ -856,16 +856,16 @@ Now the proof converts `h12` into an inequality between `objectiveWithQuadratic`
 
 $$
 r\le s \implies
-\operatorname{erealAddReal}(a,r)\le \operatorname{erealAddReal}(a,s),
+\mathrm{erealAddReal}(a,r)\le \mathrm{erealAddReal}(a,s),
 $$
 
 the bound on $R_n$ allows the right-hand side of `h12` to be replaced by its upper bound:
 
 $$
-\operatorname{erealAddReal}\left(P.\mathrm{objective}(p_n),
+\mathrm{erealAddReal}\left(P.\mathrm{objective}(p_n),
 \frac{\sigma}{2\lambda_n}\|p_n-x_n\|^2\right)
 \le
-\operatorname{erealAddReal}\left(P.\mathrm{objective}(p_{n-1}),
+\mathrm{erealAddReal}\left(P.\mathrm{objective}(p_{n-1}),
 K\|x_n-p_n\|^2+M_{2,n}\|x_{n-1}-p_{n-1}\|^2\right).
 $$
 
@@ -890,9 +890,9 @@ $$
 Thus the inequality has the form
 
 $$
-\operatorname{erealAddReal}\left(P.\mathrm{objective}(p_n),r+t\right)
+\mathrm{erealAddReal}\left(P.\mathrm{objective}(p_n),r+t\right)
 \le
-\operatorname{erealAddReal}\left(P.\mathrm{objective}(p_{n-1}),s+t\right),
+\mathrm{erealAddReal}\left(P.\mathrm{objective}(p_{n-1}),s+t\right),
 $$
 
 with the common real term
@@ -904,21 +904,21 @@ $$
 The proof applies `erealAddReal_le_cancel_common`, which says that from
 
 $$
-\operatorname{erealAddReal}(a,r+t)\le \operatorname{erealAddReal}(b,s+t)
+\mathrm{erealAddReal}(a,r+t)\le \mathrm{erealAddReal}(b,s+t)
 $$
 
 one may cancel the common real summand $t$ and conclude
 
 $$
-\operatorname{erealAddReal}(a,r)\le \operatorname{erealAddReal}(b,s).
+\mathrm{erealAddReal}(a,r)\le \mathrm{erealAddReal}(b,s).
 $$
 
 Here this yields
 
 $$
-\operatorname{objectiveWithQuadratic}_P(M_{1,n},p_n,x_n)
+\mathrm{objectiveWithQuadratic}_P(M_{1,n},p_n,x_n)
 \le
-\operatorname{objectiveWithQuadratic}_P(M_{2,n},p_{n-1},x_{n-1}).
+\mathrm{objectiveWithQuadratic}_P(M_{2,n},p_{n-1},x_{n-1}).
 $$
 
 This is `hindexed`.
@@ -926,33 +926,33 @@ This is `hindexed`.
 Finally, the proof compares the local coefficients $M_{1,n}$ and $M_{2,n}$ to the algorithm coefficients $A.M_1(\nu,\mu)$ and $A.M_2(\nu,\mu)$. It uses `objectiveWithQuadratic_mono_coeff`, which states that for fixed $P,x,y$, if $M\le M'$, then
 
 $$
-\operatorname{objectiveWithQuadratic}_P(M,x,y)
+\mathrm{objectiveWithQuadratic}_P(M,x,y)
 \le
-\operatorname{objectiveWithQuadratic}_P(M',x,y).
+\mathrm{objectiveWithQuadratic}_P(M',x,y).
 $$
 
 From `hM1`, namely $A.M_1(\nu,\mu)\le M_{1,n}$, this gives
 
 $$
-\operatorname{objectiveWithQuadratic}_P(A.M_1(\nu,\mu),p_n,x_n)
+\mathrm{objectiveWithQuadratic}_P(A.M_1(\nu,\mu),p_n,x_n)
 \le
-\operatorname{objectiveWithQuadratic}_P(M_{1,n},p_n,x_n).
+\mathrm{objectiveWithQuadratic}_P(M_{1,n},p_n,x_n).
 $$
 
 From `hM2`, namely $M_{2,n}\le A.M_2(\nu,\mu)$, it gives
 
 $$
-\operatorname{objectiveWithQuadratic}_P(M_{2,n},p_{n-1},x_{n-1})
+\mathrm{objectiveWithQuadratic}_P(M_{2,n},p_{n-1},x_{n-1})
 \le
-\operatorname{objectiveWithQuadratic}_P(A.M_2(\nu,\mu),p_{n-1},x_{n-1}).
+\mathrm{objectiveWithQuadratic}_P(A.M_2(\nu,\mu),p_{n-1},x_{n-1}).
 $$
 
 Combining these two monotonicity steps with `hindexed`, the final `calc` block proves
 
 $$
-\operatorname{objectiveWithQuadratic}_P(A.M_1(\nu,\mu),p_n,x_n)
+\mathrm{objectiveWithQuadratic}_P(A.M_1(\nu,\mu),p_n,x_n)
 \le
-\operatorname{objectiveWithQuadratic}_P(A.M_2(\nu,\mu),p_{n-1},x_{n-1}),
+\mathrm{objectiveWithQuadratic}_P(A.M_2(\nu,\mu),p_{n-1},x_{n-1}),
 $$
 
 which is exactly the statement of `lemma_3_2_descent`. The tactics `simpa` and `ring` are used to rewrite the local constants and rearrange the expressions; `exact` closes the final goals by applying the previously established inequalities.

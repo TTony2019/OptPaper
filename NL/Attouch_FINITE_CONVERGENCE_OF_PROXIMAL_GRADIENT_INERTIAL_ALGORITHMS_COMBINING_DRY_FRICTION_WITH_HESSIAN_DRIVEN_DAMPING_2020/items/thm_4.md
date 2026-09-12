@@ -39,7 +39,7 @@ and that $e_k\to0$ in $H$.
 The conclusion asserts the existence of a limit point $x_\infty$ and an initial energy $E_1$ such that
 
 $$
-E_1=\frac12\left\|\frac1h(x_1-x_0)\right\|^2+f(x_1)-\inf(\operatorname{range}f),
+E_1=\frac12\left\|\frac1h(x_1-x_0)\right\|^2+f(x_1)-\inf(\mathrm{range}f),
 $$
 
 and then several facts. First, the iterates have finite length,
@@ -63,7 +63,7 @@ $$
 Fourth, if the stronger interior condition
 
 $$
--\nabla f(x_\infty)\in\operatorname{int}\partial\phi(0)
+-\nabla f(x_\infty)\in\mathrm{int}\partial\phi(0)
 $$
 
 holds, then with
@@ -821,11 +821,11 @@ Then the proof defines
 
 $$
 c=\frac{\beta L}{2h},\qquad
-E_k=\frac12\|v_k\|^2+f(x_{k+1})-\inf(\operatorname{range}f),\qquad
+E_k=\frac12\|v_k\|^2+f(x_{k+1})-\inf(\mathrm{range}f),\qquad
 M_k=E_k+c\|d_k\|^2.
 $$
 
-The bounded-below hypothesis on $f$ gives `BddBelow (Set.range f)`, hence $\inf(\operatorname{range}f)\le f(x_{k+1})$, so every $M_k\ge0$. The core descent inequality is
+The bounded-below hypothesis on $f$ gives `BddBelow (Set.range f)`, hence $\inf(\mathrm{range}f)\le f(x_{k+1})$, so every $M_k\ge0$. The core descent inequality is
 
 $$
 M_{k+1}-M_k
@@ -889,7 +889,7 @@ Because all $M_k\ge0$, the partial sums of $\|d_{K+i+1}\|$ are bounded by $M_K/(
 The same telescoping argument, now started at $0$ and assuming $\|e_k\|\le r/2$ for all $k$, gives the explicit finite-length bound. The proof defines
 
 $$
-E_1=\frac12\left\|\frac1h(x_1-x_0)\right\|^2+f(x_1)-\inf(\operatorname{range}f).
+E_1=\frac12\left\|\frac1h(x_1-x_0)\right\|^2+f(x_1)-\inf(\mathrm{range}f).
 $$
 
 It shows $M_0=E_1+\frac{\beta L}{2h}\|x_1-x_0\|^2$. Then for every $N$,
@@ -986,7 +986,7 @@ for all sufficiently large $k$. Then `eventually_constant_of_eventual_successor_
 The final part assumes
 
 $$
--\nabla f(x_\infty)\in\operatorname{int}\partial\phi(0).
+-\nabla f(x_\infty)\in\mathrm{int}\partial\phi(0).
 $$
 
 Then there is $\rho>0$ such that the ball of radius $\rho$ around $-\nabla f(x_\infty)$ is contained in $\partial\phi(0)$. The proof sets $\varepsilon=\rho/2$. Since $\nabla f(x_{k+1})\to\nabla f(x_\infty)$ and $e_k\to0$, eventually

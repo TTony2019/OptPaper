@@ -10,18 +10,18 @@ noncomputable def excess (A B : Set H) : ℝ := ⨆ x ∈ A, Metric.infDist x B
 The declaration introduces a noncomputable real-valued function named `excess`. It takes two subsets $A$ and $B$ of an ambient type $H$, which must carry the metric-space structure required by `Metric.infDist`, and returns a real number. For each $x\in A$, the term `Metric.infDist x B` is Mathlib’s real-valued infimum-distance from the point $x$ to the set $B$; for nonempty $B$ it represents
 
 $$
-\operatorname{infDist}(x,B)=\inf_{y\in B} d(x,y),
+\mathrm{infDist}(x,B)=\inf_{y\in B} d(x,y),
 $$
 
 where $d$ is the metric on $H$. The definition then takes the supremum of these distances as $x$ ranges over $A$:
 
 $$
-\operatorname{excess}(A,B)
-= \sup_{x\in A} \operatorname{infDist}(x,B)
-= \sup\{\operatorname{infDist}(x,B):x\in A\}.
+\mathrm{excess}(A,B)
+= \sup_{x\in A} \mathrm{infDist}(x,B)
+= \sup\{\mathrm{infDist}(x,B):x\in A\}.
 $$
 
-Thus $\operatorname{excess}(A,B)$ is the one-sided Hausdorff excess of $A$ over $B$: the least upper bound, when it exists in the usual real sense, of how far points of $A$ are from the set $B$. The Lean notation `⨆ x ∈ A, ...` is an indexed supremum in which the condition $x\in A$ is part of the index. The declaration has no hypotheses beyond the two set parameters: it does not assume that $A$ or $B$ is nonempty, closed, bounded, or otherwise special. The `noncomputable` marker indicates that the definition uses noncomputable order-theoretic operations, namely the indexed supremum and the infimum-distance construction, and is not intended as an executable algorithm.
+Thus $\mathrm{excess}(A,B)$ is the one-sided Hausdorff excess of $A$ over $B$: the least upper bound, when it exists in the usual real sense, of how far points of $A$ are from the set $B$. The Lean notation `⨆ x ∈ A, ...` is an indexed supremum in which the condition $x\in A$ is part of the index. The declaration has no hypotheses beyond the two set parameters: it does not assume that $A$ or $B$ is nonempty, closed, bounded, or otherwise special. The `noncomputable` marker indicates that the definition uses noncomputable order-theoretic operations, namely the indexed supremum and the infimum-distance construction, and is not intended as an executable algorithm.
 
 ## Lean proof
 ```lean

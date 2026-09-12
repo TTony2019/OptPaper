@@ -21,7 +21,7 @@ This declaration defines a structure, so it is a specification of data and prope
 
 - $\Gamma : H \to H$, a continuous $\mathbb R$-linear operator, written in Lean as `Gamma : H →L[ℝ] H`.
 - $\Phi : H \to \mathbb R$, a real-valued potential function.
-- $\operatorname{gradPhi} : H \to H$, a map intended to be the gradient of $\Phi$.
+- $\mathrm{gradPhi} : H \to H$, a map intended to be the gradient of $\Phi$.
 - $u_0 \in H$, the initial position.
 - $v_0 \in H$, the initial velocity.
 
@@ -35,7 +35,7 @@ $$
 
 No positivity or coercivity condition on $\Gamma$ is included in this declaration; the only formal operator condition is self-adjointness.
 
-Second, `is_gradient : ∀ x : H, HasGradientAt Phi (gradPhi x) x` says that for every $x \in H$, the vector $\operatorname{gradPhi}(x)$ is the gradient of $\Phi$ at $x$. In analytic terms, the Fréchet derivative of $\Phi$ at $x$ is the continuous linear functional represented by the inner product with $\operatorname{gradPhi}(x)$, so that, for all $h \in H$, the derivative $D\Phi(x)(h)$ equals the inner product of $\operatorname{gradPhi}(x)$ with $h$. Thus $\operatorname{gradPhi}$ is not an arbitrary vector field: it is tied to $\Phi$ by the gradient relation.
+Second, `is_gradient : ∀ x : H, HasGradientAt Phi (gradPhi x) x` says that for every $x \in H$, the vector $\mathrm{gradPhi}(x)$ is the gradient of $\Phi$ at $x$. In analytic terms, the Fréchet derivative of $\Phi$ at $x$ is the continuous linear functional represented by the inner product with $\mathrm{gradPhi}(x)$, so that, for all $h \in H$, the derivative $D\Phi(x)(h)$ equals the inner product of $\mathrm{gradPhi}(x)$ with $h$. Thus $\mathrm{gradPhi}$ is not an arbitrary vector field: it is tied to $\Phi$ by the gradient relation.
 
 Third, `u : ℝ → H` is a trajectory, a function from real time into the Hilbert space $H$.
 
@@ -58,7 +58,7 @@ Seventh, `equation` is the differential equation satisfied by $u$ for every $t \
 $$
 fderiv ℝ \bigl(fun s \mapsto fderiv ℝ u s 1\bigr) t\, 1
 + \Gamma\bigl(fderiv ℝ u t\, 1\bigr)
-+ \operatorname{gradPhi}(u(t)) = 0.
++ \mathrm{gradPhi}(u(t)) = 0.
 $$
 
 Here $fderiv ℝ u t\, 1$ is the velocity $u'(t)$, and
@@ -70,10 +70,10 @@ $$
 is the acceleration $u''(t)$. Thus the field states that for all $t \ge 0$,
 
 $$
-u''(t) + \Gamma u'(t) + \operatorname{gradPhi}(u(t)) = 0.
+u''(t) + \Gamma u'(t) + \mathrm{gradPhi}(u(t)) = 0.
 $$
 
-This is a second-order vector-valued differential equation: the acceleration plus a linear damping term $\Gamma u'$ plus the gradient force $\operatorname{gradPhi}(u)$ is zero. The structure packages a trajectory satisfying the initial position, initial velocity, regularity, and equation. It does not by itself assert that such a trajectory exists for arbitrary $\Gamma$, $\Phi$, $u_0$, and $v_0$; it is a type whose inhabitants consist of all the listed data and proofs.
+This is a second-order vector-valued differential equation: the acceleration plus a linear damping term $\Gamma u'$ plus the gradient force $\mathrm{gradPhi}(u)$ is zero. The structure packages a trajectory satisfying the initial position, initial velocity, regularity, and equation. It does not by itself assert that such a trajectory exists for arbitrary $\Gamma$, $\Phi$, $u_0$, and $v_0$; it is a type whose inhabitants consist of all the listed data and proofs.
 
 ## Lean proof
 ```lean
@@ -86,12 +86,12 @@ There is no separate proof part. The Lean source explicitly says `-- No separate
 The mathematical content is entirely the field-by-field specification of an operator-dissipative system. To construct an element of `OperatorDissipativeSystem Gamma Phi gradPhi u0 v0`, one must supply:
 
 - a proof that $\Gamma$ is self-adjoint;
-- a proof that $\operatorname{gradPhi}(x)$ is the gradient of $\Phi$ at every $x \in H$;
+- a proof that $\mathrm{gradPhi}(x)$ is the gradient of $\Phi$ at every $x \in H$;
 - a trajectory $u : \mathbb R \to H$;
 - a proof that $u$ is $C^2$ on $[0,\infty)$;
 - a proof that $u(0) = u_0$;
 - a proof that $u'(0) = v_0$;
-- a proof that $u''(t) + \Gamma u'(t) + \operatorname{gradPhi}(u(t)) = 0$ for every $t \ge 0$.
+- a proof that $u''(t) + \Gamma u'(t) + \mathrm{gradPhi}(u(t)) = 0$ for every $t \ge 0$.
 
-If one later uses an element of this structure, those fields are exactly the hypotheses available: self-adjointness of $\Gamma$, the gradient property of $\operatorname{gradPhi}$, the regularity of $u$, the initial conditions, and the differential equation. No existence theorem, uniqueness theorem, or positivity condition on $\Gamma$ is included in this declaration.
+If one later uses an element of this structure, those fields are exactly the hypotheses available: self-adjointness of $\Gamma$, the gradient property of $\mathrm{gradPhi}$, the regularity of $u$, the initial conditions, and the differential equation. No existence theorem, uniqueness theorem, or positivity condition on $\Gamma$ is included in this declaration.
 

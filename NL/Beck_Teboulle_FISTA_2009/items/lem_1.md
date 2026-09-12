@@ -190,7 +190,7 @@ $$
 The argument is as follows. Since `hf.contDiff` says $f$ is $C^1$, $f$ is differentiable everywhere; the proof uses this to get differentiability at $\phi(t_0)$. For a differentiable function, the line derivative in direction $x-y$ is the Fréchet derivative applied to $x-y$:
 
 $$
-\operatorname{lineDeriv} f(\phi(t_0))(x-y)=Df(\phi(t_0))(x-y).
+\mathrm{lineDeriv} f(\phi(t_0))(x-y)=Df(\phi(t_0))(x-y).
 $$
 
 The lemma `inner_gradient_left` then identifies this directional derivative with the inner product of the gradient:

@@ -40,7 +40,7 @@ $$
 First, if
 
 $$
--\nabla f(x_\infty)\in \operatorname{int}\bigl(\partial\phi(0)\bigr),
+-\nabla f(x_\infty)\in \mathrm{int}\bigl(\partial\phi(0)\bigr),
 $$
 
 meaning that the negative gradient of $f$ at the limit point lies in the interior of the subdifferential of $\phi$ at $0$, then $0<q<1$, and there is an index $k_0$ such that for every $k\ge k_0$,
@@ -139,7 +139,7 @@ obtain ⟨hgeometric, hstopping⟩ :=
 The cited theorem `IPAHDD_geometric_and_finite` is applied to the same data, now including the limit point $x_\infty$ and the convergence hypothesis `hlimit`. The supplied context for that theorem is cut off after the definition of $q$, but the current invocation and the subsequent uses determine the two consequences needed here. The first component `hgeometric` is exactly the implication stating that if
 
 $$
--\nabla f(x_\infty)\in \operatorname{int}\bigl(\partial\phi(0)\bigr),
+-\nabla f(x_\infty)\in \mathrm{int}\bigl(\partial\phi(0)\bigr),
 $$
 
 then $0<q<1$, and there is an index $k_0$ such that for all $k\ge k_0$ the two geometric estimates hold:

@@ -17,7 +17,7 @@ This declaration defines a predicate named `IsStronglyConvexThirdOrderEvolution`
 In ordinary notation, the property says
 
 $$
-\operatorname{IsStronglyConvexThirdOrderEvolution}(u,\mu,f)
+\mathrm{IsStronglyConvexThirdOrderEvolution}(u,\mu,f)
 \iff
 \mu>0
 \ \wedge\

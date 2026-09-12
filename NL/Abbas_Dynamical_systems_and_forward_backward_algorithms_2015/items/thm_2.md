@@ -52,12 +52,12 @@ $$
 - Almost everywhere on $[0,\infty)$ with respect to Lebesgue measure, the orbit equation holds:
 
 $$
-\lambda\,\operatorname{deriv} x(t)+\operatorname{deriv} v(t)+v(t)+B(x(t))=0.
+\lambda\,\mathrm{deriv} x(t)+\mathrm{deriv} v(t)+v(t)+B(x(t))=0.
 $$
 
 - For every $b>0$, $x$ and $v$ are absolutely continuous on $[0,b]$.
-- For every $T>0$, almost everywhere on $[0,T]$, $x$ and $v$ have derivatives equal to $\operatorname{deriv} x(t)$ and $\operatorname{deriv} v(t)$, respectively.
-- $v$ and $\operatorname{deriv} x$ are locally square-integrable on intervals $[0,T]$, $T>0$.
+- For every $T>0$, almost everywhere on $[0,T]$, $x$ and $v$ have derivatives equal to $\mathrm{deriv} x(t)$ and $\mathrm{deriv} v(t)$, respectively.
+- $v$ and $\mathrm{deriv} x$ are locally square-integrable on intervals $[0,T]$, $T>0$.
 - For every $t\ge0$,
 
 $$
@@ -383,15 +383,15 @@ The proof begins by choosing an element $z_0\in S$, using `obtain ⟨z₀, hz₀
 Next, the proof extracts a finiteness fact for $\Phi$. The declaration `isProper_of_mem_gammaZero` says that if $\Phi\in\Gamma_0(H)$, then the function $x\mapsto \Phi(x)$, viewed as an extended-real-valued function, is proper. In particular, its effective domain
 
 $$
-\operatorname{dom}\Phi=\{x\in H:\Phi(x)<+\infty\}
+\mathrm{dom}\Phi=\{x\in H:\Phi(x)<+\infty\}
 $$
 
 is nonempty. The proof writes this as `hdomPhi`. It then shows that both the trajectory $x(t)$ and every equilibrium $z\in S$ lie in the effective domain of $\Phi$. For $x(t)$, this follows from the subgradient hypothesis $v(t)\in\partial\Phi(x(t))$: the lemma `SubdifferentiableAt.mem_effectiveDomain` says that a point admitting a subgradient lies in the effective domain. For $z\in S$, the same argument is applied to $-B(z)\in\partial\Phi(z)$, which holds by the characterization of $S$. This gives
 
 $$
-\forall t\ge0,\quad x(t)\in\operatorname{dom}\Phi,
+\forall t\ge0,\quad x(t)\in\mathrm{dom}\Phi,
 \qquad
-\forall z\in S,\quad z\in\operatorname{dom}\Phi.
+\forall z\in S,\quad z\in\mathrm{dom}\Phi.
 $$
 
 This is necessary because the later Lyapunov function uses the real numbers $(\Phi z)_{\mathbb R}$ and $(\Phi(x(t)))_{\mathbb R}$, which require finite values.
@@ -401,7 +401,7 @@ The proof then combines the almost-everywhere orbit equation with the everywhere
 $$
 v(t)\in\partial\Phi(x(t))
 \quad\text{and}\quad
-\lambda\,\operatorname{deriv} x(t)+\operatorname{deriv} v(t)+v(t)+B(x(t))=0.
+\lambda\,\mathrm{deriv} x(t)+\mathrm{deriv} v(t)+v(t)+B(x(t))=0.
 $$
 
 This paired statement is exactly what `proposition_2_12` expects.
@@ -436,40 +436,40 @@ $$
 is antitone on $[0,\infty)$, and it converges to some real limit as $t\to\infty$;
 - the function $t\mapsto \|B(x(t))-B(z_0)\|^2$ is integrable on $[0,\infty)$;
 - $x$ is bounded on $[0,\infty)$;
-- $t\mapsto \|\operatorname{deriv} x(t)\|^2$ is integrable on $[0,\infty)$;
-- $t\mapsto \|\operatorname{deriv} v(t)+v(t)+B(z_0)\|^2$ is integrable on $[0,\infty)$;
-- $t\mapsto \|\operatorname{deriv} v(t)\|^2$ is integrable on $[0,\infty)$;
+- $t\mapsto \|\mathrm{deriv} x(t)\|^2$ is integrable on $[0,\infty)$;
+- $t\mapsto \|\mathrm{deriv} v(t)+v(t)+B(z_0)\|^2$ is integrable on $[0,\infty)$;
+- $t\mapsto \|\mathrm{deriv} v(t)\|^2$ is integrable on $[0,\infty)$;
 - $v$ is bounded on $[0,\infty)$;
 - the energy $t\mapsto (\Phi(x(t)))_{\mathbb R}+\langle x(t),B(z_0)\rangle$ converges to some real limit.
 
 These are the outputs collected by `rcases hLyapunov with ...`.
 
-Using the integrability of $\|\operatorname{deriv} v\|^2$ on $[0,\infty)$, the proof obtains local $L^2$ membership of $\operatorname{deriv} v$. The criterion `memLp_two_iff_integrable_sq_norm` says that, for an almost-everywhere strongly measurable function, being in $L^2$ is equivalent to integrability of the square of its norm. Since $\operatorname{deriv} v$ is almost-everywhere strongly measurable, and since the square-norm integrability restricts from $[0,\infty)$ to $[0,T]$, the proof concludes
+Using the integrability of $\|\mathrm{deriv} v\|^2$ on $[0,\infty)$, the proof obtains local $L^2$ membership of $\mathrm{deriv} v$. The criterion `memLp_two_iff_integrable_sq_norm` says that, for an almost-everywhere strongly measurable function, being in $L^2$ is equivalent to integrability of the square of its norm. Since $\mathrm{deriv} v$ is almost-everywhere strongly measurable, and since the square-norm integrability restricts from $[0,\infty)$ to $[0,T]$, the proof concludes
 
 $$
-\operatorname{deriv} v\in L^2([0,T])
+\mathrm{deriv} v\in L^2([0,T])
 $$
 
 for every $T>0$.
 
-The proof then establishes the fundamental theorem of calculus for $x$ and $v$. The cited result `intervalIntegral_deriv_eq_sub_of_ac_ae_local` says that if $a\le b$, $f$ is absolutely continuous on $[a,b]$, $\operatorname{deriv} f$ is interval-integrable on $[a,b]$, and almost everywhere on $[a,b]$ one has
+The proof then establishes the fundamental theorem of calculus for $x$ and $v$. The cited result `intervalIntegral_deriv_eq_sub_of_ac_ae_local` says that if $a\le b$, $f$ is absolutely continuous on $[a,b]$, $\mathrm{deriv} f$ is interval-integrable on $[a,b]$, and almost everywhere on $[a,b]$ one has
 
 $$
-\operatorname{HasDerivAt} f\,(\operatorname{deriv} f(t))\,t,
+\mathrm{HasDerivAt} f\,(\mathrm{deriv} f(t))\,t,
 $$
 
 then
 
 $$
-\int_a^b \operatorname{deriv} f(t)\,dt=f(b)-f(a).
+\int_a^b \mathrm{deriv} f(t)\,dt=f(b)-f(a).
 $$
 
 The proof applies this to $f=x$ and to $f=v$, for $0\le s\le t$. The cases $t=0$ are trivial because then $s=0$, handled by `simp`. In the nontrivial case $t>0$, the local $L^2$ hypotheses give integrability on $[s,t]$, the absolute continuity hypotheses restrict from $[0,t]$ to $[s,t]$, and the almost-everywhere derivative hypotheses restrict similarly. The conclusion is
 
 $$
-x(t)-x(s)=\int_s^t \operatorname{deriv} x(r)\,dr,
+x(t)-x(s)=\int_s^t \mathrm{deriv} x(r)\,dr,
 \qquad
-v(t)-v(s)=\int_s^t \operatorname{deriv} v(r)\,dr
+v(t)-v(s)=\int_s^t \mathrm{deriv} v(r)\,dr
 $$
 
 whenever $0\le s\le t$.
@@ -482,7 +482,7 @@ x\text{ uniformly continuous on }[0,\infty),
 v\text{ uniformly continuous on }[0,\infty).
 $$
 
-Next, the proof shows $B$ is uniformly continuous. The cited theorem `lipschitzWith_of_cocoercive` says that a $\beta$-cocoercive operator is Lipschitz with constant $\operatorname{Real.toNNReal}(1/\beta)$, which is $1/\beta$ because $\beta>0$. Applying this to $B$ restricted to all of $H$ and composing with the inclusion $y\mapsto \langle y,\operatorname{univ}\rangle$, the proof concludes that $B:H\to H$ is uniformly continuous. Therefore the composition $t\mapsto B(x(t))$ is uniformly continuous on $[0,\infty)$, because it is the composition of uniformly continuous maps. Subtracting the constant $B(z_0)$ preserves uniform continuity, so
+Next, the proof shows $B$ is uniformly continuous. The cited theorem `lipschitzWith_of_cocoercive` says that a $\beta$-cocoercive operator is Lipschitz with constant $\mathrm{Real.toNNReal}(1/\beta)$, which is $1/\beta$ because $\beta>0$. Applying this to $B$ restricted to all of $H$ and composing with the inclusion $y\mapsto \langle y,\mathrm{univ}\rangle$, the proof concludes that $B:H\to H$ is uniformly continuous. Therefore the composition $t\mapsto B(x(t))$ is uniformly continuous on $[0,\infty)$, because it is the composition of uniformly continuous maps. Subtracting the constant $B(z_0)$ preserves uniform continuity, so
 
 $$
 t\mapsto B(x(t))-B(z_0)
@@ -500,7 +500,7 @@ The proof then treats the residual $v(t)+B(x(t))$. Since $v$ and $B\circ x$ are 
 
 $$
 v(t)+B(x(t))
-=-\bigl(\lambda\,\operatorname{deriv} x(t)+\operatorname{deriv} v(t)\bigr).
+=-\bigl(\lambda\,\mathrm{deriv} x(t)+\mathrm{deriv} v(t)\bigr).
 $$
 
 Therefore, by the triangle inequality and the elementary inequality
@@ -514,10 +514,10 @@ one has
 $$
 \|v(t)+B(x(t))\|^2
 \le
-\bigl(\lambda\|\operatorname{deriv} x(t)\|+\|\operatorname{deriv} v(t)\|\bigr)^2
+\bigl(\lambda\|\mathrm{deriv} x(t)\|+\|\mathrm{deriv} v(t)\|\bigr)^2
 \le
-2\lambda^2\|\operatorname{deriv} x(t)\|^2
-+2\|\operatorname{deriv} v(t)\|^2.
+2\lambda^2\|\mathrm{deriv} x(t)\|^2
++2\|\mathrm{deriv} v(t)\|^2.
 $$
 
 The right-hand side is integrable on $[0,\infty)$ by the Lyapunov estimates. The proof uses `Integrable.mono'` to deduce that

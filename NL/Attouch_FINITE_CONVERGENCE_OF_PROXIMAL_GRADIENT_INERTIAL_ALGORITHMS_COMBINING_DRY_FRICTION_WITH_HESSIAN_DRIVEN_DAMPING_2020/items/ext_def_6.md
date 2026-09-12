@@ -11,21 +11,21 @@ noncomputable def softThreshold (a : ℝ) (_ha : 0 ≤ a) (t : ℝ) : ℝ :=
 The declaration defines a real-valued function named `softThreshold`. It takes three arguments: a real number $a$, a proof $h_a$ of the hypothesis $0 \le a$, and a real number $t$. The hypothesis argument is named `_ha`; the leading underscore indicates that the defining expression does not use it, but the type still requires such a proof whenever the function is applied. The result is the real number
 
 $$
-\operatorname{sign}(t)\max(|t|-a,0),
+\mathrm{sign}(t)\max(|t|-a,0),
 $$
 
-where $\operatorname{sign}(t)$ is the real sign function, $|t|$ is the absolute value of $t$, and $\max(|t|-a,0)$ is the positive part of $|t|-a$. Thus the definition is
+where $\mathrm{sign}(t)$ is the real sign function, $|t|$ is the absolute value of $t$, and $\max(|t|-a,0)$ is the positive part of $|t|-a$. Thus the definition is
 
 $$
-\operatorname{softThreshold}(a,h_a,t)
+\mathrm{softThreshold}(a,h_a,t)
 =
-\operatorname{sign}(t)\max(|t|-a,0).
+\mathrm{sign}(t)\max(|t|-a,0).
 $$
 
 Mathematically this is the soft-thresholding operator with threshold $a$. Since $a$ is assumed nonnegative, it can be described piecewise as
 
 $$
-\operatorname{softThreshold}(a,h_a,t)
+\mathrm{softThreshold}(a,h_a,t)
 =
 \begin{cases}
 t-a, & t>a,\\
@@ -47,9 +47,9 @@ There is no separate proof. The declaration is a definition, and the proof block
 The mathematical content is exactly the defining equality
 
 $$
-\operatorname{softThreshold}(a,h_a,t)
+\mathrm{softThreshold}(a,h_a,t)
 =
-\operatorname{sign}(t)\max(|t|-a,0).
+\mathrm{sign}(t)\max(|t|-a,0).
 $$
 
 In Lean, this equality holds by definitional unfolding: any occurrence of `softThreshold a h_a t` can be replaced by the right-hand side. The argument `_ha`, which carries the proof of $0 \le a$, is part of the function signature but is ignored by the body, so the value of the function does not depend on which proof of $0 \le a$ is supplied. The marker `noncomputable` classifies the definition for Lean’s purposes; it does not add any mathematical hypothesis or conclusion. Since no proof is provided, no further mathematical facts are used.

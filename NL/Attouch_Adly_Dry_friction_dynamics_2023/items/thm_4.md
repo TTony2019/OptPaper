@@ -37,7 +37,7 @@ $$
 The curve $g$ is assumed differentiable. The hypothesis `hdualFlow` says that for every $t\in\mathbb R$, $p(t)$ is a friction-ball projection of $g(t)$ onto the closed ball
 
 $$
-\operatorname{frictionBall} r=\overline B(0,r)=\{y\in H:\|y\|\le r\},
+\mathrm{frictionBall} r=\overline B(0,r)=\{y\in H:\|y\|\le r\},
 $$
 
 and that the dual-flow equation holds:
@@ -63,7 +63,7 @@ The initial condition $r<\|g(t_0)\|$ says that $g(t_0)$ lies outside the closed 
 The conclusion is that there exist positive constants $C_{\mathrm{upper}},C_{\mathrm{lower}},\mu,\nu$ such that, writing
 
 $$
-d(t)=\operatorname{infDist}\bigl(g(t),\operatorname{frictionBall} r\bigr),
+d(t)=\mathrm{infDist}\bigl(g(t),\mathrm{frictionBall} r\bigr),
 $$
 
 one has for every $t\ge t_0$
@@ -81,7 +81,7 @@ $$
 and also
 
 $$
-g(t)\notin \operatorname{frictionBall} r.
+g(t)\notin \mathrm{frictionBall} r.
 $$
 
 Thus the distance from the trajectory $g(t)$ to the friction ball is bounded above by a decaying exponential and below by another decaying exponential for all future times, and the trajectory never enters the ball. The upper bound expresses exponential convergence to the ball; the lower bound prevents convergence faster than an exponential rate.
@@ -358,13 +358,13 @@ This is the central differential relation used throughout the rest of the proof.
 The proof then defines the energy
 
 $$
-E(t)=\frac12\operatorname{infDist}\bigl(g(t),\operatorname{frictionBall} r\bigr)^2.
+E(t)=\frac12\mathrm{infDist}\bigl(g(t),\mathrm{frictionBall} r\bigr)^2.
 $$
 
 The initial distance is positive: by `frictionBall_not_mem_initial_infDist_pos`, since $0\le r$ and $r<\|g(t_0)\|$, we have
 
 $$
-0<\operatorname{infDist}\bigl(g(t_0),\operatorname{frictionBall} r\bigr).
+0<\mathrm{infDist}\bigl(g(t_0),\mathrm{frictionBall} r\bigr).
 $$
 
 This positivity will be needed for the constants and for the final non-membership conclusion.
@@ -372,7 +372,7 @@ This positivity will be needed for the constants and for the final non-membershi
 The next major step computes the derivative of $E$. The proof uses `infDist_frictionBall_eq`, which says that for $r>0$,
 
 $$
-\operatorname{infDist}\bigl(\xi,\operatorname{frictionBall} r\bigr)
+\mathrm{infDist}\bigl(\xi,\mathrm{frictionBall} r\bigr)
 =\max(\|\xi\|-r,0).
 $$
 
@@ -422,7 +422,7 @@ $$
 The proof then combines this derivative formula with the coercive bounds. Since $p(t)$ is a best approximation in the ball, one has
 
 $$
-\|g(t)-p(t)\|=\operatorname{infDist}\bigl(g(t),\operatorname{frictionBall} r\bigr).
+\|g(t)-p(t)\|=\mathrm{infDist}\bigl(g(t),\mathrm{frictionBall} r\bigr).
 $$
 
 Applying the lower coercivity bound with $\xi=g(t)-p(t)$ gives
@@ -478,21 +478,21 @@ $$
 Taking square roots, using nonnegativity of the distance, yields
 
 $$
-\operatorname{infDist}\bigl(g(t),\operatorname{frictionBall} r\bigr)
-\le \operatorname{infDist}\bigl(g(t_0),\operatorname{frictionBall} r\bigr)e^{-\mu(t-t_0)}.
+\mathrm{infDist}\bigl(g(t),\mathrm{frictionBall} r\bigr)
+\le \mathrm{infDist}\bigl(g(t_0),\mathrm{frictionBall} r\bigr)e^{-\mu(t-t_0)}.
 $$
 
 Rewriting the right-hand side as
 
 $$
-\left(\operatorname{infDist}\bigl(g(t_0),\operatorname{frictionBall} r\bigr)e^{\mu t_0}\right)e^{-\mu t}
+\left(\mathrm{infDist}\bigl(g(t_0),\mathrm{frictionBall} r\bigr)e^{\mu t_0}\right)e^{-\mu t}
 $$
 
 gives the claimed upper bound with
 
 $$
 C_{\mathrm{upper}}
-=\operatorname{infDist}\bigl(g(t_0),\operatorname{frictionBall} r\bigr)e^{\mu t_0}.
+=\mathrm{infDist}\bigl(g(t_0),\mathrm{frictionBall} r\bigr)e^{\mu t_0}.
 $$
 
 For the lower bound, the proof uses `weighted_energy_monotone`. That theorem says that if $E$ is differentiable at every point and
@@ -522,41 +522,41 @@ $$
 Taking square roots gives
 
 $$
-\operatorname{infDist}\bigl(g(t_0),\operatorname{frictionBall} r\bigr)
+\mathrm{infDist}\bigl(g(t_0),\mathrm{frictionBall} r\bigr)
 e^{-\nu(t-t_0)}
-\le \operatorname{infDist}\bigl(g(t),\operatorname{frictionBall} r\bigr).
+\le \mathrm{infDist}\bigl(g(t),\mathrm{frictionBall} r\bigr).
 $$
 
 Rewriting the left-hand side as
 
 $$
-\left(\operatorname{infDist}\bigl(g(t_0),\operatorname{frictionBall} r\bigr)e^{\nu t_0}\right)e^{-\nu t}
+\left(\mathrm{infDist}\bigl(g(t_0),\mathrm{frictionBall} r\bigr)e^{\nu t_0}\right)e^{-\nu t}
 $$
 
 gives the claimed lower bound with
 
 $$
 C_{\mathrm{lower}}
-=\operatorname{infDist}\bigl(g(t_0),\operatorname{frictionBall} r\bigr)e^{\nu t_0}.
+=\mathrm{infDist}\bigl(g(t_0),\mathrm{frictionBall} r\bigr)e^{\nu t_0}.
 $$
 
-Finally, the proof shows that $g(t)$ never enters the friction ball. If $g(t)\in\operatorname{frictionBall} r$, then by `Metric.infDist_zero_of_mem` one has
+Finally, the proof shows that $g(t)$ never enters the friction ball. If $g(t)\in\mathrm{frictionBall} r$, then by `Metric.infDist_zero_of_mem` one has
 
 $$
-\operatorname{infDist}\bigl(g(t),\operatorname{frictionBall} r\bigr)=0.
+\mathrm{infDist}\bigl(g(t),\mathrm{frictionBall} r\bigr)=0.
 $$
 
 But the lower bound already gives
 
 $$
-\operatorname{infDist}\bigl(g(t_0),\operatorname{frictionBall} r\bigr)e^{-\nu(t-t_0)}
-\le \operatorname{infDist}\bigl(g(t),\operatorname{frictionBall} r\bigr),
+\mathrm{infDist}\bigl(g(t_0),\mathrm{frictionBall} r\bigr)e^{-\nu(t-t_0)}
+\le \mathrm{infDist}\bigl(g(t),\mathrm{frictionBall} r\bigr),
 $$
 
 and the left-hand side is strictly positive because the initial distance is positive and the exponential is positive. This contradiction yields
 
 $$
-g(t)\notin \operatorname{frictionBall} r
+g(t)\notin \mathrm{frictionBall} r
 $$
 
 for every $t\ge t_0$.

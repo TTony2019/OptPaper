@@ -276,7 +276,7 @@ $$
 Thus $p_k\le U$ for every $k$. Since `hp` already gives $0\le p_k$ for every $k$, the lemma `bounded_of_nonneg_upper` yields
 
 $$
-\operatorname{Bornology.IsBounded}(\operatorname{Set.range} p),
+\mathrm{Bornology.IsBounded}(\mathrm{Set.range} p),
 $$
 
 which is exactly the desired boundedness of the sequence $p$.

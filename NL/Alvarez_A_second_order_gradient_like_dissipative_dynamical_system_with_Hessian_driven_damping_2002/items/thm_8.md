@@ -17,10 +17,10 @@ theorem constrained_din_weakly_converges_to_argmin {H : Type*} [NormedAddCommGro
 ```
 
 ## Statement explanation
-The theorem `constrained_din_weakly_converges_to_argmin` is stated for a complete real inner product space $H$, a set $C\subseteq H$, and a function $\Phi:H\to\mathbb R$. The hypothesis `hC : ConstrainedHypothesis C Φ` supplies, as used in the proof, that $C$ is nonempty, closed, and convex, that $\Phi$ is continuously differentiable on some open neighborhood of $C$, and that $\Phi$ is bounded below on $C$. The parameters satisfy $\beta>0$, $a\ne0$, $b>0$, and $b+a>0$. The hypothesis `hconvex : ConvexOn ℝ C Φ` says that $C$ is convex and that $\Phi$ is convex on $C$; in particular, the restriction of $\Phi$ to every segment inside $C$ is convex. The hypothesis `hmin` says that $\operatorname{argminSet}\Phi\cap C\ne\varnothing$, where by definition
+The theorem `constrained_din_weakly_converges_to_argmin` is stated for a complete real inner product space $H$, a set $C\subseteq H$, and a function $\Phi:H\to\mathbb R$. The hypothesis `hC : ConstrainedHypothesis C Φ` supplies, as used in the proof, that $C$ is nonempty, closed, and convex, that $\Phi$ is continuously differentiable on some open neighborhood of $C$, and that $\Phi$ is bounded below on $C$. The parameters satisfy $\beta>0$, $a\ne0$, $b>0$, and $b+a>0$. The hypothesis `hconvex : ConvexOn ℝ C Φ` says that $C$ is convex and that $\Phi$ is convex on $C$; in particular, the restriction of $\Phi$ to every segment inside $C$ is convex. The hypothesis `hmin` says that $\mathrm{argminSet}\Phi\cap C\ne\varnothing$, where by definition
 
 $$
-\operatorname{argminSet}\Phi=\{x\mid \forall y,\ \Phi(x)\le \Phi(y)\}.
+\mathrm{argminSet}\Phi=\{x\mid \forall y,\ \Phi(x)\le \Phi(y)\}.
 $$
 
 Thus there is at least one global minimizer of $\Phi$ lying in $C$.
@@ -38,7 +38,7 @@ where $P_C$ is the constrained projection associated with $C$ and $\Phi$. The re
 The conclusion is that there exists $z\in H$ such that
 
 $$
-z\in C,\qquad z\in\operatorname{argminSet}\Phi,
+z\in C,\qquad z\in\mathrm{argminSet}\Phi,
 $$
 
 and
@@ -50,7 +50,7 @@ $$
 formally,
 
 $$
-\operatorname{Tendsto}\bigl(t\mapsto \operatorname{toWeakSpace}_{\mathbb R,H}(x(t))\bigr)\ \operatorname{atTop}\ \bigl(\operatorname{nhds}(\operatorname{toWeakSpace}_{\mathbb R,H}(z))\bigr).
+\mathrm{Tendsto}\bigl(t\mapsto \mathrm{toWeakSpace}_{\mathbb R,H}(x(t))\bigr)\ \mathrm{atTop}\ \bigl(\mathrm{nhds}(\mathrm{toWeakSpace}_{\mathbb R,H}(z))\bigr).
 $$
 
 So the trajectory $x$ converges weakly to some global minimizer of $\Phi$ that lies in $C$.
@@ -906,7 +906,7 @@ $$
 so the middle term $a+2b$ lies between them because the product $\sqrt b\sqrt{b+a}$ is nonnegative. The tactics `nlinarith` and `positivity` are used to verify these inequalities. Hence, with
 
 $$
-A(t)=\operatorname{constrainedEnergy}\Phi\,a\,b\,\bigl(\beta(a+2b)\bigr)(x(t),y(t)),
+A(t)=\mathrm{constrainedEnergy}\Phi\,a\,b\,\bigl(\beta(a+2b)\bigr)(x(t),y(t)),
 $$
 
 the proof obtains that $A$ is antitone, bounded below, and convergent to some $l_E$.
@@ -914,7 +914,7 @@ the proof obtains that $A$ is antitone, bounded below, and convergent to some $l
 The proof then chooses a minimizer
 
 $$
-z_0\in \operatorname{argminSet}\Phi\cap C,
+z_0\in \mathrm{argminSet}\Phi\cap C,
 $$
 
 so $z_0\in C$ and $\Phi(z_0)\le \Phi(w)$ for every $w\in H$. From the constrained hypothesis it extracts an open neighborhood $U$ of $C$ on which $\Phi$ is $C^1$, and proves that for every $q\in C$,
@@ -964,7 +964,7 @@ $$
 \Phi(p)+\langle \nabla\Phi(p),r-p\rangle\le \Phi(r).
 $$
 
-The argument restricts $\Phi$ to the line segment $g(s)=\operatorname{lineMap}(p,r)(s)$, which stays in $C$ by convexity. Since $\Phi$ is convex on $C$, the composite $s\mapsto \Phi(g(s))$ is convex on $[0,1]$. Its derivative at $0$ is $\langle \nabla\Phi(p),r-p\rangle$, and the convexity inequality for derivatives gives
+The argument restricts $\Phi$ to the line segment $g(s)=\mathrm{lineMap}(p,r)(s)$, which stays in $C$ by convexity. Since $\Phi$ is convex on $C$, the composite $s\mapsto \Phi(g(s))$ is convex on $[0,1]$. Its derivative at $0$ is $\langle \nabla\Phi(p),r-p\rangle$, and the convexity inequality for derivatives gives
 
 $$
 \langle \nabla\Phi(p),r-p\rangle\le \Phi(r)-\Phi(p).
@@ -1138,7 +1138,7 @@ $$
 Next the proof verifies the distance hypothesis needed for Opial’s lemma. Let
 
 $$
-S=\operatorname{argminSet}\Phi\cap C.
+S=\mathrm{argminSet}\Phi\cap C.
 $$
 
 For an arbitrary $z\in S$, the same argument as for $z_0$ is repeated with $z$ in place of $z_0$. This produces a modified auxiliary function $H_z(t)$ whose derivative is nonpositive, hence $H_z$ is antitone; the same lower and upper bounds show that $\|z-x(t)\|$ is bounded. Since $q(t)\to0$, the cross term $\langle z-x(t),q(t)\rangle\to0$. Because $A(t)\to l_E$, $H_z(t)$ has a limit, and $\Phi(x(t))\to l_\Phi$, the proof solves for the limit of $\|z-x(t)\|^2$. Thus
@@ -1205,9 +1205,9 @@ $$
 \Phi(z)\le l_\Phi\le \Phi(z_0)\le \Phi(z),
 $$
 
-so equality holds and $z$ is also a global minimizer. Therefore $z\in\operatorname{argminSet}\Phi\cap C=S$. This proves that every weak sequential cluster point of $x$ at infinity lies in $S$.
+so equality holds and $z$ is also a global minimizer. Therefore $z\in\mathrm{argminSet}\Phi\cap C=S$. This proves that every weak sequential cluster point of $x$ at infinity lies in $S$.
 
-Finally, $S$ is nonempty because $z_0\in S$. The proof applies `opial_continuous_time` to the trajectory $x$, the set $S$, the weak-cluster-point hypothesis just proved, and the distance-convergence hypothesis for every $z\in S$. Opial’s lemma states that if $S$ is nonempty, every weak cluster point of $x(t)$ as $t\to\infty$ lies in $S$, and for every $z\in S$ the distance $\|x(t)-z\|$ has a limit, then there exists $z\in S$ such that $x(t)\rightharpoonup z$ weakly as $t\to\infty$. Applying it gives $z\in S$ with weak convergence of $x(t)$ to $z$. Unpacking $z\in S$ yields $z\in C$ and $z\in\operatorname{argminSet}\Phi$, which is exactly the stated conclusion.
+Finally, $S$ is nonempty because $z_0\in S$. The proof applies `opial_continuous_time` to the trajectory $x$, the set $S$, the weak-cluster-point hypothesis just proved, and the distance-convergence hypothesis for every $z\in S$. Opial’s lemma states that if $S$ is nonempty, every weak cluster point of $x(t)$ as $t\to\infty$ lies in $S$, and for every $z\in S$ the distance $\|x(t)-z\|$ has a limit, then there exists $z\in S$ such that $x(t)\rightharpoonup z$ weakly as $t\to\infty$. Applying it gives $z\in S$ with weak convergence of $x(t)$ to $z$. Unpacking $z\in S$ yields $z\in C$ and $z\in\mathrm{argminSet}\Phi$, which is exactly the stated conclusion.
 
 Throughout the proof, `intro` introduces the arbitrary variables or hypotheses in a universal statement, `rw` and `simp` unfold definitions and rewrite equalities such as the trajectory equations, `exact` supplies the named theorem or the already established fact, and `linarith` and `nlinarith` combine linear and nonlinear arithmetic inequalities. The tactics `field_simp`, `ring`, and `ring_nf` normalize algebraic expressions, `positivity` proves the positivity of constants such as $\varepsilon$ and $K$, and `filter_upwards` converts pointwise estimates into eventual statements as $t\to\infty$.
 

@@ -20,18 +20,18 @@ The declaration `ProximalGradientDynamics` is a structure. Its ambient space is 
 The parameter $B:H\to H$ is an operator on $H$, and $\mu$ is a real parameter. A term of the structure `ProximalGradientDynamics Phi hPhi B mu` packages three things: a proof that $\mu>0$; a trajectory $x:\mathbb R\to H$; and a proof that for every real number $t$, the following equality in $H$ holds:
 
 $$
-\operatorname{deriv}x(t)+x(t)
--\operatorname{scaledProx}_{\mu,\Phi}\!\left(x(t)-\mu B(x(t))\right)=0.
+\mathrm{deriv}x(t)+x(t)
+-\mathrm{scaledProx}_{\mu,\Phi}\!\left(x(t)-\mu B(x(t))\right)=0.
 $$
 
-Here $\operatorname{scaledProx}_{\mu,\Phi}$ denotes the value of `ERealFunction.scaledProximityOperator Phi hPhi ⟨mu, mu_pos⟩` as an operator on $H$. The component `⟨mu, mu_pos⟩` packages the real number $\mu$ together with the proof that it is positive; this is passed as the positive scale to the scaled proximity operator. The term $x(t)-\mu B(x(t))$ is the point at which that scaled proximity operator is evaluated.
+Here $\mathrm{scaledProx}_{\mu,\Phi}$ denotes the value of `ERealFunction.scaledProximityOperator Phi hPhi ⟨mu, mu_pos⟩` as an operator on $H$. The component `⟨mu, mu_pos⟩` packages the real number $\mu$ together with the proof that it is positive; this is passed as the positive scale to the scaled proximity operator. The term $x(t)-\mu B(x(t))$ is the point at which that scaled proximity operator is evaluated.
 
 Equivalently, the field `differential_equation` says that for every $t\in\mathbb R$,
 
 $$
-\operatorname{deriv}x(t)
+\mathrm{deriv}x(t)
 =
-\operatorname{scaledProx}_{\mu,\Phi}\!\left(x(t)-\mu B(x(t))\right)-x(t).
+\mathrm{scaledProx}_{\mu,\Phi}\!\left(x(t)-\mu B(x(t))\right)-x(t).
 $$
 
 Thus the declaration describes a continuous-time trajectory whose velocity at time $t$ is the difference between the scaled proximal step applied to $x(t)-\mu B(x(t))$ and the current point $x(t)$. The same positive parameter $\mu$ appears both as the coefficient of $B(x(t))$ and as the scale in the proximity operator. The structure does not by itself assert that such a trajectory exists or is unique; it defines the type of data consisting of a positive $\mu$, a trajectory $x$, and a proof that the trajectory satisfies the displayed differential equation.
@@ -47,8 +47,8 @@ There is no separate proof. The declaration is a `structure`, so the text after 
 The mathematical content is entirely contained in the fields. The field `mu_pos` records the hypothesis $0<\mu$. The field `x` records the trajectory from $\mathbb R$ to $H$. The field `differential_equation` records the universal statement that for every $t\in\mathbb R$, the equality
 
 $$
-\operatorname{deriv}x(t)+x(t)
--\operatorname{scaledProx}_{\mu,\Phi}\!\left(x(t)-\mu B(x(t))\right)=0
+\mathrm{deriv}x(t)+x(t)
+-\mathrm{scaledProx}_{\mu,\Phi}\!\left(x(t)-\mu B(x(t))\right)=0
 $$
 
 holds. The proof `mu_pos` is also used as the positivity certificate inside the subtype element `⟨mu, mu_pos⟩` supplied to the scaled proximity operator, ensuring that the scale is positive. A term of the structure can therefore be built only by providing these three components.

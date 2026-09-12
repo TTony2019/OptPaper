@@ -115,7 +115,7 @@ $$
 \phi(t)=G(y+t(x-y)).
 $$
 
-In Lean this line is written as `AffineMap.lineMap y x t`, so $\phi(t)=G(\operatorname{lineMap}_{y,x}(t))$. The hypothesis `hstrong.2` is the convexity part of strong convexity, namely convexity of $G$. The cited result `ConvexOn.comp_affineMap` says that precomposing a convex function with an affine map preserves convexity. Applying it to $G$ and the affine map $t\mapsto y+t(x-y)$ gives `hφ_conv : ConvexOn Real Set.univ φ`, i.e. $\phi$ is convex on all of $\mathbb R$. In ordinary terms, this is the standard Jensen convexity property of $\phi$:
+In Lean this line is written as `AffineMap.lineMap y x t`, so $\phi(t)=G(\mathrm{lineMap}_{y,x}(t))$. The hypothesis `hstrong.2` is the convexity part of strong convexity, namely convexity of $G$. The cited result `ConvexOn.comp_affineMap` says that precomposing a convex function with an affine map preserves convexity. Applying it to $G$ and the affine map $t\mapsto y+t(x-y)$ gives `hφ_conv : ConvexOn Real Set.univ φ`, i.e. $\phi$ is convex on all of $\mathbb R$. In ordinary terms, this is the standard Jensen convexity property of $\phi$:
 
 $$
 \phi((1-\lambda)s+\lambda t)
@@ -133,7 +133,7 @@ The proof then computes the derivative of $t\mapsto u(y+t(x-y))$ at $0$. It uses
 - the chain rule `HasFDerivAt.comp_hasDerivAt_of_eq`, which composes these and gives that $t\mapsto u(y+t(x-y))$ has derivative
 
 $$
-\operatorname{fderiv}u(y)(x-y)
+\mathrm{fderiv}u(y)(x-y)
 $$
 
 at $0$.
@@ -141,7 +141,7 @@ at $0$.
 The lemma `inner_gradient_left`, used here with $(f,x,y)=(u,y,x-y)$, gives the gradient–Fréchet derivative identity
 
 $$
-\operatorname{fderiv}u(y)(x-y)
+\mathrm{fderiv}u(y)(x-y)
 =
 \langle \nabla u(y),x-y\rangle .
 $$
@@ -199,8 +199,8 @@ $$
 The endpoint evaluations are justified by rewriting
 
 $$
-\operatorname{lineMap}_{y,x}(0)=y,\qquad
-\operatorname{lineMap}_{y,x}(1)=x.
+\mathrm{lineMap}_{y,x}(0)=y,\qquad
+\mathrm{lineMap}_{y,x}(1)=x.
 $$
 
 After `norm_num`, the slope inequality becomes

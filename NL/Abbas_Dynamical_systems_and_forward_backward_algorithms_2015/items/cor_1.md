@@ -37,7 +37,7 @@ theorem strong_convex_solution_unique_and_convergent {H : Type*} [NormedAddCommG
 ```
 
 ## Statement explanation
-The declaration is a theorem in a real Hilbert space $H$, meaning that $H$ is a complete normed additive commutative group equipped with a real inner product. The function $\Phi : H \to \operatorname{EReal}$ takes values strictly greater than $\bot$, where $\bot$ is the bottom element of the extended reals, so $\Phi$ never takes the value $-\infty$. The hypothesis $hPhi$ says that $\Phi$ belongs to `ERealFunction.gammaZero H`. The provided excerpt defines the ambient class $\Gamma(H)$ as the convex, lower semicontinuous functions; the zero-class is the corresponding properness/domain class used by the subgradient theory. The proof itself only passes this hypothesis unchanged to `proposition_2_16`.
+The declaration is a theorem in a real Hilbert space $H$, meaning that $H$ is a complete normed additive commutative group equipped with a real inner product. The function $\Phi : H \to \mathrm{EReal}$ takes values strictly greater than $\bot$, where $\bot$ is the bottom element of the extended reals, so $\Phi$ never takes the value $-\infty$. The hypothesis $hPhi$ says that $\Phi$ belongs to `ERealFunction.gammaZero H`. The provided excerpt defines the ambient class $\Gamma(H)$ as the convex, lower semicontinuous functions; the zero-class is the corresponding properness/domain class used by the subgradient theory. The proof itself only passes this hypothesis unchanged to `proposition_2_16`.
 
 The other objects are a single-valued operator $B : H \to H$, a nonempty set $S \subseteq H$ of candidate solutions, two trajectories $x,v : \mathbb R \to H$, and real parameters $\lambda,\mu,\beta$. The assumptions on the parameters are $0<\lambda$, $0<\mu$, $\mu\lambda=1$, and $0<\beta$. The hypothesis $hB$ says that $B$ is $\beta$-cocoercive on all of $H$. In the proof this is used in the form that for any $y,z\in H$,
 
@@ -50,18 +50,18 @@ so in particular the inner product $\langle y-z, By-Bz\rangle$ is nonnegative.
 The trajectory hypotheses say that $x$ and $v$ are absolutely continuous on every $[0,b]$ with $b>0$, and that for every $T>0$, almost every $t\in[0,T]$ satisfies
 
 $$
-\operatorname{HasDerivAt}\, x\,(\operatorname{deriv} x(t))\,t,
+\mathrm{HasDerivAt}\, x\,(\mathrm{deriv} x(t))\,t,
 \qquad
-\operatorname{HasDerivAt}\, v\,(\operatorname{deriv} v(t))\,t.
+\mathrm{HasDerivAt}\, v\,(\mathrm{deriv} v(t))\,t.
 $$
 
-Thus $x$ and $v$ are locally absolutely continuous and almost everywhere differentiable with the stated derivatives. The hypotheses $hvL2$ and $hdxL2$ say that $v$ and $\operatorname{deriv} x$ are in $L^2$ on every finite interval $[0,b]$. The hypothesis $hsubgradient$ says that for every $t\ge 0$,
+Thus $x$ and $v$ are locally absolutely continuous and almost everywhere differentiable with the stated derivatives. The hypotheses $hvL2$ and $hdxL2$ say that $v$ and $\mathrm{deriv} x$ are in $L^2$ on every finite interval $[0,b]$. The hypothesis $hsubgradient$ says that for every $t\ge 0$,
 
 $$
 v(t)\in \partial\Phi(x(t)).
 $$
 
-The domain hypothesis $hdom$ says that for every $t\ge 0$, $x(t)\in\operatorname{dom}\Phi$, and that every $w\in S$ lies in $\operatorname{dom}\Phi$. The weak convergence hypothesis $hweak$ says that there exists $x_\infty\in S$ such that $x(t)$ converges weakly to $x_\infty$ as $t\to\infty$. The solution hypothesis $hsolution$ says that for every $z\in S$,
+The domain hypothesis $hdom$ says that for every $t\ge 0$, $x(t)\in\mathrm{dom}\Phi$, and that every $w\in S$ lies in $\mathrm{dom}\Phi$. The weak convergence hypothesis $hweak$ says that there exists $x_\infty\in S$ such that $x(t)$ converges weakly to $x_\infty$ as $t\to\infty$. The solution hypothesis $hsolution$ says that for every $z\in S$,
 
 $$
 -Bz\in \partial\Phi(z),
@@ -75,7 +75,7 @@ v(t)\in \partial\Phi(x(t))
 \lambda\,\dot x(t)+\dot v(t)+v(t)+B(x(t))=0.
 $$
 
-Finally, $hstrong_support$ is a strong-convexity hypothesis on $\Phi$: there exists $m>0$ such that for all $a,u,y\in H$, if $u\in\partial\Phi(a)$ and $y\in\operatorname{dom}\Phi$, then
+Finally, $hstrong_support$ is a strong-convexity hypothesis on $\Phi$: there exists $m>0$ such that for all $a,u,y\in H$, if $u\in\partial\Phi(a)$ and $y\in\mathrm{dom}\Phi$, then
 
 $$
 \frac m2\|y-a\|^2
@@ -178,7 +178,7 @@ The proof begins by using `rcases hS with ⟨z, hz⟩` to choose an element $z\i
 
 First the proof shows that $S$ is the singleton $\{z\}$. It applies `Set.eq_singleton_iff_unique_mem.mpr`, which reduces the goal $S=\{z\}$ to proving two things: that $z\in S$, supplied by $hz$, and that every $y\in S$ is equal to $z$. The command `intro y hy` introduces an arbitrary $y\in S$ and the proof `hy` of membership.
 
-For this arbitrary $y\in S$, the proof applies the strong-convexity inequality $hsupp$ twice. First, with $a=z$, $u=-Bz$, and the second variable equal to $y$, using $hsolution z hz$ to know that $-Bz\in\partial\Phi(z)$ and $hdom.2 y hy$ to know that $y\in\operatorname{dom}\Phi$. This gives
+For this arbitrary $y\in S$, the proof applies the strong-convexity inequality $hsupp$ twice. First, with $a=z$, $u=-Bz$, and the second variable equal to $y$, using $hsolution z hz$ to know that $-Bz\in\partial\Phi(z)$ and $hdom.2 y hy$ to know that $y\in\mathrm{dom}\Phi$. This gives
 
 $$
 \frac m2\|y-z\|^2
@@ -196,7 +196,7 @@ $$
 +\langle y-z,Bz\rangle.
 $$
 
-Second, with $a=y$, $u=-By$, and the second variable equal to $z$, using $hsolution y hy$ to know that $-By\in\partial\Phi(y)$ and $hdom.2 z hz$ to know that $z\in\operatorname{dom}\Phi$, the proof obtains
+Second, with $a=y$, $u=-By$, and the second variable equal to $z$, using $hsolution y hy$ to know that $-By\in\partial\Phi(y)$ and $hdom.2 z hz$ to know that $z\in\mathrm{dom}\Phi$, the proof obtains
 
 $$
 \frac m2\|z-y\|^2

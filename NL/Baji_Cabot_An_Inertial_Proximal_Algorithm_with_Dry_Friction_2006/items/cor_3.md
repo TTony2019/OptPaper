@@ -25,7 +25,7 @@ theorem cor_5_1 (C : Set H) (hC_closed : IsClosed C) (hC_conv : Convex ℝ C)
 ## Statement explanation
 The theorem `cor_5_1` is a finite-time activation statement for an inertial proximal algorithm with dry friction, in an ambient real inner-product space $H$. It assumes that one has:
 
-- A set $C\subseteq H$ that is closed, convex, a convex polyhedron, bounded, and contains the origin in its interior: $0\in \operatorname{int} C$. The polyhedron condition means concretely that there are finitely many vectors $a_i\in H$ and real numbers $b_i$ such that
+- A set $C\subseteq H$ that is closed, convex, a convex polyhedron, bounded, and contains the origin in its interior: $0\in \mathrm{int} C$. The polyhedron condition means concretely that there are finitely many vectors $a_i\in H$ and real numbers $b_i$ such that
 
   $$
   C=\{x\in H:\langle a_i,x\rangle\le b_i\ \text{for all }i\}.
@@ -115,7 +115,7 @@ The proof reduces the corollary to the cited result `prop_5_1`. It first identif
    have hC0 : (0 : H) ∈ C := interior_subset hC_int
    ```
 
-   The hypothesis `hC_int` says $0\in\operatorname{int} C$, and `interior_subset` says that the interior of a set is contained in the set. Hence $0\in C$. This is later needed for `cor51_A_zero_eq_C`.
+   The hypothesis `hC_int` says $0\in\mathrm{int} C$, and `interior_subset` says that the interior of a set is contained in the set. Hence $0\in C$. This is later needed for `cor51_A_zero_eq_C`.
 
 2. Next,
 
@@ -145,7 +145,7 @@ The proof reduces the corollary to the cited result `prop_5_1`. It first identif
    have hAzero_int : (0 : H) ∈ interior (A (0 : H)) := by simpa [hA_zero] using hC_int
    ```
 
-   Since $A(0)=C$, the fact $0\in\operatorname{int} C$ rewrites to $0\in\operatorname{int}(A(0))$. This is one of the hypotheses required by `prop_5_1`.
+   Since $A(0)=C$, the fact $0\in\mathrm{int} C$ rewrites to $0\in\mathrm{int}(A(0))$. This is one of the hypotheses required by `prop_5_1`.
 
 5. Similarly,
 
@@ -161,16 +161,16 @@ The proof reduces the corollary to the cited result `prop_5_1`. It first identif
    have hcondition : ... := cor51_excess_condition C A0 A hA hA_dom hA_zero hA0_zero
    ```
 
-   The cited result `cor51_excess_condition` states that, under the sum decomposition for $A$, full domain $A.\operatorname{dom}=H$, the equality $A(0)=C$, and the condition $A0(x)\to0$ as $x\to0$, the excess
+   The cited result `cor51_excess_condition` states that, under the sum decomposition for $A$, full domain $A.\mathrm{dom}=H$, the equality $A(0)=C$, and the condition $A0(x)\to0$ as $x\to0$, the excess
 
    $$
-   \operatorname{excess}\!\left(A(z),\ \partial\sigma_{A(0)}(z)\right)
+   \mathrm{excess}\!\left(A(z),\ \partial\sigma_{A(0)}(z)\right)
    $$
 
    tends to $0$ as $z\to0$. Here the `excess` is the one-sided quantity
 
    $$
-   \operatorname{excess}(S,T)=\sup_{s\in S}\operatorname{dist}(s,T).
+   \mathrm{excess}(S,T)=\sup_{s\in S}\mathrm{dist}(s,T).
    $$
 
    Thus the conclusion says that, near $0$, every point of $A(z)$ is arbitrarily close to the subdifferential of the support function of $A(0)$ at $z$. This is exactly the quantitative `h_condition` hypothesis required by `prop_5_1`.
@@ -181,7 +181,7 @@ The proof reduces the corollary to the cited result `prop_5_1`. It first identif
    rcases prop_5_1 A B hA_max hA_dom hAzero_int hpoly_A0 hcondition f hf_conv hf_C1 hinf hB_eq_grad lam hlam_pos hlam_nondec x halg xInf hxInf with ⟨ n_star, hn⟩
    ```
 
-   The cited theorem `prop_5_1` says, specialized to the current variables: if $A$ is maximal monotone, has full domain, $0\in\operatorname{int}(A(0))$, $A(0)$ is a convex polyhedron, the excess condition above holds, $f$ is convex, $C^1$, and bounded below, $B$ is the gradient operator of $f$, the step sizes $\lambda_n$ are positive and nondecreasing, $x$ is an Algorithm A sequence for $A,B,\lambda$, and $x_n\to x_\infty$, then there exists $n_\star$ such that for all $n\ge n_\star$,
+   The cited theorem `prop_5_1` says, specialized to the current variables: if $A$ is maximal monotone, has full domain, $0\in\mathrm{int}(A(0))$, $A(0)$ is a convex polyhedron, the excess condition above holds, $f$ is convex, $C^1$, and bounded below, $B$ is the gradient operator of $f$, the step sizes $\lambda_n$ are positive and nondecreasing, $x$ is an Algorithm A sequence for $A,B,\lambda$, and $x_n\to x_\infty$, then there exists $n_\star$ such that for all $n\ge n_\star$,
 
    $$
    x_{n+1}-x_n \in N_{A(0)}\bigl(-\nabla f(x_\infty)\bigr).

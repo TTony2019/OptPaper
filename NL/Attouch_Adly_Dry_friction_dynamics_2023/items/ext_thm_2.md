@@ -30,16 +30,16 @@ $$
 x,y,dx,dy,ddx:\mathbb R\to H.
 $$
 
-The hypotheses are the following. First, $y$ is assumed to be the time-scaled trajectory of $z$ by $\tau$, written in Lean as $y=\operatorname{timeScaledTrajectory} z \tau$. The definition of $\operatorname{timeScaledTrajectory}$ is not provided in the source, so this hypothesis is only identified here as saying that $y$ is obtained from $z$ by the time change $\tau$. Second, the hypothesis
+The hypotheses are the following. First, $y$ is assumed to be the time-scaled trajectory of $z$ by $\tau$, written in Lean as $y=\mathrm{timeScaledTrajectory} z \tau$. The definition of $\mathrm{timeScaledTrajectory}$ is not provided in the source, so this hypothesis is only identified here as saying that $y$ is obtained from $z$ by the time change $\tau$. Second, the hypothesis
 
 $$
-\operatorname{IsWeightedAverageOn} \tau\,d\tau\,x\,y\,dx\,s_0
+\mathrm{IsWeightedAverageOn} \tau\,d\tau\,x\,y\,dx\,s_0
 $$
 
 is assumed. The definition of this predicate is not given in the provided source, but the proof unpacks it. The part actually used in the proof says that for every $s\in [s_0,\infty)$,
 
 $$
-\operatorname{HasDerivAt} x (dx(s)) s
+\mathrm{HasDerivAt} x (dx(s)) s
 $$
 
 and
@@ -57,15 +57,15 @@ $$
 Fourth, $y$ has derivative $dy(s)$ at each $s\in [s_0,\infty)$, $dx$ has derivative $ddx(s)$ at each $s\in [s_0,\infty)$, and $d\tau$ has derivative $dd\tau(s)$ at each $s\in [s_0,\infty)$:
 
 $$
-\forall s\in [s_0,\infty),\quad \operatorname{HasDerivAt} y (dy(s)) s,
+\forall s\in [s_0,\infty),\quad \mathrm{HasDerivAt} y (dy(s)) s,
 $$
 
 $$
-\forall s\in [s_0,\infty),\quad \operatorname{HasDerivAt} dx (ddx(s)) s,
+\forall s\in [s_0,\infty),\quad \mathrm{HasDerivAt} dx (ddx(s)) s,
 $$
 
 $$
-\forall s\in [s_0,\infty),\quad \operatorname{HasDerivAt} d\tau (dd\tau(s)) s.
+\forall s\in [s_0,\infty),\quad \mathrm{HasDerivAt} d\tau (dd\tau(s)) s.
 $$
 
 The conclusion is a conjunction of two statements. The first says that for every $s\in [s_0,\infty)$,
@@ -87,7 +87,7 @@ $$
 dx(s)+d\tau(s)^{-1}\cdot (x(s)-y(s))=0
 $$
 
-supplied by the weighted-average hypothesis. The hypothesis $y=\operatorname{timeScaledTrajectory} z \tau$ is not used in the proof.
+supplied by the weighted-average hypothesis. The hypothesis $y=\mathrm{timeScaledTrajectory} z \tau$ is not used in the proof.
 
 ## Lean proof
 ```lean
@@ -145,10 +145,10 @@ $$
 \texttt{rcases haverage with }\langle h\tau, hxy0, haverage\rangle.
 $$
 
-This destructs the predicate $\operatorname{IsWeightedAverageOn} \tau\,d\tau\,x\,y\,dx\,s_0$ into three components. The first two, `hτ` and `hxy0`, are not used later. The third component, now also named `haverage`, is the only part needed. From it the proof extracts two facts. First,
+This destructs the predicate $\mathrm{IsWeightedAverageOn} \tau\,d\tau\,x\,y\,dx\,s_0$ into three components. The first two, `hτ` and `hxy0`, are not used later. The third component, now also named `haverage`, is the only part needed. From it the proof extracts two facts. First,
 
 $$
-\texttt{hdx}:\quad \forall s\in [s_0,\infty),\ \operatorname{HasDerivAt} x (dx(s)) s,
+\texttt{hdx}:\quad \forall s\in [s_0,\infty),\ \mathrm{HasDerivAt} x (dx(s)) s,
 $$
 
 by taking the first coordinate of `(haverage s hs)`. Second,
@@ -167,7 +167,7 @@ $$
 
 splits the conjunction in the goal into two subgoals: first the integral identity for $x$, then the differentiated ODE.
 
-For the first subgoal, the proof fixes $s\in [s_0,\infty)$ by `intro s hs`. Since `hs` is membership in $\operatorname{Ici} s_0$, it gives $s_0\le s$, named `hsle`. The proof then shows that $x$ has derivative $dx(u)$ at every $u\in [s_0,s]$. It uses `Set.uIcc_of_le hsle` to rewrite the unordered interval $\operatorname{uIcc} s_0 s$ as the ordinary interval $[s_0,s]$. For $u\in [s_0,s]$, one has $u\in [s_0,\infty)$, so `hdx u` applies.
+For the first subgoal, the proof fixes $s\in [s_0,\infty)$ by `intro s hs`. Since `hs` is membership in $\mathrm{Ici} s_0$, it gives $s_0\le s$, named `hsle`. The proof then shows that $x$ has derivative $dx(u)$ at every $u\in [s_0,s]$. It uses `Set.uIcc_of_le hsle` to rewrite the unordered interval $\mathrm{uIcc} s_0 s$ as the ordinary interval $[s_0,s]$. For $u\in [s_0,s]$, one has $u\in [s_0,\infty)$, so `hdx u` applies.
 
 Next the proof shows that $dx$ is continuous on $[s_0,s]$. For each $u\in [s_0,s]$, the hypothesis `hddx` says that $dx$ is differentiable at $u$, with derivative $ddx(u)$. Differentiability at a point implies continuity at that point, and continuity at a point implies continuity within the interval. Thus `hdxCont` is obtained. From continuity on the compact interval $[s_0,s]$, the lemma `ContinuousOn.intervalIntegrable` gives that $dx$ is interval integrable over $[s_0,s]$, named `hdxInt`.
 
@@ -204,20 +204,20 @@ This is precisely the left-hand side of the ODE supplied by `hode`. The goal is 
 To compute the derivative of $F$, the proof uses three derivative facts. First,
 
 $$
-\texttt{hinv}:\quad \operatorname{HasDerivAt}\bigl(t\mapsto d\tau(t)^{-1}\bigr)
+\texttt{hinv}:\quad \mathrm{HasDerivAt}\bigl(t\mapsto d\tau(t)^{-1}\bigr)
 \left(-\frac{dd\tau(s)}{(d\tau(s))^2}\right) s.
 $$
 
 This comes from applying the reciprocal rule `HasDerivAt.inv` to `hddτ s hsIci`, which says $d\tau$ has derivative $dd\tau(s)$ at $s$, together with the nonzero condition $d\tau(s)\neq0$. Mathematically, if $u$ is differentiable at $s$ with derivative $u'(s)$, then $t\mapsto u(t)^{-1}$ has derivative $-u'(s)/u(s)^2$ at $s$. Second,
 
 $$
-\texttt{hdiff}:\quad \operatorname{HasDerivAt}\bigl(t\mapsto x(t)-y(t)\bigr)(dx(s)-dy(s)) s,
+\texttt{hdiff}:\quad \mathrm{HasDerivAt}\bigl(t\mapsto x(t)-y(t)\bigr)(dx(s)-dy(s)) s,
 $$
 
 obtained from `hdx s hsIci` and `hdy s hsIci` by the difference rule `HasDerivAt.sub`. Third,
 
 $$
-\texttt{hFderiv}:\quad \operatorname{HasDerivAt} F
+\texttt{hFderiv}:\quad \mathrm{HasDerivAt} F
 \left(
 ddx(s)-\frac{dd\tau(s)}{(d\tau(s))^2}\cdot (x(s)-y(s))
 +\frac{1}{d\tau(s)}\cdot (dx(s)-dy(s))
@@ -251,7 +251,7 @@ From `hFderiv` and the eventual equality `hFzero`, the proof uses `HasDerivAt.co
 
 $$
 \texttt{hconst}:\quad
-\operatorname{HasDerivAt}(\text{constant zero function})
+\mathrm{HasDerivAt}(\text{constant zero function})
 \left(
 ddx(s)-\frac{dd\tau(s)}{(d\tau(s))^2}\cdot (x(s)-y(s))
 +\frac{1}{d\tau(s)}\cdot (dx(s)-dy(s))

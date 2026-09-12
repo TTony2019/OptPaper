@@ -28,22 +28,22 @@ theorem convergence_of_splitting_inertial_proximal
 ```
 
 ## Statement explanation
-The theorem states weak convergence of an inertial proximal splitting method for a sum of two maximal monotone operators on a real Hilbert space $H$. Let $A:H\rightrightarrows H$ be a set-valued operator and let $B:H\to H$ be a single-valued map. Write $\operatorname{svEmbed}B$ for the set-valued operator $x\mapsto \{B(x)\}$, so that
+The theorem states weak convergence of an inertial proximal splitting method for a sum of two maximal monotone operators on a real Hilbert space $H$. Let $A:H\rightrightarrows H$ be a set-valued operator and let $B:H\to H$ be a single-valued map. Write $\mathrm{svEmbed}B$ for the set-valued operator $x\mapsto \{B(x)\}$, so that
 
 $$
-(A+\operatorname{svEmbed}B)(x)=A(x)+B(x)=\{a+B(x):a\in A(x)\}.
+(A+\mathrm{svEmbed}B)(x)=A(x)+B(x)=\{a+B(x):a\in A(x)\}.
 $$
 
 The solution set is the zero set
 
 $$
-S=(A+\operatorname{svEmbed}B).\text{zeros}
+S=(A+\mathrm{svEmbed}B).\text{zeros}
 =\{u\in H:0\in A(u)+B(u)\}.
 $$
 
-Here `zeros` is the preimage of $0$ for a set-valued operator, so membership in $S$ means exactly that $0$ belongs to the value $(A+\operatorname{svEmbed}B)(u)$.
+Here `zeros` is the preimage of $0$ for a set-valued operator, so membership in $S$ means exactly that $0$ belongs to the value $(A+\mathrm{svEmbed}B)(u)$.
 
-The hypotheses are the following. The operator $A$ is maximal monotone, meaning it is monotone and maximal with respect to graph inclusion. The single-valued operator $B$, viewed as the set-valued operator $\operatorname{svEmbed}B$, is also maximal monotone. For a real number $\beta$, the map $B$ is assumed $\beta$-cocoercive with respect to $A$: the hypothesis packages both $0<\beta$ and the inequality
+The hypotheses are the following. The operator $A$ is maximal monotone, meaning it is monotone and maximal with respect to graph inclusion. The single-valued operator $B$, viewed as the set-valued operator $\mathrm{svEmbed}B$, is also maximal monotone. For a real number $\beta$, the map $B$ is assumed $\beta$-cocoercive with respect to $A$: the hypothesis packages both $0<\beta$ and the inequality
 
 $$
 \beta\|B(x)-B(y)\|^{2}\le \langle B(x)-B(y),x-y\rangle
@@ -66,11 +66,11 @@ $$
 The algorithm inclusion is
 
 $$
-0\in \lambda_k\,\operatorname{enl}_{A}^{\varepsilon_k}(x_{k+1})
+0\in \lambda_k\,\mathrm{enl}_{A}^{\varepsilon_k}(x_{k+1})
 +\{x_{k+1}-y_k\}+\lambda_k\{B(x_k)\},
 $$
 
-where $\operatorname{enl}_{A}^{\varepsilon}$ is the enlargement of $A$: a point $v$ belongs to $\operatorname{enl}_{A}^{\varepsilon}(x)$ when
+where $\mathrm{enl}_{A}^{\varepsilon}$ is the enlargement of $A$: a point $v$ belongs to $\mathrm{enl}_{A}^{\varepsilon}(x)$ when
 
 $$
 -\varepsilon\le \langle u-v,z-x\rangle
@@ -242,10 +242,10 @@ From `hB_coco` it obtains $0<\beta$ and the cocoercivity inequality, which is la
 
 The proof then derives $0<2\beta$ by `linarith` from $0<\beta$. This is a linear arithmetic consequence used to justify denominators such as $2\beta$.
 
-Next, the proof establishes that the sum $A+\operatorname{svEmbed}B$ is maximal monotone. It invokes `maximalMonotone_add_svEmbed_of_lipschitz`, whose mathematical content is: if $A$ is maximal monotone, if $\beta>0$, if $\operatorname{svEmbed}B$ is monotone, and if $B$ is Lipschitz with constant $1/\beta$, then the sum $A+\operatorname{svEmbed}B$ is maximal monotone. In the proof, the monotonicity of $\operatorname{svEmbed}B$ is the first component `hB_max.1` of the maximal monotonicity of $\operatorname{svEmbed}B$. Thus `h_sum_max` records that
+Next, the proof establishes that the sum $A+\mathrm{svEmbed}B$ is maximal monotone. It invokes `maximalMonotone_add_svEmbed_of_lipschitz`, whose mathematical content is: if $A$ is maximal monotone, if $\beta>0$, if $\mathrm{svEmbed}B$ is monotone, and if $B$ is Lipschitz with constant $1/\beta$, then the sum $A+\mathrm{svEmbed}B$ is maximal monotone. In the proof, the monotonicity of $\mathrm{svEmbed}B$ is the first component `hB_max.1` of the maximal monotonicity of $\mathrm{svEmbed}B$. Thus `h_sum_max` records that
 
 $$
-A+\operatorname{svEmbed}B
+A+\mathrm{svEmbed}B
 $$
 
 is maximal monotone. This fact is used later to know that weak sequential cluster points of the algorithm belong to the solution set.
@@ -328,14 +328,14 @@ This is the squared-distance or Fejér energy measuring how far the current iter
 The algorithm inclusion is unpacked using `splitting_algorithm_unpack`. The mathematical content of that lemma is: if for every $k\ge1$,
 
 $$
-0\in \lambda_k\,\operatorname{enl}_{A}^{\varepsilon_k}(x_{k+1})
+0\in \lambda_k\,\mathrm{enl}_{A}^{\varepsilon_k}(x_{k+1})
 +\{x_{k+1}-y_k\}+\lambda_k\{B(x_k)\},
 $$
 
 then for every $k\ge1$ there exists
 
 $$
-a_k\in \operatorname{enl}_{A}^{\varepsilon_k}(x_{k+1})
+a_k\in \mathrm{enl}_{A}^{\varepsilon_k}(x_{k+1})
 $$
 
 such that
@@ -349,10 +349,10 @@ This simply rewrites the membership in a sum of sets: the element $x_{k+1}-y_k+\
 The solution set is named
 
 $$
-S=(A+\operatorname{svEmbed}B).\text{zeros}.
+S=(A+\mathrm{svEmbed}B).\text{zeros}.
 $$
 
-The nonemptiness hypothesis is repackaged as $S\neq\varnothing$. The proof then uses `zeros_sum_svEmbed_repr`, whose content is: if $S$ is the zero set of $A+\operatorname{svEmbed}B$, then for every $z\in S$ there exists
+The nonemptiness hypothesis is repackaged as $S\neq\varnothing$. The proof then uses `zeros_sum_svEmbed_repr`, whose content is: if $S$ is the zero set of $A+\mathrm{svEmbed}B$, then for every $z\in S$ there exists
 
 $$
 a_z\in A(z)
@@ -421,7 +421,7 @@ $$
 
 In other words, the distance from the iterates to every element of the solution set converges to a finite limit. This is exactly the first condition required by Opial’s lemma. The proof supplies the needed step-size inequality $\lambda_k\le2\beta$ by `linarith`, and supplies the definition of $\phi$ by rewriting with `hphi_def`.
 
-Next, the proof applies `cluster_points_in_solution_set`. Its content is: if $S$ is the zero set of $A+\operatorname{svEmbed}B$, if $A+\operatorname{svEmbed}B$ is maximal monotone, if $A$ and $\operatorname{svEmbed}B$ are monotone, if the inertial relation holds, if the algorithm inclusion has been unpacked to the existence of $a_k\in \operatorname{enl}_{A}^{\varepsilon_k}(x_{k+1})$ satisfying
+Next, the proof applies `cluster_points_in_solution_set`. Its content is: if $S$ is the zero set of $A+\mathrm{svEmbed}B$, if $A+\mathrm{svEmbed}B$ is maximal monotone, if $A$ and $\mathrm{svEmbed}B$ are monotone, if the inertial relation holds, if the algorithm inclusion has been unpacked to the existence of $a_k\in \mathrm{enl}_{A}^{\varepsilon_k}(x_{k+1})$ satisfying
 
 $$
 x_{k+1}-y_k+\lambda_k B(x_k)=-\lambda_k a_k,
@@ -437,17 +437,17 @@ then every weak sequential cluster point of the sequence $x_k$ lies in $S$. Form
 
 $$
 \text{IsSequentialClusterPt}
-\bigl((\operatorname{toWeakSpace}x_k)_k,\operatorname{toWeakSpace}z\bigr)
+\bigl((\mathrm{toWeakSpace}x_k)_k,\mathrm{toWeakSpace}z\bigr)
 \Longrightarrow z\in S.
 $$
 
-The proof supplies exactly these hypotheses from the previously established facts: $h_{\text{sum\_max}}$, the monotonicity components of $A$ and $\operatorname{svEmbed}B$, the unpacked algorithm, the lower bounds on $\lambda$, the bounds on $\theta$, the summability of $\varepsilon$, the Lipschitz condition for $B$, and the convergence to zero of consecutive differences. Thus it obtains
+The proof supplies exactly these hypotheses from the previously established facts: $h_{\text{sum\_max}}$, the monotonicity components of $A$ and $\mathrm{svEmbed}B$, the unpacked algorithm, the lower bounds on $\lambda$, the bounds on $\theta$, the summability of $\varepsilon$, the Lipschitz condition for $B$, and the convergence to zero of consecutive differences. Thus it obtains
 
 $$
 h_{\text{cluster\_in\_S}}:
 \forall z,\quad
 \text{IsSequentialClusterPt}
-\bigl((\operatorname{toWeakSpace}x_k)_k,\operatorname{toWeakSpace}z\bigr)
+\bigl((\mathrm{toWeakSpace}x_k)_k,\mathrm{toWeakSpace}z\bigr)
 \Rightarrow z\in S.
 $$
 
@@ -461,13 +461,13 @@ $$
 weakly. Since
 
 $$
-S=(A+\operatorname{svEmbed}B).\text{zeros},
+S=(A+\mathrm{svEmbed}B).\text{zeros},
 $$
 
 this gives
 
 $$
-x^*\in (A+\operatorname{svEmbed}B).\text{zeros},
+x^*\in (A+\mathrm{svEmbed}B).\text{zeros},
 $$
 
 equivalently $0\in A(x^*)+B(x^*)$, together with the asserted weak convergence. This is exactly the conclusion of the theorem.

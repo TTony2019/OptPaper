@@ -27,7 +27,7 @@ The hypotheses are:
 
 - $E$ is convex on all of $H$: $E$ is a convex function on the whole space.
 - $E$ is even: $E(-x)=E(x)$ for every $x\in H$.
-- $M=\operatorname{argmin}E$. In the proof the unqualified `argmin` is used through its pointwise minimizer meaning: $z\in\operatorname{argmin}E$ means $E(z)\le E(y)$ for every $y$.
+- $M=\mathrm{argmin}E$. In the proof the unqualified `argmin` is used through its pointwise minimizer meaning: $z\in\mathrm{argmin}E$ means $E(z)\le E(y)$ for every $y$.
 - $M$ is nonempty.
 - The extended-real-valued function
 
@@ -44,7 +44,7 @@ The hypotheses are:
   - for almost every $t$ with respect to Lebesgue measure on $\mathbb R$, if $t\ge0$, then
 
     $$
-    -\operatorname{deriv} u_{\mathrm{ext}}(t)\in \partial F(u_{\mathrm{ext}}(t)).
+    -\mathrm{deriv} u_{\mathrm{ext}}(t)\in \partial F(u_{\mathrm{ext}}(t)).
     $$
 
     That is, $u_{\mathrm{ext}}$ satisfies the subgradient-flow differential inclusion
@@ -117,7 +117,7 @@ by
 ```
 
 ## Proof explanation
-The proof begins by extracting a minimizer from the nonempty set $M$. The command `rcases hM with ⟨z, hzM⟩` gives a point $z\in M$. Then `rw [hmin] at hzM` rewrites $M=\operatorname{argmin}E$, so $hzM$ becomes $z\in\operatorname{argmin}E$. Since the unqualified `argmin` is being used as the pointwise minimizer predicate, this means
+The proof begins by extracting a minimizer from the nonempty set $M$. The command `rcases hM with ⟨z, hzM⟩` gives a point $z\in M$. Then `rw [hmin] at hzM` rewrites $M=\mathrm{argmin}E$, so $hzM$ becomes $z\in\mathrm{argmin}E$. Since the unqualified `argmin` is being used as the pointwise minimizer predicate, this means
 
 $$
 E(z)\le E(y)\quad\text{for every }y\in H.
@@ -126,7 +126,7 @@ $$
 Next the proof creates a minimizer for the extended-real energy $F(x)=(E(x):\mathrm{EReal})$. The statement
 
 $$
-\texttt{hminEreal}:\exists z,\ z\in\operatorname{argmin}F
+\texttt{hminEreal}:\exists z,\ z\in\mathrm{argmin}F
 $$
 
 is proved by taking the same point $z$. For an arbitrary $y$, the hypothesis $hzM$ gives $E(z)\le E(y)$. Applying `EReal.coe_le_coe` turns the real inequality into the extended-real inequality
@@ -146,7 +146,7 @@ $$
 The cited lemma `mem_argmin_of_forall` says that for a function $f:X\to L$ into a complete linear order $L$, if $f(z)\le f(y)$ for every $y$, then $z\in \texttt{Alvarez2002.argmin}(f)$. Here $L=\mathrm{EReal}$, and the definition of the namespaced `argmin` is the set of points where $f$ equals the infimum of its range. Thus the lemma turns the pointwise minimality of $z$ for $F$ into the statement
 
 $$
-F(z)=\inf(\operatorname{range}F).
+F(z)=\inf(\mathrm{range}F).
 $$
 
 This is the minimizer notion expected by the Bruck convergence theorem.
@@ -184,7 +184,7 @@ so $F(-x)=F(x)$. This is the statement `hevenEreal`.
 Applying `hstrong` to `hevenEreal` gives
 
 $$
-\texttt{hu}:\operatorname{Tendsto}u\,\operatorname{atTop}\,(\operatorname{nhds}m),
+\texttt{hu}:\mathrm{Tendsto}u\,\mathrm{atTop}\,(\mathrm{nhds}m),
 $$
 
 meaning $u(t)\to m$ as $t\to\infty$ along the nonnegative half-line.
@@ -192,7 +192,7 @@ meaning $u(t)\to m$ as $t\to\infty$ along the nonnegative half-line.
 Next the proof converts $hm$ into a minimizer statement for the original real-valued energy $E$. The goal is
 
 $$
-\texttt{hmReal}:m\in\operatorname{argmin}E.
+\texttt{hmReal}:m\in\mathrm{argmin}E.
 $$
 
 It is proved by introducing an arbitrary $y$ and applying `forall_min_of_mem_argmin` to $F$ and $hm$. That lemma says that if $z\in\texttt{Alvarez2002.argmin}(f)$, then $f(z)\le f(y)$ for every $y$. Here it gives
@@ -207,7 +207,7 @@ $$
 E(m)\le E(y).
 $$
 
-Since $y$ was arbitrary, $m$ is a pointwise minimizer of $E$. Rewriting $M=\operatorname{argmin}E$ with `rw [hmin]` then gives `hmM : m ∈ M`.
+Since $y$ was arbitrary, $m$ is a pointwise minimizer of $E$. Rewriting $M=\mathrm{argmin}E$ with `rw [hmin]` then gives `hmM : m ∈ M`.
 
 Finally the proof transfers convergence from the subtype $\{t\ge0\}$ back to the full real line. It defines the map
 
@@ -218,7 +218,7 @@ $$
 The proof first shows
 
 $$
-g(t)\to\operatorname{atTop}\quad\text{as }t\to\infty.
+g(t)\to\mathrm{atTop}\quad\text{as }t\to\infty.
 $$
 
 Using `rw [Filter.tendsto_atTop]`, this is reduced to showing that for every real $a$, eventually $a\le g(t)$. The proof chooses the threshold $T=\max(a,0)$. If $T\le t$, then
@@ -227,9 +227,9 @@ $$
 a\le \max(a,0)=T\le t\le \max(t,0)=g(t).
 $$
 
-Thus $a\le g(t)$ eventually, so $g\to\operatorname{atTop}$.
+Thus $a\le g(t)$ eventually, so $g\to\mathrm{atTop}$.
 
-Since `hu` says $u\to m$ along `atTop`, and $g\to\operatorname{atTop}$, the composition `hu.comp hg` gives
+Since `hu` says $u\to m$ along `atTop`, and $g\to\mathrm{atTop}$, the composition `hu.comp hg` gives
 
 $$
 u(g(t))=X(g(t))\to m.

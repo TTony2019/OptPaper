@@ -66,7 +66,7 @@ so the denominator appearing in the conclusion is positive.
 The conclusion says that for every two admissible parameters $\mu,\mu'\in V$, the supremum norm on $[0,T]$ of the trajectory difference is bounded by
 
 $$
-\operatorname{pathSupNorm}_T\bigl(t\mapsto x_\mu(t)-x_{\mu'}(t)\bigr)
+\mathrm{pathSupNorm}_T\bigl(t\mapsto x_\mu(t)-x_{\mu'}(t)\bigr)
 \le
 \frac{\alpha}{\alpha-\alpha\gamma T-T^2}
 \Bigl(
@@ -117,7 +117,7 @@ $$
 From these hypotheses, `thm_8_general` concludes
 
 $$
-\operatorname{pathSupNorm}_T(x_\mu-x_{\mu'})
+\mathrm{pathSupNorm}_T(x_\mu-x_{\mu'})
 \le
 \frac{\alpha}{\alpha-\alpha\gamma T-T^2}
 \Bigl(

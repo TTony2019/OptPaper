@@ -24,7 +24,7 @@ The lemma concerns three real sequences indexed by the natural numbers,
 $$
 \phi : \mathbb N \to \mathbb R,\qquad
 \delta : \mathbb N \to \mathbb R,\qquad
-\operatorname{alphaSeq} : \mathbb N \to \mathbb R,
+\mathrm{alphaSeq} : \mathbb N \to \mathbb R,
 $$
 
 and a real number $\mathrm{alphaBar}$. The sequence $\phi$ is assumed nonnegative: for every $k\in\mathbb N$,
@@ -49,7 +49,7 @@ The recurrence hypothesis says that for every $k\in\mathbb N$,
 
 $$
 \phi(k+1)
-\le \phi(k) + \operatorname{alphaSeq}(k)\bigl(\phi(k)-\phi(k-1)\bigr) + \delta(k).
+\le \phi(k) + \mathrm{alphaSeq}(k)\bigl(\phi(k)-\phi(k-1)\bigr) + \delta(k).
 $$
 
 Here the expression $k-1$ is Lean’s natural-number predecessor: for $k=0$, $k-1=0$, so at $k=0$ the term $\phi(k)-\phi(k-1)$ is $\phi(0)-\phi(0)=0$; for $k\ge 1$ it is the usual previous index. Thus the recurrence is an inertial-type inequality controlled by the previous difference $\phi(k)-\phi(k-1)$, with nonnegative errors $\delta(k)$.
@@ -57,7 +57,7 @@ Here the expression $k-1$ is Lean’s natural-number predecessor: for $k=0$, $k-
 The coefficient sequence is assumed to lie between $0$ and $\mathrm{alphaBar}$:
 
 $$
-0 \le \operatorname{alphaSeq}(k) \le \mathrm{alphaBar}
+0 \le \mathrm{alphaSeq}(k) \le \mathrm{alphaBar}
 $$
 
 for every $k$, and the relaxation/inertia parameter is contracted:
@@ -69,11 +69,11 @@ $$
 The conclusion is a conjunction of two statements. First, the positive parts of the successive differences are summable:
 
 $$
-\sum_{k\in\mathbb N} \operatorname{posPart}\!\bigl(\phi(k)-\phi(k-1)\bigr)
+\sum_{k\in\mathbb N} \mathrm{posPart}\!\bigl(\phi(k)-\phi(k-1)\bigr)
 \ \text{converges},
 $$
 
-where $\operatorname{posPart}(t)=\max(t,0)$. Second, there exists a real number $\mathrm{phiStar}$ such that
+where $\mathrm{posPart}(t)=\max(t,0)$. Second, there exists a real number $\mathrm{phiStar}$ such that
 
 $$
 0 \le \mathrm{phiStar}
@@ -244,16 +244,16 @@ $$
 \theta(0)=\phi(0)-\phi(0)=0.
 $$
 
-The proof records this as `htheta_zero`, and then uses the definition $\operatorname{posPart}(t)=\max(t,0)$ to get
+The proof records this as `htheta_zero`, and then uses the definition $\mathrm{posPart}(t)=\max(t,0)$ to get
 
 $$
-\operatorname{posPart}(\theta(0))=0.
+\mathrm{posPart}(\theta(0))=0.
 $$
 
 Next, the proof extracts nonnegativity of $\mathrm{alphaBar}$ from the coefficient bounds. Since
 
 $$
-0\le \operatorname{alphaSeq}(0)\le \mathrm{alphaBar},
+0\le \mathrm{alphaSeq}(0)\le \mathrm{alphaBar},
 $$
 
 transitivity gives $0\le \mathrm{alphaBar}$. Together with $\mathrm{alphaBar}<1$, the linear-arithmetic tactic `linarith` proves
@@ -268,60 +268,60 @@ The recurrence for $\theta$ is then derived. From
 
 $$
 \phi(k+1)
-\le \phi(k)+\operatorname{alphaSeq}(k)\bigl(\phi(k)-\phi(k-1)\bigr)+\delta(k),
+\le \phi(k)+\mathrm{alphaSeq}(k)\bigl(\phi(k)-\phi(k-1)\bigr)+\delta(k),
 $$
 
 subtracting $\phi(k)$ from both sides gives
 
 $$
 \theta(k+1)=\phi(k+1)-\phi(k)
-\le \operatorname{alphaSeq}(k)\theta(k)+\delta(k).
+\le \mathrm{alphaSeq}(k)\theta(k)+\delta(k).
 $$
 
 This is the inequality `htheta_rec`.
 
-The key one-step estimate for the positive parts follows by combining the local `posPart` lemmas. First, monotonicity of $\operatorname{posPart}$, stated by `posPart_mono`, gives
+The key one-step estimate for the positive parts follows by combining the local `posPart` lemmas. First, monotonicity of $\mathrm{posPart}$, stated by `posPart_mono`, gives
 
 $$
-\operatorname{posPart}(\theta(k+1))
-\le \operatorname{posPart}\bigl(\operatorname{alphaSeq}(k)\theta(k)+\delta(k)\bigr).
+\mathrm{posPart}(\theta(k+1))
+\le \mathrm{posPart}\bigl(\mathrm{alphaSeq}(k)\theta(k)+\delta(k)\bigr).
 $$
 
 The lemma `posPart_add_le_add_of_nonneg` says that if $0\le y$, then
 
 $$
-\operatorname{posPart}(x+y)\le \operatorname{posPart}(x)+y.
+\mathrm{posPart}(x+y)\le \mathrm{posPart}(x)+y.
 $$
 
-Applying it with $x=\operatorname{alphaSeq}(k)\theta(k)$ and $y=\delta(k)$, using $0\le \delta(k)$, yields
+Applying it with $x=\mathrm{alphaSeq}(k)\theta(k)$ and $y=\delta(k)$, using $0\le \delta(k)$, yields
 
 $$
-\operatorname{posPart}\bigl(\operatorname{alphaSeq}(k)\theta(k)+\delta(k)\bigr)
-\le \operatorname{posPart}\bigl(\operatorname{alphaSeq}(k)\theta(k)\bigr)+\delta(k).
+\mathrm{posPart}\bigl(\mathrm{alphaSeq}(k)\theta(k)+\delta(k)\bigr)
+\le \mathrm{posPart}\bigl(\mathrm{alphaSeq}(k)\theta(k)\bigr)+\delta(k).
 $$
 
-Since $\operatorname{alphaSeq}(k)\ge 0$, the homogeneity lemma `posPart_mul_of_nonneg` gives
+Since $\mathrm{alphaSeq}(k)\ge 0$, the homogeneity lemma `posPart_mul_of_nonneg` gives
 
 $$
-\operatorname{posPart}\bigl(\operatorname{alphaSeq}(k)\theta(k)\bigr)
+\mathrm{posPart}\bigl(\mathrm{alphaSeq}(k)\theta(k)\bigr)
 =
-\operatorname{alphaSeq}(k)\operatorname{posPart}(\theta(k)).
+\mathrm{alphaSeq}(k)\mathrm{posPart}(\theta(k)).
 $$
 
-Finally, because $\operatorname{alphaSeq}(k)\le \mathrm{alphaBar}$ and $\operatorname{posPart}(\theta(k))\ge 0$ by `posPart_nonneg`, multiplication by the nonnegative factor preserves the inequality:
+Finally, because $\mathrm{alphaSeq}(k)\le \mathrm{alphaBar}$ and $\mathrm{posPart}(\theta(k))\ge 0$ by `posPart_nonneg`, multiplication by the nonnegative factor preserves the inequality:
 
 $$
-\operatorname{alphaSeq}(k)\operatorname{posPart}(\theta(k))
+\mathrm{alphaSeq}(k)\mathrm{posPart}(\theta(k))
 \le
-\mathrm{alphaBar}\operatorname{posPart}(\theta(k)).
+\mathrm{alphaBar}\mathrm{posPart}(\theta(k)).
 $$
 
 Combining these inequalities gives
 
 $$
-\operatorname{posPart}(\theta(k+1))
+\mathrm{posPart}(\theta(k+1))
 \le
-\mathrm{alphaBar}\operatorname{posPart}(\theta(k))+\delta(k).
+\mathrm{alphaBar}\mathrm{posPart}(\theta(k))+\delta(k).
 $$
 
 The proof then defines
@@ -341,19 +341,19 @@ This uses the standard finite-sum comparison for nonnegative summable series.
 Summing the one-step estimate over $k=0,\dots,n-1$ gives
 
 $$
-\sum_{k=0}^{n-1}\operatorname{posPart}(\theta(k+1))
+\sum_{k=0}^{n-1}\mathrm{posPart}(\theta(k+1))
 \le
-\mathrm{alphaBar}\sum_{k=0}^{n-1}\operatorname{posPart}(\theta(k))
+\mathrm{alphaBar}\sum_{k=0}^{n-1}\mathrm{posPart}(\theta(k))
 +
 \sum_{k=0}^{n-1}\delta(k).
 $$
 
 The proof uses `Finset.sum_add_distrib` and `Finset.mul_sum` to distribute the finite sum and factor out $\mathrm{alphaBar}$.
 
-The next goal is a uniform bound on the partial sums of the nonnegative sequence $\operatorname{posPart}(\theta(k))$. The proof shows that for every $n$,
+The next goal is a uniform bound on the partial sums of the nonnegative sequence $\mathrm{posPart}(\theta(k))$. The proof shows that for every $n$,
 
 $$
-\sum_{k=0}^{n-1}\operatorname{posPart}(\theta(k))
+\sum_{k=0}^{n-1}\mathrm{posPart}(\theta(k))
 \le
 \frac{D}{1-\mathrm{alphaBar}}.
 $$
@@ -361,26 +361,26 @@ $$
 The case $n=0$ is trivial because the sum is $0$. For $n=m+1$, the proof writes
 
 $$
-S=\sum_{k=0}^{m}\operatorname{posPart}(\theta(k)).
+S=\sum_{k=0}^{m}\mathrm{posPart}(\theta(k)).
 $$
 
 From the summed estimate for $n=m+1$, the left-hand sum is shifted:
 
 $$
-\sum_{k=0}^{m}\operatorname{posPart}(\theta(k+1))
+\sum_{k=0}^{m}\mathrm{posPart}(\theta(k+1))
 =
-\sum_{k=0}^{m+1}\operatorname{posPart}(\theta(k))
+\sum_{k=0}^{m+1}\mathrm{posPart}(\theta(k))
 -
-\operatorname{posPart}(\theta(0)).
+\mathrm{posPart}(\theta(0)).
 $$
 
-Since $\operatorname{posPart}(\theta(0))=0$, this becomes
+Since $\mathrm{posPart}(\theta(0))=0$, this becomes
 
 $$
-S+\operatorname{posPart}(\theta(m+1)).
+S+\mathrm{posPart}(\theta(m+1)).
 $$
 
-Dropping the nonnegative term $\operatorname{posPart}(\theta(m+1))$ gives
+Dropping the nonnegative term $\mathrm{posPart}(\theta(m+1))$ gives
 
 $$
 S\le \mathrm{alphaBar} S+\sum_{k=0}^{m}\delta(k).
@@ -398,18 +398,18 @@ $$
 S\le \frac{D}{1-\mathrm{alphaBar}}.
 $$
 
-Thus the partial sums of $\operatorname{posPart}(\theta(k))$ are uniformly bounded.
+Thus the partial sums of $\mathrm{posPart}(\theta(k))$ are uniformly bounded.
 
 The theorem `summable_of_sum_range_le` is then used: a nonnegative sequence whose finite sums over initial intervals are uniformly bounded is summable. Therefore
 
 $$
-\sum_{k\in\mathbb N}\operatorname{posPart}(\theta(k))
+\sum_{k\in\mathbb N}\mathrm{posPart}(\theta(k))
 $$
 
 converges. Since $\theta(k)=\phi(k)-\phi(k-1)$, this proves the first part of the conclusion:
 
 $$
-\sum_{k\in\mathbb N}\operatorname{posPart}\bigl(\phi(k)-\phi(k-1)\bigr)
+\sum_{k\in\mathbb N}\mathrm{posPart}\bigl(\phi(k)-\phi(k-1)\bigr)
 $$
 
 is summable.
@@ -417,13 +417,13 @@ is summable.
 For the convergence of $\phi$, the proof sets
 
 $$
-T=\sum_{k\in\mathbb N}\operatorname{posPart}(\theta(k)),
+T=\sum_{k\in\mathbb N}\mathrm{posPart}(\theta(k)),
 $$
 
 which is finite by the previous step, and defines
 
 $$
-w(k)=\phi(k)-\sum_{j=0}^{k}\operatorname{posPart}(\theta(j)).
+w(k)=\phi(k)-\sum_{j=0}^{k}\mathrm{posPart}(\theta(j)).
 $$
 
 Then it computes the difference
@@ -431,13 +431,13 @@ Then it computes the difference
 $$
 w(k+1)-w(k)
 =
-\theta(k+1)-\operatorname{posPart}(\theta(k+1)).
+\theta(k+1)-\mathrm{posPart}(\theta(k+1)).
 $$
 
-The lemma `posPart_ge_self` states $t\le \operatorname{posPart}(t)$. Hence
+The lemma `posPart_ge_self` states $t\le \mathrm{posPart}(t)$. Hence
 
 $$
-\theta(k+1)-\operatorname{posPart}(\theta(k+1))\le 0,
+\theta(k+1)-\mathrm{posPart}(\theta(k+1))\le 0,
 $$
 
 so
@@ -455,7 +455,7 @@ $$
 Next, $T\ge 0$, because it is the sum of nonnegative terms. Also, for every $k$,
 
 $$
-\sum_{j=0}^{k}\operatorname{posPart}(\theta(j))\le T,
+\sum_{j=0}^{k}\mathrm{posPart}(\theta(j))\le T,
 $$
 
 using the standard property that a finite partial sum of a summable nonnegative series is at most the total sum. Since $\phi(k)\ge 0$, this yields
@@ -463,7 +463,7 @@ using the standard property that a finite partial sum of a summable nonnegative 
 $$
 w(k)
 =
-\phi(k)-\sum_{j=0}^{k}\operatorname{posPart}(\theta(j))
+\phi(k)-\sum_{j=0}^{k}\mathrm{posPart}(\theta(j))
 \ge -T.
 $$
 
@@ -481,10 +481,10 @@ $$
 w(k)\to L.
 $$
 
-At the same time, since the series $\sum_k \operatorname{posPart}(\theta(k))$ is summable with sum $T$, its partial sums converge to $T$. Composing the partial-sum convergence with the shift $k\mapsto k+1$ gives
+At the same time, since the series $\sum_k \mathrm{posPart}(\theta(k))$ is summable with sum $T$, its partial sums converge to $T$. Composing the partial-sum convergence with the shift $k\mapsto k+1$ gives
 
 $$
-\sum_{j=0}^{k}\operatorname{posPart}(\theta(j))\to T.
+\sum_{j=0}^{k}\mathrm{posPart}(\theta(j))\to T.
 $$
 
 Now the identity
@@ -492,7 +492,7 @@ Now the identity
 $$
 \phi(k)
 =
-w(k)+\sum_{j=0}^{k}\operatorname{posPart}(\theta(j))
+w(k)+\sum_{j=0}^{k}\mathrm{posPart}(\theta(j))
 $$
 
 shows that $\phi$ is the sum of two convergent sequences. Therefore

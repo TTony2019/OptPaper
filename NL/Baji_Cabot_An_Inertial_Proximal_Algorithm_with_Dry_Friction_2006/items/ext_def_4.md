@@ -23,7 +23,7 @@ $$
 The definition then takes the supremum of this set in the order on $\mathrm{EReal}$. Thus
 
 $$
-\operatorname{supportFunction}(C,x)
+\mathrm{supportFunction}(C,x)
 =
 \sup_{z\in C}\langle z,x\rangle_{\mathbb R},
 $$

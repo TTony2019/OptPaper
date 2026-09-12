@@ -75,7 +75,7 @@ $$
 The positive number $\lambda>0$ is the constant step size, since $\lambda_n=\lambda$ for every $n$. The sequence $x:\mathbb N\to H$ is assumed to satisfy the algorithm relation `AlgorithmA A B x lam_seq`, and it converges to $x_\infty\in H$. Finally, the smoothness hypothesis is
 
 $$
-\operatorname{IsSmoothAt}\bigl(C,-\nabla f(x_\infty)\bigr),
+\mathrm{IsSmoothAt}\bigl(C,-\nabla f(x_\infty)\bigr),
 $$
 
 meaning that $-\nabla f(x_\infty)\in C$ and the normal cone of $C$ at that point is a single ray.
@@ -541,10 +541,10 @@ $$
 applies to the nonempty closed convex set $C$ and the point $v\notin C$. It provides a nonzero $u$ with
 
 $$
-\operatorname{innerSupremumOn}_C(u)<\langle v,u\rangle.
+\mathrm{innerSupremumOn}_C(u)<\langle v,u\rangle.
 $$
 
-Since $\operatorname{innerSupremumOn}_C(u)=\sigma_C(u)$, this is a strict separation inequality. On the other hand, $v\in S(0)$ means that for every $y$,
+Since $\mathrm{innerSupremumOn}_C(u)=\sigma_C(u)$, this is a strict separation inequality. On the other hand, $v\in S(0)$ means that for every $y$,
 
 $$
 \sigma_C(y)\ge \sigma_C(0)+\langle v,y\rangle.
@@ -617,7 +617,7 @@ $$
 =\sigma_C(z)+\langle c,y-z\rangle.
 $$
 
-Therefore $c\in S(z)$, so every $z$ belongs to the domain of $S$. Thus $S.\operatorname{dom}=H$.
+Therefore $c\in S(z)$, so every $z$ belongs to the domain of $S$. Thus $S.\mathrm{dom}=H$.
 
 The proof then proves that $S$ is maximal monotone. First it proves monotonicity. If $u\in S(x)$ and $v\in S(y)$, the subgradient inequalities are
 
@@ -658,7 +658,7 @@ $$
 For a given $z$, let
 
 $$
-q=\operatorname{proj}_C(z)
+q=\mathrm{proj}_C(z)
 $$
 
 be the projection of $z$ onto $C$. The existence and uniqueness of this projection come from `isChebyshev_of_nonempty_isClosed_convex`, applied to the nonempty closed convex set $C$. The projection characterization
@@ -731,12 +731,12 @@ $$
 applies to $S$ and $F$. Its hypotheses are that both operators are maximal monotone and that
 
 $$
-\operatorname{int}(\operatorname{dom}S)\cap \operatorname{dom}F\neq\emptyset.
+\mathrm{int}(\mathrm{dom}S)\cap \mathrm{dom}F\neq\emptyset.
 $$
 
 Here both domains are all of $H$, so this intersection is nonempty. Therefore $S+F$ is maximal monotone, and by `hA`, so is $A$.
 
-The proof also records that $A.\operatorname{dom}=H$, that
+The proof also records that $A.\mathrm{dom}=H$, that
 
 $$
 A(0)=S(0)+F(0)=C+\{0\}=C,
@@ -745,7 +745,7 @@ $$
 and that therefore
 
 $$
-0\in \operatorname{interior}(A(0)).
+0\in \mathrm{interior}(A(0)).
 $$
 
 The equality $A(0)=C$ uses $S(0)=C$ and $A0(0)=0$.
@@ -753,40 +753,40 @@ The equality $A(0)=C$ uses $S(0)=C$ and $A0(0)=0$.
 Next the proof verifies the linear-growth condition needed by the main theorems. For $\|z\|\le\eta$, it proves
 
 $$
-\operatorname{excess}(A(z),A(0))\le \alpha\|z\|.
+\mathrm{excess}(A(z),A(0))\le \alpha\|z\|.
 $$
 
 If $w\in A(z)$, then $w=s+A0(z)$ with $s\in S(z)$. Since $S(z)\subseteq C=A(0)$, the distance from $w$ to $A(0)$ is at most the distance from $w$ to $s$, and
 
 $$
-\operatorname{dist}(w,s)=\|A0(z)\|.
+\mathrm{dist}(w,s)=\|A0(z)\|.
 $$
 
 Thus
 
 $$
-\operatorname{infDist}(w,A(0))\le \|A0(z)\|.
+\mathrm{infDist}(w,A(0))\le \|A0(z)\|.
 $$
 
 Taking the supremum over all $w\in A(z)$, and using the definition
 
 $$
-\operatorname{excess}(A(z),A(0))
-=\sup_{w\in A(z)}\operatorname{infDist}(w,A(0)),
+\mathrm{excess}(A(z),A(0))
+=\sup_{w\in A(z)}\mathrm{infDist}(w,A(0)),
 $$
 
 gives
 
 $$
-\operatorname{excess}(A(z),A(0))\le \|A0(z)\|.
+\mathrm{excess}(A(z),A(0))\le \|A0(z)\|.
 $$
 
 The local growth hypothesis `h_A0_growth` then gives $\|A0(z)\|\le\alpha\|z\|$, so the required excess bound follows.
 
-The proof then passes from the real-valued $f$ to the extended-real-valued $f_E$. Since $f$ takes values in $\mathbb R$, the values of $f_E$ are finite, never $\top$ or $\bot$. The hypotheses `hf_C11`, `hinf`, `hf_strongConv`, and `hB_eq_grad` are transferred unchanged to $f_E$ and its real-valued version $(f_E).\operatorname{toReal}$. The smoothness hypothesis is also transferred: since $A(0)=C$, the statement `IsSmoothAt C (-gradient f xInf)` becomes
+The proof then passes from the real-valued $f$ to the extended-real-valued $f_E$. Since $f$ takes values in $\mathbb R$, the values of $f_E$ are finite, never $\top$ or $\bot$. The hypotheses `hf_C11`, `hinf`, `hf_strongConv`, and `hB_eq_grad` are transferred unchanged to $f_E$ and its real-valued version $(f_E).\mathrm{toReal}$. The smoothness hypothesis is also transferred: since $A(0)=C$, the statement `IsSmoothAt C (-gradient f xInf)` becomes
 
 $$
-\operatorname{IsSmoothAt}(A(0),-\nabla f_E(x_\infty)).
+\mathrm{IsSmoothAt}(A(0),-\nabla f_E(x_\infty)).
 $$
 
 These transfers are needed because the cited Baji-Cabot theorems are stated for extended-real functions.

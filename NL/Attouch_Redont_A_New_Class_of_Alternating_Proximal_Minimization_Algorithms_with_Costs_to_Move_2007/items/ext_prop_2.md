@@ -102,27 +102,27 @@ by
 The proof first converts the given properness hypothesis into the bundled predicate `ERealFunction.IsProper phi`. That predicate is
 
 $$
-\left(\forall x,\ \phi(x)\neq \bot\right)\ \wedge\ (\operatorname{dom}\phi).\text{Nonempty},
+\left(\forall x,\ \phi(x)\neq \bot\right)\ \wedge\ (\mathrm{dom}\phi).\text{Nonempty},
 $$
 
 where $\bot$ is $-\infty$. The first conjunct is exactly `hproper.1`. For the second conjunct, the proof uses `hproper.2`, which gives a point $z$ with $\phi(z)\neq \top$, i.e. $\phi(z)\neq +\infty$. The lemma `ERealFunction.mem_dom_iff` says that for an extended-real function $\phi$ and a point $z$,
 
 $$
-z\in \operatorname{dom}\phi \iff \phi(z)<\top.
+z\in \mathrm{dom}\phi \iff \phi(z)<\top.
 $$
 
-Since $\phi(z)\neq \top$, the order lemma `lt_top_iff_ne_top` gives $\phi(z)<\top$, hence $z\in \operatorname{dom}\phi$. Therefore the domain of $\phi$ is nonempty, so `hproper' : ERealFunction.IsProper phi` is established.
+Since $\phi(z)\neq \top$, the order lemma `lt_top_iff_ne_top` gives $\phi(z)<\top$, hence $z\in \mathrm{dom}\phi$. Therefore the domain of $\phi$ is nonempty, so `hproper' : ERealFunction.IsProper phi` is established.
 
 Next the proof defines
 
 $$
-F := \operatorname{properIoi}(\phi,\texttt{hproper'}).
+F := \mathrm{properIoi}(\phi,\texttt{hproper'}).
 $$
 
 In Lean, `properIoi` sends a proper extended-real function $\phi$ to a function
 
 $$
-F:H\to \operatorname{Set.Ioi}(\bot:\mathbb EReal),
+F:H\to \mathrm{Set.Ioi}(\bot:\mathbb EReal),
 $$
 
 whose value at $x$ is the subtype element
@@ -142,7 +142,7 @@ Thus $F$ is just $\phi$ with the type adjusted to exclude $-\infty$.
 The proof then establishes lower semicontinuity of $F$. The goal is
 
 $$
-\operatorname{LowerSemicontinuous}\bigl(x\mapsto (F(x):\mathbb EReal)\bigr).
+\mathrm{LowerSemicontinuous}\bigl(x\mapsto (F(x):\mathbb EReal)\bigr).
 $$
 
 Since $(F(x):\mathbb EReal)=\phi(x)$, this is definitionally the same as the given lower semicontinuity of $\phi$. The command `simpa [F] using hlsc` performs this rewriting.
@@ -150,13 +150,13 @@ Since $(F(x):\mathbb EReal)=\phi(x)$, this is definitionally the same as the giv
 Next the proof shows that $F$ is convex on its effective domain:
 
 $$
-\operatorname{ConvexOn} F (\operatorname{effectiveDomain} F).
+\mathrm{ConvexOn} F (\mathrm{effectiveDomain} F).
 $$
 
-Recall the definition of `ConvexOn`: for $f:H\to \operatorname{Set.Ioi}(\bot:\mathbb EReal)$ and a set $C\subseteq H$, one requires
+Recall the definition of `ConvexOn`: for $f:H\to \mathrm{Set.Ioi}(\bot:\mathbb EReal)$ and a set $C\subseteq H$, one requires
 
 1. $C$ is nonempty,
-2. $C\subseteq \operatorname{effectiveDomain} f$,
+2. $C\subseteq \mathrm{effectiveDomain} f$,
 3. for all $x,y\in C$ and all $\alpha\in\mathbb R$ with $0<\alpha<1$,
 
    $$
@@ -165,15 +165,15 @@ Recall the definition of `ConvexOn`: for $f:H\to \operatorname{Set.Ioi}(\bot:\ma
 
    with the values interpreted in $\mathbb EReal$.
 
-Here $C=\operatorname{effectiveDomain} F$. By the definition of effective domain and `mem_effectiveDomain_iff`,
+Here $C=\mathrm{effectiveDomain} F$. By the definition of effective domain and `mem_effectiveDomain_iff`,
 
 $$
-z\in \operatorname{effectiveDomain} F \iff (F(z):\mathbb EReal)<\top.
+z\in \mathrm{effectiveDomain} F \iff (F(z):\mathbb EReal)<\top.
 $$
 
 Since $(F(z):\mathbb EReal)=\phi(z)$, this is the set of points where $\phi$ is finite.
 
-The proof constructs the three parts of `ConvexOn` using `refine ⟨?_, subset_rfl, ?_⟩`. The middle condition $C\subseteq C$ is proved by `subset_rfl`. For nonemptiness, the proof again uses `hproper.2` to choose $z$ with $\phi(z)\neq \top$. By `mem_effectiveDomain_iff`, it is enough to show $(F(z):\mathbb EReal)<\top$. Since $F(z)=\phi(z)$ and $\phi(z)\neq \top$, this follows from `lt_top_iff_ne_top`. Hence $\operatorname{effectiveDomain} F$ is nonempty.
+The proof constructs the three parts of `ConvexOn` using `refine ⟨?_, subset_rfl, ?_⟩`. The middle condition $C\subseteq C$ is proved by `subset_rfl`. For nonemptiness, the proof again uses `hproper.2` to choose $z$ with $\phi(z)\neq \top$. By `mem_effectiveDomain_iff`, it is enough to show $(F(z):\mathbb EReal)<\top$. Since $F(z)=\phi(z)$ and $\phi(z)\neq \top$, this follows from `lt_top_iff_ne_top`. Hence $\mathrm{effectiveDomain} F$ is nonempty.
 
 The Jensen inequality part begins with
 
@@ -181,7 +181,7 @@ $$
 \texttt{intro } p\ hp\ q\ hq\ a\ ha0\ ha1,
 $$
 
-so $p,q\in \operatorname{effectiveDomain} F$ and $a\in\mathbb R$ satisfies $0<a<1$. The goal is
+so $p,q\in \mathrm{effectiveDomain} F$ and $a\in\mathbb R$ satisfies $0<a<1$. The goal is
 
 $$
 F(a p+(1-a)q)\le a F(p)+(1-a)F(q)
@@ -226,17 +226,17 @@ $$
 By definition of `gammaZero`, membership $F\in\Gamma_0(H)$ means precisely
 
 $$
-\operatorname{LowerSemicontinuous}\bigl(x\mapsto (F(x):\mathbb EReal)\bigr)
+\mathrm{LowerSemicontinuous}\bigl(x\mapsto (F(x):\mathbb EReal)\bigr)
 \quad\wedge\quad
-\operatorname{ConvexOn} F (\operatorname{effectiveDomain} F).
+\mathrm{ConvexOn} F (\mathrm{effectiveDomain} F).
 $$
 
 The two previously proved facts `hF_lsc` and `hF_convex` therefore combine to give `hF_gamma : F ∈ gammaZero H`.
 
-Next the proof applies `subdifferential_isMaximalMonotone_of_mem_gammaZero`. The mathematical content of that theorem is: if a function $f:H\to \operatorname{Set.Ioi}(\bot:\mathbb EReal)$ belongs to $\Gamma_0(H)$, then its subdifferential $\partial f$ is a maximal monotone set-valued operator. Applying it to $F$ and `hF_gamma` gives
+Next the proof applies `subdifferential_isMaximalMonotone_of_mem_gammaZero`. The mathematical content of that theorem is: if a function $f:H\to \mathrm{Set.Ioi}(\bot:\mathbb EReal)$ belongs to $\Gamma_0(H)$, then its subdifferential $\partial f$ is a maximal monotone set-valued operator. Applying it to $F$ and `hF_gamma` gives
 
 $$
-\operatorname{IsMaximalMonotone}(\partial F).
+\mathrm{IsMaximalMonotone}(\partial F).
 $$
 
 The definition of `IsMaximalMonotone` says that the set-valued operator is monotone and is maximal among monotone operators under graph inclusion: if a monotone operator $A'$ has graph containing the graph of $A$, then the graph of $A'$ is contained in the graph of $A$.

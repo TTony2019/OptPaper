@@ -19,13 +19,13 @@ theorem operator_damped_minimizing_property {H : Type*} [NormedAddCommGroup H]
 Let $H$ be a complete real inner product space. Let $\Gamma:H\to H$ be a continuous linear operator, let $\Phi:H\to\mathbb R$ be a scalar potential, let $g:H\to H$, and let $u_0,v_0\in H$. The hypothesis $h_\Phi$ says that $\Phi$ satisfies the potential assumption. In the proof this is used to provide that $\Phi$ is convex, continuous, and bounded below; consequently the infimum
 
 $$
-\inf \Phi(H)=\operatorname{sInf}(\operatorname{range}\Phi)
+\inf \Phi(H)=\mathrm{sInf}(\mathrm{range}\Phi)
 $$
 
 is a real number, and the set of minimizers
 
 $$
-\operatorname{argmin}\Phi=\{x\in H:\Phi(x)=\inf \Phi(H)\}
+\mathrm{argmin}\Phi=\{x\in H:\Phi(x)=\inf \Phi(H)\}
 $$
 
 is well-defined. The hypothesis $h_\Gamma$ says that $\Gamma$ has coercive damping: there exists $\gamma>0$ such that for every $x\in H$,
@@ -39,7 +39,7 @@ The parameter `sys` is an operator dissipative system with damping $\Gamma$, pot
 The theorem defines the velocity as
 
 $$
-u'(t):=\operatorname{fderiv}_{\mathbb R}u(t)(1),
+u'(t):=\mathrm{fderiv}_{\mathbb R}u(t)(1),
 $$
 
 so that $u'(t)\in H$ is the derivative of the trajectory at time $t$. It then asserts the following four facts.
@@ -62,7 +62,7 @@ $$
 \Phi(u(t))\to \inf \Phi(H)\qquad (t\to\infty).
 $$
 
-4. If the minimizer set is nonempty, then there exists a minimizer $u_\ast\in\operatorname{argmin}\Phi$ such that the trajectory converges weakly to $u_\ast$:
+4. If the minimizer set is nonempty, then there exists a minimizer $u_\ast\in\mathrm{argmin}\Phi$ such that the trajectory converges weakly to $u_\ast$:
 
 $$
 u(t)\rightharpoonup u_\ast\qquad (t\to\infty),
@@ -739,7 +739,7 @@ $$
 The derivative of $\phi$ is computed using `operatorSystem_differentiableAt_pos`, which says that $u$ is differentiable at every positive time. Since $T\ge0$ implies $T+1>0$, the chain rule gives
 
 $$
-\operatorname{deriv}\phi(T)
+\mathrm{deriv}\phi(T)
 =\langle u'(T+1),u(T+1)-x\rangle_{\mathbb R}.
 $$
 
@@ -795,7 +795,7 @@ $$
 the proof obtains the lower bound
 
 $$
--K\le \operatorname{deriv}\phi(T)+\gamma\phi(T)+\rho(T)
+-K\le \mathrm{deriv}\phi(T)+\gamma\phi(T)+\rho(T)
 $$
 
 for all $T\ge0$.
@@ -803,14 +803,14 @@ for all $T\ge0$.
 Let
 
 $$
-C=\operatorname{deriv}\phi(0)+\gamma\phi(0)+\rho(0).
+C=\mathrm{deriv}\phi(0)+\gamma\phi(0)+\rho(0).
 $$
 
 Subtracting $C$ from the previous lower bound gives
 
 $$
 -K-C\le
-\operatorname{deriv}\phi(T)-\operatorname{deriv}\phi(0)
+\mathrm{deriv}\phi(T)-\mathrm{deriv}\phi(0)
 +\gamma(\phi(T)-\phi(0))+\rho(T)-\rho(0).
 $$
 
@@ -818,7 +818,7 @@ The frozen-distance lemma `operator_shifted_distance_frozen_integral` is invoked
 
 $$
 \begin{aligned}
-&\operatorname{deriv}\phi(T)-\operatorname{deriv}\phi(0)
+&\mathrm{deriv}\phi(T)-\mathrm{deriv}\phi(0)
 +\gamma(\phi(T)-\phi(0))+\rho(T)-\rho(0)\\
 &\qquad\le
 (\Phi(x)-E(T+1))T
@@ -891,7 +891,7 @@ so $u'(t)\to0$.
 It remains to prove the conditional weak convergence statement. The proof assumes that the minimizer set
 
 $$
-S=\operatorname{argmin}\Phi
+S=\mathrm{argmin}\Phi
 $$
 
 is nonempty. It defines

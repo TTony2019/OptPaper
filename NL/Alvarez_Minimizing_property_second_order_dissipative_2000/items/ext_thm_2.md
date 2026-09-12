@@ -21,27 +21,27 @@ theorem scalar_damped_even_strong_convergence_result {H : Type*} [NormedAddCommG
 ## Statement explanation
 The theorem is a strong-convergence result for a second-order damped trajectory associated with an even convex potential.
 
-Let $H$ be a real inner-product space which is complete, so $H$ is a real Hilbert space. The data are a dissipation coefficient $\gamma \in \mathbb R$, a potential $\Phi : H \to \mathbb R$, a gradient map $\operatorname{gradPhi} : H \to H$, initial position and velocity $u_0,v_0 \in H$, and a dissipative system
+Let $H$ be a real inner-product space which is complete, so $H$ is a real Hilbert space. The data are a dissipation coefficient $\gamma \in \mathbb R$, a potential $\Phi : H \to \mathbb R$, a gradient map $\mathrm{gradPhi} : H \to H$, initial position and velocity $u_0,v_0 \in H$, and a dissipative system
 
 $$
-\operatorname{sys} : \operatorname{DissipativeSystem}(\gamma,\Phi,\operatorname{gradPhi},u_0,v_0)
+\mathrm{sys} : \mathrm{DissipativeSystem}(\gamma,\Phi,\mathrm{gradPhi},u_0,v_0)
 $$
 
-whose position trajectory is denoted by $\operatorname{sys.u}$. The theorem assumes that $\Phi$ is globally $C^1$, that $\Phi$ is convex on all of $H$, that $\Phi$ is bounded below, and that the minimizer set of $\Phi$ is nonempty. It also assumes that $\Phi$ is even, i.e. $\Phi(-x)=\Phi(x)$ for all $x\in H$.
+whose position trajectory is denoted by $\mathrm{sys.u}$. The theorem assumes that $\Phi$ is globally $C^1$, that $\Phi$ is convex on all of $H$, that $\Phi$ is bounded below, and that the minimizer set of $\Phi$ is nonempty. It also assumes that $\Phi$ is even, i.e. $\Phi(-x)=\Phi(x)$ for all $x\in H$.
 
-The minimizer set is written using the local definition of $\operatorname{argmin}$. For a bounded-below function $F$,
-
-$$
-\operatorname{argmin} F = \left\{x \mid F(x)=\inf F(H)\right\},
-$$
-
-where the Lean statement uses $\operatorname{sInf}(\operatorname{Set.range} F)$. Thus membership in $\operatorname{argmin}\Phi$ means exactly that $\Phi(x)$ equals the infimum of the values of $\Phi$.
-
-The assumption `hMin` says that this minimizer set is nonempty. The conclusion is that there exists a point $\hat u\in \operatorname{argmin}\Phi$ such that the whole trajectory $\operatorname{sys.u}$ converges strongly to $\hat u$ as time tends to infinity:
+The minimizer set is written using the local definition of $\mathrm{argmin}$. For a bounded-below function $F$,
 
 $$
-\exists \hat u\in \operatorname{argmin}\Phi,\qquad
-\operatorname{sys.u}(t)\xrightarrow[t\to\infty]{}\hat u.
+\mathrm{argmin} F = \left\{x \mid F(x)=\inf F(H)\right\},
+$$
+
+where the Lean statement uses $\mathrm{sInf}(\mathrm{Set.range} F)$. Thus membership in $\mathrm{argmin}\Phi$ means exactly that $\Phi(x)$ equals the infimum of the values of $\Phi$.
+
+The assumption `hMin` says that this minimizer set is nonempty. The conclusion is that there exists a point $\hat u\in \mathrm{argmin}\Phi$ such that the whole trajectory $\mathrm{sys.u}$ converges strongly to $\hat u$ as time tends to infinity:
+
+$$
+\exists \hat u\in \mathrm{argmin}\Phi,\qquad
+\mathrm{sys.u}(t)\underset{t\to\infty}{\longrightarrow}\hat u.
 $$
 
 The convergence is in the norm topology of $H$, not merely weak convergence. The proof obtains weak convergence to a minimizer from a general minimizing property, then upgrades it to strong convergence by proving a uniform Cauchy estimate for the tail of the trajectory.
@@ -615,12 +615,12 @@ $$
 the proof obtains a number $m$ and the pointwise lower bound $m\le \Phi(x)$. It then defines
 
 $$
-hBdd : \operatorname{BddBelow}(\operatorname{Set.range}\Phi)
+hBdd : \mathrm{BddBelow}(\mathrm{Set.range}\Phi)
 $$
 
 by witnessing the lower bound with this same $m$. This is exactly the statement that the range $\{\Phi(x)\mid x\in H\}$ is bounded below.
 
-Next the proof proves that $0$ is already a global minimizer. It invokes `even_convex_zero_mem_argmin`, whose mathematical content is: if $\Phi$ is convex on all of $H$, even, and bounded below, then $0\in \operatorname{argmin}\Phi$. The convex-even argument is that convexity gives
+Next the proof proves that $0$ is already a global minimizer. It invokes `even_convex_zero_mem_argmin`, whose mathematical content is: if $\Phi$ is convex on all of $H$, even, and bounded below, then $0\in \mathrm{argmin}\Phi$. The convex-even argument is that convexity gives
 
 $$
 \Phi(0)=\Phi\!\left(\frac{x+(-x)}2\right)
@@ -630,21 +630,21 @@ $$
 using evenness in the last equality. Hence $0$ attains the global minimum. The proof records this as
 
 $$
-hZeroMin : (0:H)\in \operatorname{argmin}\Phi(hBdd).
+hZeroMin : (0:H)\in \mathrm{argmin}\Phi(hBdd).
 $$
 
-The proof also reconciles the bounded-below witness appearing in `hMin` with the witness `hBdd`. Since bounded-below proofs for the same set are proof-irrelevant, the two minimizer sets are the same. The tactic `simpa only [proof_irrel_heq] using hMin` transfers the nonemptiness of the minimizer set from the statement’s constructed bounded-below proof to the set using `hBdd`. Thus it obtains that $(\operatorname{argmin}\Phi(hBdd))$ is nonempty.
+The proof also reconciles the bounded-below witness appearing in `hMin` with the witness `hBdd`. Since bounded-below proofs for the same set are proof-irrelevant, the two minimizer sets are the same. The tactic `simpa only [proof_irrel_heq] using hMin` transfers the nonemptiness of the minimizer set from the statement’s constructed bounded-below proof to the set using `hBdd`. Thus it obtains that $(\mathrm{argmin}\Phi(hBdd))$ is nonempty.
 
 Then the proof packages the assumptions as
 
 $$
-hPhi : \operatorname{HasPotentialAssumption}(\Phi).
+hPhi : \mathrm{HasPotentialAssumption}(\Phi).
 $$
 
 The visible construction is from global $C^1$-ness of $\Phi$, convexity on all of $H$, and bounded-belowness. This package is the hypothesis required by the cited theorem `scalar_damped_minimizing_property`. The proof again uses proof irrelevance to identify
 
 $$
-\operatorname{potential\_range\_bddBelow}(hPhi)
+\mathrm{potential\_range\_bddBelow}(hPhi)
 $$
 
 with the previously defined `hBdd`, and transfers the nonemptiness statement accordingly. This gives a nonempty minimizer set for the form required by the scalar minimizing property.
@@ -654,20 +654,20 @@ The proof then applies `scalar_damped_minimizing_property` to `hPhi` and `sys`. 
 1. the squared velocity is integrable on the positive half-line,
 
    $$
-   t\mapsto \left\|\operatorname{fderiv}_{\mathbb R}\operatorname{sys.u}(t)(1)\right\|^2
+   t\mapsto \left\|\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(t)(1)\right\|^2
    \in L^1([0,\infty));
    $$
 
 2. the velocity tends to zero,
 
    $$
-   \operatorname{fderiv}_{\mathbb R}\operatorname{sys.u}(t)(1)\to 0;
+   \mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(t)(1)\to 0;
    $$
 
 3. the potential values converge to the global minimum,
 
    $$
-   \Phi(\operatorname{sys.u}(t))\to \inf \Phi(H);
+   \Phi(\mathrm{sys.u}(t))\to \inf \Phi(H);
    $$
 
 4. if the minimizer set is nonempty, then the trajectory converges weakly to some global minimizer $\hat u$.
@@ -675,9 +675,9 @@ The proof then applies `scalar_damped_minimizing_property` to `hPhi` and `sys`. 
 The proof extracts these as `hvel2`, `hvel0`, `hPhi0`, and `hweak`. From `hweak` and the nonemptiness just established, it obtains a point $\hat u$ with
 
 $$
-\hat u\in \operatorname{argmin}\Phi,
+\hat u\in \mathrm{argmin}\Phi,
 \qquad
-\operatorname{sys.u}(t)\rightharpoonup \hat u.
+\mathrm{sys.u}(t)\rightharpoonup \hat u.
 $$
 
 The latter is expressed in Lean through `toWeakSpace`.
@@ -691,45 +691,45 @@ $$
 The next step derives a differential inequality for the distance to $\hat u$. The proof applies `even_distance_damped_ineq`, whose statement, specialized here, says that for $x\in H$ and $t>0$,
 
 $$
-\frac{d^2}{dt^2}\left(\frac12\|\operatorname{sys.u}(t)-x\|^2\right)
-+\gamma \frac{d}{dt}\left(\frac12\|\operatorname{sys.u}(t)-x\|^2\right)
+\frac{d^2}{dt^2}\left(\frac12\|\mathrm{sys.u}(t)-x\|^2\right)
++\gamma \frac{d}{dt}\left(\frac12\|\mathrm{sys.u}(t)-x\|^2\right)
 \le
-\Phi(x)-\Phi(\operatorname{sys.u}(t))
-+\left\|\operatorname{fderiv}_{\mathbb R}\operatorname{sys.u}(t)(1)\right\|^2.
+\Phi(x)-\Phi(\mathrm{sys.u}(t))
++\left\|\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(t)(1)\right\|^2.
 $$
 
 Taking $x=\hat u$, the proof uses $\Phi(\hat u)=\inf\Phi(H)$ and `potential_sInf_le`, which says that the infimum of the range of $\Phi$ is at most $\Phi(y)$ for every $y$. Hence
 
 $$
-\Phi(\hat u)-\Phi(\operatorname{sys.u}(t))
+\Phi(\hat u)-\Phi(\mathrm{sys.u}(t))
 =
-\inf\Phi(H)-\Phi(\operatorname{sys.u}(t))\le 0.
+\inf\Phi(H)-\Phi(\mathrm{sys.u}(t))\le 0.
 $$
 
 Therefore the potential-difference term can be dropped, yielding
 
 $$
-\frac{d^2}{dt^2}\left(\frac12\|\operatorname{sys.u}(t)-\hat u\|^2\right)
-+\gamma \frac{d}{dt}\left(\frac12\|\operatorname{sys.u}(t)-\hat u\|^2\right)
+\frac{d^2}{dt^2}\left(\frac12\|\mathrm{sys.u}(t)-\hat u\|^2\right)
++\gamma \frac{d}{dt}\left(\frac12\|\mathrm{sys.u}(t)-\hat u\|^2\right)
 \le
-\left\|\operatorname{fderiv}_{\mathbb R}\operatorname{sys.u}(t)(1)\right\|^2.
+\left\|\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(t)(1)\right\|^2.
 $$
 
 This is the first important damped differential inequality.
 
-The same reasoning is repeated for the special point $x=0$. Since the proof already established $0\in \operatorname{argmin}\Phi$, it has
+The same reasoning is repeated for the special point $x=0$. Since the proof already established $0\in \mathrm{argmin}\Phi$, it has
 
 $$
 \Phi(0)=\inf\Phi(H).
 $$
 
-Using `potential_sInf_le` again to bound $\inf\Phi(H)-\Phi(\operatorname{sys.u}(t))\le 0$, the proof obtains
+Using `potential_sInf_le` again to bound $\inf\Phi(H)-\Phi(\mathrm{sys.u}(t))\le 0$, the proof obtains
 
 $$
-\frac{d^2}{dt^2}\left(\frac12\|\operatorname{sys.u}(t)\|^2\right)
-+\gamma \frac{d}{dt}\left(\frac12\|\operatorname{sys.u}(t)\|^2\right)
+\frac{d^2}{dt^2}\left(\frac12\|\mathrm{sys.u}(t)\|^2\right)
++\gamma \frac{d}{dt}\left(\frac12\|\mathrm{sys.u}(t)\|^2\right)
 \le
-\left\|\operatorname{fderiv}_{\mathbb R}\operatorname{sys.u}(t)(1)\right\|^2.
+\left\|\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(t)(1)\right\|^2.
 $$
 
 This will be used after shifting time by $1$, so that the scalar convergence lemmas can be applied on the interval $[0,\infty)$, avoiding the one-sided endpoint $0$ of the trajectory.
@@ -737,17 +737,17 @@ This will be used after shifting time by $1$, so that the scalar convergence lem
 The proof now defines the shifted scalar function
 
 $$
-\theta(t)=\frac12\|\operatorname{sys.u}(t+1)\|^2.
+\theta(t)=\frac12\|\mathrm{sys.u}(t+1)\|^2.
 $$
 
-It establishes that $\theta$ is $C^2$ on $[0,\infty)$. This uses the smoothness of the trajectory supplied by the dissipative system and the fact that $t+1>0$ for $t\ge 0$, together with the smoothness of the squared norm. It also proves differentiability of $\theta$ at every $t\ge 0$, using `dissipativeSystem_differentiableAt_pos`, which states that $\operatorname{sys.u}$ is differentiable at every positive time. Since $t+1>0$, this applies.
+It establishes that $\theta$ is $C^2$ on $[0,\infty)$. This uses the smoothness of the trajectory supplied by the dissipative system and the fact that $t+1>0$ for $t\ge 0$, together with the smoothness of the squared norm. It also proves differentiability of $\theta$ at every $t\ge 0$, using `dissipativeSystem_differentiableAt_pos`, which states that $\mathrm{sys.u}$ is differentiable at every positive time. Since $t+1>0$, this applies.
 
 The proof then computes derivatives of $\theta$. For $s>-1$,
 
 $$
 \theta'(s)
 =
-\frac{d}{dr}\left(\frac12\|\operatorname{sys.u}(r)\|^2\right)\bigg|_{r=s+1}.
+\frac{d}{dr}\left(\frac12\|\mathrm{sys.u}(r)\|^2\right)\bigg|_{r=s+1}.
 $$
 
 This is the chain rule for the shift $r\mapsto r+1$. It also proves that for $s\ge 0$,
@@ -755,7 +755,7 @@ This is the chain rule for the shift $r\mapsto r+1$. It also proves that for $s\
 $$
 \theta''(s)
 =
-\frac{d^2}{dr^2}\left(\frac12\|\operatorname{sys.u}(r)\|^2\right)\bigg|_{r=s+1}.
+\frac{d^2}{dr^2}\left(\frac12\|\mathrm{sys.u}(r)\|^2\right)\bigg|_{r=s+1}.
 $$
 
 These identities are used to transfer the damped differential inequality from the original time variable to the shifted variable.
@@ -764,7 +764,7 @@ The integrability of the shifted force term is also obtained:
 
 $$
 s\mapsto
-\left\|\operatorname{fderiv}_{\mathbb R}\operatorname{sys.u}(s+1)(1)\right\|^2
+\left\|\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(s+1)(1)\right\|^2
 \in L^1([0,\infty)).
 $$
 
@@ -775,7 +775,7 @@ Combining the derivative identities with the damped inequality for the distance 
 $$
 \theta''(s)+\gamma \theta'(s)
 \le
-\left\|\operatorname{fderiv}_{\mathbb R}\operatorname{sys.u}(s+1)(1)\right\|^2.
+\left\|\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(s+1)(1)\right\|^2.
 $$
 
 Now the proof applies `positive_part_integrable_of_damped_inequality`. That theorem says that if $\omega$ is $C^1$ on $[0,\infty)$, $\gamma>0$, and
@@ -787,7 +787,7 @@ $$
 with $g\in L^1([0,\infty))$, then the positive part $t\mapsto \max(\omega(t),0)$ is integrable on $[0,\infty)$. Here the proof takes $\omega=\theta'$ and
 
 $$
-g(s)=\left\|\operatorname{fderiv}_{\mathbb R}\operatorname{sys.u}(s+1)(1)\right\|^2.
+g(s)=\left\|\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(s+1)(1)\right\|^2.
 $$
 
 The required $C^1$-ness of $\theta'$ comes from the $C^2$-ness of $\theta$, and the inequality was just established. Since the shifted force term is integrable, the conclusion is that
@@ -798,7 +798,7 @@ $$
 
 is integrable on $[0,\infty)$.
 
-The proof then invokes `converges_of_integrable_positive_derivative`. That theorem says that if a scalar function $\theta$ is $C^1$ on $[0,\infty)$, bounded below, and its positive derivative part $\max(\theta',0)$ is integrable, then $\theta$ converges to a finite limit at infinity. Here $\theta(t)=\frac12\|\operatorname{sys.u}(t+1)\|^2\ge 0$, so it is bounded below by $0$. The positive-part integrability was just proved. Hence there exists a real number `normTailLimit` such that
+The proof then invokes `converges_of_integrable_positive_derivative`. That theorem says that if a scalar function $\theta$ is $C^1$ on $[0,\infty)$, bounded below, and its positive derivative part $\max(\theta',0)$ is integrable, then $\theta$ converges to a finite limit at infinity. Here $\theta(t)=\frac12\|\mathrm{sys.u}(t+1)\|^2\ge 0$, so it is bounded below by $0$. The positive-part integrability was just proved. Hence there exists a real number `normTailLimit` such that
 
 $$
 \theta(t)\to \text{normTailLimit}.
@@ -807,13 +807,13 @@ $$
 Multiplying by $2$, this gives
 
 $$
-\|\operatorname{sys.u}(t+1)\|^2\to 2\cdot \text{normTailLimit}.
+\|\mathrm{sys.u}(t+1)\|^2\to 2\cdot \text{normTailLimit}.
 $$
 
 Shifting back by $t\mapsto t-1$, the proof obtains
 
 $$
-\|\operatorname{sys.u}(t)\|^2\to L
+\|\mathrm{sys.u}(t)\|^2\to L
 $$
 
 where $L=2\cdot \text{normTailLimit}$.
@@ -825,30 +825,30 @@ r\mapsto
 \frac32
 \int_1^r \int_0^\theta
 e^{-\gamma(\theta-s)}
-\left\|\operatorname{fderiv}_{\mathbb R}\operatorname{sys.u}(s)(1)\right\|^2
+\left\|\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(s)(1)\right\|^2
 \,ds\,d\theta
 $$
 
 converges to `Herr` as $r\to\infty$. The proof defines this function as `Herror`, so that
 
 $$
-\operatorname{Herror}(r)\to \operatorname{Herr}.
+\mathrm{Herror}(r)\to \mathrm{Herr}.
 $$
 
-Next the proof uses `eventually_bounded_even_endpoint_deriv`. That theorem says that if the squared norm $\|\operatorname{sys.u}(T)\|^2$ converges as $T\to\infty$, then there exist $C\ge 0$ such that eventually in $T$,
+Next the proof uses `eventually_bounded_even_endpoint_deriv`. That theorem says that if the squared norm $\|\mathrm{sys.u}(T)\|^2$ converges as $T\to\infty$, then there exist $C\ge 0$ such that eventually in $T$,
 
 $$
 \left|
 \frac{d}{dr}
 \left(
-\|\operatorname{sys.u}(r)\|^2-\|\operatorname{sys.u}(T)\|^2
--\frac12\|\operatorname{sys.u}(r)-\operatorname{sys.u}(T)\|^2
+\|\mathrm{sys.u}(r)\|^2-\|\mathrm{sys.u}(T)\|^2
+-\frac12\|\mathrm{sys.u}(r)-\mathrm{sys.u}(T)\|^2
 \right)\bigg|_{r=1}
 \right|
 \le C.
 $$
 
-Here the convergence $\|\operatorname{sys.u}(T)\|^2\to L$ has just been proved, so the theorem applies and gives a nonnegative constant $C$ together with an eventual bound on the derivative at $r=1$ of the moving-endpoint function.
+Here the convergence $\|\mathrm{sys.u}(T)\|^2\to L$ has just been proved, so the theorem applies and gives a nonnegative constant $C$ together with an eventual bound on the derivative at $r=1$ of the moving-endpoint function.
 
 The proof then establishes an estimate for the coefficient of that derivative in the two-time integral bound. For $1\le t\le T$, it proves
 
@@ -863,8 +863,8 @@ $$
 \cdot
 \frac{d}{dr}
 \left(
-\|\operatorname{sys.u}(r)\|^2-\|\operatorname{sys.u}(T)\|^2
--\frac12\|\operatorname{sys.u}(r)-\operatorname{sys.u}(T)\|^2
+\|\mathrm{sys.u}(r)\|^2-\|\mathrm{sys.u}(T)\|^2
+-\frac12\|\mathrm{sys.u}(r)-\mathrm{sys.u}(T)\|^2
 \right)\bigg|_{r=1}
 \le
 \frac{e^{-\gamma(t-1)}-e^{-\gamma(T-1)}}{\gamma}
@@ -876,7 +876,7 @@ This follows because the coefficient is nonnegative and the derivative is eventu
 The proof then defines
 
 $$
-vfun(s)=\operatorname{fderiv}_{\mathbb R}\operatorname{sys.u}(s)(1),
+vfun(s)=\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(s)(1),
 \qquad
 qfun(s)=\frac32\|vfun(s)\|^2.
 $$
@@ -899,8 +899,8 @@ The proof also verifies smoothness of the moving-endpoint function
 
 $$
 G_T(r)=
-\|\operatorname{sys.u}(r)\|^2-\|\operatorname{sys.u}(T)\|^2
--\frac12\|\operatorname{sys.u}(r)-\operatorname{sys.u}(T)\|^2.
+\|\mathrm{sys.u}(r)\|^2-\|\mathrm{sys.u}(T)\|^2
+-\frac12\|\mathrm{sys.u}(r)-\mathrm{sys.u}(T)\|^2.
 $$
 
 It shows that for every $T$, $G_T$ is $C^2$ on $[1,\infty)$, and that its derivative is $C^1$ on $[1,\infty)$. These are the differentiability hypotheses needed for the two-time integral bound.
@@ -924,7 +924,7 @@ for $s\in(1,T)$. The latter is provided by `even_moving_endpoint_damped_ineq`, w
 $$
 G_T''(s)+\gamma G_T'(s)
 \le
-\frac32\|\operatorname{fderiv}_{\mathbb R}\operatorname{sys.u}(s)(1)\|^2
+\frac32\|\mathrm{fderiv}_{\mathbb R}\mathrm{sys.u}(s)(1)\|^2
 =
 qfun(s).
 $$
@@ -951,9 +951,9 @@ $$
 this rearranges to the key estimate
 
 $$
-\frac12\|\operatorname{sys.u}(t)-\operatorname{sys.u}(T)\|^2
+\frac12\|\mathrm{sys.u}(t)-\mathrm{sys.u}(T)\|^2
 \le
-\|\operatorname{sys.u}(t)\|^2-\|\operatorname{sys.u}(T)\|^2
+\|\mathrm{sys.u}(t)\|^2-\|\mathrm{sys.u}(T)\|^2
 +
 \frac{e^{-\gamma(t-1)}-e^{-\gamma(T-1)}}{\gamma}G_T'(1)
 +
@@ -975,7 +975,7 @@ Using nonnegativity of the integrand $e^{-\gamma(\theta-s)}\|vfun(s)\|^2$ on $[0
 $$
 \int_t^T\int_1^\theta e^{-\gamma(\theta-s)}qfun(s)\,ds\,d\theta
 \le
-\operatorname{Herror}(T)-\operatorname{Herror}(t).
+\mathrm{Herror}(T)-\mathrm{Herror}(t).
 $$
 
 Indeed, $qfun(s)=\frac32\|vfun(s)\|^2$, and on each slice $\theta$, the integral over $1\le s\le\theta$ is at most the integral over $0\le s\le\theta$ after multiplying by $\frac32$, because the contribution over $[0,1]$ is nonnegative. Integrating over $\theta\in[t,T]$ and using additivity of the integral gives the difference of `Herror` values.
@@ -983,7 +983,7 @@ Indeed, $qfun(s)=\frac32\|vfun(s)\|^2$, and on each slice $\theta$, the integral
 Now the proof turns to the uniform Cauchy estimate. It wants to show that for every $\varepsilon>0$, there exists $N$ such that for all $s,t\ge N$,
 
 $$
-\operatorname{dist}(\operatorname{sys.u}(s),\operatorname{sys.u}(t))<\varepsilon.
+\mathrm{dist}(\mathrm{sys.u}(s),\mathrm{sys.u}(t))<\varepsilon.
 $$
 
 Let
@@ -992,12 +992,12 @@ $$
 \delta=\frac{\varepsilon^2}{12}.
 $$
 
-Since $\delta>0$, the proof uses the convergence $\|\operatorname{sys.u}(t)\|^2\to L$ and `Herror(t)→Herr` to choose thresholds $Nnorm$ and $Nerr$ such that beyond them,
+Since $\delta>0$, the proof uses the convergence $\|\mathrm{sys.u}(t)\|^2\to L$ and `Herror(t)→Herr` to choose thresholds $Nnorm$ and $Nerr$ such that beyond them,
 
 $$
-\left|\|\operatorname{sys.u}(t)\|^2-L\right|<\delta,
+\left|\|\mathrm{sys.u}(t)\|^2-L\right|<\delta,
 \qquad
-\left|\operatorname{Herror}(t)-\operatorname{Herr}\right|<\delta.
+\left|\mathrm{Herror}(t)-\mathrm{Herr}\right|<\delta.
 $$
 
 It also uses $\gamma>0$ to show
@@ -1027,27 +1027,27 @@ $$
 Now take $s,t\ge N$ with $s\le t$. The proof proves the estimate first in the ordered case and then swaps $s,t$ for the other order. Since both points are beyond $Nnorm$,
 
 $$
-\left|\|\operatorname{sys.u}(s)\|^2-L\right|<\delta,
+\left|\|\mathrm{sys.u}(s)\|^2-L\right|<\delta,
 \qquad
-\left|\|\operatorname{sys.u}(t)\|^2-L\right|<\delta.
+\left|\|\mathrm{sys.u}(t)\|^2-L\right|<\delta.
 $$
 
 By the triangle inequality for absolute values,
 
 $$
-\left|\|\operatorname{sys.u}(s)\|^2-\|\operatorname{sys.u}(t)\|^2\right|<2\delta.
+\left|\|\mathrm{sys.u}(s)\|^2-\|\mathrm{sys.u}(t)\|^2\right|<2\delta.
 $$
 
 Similarly, since both points are beyond $Nerr$,
 
 $$
-\left|\operatorname{Herror}(t)-\operatorname{Herror}(s)\right|<2\delta,
+\left|\mathrm{Herror}(t)-\mathrm{Herror}(s)\right|<2\delta,
 $$
 
 so in particular
 
 $$
-\operatorname{Herror}(t)-\operatorname{Herror}(s)<2\delta.
+\mathrm{Herror}(t)-\mathrm{Herror}(s)<2\delta.
 $$
 
 The coefficient of $G_t'(1)$ in the two-time estimate is nonnegative. Since $t\ge NC$, the derivative $G_t'(1)$ is at most $C$ in absolute value, hence at most $C$. Therefore the endpoint term satisfies
@@ -1069,7 +1069,7 @@ using $s\ge Nexp$.
 Combining these estimates with the key two-time inequality gives
 
 $$
-\frac12\|\operatorname{sys.u}(s)-\operatorname{sys.u}(t)\|^2
+\frac12\|\mathrm{sys.u}(s)-\mathrm{sys.u}(t)\|^2
 <
 2\delta+\delta+2\delta
 =
@@ -1085,22 +1085,22 @@ $$
 Thus
 
 $$
-\frac12\|\operatorname{sys.u}(s)-\operatorname{sys.u}(t)\|^2
+\frac12\|\mathrm{sys.u}(s)-\mathrm{sys.u}(t)\|^2
 <\frac{\varepsilon^2}{2},
 $$
 
 and therefore
 
 $$
-\|\operatorname{sys.u}(s)-\operatorname{sys.u}(t)\|<\varepsilon.
+\|\mathrm{sys.u}(s)-\mathrm{sys.u}(t)\|<\varepsilon.
 $$
 
 This proves the uniform Cauchy statement for the tail of the trajectory. The reverse order $t\le s$ is handled by symmetry of the distance.
 
-The proof then upgrades this uniform Cauchy estimate to existence of a strong limit. It applies `cauchy_map_iff_exists_tendsto.mp`. In a complete space, a filter is Cauchy if and only if it converges. The proof uses `Metric.cauchy_iff` and the uniform estimate to show that the filter generated by the map $t\mapsto \operatorname{sys.u}(t)$ at infinity is Cauchy. Concretely, for every $\varepsilon>0$, the image $\operatorname{sys.u}''[N,\infty)$ is a set in the image filter, and any two of its points are within $\varepsilon$. Hence the map is Cauchy. Since $H$ is complete, there exists $w\in H$ such that
+The proof then upgrades this uniform Cauchy estimate to existence of a strong limit. It applies `cauchy_map_iff_exists_tendsto.mp`. In a complete space, a filter is Cauchy if and only if it converges. The proof uses `Metric.cauchy_iff` and the uniform estimate to show that the filter generated by the map $t\mapsto \mathrm{sys.u}(t)$ at infinity is Cauchy. Concretely, for every $\varepsilon>0$, the image $\mathrm{sys.u}''[N,\infty)$ is a set in the image filter, and any two of its points are within $\varepsilon$. Hence the map is Cauchy. Since $H$ is complete, there exists $w\in H$ such that
 
 $$
-\operatorname{sys.u}(t)\to w
+\mathrm{sys.u}(t)\to w
 $$
 
 strongly.
@@ -1108,26 +1108,26 @@ strongly.
 Finally, the proof compares this strong limit with the weak limit $\hat u$ obtained earlier. The continuous linear map
 
 $$
-\operatorname{toWeakSpace} : H\to \text{WeakSpace}(\mathbb R,H)
+\mathrm{toWeakSpace} : H\to \text{WeakSpace}(\mathbb R,H)
 $$
 
-is continuous, so strong convergence $\operatorname{sys.u}(t)\to w$ implies weak convergence
+is continuous, so strong convergence $\mathrm{sys.u}(t)\to w$ implies weak convergence
 
 $$
-\operatorname{toWeakSpace}(\operatorname{sys.u}(t))\to \operatorname{toWeakSpace}(w).
+\mathrm{toWeakSpace}(\mathrm{sys.u}(t))\to \mathrm{toWeakSpace}(w).
 $$
 
-But the scalar minimizing property already gave weak convergence of the same trajectory to $\operatorname{toWeakSpace}(\hat u)$. Since limits in a Hausdorff space are unique, `tendsto_nhds_unique` yields
+But the scalar minimizing property already gave weak convergence of the same trajectory to $\mathrm{toWeakSpace}(\hat u)$. Since limits in a Hausdorff space are unique, `tendsto_nhds_unique` yields
 
 $$
-\operatorname{toWeakSpace}(w)=\operatorname{toWeakSpace}(\hat u).
+\mathrm{toWeakSpace}(w)=\mathrm{toWeakSpace}(\hat u).
 $$
 
-The map $\operatorname{toWeakSpace}$ is injective, so $w=\hat u$. Substituting this equality and using the earlier fact that $\hat u\in \operatorname{argmin}\Phi$, the proof concludes
+The map $\mathrm{toWeakSpace}$ is injective, so $w=\hat u$. Substituting this equality and using the earlier fact that $\hat u\in \mathrm{argmin}\Phi$, the proof concludes
 
 $$
-\exists \hat u\in \operatorname{argmin}\Phi,\qquad
-\operatorname{sys.u}(t)\to \hat u
+\exists \hat u\in \mathrm{argmin}\Phi,\qquad
+\mathrm{sys.u}(t)\to \hat u
 $$
 
 strongly as $t\to\infty$.

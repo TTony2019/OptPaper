@@ -413,7 +413,7 @@ From `HasSum ε S` the proof forms `hε_summable : Summable ε`, and then uses t
 Next the proof defines
 
 $$
-\delta_n=\operatorname{deltaSeq}(\beta,\mu,\texttt{beta\_mono},\texttt{mu\_mono}).
+\delta_n=\mathrm{deltaSeq}(\beta,\mu,\texttt{beta\_mono},\texttt{mu\_mono}).
 $$
 
 The definition `deltaSeq` is piecewise: if both behaviors are nonincreasing, $\delta_n=1$; if $\beta$ is nonincreasing and $\mu$ is nondecreasing, $\delta_n=\mu_n$; if $\beta$ is nondecreasing and $\mu$ is nonincreasing, $\delta_n=\beta_n$; and if both are nondecreasing, $\delta_n=\beta_n\mu_n$. The proof shows `hδ_pos : ∀ n, δ n > 0` by cases on `beta_mono` and `mu_mono`, using positivity of $\beta_n$ and $\mu_n$. Consequently $\delta_n\ge0$, and therefore the ratios
@@ -477,16 +477,16 @@ $$
 Concretely, this is obtained by taking the $x$-step inequality with $\xi=x_n$ and the $y$-step inequality with $\eta=y_n$, multiplying the first by $\mu_n/\delta_n$ and the second by $\beta_n/\delta_n$, and adding. The diagonal terms $h(x_n,x_n)$ and $k(y_n,y_n)$ vanish, and the cross terms involving $c(x_{n+1},y_n)$ cancel. After unfolding the definitions of `RawNext`, $W$, $E$, and $R$, this gives exactly
 
 $$
-\operatorname{RawNext}_n+W_n\le E_n+R_n.
+\mathrm{RawNext}_n+W_n\le E_n+R_n.
 $$
 
-Next, `thm3_descent_from_raw` is applied. That lemma says that if $f\ge M_f$, $g\ge M_g$, $c\ge0$, the three scaled ratios are nonincreasing, the sequences `RawNext` and $E$ have the displayed definitions, and $\operatorname{RawNext}_n+W_n\le E_n+R_n$, then
+Next, `thm3_descent_from_raw` is applied. That lemma says that if $f\ge M_f$, $g\ge M_g$, $c\ge0$, the three scaled ratios are nonincreasing, the sequences `RawNext` and $E$ have the displayed definitions, and $\mathrm{RawNext}_n+W_n\le E_n+R_n$, then
 
 $$
 E_{n+1}+W_n\le E_n+R_n
 $$
 
-for every $n$. The reason is that $E_{n+1}$ is obtained from $\operatorname{RawNext}_n$ by replacing the coefficients at $n$ by the smaller coefficients at $n+1$; since $f(x_{n+1})-M_f$, $g(y_{n+1})-M_g$, and $c(x_{n+1},y_{n+1})$ are nonnegative, this replacement only decreases the value. Thus the raw inequality implies the descent inequality.
+for every $n$. The reason is that $E_{n+1}$ is obtained from $\mathrm{RawNext}_n$ by replacing the coefficients at $n$ by the smaller coefficients at $n+1$; since $f(x_{n+1})-M_f$, $g(y_{n+1})-M_g$, and $c(x_{n+1},y_{n+1})$ are nonnegative, this replacement only decreases the value. Thus the raw inequality implies the descent inequality.
 
 The proof then shows that $\mu_n/\delta_n\le \mu_0/\delta_0$ and $\beta_n/\delta_n\le \beta_0/\delta_0$ by induction from the nontrivial monotonicities. Hence
 
@@ -568,7 +568,7 @@ For $\alpha$, boundedness above supplies an eventual upper bound, and `eventuall
 Finally, the theorem `thm3_ACA2_limit_to_INE` is applied. That theorem says that if an ACA2 algorithm has $x_n\to\bar x$, $y_n\to\bar y$, $f,g,c$ are lower semicontinuous in the required senses, $h,k,c$ are separately continuous, $h,k,c\ge0$, the coefficient sequences are nonnegative, $\beta_n\to\beta_\infty$, $\mu_n\to\mu_\infty$, $\varepsilon_n\to0$, $h$ and $k$ vanish on the diagonal, and $\alpha,\nu$ have the eventual upper bounds against $\limsup\alpha,\limsup\nu$, then the limiting point satisfies
 
 $$
-\operatorname{IsINE}(f,g,h,k,c,\limsup\alpha,\beta_\infty,\mu_\infty,\limsup\nu,\bar x,\bar y).
+\mathrm{IsINE}(f,g,h,k,c,\limsup\alpha,\beta_\infty,\mu_\infty,\limsup\nu,\bar x,\bar y).
 $$
 
 All hypotheses of that theorem are supplied by the previously unpacked assumptions and by the convergence, summability, separate-continuity, and limsup facts just proved. Therefore the proof obtains `hINE`. Finally, `exact ⟨xbar, ybar, β_inf, μ_inf, ⟨hβ_tendsto, hμ_tendsto⟩, ⟨hx_tendsto, hy_tendsto⟩, hINE⟩` packages the four witnesses, the convergence of $\beta,\mu$, the convergence of the iterates, and the INE conclusion into the existential statement of the theorem.

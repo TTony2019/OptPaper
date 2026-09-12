@@ -112,7 +112,7 @@ The proof does not re-prove the TOGES-V asymptotic estimates directly. Instead i
 First, the proof constructs the gradient hypothesis needed by the core theorem. The goal is to prove
 
 $$
-\forall x\in H,\quad \operatorname{HasFDerivAt} f \bigl(\operatorname{innerSL} \mathbb R(\nabla f(x))\bigr) x.
+\forall x\in H,\quad \mathrm{HasFDerivAt} f \bigl(\mathrm{innerSL} \mathbb R(\nabla f(x))\bigr) x.
 $$
 
 For an arbitrary $x$, the command `intro x` introduces this point. Since `hFContDiff` says $f$ is $C^1$, the lemma `hFContDiff.differentiable` gives that $f$ is differentiable at $x$. The library result `hasGradientAt` then supplies the gradient vector `gradient f x`, which represents the derivative of $f$ at $x$. The conversion `hasFDerivAt` turns this gradient representation into a Fréchet derivative. The simplification `simpa [innerSL_apply_apply]` rewrites the inner-product functional into the form requested by the core theorem, namely the continuous linear map $h\mapsto \langle \nabla f(x),h\rangle$. This yields the hypothesis `hGradient` with $g=\nabla f$.
@@ -124,7 +124,7 @@ Third, the proof assembles the regularity statement `hRegularity`, a conjunction
 - For the first subgoal, for every $t$ with $t_0\le t$, differentiability of $u$ at $t$ gives
 
   $$
-  \operatorname{HasDerivAt} u (\partial u(t)) t.
+  \mathrm{HasDerivAt} u (\partial u(t)) t.
   $$
 
   This is exactly the statement that the derivative of the curve $u$ at time $t$ is the vector $\partial u(t)$.
@@ -132,7 +132,7 @@ Third, the proof assembles the regularity statement `hRegularity`, a conjunction
 - For the second subgoal, differentiability of $\partial u$ at $t$ gives
 
   $$
-  \operatorname{HasDerivAt} (\partial u) (\partial(\partial u)(t)) t.
+  \mathrm{HasDerivAt} (\partial u) (\partial(\partial u)(t)) t.
   $$
 
   So the first derivative has derivative equal to the second derivative at $t$.
@@ -140,7 +140,7 @@ Third, the proof assembles the regularity statement `hRegularity`, a conjunction
 - For the third subgoal, differentiability of $\partial^2 u$ at $t$ gives
 
   $$
-  \operatorname{HasDerivAt} (\partial^2 u) (\partial^3 u(t)) t.
+  \mathrm{HasDerivAt} (\partial^2 u) (\partial^3 u(t)) t.
   $$
 
   So the second derivative has derivative equal to the third derivative at $t$.
@@ -164,9 +164,9 @@ $$
 For each $t\ge t_0$, this proves the three equalities
 
 $$
-\operatorname{deriv} u(t)=\partial u(t),\qquad
-\operatorname{deriv}(\operatorname{deriv} u)(t)=\partial^2 u(t),\qquad
-\operatorname{deriv}(\operatorname{deriv}(\operatorname{deriv} u))(t)=\partial^3 u(t),
+\mathrm{deriv} u(t)=\partial u(t),\qquad
+\mathrm{deriv}(\mathrm{deriv} u)(t)=\partial^2 u(t),\qquad
+\mathrm{deriv}(\mathrm{deriv}(\mathrm{deriv} u))(t)=\partial^3 u(t),
 $$
 
 because the chosen first, second, and third derivative functions were defined exactly as those iterated derivatives. Each equality is closed by `rfl`.

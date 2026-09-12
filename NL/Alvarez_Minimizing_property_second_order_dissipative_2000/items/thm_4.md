@@ -42,7 +42,7 @@ $$
 The sequence $u_k$ is the iterated sequence produced by the method, $\lambda_k$ is the proximal step size, $\alpha_k$ is the inertial parameter, and $\varepsilon_k$ is the allowed error in the proximal subproblem at step $k$. The theorem assumes:
 
 - $f$ is proper: it is never $-\infty$, and it is finite somewhere. In the proof, `hProper.1` rules out $f(x)=-\infty$, while `hProper.2` supplies a point where $f$ is not $+\infty$.
-- The epigraph $\operatorname{epi} f=\{(x,r): f(x)\le r\}$ is closed.
+- The epigraph $\mathrm{epi} f=\{(x,r): f(x)\le r\}$ is closed.
 - The epigraph of $f$ is convex, so $f$ is a convex extended-real function.
 - $f$ is bounded below by a finite real number: there exists $m\in\mathbb R$ such that $(m:\overline{\mathbb R})\le f(x)$ for every $x$.
 - The errors are nonnegative: $\varepsilon_k\ge 0$ for all $k$.
@@ -71,7 +71,7 @@ p\in\partial_{\varepsilon} f(x)
 \forall y,\quad f(y)\ge f(x)+\langle p,y-x\rangle-\varepsilon.
 $$
 
-The set $\operatorname{argmin} f$ is $\{x: f(x)=\inf f\}$, with the infimum taken in $\overline{\mathbb R}$.
+The set $\mathrm{argmin} f$ is $\{x: f(x)=\inf f\}$, with the infimum taken in $\overline{\mathbb R}$.
 
 The conclusion is a conjunction of three statements. First, the residual sequence tends strongly to zero:
 
@@ -82,13 +82,13 @@ $$
 Second, the distance from $0$ to the $\varepsilon_k$-subdifferential at $u_{k+1}$ tends to zero:
 
 $$
-\operatorname{dist}\bigl(0,\partial_{\varepsilon_k} f(u_{k+1})\bigr)\to 0.
+\mathrm{dist}\bigl(0,\partial_{\varepsilon_k} f(u_{k+1})\bigr)\to 0.
 $$
 
 Third, under additional conditions, the iterates converge weakly to a minimizer of $f$. The additional conditions are: the set of minimizers is nonempty; the inertial parameters are bounded above by some $\mathrm{alphaBar}<1$ with $\mathrm{alphaBar}>0$; and if some $\alpha_k$ is positive, then the step sizes $\lambda_k$ are bounded above. Under these hypotheses, there exists
 
 $$
-\hat u\in\operatorname{argmin} f
+\hat u\in\mathrm{argmin} f
 $$
 
 such that
@@ -848,7 +848,7 @@ This proves the first part of the conclusion.
 For the second part, the proof uses the witness $p_k=-(\lambda_k)^{-1}R_k$. Since $p_k$ belongs to $\partial_{\varepsilon_k}f(u_{k+1})$, the distance from $0$ to that subdifferential is at most $\|p_k\|$:
 
 $$
-\operatorname{dist}\bigl(0,\partial_{\varepsilon_k}f(u_{k+1})\bigr)
+\mathrm{dist}\bigl(0,\partial_{\varepsilon_k}f(u_{k+1})\bigr)
 \le \|p_k\|
 =\|(\lambda_k)^{-1}R_k\|.
 $$
@@ -856,22 +856,22 @@ $$
 The right-hand side tends to zero by the first conclusion. The proof first shifts by one index and then shifts back using `alvarez_tendsto_of_nat_add`. The squeeze theorem for nonnegative quantities gives
 
 $$
-\operatorname{dist}\bigl(0,\partial_{\varepsilon_k}f(u_{k+1})\bigr)\to0.
+\mathrm{dist}\bigl(0,\partial_{\varepsilon_k}f(u_{k+1})\bigr)\to0.
 $$
 
 This proves the second part.
 
-The rest of the proof establishes the conditional weak convergence. The proof assumes that $\operatorname{argmin} f$ is nonempty, that there exists $\mathrm{alphaBar}\in(0,1)$ with $\alpha_k\le\mathrm{alphaBar}$ for all $k$, and that if some $\alpha_k$ is positive then $\lambda_k$ is bounded above.
+The rest of the proof establishes the conditional weak convergence. The proof assumes that $\mathrm{argmin} f$ is nonempty, that there exists $\mathrm{alphaBar}\in(0,1)$ with $\alpha_k\le\mathrm{alphaBar}$ for all $k$, and that if some $\alpha_k$ is positive then $\lambda_k$ is bounded above.
 
 First, the proof converts the closed epigraph hypothesis into lower semicontinuity of $f$. It uses `lowerSemicontinuous_iff_isClosed_epigraph`, which says that $f$ is lower semicontinuous exactly when its epigraph is closed. Since `hClosed` gives closedness of the epigraph, $f$ is lower semicontinuous. Then `lowerSemicontinuous_iff_isClosed_lowerLevelSet` gives that every lower level set
 
 $$
-\operatorname{lowerLevelSet} f(r)=\{x:f(x)\le (r:\overline{\mathbb R})\}
+\mathrm{lowerLevelSet} f(r)=\{x:f(x)\le (r:\overline{\mathbb R})\}
 $$
 
 is closed. Next, `alvarez_lower_level_convex` states that convexity of the epigraph of $f$ implies convexity of each lower level set. Therefore every lower level set is closed and convex.
 
-For a minimizer $z\in\operatorname{argmin} f$, the proof derives an inner-product inequality. Using the witness $p_k=-(\lambda_k)^{-1}R_k$, the $\varepsilon_k$-subgradient inequality at $y=z$ gives
+For a minimizer $z\in\mathrm{argmin} f$, the proof derives an inner-product inequality. Using the witness $p_k=-(\lambda_k)^{-1}R_k$, the $\varepsilon_k$-subgradient inequality at $y=z$ gives
 
 $$
 f(z)\ge f(u_{k+1})+\langle p_k,z-u_{k+1}\rangle-\varepsilon_k.
@@ -1000,7 +1000,7 @@ $$
 Thus, for all sufficiently large $n$,
 
 $$
-u_{\phi(n)}\in \operatorname{lowerLevelSet} f\bigl((f(z_0))_{\mathbb R}+d\bigr).
+u_{\phi(n)}\in \mathrm{lowerLevelSet} f\bigl((f(z_0))_{\mathbb R}+d\bigr).
 $$
 
 The proof shifts the subsequence by a large natural number $M$ to make this membership hold for every term of the shifted subsequence. That lower level set is closed and convex, as established earlier. Since
@@ -1012,7 +1012,7 @@ $$
 weakly, the theorem `mem_of_tendsto_weakly_of_isClosed_convex` implies that the weak limit belongs to the closed convex set. Hence
 
 $$
-z\in \operatorname{lowerLevelSet} f\bigl((f(z_0))_{\mathbb R}+d\bigr),
+z\in \mathrm{lowerLevelSet} f\bigl((f(z_0))_{\mathbb R}+d\bigr),
 $$
 
 which means
@@ -1021,12 +1021,12 @@ $$
 f(z)\le (f(z_0))_{\mathbb R}+d.
 $$
 
-Letting $d\downarrow0$ gives $f(z)\le f(z_0)$. Since $z_0$ is a minimizer, $z$ is also a minimizer. Thus every weak sequential cluster point of $u$ lies in $\operatorname{argmin} f$.
+Letting $d\downarrow0$ gives $f(z)\le f(z_0)$. Since $z_0$ is a minimizer, $z$ is also a minimizer. Thus every weak sequential cluster point of $u$ lies in $\mathrm{argmin} f$.
 
-Finally, the proof applies `opial_lemma`. In a complete real inner product space, if $C$ is nonempty, if for every $z\in C$ the distance $\|u_k-z\|$ converges, and if every weak sequential cluster point of $u$ belongs to $C$, then there exists $z\in C$ such that $u_k\rightharpoonup z$. Here $C=\operatorname{argmin} f$. The nonemptiness hypothesis is `hArgmin`, the distance-convergence hypothesis is provided by `hdist`, and the cluster-point hypothesis is provided by `hcluster`. The conclusion is exactly
+Finally, the proof applies `opial_lemma`. In a complete real inner product space, if $C$ is nonempty, if for every $z\in C$ the distance $\|u_k-z\|$ converges, and if every weak sequential cluster point of $u$ belongs to $C$, then there exists $z\in C$ such that $u_k\rightharpoonup z$. Here $C=\mathrm{argmin} f$. The nonemptiness hypothesis is `hArgmin`, the distance-convergence hypothesis is provided by `hdist`, and the cluster-point hypothesis is provided by `hcluster`. The conclusion is exactly
 
 $$
-\exists \hat u\in\operatorname{argmin} f,\qquad
+\exists \hat u\in\mathrm{argmin} f,\qquad
 u_k\rightharpoonup \hat u
 $$
 

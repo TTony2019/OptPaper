@@ -38,7 +38,7 @@ $$
 Let
 
 $$
-F(x)=\operatorname{compositeObjective} f g (x)
+F(x)=\mathrm{compositeObjective} f g (x)
 $$
 
 and write $X_k=A.x\,k$. The conclusion is the non-asymptotic objective-gap bound

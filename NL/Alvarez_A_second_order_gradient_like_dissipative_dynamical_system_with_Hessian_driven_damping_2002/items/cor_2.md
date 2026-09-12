@@ -31,7 +31,7 @@ $$
 \exists c\in\mathbb{R},\ \forall a\in A,\ \Phi(a)=c.
 $$
 
-Second, if $A$ is compact, then the Lojasiewicz gradient inequality can be made uniform on a whole neighbourhood of $A$. More precisely, there exist $\sigma>0$, $0<\theta<1/2$, and $c\in\mathbb{R}$ such that $\Phi(a)=c$ for every $a\in A$, and for every $x\in\mathbb{R}^N$ whose distance to the set $A$ satisfies $\operatorname{infDist}(x,A)<\sigma$,
+Second, if $A$ is compact, then the Lojasiewicz gradient inequality can be made uniform on a whole neighbourhood of $A$. More precisely, there exist $\sigma>0$, $0<\theta<1/2$, and $c\in\mathbb{R}$ such that $\Phi(a)=c$ for every $a\in A$, and for every $x\in\mathbb{R}^N$ whose distance to the set $A$ satisfies $\mathrm{infDist}(x,A)<\sigma$,
 
 $$
 |\Phi(x)-c|^{1-\theta}\le \|\nabla\Phi(x)\|.
@@ -232,7 +232,7 @@ $$
 \theta_0\le \theta(a).
 $$
 
-Next, the proof needs a uniform bound $|Φ(x)-c|<1$ near each point of $A$. For each $a\in A$, analyticity at $a$ implies continuity at $a$. Applying the epsilon-delta form of continuity with tolerance $1$, there exists $\epsilon(a)>0$ such that if $\operatorname{dist}(x,a)<\epsilon(a)$, then
+Next, the proof needs a uniform bound $|Φ(x)-c|<1$ near each point of $A$. For each $a\in A$, analyticity at $a$ implies continuity at $a$. Applying the epsilon-delta form of continuity with tolerance $1$, there exists $\epsilon(a)>0$ such that if $\mathrm{dist}(x,a)<\epsilon(a)$, then
 
 $$
 |\Phi(x)-\Phi(a)|<1.
@@ -261,12 +261,12 @@ $$
 It is open because it is an intersection of unions of open balls, and it covers $A$ because both the $U$-cover and the $V$-cover cover $A$. Since $A$ is compact and $W$ is an open neighbourhood of $A$, the theorem `exists_thickening_subset_open` gives a positive $\delta$ such that the $\delta$-thickening of $A$ is contained in $W$. Thus, whenever
 
 $$
-\operatorname{infDist}(x,A)<\delta,
+\mathrm{infDist}(x,A)<\delta,
 $$
 
 the point $x$ lies in $W$. The proof uses `Metric.mem_thickening_iff_infDist_lt hA` to convert the distance-to-set condition into membership in the thickening.
 
-Finally, fix $x$ with $\operatorname{infDist}(x,A)<\delta$. Since $x\in W$, there are $a\in t$ with $x\in U_a$ and $b\in u$ with $x\in V_b$. From $x\in V_b$, we get
+Finally, fix $x$ with $\mathrm{infDist}(x,A)<\delta$. Since $x\in W$, there are $a\in t$ with $x\in U_a$ and $b\in u$ with $x\in V_b$. From $x\in V_b$, we get
 
 $$
 |\Phi(x)-c|<1.

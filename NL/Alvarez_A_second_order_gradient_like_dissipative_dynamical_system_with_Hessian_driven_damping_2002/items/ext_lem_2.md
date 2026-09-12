@@ -31,9 +31,9 @@ $$
 and for every $z\in H$, if
 
 $$
-\operatorname{toWeakSpace}_{\mathbb R,H}\bigl(x(s_n)\bigr)
+\mathrm{toWeakSpace}_{\mathbb R,H}\bigl(x(s_n)\bigr)
 \to
-\operatorname{toWeakSpace}_{\mathbb R,H}(z)
+\mathrm{toWeakSpace}_{\mathbb R,H}(z)
 $$
 
 in the weak topology, then $z\in S$. Equivalently, every weak sequential cluster point obtained by sampling $x$ at times tending to infinity belongs to $S$.
@@ -53,9 +53,9 @@ $$
 The conclusion is that the whole continuous-time trajectory has a weak limit as $t\to+\infty$, and that this limit belongs to $S$. Precisely, there exists $z\in S$ such that
 
 $$
-\operatorname{toWeakSpace}_{\mathbb R,H}\bigl(x(t)\bigr)
+\mathrm{toWeakSpace}_{\mathbb R,H}\bigl(x(t)\bigr)
 \to
-\operatorname{toWeakSpace}_{\mathbb R,H}(z)
+\mathrm{toWeakSpace}_{\mathbb R,H}(z)
 $$
 
 in the weak topology as $t\to+\infty$. In ordinary mathematical notation, $x(t)\rightharpoonup z$ weakly as $t\to+\infty$.
@@ -82,7 +82,7 @@ by
 The proof begins by applying the sequential Opial lemma `opial_sampled` to the particular time sequence $s(n)=n$. In its present specialization, `opial_sampled` states that if $x:\mathbb R\to H$, $S\subseteq H$ is nonempty, $hcluster$ and $hdist$ hold, and $s:\mathbb N\to\mathbb R$ satisfies $s_n\to+\infty$, then there exists some point in $S$ to which the sampled sequence
 
 $$
-n\mapsto \operatorname{toWeakSpace}_{\mathbb R,H}\bigl(x(s_n)\bigr)
+n\mapsto \mathrm{toWeakSpace}_{\mathbb R,H}\bigl(x(s_n)\bigr)
 $$
 
 weakly converges. The proof uses the sequence $n\mapsto (n:\mathbb R)$. The theorem `tendsto_natCast_atTop_atTop` supplies exactly the fact that
@@ -94,9 +94,9 @@ $$
 tends to $+\infty$. Therefore `opial_sampled` gives an element $p\in S$ and a proof `hpweak` that
 
 $$
-\operatorname{toWeakSpace}_{\mathbb R,H}\bigl(x(n)\bigr)
+\mathrm{toWeakSpace}_{\mathbb R,H}\bigl(x(n)\bigr)
 \to
-\operatorname{toWeakSpace}_{\mathbb R,H}(p)
+\mathrm{toWeakSpace}_{\mathbb R,H}(p)
 $$
 
 as $n\to\infty$. The `rcases` tactic destructs the existential conclusion into the witness $p$, the membership proof $hpS:p\in S$, and the weak convergence statement $hpweak$.
@@ -104,9 +104,9 @@ as $n\to\infty$. The `rcases` tactic destructs the existential conclusion into t
 Next, the proof establishes an auxiliary statement `hsample`: for every sequence $s:\mathbb N\to\mathbb R$ with $s_n\to+\infty$, the sampled sequence $x(s_n)$ weakly converges to the same point $p$. The tactic `intro s hs` introduces an arbitrary such sequence $s$ and the hypothesis $hs$ that $s_n\to+\infty$. Applying `opial_sampled` to this $s$ gives another point $q\in S$ and a weak convergence
 
 $$
-\operatorname{toWeakSpace}_{\mathbb R,H}\bigl(x(s_n)\bigr)
+\mathrm{toWeakSpace}_{\mathbb R,H}\bigl(x(s_n)\bigr)
 \to
-\operatorname{toWeakSpace}_{\mathbb R,H}(q).
+\mathrm{toWeakSpace}_{\mathbb R,H}(q).
 $$
 
 The proof must show that $q=p$. This is exactly the role of `weak_limit_eq_of_time_distance_limits`. Specialized to the current variables, that lemma says that if $hdist$ holds, if $u$ and $v$ are two sequences of real times both tending to $+\infty$, if $p,q\in S$, and if
@@ -128,13 +128,13 @@ The tactic `simpa [hpq] using hqweak` then uses the equality $hpq:p=q$ to replac
 Finally, the proof constructs the required existential conclusion. The tactic `refine ⟨p, hpS, ?_⟩` chooses $p$ as the witness, uses `hpS` as the proof that $p\in S$, and leaves the remaining goal: prove that
 
 $$
-t\mapsto \operatorname{toWeakSpace}_{\mathbb R,H}\bigl(x(t)\bigr)
+t\mapsto \mathrm{toWeakSpace}_{\mathbb R,H}\bigl(x(t)\bigr)
 $$
 
 converges to
 
 $$
-\operatorname{toWeakSpace}_{\mathbb R,H}(p)
+\mathrm{toWeakSpace}_{\mathbb R,H}(p)
 $$
 
 as $t\to+\infty$.
@@ -142,7 +142,7 @@ as $t\to+\infty$.
 To prove this continuous-time convergence, the proof uses `Filter.tendsto_iff_seq_tendsto.2`. This theorem is the sequential criterion for filter convergence: in the present instance, to show that a function of the real variable $t$ converges along the filter `atTop` to a given neighborhood filter, it suffices to show that for every sequence $s:\mathbb N\to\mathbb R$ with $s_n\to+\infty$, the composed sequence
 
 $$
-n\mapsto \operatorname{toWeakSpace}_{\mathbb R,H}\bigl(x(s_n)\bigr)
+n\mapsto \mathrm{toWeakSpace}_{\mathbb R,H}\bigl(x(s_n)\bigr)
 $$
 
 converges to the same weak limit. The `.2` direction is precisely the direction that takes this sequential convergence statement and produces the filter convergence statement.
@@ -153,13 +153,13 @@ $$
 \texttt{simpa [Function.comp\_def] using hsample s hs}
 $$
 
-unfolds the definition of function composition, turning the composed sequence into the explicit sequence $n\mapsto \operatorname{toWeakSpace}_{\mathbb R,H}(x(s_n))$, and then applies the already established `hsample s hs`. Since this argument works for an arbitrary sequence $s$ tending to $+\infty$, the sequential criterion yields the desired continuous-time weak convergence of $x(t)$ to $p$ as $t\to+\infty$. Thus the conclusion
+unfolds the definition of function composition, turning the composed sequence into the explicit sequence $n\mapsto \mathrm{toWeakSpace}_{\mathbb R,H}(x(s_n))$, and then applies the already established `hsample s hs`. Since this argument works for an arbitrary sequence $s$ tending to $+\infty$, the sequential criterion yields the desired continuous-time weak convergence of $x(t)$ to $p$ as $t\to+\infty$. Thus the conclusion
 
 $$
 \exists z\in S,\quad
-\operatorname{toWeakSpace}_{\mathbb R,H}\bigl(x(t)\bigr)
+\mathrm{toWeakSpace}_{\mathbb R,H}\bigl(x(t)\bigr)
 \to
-\operatorname{toWeakSpace}_{\mathbb R,H}(z)
+\mathrm{toWeakSpace}_{\mathbb R,H}(z)
 $$
 
 is proved with witness $p$.

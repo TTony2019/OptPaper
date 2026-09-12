@@ -21,7 +21,7 @@ lemma lemma_2_4_opial
 The declaration is a form of Opial’s lemma. In the ambient setting, $H$ is a real Hilbert space, and $w$ denotes the canonical map
 
 $$
-w(v)=\operatorname{toWeakSpace}_{\mathbb R,H}(v),
+w(v)=\mathrm{toWeakSpace}_{\mathbb R,H}(v),
 $$
 
 which views a vector $v\in H$ as an element of the weak-topology version of $H$. Thus convergence of $w(x_k)$ to $w(y)$ is exactly weak convergence of $x_k$ to $y$.
@@ -89,19 +89,19 @@ The proof defines an intermediate fact `hcluster'`:
 
 $$
 \forall z\in H,\qquad
-\operatorname{IsSequentialClusterPt}(u,w(z))\implies z\in S.
+\mathrm{IsSequentialClusterPt}(u,w(z))\implies z\in S.
 $$
 
 To prove this, it fixes such a $z$ and assumes that $w(z)$ is a sequential cluster point of the sequence $u_n=w(x_n)$. By the definition of `IsSequentialClusterPt`,
 
 $$
-\operatorname{IsSequentialClusterPt}(u,w(z))
+\mathrm{IsSequentialClusterPt}(u,w(z))
 $$
 
 means that there exists a strictly increasing map $\phi:\mathbb N\to\mathbb N$ such that the subsequence $u\circ\phi$ converges to $w(z)$. Concretely,
 
 $$
-\exists \phi,\quad \operatorname{StrictMono}(\phi)\ \wedge\ \operatorname{Tendsto}(u\circ\phi)\text{ to }w(z).
+\exists \phi,\quad \mathrm{StrictMono}(\phi)\ \wedge\ \mathrm{Tendsto}(u\circ\phi)\text{ to }w(z).
 $$
 
 The tactic `intro` introduces the arbitrary $z$ and the hypothesis that $w(z)$ is a sequential cluster point. The tactic `rcases` then destructs the existential supplied by that hypothesis, producing:
@@ -112,7 +112,7 @@ The tactic `intro` introduces the arbitrary $z$ and the hypothesis that $w(z)$ i
 The proof then forms `hsubseq`, the statement
 
 $$
-\operatorname{Tendsto}\bigl(j\mapsto w(x_{\phi(j)})\bigr)\text{ to }w(z).
+\mathrm{Tendsto}\bigl(j\mapsto w(x_{\phi(j)})\bigr)\text{ to }w(z).
 $$
 
 Initially the convergence obtained from the cluster-point hypothesis is for the composed function $u\circ\phi$. Since
@@ -135,7 +135,7 @@ and the cluster-point condition
 
 $$
 \forall z\in H,\quad
-\operatorname{IsSequentialClusterPt}(w(x_n),w(z))\implies z\in C,
+\mathrm{IsSequentialClusterPt}(w(x_n),w(z))\implies z\in C,
 $$
 
 one obtains

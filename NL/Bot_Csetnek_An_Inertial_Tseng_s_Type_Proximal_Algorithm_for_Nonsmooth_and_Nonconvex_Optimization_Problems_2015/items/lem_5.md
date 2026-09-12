@@ -17,13 +17,13 @@ theorem lemma_3_5_subgradient_estimate {m : Nat} {P : ProblemData m}
 The theorem `lemma_3_5_subgradient_estimate` concerns a fixed natural number $m$, a problem datum $P$ of type `ProblemData m`, and algorithm data $A$ of type `AlgorithmData P`. For each natural number $n$ satisfying $2\le n$, it makes two assertions about the vector
 
 $$
-s_n := \operatorname{subgradientEstimateVector}(A,n).
+s_n := \mathrm{subgradientEstimateVector}(A,n).
 $$
 
 Writing
 
 $$
-x_n=A.x_n,\qquad p_n=A.p_n,\qquad \lambda_n=A.\lambda_n,\qquad \alpha_n=A.\operatorname{alphaSeq}_n,
+x_n=A.x_n,\qquad p_n=A.p_n,\qquad \lambda_n=A.\lambda_n,\qquad \alpha_n=A.\mathrm{alphaSeq}_n,
 $$
 
 $$
@@ -128,7 +128,7 @@ have hvec := subgradientEstimateVector_eq_base A hn
 The theorem `subgradientEstimateVector_eq_base` states that, under the assumption $2\le n$,
 
 $$
-\operatorname{subgradientEstimateVector}(A,n)=b_n.
+\mathrm{subgradientEstimateVector}(A,n)=b_n.
 $$
 
 In other words, for $n\ge2$, the four-term vector $s_n$ is equal to the three-term base vector $b_n$
@@ -169,7 +169,7 @@ exact ⟨hmembership, subgradientEstimateVector_norm_bound A hn⟩
 The anonymous constructor $\langle\cdot,\cdot\rangle$ builds a proof of a conjunction. The first component is `hmembership`, the limiting-subgradient statement just proved. The second component is supplied by the cited theorem `subgradientEstimateVector_norm_bound`. That theorem states, for $2\le n$,
 
 $$
-\|\operatorname{subgradientEstimateVector}(A,n)\|
+\|\mathrm{subgradientEstimateVector}(A,n)\|
 \le
 \left(\frac{L_u}{\lambda_n}+L_h\right)\|x_n-p_n\|
 +

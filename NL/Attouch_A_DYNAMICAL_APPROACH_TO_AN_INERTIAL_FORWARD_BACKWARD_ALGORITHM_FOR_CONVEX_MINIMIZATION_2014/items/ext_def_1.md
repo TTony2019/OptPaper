@@ -12,7 +12,7 @@ The declaration is not a theorem. Its entire Lean content is `recall Optimizatio
 The mathematical content visible from the name is that of an argmin set. In optimization, for an objective function $f$ on a domain $X$, or on a feasible subset $C\subseteq X$, the argmin set is the set of points at which $f$ attains its minimum:
 
 $$
-\operatorname{argmin}_{x\in C} f(x)
+\mathrm{argmin}_{x\in C} f(x)
 =
 \{x\in C : f(x)=\inf_{y\in C} f(y)\}.
 $$

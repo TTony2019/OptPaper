@@ -12,10 +12,10 @@ theorem scalar_differential_comparison (E b : ℝ → ℝ) (t0 a : ℝ)
 ```
 
 ## Statement explanation
-The declaration is a scalar comparison theorem for a first-order linear differential inequality. It takes two real-valued functions $E,b:\mathbb R\to\mathbb R$ and real parameters $t_0,a$. The hypothesis `hIntegrable` says that for every $t\ge t_0$, the function $b$ is interval integrable on $[t_0,t]$ with respect to Lebesgue measure. The hypothesis `hDifferentiable` says that for every $t\ge t_0$, the function $E$ has derivative $\operatorname{deriv} E(t)$ at $t$; equivalently, $E$ is differentiable at every such $t$, with derivative given by the value of the derivative function. The hypothesis `h` says that on the same half-line,
+The declaration is a scalar comparison theorem for a first-order linear differential inequality. It takes two real-valued functions $E,b:\mathbb R\to\mathbb R$ and real parameters $t_0,a$. The hypothesis `hIntegrable` says that for every $t\ge t_0$, the function $b$ is interval integrable on $[t_0,t]$ with respect to Lebesgue measure. The hypothesis `hDifferentiable` says that for every $t\ge t_0$, the function $E$ has derivative $\mathrm{deriv} E(t)$ at $t$; equivalently, $E$ is differentiable at every such $t$, with derivative given by the value of the derivative function. The hypothesis `h` says that on the same half-line,
 
 $$
-\operatorname{deriv} E(t)+aE(t)\le b(t).
+\mathrm{deriv} E(t)+aE(t)\le b(t).
 $$
 
 The conclusion is that for every $t\ge t_0$,

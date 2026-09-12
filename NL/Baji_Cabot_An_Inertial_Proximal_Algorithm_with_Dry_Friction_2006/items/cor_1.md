@@ -294,31 +294,31 @@ and
 
 $$
 v:=\lambda_n^{-1}d_2,\qquad
-\operatorname{acc}:=\lambda_n^{-2}\bigl(x_{n+2}-2x_{n+1}+x_n\bigr).
+\mathrm{acc}:=\lambda_n^{-2}\bigl(x_{n+2}-2x_{n+1}+x_n\bigr).
 $$
 
 The algorithmic step for this $n$ gives
 
 $$
-0\in \{\operatorname{acc}\}+A v+B(x_{n+2}).
+0\in \{\mathrm{acc}\}+A v+B(x_{n+2}).
 $$
 
 The proof rewrites membership in a Minkowski sum using `Set.mem_add`. This membership says that a point belongs to $S+T$ exactly when it is the sum of one point of $S$ and one point of $T$. Applying this twice decomposes the algorithmic inclusion into the existence of
 
 $$
-p\in \{\operatorname{acc}\}+A v,\qquad b\in B(x_{n+2}),\qquad p+b=0,
+p\in \{\mathrm{acc}\}+A v,\qquad b\in B(x_{n+2}),\qquad p+b=0,
 $$
 
 and then into the existence of
 
 $$
-y\in A v,\qquad \operatorname{acc}+y=p.
+y\in A v,\qquad \mathrm{acc}+y=p.
 $$
 
-Because $p\in\{\operatorname{acc}\}+A v$, the singleton-membership lemma `Set.mem_singleton_iff` gives the first summand as $\operatorname{acc}$, after which `subst` replaces it. Hence
+Because $p\in\{\mathrm{acc}\}+A v$, the singleton-membership lemma `Set.mem_singleton_iff` gives the first summand as $\mathrm{acc}$, after which `subst` replaces it. Hence
 
 $$
-\operatorname{acc}+y+b=0.
+\mathrm{acc}+y+b=0.
 $$
 
 From $b\in B(x_{n+2})$ and the definition of $B$, the proof obtains the subgradient inequality
@@ -396,23 +396,23 @@ $$
 so
 
 $$
-\operatorname{acc}=\lambda_n^{-2}(d_2-d_1).
+\mathrm{acc}=\lambda_n^{-2}(d_2-d_1).
 $$
 
 Therefore
 
 $$
 \frac{1}{\lambda_n^2}\langle d_2-d_1,d_2\rangle
-=\langle \operatorname{acc},d_2\rangle.
+=\langle \mathrm{acc},d_2\rangle.
 $$
 
 Thus
 
 $$
-E_{n+1}-E_n\le \langle \operatorname{acc}+b,d_2\rangle.
+E_{n+1}-E_n\le \langle \mathrm{acc}+b,d_2\rangle.
 $$
 
-Since $\operatorname{acc}+y+b=0$, we have $\operatorname{acc}+b=-y$. Hence
+Since $\mathrm{acc}+y+b=0$, we have $\mathrm{acc}+b=-y$. Hence
 
 $$
 E_{n+1}-E_n\le -\langle y,d_2\rangle.

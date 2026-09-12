@@ -30,10 +30,10 @@ or
 
 $$
 \left(T.\mathrm{zeros}=\emptyset\ \text{and}\ 
-\neg\operatorname{Bornology.IsBounded}\bigl(\{A.x_k:k\in\mathbb N\}\bigr)\right).
+\neg\mathrm{Bornology.IsBounded}\bigl(\{A.x_k:k\in\mathbb N\}\bigr)\right).
 $$
 
-Here $\iota=\operatorname{toWeakSpace}_{\mathbb R,H}$ is the map to the weak space, so the convergence in the first alternative is convergence in the weak topology. Thus the theorem says that for a maximal monotone operator $T$ and an associated HPE iteration $A$, either there is a zero of $T$ and the HPE iterates converge weakly to some zero of $T$, or $T$ has no zero at all and the range of the HPE iterates is unbounded.
+Here $\iota=\mathrm{toWeakSpace}_{\mathbb R,H}$ is the map to the weak space, so the convergence in the first alternative is convergence in the weak topology. Thus the theorem says that for a maximal monotone operator $T$ and an associated HPE iteration $A$, either there is a zero of $T$ and the HPE iterates converge weakly to some zero of $T$, or $T$ has no zero at all and the range of the HPE iterates is unbounded.
 
 ## Lean proof
 ```lean
@@ -53,10 +53,10 @@ The proof is a case split on whether the zero set of $T$ is empty. It begins wit
 In the first case, `hzeros` says exactly that $T.\mathrm{zeros}=\emptyset$. The proof applies `hpe_unbounded_of_no_zero hT A hzeros`. The cited theorem states that if $T$ is maximal monotone, $A$ is an HPE iterates object for $T$, and $T.\mathrm{zeros}=\emptyset$, then the range of the iterates is not bounded:
 
 $$
-\neg\operatorname{Bornology.IsBounded}\bigl(\operatorname{Set.range}A.x\bigr).
+\neg\mathrm{Bornology.IsBounded}\bigl(\mathrm{Set.range}A.x\bigr).
 $$
 
-This supplies precisely the unboundedness part of the right disjunct. The proof then uses `exact Or.inr ⟨hzeros, hpe_unbounded_of_no_zero hT A hzeros⟩`. The constructor `Or.inr` chooses the right side of the disjunction, and the pair contains the two required facts: $T.\mathrm{zeros}=\emptyset$ and the non-boundedness of $\operatorname{Set.range}A.x$. This closes the first branch.
+This supplies precisely the unboundedness part of the right disjunct. The proof then uses `exact Or.inr ⟨hzeros, hpe_unbounded_of_no_zero hT A hzeros⟩`. The constructor `Or.inr` chooses the right side of the disjunction, and the pair contains the two required facts: $T.\mathrm{zeros}=\emptyset$ and the non-boundedness of $\mathrm{Set.range}A.x$. This closes the first branch.
 
 In the second case, `hzeros` says $\neg(T.\mathrm{zeros}=\emptyset)$, equivalently $T.\mathrm{zeros}\neq\emptyset$. The proof applies `Set.nonempty_iff_ne_empty.mpr hzeros`. The set lemma used here has the content that a set $s$ is nonempty if and only if $s\neq\emptyset$. Taking the forward direction from the negated equality gives that $T.\mathrm{zeros}$ is nonempty. The tactic `rcases ... with ⟨xStar, hxStar⟩` then extracts a witness $x^\star$ and a proof $hxStar$ that $x^\star\in T.\mathrm{zeros}$.
 
@@ -75,9 +75,9 @@ $$
 Finally, the proof invokes `hpe_weakly_converges_to_zero hT A hzero`. The cited theorem states that, under the same maximal-monotonicity and HPE-iterates hypotheses, if there exists $x^\star$ with $0\in T(x^\star)$, then there exists $x^\star$ with $0\in T(x^\star)$ and
 
 $$
-\operatorname{toWeakSpace}_{\mathbb R,H}(A.x_k)
+\mathrm{toWeakSpace}_{\mathbb R,H}(A.x_k)
 \longrightarrow
-\operatorname{toWeakSpace}_{\mathbb R,H}(x^\star)
+\mathrm{toWeakSpace}_{\mathbb R,H}(x^\star)
 $$
 
 in the weak topology as $k\to\infty$. This is exactly the left disjunct of the target conclusion. The constructor `Or.inl` selects that left side, so `exact Or.inl (hpe_weakly_converges_to_zero hT A hzero)` closes the second branch.

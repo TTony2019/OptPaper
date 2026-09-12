@@ -22,7 +22,7 @@ The ambient space $H$ is a real Hilbert space: a complete real inner-product spa
 The hypotheses are as follows. The assumption `hΦ : AssumptionH H Φ` is an assumption package on $\Phi$; in the proof only two consequences of it are used: $\Phi$ is twice continuously differentiable, and $\Phi$ is bounded below. The trajectory satisfies `hxreg : ContDiff ℝ 2 x`, so $x$ is $C^2$. The potential is globally convex: `hconvex : ConvexOn ℝ Set.univ Φ`. Its set of global minimizers,
 
 $$
-\operatorname{argminSet}\Phi=\{p\in H:\forall y\in H,\ \Phi(p)\le \Phi(y)\},
+\mathrm{argminSet}\Phi=\{p\in H:\forall y\in H,\ \Phi(p)\le \Phi(y)\},
 $$
 
 is nonempty: `hmin : (Optimization.argminSet Φ).Nonempty`. The trajectory is a D-IN trajectory: `hsol : IsDINTrajectory H Φ α β x`. From this assumption the proof extracts the positivity conditions $0<\alpha$ and $0<\beta$, and the second-order equation
@@ -42,7 +42,7 @@ $$
 for all $y,v\in H$. Finally, the crucial extra hypothesis is
 
 $$
-\operatorname{interior}\bigl(\operatorname{argminSet}\Phi\bigr)\neq\varnothing.
+\mathrm{interior}\bigl(\mathrm{argminSet}\Phi\bigr)\neq\varnothing.
 $$
 
 Thus there is a point $z_0$ and a radius $\rho>0$ such that the whole ball $B(z_0,\rho)$ consists of global minimizers of $\Phi$.
@@ -506,7 +506,7 @@ by
 The proof first establishes the regularity needed to differentiate the gradient and the energy. From `hΦ.twice_continuously_differentiable` and `of_le`, the proof obtains that $\Phi$ is $C^1$. From `hxreg`, it gets that $x$ is $C^2$; the lemma `contDiff_succ_iff_deriv` is used to split this into differentiability of $x$ and $C^1$-regularity of $x'$, and then again to obtain differentiability of $x'$. Similarly, `contDiff_succ_iff_fderiv` is applied to the $C^2$-regularity of $\Phi$ to get $C^1$-regularity of $D\Phi$. Since `gradient Φ` is obtained by composing $D\Phi$ with the inverse Riesz isomorphism `(InnerProductSpace.toDual ℝ H).symm`, the proof concludes that $\nabla\Phi$ is $C^1$, hence continuous and differentiable. In particular, `hgradDeriv` gives
 
 $$
-\operatorname{HasFDerivAt}(\nabla\Phi,\ D\nabla\Phi(z),\ z)
+\mathrm{HasFDerivAt}(\nabla\Phi,\ D\nabla\Phi(z),\ z)
 $$
 
 for every $z\in H$, and $t\mapsto \nabla\Phi(x(t))$ is $C^1$. These facts justify all later derivative computations.
@@ -549,10 +549,10 @@ $$
 x'(t)\to0,\qquad \nabla\Phi(x(t))\to0.
 $$
 
-The interior-minimizer hypothesis is used next. Choose $z_0$ in the interior of $\operatorname{argminSet}\Phi$. Then there is $\rho>0$ such that
+The interior-minimizer hypothesis is used next. Choose $z_0$ in the interior of $\mathrm{argminSet}\Phi$. Then there is $\rho>0$ such that
 
 $$
-B(z_0,\rho)\subseteq \operatorname{argminSet}\Phi.
+B(z_0,\rho)\subseteq \mathrm{argminSet}\Phi.
 $$
 
 The proof applies `convex_supporting_baillon_haddad` to the convex function $\Phi$ and its gradient. This lemma gives the supporting inequality
@@ -674,10 +674,10 @@ Thus $H$ is antitone on $[0,\infty)$ and bounded below. The proof extends it to 
 This finite limit is used for integrability. The theorem `integrableOn_Ioi_deriv_of_nonpos'` is applied to $H$. It says that if a function is differentiable on $(0,\infty)$, has nonpositive derivative there, and has a finite limit at infinity, then its derivative is integrable on $(0,\infty)$. Hence `deriv H` is integrable on $(0,\infty)$. Since
 
 $$
-0\le \varepsilon\langle g(t),u(t)\rangle\le -\operatorname{deriv}H(t),
+0\le \varepsilon\langle g(t),u(t)\rangle\le -\mathrm{deriv}H(t),
 $$
 
-comparison with the integrable function $-\operatorname{deriv}H$ shows that
+comparison with the integrable function $-\mathrm{deriv}H$ shows that
 
 $$
 t\mapsto \varepsilon\langle g(t),u(t)\rangle
@@ -761,7 +761,7 @@ $$
 \nabla\Phi(z)=0.
 $$
 
-The lemma `stationary_is_argmin` says that if $\Phi$ is $C^1$, globally convex, and $\nabla\Phi(p)=0$, then $p\in\operatorname{argminSet}\Phi$. Hence $z$ is a global minimizer. Finally, the proof chooses a minimizer $m$ from `hmin`. Since $m$ is a minimizer, $\Phi(m)\le\Phi(y)$ for every $y$. Since $z$ is also a minimizer, $\Phi(z)\le\Phi(m)$. Thus $\Phi(z)=\Phi(m)$, and therefore $\Phi(z)\le\Phi(y)$ for every $y$. This confirms that $z\in\operatorname{argminSet}\Phi$ and completes the proof.
+The lemma `stationary_is_argmin` says that if $\Phi$ is $C^1$, globally convex, and $\nabla\Phi(p)=0$, then $p\in\mathrm{argminSet}\Phi$. Hence $z$ is a global minimizer. Finally, the proof chooses a minimizer $m$ from `hmin`. Since $m$ is a minimizer, $\Phi(m)\le\Phi(y)$ for every $y$. Since $z$ is also a minimizer, $\Phi(z)\le\Phi(m)$. Thus $\Phi(z)=\Phi(m)$, and therefore $\Phi(z)\le\Phi(y)$ for every $y$. This confirms that $z\in\mathrm{argminSet}\Phi$ and completes the proof.
 
 In Lean, commands such as `intro` introduce local variables or hypotheses; `rw` rewrites goals using definitions and equalities such as the derivative formulas; `simp` and `simpa` unfold definitions like `gradient`, `BoundedOnNonnegative`, and composition; `exact` applies a cited theorem or a previously proved fact; `linarith` and `nlinarith` discharge the scalar inequalities coming from Young's inequality and the coefficient estimates; and `ring_nf` and `module` prove algebraic identities in $\mathbb R$ and in the vector space $H$.
 

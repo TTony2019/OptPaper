@@ -266,7 +266,7 @@ $$
 
 meaning that $h$ is eventually equal to $0$ near the origin.
 
-In the first case, where $h$ vanishes in a neighborhood of $0$, the proof uses `Metric.mem_nhds_iff.mp hz` to extract a radius $\rho>0$ such that $h(z)=0$ whenever $\operatorname{dist}(z,0)<\rho$. In ordinary terms, $h$ is identically zero on the ball $B(0,\rho)$. The proof chooses
+In the first case, where $h$ vanishes in a neighborhood of $0$, the proof uses `Metric.mem_nhds_iff.mp hz` to extract a radius $\rho>0$ such that $h(z)=0$ whenever $\mathrm{dist}(z,0)<\rho$. In ordinary terms, $h$ is identically zero on the ball $B(0,\rho)$. The proof chooses
 
 $$
 \sigma=\rho,\qquad \theta=\frac14.

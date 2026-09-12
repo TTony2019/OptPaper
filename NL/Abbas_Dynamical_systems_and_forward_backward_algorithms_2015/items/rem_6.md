@@ -21,7 +21,7 @@ theorem semigroup_strong_convergence_remark {H : Type*} [NormedAddCommGroup H]
 ```
 
 ## Statement explanation
-The declaration is a strong-convergence theorem for a continuous forward-backward trajectory in a real Hilbert space $H$. The space $H$ is assumed to be a complete real inner product space. The data are a set-valued operator $A:H\to\mathcal P(H)$, a single-valued map $B:H\to H$, an extended-real function $\Phi:H\to \operatorname{Ioi}(\bot)$, a set $S\subseteq H$, a trajectory $x:\mathbb R\to H$, and a real number $\beta$. Here $\operatorname{Ioi}(\bot)$ means values strictly larger than the bottom extended real element, so $\Phi$ never takes the value $-\infty$. The hypothesis $hPhi$ says that $\Phi$ belongs to `ERealFunction.gammaZero H`, the admissibility class used by the forward-backward theory; the proof passes this hypothesis directly to `semigroup_convergence`.
+The declaration is a strong-convergence theorem for a continuous forward-backward trajectory in a real Hilbert space $H$. The space $H$ is assumed to be a complete real inner product space. The data are a set-valued operator $A:H\to\mathcal P(H)$, a single-valued map $B:H\to H$, an extended-real function $\Phi:H\to \mathrm{Ioi}(\bot)$, a set $S\subseteq H$, a trajectory $x:\mathbb R\to H$, and a real number $\beta$. Here $\mathrm{Ioi}(\bot)$ means values strictly larger than the bottom extended real element, so $\Phi$ never takes the value $-\infty$. The hypothesis $hPhi$ says that $\Phi$ belongs to `ERealFunction.gammaZero H`, the admissibility class used by the forward-backward theory; the proof passes this hypothesis directly to `semigroup_convergence`.
 
 The hypotheses are as follows. The set $S$ is nonempty. The number $\beta$ is positive. The map $B$ is $\beta$-cocoercive on all of $H$, meaning the Lean predicate `CocoerciveOn beta Set.univ (fun w : Set.univ ↦ B w)` holds. The hypothesis `hsolution` says that for every $z$,
 
@@ -29,10 +29,10 @@ $$
 z\in S \iff -B z\in \partial\Phi(z).
 $$
 
-Equivalently, $S$ is the set of solutions of $0\in \partial\Phi(z)+B(z)$. The hypothesis `horbit` says that $x$ is a forward-backward semigroup orbit for $\Phi$ and $B$. The proof uses the associated residual $r(t)=\operatorname{horbit.residual}(t)$, which satisfies
+Equivalently, $S$ is the set of solutions of $0\in \partial\Phi(z)+B(z)$. The hypothesis `horbit` says that $x$ is a forward-backward semigroup orbit for $\Phi$ and $B$. The proof uses the associated residual $r(t)=\mathrm{horbit.residual}(t)$, which satisfies
 
 $$
-r(t)=-\operatorname{deriv}x(t)
+r(t)=-\mathrm{deriv}x(t)
 $$
 
 and, for $t\ge0$,
@@ -155,24 +155,24 @@ by
 The proof begins by applying `semigroup_convergence` to $\Phi$, $S$, $B$, $x$, and $\beta$, using the hypotheses $hPhi$, $hS$, $hbeta$, $hB$, $hsolution$, and $horbit$. That theorem provides three facts. First, the derivative of the trajectory is square-integrable:
 
 $$
-\int_0^\infty \|\operatorname{deriv}x(t)\|^2\,dt<\infty.
+\int_0^\infty \|\mathrm{deriv}x(t)\|^2\,dt<\infty.
 $$
 
 Second, there is a point $z\in S$ such that the trajectory converges weakly to $z$:
 
 $$
-\operatorname{toWeakSpace}(x(t))\to \operatorname{toWeakSpace}(z).
+\mathrm{toWeakSpace}(x(t))\to \mathrm{toWeakSpace}(z).
 $$
 
 Third, for every solution point, $B(x(t))$ converges to the corresponding value of $B$; the proof discards this third part. The `obtain` command destructures the triple into `hdxint`, the weak-limit witness $\langle z,hz,hxweak\rangle$, and an ignored third component.
 
-Next the proof shows that the squared norm of the residual is integrable. Since the residual satisfies $r(t)=-\operatorname{deriv}x(t)$, we have
+Next the proof shows that the squared norm of the residual is integrable. Since the residual satisfies $r(t)=-\mathrm{deriv}x(t)$, we have
 
 $$
-\|r(t)\|^2=\|-\operatorname{deriv}x(t)\|^2=\|\operatorname{deriv}x(t)\|^2.
+\|r(t)\|^2=\|-\mathrm{deriv}x(t)\|^2=\|\mathrm{deriv}x(t)\|^2.
 $$
 
-The tactic `Integrable.congr` transfers the integrability of $t\mapsto \|\operatorname{deriv}x(t)\|^2$ to $t\mapsto \|r(t)\|^2$, because the two functions agree almost everywhere. The `filter_upwards` and `rw [ht, norm_neg]` steps are exactly this pointwise identification using the orbit identity for the residual.
+The tactic `Integrable.congr` transfers the integrability of $t\mapsto \|\mathrm{deriv}x(t)\|^2$ to $t\mapsto \|r(t)\|^2$, because the two functions agree almost everywhere. The `filter_upwards` and `rw [ht, norm_neg]` steps are exactly this pointwise identification using the orbit identity for the residual.
 
 The theorem `antitone_norm_sq_integrableOn_Ici_tendsto_zero` is then applied to the residual $r$. Its mathematical content is: for a normed additive commutative group $E$ and a function $r:\mathbb R\to E$, if $t\mapsto \|r(t)\|$ is antitone on $[0,\infty)$ and $t\mapsto \|r(t)\|^2$ is integrable on $[0,\infty)$, then
 
@@ -297,7 +297,7 @@ $$
 The theorem `weakSpace_continuous_inner_right` states that for fixed $u$, the map on the weak space
 
 $$
-X\mapsto \left\langle (\operatorname{toWeakSpace})^{-1}X,u\right\rangle
+X\mapsto \left\langle (\mathrm{toWeakSpace})^{-1}X,u\right\rangle
 $$
 
 is continuous. Composing this continuity with the weak convergence of $x(t)$ to $z$ gives

@@ -125,7 +125,7 @@ by
 The proof reduces the problem to a one-dimensional estimate along the line segment from $x$ to $v$. It defines
 
 $$
-\phi(t)=\operatorname{lineMap}(x,v,t).
+\phi(t)=\mathrm{lineMap}(x,v,t).
 $$
 
 In this vector-space setting, $\phi(t)$ is the affine interpolation between $x$ and $v$, namely $(1-t)x+tv$, equivalently $x+t(v-x)$. Hence $\phi(0)=x$, $\phi(1)=v$, and the derivative of $\phi$ is the constant vector $v-x$.

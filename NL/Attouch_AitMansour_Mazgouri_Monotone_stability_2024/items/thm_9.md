@@ -62,15 +62,15 @@ The standing assumptions are:
 The definition of `pathSupNorm` is
 
 $$
-\operatorname{pathSupNorm}_T(y)
+\mathrm{pathSupNorm}_T(y)
 =\sup\{q\in\mathbb R:\exists t\in[0,T],\,q=\|y(t)\|\}.
 $$
 
 So the conclusion
 
 $$
-\operatorname{Tendsto}\Bigl(\mu\mapsto
-\operatorname{pathSupNorm}_T\bigl(x_\mu-x_{\bar\mu}\bigr)\Bigr)
+\mathrm{Tendsto}\Bigl(\mu\mapsto
+\mathrm{pathSupNorm}_T\bigl(x_\mu-x_{\bar\mu}\bigr)\Bigr)
 \ \text{at }\bar\mu\ \text{to }0
 $$
 
@@ -170,7 +170,7 @@ $$
 \|v-x_{\bar\mu}(s)\|\le \|u_0(\mu)-u_0(\bar\mu)\|.
 $$
 
-To prove this, the proof introduces $\mu$, the hypothesis $\mu\in V$, $s$, $s\in[0,T]$, $v$, and the closeness hypothesis. It then proves two Lipschitz estimates. For $A_\mu$, it applies `cocoercive_implies_lipschitz` to the cocoercivity hypothesis `hcoco μ`. That lemma says that if $A$ is $\beta$-cocoercive on all of $H$, then $A$ is Lipschitz with constant $\operatorname{toNNReal}(1/\beta)$. Here $\beta=\alpha>0$, so $\operatorname{toNNReal}(1/\alpha)=1/\alpha=\alpha^{-1}$. Using `dist_le_mul`, the proof obtains
+To prove this, the proof introduces $\mu$, the hypothesis $\mu\in V$, $s$, $s\in[0,T]$, $v$, and the closeness hypothesis. It then proves two Lipschitz estimates. For $A_\mu$, it applies `cocoercive_implies_lipschitz` to the cocoercivity hypothesis `hcoco μ`. That lemma says that if $A$ is $\beta$-cocoercive on all of $H$, then $A$ is Lipschitz with constant $\mathrm{toNNReal}(1/\beta)$. Here $\beta=\alpha>0$, so $\mathrm{toNNReal}(1/\alpha)=1/\alpha=\alpha^{-1}$. Using `dist_le_mul`, the proof obtains
 
 $$
 \|A_\mu a-A_\mu b\|\le \alpha^{-1}\|a-b\|
@@ -182,7 +182,7 @@ $$
 \|A_{\bar\mu}a-A_{\bar\mu}b\|\le \alpha^{-1}\|a-b\|.
 $$
 
-The `simpa` rewrites distance as norm, converts the nonnegative real constant $\operatorname{toNNReal}(1/\alpha)$ into $\alpha^{-1}$ using $\alpha>0$, and simplifies the maximum with $0$.
+The `simpa` rewrites distance as norm, converts the nonnegative real constant $\mathrm{toNNReal}(1/\alpha)$ into $\alpha^{-1}$ using $\alpha>0$, and simplifies the maximum with $0$.
 
 Next the proof inserts the telescoping decomposition
 
@@ -237,7 +237,7 @@ $$
 then
 
 $$
-\operatorname{pathSupNorm}_T(x_\mu-x_{\mu'})
+\mathrm{pathSupNorm}_T(x_\mu-x_{\mu'})
 \le
 \frac{\alpha}{\alpha-\alpha\gamma T-T^2}
 \Bigl(
@@ -256,7 +256,7 @@ $$
 The required discrepancy condition is exactly `hdisc`. Since $V$ is a neighborhood of $\bar\mu$, the proof uses `filter_upwards [hV]` to say that eventually $\mu\in V$, and for such $\mu$ it applies `thm_8_general`. This produces the eventual estimate `hext`:
 
 $$
-\operatorname{pathSupNorm}_T(x_\mu-x_{\bar\mu})
+\mathrm{pathSupNorm}_T(x_\mu-x_{\bar\mu})
 \le
 \frac{\alpha}{\alpha-\alpha\gamma T-T^2}
 \Bigl(
@@ -319,10 +319,10 @@ $$
 
 gives `hRHS`, the statement that the entire upper bound in `hext` tends to $0$. The tactics `.sub`, `.norm`, `.const_mul`, `.add`, and `simpa` are used to build these limit statements from the assumed limits and the continuity of scalar multiplication, addition, subtraction, and the norm.
 
-It remains to squeeze the nonnegative quantity $\operatorname{pathSupNorm}_T(x_\mu-x_{\bar\mu})$ between $0$ and the upper bound. The proof supplies the lower bound by `filter_upwards` and then unfolding `pathSupNorm`:
+It remains to squeeze the nonnegative quantity $\mathrm{pathSupNorm}_T(x_\mu-x_{\bar\mu})$ between $0$ and the upper bound. The proof supplies the lower bound by `filter_upwards` and then unfolding `pathSupNorm`:
 
 $$
-\operatorname{pathSupNorm}_T(x_\mu-x_{\bar\mu})
+\mathrm{pathSupNorm}_T(x_\mu-x_{\bar\mu})
 =
 \sup\{q\in\mathbb R:\exists t\in[0,T],\,
 q=\|x_\mu(t)-x_{\bar\mu}(t)\|\}.
@@ -331,7 +331,7 @@ $$
 Every element $q$ of this set is a norm, hence $q\ge0$ by `norm_nonneg`. Therefore `Real.sSup_nonneg` gives
 
 $$
-0\le \operatorname{pathSupNorm}_T(x_\mu-x_{\bar\mu})
+0\le \mathrm{pathSupNorm}_T(x_\mu-x_{\bar\mu})
 $$
 
 for every $\mu$, and in particular eventually as $\mu\to\bar\mu$.
@@ -339,7 +339,7 @@ for every $\mu$, and in particular eventually as $\mu\to\bar\mu$.
 Finally, the proof applies `squeeze_zero'` with the lower bound $0$, the eventual upper bound `hext`, and the limit `hRHS`. Since the upper bound tends to $0$ and the quantity of interest is eventually nonnegative and bounded above by it, `squeeze_zero'` yields
 
 $$
-\operatorname{pathSupNorm}_T(x_\mu-x_{\bar\mu})\to0
+\mathrm{pathSupNorm}_T(x_\mu-x_{\bar\mu})\to0
 \quad\text{as }\mu\to\bar\mu,
 $$
 

@@ -21,14 +21,14 @@ This declaration defines the predicate `IsDINTrajectory`. The parameters are:
 The definition returns a proposition, namely the conjunction of three statements. First, $0<\alpha$. Second, $0<\beta$. Third, for every real $t$ with $0\le t$, the following second-order differential equation holds in $H$:
 
 $$
-\operatorname{deriv}(\operatorname{deriv} x)(t)
-+\alpha \operatorname{deriv} x(t)
-+\beta \left(\operatorname{fderiv}_{\mathbb{R}}(\nabla \Phi)(x(t))\right)(\operatorname{deriv} x(t))
+\mathrm{deriv}(\mathrm{deriv} x)(t)
++\alpha \mathrm{deriv} x(t)
++\beta \left(\mathrm{fderiv}_{\mathbb{R}}(\nabla \Phi)(x(t))\right)(\mathrm{deriv} x(t))
 +\nabla\Phi(x(t))
 =0_H.
 $$
 
-Equivalently, writing $\dot{x}(t)=\operatorname{deriv} x(t)$, $\ddot{x}(t)=\operatorname{deriv}(\operatorname{deriv} x)(t)$, and using $\nabla\Phi$ for the gradient map associated with $\Phi$, the equation is
+Equivalently, writing $\dot{x}(t)=\mathrm{deriv} x(t)$, $\ddot{x}(t)=\mathrm{deriv}(\mathrm{deriv} x)(t)$, and using $\nabla\Phi$ for the gradient map associated with $\Phi$, the equation is
 
 $$
 \ddot{x}(t)+\alpha\dot{x}(t)

@@ -38,9 +38,9 @@ $$
 Equivalently, in Lean notation,
 
 $$
-\operatorname{Tendsto}\bigl(t\mapsto \operatorname{toWeakSpace}_{\mathbb R}(x(t))\bigr)
+\mathrm{Tendsto}\bigl(t\mapsto \mathrm{toWeakSpace}_{\mathbb R}(x(t))\bigr)
 \ \text{to}\ 
-\operatorname{nhds}\bigl(\operatorname{toWeakSpace}_{\mathbb R}(z)\bigr).
+\mathrm{nhds}\bigl(\mathrm{toWeakSpace}_{\mathbb R}(z)\bigr).
 $$
 
 This is the Opial trajectory lemma: under the assumption that the distance from the trajectory to every point of $S$ stabilizes and every weak sequential cluster point belongs to $S$, the trajectory has a genuine weak limit lying in $S$.
@@ -93,8 +93,8 @@ fixes an arbitrary $z$ and destructs the existential-and-conjunction hypothesis.
 To apply the original hypothesis `hcluster z`, the proof must show that $x(u(n))$ converges weakly to $z$. It supplies the same sequence $u$, the same limit statement `hu`, and then proves weak convergence by rewriting with the cited equivalence
 
 $$
-\operatorname{Tendsto}\bigl(n\mapsto \operatorname{toWeakSpace}_{\mathbb R}(x(u(n)))\bigr)
-\text{ to } \operatorname{nhds}\bigl(\operatorname{toWeakSpace}_{\mathbb R}(z)\bigr)
+\mathrm{Tendsto}\bigl(n\mapsto \mathrm{toWeakSpace}_{\mathbb R}(x(u(n)))\bigr)
+\text{ to } \mathrm{nhds}\bigl(\mathrm{toWeakSpace}_{\mathbb R}(z)\bigr)
 \iff
 \forall v:H,\ 
 \langle x(u(n)),v\rangle_{\mathbb R}\to \langle z,v\rangle_{\mathbb R}.
@@ -123,7 +123,7 @@ $$
 The hypothesis `hfun` says that every continuous linear functional converges along the sequence. In particular, it applies to the continuous linear functional `InnerProductSpace.toDual ℝ H v`, which is the Riesz-representing functional associated to the vector $v$. Thus
 
 $$
-(\operatorname{toDual} v)(x(u(n)))\to (\operatorname{toDual} v)(z).
+(\mathrm{toDual} v)(x(u(n)))\to (\mathrm{toDual} v)(z).
 $$
 
 The command

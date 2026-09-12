@@ -14,10 +14,10 @@ def IsSolution_gDIN {H : Type*} [NormedAddCommGroup H] [NormedSpace ℝ H]
 ## Statement explanation
 The declaration introduces a predicate named `IsSolution_gDIN`. Its ambient object $H$ is assumed to be a complete real inner product space, i.e. a real Hilbert space: the typeclass assumptions provide additive group structure, real scalar multiplication, compatibility with the norm, an inner product over $\mathbb R$, and completeness. The parameter $\Phi : H \to \mathbb R$ is a real-valued potential. The parameters $\beta,a,b$ are real numbers, $x_0,y_0\in H$ are initial vectors, and $x,y:\mathbb R\to H$ are curves, thought of as functions of time.
 
-Writing $x'(t)$ for the Lean derivative $\operatorname{deriv} x\,t$, writing $y'(t)$ for $\operatorname{deriv} y\,t$, and writing $\nabla\Phi$ for the gradient of $\Phi$, the predicate
+Writing $x'(t)$ for the Lean derivative $\mathrm{deriv} x\,t$, writing $y'(t)$ for $\mathrm{deriv} y\,t$, and writing $\nabla\Phi$ for the gradient of $\Phi$, the predicate
 
 $$
-\operatorname{IsSolution\_gDIN}(\Phi,\beta,a,b,x_0,y_0,x,y)
+\mathrm{IsSolution\_gDIN}(\Phi,\beta,a,b,x_0,y_0,x,y)
 $$
 
 holds exactly when all of the following four conditions are true:

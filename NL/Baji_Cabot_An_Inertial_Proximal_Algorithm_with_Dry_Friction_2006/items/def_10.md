@@ -8,19 +8,19 @@ def IsStronglyConvex (f : H → ℝ) (M : ℝ) : Prop :=
 ```
 
 ## Statement explanation
-The declaration introduces a predicate $\operatorname{IsStronglyConvex}$ for a function $f : H \to \mathbb R$ and a real number $M$. The visible notation uses a real inner product $\langle \cdot,\cdot\rangle_{\mathbb R}$, a norm $\|\cdot\|$, and a gradient $\nabla f$, so $H$ is the ambient domain type carrying those operations; the declaration itself does not further specify $H$. The parameters are therefore a real-valued function $f$, a real scalar $M$, and, inside the quantified condition, arbitrary points $x,y \in H$.
+The declaration introduces a predicate $\mathrm{IsStronglyConvex}$ for a function $f : H \to \mathbb R$ and a real number $M$. The visible notation uses a real inner product $\langle \cdot,\cdot\rangle_{\mathbb R}$, a norm $\|\cdot\|$, and a gradient $\nabla f$, so $H$ is the ambient domain type carrying those operations; the declaration itself does not further specify $H$. The parameters are therefore a real-valued function $f$, a real scalar $M$, and, inside the quantified condition, arbitrary points $x,y \in H$.
 
 The definitional body is the proposition
 
 $$
-M>0 \;\wedge\; \operatorname{ContDiff}_{\mathbb R}^{1}(f)
+M>0 \;\wedge\; \mathrm{ContDiff}_{\mathbb R}^{1}(f)
 \;\wedge\;
 \forall x,y,\ 
 \bigl\langle \nabla f(x)-\nabla f(y),\,x-y\bigr\rangle_{\mathbb R}
 \ge M\,\|x-y\|^2 .
 $$
 
-Thus $\operatorname{IsStronglyConvex}(f,M)$ means that three requirements all hold:
+Thus $\mathrm{IsStronglyConvex}(f,M)$ means that three requirements all hold:
 
 1. The modulus $M$ is strictly positive: $M>0$.
 2. The function $f$ is continuously differentiable of order $1$ over $\mathbb R$, i.e. $f$ is $C^1$. This is the regularity condition used so that the gradient $\nabla f$ is available.
@@ -41,10 +41,10 @@ In ordinary language, the declaration says that $f$ is $M$-strongly convex when 
 ## Proof explanation
 There is no separate proof part. The declaration is a `def`, so its content is exhausted by the definitional equation above. Consequently there are no proof steps to analyze: no tactics such as `intro`, `rw`, `simp`, `exact`, or `linarith` occur, and no named local theorem or lemma is invoked.
 
-Mathematically, to use or establish $\operatorname{IsStronglyConvex}(f,M)$, one unfolds the definition and obtains exactly the conjunction
+Mathematically, to use or establish $\mathrm{IsStronglyConvex}(f,M)$, one unfolds the definition and obtains exactly the conjunction
 
 $$
-M>0 \;\wedge\; \operatorname{ContDiff}_{\mathbb R}^{1}(f)
+M>0 \;\wedge\; \mathrm{ContDiff}_{\mathbb R}^{1}(f)
 \;\wedge\;
 \forall x,y,\ 
 \bigl\langle \nabla f(x)-\nabla f(y),\,x-y\bigr\rangle_{\mathbb R}

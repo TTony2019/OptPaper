@@ -32,7 +32,7 @@ theorem cor_1 {H M : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [Co
 The declaration `cor_1` is a parameterized stability corollary for a family of convex functions on a real Hilbert space. Let $H$ be a real Hilbert space, let $M$ be a normed additive commutative group, and let $V\subseteq M$ be a parameter set. For each $\mu\in M$, write
 
 $$
-\phi_\mu=\phi(\mu):H\to\mathbb R,\qquad G_\mu=\operatorname{gradφ}(\mu):H\to H.
+\phi_\mu=\phi(\mu):H\to\mathbb R,\qquad G_\mu=\mathrm{gradφ}(\mu):H\to H.
 $$
 
 Thus $G_\mu(q)$ is asserted to be the gradient of $\phi_\mu$ at $q$. The theorem also has a damping parameter $\gamma\in\mathbb R$, initial data
@@ -51,19 +51,19 @@ and a function $\beta:M\to\mathbb R$, together with constants $k_1,\gamma_1\in\m
 
 The hypotheses are as follows.
 
-- For every $\mu\in V$, $\phi_\mu$ is convex: $\operatorname{IsConvex}(\phi_\mu)$.
-- For every $\mu\in V$, $\phi_\mu$ is differentiable over $\mathbb R$: $\operatorname{Differentiable}_{\mathbb R}(\phi_\mu)$.
+- For every $\mu\in V$, $\phi_\mu$ is convex: $\mathrm{IsConvex}(\phi_\mu)$.
+- For every $\mu\in V$, $\phi_\mu$ is differentiable over $\mathbb R$: $\mathrm{Differentiable}_{\mathbb R}(\phi_\mu)$.
 - For every $\mu\in V$ and every $q\in H$, $G_\mu(q)$ is the gradient of $\phi_\mu$ at $q$:
 
   $$
-  \operatorname{HasGradientAt}(\phi_\mu,G_\mu(q),q).
+  \mathrm{HasGradientAt}(\phi_\mu,G_\mu(q),q).
   $$
 
-- For every $\mu\in V$, $G_\mu$ is Lipschitz with constant $\operatorname{toNNReal}(1/\beta_\mu)$, where $\beta_\mu=\beta(\mu)$. Since $\beta_\mu>0$ is assumed below, this is the nonnegative real constant $1/\beta_\mu$.
+- For every $\mu\in V$, $G_\mu$ is Lipschitz with constant $\mathrm{toNNReal}(1/\beta_\mu)$, where $\beta_\mu=\beta(\mu)$. Since $\beta_\mu>0$ is assumed below, this is the nonnegative real constant $1/\beta_\mu$.
 - For every $\mu\in V$, the triple $(x_\mu,dx_\mu,ddx_\mu)=(x(\mu),dx(\mu),ddx(\mu))$ satisfies the predicate
 
   $$
-  \operatorname{ext\_def\_2}(G_\mu,\gamma,u_0(\mu),v_0(\mu),x_\mu,dx_\mu,ddx_\mu).
+  \mathrm{ext\_def\_2}(G_\mu,\gamma,u_0(\mu),v_0(\mu),x_\mu,dx_\mu,ddx_\mu).
   $$
 
   The internal definition of `ext_def_2` is not included in the supplied context; the statement only uses it as a solution predicate for the second-order problem with operator $G_\mu$, damping $\gamma$, and initial data $u_0(\mu),v_0(\mu)$.
@@ -80,7 +80,7 @@ The conclusion has two parts.
 First, for every $\mu\in V$, there exists a solution triple $(\tilde x_\mu,\widetilde{dx}_\mu,\widetilde{ddx}_\mu):\mathbb R\to H$ of
 
 $$
-\operatorname{ext\_def\_2}(G_\mu,\gamma,u_0(\mu),v_0(\mu),\tilde x_\mu,\widetilde{dx}_\mu,\widetilde{ddx}_\mu),
+\mathrm{ext\_def\_2}(G_\mu,\gamma,u_0(\mu),v_0(\mu),\tilde x_\mu,\widetilde{dx}_\mu,\widetilde{ddx}_\mu),
 $$
 
 and any other solution $(y,dy,ddy)$ of the same problem satisfies
@@ -187,18 +187,18 @@ $$
 L=\frac{1}{\beta_\mu}.
 $$
 
-The hypotheses of `ext_thm_4` are precisely that $L>0$, $\phi_\mu$ is convex, $\phi_\mu$ is differentiable, $G_\mu(q)$ is the gradient of $\phi_\mu$ at every $q$, and $G_\mu$ is Lipschitz with constant $\operatorname{toNNReal}(L)$. These are supplied respectively by $0<\beta_\mu$, `hconv μ hμ`, `hdiff μ hμ`, `hgrad_id μ hμ`, and `hgrad μ hμ`.
+The hypotheses of `ext_thm_4` are precisely that $L>0$, $\phi_\mu$ is convex, $\phi_\mu$ is differentiable, $G_\mu(q)$ is the gradient of $\phi_\mu$ at every $q$, and $G_\mu$ is Lipschitz with constant $\mathrm{toNNReal}(L)$. These are supplied respectively by $0<\beta_\mu$, `hconv μ hμ`, `hdiff μ hμ`, `hgrad_id μ hμ`, and `hgrad μ hμ`.
 
 The mathematical content of `ext_thm_4` is: if a convex differentiable function on a real Hilbert space has gradient map that is $L$-Lipschitz, then that gradient map is $(1/L)$-cocoercive on the whole space. Its conclusion is therefore
 
 $$
-\operatorname{CocoerciveOn}\left(\frac{1}{L},\operatorname{Set.univ},G_\mu\right).
+\mathrm{CocoerciveOn}\left(\frac{1}{L},\mathrm{Set.univ},G_\mu\right).
 $$
 
 Since $L=1/\beta_\mu$, we have $1/L=\beta_\mu$. The command `simpa [one_div]` performs this reciprocal simplification, yielding
 
 $$
-\operatorname{CocoerciveOn}(\beta_\mu,\operatorname{Set.univ},G_\mu).
+\mathrm{CocoerciveOn}(\beta_\mu,\mathrm{Set.univ},G_\mu).
 $$
 
 The definition of `CocoerciveOn` says that $\beta_\mu>0$ and that for all $x,y$ in the domain,
@@ -248,7 +248,7 @@ $$
 The hypotheses of `thm_1` are $0<\gamma$, the pointwise cocoercivity condition `hC1`, and the parameter-Hölder condition `hC2`. Its conclusion is twofold. First, for every $\mu\in V$, there exists a solution triple of
 
 $$
-\operatorname{ext\_def\_2}(G_\mu,\gamma,u_0(\mu),v_0(\mu),\cdot,\cdot,\cdot),
+\mathrm{ext\_def\_2}(G_\mu,\gamma,u_0(\mu),v_0(\mu),\cdot,\cdot,\cdot),
 $$
 
 and any two such solutions agree on $[0,\infty)$. Second, for every $\mu,\mu'\in V$, with

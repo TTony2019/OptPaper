@@ -20,7 +20,7 @@ theorem analytic_bounded_din_converges {N : Type*} [Fintype N]
 The statement concerns a finite-dimensional Euclidean space $E=\mathbb R^N$ with $N$ finite, a potential $\Phi:E\to\mathbb R$, a curve $x:\mathbb R\to E$, and real parameters $\alpha,\beta$ appearing in the trajectory hypothesis. The assumptions are:
 
 - `AssumptionH` for $\Phi$: the proof uses in particular that $\Phi$ is twice continuously differentiable, $C^2$. The full content of `AssumptionH` is not given in the excerpt, so only its visible consequences are used below.
-- $\Phi$ is real analytic on all of $E$, expressed by $\operatorname{AnalyticOnNhd}\mathbb R\,\Phi\,\operatorname{Set.univ}$.
+- $\Phi$ is real analytic on all of $E$, expressed by $\mathrm{AnalyticOnNhd}\mathbb R\,\Phi\,\mathrm{Set.univ}$.
 - $\Phi$ satisfies a Lojasiewicz gradient inequality, `HasLojasiewiczGradientInequality Φ`. The proof only uses this through the theorem `connected_critical_set_lojasiewicz`, which extracts a concrete exponent and constant near a compact connected critical set.
 - $x$ is a trajectory of the DIN dynamical system with parameters $\alpha,\beta$, `IsDINTrajectory E Φ α β x`. From this hypothesis the proof first extracts $\alpha>0$ and $\beta>0$.
 - $x$ is $C^2$ as a function of time, `ContDiff ℝ 2 x`.
@@ -29,7 +29,7 @@ The statement concerns a finite-dimensional Euclidean space $E=\mathbb R^N$ with
 The conclusion has two parts. First,
 
 $$
-\operatorname{deriv}x \in L^1((0,\infty),E),
+\mathrm{deriv}x \in L^1((0,\infty),E),
 $$
 
 meaning that the velocity of the trajectory is integrable on the positive half-line with respect to Lebesgue measure. Second, there exists a point $a\in E$ such that
@@ -524,7 +524,7 @@ by
 The proof begins by extracting the positivity of the damping parameters from the trajectory hypothesis. From
 
 $$
-\text{hsol}:\operatorname{IsDINTrajectory} E\,\Phi\,\alpha\,\beta\,x
+\text{hsol}:\mathrm{IsDINTrajectory} E\,\Phi\,\alpha\,\beta\,x
 $$
 
 the proof obtains
@@ -553,10 +553,10 @@ is $C^1$. The command `simp` and `simpa` unfold the definition of `gradient` and
 Next, the lemma `din_trajectory_continuous` is applied to $x$. Its conclusion gives
 
 $$
-x \text{ is continuous},\qquad \operatorname{deriv}x \text{ is continuous}.
+x \text{ is continuous},\qquad \mathrm{deriv}x \text{ is continuous}.
 $$
 
-The proof then invokes the two global DIN estimates `din_global_properties_part_ii` and `din_global_properties_part_iii`. The first theorem, applied with $\Phi,\alpha,\beta,x(0),\operatorname{deriv}x(0)$, gives four families of conclusions. For every $\ell$ satisfying
+The proof then invokes the two global DIN estimates `din_global_properties_part_ii` and `din_global_properties_part_iii`. The first theorem, applied with $\Phi,\alpha,\beta,x(0),\mathrm{deriv}x(0)$, gives four families of conclusions. For every $\ell$ satisfying
 
 $$
 (1-\sqrt{\alpha\beta})^2\le \ell\le (1+\sqrt{\alpha\beta})^2,
@@ -569,13 +569,13 @@ E_\ell(t)
 =
 \ell\,\Phi(x(t))
 +
-\frac12\left\|\operatorname{deriv}x(t)+\beta\nabla\Phi(x(t))\right\|^2
+\frac12\left\|\mathrm{deriv}x(t)+\beta\nabla\Phi(x(t))\right\|^2
 $$
 
 is antitone on $t\ge0$, bounded below, and convergent as $t\to\infty$. In addition,
 
 $$
-\operatorname{deriv}x\in L^2((0,\infty)),
+\mathrm{deriv}x\in L^2((0,\infty)),
 \qquad
 \nabla\Phi(x(\cdot))\in L^2((0,\infty)),
 $$
@@ -583,13 +583,13 @@ $$
 the scalar function $\Phi(x(t))$ has a limit as $t\to\infty$, and
 
 $$
-\operatorname{deriv}x(t)+\beta\nabla\Phi(x(t))\to 0
+\mathrm{deriv}x(t)+\beta\nabla\Phi(x(t))\to 0
 $$
 
 as $t\to\infty$. The second global theorem, applied under the boundedness hypothesis, yields in particular
 
 $$
-\operatorname{deriv}x(t)\to 0,\qquad
+\mathrm{deriv}x(t)\to 0,\qquad
 \nabla\Phi(x(t))\to 0
 $$
 
@@ -607,7 +607,7 @@ $$
 \varphi(s,y)=x(\max(s,0)).
 $$
 
-This is continuous because $x$ is continuous and $(s,y)\mapsto \max(s,0)$ is continuous. Thus $x_I(t)=\varphi(t,0)$ for $t\ge0$, so the hypotheses of `omega_limit_properties` are satisfied. The coercion map $t\mapsto (t:\mathbb R)$ from $[0,\infty)$ to $\mathbb R$ tends to infinity, so the already established limits for $\operatorname{deriv}x(t)$ and $\nabla\Phi(x(t))$ transfer to the restricted trajectory.
+This is continuous because $x$ is continuous and $(s,y)\mapsto \max(s,0)$ is continuous. Thus $x_I(t)=\varphi(t,0)$ for $t\ge0$, so the hypotheses of `omega_limit_properties` are satisfied. The coercion map $t\mapsto (t:\mathbb R)$ from $[0,\infty)$ to $\mathbb R$ tends to infinity, so the already established limits for $\mathrm{deriv}x(t)$ and $\nabla\Phi(x(t))$ transfer to the restricted trajectory.
 
 Applying `omega_limit_properties` gives the following facts about the omega-limit set
 
@@ -620,7 +620,7 @@ $$
 The set $\omega(x_I)$ is nonempty, compact, and connected; the distance
 
 $$
-\operatorname{infDist}(x_I(t),\omega(x_I))
+\mathrm{infDist}(x_I(t),\omega(x_I))
 $$
 
 tends to $0$ as $t\to\infty$; and every point of $\omega(x_I)$ is a critical point of $\Phi$, i.e.
@@ -629,10 +629,10 @@ $$
 \forall z\in\omega(x_I),\qquad \nabla\Phi(z)=0.
 $$
 
-Now the proof applies `connected_critical_set_lojasiewicz` with $\Omega=\operatorname{Set.univ}$ and $A=\omega(x_I)$. This theorem states that for a $C^2$ and real-analytic potential on an open set, satisfying the Lojasiewicz gradient inequality, any nonempty connected critical set $A$ lying in the open set has constant value of $\Phi$ on $A$. Moreover, if $A$ is compact, then there exist constants $\sigma>0$, $\theta\in(0,1/2)$, and $c$ such that $\Phi=c$ on $A$ and, for every $y$ with
+Now the proof applies `connected_critical_set_lojasiewicz` with $\Omega=\mathrm{Set.univ}$ and $A=\omega(x_I)$. This theorem states that for a $C^2$ and real-analytic potential on an open set, satisfying the Lojasiewicz gradient inequality, any nonempty connected critical set $A$ lying in the open set has constant value of $\Phi$ on $A$. Moreover, if $A$ is compact, then there exist constants $\sigma>0$, $\theta\in(0,1/2)$, and $c$ such that $\Phi=c$ on $A$ and, for every $y$ with
 
 $$
-\operatorname{infDist}(y,A)<\sigma,
+\mathrm{infDist}(y,A)<\sigma,
 $$
 
 one has the concrete Lojasiewicz inequality
@@ -644,7 +644,7 @@ $$
 In the present proof, this gives a value $c_0$ with $\Phi=c_0$ on $\omega(x_I)$, and constants $\sigma,\theta,c_1$ with $0<\sigma$, $0<\theta<1/2$, $\Phi=c_1$ on $\omega(x_I)$, and
 
 $$
-\operatorname{infDist}(y,\omega(x_I))<\sigma
+\mathrm{infDist}(y,\omega(x_I))<\sigma
 \implies
 |\Phi(y)-c_0|^{1-\theta}\le \|\nabla\Phi(y)\|.
 $$
@@ -670,7 +670,7 @@ E(t)
 =
 k\,\Phi(x(t))
 +
-\frac12\left\|\operatorname{deriv}x(t)+\beta\nabla\Phi(x(t))\right\|^2.
+\frac12\left\|\mathrm{deriv}x(t)+\beta\nabla\Phi(x(t))\right\|^2.
 $$
 
 Since $\Phi(x(t))\to l_\Phi=c_0$ and the residual term tends to $0$, one gets
@@ -691,8 +691,8 @@ Next, the proof chooses a time $T$ so that for all $t\ge T$,
 
 $$
 t\ge1,\qquad
-\operatorname{infDist}(x(t),\omega(x_I))<\sigma,\qquad
-\|\operatorname{deriv}x(t)\|\le1,\qquad
+\mathrm{infDist}(x(t),\omega(x_I))<\sigma,\qquad
+\|\mathrm{deriv}x(t)\|\le1,\qquad
 \|\nabla\Phi(x(t))\|\le1.
 $$
 
@@ -707,12 +707,12 @@ $$
 For $t\ge T$, write
 
 $$
-v=\|\operatorname{deriv}x(t)\|,\qquad
+v=\|\mathrm{deriv}x(t)\|,\qquad
 g=\|\nabla\Phi(x(t))\|,\qquad
 p=|\Phi(x(t))-c_0|.
 $$
 
-By the Lojasiewicz inequality, since $\operatorname{infDist}(x(t),\omega(x_I))<\sigma$,
+By the Lojasiewicz inequality, since $\mathrm{infDist}(x(t),\omega(x_I))<\sigma$,
 
 $$
 p^{1-\theta}\le g.
@@ -721,7 +721,7 @@ $$
 The triangle inequality gives
 
 $$
-\left\|\operatorname{deriv}x(t)+\beta\nabla\Phi(x(t))\right\|
+\left\|\mathrm{deriv}x(t)+\beta\nabla\Phi(x(t))\right\|
 \le v+|\beta|g.
 $$
 
@@ -734,7 +734,7 @@ $$
 which is exactly `sq_sum_le_two_sq_sum`, one obtains
 
 $$
-\left\|\operatorname{deriv}x(t)+\beta\nabla\Phi(x(t))\right\|^2
+\left\|\mathrm{deriv}x(t)+\beta\nabla\Phi(x(t))\right\|^2
 \le 2(v^2+\beta^2g^2).
 $$
 
@@ -776,7 +776,7 @@ Therefore
 $$
 e(t)^{1-\theta}\le D(v+g)
 =
-D\bigl(\|\operatorname{deriv}x(t)\|+\|\nabla\Phi(x(t))\|\bigr).
+D\bigl(\|\mathrm{deriv}x(t)\|+\|\nabla\Phi(x(t))\|\bigr).
 $$
 
 This is the key estimate on the tail $t\ge T$.
@@ -784,13 +784,13 @@ This is the key estimate on the tail $t\ge T$.
 The proof then establishes continuity of the residual
 
 $$
-t\mapsto \operatorname{deriv}x(t)+\beta\nabla\Phi(x(t)),
+t\mapsto \mathrm{deriv}x(t)+\beta\nabla\Phi(x(t)),
 $$
 
 of the energy $E$, of $e$, and of
 
 $$
-t\mapsto \|\operatorname{deriv}x(t)\|+\|\nabla\Phi(x(t))\|.
+t\mapsto \|\mathrm{deriv}x(t)\|+\|\nabla\Phi(x(t))\|.
 $$
 
 These continuity facts are needed for the later integration arguments.
@@ -806,9 +806,9 @@ $$
 so $E(s)=l_E$ on $[t_0,\infty)$. Hence the derivative of $E$ is zero on that tail. By `din_energy_hasDerivAt`, for $s\ge0$,
 
 $$
-\operatorname{deriv}E(s)
+\mathrm{deriv}E(s)
 =
--\alpha\|\operatorname{deriv}x(s)\|^2
+-\alpha\|\mathrm{deriv}x(s)\|^2
 -
 \beta\|\nabla\Phi(x(s))\|^2.
 $$
@@ -816,22 +816,22 @@ $$
 For $s\ge t_0$, the left-hand side is $0$. Since $\alpha>0$, $\beta>0$, and both squared norms are nonnegative, this forces
 
 $$
-\operatorname{deriv}x(s)=0,\qquad
+\mathrm{deriv}x(s)=0,\qquad
 \nabla\Phi(x(s))=0
 $$
 
 for all $s\ge t_0$. In particular, $\nabla\Phi(x(t_0))=0$.
 
-Because $\operatorname{deriv}x=0$ on $[t_0,\infty)$, the curve $x$ is constant there: the proof uses the fact that a differentiable function on the convex interval $[t_0,\infty)$ with zero Fréchet derivative throughout is constant. Thus
+Because $\mathrm{deriv}x=0$ on $[t_0,\infty)$, the curve $x$ is constant there: the proof uses the fact that a differentiable function on the convex interval $[t_0,\infty)$ with zero Fréchet derivative throughout is constant. Thus
 
 $$
 x(s)=x(t_0)\qquad(s\ge t_0).
 $$
 
-Consequently $x(t)\to x(t_0)$ as $t\to\infty$. For integrability, the tail integral on $[t_0,\infty)$ vanishes because $\operatorname{deriv}x=0$ there, while $[0,t_0]$ is finite and $\operatorname{deriv}x$ is continuous, hence integrable. Covering $(0,\infty)$ by these two pieces gives
+Consequently $x(t)\to x(t_0)$ as $t\to\infty$. For integrability, the tail integral on $[t_0,\infty)$ vanishes because $\mathrm{deriv}x=0$ there, while $[0,t_0]$ is finite and $\mathrm{deriv}x$ is continuous, hence integrable. Covering $(0,\infty)$ by these two pieces gives
 
 $$
-\operatorname{deriv}x\in L^1((0,\infty),E).
+\mathrm{deriv}x\in L^1((0,\infty),E).
 $$
 
 Together with $\nabla\Phi(x(t_0))=0$, this proves the desired conclusion in this case.
@@ -845,19 +845,19 @@ $$
 Then $F$ is continuous, and $F(t)\to0$ because $e(t)\to0$ and $\theta>0$. Using the derivative of $E$ and hence of $e$, the proof obtains
 
 $$
-\operatorname{deriv}F(t)
+\mathrm{deriv}F(t)
 =
 \left(
--\alpha\|\operatorname{deriv}x(t)\|^2
+-\alpha\|\mathrm{deriv}x(t)\|^2
 -\beta\|\nabla\Phi(x(t))\|^2
 \right)
 \theta\,e(t)^{\theta-1}.
 $$
 
-The bracketed term is nonpositive because it is the negative sum of nonnegative terms, and $e(t)^{\theta-1}>0$, so $\operatorname{deriv}F(t)\le0$. Thus $F$ is nonincreasing on the tail. The proof invokes `integrableOn_Ioi_deriv_of_nonpos'`, which says that if a function has a nonpositive derivative on a tail and tends to $0$ at infinity, then its derivative is integrable on that tail. Hence
+The bracketed term is nonpositive because it is the negative sum of nonnegative terms, and $e(t)^{\theta-1}>0$, so $\mathrm{deriv}F(t)\le0$. Thus $F$ is nonincreasing on the tail. The proof invokes `integrableOn_Ioi_deriv_of_nonpos'`, which says that if a function has a nonpositive derivative on a tail and tends to $0$ at infinity, then its derivative is integrable on that tail. Hence
 
 $$
-\operatorname{deriv}F\in L^1((T,\infty)).
+\mathrm{deriv}F\in L^1((T,\infty)).
 $$
 
 Now set
@@ -870,12 +870,12 @@ $$
 Both are positive. The proof proves the pointwise inequality
 
 $$
-A\bigl(\|\operatorname{deriv}x(t)\|+\|\nabla\Phi(x(t))\|\bigr)
+A\bigl(\|\mathrm{deriv}x(t)\|+\|\nabla\Phi(x(t))\|\bigr)
 \le
--\operatorname{deriv}F(t)
+-\mathrm{deriv}F(t)
 $$
 
-for all $t\ge T$. To see this, again write $v=\|\operatorname{deriv}x(t)\|$ and $g=\|\nabla\Phi(x(t))\|$. From $m\le\alpha$, $m\le\beta$, and $(v+g)^2\le 2(v^2+g^2)$, one gets
+for all $t\ge T$. To see this, again write $v=\|\mathrm{deriv}x(t)\|$ and $g=\|\nabla\Phi(x(t))\|$. From $m\le\alpha$, $m\le\beta$, and $(v+g)^2\le 2(v^2+g^2)$, one gets
 
 $$
 \frac m2(v+g)^2\le \alpha v^2+\beta g^2.
@@ -896,7 +896,7 @@ $$
 But differentiating $F$ gives
 
 $$
-(-\operatorname{deriv}F(t))e(t)^{1-\theta}
+(-\mathrm{deriv}F(t))e(t)^{1-\theta}
 =
 \theta(\alpha v^2+\beta g^2),
 $$
@@ -907,7 +907,7 @@ Integrating this inequality from $T$ to $R\ge T$ gives
 
 $$
 A\int_T^R
-\bigl(\|\operatorname{deriv}x(s)\|+\|\nabla\Phi(x(s))\|\bigr)\,ds
+\bigl(\|\mathrm{deriv}x(s)\|+\|\nabla\Phi(x(s))\|\bigr)\,ds
 \le
 F(T)-F(R)
 \le
@@ -917,29 +917,29 @@ $$
 because $F(R)\ge0$. Since
 
 $$
-\|\operatorname{deriv}x(s)\|
+\|\mathrm{deriv}x(s)\|
 \le
-\|\operatorname{deriv}x(s)\|+\|\nabla\Phi(x(s))\|,
+\|\mathrm{deriv}x(s)\|+\|\nabla\Phi(x(s))\|,
 $$
 
 one obtains
 
 $$
-\int_T^R \|\operatorname{deriv}x(s)\|\,ds
+\int_T^R \|\mathrm{deriv}x(s)\|\,ds
 \le
 \frac{F(T)}{A}.
 $$
 
-This is a uniform tail bound. The lemma `integrableOn_of_norm_interval_tail_bound` then applies, because $\operatorname{deriv}x$ is continuous, and yields
+This is a uniform tail bound. The lemma `integrableOn_of_norm_interval_tail_bound` then applies, because $\mathrm{deriv}x$ is continuous, and yields
 
 $$
-\operatorname{deriv}x\in L^1((T,\infty),E).
+\mathrm{deriv}x\in L^1((T,\infty),E).
 $$
 
-On the finite interval $(0,T]$, integrability follows from continuity of $\operatorname{deriv}x$. Covering $(0,\infty)$ by $(0,T]$ and $(T,\infty)$ gives
+On the finite interval $(0,T]$, integrability follows from continuity of $\mathrm{deriv}x$. Covering $(0,\infty)$ by $(0,T]$ and $(T,\infty)$ gives
 
 $$
-\operatorname{deriv}x\in L^1((0,\infty),E).
+\mathrm{deriv}x\in L^1((0,\infty),E).
 $$
 
 Finally, the proof defines
@@ -948,7 +948,7 @@ $$
 a=\lim_{t\to\infty} x(t)
 $$
 
-as the `limUnder` of $x$ at infinity. It applies `MeasureTheory.tendsto_limUnder_of_hasDerivAt_of_integrableOn_Ioi`: since $x$ is differentiable with derivative $\operatorname{deriv}x$, and since $\operatorname{deriv}x$ is integrable on $(0,\infty)$, the curve $x(t)$ has a limit at infinity, and that limit is the `limUnder`. Thus
+as the `limUnder` of $x$ at infinity. It applies `MeasureTheory.tendsto_limUnder_of_hasDerivAt_of_integrableOn_Ioi`: since $x$ is differentiable with derivative $\mathrm{deriv}x$, and since $\mathrm{deriv}x$ is integrable on $(0,\infty)$, the curve $x(t)$ has a limit at infinity, and that limit is the `limUnder`. Thus
 
 $$
 x(t)\to a \qquad(t\to\infty).
@@ -975,7 +975,7 @@ $$
 Therefore $a$ is a critical point and $x(t)\to a$, completing the proof of
 
 $$
-\operatorname{deriv}x\in L^1((0,\infty),E)
+\mathrm{deriv}x\in L^1((0,\infty),E)
 \quad\text{and}\quad
 \exists a,\ \nabla\Phi(a)=0,\ x(t)\to a.
 $$

@@ -21,7 +21,7 @@ theorem theorem1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [C
 ```
 
 ## Statement explanation
-The declaration `theorem1` is stated for a real Hilbert space $H$, i.e. a complete real inner-product space. The data are two extended-real functions $\phi,\Theta:H\to\overline{\mathbb R}$ (Lean type `EReal`), a real-valued function $\psi:H\to\mathbb R$, a map $\operatorname{gradPsi}:H\to H$, real parameters $a,b,\lambda,L_\psi$, and two sequences $u,y:\mathbb N\to H$. The hypothesis `hH` has type `IFBHypothesis phi Θ psi gradPsi a b lam Lpsi` and packages the standing assumptions of the inertial forward-backward problem; the hypothesis `hIFB` has type `IsIFBTrajectory phi psi gradPsi a b lam u y` and says that $(u,y)$ is a trajectory of that method. In the proof the parts of `hH` that are used are that $a>0$, $b>0$, $\lambda>0$, that $\phi$ and $\Theta$ have convex epigraphs, that $\Theta=\phi+\psi$, that $\psi$ is differentiable with gradient $\operatorname{gradPsi}$, and that $\phi$ is proper. The conclusion is a conjunction of three assertions.
+The declaration `theorem1` is stated for a real Hilbert space $H$, i.e. a complete real inner-product space. The data are two extended-real functions $\phi,\Theta:H\to\overline{\mathbb R}$ (Lean type `EReal`), a real-valued function $\psi:H\to\mathbb R$, a map $\mathrm{gradPsi}:H\to H$, real parameters $a,b,\lambda,L_\psi$, and two sequences $u,y:\mathbb N\to H$. The hypothesis `hH` has type `IFBHypothesis phi Θ psi gradPsi a b lam Lpsi` and packages the standing assumptions of the inertial forward-backward problem; the hypothesis `hIFB` has type `IsIFBTrajectory phi psi gradPsi a b lam u y` and says that $(u,y)$ is a trajectory of that method. In the proof the parts of `hH` that are used are that $a>0$, $b>0$, $\lambda>0$, that $\phi$ and $\Theta$ have convex epigraphs, that $\Theta=\phi+\psi$, that $\psi$ is differentiable with gradient $\mathrm{gradPsi}$, and that $\phi$ is proper. The conclusion is a conjunction of three assertions.
 
 First, the objective values converge to the infimum of the objective:
 
@@ -34,7 +34,7 @@ in $\overline{\mathbb R}$ as $k\to\infty$. Here $\inf$ is written `sInf (Set.ran
 Second, suppose that the minimizer set
 
 $$
-S=\operatorname{argmin}\Theta=\{x\in H:\forall y\in H,\ \Theta(x)\le \Theta(y)\}
+S=\mathrm{argmin}\Theta=\{x\in H:\forall y\in H,\ \Theta(x)\le \Theta(y)\}
 $$
 
 is nonempty and that at least one of four structural alternatives holds:
@@ -811,7 +811,7 @@ by
 ```
 
 ## Proof explanation
-The proof begins with the imported result `proposition6`. Applied to $\phi,\Theta,\psi,\operatorname{gradPsi},a,b,\lambda,L_\psi,u,y$, with hypotheses `hH` and `hIFB`, it yields three conclusions: first, $\Theta(u_k)\to\inf\Theta$; second, every weak sequential cluster point of $(u_k)$ belongs to $S=\operatorname{argmin}\Theta$; third, if $S=\varnothing$, then $\|u_k\|\to+\infty$. The Lean command `rcases ... with ⟨hobjective, hcluster, hempty⟩` unpacks this conjunction into those three facts. The subsequent `refine ⟨hobjective, ?_, hempty⟩` uses the first and third facts directly for the first and third conjuncts of the target theorem and leaves the middle weak-convergence assertion to be proved.
+The proof begins with the imported result `proposition6`. Applied to $\phi,\Theta,\psi,\mathrm{gradPsi},a,b,\lambda,L_\psi,u,y$, with hypotheses `hH` and `hIFB`, it yields three conclusions: first, $\Theta(u_k)\to\inf\Theta$; second, every weak sequential cluster point of $(u_k)$ belongs to $S=\mathrm{argmin}\Theta$; third, if $S=\varnothing$, then $\|u_k\|\to+\infty$. The Lean command `rcases ... with ⟨hobjective, hcluster, hempty⟩` unpacks this conjunction into those three facts. The subsequent `refine ⟨hobjective, ?_, hempty⟩` uses the first and third facts directly for the first and third conjuncts of the target theorem and leaves the middle weak-convergence assertion to be proved.
 
 The proof then introduces the nonemptiness of the minimizer set and the disjunction of four cases:
 ```lean
@@ -847,13 +847,13 @@ $$
 z\mapsto \phi_{\mathbb R}(z)-\langle g,z\rangle.
 $$
 
-At a differentiability point of this function, the derivative must vanish. The derivative of $\phi_{\mathbb R}$ is represented by `gradPhi`, while the derivative of $z\mapsto\langle g,z\rangle$ is the linear functional $\langle g,\cdot\rangle$. Evaluating the derivative identity at $\operatorname{gradPhi}(x)-g$ shows that
+At a differentiability point of this function, the derivative must vanish. The derivative of $\phi_{\mathbb R}$ is represented by `gradPhi`, while the derivative of $z\mapsto\langle g,z\rangle$ is the linear functional $\langle g,\cdot\rangle$. Evaluating the derivative identity at $\mathrm{gradPhi}(x)-g$ shows that
 
 $$
-\|g-\operatorname{gradPhi}(x)\|^2=0,
+\|g-\mathrm{gradPhi}(x)\|^2=0,
 $$
 
-hence $g=\operatorname{gradPhi}(x)$. This is the local lemma `hsubgradient_eq`.
+hence $g=\mathrm{gradPhi}(x)$. This is the local lemma `hsubgradient_eq`.
 
 Next the proof obtains from `theorem1_velocity_tendsto_zero` that
 
@@ -867,25 +867,25 @@ $$
 u_{t_j+2}\rightharpoonup p,\qquad u_{s_j+2}\rightharpoonup q.
 $$
 
-The weak continuity of `gradPhi` therefore gives weak convergence of the gradient values. The proof also recalls that $-z_{t_j+2}\in\partial\phi(u_{t_j+2})$ and $-z_{s_j+2}\in\partial\phi(u_{s_j+2})$, from `theorem1_neg_z_mem_subgradient`; the subgradient equality just proved identifies these with $\operatorname{gradPhi}$ values. Using the four-term identity `auxiliaryA_four_term` and the limits of $A_p,A_q$, the proof obtains a sequence expression tending to $0$, while the inner-product limits give its limit as
+The weak continuity of `gradPhi` therefore gives weak convergence of the gradient values. The proof also recalls that $-z_{t_j+2}\in\partial\phi(u_{t_j+2})$ and $-z_{s_j+2}\in\partial\phi(u_{s_j+2})$, from `theorem1_neg_z_mem_subgradient`; the subgradient equality just proved identifies these with $\mathrm{gradPhi}$ values. Using the four-term identity `auxiliaryA_four_term` and the limits of $A_p,A_q$, the proof obtains a sequence expression tending to $0$, while the inner-product limits give its limit as
 
 $$
 \frac{a+b}{\lambda}(-\|p-q\|^2)
 -\left(\frac1\lambda+b\right)
-\langle \operatorname{gradPhi}(p)-\operatorname{gradPhi}(q),p-q\rangle .
+\langle \mathrm{gradPhi}(p)-\mathrm{gradPhi}(q),p-q\rangle .
 $$
 
 This expression must equal $0$. Separately, convexity of the real-valued $\phi$ gives the support inequality
 
 $$
 \phi_{\mathbb R}(x)-\phi_{\mathbb R}(z)
-\le \langle \operatorname{gradPhi}(x),x-z\rangle,
+\le \langle \mathrm{gradPhi}(x),x-z\rangle,
 $$
 
 which implies
 
 $$
-\langle \operatorname{gradPhi}(p)-\operatorname{gradPhi}(q),p-q\rangle\ge0.
+\langle \mathrm{gradPhi}(p)-\mathrm{gradPhi}(q),p-q\rangle\ge0.
 $$
 
 The coefficients $\frac{a+b}{\lambda}$ and $\frac1\lambda+b$ are positive, so the equality forces $\|p-q\|=0$, hence $p=q$. Thus there is at most one weak sequential cluster point. Applying the boundedness plus uniqueness criterion again gives weak convergence, and `hcluster` identifies the weak limit as an element of $S$.
@@ -894,7 +894,7 @@ The third case assumes that `gradPsi` is weak-to-weak sequentially continuous. T
 
 $$
 \left\langle
-z_{k+2}-\operatorname{gradPsi}(u_{k+2}),
+z_{k+2}-\mathrm{gradPsi}(u_{k+2}),
 u_{k+2}-q
 \right\rangle\to0.
 $$
@@ -902,7 +902,7 @@ $$
 Indeed, `hFlim` gives a limit for $F_q(k+1)$, and `theorem1_liapunov_shift_tendsto` gives the same limit for $F_q(k+2)$. The equality in `theorem1_proposition3_local`, together with the residual identity `theorem1_residual_vector`
 
 $$
-z_{r+2}-\operatorname{gradPsi}(u_{r+2})
+z_{r+2}-\mathrm{gradPsi}(u_{r+2})
 =\left(\frac1\lambda-a\right)v_{r+2}
 +\left(\frac1\lambda+b\right)\zeta_{r+2},
 $$
@@ -918,8 +918,8 @@ $$
 The weak continuity of `gradPsi` therefore gives
 
 $$
-\operatorname{gradPsi}(u_{t_j+2})\rightharpoonup \operatorname{gradPsi}(p),\qquad
-\operatorname{gradPsi}(u_{s_j+2})\rightharpoonup \operatorname{gradPsi}(q).
+\mathrm{gradPsi}(u_{t_j+2})\rightharpoonup \mathrm{gradPsi}(p),\qquad
+\mathrm{gradPsi}(u_{s_j+2})\rightharpoonup \mathrm{gradPsi}(q).
 $$
 
 Using the residual-inner-product limit just proved, the proof obtains the corresponding limit for
@@ -933,13 +933,13 @@ Combining this with `auxiliaryA_four_term` and the fact that $A_p$ and $A_q$ hav
 $$
 0=\frac{a+b}{\lambda}(-\|p-q\|^2)
 -\left(\frac1\lambda+b\right)
-\langle \operatorname{gradPsi}(p)-\operatorname{gradPsi}(q),q-p\rangle .
+\langle \mathrm{gradPsi}(p)-\mathrm{gradPsi}(q),q-p\rangle .
 $$
 
 It remains to know that the last inner product is nonnegative. The proof establishes a local fact `hminimizer_subgradient`: if $x\in S$, then
 
 $$
--\operatorname{gradPsi}(x)\in\partial\phi(x).
+-\mathrm{gradPsi}(x)\in\partial\phi(x).
 $$
 
 To see this, it uses $\Theta=\phi+\psi$ and minimality of $x$, then differentiates along the line $t\mapsto x+t(z-x)$. The chord inequality coming from convexity of $\phi$ gives, for $0<t<1$,
@@ -952,20 +952,20 @@ $$
 Letting $t\downarrow0$, the differentiability of $\psi$ with gradient `gradPsi` gives
 
 $$
--\langle \operatorname{gradPsi}(x),z-x\rangle
+-\langle \mathrm{gradPsi}(x),z-x\rangle
 \le \phi(z)-\phi(x),
 $$
 
-which is exactly the subgradient inequality defining $-\operatorname{gradPsi}(x)\in\partial\phi(x)$. The result `isMonotone_subdifferential` states that the subdifferential of a proper convex function is monotone: if $x^*\in\partial\phi(x)$ and $y^*\in\partial\phi(y)$, then
+which is exactly the subgradient inequality defining $-\mathrm{gradPsi}(x)\in\partial\phi(x)$. The result `isMonotone_subdifferential` states that the subdifferential of a proper convex function is monotone: if $x^*\in\partial\phi(x)$ and $y^*\in\partial\phi(y)$, then
 
 $$
 \langle x^*-y^*,x-y\rangle\ge0.
 $$
 
-Applying this to $-\operatorname{gradPsi}(p)\in\partial\phi(p)$ and $-\operatorname{gradPsi}(q)\in\partial\phi(q)$ gives
+Applying this to $-\mathrm{gradPsi}(p)\in\partial\phi(p)$ and $-\mathrm{gradPsi}(q)\in\partial\phi(q)$ gives
 
 $$
-\langle \operatorname{gradPsi}(p)-\operatorname{gradPsi}(q),q-p\rangle\ge0.
+\langle \mathrm{gradPsi}(p)-\mathrm{gradPsi}(q),q-p\rangle\ge0.
 $$
 
 Again positivity of the coefficients forces $\|p-q\|=0$, so $p=q$. The uniqueness criterion now yields weak convergence, and `hcluster` identifies the limit as a minimizer.
@@ -973,7 +973,7 @@ Again positivity of the coefficients forces $\|p-q\|=0$, so $p=q$. The uniquenes
 The fourth case assumes that the epigraph of $\psi$ is convex. The proof first converts this into convexity of the real-valued function $\psi$, then derives the first-order support inequality for convex differentiable $\psi$:
 
 $$
-\psi(x)-\psi(z)\le \langle \operatorname{gradPsi}(x),x-z\rangle .
+\psi(x)-\psi(z)\le \langle \mathrm{gradPsi}(x),x-z\rangle .
 $$
 
 This is proved by restricting $\psi$ to the line $t\mapsto z+t(x-z)$ and comparing the secant slope on $[0,1]$ with the derivative at $1$.

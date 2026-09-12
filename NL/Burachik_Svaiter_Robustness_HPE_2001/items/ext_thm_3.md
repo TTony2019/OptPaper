@@ -15,10 +15,10 @@ theorem rockafellar_sum_maximal {H : Type*} [NormedAddCommGroup H] [InnerProduct
 The declaration `rockafellar_sum_maximal` is stated in a complete real inner product space $H$, so $H$ is a real Hilbert space. It considers a set-valued operator $T:H\rightrightarrows H$, meaning that each $x\in H$ is assigned a subset $T(x)\subseteq H$, and assumes that $T$ is maximal monotone. It also fixes a subset $C\subseteq H$, assumed to be nonempty, closed, and convex over $\mathbb R$. The additional hypothesis is
 
 $$
-(T.\mathrm{dom}\cap \operatorname{int}C)\neq\emptyset,
+(T.\mathrm{dom}\cap \mathrm{int}C)\neq\emptyset,
 $$
 
-where $\operatorname{dom}T=\{x\in H:T(x)\neq\emptyset\}$ and $\operatorname{int}C$ is the topological interior of $C$. Thus there exists some point $x$ that lies both in the domain of $T$ and in the interior of $C$.
+where $\mathrm{dom}T=\{x\in H:T(x)\neq\emptyset\}$ and $\mathrm{int}C$ is the topological interior of $C$. Thus there exists some point $x$ that lies both in the domain of $T$ and in the interior of $C$.
 
 The conclusion is that the sum operator $T+N_C$ is maximal monotone, where $N_C$ is the normal-cone operator associated with $C$, written `N[C]` in Lean. The sum of two set-valued operators is defined pointwise by Minkowski addition:
 
@@ -26,7 +26,7 @@ $$
 (A+B)(x)=A(x)+B(x)=\{a+b:a\in A(x),\, b\in B(x)\}.
 $$
 
-Maximal monotonicity, according to the cited definition, means that $A$ is monotone and its graph is maximal among monotone graphs: for every monotone operator $A'$ with $\operatorname{graph}A\subseteq \operatorname{graph}A'$, one also has $\operatorname{graph}A'\subseteq \operatorname{graph}A$. In ordinary mathematical terms, the theorem says that adding the normal cone of a nonempty closed convex set to a maximal monotone operator preserves maximal monotonicity, provided that the domain of the operator meets the interior of the convex set.
+Maximal monotonicity, according to the cited definition, means that $A$ is monotone and its graph is maximal among monotone graphs: for every monotone operator $A'$ with $\mathrm{graph}A\subseteq \mathrm{graph}A'$, one also has $\mathrm{graph}A'\subseteq \mathrm{graph}A$. In ordinary mathematical terms, the theorem says that adding the normal cone of a nonempty closed convex set to a maximal monotone operator preserves maximal monotonicity, provided that the domain of the operator meets the interior of the convex set.
 
 ## Lean proof
 ```lean
@@ -58,7 +58,7 @@ The proof proceeds as follows.
 1. It first proves that the normal-cone operator $N_C$ is maximal monotone. This is obtained from the cited result `normalCone_maximal`. That result states that if $H$ is a complete real inner product space and $C\subseteq H$ is nonempty, closed, and convex, then the normal-cone operator $N_C$ is maximal monotone. In the proof, the three hypotheses $C\neq\emptyset$, $C$ closed, and $C$ convex are supplied by `hCnonempty`, `hCclosed`, and `hCconvex`. Hence Lean obtains
 
 $$
-\operatorname{IsMaximalMonotone}(N_C).
+\mathrm{IsMaximalMonotone}(N_C).
 $$
 
 This supplies one of the two maximal-monotonicity hypotheses needed for the later sum theorem.
@@ -66,33 +66,33 @@ This supplies one of the two maximal-monotonicity hypotheses needed for the late
 2. The hypothesis
 
 $$
-(T.\mathrm{dom}\cap \operatorname{int}C)\neq\emptyset
+(T.\mathrm{dom}\cap \mathrm{int}C)\neq\emptyset
 $$
 
-is destructed by `rcases hint with ⟨x, hxT, hxC⟩`. This extracts a point $x\in H$, together with the facts $hxT:x\in \operatorname{dom}T$ and $hxC:x\in \operatorname{int}C$. Thus $T(x)\neq\emptyset$ and $x$ lies in the interior of $C$.
+is destructed by `rcases hint with ⟨x, hxT, hxC⟩`. This extracts a point $x\in H$, together with the facts $hxT:x\in \mathrm{dom}T$ and $hxC:x\in \mathrm{int}C$. Thus $T(x)\neq\emptyset$ and $x$ lies in the interior of $C$.
 
 3. The proof next establishes the qualification condition needed to apply the sum theorem. The cited theorem `sum_maximal_monotone` requires, for operators $A$ and $B$,
 
 $$
-\bigl(\operatorname{int}(\operatorname{dom}A)\cap \operatorname{dom}B\bigr)\neq\emptyset.
+\bigl(\mathrm{int}(\mathrm{dom}A)\cap \mathrm{dom}B\bigr)\neq\emptyset.
 $$
 
 The proof will apply this with $A=N_C$ and $B=T$, so it needs
 
 $$
-\bigl(\operatorname{int}(\operatorname{dom}N_C)\cap \operatorname{dom}T\bigr)\neq\emptyset.
+\bigl(\mathrm{int}(\mathrm{dom}N_C)\cap \mathrm{dom}T\bigr)\neq\emptyset.
 $$
 
-It constructs the same point $x$ as a witness. The remaining obligation is to show $x\in \operatorname{int}(\operatorname{dom}N_C)$. Here Lean uses the cited fact `normalCone_dom`, which states
+It constructs the same point $x$ as a witness. The remaining obligation is to show $x\in \mathrm{int}(\mathrm{dom}N_C)$. Here Lean uses the cited fact `normalCone_dom`, which states
 
 $$
-\operatorname{dom}(N_C)=C.
+\mathrm{dom}(N_C)=C.
 $$
 
-Therefore $\operatorname{int}(\operatorname{dom}N_C)=\operatorname{int}C$, and rewriting with `normalCone_dom` turns the goal $x\in \operatorname{int}(\operatorname{dom}N_C)$ into $x\in \operatorname{int}C$, which is exactly `hxC`. Hence the qualification condition
+Therefore $\mathrm{int}(\mathrm{dom}N_C)=\mathrm{int}C$, and rewriting with `normalCone_dom` turns the goal $x\in \mathrm{int}(\mathrm{dom}N_C)$ into $x\in \mathrm{int}C$, which is exactly `hxC`. Hence the qualification condition
 
 $$
-\bigl(\operatorname{int}(\operatorname{dom}N_C)\cap \operatorname{dom}T\bigr)\neq\emptyset
+\bigl(\mathrm{int}(\mathrm{dom}N_C)\cap \mathrm{dom}T\bigr)\neq\emptyset
 $$
 
 is proved.
@@ -100,13 +100,13 @@ is proved.
 4. The proof now applies `sum_maximal_monotone` to the operators $N_C$ and $T$. That theorem says: if $A$ and $B$ are maximal monotone and
 
 $$
-\bigl(\operatorname{int}(\operatorname{dom}A)\cap \operatorname{dom}B\bigr)\neq\emptyset,
+\bigl(\mathrm{int}(\mathrm{dom}A)\cap \mathrm{dom}B\bigr)\neq\emptyset,
 $$
 
 then $A+B$ is maximal monotone. Here $A=N_C$, $B=T$. The two maximal-monotonicity assumptions are `hnormal_max` for $N_C$ and `hT` for $T$, and the qualification condition is the one just proved. Therefore Lean obtains
 
 $$
-\operatorname{IsMaximalMonotone}(N_C+T).
+\mathrm{IsMaximalMonotone}(N_C+T).
 $$
 
 5. The target conclusion concerns $T+N_C$, not $N_C+T$. Thus the proof establishes commutativity of the operator sum:
@@ -132,13 +132,13 @@ The Lean command `rw [Set.mem_add]` rewrites membership in a Minkowski sum into 
 6. Finally, `rwa [hcomm] at hsum` rewrites the previously proved fact
 
 $$
-\operatorname{IsMaximalMonotone}(N_C+T)
+\mathrm{IsMaximalMonotone}(N_C+T)
 $$
 
 using the equality $N_C+T=T+N_C$, producing
 
 $$
-\operatorname{IsMaximalMonotone}(T+N_C),
+\mathrm{IsMaximalMonotone}(T+N_C),
 $$
 
 and then closes the goal by assumption. Hence $T+N_C$ is maximal monotone, as claimed.

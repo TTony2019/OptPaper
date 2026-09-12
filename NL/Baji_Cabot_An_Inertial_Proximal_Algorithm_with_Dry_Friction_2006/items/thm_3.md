@@ -28,7 +28,7 @@ The declaration `thm_5_1` states a geometric-decay result for the successive dif
 The data are as follows. $C \subseteq H$ is closed, convex, a convex polyhedron, bounded, and contains $0$ in its interior:
 
 $$
-0 \in \operatorname{int} C.
+0 \in \mathrm{int} C.
 $$
 
 The map $A_0 : H \to H$ is $C^2$, its singleton-valued operator $x \mapsto \{A_0(x)\}$ on all of $H$ is maximal monotone, and $A_0(0)=0$. There is $m>0$ such that the derivative $L = DA_0(0)$ is coercive:
@@ -518,7 +518,7 @@ The supplied proof is not complete: it ends with `sorry` after establishing seve
 The proof begins with `classical` and introduces the singleton-valued operator
 
 $$
-F_{\mathrm{op}} = \operatorname{ofFunction}(\mathrm{univ}, x \mapsto A_0(x)).
+F_{\mathrm{op}} = \mathrm{ofFunction}(\mathrm{univ}, x \mapsto A_0(x)).
 $$
 
 For every $z\in H$, this satisfies
@@ -583,7 +583,7 @@ $$
 S = \partial \sigma_C.
 $$
 
-It proves that $S$ is maximal monotone. The first step is finite-dimensionality. The theorem `thm51_finiteDimensional_of_bounded_polyhedron_interior` says that if $C$ is a bounded convex polyhedron and $0\in \operatorname{int} C$, then $H$ is finite-dimensional. This is used so that the closed bounded set $C$ is compact.
+It proves that $S$ is maximal monotone. The first step is finite-dimensionality. The theorem `thm51_finiteDimensional_of_bounded_polyhedron_interior` says that if $C$ is a bounded convex polyhedron and $0\in \mathrm{int} C$, then $H$ is finite-dimensional. This is used so that the closed bounded set $C$ is compact.
 
 The proof then shows that $S$ has full domain. Since $0\in C$, the set $C$ is nonempty. Since $C$ is closed and bounded in finite dimension, $C$ is compact. For any fixed $z\in H$, the continuous function
 
@@ -688,7 +688,7 @@ Thus $q\in S(p)$, and by construction $z=p+q$. The theorem
 With $S$ and $F_{\mathrm{op}}$ both maximal monotone, the proof uses `sum_maximal_monotone`. That theorem says that if $A$ and $B$ are maximal monotone and
 
 $$
-(\operatorname{int} A.\mathrm{dom}\cap B.\mathrm{dom})\ne\varnothing,
+(\mathrm{int} A.\mathrm{dom}\cap B.\mathrm{dom})\ne\varnothing,
 $$
 
 then $A+B$ is maximal monotone. Here both $S.\mathrm{dom}$ and $F_{\mathrm{op}}.\mathrm{dom}$ are all of $H$, so the intersection condition is witnessed by $0$. Therefore $S+F_{\mathrm{op}}$ is maximal monotone, and since $A=S+F_{\mathrm{op}}$, $A$ is maximal monotone.

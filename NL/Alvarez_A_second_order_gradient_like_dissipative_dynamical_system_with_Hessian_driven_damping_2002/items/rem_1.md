@@ -54,13 +54,13 @@ The declaration is set in a real Hilbert space $H$. It concerns a potential $\Ph
 The conclusion has two parts. First,
 
 $$
-\operatorname{argminSet}\Phi=\ker A,
+\mathrm{argminSet}\Phi=\ker A,
 $$
 
-where $\operatorname{argminSet}\Phi$ is the set of global minimizers of $\Phi$, i.e.
+where $\mathrm{argminSet}\Phi$ is the set of global minimizers of $\Phi$, i.e.
 
 $$
-\operatorname{argminSet}\Phi=\{u\in H:\forall y\in H,\ \Phi(u)\le \Phi(y)\}.
+\mathrm{argminSet}\Phi=\{u\in H:\forall y\in H,\ \Phi(u)\le \Phi(y)\}.
 $$
 
 Second, there exists $p\in\ker A$ such that
@@ -68,7 +68,7 @@ Second, there exists $p\in\ker A$ such that
 $$
 \left\|x(0)+\alpha^{-1}\dot x(0)-p\right\|
 =
-\operatorname{infDist}\!\left(x(0)+\alpha^{-1}\dot x(0),\ker A\right),
+\mathrm{infDist}\!\left(x(0)+\alpha^{-1}\dot x(0),\ker A\right),
 $$
 
 and
@@ -255,9 +255,9 @@ by
 ```
 
 ## Proof explanation
-The proof first establishes the equality $\operatorname{argminSet}\Phi=\ker A$. It uses `ext u`, the extensionality principle for sets, to reduce the equality to proving, for an arbitrary $u\in H$, that $u\in\operatorname{argminSet}\Phi$ if and only if $u\in\ker A$.
+The proof first establishes the equality $\mathrm{argminSet}\Phi=\ker A$. It uses `ext u`, the extensionality principle for sets, to reduce the equality to proving, for an arbitrary $u\in H$, that $u\in\mathrm{argminSet}\Phi$ if and only if $u\in\ker A$.
 
-For the forward direction, assume $u\in\operatorname{argminSet}\Phi$. Then by definition of the argmin set, $\Phi(u)\le \Phi(y)$ for every $y$, in particular for $y=0$, so $\Phi(u)\le\Phi(0)$. Using the quadratic formula and the fact that $A0=0$, the value at $0$ is
+For the forward direction, assume $u\in\mathrm{argminSet}\Phi$. Then by definition of the argmin set, $\Phi(u)\le \Phi(y)$ for every $y$, in particular for $y=0$, so $\Phi(u)\le\Phi(0)$. Using the quadratic formula and the fact that $A0=0$, the value at $0$ is
 
 $$
 \Phi(0)=\frac12\langle A0,0\rangle=0.
@@ -289,7 +289,7 @@ $$
 \Phi(v)=\frac12\langle Av,v\rangle.
 $$
 
-Since $A$ is positive, $\langle Av,v\rangle\ge 0$, and since $\frac12\ge 0$, we get $\Phi(v)\ge 0=\Phi(u)$. Thus $u\in\operatorname{argminSet}\Phi$. The proof uses `mul_nonneg` for the product $\frac12\langle Av,v\rangle\ge 0$ and `norm_num` to verify $\frac12\ge0$.
+Since $A$ is positive, $\langle Av,v\rangle\ge 0$, and since $\frac12\ge 0$, we get $\Phi(v)\ge 0=\Phi(u)$. Thus $u\in\mathrm{argminSet}\Phi$. The proof uses `mul_nonneg` for the product $\frac12\langle Av,v\rangle\ge 0$ and `norm_num` to verify $\frac12\ge0$.
 
 Next, the proof uses `quadratic_potential_convex`. That result states that if $\Phi(u)=\frac12\langle Au,u\rangle$, $A$ is self-adjoint, and $A$ is positive, then $\Phi$ is convex on all of $H$. Concretely, this means that for all $u,v\in H$ and $0<\lambda<1$,
 
@@ -301,7 +301,7 @@ $$
 
 This convexity is one of the hypotheses needed for the convergence theorem.
 
-The proof then shows that $\operatorname{argminSet}\Phi$ is nonempty. Since it has already proved $\operatorname{argminSet}\Phi=\ker A$, and $0\in\ker A$, the element $0$ belongs to the argmin set. This supplies the hypothesis `hmin` required by the strong convergence theorem.
+The proof then shows that $\mathrm{argminSet}\Phi$ is nonempty. Since it has already proved $\mathrm{argminSet}\Phi=\ker A$, and $0\in\ker A$, the element $0$ belongs to the argmin set. This supplies the hypothesis `hmin` required by the strong convergence theorem.
 
 The convergence theorem `din_strong_convergence_of_even_potential` is then applied. Its mathematical content is: if $\Phi$ satisfies the standing assumptions, is convex on $H$, has a nonempty argmin set, $x$ is a DIn trajectory for $\Phi,\alpha,\beta$, $x\in C^2$, $\alpha\beta\le1$, and $\Phi$ is even, i.e.
 
@@ -309,7 +309,7 @@ $$
 \Phi(y)=\Phi(-y)
 $$
 
-for every $y$, then there exists $z\in\operatorname{argminSet}\Phi$ such that
+for every $y$, then there exists $z\in\mathrm{argminSet}\Phi$ such that
 
 $$
 x(t)\to z\quad\text{as }t\to\infty.
@@ -323,7 +323,7 @@ $$
 =\Phi(u).
 $$
 
-The proof supplies this explicitly by rewriting with `hquadratic` and simplifying. The theorem yields a point $p\in\operatorname{argminSet}\Phi$ and the convergence $x(t)\to p$. Since $\operatorname{argminSet}\Phi=\ker A$, the proof converts $p\in\operatorname{argminSet}\Phi$ into $p\in\ker A$.
+The proof supplies this explicitly by rewriting with `hquadratic` and simplifying. The theorem yields a point $p\in\mathrm{argminSet}\Phi$ and the convergence $x(t)\to p$. Since $\mathrm{argminSet}\Phi=\ker A$, the proof converts $p\in\mathrm{argminSet}\Phi$ into $p\in\ker A$.
 
 The rest of the proof identifies this limit $p$ as the metric projection of
 
@@ -348,7 +348,7 @@ $$
 Consequently the Hessian of $\Phi$ is also $A$, since the derivative of the continuous linear map $A$ is $A$ itself:
 
 $$
-\operatorname{fderiv}_{\mathbb R}(\nabla\Phi)(u)=A
+\mathrm{fderiv}_{\mathbb R}(\nabla\Phi)(u)=A
 $$
 
 for every $u$.
@@ -356,7 +356,7 @@ for every $u$.
 The proof then establishes that $x$ is bounded on $[0,\infty)$. Since $x(t)\to p$, there is $T$ such that
 
 $$
-\operatorname{dist}(x(t),p)<1
+\mathrm{dist}(x(t),p)<1
 $$
 
 for all $t\ge T$. Let $T_0=\max(T,0)$. For $t\ge T_0$, the triangle inequality gives
@@ -367,7 +367,7 @@ $$
 
 On the compact interval $[0,T_0]$, the continuous image $x([0,T_0])$ is compact, hence bounded. Combining the bounded initial segment with the bounded tail gives that the whole set $x([0,\infty))$ is bounded. This is needed to apply `din_global_properties_part_iii`.
 
-The theorem `din_global_properties_part_iii` states that if $x$ is a DIn trajectory for positive $\alpha,\beta$, is $C^2$, and has bounded position on $[0,\infty)$, then the velocity, acceleration, gradient $\nabla\Phi(x(t))$, and derivative \operatorname{fderiv}_{\mathbb R}(\nabla\Phi)(x(t)) are bounded, and moreover
+The theorem `din_global_properties_part_iii` states that if $x$ is a DIn trajectory for positive $\alpha,\beta$, is $C^2$, and has bounded position on $[0,\infty)$, then the velocity, acceleration, gradient $\nabla\Phi(x(t))$, and derivative \mathrm{fderiv}_{\mathbb R}(\nabla\Phi)(x(t)) are bounded, and moreover
 
 $$
 \dot x(t)\to0,\qquad
@@ -462,7 +462,7 @@ Thus $q-p$ is orthogonal to every $z\in K$.
 The proof now applies the variational characterization of the metric projection, `eq_projectionPoint_iff_mem_and_inner_sub_right_nonpos`. For a Chebyshev convex set $K$, this theorem says that
 
 $$
-r=\operatorname{projectionPoint} K h_{\mathrm{Cheb}} q
+r=\mathrm{projectionPoint} K h_{\mathrm{Cheb}} q
 $$
 
 if and only if $r\in K$ and
@@ -484,27 +484,27 @@ $$
 So $p$ satisfies the projection variational inequality. Hence
 
 $$
-p=\operatorname{projectionPoint} K h_{\mathrm{Cheb}} q.
+p=\mathrm{projectionPoint} K h_{\mathrm{Cheb}} q.
 $$
 
 Finally, `projectionPoint_isBestApproximation` states that the chosen projection point is a best approximation, so
 
 $$
-\operatorname{dist}(q,\operatorname{projectionPoint} K h_{\mathrm{Cheb}} q)
+\mathrm{dist}(q,\mathrm{projectionPoint} K h_{\mathrm{Cheb}} q)
 =
-\operatorname{infDist}(q,K).
+\mathrm{infDist}(q,K).
 $$
 
-Using $p=\operatorname{projectionPoint} K h_{\mathrm{Cheb}} q$, the proof obtains
+Using $p=\mathrm{projectionPoint} K h_{\mathrm{Cheb}} q$, the proof obtains
 
 $$
 \|q-p\|
 =
-\operatorname{dist}(q,p)
+\mathrm{dist}(q,p)
 =
-\operatorname{dist}(q,\operatorname{projectionPoint} K h_{\mathrm{Cheb}} q)
+\mathrm{dist}(q,\mathrm{projectionPoint} K h_{\mathrm{Cheb}} q)
 =
-\operatorname{infDist}(q,K).
+\mathrm{infDist}(q,K).
 $$
 
 Substituting $q=x(0)+\alpha^{-1}\dot x(0)$ and $K=\ker A$ gives exactly the claimed equality
@@ -512,8 +512,8 @@ Substituting $q=x(0)+\alpha^{-1}\dot x(0)$ and $K=\ker A$ gives exactly the clai
 $$
 \left\|x(0)+\alpha^{-1}\dot x(0)-p\right\|
 =
-\operatorname{infDist}\!\left(x(0)+\alpha^{-1}\dot x(0),\ker A\right).
+\mathrm{infDist}\!\left(x(0)+\alpha^{-1}\dot x(0),\ker A\right).
 $$
 
-Together with the earlier equality $\operatorname{argminSet}\Phi=\ker A$, the inclusion $p\in\ker A$, and the convergence $x(t)\to p$, this completes the proof.
+Together with the earlier equality $\mathrm{argminSet}\Phi=\ker A$, the inclusion $p\in\ker A$, and the convergence $x(t)\to p$, this completes the proof.
 

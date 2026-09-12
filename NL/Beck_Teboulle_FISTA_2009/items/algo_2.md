@@ -15,17 +15,17 @@ Let $n$ be a natural number and let $E=\mathbb R^n$, represented in Lean by `Euc
 Besides the run $A$, the theorem assumes a natural number $k$ and the side condition $1\le k$. The conclusion is
 
 $$
-\operatorname{compositeObjective}(f,g)(A.x_k)
+\mathrm{compositeObjective}(f,g)(A.x_k)
 \le
-\operatorname{quadraticApprox}(f,g)(A.L_k)(A.x_k)(A.y_k).
+\mathrm{quadraticApprox}(f,g)(A.L_k)(A.x_k)(A.y_k).
 $$
 
 Equivalently, if we abbreviate
 
 $$
-F(z)=\operatorname{compositeObjective}(f,g)(z),
+F(z)=\mathrm{compositeObjective}(f,g)(z),
 \qquad
-Q(L,u,v)=\operatorname{quadraticApprox}(f,g)(L)(u)(v),
+Q(L,u,v)=\mathrm{quadraticApprox}(f,g)(L)(u)(v),
 $$
 
 then the statement is

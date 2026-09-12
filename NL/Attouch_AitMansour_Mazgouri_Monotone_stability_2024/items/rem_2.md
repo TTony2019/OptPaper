@@ -50,7 +50,7 @@ $$
 Thus the trajectories are uniformly bounded on the time interval, almost everywhere, by the radius $r$. The hypothesis `hV` says that $V$ is a neighborhood of $\bar\mu$, and `hμbar` says that $\bar\mu$ itself belongs to $V$. The hypothesis `hconv_A` says that the discrepancy
 
 $$
-\operatorname{def}_6(r,h_r,A_\mu,A_{\bar\mu})
+\mathrm{def}_6(r,h_r,A_\mu,A_{\bar\mu})
 $$
 
 tends to $0$ as $\mu\to\bar\mu$. Here `def_6` is defined as the supremum discrepancy on the ball of radius $r$, so this is a convergence assumption on the operators $A_\mu$ toward $A_{\bar\mu}$. Finally, `hα_bound` says that eventually near $\bar\mu$,
@@ -62,13 +62,13 @@ $$
 The conclusion is that
 
 $$
-\operatorname{pathSupNorm}_T\bigl(t\mapsto x(\mu)(t)-x(\bar\mu)(t)\bigr)\to 0
+\mathrm{pathSupNorm}_T\bigl(t\mapsto x(\mu)(t)-x(\bar\mu)(t)\bigr)\to 0
 $$
 
 as $\mu\to\bar\mu$. Since
 
 $$
-\operatorname{pathSupNorm}_T f
+\mathrm{pathSupNorm}_T f
 =
 \sup\{\|f(t)\|:t\in [0,T]\},
 $$
@@ -182,15 +182,15 @@ R(\mu)
 e^{m_0T}
 \sqrt{\|u_0(\mu)-u_0(\bar\mu)\|^2+\|v_0(\mu)-v_0(\bar\mu)\|^2}
 +
-m_0^{-1}(e^{m_0T}-1)\operatorname{def}_6(r,h_r,A_\mu,A_{\bar\mu})
+m_0^{-1}(e^{m_0T}-1)\mathrm{def}_6(r,h_r,A_\mu,A_{\bar\mu})
 $$
 
-tends to $0$. The first summand is a constant multiple of a quantity tending to $0$, and the second summand is a constant multiple of $\operatorname{def}_6(r,h_r,A_\mu,A_{\bar\mu})$, which tends to $0$ by `hconv_A`. The Lean commands `hsqrt.const_mul`, `hconv_A.const_mul`, and `h1.add h2` implement these closure properties of limits. This is the auxiliary fact `hRHS`.
+tends to $0$. The first summand is a constant multiple of a quantity tending to $0$, and the second summand is a constant multiple of $\mathrm{def}_6(r,h_r,A_\mu,A_{\bar\mu})$, which tends to $0$ by `hconv_A`. The Lean commands `hsqrt.const_mul`, `hconv_A.const_mul`, and `h1.add h2` implement these closure properties of limits. This is the auxiliary fact `hRHS`.
 
 The central estimate is `hbound`, which asserts that eventually near $\bar\mu$,
 
 $$
-\operatorname{pathSupNorm}_T\bigl(t\mapsto x(\mu)(t)-x(\bar\mu)(t)\bigr)
+\mathrm{pathSupNorm}_T\bigl(t\mapsto x(\mu)(t)-x(\bar\mu)(t)\bigr)
 \le R(\mu).
 $$
 
@@ -202,7 +202,7 @@ $$
 \sqrt{1+2\gamma^2+\frac{2}{\alpha(\bar\mu)^2}},
 $$
 
-together with the initial-data square-root term and the discrepancy term $\operatorname{def}_6(r,h_r,A_\mu,A_{\bar\mu})$.
+together with the initial-data square-root term and the discrepancy term $\mathrm{def}_6(r,h_r,A_\mu,A_{\bar\mu})$.
 
 The proof then simplifies that maximum to $m_0$. From $\alpha(\bar\mu)\le\alpha(\mu)$ and the positivity of both quantities, it obtains
 
@@ -238,13 +238,13 @@ This is the auxiliary fact `hall`.
 Next, the proof converts the pointwise bound into a path-supremum bound. It invokes `pathSupNorm_le_of_forall`: if $T\ge0$ and $\|f(t)\|\le C$ for all $t\in [0,T]$, then
 
 $$
-\operatorname{pathSupNorm}_T f\le C.
+\mathrm{pathSupNorm}_T f\le C.
 $$
 
 Here $T\ge0$ follows from `hT.le`, $f(t)=x(\mu)(t)-x(\bar\mu)(t)$, and $C=R(\mu)$. Therefore
 
 $$
-\operatorname{pathSupNorm}_T\bigl(t\mapsto x(\mu)(t)-x(\bar\mu)(t)\bigr)
+\mathrm{pathSupNorm}_T\bigl(t\mapsto x(\mu)(t)-x(\bar\mu)(t)\bigr)
 \le R(\mu)
 $$
 
@@ -254,7 +254,7 @@ Finally, the proof applies the squeeze theorem for filters. The command `refine 
 
 $$
 0\le
-\operatorname{pathSupNorm}_T\bigl(t\mapsto x(\mu)(t)-x(\bar\mu)(t)\bigr).
+\mathrm{pathSupNorm}_T\bigl(t\mapsto x(\mu)(t)-x(\bar\mu)(t)\bigr).
 $$
 
 The proof proves this for every $\mu$ using `unfold pathSupNorm`, which expands the definition as a supremum of the set of real numbers
@@ -266,7 +266,7 @@ $$
 Every element of this set is the norm of some vector, hence is nonnegative. Therefore `Real.sSup_nonneg` gives that the supremum itself is nonnegative. Combining this nonnegativity, the eventual upper bound by $R(\mu)$, and the fact $R(\mu)\to0$, the squeeze theorem yields
 
 $$
-\operatorname{pathSupNorm}_T\bigl(t\mapsto x(\mu)(t)-x(\bar\mu)(t)\bigr)\to0
+\mathrm{pathSupNorm}_T\bigl(t\mapsto x(\mu)(t)-x(\bar\mu)(t)\bigr)\to0
 $$
 
 as $\mu\to\bar\mu$, which is the desired conclusion.

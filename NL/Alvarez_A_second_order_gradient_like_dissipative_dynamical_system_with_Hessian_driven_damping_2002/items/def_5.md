@@ -23,18 +23,18 @@ The ambient type $H$ is assumed to be a complete real inner product space: it is
 The predicate `IsEpsilonDINTrajectory ε Φ x₀ v₀ x` is the proposition that the following four conditions all hold:
 1. $0 < \varepsilon$;
 2. $x(0) = x_0$;
-3. $\operatorname{deriv} x(0) = v_0$;
+3. $\mathrm{deriv} x(0) = v_0$;
 4. for every real $t$ with $t > 0$,
 
 $$
-\varepsilon \cdot \operatorname{deriv}(\operatorname{deriv} x)(t)
-+ \operatorname{fderiv}_{\mathbb R}(\nabla \Phi)(x(t))(\operatorname{deriv} x(t))
+\varepsilon \cdot \mathrm{deriv}(\mathrm{deriv} x)(t)
++ \mathrm{fderiv}_{\mathbb R}(\nabla \Phi)(x(t))(\mathrm{deriv} x(t))
 + \nabla \Phi(x(t)) = 0,
 $$
 
 where $\nabla \Phi$ denotes the gradient of $\Phi$, and the zero on the right is the zero vector of $H$.
 
-In this equation, $\operatorname{deriv}(\operatorname{deriv} x)(t)$ is the second derivative, or acceleration, of the trajectory at time $t$. The term $\operatorname{fderiv}_{\mathbb R}(\nabla \Phi)(x(t))(\operatorname{deriv} x(t))$ is the Fréchet derivative of the gradient map at the point $x(t)$, applied to the velocity $\operatorname{deriv} x(t)$; mathematically this is the Hessian-vector product when the gradient is differentiable. The final term $\nabla \Phi(x(t))$ is the gradient of the potential at the current position. Thus the definition says that $x$ is an $\varepsilon$-DIN trajectory for $\Phi$ with initial state $(x_0,v_0)$: the damping coefficient is positive, the initial position and velocity are prescribed, and for all positive times a second-order vector equation balances $\varepsilon$ times acceleration, the Hessian-driven damping term, and the gradient force.
+In this equation, $\mathrm{deriv}(\mathrm{deriv} x)(t)$ is the second derivative, or acceleration, of the trajectory at time $t$. The term $\mathrm{fderiv}_{\mathbb R}(\nabla \Phi)(x(t))(\mathrm{deriv} x(t))$ is the Fréchet derivative of the gradient map at the point $x(t)$, applied to the velocity $\mathrm{deriv} x(t)$; mathematically this is the Hessian-vector product when the gradient is differentiable. The final term $\nabla \Phi(x(t))$ is the gradient of the potential at the current position. Thus the definition says that $x$ is an $\varepsilon$-DIN trajectory for $\Phi$ with initial state $(x_0,v_0)$: the damping coefficient is positive, the initial position and velocity are prescribed, and for all positive times a second-order vector equation balances $\varepsilon$ times acceleration, the Hessian-driven damping term, and the gradient force.
 
 The definition itself does not include separate differentiability hypotheses on $\Phi$ or $x$; it uses Lean’s total derivative and gradient operators, so the equation is imposed as written. The completeness assumption on $H$ is part of the ambient typeclass structure and does not appear as an extra conjunct inside the proposition.
 
@@ -51,14 +51,14 @@ Mathematically, the definition should be read as a definitional abbreviation: to
 $$
 0 < \varepsilon,\qquad
 x(0)=x_0,\qquad
-\operatorname{deriv} x(0)=v_0,
+\mathrm{deriv} x(0)=v_0,
 $$
 
 and, for every $t>0$,
 
 $$
-\varepsilon \cdot \operatorname{deriv}(\operatorname{deriv} x)(t)
-+ \operatorname{fderiv}_{\mathbb R}(\nabla \Phi)(x(t))(\operatorname{deriv} x(t))
+\varepsilon \cdot \mathrm{deriv}(\mathrm{deriv} x)(t)
++ \mathrm{fderiv}_{\mathbb R}(\nabla \Phi)(x(t))(\mathrm{deriv} x(t))
 + \nabla \Phi(x(t)) = 0.
 $$
 

@@ -65,7 +65,7 @@ The fields of the structure are as follows.
   =
   x_{k+1}
   +
-  h\,\operatorname{softThresholdVector}\!\left(
+  h\,\mathrm{softThresholdVector}\!\left(
     \frac{h r}{1+h\gamma},\,
     \pi,\,
     z_k
@@ -109,7 +109,7 @@ x_{k+2}
 =
 x_{k+1}
 +
-h\,\operatorname{softThresholdVector}\!\left(
+h\,\mathrm{softThresholdVector}\!\left(
   \frac{h r}{1+h\gamma},\,
   \pi,\,
   z_k

@@ -49,7 +49,7 @@ $$
 together with a field named `step`. For this field, write $J_n(\xi,\eta)$ for the real number denoted by the visible expression
 
 $$
-\operatorname{jointProximalObjective}(f,g,h,k,c,\alpha,\beta,\mu,\nu,x,y,n,\xi,\eta).
+\mathrm{jointProximalObjective}(f,g,h,k,c,\alpha,\beta,\mu,\nu,x,y,n,\xi,\eta).
 $$
 
 The exact internal formula of `jointProximalObjective` is not supplied in the declaration, so its only mathematically specified role here is as the real-valued objective being compared by $\le$. The field `step` has the type: for every $n\in\mathbb N$, every $\xi\in X$, and every $\eta\in Y$,

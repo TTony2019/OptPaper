@@ -21,7 +21,7 @@ theorem finiteDimensional_finiteStopping_remark {H : Type*} [NormedAddCommGroup 
 `finiteDimensional_finiteStopping_remark` is a finite-stopping statement for an inertial proximal-gradient algorithm with dry friction and Hessian-driven damping. Let $H$ be a finite-dimensional real inner product space, let $f,\phi:H\to\mathbb R$, and let
 
 $$
-x_k:=\operatorname{alg.x} k
+x_k:=\mathrm{alg.x} k
 $$
 
 be the iterates of the algorithm `alg`. The parameters $h,\gamma,\beta,L,r$ are real numbers. The hypothesis `_hdf : DF_r phi r` is a dry-friction condition depending on $r$; the proof uses its field `_hdf.toEReal_mem_gammaZero`, which says that the extended-real-valued function $\phi.toEReal$ belongs to $\Gamma_0(H)$. In the local definition, $\Gamma_0(H)$ consists of functions into `EReal` that are convex and lower semicontinuous. Thus this hypothesis gives the convexity and lower semicontinuity needed by the proximal subdifferential framework.
@@ -40,7 +40,7 @@ $$
 with the inequality interpreted after coercion to `EReal`. The hypothesis `hinterior` says
 
 $$
--\nabla f(x_\infty)\in \operatorname{int}\bigl(\partial\phi(0)\bigr),
+-\nabla f(x_\infty)\in \mathrm{int}\bigl(\partial\phi(0)\bigr),
 $$
 
 so a full neighborhood of $-\nabla f(x_\infty)$ is contained in the subdifferential of $\phi$ at $0$.
@@ -337,7 +337,7 @@ $$
 6. The interior hypothesis says
 
 $$
--\nabla f(x_\infty)\in\operatorname{int}\bigl(\partial\phi(0)\bigr).
+-\nabla f(x_\infty)\in\mathrm{int}\bigl(\partial\phi(0)\bigr).
 $$
 
 Using `mem_interior_iff_mem_nhds` and `Metric.mem_nhds_iff`, the proof extracts an $\varepsilon>0$ such that the open ball

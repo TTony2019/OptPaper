@@ -13,13 +13,13 @@ theorem convex_firstOrder_inequality {E : Type*} [NormedAddCommGroup E] [InnerPr
 The theorem `convex_firstOrder_inequality` is stated in a real inner product space $E$ which is also assumed complete, so $E$ is a real Hilbert space. The function is $f : E \to \mathbb{R}$. The hypothesis `hconv : ConvexOn ℝ Set.univ f` says that $f$ is convex on the whole space $E$. The hypothesis `hgrad : ∀ u, HasGradientAt f (gradient f u) u` says that at every point $u \in E$, the function $f$ has gradient `gradient f u`; equivalently, the Fréchet derivative of $f$ at $u$ is the continuous linear functional
 
 $$
-h \mapsto \langle \operatorname{gradient} f u, h\rangle .
+h \mapsto \langle \mathrm{gradient} f u, h\rangle .
 $$
 
 For arbitrary points $u,v \in E$, the conclusion is
 
 $$
-f(u) + \langle \operatorname{gradient} f u, v-u\rangle \le f(v).
+f(u) + \langle \mathrm{gradient} f u, v-u\rangle \le f(v).
 $$
 
 This is the first-order lower bound for a convex differentiable function: the tangent-plane approximation at $u$ lies below the graph of $f$ at the point $v$.
@@ -76,7 +76,7 @@ The `convert` and `simp` steps only reconcile the exact Lean expression of the f
 The step `houter` converts the gradient assumption at $u$ into Fréchet differentiability. From `hgrad u`, the lemma `.hasFDerivAt` gives that $f$ has Fréchet derivative
 
 $$
-\operatorname{InnerProductSpace.toDual} (\operatorname{gradient} f u)
+\mathrm{InnerProductSpace.toDual} (\mathrm{gradient} f u)
 $$
 
 at $u$. The map `InnerProductSpace.toDual` sends a vector $g$ to the continuous linear functional $h \mapsto \langle g,h\rangle$. Thus `houter` says that the derivative of $f$ at $u$, as a linear map, is the inner-product pairing with `gradient f u`. The `simpa` only rewrites the point $u$ as the value of the path at $0$.
@@ -84,20 +84,20 @@ at $u$. The map `InnerProductSpace.toDual` sends a vector $g$ to the continuous 
 The step `hφderiv` applies the chain rule. The result `houter.comp_hasDerivAt 0 hpath` says that the composition $f \circ (t \mapsto u+t(v-u))$ is differentiable at $0$, with derivative obtained by applying the Fréchet derivative of $f$ at $u$ to the derivative of the path at $0$, namely $v-u$. Therefore the derivative is
 
 $$
-(\operatorname{InnerProductSpace.toDual} (\operatorname{gradient} f u))(v-u).
+(\mathrm{InnerProductSpace.toDual} (\mathrm{gradient} f u))(v-u).
 $$
 
 The lemma `InnerProductSpace.toDual_apply_apply` evaluates this as
 
 $$
-\langle \operatorname{gradient} f u, v-u\rangle.
+\langle \mathrm{gradient} f u, v-u\rangle.
 $$
 
 After unfolding $\varphi$ and the line map, this gives
 
 $$
-\operatorname{HasDerivAt} \varphi
-  \bigl(\langle \operatorname{gradient} f u, v-u\rangle\bigr) 0.
+\mathrm{HasDerivAt} \varphi
+  \bigl(\langle \mathrm{gradient} f u, v-u\rangle\bigr) 0.
 $$
 
 The crucial convexity estimate is
@@ -109,14 +109,14 @@ $$
 This theorem says that for a convex real function $\varphi$, if $0<1$, then the derivative of $\varphi$ at the left endpoint $0$ is bounded above by the secant slope from $0$ to $1$:
 
 $$
-\varphi'(0) \le \operatorname{slope} \varphi\,0\,1.
+\varphi'(0) \le \mathrm{slope} \varphi\,0\,1.
 $$
 
 The two `by simp` arguments prove that $0$ and $1$ lie in the domain `Set.univ`, and `zero_lt_one` supplies the inequality $0<1$. Together with `hφderiv`, this yields
 
 $$
-\langle \operatorname{gradient} f u, v-u\rangle
-  \le \operatorname{slope} \varphi\,0\,1.
+\langle \mathrm{gradient} f u, v-u\rangle
+  \le \mathrm{slope} \varphi\,0\,1.
 $$
 
 The step `hdir` simplifies this slope. Since
@@ -128,7 +128,7 @@ $$
 the slope is
 
 $$
-\operatorname{slope} \varphi\,0\,1
+\mathrm{slope} \varphi\,0\,1
 = \frac{\varphi(1)-\varphi(0)}{1-0}
 = f(v)-f(u).
 $$
@@ -136,14 +136,14 @@ $$
 Thus `hdir` states
 
 $$
-\langle \operatorname{gradient} f u, v-u\rangle
+\langle \mathrm{gradient} f u, v-u\rangle
   \le f(v)-f(u).
 $$
 
 Finally, `linarith` performs the elementary linear rearrangement of this inequality to the target:
 
 $$
-f(u) + \langle \operatorname{gradient} f u, v-u\rangle \le f(v).
+f(u) + \langle \mathrm{gradient} f u, v-u\rangle \le f(v).
 $$
 
 This completes the proof of the first-order convex inequality.

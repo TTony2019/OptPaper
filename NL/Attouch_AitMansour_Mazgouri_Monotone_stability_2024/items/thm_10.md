@@ -33,16 +33,16 @@ $$
 D=\alpha-\alpha\gamma T-T^2
 $$
 
-positive. The set $\operatorname{approxSolutions}(A,\gamma,u_0,v_0,T,\epsilon,\mu)$ is the set of approximate solutions at tolerance $\epsilon$ for parameter $\mu$. Its full definition is not shown, but the proof uses that membership entails continuity on $[0,T]$ and a tolerance condition involving the centered integral map. The path-sup norm is
+positive. The set $\mathrm{approxSolutions}(A,\gamma,u_0,v_0,T,\epsilon,\mu)$ is the set of approximate solutions at tolerance $\epsilon$ for parameter $\mu$. Its full definition is not shown, but the proof uses that membership entails continuity on $[0,T]$ and a tolerance condition involving the centered integral map. The path-sup norm is
 
 $$
-\operatorname{pathSupNorm}_T(f)=\sup\{\|f(t)\|: t\in [0,T] \}.
+\mathrm{pathSupNorm}_T(f)=\sup\{\|f(t)\|: t\in [0,T] \}.
 $$
 
 The conclusion is a conjunction of two statements. The first is sequential: for every $\mu\in V$, every sequence $(\varepsilon_n)$ of positive reals with $\varepsilon_n\to0$, and every sequence of curves $(y_n)$ such that
 
 $$
-y_n\in \operatorname{approxSolutions}(A,\gamma,u_0,v_0,T,\varepsilon_n,\mu)
+y_n\in \mathrm{approxSolutions}(A,\gamma,u_0,v_0,T,\varepsilon_n,\mu)
 $$
 
 for every $n$, one has pointwise convergence
@@ -54,19 +54,19 @@ $$
 and uniform path-sup convergence
 
 $$
-\operatorname{pathSupNorm}_T(y_n-x_\mu)\to0.
+\mathrm{pathSupNorm}_T(y_n-x_\mu)\to0.
 $$
 
 The second statement is epsilon-delta: for every $\mu\in V$ and every $\eta>0$, there exists $\epsilon>0$ such that for every $\epsilon'\in(0,\epsilon)$ there is a curve
 
 $$
-y\in \operatorname{approxSolutions}(A,\gamma,u_0,v_0,T,\epsilon',\mu)
+y\in \mathrm{approxSolutions}(A,\gamma,u_0,v_0,T,\epsilon',\mu)
 $$
 
 satisfying
 
 $$
-\operatorname{pathSupNorm}_T(y-x_\mu)<\eta.
+\mathrm{pathSupNorm}_T(y-x_\mu)<\eta.
 $$
 
 In words, as the approximation tolerance tends to zero, approximate solutions converge to the exact trajectory $x_\mu$, both pointwise on $[0,T]$ and uniformly in the path-sup norm, and arbitrarily small tolerances admit approximate solutions arbitrarily uniformly close to $x_\mu$. This is the Painlevé-Kuratowski type convergence formulation for the solution sets.
@@ -120,12 +120,12 @@ by
 ```
 
 ## Proof explanation
-The proof begins with two auxiliary facts. First, it proves that for every $\mu\in V$, the exact curve $x_\mu$ is continuous on $[0,T]$. This is `hxcont`, defined by `continuousOn_of_solution hT (hsol μ hμ).2`. The term $hsol μ hμ$ is the extended solution hypothesis; its second component is the solution condition `def_3`. The cited lemma `continuousOn_of_solution` says that if $T>0$ and $(x,dx,ddx)$ satisfies `def_3 A γ u0 v0 x dx ddx`, then $x$ is continuous on $[0,T]$. Applied to $\mu$, it gives $\operatorname{ContinuousOn}(x_\mu,[0,T])$.
+The proof begins with two auxiliary facts. First, it proves that for every $\mu\in V$, the exact curve $x_\mu$ is continuous on $[0,T]$. This is `hxcont`, defined by `continuousOn_of_solution hT (hsol μ hμ).2`. The term $hsol μ hμ$ is the extended solution hypothesis; its second component is the solution condition `def_3`. The cited lemma `continuousOn_of_solution` says that if $T>0$ and $(x,dx,ddx)$ satisfies `def_3 A γ u0 v0 x dx ddx`, then $x$ is continuous on $[0,T]$. Applied to $\mu$, it gives $\mathrm{ContinuousOn}(x_\mu,[0,T])$.
 
-Second, the proof establishes the quantitative error estimate `hbound`: for every $\mu\in V$, every real $\epsilon$, and every $y\in\operatorname{approxSolutions}(A,\gamma,u_0,v_0,T,\epsilon,\mu)$,
+Second, the proof establishes the quantitative error estimate `hbound`: for every $\mu\in V$, every real $\epsilon$, and every $y\in\mathrm{approxSolutions}(A,\gamma,u_0,v_0,T,\epsilon,\mu)$,
 
 $$
-\operatorname{pathSupNorm}_T(y-x_\mu)\le \frac{\epsilon\alpha}{D}.
+\mathrm{pathSupNorm}_T(y-x_\mu)\le \frac{\epsilon\alpha}{D}.
 $$
 
 This is exactly what `approxSolutions_pathSupNorm_le` provides. That theorem requires $\alpha>0$, $\gamma>0$, $T>0$, the cocoercivity hypothesis, the solution hypothesis, and the smallness condition $hγT$. The proof supplies $\alpha>0$ from $hα$, $\gamma>0$ from the first component of $hsol μ hμ$, $T>0$ from $hT$, and the remaining hypotheses directly. Its conclusion is the displayed uniform bound. This estimate is the main quantitative ingredient: it controls the whole path-sup error by the tolerance $\epsilon$.
@@ -133,7 +133,7 @@ This is exactly what `approxSolutions_pathSupNorm_le` provides. That theorem req
 To prove the first conjunct of the conclusion, the proof splits the conjunction with `constructor` and works on the sequential statement. It introduces $\mu\in V$, a sequence $\varepsilon_n$, a sequence of curves $y_n$, the positivity hypothesis on $\varepsilon_n$ (which is discarded with `_` and not used), the limit hypothesis $\varepsilon_n\to0$, and the hypothesis that
 
 $$
-y_n\in\operatorname{approxSolutions}(A,\gamma,u_0,v_0,T,\varepsilon_n,\mu)
+y_n\in\mathrm{approxSolutions}(A,\gamma,u_0,v_0,T,\varepsilon_n,\mu)
 $$
 
 for every $n$. Define
@@ -145,7 +145,7 @@ $$
 From `hbound`, the proof obtains `hsup`:
 
 $$
-\operatorname{pathSupNorm}_T(y_n-x_\mu)\le U_n
+\mathrm{pathSupNorm}_T(y_n-x_\mu)\le U_n
 $$
 
 for every $n$.
@@ -169,15 +169,15 @@ The `simpa` calls only simplify the function and arithmetic.
 The proof then uses `refine ⟨?_, ?_⟩` to separate the pointwise convergence from the path-sup convergence. For pointwise convergence, fix $t\in [0,T]$. The proof uses `tendsto_iff_dist_tendsto_zero.mpr`, so it is enough to show
 
 $$
-\operatorname{dist}(y_n(t),x_\mu(t))\to0.
+\mathrm{dist}(y_n(t),x_\mu(t))\to0.
 $$
 
 For each $n$, `hb` proves
 
 $$
-\operatorname{dist}(y_n(t),x_\mu(t))
+\mathrm{dist}(y_n(t),x_\mu(t))
 =\|y_n(t)-x_\mu(t)\|
-\le \operatorname{pathSupNorm}_T(y_n-x_\mu)
+\le \mathrm{pathSupNorm}_T(y_n-x_\mu)
 \le U_n.
 $$
 
@@ -186,13 +186,13 @@ The first equality is `dist_eq_norm`. The next inequality is `norm_le_pathSupNor
 Then the squeeze theorem `tendsto_of_tendsto_of_tendsto_of_le_of_le'` is applied. The lower comparison sequence is the constant $0$, which tends to $0$ by `tendsto_const_nhds`. The upper comparison sequence is $U_n$, which tends to $0$ by `hlim'`. The inequalities are
 
 $$
-0\le \operatorname{dist}(y_n(t),x_\mu(t))
+0\le \mathrm{dist}(y_n(t),x_\mu(t))
 $$
 
 from `dist_nonneg`, and
 
 $$
-\operatorname{dist}(y_n(t),x_\mu(t))\le U_n
+\mathrm{dist}(y_n(t),x_\mu(t))\le U_n
 $$
 
 from `hb`. Hence the distance tends to $0$. By `tendsto_iff_dist_tendsto_zero`, this is exactly $y_n(t)\to x_\mu(t)$.
@@ -200,13 +200,13 @@ from `hb`. Hence the distance tends to $0$. By `tendsto_iff_dist_tendsto_zero`, 
 For the path-sup convergence, let
 
 $$
-S_n=\operatorname{pathSupNorm}_T(y_n-x_\mu).
+S_n=\mathrm{pathSupNorm}_T(y_n-x_\mu).
 $$
 
 The proof again uses the squeeze theorem. The lower bound $0\le S_n$ is supplied by `pathSupNorm_nonneg_of_continuousOn`: since $T\ge0$ from `hT.le` and $y_n-x_\mu$ is continuous on $[0,T]$, the path-sup norm is nonnegative. The upper bound $S_n\le U_n$ is `hsup n`. Since $U_n\to0$, the squeeze theorem gives $S_n\to0$, i.e.
 
 $$
-\operatorname{pathSupNorm}_T(y_n-x_\mu)\to0.
+\mathrm{pathSupNorm}_T(y_n-x_\mu)\to0.
 $$
 
 This completes the first conjunct.
@@ -216,7 +216,7 @@ The second conjunct is proved by `intro μ hμ η hη`, then `refine ⟨η, hη,
 First it shows that
 
 $$
-x_\mu\in\operatorname{approxSolutions}(A,\gamma,u_0,v_0,T,\epsilon',\mu).
+x_\mu\in\mathrm{approxSolutions}(A,\gamma,u_0,v_0,T,\epsilon',\mu).
 $$
 
 The membership is established by `refine ⟨hxcont μ hμ, ?_⟩`. The first component is the already proved continuity of $x_\mu$ on $[0,T]$. For the remaining tolerance condition, fix $t\in [0,T]$. Since $t\ge0$, the cited theorem `centeredIntegralMap_eq_of_solution` applies to $A_\mu,x_\mu,dx_\mu,ddx_\mu,u_{0,\mu},v_{0,\mu},\alpha,\gamma$, using $hcoco μ hμ$ and $hsol μ hμ$. It gives
@@ -237,7 +237,7 @@ The equality says that the exact solution $x_\mu$ is a fixed point of the Picard
 Second, the proof shows
 
 $$
-\operatorname{pathSupNorm}_T(x_\mu-x_\mu)<\eta.
+\mathrm{pathSupNorm}_T(x_\mu-x_\mu)<\eta.
 $$
 
 Using `pathSupNorm_le_of_forall` with $T\ge0$, it is enough to observe that for every $t\in [0,T]$,
@@ -249,7 +249,7 @@ $$
 The equality is `sub_self` and `norm_zero`; the inequality is `positivity` from $\eta>0$. Thus `hzero` gives
 
 $$
-\operatorname{pathSupNorm}_T(x_\mu-x_\mu)\le\frac{\eta}{2}.
+\mathrm{pathSupNorm}_T(x_\mu-x_\mu)\le\frac{\eta}{2}.
 $$
 
 Since $\eta>0$, we have $\eta/2<\eta$, and `linarith` concludes the strict inequality. Therefore, with $\epsilon=\eta$, every $\epsilon'\in(0,\eta)$ has an approximate solution $x_\mu$ whose path-sup error from $x_\mu$ is less than $\eta$, completing the second conjunct and the theorem.

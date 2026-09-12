@@ -141,7 +141,8 @@ theorem real : True := by trivial
         self.assertIn("Use `$...$` for short inline mathematics", prompt)
         self.assertIn("Never use `\\(...\\)` or `\\[...\\]`", prompt)
         self.assertIn("Never use bare square brackets as math delimiters", prompt)
-        self.assertIn(r"\operatorname{deriv}", prompt)
+        self.assertIn(r"\mathrm{deriv}", prompt)
+        self.assertIn("The following macros are not allowed", prompt)
         self.assertIn("provided only as reference context", prompt)
 
     def test_collects_cited_result_from_local_import_graph(self):
@@ -248,6 +249,13 @@ theorem real : True := by trivial
         self.assertEqual(
             normalize_math_delimiters(r"an \(\varepsilon\)-\(T\) statement"),
             r"an $\varepsilon\text{-}T$ statement",
+        )
+
+    def test_normalizer_rewrites_macros_github_rejects(self):
+        text = r"the map \(\operatorname{deriv} f\) and \(\operatorname*{argmin}_{x} g\) and \(\operatorname{fderiv}\)"
+        self.assertEqual(
+            normalize_math_delimiters(text),
+            r"the map $\mathrm{deriv} f$ and $\mathrm{argmin}_{x} g$ and $\mathrm{fderiv}$",
         )
 
     def test_normalizer_keeps_code_fences_and_break_commands(self):
