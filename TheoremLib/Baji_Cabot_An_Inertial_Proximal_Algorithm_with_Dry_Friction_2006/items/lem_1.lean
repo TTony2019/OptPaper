@@ -17,7 +17,7 @@ open SetValuedOperator
 open Set
 variable {H : Type _} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 /-- Lemma 2.1: properties of the function Φ_A. -/
-theorem lem_2_1 (A : SetValuedOperator H H) (h_mono : IsMonotone A) (h_dom : A.dom = Set.univ)
+theorem lem_2_1 (A : SetValuedOperator H H) (h_mono : IsMonotone A) (_h_dom : A.dom = Set.univ)
     (h_zero : (0 : H) ∈ A (0 : H)) :
     (∀ x,
       PhiA A x ≥ supportFunction (A (0 : H)) x ∧
@@ -31,11 +31,8 @@ theorem lem_2_1 (A : SetValuedOperator H H) (h_mono : IsMonotone A) (h_dom : A.d
     rintro _ ⟨z, hz, rfl⟩
     refine le_sInf ?_
     rintro _ ⟨y, hy, rfl⟩
-    have hmono' : 0 ≤ inner ℝ (y - z) (x - 0) := h_mono y hy z hz
     have hle : inner ℝ z x ≤ inner ℝ y x := by
-      have hmono'' : 0 ≤ inner ℝ y x - inner ℝ z x := by
-        simpa [inner_sub_left, sub_zero] using hmono'
-      exact sub_nonneg.mp hmono''
+      simpa [inner_sub_left, sub_zero] using h_mono y hy z hz
     exact EReal.coe_le_coe hle
   have hSupport_nonneg : ∀ x, (0 : EReal) ≤ supportFunction (A (0 : H)) x := by
     intro x
@@ -45,8 +42,8 @@ theorem lem_2_1 (A : SetValuedOperator H H) (h_mono : IsMonotone A) (h_dom : A.d
   · intro x
     exact ⟨hPhi_ge_support x, hSupport_nonneg x⟩
   · intro h_int
-    have hnhds : A (0 : H) ∈ nhds (0 : H) := mem_interior_iff_mem_nhds.mp h_int
-    rcases (Metric.mem_nhds_iff.mp hnhds) with ⟨ε, hε_pos, hε_subset⟩
+    rcases (Metric.mem_nhds_iff.mp (mem_interior_iff_mem_nhds.mp h_int)) with
+      ⟨ε, hε_pos, hε_subset⟩
     let α : ℝ := ε / 2
     have hα_pos : 0 < α := by positivity
     have hα_lt_ε : α < ε := by
@@ -63,13 +60,10 @@ theorem lem_2_1 (A : SetValuedOperator H H) (h_mono : IsMonotone A) (h_dom : A.d
         have hz_norm : ‖z‖ = α := by
           dsimp [z]
           rw [norm_smul]
-          have hdiv_nonneg : 0 ≤ α / ‖x‖ :=
-            div_nonneg (le_of_lt hα_pos) (le_of_lt hxnorm_pos)
-          rw [Real.norm_eq_abs, abs_of_nonneg hdiv_nonneg]
+          rw [Real.norm_eq_abs, abs_of_nonneg (div_nonneg (le_of_lt hα_pos) (le_of_lt hxnorm_pos))]
           field_simp [ne_of_gt hxnorm_pos]
         have hz_ball : z ∈ Metric.ball (0 : H) ε := by
           simpa [Metric.mem_ball, dist_zero_right, hz_norm] using hα_lt_ε
-        have hzA : z ∈ A (0 : H) := hε_subset hz_ball
         have hinner_z : inner ℝ z x = α * ‖x‖ := by
           dsimp [z]
           rw [real_inner_smul_left, real_inner_self_eq_norm_sq]
@@ -77,6 +71,6 @@ theorem lem_2_1 (A : SetValuedOperator H H) (h_mono : IsMonotone A) (h_dom : A.d
         rw [supportFunction]
         have hle_sup : ((inner ℝ z x : ℝ) : EReal) ≤
             sSup ((fun z : H => (inner ℝ z x : EReal)) '' A (0 : H)) := by
-          exact le_sSup ⟨z, hzA, rfl⟩
+          exact le_sSup ⟨z, hε_subset hz_ball, rfl⟩
         simpa [hinner_z] using hle_sup
     exact le_trans hsupp_lower (hPhi_ge_support x)

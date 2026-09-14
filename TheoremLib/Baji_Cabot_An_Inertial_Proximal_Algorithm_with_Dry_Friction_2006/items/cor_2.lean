@@ -36,6 +36,7 @@ does not currently elaborate as an import dependency. -/
 def subderivative (g : H → EReal) : SetValuedOperator H H :=
   fun x => {v | ∀ y, g y ≥ g x + (inner ℝ v (y - x) : EReal)}
 
+omit [CompleteSpace H] in
 private theorem cor41_supportFunction_zero (C : Set H) (hC0 : (0 : H) ∈ C) :
     supportFunction C (0 : H) = 0 := by
   unfold supportFunction
@@ -51,19 +52,20 @@ private theorem cor41_supportFunction_zero (C : Set H) (hC0 : (0 : H) ∈ C) :
   rw [h_image]
   simp
 
+omit [CompleteSpace H] in
 private theorem cor41_inner_le_supportFunction {C : Set H} {z y : H} (hz : z ∈ C) :
     (inner ℝ z y : EReal) ≤ supportFunction C y := by
   unfold supportFunction
   exact le_sSup ⟨z, hz, rfl⟩
 
+omit [CompleteSpace H] in
 private theorem cor41_supportFunction_ne_top_of_bounded (C : Set H)
     (hC_bounded : Bornology.IsBounded C) (y : H) :
     supportFunction C y ≠ ⊤ := by
   rcases (Metric.isBounded_iff_subset_closedBall (0 : H)).mp hC_bounded with ⟨R, hRball⟩
   have hR : ∀ z ∈ C, ‖z‖ ≤ R := by
     intro z hz
-    have hzball := hRball hz
-    simpa [Metric.mem_closedBall, dist_eq_norm] using hzball
+    simpa [Metric.mem_closedBall, dist_eq_norm] using hRball hz
   have hupper : supportFunction C y ≤ ((R * ‖y‖ : ℝ) : EReal) := by
     unfold supportFunction
     refine sSup_le ?_
@@ -78,6 +80,7 @@ private theorem cor41_supportFunction_ne_top_of_bounded (C : Set H)
     simpa [htop] using hupper
   exact (EReal.coe_ne_top (R * ‖y‖)) (top_le_iff.mp htop_le)
 
+omit [CompleteSpace H] in
 private theorem cor41_supportFunction_ne_bot_of_nonempty {C : Set H}
     (hC_nonempty : C.Nonempty) (y : H) :
     supportFunction C y ≠ ⊥ := by
@@ -88,6 +91,7 @@ private theorem cor41_supportFunction_ne_bot_of_nonempty {C : Set H}
   rw [hbot] at hle
   simp at hle
 
+omit [CompleteSpace H] in
 private theorem cor41_supportFunction_add_le (C : Set H) (u v : H) :
     supportFunction C (u + v) ≤ supportFunction C u + supportFunction C v := by
   unfold supportFunction
@@ -105,6 +109,7 @@ private theorem cor41_supportFunction_add_le (C : Set H) (u v : H) :
     simpa [EReal.coe_add] using add_le_add hu hv
   simpa [inner_add_right] using hsum
 
+omit [CompleteSpace H] in
 private theorem cor41_maximal_of_monotone_and_resolvent_surjective
     (B : SetValuedOperator H H) (hmono : IsMonotone B)
     (hres : ∀ z : H, ∃ p q : H, q ∈ B p ∧ z = p + q) :
@@ -114,10 +119,8 @@ private theorem cor41_maximal_of_monotone_and_resolvent_surjective
   rcases xu with ⟨x, u⟩
   rw [SetValuedOperator.mem_graph_iff] at hxu ⊢
   rcases hres (x + u) with ⟨p, q, hqB, hz⟩
-  have hqA : q ∈ A' p := by
-    exact (SetValuedOperator.mem_graph_iff A' p q).mp
-      (hsubset ((SetValuedOperator.mem_graph_iff B p q).mpr hqB))
-  have hmon := hA'mono u hxu q hqA
+  have hqA : q ∈ A' p := (SetValuedOperator.mem_graph_iff A' p q).mp
+    (hsubset ((SetValuedOperator.mem_graph_iff B p q).mpr hqB))
   have huq : u - q = -(x - p) := by
     calc
       u - q = (x + u) - q - x := by abel
@@ -126,7 +129,7 @@ private theorem cor41_maximal_of_monotone_and_resolvent_surjective
   have hinner : inner ℝ (u - q) (x - p) = - ‖x - p‖ ^ 2 := by
     rw [huq, inner_neg_left, real_inner_self_eq_norm_sq]
   have hsq_nonpos : ‖x - p‖ ^ 2 ≤ 0 := by
-    nlinarith [hmon, hinner]
+    nlinarith [hA'mono u hxu q hqA, hinner]
   have hx_p : x = p := by
     have hnorm_zero : ‖x - p‖ = 0 := by
       nlinarith [sq_nonneg ‖x - p‖]
@@ -165,9 +168,8 @@ theorem cor_4_1 [FiniteDimensional ℝ H] (C : Set H) (hC_closed : IsClosed C) (
     SetValuedOperator.ofFunction Set.univ (fun x : (Set.univ : Set H) => A0 x.1)
   let fE : H → EReal := fun y => (f y : EReal)
   have hA0_zero : A0 (0 : H) = 0 := by
-    have h := h_A0_growth (0 : H) (by simpa using le_of_lt hη)
     have hle : ‖A0 (0 : H)‖ ≤ 0 := by
-      simpa using h
+      simpa using h_A0_growth (0 : H) (by simpa using le_of_lt hη)
     exact norm_eq_zero.mp (le_antisymm hle (norm_nonneg _))
   have hS0 : S (0 : H) = C := by
     have hC0 : (0 : H) ∈ C := interior_subset hC_int
@@ -183,17 +185,14 @@ theorem cor_4_1 [FiniteDimensional ℝ H] (C : Set H) (hC_closed : IsClosed C) (
             (inner ℝ v (y - (0 : H)) : EReal) := by
         simpa [S, subderivative] using hv
       have hge : (inner ℝ v u : EReal) ≤ supportFunction C u := by
-        have h := hv_sub u
-        simpa [cor41_supportFunction_zero C hC0] using h
+        simpa [cor41_supportFunction_zero C hC0] using hv_sub u
       have hlt : supportFunction C u < (inner ℝ v u : EReal) := by
         simpa [supportFunction, innerSupremumOn] using hsep
       exact not_lt_of_ge hge hlt
-    · intro hvC
-      intro y
-      have hC0' : supportFunction C (0 : H) = 0 := cor41_supportFunction_zero C hC0
+    · intro hvC y
       have hle : (inner ℝ v y : EReal) ≤ supportFunction C y :=
         cor41_inner_le_supportFunction hvC
-      simpa [S, subderivative, hC0'] using hle
+      simpa [S, subderivative, cor41_supportFunction_zero C hC0] using hle
   have hS_subset : ∀ z, S z ⊆ C := by
     have hC0 : (0 : H) ∈ C := interior_subset hC_int
     have hC_nonempty : C.Nonempty := ⟨0, hC0⟩
@@ -214,8 +213,7 @@ theorem cor_4_1 [FiniteDimensional ℝ H] (C : Set H) (hC_closed : IsClosed C) (
         cor41_supportFunction_ne_bot_of_nonempty hC_nonempty y
       have hleft_le : supportFunction C z + (inner ℝ v y : EReal) ≤
           supportFunction C (z + y) := by
-        have h := hv_sub (z + y)
-        simpa [add_sub_cancel_left] using h
+        simpa [add_sub_cancel_left] using hv_sub (z + y)
       have hright_le : supportFunction C (z + y) ≤
           supportFunction C z + supportFunction C y := by
         simpa [add_comm] using cor41_supportFunction_add_le C z y
@@ -229,12 +227,12 @@ theorem cor_4_1 [FiniteDimensional ℝ H] (C : Set H) (hC_closed : IsClosed C) (
       have hreal_le := EReal.toReal_le_toReal hsum_le hleft_bot hright_top
       have hleft_toReal :
           (supportFunction C z + (inner ℝ v y : EReal)).toReal =
-            (supportFunction C z).toReal + inner ℝ v y := by
-        exact EReal.toReal_add hz_top hz_bot (EReal.coe_ne_top _) (EReal.coe_ne_bot _)
+            (supportFunction C z).toReal + inner ℝ v y :=
+        EReal.toReal_add hz_top hz_bot (EReal.coe_ne_top _) (EReal.coe_ne_bot _)
       have hright_toReal :
           (supportFunction C z + supportFunction C y).toReal =
-            (supportFunction C z).toReal + (supportFunction C y).toReal := by
-        exact EReal.toReal_add hz_top hz_bot hy_top hy_bot
+            (supportFunction C z).toReal + (supportFunction C y).toReal :=
+        EReal.toReal_add hz_top hz_bot hy_top hy_bot
       have hreal : inner ℝ v y ≤ (supportFunction C y).toReal := by
         nlinarith [by simpa [hleft_toReal, hright_toReal] using hreal_le]
       have hE : (inner ℝ v y : EReal) ≤ ((supportFunction C y).toReal : EReal) :=
@@ -253,12 +251,12 @@ theorem cor_4_1 [FiniteDimensional ℝ H] (C : Set H) (hC_closed : IsClosed C) (
       trivial
     · intro _
       rw [SetValuedOperator.mem_dom_iff]
-      rcases hC_compact.exists_isMaxOn hC_nonempty
-          ((continuous_id.inner continuous_const).continuousOn : ContinuousOn (fun q : H => inner ℝ q z) C) with
-        ⟨c, hc, hcmax⟩
+      have hcont : ContinuousOn (fun q : H => inner ℝ q z) C :=
+        (continuous_id.inner continuous_const).continuousOn
+      rcases hC_compact.exists_isMaxOn hC_nonempty hcont with ⟨c, hc, hcmax⟩
       refine ⟨c, ?_⟩
-      have hmax_le : ∀ q ∈ C, inner ℝ q z ≤ inner ℝ c z := by
-        exact (isMaxOn_iff.mp hcmax)
+      have hmax_le : ∀ q ∈ C, inner ℝ q z ≤ inner ℝ c z :=
+        isMaxOn_iff.mp hcmax
       have hσz_le : supportFunction C z ≤ (inner ℝ c z : EReal) := by
         unfold supportFunction
         refine sSup_le ?_
@@ -302,22 +300,20 @@ theorem cor_4_1 [FiniteDimensional ℝ H] (C : Set H) (hC_closed : IsClosed C) (
           supportFunction C z ≥ supportFunction C y +
             (inner ℝ v (z - y) : EReal) := by
         simpa [S, subderivative] using hv
-      have hyx := hu_sub y
-      have hxy := hv_sub x
       have hyx_bot : supportFunction C x + (inner ℝ u (y - x) : EReal) ≠ ⊥ :=
         EReal.add_ne_bot_iff.2 ⟨hx_bot, EReal.coe_ne_bot _⟩
       have hxy_bot : supportFunction C y + (inner ℝ v (x - y) : EReal) ≠ ⊥ :=
         EReal.add_ne_bot_iff.2 ⟨hy_bot, EReal.coe_ne_bot _⟩
-      have hyx_real := EReal.toReal_le_toReal hyx hyx_bot hy_top
-      have hxy_real := EReal.toReal_le_toReal hxy hxy_bot hx_top
+      have hyx_real := EReal.toReal_le_toReal (hu_sub y) hyx_bot hy_top
+      have hxy_real := EReal.toReal_le_toReal (hv_sub x) hxy_bot hx_top
       have hyx_add :
           (supportFunction C x + (inner ℝ u (y - x) : EReal)).toReal =
-            (supportFunction C x).toReal + inner ℝ u (y - x) := by
-        exact EReal.toReal_add hx_top hx_bot (EReal.coe_ne_top _) (EReal.coe_ne_bot _)
+            (supportFunction C x).toReal + inner ℝ u (y - x) :=
+        EReal.toReal_add hx_top hx_bot (EReal.coe_ne_top _) (EReal.coe_ne_bot _)
       have hxy_add :
           (supportFunction C y + (inner ℝ v (x - y) : EReal)).toReal =
-            (supportFunction C y).toReal + inner ℝ v (x - y) := by
-        exact EReal.toReal_add hy_top hy_bot (EReal.coe_ne_top _) (EReal.coe_ne_bot _)
+            (supportFunction C y).toReal + inner ℝ v (x - y) :=
+        EReal.toReal_add hy_top hy_bot (EReal.coe_ne_top _) (EReal.coe_ne_bot _)
       have h1 : (supportFunction C x).toReal + inner ℝ u (y - x) ≤
           (supportFunction C y).toReal := by
         simpa [hyx_add] using hyx_real
@@ -338,8 +334,7 @@ theorem cor_4_1 [FiniteDimensional ℝ H] (C : Set H) (hC_closed : IsClosed C) (
       let hCheb := isChebyshev_of_nonempty_isClosed_convex hC_nonempty hC_closed hC_conv
       let q : H := projectionPoint C hCheb z
       let p : H := z - q
-      have hqC : q ∈ C := by
-        simpa [q] using projectionPoint_mem C hCheb z
+      have hqC : q ∈ C := projectionPoint_mem C hCheb z
       refine ⟨p, q, ?_, ?_⟩
       · have hproj :
             q ∈ C ∧ ∀ r ∈ C, inner ℝ (r - q) (z - q) ≤ 0 := by
@@ -406,7 +401,7 @@ theorem cor_4_1 [FiniteDimensional ℝ H] (C : Set H) (hC_closed : IsClosed C) (
       trivial
     · intro _
       rw [SetValuedOperator.mem_dom_iff]
-      have hzS : z ∈ S.dom := by simpa [hS_dom]
+      have hzS : z ∈ S.dom := by simp [hS_dom]
       rcases (SetValuedOperator.mem_dom_iff S z).mp hzS with ⟨s, hs⟩
       refine ⟨s + A0 z, ?_⟩
       change s + A0 z ∈ S z + F z
@@ -436,9 +431,9 @@ theorem cor_4_1 [FiniteDimensional ℝ H] (C : Set H) (hC_closed : IsClosed C) (
       · simp [F, SetValuedOperator.ofFunction_apply_of_mem, hA0_zero]
   have hAzero_int : (0 : H) ∈ interior (A (0 : H)) := by
     simpa [hA0set] using hC_int
-  have h_linear_growth : ∀ z, ‖z‖ ≤ η → excess (A z) (A (0 : H)) ≤ α * ‖z‖ := by
+  have h_linear_growth : ∀ z, ‖z‖ ≤ η → setExcess (A z) (A (0 : H)) ≤ α * ‖z‖ := by
     intro z hz
-    have hexcess_norm : excess (A z) (A (0 : H)) ≤ ‖A0 z‖ := by
+    have hexcess_norm : setExcess (A z) (A (0 : H)) ≤ ‖A0 z‖ := by
       let G : A z → ℝ := fun w => Metric.infDist (w : H) (A (0 : H))
       have hpoint : ∀ w : A z, G w ≤ ‖A0 z‖ := by
         intro w
@@ -460,11 +455,9 @@ theorem cor_4_1 [FiniteDimensional ℝ H] (C : Set H) (hC_closed : IsClosed C) (
           _ ≤ dist (w : H) s := Metric.infDist_le_dist_of_mem hsA0
           _ = dist (s + t) s := by rw [hst]
           _ = ‖A0 z‖ := by
-            rw [htA0, dist_eq_norm]
-            have hsub : s + A0 z - s = A0 z := by abel
-            rw [hsub]
+            rw [htA0, dist_eq_norm, add_sub_cancel_left]
       have hAznonempty : (A z).Nonempty := by
-        have hzdom : z ∈ A.dom := by simpa [hAdom]
+        have hzdom : z ∈ A.dom := by simp [hAdom]
         exact (SetValuedOperator.mem_dom_iff A z).mp hzdom
       rcases hAznonempty with ⟨a, ha⟩
       haveI : Nonempty (A z) := ⟨⟨a, ha⟩⟩
@@ -472,12 +465,8 @@ theorem cor_4_1 [FiniteDimensional ℝ H] (C : Set H) (hC_closed : IsClosed C) (
         refine ⟨‖A0 z‖, ?_⟩
         rintro r ⟨w, rfl⟩
         exact hpoint w
-      have hbot : sSup (∅ : Set ℝ) ≤ ⨆ w : A z, G w := by
-        simp only [Real.sSup_empty]
-        exact le_trans Metric.infDist_nonneg (le_ciSup hbdd ⟨a, ha⟩)
-      have hexcess_eq : excess (A z) (A (0 : H)) = ⨆ w : A z, G w := by
-        unfold excess
-        exact (ciSup_subtype (p := fun w : H => w ∈ A z) (f := G) hbdd hbot).symm
+      have hexcess_eq : setExcess (A z) (A (0 : H)) = ⨆ w : A z, G w := by
+        simpa [G] using setExcess_eq_iSup_infDist (A z) (A (0 : H))
       rw [hexcess_eq]
       exact ciSup_le hpoint
     exact le_trans hexcess_norm (h_A0_growth z hz)

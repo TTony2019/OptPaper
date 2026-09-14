@@ -24,25 +24,18 @@ private theorem maximalMonotone_affine_precomp
   constructor
   · intro x y u hu v hv
     have hmono := hB.1 (x := lam • x + c) (y := lam • y + c) u hu v hv
-    have hscale : inner ℝ (u - v) (lam • x + c - (lam • y + c)) =
-        lam * inner ℝ (u - v) (x - y) := by
-      rw [show lam • x + c - (lam • y + c) = lam • (x - y) by module]
-      rw [real_inner_smul_right]
-    rw [hscale] at hmono
-    nlinarith
+    rw [show lam • x + c - (lam • y + c) = lam • (x - y) by module] at hmono
+    rw [real_inner_smul_right] at hmono
+    exact nonneg_of_mul_nonneg_right hmono hlam
   · intro C hC hsubset xu hxu
     let B' : SetValuedOperator H H := fun z => C (lam⁻¹ • (z - c))
     have hB'_mono : IsMonotone B' := by
       intro x y u hu v hv
       dsimp [B'] at hu hv
       have hCmono := hC u hu v hv
-      have hscale : inner ℝ (u - v) (lam⁻¹ • (x - c) - lam⁻¹ • (y - c)) =
-          lam⁻¹ * inner ℝ (u - v) (x - y) := by
-        rw [show lam⁻¹ • (x - c) - lam⁻¹ • (y - c) = lam⁻¹ • (x - y) by module]
-        rw [real_inner_smul_right]
-      rw [hscale] at hCmono
-      have hlinv : 0 < lam⁻¹ := inv_pos.mpr hlam
-      nlinarith
+      rw [show lam⁻¹ • (x - c) - lam⁻¹ • (y - c) = lam⁻¹ • (x - y) by module] at hCmono
+      rw [real_inner_smul_right] at hCmono
+      exact nonneg_of_mul_nonneg_right hCmono (inv_pos.mpr hlam)
     have hB_subset_B' : B.graph ⊆ B'.graph := by
       intro xu hxu
       rcases xu with ⟨z, u⟩
@@ -54,10 +47,9 @@ private theorem maximalMonotone_affine_precomp
             rw [smul_smul]
           _ = z - c + c := by rw [mul_inv_cancel₀ (ne_of_gt hlam)]; simp
           _ = z := sub_add_cancel z c
-      have hg : (lam⁻¹ • (z - c), u) ∈ C.graph := hsubset (by
+      exact hsubset (a := (lam⁻¹ • (z - c), u)) (by
         rw [SetValuedOperator.mem_graph_iff]
         simpa [hx] using hxu)
-      simpa [SetValuedOperator.mem_graph_iff] using hg
     have hB'_subset_B : B'.graph ⊆ B.graph := hB.2 B' hB'_mono hB_subset_B'
     rcases xu with ⟨x, u⟩
     rw [SetValuedOperator.mem_graph_iff] at hxu ⊢
@@ -67,12 +59,11 @@ private theorem maximalMonotone_affine_precomp
           rw [add_sub_cancel_right]
         _ = (lam⁻¹ * lam) • x := by rw [smul_smul]
         _ = x := by rw [inv_mul_cancel₀ (ne_of_gt hlam)]; simp
-    have hg : (lam • x + c, u) ∈ B.graph := hB'_subset_B (by
+    exact hB'_subset_B (a := (lam • x + c, u)) (by
       rw [SetValuedOperator.mem_graph_iff]
       dsimp [B']
       rw [hx]
       exact hxu)
-    simpa [SetValuedOperator.mem_graph_iff] using hg
 
 private def VelocityStep (A B : SetValuedOperator H H) (lam : ℝ) (y z v : H) : Prop :=
   (0 : H) ∈ ({lam⁻¹ • (v - lam⁻¹ • (z - y))} : Set H) + A v + B (lam • v + z)
@@ -87,10 +78,8 @@ private theorem velocityStep_exists_unique (A B : SetValuedOperator H H)
   have hdom : (interior A.dom ∩ Baff.dom).Nonempty := by
     rcases hdomB with ⟨b, hb⟩
     refine ⟨lam⁻¹ • (b - z), ?_, ?_⟩
-    · rw [hdomA]
-      simp
-    · rw [SetValuedOperator.mem_dom_iff]
-      dsimp [Baff]
+    · simp [hdomA]
+    · simp only [SetValuedOperator.mem_dom_iff, Baff]
       have hx : lam • (lam⁻¹ • (b - z)) + z = b := by
         calc
           lam • (lam⁻¹ • (b - z)) + z = (lam * lam⁻¹) • (b - z) + z := by
@@ -103,14 +92,10 @@ private theorem velocityStep_exists_unique (A B : SetValuedOperator H H)
   rcases minty_resolvent_existence (A := C) hC u hlam with ⟨v, hv, hvuniq⟩
   refine ⟨v, ?_, ?_⟩
   · rcases hv with ⟨q, hq, hu⟩
-    dsimp [C, Baff] at hq
-    rw [Set.mem_add] at hq
     rcases hq with ⟨a, ha, b, hb, hqeq⟩
     rw [VelocityStep]
-    rw [Set.mem_add]
     refine ⟨lam⁻¹ • (v - u) + a, ?_, b, hb, ?_⟩
-    · rw [Set.mem_add]
-      refine ⟨lam⁻¹ • (v - u), by simp [u], a, ha, rfl⟩
+    · exact ⟨lam⁻¹ • (v - u), by simp [u], a, ha, rfl⟩
     · rw [← hqeq] at hu
       have hcalc : lam⁻¹ • (v - u) + (a + b) = 0 := by
         calc
@@ -125,16 +110,12 @@ private theorem velocityStep_exists_unique (A B : SetValuedOperator H H)
   · intro v' hv'
     apply hvuniq
     rw [VelocityStep] at hv'
-    rw [Set.mem_add] at hv'
     rcases hv' with ⟨sa, hsa, b, hb, hzero⟩
-    rw [Set.mem_add] at hsa
     rcases hsa with ⟨s, hs, a, ha, hsaeq⟩
     rw [Set.mem_singleton_iff] at hs
     subst s
     refine ⟨a + b, ?_, ?_⟩
-    · dsimp [C, Baff]
-      rw [Set.mem_add]
-      exact ⟨a, ha, b, hb, rfl⟩
+    · exact ⟨a, ha, b, hb, rfl⟩
     · rw [← hsaeq] at hzero
       have hzero' : lam⁻¹ • (v' - u) + (a + b) = 0 := by
         simpa [u, add_assoc] using hzero
@@ -146,8 +127,7 @@ private theorem velocityStep_exists_unique (A B : SetValuedOperator H H)
           _ = -(lam⁻¹ • (v' - u)) := by simp
       calc
         u = v' + lam • (a + b) := by
-          rw [hab]
-          rw [smul_neg, smul_smul, mul_inv_cancel₀ (ne_of_gt hlam)]
+          rw [hab, smul_neg, smul_smul, mul_inv_cancel₀ (ne_of_gt hlam)]
           module
 
 omit [CompleteSpace H] in
@@ -222,26 +202,18 @@ theorem prop_2_1 (A B : SetValuedOperator H H) (hA : IsMaximalMonotone A) (hB : 
     velocityStep_exists_unique A B hA hB hdomA hdomB (lam n) (hlam n) y z
   let nextV : ℕ → H → H → H := fun n y z => Classical.choose (stepEU n y z)
   let next : ℕ → H → H → H := fun n y z => z + lam n • nextV n y z
-  let state : ℕ → H × H := fun n =>
-    Nat.rec (x0, x1) (fun n p => (p.2, next n p.1 p.2)) n
+  let state : ℕ → H × H := Nat.rec (x0, x1) (fun n p => (p.2, next n p.1 p.2))
   let x : ℕ → H := fun n => (state n).1
-  have hx0 : x 0 = x0 := by simp [x, state]
-  have hx1 : x 1 = x1 := by simp [x, state]
-  have hstate_succ (k : ℕ) :
-      state (k + 1) = ((state k).2, next k (state k).1 (state k).2) := by
-    simp [state]
-  have hx_next (n : ℕ) : x (n + 2) = next n (x n) (x (n + 1)) := by
-    change (state (n + 2)).1 = next n (state n).1 (state (n + 1)).1
-    rw [hstate_succ (n + 1), hstate_succ n]
+  have hx0 : x 0 = x0 := rfl
+  have hx1 : x 1 = x1 := rfl
+  have hx_next (n : ℕ) : x (n + 2) = next n (x n) (x (n + 1)) := rfl
   refine ⟨x, ?_, ?_⟩
-  · refine ⟨hx0, hx1, ?_⟩
-    refine ⟨hlam, ?_⟩
+  · refine ⟨hx0, hx1, hlam, ?_⟩
     intro n
     have hv : VelocityStep A B (lam n) (x n) (x (n + 1)) (nextV n (x n) (x (n + 1))) :=
       (Classical.choose_spec (stepEU n (x n) (x (n + 1)))).1
     exact velocityStep_to_algorithmStep A B (hlam n) (hx_next n) hv
-  · intro y hy
-    rcases hy with ⟨hy0, hy1, hyalg⟩
+  · rintro y ⟨hy0, hy1, hyalg⟩
     funext m
     have hy_eq : ∀ n, y n = x n := by
       intro n

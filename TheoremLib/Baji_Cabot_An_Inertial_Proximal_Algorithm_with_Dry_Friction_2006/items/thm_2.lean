@@ -25,7 +25,8 @@ $-\nabla f(x_\infty)$, then one of the following cases holds:
 (i) The sequence $(x_n)$ is finitely convergent.
 (ii) There exist $n_0 \in \mathbb{N}$, $C_1, C_2 > 0$ and $q_1, q_2 \in ]0, 1[$ such that
 for every $n \geqslant n_0$,
-$|x_n - x_\infty| \geqslant C_1 q_1^n$ and $\sum_{k=n}^{+\infty} |x_k - x_\infty| \leqslant C_2 q_2^n$.
+$|x_n - x_\infty| \geqslant C_1 q_1^n$ and
+$\sum_{k=n}^{+\infty} |x_k - x_\infty| \leqslant C_2 q_2^n$.
 Any $q_1 \in ]0, 1[$ (resp. $q_2 \in ]0, 1[$) such that
 $q_1 < 1/(\alpha\lambda + 1)$ (resp. $q_2 > \alpha/(\alpha + M\lambda)$) satisfies the
 previous estimate. If moreover $\alpha < \sqrt{M}$ then the convergence is finite.
@@ -38,8 +39,6 @@ open Set
 open Real
 open Filter
 variable {H : Type _} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
-
-set_option maxHeartbeats 800000
 
 private theorem thm41_rate_interval_nonempty (α M lam : ℝ) (hα : 0 ≤ α)
     (hM : 0 < M) (hlam : 0 < lam) (hαM : α ^ 2 < M) :
@@ -95,16 +94,13 @@ private theorem thm41_locallyLipschitz_tendsto_norm_sub_le {F : Type _} [NormedA
   rcases eventually_atTop.mp hx_event with ⟨N, hN⟩
   refine ⟨(Knn : ℝ) + 1, by positivity, N, ?_⟩
   intro n hn
-  have hxnt : x n ∈ t := hN n hn
-  have hxInft : xInf ∈ t := mem_of_mem_nhds ht
-  have hdist := hLip.dist_le_mul (x n) hxnt xInf hxInft
+  have hdist := hLip.dist_le_mul (x n) (hN n hn) xInf (mem_of_mem_nhds ht)
   calc
     ‖g (x n) - g xInf‖ = dist (g (x n)) (g xInf) := by rw [dist_eq_norm]
     _ ≤ (Knn : ℝ) * dist (x n) xInf := hdist
     _ ≤ ((Knn : ℝ) + 1) * ‖x n - xInf‖ := by
       rw [dist_eq_norm]
-      have hnorm_nonneg : 0 ≤ ‖x n - xInf‖ := norm_nonneg _
-      nlinarith [hnorm_nonneg, Knn.2]
+      nlinarith [norm_nonneg (x n - xInf), Knn.2]
 
 omit [CompleteSpace H] in
 private theorem thm41_eventually_scaled_increment_norm_le_eta (x : ℕ → H) (xInf : H)
@@ -247,8 +243,8 @@ private theorem thm41_summable_of_eventual_nonneg_le_geometric {u : ℕ → ℝ}
     {C q : ℝ} (hq_nonneg : 0 ≤ q) (hq_lt_one : q < 1)
     (hu_nonneg : ∀ n ≥ N, 0 ≤ u n)
     (hbound : ∀ n ≥ N, u n ≤ C * q ^ n) :
-    Summable u := by
-  exact thm41_summable_of_eventual_norm_le_geometric hq_nonneg hq_lt_one
+    Summable u :=
+  thm41_summable_of_eventual_norm_le_geometric hq_nonneg hq_lt_one
     (fun n hn => by
       simpa [Real.norm_eq_abs, abs_of_nonneg (hu_nonneg n hn)] using hbound n hn)
 
@@ -432,8 +428,8 @@ private theorem thm41_convexOn_of_strongConvex (g : H → ℝ) (M : ℝ)
           inner ℝ (gradient g xt) z - inner ℝ (gradient g xs) z := by
         rw [inner_sub_left]
       nlinarith
-    have hφ_conv : ConvexOn ℝ Set.univ φ := by
-      exact MonotoneOn.convexOn_of_deriv convex_univ hφ_cont.continuousOn
+    have hφ_conv : ConvexOn ℝ Set.univ φ :=
+      MonotoneOn.convexOn_of_deriv convex_univ hφ_cont.continuousOn
         (fun t ht => (hφ_diff_at t).differentiableAt.differentiableWithinAt)
         hφ_deriv_mono
     have hφ01 := hφ_conv.2 (by simp : (0 : ℝ) ∈ Set.univ)
@@ -459,12 +455,12 @@ private theorem thm41_ereal_convex_of_toReal_convex (f : H → EReal)
   intro x y a b ha hb hab
   have hreal := hconv.2 (by simp : x ∈ (Set.univ : Set H))
     (by simp : y ∈ (Set.univ : Set H)) ha hb hab
-  have hleft : f (a • x + b • y) = ((f (a • x + b • y)).toReal : EReal) := by
-    exact (EReal.coe_toReal (hfinite _).1 (hfinite _).2).symm
-  have hxcoe : f x = ((f x).toReal : EReal) := by
-    exact (EReal.coe_toReal (hfinite x).1 (hfinite x).2).symm
-  have hycoe : f y = ((f y).toReal : EReal) := by
-    exact (EReal.coe_toReal (hfinite y).1 (hfinite y).2).symm
+  have hleft : f (a • x + b • y) = ((f (a • x + b • y)).toReal : EReal) :=
+    (EReal.coe_toReal (hfinite _).1 (hfinite _).2).symm
+  have hxcoe : f x = ((f x).toReal : EReal) :=
+    (EReal.coe_toReal (hfinite x).1 (hfinite x).2).symm
+  have hycoe : f y = ((f y).toReal : EReal) :=
+    (EReal.coe_toReal (hfinite y).1 (hfinite y).2).symm
   rw [hleft, hxcoe, hycoe]
   simp only [ge_iff_le]
   exact EReal.coe_le_coe_iff.mpr hreal
@@ -473,8 +469,8 @@ private theorem thm41_ereal_convex_of_strongConvex (f : H → EReal) (M : ℝ)
     (hfinite : ∀ x, f x ≠ ⊤ ∧ f x ≠ ⊥)
     (hstrong : IsStronglyConvex (fun x => (f x).toReal) M) :
     ∀ x y : H, ∀ a b : ℝ, 0 ≤ a → 0 ≤ b → a + b = 1 →
-      f (a • x + b • y) ≤ (a : EReal) * f x + (b : EReal) * f y := by
-  exact thm41_ereal_convex_of_toReal_convex f hfinite
+      f (a • x + b • y) ≤ (a : EReal) * f x + (b : EReal) * f y :=
+  thm41_ereal_convex_of_toReal_convex f hfinite
     (thm41_convexOn_of_strongConvex (fun x => (f x).toReal) M hstrong)
 
 private theorem thm41_eventual_distance_pos_of_not_finite [FiniteDimensional ℝ H]
@@ -525,8 +521,8 @@ private theorem thm41_tail_summable_of_isBigO_summable {a R : ℕ → ℝ}
 
 private theorem thm41_tail_summable_of_equiv_summable {a R : ℕ → ℝ}
     (hR_sum : Summable R) (hequiv : a ~[atTop] R) :
-    ∃ n0, ∀ n ≥ n0, Summable (fun k : ℕ => a (n + k)) := by
-  exact thm41_tail_summable_of_isBigO_summable hR_sum hequiv.isBigO
+    ∃ n0, ∀ n ≥ n0, Summable (fun k : ℕ => a (n + k)) :=
+  thm41_tail_summable_of_isBigO_summable hR_sum hequiv.isBigO
 
 private theorem thm41_summable_of_tsum_pos {f : ℕ → ℝ}
     (hpos : 0 < ∑' n : ℕ, f n) : Summable f := by
@@ -545,14 +541,10 @@ private theorem thm41_exists_mem_dist_le_infDist_add {C : Set H} {z : H} {r ε :
 omit [InnerProductSpace ℝ H] [CompleteSpace H] in
 private theorem thm41_excess_point_le_of_bdd {A B : Set H} {a : H} {c : ℝ}
     (hbdd : BddAbove (Set.range (fun x : A => Metric.infDist (x : H) B)))
-    (ha : a ∈ A) (h : excess A B ≤ c) : Metric.infDist a B ≤ c := by
+    (ha : a ∈ A) (h : setExcess A B ≤ c) : Metric.infDist a B ≤ c := by
   let F : A → ℝ := fun x => Metric.infDist (x : H) B
-  have hbot : sSup (∅ : Set ℝ) ≤ ⨆ x : A, F x := by
-    simp only [Real.sSup_empty]
-    exact le_trans Metric.infDist_nonneg (le_ciSup hbdd ⟨a, ha⟩)
-  have hexcess_eq : excess A B = ⨆ x : A, F x := by
-    unfold excess
-    exact (ciSup_subtype (p := fun x : H => x ∈ A) (f := F) hbdd hbot).symm
+  have hexcess_eq : setExcess A B = ⨆ x : A, F x := by
+    simpa [F] using setExcess_eq_iSup_infDist A B
   have hsup_le : (⨆ x : A, F x) ≤ c := by
     simpa [hexcess_eq] using h
   have hpoint : F ⟨a, ha⟩ ≤ ⨆ x : A, F x := le_ciSup hbdd ⟨a, ha⟩
@@ -578,6 +570,7 @@ private noncomputable def thm41_fitzLocal (A : SetValuedOperator H H) (x : H) :
   ⨆ p : {p : H × H // p.2 ∈ A p.1},
     (((inner ℝ (x - p.val.1) p.val.2) / (1 + ‖p.val.1‖) : ℝ) : EReal)
 
+omit [CompleteSpace H] in
 private theorem thm41_fitzLocal_ge (A : SetValuedOperator H H)
     {x y v : H} (hv : v ∈ A y) :
     (((inner ℝ (x - y) v) / (1 + ‖y‖) : ℝ) : EReal) ≤
@@ -585,16 +578,18 @@ private theorem thm41_fitzLocal_ge (A : SetValuedOperator H H)
   dsimp [thm41_fitzLocal]
   exact le_iSup_of_le (⟨(y, v), hv⟩ : {p : H × H // p.2 ∈ A p.1}) le_rfl
 
+omit [CompleteSpace H] in
 private theorem thm41_fitzLocal_lsc (A : SetValuedOperator H H) :
     LowerSemicontinuous (thm41_fitzLocal A) := by
   unfold thm41_fitzLocal
   refine lowerSemicontinuous_iSup ?_
   intro p
   have hreal : Continuous (fun x : H =>
-      (inner ℝ (x - p.val.1) p.val.2) / (1 + ‖p.val.1‖)) := by
-    exact ((continuous_id.sub continuous_const).inner continuous_const).div_const _
+      (inner ℝ (x - p.val.1) p.val.2) / (1 + ‖p.val.1‖)) :=
+    ((continuous_id.sub continuous_const).inner continuous_const).div_const _
   exact (continuous_coe_real_ereal.comp hreal).lowerSemicontinuous
 
+omit [CompleteSpace H] in
 private theorem thm41_fitzLocal_closed_sublevel
     (A : SetValuedOperator H H) (N : ℕ) :
     IsClosed {x : H | thm41_fitzLocal A x ≤ ((N : ℝ) : EReal)} := by
@@ -602,6 +597,7 @@ private theorem thm41_fitzLocal_closed_sublevel
   rw [lowerSemicontinuous_iff_isClosed_preimage] at hlsc
   simpa [Set.preimage, Set.Iic] using hlsc ((N : ℝ) : EReal)
 
+omit [CompleteSpace H] in
 private theorem thm41_fitzLocal_convex (A : SetValuedOperator H H) :
     ∀ x y : H, ∀ a b : ℝ, 0 ≤ a → 0 ≤ b → a + b = 1 →
       thm41_fitzLocal A (a • x + b • y) ≤
@@ -647,6 +643,7 @@ private theorem thm41_fitzLocal_convex (A : SetValuedOperator H H) :
           · exact le_iSup_of_le p le_rfl
           · exact le_iSup_of_le p le_rfl
 
+omit [CompleteSpace H] in
 private theorem thm41_fitzLocal_finite_above
     (A : SetValuedOperator H H) (hAmono : IsMonotone A) (hdomA : A.dom = Set.univ) :
     ∀ x : H, ∃ N : ℕ, thm41_fitzLocal A x ≤ ((N : ℝ) : EReal) := by
@@ -809,8 +806,8 @@ private theorem thm41_full_domain_local_bounded
         rw [Real.norm_eq_abs, abs_of_pos (by positivity : 0 < ρ / 2)]
       rw [Metric.mem_ball, hdist]
       linarith
-    have hlocalM : thm41_fitzLocal A xeval ≤ (Mpos : EReal) := by
-      exact le_trans (by simpa [f] using hM xeval hxeval_ball)
+    have hlocalM : thm41_fitzLocal A xeval ≤ (Mpos : EReal) :=
+      le_trans (by simpa [f] using hM xeval hxeval_ball)
         (EReal.coe_le_coe hM_le_Mpos)
     have hfitz_ge :
         (((inner ℝ (xeval - z) w) / (1 + ‖z‖) : ℝ) : EReal) ≤
@@ -877,8 +874,8 @@ private theorem thm41_bddAbove_infDist_of_local_bounded
     (hAbdd : Bornology.IsBounded (A.image (Metric.ball (0 : H) δ)))
     (hv : v ∈ Metric.ball (0 : H) δ) (hB : B.Nonempty) :
     BddAbove (Set.range (fun x : A v => Metric.infDist (x : H) B)) := by
-  have hAv_bdd : Bornology.IsBounded (A v) := by
-    exact hAbdd.subset (by
+  have hAv_bdd : Bornology.IsBounded (A v) :=
+    hAbdd.subset (by
       intro y hy
       exact (SetValuedOperator.mem_image A (Metric.ball (0 : H) δ) y).mpr
         ⟨v, hv, hy⟩)
@@ -893,7 +890,7 @@ private theorem thm41_ray_generator_mem_normalCone {C : Set H} {xbar u : H}
 
 omit [CompleteSpace H] in
 private theorem thm41_normalCone_inner_nonpos {C : Set H} {xbar u y : H}
-    (hxbar : xbar ∈ C) (hu : u ∈ normalCone C xbar) (hy : y ∈ C) :
+    (_hxbar : xbar ∈ C) (hu : u ∈ normalCone C xbar) (hy : y ∈ C) :
     inner ℝ u (y - xbar) ≤ 0 := by
   rw [mem_normalCone_iff_forall] at hu
   simpa [real_inner_comm] using hu.2 y hy
@@ -908,7 +905,7 @@ private theorem thm41_increment_tail_tsum_eq_head_add_tail (x : ℕ → H) (n : 
   have h := (Summable.sum_add_tsum_nat_add (f := s) 1 hs).symm
   simpa [s, Nat.add_assoc, Nat.add_comm, Nat.add_left_comm] using h
 
-omit [CompleteSpace H] in
+omit [InnerProductSpace ℝ H] [CompleteSpace H] in
 private theorem thm41_dist_le_increment_tail_tsum (x : ℕ → H) (xInf : H)
     (hxInf : Tendsto x atTop (𝓝 xInf)) (n : ℕ)
     (hs : Summable (fun k : ℕ => ‖x (n + k + 1) - x (n + k)‖)) :
@@ -934,6 +931,7 @@ private theorem thm41_dist_le_increment_tail_tsum (x : ℕ → H) (xInf : H)
     _ = ‖tsum (fun k : ℕ => x (n + k + 1) - x (n + k))‖ := by rw [hhas.tsum_eq]
     _ ≤ tsum (fun k : ℕ => ‖x (n + k + 1) - x (n + k)‖) := hnorm
 
+omit [CompleteSpace H] in
 private theorem thm41_algorithm_step_selection (A B : SetValuedOperator H H)
     (lam : ℕ → ℝ) (x : ℕ → H) (halg : AlgorithmA A B x lam) :
     ∀ n, ∃ a b : H,
@@ -953,7 +951,7 @@ private theorem thm41_algorithm_step_selection (A B : SetValuedOperator H H)
   subst c
   refine ⟨a, b, ?_, hb, ?_⟩
   · simpa [v]
-  · have hp_eq' : acc + a = p := by simpa [hp_eq]
+  · have hp_eq' : acc + a = p := by simp [hp_eq]
     rw [← hpbeq, ← hp_eq']
 
 private theorem thm41_mem_gradient_operator_eq (B : SetValuedOperator H H) (g : H → ℝ)
@@ -976,9 +974,8 @@ private theorem thm41_direction_error_isLittleO (x : ℕ → H) (D : Set ℕ)
       (fun n => ‖x (n + 1) - x n‖) := by
   rw [Asymptotics.isLittleO_iff]
   intro c hc
-  have hball : Metric.ball u c ∈ 𝓝 u := Metric.ball_mem_nhds u hc
   have hev_inf : ∀ᶠ n in atTop ⊓ Filter.principal {n | n ∉ D},
-      normalizedIncrementDirection x n ∈ Metric.ball u c := hdir hball
+      normalizedIncrementDirection x n ∈ Metric.ball u c := hdir (Metric.ball_mem_nhds u hc)
   have hset : {n : ℕ | normalizedIncrementDirection x n ∈ Metric.ball u c} ∈
       (atTop ⊓ Filter.principal {n : ℕ | n ∉ D}) := hev_inf
   rw [Filter.mem_inf_iff] at hset
@@ -1002,7 +999,7 @@ private theorem thm41_direction_error_isLittleO (x : ℕ → H) (D : Set ℕ)
     let inc : H := x (n + 1) - x n
     have hne : inc ≠ 0 := by
       dsimp [inc]
-      simp [stationaryIndices] at hnstat
+      simp only [stationaryIndices, mem_setOf_eq] at hnstat
       exact sub_ne_zero.mpr hnstat
     have hdir_eq : ‖inc‖ • normalizedIncrementDirection x n = inc := by
       dsimp [inc, normalizedIncrementDirection]
@@ -1067,7 +1064,7 @@ private theorem thm41_eventually_abs_sub_le_of_equiv {a b : ℕ → ℝ}
 
 private theorem thm41_gradient_inner_eventually_ge (g : H → ℝ) (M : ℝ)
     (hstrong : IsStronglyConvex g M)
-    (x : ℕ → H) (xInf u : H) (R : ℕ → ℝ) (hu_norm : ‖u‖ = 1)
+    (x : ℕ → H) (xInf u : H) (R : ℕ → ℝ) (_hu_norm : ‖u‖ = 1)
     (hexp : (fun n => x n - xInf + (R n) • u) =o[atTop] R)
     (hequiv : (fun n => ‖x n - xInf‖) ~[atTop] R)
     (hR_nonneg : ∀ n, 0 ≤ R n) (hR_eventually_pos : ∀ᶠ n in atTop, 0 < R n)
@@ -1134,12 +1131,12 @@ private theorem thm41_gradient_inner_eventually_ge (g : H → ℝ) (M : ℝ)
       |inner ℝ gd e| ≤ Lgrad * (1 + δ) * δ * (R n)^2 := by
     calc
       |inner ℝ gd e| ≤ ‖gd‖ * ‖e‖ := abs_real_inner_le_norm gd e
-      _ ≤ (Lgrad * ‖y‖) * (δ * R n) := by
-        exact mul_le_mul hgd_lip he_norm
+      _ ≤ (Lgrad * ‖y‖) * (δ * R n) :=
+        mul_le_mul hgd_lip he_norm
           (norm_nonneg e)
           (mul_nonneg (le_of_lt hLgrad_pos) (norm_nonneg y))
-      _ ≤ (Lgrad * ((1 + δ) * R n)) * (δ * R n) := by
-        exact mul_le_mul_of_nonneg_right
+      _ ≤ (Lgrad * ((1 + δ) * R n)) * (δ * R n) :=
+        mul_le_mul_of_nonneg_right
           (mul_le_mul_of_nonneg_left hy_upper (le_of_lt hLgrad_pos))
           (mul_nonneg hδnonneg hRnonneg)
       _ = Lgrad * (1 + δ) * δ * (R n)^2 := by ring
@@ -1150,8 +1147,7 @@ private theorem thm41_gradient_inner_eventually_ge (g : H → ℝ) (M : ℝ)
     simpa [gd, y] using h
   have hstrong_lower : M * ((1 - δ) * R n)^2 ≤ inner ℝ gd y := by
     have hbase : ((1 - δ) * R n)^2 ≤ ‖y‖^2 := by
-      have hleft_nonneg : 0 ≤ (1 - δ) * R n := by
-        exact mul_nonneg (by nlinarith) hRnonneg
+      have hleft_nonneg : 0 ≤ (1 - δ) * R n := mul_nonneg (by nlinarith) hRnonneg
       exact pow_le_pow_left₀ hleft_nonneg hy_lower 2
     exact le_trans (mul_le_mul_of_nonneg_left hbase (le_of_lt hMpos)) hstrong_n
   have hscaled_inner :
@@ -1177,15 +1173,15 @@ private theorem thm41_gradient_inner_eventually_ge (g : H → ℝ) (M : ℝ)
             have hone_minus_nonneg : 0 ≤ 1 - δ := by nlinarith
             have hterm1 : 0 ≤ M * δ ^ 2 :=
               mul_nonneg (le_of_lt hMpos) hδ2_nonneg
-            have hterm2 : 0 ≤ Lgrad * δ * (1 - δ) := by
-              exact mul_nonneg
+            have hterm2 : 0 ≤ Lgrad * δ * (1 - δ) :=
+              mul_nonneg
                 (mul_nonneg (le_of_lt hLgrad_pos) hδnonneg) hone_minus_nonneg
             linarith
           calc
             (M - δ * (2 * M + 2 * Lgrad)) * (R n)^2
                 ≤ (M - δ * (2 * M + 2 * Lgrad)) * (R n)^2 +
-                    (M * δ ^ 2 + Lgrad * δ * (1 - δ)) * (R n)^2 := by
-                  exact le_add_of_nonneg_right
+                    (M * δ ^ 2 + Lgrad * δ * (1 - δ)) * (R n)^2 :=
+                  le_add_of_nonneg_right
                     (mul_nonneg hcoef_nonneg hR2_nonneg)
             _ = M * ((1 - δ) * R n)^2 -
                   Lgrad * (1 + δ) * δ * (R n)^2 := by ring
@@ -1206,8 +1202,8 @@ private theorem thm41_R_step_of_increment_bound {inc R : ℕ → ℝ} {n : ℕ}
           add_le_add_right hinc_bound (R (n + 1))
       exact mul_le_mul_of_nonneg_left hadd hq_nonneg
     _ = (q * (c + 1)) * R (n + 1) := by ring
-    _ ≤ 1 * R (n + 1) := by
-      exact mul_le_mul_of_nonneg_right hq_bound hRnext_nonneg
+    _ ≤ 1 * R (n + 1) :=
+      mul_le_mul_of_nonneg_right hq_bound hRnext_nonneg
     _ = R (n + 1) := by ring
 
 private theorem thm41_tail_step_of_sum_bound {R S : ℕ → ℝ} {n : ℕ}
@@ -1223,8 +1219,8 @@ private theorem thm41_tail_step_of_sum_bound {R S : ℕ → ℝ} {n : ℕ}
     nlinarith
   calc
     S n ≤ (a / (a + m)) * S (n - 1) := hS_le
-    _ ≤ q * S (n - 1) := by
-      exact mul_le_mul_of_nonneg_right hq_bound (by nlinarith)
+    _ ≤ q * S (n - 1) :=
+      mul_le_mul_of_nonneg_right hq_bound (by nlinarith)
 
 private theorem thm41_exists_lower_eps {A q : ℝ} (hA : 0 ≤ A)
     (hqpos : 0 < q) (hqlt1 : q < 1) (hq : q < 1 / (A + 1)) :
@@ -1306,8 +1302,7 @@ private theorem thm41_summable_R_of_step_ineq {inc R p : ℕ → ℝ} {N : ℕ}
       simpa using neg_le_abs (p N)
     have hsumInc_le : sumInc ≤ ∑' i : ℕ, tailInc i := by
       have hsplit := Summable.sum_add_tsum_nat_add (f := tailInc) j htailInc_sum
-      have htail_nonneg : 0 ≤ ∑' i : ℕ, tailInc (i + j) := by
-        exact tsum_nonneg (fun i => hinc_nonneg _)
+      have htail_nonneg : 0 ≤ ∑' i : ℕ, tailInc (i + j) := tsum_nonneg (fun i => hinc_nonneg _)
       have hsum_eq :
           (∑ i ∈ Finset.range j, tailInc i) = sumInc := by
         dsimp [tailInc, sumInc]
@@ -1327,15 +1322,15 @@ private theorem thm41_summable_R_of_step_ineq {inc R p : ℕ → ℝ} {N : ℕ}
       rw [le_div_iff₀ hm_pos]
       simpa [mul_comm] using hsumR_bound
     simpa [tailR, sumR, Nat.add_assoc, Nat.add_comm, Nat.add_left_comm] using hsumR_le
-  have htailR_sum : Summable tailR := by
-    exact summable_of_sum_range_le (fun i => by dsimp [tailR]; exact hR_nonneg _) hpartial
+  have htailR_sum : Summable tailR :=
+    summable_of_sum_range_le (fun i => by dsimp [tailR]; exact hR_nonneg _) hpartial
   have htailR_sum' : Summable (fun i : ℕ => R (i + (N + 2))) := by
     simpa [tailR, Nat.add_assoc, Nat.add_comm, Nat.add_left_comm] using htailR_sum
   exact (summable_nat_add_iff (f := R) (N + 2)).mp htailR_sum'
 
 private theorem thm41_p_le_tail_of_step_ineq {inc R p : ℕ → ℝ} {N : ℕ}
     {a μ : ℝ} (hR_nonneg : ∀ n, 0 ≤ R n) (hinc_sum : Summable inc)
-    (hp_tendsto_zero : Tendsto p atTop (𝓝 (0 : ℝ))) (ha_nonneg : 0 ≤ a)
+    (hp_tendsto_zero : Tendsto p atTop (𝓝 (0 : ℝ))) (_ha_nonneg : 0 ≤ a)
     (hμ_nonneg : 0 ≤ μ)
     (hR_tail : ∀ n, R n = ∑' k : ℕ, inc (n + k))
     (hstep : ∀ n ≥ N, -a * inc (n + 1) + μ * R (n + 2) ≤ p (n + 1) - p n) :
@@ -1416,8 +1411,8 @@ private theorem thm41_eventual_step_ineq [FiniteDimensional ℝ H]
     (A B : SetValuedOperator H H)
     (hA : IsMaximalMonotone A) (hdomA : A.dom = Set.univ)
     (hAzero_int : (0 : H) ∈ interior (A (0 : H)))
-    (η : ℝ) (hη : η > 0) (α : ℝ) (hα : α ≥ 0)
-    (h_linear_growth : ∀ x, ‖x‖ ≤ η → excess (A x) (A (0 : H)) ≤ α * ‖x‖)
+    (η : ℝ) (hη : η > 0) (α : ℝ) (_hα : α ≥ 0)
+    (h_linear_growth : ∀ x, ‖x‖ ≤ η → setExcess (A x) (A (0 : H)) ≤ α * ‖x‖)
     (f : H → EReal) (hfinite : ∀ x, f x ≠ ⊤ ∧ f x ≠ ⊥)
     (hf_C11 : IsC11 (fun x => (f x).toReal))
     (hinf : ∃ m : ℝ, ∀ x, (m : EReal) ≤ f x)
@@ -1501,8 +1496,8 @@ private theorem thm41_eventual_step_ineq [FiniteDimensional ℝ H]
   rcases eventually_atTop.mp hscaled_local_event with ⟨Nδ, hNδ⟩
   refine ⟨max NRpos (max Ngrad (max Nη Nδ)), ?_⟩
   intro n hn
-  have hnGrad : Ngrad ≤ n + 2 := by
-    exact le_trans
+  have hnGrad : Ngrad ≤ n + 2 :=
+    le_trans
       (le_trans (le_trans (le_max_left Ngrad (max Nη Nδ))
         (le_max_right NRpos (max Ngrad (max Nη Nδ)))) hn)
       (Nat.le_add_right n 2)
@@ -1524,7 +1519,6 @@ private theorem thm41_eventual_step_ineq [FiniteDimensional ℝ H]
     ⟨a, b, ha, hb, hstep_eq⟩
   have hb_grad : b = gradient g (x (n + 2)) :=
     thm41_mem_gradient_operator_eq B g (by simpa [g] using hB_eq_grad) hb
-  have hvel_small : ‖lam⁻¹ • (x (n + 2) - x (n + 1))‖ ≤ η := hNη n hnη
   have hu_mem_normal :
       u ∈ normalCone (A (0 : H)) (-gradient g xInf) := by
     simpa [g] using thm41_ray_generator_mem_normalCone hu_normal
@@ -1540,17 +1534,16 @@ private theorem thm41_eventual_step_ineq [FiniteDimensional ℝ H]
     simpa [g] using h_smooth.1
   have hvel_small_seq :
       ‖(lam_seq n)⁻¹ • (x (n + 2) - x (n + 1))‖ ≤ η := by
-    simpa [hlam_seq n] using hvel_small
-  have hvel_local : ‖lam⁻¹ • (x (n + 2) - x (n + 1))‖ ≤ δloc / 2 := hNδ n hnδ
+    simpa [hlam_seq n] using hNη n hnη
   have hvel_local_seq :
       ‖(lam_seq n)⁻¹ • (x (n + 2) - x (n + 1))‖ ≤ δloc / 2 := by
-    simpa [hlam_seq n] using hvel_local
+    simpa [hlam_seq n] using hNδ n hnδ
   have hv_ball :
       (lam_seq n)⁻¹ • (x (n + 2) - x (n + 1)) ∈ Metric.ball (0 : H) δloc := by
     rw [Metric.mem_ball, dist_eq_norm, sub_zero]
     exact lt_of_le_of_lt hvel_local_seq (by linarith)
   have hexcess_step :
-      excess (A ((lam_seq n)⁻¹ • (x (n + 2) - x (n + 1)))) (A (0 : H)) ≤
+      setExcess (A ((lam_seq n)⁻¹ • (x (n + 2) - x (n + 1)))) (A (0 : H)) ≤
         α * ‖(lam_seq n)⁻¹ • (x (n + 2) - x (n + 1))‖ :=
     h_linear_growth _ hvel_small_seq
   have hbdd_infDist :
@@ -1621,8 +1614,8 @@ private theorem thm41_eventual_step_ineq [FiniteDimensional ℝ H]
           herr_norm
     have hmain :
         -(α * ‖(lam_seq n)⁻¹ • (x (n + 2) - x (n + 1))‖ + εerr) ≤
-          inner ℝ err u := by
-      exact (abs_le.mp hinner_abs).1
+          inner ℝ err u :=
+      (abs_le.mp hinner_abs).1
     simpa [err] using hmain
   have hinner_decomp :
       ∀ ξ : H,
@@ -1647,8 +1640,7 @@ private theorem thm41_eventual_step_ineq [FiniteDimensional ℝ H]
     have hnormal := hnormal_term_nonpos ξ hξ
     have hdecomp := hinner_decomp ξ
     linarith
-  have hRpos2 : 0 < R (n + 2) := by
-    exact hNRpos (n + 2) hnRpos
+  have hRpos2 : 0 < R (n + 2) := hNRpos (n + 2) hnRpos
   have hεerr_pos : 0 < ((M - μ) / 2) * R (n + 2) :=
     mul_pos hμgap_pos hRpos2
   have hacc_low := hacc_inner_lower_of_gradient (((M - μ) / 2) * R (n + 2)) hεerr_pos
@@ -1917,9 +1909,9 @@ private theorem thm41_tail_tsum_bound_of_step_ineq {inc R p : ℕ → ℝ} {N : 
 /-- Theorem 4.1: in the non-finitely-convergent case, the distance has the lower
 geometric estimate. -/
 theorem thm_4_1_lower_rate_of_not_finite [FiniteDimensional ℝ H] (A B : SetValuedOperator H H)
-    (hA : IsMaximalMonotone A) (hdomA : A.dom = Set.univ) (hAzero_int : (0 : H) ∈ interior (A (0 : H)))
-    (η : ℝ) (hη : η > 0) (α : ℝ) (hα : α ≥ 0)
-    (h_linear_growth : ∀ x, ‖x‖ ≤ η → excess (A x) (A (0 : H)) ≤ α * ‖x‖)
+    (hA : IsMaximalMonotone A) (hdomA : A.dom = Set.univ)
+    (hAzero_int : (0 : H) ∈ interior (A (0 : H))) (η : ℝ) (hη : η > 0) (α : ℝ) (hα : α ≥ 0)
+    (h_linear_growth : ∀ x, ‖x‖ ≤ η → setExcess (A x) (A (0 : H)) ≤ α * ‖x‖)
     (f : H → EReal) (hfinite : ∀ x, f x ≠ ⊤ ∧ f x ≠ ⊥)
     (hf_C11 : IsC11 (fun x => (f x).toReal))
     (hinf : ∃ m : ℝ, ∀ x, (m : EReal) ≤ f x)
@@ -2058,8 +2050,8 @@ theorem thm_4_1_lower_rate_of_not_finite [FiniteDimensional ℝ H] (A B : SetVal
         inc n = ((lam ^ 2)⁻¹ * ((1 - ε) * inc n)) /
             ((lam ^ 2)⁻¹ * (1 - ε)) := by
               field_simp [ne_of_gt hlam, ne_of_gt hone]
-        _ ≤ ((α / lam) * R (n + 1)) / ((lam ^ 2)⁻¹ * (1 - ε)) := by
-              exact div_le_div_of_nonneg_right hle (le_of_lt hdenpos)
+        _ ≤ ((α / lam) * R (n + 1)) / ((lam ^ 2)⁻¹ * (1 - ε)) :=
+              div_le_div_of_nonneg_right hle (le_of_lt hdenpos)
         _ = (α * lam / (1 - ε)) * R (n + 1) := by
               field_simp [ne_of_gt hlam, ne_of_gt hone]
     have hR_eq : R n = inc n + R (n + 1) := by
@@ -2070,8 +2062,8 @@ theorem thm_4_1_lower_rate_of_not_finite [FiniteDimensional ℝ H] (A B : SetVal
       (q := q1) (c := α * lam / (1 - ε)) (le_of_lt hq1pos) (hR_nonneg _)
       hR_eq hinc_to_R hqeps
   have hRNpos : 0 < R Nq := by
-    have hNR : NRpos ≤ Nq := by
-      exact le_trans (le_max_left NRpos (max Ninc (max Nstep Ndir)))
+    have hNR : NRpos ≤ Nq :=
+      le_trans (le_max_left NRpos (max Ninc (max Nstep Ndir)))
         (le_max_right Npos (max NRpos (max Ninc (max Nstep Ndir))))
     exact hNRpos Nq hNR
   rcases thm41_eventual_lower_geometric_of_step hq1pos hRstep hRNpos with
@@ -2083,13 +2075,12 @@ theorem thm_4_1_lower_rate_of_not_finite [FiniteDimensional ℝ H] (A B : SetVal
   have hbound_event :
       ∀ n ≥ Nfinal, (CR / 2) * q1 ^ n ≤ ‖x n - xInf‖ := by
     intro n hn
-    have hnNq : Nq ≤ n := le_trans (le_max_left Nq Nequiv) hn
     have hnEq : Nequiv ≤ n := le_trans (le_max_right Nq Nequiv) hn
-    have hRlower := hCR n hnNq
+    have hRlower := hCR n (le_trans (le_max_left Nq Nequiv) hn)
     have hnorm_lower := hNequiv n hnEq
     nlinarith
-  have hNpos_le_final : Npos ≤ Nfinal := by
-    exact le_trans (le_max_left Npos (max NRpos (max Ninc (max Nstep Ndir))))
+  have hNpos_le_final : Npos ≤ Nfinal :=
+    le_trans (le_max_left Npos (max NRpos (max Ninc (max Nstep Ndir))))
       (le_trans (le_max_left Nq Nequiv) le_rfl)
   rcases thm41_extend_lower_geometric_backward
       (d := fun n => ‖x n - xInf‖) (n0 := Npos) (N := Nfinal) (q := q1)
@@ -2100,9 +2091,9 @@ theorem thm_4_1_lower_rate_of_not_finite [FiniteDimensional ℝ H] (A B : SetVal
 /-- Theorem 4.1: in the non-finitely-convergent case, the tail distance has the upper
 geometric estimate. -/
 theorem thm_4_1_tail_rate_of_not_finite [FiniteDimensional ℝ H] (A B : SetValuedOperator H H)
-    (hA : IsMaximalMonotone A) (hdomA : A.dom = Set.univ) (hAzero_int : (0 : H) ∈ interior (A (0 : H)))
-    (η : ℝ) (hη : η > 0) (α : ℝ) (hα : α ≥ 0)
-    (h_linear_growth : ∀ x, ‖x‖ ≤ η → excess (A x) (A (0 : H)) ≤ α * ‖x‖)
+    (hA : IsMaximalMonotone A) (hdomA : A.dom = Set.univ)
+    (hAzero_int : (0 : H) ∈ interior (A (0 : H))) (η : ℝ) (hη : η > 0) (α : ℝ) (hα : α ≥ 0)
+    (h_linear_growth : ∀ x, ‖x‖ ≤ η → setExcess (A x) (A (0 : H)) ≤ α * ‖x‖)
     (f : H → EReal) (hfinite : ∀ x, f x ≠ ⊤ ∧ f x ≠ ⊥)
     (hf_C11 : IsC11 (fun x => (f x).toReal))
     (hinf : ∃ m : ℝ, ∀ x, (m : EReal) ≤ f x)
@@ -2209,7 +2200,7 @@ theorem thm_4_1_tail_rate_of_not_finite [FiniteDimensional ℝ H] (A B : SetValu
         rw [abs_mul, abs_of_pos hβ_pos]
       _ ≤ (lam ^ 2)⁻¹ * ‖d‖ :=
         mul_le_mul_of_nonneg_left hinner_abs hβ_nonneg
-      _ = (lam ^ 2)⁻¹ * inc n := by rfl
+      _ = (lam ^ 2)⁻¹ * inc n := rfl
   have hR_sum : Summable R :=
     thm41_summable_R_of_step_ineq (inc := inc) (R := R) (p := pseq)
       (N := Nstep) (a := α / lam) (m := μ) (β := (lam ^ 2)⁻¹)
@@ -2309,7 +2300,6 @@ theorem thm_4_1_tail_rate_of_not_finite [FiniteDimensional ℝ H] (A B : SetValu
     have hnBase1 : Nbase + 1 ≤ n := le_trans (le_max_right Nequiv (Nbase + 1)) hn
     have hnBase : Nbase ≤ n - 1 := by omega
     have hnpos : 1 ≤ n := by omega
-    have hnorm_le := hNequiv n hnEq
     have hprev := hSprev_eq n hnBase1
     have hR_le_Sprev : R n ≤ S (n - 1) := by
       have hS_nonneg : 0 ≤ S n := by
@@ -2326,11 +2316,11 @@ theorem thm_4_1_tail_rate_of_not_finite [FiniteDimensional ℝ H] (A B : SetValu
       rw [hpow]
       field_simp [ne_of_gt hq2pos]
     calc
-      ‖x n - xInf‖ ≤ (3 / 2 : ℝ) * R n := hnorm_le
-      _ ≤ (3 / 2 : ℝ) * S (n - 1) := by
-        exact mul_le_mul_of_nonneg_left hR_le_Sprev (by norm_num)
-      _ ≤ (3 / 2 : ℝ) * (CS * q2 ^ (n - 1)) := by
-        exact mul_le_mul_of_nonneg_left hS_le (by norm_num)
+      ‖x n - xInf‖ ≤ (3 / 2 : ℝ) * R n := hNequiv n hnEq
+      _ ≤ (3 / 2 : ℝ) * S (n - 1) :=
+        mul_le_mul_of_nonneg_left hR_le_Sprev (by norm_num)
+      _ ≤ (3 / 2 : ℝ) * (CS * q2 ^ (n - 1)) :=
+        mul_le_mul_of_nonneg_left hS_le (by norm_num)
       _ = Cdist * q2 ^ n := hscale
   rcases thm41_tail_tsum_le_of_geometric_bound
       (a := fun n => ‖x n - xInf‖) (N := Npoint) (C := Cdist) (q := q2)
@@ -2343,11 +2333,13 @@ theorem thm_4_1_tail_rate_of_not_finite [FiniteDimensional ℝ H] (A B : SetValu
     ⟨C2, hC2pos, hC2⟩
   exact ⟨C2, hC2pos, fun n hn => hC2 n hn⟩
 
+set_option maxHeartbeats 800000 in
+-- The final theorem instantiates the full estimate and needs extra elaboration time.
 /-- Theorem 4.1: if `alpha^2 < M`, then convergence is finite. -/
 theorem thm_4_1_finite_of_alpha_sq_lt [FiniteDimensional ℝ H] (A B : SetValuedOperator H H)
-    (hA : IsMaximalMonotone A) (hdomA : A.dom = Set.univ) (hAzero_int : (0 : H) ∈ interior (A (0 : H)))
-    (η : ℝ) (hη : η > 0) (α : ℝ) (hα : α ≥ 0)
-    (h_linear_growth : ∀ x, ‖x‖ ≤ η → excess (A x) (A (0 : H)) ≤ α * ‖x‖)
+    (hA : IsMaximalMonotone A) (hdomA : A.dom = Set.univ)
+    (hAzero_int : (0 : H) ∈ interior (A (0 : H))) (η : ℝ) (hη : η > 0) (α : ℝ) (hα : α ≥ 0)
+    (h_linear_growth : ∀ x, ‖x‖ ≤ η → setExcess (A x) (A (0 : H)) ≤ α * ‖x‖)
     (f : H → EReal) (hfinite : ∀ x, f x ≠ ⊤ ∧ f x ≠ ⊥)
     (hf_C11 : IsC11 (fun x => (f x).toReal))
     (hinf : ∃ m : ℝ, ∀ x, (m : EReal) ≤ f x)
@@ -2472,7 +2464,7 @@ theorem thm_4_1_finite_of_alpha_sq_lt [FiniteDimensional ℝ H] (A B : SetValued
               rw [abs_mul, abs_of_pos hβ_pos]
             _ ≤ (lam ^ 2)⁻¹ * ‖d‖ :=
               mul_le_mul_of_nonneg_left hinner_abs hβ_nonneg
-            _ = (lam ^ 2)⁻¹ * inc n := by rfl
+            _ = (lam ^ 2)⁻¹ * inc n := rfl
         exact thm41_summable_R_of_step_ineq
           (inc := inc) (R := R) (p := pseq) (N := Nstep)
           (a := α / lam) (m := M / 2) (β := (lam ^ 2)⁻¹)

@@ -24,14 +24,17 @@ open Filter
 open scoped Topology
 open scoped Pointwise
 variable {H : Type _} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
+
+omit [CompleteSpace H] in
 /-- Proposition 2.2: monotone decrease of the energy sequence and summability. -/
 theorem prop_2_2 (A B : SetValuedOperator H H) (hA : IsMaximalMonotone A) (hdomA : A.dom = Set.univ)
     (hAzero : (0 : H) ∈ A (0 : H)) (f : H → EReal)
-    (hf_conv : ∀ x y : H, ∀ a b : ℝ, 0 ≤ a → 0 ≤ b → a + b = 1 →
+    (_hf_conv : ∀ x y : H, ∀ a b : ℝ, 0 ≤ a → 0 ≤ b → a + b = 1 →
       f (a • x + b • y) ≤ (a : EReal) * f x + (b : EReal) * f y)
-    (hf_lsc : LowerSemicontinuous f)
+    (_hf_lsc : LowerSemicontinuous f)
     (hB_eq_subderiv : ∀ x, B x = {v | ∀ y, f y ≥ f x + (inner ℝ v (y - x) : EReal)})
-    (hdom_subderiv : (SetValuedOperator.dom B).Nonempty) (hinf : ∃ m : ℝ, ∀ x, (m : EReal) ≤ f x)
+    (_hdom_subderiv : (SetValuedOperator.dom B).Nonempty)
+    (hinf : ∃ m : ℝ, ∀ x, (m : EReal) ≤ f x)
     (lam : ℕ → ℝ) (hlam_pos : ∀ n, lam n > 0) (hlam_nondec : ∀ n, lam n ≤ lam (n+1))
     (x : ℕ → H) (halg : AlgorithmA A B x lam)
     (hx1_dom : x 1 ∈ ERealFunction.dom f) :
@@ -84,9 +87,6 @@ theorem prop_2_2 (A B : SetValuedOperator H H) (hA : IsMaximalMonotone A) (hdomA
   have hPhi_nonneg :
       ∀ z : H, 0 ≤ PhiA A z := by
     intro z
-    have hAz : (A z).Nonempty := by
-      have hzdom : z ∈ A.dom := by simp [hdomA]
-      simpa [SetValuedOperator.mem_dom_iff] using hzdom
     rw [PhiA]
     apply le_sInf
     rintro _ ⟨y, hy, rfl⟩
@@ -141,11 +141,7 @@ theorem prop_2_2 (A B : SetValuedOperator H H) (hA : IsMaximalMonotone A) (hdomA
         rw [inner_neg_right]
       have hx2_top : f (x (n+2)) ≠ ⊤ := hf_iter_ne_top (n+1)
       have hx1_top : f (x (n+1)) ≠ ⊤ := hf_iter_ne_top n
-      have hx2_bot : f (x (n+2)) ≠ ⊥ := by
-        intro hbot
-        have hle := hm (x (n+2))
-        rw [hbot] at hle
-        simp at hle
+      have hx2_bot : f (x (n+2)) ≠ ⊥ := hf_iter_ne_bot (n+2)
       have h_add_bot : f (x (n+2)) + (inner ℝ b (x (n+1) - x (n+2)) : EReal) ≠ ⊥ := by
         rw [← EReal.coe_toReal hx2_top hx2_bot]
         simp
@@ -261,9 +257,7 @@ theorem prop_2_2 (A B : SetValuedOperator H H) (hA : IsMaximalMonotone A) (hdomA
         simp [termE, v, d₂, EReal.toReal_mul]
       rw [hterm_toReal]
       linarith
-    constructor
-    · simpa [termE, v, hPhi_coe] using hmainE
-    · exact hterm_bound
+    exact ⟨by simpa [termE, v, hPhi_coe] using hmainE, hterm_bound⟩
   have hmain :
       ∀ n, energySeq x lam f (n+1) - energySeq x lam f n ≤
         (-(lam n) * PhiA A ((lam n)⁻¹ • (x (n+2) - x (n+1))) : EReal) := by

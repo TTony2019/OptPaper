@@ -41,9 +41,7 @@ private theorem prop51_gradient_operator_apply (B : SetValuedOperator H H) (f : 
       (fun x : (Set.univ : Set H) => gradient f x.1)) (z : H) :
     B z = {gradient f z} := by
   rw [hB_eq_grad]
-  simpa using
-    SetValuedOperator.ofFunction_apply_of_mem Set.univ
-      (fun x : (Set.univ : Set H) => gradient f x.1) (by simp : z ∈ Set.univ)
+  simp
 
 /-- Membership in the singleton-valued gradient operator identifies the value. -/
 private theorem prop51_gradient_operator_mem_eq (B : SetValuedOperator H H) (f : H → ℝ)
@@ -53,6 +51,7 @@ private theorem prop51_gradient_operator_mem_eq (B : SetValuedOperator H H) (f :
   rw [prop51_gradient_operator_apply B f hB_eq_grad z] at hb
   simpa using hb
 
+omit [CompleteSpace H] in
 /-- A normal cone is closed under multiplication by nonnegative scalars. -/
 private theorem prop51_normalCone_smul_nonneg {C : Set H} {xbar u : H} {a : ℝ}
     (hu : u ∈ normalCone C xbar) (ha : 0 ≤ a) :
@@ -64,6 +63,7 @@ private theorem prop51_normalCone_smul_nonneg {C : Set H} {xbar u : H} {a : ℝ}
     rw [inner_smul_right]
     exact mul_nonpos_of_nonneg_of_nonpos ha (hu.2 y hy)
 
+omit [CompleteSpace H] in
 /-- The support function of a nonempty set vanishes at the origin. -/
 private theorem prop51_supportFunction_zero {C : Set H} (hCne : C.Nonempty) :
     supportFunction C (0 : H) = 0 := by
@@ -81,6 +81,7 @@ private theorem prop51_supportFunction_zero {C : Set H} (hCne : C.Nonempty) :
   rw [himage]
   exact sSup_singleton
 
+omit [CompleteSpace H] in
 /-- A support-function subgradient gives an upper bound on the attained support value. -/
 private theorem prop51_subderivative_support_upper {C : Set H} {v xi : H}
     (hCne : C.Nonempty) (hxi : xi ∈ subderivative (supportFunction C) v) :
@@ -90,6 +91,7 @@ private theorem prop51_subderivative_support_upper {C : Set H} {v xi : H}
     simpa [prop51_supportFunction_zero hCne, sub_eq_add_neg] using h0
   exact EReal.sub_nonpos.mp h0'
 
+omit [CompleteSpace H] in
 /-- The support function is subadditive. -/
 private theorem prop51_supportFunction_add_le (C : Set H) (u w : H) :
     supportFunction C (u + w) ≤ supportFunction C u + supportFunction C w := by
@@ -98,13 +100,14 @@ private theorem prop51_supportFunction_add_le (C : Set H) (u w : H) :
   rintro t ⟨z, hz, rfl⟩
   have hu : (inner ℝ z u : EReal) ≤
       sSup ((fun z : H => (inner ℝ z u : EReal)) '' C) := by
-    exact le_sSup (by exact ⟨z, hz, rfl⟩)
+    exact le_sSup (⟨z, hz, rfl⟩)
   have hw : (inner ℝ z w : EReal) ≤
       sSup ((fun z : H => (inner ℝ z w : EReal)) '' C) := by
-    exact le_sSup (by exact ⟨z, hz, rfl⟩)
+    exact le_sSup (⟨z, hz, rfl⟩)
   have h := add_le_add hu hw
   simpa [inner_add_right, EReal.coe_add] using h
 
+omit [CompleteSpace H] in
 /-- A defining halfspace gives the corresponding one-sided support-function bound. -/
 private theorem prop51_supportFunction_smul_halfspace_le {C : Set H} {a : H} {b t : ℝ}
     (hC : ∀ z ∈ C, inner ℝ a z ≤ b) (ht : 0 ≤ t) :
@@ -119,6 +122,7 @@ private theorem prop51_supportFunction_smul_halfspace_le {C : Set H} {a : H} {b 
     simp [inner_smul_right]
   exact EReal.coe_le_coe_iff.mpr (by simpa [hinner] using hmul)
 
+omit [CompleteSpace H] in
 /-- A subgradient of the support function of a represented polyhedron lies in that polyhedron. -/
 private theorem prop51_subderivative_supportFunction_mem_polyhedron {C : Set H}
     (hpoly : ConvexPolyhedron C) {v xi : H} (hCne : C.Nonempty)
@@ -129,16 +133,18 @@ private theorem prop51_subderivative_supportFunction_mem_polyhedron {C : Set H}
   have hupper := prop51_subderivative_support_upper hCne' hxi
   have hlower : (inner ℝ c0 v : EReal) ≤ supportFunction C v := by
     unfold supportFunction
-    exact le_sSup (by exact ⟨c0, hc0, rfl⟩)
+    exact le_sSup (⟨c0, hc0, rfl⟩)
   have hsup_ne_top : supportFunction C v ≠ ⊤ := by
     intro htop
     have htop_le : (⊤ : EReal) ≤ (inner ℝ xi v : EReal) := by
-      simpa [htop] using hupper
+      rw [htop] at hupper
+      exact hupper
     exact (not_le_of_gt (EReal.coe_lt_top (inner ℝ xi v))) htop_le
   have hsup_ne_bot : supportFunction C v ≠ ⊥ := by
     intro hbot
     have hcoe_le_bot : (inner ℝ c0 v : EReal) ≤ (⊥ : EReal) := by
-      simpa [hbot] using hlower
+      rw [hbot] at hlower
+      exact hlower
     exact (not_le_of_gt (EReal.bot_lt_coe (inner ℝ c0 v))) hcoe_le_bot
   let s : ℝ := (supportFunction C v).toReal
   have hs : (s : EReal) = supportFunction C v := by
@@ -176,6 +182,7 @@ private theorem prop51_subderivative_supportFunction_mem_polyhedron {C : Set H}
     simpa [real_inner_comm] using (by linarith : inner ℝ xi (a i) ≤ b i)
   exact hgoal
 
+omit [CompleteSpace H] in
 /-- If a support value is bounded above by evaluation at `xi`, then `v` is normal to `C`. -/
 private theorem prop51_supportFunction_upper_mem_normalCone {C : Set H} {v xi : H}
     (hxiC : xi ∈ C) (hsup : supportFunction C v ≤ (inner ℝ xi v : EReal)) :
@@ -186,7 +193,7 @@ private theorem prop51_supportFunction_upper_mem_normalCone {C : Set H} {v xi : 
   · intro y hy
     have hy_le_sup : (inner ℝ y v : EReal) ≤ supportFunction C v := by
       unfold supportFunction
-      exact le_sSup (by exact ⟨y, hy, rfl⟩)
+      exact le_sSup (⟨y, hy, rfl⟩)
     have hy_le_xi_E : (inner ℝ y v : EReal) ≤ (inner ℝ xi v : EReal) :=
       le_trans hy_le_sup hsup
     have hy_le_xi : inner ℝ y v ≤ inner ℝ xi v := EReal.coe_le_coe_iff.mp hy_le_xi_E
@@ -197,6 +204,7 @@ private theorem prop51_supportFunction_upper_mem_normalCone {C : Set H} {v xi : 
     rw [hrewrite]
     linarith
 
+omit [CompleteSpace H] in
 /-- Support-function subgradients of a represented polyhedron give normal-cone directions. -/
 private theorem prop51_subderivative_supportFunction_mem_normalCone {C : Set H}
     (hpoly : ConvexPolyhedron C) {v xi : H} (hCne : C.Nonempty)
@@ -220,6 +228,7 @@ private theorem prop51_ereal_convex_of_convexOn (f : H → ℝ)
     EReal.coe_le_coe_iff.mpr hreal
   simpa [EReal.coe_add, EReal.coe_mul] using hE
 
+omit [InnerProductSpace ℝ H] [CompleteSpace H] in
 private theorem prop51_lowerSemicontinuous_real (f : H → ℝ) (hcont : Continuous f) :
     LowerSemicontinuous (fun x => (f x : EReal)) := by
   exact (continuous_coe_real_ereal.comp hcont).lowerSemicontinuous
@@ -399,6 +408,7 @@ private theorem prop51_stationary_gradient_mem_A_zero (A B : SetValuedOperator H
     exact eq_neg_of_add_eq_zero_left hab
   simpa [ha_eq] using ha
 
+omit [CompleteSpace H] in
 /-- Select the `A` and `B` components from one algorithmic inclusion step. -/
 private theorem prop51_algorithm_step_selection (A B : SetValuedOperator H H)
     (lam : ℕ → ℝ) (x : ℕ → H) (halg : AlgorithmA A B x lam) :
@@ -419,9 +429,19 @@ private theorem prop51_algorithm_step_selection (A B : SetValuedOperator H H)
   subst c
   refine ⟨a, b, ?_, hb, ?_⟩
   · simpa [v]
-  · have hp_eq' : acc + a = p := by simpa [hp_eq]
+  · have hp_eq' : acc + a = p := by simp [hp_eq]
     rw [← hpbeq, ← hp_eq']
 
+omit [CompleteSpace H] in
+/-- Monotonicity bounds a graph point at `0` by the graph point at `v`. -/
+private theorem prop51_monotone_bound (A : SetValuedOperator H H) (hmono : IsMonotone A)
+    {v a y : H} (ha : a ∈ A v) (hy : y ∈ A (0 : H)) :
+    inner ℝ y v ≤ inner ℝ a v := by
+  have h := hmono a ha y hy
+  rw [sub_zero, inner_sub_left] at h
+  linarith
+
+omit [InnerProductSpace ℝ H] [CompleteSpace H] in
 /-- If `x n` converges, then the first difference tends to zero. -/
 private theorem prop51_tendsto_shift_sub_self_zero (x : ℕ → H) (xInf : H)
     (hxInf : Tendsto x atTop (𝓝 xInf)) :
@@ -462,6 +482,7 @@ private theorem prop51_inv_lam_sq_bound (lam : ℕ → ℝ)
     simpa [abs_of_pos (hlam_pos 0), abs_of_pos (hlam_pos n)] using
       prop51_lam_zero_le_lam lam hlam_nondec n)
 
+omit [CompleteSpace H] in
 /-- A bounded scalar multiple of a sequence tending to zero also tends to zero. -/
 private theorem prop51_tendsto_smul_zero_of_norm_bounded {c : ℕ → ℝ} {z : ℕ → H}
     {C : ℝ} (hC : ∀ n, ‖c n‖ ≤ C) (hz : Tendsto z atTop (𝓝 (0 : H))) :
@@ -475,6 +496,7 @@ private theorem prop51_tendsto_smul_zero_of_norm_bounded {c : ℕ → ℝ} {z : 
     simpa using (tendsto_const_nhds.mul hz)
   exact squeeze_zero (fun n => norm_nonneg _) hbound hprod
 
+omit [CompleteSpace H] in
 /-- The scaled velocity in Algorithm (A) tends to zero. -/
 private theorem prop51_scaled_velocity_tendsto_zero (lam : ℕ → ℝ) (x : ℕ → H)
     (xInf : H) (hlam_pos : ∀ n, 0 < lam n)
@@ -490,6 +512,7 @@ private theorem prop51_scaled_velocity_tendsto_zero (lam : ℕ → ℝ) (x : ℕ
   exact prop51_tendsto_smul_zero_of_norm_bounded
     (prop51_inv_lam_bound lam hlam_pos hlam_nondec) hz
 
+omit [CompleteSpace H] in
 /-- The scaled acceleration in Algorithm (A) tends to zero. -/
 private theorem prop51_acceleration_tendsto_zero (lam : ℕ → ℝ) (x : ℕ → H)
     (xInf : H) (hlam_pos : ∀ n, 0 < lam n)
@@ -530,6 +553,7 @@ private theorem prop51_gradient_shift_tendsto (f : H → ℝ) (x : ℕ → H)
       (hf_C1.continuous_fderiv (by norm_num))
   exact (hcont_grad.tendsto xInf).comp hxshift
 
+omit [InnerProductSpace ℝ H] [CompleteSpace H] in
 /-- A point can be selected within `infDist + ε` of a nonempty set. -/
 private theorem prop51_exists_mem_dist_le_infDist_add {C : Set H} {z : H} {r ε : ℝ}
     (hC : C.Nonempty) (hε : 0 < ε) (h : Metric.infDist z C ≤ r) :
@@ -542,14 +566,10 @@ omit [InnerProductSpace ℝ H] [CompleteSpace H] in
 /-- Pointwise control by the excess when the defining supremum is bounded above. -/
 private theorem prop51_excess_point_le_of_bdd {A B : Set H} {a : H} {c : ℝ}
     (hbdd : BddAbove (Set.range (fun x : A => Metric.infDist (x : H) B)))
-    (ha : a ∈ A) (h : excess A B ≤ c) : Metric.infDist a B ≤ c := by
+    (ha : a ∈ A) (h : setExcess A B ≤ c) : Metric.infDist a B ≤ c := by
   let F : A → ℝ := fun x => Metric.infDist (x : H) B
-  have hbot : sSup (∅ : Set ℝ) ≤ ⨆ x : A, F x := by
-    simp only [Real.sSup_empty]
-    exact le_trans Metric.infDist_nonneg (le_ciSup hbdd ⟨a, ha⟩)
-  have hexcess_eq : excess A B = ⨆ x : A, F x := by
-    unfold excess
-    exact (ciSup_subtype (p := fun x : H => x ∈ A) (f := F) hbdd hbot).symm
+  have hexcess_eq : setExcess A B = ⨆ x : A, F x := by
+    simpa [F] using setExcess_eq_iSup_infDist A B
   have hsup_le : (⨆ x : A, F x) ≤ c := by
     simpa [hexcess_eq] using h
   have hpoint : F ⟨a, ha⟩ ≤ ⨆ x : A, F x := le_ciSup hbdd ⟨a, ha⟩
@@ -577,6 +597,7 @@ private noncomputable def prop51_fitzLocal (A : SetValuedOperator H H) (x : H) :
   ⨆ p : {p : H × H // p.2 ∈ A p.1},
     (((inner ℝ (x - p.val.1) p.val.2) / (1 + ‖p.val.1‖) : ℝ) : EReal)
 
+omit [CompleteSpace H] in
 /-- Each graph point contributes a lower bound to the local Fitzpatrick functional. -/
 private theorem prop51_fitzLocal_ge (A : SetValuedOperator H H)
     {x y v : H} (hv : v ∈ A y) :
@@ -585,6 +606,7 @@ private theorem prop51_fitzLocal_ge (A : SetValuedOperator H H)
   dsimp [prop51_fitzLocal]
   exact le_iSup_of_le (⟨(y, v), hv⟩ : {p : H × H // p.2 ∈ A p.1}) le_rfl
 
+omit [CompleteSpace H] in
 /-- The local Fitzpatrick functional is lower semicontinuous. -/
 private theorem prop51_fitzLocal_lsc (A : SetValuedOperator H H) :
     LowerSemicontinuous (prop51_fitzLocal A) := by
@@ -596,6 +618,7 @@ private theorem prop51_fitzLocal_lsc (A : SetValuedOperator H H) :
     exact ((continuous_id.sub continuous_const).inner continuous_const).div_const _
   exact (continuous_coe_real_ereal.comp hreal).lowerSemicontinuous
 
+omit [CompleteSpace H] in
 /-- Closed sublevel sets of the local Fitzpatrick functional. -/
 private theorem prop51_fitzLocal_closed_sublevel
     (A : SetValuedOperator H H) (N : ℕ) :
@@ -604,6 +627,7 @@ private theorem prop51_fitzLocal_closed_sublevel
   rw [lowerSemicontinuous_iff_isClosed_preimage] at hlsc
   simpa [Set.preimage, Set.Iic] using hlsc ((N : ℝ) : EReal)
 
+omit [CompleteSpace H] in
 /-- Convexity of the local Fitzpatrick functional. -/
 private theorem prop51_fitzLocal_convex (A : SetValuedOperator H H) :
     ∀ x y : H, ∀ a b : ℝ, 0 ≤ a → 0 ≤ b → a + b = 1 →
@@ -650,6 +674,7 @@ private theorem prop51_fitzLocal_convex (A : SetValuedOperator H H) :
           · exact le_iSup_of_le p le_rfl
           · exact le_iSup_of_le p le_rfl
 
+omit [CompleteSpace H] in
 /-- Full domain monotonicity makes the local Fitzpatrick functional finite above. -/
 private theorem prop51_fitzLocal_finite_above
     (A : SetValuedOperator H H) (hAmono : IsMonotone A) (hdomA : A.dom = Set.univ) :
@@ -739,8 +764,7 @@ private theorem prop51_ereal_convex_finite_locally_bddAbove
     have hx_norm : ‖x - z‖ < ε / 4 := by
       simpa [Metric.mem_ball, dist_eq_norm] using hx
     rw [Metric.mem_ball, dist_eq_norm, hq_sub, norm_smul]
-    have htwo : ‖(2 : ℝ)‖ = (2 : ℝ) := by norm_num
-    rw [htwo]
+    rw [show ‖(2 : ℝ)‖ = (2 : ℝ) from by norm_num]
     nlinarith [norm_nonneg (x - z)]
   have hqC : f q ≤ ((N : ℝ) : EReal) := hε_subset hq_ball
   have hx_combo : x = (1 / 2 : ℝ) • q + (1 / 2 : ℝ) • p := by
@@ -828,9 +852,8 @@ private theorem prop51_full_domain_local_bounded
     have hterm_real :
         inner ℝ (xeval - z) w / (1 + ‖z‖) ≤ Mpos :=
       EReal.coe_le_coe_iff.mp htermE
-    have hden_pos : 0 < 1 + ‖z‖ := by positivity
     have hinner_le : inner ℝ (xeval - z) w ≤ Mpos * (1 + ‖z‖) := by
-      rwa [div_le_iff₀ hden_pos] at hterm_real
+      rwa [div_le_iff₀ (by positivity)] at hterm_real
     have hxeval_sub : xeval - z = (x0 - z) + (ρ / 2) • e := by
       dsimp [xeval]
       abel
@@ -891,12 +914,14 @@ private theorem prop51_bddAbove_infDist_of_local_bounded
         ⟨v, hv, hy⟩)
   exact prop51_bddAbove_infDist_of_isBounded hAv_bdd hB
 
+omit [CompleteSpace H] in
 /-- Every point of a set lies below its support function. -/
 private theorem prop51_inner_le_supportFunction {C : Set H} {xi y : H} (hxi : xi ∈ C) :
     (inner ℝ xi y : EReal) ≤ supportFunction C y := by
   unfold supportFunction
-  exact le_sSup (by exact ⟨xi, hxi, rfl⟩)
+  exact le_sSup (⟨xi, hxi, rfl⟩)
 
+omit [CompleteSpace H] in
 /-- A point that maximizes a linear functional realizes the support value. -/
 private theorem prop51_supportFunction_eq_of_maximizer {C : Set H} {xi v : H}
     (hxiC : xi ∈ C) (hmax : ∀ y ∈ C, inner ℝ y v ≤ inner ℝ xi v) :
@@ -908,6 +933,7 @@ private theorem prop51_supportFunction_eq_of_maximizer {C : Set H} {xi v : H}
     exact EReal.coe_le_coe_iff.mpr (hmax y hy)
   · exact prop51_inner_le_supportFunction hxiC
 
+omit [CompleteSpace H] in
 /-- A support-function maximizer is a subgradient. -/
 private theorem prop51_support_attainer_mem_subderivative {C : Set H} {xi v : H}
     (hxiC : xi ∈ C) (hmax : supportFunction C v = (inner ℝ xi v : EReal)) :
@@ -1044,6 +1070,691 @@ private theorem prop51_projection_preserves_objective_of_mem_span
     _ = inner ℝ v y := by linarith
     _ = inner ℝ y v := real_inner_comm _ _
 
+/-- A direction in the affine hull of a set can be followed a small positive distance from an
+intrinsic interior point while remaining in the set. -/
+private lemma prop51_intrinsicInterior_add_smul_mem
+    {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
+    {s : Set V} {p : V} (hp : p ∈ intrinsicInterior ℝ s)
+    {w : V} (hw : w ∈ (affineSpan ℝ s).direction) :
+    ∃ ε : ℝ, 0 < ε ∧ ∀ t : ℝ, 0 < t → t ≤ ε → p + t • w ∈ s := by
+  classical
+  rw [mem_intrinsicInterior] at hp
+  obtain ⟨p', hp', hp'eq⟩ := hp
+  rw [← hp'eq] at *
+  clear hp'eq p
+  rcases Metric.mem_nhds_iff.mp (isOpen_interior.mem_nhds hp') with ⟨e, he, hball⟩
+  refine ⟨e / (‖w‖ + 1), div_pos he (by positivity), ?_⟩
+  intro t ht0 htle
+  have hmemA : (p' : V) + t • w ∈ affineSpan ℝ s := by
+    have h := AffineSubspace.vadd_mem_of_mem_direction
+      (s := affineSpan ℝ s) (v := t • w) (Submodule.smul_mem _ t hw) p'.2
+    simpa [vadd_eq_add, add_comm] using h
+  let q : ↥(affineSpan ℝ s) := ⟨(p' : V) + t • w, hmemA⟩
+  have hdist : dist q p' < e := by
+    have hdisteq : dist q p' = ‖t • w‖ := by
+      rw [Subtype.dist_eq]
+      simp only [q]
+      rw [dist_eq_norm, add_sub_cancel_left]
+    rw [hdisteq, norm_smul, Real.norm_eq_abs, abs_of_pos ht0]
+    calc t * ‖w‖ ≤ (e / (‖w‖ + 1)) * ‖w‖ :=
+          mul_le_mul_of_nonneg_right htle (norm_nonneg w)
+      _ < (e / (‖w‖ + 1)) * (‖w‖ + 1) := by
+          exact mul_lt_mul_of_pos_left (by linarith) (div_pos he (by positivity))
+      _ = e := by field_simp
+  have hq : q ∈ interior (Subtype.val ⁻¹' s) := hball hdist
+  have hqs : (q : V) ∈ s := interior_subset (s := Subtype.val ⁻¹' s) hq
+  simpa [q] using hqs
+
+/-- Strengthened form of the polyhedral ray exit lemma: the active constraint at the exit point
+is nontrivial, because the starting point satisfies it strictly. -/
+private theorem prop51_ray_exit_to_active_face_aux
+    {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V] [FiniteDimensional ℝ V]
+    {m : ℕ} (a : Fin m → V) (b : Fin m → ℝ) (φ : V →ₗ[ℝ] ℝ)
+    (hbdd : ∃ M : ℝ, ∀ x : V,
+      (∀ i : Fin m, inner ℝ (a i) x ≤ b i) → φ x ≤ M)
+    (x0 z : V)
+    (hx0 : x0 ∈ intrinsicInterior ℝ
+      ({x : V | ∀ i : Fin m, inner ℝ (a i) x ≤ b i} : Set V))
+    (hz : ∀ i : Fin m, inner ℝ (a i) z ≤ b i)
+    (hφ : φ x0 < φ z) :
+    ∃ T : ℝ, 1 ≤ T ∧
+      (∀ t : ℝ, 0 ≤ t → t ≤ T →
+        ∀ i : Fin m, inner ℝ (a i) (x0 + t • (z - x0)) ≤ b i) ∧
+      (∀ t : ℝ, T < t →
+        ¬ (∀ i : Fin m, inner ℝ (a i) (x0 + t • (z - x0)) ≤ b i)) ∧
+      (∃ i : Fin m, inner ℝ (a i) x0 < b i ∧
+        inner ℝ (a i) (x0 + T • (z - x0)) = b i) ∧
+      φ z ≤ φ (x0 + T • (z - x0)) ∧
+      x0 + T • (z - x0) ∈ intrinsicFrontier ℝ
+        ({x : V | ∀ i : Fin m, inner ℝ (a i) x ≤ b i} : Set V) := by
+  classical
+  cases m with
+  | zero =>
+      exfalso
+      rcases hbdd with ⟨M, hM⟩
+      have hd : 0 < φ z - φ x0 := sub_pos.mpr hφ
+      have hval : φ (x0 + ((M - φ x0 + 1) / (φ z - φ x0)) • (z - x0)) = M + 1 := by
+        rw [map_add, map_smul, map_sub, smul_eq_mul]
+        field_simp
+        ring
+      have hle := hM (x0 + ((M - φ x0 + 1) / (φ z - φ x0)) • (z - x0))
+        (fun i : Fin 0 => i.elim0)
+      rw [hval] at hle
+      linarith
+  | succ k =>
+      let P : Set V := {x : V | ∀ i : Fin (k+1), inner ℝ (a i) x ≤ b i}
+      have hx0P : x0 ∈ P := intrinsicInterior_subset hx0
+      have hzP : z ∈ P := hz
+      have hP_closed : IsClosed P := by
+        change IsClosed {x : V | ∀ i : Fin (k+1), inner ℝ (a i) x ≤ b i}
+        rw [setOf_forall]
+        exact isClosed_iInter fun i => isClosed_le (by fun_prop) continuous_const
+      have hP_conv : Convex ℝ P := by
+        intro x hx y hy s t hs ht hst i
+        have hsplit : inner ℝ (a i) (s • x + t • y)
+            = s * inner ℝ (a i) x + t * inner ℝ (a i) y := by
+          rw [inner_add_right, inner_smul_right, inner_smul_right]
+        rw [hsplit]
+        have hxi : inner ℝ (a i) x ≤ b i := hx i
+        have hyi : inner ℝ (a i) y ≤ b i := hy i
+        have h1 : s * inner ℝ (a i) x ≤ s * b i := mul_le_mul_of_nonneg_left hxi hs
+        have h2 : t * inner ℝ (a i) y ≤ t * b i := mul_le_mul_of_nonneg_left hyi ht
+        have h3 : s * b i + t * b i = b i := by rw [← add_mul, hst, one_mul]
+        linarith
+      let w : V := z - x0
+      let A : Set ℝ := {t : ℝ | 0 ≤ t ∧ x0 + t • w ∈ P}
+      have hA_ne : A.Nonempty := ⟨0, le_refl 0, by simpa [w] using hx0P⟩
+      have hA_bdd : BddAbove A := by
+        rcases hbdd with ⟨M, hM⟩
+        refine ⟨max 0 ((M - φ x0) / (φ z - φ x0)), ?_⟩
+        rintro t ⟨ht0, htP⟩
+        have h1 : φ (x0 + t • w) ≤ M := hM _ htP
+        have hw : φ w = φ z - φ x0 := by simp only [w, map_sub]
+        have h2 : φ (x0 + t • w) = φ x0 + t * (φ z - φ x0) := by
+          rw [map_add, map_smul, hw, smul_eq_mul]
+        rw [h2] at h1
+        have hd : 0 < φ z - φ x0 := sub_pos.mpr hφ
+        have h3 : t * (φ z - φ x0) ≤ M - φ x0 := by linarith
+        have h4 : t ≤ (M - φ x0) / (φ z - φ x0) := by
+          rw [le_div_iff₀ hd]
+          linarith
+        exact le_max_of_le_right h4
+      have hA_closed : IsClosed A := by
+        have hcont : Continuous fun t : ℝ => x0 + t • w := by fun_prop
+        have hEq : A = Set.Ici (0:ℝ) ∩ (fun t : ℝ => x0 + t • w) ⁻¹' P := by
+          ext t; simp [A]
+        rw [hEq]
+        exact isClosed_Ici.inter (hP_closed.preimage hcont)
+      let T : ℝ := sSup A
+      have hTmem : T ∈ A := hA_closed.csSup_mem hA_ne hA_bdd
+      have hT0 : 0 ≤ T := hTmem.1
+      have hTP : x0 + T • w ∈ P := hTmem.2
+      have h1A : (1:ℝ) ∈ A := ⟨by norm_num, by simpa [w] using hzP⟩
+      have hT1 : 1 ≤ T := le_csSup hA_bdd h1A
+      have hTpos : 0 < T := lt_of_lt_of_le zero_lt_one hT1
+      have hseg : ∀ t : ℝ, 0 ≤ t → t ≤ T → x0 + t • w ∈ P := by
+        intro t ht0 htT
+        have ha : 0 ≤ 1 - t / T := by
+          have hle : t / T ≤ 1 := (div_le_one hTpos).mpr htT
+          linarith
+        have hb : 0 ≤ t / T := div_nonneg ht0 hTpos.le
+        have hab : (1 - t / T) + t / T = 1 := by ring
+        have hcombo := hP_conv hx0P hTP ha hb hab
+        have hx : (1 - t / T) • x0 + (t / T) • (x0 + T • w) = x0 + t • w := by
+          have hcoef : (t / T) * T = t := by field_simp
+          rw [smul_add, smul_smul, hcoef, ← add_assoc, ← add_smul, hab, one_smul]
+        rw [hx] at hcombo
+        exact hcombo
+      have hexit : ∀ t : ℝ, T < t → x0 + t • w ∉ P := by
+        intro t ht hmem
+        have ht0 : 0 ≤ t := le_of_lt (lt_of_le_of_lt hT0 ht)
+        have hle : t ≤ T := le_csSup hA_bdd ⟨ht0, hmem⟩
+        linarith
+      have hactive : ∃ i : Fin (k+1), inner ℝ (a i) x0 < b i ∧
+          inner ℝ (a i) (x0 + T • w) = b i := by
+        by_contra hcon
+        push Not at hcon
+        have hEndP : ∀ i, inner ℝ (a i) (x0 + T • w) ≤ b i := hTP
+        have hmain : ∀ᶠ t in 𝓝[>] T,
+            ∀ i : Fin (k+1), inner ℝ (a i) (x0 + t • w) ≤ b i := by
+          rw [Filter.eventually_all]
+          intro i
+          have hcont : Continuous fun t : ℝ => inner ℝ (a i) (x0 + t • w) := by fun_prop
+          rcases lt_or_eq_of_le (hEndP i) with hlt | heq
+          · refine eventually_nhdsWithin_iff.mpr ?_
+            exact ((hcont.tendsto T).eventually_lt_const hlt).mono
+              (fun t ht _ => le_of_lt ht)
+          · have hx0eq : inner ℝ (a i) x0 = b i :=
+              le_antisymm (hx0P i) (le_of_not_gt fun hlt => hcon i hlt heq)
+            have hwle : inner ℝ (a i) w ≤ 0 := by
+              have hzi : inner ℝ (a i) z ≤ b i := hz i
+              have hsplit : inner ℝ (a i) w
+                  = inner ℝ (a i) z - inner ℝ (a i) x0 := by
+                simp only [w, inner_sub_right]
+              rw [hsplit, hx0eq]
+              linarith
+            refine eventually_nhdsWithin_iff.mpr (Filter.Eventually.of_forall ?_)
+            intro t ht
+            have ht0 : 0 ≤ t := le_of_lt (lt_of_le_of_lt hT0 ht)
+            have hsplit : inner ℝ (a i) (x0 + t • w)
+                = inner ℝ (a i) x0 + t * inner ℝ (a i) w := by
+              rw [inner_add_right, inner_smul_right]
+            rw [hsplit, hx0eq]
+            linarith [mul_nonpos_of_nonneg_of_nonpos ht0 hwle]
+        have hTlt : ∀ᶠ t in 𝓝[>] T, T < t := self_mem_nhdsWithin
+        haveI : (𝓝[>] T).NeBot := nhdsWithin_Ioi_neBot le_rfl
+        obtain ⟨t, hconstr, ht⟩ := (hmain.and hTlt).exists
+        exact (hexit t ht) hconstr
+      obtain ⟨i, hx0lt, hTeq⟩ := hactive
+      have hwpos : 0 < inner ℝ (a i) w := by
+        have hsplit : inner ℝ (a i) (x0 + T • w)
+            = inner ℝ (a i) x0 + T * inner ℝ (a i) w := by
+          rw [inner_add_right, inner_smul_right]
+        rw [hsplit] at hTeq
+        nlinarith
+      have hφend : φ z ≤ φ (x0 + T • w) := by
+        have hw : φ w = φ z - φ x0 := by simp only [w, map_sub]
+        have h2 : φ (x0 + T • w) = φ x0 + T * (φ z - φ x0) := by
+          rw [map_add, map_smul, hw, smul_eq_mul]
+        have hd : 0 < φ z - φ x0 := sub_pos.mpr hφ
+        nlinarith
+      have hfrontier : x0 + T • w ∈ intrinsicFrontier ℝ P := by
+        rw [← intrinsicClosure_diff_intrinsicInterior]
+        refine ⟨subset_intrinsicClosure hTP, ?_⟩
+        intro hmem
+        have hwdir : w ∈ (affineSpan ℝ P).direction := by
+          have h1 : z ∈ affineSpan ℝ P := subset_affineSpan ℝ P hzP
+          have h2 : x0 ∈ affineSpan ℝ P := subset_affineSpan ℝ P hx0P
+          have := AffineSubspace.vsub_mem_direction (s := affineSpan ℝ P) h1 h2
+          simpa only [w] using this
+        obtain ⟨e, he, hmove⟩ := prop51_intrinsicInterior_add_smul_mem hmem hwdir
+        have htmem : x0 + T • w + (e/2) • w ∈ P :=
+          hmove (e/2) (by linarith) (by linarith)
+        have hval := htmem i
+        have hgt : b i < inner ℝ (a i) (x0 + T • w + (e/2) • w) := by
+          have hsplit : inner ℝ (a i) (x0 + T • w + (e/2) • w)
+              = inner ℝ (a i) (x0 + T • w) + (e/2) * inner ℝ (a i) w := by
+            rw [inner_add_right, inner_smul_right]
+          rw [hsplit, hTeq]
+          nlinarith
+        linarith
+      exact ⟨T, hT1, fun t ht0 htT => hseg t ht0 htT, fun t ht => hexit t ht,
+        ⟨i, hx0lt, hTeq⟩, hφend, hfrontier⟩
+
+/-- The ray from an intrinsic interior point through a point of a polyhedron leaves the
+polyhedron at a finite time, at a point of the intrinsic frontier where a defining inequality
+is active, without decreasing a bounded-above linear objective. -/
+private theorem prop51_ray_exit_to_active_face
+    {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V] [FiniteDimensional ℝ V]
+    {m : ℕ} (a : Fin m → V) (b : Fin m → ℝ) (φ : V →ₗ[ℝ] ℝ)
+    (hbdd : ∃ M : ℝ, ∀ x : V,
+      (∀ i : Fin m, inner ℝ (a i) x ≤ b i) → φ x ≤ M)
+    (x0 z : V)
+    (hx0 : x0 ∈ intrinsicInterior ℝ
+      ({x : V | ∀ i : Fin m, inner ℝ (a i) x ≤ b i} : Set V))
+    (hz : ∀ i : Fin m, inner ℝ (a i) z ≤ b i)
+    (hφ : φ x0 < φ z) :
+    ∃ T : ℝ,
+      1 ≤ T ∧
+      (∀ t : ℝ, 0 ≤ t → t ≤ T →
+        ∀ i : Fin m, inner ℝ (a i) (x0 + t • (z - x0)) ≤ b i) ∧
+      (∀ t : ℝ, T < t →
+        ¬ (∀ i : Fin m, inner ℝ (a i) (x0 + t • (z - x0)) ≤ b i)) ∧
+      (∃ i : Fin m, inner ℝ (a i) (x0 + T • (z - x0)) = b i) ∧
+      φ z ≤ φ (x0 + T • (z - x0)) ∧
+      x0 + T • (z - x0) ∈ intrinsicFrontier ℝ
+        ({x : V | ∀ i : Fin m, inner ℝ (a i) x ≤ b i} : Set V) := by
+  obtain ⟨T, hT1, hseg, hexit, ⟨i, _hstrict, hTeq⟩, hφend, hfront⟩ :=
+    prop51_ray_exit_to_active_face_aux a b φ hbdd x0 z hx0 hz hφ
+  exact ⟨T, hT1, hseg, hexit, ⟨i, hTeq⟩, hφend, hfront⟩
+
+/-- For a nonconstant linear objective bounded above on a polyhedron, the supremum over the
+polyhedron equals the supremum over the union of its nontrivial active faces. -/
+private theorem prop51_boundary_carries_supremum
+    {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V] [FiniteDimensional ℝ V]
+    {m : ℕ} (a : Fin m → V) (b : Fin m → ℝ) (φ : V →ₗ[ℝ] ℝ)
+    (hne : ({x : V | ∀ i : Fin m, inner ℝ (a i) x ≤ b i} : Set V).Nonempty)
+    (hbdd : ∃ M : ℝ, ∀ x : V,
+      (∀ i : Fin m, inner ℝ (a i) x ≤ b i) → φ x ≤ M)
+    (hnonconst : ∃ x y : V,
+      (∀ i : Fin m, inner ℝ (a i) x ≤ b i) ∧
+      (∀ i : Fin m, inner ℝ (a i) y ≤ b i) ∧ φ x < φ y) :
+    sSup (φ '' {x : V | ∀ i : Fin m, inner ℝ (a i) x ≤ b i}) =
+      sSup (φ '' {x : V |
+        (∀ i : Fin m, inner ℝ (a i) x ≤ b i) ∧
+        ∃ i : Fin m, inner ℝ (a i) x = b i ∧
+          ∃ y : V, (∀ j : Fin m, inner ℝ (a j) y ≤ b j) ∧
+            inner ℝ (a i) y < b i}) := by
+  classical
+  let P : Set V := {x : V | ∀ i : Fin m, inner ℝ (a i) x ≤ b i}
+  let B : Set V := {x : V | P x ∧ ∃ i : Fin m, inner ℝ (a i) x = b i ∧
+    ∃ y : V, P y ∧ inner ℝ (a i) y < b i}
+  change sSup (φ '' P) = sSup (φ '' B)
+  have hP_conv : Convex ℝ P := by
+    intro x hx y hy s t hs ht hst i
+    have hsplit : inner ℝ (a i) (s • x + t • y)
+        = s * inner ℝ (a i) x + t * inner ℝ (a i) y := by
+      rw [inner_add_right, inner_smul_right, inner_smul_right]
+    rw [hsplit]
+    have hxi : inner ℝ (a i) x ≤ b i := hx i
+    have hyi : inner ℝ (a i) y ≤ b i := hy i
+    have h1 : s * inner ℝ (a i) x ≤ s * b i := mul_le_mul_of_nonneg_left hxi hs
+    have h2 : t * inner ℝ (a i) y ≤ t * b i := mul_le_mul_of_nonneg_left hyi ht
+    have h3 : s * b i + t * b i = b i := by rw [← add_mul, hst, one_mul]
+    linarith
+  have hBdd : BddAbove (φ '' P) := by
+    rcases hbdd with ⟨M, hM⟩
+    refine ⟨M, ?_⟩
+    rintro y ⟨x, hxP, rfl⟩
+    exact hM x hxP
+  obtain ⟨x0, hx0⟩ := hne.intrinsicInterior hP_conv
+  have hx0P : x0 ∈ P := intrinsicInterior_subset hx0
+  have hneImage : (φ '' P).Nonempty := ⟨φ x0, x0, hx0P, rfl⟩
+  have hx0_le_s : φ x0 ≤ sSup (φ '' P) := le_csSup hBdd ⟨x0, hx0P, rfl⟩
+  have hs_lt : φ x0 < sSup (φ '' P) := by
+    by_contra hnot
+    have hEq : φ x0 = sSup (φ '' P) := le_antisymm hx0_le_s (le_of_not_gt hnot)
+    rcases hnonconst with ⟨x, y, hxP, hyP, hxylt⟩
+    have hyle : φ y ≤ φ x0 := by
+      rw [hEq]
+      exact le_csSup hBdd ⟨y, hyP, rfl⟩
+    have hxlt : φ x < φ x0 := lt_of_lt_of_le hxylt hyle
+    have hwdir : -(x - x0) ∈ (affineSpan ℝ P).direction := by
+      have h1 : x ∈ affineSpan ℝ P := subset_affineSpan ℝ P hxP
+      have h2 : x0 ∈ affineSpan ℝ P := subset_affineSpan ℝ P hx0P
+      exact Submodule.neg_mem _ (AffineSubspace.vsub_mem_direction h1 h2)
+    obtain ⟨e, he, hmove⟩ := prop51_intrinsicInterior_add_smul_mem hx0 hwdir
+    have hmem : x0 + (e/2) • (-(x - x0)) ∈ P :=
+      hmove (e/2) (by linarith) (by linarith)
+    have hval : φ (x0 + (e/2) • (-(x - x0))) = φ x0 - (e/2) * (φ x - φ x0) := by
+      rw [map_add, map_smul, map_neg, map_sub, smul_eq_mul]
+      ring
+    have hbound : φ (x0 + (e/2) • (-(x - x0))) ≤ sSup (φ '' P) :=
+      le_csSup hBdd ⟨_, hmem, rfl⟩
+    rw [hval, hEq] at hbound
+    nlinarith
+  have hclaim : ∀ c : ℝ, c < sSup (φ '' P) → ∃ q ∈ B, c < φ q := by
+    intro c hc
+    have hmaxlt : max c (φ x0) < sSup (φ '' P) := max_lt hc hs_lt
+    obtain ⟨v, hv, hvgt⟩ := (lt_csSup_iff hBdd hneImage).mp hmaxlt
+    obtain ⟨z, hzP, rfl⟩ := hv
+    have hzgtc : c < φ z := lt_of_le_of_lt (le_max_left _ _) hvgt
+    have hzgtx0 : φ x0 < φ z := lt_of_le_of_lt (le_max_right _ _) hvgt
+    obtain ⟨T, hT1, hseg, _hexit, ⟨i, hx0strict, hTeq⟩, hφend, _hfront⟩ :=
+      prop51_ray_exit_to_active_face_aux a b φ hbdd x0 z hx0 hzP hzgtx0
+    refine ⟨x0 + T • (z - x0), ?_, lt_of_lt_of_le hzgtc hφend⟩
+    exact ⟨hseg T (le_trans zero_le_one hT1) le_rfl, i, hTeq, x0, hx0P, hx0strict⟩
+  have hB_subset_P : B ⊆ P := fun x hx => hx.1
+  obtain ⟨q0, hq0B, _⟩ := hclaim (φ x0) hs_lt
+  have hBne : (φ '' B).Nonempty := ⟨φ q0, q0, hq0B, rfl⟩
+  have hBddB : BddAbove (φ '' B) := hBdd.mono (Set.image_mono hB_subset_P)
+  have hle1 : sSup (φ '' B) ≤ sSup (φ '' P) :=
+    csSup_le hBne fun y hy => le_csSup hBdd (Set.image_mono hB_subset_P hy)
+  have hle2 : sSup (φ '' P) ≤ sSup (φ '' B) := by
+    by_contra hnot
+    have hlt : sSup (φ '' B) < sSup (φ '' P) := lt_of_not_ge hnot
+    obtain ⟨q, hqB, hqgt⟩ := hclaim (sSup (φ '' B)) hlt
+    have hle : φ q ≤ sSup (φ '' B) := le_csSup hBddB ⟨q, hqB, rfl⟩
+    linarith
+  exact le_antisymm hle2 hle1
+
+/-- A bounded linear objective on a halfspace-free (full space) polyhedron is constant. -/
+private theorem prop51_polyhedron_max_fin_zero
+    {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
+    {a : Fin 0 → V} (b : Fin 0 → ℝ) (φ : V →ₗ[ℝ] ℝ)
+    (hbdd : ∃ M : ℝ, ∀ x : V,
+      (∀ i : Fin 0, inner ℝ (a i) x ≤ b i) → φ x ≤ M) :
+    ∃ x : V, (∀ i : Fin 0, inner ℝ (a i) x ≤ b i) ∧
+      ∀ y : V, (∀ i : Fin 0, inner ℝ (a i) y ≤ b i) → φ y ≤ φ x := by
+  have hphi : φ = 0 := by
+    ext x
+    rcases hbdd with ⟨M, hM⟩
+    by_contra hxne
+    rcases lt_or_gt_of_ne (Ne.symm hxne) with hpos | hneg
+    · have htval : ((M + 1) / φ x) * φ x = M + 1 := by
+        rw [div_mul_cancel₀ _ (ne_of_gt hpos)]
+      have hle := hM (((M + 1) / φ x) • x) (fun i => i.elim0)
+      rw [map_smul, smul_eq_mul, htval] at hle
+      linarith
+    · have hpos' : 0 < φ (-x) := by rw [map_neg]; exact neg_pos.mpr hneg
+      have htval : ((M + 1) / φ (-x)) * φ (-x) = M + 1 := by
+        rw [div_mul_cancel₀ _ (ne_of_gt hpos')]
+      have hle := hM (((M + 1) / φ (-x)) • (-x)) (fun i => i.elim0)
+      rw [map_smul, smul_eq_mul, htval] at hle
+      linarith
+  refine ⟨0, (fun i => i.elim0), fun y hy => ?_⟩
+  simp [hphi]
+
+/-- Activating one halfspace constraint cuts the affine dimension down by at least one,
+provided the constraint is nontrivial on the polyhedron and the face is nonempty. -/
+private theorem prop51_active_face_finrank_lt
+    {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V] [FiniteDimensional ℝ V]
+    {m : ℕ} {a : Fin m → V} {b : Fin m → ℝ} (i : Fin m)
+    {mF : ℕ} {aF : Fin mF → V} {bF : Fin mF → ℝ}
+    (hF : ∀ x : V, (∀ k : Fin mF, inner ℝ (aF k) x ≤ bF k) ↔
+      ((∀ j : Fin m, inner ℝ (a j) x ≤ b j) ∧ inner ℝ (a i) x = b i))
+    (hne : ({x : V | (∀ j : Fin m, inner ℝ (a j) x ≤ b j) ∧
+      inner ℝ (a i) x = b i} : Set V).Nonempty)
+    (hntriv : ∃ y : V, (∀ j : Fin m, inner ℝ (a j) y ≤ b j) ∧
+      inner ℝ (a i) y < b i) :
+    Module.finrank ℝ (affineSpan ℝ
+        ({x : V | ∀ k : Fin mF, inner ℝ (aF k) x ≤ bF k} : Set V)).direction <
+      Module.finrank ℝ (affineSpan ℝ
+        ({x : V | ∀ j : Fin m, inner ℝ (a j) x ≤ b j} : Set V)).direction := by
+  classical
+  set P : Set V := {x : V | ∀ j : Fin m, inner ℝ (a j) x ≤ b j} with hPdef
+  set E : Set V := {x : V | ∀ k : Fin mF, inner ℝ (aF k) x ≤ bF k} with hEdef
+  have hEP : E ⊆ P := by
+    intro x hx
+    exact ((hF x).mp hx).1
+  obtain ⟨x₁, hx₁P, hx₁eq⟩ := hne
+  have hx₁E : x₁ ∈ E := (hF x₁).mpr ⟨hx₁P, hx₁eq⟩
+  set f : V →ₗ[ℝ] ℝ := (innerSL ℝ (a i) : V →ₗ[ℝ] ℝ) with hf
+  have hfapply : ∀ x : V, f x = inner ℝ (a i) x := fun x => rfl
+  set W : Submodule ℝ V := (affineSpan ℝ P).direction with hW
+  set K : Submodule ℝ V := LinearMap.ker f with hK
+  have hle : (affineSpan ℝ E).direction ≤ W ⊓ K := by
+    refine le_inf ?_ ?_
+    · exact AffineSubspace.direction_le (affineSpan_mono ℝ hEP)
+    · rw [direction_affineSpan, vectorSpan_eq_span_vsub_set_right ℝ hx₁E]
+      refine Submodule.span_le.mpr ?_
+      rintro _ ⟨x, hx, rfl⟩
+      change f (x -ᵥ x₁) = 0
+      have hxE := (hF x).mp hx
+      have hsub : f (x -ᵥ x₁) = f x - f x₁ := by
+        simp [vsub_eq_sub]
+      rw [hsub, hfapply, hfapply, hxE.2, hx₁eq, sub_self]
+  have hmono : Module.finrank ℝ (affineSpan ℝ E).direction ≤
+      Module.finrank ℝ ↥(W ⊓ K) :=
+    Submodule.finrank_mono hle
+  obtain ⟨y, hyP, hylt⟩ := hntriv
+  have hmemdir : x₁ -ᵥ y ∈ W :=
+    AffineSubspace.vsub_mem_direction (subset_affineSpan ℝ P hx₁P)
+      (subset_affineSpan ℝ P hyP)
+  have hcomp_ne : f.comp W.subtype ≠ 0 := by
+    intro hzero
+    have hval : f (x₁ -ᵥ y) = 0 := by
+      have := DFunLike.congr_fun hzero ⟨x₁ -ᵥ y, hmemdir⟩
+      simpa using this
+    have hsub : f (x₁ -ᵥ y) = f x₁ - f y := by
+      simp [vsub_eq_sub]
+    rw [hsub, hfapply, hfapply, hx₁eq] at hval
+    linarith
+  have hker_map : (LinearMap.ker (f.comp W.subtype)).map W.subtype = W ⊓ K := by
+    rw [LinearMap.ker_comp]
+    ext v
+    constructor
+    · rintro ⟨w, hw, rfl⟩
+      exact ⟨w.2, hw⟩
+    · rintro ⟨hvW, hvker⟩
+      exact ⟨⟨v, hvW⟩, hvker, rfl⟩
+  have hfin : Module.finrank ℝ ↥(W ⊓ K) =
+      Module.finrank ℝ (LinearMap.ker (f.comp W.subtype)) := by
+    rw [← hker_map, Submodule.finrank_map_subtype_eq]
+  have hdual := Module.Dual.finrank_ker_add_one_of_ne_zero hcomp_ne
+  have hmono' : Module.finrank ℝ (affineSpan ℝ E).direction ≤
+      Module.finrank ℝ (LinearMap.ker (f.comp W.subtype)) := by
+    rw [← hfin]; exact hmono
+  calc Module.finrank ℝ (affineSpan ℝ E).direction
+      ≤ Module.finrank ℝ (LinearMap.ker (f.comp W.subtype)) := hmono'
+    _ < Module.finrank ℝ (affineSpan ℝ P).direction := by
+        rw [← hW]; omega
+
+/-- Strong induction on the affine dimension: a linear functional that is bounded above on a
+nonempty finite halfspace polyhedron attains its maximum. -/
+private theorem prop51_finite_dim_polyhedron_max_aux :
+    ∀ (n : ℕ) {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
+      [FiniteDimensional ℝ V]
+      (m : ℕ) (a : Fin m → V) (b : Fin m → ℝ) (φ : V →ₗ[ℝ] ℝ),
+      Module.finrank ℝ (affineSpan ℝ
+        ({x : V | ∀ i : Fin m, inner ℝ (a i) x ≤ b i} : Set V)).direction ≤ n →
+      ({x : V | ∀ i : Fin m, inner ℝ (a i) x ≤ b i} : Set V).Nonempty →
+      (∃ M : ℝ, ∀ x : V, (∀ i : Fin m, inner ℝ (a i) x ≤ b i) → φ x ≤ M) →
+      ∃ x : V, (∀ i : Fin m, inner ℝ (a i) x ≤ b i) ∧
+        ∀ y : V, (∀ i : Fin m, inner ℝ (a i) y ≤ b i) → φ y ≤ φ x := by
+  intro n
+  induction n with
+  | zero =>
+    intro V _ _ _ m a b φ hdim hne _hbdd
+    classical
+    obtain ⟨p, hp⟩ := hne
+    refine ⟨p, hp, fun y hy => ?_⟩
+    have hdir : (affineSpan ℝ
+        ({x : V | ∀ i : Fin m, inner ℝ (a i) x ≤ b i} : Set V)).direction = ⊥ :=
+      Submodule.finrank_eq_zero.mp (Nat.le_zero.mp hdim)
+    have hmem : y -ᵥ p ∈ (affineSpan ℝ
+        ({x : V | ∀ i : Fin m, inner ℝ (a i) x ≤ b i} : Set V)).direction :=
+      AffineSubspace.vsub_mem_direction (subset_affineSpan ℝ _ hy) (subset_affineSpan ℝ _ hp)
+    rw [hdir, Submodule.mem_bot] at hmem
+    have hyx : y = p := by
+      have : y - p = 0 := by simpa [vsub_eq_sub] using hmem
+      exact sub_eq_zero.mp this
+    rw [hyx]
+  | succ n ih =>
+    intro V _ _ _ m a b φ hdim hne hbdd
+    classical
+    cases m with
+    | zero => exact prop51_polyhedron_max_fin_zero b φ hbdd
+    | succ m' =>
+      let P : Set V := {x : V | ∀ i : Fin (m' + 1), inner ℝ (a i) x ≤ b i}
+      by_cases hconst : ∀ x ∈ P, ∀ y ∈ P, φ x = φ y
+      · obtain ⟨p, hp⟩ := hne
+        exact ⟨p, hp, fun y hy => le_of_eq (hconst p hp y hy).symm⟩
+      · push Not at hconst
+        obtain ⟨xb, hxbP, yb, hybP, hneφ⟩ := hconst
+        have hnonconst : ∃ x y : V, P x ∧ P y ∧ φ x < φ y := by
+          rcases lt_or_gt_of_ne hneφ with h | h
+          · exact ⟨xb, yb, hxbP, hybP, h⟩
+          · exact ⟨yb, xb, hybP, hxbP, h⟩
+        have hBdry := prop51_boundary_carries_supremum a b φ hne hbdd hnonconst
+        let Ntriv : Fin (m' + 1) → Prop := fun i =>
+          ∃ y : V, P y ∧ inner ℝ (a i) y < b i
+        let B : Set V := {x : V | P x ∧ ∃ i : Fin (m' + 1),
+          inner ℝ (a i) x = b i ∧ Ntriv i}
+        have hsB : sSup (φ '' P) = sSup (φ '' B) := by
+          simpa only [P, B, Ntriv] using hBdry
+        have hBsubP : B ⊆ P := fun x hx => hx.1
+        have hBddP : BddAbove (φ '' P) := by
+          rcases hbdd with ⟨M, hM⟩
+          exact ⟨M, by rintro _ ⟨x, hx, rfl⟩; exact hM x hx⟩
+        have hPnonempty : (φ '' P).Nonempty := by
+          obtain ⟨p, hp⟩ := hne
+          exact ⟨φ p, p, hp, rfl⟩
+        have hPconv : Convex ℝ P := by
+          intro x hx y hy s t hs ht hst i
+          simp only [P, Set.mem_setOf_eq] at hx hy ⊢
+          have hsplit : inner ℝ (a i) (s • x + t • y) =
+              s * inner ℝ (a i) x + t * inner ℝ (a i) y := by
+            rw [inner_add_right, inner_smul_right, inner_smul_right]
+          rw [hsplit]
+          have h1 := mul_le_mul_of_nonneg_left (hx i) hs
+          have h2 := mul_le_mul_of_nonneg_left (hy i) ht
+          have h3 : s * b i + t * b i = b i := by rw [← add_mul, hst, one_mul]
+          linarith
+        obtain ⟨x0, hx0int⟩ := hne.intrinsicInterior hPconv
+        have hx0P : x0 ∈ P := intrinsicInterior_subset hx0int
+        by_cases hatt : φ x0 = sSup (φ '' P)
+        · exact ⟨x0, hx0P, fun y hy => by
+            rw [hatt]; exact le_csSup hBddP ⟨y, hy, rfl⟩⟩
+        · have hslt : φ x0 < sSup (φ '' P) :=
+            lt_of_le_of_ne (le_csSup hBddP ⟨x0, hx0P, rfl⟩) hatt
+          obtain ⟨rz, hrzmem, hzgt⟩ := (lt_csSup_iff hBddP hPnonempty).mp hslt
+          obtain ⟨z, hzP, rfl⟩ := hrzmem
+          obtain ⟨T, hT1, hseg, _hexit, ⟨iray, hx0strict, hTeq⟩, _hφend, _hfront⟩ :=
+            prop51_ray_exit_to_active_face_aux a b φ hbdd x0 z
+              (by simpa only [P] using hx0int) (by simpa only [P] using hzP) hzgt
+          have hBne : (φ '' B).Nonempty := by
+            refine ⟨φ (x0 + T • (z - x0)), x0 + T • (z - x0), ?_, rfl⟩
+            exact ⟨hseg T (le_trans zero_le_one hT1) le_rfl, iray, hTeq, x0, hx0P, hx0strict⟩
+          let aE : Fin (m' + 1) → Fin ((m' + 1) + 2) → V := fun i =>
+            Fin.append a (fun j : Fin 2 => if j = 0 then a i else -a i)
+          let bE : Fin (m' + 1) → Fin ((m' + 1) + 2) → ℝ := fun i =>
+            Fin.append b (fun j : Fin 2 => if j = 0 then b i else -b i)
+          let Eset : Fin (m' + 1) → Set V := fun i =>
+            {x : V | ∀ k : Fin ((m' + 1) + 2), inner ℝ (aE i k) x ≤ bE i k}
+          have hface : ∀ i : Fin (m' + 1), ∀ x : V,
+              (x ∈ Eset i) ↔ (P x ∧ inner ℝ (a i) x = b i) := by
+            intro i x
+            change (∀ k : Fin ((m' + 1) + 2), inner ℝ (aE i k) x ≤ bE i k) ↔
+              ((∀ j : Fin (m' + 1), inner ℝ (a j) x ≤ b j) ∧
+                inner ℝ (a i) x = b i)
+            rw [Fin.forall_fin_add (fun k => inner ℝ (aE i k) x ≤ bE i k)]
+            simp only [aE, bE, Fin.append_left, Fin.append_right]
+            constructor
+            · intro h
+              exact ⟨h.1, le_antisymm (by simpa using h.2 0)
+                (by simpa [inner_neg_left, neg_le_neg_iff] using h.2 1)⟩
+            · rintro ⟨hall, heq⟩
+              exact ⟨hall, by intro j; fin_cases j <;> simp [heq, inner_neg_left]⟩
+          have ihface : ∀ i : Fin (m' + 1), (Eset i).Nonempty → Ntriv i →
+              ∃ x : V, x ∈ Eset i ∧ ∀ y : V, y ∈ Eset i → φ y ≤ φ x := by
+            intro i hE hN
+            have hEne : ({x : V | (∀ j : Fin (m' + 1), inner ℝ (a j) x ≤ b j) ∧
+                inner ℝ (a i) x = b i} : Set V).Nonempty :=
+              hE.mono (fun x hx => by
+                have := (hface i x).mp hx
+                simpa only [P] using this)
+            have hlt := prop51_active_face_finrank_lt (a := a) (b := b) i
+              (aF := aE i) (bF := bE i)
+              (fun x => by simpa only [Eset] using hface i x) hEne
+              (by simpa only [P, Ntriv] using hN)
+            have hdimE : Module.finrank ℝ (affineSpan ℝ (Eset i)).direction ≤ n := by
+              have hlt' : Module.finrank ℝ (affineSpan ℝ (Eset i)).direction <
+                  Module.finrank ℝ (affineSpan ℝ P).direction := hlt
+              have hPdim : Module.finrank ℝ (affineSpan ℝ P).direction ≤ n + 1 := hdim
+              omega
+            have hbddE : ∃ M : ℝ, ∀ x : V,
+                (∀ k : Fin ((m' + 1) + 2), inner ℝ (aE i k) x ≤ bE i k) →
+                  φ x ≤ M := by
+              rcases hbdd with ⟨M, hM⟩
+              refine ⟨M, fun x hx => hM x ?_⟩
+              exact ((hface i x).mp hx).1
+            obtain ⟨x, hxmem, hxmax⟩ := ih ((m' + 1) + 2) (aE i) (bE i) φ hdimE hE hbddE
+            exact ⟨x, hxmem, hxmax⟩
+          let gm : Fin (m' + 1) → V := fun i =>
+            if h : (Eset i).Nonempty ∧ Ntriv i then
+              Classical.choose (ihface i h.1 h.2)
+            else x0
+          have hgm_mem : ∀ i, gm i ∈ P := by
+            intro i
+            by_cases h : (Eset i).Nonempty ∧ Ntriv i
+            · have hmem : gm i ∈ Eset i := by
+                simp only [gm]
+                rw [dif_pos h]
+                exact (Classical.choose_spec (ihface i h.1 h.2)).1
+              exact ((hface i (gm i)).mp hmem).1
+            · have hx : gm i = x0 := by
+                simp only [gm]
+                rw [dif_neg h]
+              rw [hx]; exact hx0P
+          have hgm_max : ∀ i (h : (Eset i).Nonempty ∧ Ntriv i), ∀ y : V,
+              y ∈ Eset i → φ y ≤ φ (gm i) := by
+            intro i h y hy
+            have hgi : gm i = Classical.choose (ihface i h.1 h.2) := by
+              simp only [gm]
+              rw [dif_pos h]
+            rw [hgi]
+            exact (Classical.choose_spec (ihface i h.1 h.2)).2 y hy
+          obtain ⟨iStar, _, hiStar⟩ := Finset.exists_max_image
+            (Finset.univ : Finset (Fin (m' + 1))) (fun i => φ (gm i))
+            Finset.univ_nonempty
+          refine ⟨gm iStar, hgm_mem iStar, fun y hy => ?_⟩
+          have hle : φ (gm iStar) ≤ sSup (φ '' P) :=
+            le_csSup hBddP ⟨gm iStar, hgm_mem iStar, rfl⟩
+          have hge : sSup (φ '' P) ≤ φ (gm iStar) := by
+            by_contra hcon
+            have hlt : φ (gm iStar) < sSup (φ '' P) := lt_of_not_ge hcon
+            rw [hsB] at hlt
+            have hBddB : BddAbove (φ '' B) := hBddP.mono (Set.image_mono hBsubP)
+            obtain ⟨rw, hrwmem, hwgt⟩ := (lt_csSup_iff hBddB hBne).mp hlt
+            obtain ⟨w, hwB, rfl⟩ := hrwmem
+            obtain ⟨hwP, i, hweq, hwiN⟩ := hwB
+            have hwE : w ∈ Eset i := (hface i w).mpr ⟨hwP, hweq⟩
+            have hmaxi := hgm_max i ⟨⟨w, hwE⟩, hwiN⟩ w hwE
+            have hmi := hiStar i (Finset.mem_univ i)
+            linarith
+          have heq : φ (gm iStar) = sSup (φ '' P) := le_antisymm hle hge
+          rw [heq]
+          exact le_csSup hBddP ⟨y, hy, rfl⟩
+
+omit [CompleteSpace H] in
+/-- A linear functional bounded above on a finite halfspace polyhedron attains its maximum. -/
+private theorem prop51_finite_dim_polyhedron_max
+    {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V] [FiniteDimensional ℝ V]
+    {m : ℕ} (a : Fin m → V) (b : Fin m → ℝ) (φ : V →ₗ[ℝ] ℝ)
+    (hne : ({x : V | ∀ i : Fin m, inner ℝ (a i) x ≤ b i} : Set V).Nonempty)
+    (hbdd : ∃ M : ℝ, ∀ x : V,
+      (∀ i : Fin m, inner ℝ (a i) x ≤ b i) → φ x ≤ M) :
+    ∃ x : V, (∀ i : Fin m, inner ℝ (a i) x ≤ b i) ∧
+      ∀ y : V, (∀ i : Fin m, inner ℝ (a i) y ≤ b i) → φ y ≤ φ x := by
+  exact prop51_finite_dim_polyhedron_max_aux _ m a b φ le_rfl hne hbdd
+
+omit [CompleteSpace H] in
+/-- A bounded linear objective on a nonempty polyhedron is realized at a point of the polyhedron. -/
+private theorem prop51_polyhedron_support_attainment {C : Set H}
+    (hpoly : ConvexPolyhedron C) (hCne : C.Nonempty) {v : H}
+    (hbound : ∃ M : ℝ, ∀ y ∈ C, inner ℝ y v ≤ M) :
+    ∃ xi : H, xi ∈ C ∧ supportFunction C v = (inner ℝ xi v : EReal) := by
+  classical
+  rcases hpoly with ⟨m, a, b, hCeq⟩
+  let V : Submodule ℝ H := Submodule.span ℝ (Set.range a)
+  haveI : FiniteDimensional ℝ V :=
+    FiniteDimensional.span_of_finite ℝ (Set.finite_range a)
+  have hvV : v ∈ V :=
+    prop51_objective_mem_span_normals_of_bddAbove hCeq hCne hbound
+  let aV : Fin m → V := fun i => ⟨a i, Submodule.subset_span ⟨i, rfl⟩⟩
+  let φV : V →ₗ[ℝ] ℝ := ((innerSL ℝ v).comp V.subtypeL : V →L[ℝ] ℝ)
+  have hneV : ({x : V | ∀ i : Fin m, inner ℝ (aV i) x ≤ b i} : Set V).Nonempty := by
+    rcases hCne with ⟨c0, hc0⟩
+    refine ⟨⟨V.starProjection c0, Submodule.starProjection_apply_mem V c0⟩, ?_⟩
+    intro i
+    have hprojC : (V.starProjection c0 : H) ∈ C :=
+      prop51_projection_preserves_polyhedron_constraints hCeq c0 hc0
+    have hprojC' : ∀ i : Fin m,
+        inner ℝ (a i) (V.starProjection c0) ≤ b i := by
+      simpa [hCeq] using hprojC
+    simpa [aV] using hprojC' i
+  have hbddV : ∃ M : ℝ, ∀ x : V,
+      (∀ i : Fin m, inner ℝ (aV i) x ≤ b i) → φV x ≤ M := by
+    rcases hbound with ⟨M, hM⟩
+    refine ⟨M, ?_⟩
+    intro x hx
+    have hxC : (x : H) ∈ C := by
+      rw [hCeq]
+      intro i
+      simpa [aV] using hx i
+    have hxM : inner ℝ (x : H) v ≤ M := hM (x : H) hxC
+    simpa [φV, real_inner_comm] using hxM
+  rcases prop51_finite_dim_polyhedron_max aV b φV hneV hbddV with
+    ⟨xV, hxVP, hxVmax⟩
+  let xi : H := xV
+  have hxiC : xi ∈ C := by
+    rw [hCeq]
+    intro i
+    simpa [xi, aV] using hxVP i
+  have hmax : ∀ y ∈ C, inner ℝ y v ≤ inner ℝ xi v := by
+    intro y hy
+    let yV : V := ⟨V.starProjection y, Submodule.starProjection_apply_mem V y⟩
+    have hyVC : (yV : H) ∈ C :=
+      prop51_projection_preserves_polyhedron_constraints hCeq y hy
+    have hyVP : ∀ i : Fin m, inner ℝ (aV i) yV ≤ b i := by
+      intro i
+      have hyVC' : ∀ i : Fin m, inner ℝ (a i) (yV : H) ≤ b i := by
+        simpa [hCeq] using hyVC
+      simpa [aV, yV] using hyVC' i
+    have hle := hxVmax yV hyVP
+    have hproj : inner ℝ (yV : H) v = inner ℝ y v :=
+      prop51_projection_preserves_objective_of_mem_span (a := a) (v := v) (y := y) hvV
+    calc
+      inner ℝ y v = inner ℝ (yV : H) v := hproj.symm
+      _ = inner ℝ v (yV : H) := real_inner_comm _ _
+      _ = φV yV := rfl
+      _ ≤ φV xV := hle
+      _ = inner ℝ v xi := rfl
+      _ = inner ℝ xi v := real_inner_comm _ _
+  exact ⟨xi, hxiC, prop51_supportFunction_eq_of_maximizer hxiC hmax⟩
+
+omit [CompleteSpace H] in
 /-- Normal cones of a finite halfspace representation are locally stable along active sets. -/
 private theorem prop51_normalCone_stability_convexPolyhedron {C : Set H}
     (hpoly : ConvexPolyhedron C) {xbar : H} (hxbar : xbar ∈ C) :
@@ -1136,11 +1847,14 @@ private theorem prop51_normalCone_stability_convexPolyhedron {C : Set H}
 
 /-- Proposition 5.1: eventual direction lies in the normal cone. -/
 theorem prop_5_1 (A B : SetValuedOperator H H)
-    (hA : IsMaximalMonotone A) (hdomA : A.dom = Set.univ) (hAzero_int : (0 : H) ∈ interior (A (0 : H)))
+    (hA : IsMaximalMonotone A) (hdomA : A.dom = Set.univ)
+    (hAzero_int : (0 : H) ∈ interior (A (0 : H)))
     (h_polyhedron : ConvexPolyhedron (A (0 : H)))
-    (h_condition : Filter.Tendsto (fun (x : H) => excess (A x) (subderivative (supportFunction (A (0 : H))) x))
+    (h_condition : Filter.Tendsto
+      (fun (x : H) => setExcess (A x) (subderivative (supportFunction (A (0 : H))) x))
       (𝓝 (0 : H)) (𝓝 0))
-    (f : H → ℝ) (hf_conv : ConvexOn ℝ Set.univ f) (hf_C1 : ContDiff ℝ 1 f) (hinf : ∃ m, ∀ x, f x ≥ m)
+    (f : H → ℝ) (hf_conv : ConvexOn ℝ Set.univ f) (hf_C1 : ContDiff ℝ 1 f)
+    (hinf : ∃ m, ∀ x, f x ≥ m)
     (hB_eq_grad : B = SetValuedOperator.ofFunction Set.univ
       (fun x : (Set.univ : Set H) => gradient f x.1))
     (lam : ℕ → ℝ) (hlam_pos : ∀ n, lam n > 0) (hlam_nondec : ∀ n, lam n ≤ lam (n+1))
@@ -1197,14 +1911,13 @@ theorem prop_5_1 (A B : SetValuedOperator H H)
     have hbound : ∃ M : ℝ, ∀ y ∈ C, inner ℝ y (v n) ≤ M := by
       refine ⟨inner ℝ (a n) (v n), ?_⟩
       intro y hy
-      have hmono := hA.1 (a n) ha_mem y (by simpa [C] using hy)
-      rw [sub_zero, inner_sub_left] at hmono
-      linarith
-    -- Remaining round-4 blocker: prove finite-halfspace support attainment for `C`
-    -- from `h_polyhedron`, `hCne`, and the monotonicity-derived `hbound`.
-    sorry
+      exact prop51_monotone_bound A hA.1 ha_mem (by simpa [C] using hy)
+    rcases prop51_polyhedron_support_attainment h_polyhedron hCne hbound with
+      ⟨xi, hxiC, hmax⟩
+    exact ⟨xi, by
+      simpa [S] using prop51_support_attainer_mem_subderivative hxiC hmax⟩
   have hexcess_tendsto :
-      Tendsto (fun n => excess (A (v n)) (S n)) atTop (𝓝 0) := by
+      Tendsto (fun n => setExcess (A (v n)) (S n)) atTop (𝓝 0) := by
     simpa [S, C, v] using h_condition.comp hv_tendsto
   rcases prop51_normalCone_stability_convexPolyhedron h_polyhedron hxbarC with
     ⟨V, hVnhds, hVstable⟩
@@ -1217,12 +1930,12 @@ theorem prop_5_1 (A B : SetValuedOperator H H)
     hv_tendsto.eventually (Metric.ball_mem_nhds _ hδpos)
   have ha_event : ∀ᶠ n in atTop, a n ∈ Metric.ball xbar (eps / 8) :=
     ha_tendsto.eventually (Metric.ball_mem_nhds _ heps8_pos)
-  have hexcess_event : ∀ᶠ n in atTop, excess (A (v n)) (S n) ≤ eps / 8 := by
+  have hexcess_event : ∀ᶠ n in atTop, setExcess (A (v n)) (S n) ≤ eps / 8 := by
     have hball_event :
-        ∀ᶠ n in atTop, excess (A (v n)) (S n) ∈ Metric.ball (0 : ℝ) (eps / 8) :=
+        ∀ᶠ n in atTop, setExcess (A (v n)) (S n) ∈ Metric.ball (0 : ℝ) (eps / 8) :=
       hexcess_tendsto.eventually (Metric.ball_mem_nhds (0 : ℝ) heps8_pos)
     filter_upwards [hball_event] with n hn
-    have habs : |excess (A (v n)) (S n)| < eps / 8 := by
+    have habs : |setExcess (A (v n)) (S n)| < eps / 8 := by
       simpa [Metric.mem_ball, Real.dist_eq] using hn
     exact le_of_lt (lt_of_le_of_lt (le_abs_self _) habs)
   have hdiff_eventual :
@@ -1260,7 +1973,7 @@ theorem prop_5_1 (A B : SetValuedOperator H H)
       rw [smul_smul]
       have hmul : lam n * (lam n)⁻¹ = 1 := by
         field_simp [ne_of_gt (hlam_pos n)]
-      simpa [hmul]
+      simp [hmul]
     simpa [hrewrite] using hscaled
   rcases Filter.eventually_atTop.mp hdiff_eventual with ⟨N, hN⟩
   refine ⟨N + 1, ?_⟩

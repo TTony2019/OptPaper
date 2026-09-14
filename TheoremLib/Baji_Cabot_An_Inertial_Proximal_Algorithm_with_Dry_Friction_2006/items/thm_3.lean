@@ -35,6 +35,7 @@ open Set
 open Filter
 variable {H : Type _} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
 
+omit [CompleteSpace H] in
 /-- A bounded finite-halfspace polyhedron with nonempty interior forces finite dimension. -/
 private theorem thm51_finiteDimensional_of_bounded_polyhedron_interior
     {C : Set H} (hC_polyhedron : ConvexPolyhedron C)
@@ -86,6 +87,7 @@ private theorem thm51_finiteDimensional_of_bounded_polyhedron_interior
   letI : FiniteDimensional ℝ (⊤ : Submodule ℝ H) := htopfin
   exact (Submodule.topEquiv : (⊤ : Submodule ℝ H) ≃ₗ[ℝ] H).finiteDimensional
 
+omit [CompleteSpace H] in
 /-- The support function of a set containing the origin vanishes at the origin. -/
 private theorem thm51_supportFunction_zero (C : Set H) (hC0 : (0 : H) ∈ C) :
     supportFunction C (0 : H) = 0 := by
@@ -102,12 +104,14 @@ private theorem thm51_supportFunction_zero (C : Set H) (hC0 : (0 : H) ∈ C) :
   rw [h_image]
   simp
 
+omit [CompleteSpace H] in
 /-- Every point of a set lies below its support function. -/
 private theorem thm51_inner_le_supportFunction {C : Set H} {z y : H} (hz : z ∈ C) :
     (inner ℝ z y : EReal) ≤ supportFunction C y := by
   unfold supportFunction
   exact le_sSup ⟨z, hz, rfl⟩
 
+omit [CompleteSpace H] in
 /-- Boundedness rules out `⊤` values of the support function. -/
 private theorem thm51_supportFunction_ne_top_of_bounded (C : Set H)
     (hC_bounded : Bornology.IsBounded C) (y : H) :
@@ -131,6 +135,7 @@ private theorem thm51_supportFunction_ne_top_of_bounded (C : Set H)
     simpa [htop] using hupper
   exact (EReal.coe_ne_top (R * ‖y‖)) (top_le_iff.mp htop_le)
 
+omit [CompleteSpace H] in
 /-- Nonemptiness rules out `⊥` values of the support function. -/
 private theorem thm51_supportFunction_ne_bot_of_nonempty {C : Set H}
     (hC_nonempty : C.Nonempty) (y : H) :
@@ -142,6 +147,7 @@ private theorem thm51_supportFunction_ne_bot_of_nonempty {C : Set H}
   rw [hbot] at hle
   simp at hle
 
+omit [CompleteSpace H] in
 /-- The support function is subadditive. -/
 private theorem thm51_supportFunction_add_le (C : Set H) (u v : H) :
     supportFunction C (u + v) ≤ supportFunction C u + supportFunction C v := by
@@ -160,6 +166,7 @@ private theorem thm51_supportFunction_add_le (C : Set H) (u v : H) :
     simpa [EReal.coe_add] using add_le_add hu hv
   simpa [inner_add_right] using hsum
 
+omit [CompleteSpace H] in
 /-- A support-function subgradient bounds the support value by its evaluation. -/
 private theorem thm51_subderivative_support_upper {C : Set H} {v xi : H}
     (hC0 : (0 : H) ∈ C) (hxi : xi ∈ subderivative (supportFunction C) v) :
@@ -169,6 +176,7 @@ private theorem thm51_subderivative_support_upper {C : Set H} {v xi : H}
     simpa [thm51_supportFunction_zero C hC0, sub_eq_add_neg] using h0
   exact EReal.sub_nonpos.mp h0'
 
+omit [CompleteSpace H] in
 /-- A defining halfspace gives the corresponding one-sided support-function bound. -/
 private theorem thm51_supportFunction_smul_halfspace_le {C : Set H} {a : H} {b t : ℝ}
     (hC : ∀ z ∈ C, inner ℝ a z ≤ b) (ht : 0 ≤ t) :
@@ -183,6 +191,7 @@ private theorem thm51_supportFunction_smul_halfspace_le {C : Set H} {a : H} {b t
     simp [inner_smul_right]
   exact EReal.coe_le_coe_iff.mpr (by simpa [hinner] using hmul)
 
+omit [CompleteSpace H] in
 /-- A subgradient of a represented support function lies in the represented polyhedron. -/
 private theorem thm51_subderivative_supportFunction_mem_polyhedron {C : Set H}
     (hpoly : ConvexPolyhedron C) (hC0 : (0 : H) ∈ C) {v xi : H}
@@ -195,12 +204,12 @@ private theorem thm51_subderivative_supportFunction_mem_polyhedron {C : Set H}
   have hsup_ne_top : supportFunction C v ≠ ⊤ := by
     intro htop
     have htop_le : (⊤ : EReal) ≤ (inner ℝ xi v : EReal) := by
-      simpa [htop] using hupper
+      exact htop ▸ hupper
     exact (not_le_of_gt (EReal.coe_lt_top (inner ℝ xi v))) htop_le
   have hsup_ne_bot : supportFunction C v ≠ ⊥ := by
     intro hbot
     have hzero_le_bot : ((0 : ℝ) : EReal) ≤ (⊥ : EReal) := by
-      simpa [hbot] using hlower
+      exact hbot ▸ hlower
     exact (not_le_of_gt (EReal.bot_lt_coe (0 : ℝ))) hzero_le_bot
   let s : ℝ := (supportFunction C v).toReal
   have hs : (s : EReal) = supportFunction C v := by
@@ -238,6 +247,7 @@ private theorem thm51_subderivative_supportFunction_mem_polyhedron {C : Set H}
     simpa [real_inner_comm] using (by linarith : inner ℝ xi (a i) ≤ b i)
   exact hgoal
 
+omit [CompleteSpace H] in
 /-- If a support value is bounded above by evaluation at `xi`, then `v` is normal to `C`. -/
 private theorem thm51_supportFunction_upper_mem_normalCone {C : Set H} {v xi : H}
     (hxiC : xi ∈ C) (hsup : supportFunction C v ≤ (inner ℝ xi v : EReal)) :
@@ -259,6 +269,7 @@ private theorem thm51_supportFunction_upper_mem_normalCone {C : Set H} {v xi : H
     rw [hrewrite]
     linarith
 
+omit [CompleteSpace H] in
 /-- Support-function subgradients of a represented polyhedron give support points and normals. -/
 private theorem thm51_support_subgradient_mem_and_normal {C : Set H} {v xi : H}
     (hpoly : ConvexPolyhedron C) (hC0 : (0 : H) ∈ C)
@@ -268,6 +279,7 @@ private theorem thm51_support_subgradient_mem_and_normal {C : Set H} {v xi : H}
   have hsup := thm51_subderivative_support_upper hC0 hxi
   exact ⟨hxiC, thm51_supportFunction_upper_mem_normalCone hxiC hsup⟩
 
+omit [CompleteSpace H] in
 /-- A resolvent-surjective monotone operator is maximal monotone. -/
 private theorem thm51_maximal_of_monotone_and_resolvent_surjective
     (B : SetValuedOperator H H) (hmono : IsMonotone B)
@@ -300,6 +312,7 @@ private theorem thm51_maximal_of_monotone_and_resolvent_surjective
     exact add_left_cancel hz
   simpa [hx_p, hu_q] using hqB
 
+omit [CompleteSpace H] in
 /-- Select the `A` and `B` components from one algorithmic inclusion step. -/
 private theorem thm51_algorithm_step_selection (A B : SetValuedOperator H H)
     (lam : ℕ → ℝ) (x : ℕ → H) (halg : AlgorithmA A B x lam) :
@@ -320,9 +333,10 @@ private theorem thm51_algorithm_step_selection (A B : SetValuedOperator H H)
   subst c
   refine ⟨a, b, ?_, hb, ?_⟩
   · simpa [v]
-  · have hp_eq' : acc + a = p := by simpa [hp_eq]
+  · have hp_eq' : acc + a = p := by simp [hp_eq]
     rw [← hpbeq, ← hp_eq']
 
+omit [CompleteSpace H] in
 /-- A `C²` perturbation has a quadratic remainder after subtracting its derivative at the origin. -/
 private theorem thm51_A0_quadratic_remainder_eventually
     [FiniteDimensional ℝ H] (A0 : H → H) (hA0_C2 : ContDiff ℝ 2 A0)
@@ -385,6 +399,1884 @@ private theorem thm51_A0_quadratic_remainder_eventually
     _ = ((Knn : ℝ) + 1) * ‖y‖ ^ 2 := by
         simp [pow_two, mul_assoc, mul_comm]
 
+/-!
+## Item-local proof scaffold for Theorem 5.1
+
+The declarations below formalize the intermediate statements (29)--(51) of the
+paper proof as small, acyclic helpers. Each helper is strictly smaller than
+`thm_5_1` and is stated with the paper's own hypotheses. The algebraic sequence
+`F` is the real-valued specialization of `def_11`'s
+`secondEnergySeq`; the linear operator in `G` is the paper's
+`L := dA₀(0)`, with self-adjointness carried as an explicit hypothesis in the
+helpers that need it.
+-/
+
+section Theorem51ScaffoldAlgebra
+
+variable {H : Type _} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
+
+/-- Equation (36): the elementary inner-product cross-term bound
+`2⟨a,b⟩ ≤ ‖a‖² + ‖b‖²`. -/
+private theorem thm51_inner_cross_le (a b : H) :
+    2 * inner ℝ a b ≤ ‖a‖ ^ 2 + ‖b‖ ^ 2 := by
+  have h := norm_sub_sq_real a b
+  nlinarith [sq_nonneg ‖a - b‖, h]
+
+/-- Equation (36) as used in the `G` estimate: for every `θ > 0`,
+`⟨d, u⟩ ≤ ‖d‖²/(2θ) + θ‖u‖²/2`. -/
+private theorem thm51_G_theta_cross {θ : ℝ} (hθ : 0 < θ) (d u : H) :
+    inner ℝ d u ≤ ‖d‖ ^ 2 / (2 * θ) + θ * ‖u‖ ^ 2 / 2 := by
+  have h := norm_sub_sq_real d (θ • u)
+  rw [inner_smul_right, norm_smul, Real.norm_eq_abs, abs_of_pos hθ] at h
+  have h2 : 0 ≤ ‖d - θ • u‖ ^ 2 := sq_nonneg _
+  have hkey : 2 * θ * inner ℝ d u ≤ ‖d‖ ^ 2 + θ ^ 2 * ‖u‖ ^ 2 := by
+    nlinarith [h, h2]
+  rw [div_add_div _ _ (by positivity) (by norm_num)]
+  rw [le_div_iff₀ (by positivity)]
+  nlinarith [hkey]
+
+end Theorem51ScaffoldAlgebra
+
+section Theorem51ScaffoldOperator
+
+variable {H : Type _} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
+
+omit [CompleteSpace H] in
+/-- `m > 0`, `M > 0` and a nonnegative operator norm have the paper's positive
+Tau constant `τ₀ = (√(‖L‖² + 4M) - ‖L‖)/2`. -/
+private theorem thm51_tau0_pos (snorm M : ℝ) (hsnorm : 0 ≤ snorm)
+    (hM : 0 < M) :
+    0 < (Real.sqrt (snorm ^ 2 + 4 * M) - snorm) / 2 := by
+  have hsq : snorm ^ 2 < snorm ^ 2 + 4 * M := by nlinarith
+  have hsqrt : snorm < Real.sqrt (snorm ^ 2 + 4 * M) := by
+    rw [Real.lt_sqrt (by positivity)]
+    exact hsq
+  linarith
+
+omit [CompleteSpace H] in
+/-- The positive root defining `τ₀` solves `τ₀² + ‖L‖τ₀ = M`. -/
+private theorem thm51_tau0_quadratic (snorm M : ℝ) (hM : 0 < M) :
+    (let τ0 : ℝ := (Real.sqrt (snorm ^ 2 + 4 * M) - snorm) / 2;
+      τ0 ^ 2 + snorm * τ0 = M) := by
+  intro τ0
+  have hs : 0 ≤ snorm ^ 2 + 4 * M := by positivity
+  have hsq : (Real.sqrt (snorm ^ 2 + 4 * M)) ^ 2 = snorm ^ 2 + 4 * M :=
+    Real.sq_sqrt hs
+  dsimp [τ0]
+  nlinarith
+
+/-- Paper (47): strong convexity of `f` with constant `M` in gradient form
+implies the value estimate
+`f x ≥ f y + ⟨∇f y, x - y⟩ + (M/2)‖x - y‖²`. -/
+private theorem thm51_strong_convexity_value (f : H → ℝ) (M : ℝ)
+    (hf : IsStronglyConvex f M) (x y : H) :
+    f x ≥ f y + inner ℝ (gradient f y) (x - y) + (M / 2) * ‖x - y‖ ^ 2 := by
+  obtain ⟨_, hC1, hmono⟩ := hf
+  set d : H := x - y with hd
+  set ρ : ℝ → ℝ := fun t => f (y + t • d) - (M / 2) * t ^ 2 * ‖d‖ ^ 2 with hρdef
+  have hderiv_f : ∀ t : ℝ, HasDerivAt (fun s : ℝ => f (y + s • d))
+      (inner ℝ (gradient f (y + t • d)) d) t := by
+    intro t
+    have hlin : HasDerivAt (fun s : ℝ => y + s • d) d t := by
+      simpa using ((hasDerivAt_id t).smul_const d).const_add y
+    have hd1 : DifferentiableAt ℝ f (y + t • d) := (hC1.differentiable (by norm_num)) _
+    have hf' := hd1.hasFDerivAt
+    have hcomp : HasDerivAt (fun s : ℝ => f (y + s • d)) (fderiv ℝ f (y + t • d) d) t := by
+      simpa using hf'.comp_hasDerivAt t hlin
+    simpa [inner_gradient_left hd1] using hcomp
+  have hderiv_p : ∀ t : ℝ, HasDerivAt (fun s : ℝ => (M / 2) * s ^ 2 * ‖d‖ ^ 2)
+      (M * t * ‖d‖ ^ 2) t := by
+    intro t
+    have h1 : HasDerivAt (fun s : ℝ => s ^ 2) (2 * t) t := by
+      simpa using (hasDerivAt_pow 2 t)
+    have h2 : HasDerivAt (fun s : ℝ => (M / 2) * s ^ 2 * ‖d‖ ^ 2)
+        ((M / 2) * (2 * t) * ‖d‖ ^ 2) t :=
+      (h1.const_mul (M / 2)).mul_const (‖d‖ ^ 2)
+    have hval : (M / 2) * (2 * t) * ‖d‖ ^ 2 = M * t * ‖d‖ ^ 2 := by ring
+    rw [hval] at h2
+    exact h2
+  have hρ_has : ∀ t : ℝ, HasDerivAt ρ
+      (inner ℝ (gradient f (y + t • d)) d - M * t * ‖d‖ ^ 2) t := by
+    intro t
+    exact (hderiv_f t).sub (hderiv_p t)
+  have hρ_diff : Differentiable ℝ ρ := fun t => (hρ_has t).differentiableAt
+  have hρ_mono : Monotone (deriv ρ) := by
+    intro t1 t2 hle
+    rw [(hρ_has t1).deriv, (hρ_has t2).deriv]
+    rcases lt_or_eq_of_le hle with hlt | heq
+    · have hpos : 0 < t2 - t1 := sub_pos.mpr hlt
+      have hz : (y + t2 • d) - (y + t1 • d) = (t2 - t1) • d := by
+        rw [add_sub_add_left_eq_sub, sub_smul]
+      have hmn := hmono (y + t2 • d) (y + t1 • d)
+      rw [hz, norm_smul, Real.norm_eq_abs, abs_of_pos hpos] at hmn
+      rw [inner_smul_right] at hmn
+      have hfac : M * ((t2 - t1) * ‖d‖) ^ 2 = (t2 - t1) * (M * (t2 - t1) * ‖d‖ ^ 2) := by
+        ring
+      rw [hfac] at hmn
+      have hdiv : inner ℝ (gradient f (y + t2 • d) - gradient f (y + t1 • d)) d
+          ≥ M * (t2 - t1) * ‖d‖ ^ 2 := by nlinarith [hmn, hpos]
+      have hsplit : inner ℝ (gradient f (y + t2 • d)) d - inner ℝ (gradient f (y + t1 • d)) d
+          = inner ℝ (gradient f (y + t2 • d) - gradient f (y + t1 • d)) d := by
+        rw [inner_sub_left]
+      nlinarith [hdiv, hsplit]
+    · subst heq; simp
+  have hρ_conv : ConvexOn ℝ Set.univ ρ := Monotone.convexOn_univ_of_deriv hρ_diff hρ_mono
+  have hslope := hρ_conv.deriv_le_slope (Set.mem_univ 0) (Set.mem_univ 1)
+    (by norm_num : (0:ℝ) < 1) (hρ_diff 0)
+  rw [(hρ_has 0).deriv] at hslope
+  have hs : slope ρ 0 1 = ρ 1 - ρ 0 := by rw [slope_def_field]; norm_num
+  rw [hs] at hslope
+  have hρ1 : ρ 1 = f x - (M / 2) * ‖d‖ ^ 2 := by
+    simp only [hρdef, one_smul, one_pow, mul_one]
+    rw [show y + d = x by rw [hd]; abel]
+  have hρ0 : ρ 0 = f y := by simp [hρdef]
+  rw [hρ1, hρ0] at hslope
+  have hgrad0 : inner ℝ (gradient f (y + (0:ℝ) • d)) d = inner ℝ (gradient f y) d := by
+    rw [zero_smul, add_zero]
+  rw [hgrad0] at hslope
+  rw [hd] at hslope
+  linarith [hslope]
+
+/-- Paper (34) and (41): a convex `C¹` function `g` lies above each of its
+first-order Taylor polynomials, `g y ≥ g x + ⟨∇g x, y - x⟩`. -/
+private theorem thm51_convex_first_order_gradient (g : H → ℝ)
+    (hg_conv : ConvexOn ℝ Set.univ g) (hg_C1 : ContDiff ℝ 1 g) (x y : H) :
+    g y ≥ g x + inner ℝ (gradient g x) (y - x) := by
+  rcases eq_or_ne x y with hxy | hne
+  · subst hxy; simp
+  have hconv_comp : ConvexOn ℝ Set.univ (fun t : ℝ => g (x + t • (y - x))) := by
+    refine ⟨convex_univ, ?_⟩
+    intro t1 _ t2 _ a b ha hb hab
+    have harg : x + (a • t1 + b • t2) • (y - x) =
+        a • (x + t1 • (y - x)) + b • (x + t2 • (y - x)) := by
+      have h1 : a • (x + t1 • (y - x)) + b • (x + t2 • (y - x))
+          = (a + b) • x + (a * t1 + b * t2) • (y - x) := by module
+      rw [h1, hab, one_smul]
+      simp
+    rw [show (fun t : ℝ => g (x + t • (y - x))) (a • t1 + b • t2)
+        = g (x + (a • t1 + b • t2) • (y - x)) from rfl, harg]
+    exact hg_conv.2 (Set.mem_univ _) (Set.mem_univ _) ha hb hab
+  have hg_diff : DifferentiableAt ℝ g x :=
+    (hg_C1.differentiable (by norm_num : (1 : WithTop ℕ∞) ≠ 0)) x
+  have hinner : HasDerivAt (fun t : ℝ => x + t • (y - x)) (y - x) 0 := by
+    simpa using ((hasDerivAt_id (0:ℝ)).smul_const (y - x)).const_add x
+  have hcomp : HasDerivAt (fun t : ℝ => g (x + t • (y - x)))
+      (fderiv ℝ g x (y - x)) 0 := by
+    have hf := hg_diff.hasFDerivAt
+    have hpt : x + (0:ℝ) • (y - x) = x := by simp
+    rw [← hpt] at hf
+    simpa using hf.comp_hasDerivAt 0 hinner
+  have hderiv : deriv (fun t : ℝ => g (x + t • (y - x))) 0 = fderiv ℝ g x (y - x) :=
+    hcomp.deriv
+  have hslope := hconv_comp.deriv_le_slope (Set.mem_univ 0) (Set.mem_univ 1)
+    (by norm_num : (0:ℝ) < 1) hcomp.differentiableAt
+  rw [hderiv] at hslope
+  have h1 : slope (fun t : ℝ => g (x + t • (y - x))) 0 1 = g y - g x := by
+    rw [slope_def_field]
+    simp
+  rw [h1] at hslope
+  rw [inner_gradient_left hg_diff]
+  linarith
+
+omit [CompleteSpace H] in
+/-- Paper (32): the `C²` operator `A₀` with `A₀(0)=0` has a quadratic Taylor
+remainder `‖A₀ y - dA₀(0) y‖ ≤ C₀‖y‖²` near the origin. This is the
+already-proved local fact `thm51_A0_quadratic_remainder_eventually`, stated
+here with the paper's hypotheses only. -/
+private theorem thm51_A0_quadratic_remainder [FiniteDimensional ℝ H]
+    (A0 : H → H) (hA0_C2 : ContDiff ℝ 2 A0) (hA0_zero : A0 (0 : H) = 0) :
+    ∃ C0 > 0, ∀ᶠ y in 𝓝 (0 : H),
+      ‖A0 y - fderiv ℝ A0 (0 : H) y‖ ≤ C0 * ‖y‖ ^ 2 := by
+  exact thm51_A0_quadratic_remainder_eventually A0 hA0_C2 hA0_zero
+
+omit [CompleteSpace H] in
+/-- Paper (33) and (40): after the quadratic Taylor estimate, for every
+`η > 0` the two pairings against the Taylor remainder are eventually bounded by
+`(η/λ²)‖v_n‖²` and `(η/λ)‖v_n‖²`. -/
+private theorem thm51_A0_pair_bounds [FiniteDimensional ℝ H]
+    (A0 : H → H) (hA0_C2 : ContDiff ℝ 2 A0) (hA0_zero : A0 (0 : H) = 0)
+    (x : ℕ → H) (xInf : H) (hx : Tendsto x atTop (𝓝 xInf))
+    (lam : ℝ) (hlam : 0 < lam)
+    (z : ℕ → H) (hz : ∀ n, z n = lam⁻¹ • (x (n + 2) - x (n + 1))) :
+    ∀ η > 0, ∀ᶠ n in atTop,
+      |inner ℝ (A0 (z n) - fderiv ℝ A0 (0 : H) (z n))
+          (x (n + 2) - xInf)| ≤ η / lam ^ 2 * ‖x (n + 2) - x (n + 1)‖ ^ 2 ∧
+        |inner ℝ (A0 (z n) - fderiv ℝ A0 (0 : H) (z n))
+          (x (n + 2) - x (n + 1))| ≤ η / lam * ‖x (n + 2) - x (n + 1)‖ ^ 2 := by
+  intro η hη
+  let L : H →L[ℝ] H := fderiv ℝ A0 (0 : H)
+  have hshift1 : Tendsto (fun n : ℕ => n + 1) atTop atTop :=
+    Filter.tendsto_atTop_mono (fun n => Nat.le_succ n) tendsto_id
+  have hshift2 : Tendsto (fun n : ℕ => n + 2) atTop atTop :=
+    Filter.tendsto_atTop_mono (fun n => Nat.le_add_right n 2) tendsto_id
+  have hx_shift1 : Tendsto (fun n : ℕ => x (n + 1)) atTop (𝓝 xInf) :=
+    hx.comp hshift1
+  have hx_shift2 : Tendsto (fun n : ℕ => x (n + 2)) atTop (𝓝 xInf) :=
+    hx.comp hshift2
+  have hv_tendsto : Tendsto (fun n : ℕ => x (n + 2) - x (n + 1)) atTop (𝓝 (0 : H)) := by
+    simpa using hx_shift2.sub hx_shift1
+  have hz_tendsto : Tendsto z atTop (𝓝 (0 : H)) := by
+    have hc : Tendsto (fun _ : ℕ => lam⁻¹) atTop (𝓝 lam⁻¹) := tendsto_const_nhds
+    have h := hc.smul hv_tendsto
+    have hz_eq : z = fun n => lam⁻¹ • (x (n + 2) - x (n + 1)) := funext hz
+    rw [hz_eq]
+    simpa using h
+  rcases thm51_A0_quadratic_remainder_eventually A0 hA0_C2 hA0_zero with
+    ⟨C0, hC0_pos, hA0_rem_nhds⟩
+  have hA0_rem_z : ∀ᶠ n in atTop,
+      ‖A0 (z n) - L (z n)‖ ≤ C0 * ‖z n‖^2 := by
+    simpa [L] using hz_tendsto hA0_rem_nhds
+  have he2_tendsto : Tendsto (fun n : ℕ => x (n + 2) - xInf) atTop (𝓝 (0 : H)) := by
+    have hcInf : Tendsto (fun _ : ℕ => xInf) atTop (𝓝 xInf) := tendsto_const_nhds
+    simpa using hx_shift2.sub hcInf
+  have hnorm_small_e2 : ∀ {eps : ℝ}, 0 < eps →
+      ∀ᶠ n in atTop, ‖x (n + 2) - xInf‖ ≤ eps := by
+    intro eps heps
+    have hnorm : Tendsto (fun n : ℕ => ‖x (n + 2) - xInf‖) atTop (𝓝 (0 : ℝ)) := by
+      simpa using (continuous_norm.tendsto (0 : H)).comp he2_tendsto
+    have hev := hnorm (Metric.ball_mem_nhds (0 : ℝ) heps)
+    filter_upwards [hev] with n hn
+    have hlt : ‖x (n + 2) - xInf‖ < eps := by
+      simpa [Metric.mem_ball, dist_eq_norm, Real.norm_eq_abs,
+        abs_of_nonneg (norm_nonneg _)] using hn
+    exact le_of_lt hlt
+  have hnorm_small_v : ∀ {eps : ℝ}, 0 < eps →
+      ∀ᶠ n in atTop, ‖x (n + 2) - x (n + 1)‖ ≤ eps := by
+    intro eps heps
+    have hnorm : Tendsto (fun n : ℕ => ‖x (n + 2) - x (n + 1)‖) atTop (𝓝 (0 : ℝ)) := by
+      simpa using (continuous_norm.tendsto (0 : H)).comp hv_tendsto
+    have hev := hnorm (Metric.ball_mem_nhds (0 : ℝ) heps)
+    filter_upwards [hev] with n hn
+    have hlt : ‖x (n + 2) - x (n + 1)‖ < eps := by
+      simpa [Metric.mem_ball, dist_eq_norm, Real.norm_eq_abs,
+        abs_of_nonneg (norm_nonneg _)] using hn
+    exact le_of_lt hlt
+  have hz_norm_sq : ∀ n : ℕ,
+      ‖z n‖ ^ 2 = lam⁻¹ ^ 2 * ‖x (n + 2) - x (n + 1)‖ ^ 2 := by
+    intro n
+    have hz_norm : ‖z n‖ = lam⁻¹ * ‖x (n + 2) - x (n + 1)‖ := by
+      rw [hz n]
+      rw [norm_smul, Real.norm_eq_abs, abs_of_pos (inv_pos.mpr hlam)]
+    rw [hz_norm]
+    ring
+  have heps1 : 0 < η / C0 := div_pos hη hC0_pos
+  have heps2 : 0 < η * lam / C0 := div_pos (mul_pos hη hlam) hC0_pos
+  filter_upwards [hA0_rem_z, hnorm_small_e2 heps1, hnorm_small_v heps2] with
+    n hremn he2small hvsmall
+  constructor
+  · have hcs := abs_real_inner_le_norm (A0 (z n) - L (z n)) (x (n + 2) - xInf)
+    have hmul1 : ‖A0 (z n) - L (z n)‖ * ‖x (n + 2) - xInf‖ ≤
+        (C0 * ‖z n‖ ^ 2) * ‖x (n + 2) - xInf‖ := by
+      exact mul_le_mul_of_nonneg_right hremn (norm_nonneg _)
+    have hC0e : C0 * ‖x (n + 2) - xInf‖ ≤ η := by
+      calc
+        C0 * ‖x (n + 2) - xInf‖ ≤ C0 * (η / C0) :=
+          mul_le_mul_of_nonneg_left he2small (le_of_lt hC0_pos)
+        _ = η := by field_simp [ne_of_gt hC0_pos]
+    have hnon : 0 ≤ lam⁻¹ ^ 2 * ‖x (n + 2) - x (n + 1)‖ ^ 2 :=
+      mul_nonneg (sq_nonneg _) (sq_nonneg _)
+    have hmul2 := mul_le_mul_of_nonneg_right hC0e hnon
+    have htarget : (C0 * ‖z n‖ ^ 2) * ‖x (n + 2) - xInf‖ ≤
+        η / lam^2 * ‖x (n + 2) - x (n + 1)‖^2 := by
+      rw [hz_norm_sq n]
+      convert hmul2 using 1
+      · ring
+      · field_simp [pow_two, ne_of_gt hlam]
+    simpa [L] using le_trans hcs (le_trans hmul1 htarget)
+  · have hcs := abs_real_inner_le_norm (A0 (z n) - L (z n)) (x (n + 2) - x (n + 1))
+    have hmul1 : ‖A0 (z n) - L (z n)‖ * ‖x (n + 2) - x (n + 1)‖ ≤
+        (C0 * ‖z n‖ ^ 2) * ‖x (n + 2) - x (n + 1)‖ := by
+      exact mul_le_mul_of_nonneg_right hremn (norm_nonneg _)
+    have hC0v : C0 * ‖x (n + 2) - x (n + 1)‖ ≤ η * lam := by
+      calc
+        C0 * ‖x (n + 2) - x (n + 1)‖ ≤ C0 * (η * lam / C0) :=
+          mul_le_mul_of_nonneg_left hvsmall (le_of_lt hC0_pos)
+        _ = η * lam := by field_simp [ne_of_gt hC0_pos]
+    have hnon : 0 ≤ lam⁻¹ ^ 2 * ‖x (n + 2) - x (n + 1)‖ ^ 2 :=
+      mul_nonneg (sq_nonneg _) (sq_nonneg _)
+    have hmul2 := mul_le_mul_of_nonneg_right hC0v hnon
+    have htarget : (C0 * ‖z n‖ ^ 2) * ‖x (n + 2) - x (n + 1)‖ ≤
+        η / lam * ‖x (n + 2) - x (n + 1)‖^2 := by
+      rw [hz_norm_sq n]
+      convert hmul2 using 1
+      · ring
+      · field_simp [pow_two, ne_of_gt hlam]
+    simpa [L] using le_trans hcs (le_trans hmul1 htarget)
+
+end Theorem51ScaffoldOperator
+
+section Theorem51ScaffoldConcrete
+
+variable {H : Type _} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
+
+/-- Equation (30): one algorithm step, `A = ∂σ_C + A₀` and `B = ∇f`, give the
+subgradient inclusion at the test point `z_n`. -/
+private theorem thm51_step_subgradient (C : Set H) (A0 : H → H) (f : H → ℝ)
+    (A B : SetValuedOperator H H) (x : ℕ → H) (lam : ℝ) (z : ℕ → H)
+    (halg : AlgorithmA A B x (fun _ => lam))
+    (hA : A = subderivative (supportFunction C) +
+      SetValuedOperator.ofFunction Set.univ (fun x : (Set.univ : Set H) => A0 x.1))
+    (hB_eq_grad : B = SetValuedOperator.ofFunction Set.univ
+      (fun x : (Set.univ : Set H) => gradient f x.1))
+    (hz : ∀ n, z n = lam⁻¹ • (x (n + 2) - x (n + 1))) :
+    ∀ n, -((lam ^ 2)⁻¹ • (x (n + 2) - 2 • x (n + 1) + x n) + A0 (z n) +
+        gradient f (x (n + 2))) ∈
+      subderivative (supportFunction C) (z n) := by
+  intro n
+  obtain ⟨a, b, ha, hb, heq⟩ :=
+    thm51_algorithm_step_selection A B (fun _ => lam) x halg n
+  have hb_eq : b = gradient f (x (n + 2)) := by
+    rw [hB_eq_grad] at hb
+    simpa [SetValuedOperator.ofFunction_apply_of_mem] using hb
+  have ha' := ha
+  rw [hA] at ha'
+  change a ∈ subderivative (supportFunction C) (lam⁻¹ • (x (n + 2) - x (n + 1))) +
+      SetValuedOperator.ofFunction Set.univ (fun x : (Set.univ : Set H) => A0 x.1)
+        (lam⁻¹ • (x (n + 2) - x (n + 1))) at ha'
+  rw [Set.mem_add] at ha'
+  rcases ha' with ⟨s, hs, w, hw, ha_eq⟩
+  have hw_eq : w = A0 (lam⁻¹ • (x (n + 2) - x (n + 1))) := by
+    simpa [SetValuedOperator.ofFunction_apply_of_mem] using hw
+  have hw_eq' : w = A0 (z n) := by rw [hw_eq, hz n]
+  rw [← hz n] at hs
+  have heq' : ((lam ^ 2)⁻¹ • (x (n + 2) - 2 • x (n + 1) + x n)) +
+      (s + A0 (z n)) + gradient f (x (n + 2)) = 0 := by
+    have h := heq
+    rw [← ha_eq, hw_eq', hb_eq] at h
+    simpa [add_assoc] using h
+  have hs_eq : s = -((lam ^ 2)⁻¹ • (x (n + 2) - 2 • x (n + 1) + x n) +
+      A0 (z n) + gradient f (x (n + 2))) := by
+    rw [eq_neg_iff_add_eq_zero]
+    abel_nf at heq' ⊢
+    exact heq'
+  simpa [hs_eq] using hs
+
+omit [CompleteSpace H] in
+/-- Paper (30) and Corollary 5.1: if the increments are eventually in the
+normal cone at `ξ`, then so is the tail `x∞ - x_{n+2}`. This is the repaired
+statement of (31)'s normal-cone input. -/
+private theorem thm51_normal_cone_tail {C : Set H} (_hC_closed : IsClosed C)
+    (_hC_conv : Convex ℝ C) (x : ℕ → H) (xInf xi : H)
+    (hx : Tendsto x atTop (𝓝 xInf)) (hxi : xi ∈ C)
+    (hInc : ∀ᶠ n in atTop, x (n + 1) - x n ∈ normalCone C xi) :
+    ∀ᶠ n in atTop, xInf - x (n + 2) ∈ normalCone C xi := by
+  rcases eventually_atTop.mp hInc with ⟨N, hN⟩
+  filter_upwards [eventually_ge_atTop N] with n hn
+  rw [mem_normalCone_iff_forall]
+  constructor
+  · exact hxi
+  · intro y hy
+    let d : H := y - xi
+    have hpartial : ∀ K : ℕ, inner ℝ (x (n + 2 + K) - x (n + 2)) d ≤ 0 := by
+      intro K
+      induction K with
+      | zero => simp
+      | succ K ih =>
+          have hinc : x (n + 2 + (K + 1)) - x (n + 2) =
+              (x (n + 2 + K) - x (n + 2)) +
+                (x (n + 2 + (K + 1)) - x (n + 2 + K)) := by
+            abel
+          have hstep_mem :
+              x (n + 2 + K + 1) - x (n + 2 + K) ∈ normalCone C xi := by
+            simpa [Nat.add_assoc, Nat.add_comm, Nat.add_left_comm] using
+              hN (n + 2 + K) (by omega)
+          have hstep_ineq :
+              inner ℝ (x (n + 2 + (K + 1)) - x (n + 2 + K)) d ≤ 0 := by
+            rw [mem_normalCone_iff_forall] at hstep_mem
+            have hstep_fun :
+                ∀ y' ∈ C, inner ℝ (x (n + 2 + (K + 1)) - x (n + 2 + K))
+                  (y' - xi) ≤ 0 := by
+              intro y' hy'
+              simpa [real_inner_comm] using hstep_mem.2 y' hy'
+            simpa [d] using hstep_fun y hy
+          rw [hinc, inner_add_left]
+          exact add_nonpos ih hstep_ineq
+    have hshift : Tendsto (fun K : ℕ => n + 2 + K) atTop atTop :=
+      Filter.tendsto_atTop_mono (fun K => Nat.le_add_left K (n + 2)) tendsto_id
+    have hxshift : Tendsto (fun K : ℕ => x (n + 2 + K)) atTop (𝓝 xInf) :=
+      hx.comp hshift
+    have hlimH : Tendsto (fun K : ℕ => x (n + 2 + K) - x (n + 2)) atTop
+        (𝓝 (xInf - x (n + 2))) := hxshift.sub tendsto_const_nhds
+    have hlimR :
+        Tendsto (fun K : ℕ => inner ℝ (x (n + 2 + K) - x (n + 2)) d) atTop
+          (𝓝 (inner ℝ (xInf - x (n + 2)) d)) := by
+      have hcont : Continuous (fun w : H => inner ℝ w d) :=
+        continuous_id.inner continuous_const
+      exact hcont.tendsto _ |>.comp hlimH
+    rw [real_inner_comm]
+    exact isClosed_Iic.mem_of_tendsto hlimR (Eventually.of_forall hpartial)
+
+/-- Equation (31): the algorithm's active support point, the repaired
+normal-cone tail at `ξ = -∇f(x∞)`, and the polyhedron structure give the
+nonpositivity of the first pairing in (29). -/
+private theorem thm51_normal_cone_pair_increment {C : Set H}
+    (hC_polyhedron : ConvexPolyhedron C) (hC0 : (0 : H) ∈ C)
+    (A0 : H → H) (f : H → ℝ) (x : ℕ → H) (xInf : H) (lam : ℝ)
+    (_hlam : 0 < lam) (xi : H) (hxi : xi = -gradient f xInf) (z : ℕ → H)
+    (hsub : ∀ n, -((lam ^ 2)⁻¹ • (x (n + 2) - 2 • x (n + 1) + x n) +
+        A0 (z n) + gradient f (x (n + 2))) ∈
+      subderivative (supportFunction C) (z n))
+    (hTail : ∀ᶠ n in atTop, xInf - x (n + 2) ∈ normalCone C xi) :
+    ∀ᶠ n in atTop,
+      inner ℝ ((lam ^ 2)⁻¹ • (x (n + 2) - 2 • x (n + 1) + x n) +
+        A0 (z n) + gradient f (x (n + 2)) - gradient f xInf)
+        (x (n + 2) - xInf) ≤ 0 := by
+  rcases eventually_atTop.mp hTail with ⟨N, hN⟩
+  filter_upwards [eventually_ge_atTop N] with n hn
+  let p : H := -((lam ^ 2)⁻¹ • (x (n + 2) - 2 • x (n + 1) + x n) +
+    A0 (z n) + gradient f (x (n + 2)))
+  have hp := thm51_support_subgradient_mem_and_normal hC_polyhedron hC0 (hsub n)
+  have htail := hN n hn
+  have htail_ineq : inner ℝ (xInf - x (n + 2)) (p - xi) ≤ 0 := by
+    rw [mem_normalCone_iff_forall] at htail
+    have htail_fun : ∀ y ∈ C, inner ℝ (xInf - x (n + 2)) (y - xi) ≤ 0 := by
+      intro y hy
+      simpa [real_inner_comm] using htail.2 y hy
+    exact htail_fun p hp.1
+  have hterm : ((lam ^ 2)⁻¹ • (x (n + 2) - 2 • x (n + 1) + x n) +
+      A0 (z n) + gradient f (x (n + 2))) - gradient f xInf = xi - p := by
+    dsimp [p]
+    rw [hxi]
+    abel
+  have hpair : inner ℝ (xi - p) (x (n + 2) - xInf) =
+      inner ℝ (xInf - x (n + 2)) (p - xi) := by
+    rw [show xi - p = -(p - xi) by abel]
+    rw [show x (n + 2) - xInf = -(xInf - x (n + 2)) by abel]
+    rw [inner_neg_left, inner_neg_right, neg_neg]
+    exact real_inner_comm _ _
+  rw [hterm, hpair]
+  exact htail_ineq
+
+/-- Equation (39): the same two ingredients give the increment pairing. -/
+private theorem thm51_normal_cone_pair_increment_v {C : Set H}
+    (hC_polyhedron : ConvexPolyhedron C) (hC0 : (0 : H) ∈ C)
+    (A0 : H → H) (f : H → ℝ) (x : ℕ → H) (xInf : H) (lam : ℝ)
+    (hlam : 0 < lam) (xi : H) (hxi : xi = -gradient f xInf) (hxi_mem : xi ∈ C)
+    (z : ℕ → H) (hz : ∀ n, z n = lam⁻¹ • (x (n + 2) - x (n + 1)))
+    (hsub : ∀ n, -((lam ^ 2)⁻¹ • (x (n + 2) - 2 • x (n + 1) + x n) +
+        A0 (z n) + gradient f (x (n + 2))) ∈
+      subderivative (supportFunction C) (z n)) :
+    ∀ n, inner ℝ ((lam ^ 2)⁻¹ • (x (n + 2) - 2 • x (n + 1) + x n) +
+      A0 (z n) + gradient f (x (n + 2)) - gradient f xInf)
+      (x (n + 2) - x (n + 1)) ≤ 0 := by
+  intro n
+  let p : H := -((lam ^ 2)⁻¹ • (x (n + 2) - 2 • x (n + 1) + x n) +
+    A0 (z n) + gradient f (x (n + 2)))
+  have hp := thm51_support_subgradient_mem_and_normal hC_polyhedron hC0 (hsub n)
+  have hzNC : z n ∈ normalCone C p := hp.2
+  rw [mem_normalCone_iff_forall] at hzNC
+  have hineq : inner ℝ (z n) (xi - p) ≤ 0 := by
+    simpa [real_inner_comm] using hzNC.2 xi hxi_mem
+  have hzv : x (n + 2) - x (n + 1) = lam • z n := by
+    rw [hz n]
+    simp only [smul_smul]
+    have hmul : lam * lam⁻¹ = 1 := by field_simp [ne_of_gt hlam]
+    rw [hmul, one_smul]
+  have hterm : ((lam ^ 2)⁻¹ • (x (n + 2) - 2 • x (n + 1) + x n) +
+      A0 (z n) + gradient f (x (n + 2))) - gradient f xInf = xi - p := by
+    dsimp [p]
+    rw [hxi]
+    abel
+  rw [hterm, hzv, inner_smul_right]
+  have hcomm : inner ℝ (xi - p) (z n) = inner ℝ (z n) (xi - p) :=
+    real_inner_comm _ _
+  rw [hcomm]
+  exact mul_nonpos_of_nonneg_of_nonpos (le_of_lt hlam) hineq
+
+end Theorem51ScaffoldConcrete
+
+section Theorem51ScaffoldSequences
+
+variable {H : Type _} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
+
+omit [CompleteSpace H] in
+/-- `v_n := x_{n+2} - x_{n+1}`. -/
+private def thm51_seqV (x : ℕ → H) (n : ℕ) : H := x (n + 2) - x (n + 1)
+
+omit [CompleteSpace H] in
+/-- `acc_n := x_{n+2} - 2x_{n+1} + x_n`. -/
+private def thm51_seqAcc (x : ℕ → H) (n : ℕ) : H :=
+  x (n + 2) - 2 • x (n + 1) + x n
+
+omit [CompleteSpace H] in
+/-- `z_n := λ⁻¹(x_{n+2} - x_{n+1})`. -/
+private noncomputable def thm51_seqZ (x : ℕ → H) (lam : ℝ) (n : ℕ) : H :=
+  lam⁻¹ • thm51_seqV x n
+
+omit [CompleteSpace H] in
+/-- The Lyapunov sequence `G_n` of the paper, with `L := dA₀(0)` as the
+quadratic operator. -/
+private noncomputable def thm51_seqG (x : ℕ → H) (xInf : H) (lam : ℝ)
+    (L : H →L[ℝ] H) (n : ℕ) : ℝ :=
+  lam⁻¹ * inner ℝ (x (n + 1) - x n) (x (n + 1) - xInf) +
+    (1 / 2 : ℝ) * inner ℝ (L (x (n + 1) - xInf)) (x (n + 1) - xInf)
+
+/-- The real-valued specialization `F_n` of `def_11`'s `secondEnergySeq`. -/
+private noncomputable def thm51_seqF (x : ℕ → H) (lam : ℝ) (f : H → ℝ)
+    (xInf : H) (n : ℕ) : ℝ :=
+  (1 / (2 * lam ^ 2)) * ‖x (n + 1) - x n‖ ^ 2 + f (x (n + 1)) -
+    f xInf - inner ℝ (gradient f xInf) (x (n + 1) - xInf)
+
+omit [CompleteSpace H] in
+/-- The second-order Lyapunov sequence `H_n` of the paper. -/
+private noncomputable def thm51_seqH (m η : ℝ) (G F : ℕ → ℝ) (n : ℕ) : ℝ :=
+  G n + ((1 + η) / (m - η)) * F n + (1 / (2 * (m - η))) * F (n - 1)
+
+/-- The vector `U_n` pairing used in (31), (33), (37), (39) and (40). -/
+private noncomputable def thm51_pairingU (x : ℕ → H) (xInf : H) (A0 : H → H)
+    (f : H → ℝ) (lam : ℝ) (z : ℕ → H) (n : ℕ) : H :=
+  (lam ^ 2)⁻¹ • thm51_seqAcc x n + A0 (z n) + gradient f (x (n + 2)) -
+    gradient f xInf
+
+omit [CompleteSpace H] in
+/-- Equation (29): the `G` difference identity for the paper's operator
+`L := dA₀(0)`, conditional on the self-adjointness that the source statement
+does not currently assume. -/
+private theorem thm51_G_difference_identity_aux
+    (a b w p q : H) (L : H →L[ℝ] H)
+    (hL : ∀ a b : H, inner ℝ (L a) b = inner ℝ a (L b))
+    (lam : ℝ) (hlam : lam ≠ 0) :
+    (lam⁻¹ * inner ℝ b (a + b) + 1 / 2 * inner ℝ (L (a + b)) (a + b)) -
+      (lam⁻¹ * inner ℝ w a + 1 / 2 * inner ℝ (L a) a) =
+    lam * inner ℝ ((lam ^ 2)⁻¹ • (b - w) + p + q) (a + b) -
+      lam * inner ℝ (p - L (lam⁻¹ • b)) (a + b) -
+      lam * inner ℝ q (a + b) +
+      lam⁻¹ * inner ℝ w b - 1 / 2 * inner ℝ (L b) b := by
+  have hcomm : inner ℝ a (L b) = inner ℝ b (L a) := by
+    rw [real_inner_comm, hL]
+  simp only [map_add, map_smul, inner_add_left, inner_add_right, inner_sub_left,
+    real_inner_smul_left, hL]
+  rw [hcomm]
+  field_simp [hlam]
+  ring
+
+private theorem thm51_G_difference_identity (x : ℕ → H) (xInf : H) (A0 : H → H)
+    (f : H → ℝ) (lam : ℝ) (L : H →L[ℝ] H)
+    (hL_symm : ∀ a b : H, inner ℝ (L a) b = inner ℝ a (L b))
+    (hlam : 0 < lam) (n : ℕ) :
+    thm51_seqG x xInf lam L (n + 1) - thm51_seqG x xInf lam L n =
+      lam * inner ℝ ((lam ^ 2)⁻¹ • thm51_seqAcc x n + A0 (thm51_seqZ x lam n) +
+          gradient f (x (n + 2)) - gradient f xInf) (x (n + 2) - xInf) -
+        lam * inner ℝ (A0 (thm51_seqZ x lam n) - L (thm51_seqZ x lam n))
+          (x (n + 2) - xInf) -
+        lam * inner ℝ (gradient f (x (n + 2)) - gradient f xInf) (x (n + 2) - xInf) +
+        lam⁻¹ * inner ℝ (x (n + 1) - x n) (thm51_seqV x n) -
+        (1 / 2 : ℝ) * inner ℝ (L (thm51_seqV x n)) (thm51_seqV x n) := by
+  have h := thm51_G_difference_identity_aux
+    (x (n + 1) - xInf) (thm51_seqV x n) (x (n + 1) - x n)
+    (A0 (thm51_seqZ x lam n)) (gradient f (x (n + 2)) - gradient f xInf)
+    L hL_symm lam (ne_of_gt hlam)
+  have hv_add : x (n + 1) - xInf + thm51_seqV x n = x (n + 2) - xInf := by
+    simp [thm51_seqV]
+  have hacc : thm51_seqV x n - (x (n + 1) - x n) = thm51_seqAcc x n := by
+    simp [thm51_seqAcc, thm51_seqV]
+    abel
+  rw [hv_add, hacc] at h
+  have hsucc : n + 1 + 1 = n + 2 := by omega
+  simpa only [thm51_seqG, thm51_seqV, thm51_seqZ, hsucc, sub_eq_add_neg,
+    add_assoc] using h
+
+omit [CompleteSpace H] in
+/-- Equations (45) and (46): two-sided quadratic bounds for `G_n` in terms of
+`x_{n+1} - x_n` and `x_{n+1} - x∞`, for every `θ > 0`.
+
+The sign of the first summand in the printed upper bound (46) is inconsistent
+with the absolute-value estimate that precedes it: with `L = id`,
+`λ = θ = m = 1` and `x_{n+1} - x_n = x_{n+1} - x∞ ≠ 0` one has
+`G_n = 3/2 ‖·‖²`, which is strictly larger than the printed right side
+`-1/2 ‖·‖²`.  The upper inequality stated here therefore carries the sign
+`+‖x_{n+1} - x_n‖²/(2λθ)`, which is the estimate actually obtained from
+`|⟨d, e⟩| ≤ ‖d‖²/(2θ) + θ‖e‖²/2`. -/
+private theorem thm51_G_bounds (x : ℕ → H) (xInf : H) (lam : ℝ) (L : H →L[ℝ] H)
+    (m : ℝ) (_hm : 0 < m) (hlam : 0 < lam) (n : ℕ) {θ : ℝ} (hθ : 0 < θ)
+    (hcoer : ∀ d : H, m * ‖d‖ ^ 2 ≤ inner ℝ d (L d)) :
+    thm51_seqG x xInf lam L n ≥
+        -‖x (n + 1) - x n‖ ^ 2 / (2 * lam * θ) +
+          ((m - θ / lam) / 2) * ‖x (n + 1) - xInf‖ ^ 2 ∧
+      thm51_seqG x xInf lam L n ≤
+        ‖x (n + 1) - x n‖ ^ 2 / (2 * lam * θ) +
+          ((θ / lam + ‖L‖) / 2) * ‖x (n + 1) - xInf‖ ^ 2 := by
+  let d : H := x (n + 1) - x n
+  let e : H := x (n + 1) - xInf
+  constructor
+  · have hcross := thm51_G_theta_cross hθ (-d) e
+    have hcross' : -inner ℝ d e ≤ ‖d‖ ^ 2 / (2 * θ) + θ * ‖e‖ ^ 2 / 2 := by
+      simpa using hcross
+    have hmul : lam⁻¹ * (-inner ℝ d e) ≤
+        lam⁻¹ * (‖d‖ ^ 2 / (2 * θ) + θ * ‖e‖ ^ 2 / 2) :=
+      mul_le_mul_of_nonneg_left hcross' (inv_nonneg.mpr (le_of_lt hlam))
+    have hmul' : -lam⁻¹ * inner ℝ d e ≤
+        ‖d‖ ^ 2 / (2 * lam * θ) + (θ / lam) * ‖e‖ ^ 2 / 2 := by
+      convert hmul using 1 <;> ring
+    have hcoer_e := hcoer e
+    have hcomm : inner ℝ e (L e) = inner ℝ (L e) e := real_inner_comm _ _
+    rw [hcomm] at hcoer_e
+    have hcoer_half : (m / 2) * ‖e‖ ^ 2 ≤ (1 / 2 : ℝ) * inner ℝ (L e) e := by
+      nlinarith
+    have hcoef : -‖d‖ ^ 2 / (2 * lam * θ) +
+          ((m - θ / lam) / 2) * ‖e‖ ^ 2 =
+        -(‖d‖ ^ 2 / (2 * lam * θ) + (θ / lam) * ‖e‖ ^ 2 / 2) +
+          (m / 2) * ‖e‖ ^ 2 := by
+      ring
+    have hmain : -‖d‖ ^ 2 / (2 * lam * θ) +
+          ((m - θ / lam) / 2) * ‖e‖ ^ 2 ≤
+        lam⁻¹ * inner ℝ d e + (1 / 2 : ℝ) * inner ℝ (L e) e := by
+      linarith [hmul', hcoer_half, hcoef]
+    simpa [thm51_seqG, d, e] using hmain
+  · have hcross := thm51_G_theta_cross hθ d e
+    have hmul : lam⁻¹ * inner ℝ d e ≤
+        lam⁻¹ * (‖d‖ ^ 2 / (2 * θ) + θ * ‖e‖ ^ 2 / 2) :=
+      mul_le_mul_of_nonneg_left hcross (inv_nonneg.mpr (le_of_lt hlam))
+    have hmul' : lam⁻¹ * inner ℝ d e ≤
+        ‖d‖ ^ 2 / (2 * lam * θ) + (θ / lam) * ‖e‖ ^ 2 / 2 := by
+      convert hmul using 1; ring
+    have hLnorm := L.le_opNorm e
+    have hinner := real_inner_le_norm (L e) e
+    have hle : (1 / 2 : ℝ) * inner ℝ (L e) e ≤ (‖L‖ / 2) * ‖e‖ ^ 2 := by
+      nlinarith [hLnorm, hinner, norm_nonneg e, norm_nonneg (L e)]
+    have hmain : lam⁻¹ * inner ℝ d e + (1 / 2 : ℝ) * inner ℝ (L e) e ≤
+        ‖d‖ ^ 2 / (2 * lam * θ) + ((θ / lam + ‖L‖) / 2) * ‖e‖ ^ 2 := by
+      nlinarith [hmul', hle]
+    simpa [thm51_seqG, d, e] using hmain
+
+/-- Equations (44) and (48): with `τ₀ = (√(‖L‖²+4M)-‖L‖)/2`, the sequences
+`G` and `F` dominate each other in the way used by the Lyapunov argument. -/
+private theorem thm51_G_F_comparison (x : ℕ → H) (xInf : H) (lam : ℝ)
+    (L : H →L[ℝ] H) (f : H → ℝ) (M : ℝ) (m : ℝ) (hm : 0 < m)
+    (hM : 0 < M) (hlam : 0 < lam)
+    (hG_lower : ∀ n {θ : ℝ}, 0 < θ → thm51_seqG x xInf lam L n ≥
+      -‖x (n + 1) - x n‖ ^ 2 / (2 * lam * θ) +
+        ((m - θ / lam) / 2) * ‖x (n + 1) - xInf‖ ^ 2)
+    (hG_upper : ∀ n {θ : ℝ}, 0 < θ → thm51_seqG x xInf lam L n ≤
+      ‖x (n + 1) - x n‖ ^ 2 / (2 * lam * θ) +
+        ((θ / lam + ‖L‖) / 2) * ‖x (n + 1) - xInf‖ ^ 2)
+    (hF_lower : ∀ n, thm51_seqF x lam f xInf n ≥
+        (1 / (2 * lam ^ 2)) * ‖x (n + 1) - x n‖ ^ 2 +
+          (M / 2) * ‖x (n + 1) - xInf‖ ^ 2) :
+    let τ0 : ℝ := (Real.sqrt (‖L‖ ^ 2 + 4 * M) - ‖L‖) / 2
+    (∀ n, thm51_seqF x lam f xInf n ≥ τ0 * thm51_seqG x xInf lam L n) ∧
+      (∀ n, thm51_seqG x xInf lam L n ≥ -(1 / m) * thm51_seqF x lam f xInf n) := by
+  let τ0 : ℝ := (Real.sqrt (‖L‖ ^ 2 + 4 * M) - ‖L‖) / 2
+  change (∀ n, thm51_seqF x lam f xInf n ≥
+      τ0 * thm51_seqG x xInf lam L n) ∧
+    (∀ n, thm51_seqG x xInf lam L n ≥ -(1 / m) * thm51_seqF x lam f xInf n)
+  have hτ0_pos : 0 < τ0 := by
+    simpa [τ0] using thm51_tau0_pos ‖L‖ M (norm_nonneg L) hM
+  have hτ0_quad : τ0 ^ 2 + ‖L‖ * τ0 = M := by
+    simpa [τ0] using thm51_tau0_quadratic ‖L‖ M hM
+  constructor
+  · intro n
+    let w2 : ℝ := ‖x (n + 1) - x n‖ ^ 2
+    let a2 : ℝ := ‖x (n + 1) - xInf‖ ^ 2
+    have hw2 : 0 ≤ w2 := by dsimp [w2]; positivity
+    have ha2 : 0 ≤ a2 := by dsimp [a2]; positivity
+    have hθ : 0 < lam * τ0 := mul_pos hlam hτ0_pos
+    have hupper := hG_upper n hθ
+    have hupper' : thm51_seqG x xInf lam L n ≤
+        w2 / (2 * lam * (lam * τ0)) + ((lam * τ0 / lam + ‖L‖) / 2) * a2 := by
+      simpa [w2, a2] using hupper
+    have hmul := mul_le_mul_of_nonneg_left hupper' (le_of_lt hτ0_pos)
+    have hF' : thm51_seqF x lam f xInf n ≥
+        (1 / (2 * lam ^ 2)) * w2 + (M / 2) * a2 := by
+      simpa [w2, a2] using hF_lower n
+    have hfirst : τ0 * (w2 / (2 * lam * (lam * τ0))) =
+        (1 / (2 * lam ^ 2)) * w2 := by
+      have hden : 2 * lam * (lam * τ0) = 2 * lam ^ 2 * τ0 := by ring
+      rw [hden]
+      field_simp [ne_of_gt hlam, ne_of_gt hτ0_pos]
+    have hsecond : τ0 * (((lam * τ0 / lam + ‖L‖) / 2) * a2) = (M / 2) * a2 := by
+      have hc : lam * τ0 / lam = τ0 := mul_div_cancel_left₀ τ0 (ne_of_gt hlam)
+      rw [hc]
+      have hq : τ0 * ((τ0 + ‖L‖) / 2) = M / 2 := by
+        have hmul' : τ0 * (τ0 + ‖L‖) = M := by nlinarith [hτ0_quad]
+        rw [← mul_div_assoc, hmul']
+      rw [← mul_assoc, hq]
+    have hscalar : τ0 *
+        (w2 / (2 * lam * (lam * τ0)) + ((lam * τ0 / lam + ‖L‖) / 2) * a2) =
+        (1 / (2 * lam ^ 2)) * w2 + (M / 2) * a2 := by
+      calc τ0 * (w2 / (2 * lam * (lam * τ0)) +
+              ((lam * τ0 / lam + ‖L‖) / 2) * a2)
+          = τ0 * (w2 / (2 * lam * (lam * τ0))) +
+            τ0 * (((lam * τ0 / lam + ‖L‖) / 2) * a2) := by ring
+        _ = (1 / (2 * lam ^ 2)) * w2 + (M / 2) * a2 := by rw [hfirst, hsecond]
+    linarith
+  · intro n
+    let w2 : ℝ := ‖x (n + 1) - x n‖ ^ 2
+    let a2 : ℝ := ‖x (n + 1) - xInf‖ ^ 2
+    have hw2 : 0 ≤ w2 := by dsimp [w2]; positivity
+    have ha2 : 0 ≤ a2 := by dsimp [a2]; positivity
+    have hθ : 0 < lam * m := mul_pos hlam hm
+    have hlower := hG_lower n hθ
+    have hlower' : thm51_seqG x xInf lam L n ≥ -w2 / (2 * lam ^ 2 * m) := by
+      have hcoef : (m - (lam * m) / lam) / 2 = 0 := by
+        field_simp [ne_of_gt hlam]
+        ring
+      have hden : 2 * lam * (lam * m) = 2 * lam ^ 2 * m := by ring
+      simpa [w2, a2, hcoef, hden] using hlower
+    have hF' : thm51_seqF x lam f xInf n ≥
+        (1 / (2 * lam ^ 2)) * w2 + (M / 2) * a2 := by
+      simpa [w2, a2] using hF_lower n
+    have hnonneg : 0 ≤ (M / 2) * a2 := mul_nonneg (by positivity) ha2
+    have hF'' : thm51_seqF x lam f xInf n ≥ (1 / (2 * lam ^ 2)) * w2 := by
+      linarith
+    have hdiv : ((1 / (2 * lam ^ 2)) * w2) / m ≤
+        (thm51_seqF x lam f xInf n) / m :=
+      div_le_div_of_nonneg_right hF'' (le_of_lt hm)
+    have hEq : -(1 / m) * thm51_seqF x lam f xInf n =
+        -(thm51_seqF x lam f xInf n / m) := by ring
+    have hEq2 : -w2 / (2 * lam ^ 2 * m) =
+        -(((1 / (2 * lam ^ 2)) * w2) / m) := by
+      field_simp [ne_of_gt hm, ne_of_gt hlam]
+    rw [hEq]
+    linarith
+
+/-- Inequality (37): with `L := dA₀(0)` self-adjoint, the difference identity
+(29), the eventual normal-cone inequality (31), the eventual Taylor pairing
+bound (33), the convexity inequality (34) and the coercivity (35) give, for
+every `δ > 0` and eventually in `n`,
+`G_{n+1} - G_n + λ F_{n+1} ≤ (1+δ)/λ ‖v_n‖² + 1/(2λ) ‖d_n‖²`, where
+`v_n = x_{n+2} - x_{n+1}` and `d_n = x_{n+1} - x_n`.
+
+The self-adjointness of `dA₀(0)` is assumed by the printed proof but is not
+among the public hypotheses of `thm_5_1`; it is therefore carried explicitly
+here as `hL_symm`, so this helper is conditional on the `L_self_adjoint`
+statement gap recorded in the round feedback.  The paper's (29) is supplied by
+the already declared `thm51_G_difference_identity`. -/
+private theorem thm51_G_increment_F_bound
+    (x : ℕ → H) (xInf : H) (A0 : H → H) (f : H → ℝ)
+    (lam : ℝ) (hlam : 0 < lam) (L : H →L[ℝ] H)
+    (hL_symm : ∀ a b : H, inner ℝ (L a) b = inner ℝ a (L b))
+    (m δ : ℝ) (hm : 0 < m) (hδ : 0 < δ)
+    (z : ℕ → H) (hz : ∀ n, z n = lam⁻¹ • thm51_seqV x n)
+    (hpair31 : ∀ᶠ n in atTop,
+      inner ℝ (thm51_pairingU x xInf A0 f lam z n) (x (n + 2) - xInf) ≤ 0)
+    (hrem33 : ∀ᶠ n in atTop,
+      |inner ℝ (A0 (z n) - L (z n)) (x (n + 2) - xInf)| ≤
+        δ / lam ^ 2 * ‖thm51_seqV x n‖ ^ 2)
+    (hconv34 : ∀ n, inner ℝ (gradient f (x (n + 2))) (xInf - x (n + 2)) ≤
+      f xInf - f (x (n + 2)))
+    (hcoer35 : ∀ d : H, m * ‖d‖ ^ 2 ≤ inner ℝ d (L d)) :
+    ∀ᶠ n in atTop,
+      thm51_seqG x xInf lam L (n + 1) - thm51_seqG x xInf lam L n +
+          lam * thm51_seqF x lam f xInf (n + 1) ≤
+        (1 + δ) / lam * ‖thm51_seqV x n‖ ^ 2 +
+          (1 / (2 * lam)) * ‖x (n + 1) - x n‖ ^ 2 := by
+  filter_upwards [hpair31, hrem33] with n hpair hrem
+  let d : H := x (n + 1) - x n
+  let v : H := thm51_seqV x n
+  let e : H := x (n + 2) - xInf
+  let U : H := thm51_pairingU x xInf A0 f lam z n
+  have hdiff := thm51_G_difference_identity x xInf A0 f lam L hL_symm hlam n
+  have hpair' : inner ℝ U e ≤ 0 := by
+    simpa [U, e] using hpair
+  have hrem' : -inner ℝ (A0 (z n) - L (z n)) e ≤ δ / lam ^ 2 * ‖v‖ ^ 2 :=
+    le_trans (neg_le_abs _) (by simpa [v, e] using hrem)
+  have hconv' : -inner ℝ (gradient f (x (n + 2))) e ≤ f xInf - f (x (n + 2)) := by
+    have h := hconv34 n
+    rw [show xInf - x (n + 2) = -(x (n + 2) - xInf) by abel,
+      inner_neg_right] at h
+    simpa [e] using h
+  have hpair_mult : lam * inner ℝ U e ≤ 0 :=
+    mul_nonpos_of_nonneg_of_nonpos (le_of_lt hlam) hpair'
+  have hrem_mult : -lam * inner ℝ (A0 (z n) - L (z n)) e ≤ δ / lam * ‖v‖ ^ 2 := by
+    have h := mul_le_mul_of_nonneg_left hrem' (le_of_lt hlam)
+    convert h using 1 <;> field_simp [ne_of_gt hlam]
+  have hf_bound :
+      -lam * inner ℝ (gradient f (x (n + 2)) - gradient f xInf) e +
+        lam * (f (x (n + 2)) - f xInf - inner ℝ (gradient f xInf) e) ≤ 0 := by
+    have h := mul_le_mul_of_nonneg_left hconv' (le_of_lt hlam)
+    simp only [inner_sub_left] at h ⊢
+    nlinarith
+  have hcv : inner ℝ d v ≤ (1 / 2 : ℝ) * ‖d‖ ^ 2 + (1 / 2 : ℝ) * ‖v‖ ^ 2 := by
+    nlinarith [thm51_inner_cross_le d v]
+  have hLv_nonneg : 0 ≤ inner ℝ (L v) v := by
+    have h := hcoer35 v
+    have hcomm : inner ℝ v (L v) = inner ℝ (L v) v := real_inner_comm _ _
+    rw [hcomm] at h
+    nlinarith [hm, sq_nonneg ‖v‖]
+  have hlast : lam⁻¹ * inner ℝ d v - (1 / 2 : ℝ) * inner ℝ (L v) v ≤
+      (1 / (2 * lam)) * ‖d‖ ^ 2 + (1 / (2 * lam)) * ‖v‖ ^ 2 := by
+    have h1 := mul_le_mul_of_nonneg_left hcv (inv_nonneg.mpr (le_of_lt hlam))
+    have h2 : 0 ≤ (1 / 2 : ℝ) * inner ℝ (L v) v :=
+      mul_nonneg (by norm_num) hLv_nonneg
+    have hcoef : lam⁻¹ * ((1 / 2 : ℝ) * ‖d‖ ^ 2 + (1 / 2 : ℝ) * ‖v‖ ^ 2) =
+        (1 / (2 * lam)) * ‖d‖ ^ 2 + (1 / (2 * lam)) * ‖v‖ ^ 2 := by
+      ring
+    nlinarith [h1, h2, hcoef]
+  have hlast' : lam⁻¹ * inner ℝ d v - (1 / 2 : ℝ) * inner ℝ (L v) v +
+        (1 / (2 * lam)) * ‖v‖ ^ 2 ≤
+      (1 / (2 * lam)) * ‖d‖ ^ 2 + (1 / lam) * ‖v‖ ^ 2 := by
+    have hkin : 0 ≤ (1 / (2 * lam)) * ‖v‖ ^ 2 := by positivity
+    have hcoef : (1 / (2 * lam)) * ‖v‖ ^ 2 + (1 / (2 * lam)) * ‖v‖ ^ 2 =
+        (1 / lam) * ‖v‖ ^ 2 := by
+      field_simp [ne_of_gt hlam]
+      ring
+    nlinarith [hlast, hkin, hcoef]
+  have hdecomp :
+      thm51_seqG x xInf lam L (n + 1) - thm51_seqG x xInf lam L n +
+          lam * thm51_seqF x lam f xInf (n + 1) =
+        lam * inner ℝ U e - lam * inner ℝ (A0 (z n) - L (z n)) e +
+          (-lam * inner ℝ (gradient f (x (n + 2)) - gradient f xInf) e +
+            lam * (f (x (n + 2)) - f xInf - inner ℝ (gradient f xInf) e)) +
+          (lam⁻¹ * inner ℝ d v - (1 / 2 : ℝ) * inner ℝ (L v) v +
+            (1 / (2 * lam)) * ‖v‖ ^ 2) := by
+    rw [hdiff]
+    have hz' : z n = thm51_seqZ x lam n := by
+      simp [thm51_seqZ, hz n]
+    simp only [thm51_seqF, thm51_seqV, U, d, v, e, thm51_pairingU, hz']
+    ring_nf
+    field_simp [ne_of_gt hlam]
+    ring
+  have hcombined :
+      lam * inner ℝ U e - lam * inner ℝ (A0 (z n) - L (z n)) e +
+          (-lam * inner ℝ (gradient f (x (n + 2)) - gradient f xInf) e +
+            lam * (f (x (n + 2)) - f xInf - inner ℝ (gradient f xInf) e)) +
+          (lam⁻¹ * inner ℝ d v - (1 / 2 : ℝ) * inner ℝ (L v) v +
+            (1 / (2 * lam)) * ‖v‖ ^ 2) ≤
+        δ / lam * ‖v‖ ^ 2 +
+          ((1 / (2 * lam)) * ‖d‖ ^ 2 + (1 / lam) * ‖v‖ ^ 2) := by
+    linarith [hpair_mult, hrem_mult, hf_bound, hlast']
+  have hcoef : δ / lam + 1 / lam = (1 + δ) / lam := by
+    field_simp [ne_of_gt hlam]
+    ring
+  have hrhs :
+      δ / lam * ‖v‖ ^ 2 +
+          ((1 / (2 * lam)) * ‖d‖ ^ 2 + (1 / lam) * ‖v‖ ^ 2) =
+        (1 + δ) / lam * ‖v‖ ^ 2 + (1 / (2 * lam)) * ‖d‖ ^ 2 := by
+    rw [← hcoef]
+    ring
+  rw [hdecomp]
+  exact le_trans hcombined (le_of_eq (by simpa [v, d] using hrhs))
+
+/-- Equation (42): the second energy sequence is eventually nonincreasing with
+the paper's quantitative decrement. -/
+private theorem thm51_F_difference_bound (x : ℕ → H) (xInf : H) (A0 : H → H)
+    (f : H → ℝ) (lam : ℝ) (hlam : 0 < lam) (m η : ℝ) (_hm : 0 < m)
+    (hη : 0 < η) (_hηm : η < m) (z : ℕ → H)
+    (hz : ∀ n, z n = lam⁻¹ • thm51_seqV x n)
+    (_hpairG : ∀ᶠ n in atTop,
+      inner ℝ (thm51_pairingU x xInf A0 f lam z n) (x (n + 2) - xInf) ≤ 0)
+    (hpairF : ∀ n,
+      inner ℝ (thm51_pairingU x xInf A0 f lam z n) (thm51_seqV x n) ≤ 0)
+    (hrem : ∀ᶠ n in atTop,
+      |inner ℝ (A0 (z n) - fderiv ℝ A0 (0 : H) (z n)) (x (n + 2) - xInf)| ≤
+          (η / 4) / lam ^ 2 * ‖thm51_seqV x n‖ ^ 2 ∧
+        |inner ℝ (A0 (z n) - fderiv ℝ A0 (0 : H) (z n)) (thm51_seqV x n)| ≤
+          (η / 4) / lam * ‖thm51_seqV x n‖ ^ 2)
+    (hconv : ∀ n, f (x (n + 2)) ≤ f (x (n + 1)) +
+      inner ℝ (gradient f (x (n + 2))) (x (n + 2) - x (n + 1)))
+    (hcoer : ∀ d : H, m * ‖d‖ ^ 2 ≤ inner ℝ d (fderiv ℝ A0 (0 : H) d)) :
+    ∀ᶠ n in atTop,
+      thm51_seqF x lam f xInf (n + 1) - thm51_seqF x lam f xInf n ≤
+        -((m - η) / lam) * ‖thm51_seqV x n‖ ^ 2 := by
+  filter_upwards [hrem] with n hremn
+  let w : H := x (n + 1) - x n
+  let v : H := thm51_seqV x n
+  let acc : H := thm51_seqAcc x n
+  let L : H →L[ℝ] H := fderiv ℝ A0 (0 : H)
+  let U : H := thm51_pairingU x xInf A0 f lam z n
+  have hv_def : v = x (n + 2) - x (n + 1) := rfl
+  have hacc_eq : acc = v - w := by
+    dsimp [acc, v, w, thm51_seqAcc, thm51_seqV]
+    abel
+  have hz_eq : z n = lam⁻¹ • v := by
+    simpa [v] using hz n
+  have hdiff_id : thm51_seqF x lam f xInf (n + 1) - thm51_seqF x lam f xInf n =
+      (1 / (2 * lam ^ 2)) * (‖v‖ ^ 2 - ‖w‖ ^ 2) +
+        (f (x (n + 2)) - f (x (n + 1))) - inner ℝ (gradient f xInf) v := by
+    have hsucc : n + 1 + 1 = n + 2 := by omega
+    simp only [thm51_seqF, v, w, thm51_seqV, hsucc, inner_sub_right]
+    ring
+  have hnorm_id : ‖v‖ ^ 2 - ‖w‖ ^ 2 = 2 * inner ℝ acc v - ‖acc‖ ^ 2 := by
+    rw [hacc_eq]
+    have h1 := norm_sub_sq_real v w
+    have hsub : inner ℝ (v - w) v = inner ℝ v v - inner ℝ w v := by
+      rw [inner_sub_left]
+    have hvv : inner ℝ v v = ‖v‖ ^ 2 := real_inner_self_eq_norm_sq v
+    have hwv : inner ℝ w v = inner ℝ v w := (real_inner_comm w v).symm
+    nlinarith [h1, hsub, hvv, hwv]
+  have hU_nonpos : inner ℝ U v ≤ 0 := by
+    simpa [U, thm51_pairingU, v] using hpairF n
+  have hrem_v : |inner ℝ (A0 (z n) - L (z n)) v| ≤ (η / 4) / lam * ‖v‖ ^ 2 := by
+    simpa [L, v] using hremn.2
+  have hrem_v' : -inner ℝ (A0 (z n) - L (z n)) v ≤ (η / 4) / lam * ‖v‖ ^ 2 :=
+    le_trans (neg_le_abs _) hrem_v
+  have hcoer_v' : -(1 / lam) * inner ℝ (L v) v ≤ -(m / lam) * ‖v‖ ^ 2 := by
+    have hcoer_v := hcoer v
+    have hcomm : inner ℝ v (L v) = inner ℝ (L v) v := real_inner_comm _ _
+    rw [hcomm] at hcoer_v
+    have hmul : (1 / lam) * (m * ‖v‖ ^ 2) ≤ (1 / lam) * inner ℝ (L v) v :=
+      mul_le_mul_of_nonneg_left hcoer_v (by positivity)
+    have hneg := neg_le_neg hmul
+    have heq : -((1 / lam) * (m * ‖v‖ ^ 2)) = -(m / lam) * ‖v‖ ^ 2 := by ring
+    linarith
+  have hconv_v' : f (x (n + 2)) - f (x (n + 1)) -
+      inner ℝ (gradient f (x (n + 2))) v ≤ 0 := by
+    have h := hconv n
+    rw [hv_def]
+    linarith
+  have hmain_ineq : thm51_seqF x lam f xInf (n + 1) - thm51_seqF x lam f xInf n ≤
+      inner ℝ U v - inner ℝ (A0 (z n) - L (z n)) v - (1 / lam) * inner ℝ (L v) v +
+        (f (x (n + 2)) - f (x (n + 1)) -
+          inner ℝ (gradient f (x (n + 2))) v) := by
+    rw [hdiff_id, hnorm_id]
+    simp only [U, thm51_pairingU, acc, hz_eq, L, map_smul, real_inner_smul_left,
+      inner_add_left, inner_sub_left]
+    field_simp [ne_of_gt hlam]
+    nlinarith [sq_nonneg ‖acc‖]
+  refine le_trans hmain_ineq ?_
+  have hsum := add_le_add (add_le_add (add_le_add hU_nonpos hrem_v') hcoer_v') hconv_v'
+  have hη4 : -(m / lam) * ‖v‖ ^ 2 + (η / 4) / lam * ‖v‖ ^ 2 ≤
+      -((m - η) / lam) * ‖v‖ ^ 2 := by
+    have hcoef : -(m / lam) + (η / 4) / lam ≤ -((m - η) / lam) := by
+      field_simp [ne_of_gt hlam]
+      linarith
+    calc
+      -(m / lam) * ‖v‖ ^ 2 + (η / 4) / lam * ‖v‖ ^ 2 =
+          (-(m / lam) + (η / 4) / lam) * ‖v‖ ^ 2 := by ring
+      _ ≤ -((m - η) / lam) * ‖v‖ ^ 2 :=
+          mul_le_mul_of_nonneg_right hcoef (sq_nonneg ‖v‖)
+  linarith
+
+omit [InnerProductSpace ℝ H] [CompleteSpace H] in
+/-- Inequalities (43) and (51): the increment bound (37) taken with `δ = η/4`
+and the `F` decrement (42) combine into the eventual Lyapunov inequality
+`H_{n+1} - H_n + λ F_{n+1} ≤ 0`, while the comparison (44)/(47) makes `H`
+eventually nonnegative and (42) makes `F` eventually nonincreasing.
+
+Here `H` is the paper's `thm51_seqH`, and (42) is used both at `n` (against the
+`v_n` coefficient of (37)) and at `n - 1` (against the `d_n` coefficient of
+(37), since `d_n = v_{n-1}`). -/
+private theorem thm51_H_eventual_inputs
+    (x : ℕ → H) (lam m η : ℝ) (hlam : 0 < lam) (hm : 0 < m)
+    (hη : 0 < η) (hηm : η < m) (G F : ℕ → ℝ)
+    (hF_nonneg : ∀ᶠ n in atTop, 0 ≤ F n)
+    (hG_increment : ∀ᶠ n in atTop,
+      G (n + 1) - G n + lam * F (n + 1) ≤
+        (1 + η / 4) / lam * ‖thm51_seqV x n‖ ^ 2 +
+          (1 / (2 * lam)) * ‖x (n + 1) - x n‖ ^ 2)
+    (hF_decrement : ∀ᶠ n in atTop,
+      F (n + 1) - F n ≤ -((m - η) / lam) * ‖thm51_seqV x n‖ ^ 2)
+    (hG_lower : ∀ n, G n ≥ -(1 / m) * F n) :
+    (∀ᶠ n in atTop,
+        thm51_seqH m η G F (n + 1) - thm51_seqH m η G F n + lam * F (n + 1) ≤ 0) ∧
+      (∀ᶠ n in atTop, 0 ≤ thm51_seqH m η G F n) ∧
+      (∀ᶠ n in atTop, F (n + 1) ≤ F n) := by
+  have hηpos : 0 < m - η := sub_pos.mpr hηm
+  let A : ℝ := (1 + η) / (m - η)
+  let B : ℝ := 1 / (2 * (m - η))
+  have hA : 0 ≤ A := by
+    dsimp [A]
+    exact div_nonneg (by linarith) (le_of_lt hηpos)
+  have hB : 0 ≤ B := by
+    dsimp [B]
+    exact div_nonneg (by norm_num) (le_of_lt (by positivity : (0 : ℝ) < 2 * (m - η)))
+  rcases eventually_atTop.mp hG_increment with ⟨NG, hGinc⟩
+  rcases eventually_atTop.mp hF_decrement with ⟨NF, hFdec⟩
+  rcases eventually_atTop.mp hF_nonneg with ⟨NFnn, hFnn⟩
+  let N : ℕ := max NG (max (NF + 1) (NFnn + 1))
+  have hN_inc : ∀ n ≥ N, NG ≤ n := by
+    intro n hn
+    exact le_trans (le_trans (le_max_left NG (max (NF + 1) (NFnn + 1))) hn) le_rfl
+  have hN_dec : ∀ n ≥ N, NF ≤ n := by
+    intro n hn
+    have hle : NF + 1 ≤ n :=
+      le_trans (le_trans (le_max_left (NF + 1) (NFnn + 1))
+        (le_max_right NG (max (NF + 1) (NFnn + 1)))) hn
+    omega
+  have hN_nonneg : ∀ n ≥ N, NFnn ≤ n := by
+    intro n hn
+    have hle : NFnn + 1 ≤ n :=
+      le_trans (le_trans (le_max_right (NF + 1) (NFnn + 1))
+        (le_max_right NG (max (NF + 1) (NFnn + 1)))) hn
+    omega
+  have hN_one : ∀ n ≥ N, 1 ≤ n := by
+    intro n hn
+    have hle : NF + 1 ≤ n := by
+      exact le_trans (le_trans (le_max_left (NF + 1) (NFnn + 1))
+        (le_max_right NG (max (NF + 1) (NFnn + 1)))) hn
+    omega
+  constructor
+  · filter_upwards [eventually_ge_atTop N] with n hn
+    have hn1 : 1 ≤ n := hN_one n hn
+    have hinc := hGinc n (hN_inc n hn)
+    have hdecn := hFdec n (hN_dec n hn)
+    have hdecprev := hFdec (n - 1) (by omega)
+    have hdecprev' : F n - F (n - 1) ≤
+        -((m - η) / lam) * ‖thm51_seqV x (n - 1)‖ ^ 2 := by
+      simpa [Nat.sub_add_cancel hn1] using hdecprev
+    have hAdec := mul_le_mul_of_nonneg_left hdecn hA
+    have hAdec' : A * (F (n + 1) - F n) ≤
+        -((1 + η) / lam) * ‖thm51_seqV x n‖ ^ 2 := by
+      have hcoef : A * (-((m - η) / lam) * ‖thm51_seqV x n‖ ^ 2) =
+          -((1 + η) / lam) * ‖thm51_seqV x n‖ ^ 2 := by
+        dsimp [A]
+        field_simp [ne_of_gt hηpos, ne_of_gt hlam]
+      exact le_trans hAdec (le_of_eq hcoef)
+    have hvprev : thm51_seqV x (n - 1) = x (n + 1) - x n := by
+      dsimp [thm51_seqV]
+      have h1 : n - 1 + 2 = n + 1 := by omega
+      have h2 : n - 1 + 1 = n := by omega
+      rw [h1, h2]
+    have hBdec := mul_le_mul_of_nonneg_left hdecprev' hB
+    have hBdec' : B * (F n - F (n - 1)) ≤
+        -(1 / (2 * lam)) * ‖x (n + 1) - x n‖ ^ 2 := by
+      rw [hvprev] at hBdec
+      have hcoef : B * (-((m - η) / lam) * ‖x (n + 1) - x n‖ ^ 2) =
+          -(1 / (2 * lam)) * ‖x (n + 1) - x n‖ ^ 2 := by
+        dsimp [B]
+        field_simp [ne_of_gt hηpos, ne_of_gt hlam]
+      exact le_trans hBdec (le_of_eq hcoef)
+    have hHdiff :
+        thm51_seqH m η G F (n + 1) - thm51_seqH m η G F n + lam * F (n + 1) =
+          (G (n + 1) - G n + lam * F (n + 1)) +
+            A * (F (n + 1) - F n) + B * (F n - F (n - 1)) := by
+      dsimp [thm51_seqH, A, B]
+      ring
+    rw [hHdiff]
+    have hsum := add_le_add (add_le_add hinc hAdec') hBdec'
+    have hcoef : (1 + η / 4) / lam - (1 + η) / lam = -(3 * η) / (4 * lam) := by
+      field_simp [ne_of_gt hlam]
+      ring
+    have hv_nonneg : 0 ≤ ‖thm51_seqV x n‖ ^ 2 := sq_nonneg _
+    have hnonpos : ((1 + η / 4) / lam - (1 + η) / lam) *
+        ‖thm51_seqV x n‖ ^ 2 ≤ 0 := by
+      rw [hcoef]
+      have hcoef_nonneg : 0 ≤ (3 * η) / (4 * lam) :=
+        div_nonneg (mul_nonneg (by norm_num) (le_of_lt hη)) (by positivity)
+      have hcoef_nonpos : -(3 * η) / (4 * lam) ≤ 0 := by
+        have hrewrite : -(3 * η) / (4 * lam) = -((3 * η) / (4 * lam)) := by ring
+        rw [hrewrite]
+        exact neg_nonpos.mpr hcoef_nonneg
+      exact mul_nonpos_of_nonpos_of_nonneg hcoef_nonpos hv_nonneg
+    nlinarith [hsum, hnonpos]
+  constructor
+  · filter_upwards [eventually_ge_atTop N] with n hn
+    have hn1 : 1 ≤ n := hN_one n hn
+    have hG := hG_lower n
+    have hFnnn := hFnn n (hN_nonneg n hn)
+    have hdecprev := hFdec (n - 1) (by omega)
+    have hdecprev' : F n - F (n - 1) ≤
+        -((m - η) / lam) * ‖thm51_seqV x (n - 1)‖ ^ 2 := by
+      simpa [Nat.sub_add_cancel hn1] using hdecprev
+    have hFmono_prev : F n ≤ F (n - 1) := by
+      have hv_nonneg : 0 ≤ ‖thm51_seqV x (n - 1)‖ ^ 2 := sq_nonneg _
+      have hcoef_nonneg : 0 ≤ (m - η) / lam :=
+        div_nonneg (le_of_lt hηpos) (le_of_lt hlam)
+      have hterm_nonneg : 0 ≤ ((m - η) / lam) * ‖thm51_seqV x (n - 1)‖ ^ 2 :=
+        mul_nonneg hcoef_nonneg hv_nonneg
+      linarith
+    have hBF : B * F n ≤ B * F (n - 1) := mul_le_mul_of_nonneg_left hFmono_prev hB
+    have hcoef_nonneg : 0 ≤ A + B - 1 / m := by
+      dsimp [A, B]
+      field_simp [ne_of_gt hm, ne_of_gt hηpos]
+      nlinarith [hm, hη, hηm]
+    have hcoefF : 0 ≤ (A + B - 1 / m) * F n := mul_nonneg hcoef_nonneg hFnnn
+    have hHnonneg : 0 ≤ G n + A * F n + B * F (n - 1) := by
+      nlinarith [hG, hBF, hcoefF]
+    simpa [thm51_seqH, A, B] using hHnonneg
+  · filter_upwards [eventually_ge_atTop N] with n hn
+    have hdec := hFdec n (hN_dec n hn)
+    have hv_nonneg : 0 ≤ ‖thm51_seqV x n‖ ^ 2 := sq_nonneg _
+    have hcoef_nonneg : 0 ≤ (m - η) / lam :=
+      div_nonneg (le_of_lt hηpos) (le_of_lt hlam)
+    have hterm_nonneg : 0 ≤ ((m - η) / lam) * ‖thm51_seqV x n‖ ^ 2 :=
+      mul_nonneg hcoef_nonneg hv_nonneg
+    linarith
+
+omit [CompleteSpace H] in
+/-- The Lyapunov inequality (43) and the nonnegativity (51) together with the
+geometric comparison (49)--(50) give the two-step contractive bound for `H`. -/
+private theorem thm51_geometric_of_two_step (H : ℕ → ℝ) (c β : ℝ) (N : ℕ)
+    (hβ : 0 < β) (hc : c = 1 / (1 + β))
+    (hH_nonneg : ∀ n ≥ N, 0 ≤ H n)
+    (hcontr : ∀ n ≥ N, (1 + β) * H (n + 2) ≤ H n) :
+    ∃ Kg : ℝ, ∃ nH : ℕ, 0 < Kg ∧ 0 < c ∧ c < 1 ∧
+      ∀ n ≥ nH, H n ≤ Kg * c ^ ((n : ℝ) / 2) := by
+  have hβ1pos : 0 < 1 + β := by linarith
+  have hc_pos : 0 < c := by rw [hc]; positivity
+  have hc_lt_one : c < 1 := by
+    rw [hc]
+    rw [div_lt_one hβ1pos]
+    linarith
+  let base : ℝ := max (H N) (H (N + 1)) + 1
+  have hbase_pos : 0 < base := by
+    have hHN : 0 ≤ H N := hH_nonneg N le_rfl
+    have hmax : 0 ≤ max (H N) (H (N + 1)) := le_trans hHN (le_max_left _ _)
+    dsimp [base]
+    linarith
+  let Kg : ℝ := base / c ^ (((N + 1 : ℕ) : ℝ) / 2)
+  have hKg_pos : 0 < Kg := by
+    dsimp [Kg]
+    exact div_pos hbase_pos (Real.rpow_pos_of_pos hc_pos _)
+  have hKg_base : Kg * c ^ (((N + 1 : ℕ) : ℝ) / 2) = base := by
+    dsimp [Kg]
+    field_simp [ne_of_gt (Real.rpow_pos_of_pos hc_pos _)]
+  have hmain : ∀ n, N ≤ n → H n ≤ Kg * c ^ ((n : ℝ) / 2) := by
+    intro n
+    refine Nat.strong_induction_on n ?_
+    intro n ih hn
+    by_cases hnN : n = N
+    · subst hnN
+      have hexp : ((n : ℝ) / 2) ≤ (((n + 1 : ℕ) : ℝ) / 2) := by
+        push_cast
+        nlinarith
+      have hpow : c ^ (((n + 1 : ℕ) : ℝ) / 2) ≤ c ^ ((n : ℝ) / 2) :=
+        Real.rpow_le_rpow_of_exponent_ge hc_pos (le_of_lt hc_lt_one) hexp
+      have hbase_le : base ≤ Kg * c ^ ((n : ℝ) / 2) := by
+        calc
+          base = Kg * c ^ (((n + 1 : ℕ) : ℝ) / 2) := hKg_base.symm
+          _ ≤ Kg * c ^ ((n : ℝ) / 2) :=
+            mul_le_mul_of_nonneg_left hpow (le_of_lt hKg_pos)
+      have hbase_ge_HN : H n ≤ base := by
+        dsimp [base]
+        linarith [le_max_left (H n) (H (n + 1))]
+      exact le_trans hbase_ge_HN hbase_le
+    · by_cases hnN1 : n = N + 1
+      · subst hnN1
+        have hle : H (N + 1) ≤ Kg * c ^ (((N + 1 : ℕ) : ℝ) / 2) := by
+          rw [hKg_base]
+          dsimp [base]
+          linarith [le_max_right (H N) (H (N + 1))]
+        simpa using hle
+      · have hn2 : N ≤ n - 2 := by omega
+        have hlt : n - 2 < n := by omega
+        have hn2ge2 : 2 ≤ n := by omega
+        have hih := ih (n - 2) hlt hn2
+        have hrec0 := hcontr (n - 2) hn2
+        have hrec : (1 + β) * H n ≤ H (n - 2) := by
+          simpa only [Nat.sub_add_cancel hn2ge2] using hrec0
+        have hdiv : H n ≤ H (n - 2) / (1 + β) := by
+          have h := div_le_div_of_nonneg_right hrec (le_of_lt hβ1pos)
+          simpa [mul_div_cancel_left₀ (H n) (ne_of_gt hβ1pos)] using h
+        have hc_inv : c = (1 + β)⁻¹ := by
+          rw [hc]
+          exact one_div _
+        have hdiv' : H n ≤ H (n - 2) * c := by
+          simpa [hc_inv, div_eq_mul_inv] using hdiv
+        have hmul := mul_le_mul_of_nonneg_right hih (le_of_lt hc_pos)
+        have hexp : ((n - 2 : ℕ) : ℝ) / 2 + 1 = (n : ℝ) / 2 := by
+          rw [Nat.cast_sub hn2ge2]
+          push_cast
+          ring
+        calc
+          H n ≤ H (n - 2) * c := hdiv'
+          _ ≤ (Kg * c ^ (((n - 2 : ℕ) : ℝ) / 2)) * c := hmul
+          _ = Kg * c ^ ((n : ℝ) / 2) := by
+            calc
+              (Kg * c ^ (((n - 2 : ℕ) : ℝ) / 2)) * c
+                  = Kg * (c ^ (((n - 2 : ℕ) : ℝ) / 2) * c ^ (1 : ℝ)) := by
+                    rw [Real.rpow_one]
+                    ring
+              _ = Kg * c ^ (((n - 2 : ℕ) : ℝ) / 2 + 1) := by
+                    rw [← Real.rpow_add hc_pos]
+              _ = Kg * c ^ ((n : ℝ) / 2) := by rw [hexp]
+  exact ⟨Kg, N, hKg_pos, hc_pos, hc_lt_one, hmain⟩
+
+private theorem thm51_H_decay_geometric (m η lam : ℝ) (_hm : 0 < m) (hη : 0 < η)
+    (hηm : η < m) (hlam : 0 < lam) (tau0 : ℝ) (htau0 : 0 < tau0)
+    (G F H : ℕ → ℝ)
+    (hF_nonneg : ∀ᶠ n in atTop, 0 ≤ F n)
+    (hF_nonincreasing : ∀ᶠ n in atTop, F (n + 1) ≤ F n)
+    (_hG_lower : ∀ n, G n ≥ -(1 / m) * F n)
+    (hG_upper : ∀ n, G n ≤ (1 / tau0) * F n)
+    (hH_ineq : ∀ᶠ n in atTop, H (n + 1) - H n + lam * F (n + 1) ≤ 0)
+    (hH_nonneg : ∀ᶠ n in atTop, 0 ≤ H n)
+    (hH_def : ∀ n, H n = G n + ((1 + η) / (m - η)) * F n +
+      (1 / (2 * (m - η))) * F (n - 1)) :
+    let α : ℝ := (m - η) / (3 / 2 + η)
+    let c : ℝ := (tau0 + α) / (tau0 + α + lam * tau0 * α)
+    ∃ (Kg : ℝ) (nH : ℕ), 0 < Kg ∧ 0 < c ∧ c < 1 ∧
+      ∀ n ≥ nH, H n ≤ Kg * c ^ ((n : ℝ) / 2) := by
+  let α : ℝ := (m - η) / (3 / 2 + η)
+  let c : ℝ := (tau0 + α) / (tau0 + α + lam * tau0 * α)
+  change ∃ (Kg : ℝ) (nH : ℕ), 0 < Kg ∧ 0 < c ∧ c < 1 ∧
+    ∀ n ≥ nH, H n ≤ Kg * c ^ ((n : ℝ) / 2)
+  have hηpos : 0 < m - η := sub_pos.mpr hηm
+  have hdenα : 0 < 3 / 2 + η := by norm_num; linarith
+  have hαpos : 0 < α := by
+    dsimp [α]
+    exact div_pos hηpos hdenα
+  have hταpos : 0 < tau0 + α := add_pos htau0 hαpos
+  have hβpos : 0 < lam * tau0 * α / (tau0 + α) :=
+    div_pos (mul_pos (mul_pos hlam htau0) hαpos) hταpos
+  have hc_eq : c = 1 / (1 + lam * tau0 * α / (tau0 + α)) := by
+    dsimp [c]
+    field_simp [ne_of_gt hταpos]
+  rcases eventually_atTop.mp hF_nonneg with ⟨N1, hN1⟩
+  rcases eventually_atTop.mp hF_nonincreasing with ⟨N2, hN2⟩
+  rcases eventually_atTop.mp hH_ineq with ⟨N3, hN3⟩
+  rcases eventually_atTop.mp hH_nonneg with ⟨N4, hN4⟩
+  let N : ℕ := max (max N1 N2) (max N3 N4)
+  have hN1N : N1 ≤ N := le_trans (le_max_left N1 N2) (le_max_left _ _)
+  have hN2N : N2 ≤ N := le_trans (le_max_right N1 N2) (le_max_left _ _)
+  have hN3N : N3 ≤ N := le_trans (le_max_left N3 N4) (le_max_right _ _)
+  have hN4N : N4 ≤ N := le_trans (le_max_right N3 N4) (le_max_right _ _)
+  have hFnn : ∀ n ≥ N, 0 ≤ F n := fun n hn => hN1 n (le_trans hN1N hn)
+  have hFmono : ∀ n ≥ N, F (n + 1) ≤ F n :=
+    fun n hn => hN2 n (le_trans hN2N hn)
+  have hHineq : ∀ n ≥ N, H (n + 1) - H n + lam * F (n + 1) ≤ 0 :=
+    fun n hn => hN3 n (le_trans hN3N hn)
+  have hHnn : ∀ n ≥ N, 0 ≤ H n := fun n hn => hN4 n (le_trans hN4N hn)
+  have hHmono : ∀ n ≥ N, H (n + 1) ≤ H n := by
+    intro n hn
+    have hineq := hHineq n hn
+    have hFpos := hFnn (n + 1) (by omega)
+    have hlamF : 0 ≤ lam * F (n + 1) := mul_nonneg (le_of_lt hlam) hFpos
+    linarith
+  have hcoef : (1 / tau0) + (1 + η) / (m - η) + 1 / (2 * (m - η)) =
+      (tau0 + α) / (tau0 * α) := by
+    dsimp [α]
+    field_simp [ne_of_gt htau0, ne_of_gt hηpos]
+    ring
+  have hH_upper : ∀ n ≥ N,
+      H (n + 2) ≤ ((tau0 + α) / (tau0 * α)) * F (n + 1) := by
+    intro n hn
+    have hGle := hG_upper (n + 2)
+    have hFmono1 : F (n + 2) ≤ F (n + 1) := hFmono (n + 1) (by omega)
+    have hG' : G (n + 2) ≤ (1 / tau0) * F (n + 1) := by
+      calc
+        G (n + 2) ≤ (1 / tau0) * F (n + 2) := hGle
+        _ ≤ (1 / tau0) * F (n + 1) :=
+          mul_le_mul_of_nonneg_left hFmono1 (by positivity)
+    have hA_nonneg : 0 ≤ (1 + η) / (m - η) :=
+      div_nonneg (by linarith) (le_of_lt hηpos)
+    have hB_nonneg : 0 ≤ 1 / (2 * (m - η)) :=
+      div_nonneg (by norm_num) (by positivity)
+    have hdef := hH_def (n + 2)
+    calc
+      H (n + 2) = G (n + 2) + ((1 + η) / (m - η)) * F (n + 2) +
+          (1 / (2 * (m - η))) * F (n + 1) := hdef
+      _ ≤ (1 / tau0) * F (n + 1) + ((1 + η) / (m - η)) * F (n + 1) +
+          (1 / (2 * (m - η))) * F (n + 1) := by
+        gcongr
+      _ = ((tau0 + α) / (tau0 * α)) * F (n + 1) := by
+        rw [← hcoef]
+        ring
+  have hKpos : 0 < (tau0 + α) / (tau0 * α) :=
+    div_pos hταpos (mul_pos htau0 hαpos)
+  have hrecip : (tau0 * α) / (tau0 + α) * ((tau0 + α) / (tau0 * α)) = 1 := by
+    field_simp [ne_of_gt hταpos, ne_of_gt htau0, ne_of_gt hαpos]
+  have hF_from_H : ∀ n ≥ N,
+      ((tau0 * α) / (tau0 + α)) * H (n + 2) ≤ F (n + 1) := by
+    intro n hn
+    have h := hH_upper n hn
+    have hmul := mul_le_mul_of_nonneg_left h
+      (le_of_lt (div_pos (mul_pos htau0 hαpos) hταpos))
+    have hright : ((tau0 * α) / (tau0 + α)) *
+        (((tau0 + α) / (tau0 * α)) * F (n + 1)) = F (n + 1) := by
+      rw [← mul_assoc, hrecip, one_mul]
+    exact le_trans hmul (le_of_eq hright)
+  have hcontr : ∀ n ≥ N,
+      (1 + lam * tau0 * α / (tau0 + α)) * H (n + 2) ≤ H n := by
+    intro n hn
+    have hineq := hHineq n hn
+    have hFbound := hF_from_H n hn
+    have hlamF := mul_le_mul_of_nonneg_left hFbound (le_of_lt hlam)
+    have hlamF' : (lam * ((tau0 * α) / (tau0 + α))) * H (n + 2) ≤
+        lam * F (n + 1) := by
+      simpa [mul_assoc] using hlamF
+    have hstep : H (n + 1) - H n +
+        (lam * ((tau0 * α) / (tau0 + α))) * H (n + 2) ≤ 0 := by
+      linarith [hineq, hlamF']
+    have hmonoH := hHmono (n + 1) (by omega)
+    have hKnonneg : 0 ≤ lam * ((tau0 * α) / (tau0 + α)) :=
+      mul_nonneg (le_of_lt hlam) (le_of_lt (div_pos (mul_pos htau0 hαpos) hταpos))
+    have hmonoHK := mul_le_mul_of_nonneg_right hmonoH hKnonneg
+    have hsum : H (n + 2) + (lam * ((tau0 * α) / (tau0 + α))) * H (n + 2) ≤ H n := by
+      linarith [hstep, hmonoHK]
+    have htarget : (1 + lam * tau0 * α / (tau0 + α)) * H (n + 2) =
+        H (n + 2) + (lam * ((tau0 * α) / (tau0 + α))) * H (n + 2) := by ring
+    rw [htarget]
+    exact hsum
+  exact thm51_geometric_of_two_step H c (lam * tau0 * α / (tau0 + α)) N
+    hβpos hc_eq hHnn hcontr
+
+omit [InnerProductSpace ℝ H] [CompleteSpace H] in
+/-- The final extraction (28): the energy lower bounds
+`F_n ≥ (1/(2λ²))‖x_{n+1} - x_n‖²` (from (47)) and
+`H_n ≥ (1/(2m))F_n` (the first inequality of (49)) turn the geometric decay
+`H_n ≤ K c^{n/2}` into the velocity decay
+`‖x_{n+1} - x_n‖ ≤ K' q^n` with `K' = √(4λ²mK)` and `q = c^{1/4} < 1`. -/
+private theorem thm51_final_velocity_extraction
+    (x : ℕ → H) (lam m : ℝ) (hlam : 0 < lam) (hm : 0 < m)
+    (F H : ℕ → ℝ) (K c : ℝ) (hK : 0 < K) (hc : 0 < c) (hc_lt_one : c < 1)
+    (hF_lower : ∀ n, (1 / (2 * lam ^ 2)) * ‖x (n + 1) - x n‖ ^ 2 ≤ F n)
+    (hH_lower : ∀ n, (1 / (2 * m)) * F n ≤ H n)
+    (hH_decay : ∀ᶠ n in atTop, H n ≤ K * c ^ ((n : ℝ) / 2)) :
+    ∃ (n0 : ℕ) (K' : ℝ) (q : ℝ), 0 < K' ∧ 0 < q ∧ q < 1 ∧
+      ∀ n ≥ n0, ‖x (n + 1) - x n‖ ≤ K' * q ^ n := by
+  rcases eventually_atTop.mp hH_decay with ⟨n0, hdecay⟩
+  let S : ℝ := 4 * lam ^ 2 * m * K
+  let K' : ℝ := Real.sqrt S
+  let q : ℝ := c ^ (1 / 4 : ℝ)
+  have hS_pos : 0 < S := by dsimp [S]; positivity
+  have hK'_pos : 0 < K' := by
+    dsimp [K']
+    exact Real.sqrt_pos.2 hS_pos
+  have hq_pos : 0 < q := by
+    dsimp [q]
+    exact Real.rpow_pos_of_pos hc _
+  have hq_nonneg : 0 ≤ q := le_of_lt hq_pos
+  have hq_lt_one : q < 1 := by
+    dsimp [q]
+    exact (Real.rpow_lt_one_iff_of_pos hc).2 (Or.inr ⟨hc_lt_one, by norm_num⟩)
+  have hq_pow_sq (n : ℕ) : (q ^ n) ^ 2 = c ^ ((n : ℝ) / 2) := by
+    dsimp [q]
+    rw [← pow_mul]
+    rw [← Real.rpow_natCast (c ^ (1 / 4 : ℝ)) (n * 2)]
+    rw [← Real.rpow_mul (le_of_lt hc)]
+    congr 1
+    push_cast
+    ring
+  refine ⟨n0, K', q, hK'_pos, hq_pos, hq_lt_one, ?_⟩
+  intro n hn
+  have hqn_nonneg : 0 ≤ q ^ n := pow_nonneg hq_nonneg n
+  have hdecay_n : H n ≤ K * (q ^ n) ^ 2 := by
+    rw [hq_pow_sq n]
+    exact hdecay n hn
+  have hF_le_H : F n ≤ (2 * m) * H n := by
+    have h := mul_le_mul_of_nonneg_left (hH_lower n)
+      (le_of_lt (by positivity : (0 : ℝ) < 2 * m))
+    convert h using 1; field_simp [ne_of_gt hm]
+  have hF_le : F n ≤ (2 * m * K) * (q ^ n) ^ 2 := by
+    calc
+      F n ≤ (2 * m) * H n := hF_le_H
+      _ ≤ (2 * m) * (K * (q ^ n) ^ 2) :=
+        mul_le_mul_of_nonneg_left hdecay_n (by positivity)
+      _ = (2 * m * K) * (q ^ n) ^ 2 := by ring
+  have hd_sq_le_F : ‖x (n + 1) - x n‖ ^ 2 ≤ (2 * lam ^ 2) * F n := by
+    have h := mul_le_mul_of_nonneg_left (hF_lower n)
+      (le_of_lt (by positivity : (0 : ℝ) < 2 * lam ^ 2))
+    convert h using 1; field_simp [ne_of_gt hlam]
+  have hd_sq_le_S : ‖x (n + 1) - x n‖ ^ 2 ≤ S * (q ^ n) ^ 2 := by
+    calc
+      ‖x (n + 1) - x n‖ ^ 2 ≤ (2 * lam ^ 2) * F n := hd_sq_le_F
+      _ ≤ (2 * lam ^ 2) * ((2 * m * K) * (q ^ n) ^ 2) :=
+        mul_le_mul_of_nonneg_left hF_le (by positivity)
+      _ = S * (q ^ n) ^ 2 := by dsimp [S]; ring
+  have htarget_sq : S * (q ^ n) ^ 2 = (K' * q ^ n) ^ 2 := by
+    dsimp [K']
+    rw [mul_pow, Real.sq_sqrt (le_of_lt hS_pos)]
+  have hsq : ‖x (n + 1) - x n‖ ^ 2 ≤ (K' * q ^ n) ^ 2 := by
+    rwa [← htarget_sq]
+  have habs := sq_le_sq.mp hsq
+  have hKq_nonneg : 0 ≤ K' * q ^ n := mul_nonneg (le_of_lt hK'_pos) hqn_nonneg
+  simpa [abs_of_nonneg (norm_nonneg _), abs_of_nonneg hKq_nonneg] using habs
+
+end Theorem51ScaffoldSequences
+
+section Theorem51ScaffoldSymmFree
+
+variable {H : Type _} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
+
+/-- The symmetric part `S = (L + L*)/2` of the derivative `L = dA₀(0)`. -/
+private noncomputable def thm51_symmPart (L : H →L[ℝ] H) : H →L[ℝ] H :=
+  (1 / 2 : ℝ) • (L + ContinuousLinearMap.adjoint L)
+
+/-- The skew part `K = L - S = (L - L*)/2`. -/
+private noncomputable def thm51_skewPart (L : H →L[ℝ] H) : H →L[ℝ] H :=
+  L - thm51_symmPart L
+
+/-- The symmetric part is self-adjoint in the inner-product sense. -/
+private theorem thm51_symmPart_symm (L : H →L[ℝ] H) :
+    ∀ a b : H, inner ℝ (thm51_symmPart L a) b = inner ℝ a (thm51_symmPart L b) := by
+  intro a b
+  simp only [thm51_symmPart, ContinuousLinearMap.add_apply, ContinuousLinearMap.smul_apply,
+    inner_add_left, inner_add_right, real_inner_smul_left, real_inner_smul_right]
+  rw [ContinuousLinearMap.adjoint_inner_left L b a,
+    ContinuousLinearMap.adjoint_inner_right L a b]
+  ring
+
+/-- Coercivity of `L` passes to its symmetric part. -/
+private theorem thm51_symmPart_coercive (L : H →L[ℝ] H) (m : ℝ)
+    (hcoer : ∀ d : H, m * ‖d‖ ^ 2 ≤ inner ℝ d (L d)) :
+    ∀ d : H, m * ‖d‖ ^ 2 ≤ inner ℝ d (thm51_symmPart L d) := by
+  intro d
+  calc
+    m * ‖d‖ ^ 2 ≤ inner ℝ d (L d) := hcoer d
+    _ = inner ℝ d (thm51_symmPart L d) := by
+      simp only [thm51_symmPart, ContinuousLinearMap.add_apply, ContinuousLinearMap.smul_apply,
+        inner_add_right, real_inner_smul_right]
+      rw [ContinuousLinearMap.adjoint_inner_right L d d]
+      rw [real_inner_comm d (L d)]
+      ring
+
+/-- Symmetric-part form of the quadratic-form difference identity: for
+`q(x) = ½⟨Lx,x⟩` and `S = (L+L*)/2`,
+`q(e+v) - q(e) = ⟨S v, e+v⟩ - ½⟨L v, v⟩`. This is the symmetry-free
+replacement for the invalid self-adjointness step in (29). -/
+private theorem thm51_symm_part_difference_identity
+    (L : H →L[ℝ] H) (e v : H) :
+    (1 / 2 : ℝ) * inner ℝ (L (e + v)) (e + v) -
+        (1 / 2 : ℝ) * inner ℝ (L e) e =
+      inner ℝ (thm51_symmPart L v) (e + v) -
+        (1 / 2 : ℝ) * inner ℝ (L v) v := by
+  simp only [thm51_symmPart, ContinuousLinearMap.add_apply, ContinuousLinearMap.smul_apply,
+    map_add, inner_add_left, inner_add_right, real_inner_smul_left]
+  simp [real_inner_comm, ContinuousLinearMap.adjoint_inner_left]
+  ring
+
+/-- The Lyapunov sequence `G` is unchanged when the quadratic operator `L` is
+replaced by its symmetric part `S`. -/
+private theorem thm51_seqG_symmPart_eq (x : ℕ → H) (xInf : H) (lam : ℝ)
+    (L : H →L[ℝ] H) (n : ℕ) :
+    thm51_seqG x xInf lam (thm51_symmPart L) n = thm51_seqG x xInf lam L n := by
+  unfold thm51_seqG
+  simp only [thm51_symmPart, ContinuousLinearMap.add_apply, ContinuousLinearMap.smul_apply,
+    real_inner_smul_left, inner_add_left]
+  rw [ContinuousLinearMap.adjoint_inner_left L (x (n + 1) - xInf) (x (n + 1) - xInf)]
+  nlinarith [real_inner_comm (x (n + 1) - xInf) (L (x (n + 1) - xInf))]
+
+/-- Splitting `A₀(z) - S z` into the Taylor remainder `A₀(z) - L z` and the
+skew residual `K z`, together with the norm bound `|⟨K v, e⟩| ≤ ‖L‖‖v‖‖e‖`
+coming from `‖K‖ ≤ ‖L‖`. -/
+private theorem thm51_skew_cross_bound
+    (L : H →L[ℝ] H) (A0 : H → H) (z v e : H) :
+    A0 z - thm51_symmPart L z = (A0 z - L z) + thm51_skewPart L z ∧
+      |inner ℝ (thm51_skewPart L v) e| ≤ ‖L‖ * ‖v‖ * ‖e‖ := by
+  constructor
+  · simp [thm51_skewPart]
+  · have hKnorm : ‖thm51_skewPart L‖ ≤ ‖L‖ := by
+      have hrep : thm51_skewPart L = (1 / 2 : ℝ) • (L - ContinuousLinearMap.adjoint L) := by
+        ext w
+        simp [thm51_skewPart, thm51_symmPart]
+        module
+      calc
+        ‖thm51_skewPart L‖ = ‖(1 / 2 : ℝ) • (L - ContinuousLinearMap.adjoint L)‖ := by
+          rw [hrep]
+        _ ≤ ‖(1 / 2 : ℝ)‖ * ‖L - ContinuousLinearMap.adjoint L‖ := by
+          rw [norm_smul]
+        _ = (1 / 2 : ℝ) * ‖L - ContinuousLinearMap.adjoint L‖ := by norm_num
+        _ ≤ (1 / 2 : ℝ) * (‖L‖ + ‖ContinuousLinearMap.adjoint L‖) := by
+          gcongr
+          exact norm_sub_le L (ContinuousLinearMap.adjoint L)
+        _ = ‖L‖ := by
+          rw [ContinuousLinearMap.adjoint.norm_map]
+          ring
+    have h1 := abs_real_inner_le_norm (thm51_skewPart L v) e
+    have h2 : ‖thm51_skewPart L v‖ ≤ ‖thm51_skewPart L‖ * ‖v‖ :=
+      (thm51_skewPart L).le_opNorm v
+    have h3 : ‖thm51_skewPart L‖ ≤ ‖L‖ := hKnorm
+    calc
+      |inner ℝ (thm51_skewPart L v) e| ≤ ‖thm51_skewPart L v‖ * ‖e‖ := h1
+      _ ≤ (‖thm51_skewPart L‖ * ‖v‖) * ‖e‖ := by
+        exact mul_le_mul_of_nonneg_right h2 (norm_nonneg e)
+      _ ≤ (‖L‖ * ‖v‖) * ‖e‖ := by
+        exact mul_le_mul_of_nonneg_right
+          (mul_le_mul_of_nonneg_right h3 (norm_nonneg v)) (norm_nonneg e)
+      _ = ‖L‖ * ‖v‖ * ‖e‖ := by ring
+
+omit [CompleteSpace H] in
+/-- Absorption of the skew cross term: if `0 < ε < λM/2` and
+`(M/2)‖e‖² ≤ F`, then
+`‖L‖‖v‖‖e‖ ≤ (‖L‖²/(4ε))‖v‖² + (2ε/M)F`. -/
+private theorem thm51_skew_absorption
+    (L : H →L[ℝ] H) (v e : H) (F lam M eps : ℝ)
+    (_hlam : 0 < lam) (hM : 0 < M) (heps : 0 < eps)
+    (_heps_lt : eps < lam * M / 2)
+    (hF : (M / 2) * ‖e‖ ^ 2 ≤ F) :
+    ‖L‖ * ‖v‖ * ‖e‖ ≤
+      (‖L‖ ^ 2 / (4 * eps)) * ‖v‖ ^ 2 + (2 * eps / M) * F := by
+  have hbase : ‖L‖ * ‖v‖ * ‖e‖ ≤ (‖L‖ ^ 2 / (4 * eps)) * ‖v‖ ^ 2 + eps * ‖e‖ ^ 2 := by
+    have hsq : 0 ≤ (‖L‖ * ‖v‖ - 2 * eps * ‖e‖) ^ 2 := sq_nonneg _
+    have hpos : 0 < 4 * eps := by positivity
+    rw [show (‖L‖ ^ 2 / (4 * eps)) * ‖v‖ ^ 2 + eps * ‖e‖ ^ 2 =
+        (‖L‖ ^ 2 * ‖v‖ ^ 2 + 4 * eps ^ 2 * ‖e‖ ^ 2) / (4 * eps) by
+      field_simp [ne_of_gt heps]]
+    rw [le_div_iff₀ hpos]
+    nlinarith
+  have hF' : (2 * eps / M) * ((M / 2) * ‖e‖ ^ 2) ≤ (2 * eps / M) * F :=
+    mul_le_mul_of_nonneg_left hF (by positivity)
+  have hF'' : eps * ‖e‖ ^ 2 ≤ (2 * eps / M) * F := by
+    convert hF' using 1; field_simp [ne_of_gt hM]
+  linarith
+
+set_option maxHeartbeats 800000 in
+-- The symmetry-free increment estimate (37) repeats the Taylor, convexity, coercivity and
+-- skew-absorption arguments, so it needs more than the default heartbeat budget.
+/-- Symmetry-free form of (37). With `S = (L+L*)/2`, the symmetric-part
+difference identity (29), the eventual normal-cone inequality (31), the
+Taylor bound (33), convexity (34), coercivity (35), the cross-term bound (36),
+and the absorption of the skew residual give, for every `δ > 0` and
+`0 < ε < λM/2` and eventually in `n`,
+`G_{n+1} - G_n + (λ - 2ε/M)F_{n+1}
+  ≤ ((1+δ)/λ + ‖L‖²/(4ε))‖v_n‖² + (1/(2λ))‖x_{n+1}-x_n‖²`.
+No self-adjointness hypothesis on `L` is present. -/
+private theorem thm51_G_increment_F_bound_symmFree
+    (x : ℕ → H) (xInf : H) (A0 : H → H) (f : H → ℝ)
+    (lam : ℝ) (hlam : 0 < lam) (L : H →L[ℝ] H)
+    (m M δ eps : ℝ) (hm : 0 < m) (hM : 0 < M) (hδ : 0 < δ)
+    (heps : 0 < eps) (heps_lt : eps < lam * M / 2)
+    (z : ℕ → H) (hz : ∀ n, z n = lam⁻¹ • thm51_seqV x n)
+    (hpair31 : ∀ᶠ n in atTop,
+      inner ℝ (thm51_pairingU x xInf A0 f lam z n) (x (n + 2) - xInf) ≤ 0)
+    (hrem33 : ∀ᶠ n in atTop,
+      |inner ℝ (A0 (z n) - L (z n)) (x (n + 2) - xInf)| ≤
+        δ / lam ^ 2 * ‖thm51_seqV x n‖ ^ 2)
+    (hconv34 : ∀ n, inner ℝ (gradient f (x (n + 2))) (xInf - x (n + 2)) ≤
+      f xInf - f (x (n + 2)))
+    (hcoer35 : ∀ d : H, m * ‖d‖ ^ 2 ≤ inner ℝ d (L d))
+    (hF_lower : ∀ n,
+      (M / 2) * ‖x (n + 2) - xInf‖ ^ 2 ≤ thm51_seqF x lam f xInf (n + 1)) :
+    ∀ᶠ n in atTop,
+      thm51_seqG x xInf lam L (n + 1) - thm51_seqG x xInf lam L n +
+          (lam - 2 * eps / M) * thm51_seqF x lam f xInf (n + 1) ≤
+        ((1 + δ) / lam + ‖L‖ ^ 2 / (4 * eps)) * ‖thm51_seqV x n‖ ^ 2 +
+          (1 / (2 * lam)) * ‖x (n + 1) - x n‖ ^ 2 := by
+  filter_upwards [hpair31, hrem33] with n hpair hrem
+  let S : H →L[ℝ] H := thm51_symmPart L
+  let K : H →L[ℝ] H := thm51_skewPart L
+  let d : H := x (n + 1) - x n
+  let v : H := thm51_seqV x n
+  let e : H := x (n + 2) - xInf
+  let U : H := thm51_pairingU x xInf A0 f lam z n
+  have hdiffS :=
+    thm51_G_difference_identity x xInf A0 f lam S (by simpa [S] using thm51_symmPart_symm L)
+      hlam n
+  have hdiff := hdiffS
+  rw [thm51_seqG_symmPart_eq x xInf lam L (n + 1),
+    thm51_seqG_symmPart_eq x xInf lam L n] at hdiff
+  have hpair' : inner ℝ U e ≤ 0 := by
+    simpa [U, e] using hpair
+  have hrem' : -inner ℝ (A0 (z n) - L (z n)) e ≤ δ / lam ^ 2 * ‖v‖ ^ 2 :=
+    le_trans (neg_le_abs _) (by simpa [v, e] using hrem)
+  have hconv' : -inner ℝ (gradient f (x (n + 2))) e ≤ f xInf - f (x (n + 2)) := by
+    have h := hconv34 n
+    rw [show xInf - x (n + 2) = -(x (n + 2) - xInf) by abel,
+      inner_neg_right] at h
+    simpa [e] using h
+  have hpair_mult : lam * inner ℝ U e ≤ 0 :=
+    mul_nonpos_of_nonneg_of_nonpos (le_of_lt hlam) hpair'
+  have hrem_mult : -lam * inner ℝ (A0 (z n) - L (z n)) e ≤ δ / lam * ‖v‖ ^ 2 := by
+    have h := mul_le_mul_of_nonneg_left hrem' (le_of_lt hlam)
+    convert h using 1 <;> field_simp [ne_of_gt hlam]
+  have hf_bound :
+      -lam * inner ℝ (gradient f (x (n + 2)) - gradient f xInf) e +
+        lam * (f (x (n + 2)) - f xInf - inner ℝ (gradient f xInf) e) ≤ 0 := by
+    have h := mul_le_mul_of_nonneg_left hconv' (le_of_lt hlam)
+    simp only [inner_sub_left] at h ⊢
+    nlinarith
+  have hcv : inner ℝ d v ≤ (1 / 2 : ℝ) * ‖d‖ ^ 2 + (1 / 2 : ℝ) * ‖v‖ ^ 2 := by
+    nlinarith [thm51_inner_cross_le d v]
+  have hScoer : ∀ y : H, m * ‖y‖ ^ 2 ≤ inner ℝ y (S y) := by
+    intro y
+    simpa [S] using thm51_symmPart_coercive L m hcoer35 y
+  have hLv_nonneg : 0 ≤ inner ℝ (S v) v := by
+    have h := hScoer v
+    have hcomm : inner ℝ v (S v) = inner ℝ (S v) v := real_inner_comm _ _
+    rw [hcomm] at h
+    nlinarith [hm, sq_nonneg ‖v‖]
+  have hlast : lam⁻¹ * inner ℝ d v - (1 / 2 : ℝ) * inner ℝ (S v) v ≤
+      (1 / (2 * lam)) * ‖d‖ ^ 2 + (1 / (2 * lam)) * ‖v‖ ^ 2 := by
+    have h1 := mul_le_mul_of_nonneg_left hcv (inv_nonneg.mpr (le_of_lt hlam))
+    have h2 : 0 ≤ (1 / 2 : ℝ) * inner ℝ (S v) v :=
+      mul_nonneg (by norm_num) hLv_nonneg
+    have hcoef : lam⁻¹ * ((1 / 2 : ℝ) * ‖d‖ ^ 2 + (1 / 2 : ℝ) * ‖v‖ ^ 2) =
+        (1 / (2 * lam)) * ‖d‖ ^ 2 + (1 / (2 * lam)) * ‖v‖ ^ 2 := by
+      ring
+    nlinarith [h1, h2, hcoef]
+  have hlast' : lam⁻¹ * inner ℝ d v - (1 / 2 : ℝ) * inner ℝ (S v) v +
+        (1 / (2 * lam)) * ‖v‖ ^ 2 ≤
+      (1 / (2 * lam)) * ‖d‖ ^ 2 + (1 / lam) * ‖v‖ ^ 2 := by
+    have hkin : 0 ≤ (1 / (2 * lam)) * ‖v‖ ^ 2 := by positivity
+    have hcoef : (1 / (2 * lam)) * ‖v‖ ^ 2 + (1 / (2 * lam)) * ‖v‖ ^ 2 =
+        (1 / lam) * ‖v‖ ^ 2 := by
+      field_simp [ne_of_gt hlam]
+      ring
+    nlinarith [hlast, hkin, hcoef]
+  have hsplit_raw := (thm51_skew_cross_bound L A0 (z n) v e).1
+  have hsplit : A0 (z n) - S (z n) = (A0 (z n) - L (z n)) + K (z n) := by
+    simpa [S, K] using hsplit_raw
+  have hskew_abs_raw := (thm51_skew_cross_bound L A0 (z n) v e).2
+  have hskew_abs : |inner ℝ (K v) e| ≤ ‖L‖ * ‖v‖ * ‖e‖ := by
+    simpa [K] using hskew_abs_raw
+  have hzk : z n = lam⁻¹ • v := by simpa [v] using hz n
+  have hKz_rewrite : -lam * inner ℝ (K (z n)) e = -inner ℝ (K v) e := by
+    rw [hzk]
+    simp only [map_smul, real_inner_smul_left]
+    field_simp [ne_of_gt hlam]
+  have hskew_mult : -lam * inner ℝ (K (z n)) e ≤
+      (‖L‖ ^ 2 / (4 * eps)) * ‖v‖ ^ 2 + (2 * eps / M) *
+        thm51_seqF x lam f xInf (n + 1) := by
+    rw [hKz_rewrite]
+    exact le_trans (le_trans (neg_le_abs _) hskew_abs)
+      (thm51_skew_absorption L v e (thm51_seqF x lam f xInf (n + 1)) lam M eps
+        hlam hM heps heps_lt (hF_lower n))
+  have hdecomp :
+      thm51_seqG x xInf lam L (n + 1) - thm51_seqG x xInf lam L n +
+          lam * thm51_seqF x lam f xInf (n + 1) =
+        lam * inner ℝ U e - lam * inner ℝ (A0 (z n) - L (z n)) e -
+            lam * inner ℝ (K (z n)) e +
+          (-lam * inner ℝ (gradient f (x (n + 2)) - gradient f xInf) e +
+            lam * (f (x (n + 2)) - f xInf - inner ℝ (gradient f xInf) e)) +
+          (lam⁻¹ * inner ℝ d v - (1 / 2 : ℝ) * inner ℝ (S v) v +
+            (1 / (2 * lam)) * ‖v‖ ^ 2) := by
+    rw [hdiff]
+    have hz' : z n = thm51_seqZ x lam n := by
+      simp [thm51_seqZ, hz n]
+    rw [← hz']
+    rw [hsplit]
+    simp only [thm51_seqF, thm51_seqV, U, d, v, e, thm51_pairingU, hz', S, K,
+      inner_add_left, inner_sub_left, real_inner_smul_left]
+    field_simp [ne_of_gt hlam]
+    ring
+  have hcombined :
+      lam * inner ℝ U e - lam * inner ℝ (A0 (z n) - L (z n)) e -
+            lam * inner ℝ (K (z n)) e +
+          (-lam * inner ℝ (gradient f (x (n + 2)) - gradient f xInf) e +
+            lam * (f (x (n + 2)) - f xInf - inner ℝ (gradient f xInf) e)) +
+          (lam⁻¹ * inner ℝ d v - (1 / 2 : ℝ) * inner ℝ (S v) v +
+            (1 / (2 * lam)) * ‖v‖ ^ 2) ≤
+        δ / lam * ‖v‖ ^ 2 +
+          ((1 / (2 * lam)) * ‖d‖ ^ 2 + (1 / lam) * ‖v‖ ^ 2) +
+          ((‖L‖ ^ 2 / (4 * eps)) * ‖v‖ ^ 2 +
+            (2 * eps / M) * thm51_seqF x lam f xInf (n + 1)) := by
+    nlinarith [hpair_mult, hrem_mult, hskew_mult, hf_bound, hlast']
+  have hrhs :
+      δ / lam * ‖v‖ ^ 2 +
+          ((1 / (2 * lam)) * ‖d‖ ^ 2 + (1 / lam) * ‖v‖ ^ 2) +
+          ((‖L‖ ^ 2 / (4 * eps)) * ‖v‖ ^ 2 +
+            (2 * eps / M) * thm51_seqF x lam f xInf (n + 1)) =
+        ((1 + δ) / lam + ‖L‖ ^ 2 / (4 * eps)) * ‖v‖ ^ 2 +
+          (1 / (2 * lam)) * ‖d‖ ^ 2 +
+          (2 * eps / M) * thm51_seqF x lam f xInf (n + 1) := by
+    ring
+  have hmain :
+      thm51_seqG x xInf lam L (n + 1) - thm51_seqG x xInf lam L n +
+          lam * thm51_seqF x lam f xInf (n + 1) ≤
+        ((1 + δ) / lam + ‖L‖ ^ 2 / (4 * eps)) * ‖v‖ ^ 2 +
+          (1 / (2 * lam)) * ‖d‖ ^ 2 +
+          (2 * eps / M) * thm51_seqF x lam f xInf (n + 1) := by
+    rw [hdecomp]
+    exact le_trans hcombined (le_of_eq hrhs)
+  nlinarith [hmain]
+
+omit [InnerProductSpace ℝ H] [CompleteSpace H] in
+/-- General form of (43)/(51): if the `G` increment is bounded by
+`A‖v_n‖² + D‖d_n‖²`, the `F` decrement is `F_{n+1} - F_n ≤ -μ‖v_n‖²`, and
+`G_n ≥ -(1/m)F_n`, then with `c₁ = A/μ`, `c₂ = D/μ` and
+`H_n = G_n + c₁F_n + c₂F_{n-1}`, eventually
+`H_{n+1} - H_n + λ̂F_{n+1} ≤ 0`, `(c₁ - 1/m)F_n ≤ H_n`, and `F` is
+nonincreasing. -/
+private theorem thm51_H_eventual_inputs_general
+    (x : ℕ → H) (m mu lamHat A D : ℝ)
+    (hm : 0 < m) (hmu : 0 < mu) (_hlamHat : 0 < lamHat)
+    (hA : 1 / m < A / mu) (hD : 0 ≤ D)
+    (G F : ℕ → ℝ)
+    (hF_nonneg : ∀ᶠ n in atTop, 0 ≤ F n)
+    (hG_increment : ∀ᶠ n in atTop,
+      G (n + 1) - G n + lamHat * F (n + 1) ≤
+        A * ‖thm51_seqV x n‖ ^ 2 + D * ‖x (n + 1) - x n‖ ^ 2)
+    (hF_decrement : ∀ᶠ n in atTop,
+      F (n + 1) - F n ≤ -mu * ‖thm51_seqV x n‖ ^ 2)
+    (hG_lower : ∀ n, G n ≥ -(1 / m) * F n) :
+    let c1 : ℝ := A / mu
+    let c2 : ℝ := D / mu
+    let H : ℕ → ℝ := fun n => G n + c1 * F n + c2 * F (n - 1)
+    0 < c1 - 1 / m ∧
+      (∀ᶠ n in atTop, H (n + 1) - H n + lamHat * F (n + 1) ≤ 0) ∧
+      (∀ᶠ n in atTop, (c1 - 1 / m) * F n ≤ H n) ∧
+      (∀ᶠ n in atTop, F (n + 1) ≤ F n) := by
+  let c1 : ℝ := A / mu
+  let c2 : ℝ := D / mu
+  let H : ℕ → ℝ := fun n => G n + c1 * F n + c2 * F (n - 1)
+  change 0 < c1 - 1 / m ∧
+    (∀ᶠ n in atTop, H (n + 1) - H n + lamHat * F (n + 1) ≤ 0) ∧
+    (∀ᶠ n in atTop, (c1 - 1 / m) * F n ≤ H n) ∧
+    (∀ᶠ n in atTop, F (n + 1) ≤ F n)
+  have hc1_pos : 0 < c1 := by
+    have hApos : 0 < A / mu := lt_trans (by positivity : (0 : ℝ) < 1 / m) hA
+    simpa [c1] using hApos
+  have hc2_nonneg : 0 ≤ c2 := by
+    dsimp [c2]
+    exact div_nonneg hD (le_of_lt hmu)
+  have hmono_ev : ∀ᶠ n in atTop, F (n + 1) ≤ F n := by
+    filter_upwards [hF_decrement] with n hdec
+    have hnonneg : 0 ≤ mu * ‖thm51_seqV x n‖ ^ 2 :=
+      mul_nonneg (le_of_lt hmu) (sq_nonneg _)
+    linarith
+  rcases eventually_atTop.mp hG_increment with ⟨N1, hN1⟩
+  rcases eventually_atTop.mp hF_decrement with ⟨N2, hN2⟩
+  rcases eventually_atTop.mp hmono_ev with ⟨N3, hN3⟩
+  rcases eventually_atTop.mp hF_nonneg with ⟨N0, hN0⟩
+  let N : ℕ := max (max N1 (N2 + 1)) (max (N3 + 1) N0)
+  have hN1_le : ∀ n ≥ N, N1 ≤ n := by
+    intro n hn
+    exact le_trans (le_trans (le_max_left N1 (N2 + 1)) (le_max_left _ _)) hn
+  have hN2_le : ∀ n ≥ N, N2 ≤ n := by
+    intro n hn
+    have hle : N2 + 1 ≤ n :=
+      le_trans (le_trans (le_max_right N1 (N2 + 1)) (le_max_left _ _)) hn
+    omega
+  have hN3_le : ∀ n ≥ N, N3 ≤ n := by
+    intro n hn
+    have hle : N3 + 1 ≤ n :=
+      le_trans (le_trans (le_max_left (N3 + 1) N0) (le_max_right _ _)) hn
+    omega
+  have hN0_le : ∀ n ≥ N, N0 ≤ n := by
+    intro n hn
+    exact le_trans (le_trans (le_max_right (N3 + 1) N0) (le_max_right _ _)) hn
+  have hN_one : ∀ n ≥ N, 1 ≤ n := by
+    intro n hn
+    have hle : N2 + 1 ≤ n :=
+      le_trans (le_trans (le_max_right N1 (N2 + 1)) (le_max_left _ _)) hn
+    omega
+  have hFmono_N : ∀ n ≥ N, F (n + 1) ≤ F n :=
+    fun n hn => hN3 n (hN3_le n hn)
+  constructor
+  · dsimp [c1]
+    exact sub_pos.mpr hA
+  constructor
+  · filter_upwards [eventually_ge_atTop (N + 1)] with n hn
+    have hnN : N ≤ n := le_trans (Nat.le_succ N) hn
+    have hn1 : 1 ≤ n := hN_one n hnN
+    have hinc := hN1 n (hN1_le n hnN)
+    have hdecn := hN2 n (hN2_le n hnN)
+    have hdecprev := hN2 (n - 1) (by omega)
+    have hvprev : thm51_seqV x (n - 1) = x (n + 1) - x n := by
+      dsimp [thm51_seqV]
+      have h1 : n - 1 + 2 = n + 1 := by omega
+      have h2 : n - 1 + 1 = n := by omega
+      rw [h1, h2]
+    have hdecprev' : F n - F (n - 1) ≤
+        -mu * ‖x (n + 1) - x n‖ ^ 2 := by
+      simpa [hvprev, Nat.sub_add_cancel hn1] using hdecprev
+    have hc1dec := mul_le_mul_of_nonneg_left hdecn (le_of_lt hc1_pos)
+    have hc1dec' : c1 * (F (n + 1) - F n) ≤
+        -A * ‖thm51_seqV x n‖ ^ 2 := by
+      have hcoef : c1 * (-mu * ‖thm51_seqV x n‖ ^ 2) =
+          -A * ‖thm51_seqV x n‖ ^ 2 := by
+        dsimp [c1]
+        field_simp [ne_of_gt hmu]
+      exact le_trans hc1dec (le_of_eq hcoef)
+    have hc2dec := mul_le_mul_of_nonneg_left hdecprev' hc2_nonneg
+    have hc2dec' : c2 * (F n - F (n - 1)) ≤
+        -D * ‖x (n + 1) - x n‖ ^ 2 := by
+      have hcoef : c2 * (-mu * ‖x (n + 1) - x n‖ ^ 2) =
+          -D * ‖x (n + 1) - x n‖ ^ 2 := by
+        dsimp [c2]
+        field_simp [ne_of_gt hmu]
+      exact le_trans hc2dec (le_of_eq hcoef)
+    have hHdiff : H (n + 1) - H n + lamHat * F (n + 1) =
+        (G (n + 1) - G n + lamHat * F (n + 1)) +
+          c1 * (F (n + 1) - F n) + c2 * (F n - F (n - 1)) := by
+      dsimp [H]
+      ring
+    rw [hHdiff]
+    linarith
+  constructor
+  · filter_upwards [eventually_ge_atTop (N + 1)] with n hn
+    have hnN : N ≤ n := le_trans (Nat.le_succ N) hn
+    have hn1 : 1 ≤ n := hN_one n hnN
+    have hN3n : N3 ≤ n := hN3_le n hnN
+    have hmono := hFmono_N (n - 1) (by omega)
+    have hmono' : F n ≤ F (n - 1) := by
+      simpa [Nat.sub_add_cancel hn1] using hmono
+    have hc2mono := mul_le_mul_of_nonneg_left hmono' hc2_nonneg
+    have hG := hG_lower n
+    have hFnn := hN0 n (hN0_le n hnN)
+    have hlower : (c1 - 1 / m) * F n ≤
+        G n + c1 * F n + c2 * F (n - 1) := by
+      nlinarith
+    simpa [H] using hlower
+  · exact hmono_ev
+
+/-- General geometric-decay lemma for the Lyapunov sequence: for positive
+`beta`, `C`, `lamHat`, if `F` is eventually nonnegative and nonincreasing,
+`beta F_n ≤ H_n`, `H_n ≤ C F_{n-1}`, and
+`H_{n+1} - H_n + lamHat F_{n+1} ≤ 0` eventually, then `H` decays with ratio
+`(1 + lamHat/C)⁻¹` per two indices. -/
+private theorem thm51_H_decay_geometric_general
+    (beta C lamHat : ℝ) (hbeta : 0 < beta) (hC : 0 < C) (hlamHat : 0 < lamHat)
+    (F H : ℕ → ℝ)
+    (hF_nonneg : ∀ᶠ n in atTop, 0 ≤ F n)
+    (_hF_nonincreasing : ∀ᶠ n in atTop, F (n + 1) ≤ F n)
+    (hbetaF_le_H : ∀ n, beta * F n ≤ H n)
+    (hH_le_C : ∀ᶠ n in atTop, H n ≤ C * F (n - 1))
+    (hH_ineq : ∀ᶠ n in atTop, H (n + 1) - H n + lamHat * F (n + 1) ≤ 0) :
+    let c : ℝ := 1 / (1 + lamHat / C)
+    ∃ (Kg : ℝ) (nH : ℕ), 0 < Kg ∧ 0 < c ∧ c < 1 ∧
+      ∀ n ≥ nH, H n ≤ Kg * c ^ ((n : ℝ) / 2) := by
+  let c : ℝ := 1 / (1 + lamHat / C)
+  change ∃ (Kg : ℝ) (nH : ℕ), 0 < Kg ∧ 0 < c ∧ c < 1 ∧
+    ∀ n ≥ nH, H n ≤ Kg * c ^ ((n : ℝ) / 2)
+  let betaHat : ℝ := lamHat / C
+  have hbetaHat : 0 < betaHat := by
+    dsimp [betaHat]
+    exact div_pos hlamHat hC
+  have hc_eq : c = 1 / (1 + betaHat) := by
+    dsimp [c, betaHat]
+  rcases eventually_atTop.mp hH_ineq with ⟨N1, hN1⟩
+  rcases eventually_atTop.mp hF_nonneg with ⟨N2, hN2⟩
+  rcases eventually_atTop.mp hH_le_C with ⟨N3, hN3⟩
+  let N : ℕ := max (max N1 N2) N3
+  have hN1N : N1 ≤ N := le_trans (le_max_left N1 N2) (le_max_left _ _)
+  have hN2N : N2 ≤ N := le_trans (le_max_right N1 N2) (le_max_left _ _)
+  have hN3N : N3 ≤ N := le_max_right _ _
+  have hH_nonneg_N : ∀ n ≥ N, 0 ≤ H n := by
+    intro n hn
+    have hFnn := hN2 n (le_trans hN2N hn)
+    have hbetaF := hbetaF_le_H n
+    have hprod : 0 ≤ beta * F n := mul_nonneg (le_of_lt hbeta) hFnn
+    linarith
+  have hH_mono : ∀ n ≥ N, H (n + 1) ≤ H n := by
+    intro n hn
+    have hineq := hN1 n (le_trans hN1N hn)
+    have hFnn := hN2 (n + 1) (by omega)
+    have hlamF : 0 ≤ lamHat * F (n + 1) :=
+      mul_nonneg (le_of_lt hlamHat) hFnn
+    linarith
+  have hcontr : ∀ n ≥ N, (1 + betaHat) * H (n + 2) ≤ H n := by
+    intro n hn
+    have hineq := hN1 n (le_trans hN1N hn)
+    have hHmono_n := hH_mono n hn
+    have hHmono_n1 := hH_mono (n + 1) (by omega)
+    have hHle := hN3 (n + 2) (by omega)
+    have hHle' : H (n + 2) ≤ F (n + 1) * C := by
+      simpa [mul_comm] using hHle
+    have hFge : H (n + 2) / C ≤ F (n + 1) :=
+      (div_le_iff₀ hC).mpr hHle'
+    have hbetaH : betaHat * H (n + 2) ≤ lamHat * F (n + 1) := by
+      have h := mul_le_mul_of_nonneg_left hFge (le_of_lt hlamHat)
+      dsimp [betaHat]
+      convert h using 1; field_simp [ne_of_gt hC]
+    have hmain : H (n + 1) - H n + betaHat * H (n + 2) ≤ 0 := by
+      linarith
+    nlinarith
+  exact thm51_geometric_of_two_step H c betaHat N hbetaHat hc_eq
+    hH_nonneg_N hcontr
+
+omit [InnerProductSpace ℝ H] [CompleteSpace H] in
+/-- General final extraction (28): from
+`F_n ≥ (1/(2λ²))‖x_{n+1}-x_n‖²`, `βF_n ≤ H_n` with `β > 0`, and
+`H_n ≤ K c^{n/2}` with `0 < c < 1`, the velocity decays geometrically. -/
+private theorem thm51_final_velocity_extraction_general
+    (x : ℕ → H) (lam beta : ℝ) (hlam : 0 < lam) (hbeta : 0 < beta)
+    (F H : ℕ → ℝ) (K c : ℝ) (hK : 0 < K) (hc : 0 < c) (hc_lt_one : c < 1)
+    (hF_lower : ∀ n, (1 / (2 * lam ^ 2)) * ‖x (n + 1) - x n‖ ^ 2 ≤ F n)
+    (hbetaF_le_H : ∀ n, beta * F n ≤ H n)
+    (hH_decay : ∀ᶠ n in atTop, H n ≤ K * c ^ ((n : ℝ) / 2)) :
+    ∃ (n0 : ℕ) (K' : ℝ) (q : ℝ), 0 < K' ∧ 0 < q ∧ q < 1 ∧
+      ∀ n ≥ n0, ‖x (n + 1) - x n‖ ≤ K' * q ^ n := by
+  let m : ℝ := 1 / (2 * beta)
+  have hm : 0 < m := by
+    dsimp [m]
+    positivity
+  have hH_lower : ∀ n, (1 / (2 * m)) * F n ≤ H n := by
+    intro n
+    have h := hbetaF_le_H n
+    convert h using 1
+    dsimp [m]
+    field_simp [ne_of_gt hbeta]
+  exact thm51_final_velocity_extraction x lam m hlam hm F H K c hK hc hc_lt_one
+    hF_lower hH_lower hH_decay
+
+end Theorem51ScaffoldSymmFree
+
+set_option maxHeartbeats 1200000 in
+-- The main theorem assembles every estimate above, so it needs more than the default
+-- heartbeat budget.
 /-- Theorem 5.1: geometric decay of the velocity. -/
 theorem thm_5_1 (C : Set H) (hC_closed : IsClosed C) (hC_conv : Convex ℝ C)
     (hC_polyhedron : ConvexPolyhedron C) (hC_bounded : Bornology.IsBounded C)
@@ -395,7 +2287,8 @@ theorem thm_5_1 (C : Set H) (hC_closed : IsClosed C) (hC_conv : Convex ℝ C)
     (m : ℝ) (hm : m > 0) (hA0_coercive : ∀ (x : H), inner ℝ (fderiv ℝ A0 (0 : H) x) x ≥ m * ‖x‖^2)
     (A : SetValuedOperator H H) (hA : A = subderivative (supportFunction C) +
       SetValuedOperator.ofFunction Set.univ (fun x : (Set.univ : Set H) => A0 x.1))
-    (f : H → ℝ) (hf_conv : ConvexOn ℝ Set.univ f) (hf_C1 : ContDiff ℝ 1 f) (hinf : ∃ m, ∀ x, f x ≥ m)
+    (f : H → ℝ) (hf_conv : ConvexOn ℝ Set.univ f) (hf_C1 : ContDiff ℝ 1 f)
+    (hinf : ∃ m, ∀ x, f x ≥ m)
     (M : ℝ) (hf_strongConv : IsStronglyConvex f M)
     (B : SetValuedOperator H H) (hB_eq_grad : B =
       SetValuedOperator.ofFunction Set.univ (fun x : (Set.univ : Set H) => gradient f x.1))
@@ -549,7 +2442,7 @@ theorem thm_5_1 (C : Set H) (hC_closed : IsClosed C) (hC_conv : Convex ℝ C)
       let q : H := projectionPoint C hCheb z
       let p : H := z - q
       have hqC : q ∈ C := by
-        simpa [q] using projectionPoint_mem C hCheb z
+        simp [q]
       refine ⟨p, q, ?_, ?_⟩
       · have hproj :
             q ∈ C ∧ ∀ r ∈ C, inner ℝ (r - q) (z - q) ≤ 0 := by
@@ -605,7 +2498,7 @@ theorem thm_5_1 (C : Set H) (hC_closed : IsClosed C) (hC_conv : Convex ℝ C)
       trivial
     · intro _
       rw [SetValuedOperator.mem_dom_iff]
-      have hzS : z ∈ S.dom := by simpa [hS_dom]
+      have hzS : z ∈ S.dom := by simp [hS_dom]
       rcases (SetValuedOperator.mem_dom_iff S z).mp hzS with ⟨s, hs⟩
       refine ⟨s + A0 z, ?_⟩
       change s + A0 z ∈ S z + Fop z
@@ -662,7 +2555,7 @@ theorem thm_5_1 (C : Set H) (hC_closed : IsClosed C) (hC_conv : Convex ℝ C)
     have hineq : inner ℝ (z n) (xi - p) ≤ 0 := by
       simpa [real_inner_comm] using hzNC.2 xi hxi_mem
     have hzv : v n = lam • z n := by
-      simp [z, v]
+      simp only [z, v]
       rw [smul_smul]
       have hmul : lam * lam⁻¹ = 1 := by field_simp [ne_of_gt hlam]
       simp [hmul]
@@ -844,4 +2737,207 @@ theorem thm_5_1 (C : Set H) (hC_closed : IsClosed C) (hC_conv : Convex ℝ C)
         · ring
         · field_simp [pow_two, ne_of_gt hlam]
       exact le_trans hcs (le_trans hmul1 htarget)
-  sorry
+  have hMpos : 0 < M := hf_strongConv.1
+  have hcoerL : ∀ d : H, m * ‖d‖ ^ 2 ≤ inner ℝ d (L d) := by
+    intro d
+    simpa [L, real_inner_comm] using hA0_coercive d
+  have hF_lower_seq : ∀ n,
+      thm51_seqF x lam f xInf n ≥
+        (1 / (2 * lam ^ 2)) * ‖x (n + 1) - x n‖ ^ 2 +
+          (M / 2) * ‖x (n + 1) - xInf‖ ^ 2 := by
+    intro n
+    have hsc := thm51_strong_convexity_value f M hf_strongConv (x (n + 1)) xInf
+    dsimp [thm51_seqF]
+    nlinarith
+  let tau0 : ℝ := (Real.sqrt (‖L‖ ^ 2 + 4 * M) - ‖L‖) / 2
+  have htau0_pos : 0 < tau0 := by
+    simpa [tau0] using thm51_tau0_pos ‖L‖ M (norm_nonneg L) hMpos
+  have hGF : (∀ n, thm51_seqF x lam f xInf n ≥
+      tau0 * thm51_seqG x xInf lam L n) ∧
+      (∀ n, thm51_seqG x xInf lam L n ≥
+        -(1 / m) * thm51_seqF x lam f xInf n) := by
+    simpa [tau0] using
+      (thm51_G_F_comparison x xInf lam L f M m hm hMpos hlam
+        (fun n {θ} hθ => (thm51_G_bounds x xInf lam L m hm hlam n hθ hcoerL).1)
+        (fun n {θ} hθ => (thm51_G_bounds x xInf lam L m hm hlam n hθ hcoerL).2)
+        hF_lower_seq)
+  let G : ℕ → ℝ := fun n => thm51_seqG x xInf lam L n
+  let F : ℕ → ℝ := fun n => thm51_seqF x lam f xInf n
+  have hF_nonneg : ∀ n, 0 ≤ F n := by
+    intro n
+    have h := hF_lower_seq n
+    have hw : 0 ≤ (1 / (2 * lam ^ 2)) * ‖x (n + 1) - x n‖ ^ 2 := by positivity
+    have ha : 0 ≤ (M / 2) * ‖x (n + 1) - xInf‖ ^ 2 := by positivity
+    dsimp [F]
+    linarith
+  have hpairG : ∀ᶠ n in atTop,
+      inner ℝ (thm51_pairingU x xInf A0 f lam z n) (x (n + 2) - xInf) ≤ 0 := by
+    filter_upwards [eventually_ge_atTop nStar] with n hn
+    simpa [thm51_pairingU, thm51_seqAcc, acc, z, v] using hNC31 n hn
+  have hpairF : ∀ n,
+      inner ℝ (thm51_pairingU x xInf A0 f lam z n) (thm51_seqV x n) ≤ 0 := by
+    intro n
+    simpa [thm51_pairingU, thm51_seqAcc, thm51_seqV, acc, z, v] using hNC39 n
+  have hconv34 : ∀ n,
+      inner ℝ (gradient f (x (n + 2))) (xInf - x (n + 2)) ≤
+        f xInf - f (x (n + 2)) := by
+    intro n
+    have h := thm51_convex_first_order_gradient f hf_conv hf_C1 (x (n + 2)) xInf
+    linarith
+  have hconvF : ∀ n,
+      f (x (n + 2)) ≤ f (x (n + 1)) +
+        inner ℝ (gradient f (x (n + 2))) (x (n + 2) - x (n + 1)) := by
+    intro n
+    have h := thm51_convex_first_order_gradient f hf_conv hf_C1 (x (n + 2)) (x (n + 1))
+    rw [show x (n + 1) - x (n + 2) = -(x (n + 2) - x (n + 1)) by abel,
+      inner_neg_right] at h
+    linarith
+  let eta : ℝ := m / 2
+  have heta_pos : 0 < eta := by dsimp [eta]; positivity
+  have heta_lt : eta < m := by dsimp [eta]; linarith
+  have hremF : ∀ᶠ n in atTop,
+      |inner ℝ (A0 (z n) - L (z n)) (x (n + 2) - xInf)| ≤
+          (eta / 4) / lam ^ 2 * ‖thm51_seqV x n‖ ^ 2 ∧
+        |inner ℝ (A0 (z n) - L (z n)) (thm51_seqV x n)| ≤
+          (eta / 4) / lam * ‖thm51_seqV x n‖ ^ 2 := by
+    have h := hA0_pair_eventual (eta / 4) (by positivity)
+    simpa [v] using h
+  have hz : ∀ n, z n = lam⁻¹ • thm51_seqV x n := by
+    intro n
+    simp [z, v, thm51_seqV]
+  have hFdec_seq := thm51_F_difference_bound x xInf A0 f lam hlam m eta hm heta_pos heta_lt
+    z (by intro n; simpa [v] using hz n) hpairG hpairF hremF hconvF
+    (by simpa [L] using hcoerL)
+  let mu : ℝ := (m - eta) / lam
+  have hmu_pos : 0 < mu := by
+    dsimp [mu]
+    exact div_pos (sub_pos.mpr heta_lt) hlam
+  have hFdec : ∀ᶠ n in atTop, F (n + 1) - F n ≤ -mu * ‖thm51_seqV x n‖ ^ 2 := by
+    filter_upwards [hFdec_seq] with n hn
+    simpa [F, mu] using hn
+  have hF_lower_half : ∀ n,
+      (M / 2) * ‖x (n + 2) - xInf‖ ^ 2 ≤ thm51_seqF x lam f xInf (n + 1) := by
+    intro n
+    have h := hF_lower_seq (n + 1)
+    have hw : 0 ≤ (1 / (2 * lam ^ 2)) * ‖x (n + 2) - x (n + 1)‖ ^ 2 := by positivity
+    linarith
+  let delta : ℝ := eta / 4
+  have hdelta_pos : 0 < delta := by dsimp [delta, eta]; positivity
+  let eps : ℝ := lam * M / 4
+  have heps_pos : 0 < eps := by dsimp [eps]; positivity
+  have heps_lt : eps < lam * M / 2 := by
+    dsimp [eps]
+    nlinarith [mul_pos hlam hMpos]
+  have hremG : ∀ᶠ n in atTop,
+      |inner ℝ (A0 (z n) - L (z n)) (x (n + 2) - xInf)| ≤
+        delta / lam ^ 2 * ‖thm51_seqV x n‖ ^ 2 := by
+    filter_upwards [hA0_pair_eventual delta hdelta_pos] with n hn
+    simpa [v] using hn.1
+  have hGinc_seq := thm51_G_increment_F_bound_symmFree x xInf A0 f lam hlam L
+    m M delta eps hm hMpos hdelta_pos heps_pos heps_lt z
+    (by intro n; simpa [v] using hz n) hpairG hremG hconv34 hcoerL hF_lower_half
+  let lamHat : ℝ := lam / 2
+  let Acoef : ℝ := (1 + delta) / lam + ‖L‖ ^ 2 / (lam * M)
+  let Dcoef : ℝ := 1 / (2 * lam)
+  have hGinc : ∀ᶠ n in atTop,
+      G (n + 1) - G n + lamHat * F (n + 1) ≤
+        Acoef * ‖thm51_seqV x n‖ ^ 2 + Dcoef * ‖x (n + 1) - x n‖ ^ 2 := by
+    have hcoef1 : lam - 2 * eps / M = lamHat := by
+      dsimp [eps, lamHat]
+      field_simp [ne_of_gt hMpos]
+      ring
+    have hcoef2 : (1 + delta) / lam + ‖L‖ ^ 2 / (4 * eps) = Acoef := by
+      dsimp [eps, Acoef]
+      field_simp [ne_of_gt hlam, ne_of_gt hMpos]
+    filter_upwards [hGinc_seq] with n hn
+    rw [hcoef1, hcoef2] at hn
+    simpa [G, F, lamHat, Acoef, Dcoef] using hn
+  have hlamHat_pos : 0 < lamHat := by dsimp [lamHat]; positivity
+  have hDcoef_nonneg : 0 ≤ Dcoef := by dsimp [Dcoef]; positivity
+  have hA_lower : 1 / lam ≤ Acoef := by
+    have hLterm : 0 ≤ ‖L‖ ^ 2 / (lam * M) :=
+      div_nonneg (sq_nonneg _) (le_of_lt (mul_pos hlam hMpos))
+    have hfirst : 1 / lam ≤ (1 + delta) / lam := by
+      exact div_le_div_of_nonneg_right (by linarith [hdelta_pos]) (le_of_lt hlam)
+    dsimp [Acoef]
+    exact le_trans hfirst (le_add_of_nonneg_right hLterm)
+  have hAineq : 1 / m < Acoef / mu := by
+    have hden : 0 < m - eta := sub_pos.mpr heta_lt
+    have hleft : 1 / m < (1 / lam) / mu := by
+      dsimp [mu]
+      field_simp [ne_of_gt hlam, ne_of_gt hden, ne_of_gt hm]
+      nlinarith
+    exact lt_of_lt_of_le hleft (div_le_div_of_nonneg_right hA_lower (le_of_lt hmu_pos))
+  let c1 : ℝ := Acoef / mu
+  let c2 : ℝ := Dcoef / mu
+  let H : ℕ → ℝ := fun n => G n + c1 * F n + c2 * F (n - 1)
+  have hHinputs := thm51_H_eventual_inputs_general x m mu lamHat Acoef Dcoef hm hmu_pos
+    hlamHat_pos hAineq hDcoef_nonneg G F (Eventually.of_forall hF_nonneg) hGinc hFdec hGF.2
+  dsimp only [c1, c2, H] at hHinputs
+  rcases hHinputs with ⟨hbeta_pos, hHineq, hHlower, hFmono⟩
+  have hAcoef_pos : 0 < Acoef :=
+    lt_of_lt_of_le (by positivity : (0 : ℝ) < 1 / lam) hA_lower
+  have hc1_pos : 0 < c1 := by
+    dsimp [c1]
+    exact div_pos hAcoef_pos hmu_pos
+  have hc2_nonneg : 0 ≤ c2 := by
+    dsimp [c2]
+    exact div_nonneg hDcoef_nonneg (le_of_lt hmu_pos)
+  have hG_upper : ∀ n, G n ≤ (1 / tau0) * F n := by
+    intro n
+    have h := hGF.1 n
+    have hmul := mul_le_mul_of_nonneg_left h (by positivity : 0 ≤ 1 / tau0)
+    have hleft : (1 / tau0) * (tau0 * G n) = G n := by
+      field_simp [ne_of_gt htau0_pos]
+    rw [hleft] at hmul
+    simpa [G, F] using hmul
+  have hFmono_shift : ∀ᶠ n in atTop, F n ≤ F (n - 1) := by
+    rcases eventually_atTop.mp hFmono with ⟨N, hN⟩
+    filter_upwards [eventually_ge_atTop (max (N + 1) 1)] with n hn
+    have hnN : N + 1 ≤ n := le_trans (le_max_left _ _) hn
+    have hn1 : 1 ≤ n := le_trans (le_max_right _ _) hn
+    have h := hN (n - 1) (by omega)
+    simpa [Nat.sub_add_cancel hn1] using h
+  let C : ℝ := 1 / tau0 + c1 + c2
+  have hC_pos : 0 < C := by
+    dsimp [C]
+    positivity
+  have hH_upper : ∀ᶠ n in atTop, H n ≤ C * F (n - 1) := by
+    filter_upwards [hFmono_shift] with n hmono
+    have hGle := hG_upper n
+    have hGle' : G n ≤ (1 / tau0) * F (n - 1) :=
+      le_trans hGle (mul_le_mul_of_nonneg_left hmono (by positivity : 0 ≤ 1 / tau0))
+    have hc1mono := mul_le_mul_of_nonneg_left hmono (le_of_lt hc1_pos)
+    dsimp [H, C]
+    nlinarith
+  let beta : ℝ := c1 - 1 / m
+  have hbeta_pos' : 0 < beta := by
+    simpa [beta, c1] using hbeta_pos
+  have hHineq' : ∀ᶠ n in atTop,
+      H (n + 1) - H n + lamHat * F (n + 1) ≤ 0 := by
+    simpa [H, c1, c2] using hHineq
+  have hHlower' : ∀ n, beta * F n ≤ H n := by
+    intro n
+    have hGlo := hGF.2 n
+    have hFprev := hF_nonneg (n - 1)
+    have hc2term : 0 ≤ c2 * F (n - 1) := mul_nonneg hc2_nonneg hFprev
+    dsimp [H, beta, c1]
+    nlinarith
+  let cdec : ℝ := 1 / (1 + lamHat / C)
+  have hdec : ∃ (Kg : ℝ) (nH : ℕ), 0 < Kg ∧ 0 < cdec ∧ cdec < 1 ∧
+      ∀ n ≥ nH, H n ≤ Kg * cdec ^ ((n : ℝ) / 2) := by
+    simpa [cdec] using
+      (thm51_H_decay_geometric_general beta C lamHat hbeta_pos' hC_pos hlamHat_pos
+        F H (Eventually.of_forall hF_nonneg) hFmono hHlower' hH_upper hHineq')
+  rcases hdec with ⟨Kg, nH, hKg_pos, hcdec_pos, hcdec_lt_one, hHdecay_bound⟩
+  have hF_lower_final : ∀ n,
+      (1 / (2 * lam ^ 2)) * ‖x (n + 1) - x n‖ ^ 2 ≤ F n := by
+    intro n
+    have h := hF_lower_seq n
+    have hnonneg : 0 ≤ (M / 2) * ‖x (n + 1) - xInf‖ ^ 2 := by positivity
+    dsimp [F]
+    linarith
+  have hHdecay : ∀ᶠ n in atTop, H n ≤ Kg * cdec ^ ((n : ℝ) / 2) :=
+    eventually_atTop.mpr ⟨nH, hHdecay_bound⟩
+  exact thm51_final_velocity_extraction_general x lam beta hlam hbeta_pos' F H Kg cdec
+    hKg_pos hcdec_pos hcdec_lt_one hF_lower_final hHlower' hHdecay

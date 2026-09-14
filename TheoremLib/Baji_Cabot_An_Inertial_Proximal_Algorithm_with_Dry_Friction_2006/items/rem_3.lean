@@ -21,32 +21,27 @@ private theorem rem52_finite_tail_bound (x : ℕ → H) (n0 n m : ℕ)
     (hn : n0 ≤ n) (hmn : n ≤ m) :
     ‖x n - x m‖ ≤ (K / (1 - q)) * q ^ n := by
   calc
-    ‖x n - x m‖ = dist (x n) (x m) := by
-      rw [dist_eq_norm]
+    ‖x n - x m‖ = dist (x n) (x m) := (dist_eq_norm (x n) (x m)).symm
     _ ≤ ∑ i ∈ Finset.Ico n m, dist (x i) (x (i + 1)) :=
       dist_le_Ico_sum_dist x hmn
-    _ = ∑ i ∈ Finset.Ico n m, ‖x i - x (i + 1)‖ := by
-      simp [dist_eq_norm]
+    _ = ∑ i ∈ Finset.Ico n m, ‖x i - x (i + 1)‖ :=
+      Finset.sum_congr rfl fun i _ => dist_eq_norm (x i) (x (i + 1))
     _ = ∑ i ∈ Finset.Ico n m, ‖x (i + 1) - x i‖ := by
-      refine Finset.sum_congr rfl ?_
-      intro i hi
-      exact norm_sub_rev (x i) (x (i + 1))
+      exact Finset.sum_congr rfl fun i _ => norm_sub_rev (x i) (x (i + 1))
     _ ≤ ∑ i ∈ Finset.Ico n m, K * q ^ i := by
-      refine Finset.sum_le_sum ?_
-      intro i hi
-      have hi0 : n0 ≤ i := le_trans hn (Finset.mem_Ico.mp hi).1
-      exact h_vel_decay i hi0
+      exact Finset.sum_le_sum fun i hi => h_vel_decay i (le_trans hn (Finset.mem_Ico.mp hi).1)
     _ = K * ∑ i ∈ Finset.Ico n m, q ^ i := by
       rw [Finset.mul_sum]
-    _ ≤ K * (q ^ n / (1 - q)) := by
-      exact mul_le_mul_of_nonneg_left (geom_sum_Ico_le_of_lt_one hq_nonneg hq1) hK_nonneg
-    _ = (K / (1 - q)) * q ^ n := by
-      ring
+    _ ≤ K * (q ^ n / (1 - q)) :=
+      mul_le_mul_of_nonneg_left (geom_sum_Ico_le_of_lt_one hq_nonneg hq1) hK_nonneg
+    _ = (K / (1 - q)) * q ^ n := by ring
 
 variable {H : Type _} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
+omit [InnerProductSpace ℝ H] [CompleteSpace H] in
 /-- Remark 5.2: from the geometric decay of velocity to the geometric decay of distance. -/
-theorem rem_5_2 (x : ℕ → H) (xInf : H) (n0 : ℕ) (K : ℝ) (q : ℝ) (hK : K > 0) (hq0 : q > 0) (hq1 : q < 1)
-    (h_vel_decay : ∀ n ≥ n0, ‖x (n+1) - x n‖ ≤ K * q ^ n) (hxInf : Tendsto x atTop (𝓝 xInf)) :
+theorem rem_5_2 (x : ℕ → H) (xInf : H) (n0 : ℕ) (K : ℝ) (q : ℝ) (hK : K > 0) (hq0 : q > 0)
+    (hq1 : q < 1) (h_vel_decay : ∀ n ≥ n0, ‖x (n + 1) - x n‖ ≤ K * q ^ n)
+    (hxInf : Tendsto x atTop (𝓝 xInf)) :
     ∀ n ≥ n0, ‖x n - xInf‖ ≤ (K / (1 - q)) * q ^ n := by
   intro n hn
   have hK_nonneg : 0 ≤ K := le_of_lt hK
@@ -55,14 +50,10 @@ theorem rem_5_2 (x : ℕ → H) (xInf : H) (n0 : ℕ) (K : ℝ) (q : ℝ) (hK : 
   have h_eventual : (fun m : ℕ => ‖x n - x m‖) ≤ᶠ[atTop] (fun _ : ℕ => R) := by
     change ∀ᶠ m : ℕ in atTop, ‖x n - x m‖ ≤ R
     rw [Filter.eventually_atTop]
-    refine ⟨n, ?_⟩
-    intro m hm
-    exact rem52_finite_tail_bound x n0 n m K q hK_nonneg hq_nonneg hq1
-      h_vel_decay hn hm
+    exact ⟨n, fun m hm =>
+      rem52_finite_tail_bound x n0 n m K q hK_nonneg hq_nonneg hq1 h_vel_decay hn hm⟩
   have hcont : Continuous (fun y : H => ‖x n - y‖) :=
     (continuous_const.sub continuous_id).norm
   have h_tend : Tendsto (fun m : ℕ => ‖x n - x m‖) atTop (𝓝 ‖x n - xInf‖) := by
-    simpa using (hcont.tendsto xInf).comp hxInf
-  have h_const : Tendsto (fun _ : ℕ => R) atTop (𝓝 R) := tendsto_const_nhds
-  have h_le : ‖x n - xInf‖ ≤ R := le_of_tendsto_of_tendsto h_tend h_const h_eventual
-  simpa [R] using h_le
+    exact (hcont.tendsto xInf).comp hxInf
+  simpa [R] using le_of_tendsto_of_tendsto h_tend tendsto_const_nhds h_eventual

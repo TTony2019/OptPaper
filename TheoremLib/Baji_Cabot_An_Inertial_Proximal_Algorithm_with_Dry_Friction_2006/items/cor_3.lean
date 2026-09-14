@@ -27,21 +27,21 @@ open Set
 open Filter
 variable {H : Type _} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
 
+omit [InnerProductSpace ℝ H] [CompleteSpace H] in
 /-- A non-punctured limit at the origin forces the value at the origin. -/
 private theorem cor51_A0_zero_of_tendsto (A0 : H → H)
     (h : Filter.Tendsto A0 (𝓝 (0 : H)) (𝓝 (0 : H))) :
     A0 (0 : H) = 0 := by
   by_contra hne
   let U : Set H := ({A0 (0 : H)} : Set H)ᶜ
-  have hU_nhds : U ∈ 𝓝 (0 : H) := by
-    refine IsOpen.mem_nhds ?_ ?_
-    · exact isClosed_singleton.isOpen_compl
-    · simpa [U] using (Ne.symm hne)
+  have hU_nhds : U ∈ 𝓝 (0 : H) :=
+    IsOpen.mem_nhds isClosed_singleton.isOpen_compl (by simpa [U] using (Ne.symm hne))
   have hpre : A0 ⁻¹' U ∈ 𝓝 (0 : H) := h hU_nhds
   have hmem0 : (0 : H) ∈ A0 ⁻¹' U := mem_of_mem_nhds hpre
   have hmem : A0 (0 : H) ∈ U := hmem0
-  simpa [U] using hmem
+  simp [U] at hmem
 
+omit [CompleteSpace H] in
 /-- The support function of a set containing the origin vanishes at the origin. -/
 private theorem cor51_supportFunction_zero (C : Set H) (hC0 : (0 : H) ∈ C) :
     supportFunction C (0 : H) = 0 := by
@@ -58,12 +58,14 @@ private theorem cor51_supportFunction_zero (C : Set H) (hC0 : (0 : H) ∈ C) :
   rw [h_image]
   simp
 
+omit [CompleteSpace H] in
 /-- Every point of a set lies below its support function. -/
 private theorem cor51_inner_le_supportFunction {C : Set H} {z y : H} (hz : z ∈ C) :
     (inner ℝ z y : EReal) ≤ supportFunction C y := by
   unfold supportFunction
   exact le_sSup ⟨z, hz, rfl⟩
 
+omit [CompleteSpace H] in
 /-- A defining halfspace gives the corresponding support-function bound. -/
 private theorem cor51_supportFunction_le_of_halfspace {C : Set H} {a : H} {b : ℝ}
     (hC : ∀ z ∈ C, inner ℝ a z ≤ b) :
@@ -75,6 +77,7 @@ private theorem cor51_supportFunction_le_of_halfspace {C : Set H} {a : H} {b : �
     simpa [real_inner_comm] using hC z hz
   exact EReal.coe_le_coe_iff.mpr hzle
 
+omit [CompleteSpace H] in
 /-- At the origin, the subdifferential of the support function of a polyhedron is
 the polyhedron itself. -/
 private theorem cor51_subderivative_support_zero_eq {C : Set H}
@@ -97,12 +100,12 @@ private theorem cor51_subderivative_support_zero_eq {C : Set H}
     have hE : (inner ℝ v (a i) : EReal) ≤ (b i : EReal) := le_trans hvle hhalf
     have hreal : inner ℝ v (a i) ≤ b i := EReal.coe_le_coe_iff.mp hE
     simpa [real_inner_comm] using hreal
-  · intro hvC
-    intro y
+  · intro hvC y
     have hle : (inner ℝ v y : EReal) ≤ supportFunction C y :=
       cor51_inner_le_supportFunction hvC
     simpa [subderivative, cor51_supportFunction_zero C hC0] using hle
 
+omit [CompleteSpace H] in
 /-- The operator value at zero is the original polyhedron. -/
 private theorem cor51_A_zero_eq_C (C : Set H) (hC_polyhedron : ConvexPolyhedron C)
     (hC0 : (0 : H) ∈ C) (A0 : H → H) (hA0_at_zero : A0 (0 : H) = 0)
@@ -114,8 +117,8 @@ private theorem cor51_A_zero_eq_C (C : Set H) (hC_polyhedron : ConvexPolyhedron 
     A (0 : H) = C := by
   have hS0 := cor51_subderivative_support_zero_eq hC_polyhedron hC0
   have hF0 : SetValuedOperator.ofFunction Set.univ
-      (fun x : (Set.univ : Set H) => A0 x.1) (0 : H) = ({A0 (0 : H)} : Set H) := by
-    simpa using SetValuedOperator.ofFunction_apply_of_mem Set.univ
+      (fun x : (Set.univ : Set H) => A0 x.1) (0 : H) = ({A0 (0 : H)} : Set H) :=
+    SetValuedOperator.ofFunction_apply_of_mem Set.univ
       (fun x : (Set.univ : Set H) => A0 x.1) (by simp : (0 : H) ∈ Set.univ)
   ext v
   constructor
@@ -129,16 +132,14 @@ private theorem cor51_A_zero_eq_C (C : Set H) (hC_polyhedron : ConvexPolyhedron 
     have hw0 : w = 0 := by
       rw [hF0] at hw
       simpa [hA0_at_zero] using hw
-    have huC : u ∈ C := by
-      simpa [hS0] using hu
-    simpa [hw0] using huC
+    simpa [hw0, hS0] using hu
   · intro hvC
     rw [hA (0 : H)]
     refine ⟨v, ?_, 0, ?_, by simp⟩
     · simpa [hS0] using hvC
-    · rw [hF0]
-      simp [hA0_at_zero]
+    · simp [hF0, hA0_at_zero]
 
+omit [CompleteSpace H] in
 /-- The perturbation by `A0 z` bounds the excess over the support subdifferential. -/
 private theorem cor51_excess_bound (C : Set H) (A0 : H → H) (A : SetValuedOperator H H)
     (hA : ∀ x, A x =
@@ -146,8 +147,8 @@ private theorem cor51_excess_bound (C : Set H) (A0 : H → H) (A : SetValuedOper
         ∃ w ∈ SetValuedOperator.ofFunction Set.univ
           (fun x : (Set.univ : Set H) => A0 x.1) x, v = u + w})
     (hA_dom : A.dom = Set.univ) (z : H) :
-    0 ≤ excess (A z) (subderivative (supportFunction C) z) ∧
-      excess (A z) (subderivative (supportFunction C) z) ≤ ‖A0 z‖ := by
+    0 ≤ setExcess (A z) (subderivative (supportFunction C) z) ∧
+      setExcess (A z) (subderivative (supportFunction C) z) ≤ ‖A0 z‖ := by
   let S : Set H := subderivative (supportFunction C) z
   let G : A z → ℝ := fun w => Metric.infDist (w : H) S
   have hpoint : ∀ w : A z, G w ≤ ‖A0 z‖ := by
@@ -168,30 +169,24 @@ private theorem cor51_excess_bound (C : Set H) (A0 : H → H) (A : SetValuedOper
       _ ≤ dist (w : H) s := Metric.infDist_le_dist_of_mem (by simpa [S] using hs)
       _ = dist (s + t) s := by rw [hst]
       _ = ‖A0 z‖ := by
-        rw [htA0, dist_eq_norm]
-        have hsub : s + A0 z - s = A0 z := by abel
-        rw [hsub]
-  have hAznonempty : (A z).Nonempty := by
-    have hzdom : z ∈ A.dom := by simpa [hA_dom]
-    exact (SetValuedOperator.mem_dom_iff A z).mp hzdom
+        rw [htA0, dist_eq_norm, add_sub_cancel_left]
+  have hAznonempty : (A z).Nonempty :=
+    (SetValuedOperator.mem_dom_iff A z).mp (by simp [hA_dom])
   rcases hAznonempty with ⟨a, ha⟩
   haveI : Nonempty (A z) := ⟨⟨a, ha⟩⟩
   have hbdd : BddAbove (Set.range G) := by
     refine ⟨‖A0 z‖, ?_⟩
     rintro r ⟨w, rfl⟩
     exact hpoint w
-  have hbot : sSup (∅ : Set ℝ) ≤ ⨆ w : A z, G w := by
-    simp only [Real.sSup_empty]
-    exact le_trans Metric.infDist_nonneg (le_ciSup hbdd ⟨a, ha⟩)
-  have hexcess_eq : excess (A z) S = ⨆ w : A z, G w := by
-    unfold excess
-    exact (ciSup_subtype (p := fun w : H => w ∈ A z) (f := G) hbdd hbot).symm
+  have hexcess_eq : setExcess (A z) S = ⨆ w : A z, G w := by
+    simpa [G] using setExcess_eq_iSup_infDist (A z) S
   constructor
   · rw [hexcess_eq]
     exact le_trans Metric.infDist_nonneg (le_ciSup hbdd ⟨a, ha⟩)
   · rw [hexcess_eq]
     exact ciSup_le hpoint
 
+omit [CompleteSpace H] in
 /-- Condition (22) of Proposition 5.1 follows from `A0 z -> 0`. -/
 private theorem cor51_excess_condition (C : Set H) (A0 : H → H)
     (A : SetValuedOperator H H)
@@ -202,27 +197,25 @@ private theorem cor51_excess_condition (C : Set H) (A0 : H → H)
     (hA_dom : A.dom = Set.univ) (hA_zero : A (0 : H) = C)
     (hA0_zero : Filter.Tendsto A0 (𝓝 (0 : H)) (𝓝 (0 : H))) :
     Filter.Tendsto
-      (fun z : H => excess (A z) (subderivative (supportFunction (A (0 : H))) z))
+      (fun z : H => setExcess (A z) (subderivative (supportFunction (A (0 : H))) z))
       (𝓝 (0 : H)) (𝓝 0) := by
   have hnonneg : ∀ z : H,
-      0 ≤ excess (A z) (subderivative (supportFunction (A (0 : H))) z) := by
+      0 ≤ setExcess (A z) (subderivative (supportFunction (A (0 : H))) z) := by
     intro z
-    have hb := (cor51_excess_bound C A0 A hA hA_dom z).1
-    simpa [hA_zero] using hb
+    simpa [hA_zero] using (cor51_excess_bound C A0 A hA hA_dom z).1
   have hle : ∀ z : H,
-      excess (A z) (subderivative (supportFunction (A (0 : H))) z) ≤ ‖A0 z‖ := by
+      setExcess (A z) (subderivative (supportFunction (A (0 : H))) z) ≤ ‖A0 z‖ := by
     intro z
-    have hb := (cor51_excess_bound C A0 A hA hA_dom z).2
-    simpa [hA_zero] using hb
+    simpa [hA_zero] using (cor51_excess_bound C A0 A hA hA_dom z).2
   have hnorm : Filter.Tendsto (fun z : H => ‖A0 z‖) (𝓝 (0 : H)) (𝓝 0) := by
     simpa using hA0_zero.norm
   exact squeeze_zero hnonneg hle hnorm
 
 /-- Corollary 5.1: application of Proposition 5.1 to A = ∂σ_C + A_0 with A_0(0) = 0. -/
-theorem cor_5_1 (C : Set H) (hC_closed : IsClosed C) (hC_conv : Convex ℝ C)
-    (hC_polyhedron : ConvexPolyhedron C) (hC_bounded : Bornology.IsBounded C)
+theorem cor_5_1 (C : Set H) (_hC_closed : IsClosed C) (_hC_conv : Convex ℝ C)
+    (hC_polyhedron : ConvexPolyhedron C) (_hC_bounded : Bornology.IsBounded C)
     (hC_int : (0 : H) ∈ interior C) (A0 : H → H)
-    (hA0_max_mono : IsMaximalMonotone
+    (_hA0_max_mono : IsMaximalMonotone
       (SetValuedOperator.ofFunction Set.univ (fun x : (Set.univ : Set H) => A0 x.1)))
     (hA0_zero : Filter.Tendsto A0 (𝓝 (0 : H)) (𝓝 (0 : H)))
     (A : SetValuedOperator H H) (hA : ∀ x, A x =
@@ -230,7 +223,8 @@ theorem cor_5_1 (C : Set H) (hC_closed : IsClosed C) (hC_conv : Convex ℝ C)
         ∃ w ∈ SetValuedOperator.ofFunction Set.univ
           (fun x : (Set.univ : Set H) => A0 x.1) x, v = u + w})
     (hA_max : IsMaximalMonotone A) (hA_dom : A.dom = Set.univ)
-    (f : H → ℝ) (hf_conv : ConvexOn ℝ Set.univ f) (hf_C1 : ContDiff ℝ 1 f) (hinf : ∃ m, ∀ x, f x ≥ m)
+    (f : H → ℝ) (hf_conv : ConvexOn ℝ Set.univ f) (hf_C1 : ContDiff ℝ 1 f)
+    (hinf : ∃ m, ∀ x, f x ≥ m)
     (B : SetValuedOperator H H) (hB_eq_grad : B =
       SetValuedOperator.ofFunction Set.univ (fun x : (Set.univ : Set H) => gradient f x.1))
     (lam : ℕ → ℝ) (hlam_pos : ∀ n, lam n > 0) (hlam_nondec : ∀ n, lam n ≤ lam (n+1))
@@ -245,7 +239,7 @@ theorem cor_5_1 (C : Set H) (hC_closed : IsClosed C) (hC_conv : Convex ℝ C)
   have hpoly_A0 : ConvexPolyhedron (A (0 : H)) := by
     simpa [hA_zero] using hC_polyhedron
   have hcondition : Filter.Tendsto
-      (fun z : H => excess (A z) (subderivative (supportFunction (A (0 : H))) z))
+      (fun z : H => setExcess (A z) (subderivative (supportFunction (A (0 : H))) z))
       (𝓝 (0 : H)) (𝓝 0) :=
     cor51_excess_condition C A0 A hA hA_dom hA_zero hA0_zero
   rcases prop_5_1 A B hA_max hA_dom hAzero_int hpoly_A0 hcondition f hf_conv hf_C1

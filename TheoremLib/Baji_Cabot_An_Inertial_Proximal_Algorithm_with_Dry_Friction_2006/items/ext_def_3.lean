@@ -9,7 +9,6 @@ For $x \notin C$, $N_C(x) = \emptyset$. For a set $S \subset H$,
 $N_C(S) = \bigcup_{\xi \in S} N_C(\xi)$.
 -/
 open Set
-open scoped Classical
 
 variable {H : Type _} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
 

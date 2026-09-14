@@ -18,14 +18,16 @@ open scoped Topology
 open scoped Pointwise
 open Filter
 variable {H : Type _} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
+omit [CompleteSpace H] in
 /-- Corollary 2.1: the scaled difference sequence is in ℓ^α. -/
 theorem cor_2_1 (f : H → ℝ) (α : ℝ) (hα : α ≥ 1) (A : SetValuedOperator H H)
-    (hA : ∀ x, A x = {v | ∀ y, (fun (z : H) => ‖z‖^α) y ≥ (fun (z : H) => ‖z‖^α) x + inner ℝ v (y - x)})
+    (hA : ∀ x, A x = {v | ∀ y, (fun (z : H) => ‖z‖^α) y ≥
+      (fun (z : H) => ‖z‖^α) x + inner ℝ v (y - x)})
     (B : SetValuedOperator H H) (hB : ∀ x, B x = {v | ∀ y, f y ≥ f x + inner ℝ v (y - x)})
-    (hf_conv : ConvexOn ℝ Set.univ f) (hf_lsc : LowerSemicontinuous f)
-    (hdom : (SetValuedOperator.dom B).Nonempty)
+    (_hf_conv : ConvexOn ℝ Set.univ f) (_hf_lsc : LowerSemicontinuous f)
+    (_hdom : (SetValuedOperator.dom B).Nonempty)
     (hinf : ∃ m, ∀ x, f x ≥ m) (lam : ℕ → ℝ) (hlam_pos : ∀ n, lam n > 0)
-    (hlam_nondec : ∀ n, lam n ≤ lam (n+1)) (x : ℕ → H) (halg : AlgorithmA A B x lam) :
+    (hlam_nondec : ∀ n, lam n ≤ lam (n + 1)) (x : ℕ → H) (halg : AlgorithmA A B x lam) :
     ∃ (C : ℝ), Tendsto (fun (N : ℕ) => (Finset.range (N+1)).sum (fun n =>
       ‖(lam n)⁻¹ • (x (n+2) - x (n+1))‖^α)) atTop (𝓝 C) := by
   classical
@@ -34,9 +36,7 @@ theorem cor_2_1 (f : H → ℝ) (α : ℝ) (hα : α ≥ 1) (A : SetValuedOperat
   let weighted : ℕ → ℝ := fun n => lam n * term n
   let energy : ℕ → ℝ := fun n =>
     ((2 * (lam n)^2)⁻¹) * ‖x (n+1) - x n‖^2 + f (x (n+1))
-  have hterm_nonneg : ∀ n, 0 ≤ term n := by
-    intro n
-    exact Real.rpow_nonneg (norm_nonneg _) α
+  have hterm_nonneg : ∀ n, 0 ≤ term n := fun n => Real.rpow_nonneg (norm_nonneg _) α
   have henergy_drop : ∀ n, energy (n+1) - energy n ≤ -weighted n := by
     intro n
     let d₁ : H := x (n+1) - x n
@@ -54,18 +54,13 @@ theorem cor_2_1 (f : H → ℝ) (α : ℝ) (hα : α ≥ 1) (A : SetValuedOperat
     have hsum_zero : acc + y + b = 0 := by
       simpa [hp_eq] using hpbeq
     have hbsub : ∀ t : H, f t ≥ f (x (n+2)) + inner ℝ b (t - x (n+2)) := by
-      have hb' : b ∈ {v | ∀ t : H, f t ≥ f (x (n+2)) + inner ℝ v (t - x (n+2))} := by
-        simpa [hB] using hb
-      simpa using hb'
+      simpa [hB] using hb
     have hf_diff : f (x (n+2)) - f (x (n+1)) ≤ inner ℝ b d₂ := by
       have h := hbsub (x (n+1))
       have hinner : inner ℝ b (x (n+1) - x (n+2)) = - inner ℝ b d₂ := by
-        rw [show x (n+1) - x (n+2) = -(x (n+2) - x (n+1)) by abel]
-        rw [inner_neg_right]
+        rw [show x (n+1) - x (n+2) = -(x (n+2) - x (n+1)) by abel, inner_neg_right]
       linarith
-    have hcoeff :
-        (2 * (lam (n+1))^2)⁻¹ * ‖d₂‖^2 ≤
-          (2 * (lam n)^2)⁻¹ * ‖d₂‖^2 := by
+    have hcoeff : (2 * (lam (n+1))^2)⁻¹ * ‖d₂‖^2 ≤ (2 * (lam n)^2)⁻¹ * ‖d₂‖^2 := by
       have hln : 0 < lam n := hlam_pos n
       have hln1 : 0 < lam (n+1) := lt_of_lt_of_le hln (hlam_nondec n)
       have habs : |lam n| ≤ |lam (n+1)| := by
@@ -81,13 +76,10 @@ theorem cor_2_1 (f : H → ℝ) (α : ℝ) (hα : α ≥ 1) (A : SetValuedOperat
           (2 * (lam n)^2)⁻¹ * (‖d₂‖^2 - ‖d₁‖^2) + inner ℝ b d₂ := by
       dsimp [energy, d₁, d₂]
       linarith
-    have hnorm :
-        ‖d₂‖^2 - ‖d₁‖^2 ≤ 2 * inner ℝ (d₂ - d₁) d₂ := by
+    have hnorm : ‖d₂‖^2 - ‖d₁‖^2 ≤ 2 * inner ℝ (d₂ - d₁) d₂ := by
       have hnon : 0 ≤ ‖d₂ - d₁‖^2 := sq_nonneg _
-      rw [norm_sub_sq_real] at hnon
-      rw [real_inner_comm d₁ d₂] at hnon
-      rw [inner_sub_left]
-      rw [real_inner_self_eq_norm_sq]
+      rw [norm_sub_sq_real, real_inner_comm d₁ d₂] at hnon
+      rw [inner_sub_left, real_inner_self_eq_norm_sq]
       nlinarith [hnon]
     have hnorm_scaled :
         (2 * (lam n)^2)⁻¹ * (‖d₂‖^2 - ‖d₁‖^2) ≤
@@ -106,12 +98,10 @@ theorem cor_2_1 (f : H → ℝ) (α : ℝ) (hα : α ≥ 1) (A : SetValuedOperat
       dsimp [acc, d₁, d₂]
       congr 1
       abel
-    have hacc_inner :
-        inner ℝ acc d₂ = ((lam n)^2)⁻¹ * inner ℝ (d₂ - d₁) d₂ := by
+    have hacc_inner : inner ℝ acc d₂ = ((lam n)^2)⁻¹ * inner ℝ (d₂ - d₁) d₂ := by
       rw [hacc_eq, inner_smul_left]
       rfl
-    have henergy_acc :
-        energy (n+1) - energy n ≤ inner ℝ (acc + b) d₂ := by
+    have henergy_acc : energy (n+1) - energy n ≤ inner ℝ (acc + b) d₂ := by
       calc
         energy (n+1) - energy n
             ≤ (2 * (lam n)^2)⁻¹ * (‖d₂‖^2 - ‖d₁‖^2) + inner ℝ b d₂ := henergy_le
@@ -131,22 +121,16 @@ theorem cor_2_1 (f : H → ℝ) (α : ℝ) (hα : α ≥ 1) (A : SetValuedOperat
         _ = - inner ℝ y d₂ := by rw [inner_neg_left]
     have hd₂_eq : d₂ = (lam n) • v := by
       dsimp [v]
-      rw [smul_smul]
-      field_simp [ne_of_gt (hlam_pos n)]
-      simp
+      simp [smul_smul, ne_of_gt (hlam_pos n)]
     have hinner_d₂ : inner ℝ y d₂ = (lam n) * inner ℝ y v := by
       rw [hd₂_eq, inner_smul_right]
     have hsubA : ∀ t : H, ‖t‖^α ≥ ‖v‖^α + inner ℝ y (t - v) := by
-      have hy' : y ∈ {u | ∀ t : H, ‖t‖^α ≥ ‖v‖^α + inner ℝ u (t - v)} := by
-        simpa [hA] using hyA
-      simpa using hy'
+      simpa [hA] using hyA
     have hinner_ge : ‖v‖^α ≤ inner ℝ y v := by
       have h := hsubA 0
       have hα_pos : 0 < α := lt_of_lt_of_le zero_lt_one hα
-      have hzero : ‖(0 : H)‖^α = 0 := by
-        simp [Real.zero_rpow, ne_of_gt hα_pos]
-      rw [hzero] at h
-      rw [zero_sub, inner_neg_right] at h
+      have hzero : ‖(0 : H)‖^α = 0 := by simp [Real.zero_rpow, ne_of_gt hα_pos]
+      rw [hzero, zero_sub, inner_neg_right] at h
       linarith
     have hfinal : -(lam n) * inner ℝ y v ≤ -(lam n) * ‖v‖^α := by
       nlinarith [hlam_pos n, hinner_ge]
@@ -161,32 +145,23 @@ theorem cor_2_1 (f : H → ℝ) (α : ℝ) (hα : α ≥ 1) (A : SetValuedOperat
   rcases hinf with ⟨m, hm⟩
   have hweighted_le_energy : ∀ n, weighted n ≤ energy n - energy (n+1) := by
     intro n
-    have h := henergy_drop n
-    linarith
+    linarith [henergy_drop n]
   have henergy_lower : ∀ N, m ≤ energy N := by
     intro N
     have hf_lower : m ≤ f (x (N+1)) := hm (x (N+1))
-    have hcoeff_nonneg : 0 ≤ (2 * (lam N)^2)⁻¹ := by positivity
-    have hnorm_nonneg : 0 ≤ ‖x (N+1) - x N‖^2 := sq_nonneg _
-    have hprod_nonneg : 0 ≤ (2 * (lam N)^2)⁻¹ * ‖x (N+1) - x N‖^2 :=
-      mul_nonneg hcoeff_nonneg hnorm_nonneg
+    have hprod_nonneg : 0 ≤ (2 * (lam N)^2)⁻¹ * ‖x (N+1) - x N‖^2 := by positivity
     dsimp [energy]
     nlinarith
-  have hweighted_sum_bound :
-      ∀ N, (Finset.range N).sum weighted ≤ energy 0 - m := by
+  have hweighted_sum_bound : ∀ N, (Finset.range N).sum weighted ≤ energy 0 - m := by
     intro N
     have hsum_le_energy :
         (Finset.range N).sum weighted ≤
           (Finset.range N).sum (fun n => energy n - energy (n+1)) := by
       exact Finset.sum_le_sum (fun n _ => hweighted_le_energy n)
-    have htel :
-        (Finset.range N).sum (fun n => energy n - energy (n+1)) =
-          energy 0 - energy N := by
-      exact Finset.sum_range_sub' energy N
     calc
       (Finset.range N).sum weighted
           ≤ (Finset.range N).sum (fun n => energy n - energy (n+1)) := hsum_le_energy
-      _ = energy 0 - energy N := htel
+      _ = energy 0 - energy N := Finset.sum_range_sub' energy N
       _ ≤ energy 0 - m := by
         linarith [henergy_lower N]
   have hlam0_le : ∀ n, lam 0 ≤ lam n := by
@@ -204,10 +179,8 @@ theorem cor_2_1 (f : H → ℝ) (α : ℝ) (hα : α ≥ 1) (A : SetValuedOperat
         field_simp [ne_of_gt h0pos]
       _ ≤ (lam 0)⁻¹ * (lam n * term n) := by
         exact mul_le_mul_of_nonneg_left hmul hscale_nonneg
-      _ = (lam 0)⁻¹ * weighted n := by
-        rfl
-  have hsum_bound :
-      ∀ N, (Finset.range N).sum term ≤ (lam 0)⁻¹ * (energy 0 - m) := by
+      _ = (lam 0)⁻¹ * weighted n := rfl
+  have hsum_bound : ∀ N, (Finset.range N).sum term ≤ (lam 0)⁻¹ * (energy 0 - m) := by
     intro N
     have hsum_scaled :
         (Finset.range N).sum term ≤
@@ -223,7 +196,6 @@ theorem cor_2_1 (f : H → ℝ) (α : ℝ) (hα : α ≥ 1) (A : SetValuedOperat
         exact mul_le_mul_of_nonneg_left (hweighted_sum_bound N) hscale_nonneg
   have hsummable : Summable term := summable_of_sum_range_le hterm_nonneg hsum_bound
   refine ⟨∑' n, term n, ?_⟩
-  have ht := hsummable.hasSum.tendsto_sum_nat
   have hshift : Filter.Tendsto (fun N : ℕ => N + 1) atTop atTop :=
     Filter.tendsto_atTop_mono (fun N => Nat.le_succ N) tendsto_id
-  simpa [term, vel] using ht.comp hshift
+  simpa [term, vel] using (hsummable.hasSum.tendsto_sum_nat).comp hshift

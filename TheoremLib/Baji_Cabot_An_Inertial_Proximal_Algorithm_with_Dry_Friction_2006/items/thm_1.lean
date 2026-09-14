@@ -75,6 +75,7 @@ domain propagation for the subgradient algorithm, conversion of the weighted
 and subdifferential graphs, and the finite-dimensional limit-direction argument.
 -/
 
+omit [CompleteSpace H] in
 private theorem theorem31_algorithm_step_selection (A B : SetValuedOperator H H)
     (lam : ℕ → ℝ) (x : ℕ → H) (halg : AlgorithmA A B x lam) :
     ∀ n, ∃ a b : H,
@@ -94,9 +95,10 @@ private theorem theorem31_algorithm_step_selection (A B : SetValuedOperator H H)
   subst c
   refine ⟨a, b, ?_, hb, ?_⟩
   · simpa [v]
-  · have hp_eq' : acc + a = p := by simpa [hp_eq]
+  · have hp_eq' : acc + a = p := by simp [hp_eq]
     rw [← hpbeq, ← hp_eq']
 
+omit [InnerProductSpace ℝ H] [CompleteSpace H] in
 private theorem tendsto_shift_sub_self_zero (x : ℕ → H) (xInf : H)
     (hxInf : Tendsto x atTop (𝓝 xInf)) :
     Tendsto (fun n : ℕ => x (n + 1) - x n) atTop (𝓝 (0 : H)) := by
@@ -133,6 +135,7 @@ private theorem theorem31_inv_lam_sq_bound (lam : ℕ → ℝ)
     simpa [abs_of_pos (hlam_pos 0), abs_of_pos (hlam_pos n)] using
       theorem31_lam_zero_le_lam lam hlam_nondec n)
 
+omit [CompleteSpace H] in
 private theorem tendsto_smul_zero_of_norm_bounded {c : ℕ → ℝ} {z : ℕ → H} {C : ℝ}
     (hC : ∀ n, ‖c n‖ ≤ C) (hz : Tendsto z atTop (𝓝 (0 : H))) :
     Tendsto (fun n => c n • z n) atTop (𝓝 (0 : H)) := by
@@ -145,6 +148,7 @@ private theorem tendsto_smul_zero_of_norm_bounded {c : ℕ → ℝ} {z : ℕ →
     simpa using (tendsto_const_nhds.mul hz)
   exact squeeze_zero (fun n => norm_nonneg _) hbound hprod
 
+omit [CompleteSpace H] in
 private theorem theorem31_scaled_velocity_tendsto_zero (lam : ℕ → ℝ) (x : ℕ → H)
     (xInf : H) (hlam_pos : ∀ n, 0 < lam n)
     (hlam_nondec : ∀ n, lam n ≤ lam (n + 1)) (hxInf : Tendsto x atTop (𝓝 xInf)) :
@@ -159,6 +163,7 @@ private theorem theorem31_scaled_velocity_tendsto_zero (lam : ℕ → ℝ) (x : 
   exact tendsto_smul_zero_of_norm_bounded
     (theorem31_inv_lam_bound lam hlam_pos hlam_nondec) hz
 
+omit [CompleteSpace H] in
 private theorem theorem31_acceleration_tendsto_zero (lam : ℕ → ℝ) (x : ℕ → H)
     (xInf : H) (hlam_pos : ∀ n, 0 < lam n)
     (hlam_nondec : ∀ n, lam n ≤ lam (n + 1)) (hxInf : Tendsto x atTop (𝓝 xInf)) :
@@ -185,6 +190,7 @@ private theorem theorem31_acceleration_tendsto_zero (lam : ℕ → ℝ) (x : ℕ
   exact tendsto_smul_zero_of_norm_bounded
     (theorem31_inv_lam_sq_bound lam hlam_pos hlam_nondec) hnum
 
+omit [CompleteSpace H] in
 private theorem subderivative_mem_ne_top (B : SetValuedOperator H H) (f : H → EReal)
     (hB : ∀ x, B x = {v | ∀ y, f y ≥ f x + (inner ℝ v (y - x) : EReal)})
     (hfinite : ∃ z, f z < ⊤) {x u : H} (hu : u ∈ B x) :
@@ -197,9 +203,10 @@ private theorem subderivative_mem_ne_top (B : SetValuedOperator H H) (f : H → 
   intro hx_top
   have h := husub z
   rw [hx_top] at h
-  simp at h
-  exact (ne_of_lt hzfinite) h
+  rw [EReal.top_add_of_ne_bot (EReal.coe_ne_bot _)] at h
+  exact (ne_of_lt hzfinite) (top_le_iff.mp h)
 
+omit [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H] in
 private theorem subderivative_mem_ne_bot (f : H → EReal)
     (hf_bddBelow : ∃ m : ℝ, ∀ x, (m : EReal) ≤ f x) {x : H} : f x ≠ ⊥ := by
   rcases hf_bddBelow with ⟨m, hm⟩
@@ -208,6 +215,7 @@ private theorem subderivative_mem_ne_bot (f : H → EReal)
   rw [hx] at h
   simp at h
 
+omit [CompleteSpace H] in
 private theorem theorem31_subderivative_monotone (B : SetValuedOperator H H) (f : H → EReal)
     (hB : ∀ x, B x = {v | ∀ y, f y ≥ f x + (inner ℝ v (y - x) : EReal)})
     (hfinite : ∃ z, f z < ⊤)
@@ -262,7 +270,7 @@ private theorem theorem31_subderivative_monotone (B : SetValuedOperator H H) (f 
 theorem theorem31_variation_converges_from_phi_bound_core (A : SetValuedOperator H H)
     (lam : ℕ → ℝ) (x : ℕ → H) (α : ℝ) (hα : 0 < α)
     (hPhi : ∀ z, PhiA A z ≥ ((α * ‖z‖ : ℝ) : EReal))
-    (hlam_pos : ∀ n, lam n > 0) (hlam_nondec : ∀ n, lam n ≤ lam (n + 1))
+    (hlam_pos : ∀ n, lam n > 0) (_hlam_nondec : ∀ n, lam n ≤ lam (n + 1))
     (hWeighted : ∃ S : ℝ,
       Tendsto (fun N : ℕ => (Finset.range (N + 1)).sum (fun n =>
         (lam n : EReal) * PhiA A ((lam n)⁻¹ • (x (n + 2) - x (n + 1)))))
@@ -367,6 +375,7 @@ theorem theorem31_variation_converges_from_phi_bound_core (A : SetValuedOperator
       simpa [dist_eq_norm, Nat.succ_eq_add_one, norm_sub_rev] using hinc_summable
     exact cauchySeq_tendsto_of_complete (cauchySeq_of_summable_dist hdist_summable)
 
+omit [CompleteSpace H] in
 /-- A graph point of a monotone operator belongs to its zero-enlargement. -/
 private theorem theorem21_18_mem_enlargement_zero_of_mem {T : SetValuedOperator H H}
     (hT : IsMonotone T) {x u : H} (hu : u ∈ T x) :
@@ -380,6 +389,7 @@ private theorem theorem21_18_mem_enlargement_zero_of_mem {T : SetValuedOperator 
     rw [inner_neg_left, inner_neg_right, neg_neg]
   simpa [← hEq] using hmono
 
+omit [CompleteSpace H] in
 /-- For a maximal monotone operator, the zero-enlargement is contained in the operator. -/
 private theorem theorem21_18_enlargement_zero_subset_of_maximal {T : SetValuedOperator H H}
     (hT : IsMaximalMonotone T) {x v : H} (hv : v ∈ enlargement T 0 x) :
@@ -476,6 +486,7 @@ private theorem theorem21_18_exists_interior_bounded_value_slice
       exact Set.mem_iUnion.2 ⟨N, u, hu, hN⟩
   simpa [C] using nonempty_interior_of_iUnion_of_closed hclosed hcover
 
+omit [CompleteSpace H] in
 /-- If a bounded-value slice has interior at `c`, monotonicity upgrades the bounded selection
 there into local boundedness of all nearby values. -/
 private theorem theorem21_18_local_bounded_at_interior_slice
@@ -493,8 +504,8 @@ private theorem theorem21_18_local_bounded_at_interior_slice
     ⟨z, hzball, hwA⟩
   by_cases hw0 : w = 0
   · subst w
-    have hN_nonneg : (0 : ℝ) ≤ (N : ℝ) := by exact_mod_cast Nat.zero_le N
-    simpa using mul_nonneg (by norm_num : (0 : ℝ) ≤ 3) hN_nonneg
+    rw [norm_zero]
+    exact mul_nonneg (by norm_num : (0 : ℝ) ≤ 3) (Nat.cast_nonneg N)
   · let e : H := ‖w‖⁻¹ • w
     let y : H := c + (ε / 2) • e
     have hw_norm_pos : 0 < ‖w‖ := norm_pos_iff.mpr hw0
@@ -581,6 +592,7 @@ private noncomputable def theorem21_18_fitzLocal (A : SetValuedOperator H H) (x 
   ⨆ p : {p : H × H // p.2 ∈ A p.1},
     (((inner ℝ (x - p.val.1) p.val.2) / (1 + ‖p.val.1‖) : ℝ) : EReal)
 
+omit [CompleteSpace H] in
 private theorem theorem21_18_fitzLocal_ge (A : SetValuedOperator H H)
     {x y v : H} (hv : v ∈ A y) :
     (((inner ℝ (x - y) v) / (1 + ‖y‖) : ℝ) : EReal) ≤
@@ -588,6 +600,7 @@ private theorem theorem21_18_fitzLocal_ge (A : SetValuedOperator H H)
   dsimp [theorem21_18_fitzLocal]
   exact le_iSup_of_le (⟨(y, v), hv⟩ : {p : H × H // p.2 ∈ A p.1}) le_rfl
 
+omit [CompleteSpace H] in
 private theorem theorem21_18_fitzLocal_lsc (A : SetValuedOperator H H) :
     LowerSemicontinuous (theorem21_18_fitzLocal A) := by
   unfold theorem21_18_fitzLocal
@@ -598,6 +611,7 @@ private theorem theorem21_18_fitzLocal_lsc (A : SetValuedOperator H H) :
     exact ((continuous_id.sub continuous_const).inner continuous_const).div_const _
   exact (continuous_coe_real_ereal.comp hreal).lowerSemicontinuous
 
+omit [CompleteSpace H] in
 private theorem theorem21_18_fitzLocal_closed_sublevel
     (A : SetValuedOperator H H) (N : ℕ) :
     IsClosed {x : H | theorem21_18_fitzLocal A x ≤ ((N : ℝ) : EReal)} := by
@@ -605,6 +619,7 @@ private theorem theorem21_18_fitzLocal_closed_sublevel
   rw [lowerSemicontinuous_iff_isClosed_preimage] at hlsc
   simpa [Set.preimage, Set.Iic] using hlsc ((N : ℝ) : EReal)
 
+omit [CompleteSpace H] in
 private theorem theorem21_18_fitzLocal_convex (A : SetValuedOperator H H) :
     ∀ x y : H, ∀ a b : ℝ, 0 ≤ a → 0 ≤ b → a + b = 1 →
       theorem21_18_fitzLocal A (a • x + b • y) ≤
@@ -650,6 +665,7 @@ private theorem theorem21_18_fitzLocal_convex (A : SetValuedOperator H H) :
           · exact le_iSup_of_le p le_rfl
           · exact le_iSup_of_le p le_rfl
 
+omit [CompleteSpace H] in
 private theorem theorem21_18_fitzLocal_finite_above
     (A : SetValuedOperator H H) (hAmono : IsMonotone A) (hdomA : A.dom = Set.univ) :
     ∀ x : H, ∃ N : ℕ, theorem21_18_fitzLocal A x ≤ ((N : ℝ) : EReal) := by
@@ -908,9 +924,9 @@ private theorem theorem31_subgradient_selection_bounded
     (xInf : H) (hxInf : Tendsto x atTop (𝓝 xInf))
     (a b : ℕ → H)
     (ha : ∀ n, a n ∈ A ((lam n)⁻¹ • (x (n + 2) - x (n + 1))))
-    (hb : ∀ n, b n ∈ B (x (n + 2)))
+    (_hb : ∀ n, b n ∈ B (x (n + 2)))
     (heq : ∀ n,
-      ((lam n)^2)⁻¹ • (x (n + 2) - 2 • x (n + 1) + x n) + a n + b n = 0) :
+      ((lam n) ^ 2)⁻¹ • (x (n + 2) - 2 • x (n + 1) + x n) + a n + b n = 0) :
     Bornology.IsBounded (Set.range b) := by
   let z : ℕ → H := fun n => (lam n)⁻¹ • (x (n + 2) - x (n + 1))
   let acc : ℕ → H := fun n =>
@@ -954,6 +970,7 @@ private theorem theorem31_weak_cluster_of_bounded_selection (b : ℕ → H)
         (𝓝 (toWeakSpace ℝ H vBar)) := by
   exact bounded_sequence_has_weakly_convergent_subsequence b hbdd
 
+omit [CompleteSpace H] in
 private theorem maximal_of_monotone_and_resolvent_surjective
     (B : SetValuedOperator H H) (hmono : IsMonotone B)
     (hres : ∀ z : H, ∃ p q : H, q ∈ B p ∧ z = p + q) :
@@ -1044,6 +1061,7 @@ private lemma lowerSemicontinuous_add_ereal {X : Type _} [TopologicalSpace X]
 private noncomputable def moreauObjective (f : H → EReal) (z : H) (x : H) : EReal :=
   f x + (((1 / 2 : ℝ) * ‖x - z‖ ^ 2 : ℝ) : EReal)
 
+omit [InnerProductSpace ℝ H] [CompleteSpace H] in
 private theorem moreauObjective_lsc (f : H → EReal) (z : H)
     (hf : LowerSemicontinuous f) : LowerSemicontinuous (moreauObjective f z) := by
   have hquad_cont : Continuous fun x : H => ((1 / 2 : ℝ) * ‖x - z‖ ^ 2 : ℝ) := by
@@ -1076,6 +1094,7 @@ private theorem ereal_add_coe_ne_top {q : EReal} {r : ℝ} (hq : q ≠ ⊤) :
   | coe s => rw [← EReal.coe_add]; exact EReal.coe_ne_top _
   | top => exact (hq rfl).elim
 
+omit [InnerProductSpace ℝ H] [CompleteSpace H] in
 private theorem moreauObjective_ne_bot (f : H → EReal) (z : H)
     (hf_bddBelow : ∃ m : ℝ, ∀ x, (m : EReal) ≤ f x) (x : H) :
     moreauObjective f z x ≠ ⊥ := by
@@ -1090,6 +1109,7 @@ private theorem moreauObjective_ne_bot (f : H → EReal) (z : H)
   rw [hbot] at hle
   exact (not_le_of_gt (EReal.bot_lt_coe m)) hle
 
+omit [InnerProductSpace ℝ H] [CompleteSpace H] in
 private theorem moreauObjective_toReal_of_finite (f : H → EReal) (z x : H)
     (hf_top : f x ≠ ⊤) (hf_bot : f x ≠ ⊥) :
     (moreauObjective f z x).toReal =
@@ -1108,8 +1128,9 @@ private theorem ereal_real_linear_combination_toReal
   rw [h]
   exact EReal.toReal_coe _
 
+omit [InnerProductSpace ℝ H] [CompleteSpace H] in
 private theorem moreauObjective_f_ne_top_of_le_coe (f : H → EReal) (z x : H) {R : ℝ}
-    (hf_bddBelow : ∃ m : ℝ, ∀ x, (m : EReal) ≤ f x)
+    (_hf_bddBelow : ∃ m : ℝ, ∀ x, (m : EReal) ≤ f x)
     (hle : moreauObjective f z x ≤ (R : EReal)) :
     f x ≠ ⊤ := by
   have hq_bot :
@@ -1120,6 +1141,7 @@ private theorem moreauObjective_f_ne_top_of_le_coe (f : H → EReal) (z x : H) {
     exact hle
   exact (EReal.coe_ne_top R) (top_le_iff.mp h')
 
+omit [CompleteSpace H] in
 private theorem quad_convex_real (z : H) :
     ∀ x y : H, ∀ a b : ℝ, 0 ≤ a → 0 ≤ b → a + b = 1 →
       (1 / 2 : ℝ) * ‖a • x + b • y - z‖ ^ 2 ≤
@@ -1152,6 +1174,7 @@ private theorem quad_convex_real (z : H) :
   rw [hiden]
   nlinarith
 
+omit [CompleteSpace H] in
 private theorem moreauObjective_convex_level (f : H → EReal) (z : H)
     (hconv : ∀ x y : H, ∀ a b : ℝ, 0 ≤ a → 0 ≤ b → a + b = 1 →
       f (a • x + b • y) ≤ (a : EReal) * f x + (b : EReal) * f y)
@@ -1273,6 +1296,7 @@ private theorem moreauObjective_convex_level (f : H → EReal) (z : H)
       (r.toReal : EReal) := EReal.coe_le_coe hxy_real
   rwa [EReal.coe_toReal hxy_obj_top hxy_obj_bot, EReal.coe_toReal hr_top hr_bot] at hcoe
 
+omit [InnerProductSpace ℝ H] [CompleteSpace H] in
 private theorem moreauObjective_sublevel_bounded (f : H → EReal) (z x0 : H)
     (hf_bddBelow : ∃ m : ℝ, ∀ x, (m : EReal) ≤ f x)
     (hx0_top : f x0 ≠ ⊤) :
@@ -1368,6 +1392,7 @@ private theorem exists_moreau_minimizer (f : H → EReal) (z : H)
     have hlt : moreauObjective f z x0 < moreauObjective f z y := lt_of_not_ge hnot
     exact le_trans hpC hlt.le
 
+omit [CompleteSpace H] in
 private theorem moreau_quadratic_direction (z p y : H) {t : ℝ} (ht : 0 ≤ t) :
     (1 / 2 : ℝ) * ‖(1 - t) • p + t • y - z‖ ^ 2 =
       (1 / 2 : ℝ) * ‖p - z‖ ^ 2 +
@@ -1380,6 +1405,7 @@ private theorem moreau_quadratic_direction (z p y : H) {t : ℝ} (ht : 0 ≤ t) 
     abs_of_nonneg ht]
   ring
 
+omit [CompleteSpace H] in
 private theorem moreau_minimizer_direction_ineq (f : H → EReal) (z p y : H)
     (hconv : ∀ x y : H, ∀ a b : ℝ, 0 ≤ a → 0 ≤ b → a + b = 1 →
       f (a • x + b • y) ≤ (a : EReal) * f x + (b : EReal) * f y)
@@ -1549,6 +1575,7 @@ private theorem moreau_minimizer_direction_ineq (f : H → EReal) (z p y : H)
       (𝓝 ((f y).toReal - (f p).toReal)) := tendsto_const_nhds
   exact le_of_tendsto_of_tendsto hlim_lhs hlim_rhs (Filter.Eventually.of_forall hineq_t)
 
+omit [CompleteSpace H] in
 private theorem moreau_minimizer_subgradient
     (B : SetValuedOperator H H) (f : H → EReal) (z p : H)
     (hconv : ∀ x y : H, ∀ a b : ℝ, 0 ≤ a → 0 ≤ b → a + b = 1 →
@@ -1643,6 +1670,7 @@ private theorem theorem31_subderivative_maximal_monotone
   exact maximal_of_monotone_and_resolvent_surjective B hmono
     (moreau_resolvent_surjective B f hconv hlsc hB hfinite hf_bddBelow)
 
+omit [CompleteSpace H] in
 private theorem mem_enlargement_zero_of_mem {T : SetValuedOperator H H}
     (hT : IsMonotone T) {x u : H} (hu : u ∈ T x) :
     u ∈ enlargement T 0 x := by
@@ -1655,6 +1683,7 @@ private theorem mem_enlargement_zero_of_mem {T : SetValuedOperator H H}
     rw [inner_neg_left, inner_neg_right, neg_neg]
   simpa [← hEq] using hmono
 
+omit [CompleteSpace H] in
 private theorem enlargement_zero_subset_of_maximal_local {T : SetValuedOperator H H}
     (hT : IsMaximalMonotone T) {x v : H} (hv : v ∈ enlargement T 0 x) :
     v ∈ T x := by
@@ -1726,7 +1755,7 @@ private theorem theorem31_A_graph_closed_along_algorithm
     (a b : ℕ → H) (φ : ℕ → ℕ) (hφ : StrictMono φ)
     (ha : ∀ n, a n ∈ A ((lam n)⁻¹ • (x (n + 2) - x (n + 1))))
     (heq : ∀ n,
-      ((lam n)^2)⁻¹ • (x (n + 2) - 2 • x (n + 1) + x n) + a n + b n = 0)
+      ((lam n) ^ 2)⁻¹ • (x (n + 2) - 2 • x (n + 1) + x n) + a n + b n = 0)
     (hweak : Tendsto (fun n => toWeakSpace ℝ H (b (φ n))) atTop
       (𝓝 (toWeakSpace ℝ H vBar))) :
     -vBar ∈ A (0 : H) := by
@@ -1780,7 +1809,7 @@ private theorem theorem31_limit_direction_monotonicity_passage
     (lam : ℕ → ℝ) (x : ℕ → H)
     (h : Theorem31Assumptions A B f lam x)
     (xInf : H) (hxInf : Tendsto x atTop (𝓝 xInf))
-    (hnotFinite : ¬ ∃ N, ∀ n ≥ N, x n = x N)
+    (_hnotFinite : ¬ ∃ N, ∀ n ≥ N, x n = x N)
     {d : H} (hd : d ∈ normalizedIncrementLimitPoints x) :
     ∃ vBar : H,
       vBar ∈ B xInf ∧ -vBar ∈ A (0 : H) ∧ d ∈ normalCone (A (0 : H)) (-vBar) := by
@@ -1819,7 +1848,7 @@ private theorem theorem31_limit_direction_monotonicity_passage
     ext n
     have hχn := hχ_add_one n
     have hχn_two : χ n + 2 = φ (n + 1) + 1 := by omega
-    simp [stepDir, normalizedIncrementDirection, hχn, hχn_two, Nat.add_assoc]
+    simp [stepDir, normalizedIncrementDirection, hχn, hχn_two]
   have hsel := theorem31_algorithm_step_selection A B lam x h.generated_by_algorithm
   choose a b ha hb heq using hsel
   have hbdd : Bornology.IsBounded (Set.range b) :=
@@ -1901,8 +1930,7 @@ private theorem theorem31_limit_direction_monotonicity_passage
     have hinc_ne : inc ≠ 0 := by
       intro hzero
       have hstat : k + 1 ∈ stationaryIndices x := by
-        simp [stationaryIndices, inc] at hzero ⊢
-        exact sub_eq_zero.mp hzero
+        simpa [stationaryIndices, inc] using sub_eq_zero.mp hzero
       exact hnonstat hstat
     have hnorm_pos : 0 < ‖inc‖ := norm_pos_iff.mpr hinc_ne
     have hdir_nonneg : 0 ≤ inner ℝ (a k - ξ) (‖inc‖⁻¹ • inc) := by
@@ -1962,6 +1990,7 @@ theorem theorem31_limit_directions_normal_cone_core [FiniteDimensional ℝ H]
   refine Set.mem_iUnion.2 ⟨?_, hdCone⟩
   simp [hvBarB]
 
+omit [CompleteSpace H] in
 private theorem normalCone_mem_interior_eq_zero (C : Set H) {ξ u : H}
     (hξ : ξ ∈ interior C) (hu : u ∈ normalCone C ξ) : u = 0 := by
   by_contra hne
@@ -1994,6 +2023,7 @@ private theorem normalCone_mem_interior_eq_zero (C : Set H) {ξ u : H}
     positivity
   linarith
 
+omit [CompleteSpace H] in
 private theorem normalConeSet_subset_zero_of_subset_interior (C S : Set H)
     (hS : S ⊆ interior C) : normalConeSet C S ⊆ ({0} : Set H) := by
   intro u hu
@@ -2002,8 +2032,9 @@ private theorem normalConeSet_subset_zero_of_subset_interior (C S : Set H)
   rcases hu with ⟨ξ, hξ⟩
   rcases hξ with ⟨hξS, huCone⟩
   have hu0 : u = 0 := normalCone_mem_interior_eq_zero C (hS hξS) huCone
-  simpa [hu0]
+  simp [hu0]
 
+omit [CompleteSpace H] in
 private theorem normalizedIncrementLimitPoints_nonempty_unit [FiniteDimensional ℝ H]
     (x : ℕ → H) (hnotFinite : ¬ ∃ N, ∀ n ≥ N, x n = x N) :
     ∃ d ∈ normalizedIncrementLimitPoints x, ‖d‖ = 1 := by
@@ -2034,7 +2065,7 @@ private theorem normalizedIncrementLimitPoints_nonempty_unit [FiniteDimensional 
     have hne : x (φ n + 1) - x (φ n) ≠ 0 := by
       intro hz
       have hstat : φ n ∈ stationaryIndices x := by
-        simp [stationaryIndices]
+        rw [stationaryIndices]
         exact sub_eq_zero.mp hz
       exact hφstat n hstat
     dsimp [y, normalizedIncrementDirection]
@@ -2056,17 +2087,17 @@ private theorem normalizedIncrementLimitPoints_nonempty_unit [FiniteDimensional 
     exact ⟨φ ∘ ψ, hcompmono, fun n => hφstat (ψ n), hlim⟩
   have hnorm_tend : Tendsto (fun n => ‖y (ψ n)‖) atTop (𝓝 ‖d‖) := by
     simpa [Function.comp] using (tendsto_norm.comp hψtend)
-  have hone_tend : Tendsto (fun _ : ℕ => (1 : ℝ)) atTop (𝓝 (1 : ℝ)) := tendsto_const_nhds
   have hnorm_eq : ‖d‖ = 1 := by
     apply tendsto_nhds_unique hnorm_tend
-    simpa [hy_norm] using hone_tend
+    simp [hy_norm]
   exact ⟨d, hd_mem, hnorm_eq⟩
 
+omit [CompleteSpace H] in
 theorem theorem31_interior_condition_forces_finite_core [FiniteDimensional ℝ H]
     (A B : SetValuedOperator H H) (f : H → EReal)
     (lam : ℕ → ℝ) (x : ℕ → H)
-    (h : Theorem31Assumptions A B f lam x)
-    (xInf : H) (hxInf : Tendsto x atTop (𝓝 xInf))
+    (_h : Theorem31Assumptions A B f lam x)
+    (xInf : H) (_hxInf : Tendsto x atTop (𝓝 xInf))
     (hInterior : (-(B xInf)) ⊆ interior (A (0 : H)))
     (hDirections : normalizedIncrementLimitPoints x ⊆ normalConeSet (A (0 : H)) (-(B xInf)))
     (hnotFinite : ¬ ∃ N, ∀ n ≥ N, x n = x N) :
@@ -2094,8 +2125,8 @@ theorem theorem31_variation_converges_from_phi_bound (A : SetValuedOperator H H)
     (∃ S : ℝ,
       Tendsto (fun N : ℕ =>
         (Finset.range (N + 1)).sum (fun n => ‖x (n + 1) - x n‖)) atTop (𝓝 S)) ∧
-    ∃ xInf : H, Tendsto x atTop (𝓝 xInf) := by
-  exact theorem31_variation_converges_from_phi_bound_core A lam x α hα hPhi hlam_pos
+    ∃ xInf : H, Tendsto x atTop (𝓝 xInf) :=
+  theorem31_variation_converges_from_phi_bound_core A lam x α hα hPhi hlam_pos
     hlam_nondec hWeighted
 
 /-- Closedness of the subdifferential graph and of the maximal-monotone graph, applied
@@ -2104,8 +2135,8 @@ theorem theorem31_closed_graph_limit_selection (A B : SetValuedOperator H H)
     (f : H → EReal) (lam : ℕ → ℝ) (x : ℕ → H)
     (h : Theorem31Assumptions A B f lam x)
     (xInf : H) (hxInf : Tendsto x atTop (𝓝 xInf)) :
-    ∃ vBar : H, vBar ∈ B xInf ∧ -vBar ∈ A (0 : H) := by
-  exact theorem31_closed_graph_limit_selection_core A B f lam x h xInf hxInf
+    ∃ vBar : H, vBar ∈ B xInf ∧ -vBar ∈ A (0 : H) :=
+  theorem31_closed_graph_limit_selection_core A B f lam x h xInf hxInf
 
 /-- In finite dimension, if the iterates are not eventually stationary, every limit
 direction obtained from non-stationary increments lies in the union of normal cones
@@ -2116,9 +2147,10 @@ theorem theorem31_limit_directions_normal_cone [FiniteDimensional ℝ H]
     (h : Theorem31Assumptions A B f lam x)
     (xInf : H) (hxInf : Tendsto x atTop (𝓝 xInf))
     (hnotFinite : ¬ ∃ N, ∀ n ≥ N, x n = x N) :
-    normalizedIncrementLimitPoints x ⊆ normalConeSet (A (0 : H)) (-(B xInf)) := by
-  exact theorem31_limit_directions_normal_cone_core A B f lam x h xInf hxInf hnotFinite
+    normalizedIncrementLimitPoints x ⊆ normalConeSet (A (0 : H)) (-(B xInf)) :=
+  theorem31_limit_directions_normal_cone_core A B f lam x h xInf hxInf hnotFinite
 
+omit [CompleteSpace H] in
 /-- If `-∂f(x∞)` is contained in the interior of `A(0)`, the normal-cone limit-direction
 alternative is incompatible with an infinite non-stationary tail. -/
 theorem theorem31_interior_condition_forces_finite [FiniteDimensional ℝ H]
@@ -2129,8 +2161,8 @@ theorem theorem31_interior_condition_forces_finite [FiniteDimensional ℝ H]
     (hInterior : (-(B xInf)) ⊆ interior (A (0 : H)))
     (hDirections : normalizedIncrementLimitPoints x ⊆ normalConeSet (A (0 : H)) (-(B xInf)))
     (hnotFinite : ¬ ∃ N, ∀ n ≥ N, x n = x N) :
-    False := by
-  exact theorem31_interior_condition_forces_finite_core A B f lam x h xInf hxInf hInterior
+    False :=
+  theorem31_interior_condition_forces_finite_core A B f lam x h xInf hxInf hInterior
     hDirections hnotFinite
 
 /-- Theorem 3.1(i): the increments are summable and the strong limit exists. -/

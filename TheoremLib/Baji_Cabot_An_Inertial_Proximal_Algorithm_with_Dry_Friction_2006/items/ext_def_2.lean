@@ -20,7 +20,6 @@ theorem resolvent_single_valued (A : SetValuedOperator H H) (hA : IsMaximalMonot
     SetValuedOperator.IsAtMostSingleValued (J[(lam • A)]) := by
   intro x y₁ hy₁ y₂ hy₂
   rw [mem_resolvent_smul_iff] at hy₁ hy₂
-  dsimp [SetValuedOperator.identityAddScaled] at hy₁ hy₂
   rcases hy₁ with ⟨a₁, ha₁, hx₁⟩
   rcases hy₂ with ⟨a₂, ha₂, hx₂⟩
   have hy_sub : y₁ - y₂ = lam • (a₂ - a₁) := by
@@ -36,17 +35,12 @@ theorem resolvent_single_valued (A : SetValuedOperator H H) (hA : IsMaximalMonot
     calc
       (x - lam • a₁) - (x - lam • a₂) = lam • a₂ - lam • a₁ := by abel
       _ = lam • (a₂ - a₁) := by rw [smul_sub]
-  have hmono : 0 ≤ inner ℝ (a₁ - a₂) (y₁ - y₂) := hA.1 a₁ ha₁ a₂ ha₂
-  rw [hy_sub, real_inner_smul_right] at hmono
   have hinner : inner ℝ (a₁ - a₂) (a₂ - a₁) = -‖a₁ - a₂‖ ^ 2 := by
-    have : a₂ - a₁ = -(a₁ - a₂) := by abel
-    rw [this, inner_neg_right]
-    simp
-  rw [hinner] at hmono
+    rw [show a₂ - a₁ = -(a₁ - a₂) by abel, inner_neg_right, real_inner_self_eq_norm_sq]
+  have hmono : 0 ≤ inner ℝ (a₁ - a₂) (y₁ - y₂) := hA.1 a₁ ha₁ a₂ ha₂
+  rw [hy_sub, real_inner_smul_right, hinner] at hmono
   have hsq : ‖a₁ - a₂‖ ^ 2 = 0 := by
     nlinarith [hlam, sq_nonneg (‖a₁ - a₂‖)]
   have haeq : a₁ = a₂ := by
-    have hnorm : ‖a₁ - a₂‖ = 0 := by
-      nlinarith [norm_nonneg (a₁ - a₂), hsq]
-    exact sub_eq_zero.mp (norm_eq_zero.mp hnorm)
+    exact sub_eq_zero.mp (norm_eq_zero.mp (by nlinarith [norm_nonneg (a₁ - a₂), hsq]))
   exact sub_eq_zero.mp (by simpa [haeq] using hy_sub)

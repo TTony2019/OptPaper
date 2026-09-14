@@ -18,11 +18,18 @@ $x_\infty = \lim_{n \to +\infty} x_n$. Assume that the set $A(0)$ is smooth at t
 $-\nabla f(x_\infty)$ and consider the unique vector $u \in H$ defined by $|u| = 1$
 and $N_{A(0)}(-\nabla f(x_\infty)) = \mathbb{R}_+ u$. Then, either the sequence $(x_n)$
 is finitely convergent or we have:
-$$\lim_{n \rightarrow +\infty, n \in \mathbb{N} \setminus \mathcal{D}} \frac{x_{n+1} - x_n}{|x_{n+1} - x_n|} = u,$$
-$$x_n = x_\infty - \left(\sum_{k=n}^{+\infty} |x_{k+1} - x_k|\right) u + \mathrm{o}\left(\sum_{k=n}^{+\infty} |x_{k+1} - x_k|\right).$$
-As a consequence, we have the equivalence $|x_n - x_\infty| \sim \sum_{k=n}^{+\infty} |x_{k+1} - x_k|$
-when $n \to +\infty$ and we deduce that, either $x_n = x_\infty$ for $n$ large enough
-or $|x_n - x_\infty| > 0$ for $n$ large enough.
+$$
+\lim_{n \rightarrow +\infty, n \in \mathbb{N} \setminus \mathcal{D}}
+\frac{x_{n+1} - x_n}{|x_{n+1} - x_n|} = u,
+$$
+$$
+x_n = x_\infty - \left(\sum_{k=n}^{+\infty} |x_{k+1} - x_k|\right) u
++ \mathrm{o}\left(\sum_{k=n}^{+\infty} |x_{k+1} - x_k|\right).
+$$
+As a consequence, we have the equivalence
+$|x_n - x_\infty| \sim \sum_{k=n}^{+\infty} |x_{k+1} - x_k|$ when $n \to +\infty$ and we
+deduce that, either $x_n = x_\infty$ for $n$ large enough or $|x_n - x_\infty| > 0$ for
+$n$ large enough.
 -/
 open SetValuedOperator
 open scoped Topology
@@ -43,10 +50,10 @@ private theorem prop41_ereal_finite_convexOn_toReal (f : H → EReal)
   · intro x hx y hy a b ha hb hab
     have h := hf_conv x y a b ha hb hab
     have hbot_l : f (a • x + b • y) ≠ ⊥ := (hfinite _).2
-    have hxcoe : f x = ((f x).toReal : EReal) := by
-      exact (EReal.coe_toReal (hfinite x).1 (hfinite x).2).symm
-    have hycoe : f y = ((f y).toReal : EReal) := by
-      exact (EReal.coe_toReal (hfinite y).1 (hfinite y).2).symm
+    have hxcoe : f x = ((f x).toReal : EReal) :=
+      (EReal.coe_toReal (hfinite x).1 (hfinite x).2).symm
+    have hycoe : f y = ((f y).toReal : EReal) :=
+      (EReal.coe_toReal (hfinite y).1 (hfinite y).2).symm
     have hRhsCoe : (a : EReal) * f x + (b : EReal) * f y =
         ((a * (f x).toReal + b * (f y).toReal : ℝ) : EReal) := by
       rw [hxcoe, hycoe]
@@ -55,8 +62,9 @@ private theorem prop41_ereal_finite_convexOn_toReal (f : H → EReal)
         ((a * (f x).toReal + b * (f y).toReal : ℝ) : EReal) := by
       simpa [hRhsCoe] using h
     have hreal := EReal.toReal_le_toReal h' hbot_l (EReal.coe_ne_top _)
-    simpa using hreal
+    exact hreal
 
+omit [InnerProductSpace ℝ H] [CompleteSpace H] in
 private theorem prop41_lowerSemicontinuous_of_continuous_toReal (f : H → EReal)
     (hfinite : ∀ x, f x ≠ ⊤ ∧ f x ≠ ⊥)
     (hcont : Continuous (fun x => (f x).toReal)) :
@@ -98,14 +106,12 @@ private theorem prop41_convex_first_order_gradient (g : H → ℝ)
     have hcomp' : HasDerivAt (fun t : ℝ => g (x + t • z)) ((fderiv ℝ g x) z) 0 := by
       simpa [Function.comp_def] using hcomp
     have hfg : (fderiv ℝ g x) z = inner ℝ (gradient g x) z := by
-      simpa using (inner_gradient_left hg_diff (y := z)).symm
+      exact (inner_gradient_left hg_diff (y := z)).symm
     simpa [φ, hfg] using hcomp'
   have hslope := ConvexOn.le_slope_of_hasDerivAt hφ_conv
     (by simp : (0 : ℝ) ∈ Set.univ) (by simp : (1 : ℝ) ∈ Set.univ)
     (by norm_num : (0 : ℝ) < 1) hφ_deriv
-  have hφ0 : φ 0 = g x := by simp [φ]
-  have hφ1 : φ 1 = g y := by simp [φ, z]
-  have hslope_eq : slope φ 0 1 = g y - g x := by simp [slope, hφ0, hφ1]
+  have hslope_eq : slope φ 0 1 = g y - g x := by simp [slope, φ, z]
   have : inner ℝ (gradient g x) z ≤ g y - g x := by
     simpa [hslope_eq] using hslope
   dsimp [z] at this
@@ -129,10 +135,10 @@ private theorem prop41_gradient_subderivative_eq (f : H → EReal)
     subst v
     intro y
     have hreal := hfirst x y
-    have hxcoe : f x = ((f x).toReal : EReal) := by
-      exact (EReal.coe_toReal (hfinite x).1 (hfinite x).2).symm
-    have hycoe : f y = ((f y).toReal : EReal) := by
-      exact (EReal.coe_toReal (hfinite y).1 (hfinite y).2).symm
+    have hxcoe : f x = ((f x).toReal : EReal) :=
+      (EReal.coe_toReal (hfinite x).1 (hfinite x).2).symm
+    have hycoe : f y = ((f y).toReal : EReal) :=
+      (EReal.coe_toReal (hfinite y).1 (hfinite y).2).symm
     rw [hxcoe, hycoe]
     exact EReal.coe_le_coe_iff.mpr hreal
   · intro hv
@@ -142,8 +148,8 @@ private theorem prop41_gradient_subderivative_eq (f : H → EReal)
     have hsub_real : ∀ y, g x + inner ℝ v (y - x) ≤ g y := by
       intro y
       have h := hv y
-      have hxcoe : f x = ((f x).toReal : EReal) := by
-        exact (EReal.coe_toReal (hfinite x).1 (hfinite x).2).symm
+      have hxcoe : f x = ((f x).toReal : EReal) :=
+        (EReal.coe_toReal (hfinite x).1 (hfinite x).2).symm
       have hleft : f x + (inner ℝ v (y - x) : EReal) =
           ((g x + inner ℝ v (y - x) : ℝ) : EReal) := by
         rw [hxcoe]
@@ -174,7 +180,7 @@ private theorem prop41_gradient_subderivative_eq (f : H → EReal)
       have hcomp' : HasDerivAt (fun t : ℝ => g (x + t • z)) ((fderiv ℝ g x) z) 0 := by
         simpa [Function.comp_def] using hcomp
       have hfg : (fderiv ℝ g x) z = inner ℝ (gradient g x) z := by
-        simpa using (inner_gradient_left hg_diff (y := z)).symm
+        exact (inner_gradient_left hg_diff (y := z)).symm
       simpa [hfg] using hcomp'
     have hlin_deriv : HasDerivAt (fun t : ℝ => t * inner ℝ v z) (inner ℝ v z) 0 := by
       simpa using (hasDerivAt_id (0 : ℝ)).mul_const (inner ℝ v z)
@@ -194,11 +200,7 @@ private theorem prop41_B_eq_subderivative (B : SetValuedOperator H H) (f : H →
     ∀ x, B x = {v | ∀ y, f y ≥ f x + (inner ℝ v (y - x) : EReal)} := by
   intro x
   have hsingleton : B x = {gradient (fun y => (f y).toReal) x} := by
-    rw [hB_eq_grad]
-    simpa using
-      SetValuedOperator.ofFunction_apply_of_mem Set.univ
-        (fun x : (Set.univ : Set H) => gradient (fun y => (f y).toReal) x.1)
-        (by simp : x ∈ Set.univ)
+    simp [hB_eq_grad]
   rw [hsingleton, prop41_gradient_subderivative_eq f hfinite hf_conv hf_C1 x]
 
 private theorem prop41_theorem31_assumptions (A B : SetValuedOperator H H)
@@ -235,11 +237,7 @@ private theorem prop41_theorem31_assumptions (A B : SetValuedOperator H H)
   · refine ⟨0, ?_⟩
     rw [SetValuedOperator.mem_dom_iff]
     have hB0 : B (0 : H) = {gradient g (0 : H)} := by
-      rw [hB_eq_grad]
-      simpa [g] using
-        SetValuedOperator.ofFunction_apply_of_mem Set.univ
-          (fun x : (Set.univ : Set H) => gradient (fun y => (f y).toReal) x.1)
-          (by simp : (0 : H) ∈ Set.univ)
+      simp [hB_eq_grad, g]
     rw [hB0]
     exact Set.singleton_nonempty _
   · simpa [ERealFunction.dom, lt_top_iff_ne_top] using (hfinite (x 1)).1
@@ -248,7 +246,7 @@ omit [CompleteSpace H] in
 private theorem prop41_normalizedIncrementDirection_norm_of_not_stationary
     (x : ℕ → H) {n : ℕ} (hn : n ∉ stationaryIndices x) :
     ‖normalizedIncrementDirection x n‖ = 1 := by
-  simp [normalizedIncrementDirection, stationaryIndices] at hn ⊢
+  simp only [stationaryIndices, mem_setOf_eq, normalizedIncrementDirection] at hn ⊢
   have hne : x (n + 1) - x n ≠ 0 := sub_ne_zero.mpr hn
   rw [norm_smul, Real.norm_eq_abs, abs_of_pos]
   · exact inv_mul_cancel₀ (norm_ne_zero_iff.mpr hne)
@@ -261,13 +259,12 @@ private theorem prop41_normalizedIncrementLimitPoint_norm_one {x : ℕ → H} {d
   rcases hd with ⟨φ, hφ, hφD, hlim⟩
   have hlim_norm : Tendsto (fun n => ‖normalizedIncrementDirection x (φ n)‖)
       atTop (𝓝 ‖d‖) := continuous_norm.tendsto d |>.comp hlim
-  have hone : Tendsto (fun _ : ℕ => (1 : ℝ)) atTop (𝓝 (1 : ℝ)) := tendsto_const_nhds
   have heq : (fun n => ‖normalizedIncrementDirection x (φ n)‖) = fun _ : ℕ => (1 : ℝ) := by
     funext n
     exact prop41_normalizedIncrementDirection_norm_of_not_stationary x (hφD n)
   have hlim_one : Tendsto (fun n => ‖normalizedIncrementDirection x (φ n)‖)
       atTop (𝓝 (1 : ℝ)) := by
-    simpa [heq] using hone
+    simp [heq]
   exact tendsto_nhds_unique hlim_norm hlim_one
 
 omit [CompleteSpace H] in
@@ -296,9 +293,7 @@ private theorem prop41_normalizedIncrementDirection_tendsto_of_limitPoints_subse
     have hadd : StrictMono (fun n : ℕ => n + N0) :=
       fun a b hab => Nat.add_lt_add_right hab N0
     exact hnsθ_strict.comp hadd
-  have hφD : ∀ n, φ n ∉ D := by
-    intro n
-    exact hN0 (n + N0) (Nat.le_add_left N0 n)
+  have hφD : ∀ n, φ n ∉ D := fun n => hN0 (n + N0) (Nat.le_add_left N0 n)
   have hφDstat : ∀ n, φ n ∉ stationaryIndices x := by
     intro n
     simpa [hD] using hφD n
@@ -315,9 +310,7 @@ private theorem prop41_normalizedIncrementDirection_tendsto_of_limitPoints_subse
     · intro n
       exact hφDstat (ψ n)
     · simpa [yseq, Function.comp_def] using hψlim
-  have hdu : d = u := by
-    have := hsubset hdlimpt
-    simpa using this
+  have hdu : d = u := by simpa using hsubset hdlimpt
   refine ⟨fun n => θ (ψ n + N0), ?_⟩
   simpa [φ, yseq, Function.comp_def, hdu] using hψlim
 
@@ -327,8 +320,8 @@ private theorem prop41_increment_norm_summable (A B : SetValuedOperator H H)
     Summable (fun n => ‖x (n + 1) - x n‖) := by
   rcases (thm_3_1_i A B f lam x h).1 with ⟨S, hS⟩
   have hS' : Tendsto (fun N : ℕ =>
-      (Finset.range N).sum (fun n => ‖x (n + 1) - x n‖)) atTop (𝓝 S) := by
-    exact (Filter.tendsto_add_atTop_iff_nat 1).mp (by simpa [Nat.add_comm] using hS)
+      (Finset.range N).sum (fun n => ‖x (n + 1) - x n‖)) atTop (𝓝 S) :=
+    (Filter.tendsto_add_atTop_iff_nat 1).mp (by simpa [Nat.add_comm] using hS)
   have hhas : HasSum (fun n => ‖x (n + 1) - x n‖) S :=
     (hasSum_iff_tendsto_nat_of_nonneg (fun n => norm_nonneg _) S).2 hS'
   exact hhas.summable
@@ -368,7 +361,7 @@ private theorem prop41_direction_error_isLittleO (x : ℕ → H) (D : Set ℕ)
     let inc : H := x (n + 1) - x n
     have hne : inc ≠ 0 := by
       dsimp [inc]
-      simp [stationaryIndices] at hnstat
+      simp only [stationaryIndices, mem_setOf_eq] at hnstat
       exact sub_ne_zero.mpr hnstat
     have hdir_eq : ‖inc‖ • normalizedIncrementDirection x n = inc := by
       dsimp [inc, normalizedIncrementDirection]
@@ -390,7 +383,7 @@ private theorem prop41_direction_error_isLittleO (x : ℕ → H) (D : Set ℕ)
     rw [hrewrite, Real.norm_eq_abs, abs_of_nonneg hnonneg]
     exact hle
 
-omit [CompleteSpace H] in
+omit [CompleteSpace H] [InnerProductSpace ℝ H] in
 private theorem prop41_tail_tsum_isLittleO {e : ℕ → H} {s : ℕ → ℝ}
     (hs_nonneg : ∀ n, 0 ≤ s n) (hs_sum : Summable s)
     (he_norm_sum : Summable (fun n => ‖e n‖)) (he_o : e =o[atTop] s) :
@@ -406,8 +399,8 @@ private theorem prop41_tail_tsum_isLittleO {e : ℕ → H} {s : ℕ → ℝ}
       (summable_nat_add_iff (f := fun i => ‖e i‖) n).mpr he_norm_sum
   have htail_s : Summable (fun k : ℕ => s (n + k)) := by
     simpa [Nat.add_comm] using (summable_nat_add_iff (f := s) n).mpr hs_sum
-  have htail_cs : Summable (fun k : ℕ => c * s (n + k)) := by
-    exact htail_s.mul_left c
+  have htail_cs : Summable (fun k : ℕ => c * s (n + k)) :=
+    htail_s.mul_left c
   have hnorm_le : ‖∑' k : ℕ, e (n + k)‖ ≤ ∑' k : ℕ, ‖e (n + k)‖ :=
     norm_tsum_le_tsum_norm htail_e_norm
   have hterm : ∀ k : ℕ, ‖e (n + k)‖ ≤ c * s (n + k) := by
@@ -429,7 +422,7 @@ private theorem prop41_tail_tsum_isLittleO {e : ℕ → H} {s : ℕ → ℝ}
     _ = c * ‖∑' k : ℕ, s (n + k)‖ := by
       rw [hmul, Real.norm_eq_abs, abs_of_nonneg htail_nonneg]
 
-omit [CompleteSpace H] in
+omit [CompleteSpace H] [InnerProductSpace ℝ H] in
 private theorem prop41_hasSum_tail_increments (x : ℕ → H) (xInf : H)
     (hxInf : Tendsto x atTop (𝓝 xInf))
     (hsum_norm : Summable (fun n => ‖x (n + 1) - x n‖)) (n : ℕ) :
@@ -448,6 +441,7 @@ private theorem prop41_hasSum_tail_increments (x : ℕ → H) (xInf : H)
   have htel := Finset.sum_range_sub (fun k : ℕ => x (n + k)) N
   simpa [Nat.add_assoc] using htel.symm
 
+omit [CompleteSpace H] in
 private theorem prop41_expansion_from_tail_error (x : ℕ → H) (xInf u : H) (R : ℕ → ℝ)
     (hxInf : Tendsto x atTop (𝓝 xInf))
     (hsum_norm : Summable (fun n => ‖x (n + 1) - x n‖))
@@ -475,7 +469,7 @@ private theorem prop41_expansion_from_tail_error (x : ℕ → H) (xInf u : H) (R
         (tailS • u - (xInf - x n)) := hsmul_has.sub hinc_has
     have htsum := hsub_has.tsum_eq
     have htailS_R : tailS = R n := by
-      simpa [tailS, s, hR]
+      simp [tailS, s, hR]
     calc
       (∑' k : ℕ,
           (‖x (n + k + 1) - x (n + k)‖ • u -
@@ -488,7 +482,8 @@ private theorem prop41_expansion_from_tail_error (x : ℕ → H) (xInf u : H) (R
 
 /-- Proposition 4.1, direction conclusion in the non-finitely-convergent case. -/
 theorem prop_4_1_direction [FiniteDimensional ℝ H] (A B : SetValuedOperator H H)
-    (hA : IsMaximalMonotone A) (hdomA : A.dom = Set.univ) (hAzero_int : (0 : H) ∈ interior (A (0 : H)))
+    (hA : IsMaximalMonotone A) (hdomA : A.dom = Set.univ)
+    (hAzero_int : (0 : H) ∈ interior (A (0 : H)))
     (f : H → EReal) (hfinite : ∀ x, f x ≠ ⊤ ∧ f x ≠ ⊥)
     (hf_conv : ∀ x y : H, ∀ a b : ℝ, 0 ≤ a → 0 ≤ b → a + b = 1 →
       f (a • x + b • y) ≤ (a : EReal) * f x + (b : EReal) * f y)
@@ -499,11 +494,11 @@ theorem prop_4_1_direction [FiniteDimensional ℝ H] (A B : SetValuedOperator H 
         (fun x : (Set.univ : Set H) => gradient (fun y => (f y).toReal) x.1))
     (lam : ℕ → ℝ) (hlam_pos : ∀ n, lam n > 0) (hlam_nondec : ∀ n, lam n ≤ lam (n+1))
     (x : ℕ → H) (halg : AlgorithmA A B x lam) (xInf : H) (hxInf : Tendsto x atTop (𝓝 xInf))
-    (h_smooth : IsSmoothAt (A (0 : H)) (-gradient (fun y => (f y).toReal) xInf))
+    (_h_smooth : IsSmoothAt (A (0 : H)) (-gradient (fun y => (f y).toReal) xInf))
     (D : Set ℕ) (hD2 : D = stationaryIndices x)
     (u : H) (hu_norm : ‖u‖ = 1)
     (R : ℕ → ℝ)
-    (hR : R = fun (n : ℕ) => ∑' (k : ℕ), ‖x (n+k+1) - x (n+k)‖)
+    (_hR : R = fun (n : ℕ) => ∑' (k : ℕ), ‖x (n+k+1) - x (n+k)‖)
     (hu_normal : normalCone (A (0 : H)) (-gradient (fun y => (f y).toReal) xInf) =
       {v | ∃ (t : ℝ), t ≥ 0 ∧ v = t • u})
     (hnot_finite : ¬ ∃ N, ∀ n ≥ N, x n = x N) :
@@ -514,18 +509,14 @@ theorem prop_4_1_direction [FiniteDimensional ℝ H] (A B : SetValuedOperator H 
     prop41_theorem31_assumptions A B hA hdomA hAzero_int f hfinite hf_conv hf_C1 hinf
       hB_eq_grad lam hlam_pos hlam_nondec x halg
   have hB_xInf : B xInf = {gradient g xInf} := by
-    rw [hB_eq_grad]
-    simpa [g] using
-      SetValuedOperator.ofFunction_apply_of_mem Set.univ
-        (fun x : (Set.univ : Set H) => gradient (fun y => (f y).toReal) x.1)
-        (by simp : xInf ∈ Set.univ)
+    simp [hB_eq_grad, g]
   have hdirections :
       normalizedIncrementLimitPoints x ⊆ normalConeSet (A (0 : H)) (-(B xInf)) :=
     theorem31_limit_directions_normal_cone A B f lam x hth31 xInf hxInf hnot_finite
   have hsubset : normalizedIncrementLimitPoints x ⊆ ({u} : Set H) := by
     intro d hd
     have hd_normalSet := hdirections hd
-    simp [normalConeSet] at hd_normalSet
+    simp only [normalConeSet, Set.mem_neg, mem_iUnion, exists_prop, exists_neg_mem] at hd_normalSet
     rcases hd_normalSet with ⟨ξ, hξ, hdcone⟩
     have hξ_eq : ξ = gradient g xInf := by
       rw [hB_xInf] at hξ
@@ -542,11 +533,13 @@ theorem prop_4_1_direction [FiniteDimensional ℝ H] (A B : SetValuedOperator H 
       exact hd_norm
     rw [Set.mem_singleton_iff]
     rw [hdt, ht_one, one_smul]
-  exact prop41_normalizedIncrementDirection_tendsto_of_limitPoints_subset_singleton x D hD2 u hsubset
+  exact prop41_normalizedIncrementDirection_tendsto_of_limitPoints_subset_singleton
+    x D hD2 u hsubset
 
 /-- Proposition 4.1, tail-sum expansion in the non-finitely-convergent case. -/
 theorem prop_4_1_expansion [FiniteDimensional ℝ H] (A B : SetValuedOperator H H)
-    (hA : IsMaximalMonotone A) (hdomA : A.dom = Set.univ) (hAzero_int : (0 : H) ∈ interior (A (0 : H)))
+    (hA : IsMaximalMonotone A) (hdomA : A.dom = Set.univ)
+    (hAzero_int : (0 : H) ∈ interior (A (0 : H)))
     (f : H → EReal) (hfinite : ∀ x, f x ≠ ⊤ ∧ f x ≠ ⊥)
     (hf_conv : ∀ x y : H, ∀ a b : ℝ, 0 ≤ a → 0 ≤ b → a + b = 1 →
       f (a • x + b • y) ≤ (a : EReal) * f x + (b : EReal) * f y)
@@ -594,7 +587,8 @@ theorem prop_4_1_expansion [FiniteDimensional ℝ H] (A B : SetValuedOperator H 
 
 /-- Proposition 4.1, norm/tail-sum asymptotic equivalence. -/
 theorem prop_4_1_norm_equiv [FiniteDimensional ℝ H] (A B : SetValuedOperator H H)
-    (hA : IsMaximalMonotone A) (hdomA : A.dom = Set.univ) (hAzero_int : (0 : H) ∈ interior (A (0 : H)))
+    (hA : IsMaximalMonotone A) (hdomA : A.dom = Set.univ)
+    (hAzero_int : (0 : H) ∈ interior (A (0 : H)))
     (f : H → EReal) (hfinite : ∀ x, f x ≠ ⊤ ∧ f x ≠ ⊥)
     (hf_conv : ∀ x y : H, ∀ a b : ℝ, 0 ≤ a → 0 ≤ b → a + b = 1 →
       f (a • x + b • y) ≤ (a : EReal) * f x + (b : EReal) * f y)
@@ -643,7 +637,8 @@ theorem prop_4_1_norm_equiv [FiniteDimensional ℝ H] (A B : SetValuedOperator H
 
 /-- Proposition 4.1, eventual zero/nonzero alternative. -/
 theorem prop_4_1_eventual_alternative [FiniteDimensional ℝ H] (A B : SetValuedOperator H H)
-    (hA : IsMaximalMonotone A) (hdomA : A.dom = Set.univ) (hAzero_int : (0 : H) ∈ interior (A (0 : H)))
+    (hA : IsMaximalMonotone A) (hdomA : A.dom = Set.univ)
+    (hAzero_int : (0 : H) ∈ interior (A (0 : H)))
     (f : H → EReal) (hfinite : ∀ x, f x ≠ ⊤ ∧ f x ≠ ⊥)
     (hf_conv : ∀ x y : H, ∀ a b : ℝ, 0 ≤ a → 0 ≤ b → a + b = 1 →
       f (a • x + b • y) ≤ (a : EReal) * f x + (b : EReal) * f y)
@@ -676,16 +671,12 @@ theorem prop_4_1_eventual_alternative [FiniteDimensional ℝ H] (A B : SetValued
     have hs_tail : Summable s := by
       simpa [s, Nat.add_assoc, Nat.add_comm, Nat.add_left_comm] using
         (summable_nat_add_iff (f := fun i => ‖x (i + 1) - x i‖) n).mpr hsum_norm
-    have hs_nonneg : ∀ k, 0 ≤ s k := by
-      intro k
-      exact norm_nonneg _
+    have hs_nonneg : ∀ k, 0 ≤ s k := fun _ => norm_nonneg _
     have hexists : ∃ k, 0 < s k := by
       by_contra hnone
       have hzero : ∀ k, x (n + k + 1) = x (n + k) := by
         intro k
-        have hnot_pos : ¬ 0 < s k := by
-          intro hk
-          exact hnone ⟨k, hk⟩
+        have hnot_pos : ¬ 0 < s k := fun hk => hnone ⟨k, hk⟩
         have hle0 : s k ≤ 0 := le_of_not_gt hnot_pos
         have hz : s k = 0 := le_antisymm hle0 (hs_nonneg k)
         have hsub : x (n + k + 1) - x (n + k) = 0 := norm_eq_zero.mp hz
