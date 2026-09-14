@@ -11,8 +11,8 @@ shared concepts under `Foundation/`.
 <!-- LOC_STATS:START -->
 
 ![foundation_lines](https://img.shields.io/badge/foundation_lines-41510-0f766e?style=flat-square)
-![theoremlib_lines](https://img.shields.io/badge/theoremlib_lines-108887-2563eb?style=flat-square)
-![total_lines](https://img.shields.io/badge/total_lines-150397-16a34a?style=flat-square)
+![theoremlib_lines](https://img.shields.io/badge/theoremlib_lines-108963-2563eb?style=flat-square)
+![total_lines](https://img.shields.io/badge/total_lines-150473-16a34a?style=flat-square)
 
 Counting convention:
 
@@ -24,8 +24,8 @@ Counting convention:
 | Directory | `.lean` files | Total lines | Code lines |
 | --- | ---: | ---: | ---: |
 | Foundation | 54 | 41510 | 31856 |
-| TheoremLib | 501 | 108887 | 100258 |
-| **Total** | **555** | **150397** | **132114** |
+| TheoremLib | 501 | 108963 | 100328 |
+| **Total** | **555** | **150473** | **132184** |
 
 <!-- LOC_STATS:END -->
 
