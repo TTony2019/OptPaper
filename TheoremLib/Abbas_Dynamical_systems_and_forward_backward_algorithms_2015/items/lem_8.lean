@@ -1,4 +1,4 @@
-import TheoremLib.Abbas_Dynamical_systems_and_forward_backward_algorithms_associated_with_the_sum_of_a_correction_math_2015.items.lem_5
+import TheoremLib.Abbas_Dynamical_systems_and_forward_backward_algorithms_2015.items.lem_5
 import Mathlib
 import Foundation.Convex.Subdifferential
 

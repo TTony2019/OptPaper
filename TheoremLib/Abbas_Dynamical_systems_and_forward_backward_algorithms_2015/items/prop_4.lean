@@ -4,7 +4,7 @@ import Foundation.FixedPoint.Nonexpansive
 import Foundation.Differentiation.ODE
 import Foundation.Hilbert.WeakConvergence
 import Foundation.Convex.WeakClosed
-import TheoremLib.Abbas_Dynamical_systems_and_forward_backward_algorithms_associated_with_the_sum_of_a_correction_math_2015.items.lem_6
+import TheoremLib.Abbas_Dynamical_systems_and_forward_backward_algorithms_2015.items.lem_6
 
 namespace AbbasDynamical2015
 

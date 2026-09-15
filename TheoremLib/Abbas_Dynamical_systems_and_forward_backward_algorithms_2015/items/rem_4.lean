@@ -3,7 +3,7 @@ import Foundation.FixedPoint.Nonexpansive
 import Foundation.Convex.ProximalOperator
 import Foundation.Convex.Subdifferential
 import Foundation.Hilbert.WeakTopology
-import TheoremLib.Abbas_Dynamical_systems_and_forward_backward_algorithms_associated_with_the_sum_of_a_correction_math_2015.items.algo_1
+import TheoremLib.Abbas_Dynamical_systems_and_forward_backward_algorithms_2015.items.algo_1
 
 namespace AbbasDynamical2015
 
