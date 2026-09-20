@@ -14,9 +14,10 @@ open scoped Pointwise
 variable {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
 
 def inertialForwardBackwardC (x z : ℕ → H) (inertia : ℕ → ℝ) (n : ℕ) : Set H :=
-  {u | ‖z n - u‖ ^ 2 ≤ ‖x n - u‖ ^ 2 -
-    2 * inertia n * inner ℝ (x n - u) (x (n - 1) - x n) +
-      inertia n ^ 2 * ‖x (n - 1) - x n‖ ^ 2}
+  if n = 0 then Set.univ else
+    {u | ‖z n - u‖ ^ 2 ≤ ‖x n - u‖ ^ 2 -
+      2 * inertia n * inner ℝ (x n - u) (x (n - 1) - x n) +
+        inertia n ^ 2 * ‖x (n - 1) - x n‖ ^ 2}
 
 def inertialForwardBackwardQ (x : ℕ → H) (x0 : H) (n : ℕ) : Set H :=
   {u | inner ℝ (u - x n) (x0 - x n) ≤ 0}
@@ -36,9 +37,24 @@ structure InertialForwardBackward (A : H → H) (B : SetValuedOperator H H) wher
     y n = x n + inertia n • (x n - x (n - 1))
   resolvent_step : ∀ n, 1 ≤ n →
     z n ∈ J[(stepSize n • B)] (y n - stepSize n • A (y n))
-  projection_step : ∀ n, 1 ≤ n →
+  projection_step : ∀ n,
     x (n + 1) ∈ setValuedProjector
       (inertialForwardBackwardC x z inertia n ∩ inertialForwardBackwardQ x x0 n) x0
+
+/-- The zero-th projection initializes the iteration at `x₁ = x₀`, since `C₀ = Q₀ = H`. -/
+theorem InertialForwardBackward.initial_one_eq_x0
+    {A : H → H} {B : SetValuedOperator H H}
+    (alg : InertialForwardBackward A B) : alg.x 1 = alg.x0 := by
+  have hp := (mem_setValuedProjector_iff.mp (alg.projection_step 0))
+  have hx0mem : alg.x0 ∈
+      inertialForwardBackwardC alg.x alg.z alg.inertia 0 ∩
+        inertialForwardBackwardQ alg.x alg.x0 0 := by
+    simp [inertialForwardBackwardC, inertialForwardBackwardQ, alg.initial_zero]
+  have hinf := Metric.infDist_le_dist_of_mem (x := alg.x0) hx0mem
+  have hdist : dist alg.x0 (alg.x 1) = 0 := by
+    rw [hp.2]
+    exact le_antisymm (by simpa using hinf) (Metric.infDist_nonneg)
+  exact (dist_eq_zero.mp hdist).symm
 
 /-- The next iterate prescribed by (3.1), once its two defining half-spaces are Chebyshev. -/
 noncomputable def inertialForwardBackwardNext (x z : ℕ → H) (inertia : ℕ → ℝ) (x0 : H)

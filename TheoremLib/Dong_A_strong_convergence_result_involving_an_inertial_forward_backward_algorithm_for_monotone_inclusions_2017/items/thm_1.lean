@@ -102,7 +102,7 @@ private theorem operatorSumZeroSet_subset_inertialForwardBackwardC
     rw [hy, norm_sub_sq_real]
     simp only [real_inner_smul_right, norm_smul, Real.norm_eq_abs]
     nlinarith [sq_abs (alg.inertia n)]
-  simpa [inertialForwardBackwardC, hsq] using hfejer
+  simpa [inertialForwardBackwardC, Nat.ne_of_gt hn, hsq] using hfejer
 
 /-- Each set `Qₙ` is the closed affine half-space used by the projection step. -/
 private theorem inertialForwardBackwardQ_isClosed_convex
@@ -139,6 +139,10 @@ private theorem inertialForwardBackwardC_isClosed_convex
     (A : H → H) (B : SetValuedOperator H H) (alg : InertialForwardBackward A B) (n : ℕ) :
     IsClosed (inertialForwardBackwardC alg.x alg.z alg.inertia n) ∧
       Convex ℝ (inertialForwardBackwardC alg.x alg.z alg.inertia n) := by
+  by_cases hn : n = 0
+  · subst n
+    change IsClosed (Set.univ : Set H) ∧ Convex ℝ (Set.univ : Set H)
+    exact ⟨isClosed_univ, convex_univ⟩
   let t : ℝ := alg.inertia n
   let d : H := alg.x (n - 1) - alg.x n
   let a : ℝ := -2 * t * inner ℝ (alg.x n) d + t ^ 2 * ‖d‖ ^ 2
@@ -150,7 +154,7 @@ private theorem inertialForwardBackwardC_isClosed_convex
         inner ℝ ((2 * t) • d) v + a} =
       inertialForwardBackwardC alg.x alg.z alg.inertia n := by
     ext v
-    simp only [Set.mem_setOf_eq, Set.mem_univ, true_and, inertialForwardBackwardC]
+    simp only [Set.mem_setOf_eq, Set.mem_univ, true_and, inertialForwardBackwardC, hn]
     dsimp [t, d, a]
     simp only [real_inner_smul_right, inner_sub_left, real_inner_comm]
     ring_nf
@@ -244,6 +248,29 @@ private theorem positive_resolvent_nonempty (B : SetValuedOperator H H)
   simp [SetValuedOperator.identityAddScaled]
   exact ⟨b, hb, hy.symm⟩
 
+private theorem operatorSumZeroSet_isChebyshev (A : H → H) (B : SetValuedOperator H H)
+    (alpha : ℝ) (hA : CocoerciveOn alpha Set.univ (fun x : Set.univ ↦ A x))
+    (hB : B.IsMaximalMonotone) (halpha : 0 < alpha)
+    (hOmega : (operatorSumZeroSet A B).Nonempty) :
+    IsChebyshev (operatorSumZeroSet A B) := by
+  let T : H → H := fun x => Classical.choose
+    (positive_resolvent_nonempty B hB halpha (x - alpha • A x))
+  have hT : IsForwardBackwardSelection A B alpha T := by
+    intro x
+    exact Classical.choose_spec
+      (positive_resolvent_nonempty B hB halpha (x - alpha • A x))
+  have hT_properties := forward_backward_nonexpansive_and_fixedPoints
+    A B hB alpha alpha halpha (by linarith) hA T hT
+  have hT_fix_closed_convex :
+      IsClosed (Function.fixedPoints T) ∧ Convex ℝ (Function.fixedPoints T) := by
+    simpa [fixedPointSetOn] using
+      (isClosed_and_convex_fixedPointSet_of_nonexpansiveOn
+        (D := Set.univ) Set.univ_nonempty isClosed_univ convex_univ
+          hT_properties.1.lipschitzOnWith)
+  exact isChebyshev_of_nonempty_isClosed_convex hOmega
+    (hT_properties.2 ▸ hT_fix_closed_convex.1)
+    (hT_properties.2 ▸ hT_fix_closed_convex.2)
+
 theorem inertial_forward_backward_strong_convergence (A : H → H) (B : SetValuedOperator H H)
     (alpha : ℝ) (hA : CocoerciveOn alpha Set.univ (fun x : Set.univ ↦ A x))
     (hB : B.IsMaximalMonotone) (alg : InertialForwardBackward A B)
@@ -252,11 +279,36 @@ theorem inertial_forward_backward_strong_convergence (A : H → H) (B : SetValue
       liminf alg.stepSize atTop ≤ limsup alg.stepSize atTop ∧
         limsup alg.stepSize atTop < 2 * alpha)
     (hStepLt : ∀ n, 1 ≤ n → alg.stepSize n < 2 * alpha)
-    (hInitialOmegaQ : operatorSumZeroSet A B ⊆ inertialForwardBackwardQ alg.x alg.x0 1)
-    (hOmega : (operatorSumZeroSet A B).Nonempty)
-    (hOmegaChebyshev : IsChebyshev (operatorSumZeroSet A B)) :
+    (hOmega : (operatorSumZeroSet A B).Nonempty) :
     Tendsto alg.x atTop
-      (nhds (projectionPoint (operatorSumZeroSet A B) hOmegaChebyshev alg.x0)) := by
+      (nhds (projectionPoint (operatorSumZeroSet A B)
+        (operatorSumZeroSet_isChebyshev A B alpha hA hB (by
+          linarith [hSteps.1, hSteps.2.1, hSteps.2.2]) hOmega) alg.x0)) := by
+  have halpha : 0 < alpha := by
+    linarith [hSteps.1, hSteps.2.1, hSteps.2.2]
+  have hOmegaChebyshev : IsChebyshev (operatorSumZeroSet A B) :=
+    operatorSumZeroSet_isChebyshev A B alpha hA hB halpha hOmega
+  let eps : ℝ := (liminf alg.stepSize atTop) / 2
+  have heps : 0 < eps := by
+    dsimp [eps]
+    linarith [hSteps.1]
+  have heps_alpha : eps ≤ 2 * alpha := by
+    dsimp [eps]
+    linarith [hSteps.2.1, hSteps.2.2]
+  let T : H → H := fun x => Classical.choose
+    (positive_resolvent_nonempty B hB heps (x - eps • A x))
+  have hT : IsForwardBackwardSelection A B eps T := by
+    intro x
+    exact Classical.choose_spec
+      (positive_resolvent_nonempty B hB heps (x - eps • A x))
+  have hT_nonexp : LipschitzWith 1 T :=
+    (forward_backward_nonexpansive_and_fixedPoints A B hB alpha eps heps heps_alpha hA T hT).1
+  have hT_fix : Function.fixedPoints T = operatorSumZeroSet A B :=
+    (forward_backward_nonexpansive_and_fixedPoints A B hB alpha eps heps heps_alpha hA T hT).2
+  have hInitialOmegaQ :
+      operatorSumZeroSet A B ⊆ inertialForwardBackwardQ alg.x alg.x0 1 := by
+    intro u _
+    simp [inertialForwardBackwardQ, alg.initial_one_eq_x0]
   have hbase : operatorSumZeroSet A B ⊆
       inertialForwardBackwardC alg.x alg.z alg.inertia 1 ∩
         inertialForwardBackwardQ alg.x alg.x0 1 := by
@@ -289,7 +341,7 @@ theorem inertial_forward_backward_strong_convergence (A : H → H) (B : SetValue
             (isChebyshev_of_nonempty_isClosed_convex hne
               (hCQ_closed_convex n).1 (hCQ_closed_convex n).2) alg.x0 :=
         projection_eq_of_mem_setValuedProjector_closed_convex hne
-          (hCQ_closed_convex n).1 (hCQ_closed_convex n).2 (alg.projection_step n hn)
+          (hCQ_closed_convex n).1 (hCQ_closed_convex n).2 (alg.projection_step n)
       have hvariational :=
         (eq_projectionPoint_iff_mem_and_inner_sub_right_nonpos_of_nonempty_isClosed_convex hne
           (hCQ_closed_convex n).1 (hCQ_closed_convex n).2).mp hp_eq
@@ -303,7 +355,7 @@ theorem inertial_forward_backward_strong_convergence (A : H → H) (B : SetValue
     obtain ⟨u, hu⟩ := hOmega
     have hne : (inertialForwardBackwardC alg.x alg.z alg.inertia n ∩
         inertialForwardBackwardQ alg.x alg.x0 n).Nonempty := ⟨u, hfeasible n hn hu⟩
-    exact (mem_setValuedProjector_iff.mp (alg.projection_step n hn)).1
+    exact (mem_setValuedProjector_iff.mp (alg.projection_step n)).1
   have hx_mem_Q : ∀ n : ℕ, alg.x n ∈ inertialForwardBackwardQ alg.x alg.x0 n := by
     intro n
     simp [inertialForwardBackwardQ]
@@ -420,7 +472,7 @@ theorem inertial_forward_backward_strong_convergence (A : H → H) (B : SetValue
     intro n hn
     apply inertial_residual_sq_le_of_abs_inertia
       (by simpa [Real.norm_eq_abs] using hM (alg.inertia n) (Set.mem_range_self n))
-    simpa [inertialForwardBackwardC] using (hx_next_mem_CQ n hn).1
+    simpa [inertialForwardBackwardC, Nat.ne_of_gt hn] using (hx_next_mem_CQ n hn).1
   have hcross_zero : Tendsto (fun n =>
       2 * M * ‖alg.x n - alg.x (n + 1)‖ * ‖alg.x (n - 1) - alg.x n‖)
       atTop (nhds 0) := by
@@ -492,23 +544,6 @@ theorem inertial_forward_backward_strong_convergence (A : H → H) (B : SetValue
         _ = ‖alg.z n - alg.x n‖ + ‖alg.y n - alg.x n‖ := by
           congr 1
           exact norm_sub_rev _ _
-  let eps : ℝ := (liminf alg.stepSize atTop) / 2
-  have heps : 0 < eps := by
-    dsimp [eps]
-    linarith [hSteps.1]
-  have heps_alpha : eps ≤ 2 * alpha := by
-    dsimp [eps]
-    linarith [hSteps.2.1, hSteps.2.2]
-  let T : H → H := fun x => Classical.choose
-    (positive_resolvent_nonempty B hB heps (x - eps • A x))
-  have hT : IsForwardBackwardSelection A B eps T := by
-    intro x
-    exact Classical.choose_spec
-      (positive_resolvent_nonempty B hB heps (x - eps • A x))
-  have hT_nonexp : LipschitzWith 1 T :=
-    (forward_backward_nonexpansive_and_fixedPoints A B hB alpha eps heps heps_alpha hA T hT).1
-  have hT_fix : Function.fixedPoints T = operatorSumZeroSet A B :=
-    (forward_backward_nonexpansive_and_fixedPoints A B hB alpha eps heps heps_alpha hA T hT).2
   have hEventually : ∀ᶠ n in atTop, eps ≤ alg.stepSize n := by
     filter_upwards [Filter.eventually_lt_of_lt_liminf (u := alg.stepSize) (b := eps) (by
       change (liminf alg.stepSize atTop) / 2 < liminf alg.stepSize atTop

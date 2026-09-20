@@ -71,7 +71,7 @@ private theorem zeros_subset_inertialForwardBackwardC_proximal
     rw [hy, norm_sub_sq_real]
     simp only [real_inner_smul_right, norm_smul, Real.norm_eq_abs]
     nlinarith [sq_abs (alg.inertia n)]
-  simpa [inertialForwardBackwardC, hsq] using hfejer
+  simpa [inertialForwardBackwardC, Nat.ne_of_gt hn, hsq] using hfejer
 
 private theorem zero_cocoerciveOn (β : ℝ) (hβ : 0 < β) :
     CocoerciveOn β Set.univ (fun _ : Set.univ ↦ (0 : H)) := by
@@ -102,6 +102,10 @@ private theorem inertialForwardBackwardC_isClosed_convex_proximal
     (B : SetValuedOperator H H) (alg : InertialForwardBackward (fun _ : H ↦ 0) B) (n : ℕ) :
     IsClosed (inertialForwardBackwardC alg.x alg.z alg.inertia n) ∧
       Convex ℝ (inertialForwardBackwardC alg.x alg.z alg.inertia n) := by
+  by_cases hn : n = 0
+  · subst n
+    change IsClosed (Set.univ : Set H) ∧ Convex ℝ (Set.univ : Set H)
+    exact ⟨isClosed_univ, convex_univ⟩
   let t : ℝ := alg.inertia n
   let d : H := alg.x (n - 1) - alg.x n
   let a : ℝ := -2 * t * inner ℝ (alg.x n) d + t ^ 2 * ‖d‖ ^ 2
@@ -111,7 +115,7 @@ private theorem inertialForwardBackwardC_isClosed_convex_proximal
       ‖alg.z n - v‖ ^ 2 ≤ ‖alg.x n - v‖ ^ 2 + inner ℝ ((2 * t) • d) v + a} =
       inertialForwardBackwardC alg.x alg.z alg.inertia n := by
     ext v
-    simp only [Set.mem_setOf_eq, Set.mem_univ, true_and, inertialForwardBackwardC]
+    simp only [Set.mem_setOf_eq, Set.mem_univ, true_and, inertialForwardBackwardC, hn]
     dsimp [t, d, a]
     simp only [real_inner_smul_right, inner_sub_left, real_inner_comm]
     ring_nf
@@ -203,15 +207,44 @@ private theorem positive_resolvent_nonempty (B : SetValuedOperator H H)
   dsimp [SetValuedOperator.identityAddScaled]
   exact ⟨b, hb, hy.symm⟩
 
+private theorem zeros_isChebyshev (B : SetValuedOperator H H)
+    (hB : B.IsMaximalMonotone) (hZeros : B.zeros.Nonempty) :
+    IsChebyshev B.zeros := by
+  have hone : (0 : ℝ) < 1 := by norm_num
+  let T : H → H := fun x => Classical.choose
+    (positive_resolvent_nonempty B hB hone x)
+  have hT : ∀ x, T x ∈ J[((1 : ℝ) • B)] (x - (1 : ℝ) • (0 : H)) := by
+    intro x
+    simpa only [smul_zero, sub_zero] using
+      (Classical.choose_spec (positive_resolvent_nonempty B hB hone x))
+  have hT_properties := forward_backward_nonexpansive_and_fixedPoints
+    (fun _ : H => 0) B hB 1 1 (by norm_num) (by norm_num)
+    (zero_cocoerciveOn 1 (by norm_num)) T hT
+  have hzero : operatorSumZeroSet (fun _ : H => 0) B = B.zeros := by
+    ext x
+    simp [operatorSumZeroSet, operatorSum]
+  have hT_fix_closed_convex :
+      IsClosed (Function.fixedPoints T) ∧ Convex ℝ (Function.fixedPoints T) := by
+    simpa [fixedPointSetOn] using
+      (isClosed_and_convex_fixedPointSet_of_nonexpansiveOn
+        (D := Set.univ) Set.univ_nonempty isClosed_univ convex_univ
+          hT_properties.1.lipschitzOnWith)
+  exact isChebyshev_of_nonempty_isClosed_convex hZeros
+    (hT_properties.2.trans hzero ▸ hT_fix_closed_convex.1)
+    (hT_properties.2.trans hzero ▸ hT_fix_closed_convex.2)
+
 theorem inertial_proximal_point_strong_convergence (B : SetValuedOperator H H)
     (hB : B.IsMaximalMonotone) (hZeros : B.zeros.Nonempty)
     (alg : InertialForwardBackward (fun _ : H ↦ 0) B)
     (hInertiaBounded : Bornology.IsBounded (Set.range alg.inertia))
-    (hLowerStepBound : 0 < liminf alg.stepSize atTop)
-    (hZerosChebyshev : IsChebyshev B.zeros)
-    (hInitialZerosQ : B.zeros ⊆ inertialForwardBackwardQ alg.x alg.x0 1) :
-    Tendsto alg.x atTop (nhds (projectionPoint B.zeros hZerosChebyshev alg.x0)) := by
+    (hLowerStepBound : 0 < liminf alg.stepSize atTop) :
+    Tendsto alg.x atTop
+      (nhds (projectionPoint B.zeros (zeros_isChebyshev B hB hZeros) alg.x0)) := by
   classical
+  have hZerosChebyshev : IsChebyshev B.zeros := zeros_isChebyshev B hB hZeros
+  have hInitialZerosQ : B.zeros ⊆ inertialForwardBackwardQ alg.x alg.x0 1 := by
+    intro u _
+    simp [inertialForwardBackwardQ, alg.initial_one_eq_x0]
   have hbase : B.zeros ⊆ inertialForwardBackwardC alg.x alg.z alg.inertia 1 ∩
       inertialForwardBackwardQ alg.x alg.x0 1 := by
     intro u hu
@@ -243,7 +276,7 @@ theorem inertial_proximal_point_strong_convergence (B : SetValuedOperator H H)
           (eq_projectionPoint_of_isBestApproximation _
             (isChebyshev_of_nonempty_isClosed_convex hne (hCQ_closed_convex n).1
               (hCQ_closed_convex n).2)
-            ((mem_setValuedProjector_iff).mp (alg.projection_step n hn)))
+            ((mem_setValuedProjector_iff).mp (alg.projection_step n)))
       refine ⟨zeros_subset_inertialForwardBackwardC_proximal B hB alg (n + 1) (by omega) hu, ?_⟩
       simpa [inertialForwardBackwardQ] using hvariational.2 u huCQ
   have hx_next_mem_CQ : ∀ n : ℕ, 1 ≤ n → alg.x (n + 1) ∈
@@ -253,7 +286,7 @@ theorem inertial_proximal_point_strong_convergence (B : SetValuedOperator H H)
     obtain ⟨u, hu⟩ := hZeros
     have hne : (inertialForwardBackwardC alg.x alg.z alg.inertia n ∩
         inertialForwardBackwardQ alg.x alg.x0 n).Nonempty := ⟨u, hfeasible n hn hu⟩
-    exact (mem_setValuedProjector_iff.mp (alg.projection_step n hn)).1
+    exact (mem_setValuedProjector_iff.mp (alg.projection_step n)).1
   have hx_mem_Q : ∀ n : ℕ, alg.x n ∈ inertialForwardBackwardQ alg.x alg.x0 n := by
     intro n
     simp [inertialForwardBackwardQ]
@@ -373,7 +406,7 @@ theorem inertial_proximal_point_strong_convergence (B : SetValuedOperator H H)
       intro n hn
       apply inertial_residual_sq_le_of_abs_inertia
         (by simpa [Real.norm_eq_abs] using hM (alg.inertia n) (Set.mem_range_self n))
-      simpa [inertialForwardBackwardC] using (hx_next_mem_CQ n hn).1
+      simpa [inertialForwardBackwardC, Nat.ne_of_gt hn] using (hx_next_mem_CQ n hn).1
     have hcross_zero : Tendsto (fun n =>
         2 * M * ‖alg.x n - alg.x (n + 1)‖ * ‖alg.x (n - 1) - alg.x n‖)
         atTop (nhds 0) := by
