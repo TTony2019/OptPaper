@@ -6,47 +6,6 @@ open scoped InnerProductSpace
 open ERealFunction
 open Pointwise
 
-private theorem quadratic_increment_adjoint {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] [CompleteSpace H] (A : H →L[ℝ] H) (b p y : H) :
-    (1 / 2 : ℝ) * ‖A y - b‖ ^ 2 =
-      (1 / 2 : ℝ) * ‖A p - b‖ ^ 2 +
-        @inner ℝ H _ (A.adjoint (A p - b)) (y - p) + (1 / 2 : ℝ) * ‖A (y - p)‖ ^ 2 := by
-  have hdecomp : A y - b = (A p - b) + A (y - p) := by
-    rw [map_sub]
-    abel
-  rw [hdecomp, norm_add_sq_real]
-  rw [A.adjoint_inner_left]
-  ring
-
-private theorem ereal_convex_chord_toReal {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] (g : H → EReal)
-    (hconvex : Convex ℝ (ERealFunction.epigraph g)) (hproper : ERealFunction.IsProper g)
-    {p y : H} (hp_top : g p ≠ ⊤) (hy_top : g y ≠ ⊤) (t : ℝ)
-    (ht0 : 0 ≤ t) (ht1 : t ≤ 1) :
-    (g (p + t • (y - p))).toReal ≤ (1 - t) * (g p).toReal + t * (g y).toReal := by
-  have hp_epi : (p, (g p).toReal) ∈ ERealFunction.epigraph g := EReal.le_coe_toReal hp_top
-  have hy_epi : (y, (g y).toReal) ∈ ERealFunction.epigraph g := EReal.le_coe_toReal hy_top
-  have hcomb := hconvex hp_epi hy_epi (sub_nonneg.mpr ht1) ht0 (by ring)
-  rw [ERealFunction.mem_epigraph_iff] at hcomb
-  have hsegment : (1 - t) • p + t • y = p + t • (y - p) := by module
-  have hcomb' : g (p + t • (y - p)) ≤
-      ↑((1 - t) * (g p).toReal + t * (g y).toReal) := by
-    simpa [Prod.smul_mk, hsegment] using hcomb
-  exact EReal.toReal_le_toReal hcomb' (hproper.1 _) (EReal.coe_ne_top _)
-
-private theorem ereal_convex_segment_ne_top {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] (g : H → EReal)
-    (hconvex : Convex ℝ (ERealFunction.epigraph g)) {p y : H}
-    (hp_top : g p ≠ ⊤) (hy_top : g y ≠ ⊤) (t : ℝ) (ht0 : 0 ≤ t) (ht1 : t ≤ 1) :
-    g (p + t • (y - p)) ≠ ⊤ := by
-  have hp_epi : (p, (g p).toReal) ∈ ERealFunction.epigraph g := EReal.le_coe_toReal hp_top
-  have hy_epi : (y, (g y).toReal) ∈ ERealFunction.epigraph g := EReal.le_coe_toReal hy_top
-  have hcomb := hconvex hp_epi hy_epi (sub_nonneg.mpr ht1) ht0 (by ring)
-  rw [ERealFunction.mem_epigraph_iff] at hcomb
-  have hsegment : (1 - t) • p + t • y = p + t • (y - p) := by module
-  apply ne_top_of_le_ne_top (EReal.coe_ne_top _) 
-  simpa [Prod.smul_mk, hsegment] using hcomb
-
 set_option linter.unusedVariables false in
 /-- `]-∞,+∞]`-valued objectives that are proper, convex (with convex epigraph) and lower
 semicontinuous lie in `Γ₀(H)`, so Foundation's proximity operator is available for them. -/
@@ -71,87 +30,44 @@ theorem isProxPoint_unique {H : Type*} [NormedAddCommGroup H] [InnerProductSpace
     (hasUniqueProxPoint_of_mem_gammaZero
       (smul_mem_gammaZero (ERealFunction.properIoi g hproper) hΓ ⟨lam, hlam⟩) w) hp hq
 
-/-- Removing the smooth quadratic part from an extended-real subgradient. -/
-private theorem subgradientEReal_quadratic_add {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] [CompleteSpace H] (A : H →L[ℝ] H) (b p u : H)
-    (g f : H → EReal) (hconvex : Convex ℝ (ERealFunction.epigraph g))
-    (hproper : ERealFunction.IsProper g)
-    (hf : ∀ z, f z = (((1 / 2 : ℝ) * ‖A z - b‖ ^ 2 : ℝ) : EReal) + g z)
-    (hp : f p ≠ ⊤) (hu : u ∈ subdifferential f p) :
-    u - A.adjoint (A p - b) ∈ subdifferential g p := by
-  rw [subdifferential]
-  intro y
-  by_cases hy : g y = ⊤
-  · rw [hy]
-    exact le_top
-  · have hpG : g p ≠ ⊤ := by
-      intro htop
-      apply hp
-      rw [hf p, htop]
-      exact EReal.coe_add_top _
-    have hpGbot : g p ≠ ⊥ := hproper.1 p
-    have hyGbot : g y ≠ ⊥ := hproper.1 y
-    have herror : ∀ t : ℝ, 0 < t → t ≤ 1 →
-        (g p).toReal + @inner ℝ H _ (u - A.adjoint (A p - b)) (y - p) ≤
-          (g y).toReal + t * ((1 / 2 : ℝ) * ‖A (y - p)‖ ^ 2) := by
-      intro t ht ht1
-      have ht0 : 0 ≤ t := ht.le
-      have hytop : g (p + t • (y - p)) ≠ ⊤ :=
-        ereal_convex_segment_ne_top g hconvex hpG hy t ht0 ht1
-      have hytbot : g (p + t • (y - p)) ≠ ⊥ := hproper.1 _
-      have hsub := hu (p + t • (y - p))
-      change (⟪p + t • (y - p) - p, u⟫_ℝ : EReal) + (f p : EReal) ≤
-        (f (p + t • (y - p)) : EReal) at hsub
-      rw [real_inner_comm, add_comm] at hsub
-      rw [hf (p + t • (y - p)), hf p] at hsub
-      have hlefttop : ((↑((1 / 2 : ℝ) * ‖A p - b‖ ^ 2) : EReal) + g p) ≠ ⊤ :=
-        EReal.add_ne_top (EReal.coe_ne_top _) hpG
-      have hleftbot : ((↑((1 / 2 : ℝ) * ‖A p - b‖ ^ 2) : EReal) + g p) ≠ ⊥ :=
-        EReal.add_ne_bot_iff.mpr ⟨EReal.coe_ne_bot _, hpGbot⟩
-      have hrighttop : ((↑((1 / 2 : ℝ) * ‖A (p + t • (y - p)) - b‖ ^ 2) : EReal) +
-          g (p + t • (y - p))) ≠ ⊤ := EReal.add_ne_top (EReal.coe_ne_top _) hytop
-      have hsub_real := EReal.toReal_le_toReal hsub
-        (EReal.add_ne_bot_iff.mpr ⟨hleftbot, EReal.coe_ne_bot _⟩) hrighttop
-      rw [EReal.toReal_add hlefttop hleftbot (EReal.coe_ne_top _) (EReal.coe_ne_bot _),
-        EReal.toReal_add (EReal.coe_ne_top _) (EReal.coe_ne_bot _) hpG hpGbot,
-        EReal.toReal_add (EReal.coe_ne_top _) (EReal.coe_ne_bot _) hytop hytbot] at hsub_real
-      simp only [EReal.toReal_coe] at hsub_real
-      have hchord := ereal_convex_chord_toReal g hconvex hproper hpG hy t ht0 ht1
-      rw [quadratic_increment_adjoint A b p (p + t • (y - p))] at hsub_real
-      have hseg_sub : p + t • (y - p) - p = t • (y - p) := by abel
-      rw [hseg_sub, map_smul, norm_smul, Real.norm_eq_abs, abs_of_nonneg ht0] at hsub_real
-      simp only [inner_smul_right] at hsub_real
-      rw [inner_sub_left]
-      nlinarith
-    have hreal : (g p).toReal + @inner ℝ H _
-        (u - A.adjoint (A p - b)) (y - p) ≤ (g y).toReal := by
-      apply le_of_forall_pos_le_add
-      intro ε hε
-      let R : ℝ := (1 / 2 : ℝ) * ‖A (y - p)‖ ^ 2
-      let t : ℝ := ε / (R + ε + 1)
-      have hR : 0 ≤ R := by dsimp [R]; positivity
-      have hden : 0 < R + ε + 1 := by linarith
-      have ht : 0 < t := by dsimp [t]; positivity
-      have ht1 : t ≤ 1 := by
-        dsimp [t]
-        apply (div_le_one₀ hden).2
-        linarith
-      have htR : t * R ≤ ε := by
-        dsimp [t]
-        calc
-          ε / (R + ε + 1) * R = (ε * R) / (R + ε + 1) := by ring
-          _ ≤ ε := (div_le_iff₀ hden).2 (by nlinarith)
-      have := herror t ht ht1
-      dsimp [R] at htR
-      linarith
-    change (⟪y - p, u - A.adjoint (A p - b)⟫_ℝ : EReal) + (g p : EReal) ≤
-      (g y : EReal)
-    rw [← EReal.coe_toReal hpG hpGbot, ← EReal.coe_toReal hy hyGbot]
-    norm_cast
-    rw [real_inner_comm, add_comm]
-    exact hreal
+/-- After multiplying by `lam`, the variable-metric objective and the forward-backward
+proximal objective differ by a constant independent of the candidate point. -/
+private theorem composite_metric_objective_identity {H : Type*} [NormedAddCommGroup H]
+    [InnerProductSpace ℝ H] [CompleteSpace H] (A : H →L[ℝ] H) (b : H)
+    (M : H →L[ℝ] H) (lam : ℝ) (hlam : 0 < lam)
+    (hM : M = ContinuousLinearMap.id ℝ H - lam • (A.adjoint.comp A))
+    (c : ℝ) (x y : H) :
+    lam * ((1 / 2 : ℝ) * ‖A y - b‖ ^ 2 + c + metricNormSq M (x - y) / (2 * lam)) =
+      lam * c + (1 / 2 : ℝ) * ‖x - lam • A.adjoint (A x - b) - y‖ ^ 2 +
+        (lam / 2) * ‖A x - b‖ ^ 2 - (lam ^ 2 / 2) * ‖A.adjoint (A x - b)‖ ^ 2 := by
+  rw [hM]
+  simp only [metricNormSq, ContinuousLinearMap.sub_apply, ContinuousLinearMap.id_apply,
+    ContinuousLinearMap.smul_apply, ContinuousLinearMap.comp_apply]
+  rw [inner_sub_left, inner_smul_left, A.adjoint_inner_left, real_inner_self_eq_norm_sq]
+  have hlam_ne : lam ≠ 0 := ne_of_gt hlam
+  have hw : x - lam • A.adjoint (A x - b) - y =
+      (x - y) - lam • A.adjoint (A x - b) := by abel
+  have hAy : A y - b = (A x - b) - A (x - y) := by
+    rw [map_sub]
+    abel
+  rw [hw, hAy]
+  rw [norm_sub_sq_real (A x - b) (A (x - y))]
+  rw [norm_sub_sq_real (x - y) (lam • A.adjoint (A x - b))]
+  rw [inner_smul_right]
+  have hadj : @inner ℝ H _ (x - y) (A.adjoint (A x - b)) =
+      @inner ℝ H _ (A x - b) (A (x - y)) := by
+    rw [real_inner_comm]
+    exact A.adjoint_inner_left (x - y) (A x - b)
+  rw [hadj]
+  rw [norm_smul, Real.norm_eq_abs, abs_of_pos hlam]
+  have hstar : (starRingEnd ℝ) lam = lam := by simp
+  rw [hstar, real_inner_self_eq_norm_sq]
+  field_simp [hlam_ne]
+  ring
 
-/-- External result: the variable-metric proximal map of a Lasso objective splits forward-backward. -/
+/-- Formula (5.6): the variable-metric proximity operator of a Lasso objective splits
+forward-backward.  The left-hand side is the operator defined directly by the unique minimizer
+in (5.2), rather than an arbitrary map satisfying the optimality condition (5.3). -/
 theorem variableMetric_composite_proximal_identity {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℝ H] [CompleteSpace H] (f g : H → EReal) (A : H →L[ℝ] H) (b : H)
     (M : H →L[ℝ] H) (lam : ℝ) (hlam : 0 < lam)
@@ -159,40 +75,87 @@ theorem variableMetric_composite_proximal_identity {H : Type*} [NormedAddCommGro
     (hlsc : LowerSemicontinuous g) (hproper : ERealFunction.IsProper g)
     (hf : ∀ x, f x = (((1 / 2 : ℝ) * ‖A x - b‖ ^ 2 : ℝ) : EReal) + g x)
     (hM : M = ContinuousLinearMap.id ℝ H - lam • (A.adjoint.comp A))
-    (_hM_positive : ∀ v, v ≠ 0 → 0 < @inner ℝ H _ (M v) v) (proxF : H → H)
-    (hproxF : ∀ x, ∃ (_hp : f (proxF x) ≠ ⊤),
-      M (x - proxF x) ∈ (fun u ↦ lam • u) '' subdifferential f (proxF x)) (x : H) :
-    proxF x = ERealFunction.scaledProximityOperator (ERealFunction.properIoi g hproper)
+    (_hM_positive : ∀ v, v ≠ 0 → 0 < @inner ℝ H _ (M v) v)
+    (hprox_unique : HasUniqueVariableMetricProxPoint f M ⟨lam, hlam⟩) (x : H) :
+    variableMetricProximityOperator f M ⟨lam, hlam⟩ hprox_unique x =
+      ERealFunction.scaledProximityOperator (ERealFunction.properIoi g hproper)
       (properIoi_mem_gammaZero_of_epigraph_convex_lsc hproper hconvex hlsc) ⟨lam, hlam⟩
       (x - lam • A.adjoint (A x - b)) := by
-  rcases hproxF x with ⟨hp, u, hu, hMu⟩
-  have hres : x - lam • A.adjoint (A x - b) - proxF x =
-      lam • (u - A.adjoint (A (proxF x) - b)) := by
-    have hMu' : x - proxF x - lam • A.adjoint (A (x - proxF x)) = lam • u := by
-      rw [hM] at hMu
-      simp only [ContinuousLinearMap.sub_apply, ContinuousLinearMap.id_apply,
-        ContinuousLinearMap.smul_apply, ContinuousLinearMap.comp_apply] at hMu
-      exact hMu.symm
-    calc
-      x - lam • A.adjoint (A x - b) - proxF x =
-          x - proxF x - lam • A.adjoint (A (x - proxF x)) -
-            lam • A.adjoint (A (proxF x) - b) := by
-              simp [map_sub]
-              module
-      _ = lam • u - lam • A.adjoint (A (proxF x) - b) := by rw [hMu']
-      _ = lam • (u - A.adjoint (A (proxF x) - b)) := by module
-  have hg : u - A.adjoint (A (proxF x) - b) ∈ subdifferential g (proxF x) :=
-    subgradientEReal_quadratic_add A b (proxF x) u g f hconvex hproper hf hp hu
+  let lamPos : PosReal := ⟨lam, hlam⟩
+  let p : H := variableMetricProximityOperator f M lamPos hprox_unique x
+  let w : H := x - lam • A.adjoint (A x - b)
+  have hp_min : ∀ y, variableMetricProximalObjective f M lamPos x p ≤
+      variableMetricProximalObjective f M lamPos x y := by
+    have hp := variableMetricProximityOperator_isProxPoint f M lamPos hprox_unique x
+    have hp' : p ∈ variableMetricProximalPoints f M lamPos x := by
+      simpa [p] using hp
+    rw [variableMetricProximalPoints, ERealFunction.mem_argmin_iff,
+      isMinOn_univ_iff] at hp'
+    intro y
+    exact hp' y
+  obtain ⟨z, hz⟩ := hproper.2
+  have hgz_top : g z ≠ ⊤ := ne_of_lt ((ERealFunction.mem_dom_iff g z).1 hz)
+  have hfz_top : f z ≠ ⊤ := by
+    rw [hf z]
+    exact EReal.add_ne_top (EReal.coe_ne_top _) hgz_top
+  have hobjz_top : variableMetricProximalObjective f M lamPos x z ≠ ⊤ := by
+    rw [variableMetricProximalObjective]
+    exact EReal.add_ne_top hfz_top (EReal.coe_ne_top _)
+  have hobjp_top : variableMetricProximalObjective f M lamPos x p ≠ ⊤ :=
+    ne_top_of_le_ne_top hobjz_top (hp_min z)
+  have hfp_top : f p ≠ ⊤ := by
+    intro hp_top
+    apply hobjp_top
+    simp [variableMetricProximalObjective, hp_top]
+  have hgp_top : g p ≠ ⊤ := by
+    intro hp_top
+    apply hfp_top
+    rw [hf p, hp_top]
+    exact EReal.coe_add_top _
+  have hp_standard : IsProxPoint (lamPos • ERealFunction.properIoi g hproper) w p := by
+    unfold IsProxPoint ERealFunction.proximalPoints
+    rw [ERealFunction.mem_argmin_iff, isMinOn_univ_iff]
+    intro y
+    by_cases hgy_top : g y = ⊤
+    · have hright : ((lamPos • ERealFunction.properIoi g hproper) y : EReal) = ⊤ := by
+        change (lamPos : EReal) * g y = ⊤
+        rw [hgy_top]
+        simpa [lamPos] using EReal.coe_mul_top_of_pos hlam
+      simp only [ERealFunction.proximalObjective]
+      rw [hright, EReal.top_add_coe]
+      exact le_top
+    · have hp_bot : g p ≠ ⊥ := hproper.1 p
+      have hy_bot : g y ≠ ⊥ := hproper.1 y
+      have hmin := hp_min y
+      simp only [variableMetricProximalObjective] at hmin
+      rw [hf p, hf y,
+        ← EReal.coe_toReal hgp_top hp_bot, ← EReal.coe_toReal hgy_top hy_bot] at hmin
+      have hmin_real :
+          (1 / 2 : ℝ) * ‖A p - b‖ ^ 2 + (g p).toReal +
+              metricNormSq M (x - p) / (2 * lam) ≤
+            (1 / 2 : ℝ) * ‖A y - b‖ ^ 2 + (g y).toReal +
+              metricNormSq M (x - y) / (2 * lam) := by
+        exact_mod_cast hmin
+      have hmul := mul_le_mul_of_nonneg_left hmin_real hlam.le
+      rw [composite_metric_objective_identity A b M lam hlam hM (g p).toReal x p,
+        composite_metric_objective_identity A b M lam hlam hM (g y).toReal x y] at hmul
+      have hscaled :
+          lam * (g p).toReal + (1 / 2 : ℝ) * ‖w - p‖ ^ 2 ≤
+            lam * (g y).toReal + (1 / 2 : ℝ) * ‖w - y‖ ^ 2 := by
+        dsimp [w]
+        linarith
+      have hscaled_ereal :
+          (((lam * (g p).toReal + (1 / 2 : ℝ) * ‖w - p‖ ^ 2 : ℝ) : EReal) ≤
+            ((lam * (g y).toReal + (1 / 2 : ℝ) * ‖w - y‖ ^ 2 : ℝ) : EReal)) :=
+        EReal.coe_le_coe hscaled
+      simpa [ERealFunction.proximalObjective, ERealFunction.posReal_smul_apply,
+        ERealFunction.properIoi_apply, lamPos, EReal.coe_mul, EReal.coe_add,
+        EReal.coe_toReal hgp_top hp_bot, EReal.coe_toReal hgy_top hy_bot,
+        div_eq_mul_inv] using hscaled_ereal
   have hΓ : ERealFunction.properIoi g hproper ∈ Γ₀(H) :=
     properIoi_mem_gammaZero_of_epigraph_convex_lsc hproper hconvex hlsc
-  rw [ERealFunction.scaledProximityOperator]
-  refine (ERealFunction.eq_proximityOperator_iff_sub_mem_subdifferential
-    (f := (⟨lam, hlam⟩ : PosReal) • ERealFunction.properIoi g hproper)
-    (ERealFunction.smul_mem_gammaZero _ hΓ ⟨lam, hlam⟩)
-    (x - lam • A.adjoint (A x - b)) (proxF x)).2 ?_
-  rw [ERealFunction.subdifferential_posReal_smul_eq_smul]
-  change x - lam • A.adjoint (A x - b) - proxF x ∈
-    (lam : ℝ) • (subdifferential (ERealFunction.properIoi g hproper) (proxF x))
-  rw [Set.mem_smul_set_iff_inv_smul_mem₀ hlam.ne']
-  rw [hres, smul_smul, inv_mul_cancel₀ hlam.ne', one_smul]
-  simpa [ERealFunction.properIoi, ERealFunction.subdifferential] using hg
+  have hp_eq := ERealFunction.eq_proximityOperator_of_isProxPoint
+    (f := lamPos • ERealFunction.properIoi g hproper)
+    (ERealFunction.hasUniqueProxPoint_of_mem_gammaZero
+      (ERealFunction.smul_mem_gammaZero _ hΓ lamPos)) hp_standard
+  simpa [p, w, lamPos, ERealFunction.scaledProximityOperator] using hp_eq

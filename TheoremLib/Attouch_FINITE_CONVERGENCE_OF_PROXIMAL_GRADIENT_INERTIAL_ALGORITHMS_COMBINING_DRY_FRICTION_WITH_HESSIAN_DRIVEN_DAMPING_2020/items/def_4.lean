@@ -12,40 +12,48 @@ noncomputable section
 def metricNormSq {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
     (M : H →L[ℝ] H) (x : H) : ℝ := @inner ℝ H _ (M x) x
 
-/-- The variable-metric Moreau envelope, expressed using an infimum. -/
-def variableMetricMoreauEnvelope {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
-    (f : H → ℝ) (M : H →L[ℝ] H)
-    (hM_symm : ∀ x y, @inner ℝ H _ (M x) y = @inner ℝ H _ x (M y))
-    (hM_pos : ∀ x, x ≠ 0 → 0 < metricNormSq M x) (lam : ℝ) (hlam : 0 < lam) (x : H) : ℝ :=
-  let _ := hM_symm
-  let _ := hM_pos
-  let _ := hlam
-  sInf (Set.range fun xi ↦ f xi + metricNormSq M (x - xi) / (2 * lam))
+/-- The objective whose minimizer is the proximal point of `x` in the metric induced by `M`.
+This is the extended-real form of the objective in (5.2). -/
+noncomputable def variableMetricProximalObjective {H : Type*} [NormedAddCommGroup H]
+    [InnerProductSpace ℝ H] (f : H → EReal) (M : H →L[ℝ] H) (lam : PosReal)
+    (x : H) : H → EReal :=
+  fun p ↦ f p + ((metricNormSq M (x - p) / (2 * (lam : ℝ)) : ℝ) : EReal)
 
-/-- All data and identities in the variable-metric Moreau construction (5.2)--(5.5). -/
-structure VariableMetricMoreauData {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
-    (f : H → ℝ) (M : H →L[ℝ] H) (lam : ℝ) (hlam : 0 < lam) where
-  symmetric : ∀ x y, @inner ℝ H _ (M x) y = @inner ℝ H _ x (M y)
-  positive_definite : ∀ x, x ≠ 0 → 0 < metricNormSq M x
-  envelope : H → ℝ
-  prox : H → H
-  envelope_eq (x : H) : envelope x = variableMetricMoreauEnvelope f M symmetric positive_definite lam hlam x
-  prox_minimizes (x xi : H) : f (prox x) + metricNormSq M (x - prox x) / (2 * lam) ≤
-    f xi + metricNormSq M (x - xi) / (2 * lam)
-  prox_unique (x p : H) :
-    f p + metricNormSq M (x - p) / (2 * lam) = envelope x → p = prox x
-  optimality (x : H) : M (x - prox x) ∈ (fun u ↦ lam • u) '' subdifferential f (prox x)
-  gradient : H → H
-  gradient_eq (x : H) : gradient x = (1 / lam) • M (x - prox x)
-  muMin : ℝ
-  muMax : ℝ
-  muMin_pos : 0 < muMin
-  muMin_isLeast : ∀ μ : ℝ, (∃ v : H, v ≠ 0 ∧ M v = μ • v) → muMin ≤ μ
-  muMin_isEigenvalue : ∃ v : H, v ≠ 0 ∧ M v = muMin • v
-  muMax_isGreatest : ∀ μ : ℝ, (∃ v : H, v ≠ 0 ∧ M v = μ • v) → μ ≤ muMax
-  muMax_isEigenvalue : ∃ v : H, v ≠ 0 ∧ M v = muMax • v
-  prox_lipschitz : ∀ x y,
-    ‖prox x - prox y‖ ≤ (muMax / muMin) * ‖x - y‖
-  gradient_lipschitz : ∀ x y,
-    ‖gradient x - gradient y‖ ≤ (1 / lam) * Real.sqrt (muMax / muMin) * ‖x - y‖
-  minimizers : ∀ x, (envelope x = sInf (Set.range f)) ↔ (f x = sInf (Set.range f))
+/-- The set of proximal points of `x` in the metric induced by `M`. -/
+def variableMetricProximalPoints {H : Type*} [NormedAddCommGroup H]
+    [InnerProductSpace ℝ H] (f : H → EReal) (M : H →L[ℝ] H) (lam : PosReal)
+    (x : H) : Set H :=
+  Argmin (variableMetricProximalObjective f M lam x)
+
+/-- A variable-metric proximal objective has a unique minimizer at every base point. -/
+def HasUniqueVariableMetricProxPoint {H : Type*} [NormedAddCommGroup H]
+    [InnerProductSpace ℝ H] (f : H → EReal) (M : H →L[ℝ] H) (lam : PosReal) : Prop :=
+  ∀ x : H, ∃! p : H, p ∈ variableMetricProximalPoints f M lam x
+
+/-- The variable-metric proximity operator, defined as the unique minimizer in (5.2). -/
+noncomputable def variableMetricProximityOperator {H : Type*} [NormedAddCommGroup H]
+    [InnerProductSpace ℝ H] (f : H → EReal) (M : H →L[ℝ] H) (lam : PosReal)
+    (hf : HasUniqueVariableMetricProxPoint f M lam) : H → H :=
+  fun x ↦ (hf x).choose
+
+/-- The variable-metric proximity operator realizes the minimum in (5.2). -/
+theorem variableMetricProximityOperator_isProxPoint {H : Type*} [NormedAddCommGroup H]
+    [InnerProductSpace ℝ H] (f : H → EReal) (M : H →L[ℝ] H) (lam : PosReal)
+    (hf : HasUniqueVariableMetricProxPoint f M lam) (x : H) :
+    variableMetricProximityOperator f M lam hf x ∈
+      variableMetricProximalPoints f M lam x :=
+  (hf x).choose_spec.1
+
+/-- The variable-metric Moreau envelope (5.2). -/
+noncomputable def variableMetricMoreauEnvelope {H : Type*} [NormedAddCommGroup H]
+    [InnerProductSpace ℝ H] (f : H → EReal) (M : H →L[ℝ] H) (lam : PosReal) :
+    H → EReal :=
+  fun x ↦ ⨅ p : H, variableMetricProximalObjective f M lam x p
+
+/-- The value of the variable-metric Moreau envelope is the infimum in (5.2). -/
+theorem variableMetricMoreauEnvelope_apply {H : Type*} [NormedAddCommGroup H]
+    [InnerProductSpace ℝ H] (f : H → EReal) (M : H →L[ℝ] H) (lam : PosReal)
+    (x : H) :
+    variableMetricMoreauEnvelope f M lam x =
+      ⨅ p : H, f p + ((metricNormSq M (x - p) / (2 * (lam : ℝ)) : ℝ) : EReal) := by
+  rfl
