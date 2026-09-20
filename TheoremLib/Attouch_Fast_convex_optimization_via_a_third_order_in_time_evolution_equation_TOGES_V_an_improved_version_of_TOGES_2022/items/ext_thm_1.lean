@@ -508,18 +508,35 @@ theorem attouch_chbani_riahi_toges_rate {H : Type*}
     [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
     (f : H → ℝ) (u : ℝ → H) (alpha t0 : ℝ)
     (hConvex : ConvexOn ℝ Set.univ f)
-    (hGradient : ∀ x : H, HasFDerivAt f (innerSL ℝ (gradient f x)) x)
+    (hFContDiff : ContDiff ℝ 1 f)
     (hMin : ∃ z, IsMinOn f Set.univ z) (ht0pos : 0 < t0)
-    (hRegularity :
-      (∀ t, t0 ≤ t → HasDerivAt u (deriv u t) t) ∧
-      (∀ t, t0 ≤ t → HasDerivAt (deriv u) (deriv (deriv u) t) t) ∧
-      (∀ t, t0 ≤ t → HasDerivAt (deriv (deriv u))
-        (deriv (deriv (deriv u)) t) t))
+    (hUContDiff : ContDiff ℝ 3 u)
     (hTrajectory : IsTOGES alpha u f t0) (hAlpha : 3 ≤ alpha) :
     ∃ C : ℝ, 0 < C ∧ ∀ t ≥ t0,
       f (u t + t • deriv u t) - sInf (Set.range f) ≤ C / t ^ 3 ∧
       f (u t) - sInf (Set.range f) ≤
         (t0 * (f (u t0) - sInf (Set.range f)) + C / (2 * t0 ^ 2)) / t := by
+  have hGradient : ∀ x : H, HasFDerivAt f (innerSL ℝ (gradient f x)) x := by
+    intro x
+    simpa [innerSL_apply_apply] using
+      ((hFContDiff.differentiable (by norm_num) x).hasGradientAt.hasFDerivAt)
+  have huDiff : Differentiable ℝ u := hUContDiff.differentiable (by norm_num)
+  have hFirstDiff : Differentiable ℝ (deriv u) :=
+    (hUContDiff.of_le (by norm_num)).differentiable_deriv_two
+  have hSecondDiff : Differentiable ℝ (deriv (deriv u)) := by
+    exact hUContDiff.deriv'.differentiable_deriv_two
+  have hRegularity :
+      (∀ t, t0 ≤ t → HasDerivAt u (deriv u t) t) ∧
+      (∀ t, t0 ≤ t → HasDerivAt (deriv u) (deriv (deriv u) t) t) ∧
+      (∀ t, t0 ≤ t → HasDerivAt (deriv (deriv u))
+        (deriv (deriv (deriv u)) t) t) := by
+    refine ⟨?_, ?_, ?_⟩
+    · intro t _
+      exact (huDiff t).hasDerivAt
+    · intro t _
+      exact (hFirstDiff t).hasDerivAt
+    · intro t _
+      exact (hSecondDiff t).hasDerivAt
   exact attouch_chbani_riahi_toges_rate_core f u (deriv u) (deriv (deriv u))
     (deriv (deriv (deriv u))) (gradient f) alpha t0 hConvex hGradient hMin
     ⟨ht0pos, hRegularity.1, hRegularity.2.1, hRegularity.2.2, hTrajectory⟩ hAlpha

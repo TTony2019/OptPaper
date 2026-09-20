@@ -286,17 +286,12 @@ Theorem 6.1:
 Moreau-regularized TOGES-V estimates with direct trajectory derivatives.
 -/
 theorem togesVR_rate_and_weak_convergence {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] [CompleteSpace H] (f : H → EReal) (prox : H → H)
+    [InnerProductSpace ℝ H] [CompleteSpace H] (f : H → EReal)
     (u : ℝ → H) (alpha : ℝ) (lam : ERealFunction.PosReal) (t0 : ℝ)
     (hLam : 0 < (lam : ℝ)) (hProper : ERealFunction.IsProper f) (hlsc : LowerSemicontinuous f)
     (hConvex : Convex ℝ (ERealFunction.epigraph f))
     (hArgmin : ∃ x : H, f x = sInf (Set.range f))
-    (hProx : ∀ x, ERealFunction.IsProxPoint
-      (lam • ERealFunction.properIoi f hProper) x (prox x)) --recall
-    (hFConvex : ConvexOn ℝ Set.univ (fun x => (ERealFunction.moreauEnvelope f lam x).toReal)) --merge
-    (hFMin : ∃ z, IsMinOn (fun x => (ERealFunction.moreauEnvelope f lam x).toReal) Set.univ z) --merge
-    (hFInf : sInf (Set.range (fun x => (ERealFunction.moreauEnvelope f lam x).toReal)) = --merge
-      (sInf (Set.range f)).toReal) (ht0pos : 0 < t0)
+    (ht0pos : 0 < t0)
     (hUContDiff : ContDiff ℝ 3 u)
     (hAuxiliaryStrict : 3 < alpha → ∃ vInfinity : H,
       Asymptotics.IsLittleO atTop
@@ -308,33 +303,127 @@ theorem togesVR_rate_and_weak_convergence {H : Type*} [NormedAddCommGroup H]
       (ERealFunction.moreauEnvelope f lam vInfinity).toReal =
         sInf (Set.range (fun x => (ERealFunction.moreauEnvelope f lam x).toReal)))
     (hTrajectory : IsTOGESV alpha u (fun x => (ERealFunction.moreauEnvelope f lam x).toReal) t0) :
+    let hfGamma : ERealFunction.properIoi f hProper ∈ Γ₀(H) :=
+      ERealFunction.properIoi_mem_gammaZero_of_mem_gamma hProper
+        ⟨ERealFunction.isConvex_of_convex_epigraph hProper hConvex, hlsc⟩
+    let proximalMap := ERealFunction.scaledProximityOperator
+      (ERealFunction.properIoi f hProper) hfGamma lam
     (3 ≤ alpha → ∃ C : ℝ, 0 ≤ C ∧ ∀ t ≥ t0,
       (ERealFunction.moreauEnvelope f lam (u t + (t / 4) • deriv u t)).toReal -
           (sInf (Set.range f)).toReal ≤ C / t ^ 3 ∧
-      (f (prox (u t + (t / 4) • deriv u t))).toReal -
+      (f (proximalMap (u t + (t / 4) • deriv u t))).toReal -
           (sInf (Set.range f)).toReal ≤ C / t ^ 3 ∧
       (ERealFunction.moreauEnvelope f lam (u t)).toReal - (sInf (Set.range f)).toReal ≤ C / t ^ 3 ∧
-      (f (prox (u t))).toReal - (sInf (Set.range f)).toReal ≤ C / t ^ 3) ∧
+      (f (proximalMap (u t))).toReal - (sInf (Set.range f)).toReal ≤ C / t ^ 3) ∧
     (3 < alpha → ∃ uInfinity : H,
       Asymptotics.IsLittleO atTop
         (fun t => (ERealFunction.moreauEnvelope f lam (u t + (t / 4) • deriv u t)).toReal -
           (sInf (Set.range f)).toReal) (fun t => 1 / t ^ 3) ∧
       Asymptotics.IsLittleO atTop
-        (fun t => (f (prox (u t + (t / 4) • deriv u t))).toReal -
+        (fun t => (f (proximalMap (u t + (t / 4) • deriv u t))).toReal -
           (sInf (Set.range f)).toReal) (fun t => 1 / t ^ 3) ∧
       Asymptotics.IsLittleO atTop
         (fun t => (ERealFunction.moreauEnvelope f lam (u t)).toReal - (sInf (Set.range f)).toReal)
           (fun t => 1 / t ^ 3) ∧
       Asymptotics.IsLittleO atTop
-        (fun t => (f (prox (u t))).toReal - (sInf (Set.range f)).toReal)
+        (fun t => (f (proximalMap (u t))).toReal - (sInf (Set.range f)).toReal)
           (fun t => 1 / t ^ 3) ∧
       Tendsto (fun t => toWeakSpace ℝ H (u t)) atTop
       (nhds (toWeakSpace ℝ H uInfinity)) ∧
       f uInfinity = sInf (Set.range f)) := by
-  obtain ⟨hres, hformula⟩ := proximal_point_data f lam prox hProper hlsc hConvex hProx
+  let hfGamma : ERealFunction.properIoi f hProper ∈ Γ₀(H) :=
+    ERealFunction.properIoi_mem_gammaZero_of_mem_gamma hProper
+      ⟨ERealFunction.isConvex_of_convex_epigraph hProper hConvex, hlsc⟩
+  let proximalMap := ERealFunction.scaledProximityOperator
+    (ERealFunction.properIoi f hProper) hfGamma lam
+  have hProx : ∀ x, ERealFunction.IsProxPoint
+      (lam • ERealFunction.properIoi f hProper) x (proximalMap x) := by
+    intro x
+    simpa [proximalMap, ERealFunction.scaledProximityOperator] using
+      ERealFunction.proximityOperator_isProxPoint
+        (lam • ERealFunction.properIoi f hProper)
+        (ERealFunction.hasUniqueProxPoint_of_mem_gammaZero
+          (ERealFunction.smul_mem_gammaZero _ hfGamma lam)) x
+  obtain ⟨hres, hformula⟩ :=
+    proximal_point_data f lam proximalMap hProper hlsc hConvex hProx
+  have hEnvelopeData := moreau_envelope_regularity_and_minimizers f lam hLam hProper hlsc
+    hConvex (ERealFunction.moreauEnvelope f lam) proximalMap hres
+      (fun x => (hformula x).symm)
+  have hEnvelope_ne_top : ∀ x, ERealFunction.moreauEnvelope f lam x ≠ ⊤ := by
+    intro x
+    rcases hProper.2 with ⟨z, hz⟩
+    have hbound := moreau_proximal_objective_le f lam hLam hProper hConvex proximalMap hres x z
+    apply ne_of_lt
+    calc
+      ERealFunction.moreauEnvelope f lam x = f (proximalMap x) +
+          ((1 / (2 * lam) * ‖x - proximalMap x‖ ^ 2 : ℝ) : EReal) := (hformula x).symm
+      _ ≤ f z + ((1 / (2 * lam) * ‖x - z‖ ^ 2 : ℝ) : EReal) := hbound
+      _ < ⊤ := EReal.add_lt_top (ne_of_lt hz) (EReal.coe_ne_top _)
+  have hEnvelope_ne_bot : ∀ x, ERealFunction.moreauEnvelope f lam x ≠ ⊥ := by
+    intro x hbot
+    rw [(hformula x).symm, EReal.add_eq_bot_iff] at hbot
+    exact hProper.1 _ (hbot.resolve_right (EReal.coe_ne_bot _))
+  have hFConvex :
+      ConvexOn ℝ Set.univ (fun x => (ERealFunction.moreauEnvelope f lam x).toReal) := by
+    refine ⟨convex_univ, ?_⟩
+    intro x _ y _ a b ha hb hab
+    have hx : (x, (ERealFunction.moreauEnvelope f lam x).toReal) ∈
+        ERealFunction.epigraph (ERealFunction.moreauEnvelope f lam) := by
+      rw [ERealFunction.mem_epigraph_iff,
+        EReal.coe_toReal (hEnvelope_ne_top x) (hEnvelope_ne_bot x)]
+    have hy : (y, (ERealFunction.moreauEnvelope f lam y).toReal) ∈
+        ERealFunction.epigraph (ERealFunction.moreauEnvelope f lam) := by
+      rw [ERealFunction.mem_epigraph_iff,
+        EReal.coe_toReal (hEnvelope_ne_top y) (hEnvelope_ne_bot y)]
+    have hconv := hEnvelopeData.1 hx hy ha hb hab
+    rw [ERealFunction.mem_epigraph_iff] at hconv
+    have hconv' : ERealFunction.moreauEnvelope f lam (a • x + b • y) ≤
+        ((a * (ERealFunction.moreauEnvelope f lam x).toReal +
+          b * (ERealFunction.moreauEnvelope f lam y).toReal : ℝ) : EReal) := by
+      simpa [Prod.smul_mk, smul_eq_mul] using hconv
+    have hreal := EReal.toReal_le_toReal hconv'
+      (hEnvelope_ne_bot (a • x + b • y)) (EReal.coe_ne_top _)
+    simpa using hreal
   have hFContDiff : ContDiff ℝ 1 (fun x => (ERealFunction.moreauEnvelope f lam x).toReal) :=
-    (moreau_envelope_regularity_and_minimizers f lam hLam hProper hlsc hConvex
-      (ERealFunction.moreauEnvelope f lam) prox hres (fun x => (hformula x).symm)).2.1
+    hEnvelopeData.2.1
+  rcases hArgmin with ⟨z, hz⟩
+  have hzEnvelope : ERealFunction.moreauEnvelope f lam z =
+      sInf (Set.range (ERealFunction.moreauEnvelope f lam)) := by
+    have hz' : z ∈ {x | f x = sInf (Set.range f)} := hz
+    rw [← hEnvelopeData.2.2.2.1] at hz'
+    exact hz'
+  have hzGlobal : ∀ x, (ERealFunction.moreauEnvelope f lam z).toReal ≤
+      (ERealFunction.moreauEnvelope f lam x).toReal := by
+    intro x
+    have hmin : ERealFunction.moreauEnvelope f lam z ≤
+        ERealFunction.moreauEnvelope f lam x := by
+      rw [hzEnvelope]
+      exact (isGLB_sInf (Set.range (ERealFunction.moreauEnvelope f lam))).1 ⟨x, rfl⟩
+    exact EReal.toReal_le_toReal hmin (hEnvelope_ne_bot z) (hEnvelope_ne_top x)
+  have hFMin :
+      ∃ z, IsMinOn (fun x => (ERealFunction.moreauEnvelope f lam x).toReal) Set.univ z := by
+    refine ⟨z, ?_⟩
+    rw [isMinOn_univ_iff]
+    exact hzGlobal
+  have hFInf : sInf (Set.range (fun x => (ERealFunction.moreauEnvelope f lam x).toReal)) =
+      (sInf (Set.range f)).toReal := by
+    have hsInfReal :
+        sInf (Set.range (fun x => (ERealFunction.moreauEnvelope f lam x).toReal)) =
+          (ERealFunction.moreauEnvelope f lam z).toReal := by
+      apply le_antisymm
+      · apply csInf_le
+        · refine ⟨(ERealFunction.moreauEnvelope f lam z).toReal, ?_⟩
+          intro y hy
+          rcases hy with ⟨x, rfl⟩
+          exact hzGlobal x
+        · exact ⟨z, rfl⟩
+      · apply le_csInf
+        · exact ⟨(ERealFunction.moreauEnvelope f lam z).toReal, ⟨z, rfl⟩⟩
+        · intro y hy
+          rcases hy with ⟨x, rfl⟩
+          exact hzGlobal x
+    rw [hsInfReal]
+    exact congrArg EReal.toReal (hzEnvelope.trans hEnvelopeData.2.2.1)
   have hFGradient : ∀ x, HasFDerivAt (fun x => (ERealFunction.moreauEnvelope f lam x).toReal)
       (innerSL ℝ (gradient (fun x => (ERealFunction.moreauEnvelope f lam x).toReal) x)) x := by
     intro x
@@ -357,9 +446,9 @@ theorem togesVR_rate_and_weak_convergence {H : Type*} [NormedAddCommGroup H]
       exact (hFirstDiff t).hasDerivAt
     · intro t _
       exact (hSecondDiff t).hasDerivAt
-  exact togesVR_rate_and_weak_convergence_core f prox u (deriv u) (deriv (deriv u))
+  exact togesVR_rate_and_weak_convergence_core f proximalMap u (deriv u) (deriv (deriv u))
     (deriv (deriv (deriv u)))
     (gradient (fun x => (ERealFunction.moreauEnvelope f lam x).toReal)) alpha lam t0 hLam hProper hlsc
-    hConvex hArgmin hProx hFConvex hFGradient hFMin hFInf ht0pos
+    hConvex ⟨z, hz⟩ hProx hFConvex hFGradient hFMin hFInf ht0pos
     hRegularity.1 hRegularity.2.1 hRegularity.2.2
     (fun t ht => ⟨rfl, rfl, rfl⟩) hAuxiliaryStrict hTrajectory
