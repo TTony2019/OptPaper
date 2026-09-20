@@ -109,7 +109,8 @@ theorem theorem_3_2 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
             if_pos houtside]
           module
         have hmono := gradient_derivative_inner_nonnegative f hconvex hf_diff z
-          (hz_diff t).hasDerivAt (hg_deriv t)
+          (hz_diff t) (hg_deriv t).differentiableAt
+        rw [(hg_deriv t).deriv] at hmono
         have hmono' : 0 ≤ -(1 - r / ‖g t‖) *
             inner ℝ (g t) (fderiv ℝ (gradient f) (z t) (deriv z t)) := by
           calc

@@ -6,6 +6,8 @@ import TheoremLib.Bot_Csetnek_An_Inertial_Tseng_s_Type_Proximal_Algorithm_for_No
 
 namespace BotCsetnek2015
 
+open ERealFunction
+
 /-- The vector `s_n` from Lemma 3.5. -/
 noncomputable def subgradientEstimateVector {m : ℕ} {P : ProblemData m}
     (A : AlgorithmData P) (n : ℕ) : EuclideanSpace m :=

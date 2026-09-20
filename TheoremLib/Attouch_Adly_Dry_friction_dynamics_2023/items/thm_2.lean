@@ -52,17 +52,20 @@ nonnegative pairing with the curve velocity. -/
 theorem gradient_derivative_inner_nonnegative {H : Type*}
     [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
     (f : H → ℝ) (hconvex : ConvexOn ℝ Set.univ f) (hf : Differentiable ℝ f)
-    (x : ℝ → H) {t : ℝ} {dx dv : H} (hx : HasDerivAt x dx t)
-    (hv : HasDerivAt (fun s => gradient f (x s)) dv t) :
-    0 ≤ inner ℝ dx dv := by
+    (x : ℝ → H) {t : ℝ} (hx : DifferentiableAt ℝ x t)
+    (hv : DifferentiableAt ℝ (fun s => gradient f (x s)) t) :
+    0 ≤ inner ℝ (deriv x t) (deriv (fun s => gradient f (x s)) t) := by
   let qx : ℝ → H := fun h => h⁻¹ • (x (t + h) - x t)
   let qv : ℝ → H := fun h => h⁻¹ • (gradient f (x (t + h)) - gradient f (x t))
-  have hqx : Filter.Tendsto qx (nhdsWithin 0 {0}ᶜ) (nhds dx) := by
-    simpa [qx, add_comm] using hx.tendsto_slope_zero
-  have hqv : Filter.Tendsto qv (nhdsWithin 0 {0}ᶜ) (nhds dv) := by
-    simpa [qv, add_comm] using hv.tendsto_slope_zero
+  have hqx : Filter.Tendsto qx (nhdsWithin 0 {0}ᶜ) (nhds (deriv x t)) := by
+    simpa [qx, add_comm] using hx.hasDerivAt.tendsto_slope_zero
+  have hqv : Filter.Tendsto qv (nhdsWithin 0 {0}ᶜ)
+      (nhds (deriv (fun s => gradient f (x s)) t)) := by
+    simpa [qv, add_comm] using hv.hasDerivAt.tendsto_slope_zero
   have hlim : Filter.Tendsto (fun h => inner ℝ (qx h) (qv h))
-      (nhdsWithin 0 {0}ᶜ) (nhds (inner ℝ dx dv)) := hqx.inner hqv
+      (nhdsWithin 0 {0}ᶜ)
+      (nhds (inner ℝ (deriv x t) (deriv (fun s => gradient f (x s)) t))) :=
+    hqx.inner hqv
   rw [← neg_nonpos]
   apply le_of_tendsto hlim.neg
   rw [eventually_nhdsWithin_iff]
@@ -114,7 +117,8 @@ theorem theorem_3_1 {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
       0 ≤ inner ℝ (fderiv ℝ (gradient f) (z t) (deriv z t)) (deriv z t) := by
     intro t
     have hmono := gradient_derivative_inner_nonnegative f hconvex hf_diff z
-      (hz_diff t).hasDerivAt (hgrad_deriv t)
+      (hz_diff t) (hgrad_deriv t).differentiableAt
+    rw [(hgrad_deriv t).deriv] at hmono
     simpa [real_inner_comm] using hmono
   have hL1 : MeasureTheory.IntegrableOn (fun t => ‖deriv z t‖) (Set.Ici t₀) := by
     rcases theorem_2_1 hr f z (hf.of_le (by norm_num)) hf_lower hgradient_lip hz_diff hinitial

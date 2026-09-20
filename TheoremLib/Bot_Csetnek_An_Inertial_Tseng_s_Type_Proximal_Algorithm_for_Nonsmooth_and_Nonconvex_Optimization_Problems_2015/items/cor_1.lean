@@ -13,13 +13,15 @@ open scoped Topology BigOperators
 
 namespace BotCsetnek2015
 
+open ERealFunction
+
 /- The bridge is the external semialgebraic-to-KL result cited in the paper. -/
 theorem semialgebraic_objective_yields_productKL_HFunction {m : ℕ}
     {P : ProblemData m} (A : AlgorithmData P) (nu mu : ℝ)
     (hsemi : IsSemiAlgebraicEReal P.objective)
     (hbridge : SemialgebraicToProductKL P.objective (A.M2 nu mu)) :
-    ProductKLFunction (HFunction P (A.M2 nu mu)) := by
-  simpa [HFunction, objectiveWithQuadratic] using
+    ERealFunction.IsKLFunction (HFunctionL2 P (A.M2 nu mu)) := by
+  simpa [HFunctionL2, objectiveWithQuadratic] using
     (semialgebraic_objective_yields_KL_H
       (g := P.objective) (M2 := A.M2 nu mu) hsemi hbridge)
 
@@ -37,9 +39,9 @@ theorem corollary_3_1_semialgebraic_convergence {m : ℕ} {P : ProblemData m}
     Summable (fun n : ℕ ↦ ‖A.x n - A.p n‖) ∧
       Summable (fun n : ℕ ↦ ‖A.x (n + 1) - A.x n‖) ∧
       ∃ x : EuclideanSpace m,
-        x ∈ criticalPoints P.objective ∧
+        x ∈ limitingCriticalPoints P.objective ∧
           Tendsto A.x atTop (nhds x) ∧ Tendsto A.p atTop (nhds x) := by
-  have hH_KL : ProductKLFunction (HFunction P (A.M2 nu mu)) :=
+  have hH_KL : ERealFunction.IsKLFunction (HFunctionL2 P (A.M2 nu mu)) :=
     semialgebraic_objective_yields_productKL_HFunction A nu mu hsemi hsemi_to_KL
   exact theorem_3_1_convergence A nu mu hchosen hcoercive hH_KL
 

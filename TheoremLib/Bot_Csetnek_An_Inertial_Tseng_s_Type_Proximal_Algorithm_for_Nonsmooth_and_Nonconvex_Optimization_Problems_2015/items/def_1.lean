@@ -1,6 +1,7 @@
 import Mathlib
 import Mathlib.Tactic
 import Foundation.Analysis.ExtendedRealFunctions
+import Foundation.Analysis.LimitingSubdifferential
 import Foundation.Analysis.Semicontinuity
 
 open Filter
@@ -9,6 +10,8 @@ open scoped Topology BigOperators
 namespace BotCsetnek2015
 
 abbrev EuclideanSpace (m : ℕ) := _root_.EuclideanSpace ℝ (Fin m)
+
+open ERealFunction
 
 /-- Foundation definition recalled for the paper notation `dom f`. -/
 recall ERealFunction.dom
@@ -25,47 +28,27 @@ noncomputable def objectiveSum {m : ℕ} (f : EuclideanSpace m → EReal)
     (h : EuclideanSpace m → ℝ) : EuclideanSpace m → EReal :=
   fun x ↦ erealAddReal (f x) (h x)
 
-/-- The finite-value Frechet quotient, regarded as an extended real for liminf. -/
-noncomputable def frechetQuotient {m : ℕ} (f : EuclideanSpace m → EReal)
-    (x v y : EuclideanSpace m) : EReal :=
-  (((f y).toReal - (f x).toReal - inner ℝ v (y - x)) / ‖y - x‖ : ℝ)
+/-- Foundation's finite-value Frechet quotient in the paper's notation. -/
+recall ERealFunction.frechetQuotient
 
 /--
 The Frechet/viscosity subdifferential from the paper.  Since Lean's `EReal`
 also contains `⊥`, the formal domain guard uses `effectiveDom`, matching the
 paper's codomain `]-∞,+∞]` and keeping the quotient on finite values.
 -/
-noncomputable def frechetSubdifferential {m : ℕ} (f : EuclideanSpace m → EReal)
-    (x : EuclideanSpace m) : Set (EuclideanSpace m) :=
-  {v |
-    x ∈ ERealFunction.effectiveDom f ∧
-      0 ≤ Filter.liminf
-        (fun y : EuclideanSpace m ↦ frechetQuotient f x v y)
-        (nhdsWithin x ({y | y ≠ x} ∩ ERealFunction.effectiveDom f))}
+recall ERealFunction.frechetSubdifferential
 
 /--
 The limiting/Mordukhovich subdifferential: limits of Frechet subgradients
 along value-convergent sequences at finite effective-domain points.
 -/
-noncomputable def limitingSubdifferential {m : ℕ} (f : EuclideanSpace m → EReal)
-    (x : EuclideanSpace m) : Set (EuclideanSpace m) :=
-  {v |
-    x ∈ ERealFunction.effectiveDom f ∧
-      ∃ xs : ℕ → EuclideanSpace m, ∃ vs : ℕ → EuclideanSpace m,
-        Tendsto xs atTop (nhds x) ∧
-        Tendsto (fun n ↦ f (xs n)) atTop (nhds (f x)) ∧
-        (∀ n, vs n ∈ frechetSubdifferential f (xs n)) ∧
-        Tendsto vs atTop (nhds v)}
+recall ERealFunction.limitingSubdifferential
 
 /-- Domain of the limiting subdifferential. -/
-noncomputable def subdifferentialDomain {m : ℕ} (f : EuclideanSpace m → EReal) :
-    Set (EuclideanSpace m) :=
-  {x | (limitingSubdifferential f x).Nonempty}
+recall ERealFunction.limitingSubdifferentialDomain
 
 /-- Limiting critical points: `0 ∈ partial f x`. -/
-noncomputable def criticalPoints {m : ℕ} (f : EuclideanSpace m → EReal) :
-    Set (EuclideanSpace m) :=
-  {x | (0 : EuclideanSpace m) ∈ limitingSubdifferential f x}
+recall ERealFunction.limitingCriticalPoints
 
 /-- The inclusion of the Frechet subdifferential in the limiting subdifferential. -/
 theorem frechetSubdifferential_subset_limitingSubdifferential {m : ℕ}
@@ -444,7 +427,7 @@ theorem frechetSubdifferential_objective_forward {m : ℕ}
       have hy_eff : y ∈ ERealFunction.effectiveDom f := hy.2
       change frechetQuotient f x (u - gradient h x) y =
         frechetQuotient (objectiveSum f h) x u y + ((-rem y : ℝ) : EReal)
-      unfold frechetQuotient rem
+      unfold ERealFunction.frechetQuotient rem
       rw [objectiveSum_toReal_of_effective hy_eff, objectiveSum_toReal_of_effective hx]
       exact_mod_cast (by
         rw [inner_sub_left]
@@ -498,7 +481,7 @@ theorem frechetSubdifferential_objective_reverse {m : ℕ}
       have hy_eff : y ∈ ERealFunction.effectiveDom f := hy.2
       change frechetQuotient (objectiveSum f h) x (w + gradient h x) y =
         frechetQuotient f x w y + ((rem y : ℝ) : EReal)
-      unfold frechetQuotient rem
+      unfold ERealFunction.frechetQuotient rem
       rw [objectiveSum_toReal_of_effective hy_eff, objectiveSum_toReal_of_effective hw.1]
       exact_mod_cast (by
         rw [inner_add_left]

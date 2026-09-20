@@ -12,6 +12,8 @@ open scoped Topology
 
 namespace BotCsetnek2015
 
+open ERealFunction
+
 theorem erealAddReal_eq_add (a : EReal) (r : ℝ) :
     erealAddReal a r = a + (r : EReal) := by
   cases a with
@@ -1026,7 +1028,7 @@ theorem cluster_point_critical_core {m : ℕ} {P : ProblemData m}
     (hobj_conv : ∃ l_obj : EReal,
       Tendsto (fun n : ℕ ↦ P.objective (A.p n)) atTop (nhds l_obj))
     (hpstar : pstar ∈ omega A.p) :
-    pstar ∈ criticalPoints P.objective := by
+    pstar ∈ limitingCriticalPoints P.objective := by
   rcases cluster_subseq_ge_two A hpstar with ⟨ψ, hψ_mono, hψ_ge_two, hψ_tendsto⟩
   have hx_tendsto : Tendsto (fun k : ℕ ↦ A.x (ψ k)) atTop (nhds pstar) :=
     tendsto_x_of_p_subseq A hxp_sum hψ_tendsto hψ_mono
@@ -1063,7 +1065,7 @@ theorem cluster_point_critical_core {m : ℕ} {P : ProblemData m}
       hpstar_eff hsub_mem
       (Filter.Tendsto.prodMk_nhds hψ_tendsto hsub_tendsto_subseq)
       hobj_tendsto
-  simpa [criticalPoints] using hzero
+  simpa [limitingCriticalPoints] using hzero
 
 theorem objective_constant_on_omega_core {m : ℕ} {P : ProblemData m}
     (A : AlgorithmData P) (nu mu : ℝ) (hchosen : chosenAsInLemma33 A nu mu)
@@ -1113,7 +1115,7 @@ theorem lemma_3_6_cluster_points {m : ℕ} {P : ProblemData m} (A : AlgorithmDat
     (nu mu : ℝ) (hchosen : chosenAsInLemma33 A nu mu)
     (hcoercive : CoerciveEReal P.objective) :
     (omega A.p).Nonempty ∧
-      omega A.p ⊆ criticalPoints P.objective ∧
+      omega A.p ⊆ limitingCriticalPoints P.objective ∧
       Tendsto (fun n : ℕ ↦ Metric.infDist (A.p n) (omega A.p)) atTop (nhds 0) ∧
       IsCompact (omega A.p) ∧
       IsConnected (omega A.p) ∧
@@ -1140,7 +1142,7 @@ theorem lemma_3_6_cluster_points {m : ℕ} {P : ProblemData m} (A : AlgorithmDat
     exact p_range_bounded_of_coercive A nu mu hchosen hcoercive
   have hcluster := cluster_set_properties_of_vanishing_increments A.p hp_bounded hp_inc
   rcases hcluster with ⟨homega_nonempty, homega_compact, homega_connected, hdist⟩
-  have hcrit_subset : omega A.p ⊆ criticalPoints P.objective := by
+  have hcrit_subset : omega A.p ⊆ limitingCriticalPoints P.objective := by
     intro pstar hpstar
     exact cluster_point_critical_core A nu mu hchosen hboundedBelow hxp_sum hxx_sum
       hobj_conv hpstar

@@ -45,11 +45,11 @@ private theorem convex_gradient_support {H : Type*} [NormedAddCommGroup H] [Inne
 -/
 /-- A classical convex gradient flow has value error `o(1/s)` when its infimum is attained. -/
 theorem classical_gradient_flow_value_rate {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
-    [CompleteSpace H] {s₀ : ℝ} (f : H → ℝ) (y dy : ℝ → H) (fstar : ℝ)
+    [CompleteSpace H] {s₀ : ℝ} (f : H → ℝ) (y : ℝ → H) (fstar : ℝ)
     (hconvex : ConvexOn ℝ Set.univ f)
     (hdiff : Differentiable ℝ f)
-    (hregular : ∀ s ∈ Set.Ici s₀, HasDerivAt y (dy s) s)
-    (hflow : ∀ s ∈ Set.Ici s₀, dy s + gradient f (y s) = 0)
+    (hy : Differentiable ℝ y)
+    (hflow : ∀ s ∈ Set.Ici s₀, deriv y s + gradient f (y s) = 0)
     (hmin : ∃ xstar, f xstar = fstar ∧ ∀ x, fstar ≤ f x) :
     Filter.Tendsto (fun s : ℝ => s * (f (y s) - fstar)) Filter.atTop (nhds 0) := by
   have hgradient : ∀ x v, fderiv ℝ f x v = inner ℝ (gradient f x) v := by
@@ -63,8 +63,8 @@ theorem classical_gradient_flow_value_rate {H : Type*} [NormedAddCommGroup H] [I
     dsimp [gap]
     linarith [hmin_le (y s)]
   have hgap_deriv (s : ℝ) (hs : s ∈ Set.Ici s₀) :
-      HasDerivAt gap (inner ℝ (gradient f (y s)) (dy s)) s := by
-    have hcomp := hdiff.differentiableAt.hasFDerivAt.comp_hasDerivAt s (hregular s hs)
+      HasDerivAt gap (inner ℝ (gradient f (y s)) (deriv y s)) s := by
+    have hcomp := hdiff.differentiableAt.hasFDerivAt.comp_hasDerivAt s (hy s).hasDerivAt
     simpa [gap, Function.comp_def, hgradient] using hcomp.sub_const fstar
   have hgap_anti : AntitoneOn gap (Set.Ici s₀) := by
     apply antitoneOn_of_deriv_nonpos (convex_Ici s₀)
@@ -75,17 +75,19 @@ theorem classical_gradient_flow_value_rate {H : Type*} [NormedAddCommGroup H] [I
     · intro s hs
       have hs' : s ∈ Set.Ici s₀ := interior_subset hs
       rw [(hgap_deriv s hs').deriv]
-      have hdy : dy s = -gradient f (y s) := eq_neg_of_add_eq_zero_left (hflow s hs')
+      have hdy : deriv y s = -gradient f (y s) :=
+        eq_neg_of_add_eq_zero_left (hflow s hs')
       rw [hdy, inner_neg_right, real_inner_self_eq_norm_sq]
       exact neg_nonpos.mpr (sq_nonneg _)
   have hdist_deriv (s : ℝ) (hs : s ∈ Set.Ici s₀) :
-      HasDerivAt dist2 (2 * inner ℝ (y s - xstar) (dy s)) s := by
-    simpa [dist2] using ((hregular s hs).sub_const xstar).norm_sq
+      HasDerivAt dist2 (2 * inner ℝ (y s - xstar) (deriv y s)) s := by
+    simpa [dist2] using ((hy s).hasDerivAt.sub_const xstar).norm_sq
   have hdist_bound (s : ℝ) (hs : s ∈ Set.Ici s₀) :
       deriv dist2 s ≤ -2 * gap s := by
     have hsupport := convex_gradient_support f fstar hconvex hdiff hxstar
       (x := y s)
-    have hdy : dy s = -gradient f (y s) := eq_neg_of_add_eq_zero_left (hflow s hs)
+    have hdy : deriv y s = -gradient f (y s) :=
+      eq_neg_of_add_eq_zero_left (hflow s hs)
     rw [(hdist_deriv s hs).deriv, hdy, inner_neg_right, real_inner_comm]
     dsimp [gap] at hsupport ⊢
     nlinarith
@@ -106,7 +108,7 @@ theorem classical_gradient_flow_value_rate {H : Type*} [NormedAddCommGroup H] [I
       · intro r hr
         have hr' : r ∈ Set.Ici s₀ := hhalf.trans hr.1
         have hq_deriv : HasDerivAt (fun u : ℝ => dist2 u + 2 * gap t * u)
-            (2 * inner ℝ (y r - xstar) (dy r) + 2 * gap t) r := by
+            (2 * inner ℝ (y r - xstar) (deriv y r) + 2 * gap t) r := by
           convert (hdist_deriv r hr').add ((hasDerivAt_id r).const_mul (2 * gap t)) using 1
           all_goals ring_nf
         exact hq_deriv.continuousAt.continuousWithinAt
@@ -114,7 +116,7 @@ theorem classical_gradient_flow_value_rate {H : Type*} [NormedAddCommGroup H] [I
         have hrIcc : r ∈ Set.Icc (t / 2) t := interior_subset hr
         have hr' : r ∈ Set.Ici s₀ := hhalf.trans hrIcc.1
         have hq_deriv : HasDerivAt (fun u : ℝ => dist2 u + 2 * gap t * u)
-            (2 * inner ℝ (y r - xstar) (dy r) + 2 * gap t) r := by
+            (2 * inner ℝ (y r - xstar) (deriv y r) + 2 * gap t) r := by
           convert (hdist_deriv r hr').add ((hasDerivAt_id r).const_mul (2 * gap t)) using 1
           all_goals ring_nf
         exact hq_deriv.differentiableAt.differentiableWithinAt
@@ -124,11 +126,11 @@ theorem classical_gradient_flow_value_rate {H : Type*} [NormedAddCommGroup H] [I
         have ht' : t ∈ Set.Ici s₀ := hhalf.trans (by linarith)
         have hgap_le : gap t ≤ gap r := hgap_anti hr' ht' hrIcc.2
         have hq_deriv : HasDerivAt (fun u : ℝ => dist2 u + 2 * gap t * u)
-            (2 * inner ℝ (y r - xstar) (dy r) + 2 * gap t) r := by
+            (2 * inner ℝ (y r - xstar) (deriv y r) + 2 * gap t) r := by
           convert (hdist_deriv r hr').add ((hasDerivAt_id r).const_mul (2 * gap t)) using 1
           all_goals ring_nf
         rw [hq_deriv.deriv]
-        have hderiv_eq : deriv dist2 r = 2 * inner ℝ (y r - xstar) (dy r) :=
+        have hderiv_eq : deriv dist2 r = 2 * inner ℝ (y r - xstar) (deriv y r) :=
           (hdist_deriv r hr').deriv
         nlinarith [hdist_bound r hr']
     have hleft : t / 2 ∈ Set.Icc (t / 2) t := ⟨le_rfl, by linarith⟩

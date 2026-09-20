@@ -40,6 +40,8 @@ import Foundation.Topology.Nets
 import Foundation.Topology.Sequences
 
 import Foundation.Analysis.Integral
+import Foundation.Analysis.LimitingSubdifferential
 import Foundation.Analysis.Sequences
 import Foundation.Differentiation.ODE
 import Foundation.Optimization.DescentStructures
+import Foundation.Optimization.KurdykaLojasiewicz

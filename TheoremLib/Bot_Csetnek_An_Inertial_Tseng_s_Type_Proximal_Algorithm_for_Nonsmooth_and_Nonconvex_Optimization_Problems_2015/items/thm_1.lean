@@ -1,7 +1,5 @@
 import Mathlib
-import TheoremLib.Bot_Csetnek_An_Inertial_Tseng_s_Type_Proximal_Algorithm_for_Nonsmooth_and_Nonconvex_Optimization_Problems_2015.items.def_2
 import TheoremLib.Bot_Csetnek_An_Inertial_Tseng_s_Type_Proximal_Algorithm_for_Nonsmooth_and_Nonconvex_Optimization_Problems_2015.items.algo_1
-import TheoremLib.Bot_Csetnek_An_Inertial_Tseng_s_Type_Proximal_Algorithm_for_Nonsmooth_and_Nonconvex_Optimization_Problems_2015.items.ext_lem_1
 import TheoremLib.Bot_Csetnek_An_Inertial_Tseng_s_Type_Proximal_Algorithm_for_Nonsmooth_and_Nonconvex_Optimization_Problems_2015.items.ext_thm_2
 import TheoremLib.Bot_Csetnek_An_Inertial_Tseng_s_Type_Proximal_Algorithm_for_Nonsmooth_and_Nonconvex_Optimization_Problems_2015.items.lem_1
 import TheoremLib.Bot_Csetnek_An_Inertial_Tseng_s_Type_Proximal_Algorithm_for_Nonsmooth_and_Nonconvex_Optimization_Problems_2015.items.lem_2
@@ -15,6 +13,8 @@ open Filter
 open scoped Topology BigOperators
 
 namespace BotCsetnek2015
+
+open ERealFunction
 
 set_option maxHeartbeats 800000
 
@@ -409,20 +409,23 @@ theorem norm_le_delta_den_add_delta {D delta B Delta r : ℝ}
 
 theorem concave_phi_drop_ge_deriv_mul
     {eta : ℝ} {phi : ℝ → ℝ}
-    (hphi : DesingularizingFunction eta phi)
+    (hphi : ERealFunction.DesingularizingFunction eta phi)
     {a b : ℝ} (ha : a ∈ Set.Ioo 0 eta) (hb : b ∈ Set.Icc 0 eta)
     (hba : b ≤ a) :
     phi a - phi b ≥ deriv phi a * (a - b) := by
-  rcases hphi with ⟨_heta, hconc, _hcont, hdiff, _hzero, _hderiv_pos⟩
+  rcases hphi with ⟨_heta, hconc, _hzero, hcontDiff, _hcont_zero, _hderiv_pos⟩
   by_cases h_eq : b = a
   · subst b
     nlinarith
   · have hlt : b < a := lt_of_le_of_ne hba h_eq
-    have haIcc : a ∈ Set.Icc 0 eta := ⟨le_of_lt ha.1, le_of_lt ha.2⟩
+    have haIco : a ∈ Set.Ico 0 eta := ⟨le_of_lt ha.1, ha.2⟩
+    have hbIco : b ∈ Set.Ico 0 eta :=
+      ⟨hb.1, lt_of_le_of_lt hba ha.2⟩
     have hfd : DifferentiableAt ℝ phi a := by
-      exact hdiff.differentiableAt (isOpen_Ioo.mem_nhds ha)
+      exact (hcontDiff.differentiableOn (by norm_num) a ha).differentiableAt
+        (isOpen_Ioo.mem_nhds ha)
     have hslope : deriv phi a ≤ slope phi b a :=
-      hconc.deriv_le_slope hb haIcc hlt hfd
+      hconc.deriv_le_slope hbIco haIco hlt hfd
     have hslope' : deriv phi a ≤ (phi a - phi b) / (a - b) := by
       simpa [slope, div_eq_mul_inv, vsub_eq_sub, mul_comm] using hslope
     have hpos : 0 < a - b := sub_pos.mpr hlt
@@ -598,15 +601,29 @@ private theorem denom_algebra_bound
 
 private theorem desingularizing_nonneg_of_lt
     {eta : ℝ} {phi : ℝ → ℝ}
-    (hphi : DesingularizingFunction eta phi) {s : ℝ}
+    (hphi : ERealFunction.DesingularizingFunction eta phi) {s : ℝ}
     (hs0 : 0 ≤ s) (hslt : s < eta) : 0 ≤ phi s := by
-  rcases hphi with ⟨_heta, _hconc, hcont, hdiff, hzero, hderiv_pos⟩
-  have hsub : Set.Icc 0 s ⊆ Set.Icc 0 eta := by
-    intro t ht
-    exact ⟨ht.1, le_trans ht.2 (le_of_lt hslt)⟩
-  have hcont' : ContinuousOn phi (Set.Icc 0 s) := hcont.mono hsub
+  rcases hphi with ⟨_heta, _hconc, hzero, hcontDiff, hcont_zero, hderiv_pos⟩
+  have hcont' : ContinuousOn phi (Set.Icc 0 s) := by
+    have hdiffI : DifferentiableOn ℝ phi (Set.Ioo 0 s) := by
+      refine (hcontDiff.differentiableOn (by norm_num)).mono ?_
+      intro t ht
+      exact ⟨ht.1, lt_trans ht.2 hslt⟩
+    have hcont_s : ContinuousAt phi s := by
+      by_cases hs_zero : s = 0
+      · simpa [hs_zero] using hcont_zero
+      · have hs_pos : 0 < s := lt_of_le_of_ne hs0 (Ne.symm hs_zero)
+        exact hcontDiff.continuousOn.continuousAt
+          (isOpen_Ioo.mem_nhds ⟨hs_pos, hslt⟩)
+    exact Set.Ioo_union_both hs0 ▸
+      hdiffI.continuousOn.union_continuousAt isOpen_Ioo (by
+        intro t ht
+        simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ht
+        rcases ht with rfl | rfl
+        · exact hcont_zero
+        · exact hcont_s)
   have hdiff' : DifferentiableOn ℝ phi (interior (Set.Icc 0 s)) := by
-    refine hdiff.mono ?_
+    refine (hcontDiff.differentiableOn (by norm_num)).mono ?_
     intro t ht
     rw [interior_Icc] at ht
     exact ⟨ht.1, lt_trans ht.2 hslt⟩
@@ -647,11 +664,12 @@ private theorem summable_scaled_telescope_drops
       _ ≤ c * g 0 := by
             exact mul_le_mul_of_nonneg_left (by linarith [hg_nonneg K]) hc_nonneg
 
-theorem xp_summable_of_KL_orbit {m : ℕ} {P : ProblemData m}
+theorem xp_summable_of_KL {m : ℕ} {P : ProblemData m}
     (A : AlgorithmData P) (nu mu : ℝ)
     (hchosen : chosenAsInLemma33 A nu mu)
     (hcoercive : CoerciveEReal P.objective)
-    (hH_KL : KLOrbitPackage A nu mu) :
+    (hH_KL : ERealFunction.IsKLFunction
+      (HFunctionL2 P (A.M2 nu mu))) :
     Summable (fun n : ℕ ↦ ‖A.x n - A.p n‖) := by
   rcases hchosen with ⟨hnu, hmu, hstrict, hM2ltM1⟩
   let M1 : ℝ := A.M1 nu mu
@@ -680,8 +698,35 @@ theorem xp_summable_of_KL_orbit {m : ℕ} {P : ProblemData m}
     simpa [Omega] using hΩcompact
   have hOmega_const : ∃ c : EReal, ∀ z ∈ Omega, HFunction P M2 z = c := by
     simpa [Omega, M2] using hHconst
-  have hKL_window := hH_KL Omega ⟨zstar, hzstarOmega⟩ hOmega_compact hOmega_const
-    zstar hzstarOmega
+  let OmegaL2 : Set (HilbertProduct m) := WithLp.toLp 2 '' Omega
+  let zstarL2 : HilbertProduct m := WithLp.toLp 2 zstar
+  have hzstarOmegaL2 : zstarL2 ∈ OmegaL2 := by
+    exact ⟨zstar, hzstarOmega, rfl⟩
+  have hOmegaL2_compact : IsCompact OmegaL2 := by
+    exact hOmega_compact.image
+      (WithLp.prod_continuous_toLp (p := 2)
+        (α := EuclideanSpace m) (β := EuclideanSpace m))
+  have hOmegaL2_domain :
+      OmegaL2 ⊆ ERealFunction.limitingSubdifferentialDomain (HFunctionL2 P M2) := by
+    rintro _ ⟨z, hzOmega, rfl⟩
+    have hz : z ∈ omega (pairSequence A) := by simpa [Omega] using hzOmega
+    have hzHcrit : z ∈ HCriticalSet P M2 := hΩsub hz
+    have hzdiag : z ∈ diagonalCriticalSet P := by rwa [hHcrit_eq_diag] at hzHcrit
+    rcases z with ⟨x, y⟩
+    change x = y ∧ x ∈ limitingCriticalPoints P.objective at hzdiag
+    rcases hzdiag with ⟨rfl, hcrit⟩
+    refine ⟨0, ?_⟩
+    simpa using HFunctionL2_limitingSubgradient P M2 (x := x) (y := x)
+      (v := 0) hcrit
+  have hOmegaL2_const :
+      ∀ x ∈ OmegaL2, ∀ y ∈ OmegaL2, HFunctionL2 P M2 x = HFunctionL2 P M2 y := by
+    rcases hOmega_const with ⟨c, hc⟩
+    rintro _ ⟨x, hx, rfl⟩ _ ⟨y, hy, rfl⟩
+    simpa [HFunctionL2, HFunction] using (hc x hx).trans (hc y hy).symm
+  have hH_KL' : ERealFunction.IsKLFunction (HFunctionL2 P M2) := by
+    simpa [M2] using hH_KL
+  have hKL_window := hH_KL'.uniformized OmegaL2 hOmegaL2_compact
+    hOmegaL2_domain hOmegaL2_const
   rcases hKL_window with ⟨epsilon, eta, phi, heps, heta, hphi, hKL⟩
   let Hreal : ℕ → ℝ := fun n ↦ (HFunction P M2 (pairSequence A n)).toReal
   have hdescent_real :
@@ -705,7 +750,7 @@ theorem xp_summable_of_KL_orbit {m : ℕ} {P : ProblemData m}
     rwa [hHcrit_eq_diag] at hzstar_Hcrit
   let pstar : EuclideanSpace m := zstar.1
   have hzstar_fst_eq_snd : zstar.1 = zstar.2 := hzstar_diag.1
-  have hpstar_crit : pstar ∈ criticalPoints P.objective := by
+  have hpstar_crit : pstar ∈ limitingCriticalPoints P.objective := by
     simpa [pstar] using hzstar_diag.2
   have hzstar_pair : zstar = (pstar, pstar) := by
     ext <;> simp [pstar, hzstar_fst_eq_snd]
@@ -717,14 +762,89 @@ theorem xp_summable_of_KL_orbit {m : ℕ} {P : ProblemData m}
        (2 * M2) ^ 2 * ‖A.x n - A.p n‖ ^ 2)
   have hKL_ready :
       ∀ n, 2 ≤ n →
-        Metric.infDist (pairSequence A n) Omega < epsilon →
+        Metric.infDist (pairSequenceL2 A n) OmegaL2 < epsilon →
         HFunction P M2 zstar < HFunction P M2 (pairSequence A n) →
         HFunction P M2 (pairSequence A n) <
           erealAddReal (HFunction P M2 zstar) eta →
         1 ≤ deriv phi (Δ n) * denom n := by
     intro n hn hdist hgt hlt
-    have h := hKL n hn hdist hgt hlt
-    simpa [Hreal, HstarReal, Δ, denom, M2] using h
+    have hKL_enn := hKL zstarL2 hzstarOmegaL2 (pairSequenceL2 A n) hdist
+      (by simpa [zstarL2, pairSequenceL2, HFunctionL2, HFunction] using hgt)
+      (by simpa [zstarL2, pairSequenceL2, HFunctionL2, HFunction,
+          ERealFunction.addReal, erealAddReal] using hlt)
+    let V : HilbertProduct m := WithLp.toLp 2
+      (subgradientEstimateVector A n + (2 * M2) • (A.p n - A.x n),
+        (2 * M2) • (A.x n - A.p n))
+    have hV_mem :
+        V ∈ ERealFunction.limitingSubdifferential
+          (HFunctionL2 P M2) (pairSequenceL2 A n) := by
+      exact HFunctionL2_limitingSubgradient P M2
+        (lemma_3_5_subgradient_estimate A n hn).1
+    have hinf_le :
+        Metric.infEDist (0 : HilbertProduct m)
+            (ERealFunction.limitingSubdifferential
+              (HFunctionL2 P M2) (pairSequenceL2 A n)) ≤ edist 0 V :=
+      Metric.infEDist_le_edist_of_mem hV_mem
+    have hV_norm : ‖V‖ = denom n := by
+      dsimp [V, denom]
+      rw [WithLp.prod_norm_eq_of_L2]
+      simp only [WithLp.toLp_fst, WithLp.toLp_snd]
+      congr 2
+      rw [norm_smul, norm_sub_rev, Real.norm_eq_abs]
+      rw [mul_pow, sq_abs]
+    have hV_edist : edist 0 V = ENNReal.ofReal (denom n) := by
+      rw [edist_dist, dist_zero_left, hV_norm]
+    have hzstar_finite := ERealFunction.finite_at_mem_limitingSubdifferentialDomain
+      (hOmegaL2_domain hzstarOmegaL2)
+    have hs :
+        (HFunctionL2 P M2 (pairSequenceL2 A n)).toReal -
+            (HFunctionL2 P M2 zstarL2).toReal ∈ Set.Ioo 0 eta := by
+      exact ERealFunction.toReal_sub_mem_Ioo_of_addReal_window heta
+        hzstar_finite.1 hzstar_finite.2
+        (by simpa [zstarL2, pairSequenceL2, HFunctionL2, HFunction] using hgt)
+        (by simpa [zstarL2, pairSequenceL2, HFunctionL2, HFunction,
+            ERealFunction.addReal, erealAddReal] using hlt)
+    have hderiv_nonneg :
+        0 ≤ deriv phi
+          ((HFunctionL2 P M2 (pairSequenceL2 A n)).toReal -
+            (HFunctionL2 P M2 zstarL2).toReal) :=
+      le_of_lt (hphi.2.2.2.2.2 _ hs)
+    have henn :
+        (1 : ENNReal) ≤ ENNReal.ofReal
+          (deriv phi
+            ((HFunctionL2 P M2 (pairSequenceL2 A n)).toReal -
+              (HFunctionL2 P M2 zstarL2).toReal) * denom n) := by
+      calc
+        (1 : ENNReal) ≤ ENNReal.ofReal
+            (deriv phi
+              ((HFunctionL2 P M2 (pairSequenceL2 A n)).toReal -
+                (HFunctionL2 P M2 zstarL2).toReal)) *
+              Metric.infEDist (0 : HilbertProduct m)
+                (ERealFunction.limitingSubdifferential
+                  (HFunctionL2 P M2) (pairSequenceL2 A n)) := hKL_enn
+        _ ≤ ENNReal.ofReal
+            (deriv phi
+              ((HFunctionL2 P M2 (pairSequenceL2 A n)).toReal -
+                (HFunctionL2 P M2 zstarL2).toReal)) * edist 0 V :=
+          mul_le_mul_of_nonneg_left hinf_le (zero_le _)
+        _ = ENNReal.ofReal
+            (deriv phi
+              ((HFunctionL2 P M2 (pairSequenceL2 A n)).toReal -
+                (HFunctionL2 P M2 zstarL2).toReal) * denom n) := by
+          rw [hV_edist, ENNReal.ofReal_mul hderiv_nonneg]
+    have hreal :
+        1 ≤ deriv phi
+          ((HFunctionL2 P M2 (pairSequenceL2 A n)).toReal -
+            (HFunctionL2 P M2 zstarL2).toReal) * denom n := by
+      have hnonneg :
+          0 ≤ deriv phi
+              ((HFunctionL2 P M2 (pairSequenceL2 A n)).toReal -
+                (HFunctionL2 P M2 zstarL2).toReal) * denom n :=
+        mul_nonneg hderiv_nonneg (Real.sqrt_nonneg _)
+      have htoReal := ENNReal.toReal_mono (by simp) henn
+      simpa [ENNReal.toReal_ofReal hnonneg] using htoReal
+    simpa [Hreal, HstarReal, Δ, zstarL2, pairSequenceL2, HFunctionL2, HFunction]
+      using hreal
   have hdescent_delta :
       ∀ n, 1 ≤ n →
         D * ‖A.x (n + 1) - A.p (n + 1)‖ ^ 2 ≤ Δ n - Δ (n + 1) := by
@@ -758,6 +878,37 @@ theorem xp_summable_of_KL_orbit {m : ℕ} {P : ProblemData m}
       Tendsto (fun n : ℕ ↦ Metric.infDist (pairSequence A n) Omega) atTop
         (nhds 0) := by
     simpa [Omega] using hdistΩ
+  have hdist_to_OmegaL2 :
+      Tendsto (fun n : ℕ ↦ Metric.infDist (pairSequenceL2 A n) OmegaL2) atTop
+        (nhds 0) := by
+    refine Metric.tendsto_nhds.mpr (fun e he ↦ ?_)
+    have hehalf : 0 < e / 2 := half_pos he
+    have hraw_eventually := Metric.tendsto_nhds.mp hdist_to_Omega (e / 2) hehalf
+    filter_upwards [hraw_eventually] with n hn
+    have hraw_lt : Metric.infDist (pairSequence A n) Omega < e / 2 := by
+      simpa [Real.dist_eq, abs_of_nonneg Metric.infDist_nonneg] using hn
+    rcases (Metric.infDist_lt_iff (show Omega.Nonempty from ⟨zstar, hzstarOmega⟩)).mp
+        hraw_lt with ⟨q, hqOmega, hqdist⟩
+    have hpair_dist :
+        max (dist (A.p n) q.1) (dist (A.x n) q.2) < e / 2 := by
+      simpa [pairSequence, Prod.dist_eq] using hqdist
+    have hp_dist : dist (A.p n) q.1 < e / 2 :=
+      lt_of_le_of_lt (le_max_left _ _) hpair_dist
+    have hx_dist : dist (A.x n) q.2 < e / 2 :=
+      lt_of_le_of_lt (le_max_right _ _) hpair_dist
+    have hL2_dist :
+        dist (pairSequenceL2 A n) (WithLp.toLp 2 q) < e := by
+      rw [WithLp.prod_dist_eq_of_L2]
+      simp only [pairSequenceL2, WithLp.toLp_fst, WithLp.toLp_snd]
+      exact lt_of_le_of_lt
+        (sqrt_sq_add_sq_le_add dist_nonneg dist_nonneg)
+        (by linarith)
+    have hinf_lt : Metric.infDist (pairSequenceL2 A n) OmegaL2 < e :=
+      lt_of_le_of_lt
+        (Metric.infDist_le_dist_of_mem (show WithLp.toLp 2 q ∈ OmegaL2 from
+          ⟨q, hqOmega, rfl⟩))
+        hL2_dist
+    simpa [Real.dist_eq, abs_of_nonneg Metric.infDist_nonneg] using hinf_lt
   have hHreal_tendsto_HstarReal :
       Tendsto Hreal atTop (nhds HstarReal) := by
     have hHreal_tail_bddBelow :
@@ -919,8 +1070,8 @@ theorem xp_summable_of_KL_orbit {m : ℕ} {P : ProblemData m}
       have h := (Metric.tendsto_nhds.mp hdelta_tendsto_zero) eta heta
       simpa [Real.dist_eq, sub_eq_add_neg, abs_neg] using h
     have hdist_eventually_eps :
-        ∀ᶠ n in atTop, |Metric.infDist (pairSequence A n) Omega| < epsilon := by
-      have h := (Metric.tendsto_nhds.mp hdist_to_Omega) epsilon heps
+        ∀ᶠ n in atTop, |Metric.infDist (pairSequenceL2 A n) OmegaL2| < epsilon := by
+      have h := (Metric.tendsto_nhds.mp hdist_to_OmegaL2) epsilon heps
       simpa [Real.dist_eq, sub_eq_add_neg, abs_neg] using h
     rcases (eventually_atTop.mp hdelta_eventually_eta) with ⟨NΔ, hNΔ⟩
     rcases (eventually_atTop.mp hdist_eventually_eps) with ⟨Nd, hNd⟩
@@ -934,15 +1085,16 @@ theorem xp_summable_of_KL_orbit {m : ℕ} {P : ProblemData m}
         dsimp [N] at hn
         omega)
     have hdist_abs_lt_eps :
-        ∀ n, N ≤ n → |Metric.infDist (pairSequence A n) Omega| < epsilon := by
+        ∀ n, N ≤ n → |Metric.infDist (pairSequenceL2 A n) OmegaL2| < epsilon := by
       intro n hn
       exact hNd n (by
         dsimp [N] at hn
         omega)
     have hdist_lt_eps :
-        ∀ n, N ≤ n → Metric.infDist (pairSequence A n) Omega < epsilon := by
+        ∀ n, N ≤ n → Metric.infDist (pairSequenceL2 A n) OmegaL2 < epsilon := by
       intro n hn
-      have hnonneg : 0 ≤ Metric.infDist (pairSequence A n) Omega := Metric.infDist_nonneg
+      have hnonneg : 0 ≤ Metric.infDist (pairSequenceL2 A n) OmegaL2 :=
+        Metric.infDist_nonneg
       have h := hdist_abs_lt_eps n hn
       rwa [abs_of_nonneg hnonneg] at h
     have hdelta_lt_eta_of_nonneg :
@@ -1062,7 +1214,7 @@ theorem xp_summable_of_KL_orbit {m : ℕ} {P : ProblemData m}
       have hHval_zstar :
           HFunction P M2 zstar = ((HstarReal : ℝ) : EReal) := by
         have hp_eff : pstar ∈ ERealFunction.effectiveDom P.objective := by
-          simpa [criticalPoints, limitingSubdifferential] using hpstar_crit.1
+          simpa [limitingCriticalPoints, limitingSubdifferential] using hpstar_crit.1
         have hF :
             HFunction P M2 zstar =
               (((P.objective pstar).toReal + M2 * ‖pstar - pstar‖ ^ 2 : ℝ) : EReal) := by
@@ -1433,67 +1585,28 @@ theorem xp_summable_of_KL_orbit {m : ℕ} {P : ProblemData m}
 theorem theorem_3_1_convergence {m : ℕ} {P : ProblemData m} (A : AlgorithmData P)
     (nu mu : ℝ) (hchosen : chosenAsInLemma33 A nu mu)
     (hcoercive : CoerciveEReal P.objective)
-    (hH_KL : ProductKLFunction (HFunction P (A.M2 nu mu))) :
+    (hH_KL : ERealFunction.IsKLFunction
+      (HFunctionL2 P (A.M2 nu mu))) :
     Summable (fun n : ℕ ↦ ‖A.x n - A.p n‖) ∧
       Summable (fun n : ℕ ↦ ‖A.x (n + 1) - A.x n‖) ∧
       ∃ x : EuclideanSpace m,
-        x ∈ criticalPoints P.objective ∧
+        x ∈ limitingCriticalPoints P.objective ∧
           Tendsto A.x atTop (nhds x) ∧ Tendsto A.p atTop (nhds x) := by
   rcases hchosen with ⟨hnu, hmu, hstrict, hM2ltM1⟩
-  let M1 : ℝ := A.M1 nu mu
-  let M2 : ℝ := A.M2 nu mu
-  let D : ℝ := M1 - M2
-  have hDpos : 0 < D := by
-    dsimp [D, M1, M2]
-    nlinarith [hM2ltM1]
-  have hKLOrbit : KLOrbitPackage A nu mu := by
-    exact hH_KL P A nu mu rfl
   have h37 :=
     lemma_3_7_pair_cluster_points A nu mu
       (by exact ⟨hnu, hmu, hstrict, hM2ltM1⟩) hcoercive
   rcases h37 with
-    ⟨hΩne, hΩsub, hHcrit_eq_diag, hdistΩ, hΩcompact, hΩconn, hHconst⟩
-  let Omega : Set (EuclideanSpace m × EuclideanSpace m) := omega (pairSequence A)
-  have hOmega_ne : Omega.Nonempty := by
-    simpa [Omega] using hΩne
-  have hOmega_ne_for_KL : Omega.Nonempty := hOmega_ne
-  rcases hOmega_ne with ⟨zstar, hzstarOmega⟩
-  have hzstar : zstar ∈ omega (pairSequence A) := by
-    simpa [Omega] using hzstarOmega
-  have hzcrit : zstar.1 ∈ criticalPoints P.objective := by
-    have hzH := hΩsub hzstar
-    have hzdiag : zstar ∈ diagonalCriticalSet P := by
-      rwa [← hHcrit_eq_diag]
-    exact hzdiag.2
-  have hOmega_compact : IsCompact Omega := by
-    simpa [Omega] using hΩcompact
-  have hOmega_const : ∃ c : EReal, ∀ z ∈ Omega, HFunction P (A.M2 nu mu) z = c := by
-    simpa [Omega] using hHconst
-  have hKL_window := hKLOrbit Omega hOmega_ne_for_KL hOmega_compact hOmega_const zstar hzstarOmega
-  rcases hKL_window with ⟨epsilon, eta, phi, heps, heta, hphi, hKL⟩
-  let Hreal : ℕ → ℝ := fun n ↦ (HFunction P M2 (pairSequence A n)).toReal
-  have hdescent_real :
-      ∀ n, 1 ≤ n →
-        D * ‖A.x (n + 1) - A.p (n + 1)‖ ^ 2 ≤ Hreal n - Hreal (n + 1) := by
-    intro n hn
-    have h := lyapunov_descent_real A nu mu hnu hmu n hn
-    simpa [Hreal, D, M1, M2] using h
-  have hH_mono_tail :
-      ∀ n, 1 ≤ n → Hreal (n + 1) ≤ Hreal n := by
-    intro n hn
-    have hdrop := hdescent_real n hn
-    have hnonneg : 0 ≤ D * ‖A.x (n + 1) - A.p (n + 1)‖ ^ 2 :=
-      mul_nonneg (le_of_lt hDpos) (sq_nonneg _)
-    nlinarith
+    ⟨_hΩne, hΩsub, hHcrit_eq_diag, _hdistΩ, _hΩcompact, _hΩconn, _hHconst⟩
   have hxp_sum : Summable (fun n : ℕ ↦ ‖A.x n - A.p n‖) :=
-    xp_summable_of_KL_orbit A nu mu
-      (by exact ⟨hnu, hmu, hstrict, hM2ltM1⟩) hcoercive hKLOrbit
+    xp_summable_of_KL A nu mu
+      (by exact ⟨hnu, hmu, hstrict, hM2ltM1⟩) hcoercive hH_KL
   have hxinc_sum : Summable (fun n : ℕ ↦ ‖A.x (n + 1) - A.x n‖) :=
     x_increment_summable_of_xp_summable A hxp_sum
   rcases tendsto_of_summable_successive_norm A.x hxinc_sum with ⟨x, hxlim⟩
   have hplim : Tendsto A.p atTop (nhds x) :=
     p_tendsto_of_x_tendsto_xp_summable A hxlim hxp_sum
-  have hxcrit : x ∈ criticalPoints P.objective := by
+  have hxcrit : x ∈ limitingCriticalPoints P.objective := by
     have hpair : (x, x) ∈ omega (pairSequence A) :=
       pair_limit_mem_omega A hplim hxlim
     have hHcrit := hΩsub hpair

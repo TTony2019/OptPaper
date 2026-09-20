@@ -6,6 +6,8 @@ open scoped Topology
 
 namespace BotCsetnek2015
 
+open ERealFunction
+
 theorem desingularizingFunction_id :
     DesingularizingFunction 1 (fun s : ℝ ↦ s) := by
   refine ⟨by norm_num, ?_, ?_, ?_, ?_, ?_⟩
@@ -88,9 +90,9 @@ theorem toReal_sub_mem_Ioo_of_ereal_window
           have hhi_real : br < ar + eta := EReal.coe_lt_coe_iff.mp hhi
           constructor <;> simp [EReal.toReal_coe] <;> linarith
 
-theorem effective_finite_of_subdifferentialDomain {m : ℕ}
+theorem effective_finite_of_limitingSubdifferentialDomain {m : ℕ}
     {f : EuclideanSpace m → EReal} {x : EuclideanSpace m}
-    (hx : x ∈ subdifferentialDomain f) :
+    (hx : x ∈ limitingSubdifferentialDomain f) :
     f x ≠ ⊤ ∧ f x ≠ ⊥ := by
   rcases hx with ⟨v, hv⟩
   exact (ERealFunction.mem_effectiveDom_iff f x).mp hv.1
@@ -348,7 +350,7 @@ theorem lemma_2_1_uniformized_KL {m : ℕ} (Omega : Set (EuclideanSpace m))
     have hlocal :
         1 ≤ deriv (phiI i) s * D := by
       simpa [s, D, phiI, hi] using hlocal_loc
-    have hfinite_i := effective_finite_of_subdifferentialDomain (hKL i hiOmega).1
+    have hfinite_i := effective_finite_of_limitingSubdifferentialDomain (hKL i hiOmega).1
     have hs_eta : s ∈ Set.Ioo 0 eta := by
       exact toReal_sub_mem_Ioo_of_ereal_window heta_pos hfinite_i.1 hfinite_i.2
         hlo_i hhi_eta

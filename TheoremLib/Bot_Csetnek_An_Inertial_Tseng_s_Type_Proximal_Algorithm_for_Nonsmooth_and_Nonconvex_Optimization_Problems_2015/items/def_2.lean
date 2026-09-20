@@ -6,6 +6,8 @@ open scoped Topology
 
 namespace BotCsetnek2015
 
+open ERealFunction
+
 /-- Distance from a point to a set, the paper notation `dist(x, A)`. -/
 noncomputable def distToSet {m : ℕ} (x : EuclideanSpace m) (A : Set (EuclideanSpace m)) :
     ℝ :=
@@ -28,7 +30,7 @@ def DesingularizingFunction (eta : ℝ) (phi : ℝ → ℝ) : Prop :=
 /-- The Kurdyka-Lojasiewicz property at a limiting-subdifferential domain point. -/
 noncomputable def KLPropertyAt {m : ℕ} (f : EuclideanSpace m → EReal)
     (xbar : EuclideanSpace m) : Prop :=
-  xbar ∈ subdifferentialDomain f ∧
+  xbar ∈ limitingSubdifferentialDomain f ∧
     ∃ eta : ℝ, ∃ U : Set (EuclideanSpace m), ∃ phi : ℝ → ℝ,
       0 < eta ∧ U ∈ nhds xbar ∧ DesingularizingFunction eta phi ∧
         ∀ x ∈ U,
@@ -39,6 +41,6 @@ noncomputable def KLPropertyAt {m : ℕ} (f : EuclideanSpace m → EReal)
 
 /-- A KL function satisfies the KL property at every point in `dom partial f`. -/
 noncomputable def KLFunction {m : ℕ} (f : EuclideanSpace m → EReal) : Prop :=
-  ∀ x ∈ subdifferentialDomain f, KLPropertyAt f x
+  ∀ x ∈ limitingSubdifferentialDomain f, KLPropertyAt f x
 
 end BotCsetnek2015
