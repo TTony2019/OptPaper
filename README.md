@@ -10,9 +10,9 @@ shared concepts under `Foundation/`.
 
 <!-- LOC_STATS:START -->
 
-![foundation_lines](https://img.shields.io/badge/foundation_lines-41510-0f766e?style=flat-square)
-![theoremlib_lines](https://img.shields.io/badge/theoremlib_lines-109040-2563eb?style=flat-square)
-![total_lines](https://img.shields.io/badge/total_lines-150550-16a34a?style=flat-square)
+![foundation_lines](https://img.shields.io/badge/foundation_lines-42327-0f766e?style=flat-square)
+![theoremlib_lines](https://img.shields.io/badge/theoremlib_lines-109889-2563eb?style=flat-square)
+![total_lines](https://img.shields.io/badge/total_lines-152216-16a34a?style=flat-square)
 
 Counting convention:
 
@@ -23,9 +23,9 @@ Counting convention:
 
 | Directory | `.lean` files | Total lines | Code lines |
 | --- | ---: | ---: | ---: |
-| Foundation | 54 | 41510 | 31856 |
-| TheoremLib | 500 | 109040 | 100404 |
-| **Total** | **554** | **150550** | **132260** |
+| Foundation | 56 | 42327 | 32581 |
+| TheoremLib | 499 | 109889 | 101233 |
+| **Total** | **555** | **152216** | **133814** |
 
 <!-- LOC_STATS:END -->
 
@@ -35,7 +35,7 @@ Counting convention:
 
 ![papers](https://img.shields.io/badge/papers-20-0f766e?style=flat-square)
 ![defs_items](https://img.shields.io/badge/defs_items-219-2563eb?style=flat-square)
-![proved_theorem-items](https://img.shields.io/badge/proved_theorem--items-280-16a34a?style=flat-square)
+![proved_theorem-items](https://img.shields.io/badge/proved_theorem--items-279-16a34a?style=flat-square)
 ![open_theorem-items](https://img.shields.io/badge/open_theorem--items-0-dc2626?style=flat-square)
 
 Counting convention:
@@ -61,7 +61,7 @@ Counting convention:
 | 7 | [Attouch_Adly_Dry_friction_2023](TheoremLib/Attouch_Adly_Dry_friction_dynamics_2023) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 8](https://img.shields.io/static/v1?label=&message=8&color=2563eb&style=flat-square) | ![proved 17](https://img.shields.io/badge/proved-17-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
 | 8 | [Attouch_AitMansour_Mazgouri_Monotone_2024](TheoremLib/Attouch_AitMansour_Mazgouri_Monotone_stability_2024) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 15](https://img.shields.io/static/v1?label=&message=15&color=2563eb&style=flat-square) | ![proved 26](https://img.shields.io/badge/proved-26-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
 | 9 | [Attouch_Fast_convex_optimization_2022](TheoremLib/Attouch_Fast_convex_optimization_via_a_third_order_in_time_evolution_equation_TOGES_V_an_improved_version_of_TOGES_2022) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 11](https://img.shields.io/static/v1?label=&message=11&color=2563eb&style=flat-square) | ![proved 10](https://img.shields.io/badge/proved-10-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
-| 10 | [Attouch_FINITE_CONVERGENCE_OF_2020](TheoremLib/Attouch_FINITE_CONVERGENCE_OF_PROXIMAL_GRADIENT_INERTIAL_ALGORITHMS_COMBINING_DRY_FRICTION_WITH_HESSIAN_DRIVEN_DAMPING_2020) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 18](https://img.shields.io/static/v1?label=&message=18&color=2563eb&style=flat-square) | ![proved 14](https://img.shields.io/badge/proved-14-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
+| 10 | [Attouch_FINITE_CONVERGENCE_OF_2020](TheoremLib/Attouch_FINITE_CONVERGENCE_OF_PROXIMAL_GRADIENT_INERTIAL_ALGORITHMS_COMBINING_DRY_FRICTION_WITH_HESSIAN_DRIVEN_DAMPING_2020) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 18](https://img.shields.io/static/v1?label=&message=18&color=2563eb&style=flat-square) | ![proved 13](https://img.shields.io/badge/proved-13-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
 | 11 | [Attouch_Redont_A_New_2007](TheoremLib/Attouch_Redont_A_New_Class_of_Alternating_Proximal_Minimization_Algorithms_with_Costs_to_Move_2007) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 9](https://img.shields.io/static/v1?label=&message=9&color=2563eb&style=flat-square) | ![proved 16](https://img.shields.io/badge/proved-16-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
 | 12 | [Baji_Cabot_An_Inertial_2006](TheoremLib/Baji_Cabot_An_Inertial_Proximal_Algorithm_with_Dry_Friction_2006) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 15](https://img.shields.io/static/v1?label=&message=15&color=2563eb&style=flat-square) | ![proved 17](https://img.shields.io/badge/proved-17-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
 | 13 | [Beck_Teboulle_FISTA_2009](TheoremLib/Beck_Teboulle_FISTA_2009) | ![finished](https://img.shields.io/static/v1?label=&message=finished&color=16a34a&style=flat-square) | ![definition-like 11](https://img.shields.io/static/v1?label=&message=11&color=2563eb&style=flat-square) | ![proved 9](https://img.shields.io/badge/proved-9-16a34a?style=flat-square) ![open 0](https://img.shields.io/badge/open-0-64748b?style=flat-square) |
