@@ -7,8 +7,8 @@ open scoped Topology
 namespace BotCsetnek2015
 
 /-- Distance from a point to a set, the paper notation `dist(x, A)`. -/
-noncomputable def distToSet {m : Nat} (x : EuclideanSpace m) (A : Set (EuclideanSpace m)) :
-    Real :=
+noncomputable def distToSet {m : ℕ} (x : EuclideanSpace m) (A : Set (EuclideanSpace m)) :
+    ℝ :=
   Metric.infDist x A
 
 /--
@@ -17,28 +17,28 @@ formalization records the conditions used later in the paper: concavity,
 continuity, value zero at zero, differentiability on `(0, eta)`, and
 strictly positive derivative there.
 -/
-def DesingularizingFunction (eta : Real) (phi : Real -> Real) : Prop :=
+def DesingularizingFunction (eta : ℝ) (phi : ℝ → ℝ) : Prop :=
   0 < eta ∧
-    ConcaveOn Real (Set.Icc 0 eta) phi ∧
+    ConcaveOn ℝ (Set.Icc 0 eta) phi ∧
     ContinuousOn phi (Set.Icc 0 eta) ∧
-    DifferentiableOn Real phi (Set.Ioo 0 eta) ∧
+    DifferentiableOn ℝ phi (Set.Ioo 0 eta) ∧
     phi 0 = 0 ∧
     (∀ s ∈ Set.Ioo 0 eta, 0 < deriv phi s)
 
 /-- The Kurdyka-Lojasiewicz property at a limiting-subdifferential domain point. -/
-noncomputable def KLPropertyAt {m : Nat} (f : EuclideanSpace m -> EReal)
+noncomputable def KLPropertyAt {m : ℕ} (f : EuclideanSpace m → EReal)
     (xbar : EuclideanSpace m) : Prop :=
   xbar ∈ subdifferentialDomain f ∧
-    ∃ eta : Real, ∃ U : Set (EuclideanSpace m), ∃ phi : Real -> Real,
+    ∃ eta : ℝ, ∃ U : Set (EuclideanSpace m), ∃ phi : ℝ → ℝ,
       0 < eta ∧ U ∈ nhds xbar ∧ DesingularizingFunction eta phi ∧
         ∀ x ∈ U,
-          f xbar < f x ->
-          f x < erealAddReal (f xbar) eta ->
-          1 <= deriv phi ((f x).toReal - (f xbar).toReal) *
+          f xbar < f x →
+          f x < erealAddReal (f xbar) eta →
+          1 ≤ deriv phi ((f x).toReal - (f xbar).toReal) *
             distToSet (0 : EuclideanSpace m) (limitingSubdifferential f x)
 
 /-- A KL function satisfies the KL property at every point in `dom partial f`. -/
-noncomputable def KLFunction {m : Nat} (f : EuclideanSpace m -> EReal) : Prop :=
+noncomputable def KLFunction {m : ℕ} (f : EuclideanSpace m → EReal) : Prop :=
   ∀ x ∈ subdifferentialDomain f, KLPropertyAt f x
 
 end BotCsetnek2015

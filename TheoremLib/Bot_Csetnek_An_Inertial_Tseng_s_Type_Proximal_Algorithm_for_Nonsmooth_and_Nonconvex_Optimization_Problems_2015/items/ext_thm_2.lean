@@ -6,12 +6,12 @@ import TheoremLib.Bot_Csetnek_An_Inertial_Tseng_s_Type_Proximal_Algorithm_for_No
 namespace BotCsetnek2015
 
 /-- Proper lower semicontinuous coercive functions attain a finite infimum. -/
-theorem exists_minimizer_of_proper_lsc_coercive {m : Nat}
-    (g : EuclideanSpace m -> EReal)
+theorem exists_minimizer_of_proper_lsc_coercive {m : ℕ}
+    (g : EuclideanSpace m → EReal)
     (hproper : ERealFunction.IsProper g)
     (hlsc : LowerSemicontinuous g)
     (hcoercive : CoerciveEReal g) :
-    (∃ r : Real, sInf (Set.range g) = (r : EReal)) ∧
+    (∃ r : ℝ, sInf (Set.range g) = (r : EReal)) ∧
       ∃ x : EuclideanSpace m, IsMinOn g Set.univ x ∧ g x = sInf (Set.range g) := by
   rcases hproper with ⟨hg_ne_bot, x0, hx0_dom⟩
   have hx0_lt_top : g x0 < ⊤ := hx0_dom

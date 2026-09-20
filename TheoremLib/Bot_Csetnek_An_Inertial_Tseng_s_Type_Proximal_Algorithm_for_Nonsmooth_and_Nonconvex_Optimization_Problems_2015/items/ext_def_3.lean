@@ -9,7 +9,7 @@ namespace BotCsetnek2015
 Coercivity for extended-real-valued functions, in the finite-dimensional
 equivalent form used in the paper: every real lower level set is bounded.
 -/
-def CoerciveEReal {m : Nat} (g : EuclideanSpace m -> EReal) : Prop :=
-  ∀ c : Real, Bornology.IsBounded (ERealFunction.lowerLevelSet g c)
+def CoerciveEReal {m : ℕ} (g : EuclideanSpace m → EReal) : Prop :=
+  ∀ c : ℝ, Bornology.IsBounded (ERealFunction.lowerLevelSet g c)
 
 end BotCsetnek2015

@@ -14,8 +14,8 @@ open scoped Topology BigOperators
 namespace BotCsetnek2015
 
 /- The bridge is the external semialgebraic-to-KL result cited in the paper. -/
-theorem semialgebraic_objective_yields_productKL_HFunction {m : Nat}
-    {P : ProblemData m} (A : AlgorithmData P) (nu mu : Real)
+theorem semialgebraic_objective_yields_productKL_HFunction {m : ℕ}
+    {P : ProblemData m} (A : AlgorithmData P) (nu mu : ℝ)
     (hsemi : IsSemiAlgebraicEReal P.objective)
     (hbridge : SemialgebraicToProductKL P.objective (A.M2 nu mu)) :
     ProductKLFunction (HFunction P (A.M2 nu mu)) := by
@@ -28,14 +28,14 @@ Corollary 3.1: convergence when the objective is coercive and semialgebraic.
 The explicit `hsemi_to_KL` argument records the external semialgebraic-to-KL
 theorem, which is not available in the local real-algebraic interface.
 -/
-theorem corollary_3_1_semialgebraic_convergence {m : Nat} {P : ProblemData m}
-    (A : AlgorithmData P) (nu mu : Real)
+theorem corollary_3_1_semialgebraic_convergence {m : ℕ} {P : ProblemData m}
+    (A : AlgorithmData P) (nu mu : ℝ)
     (hchosen : chosenAsInLemma33 A nu mu)
     (hcoercive : CoerciveEReal P.objective)
     (hsemi : IsSemiAlgebraicEReal P.objective)
     (hsemi_to_KL : SemialgebraicToProductKL P.objective (A.M2 nu mu)) :
-    Summable (fun n : Nat => ‖A.x n - A.p n‖) ∧
-      Summable (fun n : Nat => ‖A.x (n + 1) - A.x n‖) ∧
+    Summable (fun n : ℕ ↦ ‖A.x n - A.p n‖) ∧
+      Summable (fun n : ℕ ↦ ‖A.x (n + 1) - A.x n‖) ∧
       ∃ x : EuclideanSpace m,
         x ∈ criticalPoints P.objective ∧
           Tendsto A.x atTop (nhds x) ∧ Tendsto A.p atTop (nhds x) := by

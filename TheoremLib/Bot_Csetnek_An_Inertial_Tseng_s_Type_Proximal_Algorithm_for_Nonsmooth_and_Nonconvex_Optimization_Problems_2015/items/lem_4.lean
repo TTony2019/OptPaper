@@ -8,59 +8,59 @@ open scoped Topology BigOperators
 
 namespace BotCsetnek2015
 
-theorem m2_nonneg {m : Nat} {P : ProblemData m} (A : AlgorithmData P)
-    {nu mu : Real} (hnu : 0 < nu) (hmu : 0 < mu) :
-    0 <= A.M2 nu mu := by
-  have hLh : 0 <= P.Lgrad_h := P.h_lipschitz_gradient.1
-  have hLu : 0 <= A.Lgrad_u := le_of_lt A.u_Lgrad_pos
-  have hlower : 0 <= A.lambdaLower := le_of_lt A.lambdaLower_pos
-  have hupper : 0 <= A.lambdaUpper := le_of_lt A.lambdaUpper_pos
-  have halpha : 0 <= A.alpha := A.alpha_nonneg
+theorem m2_nonneg {m : ℕ} {P : ProblemData m} (A : AlgorithmData P)
+    {nu mu : ℝ} (hnu : 0 < nu) (hmu : 0 < mu) :
+    0 ≤ A.M2 nu mu := by
+  have hLh : 0 ≤ P.Lgrad_h := P.h_lipschitz_gradient.1
+  have hLu : 0 ≤ A.Lgrad_u := le_of_lt A.u_Lgrad_pos
+  have hlower : 0 ≤ A.lambdaLower := le_of_lt A.lambdaLower_pos
+  have hupper : 0 ≤ A.lambdaUpper := le_of_lt A.lambdaUpper_pos
+  have halpha : 0 ≤ A.alpha := A.alpha_nonneg
   unfold AlgorithmData.M2 M2Value
-  have hnu_nonneg : 0 <= nu := le_of_lt hnu
-  have hmu_nonneg : 0 <= mu := le_of_lt hmu
-  have htwo_nu : 0 <= 2 * nu := mul_nonneg (by norm_num) hnu_nonneg
-  have htwo_mu : 0 <= 2 * mu := mul_nonneg (by norm_num) hmu_nonneg
-  have htwo_lower : 0 <= 2 * A.lambdaLower := mul_nonneg (by norm_num) hlower
+  have hnu_nonneg : 0 ≤ nu := le_of_lt hnu
+  have hmu_nonneg : 0 ≤ mu := le_of_lt hmu
+  have htwo_nu : 0 ≤ 2 * nu := mul_nonneg (by norm_num) hnu_nonneg
+  have htwo_mu : 0 ≤ 2 * mu := mul_nonneg (by norm_num) hmu_nonneg
+  have htwo_lower : 0 ≤ 2 * A.lambdaLower := mul_nonneg (by norm_num) hlower
   have hbr1 :
-      0 <=
+      0 ≤
         P.Lgrad_h ^ 2 / (2 * nu) + nu + P.Lgrad_h +
           A.Lgrad_u / (2 * A.lambdaLower) := by
-    have h1 : 0 <= P.Lgrad_h ^ 2 / (2 * nu) :=
+    have h1 : 0 ≤ P.Lgrad_h ^ 2 / (2 * nu) :=
       div_nonneg (sq_nonneg _) htwo_nu
-    have h4 : 0 <= A.Lgrad_u / (2 * A.lambdaLower) :=
+    have h4 : 0 ≤ A.Lgrad_u / (2 * A.lambdaLower) :=
       div_nonneg hLu htwo_lower
     nlinarith
   have hbr2 :
-      0 <=
+      0 ≤
         mu * A.lambdaUpper ^ 2 * P.Lgrad_h ^ 2 +
           (1 + A.lambdaUpper * P.Lgrad_h) ^ 2 / (2 * mu) := by
-    have hleft : 0 <= mu * A.lambdaUpper ^ 2 * P.Lgrad_h ^ 2 :=
+    have hleft : 0 ≤ mu * A.lambdaUpper ^ 2 * P.Lgrad_h ^ 2 :=
       mul_nonneg (mul_nonneg hmu_nonneg (sq_nonneg _)) (sq_nonneg _)
-    have hright : 0 <= (1 + A.lambdaUpper * P.Lgrad_h) ^ 2 / (2 * mu) :=
+    have hright : 0 ≤ (1 + A.lambdaUpper * P.Lgrad_h) ^ 2 / (2 * mu) :=
       div_nonneg (sq_nonneg _) htwo_mu
     nlinarith
   exact add_nonneg
     (mul_nonneg (mul_nonneg (sq_nonneg _) (sq_nonneg _)) hbr1)
     (mul_nonneg (div_nonneg halpha hlower) hbr2)
 
-private noncomputable def algorithmStepSmoothPart_local {m : Nat} (P : ProblemData m)
-    (u : EuclideanSpace m -> Real) (lambda alphaSeq : Nat -> Real)
-    (x : Nat -> EuclideanSpace m) (n : Nat) : EuclideanSpace m -> Real :=
-  fun y =>
+private noncomputable def algorithmStepSmoothPart_local {m : ℕ} (P : ProblemData m)
+    (u : EuclideanSpace m → ℝ) (lambda alphaSeq : ℕ → ℝ)
+    (x : ℕ → EuclideanSpace m) (n : ℕ) : EuclideanSpace m → ℝ :=
+  fun y ↦
     (1 / lambda n) * bregmanDistance u y (x n) +
-      inner Real y (gradient P.h (x n)) +
-      (alphaSeq n / lambda n) * inner Real y (x (n - 1) - x n)
+      inner ℝ y (gradient P.h (x n)) +
+      (alphaSeq n / lambda n) * inner ℝ y (x (n - 1) - x n)
 
-private theorem algorithmStepObjective_eq_objectiveSum_smoothPart_local {m : Nat}
-    (P : ProblemData m) (u : EuclideanSpace m -> Real)
-    (lambda alphaSeq : Nat -> Real) (x : Nat -> EuclideanSpace m) (n : Nat) :
+private theorem algorithmStepObjective_eq_objectiveSum_smoothPart_local {m : ℕ}
+    (P : ProblemData m) (u : EuclideanSpace m → ℝ)
+    (lambda alphaSeq : ℕ → ℝ) (x : ℕ → EuclideanSpace m) (n : ℕ) :
     algorithmStepObjective P u lambda alphaSeq x n =
       objectiveSum P.f (algorithmStepSmoothPart_local P u lambda alphaSeq x n) := by
   rfl
 
-private theorem objectiveSum_effectiveDom_iff_local {m : Nat}
-    (f : EuclideanSpace m -> EReal) (phi : EuclideanSpace m -> Real)
+private theorem objectiveSum_effectiveDom_iff_local {m : ℕ}
+    (f : EuclideanSpace m → EReal) (phi : EuclideanSpace m → ℝ)
     (x : EuclideanSpace m) :
     x ∈ ERealFunction.effectiveDom (objectiveSum f phi) ↔
       x ∈ ERealFunction.effectiveDom f := by
@@ -74,7 +74,7 @@ private theorem objectiveSum_effectiveDom_iff_local {m : Nat}
   · intro hfx
     exact ⟨hfx, ⟨phi x, rfl⟩⟩
 
-private theorem erealAddReal_ne_bot_local (a : EReal) (r : Real) (ha : a ≠ ⊥) :
+private theorem erealAddReal_ne_bot_local (a : EReal) (r : ℝ) (ha : a ≠ ⊥) :
     erealAddReal a r ≠ ⊥ := by
   cases a with
   | bot => contradiction
@@ -86,8 +86,8 @@ private theorem erealAddReal_ne_bot_local (a : EReal) (r : Real) (ha : a ≠ ⊥
       change ((⊤ : EReal) + (r : EReal) ≠ ⊥)
       simp
 
-private theorem algorithmStep_argmin_effectiveDom_local {m : Nat} {P : ProblemData m}
-    (A : AlgorithmData P) (n : Nat) (_hn : 1 <= n)
+private theorem algorithmStep_argmin_effectiveDom_local {m : ℕ} {P : ProblemData m}
+    (A : AlgorithmData P) (n : ℕ) (_hn : 1 ≤ n)
     (hargmin : A.p n ∈ argminSet
       (algorithmStepObjective P A.u A.lambda A.alphaSeq A.x n)) :
     A.p n ∈ ERealFunction.effectiveDom
@@ -111,7 +111,7 @@ private theorem algorithmStep_argmin_effectiveDom_local {m : Nat} {P : ProblemDa
     exact algorithmStepObjective_eq_objectiveSum_smoothPart_local P A.u A.lambda A.alphaSeq A.x n
   have hargmin_eq : G (A.p n) = sInf (Set.range G) :=
     (mem_argminSet_iff G (A.p n)).mp hargmin
-  have hGpn_le_Gz : G (A.p n) <= G z := by
+  have hGpn_le_Gz : G (A.p n) ≤ G z := by
     rw [hargmin_eq]
     exact sInf_le (s := Set.range G) (Set.mem_range_self z)
   have hGz_real : G z = (rz : EReal) := by
@@ -129,8 +129,8 @@ private theorem algorithmStep_argmin_effectiveDom_local {m : Nat} {P : ProblemDa
   rw [ERealFunction.mem_effectiveDom_iff]
   exact ⟨hne_top, hne_bot⟩
 
-theorem p_objective_effectiveDom {m : Nat} {P : ProblemData m}
-    (A : AlgorithmData P) {n : Nat} (hn : 1 <= n) :
+theorem p_objective_effectiveDom {m : ℕ} {P : ProblemData m}
+    (A : AlgorithmData P) {n : ℕ} (hn : 1 ≤ n) :
     A.p n ∈ ERealFunction.effectiveDom P.objective := by
   let phi := algorithmStepSmoothPart_local P A.u A.lambda A.alphaSeq A.x n
   have hp_alg := algorithmStep_argmin_effectiveDom_local A n hn (A.p_argmin n hn)
@@ -142,40 +142,40 @@ theorem p_objective_effectiveDom {m : Nat} {P : ProblemData m}
   change A.p n ∈ ERealFunction.effectiveDom (objectiveSum P.f P.h)
   exact (objectiveSum_effectiveDom_iff_local P.f P.h (A.p n)).2 hp_f
 
-theorem objectiveWithQuadratic_toReal_eq {m : Nat} {P : ProblemData m}
-    {M : Real} {x y : EuclideanSpace m}
+theorem objectiveWithQuadratic_toReal_eq {m : ℕ} {P : ProblemData m}
+    {M : ℝ} {x y : EuclideanSpace m}
     (hx : x ∈ ERealFunction.effectiveDom P.objective) :
     (objectiveWithQuadratic P M x y).toReal =
       (P.objective x).toReal + M * ‖x - y‖ ^ 2 := by
   rcases (ERealFunction.mem_effectiveDom_iff_exists_real P.objective x).mp hx with ⟨r, hr⟩
   unfold objectiveWithQuadratic erealAddReal
   rw [hr]
-  let q : Real := ‖x - y‖ ^ 2
+  let q : ℝ := ‖x - y‖ ^ 2
   change (((r : EReal) + (M : EReal) * (q : EReal)).toReal = r + M * q)
-  have hmul : ((M * q : Real) : EReal) = (M : EReal) * (q : EReal) := EReal.coe_mul M q
+  have hmul : ((M * q : ℝ) : EReal) = (M : EReal) * (q : EReal) := EReal.coe_mul M q
   rw [← hmul]
-  have hadd : ((r + M * q : Real) : EReal) =
-      (r : EReal) + ((M * q : Real) : EReal) :=
+  have hadd : ((r + M * q : ℝ) : EReal) =
+      (r : EReal) + ((M * q : ℝ) : EReal) :=
     EReal.coe_add r (M * q)
   rw [← hadd]
   exact EReal.toReal_coe (r + M * q)
 
-theorem objectiveWithQuadratic_eq_coe {m : Nat} {P : ProblemData m}
-    {M : Real} {x y : EuclideanSpace m}
+theorem objectiveWithQuadratic_eq_coe {m : ℕ} {P : ProblemData m}
+    {M : ℝ} {x y : EuclideanSpace m}
     (hx : x ∈ ERealFunction.effectiveDom P.objective) :
     objectiveWithQuadratic P M x y =
-      (((P.objective x).toReal + M * ‖x - y‖ ^ 2 : Real) : EReal) := by
+      (((P.objective x).toReal + M * ‖x - y‖ ^ 2 : ℝ) : EReal) := by
   rcases (ERealFunction.mem_effectiveDom_iff_exists_real P.objective x).mp hx with ⟨r, hr⟩
   unfold objectiveWithQuadratic erealAddReal
   rw [hr]
-  change ((r : EReal) + ((M * ‖x - y‖ ^ 2 : Real) : EReal) =
-    ((r + M * ‖x - y‖ ^ 2 : Real) : EReal))
+  change ((r : EReal) + ((M * ‖x - y‖ ^ 2 : ℝ) : EReal) =
+    ((r + M * ‖x - y‖ ^ 2 : ℝ) : EReal))
   rw [← EReal.coe_add]
 
-theorem relation14_norm_step {m : Nat} {P : ProblemData m}
+theorem relation14_norm_step {m : ℕ} {P : ProblemData m}
     (A : AlgorithmData P) :
-    ∀ n, 1 <= n ->
-      ‖A.x (n + 1) - A.x n‖ <=
+    ∀ n, 1 ≤ n →
+      ‖A.x (n + 1) - A.x n‖ ≤
         (1 + A.lambda n * P.Lgrad_h) * ‖A.x n - A.p n‖ := by
   intro n hn
   have hlam := A.lambda_bounds n hn
@@ -187,7 +187,7 @@ theorem relation14_norm_step {m : Nat} {P : ProblemData m}
     rw [hx_update]
     abel
   have h13 :
-      ‖A.x (n + 1) - A.p n‖ <=
+      ‖A.x (n + 1) - A.p n‖ ≤
         A.lambda n * P.Lgrad_h * ‖A.x n - A.p n‖ := by
     have hLip := P.h_lipschitz_gradient.2.2 (A.x n) (A.p n)
     calc
@@ -199,7 +199,7 @@ theorem relation14_norm_step {m : Nat} {P : ProblemData m}
             ‖gradient P.h (A.x n) - gradient P.h (A.p n)‖ := by
               rw [norm_smul]
               simp [Real.norm_eq_abs, abs_of_pos hlam_pos]
-      _ <= A.lambda n * (P.Lgrad_h * ‖A.x n - A.p n‖) := by
+      _ ≤ A.lambda n * (P.Lgrad_h * ‖A.x n - A.p n‖) := by
               exact mul_le_mul_of_nonneg_left hLip (le_of_lt hlam_pos)
       _ = A.lambda n * P.Lgrad_h * ‖A.x n - A.p n‖ := by
               ring
@@ -208,52 +208,52 @@ theorem relation14_norm_step {m : Nat} {P : ProblemData m}
         = ‖(A.x (n + 1) - A.p n) + (A.p n - A.x n)‖ := by
             congr 1
             abel
-    _ <= ‖A.x (n + 1) - A.p n‖ + ‖A.p n - A.x n‖ := norm_add_le _ _
-    _ <= A.lambda n * P.Lgrad_h * ‖A.x n - A.p n‖ +
+    _ ≤ ‖A.x (n + 1) - A.p n‖ + ‖A.p n - A.x n‖ := norm_add_le _ _
+    _ ≤ A.lambda n * P.Lgrad_h * ‖A.x n - A.p n‖ +
           ‖A.x n - A.p n‖ := by
             exact add_le_add h13 (by rw [norm_sub_rev])
     _ = (1 + A.lambda n * P.Lgrad_h) * ‖A.x n - A.p n‖ := by
             ring
 
-theorem summable_of_tail3_summable {f : Nat -> Real}
-    (hf : Summable (fun k : Nat => f (k + 3))) : Summable f := by
-  exact (summable_nat_add_iff (G := Real) 3).mp hf
+theorem summable_of_tail3_summable {f : ℕ → ℝ}
+    (hf : Summable (fun k : ℕ ↦ f (k + 3))) : Summable f := by
+  exact (summable_nat_add_iff (G := ℝ) 3).mp hf
 
 theorem tendsto_of_tail2_tendsto {α : Type*} [TopologicalSpace α]
-    {u : Nat -> α} {l : α}
-    (h : Tendsto (fun k : Nat => u (k + 2)) atTop (nhds l)) :
+    {u : ℕ → α} {l : α}
+    (h : Tendsto (fun k : ℕ ↦ u (k + 2)) atTop (nhds l)) :
     Tendsto u atTop (nhds l) := by
   exact (Filter.tendsto_add_atTop_iff_nat 2).mp h
 
 /-- Lemma 3.4: square-summability and convergence of the objective sequence. -/
-theorem lemma_3_4_decrease {m : Nat} {P : ProblemData m} (A : AlgorithmData P)
-    (nu mu : Real) (hchosen : chosenAsInLemma33 A nu mu)
-    (hbounded : ∃ C : Real, ∀ x : EuclideanSpace m, (C : EReal) <= P.objective x) :
-    Summable (fun n : Nat => ‖A.x n - A.p n‖ ^ 2) ∧
-      Summable (fun n : Nat => ‖A.x (n + 1) - A.x n‖ ^ 2) ∧
+theorem lemma_3_4_decrease {m : ℕ} {P : ProblemData m} (A : AlgorithmData P)
+    (nu mu : ℝ) (hchosen : chosenAsInLemma33 A nu mu)
+    (hbounded : ∃ C : ℝ, ∀ x : EuclideanSpace m, (C : EReal) ≤ P.objective x) :
+    Summable (fun n : ℕ ↦ ‖A.x n - A.p n‖ ^ 2) ∧
+      Summable (fun n : ℕ ↦ ‖A.x (n + 1) - A.x n‖ ^ 2) ∧
       ∃ l : EReal,
-        Tendsto (fun n : Nat => P.objective (A.p n)) atTop (nhds l) := by
+        Tendsto (fun n : ℕ ↦ P.objective (A.p n)) atTop (nhds l) := by
   rcases hchosen with ⟨hnu, hmu, _hstrict, hM2ltM1⟩
-  let M1 : Real := A.M1 nu mu
-  let M2 : Real := A.M2 nu mu
-  let D : Real := M1 - M2
+  let M1 : ℝ := A.M1 nu mu
+  let M2 : ℝ := A.M2 nu mu
+  let D : ℝ := M1 - M2
   have hDpos : 0 < D := by
     dsimp [D, M1, M2]
     nlinarith [hM2ltM1]
-  have hM2_nonneg : 0 <= M2 := by
+  have hM2_nonneg : 0 ≤ M2 := by
     dsimp [M2]
     exact m2_nonneg A hnu hmu
-  let a : Nat -> Real := fun k =>
+  let a : ℕ → ℝ := fun k ↦
     (objectiveWithQuadratic P M2 (A.p (k + 2)) (A.x (k + 2))).toReal
-  let b : Nat -> Real := fun k =>
+  let b : ℕ → ℝ := fun k ↦
     D * ‖A.x (k + 3) - A.p (k + 3)‖ ^ 2
-  have hb_nonneg : ∀ k, 0 <= b k := by
+  have hb_nonneg : ∀ k, 0 ≤ b k := by
     intro k
     dsimp [b]
     exact mul_nonneg (le_of_lt hDpos) (sq_nonneg _)
   have h32 :
-      ∀ n, 2 <= n ->
-        objectiveWithQuadratic P M1 (A.p n) (A.x n) <=
+      ∀ n, 2 ≤ n →
+        objectiveWithQuadratic P M1 (A.p n) (A.x n) ≤
           objectiveWithQuadratic P M2 (A.p (n - 1)) (A.x (n - 1)) := by
     intro n hn
     dsimp [M1, M2]
@@ -266,22 +266,22 @@ theorem lemma_3_4_decrease {m : Nat} {P : ProblemData m} (A : AlgorithmData P)
       p_objective_effectiveDom A (by omega)
     have hobj_coe :
         P.objective (A.p (k + 2)) =
-          (((P.objective (A.p (k + 2))).toReal : Real) : EReal) := by
+          (((P.objective (A.p (k + 2))).toReal : ℝ) : EReal) := by
       exact (EReal.coe_toReal
         ((ERealFunction.mem_effectiveDom_iff P.objective (A.p (k + 2))).mp hp_eff).1
         ((ERealFunction.mem_effectiveDom_iff P.objective (A.p (k + 2))).mp hp_eff).2).symm
-    have hobj_lower_real : C <= (P.objective (A.p (k + 2))).toReal := by
+    have hobj_lower_real : C ≤ (P.objective (A.p (k + 2))).toReal := by
       have h := hC (A.p (k + 2))
       rw [hobj_coe] at h
       exact EReal.coe_le_coe_iff.mp h
-    have hquad_nonneg : 0 <= M2 * ‖A.p (k + 2) - A.x (k + 2)‖ ^ 2 :=
+    have hquad_nonneg : 0 ≤ M2 * ‖A.p (k + 2) - A.x (k + 2)‖ ^ 2 :=
       mul_nonneg hM2_nonneg (sq_nonneg _)
     dsimp [a]
     rw [objectiveWithQuadratic_toReal_eq hp_eff]
     nlinarith
-  have hdesc : ∀ k, a (k + 1) + b k <= a k := by
+  have hdesc : ∀ k, a (k + 1) + b k ≤ a k := by
     intro k
-    have hk : 2 <= k + 3 := by omega
+    have hk : 2 ≤ k + 3 := by omega
     have hd := h32 (k + 3) hk
     have hpred : k + 3 - 1 = k + 2 := by omega
     rw [hpred] at hd
@@ -299,7 +299,7 @@ theorem lemma_3_4_decrease {m : Nat} {P : ProblemData m} (A : AlgorithmData P)
     have hd_real :
         (P.objective (A.p (k + 3))).toReal +
             M1 * ‖A.p (k + 3) - A.x (k + 3)‖ ^ 2
-          <=
+          ≤
           (P.objective (A.p (k + 2))).toReal +
             M2 * ‖A.p (k + 2) - A.x (k + 2)‖ ^ 2 :=
       EReal.coe_le_coe_iff.mp hd
@@ -311,46 +311,46 @@ theorem lemma_3_4_decrease {m : Nat} {P : ProblemData m} (A : AlgorithmData P)
     nlinarith [hd_real]
   rcases lemma_2_2_descent_summable a b hb_nonneg ha_bddBelow hdesc with
     ⟨_ha_anti, ⟨la, ha_tendsto⟩, hb_summable⟩
-  have htail_xp : Summable (fun k : Nat => ‖A.x (k + 3) - A.p (k + 3)‖ ^ 2) := by
+  have htail_xp : Summable (fun k : ℕ ↦ ‖A.x (k + 3) - A.p (k + 3)‖ ^ 2) := by
     have hb_div := hb_summable.mul_left D⁻¹
     convert hb_div using 1
     ext k
     dsimp [b]
     field_simp [ne_of_gt hDpos]
-  have hxp : Summable (fun n : Nat => ‖A.x n - A.p n‖ ^ 2) :=
+  have hxp : Summable (fun n : ℕ ↦ ‖A.x n - A.p n‖ ^ 2) :=
     summable_of_tail3_summable htail_xp
-  have hinc : Summable (fun n : Nat => ‖A.x (n + 1) - A.x n‖ ^ 2) := by
+  have hinc : Summable (fun n : ℕ ↦ ‖A.x (n + 1) - A.x n‖ ^ 2) := by
     have hinc_tail :
-        Summable (fun k : Nat => ‖A.x ((k + 1) + 1) - A.x (k + 1)‖ ^ 2) := by
-      let Cstep : Real := (1 + A.lambdaUpper * P.Lgrad_h) ^ 2
+        Summable (fun k : ℕ ↦ ‖A.x ((k + 1) + 1) - A.x (k + 1)‖ ^ 2) := by
+      let Cstep : ℝ := (1 + A.lambdaUpper * P.Lgrad_h) ^ 2
       have hdom :
-          ∀ k : Nat,
+          ∀ k : ℕ,
             ‖A.x ((k + 1) + 1) - A.x (k + 1)‖ ^ 2
-              <= Cstep * ‖A.x (k + 1) - A.p (k + 1)‖ ^ 2 := by
+              ≤ Cstep * ‖A.x (k + 1) - A.p (k + 1)‖ ^ 2 := by
         intro k
-        have hn : 1 <= k + 1 := by omega
+        have hn : 1 ≤ k + 1 := by omega
         have h14 := relation14_norm_step A (k + 1) hn
         have hlam := A.lambda_bounds (k + 1) hn
-        have hLh_nonneg : 0 <= P.Lgrad_h := P.h_lipschitz_gradient.1
+        have hLh_nonneg : 0 ≤ P.Lgrad_h := P.h_lipschitz_gradient.1
         have hfactor_nonneg :
-            0 <= 1 + A.lambda (k + 1) * P.Lgrad_h := by
-          have hlam_nonneg : 0 <= A.lambda (k + 1) :=
+            0 ≤ 1 + A.lambda (k + 1) * P.Lgrad_h := by
+          have hlam_nonneg : 0 ≤ A.lambda (k + 1) :=
             le_trans (le_of_lt A.lambdaLower_pos) hlam.1
           nlinarith [mul_nonneg hlam_nonneg hLh_nonneg]
         have hfactor_upper_nonneg :
-            0 <= 1 + A.lambdaUpper * P.Lgrad_h := by
+            0 ≤ 1 + A.lambdaUpper * P.Lgrad_h := by
           nlinarith [mul_nonneg (le_of_lt A.lambdaUpper_pos) hLh_nonneg]
         have hfactor_le :
-            1 + A.lambda (k + 1) * P.Lgrad_h <=
+            1 + A.lambda (k + 1) * P.Lgrad_h ≤
               1 + A.lambdaUpper * P.Lgrad_h := by
           have hmul := mul_le_mul_of_nonneg_right hlam.2 hLh_nonneg
           nlinarith
         have hsquare1 :
-            ‖A.x ((k + 1) + 1) - A.x (k + 1)‖ ^ 2 <=
+            ‖A.x ((k + 1) + 1) - A.x (k + 1)‖ ^ 2 ≤
               ((1 + A.lambda (k + 1) * P.Lgrad_h) *
                 ‖A.x (k + 1) - A.p (k + 1)‖) ^ 2 := by
           have hprod_nonneg :
-              0 <= (1 + A.lambda (k + 1) * P.Lgrad_h) *
+              0 ≤ (1 + A.lambda (k + 1) * P.Lgrad_h) *
                 ‖A.x (k + 1) - A.p (k + 1)‖ := by
             nlinarith [h14, norm_nonneg (A.x ((k + 1) + 1) - A.x (k + 1))]
           exact sq_le_sq'
@@ -359,18 +359,18 @@ theorem lemma_3_4_decrease {m : Nat} {P : ProblemData m} (A : AlgorithmData P)
             h14
         have hsquare2 :
             ((1 + A.lambda (k + 1) * P.Lgrad_h) *
-                ‖A.x (k + 1) - A.p (k + 1)‖) ^ 2 <=
+                ‖A.x (k + 1) - A.p (k + 1)‖) ^ 2 ≤
               ((1 + A.lambdaUpper * P.Lgrad_h) *
                 ‖A.x (k + 1) - A.p (k + 1)‖) ^ 2 := by
           have hmul_le := mul_le_mul_of_nonneg_right hfactor_le
             (norm_nonneg (A.x (k + 1) - A.p (k + 1)))
           have hprod_upper_nonneg :
-              0 <= (1 + A.lambdaUpper * P.Lgrad_h) *
+              0 ≤ (1 + A.lambdaUpper * P.Lgrad_h) *
                 ‖A.x (k + 1) - A.p (k + 1)‖ :=
             mul_nonneg hfactor_upper_nonneg
               (norm_nonneg (A.x (k + 1) - A.p (k + 1)))
           have hprod_nonneg :
-              0 <= (1 + A.lambda (k + 1) * P.Lgrad_h) *
+              0 ≤ (1 + A.lambda (k + 1) * P.Lgrad_h) *
                 ‖A.x (k + 1) - A.p (k + 1)‖ :=
             mul_nonneg hfactor_nonneg
               (norm_nonneg (A.x (k + 1) - A.p (k + 1)))
@@ -379,43 +379,43 @@ theorem lemma_3_4_decrease {m : Nat} {P : ProblemData m} (A : AlgorithmData P)
             hmul_le
         calc
           ‖A.x ((k + 1) + 1) - A.x (k + 1)‖ ^ 2
-              <= ((1 + A.lambda (k + 1) * P.Lgrad_h) *
+              ≤ ((1 + A.lambda (k + 1) * P.Lgrad_h) *
                 ‖A.x (k + 1) - A.p (k + 1)‖) ^ 2 := hsquare1
-          _ <= ((1 + A.lambdaUpper * P.Lgrad_h) *
+          _ ≤ ((1 + A.lambdaUpper * P.Lgrad_h) *
                 ‖A.x (k + 1) - A.p (k + 1)‖) ^ 2 := hsquare2
           _ = Cstep * ‖A.x (k + 1) - A.p (k + 1)‖ ^ 2 := by
                 dsimp [Cstep]
                 ring
       have hmajor :
-          Summable (fun k : Nat => Cstep * ‖A.x (k + 1) - A.p (k + 1)‖ ^ 2) := by
-        have hxp_tail : Summable (fun k : Nat => ‖A.x (k + 1) - A.p (k + 1)‖ ^ 2) :=
-          (summable_nat_add_iff (G := Real) 1).mpr hxp
+          Summable (fun k : ℕ ↦ Cstep * ‖A.x (k + 1) - A.p (k + 1)‖ ^ 2) := by
+        have hxp_tail : Summable (fun k : ℕ ↦ ‖A.x (k + 1) - A.p (k + 1)‖ ^ 2) :=
+          (summable_nat_add_iff (G := ℝ) 1).mpr hxp
         exact hxp_tail.mul_left Cstep
       exact Summable.of_nonneg_of_le
-        (fun k => sq_nonneg _)
+        (fun k ↦ sq_nonneg _)
         hdom
         hmajor
-    exact (summable_nat_add_iff (G := Real) 1).mp hinc_tail
+    exact (summable_nat_add_iff (G := ℝ) 1).mp hinc_tail
   have hobj :
-      ∃ l : EReal, Tendsto (fun n : Nat => P.objective (A.p n)) atTop (nhds l) := by
+      ∃ l : EReal, Tendsto (fun n : ℕ ↦ P.objective (A.p n)) atTop (nhds l) := by
     have hxpto0 :
-        Tendsto (fun n : Nat => ‖A.x n - A.p n‖ ^ 2) atTop (nhds 0) :=
+        Tendsto (fun n : ℕ ↦ ‖A.x n - A.p n‖ ^ 2) atTop (nhds 0) :=
       hxp.tendsto_atTop_zero
     have hxpto0_tail :
-        Tendsto (fun k : Nat => ‖A.x (k + 2) - A.p (k + 2)‖ ^ 2) atTop (nhds 0) :=
+        Tendsto (fun k : ℕ ↦ ‖A.x (k + 2) - A.p (k + 2)‖ ^ 2) atTop (nhds 0) :=
       (Filter.tendsto_add_atTop_iff_nat 2).mpr hxpto0
     have hquad_to0 :
-        Tendsto (fun k : Nat => M2 * ‖A.p (k + 2) - A.x (k + 2)‖ ^ 2) atTop (nhds 0) := by
+        Tendsto (fun k : ℕ ↦ M2 * ‖A.p (k + 2) - A.x (k + 2)‖ ^ 2) atTop (nhds 0) := by
       have htmp :
-          Tendsto (fun k : Nat => M2 * ‖A.x (k + 2) - A.p (k + 2)‖ ^ 2) atTop
+          Tendsto (fun k : ℕ ↦ M2 * ‖A.x (k + 2) - A.p (k + 2)‖ ^ 2) atTop
             (nhds (M2 * 0)) :=
         tendsto_const_nhds.mul hxpto0_tail
       simpa [norm_sub_rev] using htmp
     have hobjReal_tail :
-        Tendsto (fun k : Nat => (P.objective (A.p (k + 2))).toReal) atTop (nhds la) := by
+        Tendsto (fun k : ℕ ↦ (P.objective (A.p (k + 2))).toReal) atTop (nhds la) := by
       have hsub := ha_tendsto.sub hquad_to0
       have hsub' :
-          Tendsto (fun x => a x - M2 * ‖A.p (x + 2) - A.x (x + 2)‖ ^ 2) atTop
+          Tendsto (fun x ↦ a x - M2 * ‖A.p (x + 2) - A.x (x + 2)‖ ^ 2) atTop
             (nhds la) := by
         simpa using hsub
       convert hsub' using 1
@@ -427,9 +427,9 @@ theorem lemma_3_4_decrease {m : Nat} {P : ProblemData m} (A : AlgorithmData P)
       rw [norm_sub_rev (A.p (k + 2)) (A.x (k + 2))]
       ring
     have hobjEReal_tail :
-        Tendsto (fun k : Nat => P.objective (A.p (k + 2))) atTop (nhds (la : EReal)) := by
+        Tendsto (fun k : ℕ ↦ P.objective (A.p (k + 2))) atTop (nhds (la : EReal)) := by
       have hcoe :
-          Tendsto (fun k : Nat => ((P.objective (A.p (k + 2))).toReal : EReal))
+          Tendsto (fun k : ℕ ↦ ((P.objective (A.p (k + 2))).toReal : EReal))
             atTop (nhds (la : EReal)) :=
         EReal.tendsto_coe.2 hobjReal_tail
       convert hcoe using 1

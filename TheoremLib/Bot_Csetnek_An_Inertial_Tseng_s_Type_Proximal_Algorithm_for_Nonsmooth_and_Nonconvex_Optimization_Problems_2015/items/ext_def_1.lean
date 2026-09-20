@@ -6,12 +6,12 @@ namespace BotCsetnek2015
 
 /--
 A Frechet differentiable function has `L`-Lipschitz continuous gradient when
-`L >= 0` and the displayed gradient inequality holds for all points.
+`L ≥ 0` and the displayed gradient inequality holds for all points.
 -/
-noncomputable def HasLipschitzContinuousGradient {m : Nat}
-    (h : EuclideanSpace m -> Real) (L : Real) : Prop :=
-  0 <= L ∧ Differentiable Real h ∧
+noncomputable def HasLipschitzContinuousGradient {m : ℕ}
+    (h : EuclideanSpace m → ℝ) (L : ℝ) : Prop :=
+  0 ≤ L ∧ Differentiable ℝ h ∧
     ∀ x y : EuclideanSpace m,
-      ‖gradient h x - gradient h y‖ <= L * ‖x - y‖
+      ‖gradient h x - gradient h y‖ ≤ L * ‖x - y‖
 
 end BotCsetnek2015

@@ -9,8 +9,8 @@ open scoped Topology
 namespace BotCsetnek2015
 
 lemma tendsto_infDist_mapClusterPt_of_isCompact {X : Type*} [MetricSpace X]
-    {K : Set X} {z : Nat -> X} (hK : IsCompact K) (hzK : forall n, z n ∈ K) :
-    Tendsto (fun n : Nat => Metric.infDist (z n) {x | MapClusterPt x atTop z}) atTop
+    {K : Set X} {z : ℕ → X} (hK : IsCompact K) (hzK : forall n, z n ∈ K) :
+    Tendsto (fun n : ℕ ↦ Metric.infDist (z n) {x | MapClusterPt x atTop z}) atTop
       (nhds 0) := by
   classical
   let S : Set X := {x | MapClusterPt x atTop z}
@@ -49,7 +49,7 @@ lemma tendsto_infDist_mapClusterPt_of_isCompact {X : Type*} [MetricSpace X]
   linarith
 
 lemma omega_eq_mapClusterPt {X : Type*} [TopologicalSpace X] [FirstCountableTopology X]
-    (z : Nat -> X) :
+    (z : ℕ → X) :
     omega z = {x | MapClusterPt x atTop z} := by
   ext x
   constructor
@@ -60,14 +60,14 @@ lemma omega_eq_mapClusterPt {X : Type*} [TopologicalSpace X] [FirstCountableTopo
     exact ⟨phi, hphi, hlim⟩
 
 /-- Cluster-set properties for bounded finite-dimensional sequences with vanishing increments. -/
-theorem cluster_set_properties_of_vanishing_increments {m : Nat}
-    (z : Nat -> EuclideanSpace m)
+theorem cluster_set_properties_of_vanishing_increments {m : ℕ}
+    (z : ℕ → EuclideanSpace m)
     (hbounded : Bornology.IsBounded (Set.range z))
-    (hincrements : Tendsto (fun n : Nat => z (n + 1) - z n) atTop
+    (hincrements : Tendsto (fun n : ℕ ↦ z (n + 1) - z n) atTop
       (nhds (0 : EuclideanSpace m))) :
     (omega z).Nonempty ∧ IsCompact (omega z) ∧ IsConnected (omega z) ∧
-      Tendsto (fun n : Nat => Metric.infDist (z n) (omega z)) atTop (nhds 0) := by
-  have hstep : Tendsto (fun n : Nat => z n - z (n + 1)) atTop
+      Tendsto (fun n : ℕ ↦ Metric.infDist (z n) (omega z)) atTop (nhds 0) := by
+  have hstep : Tendsto (fun n : ℕ ↦ z n - z (n + 1)) atTop
       (nhds (0 : EuclideanSpace m)) := by
     simpa [sub_eq_add_neg, add_comm, add_left_comm, add_assoc] using hincrements.neg
   have hcluster := sequenceClusterPointSet_isCompact_isConnected (x := z) hbounded hstep
@@ -78,14 +78,14 @@ theorem cluster_set_properties_of_vanishing_increments {m : Nat}
     simpa [hEq] using hcluster.2
   have hK : IsCompact (closure (Set.range z)) := by
     haveI : ProperSpace (EuclideanSpace m) :=
-      FiniteDimensional.proper Real (EuclideanSpace m)
+      FiniteDimensional.proper ℝ (EuclideanSpace m)
     simpa using hbounded.isCompact_closure
-  have hzK : forall n : Nat, z n ∈ closure (Set.range z) := by
+  have hzK : forall n : ℕ, z n ∈ closure (Set.range z) := by
     intro n
     exact subset_closure ⟨n, rfl⟩
   have hdistMap := tendsto_infDist_mapClusterPt_of_isCompact
     (K := closure (Set.range z)) (z := z) hK hzK
-  have hdist : Tendsto (fun n : Nat => Metric.infDist (z n) (omega z)) atTop
+  have hdist : Tendsto (fun n : ℕ ↦ Metric.infDist (z n) (omega z)) atTop
       (nhds 0) := by
     simpa [hEq] using hdistMap
   exact ⟨hconnected.1, hcompact, hconnected, hdist⟩

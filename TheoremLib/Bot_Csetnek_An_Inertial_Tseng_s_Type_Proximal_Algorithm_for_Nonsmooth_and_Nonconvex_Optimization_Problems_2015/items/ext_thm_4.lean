@@ -12,15 +12,15 @@ the semialgebraic class is stable under finite sums.  The local
 facts must remain explicit hypotheses until the corresponding real-algebraic
 development is added.
 -/
-theorem semialgebraic_functions_are_KL_and_stable {m : Nat}
-    (g q : EuclideanSpace m -> EReal)
+theorem semialgebraic_functions_are_KL_and_stable {m : ℕ}
+    (g q : EuclideanSpace m → EReal)
     (_hg : IsSemiAlgebraicEReal g) (_hq : IsSemiAlgebraicEReal q)
     (hKLg : KLFunction g)
     (hsum : IsSemiAlgebraicEReal
-      (fun x => EReal.sumWithTopBotAsTop (g x) (q x))) :
+      (fun x ↦ EReal.sumWithTopBotAsTop (g x) (q x))) :
     KLFunction g ∧
       IsSemiAlgebraicEReal
-        (fun x => EReal.sumWithTopBotAsTop (g x) (q x)) := by
+        (fun x ↦ EReal.sumWithTopBotAsTop (g x) (q x)) := by
   exact ⟨hKLg, hsum⟩
 
 /-
@@ -30,19 +30,19 @@ KL hypothesis used by Theorem 3.1.  The local semialgebraic predicate does not
 contain that theorem, so expose it as an explicit bridge rather than silently
 proving the conclusion.
 -/
-def SemialgebraicToProductKL {m : Nat}
-    (g : EuclideanSpace m -> EReal) (M2 : Real) : Prop :=
-  IsSemiAlgebraicEReal g ->
+def SemialgebraicToProductKL {m : ℕ}
+    (g : EuclideanSpace m → EReal) (M2 : ℝ) : Prop :=
+  IsSemiAlgebraicEReal g →
     ProductKLFunction
-      (fun z : EuclideanSpace m × EuclideanSpace m =>
+      (fun z : EuclideanSpace m × EuclideanSpace m ↦
         erealAddReal (g z.1) (M2 * ‖z.1 - z.2‖ ^ 2))
 
-theorem semialgebraic_objective_yields_KL_H {m : Nat}
-    (g : EuclideanSpace m -> EReal) (M2 : Real)
+theorem semialgebraic_objective_yields_KL_H {m : ℕ}
+    (g : EuclideanSpace m → EReal) (M2 : ℝ)
     (_hg : IsSemiAlgebraicEReal g)
     (hbridge : SemialgebraicToProductKL g M2)
     : ProductKLFunction
-      (fun z : EuclideanSpace m × EuclideanSpace m =>
+      (fun z : EuclideanSpace m × EuclideanSpace m ↦
         erealAddReal (g z.1) (M2 * ‖z.1 - z.2‖ ^ 2)) := by
   exact hbridge _hg
 

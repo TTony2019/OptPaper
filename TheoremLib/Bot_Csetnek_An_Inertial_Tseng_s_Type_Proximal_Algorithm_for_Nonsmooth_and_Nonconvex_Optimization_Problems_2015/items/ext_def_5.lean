@@ -8,7 +8,7 @@ namespace BotCsetnek2015
 recall IsSequentialClusterPt
 
 /-- The cluster point set `omega((z_n))` of a sequence. -/
-def omega {X : Type*} [TopologicalSpace X] (z : Nat -> X) : Set X :=
+def omega {X : Type*} [TopologicalSpace X] (z : ℕ → X) : Set X :=
   {x | IsSequentialClusterPt z x}
 
 end BotCsetnek2015
