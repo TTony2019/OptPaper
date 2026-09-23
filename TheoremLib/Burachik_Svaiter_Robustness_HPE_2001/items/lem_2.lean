@@ -1,4 +1,3 @@
-import TheoremLib.Burachik_Svaiter_Robustness_HPE_2001.items.def_1
 import TheoremLib.Burachik_Svaiter_Robustness_HPE_2001.items.cor_2
 import TheoremLib.Burachik_Svaiter_Robustness_HPE_2001.items.cor_3
 import TheoremLib.Burachik_Svaiter_Robustness_HPE_2001.items.ext_thm_1
@@ -53,8 +52,7 @@ theorem hpe_weakly_converges_to_zero {H : Type*} [NormedAddCommGroup H]
     have hεφ : Tendsto (fun j ↦ A.ε (φ j)) atTop (nhds 0) := by
       simpa [Function.comp] using hε0.comp hφmono.tendsto_atTop
     exact epsilon_enlargement_demiclosed hT (fun j ↦ A.y (φ j)) (fun j ↦ A.v (φ j))
-      (fun j ↦ A.ε (φ j)) p 0 hyφ hvφ hεφ (fun j ↦ A.ε_nonneg (φ j))
-      (fun j ↦ A.enlargement_mem (φ j))
+      (fun j ↦ A.ε (φ j)) p 0 hyφ hvφ hεφ (fun j ↦ A.enlargement_mem (φ j))
   have hunique : ∀ p q : H,
       IsSequentialClusterPt (fun k ↦ toWeakSpace ℝ H (A.x k)) (toWeakSpace ℝ H p) →
         IsSequentialClusterPt (fun k ↦ toWeakSpace ℝ H (A.x k)) (toWeakSpace ℝ H q) →

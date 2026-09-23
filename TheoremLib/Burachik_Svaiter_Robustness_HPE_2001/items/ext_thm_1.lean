@@ -1,4 +1,4 @@
-import TheoremLib.Burachik_Svaiter_Robustness_HPE_2001.items.def_1
+import Foundation.SetValued.Enlargement
 import Foundation.Hilbert.WeakConvergence
 import Foundation.SetValued.MaximalMonotone
 
@@ -15,8 +15,7 @@ theorem epsilon_enlargement_demiclosed {H : Type*} [NormedAddCommGroup H]
       (nhds (toWeakSpace ℝ H yLimit)))
     (hv : Tendsto v Filter.atTop (nhds vLimit))
     (hε : Tendsto ε Filter.atTop (nhds 0))
-    (hε_nonneg : ∀ j, 0 ≤ ε j)
-    (hm : ∀ j, v j ∈ epsilonEnlargement T (ε j) (hε_nonneg j) (y j)) :
+    (hm : ∀ j, v j ∈ enlargement T (ε j) (y j)) :
     vLimit ∈ T yLimit := by
   apply mem_of_monotonically_related_to_graph hT
   intro z w hw
@@ -26,7 +25,7 @@ theorem epsilon_enlargement_demiclosed {H : Type*} [NormedAddCommGroup H]
     have h_eq : inner ℝ (w - v j) (z - y j) = inner ℝ (y j - z) (v j - w) := by
       simp [inner_sub_left, inner_sub_right, real_inner_comm]
       ring
-    simpa [epsilonEnlargement, h_eq] using hj z w hw
+    simpa [enlargement, h_eq] using hj z w hw
   have hy_bdd : Bornology.IsBounded (Set.range y) :=
     bounded_range_of_tendsto_weakly hy
   rcases isBounded_iff_forall_norm_le.mp hy_bdd with ⟨M, hM⟩

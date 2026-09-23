@@ -1,4 +1,4 @@
-import TheoremLib.Burachik_Svaiter_Robustness_HPE_2001.items.def_1
+import Foundation.SetValued.Enlargement
 
 open scoped InnerProductSpace
 
@@ -20,7 +20,7 @@ structure HPEIterates (H : Type*) [NormedAddCommGroup H] [InnerProductSpace ℝ 
   σ_nonneg : ∀ k, 0 ≤ σ k
   α_nonneg : ∀ k, 0 ≤ α k
   ε_nonneg : ∀ k, 0 ≤ ε k
-  enlargement_mem : ∀ k, v k ∈ epsilonEnlargement T (ε k) (ε_nonneg k) (y k)
+  enlargement_mem : ∀ k, v k ∈ enlargement T (ε k) (y k)
   residual_bound : ∀ k,
     ‖c k • v k + y k - x k‖ ^ 2 + 2 * c k * ε k ≤
       δ k + (σ k) ^ 2 * ‖y k - x k‖ ^ 2

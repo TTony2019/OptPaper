@@ -1,11 +1,10 @@
 import Mathlib
 import Foundation.Hilbert.WeakConvergence
-import Foundation.SetValued.Basic
+import Foundation.SetValued.Enlargement
 import Foundation.SetValued.Minty
 import TheoremLib.Moudafi_Oliny_Splitting_inertial_proximal_monotone_operators.items.def_1
 import TheoremLib.Moudafi_Oliny_Splitting_inertial_proximal_monotone_operators.items.def_2
 import TheoremLib.Moudafi_Oliny_Splitting_inertial_proximal_monotone_operators.items.def_3
-import TheoremLib.Moudafi_Oliny_Splitting_inertial_proximal_monotone_operators.items.def_4
 import TheoremLib.Moudafi_Oliny_Splitting_inertial_proximal_monotone_operators.items.def_5
 import TheoremLib.Moudafi_Oliny_Splitting_inertial_proximal_monotone_operators.items.ext_def_2
 import TheoremLib.Moudafi_Oliny_Splitting_inertial_proximal_monotone_operators.items.ext_def_3
@@ -39,41 +38,6 @@ open scoped InnerProductSpace Topology Pointwise
 open Filter
 
 variable {H : Type _} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
-
-omit [CompleteSpace H] in
-/-- For a maximal monotone operator, the zero-enlargement is contained in the operator. -/
-theorem enlargement_zero_subset_of_maximal {T : SetValuedOperator H H}
-    (hT : IsMaximalMonotone T) {x v : H} (hv : v ∈ enlargement T 0 x) : v ∈ T x := by
-  rcases hT with ⟨hT_mono, hT_max⟩
-  let T' : SetValuedOperator H H := fun y => T y ∪ {w | y = x ∧ w = v}
-  have hT_subset : T.graph ⊆ T'.graph := by
-    intro p hp
-    exact Or.inl hp
-  have hT'_mono : IsMonotone T' := by
-    intro y z uy huy uz huz
-    rcases huy with huy | huy
-    · rcases huz with huz | huz
-      · exact hT_mono uy huy uz huz
-      · rcases huz with ⟨rfl, rfl⟩
-        rw [enlargement, Set.mem_setOf_eq] at hv
-        have h := hv y uy huy
-        simpa [inner_neg_right] using h
-    · rcases huy with ⟨rfl, rfl⟩
-      rcases huz with huz | huz
-      · rw [enlargement, Set.mem_setOf_eq] at hv
-        have h := hv z uz huz
-        have hEq : ⟪uy - uz, y - z⟫_ℝ = ⟪uz - uy, z - y⟫_ℝ := by
-          rw [show uy - uz = -(uz - uy) by abel_nf, show y - z = -(z - y) by abel_nf]
-          rw [inner_neg_left, inner_neg_right, neg_neg]
-        rw [hEq]
-        simpa using h
-      · rcases huz with ⟨rfl, rfl⟩
-        simp
-  have hgraph : T'.graph ⊆ T.graph := hT_max T' hT'_mono hT_subset
-  have hp : (x, v) ∈ T'.graph := by
-    change v ∈ T' x
-    exact Or.inr ⟨rfl, rfl⟩
-  exact hgraph hp
 
 omit [CompleteSpace H] in
 /-- A single-valued monotone Lipschitz operator with full domain is maximal monotone. -/
@@ -1534,8 +1498,7 @@ theorem convergence_of_splitting_inertial_proximal
     (hB_max : IsMaximalMonotone (svEmbed B))
     {β : ℝ} (hB_coco : IsCocoerciveWRT A B β)
     (hB_lipschitz : ∀ x y : H, ‖B x - B y‖ ≤ (1 / β) * ‖x - y‖)
-    (x : ℕ → H) (θ lam ε : ℕ → ℝ)
-    (y : ℕ → H)
+    (x : ℕ → H) (θ lam ε : ℕ → ℝ) (y : ℕ → H)
     (hy : ∀ k, 1 ≤ k → y k = x k + θ k • (x k - x (k - 1)))
     (h_alg : ∀ k, 1 ≤ k → (0 : H) ∈ (lam k • enlargement A (ε k) (x (k + 1))) +
       {x (k + 1) - y k} + (lam k • svEmbed B (x k)))
@@ -1543,8 +1506,7 @@ theorem convergence_of_splitting_inertial_proximal
       ∀ k, 1 ≤ k → lamUnder ≤ lam k ∧ lam k ≤ 2 * β - δ)
     (h_theta : ∃ (θmax : ℝ), 0 ≤ θmax ∧ θmax < 1 ∧
       ∀ k, 1 ≤ k → 0 ≤ θ k ∧ θ k ≤ θmax)
-    (h_eps_sum : Summable ε)
-    (h_eps_pos : ∀ k, ε k ≥ 0)
+    (h_eps_sum : Summable ε) (h_eps_pos : ∀ k, ε k ≥ 0)
     (h_summable : Summable fun k : ℕ ↦ θ (k + 1) * ‖x (k + 1) - x k‖ ^ 2)
     (hS_nonempty : ((A + svEmbed B).zeros).Nonempty)
     (h_norm_diff_tendsto : Tendsto (fun n : ℕ => ‖x (n+1) - x n‖) atTop (𝓝 0)) :

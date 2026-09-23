@@ -1,4 +1,4 @@
-import TheoremLib.Burachik_Svaiter_Robustness_HPE_2001.items.def_1
+import Foundation.SetValued.Enlargement
 import TheoremLib.Burachik_Svaiter_Robustness_HPE_2001.items.algo_1
 import TheoremLib.Burachik_Svaiter_Robustness_HPE_2001.items.def_2
 import TheoremLib.Burachik_Svaiter_Robustness_HPE_2001.items.def_3
@@ -228,7 +228,7 @@ theorem hpe_unbounded_of_no_zero {H : Type*} [NormedAddCommGroup H]
     simpa [relatedBall] using hxball
   rcases (maximal_monotone_surjective_of_bounded_domain hU hUdom).2 with ⟨xzero, hxzero⟩
   have hUzero : ∃ x : H, (0 : H) ∈ U x := ⟨xzero, hxzero⟩
-  have hUmem : ∀ k, A.v k ∈ epsilonEnlargement U (A.ε k) (A.ε_nonneg k) (A.y k) := by
+  have hUmem : ∀ k, A.v k ∈ enlargement U (A.ε k) (A.y k) := by
     intro k
     change ∀ z w, w ∈ U z → -A.ε k ≤ inner ℝ (w - A.v k) (z - A.y k)
     intro z w hw

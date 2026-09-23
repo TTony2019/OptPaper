@@ -1,8 +1,7 @@
 import Mathlib
 import Foundation.Hilbert.WeakConvergence
-import Foundation.SetValued.Basic
+import Foundation.SetValued.Enlargement
 import TheoremLib.Moudafi_Oliny_Splitting_inertial_proximal_monotone_operators.items.def_1
-import TheoremLib.Moudafi_Oliny_Splitting_inertial_proximal_monotone_operators.items.def_4
 
 /-!
 # Demiclosedness of the graph of the ε-enlargement

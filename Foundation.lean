@@ -30,6 +30,7 @@ import Foundation.Separation.Hyperplanes
 import Foundation.SetValued.Basic
 import Foundation.SetValued.Monotone
 import Foundation.SetValued.MaximalMonotone
+import Foundation.SetValued.Enlargement
 import Foundation.SetValued.MaximalMonotoneSum
 import Foundation.SetValued.Fitzpatrick
 import Foundation.SetValued.Minty

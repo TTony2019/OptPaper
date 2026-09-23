@@ -48,9 +48,9 @@ private theorem gdin_distance_limit {H : Type*} [NormedAddCommGroup H]
     intro w
     simpa [innerSL] using ((hΦ.differentiable (by norm_num) w).hasGradientAt.hasFDerivAt)
   have hphi_x : ∃ l : ℝ, Tendsto (fun t => Φ (x t)) atTop (nhds l) :=
-    gdin_phi_limit Φ β a b hΦ hbounded hgrad_lip hβ hb hab' x₀ y₀ x y hxy hsol
+    gdin_phi_limit Φ β a b hΦ hbounded hβ hb hab' x₀ y₀ x y hxy hsol
   have hres_x : Tendsto (fun t => deriv x t + β • gradient Φ (x t)) atTop (nhds 0) :=
-    gdin_residual_limit Φ β a b hΦ hbounded hgrad_lip hβ hb hab' x₀ y₀ x y hxy hsol
+    gdin_residual_limit Φ β a b hΦ hbounded hβ hb hab' x₀ y₀ x y hxy hsol
   let v : ℝ → H := deriv x
   let g : ℝ → H := fun t => gradient Φ (x t)
   let r : ℝ → H := fun t => -a • x t - b • y t
@@ -320,7 +320,7 @@ theorem gdin_weakly_converges_to_argmin {H : Type*} [NormedAddCommGroup H]
     exact gdin_distance_limit Φ β a b x y hbounded x₀ y₀ hΦ hloclip hβ hb hab
       hconvex hxy hsol hz
   have hphi_x : ∃ l : ℝ, Tendsto (fun t => Φ (x t)) atTop (nhds l) :=
-    gdin_phi_limit Φ β a b hΦ hbounded hgrad_lip hβ hb hab' x₀ y₀ x y hxy hsol
+    gdin_phi_limit Φ β a b hΦ hbounded hβ hb hab' x₀ y₀ x y hxy hsol
   have hx_bounded : Bornology.IsBounded (x '' Set.Ici (0 : ℝ)) := by
     rcases hmin with ⟨z₀, hz₀⟩
     rcases hdist z₀ hz₀ with ⟨d₀, hd₀⟩

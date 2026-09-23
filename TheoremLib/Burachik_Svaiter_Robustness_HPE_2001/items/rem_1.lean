@@ -1,4 +1,4 @@
-import TheoremLib.Burachik_Svaiter_Robustness_HPE_2001.items.def_1
+import Foundation.SetValued.Enlargement
 import Foundation.Analysis.ExtendedRealFunctions
 import Foundation.Convex.ProximalOperator
 import Foundation.Convex.Subdifferential
@@ -24,8 +24,8 @@ def epsilonSubdifferential {H : Type*} [NormedAddCommGroup H] [InnerProductSpace
 subdifferential. -/
 theorem epsilonSubdifferential_subset_enlargement
     {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
-    (f : H → EReal) (hf : ERealFunction.IsProper f) (ε : ℝ) (hε : 0 ≤ ε) (x : H) :
-    epsilonSubdifferential f ε x ⊆ epsilonEnlargement (subdifferential f) ε hε x := by
+    (f : H → EReal) (hf : ERealFunction.IsProper f) (ε : ℝ) (x : H) :
+    epsilonSubdifferential f ε x ⊆ enlargement (subdifferential f) ε x := by
   intro v hv z w hw
   change -ε ≤ inner ℝ (w - v) (z - x)
   rcases hf.2 with ⟨a, ha⟩
@@ -73,9 +73,9 @@ theorem subdifferential_isMonotone
     rw [real_inner_comm] at h
     simpa [add_comm] using h
   have henlarge :=
-    epsilonSubdifferential_subset_enlargement f hf 0 (le_refl 0) x hvε z w hw
+    epsilonSubdifferential_subset_enlargement f hf 0 x hvε z w hw
   have hnonneg : 0 ≤ inner ℝ (w - v) (z - x) := by
-    simpa [epsilonEnlargement] using henlarge
+    simpa [enlargement] using henlarge
   calc
     0 ≤ inner ℝ (w - v) (z - x) := hnonneg
     _ = inner ℝ (v - w) (x - z) := by
@@ -236,9 +236,9 @@ theorem subdifferential_enlargement_remark
     {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
     (f : H → EReal) (hf : ERealFunction.IsProper f)
     (hclosed : IsClosed (ERealFunction.epigraph f))
-    (hconvex : Convex ℝ (ERealFunction.epigraph f)) (ε : ℝ) (hε : 0 ≤ ε) :
+    (hconvex : Convex ℝ (ERealFunction.epigraph f)) (ε : ℝ) :
     (subdifferential f).IsMaximalMonotone ∧
-      ∀ x, epsilonSubdifferential f ε x ⊆ epsilonEnlargement (subdifferential f) ε hε x := by
+      ∀ x, epsilonSubdifferential f ε x ⊆ enlargement (subdifferential f) ε x := by
   constructor
   · apply maximal_monotone_of_minty_surjective (subdifferential_isMonotone f hf)
     intro y
@@ -279,6 +279,6 @@ theorem subdifferential_enlargement_remark
       have hz := hvarI z
       simpa [fI, ERealFunction.properIoi_apply, add_comm, real_inner_comm] using hz
     exact ⟨p, hres_of_variational_inequality p hvar⟩
-  · exact fun x => epsilonSubdifferential_subset_enlargement f hf ε hε x
+  · exact fun x => epsilonSubdifferential_subset_enlargement f hf ε x
 
 end BurachikSvaiterRobustnessHPE2001

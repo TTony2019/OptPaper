@@ -1,4 +1,4 @@
-import TheoremLib.Burachik_Svaiter_Robustness_HPE_2001.items.def_1
+import Foundation.SetValued.Enlargement
 import TheoremLib.Burachik_Svaiter_Robustness_HPE_2001.items.algo_1
 import TheoremLib.Burachik_Svaiter_Robustness_HPE_2001.items.def_2
 
@@ -22,7 +22,7 @@ theorem hpe_descent {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℝ H]
       (1 - (A.σ k) ^ 2) * ‖A.y k - A.x k‖ ^ 2 - A.δ k := by
   have hm := A.enlargement_mem k
   have hmem : -A.ε k ≤ inner ℝ ((0 : H) - A.v k) (xStar - A.y k) := by
-    simpa [epsilonEnlargement] using hm xStar (0 : H) hxStar
+    simpa [enlargement] using hm xStar (0 : H) hxStar
   have hc0 : 0 ≤ A.c k := le_of_lt (A.c_pos k)
   have hinner : -A.c k * A.ε k ≤
       inner ℝ (extragradientStep A k - A.x k) (xStar - A.y k) := by
