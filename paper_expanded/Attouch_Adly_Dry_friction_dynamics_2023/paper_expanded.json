@@ -1,0 +1,397 @@
+{
+  "metadata": {
+    "title": "Accelerated dynamics with dry friction via time scaling and averaging of doubly nonlinear evolution equations",
+    "authors": [
+      "Samir Adly",
+      "Hedy Attouch"
+    ],
+    "year": 2023,
+    "source_type": "markdown"
+  },
+  "items": [
+    {
+      "id": "ext_lem_1",
+      "type": "lemma",
+      "name": "Lemma 3.1",
+      "statement": "Let $h \\colon [t_0, +\\infty[ \\to \\mathbb{R}^+ \\text{ be a nonincreasing function belonging to } \\mathbb{L}^1 ([t_0, +\\infty[). Then it holds $\\lim_{t \\to +\\infty} th(t) = 0$.",
+      "proof": "Cited from: B. Abbas, H. Attouch, B.F. Svaiter, Newton-like dynamics and forward-backward methods for structured monotone inclusions in Hilbert spaces, J. Optim. Theory Appl. 161 (2) (2014) 331--360.",
+      "depends_on": [],
+      "source": "B. Abbas, H. Attouch, B.F. Svaiter, Newton-like dynamics and forward-backward methods for structured monotone inclusions in Hilbert spaces, J. Optim. Theory Appl. 161 (2) (2014) 331--360.",
+      "resolution_priority": "medium",
+      "remark": "[External: used to convert monotone integrable decay into a pointwise $o(1/t)$ estimate.] | [External: used to convert monotone integrable decay into a pointwise $o(1/t)$ estimate.]"
+    },
+    {
+      "id": "lem_1",
+      "type": "lemma",
+      "name": "Lemma A.1",
+      "statement": "Let $a: [s_0, +\\infty[ \\to \\mathbb{R}$ be a positive real valued function which verifies $\\lim_{u \\to +\\infty} a(u) = 0$. Take $\\alpha > 1$. Then $\\lim_{s \\to +\\infty} A(s) = 0$, where $$A (s) = \\frac {1}{s ^ {\\alpha - 1}} \\int_ {s _ {0}} ^ {s} u ^ {\\alpha - 2} a (u) d u.$$",
+      "proof": "Given $\\epsilon > 0$, let us take $T_{\\epsilon}$ such that $s_0 < T_{\\epsilon}$ and $a(u) \\leq \\epsilon$ for $t \\geq T_{\\epsilon}$. For $s > T_{\\epsilon}$, let us write $$\\begin{aligned} A (s) &= \\frac {1}{s ^ {\\alpha - 1}} \\int_ {s _ {0}} ^ {T _ {\\epsilon}} u ^ {\\alpha - 2} a (u) d u + \\frac {1}{s ^ {\\alpha - 1}} \\int_ {T _ {\\epsilon}} ^ {s} u ^ {\\alpha - 2} a (u) d u \\\\ &\\leq \\frac {1}{s ^ {\\alpha - 1}} \\int_ {s _ {0}} ^ {T _ {\\epsilon}} u ^ {\\alpha - 2} a (u) d u + \\frac {\\epsilon}{\\alpha - 1}. \\\\ \\end{aligned}$$ Letting $s$ go to $+\\infty$, we obtain $$\\operatorname * {l i m s u p} _ {s \\to + \\infty} A (s) \\leq \\frac {\\epsilon}{\\alpha - 1}.$$ This being true for any $\\epsilon > 0$, we infer that $\\lim_{s \\to +\\infty} A(s) = 0$ [Since $age0$, also $A(s)ge0$; hence $0leliminf Alelimsup Aleepsilon/(alpha-1)$ for every $epsilon>0$.], which gives the claim.",
+      "depends_on": [],
+      "remark": "[Prove hint: split the weighted integral at $T_epsilon$ and use nonnegativity to obtain the missing lower bound $A(s)ge0$.]"
+    },
+    {
+      "id": "ext_def_1",
+      "type": "definition",
+      "name": "Convex subdifferential",
+      "statement": "For a convex function $F:mathcal H\tomathbb Rcup{+infty}$, its subdifferential at $xinoperatorname{dom}F$ is $partial F(x):={uinmathcal H: F(y)ge F(x)+langle u,y-x\rangle \text{for every }yinmathcal H}$.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Notation: $uinpartial F(x)$ is a set-valued inclusion; use the subgradient inequality explicitly.]"
+    },
+    {
+      "id": "def_1",
+      "type": "definition",
+      "name": "Dry friction potential",
+      "statement": "$$\\phi : \\mathcal {H} \\rightarrow \\mathbb {R} \\text { satisfies } \\phi (x) = r \\| x \\| \\text { for some } r > 0.\\tag {1.2}$$",
+      "proof": null,
+      "depends_on": [
+        "ext_def_1"
+      ],
+      "remark": "[Notation: $partialphi$ is the convex subdifferential; for $phi(v)=r|v|$, use its explicit radial form.]"
+    },
+    {
+      "id": "def_2",
+      "type": "definition",
+      "name": "DRYGRAD",
+      "statement": "$$(\\text {DRYGRAD}) \\quad \\dot {z} (t) + \\partial \\phi (\\dot {z} (t)) + \\nabla f (z (t)) \\ni 0. \\tag {2.1}$$",
+      "proof": null,
+      "depends_on": [
+        "def_1",
+        "ext_def_1"
+      ],
+      "remark": "[Notation: $\ni0$ means $0indot z(t)+partialphi(dot z(t))+\nabla f(z(t))$.]"
+    },
+    {
+      "id": "ext_def_2",
+      "type": "definition",
+      "name": "Fenchel conjugate",
+      "statement": "For $f:mathcal H\tomathbb Rcup{+infty}$, its Legendre--Fenchel conjugate is $f^*(g):=sup_{xinmathcal H}{langle g,x\rangle-f(x)}$.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Notation: the paper writes $f^*$; conjugacy gives $ginpartial f(x)iff xinpartial f^*(g)$ under the stated proper convex lsc hypotheses.]"
+    },
+    {
+      "id": "ext_def_3",
+      "type": "definition",
+      "name": "Closed ball and distance to the ball",
+      "statement": "For $r>0$, $mathbb B(0,r):={uinmathcal H:|u|le r}$ and $operatorname{dist}(x,mathbb B(0,r)):=inf_{binmathbb B(0,r)}|x-b|$. For this closed convex ball, $operatorname{proj}_{mathbb B(0,r)}(x)$ denotes its unique metric projection.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Foundation: Foundation.Projection.BestApproximation] recall isChebyshev_of_nonempty_isClosed_convex; projection is unique and continuous."
+    },
+    {
+      "id": "thm_1",
+      "type": "theorem",
+      "name": "Theorem 2.1",
+      "statement": "Let $z:[t_0, +\\infty [\\rightarrow \\mathcal{H}$ be a global solution trajectory of (DRYGRAD). Then, $t\\mapsto f(z(t))$ is a decreasing function, and the following properties are satisfied\n\n(i) $\\int_{t_0}^{+\\infty}\\| \\dot{z} (t)\\| ^2 dt < +\\infty ;$\n(ii) $\\int_{t_0}^{+\\infty}\\| \\dot{z} (t)\\| dt < +\\infty ;$\n(iii) the trajectory $t \\mapsto z(t)$ converges strongly as $t \\to +\\infty$, and its limit $z_{\\infty}$ satisfies $$\\| \\nabla f (z _ {\\infty}) \\| = r.$$\n(iv) Either the trajectory stabilizes in finite time at $z_{\\infty}$ such that $\\| \\nabla f(z_{\\infty}) \\| = r$, which is the general case, or else the trajectory satisfies for all $t \\geq t_0$ the inequality $\\| \\nabla f(z(t)) \\| > r$.",
+      "proof": "(i) and (ii) Take the scalar product of (DRYGRAD) with $\\dot{z}(t)$. We get $$\\| \\dot {z} (t) \\| ^ {2} + \\langle \\partial \\phi (\\dot {z} (t)), \\dot {z} (t) \\rangle + \\frac {d}{d t} f (z (t)) = 0. \\tag {2.3}$$ According to the properties of a dry friction potential we have $$0 = \\phi (0) \\geq \\phi (\\dot {z} (t)) + \\langle \\partial \\phi (\\dot {z} (t)), - \\dot {z} (t) \\rangle$$ which gives $$\\langle \\partial \\phi (\\dot {z} (t)), \\dot {z} (t) \\rangle \\geq \\phi (\\dot {z} (t)) \\geq r \\| \\dot {z} (t) \\|.$$ Combining the above property with $(2.3)$ we obtain $$\\| \\dot {z} (t) \\| ^ {2} + r \\| \\dot {z} (t) \\| + \\frac {d}{d t} f (z (t)) \\leq 0. \\tag {2.4}$$ Therefore $\\frac{d}{dt} f(z(t)) \\leq 0$, which gives that $t \\mapsto f(z(t))$ is a nonincreasing function. Integrating (2.4), and using the fact that $f$ is bounded from below gives the integral estimates (i) and (ii). [Indeed, for $T>t_0$, integration yields $int_{t_0}^T(|dot z|^2+r|dot z|)dtle f(z(t_0))-f(z(T))le f(z(t_0))-inf_{mathcal H}f$; let $T\toinfty$ and use $r>0$.]\n\n(iii) Let us now come to the convergence properties of the solution trajectories of (DRYGRAD). Since $\\int_{t_0}^{+\\infty}\\| \\dot{z} (t)\\| dt < +\\infty$, it is immediate to verify that $z(t)$ satisfies the Cauchy property, and therefore converges strongly as $t\\to +\\infty$. [For $t_2ge t_1$, $|z(t_2)-z(t_1)|leint_{t_1}^{t_2}|dot z(u)|du$, and the right-hand side tends to $0$ as $t_1,t_2\toinfty$; completeness of $mathcal H$ supplies the limit.] Let us call $z_{\\infty}$ its limit. Since $\\nabla f$ is continuous we have that, as $t\\rightarrow +\\infty$ $$\\nabla f (z (t)) \\to \\nabla f (z _ {\\infty}).$$ From the equivalent formulation of (DRYGRAD) $$\\dot {z} (t) = (I + \\partial \\phi) ^ {- 1} (- \\nabla f (z (t)))$$ and the continuity of the resolvent operator we get $$\\lim _ {t \\to + \\infty} \\dot {z} (t) = (I + \\partial \\phi) ^ {- 1} (- \\nabla f (z _ {\\infty})).$$ Since $\\int_{t_0}^{+\\infty}\\| \\dot{z} (t)\\| dt < +\\infty$ we deduce that $\\lim_{t\\to +\\infty}\\dot{z} (t) = 0$ [The preceding resolvent formula already shows that $dot z(t)$ has a limit; an $L^1$ function with a finite limit must have limit $0$, since a nonzero limit would give an infinite tail integral.] and $$(I + \\partial \\phi) ^ {- 1} (- \\nabla f (z _ {\\infty})) = 0.$$ By definition of $\\phi$, this gives $\\| \\nabla f(z_{\\infty}) \\| \\leq r$.\n\n(iv) Let us now show that $\\|\\nabla f(z_{\\infty})\\|=r$, and examine the finite time convergence property. We have proved that the trajectory $t\\mapsto z(t)$ converges strongly as $t\\to+\\infty$ to a limit $z_{\\infty}$, and that $\\|\\nabla f(z_{\\infty})\\|\\leq r$. There are two different cases to examine: (a) The trajectory $t \\mapsto z(t)$ satisfies for all $t \\geq t_0$ $$\\| \\nabla f (z (t)) \\| > r.$$ Then at the limit we have $\\| \\nabla f(z_{\\infty})\\| = r$ [for if the limit were $<r$, continuity would give $|\nabla f(z(t))|<r$ for all sufficiently large $t$, contradicting case (a).], and the trajectory $z(\\cdot)$ reaches $z_{\\infty}$ after an infinite time. (b) There exists a finite time $t_1 > t_0$ such that $$\\| \\nabla f (z (t _ {1})) \\| = r.$$ Indeed at time $t_{1}$ the vector field which governs the dynamic is equal to zero, which by Cauchy--Lipschitz formula implies that the trajectory remains fixed at this point. [More explicitly, the soft-threshold vector field is $F(z)=\nabla f(z)-operatorname{proj}_{mathbb B(0,r)}\nabla f(z)$; $|\nabla f(z(t_1))|=r$ implies $F(z(t_1))=0$, so the constant solution has the same Cauchy data and uniqueness identifies it with $z$.] So we have finite convergence. Thus, in all cases we have at the limit that $\\|\\nabla f(z_{\\infty})\\| = r$. ■",
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "ext_def_1",
+        "ext_def_3"
+      ],
+      "remark": "[Foundation: Foundation.SetValued.Basic] recall SetValuedOperator.resolvent | [Foundation: Foundation.Projection.BestApproximation] recall continuous_projector_of_isChebyshev | [Prove hint: use the subgradient inequality and finite arc length.]"
+    },
+    {
+      "id": "thm_2",
+      "type": "theorem",
+      "name": "Theorem 3.1",
+      "statement": "Let $z:[t_0, +\\infty [\\rightarrow \\mathcal{H}$ be a global solution trajectory of (DRYGRAD) where $f$ is assumed to be convex. Then, the following properties are satisfied\n\n(i) $t\\mapsto \\| \\dot{z} (t)\\|$ is decreasing;\n(ii) $\\| \\dot{z}(t)\\| = o\\left(\\frac{1}{t}\\right)$ as $t\\to +\\infty$.",
+      "proof": "(i) Let us use the specific form of the dry friction potential $\\phi$. As long as $\\dot{z}(t) \\neq 0$, we have $$\\dot {z} (t) + r \\frac {\\dot {z} (t)}{\\| \\dot {z} (t) \\|} + \\nabla f (z (t)) = 0. \\tag {3.1}$$ After derivation of (3.1) with respect to $t$, we get $$\\ddot {z} (t) + r \\frac {\\ddot {z} (t)}{\\| \\dot {z} (t) \\|} - r \\dot {z} (t) \\frac {1}{\\| \\dot {z} (t) \\| ^ {2}} \\frac {d}{d t} (\\| \\dot {z} (t) \\|) + \\nabla^ {2} f (z (t)) \\dot {z} (t) = 0. \\tag {3.2}$$ Taking the scalar product with $\\dot{z}(t)$ we get $$\\left(1 + \\frac {r}{\\| \\dot {z} (t) \\|}\\right) \\langle \\ddot {z} (t), \\dot {z} (t) \\rangle - r \\frac {d}{d t} (\\| \\dot {z} (t) \\|) + \\left\\langle \\nabla^ {2} f (z (t)) \\dot {z} (t), \\dot {z} (t) \\right\\rangle = 0. \\tag {3.3}$$ According to the convexity of $f$ we get [At points of twice differentiability, convexity gives $langle\nabla^2f(z(t))dot z(t),dot z(t)\ranglege0$; moreover $langleddot z,dot z\rangle=\frac12\frac d{dt}|dot z|^2$.] $$\\frac {1}{2} \\left(1 + \\frac {r}{\\| \\dot {z} (t) \\|}\\right) \\frac {d}{d t} (\\| \\dot {z} (t) \\| ^ {2}) - r \\frac {d}{d t} (\\| \\dot {z} (t) \\|) \\leq 0. \\tag {3.4}$$ Equivalently $\\| \\dot {z} (t) \\| \\frac {d}{d t} (\\| \\dot {z} (t) \\|) \\leq 0, [Indeed, expand the preceding left-hand side: $\frac12(1+r/|dot z|)\frac d{dt}|dot z|^2-r\frac d{dt}|dot z|=|dot z|\frac d{dt}|dot z|$.] \\tag {3.5}$$ which gives $\\frac{d}{dt}\\left(\\|\\dot{z}(t)\\|\\right) \\leq 0$. Therefore $t \\mapsto \\| \\dot{z}(t) \\|$ is decreasing.\n\n(ii) According to (ii) in Theorem 2.1, and $t \\mapsto \\| \\dot{z}(t) \\|$ is decreasing, we deduce that for all $t \\geq t_0$ $$(t - t _ {0}) \\| \\dot {z} (t) \\| \\leq \\int_ {t _ {0}} ^ {t} \\| \\dot {z} (u) \\| d u \\leq \\int_ {t _ {0}} ^ {+ \\infty} \\| \\dot {z} (u) \\| d u <   + \\infty$$ which gives, that for some positive constant $C$ $$\\| \\dot {z} (t) \\| \\leq \\frac {C}{t}.$$ Indeed we have $\\| \\dot {z} (t) \\| = o \\left(\\frac {1}{t}\\right)$ thanks to the following lemma [The hypotheses hold because (i) gives monotonicity and Theorem 2.1(ii) gives integrability; Lemma 3.1 yields $t|dot z(t)|\to0$.] (apply it with $h(t) = \\|\\dot{z}(t)\\|$ ).",
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "thm_1",
+        "ext_lem_1"
+      ],
+      "remark": "[Prove hint: differentiate only on intervals where $dot z\ne0$; convexity makes the Hessian quadratic form nonnegative.]"
+    },
+    {
+      "id": "ext_def_4",
+      "type": "definition",
+      "name": "Time scaling and weighted averaging",
+      "statement": "Given an increasing $C^1$ map $\tau$ and a trajectory $z$, set $y(s):=z(\tau(s))$. Given $y$, define its averaged trajectory $x$ by $dot x(s)+dot\tau(s)^{-1}(x(s)-y(s))=0$ and $x(s_0)=y(s_0)$. For $\tau(s)=s^2/(2(alpha-1))$, this is $sdot x(s)+(alpha-1)x(s)=(alpha-1)y(s)$.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Notation: this is the paper's time-scaling/averaging construction; differentiate only where the stated trajectories have the required regularity.]"
+    },
+    {
+      "id": "ext_def_5",
+      "type": "definition",
+      "name": "Bregman distance generated by a differentiable convex function",
+      "statement": "If $F$ is differentiable and convex, its Bregman distance is $D_F(a,b):=F(b)-F(a)-langle\nabla F(a),b-a\rangle$. In (3.10), $D(g(t),g_infty)=D_{f^*}(g(t),g_infty)$.",
+      "proof": null,
+      "depends_on": [
+        "ext_def_2"
+      ],
+      "remark": "[Note: the formula requires $f^*$ to be differentiable along the trajectory; otherwise formulate it with a chosen subgradient.]"
+    },
+    {
+      "id": "def_3",
+      "type": "definition",
+      "name": "Dual potential and Bregman distance",
+      "statement": "$$\\psi(v):=\\phi(v)+\\frac{1}{2}\\|v\\|^{2},\\qquad \\psi^ {*} (\\xi) = \\frac {1}{2} \\mathrm{dist} ^ {2} (\\xi , \\mathbb {B} (0, r)),$$\n$$D (g (t), g _ {\\infty}) = f ^ {*} (g _ {\\infty}) - f ^ {*} (g (t)) - \\left\\langle \\nabla f ^ {*} (g (t)), g _ {\\infty} - g (t) \\right\\rangle . \\tag {3.10}$$",
+      "proof": null,
+      "depends_on": [
+        "def_1",
+        "ext_def_2",
+        "ext_def_3",
+        "ext_def_5"
+      ],
+      "remark": "[Foundation: Foundation.Projection.BestApproximation] recall metric projection facts | [Note: differentiability of $f^*$ is needed for the displayed Bregman formula.]"
+    },
+    {
+      "id": "thm_3",
+      "type": "theorem",
+      "name": "Theorem 3.2",
+      "statement": "Let $z: [t_0, +\\infty[ \\to \\mathcal{H}$ be a global solution trajectory of (DRYGRAD). Then $g(t) := \\nabla f(z(t))$ is a solution trajectory of the generalized Riemannian gradient flow $$\\frac {d}{d t} \\left(\\partial f ^ {*} (g (t))\\right) + g (t) - p r o j _ {\\mathbb {B} (0, r)} (g (t)) \\ni 0. \\tag {3.9}$$ The following convergence properties are satisfied: (i) $t \\mapsto dist^2(\\nabla f(z(t)), \\mathbb{B}(0, r))$ is a decreasing function, and, as $t \\to +\\infty$, $$d i s t (\\nabla f (z (t)), \\mathbb {B} (0, r)) = o \\left(\\frac {1}{\\sqrt {t}}\\right);$$ (ii) For any $g_{\\infty} \\in \\mathbb{B}(0, r)$, the function $t \\mapsto D(g(t), g_{\\infty})$ is decreasing where $$D (g (t), g _ {\\infty}) = f ^ {*} (g _ {\\infty}) - f ^ {*} (g (t)) - \\left\\langle \\nabla f ^ {*} (g (t)), g _ {\\infty} - g (t) \\right\\rangle . \\tag {3.10}$$",
+      "proof": "The dissipative properties associated with the above Riemannian gradient flow are obtained by using the Bregman distance defined by $(3.10)$. By deriving this expression we get $$\\begin{aligned} \\frac {d}{d t} D (g (t), g _ {\\infty}) &= - \\frac {d}{d t} (f ^ {*} (g (t))) - \\left\\langle \\frac {d}{d t} \\nabla f ^ {*} (g (t)), g _ {\\infty} - g (t) \\right\\rangle + \\left\\langle \\nabla f ^ {*} (g (t)), \\dot {g} (t) \\right\\rangle \\\\ &= - \\left\\langle \\frac {d}{d t} \\nabla f ^ {*} (g (t)), g _ {\\infty} - g (t) \\right\\rangle \\\\ &= \\left\\langle g (t) - \\operatorname{proj} _ {\\mathbb {B} (0, r)} (g (t)), g _ {\\infty} - g (t) \\right\\rangle \\tag {3.11} \\\\ \\end{aligned}$$ where the last equality comes from (3.7). [The first cancellation uses the chain rule $\frac d{dt}f^*(g(t))=langle\nabla f^*(g(t)),dot g(t)\rangle$, while (3.7) identifies $\frac d{dt}\nabla f^*(g(t))=-(g(t)-operatorname{proj}_{mathbb B(0,r)}g(t))$.] Equivalently, $$\\frac {d}{d t} D (g (t), g _ {\\infty}) + \\left\\langle g (t) - \\operatorname{proj} _ {\\mathbb {B} (0, r)} (g (t)), g (t) - g _ {\\infty} \\right\\rangle = 0.$$ According to the convexity of the function $\\psi^{*}(\\xi) = \\frac{1}{2}\\mathrm{dist}^{2}(\\xi, \\mathbb{B}(0,r))$, and $g_{\\infty} \\in \\mathbb{B}(0,r)$ we have [The convex subgradient inequality at $g(t)$ is $psi^*(g_infty)gepsi^*(g(t))+langle\nablapsi^*(g(t)),g_infty-g(t)\rangle$; here $psi^*(g_infty)=0$ and $\nablapsi^*(g)=g-operatorname{proj}_{mathbb B(0,r)}g$.] $$0 \\geq \\frac {1}{2} \\mathrm{dist} ^ {2} (g (t), \\mathbb {B} (0, r)) + \\left\\langle g (t) - \\operatorname{proj} _ {\\mathbb {B} (0, r)} (g (t)), g _ {\\infty} - g (t) \\right\\rangle .$$ Therefore, $$\\frac {d}{d t} D (g (t), g _ {\\infty}) + \\frac {1}{2} \\mathrm{dist} ^ {2} (g (t), \\mathbb {B} (0, r)) \\leq 0.$$ So, we get that $t \\mapsto D(g(t), g_{\\infty})$ is decreasing and $$\\int_ {t _ {0}} ^ {+ \\infty} \\mathrm{dist} ^ {2} (\\nabla f (z (t)), \\mathbb {B} (0, r)) d t <   + \\infty . \\tag {3.12}$$ Let us now pass from the above integral estimate to a pointwise estimate. To this hand, let us take the scalar product of (3.7) with $\\dot{g}(t)$. We get $$\\left\\langle \\frac {d}{d t} \\left(\\partial f ^ {*} (g (t))\\right), \\dot {g} (t) \\right\\rangle + \\left\\langle g (t) - \\operatorname{proj} _ {\\mathbb {B} (0, r)} (g (t)), \\dot {g} (t) \\right\\rangle = 0. \\tag {3.13}$$ On the one hand we have $$\\frac {d}{d t} \\psi^ {*} (g (t)) = \\left\\langle g (t) - \\operatorname{proj} _ {\\mathbb {B} (0, r)} (g (t)), \\dot {g} (t) \\right\\rangle .$$ On the other hand $$\\left\\langle \\frac {d}{d t} \\left(\\partial f ^ {*} (g (t))\\right), \\dot {g} (t) \\right\\rangle \\geq 0.$$ Indeed, in the case where $f^{*}$ is $\\mathcal{C}^2$ the above inequality is equivalent to $$\\left\\langle \\nabla^ {2} f ^ {*} (g (t)) \\dot {g} (t), \\dot {g} (t) \\right\\rangle \\geq 0,$$ which is satisfied by convexity of $f^{*}$. In the general case, it is obtained by exploiting the monotonicity of $\\partial f^{*}$ at $g(t)$ and $g(t + h)$. Combining the above properties we get $$\\frac {d}{d t} \\psi^ {*} (g (t)) \\leq 0. \\tag {3.14}$$ Therefore $t \\mapsto \\psi^{*}(g(t))$ is a decreasing function, which, according to (3.12), satisfies the following integral estimate [Since $psi^*(g)=\frac12operatorname{dist}^2(g,mathbb B(0,r))$, (3.12) gives this integrability exactly.] $\\int_{t_0}^{+\\infty} \\psi^{*}(g(t)) dt < +\\infty$. We now apply Lemma 3.1 to obtain $$2 \\psi^ {*} (g (t)) = \\mathrm{dist} ^ {2} (\\nabla f (z (t)), \\mathbb {B} (0, r)) = o \\left(\\frac {1}{t}\\right), \\tag {3.15}$$ and the proof is thereby completed.",
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "def_3",
+        "ext_lem_1",
+        "ext_def_1",
+        "ext_def_2",
+        "ext_def_3",
+        "ext_def_5"
+      ],
+      "remark": "[Foundation: Foundation.Projection.BestApproximation] recall projection facts | [Note: the proof differentiates $f^*$; for nonsmooth $f^*$ this requires an absolutely-continuous subgradient selection.]"
+    },
+    {
+      "id": "thm_4",
+      "type": "theorem",
+      "name": "Theorem 3.3",
+      "statement": "Suppose that $f(x) = \\frac{1}{2} \\langle Ax, x \\rangle$ where $A: \\mathcal{H} \\to \\mathcal{H}$ is a linear continuous operator which is symmetric and positive definite. Then for any solution trajectory $t \\mapsto g(t)$ with $g(t) = \\nabla f(z(t))$ of the dual version of (DRYGRAD), there is exponential convergence rate, i.e. for some $\\mu > 0$ $$\\text {dist} (\\nabla f (z (t)), \\mathbb {B} (0, r)) \\leq C e ^ {- \\mu t},$$ and the trajectory takes infinite time to reach this equilibria. Precisely, starting with $\\| \\nabla f(z(t_0))\\| >r$, then for some $\\nu >0$ we have $$d i s t (\\nabla f (z (t)), \\mathbb {B} (0, r)) \\geq C e ^ {- \\nu t}.$$ As a consequence for any trajectory z of (DRYGRAD), the equilibria is only reached after an infinite time.",
+      "proof": "According to $f(x) = \\frac{1}{2}\\langle Ax, x\\rangle$, we have $f^{*}(x) = \\frac{1}{2}\\langle A^{-1}x, x\\rangle$, where $A^{-1}$ is the inverse operator of $A$. Then, the dual version of (DRYGRAD) writes as follows $$A ^ {- 1} \\dot {g} (t) + g (t) - \\mathrm{proj} _ {\\mathbb {B} (0, r)} (g (t)) = 0. \\tag {3.16}$$ Set briefly $h(t) = \\frac{1}{2}\\mathrm{dist}^2 (g(t),\\mathbb{B}(0,r))$. We have $$\\begin{aligned} \\dot {h} (t) &= \\left\\langle g (t) - \\operatorname{proj} _ {\\mathbb {B} (0, r)} (g (t)), \\dot {g} (t) \\right\\rangle \\\\ &= - \\left\\langle g (t) - \\operatorname{proj} _ {\\mathbb {B} (0, r)} (g (t)), A (g (t)) - \\operatorname{proj} _ {\\mathbb {B} (0, r)} (g (t)) \\right\\rangle . \\\\ \\end{aligned}$$ Let $\\mu > 0$ and $\\nu > 0$ such that for all $\\xi \\in \\mathcal{H}$ $$\\nu \\| \\xi \\| ^ {2} \\geq \\langle A \\xi , \\xi \\rangle \\geq \\mu \\| \\xi \\| ^ {2}.$$ Then $$\\dot {h} (t) + \\mu \\| g (t) - \\mathrm{proj} _ {\\mathbb {B} (0, r)} (g (t)) \\| ^ {2} \\leq 0 \\leq \\dot {h} (t) + \\nu \\| g (t) - \\mathrm{proj} _ {\\mathbb {B} (0, r)} (g (t)) \\| ^ {2}.$$ Let us now observe that $$\\| g (t) - \\operatorname{proj} _ {\\mathbb {B} (0, r)} (g (t)) \\| ^ {2} = 2 h (t).$$ Therefore we get $$\\dot {h} (t) + 2 \\mu h (t) \\leq 0 \\leq \\dot {h} (t) + 2 \\nu h (t).$$ This immediately implies that [Integrating $dot h+2mu hle0$ gives $h(t)le h(t_0)e^{-2mu(t-t_0)}$, while $dot h+2\nu hge0$ gives $h(t)ge h(t_0)e^{-2\nu(t-t_0)}$; absorb the factors depending on $t_0$ into positive constants.] $$C _ {1} e ^ {- 2 \\nu t} \\leq \\mathrm{dist} ^ {2} (g (t), \\mathbb {B} (0, r)) = 2 h (t) \\leq C _ {2} e ^ {- 2 \\mu t}.$$ and hence $$C _ {3} e ^ {- \\nu t} \\leq \\mathrm{dist} (\\nabla f (z (t)), \\mathbb {B} (0, r)) \\leq C _ {4} e ^ {- \\mu t}.$$ As a consequence, according to the definition of (DRYGRAD) we have $\\dot{z}(t) \\neq 0$ for any $t \\geq t_{0}$, which means that the equilibrium is reached only after an infinite time. ■",
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "thm_3",
+        "ext_def_3"
+      ],
+      "remark": "[Prove hint: integrate the two scalar differential inequalities using positive definiteness of $A$.]"
+    },
+    {
+      "id": "ext_thm_2",
+      "type": "theorem",
+      "name": "Time scaling and averaging theorem",
+      "statement": "For the steepest-descent flow under an increasing time scale $\tau$, the definitions $y(s)=z(\tau(s))$ and $dot x+dot\tau^{-1}(x-y)=0$ yield the weighted-average formula and the corresponding second-order inertial equation used in (4.14)--(4.15).",
+      "proof": "Cited from: H. Attouch, R.I. Boț, D.-K. Nguyen, Fast convex optimization via time scale and averaging of the steepest descent, arXiv:2208.08260v2 [math.OC] (2022).",
+      "depends_on": [
+        "ext_def_4"
+      ],
+      "source": "H. Attouch, R.I. Boț, D.-K. Nguyen, Fast convex optimization via time scale and averaging of the steepest descent, arXiv:2208.08260v2 [math.OC] (2022).",
+      "resolution_priority": "high",
+      "remark": "[External: cited for the averaging representation and the time-scale derivation; the paper partially derives the needed formulas.]"
+    },
+    {
+      "id": "thm_5",
+      "type": "theorem",
+      "name": "Theorem 4.1",
+      "statement": "Time scaling and averaging of the steepest descent method with two potentials (DRYGRAD) and with time scale $\\tau(s) = \\frac{s^2}{2(\\alpha - 1)}$ give the two equivalent differential systems: (i) The couple of variables $(y, x)$ is solution of the following first-order differential system: $$\\left\\{ \\begin{aligned} \\dot {y} (s) + \\frac {s}{\\alpha - 1} \\partial \\phi (\\dot {y} (s)) + \\frac {s}{\\alpha - 1} \\nabla f (y (s)) \\ni 0 \\\\ \\dot {x} (s) + \\frac {\\alpha - 1}{s} (x (s) - y (s)) &= 0. \\end{aligned} \\right. \\tag {4.14}$$ (ii) $x$ is solution of the inertial system $$\\ddot {x} (s) + \\frac {\\alpha}{s} \\dot {x} (s) - (I + \\partial \\phi) ^ {- 1} \\left[ - \\nabla f \\left(x (s) + \\frac {s}{\\alpha - 1} \\dot {x} (s)\\right) \\right] = 0, \\tag {4.15}$$ that is $$\\text {(DRYSTAR)} \\quad \\ddot {x} (s) + \\frac {\\alpha}{s} \\dot {x} (s) + \\nabla f \\left(x (s) + \\frac {s}{\\alpha - 1} \\dot {x} (s)\\right) - p r o j _ {\\mathbb {B} (0, r)} \\left(\\nabla f \\left(x (s) + \\frac {s}{\\alpha - 1} \\dot {x} (s)\\right)\\right) = 0.$$",
+      "proof": "",
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "ext_def_1",
+        "ext_def_3",
+        "ext_def_4",
+        "ext_thm_2"
+      ],
+      "remark": "[Foundation: Foundation.SetValued.Basic] recall SetValuedOperator.resolvent | [Prove hint: substitute $dot\tau=s/(alpha-1)$ and $(1+ddot\tau)/dot\tau=alpha/s$.]"
+    },
+    {
+      "id": "thm_7",
+      "type": "theorem",
+      "name": "Theorem 4.3",
+      "statement": "Suppose that $f(x) = \\frac{1}{2} \\langle Ax, x \\rangle$ where $A: \\mathcal{H} \\to \\mathcal{H}$ is a linear continuous operator which is symmetric and positive definite. Then for any solution trajectory $x: [s_0, +\\infty] \\to \\mathcal{H}$ of (DRYSTAR), we have the following accelerated exponentiel convergence rate: for some $\\mu > 0$ $$\\text {dist} \\left(\\nabla f \\left(x (s) + \\frac {s}{\\alpha - 1} \\dot {x} (s)\\right), \\mathbb {B} (0, r)\\right) \\leq C e ^ {- \\mu s ^ {2}}.$$",
+      "proof": "",
+      "depends_on": [
+        "def_1",
+        "thm_4",
+        "thm_5",
+        "ext_def_3",
+        "ext_def_4",
+        "ext_thm_2"
+      ],
+      "remark": "[Prove hint: compose Theorem 3.3 with $t=\tau(s)$; constants absorb $2(alpha-1)$.]"
+    },
+    {
+      "id": "thm_8",
+      "type": "theorem",
+      "name": "Theorem 5.1",
+      "statement": "Let $z : [t_0, +\\infty[ \\to \\mathcal{H}$ be a global solution trajectory of (DRYGRAD). Then the function $g(t) := \\nabla f(z(t))$ is a solution trajectory of the generalized Riemannian gradient flow $$\\frac {d}{d t} \\left(\\partial f ^ {*} (g (t))\\right) + g (t) - p r o j _ {\\mathbb {B} (0, r)} (g (t)) \\ni 0. \\tag {5.8}$$ Set $\\tau(s) = \\frac{s^2}{2(\\alpha - 1)}$ with $\\alpha > 1$, and $v(s) = g(\\tau(s))$. Define $w$ as the solution of the differential equation $$\\dot {w} (s) + \\frac {1}{\\dot {\\tau} (s)} (w (s) - v (s)) = 0, w i t h w (s _ {0}) = v (s _ {0}) = x _ {0}.$$ Then w satisfies the following inertial system $$\\text {(DRYSTARDE)} \\quad \\nabla^ {2} f ^ {*} \\Big (w (s) + \\frac {s}{\\alpha - 1} \\dot {w} (s) \\Big) \\Big (\\ddot {w} (s) + \\frac {\\alpha}{s} \\dot {w} (s) \\Big) + \\nabla \\psi^ {*} \\Big (w (s) + \\frac {s}{\\alpha - 1} \\dot {w} (s) \\Big) = 0,$$ with $\\nabla \\psi^{*}(w(s)) = 2w(s) - 2proj_{\\mathbb{B}(0,r)}(w(s))$ and the following convergence properties are satisfied: as $s\\to +\\infty$ $$\\text {dist} \\left(w (s) + \\frac {s}{\\alpha - 1} \\dot {w} (s), \\mathbb {B} (0, r)\\right) = o \\left(\\frac {1}{s}\\right) \\text {and} \\text {dist} \\Big (w (s), \\mathbb {B} (0, r) \\Big) = o \\left(\\frac {1}{s}\\right).$$",
+      "proof": "",
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "def_3",
+        "thm_3",
+        "ext_def_2",
+        "ext_def_3",
+        "ext_def_4",
+        "ext_thm_2"
+      ],
+      "remark": "[Note: the statement has a factor-of-two inconsistency: earlier $psi^*=\frac12operatorname{dist}^2$ gives $\nablapsi^*=I-operatorname{proj}$, not $2(I-operatorname{proj})$. Preserve statement; resolve before Lean.]"
+    },
+    {
+      "id": "ext_thm_3",
+      "type": "theorem",
+      "name": "Fubini--Tonelli theorem for nonnegative integrands",
+      "statement": "If $K(s,u)ge0$ is measurable on a product measure space, then its iterated integrals may be interchanged: $int!int K(s,u),du,ds=int!int K(s,u),ds,du$.",
+      "proof": "Cited from: the Fubini--Tonelli inversion theorem, invoked explicitly in the proof of Theorem 4.2.",
+      "depends_on": [],
+      "source": "Fubini--Tonelli theorem",
+      "resolution_priority": "medium",
+      "remark": "[Prove hint: apply Tonelli to $K(s,u)=(alpha-1)s^{-alpha}u^{alpha-1}|dot y(u)|mathbf 1_{s_0le ule s}$.]"
+    },
+    {
+      "id": "thm_6",
+      "type": "theorem",
+      "name": "Theorem 4.2",
+      "statement": "Let $f: \\mathcal{H} \\to \\mathbb{R}$ be a convex $\\mathcal{C}^1$ function, whose gradient is Lipschitz continuous on the bounded sets and such that $S = \\operatorname{argmin} f \\neq \\emptyset$. Suppose that $\\alpha > 1$. Let $x: [s_0, +\\infty[ \\to \\mathcal{H}]$ be a solution trajectory of (DRYSTAR) that is $$\\ddot {x} (s) + \\frac {\\alpha}{s} \\dot {x} (s) + \\nabla f \\Big (x (s) + \\frac {s}{\\alpha - 1} \\dot {x} (s) \\Big) - p r o j _ {\\mathbb {B} (0, r)} \\left(\\nabla f \\Big (x (s) + \\frac {s}{\\alpha - 1} \\dot {x} (s) \\Big)\\right) = 0. \\tag {4.17}$$ Then: (i) $\\| \\dot{x}(s)\\| = o\\left(\\frac{1}{s}\\right)$ as $s\\to +\\infty$; (ii) $\\int_{s_0}^{+\\infty}\\| \\dot{x} (s)\\| ds < +\\infty .$; (iii) $x(s)$ converges strongly as $s \\to +\\infty$, and its limit $x_{\\infty}$ satisfies $\\| \\nabla f(x_{\\infty}) \\| = r$.",
+      "proof": "Following [1], let us interpret the transition from $y$ to $x$ as an averaging process. Next, using techniques from integral calculus, we aim to transfer the properties of $y$, obtained from Theorem 2.1 through time scaling, to $x$. To achieve this, we recast the second equation of (4.14) as follows: $$s \\dot {x} (s) + (\\alpha - 1) x (s) = (\\alpha - 1) y (s). \\tag {4.18}$$ Then, observe that $x(s)$ can be simply written as follows (we refer to [1] for the details) [Multiply (4.18) by $s^{alpha-2}$ to obtain $\frac d{ds}(s^{alpha-1}x(s))=(alpha-1)s^{alpha-2}y(s)$; integrating from $s_0$ to $s$ and using $x(s_0)=y(s_0)$ yields (4.19).] $$x (s) = \\int_ {s _ {0}} ^ {s} y (u) d \\mu_ {s} (u), \\tag {4.19}$$ where $\\mu_{s}$ is the positive Radon measure on $[s_0, s]$ defined by $$\\mu_ {s} = \\frac {s _ {0} ^ {\\alpha - 1}}{s ^ {\\alpha - 1}} \\delta_ {s _ {0}} + (\\alpha - 1) \\frac {u ^ {\\alpha - 2}}{s ^ {\\alpha - 1}} d u,$$ where $\\delta_{s_0}$ is the Dirac measure at $s_0$. We have that $\\mu_{s}$ is a positive Radon measure on $[s_{0}, s]$ whose total mass is equal to 1. It is therefore a probability measure, and $\\int_{s_{0}}^{s} y(u) d\\mu_{s}(u)$ is obtained by averaging the trajectory $y(\\cdot)$ on $[s_{0}, s]$ with respect to $\\mu_{s}$. From there, we can deduce fast convergence properties for the solution trajectories of (DRYSTAR).\n\n(i) Let us first consider the convergence rate of the velocities. According to Theorem 3.1(ii), there exists a function $\\varepsilon_0(\\cdot)$ with $\\lim_{t\\to +\\infty}\\varepsilon_0(t) = 0$ such that $$\\| \\dot {z} (t) \\| = \\frac {\\varepsilon_ {0} (t)}{t}.$$ Therefore, $$\\| \\dot {z} (\\tau (s)) \\| = \\frac {\\varepsilon_ {0} (\\tau (s))}{\\tau (s)}. \\tag {4.20}$$ Since $\\dot{y}(s) = \\dot{\\tau}(s)\\dot{z} (\\tau (s))$, we deduce that $$\\| \\dot {y} (s) \\| = \\frac {\\varepsilon_ {0} (\\tau (s)) \\dot {\\tau} (s)}{\\tau (s)}. \\tag {4.21}$$ From $\\tau(s) = \\frac{s^2}{2(\\alpha - 1)}$, we get $$\\| \\dot {y} (s) \\| = \\frac {\\varepsilon (s)}{s}, \\tag {4.22}$$ with $\\varepsilon(s) = 2\\varepsilon_0(\\tau(s))$ which tends to zero as $s \\to +\\infty$. Let us now establish a similar estimate for $\\|\\dot{x}(s)\\|$. According to the definition of $x$ $$x (s) = \\frac {s _ {0} ^ {\\alpha - 1}}{s ^ {\\alpha - 1}} x _ {0} + \\frac {\\alpha - 1}{s ^ {\\alpha - 1}} \\int_ {s _ {0}} ^ {s} u ^ {\\alpha - 2} y (u) d u. \\tag {4.23}$$ By differentiating this expression, we get $$\\dot {x} (s) = - \\frac {(\\alpha - 1) s _ {0} ^ {\\alpha - 1}}{s ^ {\\alpha}} x _ {0} - \\frac {(\\alpha - 1) ^ {2}}{s ^ {\\alpha}} \\int_ {s _ {0}} ^ {s} u ^ {\\alpha - 2} y (u) d u + (\\alpha - 1) \\frac {1}{s} y (s). \\tag {4.24}$$ Let us reformulate this expression in terms of $\\dot{y}(s)$, which is the quantity whose speed of convergence is known by (4.22). Indeed, by integration by parts we have $$\\int_ {s _ {0}} ^ {s} u ^ {\\alpha - 1} \\dot {y} (u) d u = s ^ {\\alpha - 1} y (s) - s _ {0} ^ {\\alpha - 1} y (s _ {0}) - (\\alpha - 1) \\int_ {s _ {0}} ^ {s} u ^ {\\alpha - 2} y (u) d u.$$ After multiplication of the above expression by $\\frac{\\alpha-1}{s^{\\alpha}}$, and according to $y(s_{0})=x_{0}$, we get $$\\frac {\\alpha - 1}{s ^ {\\alpha}} \\int_ {s _ {0}} ^ {s} u ^ {\\alpha - 1} \\dot {y} (u) d u = (\\alpha - 1) \\frac {1}{s} y (s) - \\frac {(\\alpha - 1) s _ {0} ^ {\\alpha - 1}}{s ^ {\\alpha}} x _ {0} - \\frac {(\\alpha - 1) ^ {2}}{s ^ {\\alpha}} \\int_ {s _ {0}} ^ {s} u ^ {\\alpha - 2} y (u) d u. \\tag {4.25}$$ Comparing (4.24) and (4.25) we get $$\\dot {x} (s) = \\frac {\\alpha - 1}{s ^ {\\alpha}} \\int_ {s _ {0}} ^ {s} u ^ {\\alpha - 1} \\dot {y} (u) d u. \\tag {4.26}$$ After multiplication of (4.26) by $s$, and according to (4.22), we obtain successively $$s \\dot {x} (s) = \\frac {\\alpha - 1}{s ^ {\\alpha - 1}} \\int_ {s _ {0}} ^ {s} u ^ {\\alpha - 2} u \\dot {y} (u) d u$$ $$s \\| \\dot {x} (s) \\| \\leq \\frac {\\alpha - 1}{s ^ {\\alpha - 1}} \\int_ {s _ {0}} ^ {s} u ^ {\\alpha - 2} \\varepsilon (u) d u.$$ Since $\\varepsilon(s)$ tends to zero as $s \\to +\\infty$, by applying Lemma A.1 we obtain $\\lim_{s \\to +\\infty} \\|s\\dot{x}(s)\\| = 0$.\n\n(ii) According to Theorem 2.1 (ii), we have $$\\int_ {t _ {0}} ^ {+ \\infty} \\| \\dot {z} (t) \\| d t <   + \\infty$$ i.e., the trajectory $z(\\cdot)$ has a finite length. This property being invariant by change of time variable, we have that $$\\int_ {s _ {0}} ^ {+ \\infty} \\| \\dot {y} (s) \\| d s <   + \\infty .$$ According to (4.26) we have that $$\\| \\dot {x} (s) \\| \\leq \\frac {\\alpha - 1}{s ^ {\\alpha}} \\int_ {s _ {0}} ^ {s} u ^ {\\alpha - 1} \\| \\dot {y} (u) \\| d u. \\tag {4.27}$$ Therefore $$\\begin{aligned} \\int_ {s _ {0}} ^ {+ \\infty} \\| \\dot {x} (s) \\| d s &\\leq \\int_ {s _ {0}} ^ {+ \\infty} \\left(\\frac {\\alpha - 1}{s ^ {\\alpha}} \\int_ {s _ {0}} ^ {s} u ^ {\\alpha - 1} \\| \\dot {y} (u) \\| d u\\right) d s (4.28) \\\\ &= \\int_ {s _ {0}} ^ {+ \\infty} \\| \\dot {y} (u) \\| d u <   + \\infty (4.29) \\\\ \\end{aligned}$$ where the last equality follows from a simple calculus using the Fubini--Tonelli inversion theorem for the multiple integral of a nonnegative function. [Indeed, Tonelli changes the left side into $int_{s_0}^infty u^{alpha-1}|dot y(u)|(alpha-1)int_u^infty s^{-alpha}ds,du=int_{s_0}^infty|dot y(u)|du$.]\n\n(iii) Therefore, we have that the trajectory $x(\\cdot)$ converges strongly to some $x_{\\infty}$. Let us verify that $$\\lim _ {t \\to + \\infty} z (t) = \\lim _ {s \\to + \\infty} y (s) = \\lim _ {s \\to + \\infty} x (s).$$ Indeed, the first equality is an immediate consequence of $y(s) = z(\\tau(s))$ and $\\tau(s) \\to +\\infty$ as $s \\to +\\infty$. The second equality follows again from the averaging property, and from the general property which says that convergence entails ergodic convergence. Let us make this precise. By definition of $x(s)$ $$x (s) = \\int_ {s _ {0}} ^ {s} y (u) d \\mu_ {s} (u) = \\frac {s _ {0} ^ {\\alpha - 1}}{s ^ {\\alpha - 1}} y (s _ {0}) + \\frac {\\alpha - 1}{s ^ {\\alpha - 1}} \\int_ {s _ {0}} ^ {s} u ^ {\\alpha - 2} y (u) d u.$$ Let $y_{\\infty} = \\lim_{s \\to +\\infty} y(s)$. Since $\\mu_s$ is a probability measure $$x (s) - y _ {\\infty} = \\int_ {s _ {0}} ^ {s} (y (u) - y _ {\\infty}) d \\mu_ {s} (u) = \\frac {s _ {0} ^ {\\alpha - 1}}{s ^ {\\alpha - 1}} (y (s _ {0}) - y _ {\\infty}) + \\frac {\\alpha - 1}{s ^ {\\alpha - 1}} \\int_ {s _ {0}} ^ {s} u ^ {\\alpha - 2} (y (u) - y _ {\\infty}) d u.$$ Therefore $$\\| x (s) - y _ {\\infty} \\| \\leq \\frac {s _ {0} ^ {\\alpha - 1}}{s ^ {\\alpha - 1}} \\| y (s _ {0}) - y _ {\\infty} \\| + \\frac {\\alpha - 1}{s ^ {\\alpha - 1}} \\int_ {s _ {0}} ^ {s} u ^ {\\alpha - 2} \\| y (u) - y _ {\\infty} \\| d u.$$ The equality $\\lim_{s\\to +\\infty}y(s) = \\lim_{s\\to +\\infty}x(s)$ follows from a direct application of Lemma A.1. [Apply Lemma A.1 to $a(u)=|y(u)-y_infty|$, which is nonnegative and tends to $0$; the atomic coefficient $s_0^{alpha-1}/s^{alpha-1}$ also tends to $0$.] According to Theorem 2.1 (iii) we thus have that $x(s)$ converges strongly as $s\\to +\\infty$, and its limit $x_{\\infty}$ satisfies $$\\| \\nabla f (x _ {\\infty}) \\| = r,$$ which completes the proof. ■",
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "thm_1",
+        "thm_2",
+        "thm_5",
+        "lem_1",
+        "ext_def_3",
+        "ext_def_4",
+        "ext_thm_2",
+        "ext_thm_3"
+      ],
+      "remark": "[Prove hint: solve the linear ODE for $x$, then use Tonelli on the nonnegative kernel.]"
+    },
+    {
+      "id": "rem_2",
+      "type": "remark",
+      "name": "Remark 4.1",
+      "statement": "As a general rule, the trajectories $z(\\cdot)$ and $y(\\cdot)$ ultimately reach the same equilibrium in finite time. As a result, for some finite time $\\bar{s}$, we can conclude that $y(\\bar{s}) = x_{\\infty}$. Using the average formula in Eq. (4.23), we can compute that for all $s \\geq \\bar{s}$, the following expression holds: $$x (s) = x _ {\\infty} + \\frac {C}{S ^ {\\alpha - 1}}. \\tag {4.30}$$ Thus, finite-time stabilization is no longer valid for $x(\\cdot)$, but it is nearly true when $\\alpha$ is large.",
+      "proof": null,
+      "depends_on": [
+        "thm_5",
+        "thm_6",
+        "ext_def_4"
+      ],
+      "remark": "[Note: equation (4.30) writes $S$ where the time variable should likely be $s$; retain source notation.]"
+    },
+    {
+      "id": "ext_thm_4",
+      "type": "theorem",
+      "name": "Classical gradient-flow value rate",
+      "statement": "For a convex differentiable function with an attained infimum, the classical gradient flow $dot y+\nabla f(y)=0$ satisfies $f(y(s))-inf f=o(1/s)$ under the regularity assumptions invoked in Appendix A.",
+      "proof": "Cited from: the classical convergence property of the classical descent method, invoked in the proof of Theorem A.1; no bibliographic source is supplied in the paper.",
+      "depends_on": [],
+      "source": "Unspecified classical gradient-flow convergence result",
+      "resolution_priority": "medium",
+      "remark": "[Note: formalization needs the exact hypotheses and a source; the paper states this result without them.]"
+    },
+    {
+      "id": "thm_9",
+      "type": "theorem",
+      "name": "Theorem A.1",
+      "statement": "Let $z : [t_{0}, +\\infty] \\to H$ be a global solution trajectory of (DRYGRAD). Then, $t \\mapsto f(z(t))$ is a decreasing function, and the following convergence rate is satisfied: as $t \\to +\\infty$ $$f (z (t)) - f _ {*} = o \\left(\\frac {1}{\\ln t}\\right),$$ where $f_{*} = \\inf \\{f(z(t)): t \\geq t_{0}\\}$.",
+      "proof": "According to (2.3), we have $$\\| \\dot {z} (t) \\| ^ {2} + \\frac {d}{d t} f (z (t)) \\leq 0. \\tag {A.1}$$ So $\\frac{d}{dt} f(z(t)) \\leq 0$, which implies that (DRYGRAD) is a descent method. We analyze the case where convergence holds in infinite time. The case of finite convergence requires a different analysis. So let us introduce $$f _ {*} = \\inf \\left\\{f (z (t)): t \\geq t _ {0} \\right\\}.$$ So we have $f(z(t)) \\downarrow f_{*}$ as $t \\rightarrow +\\infty$. Let us rewrite (DRYGRAD) as the non-autonomous gradient system $$\\dot {z} (t) + \\gamma (t) \\nabla f (z (t)) = 0, \\tag {A.2}$$ where $$\\gamma (t) = \\frac {1}{1 + \\frac {r}{\\| \\dot {z} (t) \\|}} = \\frac {\\| \\dot {z} (t) \\|}{r + \\| \\dot {z} (t) \\|}.$$ We have already proved that $\\| \\dot{z}(t)\\| = o\\left(\\frac{1}{t}\\right)$. Therefore, given $\\epsilon >0$, for $t$ sufficiently large $$\\gamma (t) = \\frac {\\| \\dot {z} (t) \\|}{r + \\| \\dot {z} (t) \\|} \\leq \\frac {\\epsilon}{t}.$$ Let us now interpret (A.2) as a time rescaled steepest descent. Set $t = \\theta(s)$ where $\\theta$ is an increasing function that will be fixed later. Set $y(s) = z(\\theta(s))$. We have $$\\dot {y} (s) + \\gamma (\\theta (s)) \\dot {\\theta} (s) \\nabla f (y (s)) = 0. \\tag {A.3}$$ Take $\\theta$ such that $$\\gamma (\\theta (s)) \\dot {\\theta} (s) = 1.$$ Let us integrate this differential equation, and introduce $\\Gamma = \\int \\gamma$ a primitive of $\\gamma$. Therefore $\\Gamma' = \\gamma \\geq 0$ which implies that $\\Gamma$ is an increasing function. We thus have $$\\frac {d}{d s} \\Gamma (\\theta (s)) = 1,$$ which gives $$\\Gamma (\\theta (s)) = s.$$ So, $\\theta$ is the inverse function of $\\Gamma$ , which implies that it is an increasing function. A careful inspection shows that $\\lim_{t\\to +\\infty}\\Gamma (t) = \\Gamma_{\\infty} < +\\infty$ , because $x(\\cdot)$ has finite length. So the time scaling is between $t\\in [s_0, + \\infty[$ and $s = \\theta^{-1}(t) = \\Gamma (t)\\in [s_0,\\Gamma_\\infty[$ . Since $\\gamma (t)\\leq \\frac{\\epsilon}{t}$ , and $\\Gamma' = \\gamma$ , we have $$\\Gamma (s) \\leq \\epsilon \\ln (s).$$ Therefore $$s = \\Gamma (\\theta (s)) \\leq \\epsilon \\ln (\\theta (s)),$$ which gives $$\\theta (s) \\geq \\exp (\\frac {1}{\\epsilon} s).$$ On the other hand, according to a classical convergence property of the classical descent method $$\\dot {y} (s) + \\nabla f (y (s)) = 0, \\tag {A.4}$$ we have $$f (y (s)) - f _ {*} \\leq f (y (s)) - \\inf f = o \\left(\\frac {1}{s}\\right).$$ Since $y(s) = z(\\theta(s))$, we get $$f (z (\\theta (s))) - f _ {*} = o \\left(\\frac {1}{s}\\right).$$ Since for $z$, we have a descent method and $\\theta(s) \\geq \\exp(\\frac{1}{\\epsilon}s)$ we deduce that [Because $\theta(s)ge e^{s/epsilon}$ and $f(z(cdot))$ is nonincreasing, $f(z(e^{s/epsilon}))ge f(z(\theta(s)))$; thus the displayed inequality has the direction written in the source reversed. [TODO: verify] the final rate cannot be concluded from this comparison without an additional argument.] $$f (z (\\exp (\\frac {1}{\\epsilon} s))) - f _ {*} \\leq f (z (\\theta (s))) - f _ {*} = o \\left(\\frac {1}{s}\\right).$$ This gives $$f (z (t)) - f _ {*} = o \\left(\\frac {1}{\\ln t}\\right),$$ which completes the proof. ■",
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "thm_1",
+        "thm_2",
+        "ext_thm_4"
+      ],
+      "remark": "[Note: the proof’s time variable has a finite upper endpoint when $intgamma<infty$; the invoked gradient-flow rate needs exact hypotheses and a careful reparameterization.]"
+    },
+    {
+      "id": "ext_thm_5",
+      "type": "theorem",
+      "name": "Gorni conjugation and second-order expansion result",
+      "statement": "If a proper lower-semicontinuous convex $f:mathbb R^n\tomathbb Rcup{+infty}$ has $f(x)=\frac12langle Ax,x\rangle+o(|x|^2)$ at $0$, with $A$ symmetric positive definite, then $f^*(y)=\frac12langle A^{-1}y,y\rangle+o(|y|^2)$ at $0$.",
+      "proof": "Cited from: G. Gorni, Conjugation and second-order properties of convex functions, J. Math. Anal. Appl. 158 (1991) 293--315.",
+      "depends_on": [
+        "ext_def_2"
+      ],
+      "source": "G. Gorni, Conjugation and second-order properties of convex functions, J. Math. Anal. Appl. 158 (1991) 293--315.",
+      "resolution_priority": "low",
+      "remark": "[External: used only in Remark 3.1.]"
+    },
+    {
+      "id": "rem_1",
+      "type": "remark",
+      "name": "Remark 3.1",
+      "statement": "Let $f: \\mathbb{R}^n \\to \\mathbb{R} \\cup +\\infty$ be a convex, proper and lower semicontinuous function. It is known that the Legendre-Fenchel conjugate $f^*$ associated with $f$ is related to the subdifferential of $f$ as follows: $$\\begin{aligned} y &\\in \\partial f (x) \\iff f (x) + f ^ {*} (y) = \\langle y, x \\rangle \\\\ \\Longleftrightarrow x &\\in \\partial f ^ {*} (y). \\\\ \\end{aligned}$$ Thus, the inverse of the subdifferential of $f$, $\\partial f$, as a set-valued operator is $\\partial f^*$, i.e. $\\partial f^* = (\\partial f)^{-1}$. If $f:\\mathbb{R}^n\\to \\mathbb{R}$ is convex and of class $\\mathcal{C}^1$, then $$y \\in \\partial f (x) \\iff y = \\nabla f (x).$$ Suppose that $\\nabla f: \\mathbb{R}^n \\to \\mathbb{R}^n$ is nonsingular with a continuous inverse. Then $f^*$ is also of class $\\mathcal{C}^1$ and $$\\nabla f ^ {*} = \\left(\\nabla f\\right) ^ {- 1}.$$ Furthermore, if $f$ is convex and twice continuously differentiable, i.e. $f$ is of class $\\mathcal{C}^2$, with a nonsingular Hessian matrix $\\nabla^2 f(x)$ at every point $x \\in \\mathbb{R}^n$, then by using the inverse function theorem, we have $$\\left(\\nabla^ {2} f (x)\\right) ^ {- 1} = \\nabla^ {2} f ^ {*} (y), \\text {with} y = \\nabla f (x).$$ We note that this formula can be rewritten in terms of associated quadratic forms as follows $$y \\in \\partial f (x) \\Longrightarrow Q _ {f ^ {*}} (y) = \\left(Q _ {f} (x)\\right) ^ {*},$$ where $Q_{f}(x)=\\frac{1}{2}\\langle\\nabla^{2}f(x)z,z\\rangle$ is the associated quadratic form with the Hessian matrix of f. The following result linking conjugation and second-order properties of convex functions was proved by G. Gorni in [44]. Let $f: \\mathbb{R}^n \\to \\mathbb{R} \\cup +\\infty$ be a convex, proper and lower semicontinuous function. If $f$ has a second-order Taylor expansion at the origin $$f (x) = \\frac {1}{2} \\langle A x, x \\rangle + o (\\| x \\| ^ {2}) \\text {   as   } x \\to 0,$$ with A symmetric and positive definite, then $f^{*}$ has also a second-order Taylor expansion at the origin, which is given by $$f ^ {*} (y) = \\frac {1}{2} \\langle A ^ {- 1} y, y \\rangle + o (\\| y \\| ^ {2}) \\text {as} y \\to 0.$",
+      "proof": null,
+      "depends_on": [
+        "ext_def_1",
+        "ext_def_2",
+        "ext_thm_5"
+      ],
+      "remark": "[Foundation: Foundation.SetValued.Basic] recall SetValuedOperator.inverse | [External: Gorni result is low priority.]"
+    }
+  ],
+  "external_theorems": [
+    {
+      "id": "ext_lem_1",
+      "type": "lemma",
+      "name": "Lemma 3.1",
+      "statement": "Let $h \\colon [t_0, +\\infty[ \\to \\mathbb{R}^+ \\text{ be a nonincreasing function belonging to } \\mathbb{L}^1 ([t_0, +\\infty[). Then it holds $\\lim_{t \\to +\\infty} th(t) = 0$.",
+      "proof": "Cited from: B. Abbas, H. Attouch, B.F. Svaiter, Newton-like dynamics and forward-backward methods for structured monotone inclusions in Hilbert spaces, J. Optim. Theory Appl. 161 (2) (2014) 331--360.",
+      "depends_on": [],
+      "source": "B. Abbas, H. Attouch, B.F. Svaiter, Newton-like dynamics and forward-backward methods for structured monotone inclusions in Hilbert spaces, J. Optim. Theory Appl. 161 (2) (2014) 331--360.",
+      "resolution_priority": "medium",
+      "remark": "[External: used to convert monotone integrable decay into a pointwise $o(1/t)$ estimate.]"
+    },
+    {
+      "id": "ext_thm_2",
+      "type": "theorem",
+      "name": "Time scaling and averaging theorem",
+      "statement": "For the steepest-descent flow under an increasing time scale $\tau$, the definitions $y(s)=z(\tau(s))$ and $dot x+dot\tau^{-1}(x-y)=0$ yield the weighted-average formula and the corresponding second-order inertial equation used in (4.14)--(4.15).",
+      "proof": "Cited from: H. Attouch, R.I. Boț, D.-K. Nguyen, Fast convex optimization via time scale and averaging of the steepest descent, arXiv:2208.08260v2 [math.OC] (2022).",
+      "depends_on": [
+        "ext_def_4"
+      ],
+      "source": "H. Attouch, R.I. Boț, D.-K. Nguyen, Fast convex optimization via time scale and averaging of the steepest descent, arXiv:2208.08260v2 [math.OC] (2022).",
+      "resolution_priority": "high",
+      "remark": "[External: cited for the averaging representation and the time-scale derivation; the paper partially derives the needed formulas.]"
+    },
+    {
+      "id": "ext_thm_3",
+      "type": "theorem",
+      "name": "Fubini--Tonelli theorem for nonnegative integrands",
+      "statement": "If $K(s,u)ge0$ is measurable on a product measure space, then its iterated integrals may be interchanged: $int!int K(s,u),du,ds=int!int K(s,u),ds,du$.",
+      "proof": "Cited from: the Fubini--Tonelli inversion theorem, invoked explicitly in the proof of Theorem 4.2.",
+      "depends_on": [],
+      "source": "Fubini--Tonelli theorem",
+      "resolution_priority": "medium",
+      "remark": "[Prove hint: apply Tonelli to $K(s,u)=(alpha-1)s^{-alpha}u^{alpha-1}|dot y(u)|mathbf 1_{s_0le ule s}$.]"
+    },
+    {
+      "id": "ext_thm_4",
+      "type": "theorem",
+      "name": "Classical gradient-flow value rate",
+      "statement": "For a convex differentiable function with an attained infimum, the classical gradient flow $dot y+\nabla f(y)=0$ satisfies $f(y(s))-inf f=o(1/s)$ under the regularity assumptions invoked in Appendix A.",
+      "proof": "Cited from: the classical convergence property of the classical descent method, invoked in the proof of Theorem A.1; no bibliographic source is supplied in the paper.",
+      "depends_on": [],
+      "source": "Unspecified classical gradient-flow convergence result",
+      "resolution_priority": "medium",
+      "remark": "[Note: formalization needs the exact hypotheses and a source; the paper states this result without them.]"
+    },
+    {
+      "id": "ext_thm_5",
+      "type": "theorem",
+      "name": "Gorni conjugation and second-order expansion result",
+      "statement": "If a proper lower-semicontinuous convex $f:mathbb R^n\tomathbb Rcup{+infty}$ has $f(x)=\frac12langle Ax,x\rangle+o(|x|^2)$ at $0$, with $A$ symmetric positive definite, then $f^*(y)=\frac12langle A^{-1}y,y\rangle+o(|y|^2)$ at $0$.",
+      "proof": "Cited from: G. Gorni, Conjugation and second-order properties of convex functions, J. Math. Anal. Appl. 158 (1991) 293--315.",
+      "depends_on": [
+        "ext_def_2"
+      ],
+      "source": "G. Gorni, Conjugation and second-order properties of convex functions, J. Math. Anal. Appl. 158 (1991) 293--315.",
+      "resolution_priority": "low",
+      "remark": "[External: used only in Remark 3.1.]"
+    }
+  ]
+}

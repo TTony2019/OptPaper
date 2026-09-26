@@ -1,0 +1,116 @@
+{
+  "metadata": {
+    "title": "An Inertial Proximal Method for Maximal Monotone Operators via Discretization of a Nonlinear Oscillator with Damping",
+    "authors": [
+      "Felipe Alvarez",
+      "Hedy Attouch"
+    ],
+    "year": 2001,
+    "source_type": "markdown"
+  },
+  "items": [
+    {
+      "id": "def_1",
+      "type": "definition",
+      "name": "Maximal monotone operator",
+      "statement": "A set-valued mapping $A: H \\to \\mathcal{P}(H)$ is called maximal monotone operator if $$\\forall v _ {1}, v _ {2} \\in H, \\forall z _ {1} \\in A (v _ {1}), \\forall z _ {2} \\in A (v _ {2}), \\quad \\langle z _ {1} - z _ {2}, v _ {1} - v _ {2} \\rangle \\geqslant 0,$$ and the graph $G(A) = \\{(v, z) \\in H \\times H : z \\in A(v)\\}$ is not properly contained in the graph of any other monotone operator.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Foundation: Foundation.SetValued.Basic] recall SetValuedOperator.IsMaximalMonotone and SetValuedOperator.graph"
+    },
+    {
+      "id": "def_2",
+      "type": "definition",
+      "name": "Resolvent of A of parameter lambda",
+      "statement": "For each $u \\in H$ and $\\lambda > 0$ there is a unique $z \\in H$ such that $$u \\in (I + \\lambda A) (z).$$ The (single-valued) function $J_{\\lambda}^{A} := (I + \\lambda A)^{-1}$ thus defined is called the resolvent of A of parameter $\\lambda$, and it is also known as the proximal mapping. The operator $J_{\\lambda}^{A}: H \\to H$ is nonexpansive and $J_{\\lambda}^{A}(z) = z$ if and only if $0 \\in A(z)$.",
+      "proof": null,
+      "depends_on": [
+        "def_1"
+      ],
+      "remark": "[Foundation: Foundation.SetValued.Basic] recall SetValuedOperator.resolvent | [Notation: paper writes $(I + \\lambda A)^{-1}$; Lean uses SetValuedOperator.resolvent]"
+    },
+    {
+      "id": "algo_1",
+      "type": "algorithm",
+      "name": "Inertial proximal point algorithm",
+      "statement": "$(\\mathcal{A}_0)$ Let $k \\leftarrow 1$ and choose starting points $x^0, x^1 \\in H$.  \\n$(\\mathcal{A}_1)$ Given $x^{k - 1},x^k\\in H$ and two parameters $\\alpha_{k}\\in [0,1[$ and $\\lambda_{k} > 0$, find $x^{k + 1}\\in H$ such that $$x ^ {k + 1} - x ^ {k} - \\alpha_ {k} (x ^ {k} - x ^ {k - 1}) + \\lambda_ {k} A (x ^ {k + 1}) \\ni 0.$$  \\n$(\\mathcal{A}_2)$ Let $x^{k}\\leftarrow x^{k + 1}, k\\leftarrow k + 1$ and go to $(\\mathcal{A}_1)$.  \\nEquivalently, $$ (\\text {Inertial - Prox}) \\quad x ^ {k + 1} = J _ {\\lambda_ {k}} ^ {A} (x ^ {k} + \\alpha_ {k} (x ^ {k} - x ^ {k - 1})). $$",
+      "proof": null,
+      "depends_on": [
+        "def_2"
+      ],
+      "remark": "[Prove hint: package iterates, parameters, and the resolvent update as an algorithm structure]"
+    },
+    {
+      "id": "lem_1",
+      "type": "lemma",
+      "name": "Lemma 2.1 (Z. Opial)",
+      "statement": "Let $H$ be a Hilbert space and $\\{x^k\\}$ a sequence such that there exists a nonempty set $S \\subset H$ verifying:  \\n(a) For every $z \\in S$, $\\lim_{k \\to \\infty} |x^k - z|$ exists.  \\n(b) If $x^{k_j} \\rightharpoonup x$ weakly in $H$ for a subsequence $k_j \\to \\infty$ then $x \\in S$.  \\nThen, there exists $\\widehat{x} \\in S$ such that $x^k \\rightharpoonup \\widehat{x}$ weakly in $H$ as $k \\to \\infty$.",
+      "proof": "The following argument is due to Z. Opial [14]. Let $\\widehat{x_{1}}, \\widehat{x_{2}} \\in S$ be two cluster points of $\\{x^{k}\\}$ for the weak topology of H. Set $l_{i} := \\lim_{k \\to \\infty} |x^{k} - \\widehat{x}_{i}|^{2}$ for each i = 1, 2. Take a sequence $k_{j} \\to \\infty$ such that $x^{k_{j}} \\rightharpoonup \\widehat{x_{1}}$ weakly in H. From the identity $$| x ^ {k} - \\widehat {x _ {1}} | ^ {2} - | x ^ {k} - \\widehat {x _ {2}} | ^ {2} = | \\widehat {x _ {1}} - \\widehat {x _ {2}} | ^ {2} + 2 \\langle \\widehat {x _ {1}} - \\widehat {x _ {2}}, \\widehat {x _ {2}} - x ^ {k} \\rangle$$ we deduce that $l_1 - l_2 = -|\\widehat{x}_1 - \\widehat{x}_2|^2$. Similarly, taking $k_m \\to \\infty$ such that $x^{k_m} \\rightharpoonup \\widehat{x}_2$ yields $l_1 - l_2 = |\\widehat{x}_1 - \\widehat{x}_2|^2$. Consequently, $|\\widehat{x}_1 - \\widehat{x}_2| = 0$. This establishes the uniqueness of the weak cluster point [and condition (a), applied to one fixed $z\\in S$, makes $\\{x^k\\}$ bounded. Since a Hilbert space is reflexive, every subsequence has a weakly convergent further subsequence; condition (b) puts every such limit in $S$. If the full sequence did not converge weakly to the unique cluster point, some subsequence would stay outside a weak neighborhood of it, while a further weakly convergent subsequence would yield a distinct cluster point, a contradiction], hence $x^k \\rightharpoonup \\widehat{x}$ weakly in $H$ as $k \\to \\infty$ for some $\\widehat{x} \\in S$.",
+      "depends_on": [],
+      "remark": "[Foundation: Foundation.Hilbert.WeakConvergence] recall opial_lemma | [Prove hint: use boundedness from (a), weak sequential compactness, then uniqueness of weak cluster points]"
+    },
+    {
+      "id": "ext_def_1",
+      "type": "definition",
+      "name": "Distance from a point to a set",
+      "statement": "For $C \\subset H$ and $y \\in H$, define $\\operatorname{dist}(y,C) := \\inf\\{\\lvert y-c\\rvert : c \\in C\\}$, with the convention $\\inf \\emptyset = +\\infty$.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Notation: paper writes $\\text{dist}(0,A(x))$; this is the infimum of norms of elements of $A(x)$]"
+    },
+    {
+      "id": "ext_thm_1",
+      "type": "theorem",
+      "name": "Weak-strong closedness of a maximal monotone graph",
+      "statement": "Let $A:H \\rightrightarrows H$ be maximal monotone. If $x_n \\rightharpoonup x$ weakly in $H$, $u_n \\to u$ strongly in $H$, and $u_n \\in A(x_n)$ for every $n$, then $u \\in A(x)$.",
+      "proof": "Cited from: Brezis, H.: Opérateurs maximaux monotones, Math. Stud. 5, North-Holland, Amsterdam, 1973, as cited in the paper at [5].",
+      "depends_on": [
+        "def_1"
+      ],
+      "resolution_priority": "high",
+      "remark": "[Note: used in Theorem 2.1 with $u_n=-v^{n+1}/\\lambda_n \\to 0$]"
+    },
+    {
+      "id": "thm_1",
+      "type": "theorem",
+      "name": "Theorem 2.1",
+      "statement": "Let $\\{x^k\\} \\subset H$ be a sequence such that $$x ^ {k + 1} = J _ {\\lambda_ {k}} ^ {A} (x ^ {k} + \\alpha_ {k} (x ^ {k} - x ^ {k - 1})), \\quad k = 1, 2, \\dots ,$$ where $A: H \\to \\mathcal{P}(H)$ is a maximal monotone operator with $S := A^{-1}(\\{0\\}) \\neq \\emptyset$, and the parameters $\\alpha_k$ and $\\lambda_k$ satisfy  \\n(i) $\\exists \\lambda > 0$ such that $\\forall k \\in \\mathbb{N}, \\lambda_k \\geqslant \\lambda$.  \\n(ii) $\\exists \\alpha \\in [0,1[$ such that $\\forall k\\in \\mathbb{N},0\\leqslant \\alpha_{k}\\leqslant \\alpha .$  \\nIf the following condition holds $$\\sum_ {k = 1} ^ {\\infty} \\alpha_ {k} | x ^ {k} - x ^ {k - 1} | ^ {2} <   \\infty , \\tag {2}$$ then there exists $\\widehat{x} \\in S$ such that $x^k \\rightharpoonup \\widehat{x}$ weakly in $H$ as $k \\to \\infty$.",
+      "proof": "We first examine the case where $\\alpha_{k} \\equiv 0$ , which corresponds to the standard proximal method. Although in that case the result is well known, the proof gives some guidelines in order to prepare the reader for the general situation. Fix $z \\in S = A^{-1}(0)$ and define the auxiliary real sequence $\\varphi_{k} := \\frac{1}{2}|x^{k} - z|^{2}$ . It is direct to check [by expanding $|x^{k+1}-z|^2=|(x^{k+1}-x^k)+(x^k-z)|^2$ and rearranging the cross term] that for every $k \\in \\mathbb{N}$ $$\\varphi_ {k + 1} = \\varphi_ {k} + \\langle x ^ {k + 1} - x ^ {k}, x ^ {k + 1} - z \\rangle - \\frac {1}{2} | x ^ {k + 1} - x ^ {k} | ^ {2}.$$ If $\\alpha_{k} = 0$ then $x^{k + 1} - x^{k} + \\lambda_{k}A(x^{k + 1})\\ni 0$, and from the monotonicity of $A$ we deduce that $\\langle x^{k + 1} - x^k,x^{k + 1} - z\\rangle \\leqslant 0$. [Indeed, choose $a^{k+1}\\in A(x^{k+1})$ with $x^{k+1}-x^k+\\lambda_k a^{k+1}=0$. Since $0\\in A(z)$, monotonicity gives $\\langle a^{k+1},x^{k+1}-z\\rangle\\geq 0$; multiplying by $-\\lambda_k$ gives the asserted inequality.] This gives $$\\varphi_ {k + 1} - \\varphi_ {k} \\leqslant - \\frac {1}{2} | x ^ {k + 1} - x ^ {k} | ^ {2}. \\tag {3}$$ Therefore $\\{\\varphi_{k}\\}$ is nonincreasing, and hence convergent. Since z is an arbitrary element in S, this shows that condition (a) of the Opial lemma is satisfied. On the other hand, from (3) we obtain $$\\sum_ {k = 1} ^ {\\infty} | x ^ {k + 1} - x ^ {k} | ^ {2} \\leqslant 2 \\varphi_ {1} = | x ^ {1} - z | ^ {2},$$ and, consequently, $|x^{k+1} - x^k| \\to 0$ as $k \\to \\infty$. As $\\lambda_k$ is bounded away from zero, we deduce that $\\text{dist}(0, A(x^k)) \\to 0$ as $k \\to \\infty$. [More precisely, $-(x^{k+1}-x^k)/\\lambda_k\\in A(x^{k+1})$, so $\\operatorname{dist}(0,A(x^{k+1}))\\leq |x^{k+1}-x^k|/\\lambda_k\\leq |x^{k+1}-x^k|/\\lambda$; reindexing gives the claim.] Let $x$ be a weak cluster point of $\\{x^k\\}$. Since the graph of the maximal monotone operator $A$ is closed in $H \\times H$ for the topology $w - H \\times s - H$ (see [5]), we have that $0 \\in A(x)$, i.e. $x \\in S$. [Along a subsequence $x^{k_j}\\rightharpoonup x$, put $u_j:=-(x^{k_j}-x^{k_j-1})/\\lambda_{k_j-1}\\in A(x^{k_j})$; the increment convergence and $\\lambda_{k_j-1}\\geq\\lambda$ give $u_j\\to0$ strongly. The weak-strong closed-graph theorem for maximal monotone operators applies to $(x^{k_j},u_j)$.] Thus, condition (b) of Opial's lemma is also satisfied, which proves the theorem when $\\alpha_k \\equiv 0$.  \\nWe now turn to the case $\\alpha_{k} > 0$ for some $k\\in \\mathbb{N}$. We have $$\\langle x ^ {k + 1} - x ^ {k} - \\alpha_ {k} (x ^ {k} - x ^ {k - 1}), x ^ {k + 1} - z \\rangle + \\lambda_ {k} \\langle A (x ^ {k + 1}), x ^ {k + 1} - z \\rangle = 0,$$ and the monotonicity of $A$ yields $$\\langle x ^ {k + 1} - x ^ {k} - \\alpha_ {k} (x ^ {k} - x ^ {k - 1}), x ^ {k + 1} - z \\rangle \\leqslant 0.$$ Let us rewrite this inequality in terms of $\\varphi_{k - 1},\\varphi_k$ and $\\varphi_{k + 1}$. Observe that $$\\begin{aligned} \\langle x ^ {k + 1} - x ^ {k} - \\alpha_ {k} (x ^ {k} - x ^ {k - 1}), x ^ {k + 1} - z \\rangle \\\\ &= \\varphi_ {k + 1} - \\varphi_ {k} + \\frac {1}{2} | x ^ {k + 1} - x ^ {k} | ^ {2} - \\alpha_ {k} \\langle x ^ {k} - x ^ {k - 1}, x ^ {k + 1} - z \\rangle , \\\\ \\end{aligned}$$ and since $$\\begin{aligned} \\langle x ^ {k} - x ^ {k - 1}, x ^ {k + 1} - z \\rangle \\\\ &= \\langle x ^ {k} - x ^ {k - 1}, x ^ {k} - z \\rangle + \\langle x ^ {k} - x ^ {k - 1}, x ^ {k + 1} - x ^ {k} \\rangle \\\\ &= \\varphi_ {k} - \\varphi_ {k - 1} + \\frac {1}{2} | x ^ {k} - x ^ {k - 1} | ^ {2} + \\langle x ^ {k} - x ^ {k - 1}, x ^ {k + 1} - x ^ {k} \\rangle , \\\\ \\end{aligned}$$ it follows that $$\\begin{aligned} \\varphi_ {k + 1} - \\varphi_ {k} - \\alpha_ {k} (\\varphi_ {k} - \\varphi_ {k - 1}) \\\\ &\\leqslant - \\frac {1}{2} | x ^ {k + 1} - x ^ {k} | ^ {2} + \\alpha_ {k} \\langle x ^ {k} - x ^ {k - 1}, x ^ {k + 1} - x ^ {k} \\rangle + \\frac {\\alpha_ {k}}{2} | x ^ {k} - x ^ {k - 1} | ^ {2} \\\\ &= - \\frac {1}{2} | x ^ {k + 1} - x ^ {k} - \\alpha_ {k} (x ^ {k} - x ^ {k - 1}) | ^ {2} + \\frac {1}{2} (\\alpha_ {k} + \\alpha_ {k} ^ {2}) | x ^ {k} - x ^ {k - 1} | ^ {2}. \\\\ \\end{aligned}$$ Hence $$\\begin{aligned} \\varphi_ {k + 1} - \\varphi_ {k} - \\alpha_ {k} (\\varphi_ {k} - \\varphi_ {k - 1}) \\\\ &\\leqslant - \\frac {1}{2} | v ^ {k + 1} | ^ {2} + \\alpha_ {k} | x ^ {k} - x ^ {k - 1} | ^ {2}, \\tag {4} \\\\ \\end{aligned}$$ where $$v ^ {k + 1} := x ^ {k + 1} - x ^ {k} - \\alpha_ {k} (x ^ {k} - x ^ {k - 1}).$$ Setting $$\\theta_ {k} := \\varphi_ {k} - \\varphi_ {k - 1} \\quad \\text {and} \\quad \\delta_ {k} := \\alpha_ {k} | x ^ {k} - x ^ {k - 1} | ^ {2},$$ we obtain $$\\theta_ {k + 1} \\leqslant \\alpha_ {k} \\theta_ {k} + \\delta_ {k} \\leqslant \\alpha_ {k} [ \\theta_ {k} ] _ {+} + \\delta_ {k},$$ where $[t]_{+} := \\max\\{t, 0\\}$ and, consequently, $[\\theta_{k+1}]_{+} \\leqslant \\alpha[\\theta_{k}]_{+} + \\delta_{k}$, with $\\alpha \\in [0, 1[$ given by (ii). This yields [by induction on $k$: apply $[\\theta_{r+1}]_+\\leq\\alpha[\\theta_r]_++\\delta_r$ repeatedly, beginning with $r=k$, and collect the resulting geometric powers] $[ \\theta_ {k + 1} ] _ {+} \\leqslant \\alpha^ {k} [ \\theta_ {1} ] _ {+} + \\sum_ {j = 0} ^ {k - 1} \\alpha^ {j} \\delta_ {k - j},$$ and therefore $$\\sum_ {k = 0} ^ {\\infty} [ \\theta_ {k + 1} ] _ {+} \\leqslant \\frac {1}{1 - \\alpha} \\left([ \\theta_ {1} ] _ {+} + \\sum_ {k = 1} ^ {\\infty} \\delta_ {k}\\right),$$ which is finite thanks to (2). Consider the sequence defined by $w_{k} := \\varphi_{k} - \\sum_{j=1}^{k} [\\theta_{j}]_{+}$. Since $\\varphi_{k} \\geqslant 0$ and $\\sum_{j=1}^{\\infty} [\\theta_{j}]_{+} < \\infty$, it follows that $w_{k}$ is bounded from below. But $$w _ {k + 1} = \\varphi_ {k + 1} - [ \\theta_ {k + 1} ] _ {+} - \\sum_ {j = 1} ^ {k} [ \\theta_ {j} ] _ {+} \\leqslant \\varphi_ {k + 1} - \\varphi_ {k + 1} + \\varphi_ {k} - \\sum_ {j = 1} ^ {k} [ \\theta_ {j} ] _ {+} = w _ {k},$$ so that $\\{w_{k}\\}$ is nonincreasing. [The displayed inequality uses $[\\theta_{k+1}]_+\\geq\\theta_{k+1}=\\varphi_{k+1}-\\varphi_k$.] We thus deduce that $\\{w_{k}\\}$ is convergent, and hence $$\\lim _ {k \\to \\infty} \\varphi_ {k} = \\sum_ {j = 1} ^ {\\infty} [ \\theta_ {j} ] _ {+} + \\lim _ {k \\to \\infty} w _ {k}.$$ Consequently, for every $z \\in S$, $\\lim_{k \\to \\infty} |x^{k} - z|$ exists. On the other hand, from (4) we obtain the estimate $$\\frac {1}{2} | v ^ {k + 1} | ^ {2} \\leqslant \\varphi_ {k} - \\varphi_ {k + 1} + \\alpha [ \\theta_ {k} ] _ {+} + \\delta_ {k},$$ and it follows that $$\\frac {1}{2} \\sum_ {k = 1} ^ {\\infty} | v ^ {k + 1} | ^ {2} \\leqslant \\varphi_ {1} + \\sum_ {k = 1} ^ {\\infty} (\\alpha [ \\theta_ {k} ] _ {+} + \\delta_ {k}) <   \\infty .$$ Consequently, $v^{k+1} \\rightarrow 0$ as $k \\rightarrow \\infty$ and since $v^{k+1} + \\lambda_k A(x^{k+1}) \\ni 0$ , by (i) we have that $\\text{dist}(0, A(x^k)) \\rightarrow 0$ as $k \\rightarrow \\infty$ . [Indeed, $-v^{k+1}/\\lambda_k\\in A(x^{k+1})$, hence $\\operatorname{dist}(0,A(x^{k+1}))\\leq |v^{k+1}|/\\lambda_k\\leq |v^{k+1}|/\\lambda\\to0$; the same weak-strong closed-graph argument verifies condition (b) of Opial's lemma.] The rest of the proof runs as in the case $\\alpha_k \\equiv 0$ by applying Opial's lemma. □",
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "lem_1",
+        "ext_def_1",
+        "ext_thm_1"
+      ],
+      "remark": "[Foundation: Foundation.Hilbert.WeakConvergence] recall opial_lemma | [Prove hint: establish quasi-Fejer convergence, square summability of inertial residuals, then apply weak-strong graph closedness]"
+    },
+    {
+      "id": "prop_1",
+      "type": "proposition",
+      "name": "Proposition 2.1",
+      "statement": "Under the assumptions of Theorem 2.1 with (ii) replaced by  \\n(ii') $\\exists \\alpha \\in [0, 1/3[$ such that $\\forall k \\in \\mathbb{N}, 0 \\leqslant \\alpha_k \\leqslant \\alpha$, and $\\{\\alpha_k\\}$ is nondecreasing,  \\nwe have that $\\sum_{k=1}^{\\infty}|x^{k+1}-x^{k}|^{2}<\\infty$ and consequently there exists $\\widehat{x}\\in S$ such that $x^{k}\\rightharpoonup\\widehat{x}$ weakly in H as $k\\to\\infty$.",
+      "proof": "The proof of Theorem 2.1 gives $$\\begin{aligned} \\varphi_ {k + 1} - \\varphi_ {k} - \\alpha_ {k} (\\varphi_ {k} - \\varphi_ {k - 1}) \\\\ &\\leqslant - \\frac {1}{2} | x ^ {k + 1} - x ^ {k} | ^ {2} + \\alpha_ {k} \\langle x ^ {k} - x ^ {k - 1}, x ^ {k + 1} - x ^ {k} \\rangle + \\frac {\\alpha_ {k}}{2} | x ^ {k} - x ^ {k - 1} | ^ {2}, \\\\ \\end{aligned}$$ which yields [by $2\\langle a,b\\rangle\\leq |a|^2+|b|^2$, applied to $a=x^{k+1}-x^k$ and $b=x^k-x^{k-1}$, and by $\\alpha_k^2\\leq\\alpha_k$] $\\begin{aligned} \\varphi_ {k + 1} - \\varphi_ {k} - \\alpha_ {k} (\\varphi_ {k} - \\varphi_ {k - 1}) \\\\ &\\leqslant \\frac {(\\alpha_ {k} - 1)}{2} | x ^ {k + 1} - x ^ {k} | ^ {2} + \\alpha_ {k} | x ^ {k} - x ^ {k - 1} | ^ {2}. \\\\ \\end{aligned}$$ Setting $$\\mu_ {k} := \\varphi_ {k} - \\alpha_ {k} \\varphi_ {k - 1} + \\alpha_ {k} | x ^ {k} - x ^ {k - 1} | ^ {2},$$ and since $\\alpha_{k + 1}\\geqslant \\alpha_{k}$ thanks to (ii'), we obtain [after substituting the definition of $\\mu_{k+1}-\\mu_k$, using $\\alpha_{k+1}\\geq\\alpha_k$ to discard the nonpositive term $-(\\alpha_{k+1}-\\alpha_k)\\varphi_k$, and bounding each $\\alpha_k$ by $\\alpha$] $\\mu_ {k + 1} - \\mu_ {k} \\leqslant - \\frac {(1 - 3 \\alpha)}{2} | x ^ {k + 1} - x ^ {k} | ^ {2} \\tag {5}$$ for every $k \\geqslant 1$. By (ii'), $1 - 3\\alpha > 0$ and we have that the sequence $\\{\\mu_k\\}$ is nonincreasing; in particular $$\\varphi_ {k} - \\alpha \\varphi_ {k - 1} \\leqslant \\mu_ {k} \\leqslant \\mu_ {1}.$$ This gives $$\\varphi_ {k} \\leqslant \\alpha^ {k} \\varphi_ {0} + \\mu_ {1} \\sum_ {j = 0} ^ {k - 1} \\alpha^ {j} \\leqslant \\alpha^ {k} \\varphi_ {0} + \\frac {\\mu_ {1}}{1 - \\alpha}.$$ Furthermore, it follows from (5) that $$\\frac {(1 - 3 \\alpha)}{2} \\sum_ {j = 1} ^ {k} | x ^ {j + 1} - x ^ {j} | ^ {2} \\leqslant \\mu_ {1} - \\mu_ {k + 1} \\leqslant \\mu_ {1} + \\alpha \\varphi_ {k} \\leqslant \\alpha^ {k + 1} \\varphi_ {0} + \\frac {\\mu_ {1}}{1 - \\alpha},$$ which shows that $$\\sum_ {k = 1} ^ {\\infty} | x ^ {k + 1} - x ^ {k} | ^ {2} \\leqslant \\frac {2 \\mu_ {1}}{(1 - \\alpha) (1 - 3 \\alpha)} <   \\infty .$$ The conclusion follows by Theorem 2.1. [The proved square summability implies (2), since $0\\leq\\alpha_k\\leq\\alpha$ gives $\\sum_k\\alpha_k|x^k-x^{k-1}|^2\\leq\\alpha\\sum_k|x^k-x^{k-1}|^2<\\infty$.]",
+      "depends_on": [
+        "thm_1",
+        "ext_def_1",
+        "ext_thm_1"
+      ],
+      "remark": "[Prove hint: derive the Lyapunov decrease (5), telescope it, then invoke Theorem 2.1]"
+    }
+  ],
+  "external_theorems": [
+    {
+      "id": "ext_thm_1",
+      "type": "theorem",
+      "name": "Weak-strong closedness of a maximal monotone graph",
+      "statement": "Let $A:H \\rightrightarrows H$ be maximal monotone. If $x_n \\rightharpoonup x$ weakly in $H$, $u_n \\to u$ strongly in $H$, and $u_n \\in A(x_n)$ for every $n$, then $u \\in A(x)$.",
+      "proof": "Cited from: Brezis, H.: Opérateurs maximaux monotones, Math. Stud. 5, North-Holland, Amsterdam, 1973, as cited in the paper at [5].",
+      "depends_on": [
+        "def_1"
+      ],
+      "resolution_priority": "high",
+      "remark": "[Note: used in Theorem 2.1 with $u_n=-v^{n+1}/\\lambda_n \\to 0$]"
+    }
+  ]
+}

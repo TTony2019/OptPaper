@@ -1,0 +1,319 @@
+{
+  "metadata": {
+    "title": "An Inertial Tseng's Type Proximal Algorithm for Nonsmooth and Nonconvex Optimization Problems",
+    "authors": [
+      "Radu Ioan Bo?",
+      "Ern? Robert Csetnek"
+    ],
+    "year": 2015,
+    "source_type": "markdown"
+  },
+  "items": [
+    {
+      "id": "def_1",
+      "type": "definition",
+      "name": "Generalized subdifferential and critical points",
+      "statement": "The domain of the function $f: \\mathbb{R}^m \\to ] - \\infty, +\\infty]$ is defined by $\\operatorname{dom} f := \\{x \\in \\mathbb{R}^m : f(x) < +\\infty\\}$ . We say that $f$ is proper if $\\operatorname{dom} f \\neq \\emptyset$ . Further we recall some generalized subdifferential notions and the basic properties which are needed in the paper, see [30,31]. Let $f: \\mathbb{R}^m \\to ] - \\infty, +\\infty]$ be a proper and lower semicontinuous function. If $x \\in \\operatorname{dom} f$ , we consider the Fréchet (viscosity) subdifferential of $f$ at $x$ as the set\n\n$$\n\\hat {\\partial} f (x) := \\left\\{v \\in \\mathbb {R} ^ {m}: \\operatorname * {l i m i n f} _ {y \\to x} \\frac {f (y) - f (x) - \\langle v , y - x \\rangle}{\\| y - x \\|} \\geq 0 \\right\\}.\n$$\n\nFor $x \\notin \\text{dom } f$ we set $\\hat{\\partial} f(x) := \\emptyset$ . The limiting (Mordukhovich) subdifferential is defined at a point $x \\in \\text{dom } f$ by\n\n$$\n\\partial f (x) = \\{v \\in \\mathbb {R} ^ {m}: \\exists x _ {n} \\to x, f (x _ {n}) \\to f (x) \\text {and} \\exists v _ {n} \\in \\hat {\\partial} f (x _ {n}), v _ {n} \\to v \\text {as} n \\to + \\infty \\},\n$$\n\nwhile for $x \\notin dom f$ , one takes $\\partial f(x) := \\emptyset$ .\n\nNotice that in case $f$ is convex, these notions coincide with the convex subdifferential, which means that $\\hat{\\partial} f(x) = \\partial f(x) = \\{v \\in \\mathbb{R}^m : f(y) \\geq f(x) + \\langle v, y - x \\rangle \\forall y \\in \\mathbb{R}^m\\}$ for all $x \\in \\operatorname{dom} f$ .\n\nNotice the inclusion $\\hat{\\partial}f(x)\\subseteq\\partial f(x)$ for each $x\\in R^{m}$ . We will use the following closedness criteria concerning the graph of the limiting subdifferential: if $(x_{n})_{n\\in\\mathbb{N}}$ and $(v_{n})_{n\\in\\mathbb{N}}$ are sequences in $R^{m}$ such that $v_{n}\\in\\partial f(x_{n})$ for all $n\\in N$ , $(x_{n},v_{n})\\to(x,v)$ and $f(x_{n})\\to f(x)$ as $n\\to+\\infty$ , then $v\\in\\partial f(x)$ .\n\nThe Fermat rule reads in this nonsmooth setting as: if $x \\in \\mathbb{R}^m$ is a local minimizer of $f$ , then $0 \\in \\partial f(x)$ . Notice that in case $f$ is continuously differentiable at $x \\in \\mathbb{R}^m$ we have $\\partial f(x) = \\{\\nabla f(x)\\}$ . Let us denote by\n\n$$\n\\operatorname{crit} (f) := \\{x \\in \\mathbb {R} ^ {m}: 0 \\in \\partial f (x) \\}\n$$\n\nthe set of (limiting)-critical points of $f$ . Let us mention also the following subdifferential rule: if $f: \\mathbb{R}^m \\to ] - \\infty, +\\infty]$ is proper and lower semicontinuous and $h: \\mathbb{R}^m \\to \\mathbb{R}$ is a continuously differentiable function, then $\\partial(f + h)(x) = \\partial f(x) + \\nabla h(x)$ for all $x \\in \\mathbb{R}^m$ .",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "def_2",
+      "type": "definition",
+      "name": "Definition 2.1 (Kurdyka-Lojasiewicz property)",
+      "statement": "We turn now our attention to functions satisfying the Kurdyka–Lojasiewicz property. This class of functions will play a crucial role in the convergence results of the proposed algorithm. For $\\eta\\in]0,+\\infty]$ , we denote by $\\Theta_{\\eta}$ the class of concave and continuous functions $\\varphi:[0,\\eta[\\to[0,+\\infty[$ such that $\\varphi(0)=0,\\varphi$ is continuously differentiable on ]0, $\\eta[$ , continuous at 0 and $\\varphi'(s)>0$ for all $s\\in]0,\\eta[$ . In the following definition (see [18,20]), we use also the distance function to a set, defined for $A\\subseteq R^{m}$ as $\\text{dist}(x,A):=\\inf_{y\\in A}\\|x-y\\|$ for all $x\\in R^{m}$ .\n\nDefinition 2.1 (Kurdyka–Łojasiewicz property) Let $f : \\mathbb{R}^{m} \\to ] - \\infty, +\\infty]$ be a proper and lower semicontinuous function. We say that $f$ satisfies the Kurdyka–Łojasiewicz (KL) property at $\\overline{x} \\in \\text{dom } \\partial f := \\{x \\in \\mathbb{R}^{m} : \\partial f(x) \\neq \\emptyset\\}$ if there exists $\\eta \\in ]0, +\\infty]$ , a neighborhood $U$ of $\\overline{x}$ and a function $\\varphi \\in \\Theta_{\\eta}$ such that for all $x$ in the intersection\n\n$$\nU \\cap \\{x \\in \\mathbb {R} ^ {m}: f (\\overline {{x}}) <   f (x) <   f (\\overline {{x}}) + \\eta \\}\n$$\n\nthe following inequality holds\n\n$$\n\\varphi^ {\\prime} (f (x) - f (\\overline {{x}})) \\mathrm{dist} (0, \\partial f (x)) \\geq 1.\n$$\n\nIf $f$ satisfies the KL property at each point in dom $\\partial f$ , then $f$ is called a KL function.",
+      "proof": null,
+      "depends_on": [
+        "def_1"
+      ]
+    },
+    {
+      "id": "ext_lem_1",
+      "type": "lemma",
+      "name": "Lemma 2.1",
+      "statement": "Lemma 2.1 Let $\\Omega \\subseteq \\mathbb{R}^m$ be a compact set and let $f: \\mathbb{R}^m \\to ]-\\infty, +\\infty]$ be a proper and lower semicontinuous function. Assume that $f$ is constant on $\\Omega$ and $f$ satisfies the KL property at each point of $\\Omega$ . Then there exist $\\varepsilon, \\eta > 0$ and $\\varphi \\in \\Theta_\\eta$ such that for all $\\overline{x} \\in \\Omega$ and for all $x$ in the intersection\n\n$$\n\\{x \\in \\mathbb {R} ^ {m}: d i s t (x, \\Omega) <   \\varepsilon \\} \\cap \\{x \\in \\mathbb {R} ^ {m}: f (\\overline {{x}}) <   f (x) <   f (\\overline {{x}}) + \\eta \\} \\tag {1}\n$$\n\nthe following inequality holds\n\n$$\n\\varphi^ {\\prime} (f (x) - f (\\overline {{x}})) d i s t (0, \\partial f (x)) \\geq 1. \\tag {2}\n$$",
+      "proof": "Cited from: Bolte, J., Sabach, S., Teboulle, M.: Proximal alternating linearized minimization for nonconvex and nonsmooth problems. Math. Program. Ser. A 146(1-2), 459-494 (2014), Lemma 6; the paper cites this as [20, Lemma 6].",
+      "depends_on": [
+        "def_2"
+      ]
+    },
+    {
+      "id": "ext_lem_2",
+      "type": "lemma",
+      "name": "Lemma 2.2",
+      "statement": "Lemma 2.2 Let $(a_{n})_{n\\in \\mathbb{N}}$ and $(b_{n})_{n\\in \\mathbb{N}}$ be real sequences such that $b_{n}\\geq 0$ for all $n\\in \\mathbb{N}$ , $(a_{n})_{n\\in \\mathbb{N}}$ is bounded below and $a_{n + 1} + b_n\\leq a_n$ for all $n\\in \\mathbb{N}$ . Then, $(a_{n})_{n\\in \\mathbb{N}}$ is a monotonically decreasing and convergent sequence and $\\sum_{n\\in \\mathbb{N}}b_n < +\\infty$ .",
+      "proof": "Cited from: Bauschke, H.H., Combettes, P.L.: Convex Analysis and Monotone Operator Theory in Hilbert Spaces. CMS Books in Mathematics. Springer, New York (2011), cited as a standard Fejer monotonicity convergence result before Lemma 2.2.",
+      "depends_on": []
+    },
+    {
+      "id": "lem_1",
+      "type": "lemma",
+      "name": "Lemma 2.3",
+      "statement": "Lemma 2.3 Let $(\\xi_n)_{n\\in \\mathbb{N}}$ and $(\\varepsilon_n)_{n\\in \\mathbb{N}}$ be sequences in $[0, +\\infty[$ such that $\\sum_{n\\in \\mathbb{N}}\\varepsilon_n < +\\infty$ and $\\xi_{n + 1}\\leq a\\xi_n + b\\xi_{n - 1} + \\varepsilon_n$ for all $n\\geq 1$ , where $a\\in \\mathbb{R}$ , $b\\geq 0$ and $a + b < 1$ . Then $\\sum_{n\\in \\mathbb{N}}\\xi_n < +\\infty$ .",
+      "proof": "Proof Fix $k \\geq 1$ a positive integer. Summing up the inequality from the hypotheses for $n = 1, \\ldots, k$ , we obtain $\\sum_{n=0}^{k} \\xi_{n} + \\xi_{k+1} - \\xi_{0} - \\xi_{1} \\leq a \\sum_{n=0}^{k} \\xi_{n} + b \\sum_{n=0}^{k} \\xi_{n} - a \\xi_{0} - b \\xi_{k} + \\sum_{n=1}^{k} \\varepsilon_{n}$ . Since $\\xi_{n} \\geq 0$ for all $n \\in N$ and $b \\geq 0$ , we get $(1 - a - b) \\sum_{n=0}^{k} \\xi_{n} \\leq (1 - a) \\xi_{0} + \\xi_{1} + \\sum_{n=1}^{k} \\varepsilon_{n}$ and the conclusion follows. [Indeed, since $1-a-b>0$ and $\\sum_n\\varepsilon_n<+\\infty$, the right-hand side is bounded independently of $k$; hence the increasing partial sums $\\sum_{n=0}^k\\xi_n$ are uniformly bounded, so $\\sum_{n\\in\\mathbb N}\\xi_n<+\\infty$.] ☐",
+      "depends_on": []
+    },
+    {
+      "id": "ext_def_1",
+      "type": "definition",
+      "name": "Lipschitz continuous gradient",
+      "statement": "A Frechet differentiable function $h:\\mathbb{R}^m\\to\\mathbb{R}$ has $L_{\\nabla h}$-Lipschitz continuous gradient if $L_{\\nabla h}\\ge 0$ and $\\|\\nabla h(x)-\\nabla h(y)\\|\\le L_{\\nabla h}\\|x-y\\|$ for all $x,y\\in\\mathbb{R}^m$.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "def_3",
+      "type": "definition",
+      "name": "Problem 3.1",
+      "statement": "Problem 3.1 Let $m \\geq 1$ by a positive integer, $f : \\mathbb{R}^m \\to -\\infty, +\\infty]$ be a proper, lower semicontinuous function which is bounded from below and $h : \\mathbb{R}^m \\to \\mathbb{R}$ a Fréchet differentiable function such that $\\nabla h$ is $L_{\\nabla h}$ -Lipschitz continuous with $L_{\\nabla h} \\geq 0$ . We aim to solve the optimization problem\n\n$$\n(P) \\inf _ {x \\in \\mathbb {R} ^ {m}} [ f (x) + h (x) ] \\tag {3}\n$$",
+      "proof": null,
+      "depends_on": [
+        "def_1",
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "ext_lem_3",
+      "type": "lemma",
+      "name": "Lemma 3.1",
+      "statement": "Lemma 3.1 Let $h: \\mathbb{R}^m \\to \\mathbb{R}$ be a Fréchet differentiable function with $L_{\\nabla h}$ -Lipschitz continuous gradient. Then, we have\n\n$$\nh (y) \\leq h (x) + \\langle \\nabla h (x), y - x \\rangle + \\frac {L _ {\\nabla h}}{2} \\| y - x \\| ^ {2} \\forall (x, y) \\in \\mathbb {R} ^ {m} \\times \\mathbb {R} ^ {m}.",
+      "proof": "Cited from: Nesterov, Y.: Introductory Lectures on Convex Optimization: A Basic Course. Kluwer Academic, Dordrecht (2004), Lemma 1.2.3, cited immediately before Lemma 3.1.",
+      "depends_on": [
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "ext_def_2",
+      "type": "definition",
+      "name": "Strong convexity with parameter sigma",
+      "statement": "A function $u:\\mathbb{R}^m\\to\\mathbb{R}$ is $\\sigma$-strongly convex with parameter $\\sigma>0$ if $u-\\frac{\\sigma}{2}\\|\\cdot\\|^2$ is convex.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "ext_def_3",
+      "type": "definition",
+      "name": "Coercive extended-real-valued function",
+      "statement": "A function $g:\\mathbb{R}^m\\to\\overline{\\mathbb{R}}$ is coercive if $\\lim_{\\|x\\|\\to+\\infty} g(x)=+\\infty$, equivalently for every real $c$ the lower level set $\\{x:g(x)\\le c\\}$ is bounded in the finite-dimensional setting used in the paper.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "ext_def_4",
+      "type": "definition",
+      "name": "Argmin set",
+      "statement": "For an extended-real-valued function $G:\\mathbb{R}^m\\to\\overline{\\mathbb{R}}$, $\\operatorname{argmin}_{x\\in\\mathbb{R}^m}G(x):=\\{p\\in\\mathbb{R}^m: G(p)=\\inf_{x\\in\\mathbb{R}^m}G(x)\\}$.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "ext_def_5",
+      "type": "definition",
+      "name": "Cluster point set of a sequence",
+      "statement": "For a sequence $(z_n)_{n\\ge 1}$ in a metric space, $\\omega((z_n)_{n\\ge 1})$ denotes the set of cluster points, i.e. the set of all $z$ for which there exists a subsequence $(z_{n_k})_{k\\in\\mathbb{N}}$ with $z_{n_k}\\to z$ as $k\\to+\\infty$.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "ext_def_6",
+      "type": "definition",
+      "name": "Semi-algebraic function",
+      "statement": "A function $g:\\mathbb{R}^m\\to\\overline{\\mathbb{R}}$ is semi-algebraic if its graph (equivalently, for extended-real-valued optimization, its epigraph) is a finite union of sets described by finitely many polynomial equalities and strict inequalities.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "ext_def_7",
+      "type": "definition",
+      "name": "Bregman distance generated by u",
+      "statement": "For a differentiable function $u:\\mathbb{R}^m\\to\\mathbb{R}$, the Bregman distance generated by $u$ is $D_u(x,y)=u(x)-u(y)-\\langle\\nabla u(y),x-y\\rangle$ for $x,y\\in\\mathbb{R}^m$.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "ext_thm_1",
+      "type": "theorem",
+      "name": "Bregman distance quadratic bounds",
+      "statement": "If $u:\\mathbb{R}^m\\to\\mathbb{R}$ is $\\sigma$-strongly convex with $\\sigma>0$ and $\\nabla u$ is $L_{\\nabla u}$-Lipschitz continuous, then $\\frac{\\sigma}{2}\\|x-y\\|^2\\le D_u(x,y)\\le\\frac{L_{\\nabla u}}{2}\\|x-y\\|^2$ for all $x,y\\in\\mathbb{R}^m$.",
+      "proof": "Cited from: Bauschke, H.H., Combettes, P.L.: Convex Analysis and Monotone Operator Theory in Hilbert Spaces. CMS Books in Mathematics. Springer, New York (2011), referenced in the paper before formula (5).",
+      "depends_on": [
+        "ext_def_1",
+        "ext_def_2",
+        "ext_def_7"
+      ]
+    },
+    {
+      "id": "algo_1",
+      "type": "algorithm",
+      "name": "Algorithm 3.1",
+      "statement": "Algorithm 3.1 Choose $x_0, x_1 \\in \\mathbb{R}^m$ , $\\underline{\\lambda}, \\overline{\\lambda} > 0$ , $\\alpha \\geq 0$ and the sequences $(\\lambda_n)_{n \\geq 1}$ , $(\\alpha_n)_{n \\geq 1}$ fulfilling\n\n$$\n0 \\leq \\alpha_ {n} \\leq \\alpha \\forall n \\geq 1\n$$\n\nand\n\n$$\n0 <   \\underline {{\\lambda}} \\leq \\lambda_ {n} \\leq \\overline {{\\lambda}} \\forall n \\geq 1.\n$$\n\nConsider the iterative scheme\n\n$$\n(\\forall n \\geq 1) \\left\\{ \\begin{array}{l} p _ {n} \\in \\underset {x \\in \\mathbb {R} ^ {m}} {\\operatorname{argmin}} \\left[ f (x) + \\frac {1}{\\lambda_ {n}} D _ {u} (x, x _ {n}) + \\langle x, \\nabla h (x _ {n}) \\rangle + \\frac {\\alpha_ {n}}{\\lambda_ {n}} \\langle x, x _ {n - 1} - x _ {n} \\rangle \\right] \\\\ x _ {n + 1} = p _ {n} + \\lambda_ {n} [ \\nabla h (x _ {n}) - \\nabla h (p _ {n}) ]. \\end{array} \\right. \\tag {4}\n$$\n\nHere,\n\n$$\nD _ {u}: \\mathbb {R} ^ {m} \\times \\mathbb {R} ^ {m} \\to \\mathbb {R}, D _ {u} (x, y) = u (x) - u (y) - \\langle \\nabla u (y), x - y \\rangle ,\n$$\n\ndenotes the Bregman distance of a function $u: \\mathbb{R}^m \\to \\mathbb{R}$ assumed to be $\\sigma$ -strongly convex with parameter $\\sigma > 0$ (that is $u - \\frac{\\sigma}{2} \\| \\cdot \\|^2$ is a convex function), differentiable and such that $\\nabla u$ is $L_{\\nabla u}$ -Lipschitz continuous with $L_{\\nabla u} > 0$ .\n\nNotice that the properties of the function $u$ guarantees the following inequality (see for example [1])\n\n$$\n\\frac {\\sigma}{2} \\| x - y \\| ^ {2} \\leq D _ {u} (x, y) \\leq \\frac {L _ {\\nabla u}}{2} \\| x - y \\| ^ {2} \\forall (x, y) \\in \\mathbb {R} ^ {m} \\times \\mathbb {R} ^ {m}. \\tag {5}\n$$",
+      "proof": null,
+      "depends_on": [
+        "def_3",
+        "ext_def_2",
+        "ext_def_4",
+        "ext_def_7",
+        "ext_thm_1"
+      ]
+    },
+    {
+      "id": "lem_2",
+      "type": "lemma",
+      "name": "Lemma 3.2",
+      "statement": "Lemma 3.2 In the setting of Problem 3.1, consider the sequences generated by Algorithm 3.1. Then for every $\\nu$ , $\\mu > 0$ the following inequality holds\n\n$$\n(f + h) (p _ {n}) + M _ {1} \\| x _ {n} - p _ {n} \\| ^ {2} \\leq (f + h) (p _ {n - 1}) + M _ {2} \\| x _ {n - 1} - p _ {n - 1} \\| ^ {2} \\forall n \\geq 2, \\tag {9}\n$$\n\nwhere\n\n$$\nM _ {1} := \\frac {\\sigma}{2 \\overline {{\\lambda}}} - L _ {\\nabla h} - \\nu - \\frac {\\alpha}{\\underline {{\\lambda}}} \\mu \\tag {10}\n$$\n\nand\n\n$$\nM _ {2} := \\bar {\\lambda} ^ {2} L _ {\\nabla h} ^ {2} \\left(\\frac {L _ {\\nabla h} ^ {2}}{2 \\nu} + \\nu + L _ {\\nabla h} + \\frac {L _ {\\nabla u}}{2 \\underline {{\\lambda}}}\\right) + \\frac {\\alpha}{\\underline {{\\lambda}}} \\left(\\mu \\bar {\\lambda} ^ {2} L _ {\\nabla h} ^ {2} + \\frac {(1 + \\bar {\\lambda} L _ {\\nabla h}) ^ {2}}{2 \\mu}\\right). \\tag {11}",
+      "proof": "Proof Let us chose $\\nu, \\mu > 0$ arbitrary and fix $n \\geq 2$ . The rule given in (4) yields the inequality\n\n$$\n\\begin{array}{l} f (p _ {n}) + \\frac {1}{\\lambda_ {n}} D _ {u} (p _ {n}, x _ {n}) + \\langle p _ {n}, \\nabla h (x _ {n}) \\rangle + \\frac {\\alpha_ {n}}{\\lambda_ {n}} \\langle p _ {n}, x _ {n - 1} - x _ {n} \\rangle \\\\ \\leq f (p _ {n - 1}) + \\frac {1}{\\lambda_ {n}} D _ {u} (p _ {n - 1}, x _ {n}) + \\langle p _ {n - 1}, \\nabla h (x _ {n}) \\rangle + \\frac {\\alpha_ {n}}{\\lambda_ {n}} \\left\\langle p _ {n - 1}, x _ {n - 1} - x _ {n} \\right\\rangle , \\\\ \\end{array}\n$$\n\nwhich combined with (5) and [Use the minimizer inequality for $p_n$ with competitor $p_{n-1}$, then substitute the lower bound $D_u(p_n,x_n)\\ge(\\sigma/2)\\|p_n-x_n\\|^2$ on the left and the upper bound $D_u(p_{n-1},x_n)\\le(L_{\\nabla u}/2)\\|p_{n-1}-x_n\\|^2$ on the right.]\n\n$$\nh (p _ {n}) \\leq h (p _ {n - 1}) + \\langle \\nabla h (p _ {n - 1}), p _ {n} - p _ {n - 1} \\rangle + \\frac {L _ {\\nabla h}}{2} \\| p _ {n} - p _ {n - 1} \\| ^ {2}\n$$\n\ngives\n\n$$\n\\begin{array}{l} (f + h) (p _ {n}) + \\frac {\\sigma}{2 \\lambda_ {n}} \\| p _ {n} - x _ {n} \\| ^ {2} \\leq (f + h) (p _ {n - 1}) + \\frac {L _ {\\nabla u}}{2 \\lambda_ {n}} \\| x _ {n} - p _ {n - 1} \\| ^ {2} \\\\ + \\frac {L _ {\\nabla h}}{2} \\| p _ {n} - p _ {n - 1} \\| ^ {2} \\\\ + \\langle \\nabla h (p _ {n - 1}) - \\nabla h (x _ {n}), p _ {n} - p _ {n - 1} \\rangle \\\\ + \\frac {\\alpha_ {n}}{\\lambda_ {n}} \\left\\langle p _ {n} - p _ {n - 1}, x _ {n} - x _ {n - 1} \\right\\rangle . \\tag {12} \\\\ \\end{array}\n$$\n\nAccording to (4) we have [From $x_n=p_{n-1}+\\lambda_{n-1}(\\nabla h(x_{n-1})-\\nabla h(p_{n-1}))$, subtract $p_{n-1}$ and apply the Lipschitz continuity of $\\nabla h$; the displayed norm should be read with $\\nabla h$, not $h$, inside the norm.]\n\n$$\n\\| x _ {n} - p _ {n - 1} \\| = \\lambda_ {n - 1} \\| h (x _ {n - 1}) - h (p _ {n - 1}) \\| \\leq \\lambda_ {n - 1} L _ {\\nabla h} \\| x _ {n - 1} - p _ {n - 1} \\| \\tag {13}\n$$\n\nand, from here,\n\n$$\n\\| x _ {n} - x _ {n - 1} \\| \\leq (1 + \\lambda_ {n - 1} L _ {\\nabla h}) \\| x _ {n - 1} - p _ {n - 1} \\| \\tag {14}\n$$\n\nand\n\n$$\n\\| p _ {n} - p _ {n - 1} \\| ^ {2} \\leq 2 (\\| x _ {n} - p _ {n} \\| ^ {2} + \\lambda_ {n - 1} ^ {2} L _ {\\nabla h} ^ {2} \\| x _ {n - 1} - p _ {n - 1} \\| ^ {2}). \\tag {15}\n$$\n\nMoreover, we have\n\n$$\n\\langle \\nabla h (p _ {n - 1}) - \\nabla h (x _ {n}), p _ {n} - p _ {n - 1} \\rangle \\leq \\frac {\\nu}{2} \\| p _ {n} - p _ {n - 1} \\| ^ {2} + \\frac {L _ {\\nabla h} ^ {2}}{2 \\nu} \\| x _ {n} - p _ {n - 1} \\| ^ {2} \\tag {16}\n$$\n\nand\n\n$$\n\\langle p _ {n} - p _ {n - 1}, x _ {n} - x _ {n - 1} \\rangle \\leq \\frac {\\mu}{2} \\| p _ {n} - p _ {n - 1} \\| ^ {2} + \\frac {1}{2 \\mu} \\| x _ {n} - x _ {n - 1} \\| ^ {2}. \\tag {17}\n$$\n\nFrom (12)-(17) we obtain after rearranging the terms that [Insert (13), (14), (15), (16), and (17) into (12); collect all multiples of $\\|x_n-p_n\\|^2$ on the left and all multiples of $\\|x_{n-1}-p_{n-1}\\|^2$ on the right.]\n\n$$\n(f + h) (p _ {n}) + M _ {1, n} \\| x _ {n} - p _ {n} \\| ^ {2} \\leq (f + h) (p _ {n - 1}) + M _ {2, n} \\| x _ {n - 1} - p _ {n - 1} \\| ^ {2}, \\tag {18}\n$$\n\nwhere\n\n$$\nM _ {1, n} = \\frac {\\sigma}{2 \\lambda_ {n}} - L _ {\\nabla h} - \\nu - \\frac {\\alpha_ {n}}{\\lambda_ {n}} \\mu\n$$\n\nand\n\n$$\n\\begin{array}{l} M _ {2, n} = \\lambda_ {n - 1} ^ {2} L _ {\\nabla h} ^ {2} \\left(\\frac {L _ {\\nabla h} ^ {2}}{2 \\nu} + \\nu + L _ {\\nabla h} + \\frac {L _ {\\nabla u}}{2 \\lambda_ {n}}\\right) \\\\ + \\frac {\\alpha_ {n}}{\\lambda_ {n}} \\left(\\mu \\lambda_ {n - 1} ^ {2} L _ {\\nabla h} ^ {2} + \\frac {(1 + \\lambda_ {n - 1} L _ {\\nabla h}) ^ {2}}{2 \\mu}\\right). \\\\ \\end{array}\n$$ [Finally, $\\lambda_n\\le\\overline\\lambda$, $\\lambda_n\\ge\\underline\\lambda$, $0\\le\\alpha_n\\le\\alpha$, and $\\lambda_{n-1}\\le\\overline\\lambda$ imply $M_{1,n}\\ge M_1$ and $M_{2,n}\\le M_2$, so (18) implies (9).]",
+      "depends_on": [
+        "def_3",
+        "algo_1",
+        "ext_lem_3",
+        "ext_def_1",
+        "ext_thm_1"
+      ]
+    },
+    {
+      "id": "lem_3",
+      "type": "lemma",
+      "name": "Lemma 3.3",
+      "statement": "Lemma 3.3 In the setting of Problem 3.1, consider arbitrary $\\nu$ , $\\mu > 0$ and chose $\\underline{\\lambda} > 0$ and $\\alpha \\geq 0$ such that\n\n$$\n\\begin{array}{l} 2 \\underline {{\\lambda}} (L _ {\\nabla h} + \\nu) + \\underline {{\\lambda}} ^ {2} L _ {\\nabla h} ^ {2} \\left(\\underline {{\\lambda}} \\frac {L _ {\\nabla h} ^ {2}}{\\nu} + L _ {\\nabla u} + 2 \\underline {{\\lambda}} (L _ {\\nabla h} + \\nu)\\right) \\\\ + 2 \\alpha \\left(\\mu + \\mu \\underline {{\\lambda}} ^ {2} L _ {\\nabla h} ^ {2} + \\frac {(1 + \\underline {{\\lambda}} L _ {\\nabla h}) ^ {2}}{2 \\mu}\\right) <   \\sigma . \\tag {19} \\\\ \\end{array}\n$$",
+      "proof": "Proof Relation (19) can be equivalently written as\n\n$$\n\\begin{array}{l} 2 \\underline {{\\lambda}} \\Bigg [ L _ {\\nabla h} + \\nu + \\frac {\\alpha}{\\underline {{\\lambda}}} \\mu + \\underline {{\\lambda}} ^ {2} L _ {\\nabla h} ^ {2} \\Bigg (\\frac {L _ {\\nabla h} ^ {2}}{2 \\nu} + \\frac {L _ {\\nabla u}}{2 \\underline {{\\lambda}}} + \\nu + L _ {\\nabla h} \\Bigg) \\\\ \\left. \\left. + \\frac {\\alpha}{\\underline {{\\lambda}}} \\left(\\mu \\underline {{\\lambda}} ^ {2} L _ {\\nabla h} ^ {2} + \\frac {(1 + \\underline {{\\lambda}} L _ {\\nabla h}) ^ {2}}{2 \\mu}\\right) \\right] <   \\sigma . \\right. \\\\ \\end{array}\n$$\n\nThus, there exists $\\rho > 0$ such that [The expression in the preceding strict inequality is continuous as a function of $\\rho$ at $0$, so the strict margin remains positive for all sufficiently small $\\rho>0$.]\n\n$$\n\\begin{array}{l} 2 (\\underline {{\\lambda}} + \\rho) \\left[ L _ {\\nabla h} + \\nu + \\frac {\\alpha}{\\underline {{\\lambda}}} \\mu + (\\underline {{\\lambda}} + \\rho) ^ {2} L _ {\\nabla h} ^ {2} \\left(\\frac {L _ {\\nabla h} ^ {2}}{2 \\nu} + \\nu + L _ {\\nabla h} + \\frac {L _ {\\nabla u}}{2 \\underline {{\\lambda}}}\\right) \\right. \\\\ \\left. + \\frac {\\alpha}{\\underline {{\\lambda}}} \\left(\\mu (\\underline {{\\lambda}} + \\rho) ^ {2} L _ {\\nabla h} ^ {2} + \\frac {(1 + (\\underline {{\\lambda}} + \\rho) L _ {\\nabla h}) ^ {2}}{2 \\mu}\\right) \\right] <   \\sigma . \\tag {20} \\\\ \\end{array}\n$$ [Set $\\overline\\lambda:=\\underline\\lambda+\\rho$. Comparing (20) with the formulas (10) and (11), after multiplying the desired inequality $M_1>M_2$ by $2\\overline\\lambda$, gives exactly the displayed strict inequality.]",
+      "depends_on": [
+        "def_3",
+        "lem_2"
+      ]
+    },
+    {
+      "id": "lem_4",
+      "type": "lemma",
+      "name": "Lemma 3.4",
+      "statement": "We give now a decrease property which will be useful in the following.\n\nLemma 3.4 In the setting of Problem 3.1, suppose that $f + h$ is bounded from below and consider the sequences generated by Algorithm 3.1, where $\\nu, \\mu, \\underline{\\lambda}, \\overline{\\lambda}$ and $\\alpha$ are chosen as in Lemma 3.3. Then, the following statements are true:\n\n(i) $\\sum_{n\\geq 1}\\| x_n - p_n\\|^2 < +\\infty$ and $\\sum_{n\\in \\mathbb{N}}\\| x_{n + 1} - x_n\\|^2 < +\\infty$ ;",
+      "proof": "(iii) the sequence $((f + h)(p_n))_{n\\geq 1}$ is convergent.\n\nProof From Lemma 3.2, we deduce that for every $n \\geq 2$\n\n$$\n\\begin{array}{l} (f + h) (p _ {n}) + M _ {2} \\| x _ {n} - p _ {n} \\| ^ {2} + (M _ {1} - M _ {2}) \\| x _ {n} - p _ {n} \\| ^ {2} \\leq (f + h) (p _ {n - 1}) \\\\ + M _ {2} \\| x _ {n - 1} - p _ {n - 1} \\| ^ {2}. \\tag {21} \\\\ \\end{array}\n$$ [Here $M_1-M_2>0$ by Lemma 3.3. Set $a_n=(f+h)(p_n)+M_2\\|x_n-p_n\\|^2$ and $b_n=(M_1-M_2)\\|x_n-p_n\\|^2$. Since $f+h$ is bounded from below and $M_2\\|x_n-p_n\\|^2\\ge0$, the sequence $(a_n)$ is bounded below, and (21) has the form $a_n+b_n\\le a_{n-1}$. Lemma 2.2 therefore gives convergence of $(a_n)$ and $\\sum_{n\\ge2}\\|x_n-p_n\\|^2<+\\infty$. Relation (14) then gives $\\sum_n\\|x_{n+1}-x_n\\|^2<+\\infty$. Since $M_2\\|x_n-p_n\\|^2\\to0$, convergence of $a_n$ implies convergence of $((f+h)(p_n))$.]",
+      "depends_on": [
+        "def_3",
+        "algo_1",
+        "ext_lem_2",
+        "lem_2",
+        "lem_3",
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "lem_5",
+      "type": "lemma",
+      "name": "Lemma 3.5",
+      "statement": "The following lemma provides an estimate for some elements in the limiting sub-differential.\n\nLemma 3.5 In the setting of Problem 3.1, consider the sequences generated by Algorithm 3.1. Then, we have for every $n \\geq 2$ :\n\n$$\ns _ {n} \\in \\partial (f + h) (p _ {n}), \\tag {22}\n$$\n\nwhere\n\n$$\n\\begin{array}{l} s _ {n} = \\frac {1}{\\lambda_ {n}} \\big (\\nabla u (x _ {n}) - \\nabla u (p _ {n}) \\big) + \\nabla h (p _ {n}) - \\nabla h (x _ {n}) + \\frac {\\alpha_ {n}}{\\lambda_ {n}} (p _ {n - 1} - x _ {n - 1}) \\\\ + \\frac {\\alpha_ {n} \\lambda_ {n - 1}}{\\lambda_ {n}} \\big (\\nabla h (x _ {n - 1}) - \\nabla h (p _ {n - 1}) \\big). \\\\ \\end{array}\n$$\n\nMoreover,",
+      "proof": "$$\n\nProof Take $n \\geq 2$ . By using the formula for the subdifferential of the sum, from (4) it follows that\n\n$$\n0 \\in \\partial f (p _ {n}) + \\frac {1}{\\lambda_ {n}} \\big (\\nabla u (p _ {n}) - \\nabla u (x _ {n}) \\big) + \\nabla h (x _ {n}) + \\frac {\\alpha_ {n}}{\\lambda_ {n}} (x _ {n - 1} - x _ {n}),\n$$\n\nhence\n\n$$\n0 \\in \\partial (f + h) (p _ {n}) + \\frac {1}{\\lambda_ {n}} \\big (\\nabla u (p _ {n}) - \\nabla u (x _ {n}) \\big) + \\nabla h (x _ {n}) - \\nabla h (p _ {n}) + \\frac {\\alpha_ {n}}{\\lambda_ {n}} (x _ {n - 1} - x _ {n}).\n$$\n\nRelation (22) follows from the above identity, by using also that [Move all explicit vector terms to the other side of the inclusion and rewrite $x_{n-1}-x_n$ via the second line of Algorithm 3.1 at index $n-1$; the resulting selected subgradient is exactly $s_n$.]\n\n$$\n\\begin{array}{l} x _ {n - 1} - x _ {n} = x _ {n - 1} - p _ {n - 1} - (x _ {n} - p _ {n - 1}) = x _ {n - 1} - p _ {n - 1} \\\\ - \\lambda_ {n - 1} \\big (\\nabla h (x _ {n - 1}) - \\nabla h (p _ {n - 1}) \\big). \\\\ \\end{array}\n$$ [For (23), apply the triangle inequality to the displayed formula for $s_n$, then use $\\|\\nabla u(x_n)-\\nabla u(p_n)\\|\\le L_{\\nabla u}\\|x_n-p_n\\|$ and $\\|\\nabla h(x_n)-\\nabla h(p_n)\\|\\le L_{\\nabla h}\\|x_n-p_n\\|$, together with $\\|\\nabla h(x_{n-1})-\\nabla h(p_{n-1})\\|\\le L_{\\nabla h}\\|x_{n-1}-p_{n-1}\\|$.]",
+      "depends_on": [
+        "def_1",
+        "def_3",
+        "algo_1",
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "ext_thm_2",
+      "type": "theorem",
+      "name": "Existence of minimizers for proper lsc coercive functions",
+      "statement": "If $g:\\mathbb{R}^m\\to]-\\infty,+\\infty]$ is proper, lower semicontinuous, and coercive, then $\\inf_{x\\in\\mathbb{R}^m}g(x)$ is finite and the infimum is attained.",
+      "proof": "Cited from: Rockafellar, R.T., Wets, R.J.-B.: Variational Analysis, Fundamental Principles of Mathematical Sciences, vol. 317. Springer, Berlin (1998), cited as [30] in Lemma 3.6.",
+      "depends_on": [
+        "def_1",
+        "ext_def_3"
+      ]
+    },
+    {
+      "id": "ext_thm_3",
+      "type": "theorem",
+      "name": "Cluster set properties under vanishing increments",
+      "statement": "For a bounded sequence $(z_n)$ in a finite-dimensional Euclidean space with $z_{n+1}-z_n\\to0$, the cluster set $\\omega((z_n))$ is nonempty, compact, and connected, and $\\operatorname{dist}(z_n,\\omega((z_n)))\\to0$.",
+      "proof": "Cited from: Bolte, J., Sabach, S., Teboulle, M.: Proximal alternating linearized minimization for nonconvex and nonsmooth problems. Math. Program. Ser. A 146(1-2), 459-494 (2014), Lemma 5 and Remark 5, cited in Lemma 3.6.",
+      "depends_on": [
+        "ext_def_5"
+      ]
+    },
+    {
+      "id": "lem_6",
+      "type": "lemma",
+      "name": "Lemma 3.6",
+      "statement": "In the following, we use the notation $\\omega((p_{n})_{n\\geq1})$ for the set of cluster points of the sequence $(p_{n})_{n\\geq1}$ . Next, we will give some properties of this set (see [20]).\n\nLemma 3.6 In the setting of Problem 3.1, suppose that the function $f + h$ is coercive (that is $\\lim_{\\| x \\| \\to +\\infty}(f + h)(x) = +\\infty$ ) and consider the sequences generated in Algorithm 3.1, where $\\nu, \\mu, \\underline{\\lambda}, \\overline{\\lambda}$ and $\\alpha$ are chosen as in Lemma 3.3. Then, the following statements are true:\n\n(i) $\\emptyset \\neq \\omega((p_n)_{n\\geq 1})\\subseteq crit(f + h);$  \n(ii) $\\lim_{n\\to +\\infty}dist(p_n,\\omega ((p_n)_{n\\geq 1})) = 0;$",
+      "proof": "(iv) $f + h$ is finite and constant on $\\omega((p_n)_{n\\geq 1})$ .\n\nProof Since $f + h$ is a proper, lower semicontinuous and coercive function, it follows that $\\inf_{x \\in \\mathbb{R}^m}[f(x) + h(x)]$ is finite and the infimum is attained (see [30]). Hence $f + h$ is bounded from below. [This is the direct method in finite dimension: coercivity confines a minimizing sequence to a bounded lower level set, lower semicontinuity gives a minimizer on its compact closure, and properness excludes the value $+\\infty$ everywhere.]\n\n(i) According to Lemma 3.4(ii), we have\n\n$$\n\\begin{array}{l} (f + h) (p _ {n}) \\leq (f + h) (p _ {n}) + M _ {2} \\| x _ {n} - p _ {n} \\| ^ {2} \\leq (f + h) (p _ {1}) \\\\ + M _ {2} \\| x _ {1} - p _ {1} \\| ^ {2} \\forall n \\geq 1. \\\\ \\end{array}\n$$\n\nSince the function $f + h$ is coercive, its lower level sets are bounded and we conclude that $(p_n)_{n > 1}$ is bounded, hence $\\omega((p_n)_{n > 1}) \\neq \\emptyset$ . [The displayed uniform upper bound places every $p_n$ in one lower level set of the coercive function $f+h$; this lower level set is bounded, so Bolzano-Weierstrass gives a convergent subsequence.]\n\nTake an arbitrary $p^* \\in \\omega((p_n)_{n \\geq 1})$ . There exists a subsequence $(p_{n_k})_{k \\in \\mathbb{N}}$ such that $p_{n_k} \\to p^*$ as $k \\to +\\infty$ . We show in the following that $\\lim_{k \\to +\\infty} f(p_{n_k}) = f(p^*)$ . Notice that the lower semicontinuity of the function $f$ ensures $\\liminf_{k \\to +\\infty} f(p_{n_k}) \\geq f(p^*)$ . Moreover, from (4), we have that for every $n \\geq 1$\n\n$$\n\\begin{array}{l} f (p _ {n}) + \\frac {1}{\\lambda_ {n}} D _ {u} (p _ {n}, x _ {n}) + \\langle p _ {n}, \\nabla h (x _ {n}) \\rangle + \\frac {\\alpha_ {n}}{\\lambda_ {n}} \\langle p _ {n}, x _ {n - 1} - x _ {n} \\rangle \\\\ \\leq f (p ^ {*}) + \\frac {1}{\\lambda_ {n}} D _ {u} (p ^ {*}, x _ {n}) + \\left\\langle p ^ {*}, \\nabla h (x _ {n}) \\right\\rangle + \\frac {\\alpha_ {n}}{\\lambda_ {n}} \\left\\langle p ^ {*}, x _ {n - 1} - x _ {n} \\right\\rangle . \\\\ \\end{array}\n$$\n\nBy using Lemma 3.4(i), (5) and by taking into consideration the bounds of the sequences involved, it follows $\\limsup_{k\\to +\\infty}f(p_{n_k})\\leq f(p^*)$ [Along the subsequence, Lemma 3.4(i) and (13)-(14) give $x_{n_k}-p_{n_k}\\to0$ and $x_{n_k-1}-p_{n_k-1}\\to0$; boundedness and continuity of $h,\\nabla h,u,\\nabla u$ make every extra term in the minimizer inequality converge to the corresponding term at $p^*$, leaving only the claimed upper bound for $f$.] , hence $\\lim_{k\\to +\\infty}f(p_{n_k}) = f(p^*)$ .\n\nFurther, using Lemma 3.5, we have $s_{n_k} \\in \\partial(f + h)(p_{n_k})$ for all $k \\geq 2$ . By using (23) and Lemma 3.4(i), from $p_{n_k} \\to p^*$ it follows that $s_{n_k} \\to 0$ as $k \\to +\\infty$ . Since we additionally have that $\\lim_{k \\to +\\infty}(f + h)(p_{n_k}) = (f + h)(p^*)$ , the closedness of the graph of the limiting subdifferential operator guarantees that $0 \\in \\partial(f + h)(p^*)$ , thus $p^* \\in \\text{crit}(f + h)$ .\n\nThe proof of (ii) and (iii) can be done in the lines of [20, Lemma 5], by also taking into consideration [20, Remark 5], where it is noticed that the properties (ii) and (iii) are generic for sequences satisfying $p_{n+1} - p_n \\to 0$ as $n \\to +\\infty$ . [Here $p_{n+1}-p_n=(p_{n+1}-x_{n+1})+(x_{n+1}-x_n)+(x_n-p_n)\\to0$ by Lemma 3.4(i), so ext_thm_3 applies to $(p_n)$.]",
+      "depends_on": [
+        "def_1",
+        "def_3",
+        "algo_1",
+        "lem_3",
+        "lem_4",
+        "lem_5",
+        "ext_def_3",
+        "ext_def_5",
+        "ext_thm_2",
+        "ext_thm_3"
+      ]
+    },
+    {
+      "id": "lem_7",
+      "type": "lemma",
+      "name": "Lemma 3.7",
+      "statement": "The following result characterizes the set of cluster points of the sequence $(p_n, x_n)_{n \\geq 1}$ .\n\nLemma 3.7 In the setting of Problem 3.1, suppose that the function $f + h$ is coercive, consider the sequences generated in Algorithm 3.1, where $\\nu, \\mu, \\underline{\\lambda}, \\overline{\\lambda}$ and $\\alpha$ are chosen as in Lemma 3.3, and the constants $M_1$ and $M_2$ as in Lemma 3.2. We introduce the function $H: \\mathbb{R}^m \\times \\mathbb{R}^m \\to \\overline{\\mathbb{R}}$ defined by\n\n$$\nH (x, y) = (f + h) (x) + M _ {2} \\| x - y \\| ^ {2} \\forall (x, y) \\in \\mathbb {R} ^ {m} \\times \\mathbb {R} ^ {m}. \\tag {24}\n$$\n\nThen, the following statements are true:\n\n$$\n(i) \\emptyset \\neq \\omega ((p _ {n}, x _ {n}) _ {n \\geq 1}) \\subseteq c r i t (H) = \\{(x, x) \\in \\mathbb {R} ^ {m} \\times \\mathbb {R} ^ {m}: x \\in c r i t (f + h) \\};\n$$\n\n(ii) $\\lim_{n\\to +\\infty}dist((p_n,x_n),\\omega ((p_n,x_n)_{n\\geq 1})) = 0;$",
+      "proof": "(iv) $H$ is finite and constant on $\\omega((p_n, x_n)_{n \\geq 1})$ .\n\nProof The proof is similar to the one of Lemma 3.6 by noticing that for every $n \\geq 2$ (see (21)) [Apply Lemma 3.6 to the product sequence $z_n=(p_n,x_n)$. Lemma 3.4(i) gives $z_{n+1}-z_n\\to0$, and boundedness follows from boundedness of $(p_n)$ plus $x_n-p_n\\to0$.]\n\n$$\nH (p _ {n}, x _ {n}) + (M _ {1} - M _ {2}) \\| x _ {n} - p _ {n} \\| ^ {2} \\leq H (p _ {n - 1}, x _ {n - 1}) \\tag {25}\n$$\n\nand\n\n$$\n(s _ {n} + 2 M _ {2} (p _ {n} - x _ {n}), 2 M _ {2} (x _ {n} - p _ {n})) \\in \\partial H (p _ {n}, x _ {n}), \\tag {26}\n$$\n\nwhere $(s_n)_{n\\geq 2}$ is the sequence introduced in Lemma 3.5. Relation (26) follows from\n$$ [For all $(x,y)$, the smooth part $M_2\\|x-y\\|^2$ has gradient $(2M_2(x-y),2M_2(y-x))$, hence by the subdifferential sum rule\n$$\n\\partial H(x,y)=\\big(\\partial(f+h)(x)+2M_2(x-y)\\big)\\times\\{2M_2(y-x)\\}.\n$$\nUsing $s_n\\in\\partial(f+h)(p_n)$ from Lemma 3.5 gives (26). The remaining assertions follow as in Lemma 3.6, with ext_thm_3 giving distance-to-cluster-set convergence, compactness, and connectedness.]",
+      "depends_on": [
+        "def_1",
+        "def_3",
+        "algo_1",
+        "lem_2",
+        "lem_3",
+        "lem_4",
+        "lem_5",
+        "lem_6",
+        "ext_def_5",
+        "ext_thm_3"
+      ]
+    },
+    {
+      "id": "thm_1",
+      "type": "theorem",
+      "name": "Theorem 3.1",
+      "statement": "We are now in position to prove the convergence of the Tseng's type algorithm provided that $H$ is a KL function.\n\nTheorem 3.1 In the setting of Problem 3.1, suppose that the function $f + h$ is coercive, consider the sequences generated in Algorithm 3.1, where $\\nu, \\mu, \\underline{\\lambda}, \\overline{\\lambda}$ and $\\alpha$ are chosen as in Lemma 3.3, and the constants $M_1$ and $M_2$ as in Lemma 3.2. We assume that\n\n$$\nH: \\mathbb {R} ^ {m} \\times \\mathbb {R} ^ {m} \\to \\overline {{\\mathbb {R}}}, H (x, y) = (f + h) (x) + M _ {2} \\| x - y \\| ^ {2} \\forall (x, y) \\in \\mathbb {R} ^ {m} \\times \\mathbb {R} ^ {m},\n$$\n\nis a KL function. Then, the following statements are true:",
+      "proof": "(ii) there exists $x \\in \\text{crit}(f + h)$ such that $\\lim_{n \\to +\\infty} x_n = \\lim_{n \\to +\\infty} p_n = x$ .\n\nProof (i) According to Lemma 3.7(i), we can consider an element $p^* \\in \\operatorname{crit}(f + h)$ such that $(p^*, p^*) \\in \\omega((p_n, x_n)_{n \\geq 1})$ . In analogy to the proof of Lemma 3.6 one can easily show that $\\lim_{n \\to +\\infty} H(p_n, x_n) = H(p^*, p^*)$ . [Indeed, (25) and $M_1>M_2$ make $H(p_n,x_n)$ decreasing and convergent; along a subsequence converging to $(p^*,p^*)$, Lemma 3.7(iv) identifies the subsequential limit with $H(p^*,p^*)$.] We consider two cases.\n\nI. There exists $\\overline{n} \\in \\mathbb{N}$ such that $H(p_{\\overline{n}}, x_{\\overline{n}}) = H(p^*, p^*)$ . The decrease property in (25) implies $H(p_n, x_n) = H(p^*, p^*)$ for every $n \\geq \\overline{n}$ . One can show inductively that the sequence $(p_n, x_n)_{n \\geq \\overline{n}}$ is constant and the conclusion follows. [Since (25) has a nonnegative decrease term, equality of the endpoint values forces $\\|x_n-p_n\\|=0$ for all $n\\ge\\overline n+1$; then (4) gives $x_{n+1}=p_n=x_n$, and the argmin step repeats the same point.]  \nII. For all $n \\geq 1$ we have $H(p_n, x_n) > H(p^*, p^*)$ . Take $\\Omega := \\omega((p_n, x_n)_{n \\geq 1})$ . Since $H$ is a KL function, from Lemma 3.7(iii)-(iv) and Lemma 2.1, there exist $\\varepsilon, \\eta > 0$ and $\\varphi \\in \\Theta_\\eta$ such that for all $(x, y)$ in the intersection\n\n$$\n\\begin{array}{l} \\{(x, y) \\in \\mathbb {R} ^ {m} \\times \\mathbb {R} ^ {m}: \\mathrm{dist} ((x, y), \\Omega) <   \\varepsilon \\} \\\\ \\cap \\{(x, y) \\in \\mathbb {R} ^ {m} \\times \\mathbb {R} ^ {m}: H (p ^ {*}, p ^ {*}) <   H (x, y) <   H (p ^ {*}, p ^ {*}) + \\eta \\} \\tag {27} \\\\ \\end{array}\n$$\n\nthe following inequality holds\n\n$$\n\\varphi^ {\\prime} (H (x, y) - H (p ^ {*}, p ^ {*})) \\mathrm{dist} ((0, 0), \\partial H (x, y)) \\geq 1. \\tag {28}\n$$\n\nLet be $n_1 \\geq 1$ such that $H(p_n, x_n) < H(p^*, p^*) + \\eta$ for every $n \\geq n_1$ . Moreover, from Lemma 3.7(ii), there exists $n_2 \\in \\mathbb{N}$ such that $\\text{dist}((p_n, x_n), \\Omega) < \\varepsilon$ for every $n \\geq n_2$ . Thus, the sequence $(p_n, x_n)_{n \\geq N}$ belongs to the intersection in (27), where $N = \\max\\{n_1, n_2\\}$ . From (28), we have\n\n$$\n\\varphi^ {\\prime} (H (p _ {n}, x _ {n}) - H (p ^ {*}, p ^ {*})) \\mathrm{dist} ((0, 0), \\partial H (p _ {n}, x _ {n})) \\geq 1 \\forall n \\geq N. \\tag {29}\n$$\n\nFurther, since $\\varphi$ is a concave function, we get for every $n \\geq 1$ the following inequality:\n\n$$\n\\begin{array}{l} \\varphi \\Big (H (p _ {n}, x _ {n}) - H (p ^ {*}, p ^ {*}) \\Big) - \\varphi \\Big (H (p _ {n + 1}, x _ {n + 1}) - H (p ^ {*}, p ^ {*}) \\Big) \\\\ \\geq \\varphi^ {\\prime} \\Big (H (p _ {n}, x _ {n}) - H (p ^ {*}, p ^ {*}) \\Big) \\cdot \\Big (H (p _ {n}, x _ {n}) - H (p _ {n + 1}, x _ {n + 1}) \\Big). \\tag {30} \\\\ \\end{array}\n$$\n\nMoreover, from (29) and (26) we have\n\n$$\n\\varphi^ {\\prime} \\Big (H (p _ {n}, x _ {n}) - H (p ^ {*}, p ^ {*}) \\Big) \\geq \\frac {1}{\\| (s _ {n} + 2 M _ {2} (p _ {n} - x _ {n}) , 2 M _ {2} (x _ {n} - p _ {n})) \\|} \\forall n \\geq N. \\tag {31}\n$$\n\nBy using for every $n \\geq 1$ the notation\n\n$$\n\\Delta_ {n, n + 1} := \\varphi \\big (H (p _ {n}, x _ {n}) - H (p ^ {*}, p ^ {*}) \\big) - \\varphi \\big (H (p _ {n + 1}, x _ {n + 1}) - H (p ^ {*}, p ^ {*}) \\big),\n$$\n\nfrom (30), (31) and (25) we deduce\n\n$$\n\\Delta_ {n, n + 1} \\geq (M _ {1} - M _ {2}) \\cdot \\frac {\\| x _ {n + 1} - p _ {n + 1} \\| ^ {2}}{\\sqrt {\\| s _ {n} + 2 M _ {2} (p _ {n} - x _ {n}) \\| ^ {2} + 4 M _ {2} ^ {2} \\| x _ {n} - p _ {n} \\| ^ {2}}} \\forall n \\geq N. \\tag {32}\n$$\n\nFrom here we obtain [Apply $2ab\\le a^2+b^2$ in the form $r\\le (\\delta/2)A+r^2/(2\\delta A)$ to (32), with $r=\\|x_{n+1}-p_{n+1}\\|$ and $A$ equal to the denominator in (32); this yields (33) after solving for $r$.]\n\n$$\n\\begin{array}{l} \\| x _ {n + 1} - p _ {n + 1} \\| \\leq \\frac {\\delta}{2} \\sqrt {\\| s _ {n} + 2 M _ {2} (p _ {n} - x _ {n}) \\| ^ {2} + 4 M _ {2} ^ {2} \\| x _ {n} - p _ {n} \\| ^ {2}} \\\\ + \\frac {\\Delta_ {n , n + 1}}{2 \\delta (M _ {1} - M _ {2})} \\forall n \\geq N, \\tag {33} \\\\ \\end{array}\n$$\n\nwhere $\\delta > 0$ is chosen such that the following inequality holds:\n\n$$\n\\frac {\\delta \\sqrt {2}}{2} \\left(\\sqrt {\\left(\\frac {L _ {\\nabla u}}{\\underline {{\\lambda}}} + L _ {\\nabla h} + 2 M _ {2}\\right) ^ {2} + 4 M _ {2} ^ {2}} + \\frac {\\alpha}{\\underline {{\\lambda}}} (1 + \\bar {\\lambda} L _ {\\nabla h})\\right) <   1. \\tag {34}\n$$\n\nMoreover, we have for every $n \\geq 1$ (see (23))\n\n$$\n\\begin{array}{l} \\sqrt {\\| s _ {n} + 2 M _ {2} (p _ {n} - x _ {n}) \\| ^ {2} + 4 M _ {2} ^ {2} \\| x _ {n} - p _ {n} \\| ^ {2}} \\\\ \\leq \\sqrt {\\left[ 2 \\left(\\frac {L _ {\\nabla u}}{\\lambda_ {n}} + L _ {\\nabla h} + 2 M _ {2}\\right) ^ {2} + 4 M _ {2} ^ {2} \\right] \\| x _ {n} - p _ {n} \\| ^ {2} + 2 \\frac {\\alpha_ {n} ^ {2}}{\\lambda_ {n} ^ {2}} \\left(1 + \\lambda_ {n - 1} L _ {\\nabla h}\\right) ^ {2} \\| x _ {n - 1} - p _ {n - 1} \\| ^ {2}} \\\\ \\leq \\sqrt \\left[ 2 \\left(\\frac {L _ {\\nabla u}}{\\lambda_ {n}} + L _ {\\nabla h} + 2 M _ {2}\\right) ^ {2} + 4 M _ {2} ^ {2} \\right] \\| x _ {n} - p _ {n} \\| + \\sqrt {2} \\frac {\\alpha_ {n}}{\\lambda_ {n}} \\left(1 + \\lambda_ {n - 1} L _ {\\nabla h}\\right) \\| x _ {n - 1} - p _ {n - 1} \\| \\\\ \\leq \\sqrt {\\left[ 2 \\left(\\frac {L _ {\\nabla u}}{\\underline {{\\lambda}}} + L _ {\\nabla h} + 2 M _ {2}\\right) ^ {2} + 4 M _ {2} ^ {2} \\right] \\| x _ {n} - p _ {n} \\| + \\sqrt {2} \\frac {\\alpha}{\\underline {{\\lambda}}} \\left(1 + \\bar {\\lambda} L _ {\\nabla h}\\right) \\| x _ {n - 1} - p _ {n - 1} \\|.} \\\\ \\end{array}\n$$\n\nWe derive from (33) that [Insert the previous bound on the square-root term, then absorb the uniform constants into the definitions of $a$ and $b$. The choice (34) makes $a+b<1$.]\n\n$$\n\\| x _ {n + 1} - p _ {n + 1} \\| \\leq a \\| x _ {n} - p _ {n} \\| + b \\| x _ {n - 1} - p _ {n - 1} \\| + \\frac {\\Delta_ {n , n + 1}}{2 \\delta (M _ {1} - M _ {2})} \\forall n \\geq N, \\tag {35}\n$$\n\nwhere\n\n$$\na := \\frac {\\delta \\sqrt {2}}{2} \\left(\\sqrt {\\left(\\frac {L _ {\\nabla u}}{\\underline {{\\lambda}}} + L _ {\\nabla h} + 2 M _ {2}\\right) ^ {2} + 4 M _ {2} ^ {2}}\\right) \\text {and} b := \\frac {\\delta \\sqrt {2}}{2} \\frac {\\alpha}{\\underline {{\\lambda}}} \\left(1 + \\overline {{\\lambda}} L _ {\\nabla h}\\right).\n$$\n\nNotice that due to (34) we have $a + b < 1$ . Now, for a fixed $k \\geq 1$ we have (since $\\varphi$ takes only non-negative values)\n\n$$\n\\begin{array}{l} \\sum_ {n = 1} ^ {k} \\Delta_ {n, n + 1} = \\varphi \\big (H (p _ {1}, x _ {1}) - H (p ^ {*}, p ^ {*}) \\big) - \\varphi \\big (H (p _ {k + 1}, x _ {k + 1}) - H (p ^ {*}, p ^ {*}) \\big) \\\\ \\leq \\varphi \\big (H (p _ {1}, x _ {1}) - H (p ^ {*}, p ^ {*}) \\big), \\\\ \\end{array}\n$$\n\nhence\n\n$$\n\\sum_ {n \\geq 1} \\frac {\\Delta_ {n , n + 1}}{2 \\delta (M _ {1} - M _ {2})} <   + \\infty .\n$$\n\nFrom (35) and Lemma 2.3 we conclude that $\\sum_{n\\geq 1}\\| x_n - p_n\\| < +\\infty$ . [Use Lemma 2.3 with $\\xi_n=\\|x_n-p_n\\|$ and $\\varepsilon_n=\\Delta_{n,n+1}/(2\\delta(M_1-M_2))$, whose summability was just proved.] Further, from (14), we obtain $\\sum_{n\\in \\mathbb{N}}\\| x_{n + 1} - x_n\\| < +\\infty$ . [For the proof of (ii), (i) gives $\\sum_n\\|x_{n+1}-x_n\\|<+\\infty$, so $(x_n)$ is Cauchy in $\\mathbb R^m$ and converges to some $x$; also $\\|x_n-p_n\\|\\to0$, hence $p_n\\to x$. Lemma 3.7(i) then gives $(x,x)\\in\\operatorname{crit}(H)$ and therefore $x\\in\\operatorname{crit}(f+h)$.]",
+      "depends_on": [
+        "def_2",
+        "def_3",
+        "algo_1",
+        "ext_lem_1",
+        "lem_1",
+        "lem_2",
+        "lem_3",
+        "lem_5",
+        "lem_7",
+        "ext_def_5"
+      ]
+    },
+    {
+      "id": "ext_thm_4",
+      "type": "theorem",
+      "name": "Semi-algebraic functions are KL and stable under finite sums",
+      "statement": "Semi-algebraic extended-real-valued functions are KL functions, and the class of semi-algebraic functions is stable under finite sums; hence if $f+h$ is semi-algebraic, then $H(x,y)=(f+h)(x)+M_2\\|x-y\\|^2$ is a KL function.",
+      "proof": "Cited from: Bolte, J., Sabach, S., Teboulle, M.: Proximal alternating linearized minimization for nonconvex and nonsmooth problems. Math. Program. Ser. A 146(1-2), 459-494 (2014), cited in Corollary 3.1 and in the KL background discussion.",
+      "depends_on": [
+        "def_2",
+        "ext_def_6"
+      ]
+    },
+    {
+      "id": "cor_1",
+      "type": "corollary",
+      "name": "Corollary 3.1",
+      "statement": "The following corollary is a direct consequence of Theorem 3.1.\n\nCorollary 3.1 In the setting of Problem 3.1, suppose that the function $f + h$ is coercive and semi-algebraic, consider the sequences generated in Algorithm 3.1, where $\\nu, \\mu, \\underline{\\lambda}, \\overline{\\lambda}$ and $\\alpha$ are chosen as in Lemma 3.3. Then, the following statements are true:",
+      "proof": "(ii) there exists $x \\in \\text{crit}(f + h)$ such that $\\lim_{n \\to +\\infty} x_n = \\lim_{n \\to +\\infty} p_n = x$ . [By ext_thm_4, semi-algebraicity of $f+h$ and of $(x,y)\\mapsto M_2\\|x-y\\|^2$ implies that $H$ is semi-algebraic and hence a KL function, which is exactly the additional hypothesis of Theorem 3.1.]",
+      "depends_on": [
+        "def_1",
+        "def_3",
+        "algo_1",
+        "lem_2",
+        "lem_3",
+        "thm_1",
+        "ext_def_6",
+        "ext_thm_4"
+      ]
+    }
+  ]
+}

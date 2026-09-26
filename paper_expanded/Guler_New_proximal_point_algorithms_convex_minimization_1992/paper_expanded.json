@@ -1,0 +1,444 @@
+{
+  "metadata": {
+    "title": "NEW PROXIMAL POINT ALGORITHMS FOR CONVEX MINIMIZATION*",
+    "authors": [
+      "OSMAN GÜLER"
+    ],
+    "year": 1992,
+    "source_type": "markdown"
+  },
+  "items": [
+    {
+      "id": "def_2",
+      "type": "definition",
+      "name": "Quadratic model sequence and $\\beta_k$",
+      "statement": "We define the quadratic functions $\\varphi_{k}(x)$, $k \\geq 0$, recursively, as follows: $$\\varphi_ {0} (x) := f (x _ {0}) + \\frac {A}{2} \\left\\| x - x _ {0} \\right\\| ^ {2},$$ $$\\begin{aligned} \\varphi_ {k + 1} (x) :&= (1 - \\alpha_ {k}) \\varphi_ {k} (x) \\tag {2.7} \\\\ + \\alpha_ {k} (f (J _ {\\lambda_ {k}} y _ {k}) + \\langle (y _ {k} - J _ {\\lambda_ {k}} y _ {k}) / \\lambda_ {k}, x - J _ {\\lambda_ {k}} y _ {k} \\rangle). \\end{aligned}$$ Here $A$ and $\\lambda_k$ are positive numbers and $\\alpha_k$ is a number in the interval [0,1). The point $x_0$ is feasible, that is, $f(x_0) < \\infty$. Here the point $y_k \\in \\mathbb{R}^n$ can be arbitrary. Defining $$\\beta_ {k} = \\prod_ {j = 0} ^ {k - 1} (1 - \\alpha_ {j}), \\tag {2.2}$$ we have $\\varphi_ {k} (x) - f (x) \\leq \\beta_ {k} (\\varphi_ {0} (x) - f (x)). \\tag {2.3}$",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "ext_def_1",
+      "type": "definition",
+      "name": "Objective assumptions and feasibility",
+      "statement": "The objective $f:H\\to\\mathbb{R}\\cup\\{+\\infty\\}$ is proper, lower semicontinuous and convex. A point $x$ is feasible when $f(x)<+\\infty$. These are the standing assumptions of the minimization problem (1.1).",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "def_1",
+      "type": "definition",
+      "name": "Proximal mapping $J_\\lambda$",
+      "statement": "The classical proximal point algorithm is based on the notion of proximal mapping $J_{\\lambda}$, $$J _ {\\lambda} x := \\arg \\min _ {z \\in \\mathbb {R} ^ {n}} \\left\\{f (z) + \\frac {1}{2 \\lambda} \\left\\| z - x \\right\\| ^ {2} \\right\\}, \\tag {1.2}$$ introduced earlier by Moreau [12].",
+      "proof": null,
+      "depends_on": [
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "ext_def_2",
+      "type": "definition",
+      "name": "Convex subdifferential qualification",
+      "statement": "For a proper convex function $f$, the convex subdifferential at a feasible point $x$ is\n\n$$\n\\partial f(x)=\\{g:f(z)\\geq f(x)+\\langle g,z-x\\rangle\\text{ for every }z\\}.\n$$",
+      "proof": null,
+      "depends_on": [
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "algo_3",
+      "type": "algorithm",
+      "name": "THE SECOND PROXIMAL POINT ALGORITHM",
+      "statement": "Initialization. Choose a point $x_0\\in\\mathbb R^n$, and a constant $\\lambda>0$. Define $y_1:=x_0$, $\\lambda_1:=\\lambda$, and $\\beta_1:=1$. Step $\\mathbf k$, $k\\geq1$. Choose $\\lambda_k\\geq\\lambda_{k-1}$ and define $$\\beta_{k+1}=\\frac{1+\\sqrt{1+4\\beta_k^2}}2, \\tag{6.1}$$ $$x_k=J_{\\lambda_k}y_k:=\\arg\\min_{x\\in\\mathbf R^n}\\{f(x)+(1/(2\\lambda_k))\\|x-y_k\\|^2\\}, \\tag{6.2}$$ $$y_{k+1}=x_k+\\frac{\\beta_k-1}{\\beta_{k+1}}(x_k-x_{k-1})+\\frac{\\beta_k}{\\beta_{k+1}}(x_k-y_k). \\tag{6.3}$$",
+      "proof": null,
+      "depends_on": [
+        "def_1",
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "def_3",
+      "type": "definition",
+      "name": "Augmented function $\\phi_k$",
+      "statement": "The point $x_{k+1}$ is thus the exact minimum of the augmented function $$\\phi_ {k} (z) := f (z) + \\frac {1}{2 \\lambda_ {k}} \\left\\| z - y _ {k} \\right\\| ^ {2}. \\tag {3.2}$$",
+      "proof": null,
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "ext_def_3",
+      "type": "definition",
+      "name": "Proximal objective and proximal minimizers",
+      "statement": "For $\\lambda>0$ and center $y$, the proximal objective is\n\n$$\nP_{\\lambda,y}(z)=f(z)+\\frac{1}{2\\lambda}\\|z-y\\|^2.\n$$\n\nA proximal point is a point attaining $\\min_z P_{\\lambda,y}(z)$, equivalently an element of the proximal mapping $J_\\lambda y$ in (1.2).",
+      "proof": null,
+      "depends_on": [
+        "ext_def_1",
+        "def_1"
+      ]
+    },
+    {
+      "id": "ext_def_4",
+      "type": "definition",
+      "name": "Subdifferential residual",
+      "statement": "For a point $x$ with nonempty subdifferential, the subdifferential residual is the distance from the origin to $\\partial f(x)$:\n\n$$\nr_f(x)=\\inf\\{\\|g\\|:g\\in\\partial f(x)\\}.\n$$",
+      "proof": null,
+      "depends_on": [
+        "ext_def_2"
+      ]
+    },
+    {
+      "id": "ext_def_5",
+      "type": "definition",
+      "name": "Strong convexity in subgradient form",
+      "statement": "A convex function $g$ is strongly convex with modulus $m>0$ when every $s\\in\\partial g(x)$ satisfies\n\n$$\ng(y)\\geq g(x)+\\langle s,y-x\\rangle+\\frac m2\\|y-x\\|^2\n$$\n\nfor all $x,y$.",
+      "proof": null,
+      "depends_on": [
+        "ext_def_2"
+      ]
+    },
+    {
+      "id": "ext_thm_1",
+      "type": "theorem",
+      "name": "Subdifferentiation formula for a proximal minimizer",
+      "statement": "Referenced as: Since $J_{\\lambda_k}y_k$ is the minimizer in (1.6), $0 \\in \\partial f(J_{\\lambda_k}y_k) + (J_{\\lambda_k}y_k-y_k)/\\lambda_k$, that is, $$(y _ {k} - J _ {\\lambda_ {k}} y _ {k}) / \\lambda_ {k} \\in \\partial f (J _ {\\lambda_ {k}} y _ {k}). \\tag {2.8}$$",
+      "proof": "Cited from: R. T. Rockafellar, Monotone operators and the proximal point algorithm, SIAM J. Control Optim., 14 (1976), pp. 877-898, p. 889.",
+      "depends_on": [
+        "ext_def_1",
+        "ext_def_2"
+      ]
+    },
+    {
+      "id": "def_4",
+      "type": "definition",
+      "name": "DEFINITION 3.1",
+      "statement": "We will say that $x_{k+1}$ is an approximation minimizer of $\\phi_k$ if the following criterion $\\mathbf{A}'$ in Rockafellar [18, pp. 880] is satisfied: $$\\rho (0, \\partial \\phi_ {k} (x _ {k + 1})) \\leqslant \\frac {\\varepsilon_ {k}}{\\lambda_ {k}}. \\tag {$A^{\\prime$}}$$ Note that if $f$ is differentiable, condition $\\mathbf{A}'$ means that $\\|\\phi_k'(x_{k+1})\\|\\leq\\varepsilon_k/\\lambda_k$.",
+      "proof": null,
+      "depends_on": [
+        "def_1",
+        "ext_def_2",
+        "ext_def_3",
+        "ext_def_4"
+      ]
+    },
+    {
+      "id": "ext_def_6",
+      "type": "definition",
+      "name": "Estimate-quadratic recurrences",
+      "statement": "The estimate functions used in Section 2 have the quadratic representation\n\n$$\n\\phi_k(x)=\\phi_k^*+\\frac{A_k}{2}\\|x-\\nu_k\\|^2,\n$$\n\nwith the scalar and center recurrences obtained from (2.7), including $A_{k+1}=(1-\\alpha_k)A_k$ and the corresponding update of $\\nu_{k+1}$.",
+      "proof": null,
+      "depends_on": [
+        "def_2",
+        "def_3"
+      ]
+    },
+    {
+      "id": "ext_thm_2",
+      "type": "theorem",
+      "name": "Strong-convexity inequality",
+      "statement": "Referenced as: If $g$ is strongly convex with modulus $m$, $w\\in\\partial g(u)$, then $g(v)-g(u)\\geq\\langle w,v-u\\rangle+(m/2)\\|v-u\\|^2$.",
+      "proof": "Cited from: R. T. Rockafellar, Monotone operators and the proximal point algorithm, SIAM J. Control Optim., 14 (1976), pp. 877-898, Proposition 6(c).",
+      "depends_on": [
+        "ext_def_5"
+      ]
+    },
+    {
+      "id": "lem_1",
+      "type": "lemma",
+      "name": "LEMMA 2.1",
+      "statement": "For all $k \\geq 0$, the quadratic functions $\\varphi_k(x)$ defined above satisfy inequality (2.1), that is, $$\\varphi_ {k + 1} (x) - f (x) \\leq (1 - \\alpha_ {k}) (\\varphi_ {k} (x) - f (x)).$$",
+      "proof": "Proof. Since $J_{\\lambda_k}y_k$ is the minimizer in (1.6), we have by the subdifferentiation formula (see Rockafellar [18, pp. 889]), $0 \\in \\partial f(J_{\\lambda_k}y_k) + (J_{\\lambda_k}y_k-y_k)/\\lambda_k$, that is, (2.8). Since $f$ is convex, for any $x \\in \\mathbf{R}^n$, we have $$f (x) \\geq f (J _ {\\lambda_ {k}} y _ {k}) + \\langle (y _ {k} - J _ {\\lambda_ {k}} y _ {k}) / \\lambda_ {k}, x - J _ {\\lambda_ {k}} y _ {k} \\rangle . \\tag {2.9}$$ Thus $$\\begin{aligned} \\varphi_ {k + 1} (x) - f (x) &= (1 - \\alpha_ {k}) (\\varphi_ {k} (x) - f (x)) \\\\ &+ \\alpha_ {k} (f (J _ {\\lambda_ {k}} y _ {k}) + \\langle (y _ {k} - J _ {\\lambda_ {k}} y _ {k}) / \\lambda_ {k}, x - J _ {\\lambda_ {k}} y _ {k} \\rangle - f (x)) \\\\ &\\leq (1 - \\alpha_ {k}) (\\varphi_ {k} (x) - f (x)). \\end{aligned}$$ □",
+      "depends_on": [
+        "def_1",
+        "def_3",
+        "ext_def_1",
+        "ext_def_2",
+        "ext_thm_1"
+      ]
+    },
+    {
+      "id": "thm_8",
+      "type": "theorem",
+      "name": "THEOREM 6.1",
+      "statement": "The proximal point algorithm stated above possesses the global convergence rate estimate $$f(x_k)-\\min_{x\\in\\mathbf R^n}f(x)\\leqslant\\frac1{\\lambda(k+1)^2}\\rho(x_0,X^*)^2, \\tag{6.4}$$ where $X^*$ is the set of minimizers of $f$.",
+      "proof": "Proof. From (2.8) and (6.2), $(y_{i+1}-x_{i+1})/\\lambda_{i+1}\\in\\partial f(x_{i+1})$. Convexity gives (6.5) and (6.6). Equation (6.1) implies $\\beta_{i+1}(\\beta_{i+1}-1)=\\beta_i^2$ (6.7). Defining $W_i:=f(x_i)-f(x^*)$, multiplying (6.5) and (6.6) as in the paper and adding gives (6.10). The polarization identity gives (6.11). Define $\\theta_i:=\\beta_{i+1}(x_i-y_{i+1})+x^*-x_i$ (6.12); (6.3) gives (6.13). Thus summing (6.14) yields (6.15). Applying (6.6) for $i=0$ yields (6.16), hence $$\\beta_k^2W_k\\leqslant\\frac1{4\\lambda}\\|x_0-x^*\\|^2. \\tag{6.17}$$ Since induction gives $\\beta_k\\cong(k+1)/2$, and $x^*\\in X^*$ is arbitrary, the theorem follows. ☐",
+      "depends_on": [
+        "def_1",
+        "algo_3",
+        "ext_def_2",
+        "ext_def_4",
+        "ext_thm_1"
+      ]
+    },
+    {
+      "id": "lem_3",
+      "type": "lemma",
+      "name": "LEMMA 3.1",
+      "statement": "Let $\\phi_k^*=\\min_{z\\in\\mathbf R^n}\\phi_k(z)$. If $x_{k+1}$ satisfies condition $\\mathbf A'$, then $$\\frac1{2\\lambda_k}\\|x_{k+1}-J_{\\lambda_k}y_k\\|^2\\leq\\phi_k(x_{k+1})-\\phi_k^*\\leq\\frac{\\varepsilon_k^2}{2\\lambda_k}. \\tag{3.4}$$",
+      "proof": "Proof. $J_{\\lambda_k}y_k$ is the exact minimizer of $\\phi_k$. Since $\\phi_k$ is strongly convex with modulus $1/\\lambda_k$ and $0\\in\\partial\\phi_k(J_{\\lambda_k}y_k)$, Proposition 6(c) gives the first inequality. Choose $w_k\\in\\partial\\phi_k(x_{k+1})$ with $\\|w_k\\|\\leq\\varepsilon_k/\\lambda_k$. The same proposition gives $$\\phi_k(J_{\\lambda_k}y_k)-\\phi_k(x_{k+1})\\geq-\\frac{\\varepsilon_k}{\\lambda_k}\\|J_{\\lambda_k}y_k-x_{k+1}\\|+\\frac1{2\\lambda_k}\\|J_{\\lambda_k}y_k-x_{k+1}\\|^2\\geq-\\frac{\\varepsilon_k^2}{2\\lambda_k}.$$ This proves the lemma. $\\square$",
+      "depends_on": [
+        "def_1",
+        "def_4",
+        "ext_def_2",
+        "ext_def_3",
+        "ext_def_5",
+        "ext_thm_2"
+      ]
+    },
+    {
+      "id": "lem_4",
+      "type": "lemma",
+      "name": "LEMMA 3.2",
+      "statement": "If, for some $k\\geq0$, $x_k$ satisfies $$f(x_k)\\leq\\varphi_k^*+\\delta_k, \\tag{3.6}$$ then for any $y_k\\in\\mathbf R^n$, $\\lambda_k>0$, and $\\alpha_k\\in[0,1)$, $$\\begin{aligned}\\varphi_{k+1}^*+(1-\\alpha_k)\\delta_k&\\geq f(J_{\\lambda_k}y_k)+\\frac1{2\\lambda_k}\\left(2-\\frac{\\alpha_k^2}{A_{k+1}\\lambda_k}\\right)\\|y_k-J_{\\lambda_k}y_k\\|^2\\tag{3.7}\\\\&+\\frac1{\\lambda_k}\\langle y_k-J_{\\lambda_k}y_k,(1-\\alpha_k)x_k+\\alpha_k\\nu_k-y_k\\rangle.\\end{aligned}$$",
+      "proof": "Its proof is similar to that of the original Theorem 2.1.",
+      "depends_on": [
+        "def_1",
+        "def_3",
+        "ext_def_6",
+        "ext_thm_1"
+      ]
+    },
+    {
+      "id": "thm_1",
+      "type": "theorem",
+      "name": "THEOREM 2.1",
+      "statement": "If, for some $k \\geq 0$, $x_k$ satisfies the inequality (2.4), that is, $f(x_k) \\leq \\varphi_k^*$, then for any $y_k \\in \\mathbf{R}^n$, $\\lambda_k > 0$, and $\\alpha_k \\in [0,1)$, the following inequality holds: $$Replace \\cong with \\geq or \\ge$$ $$+ \\frac {1}{\\lambda_ {k}} \\langle y _ {k} - J _ {\\lambda_ {k}} y _ {k}, (1 - \\alpha_ {k}) x _ {k} + \\alpha_ {k} \\nu_ {k} - y _ {k} \\rangle .$$",
+      "proof": "Proof. We obtain from (2.7), (2.10), and (2.11) the displayed calculation (2.14). Since by assumption $\\varphi_k^* \\geq f(x_k)$, we obtain from (2.9) the displayed inequality (2.15). The term $(1-\\alpha_k)x_k+\\alpha_k\\nu_{k+1}-J_{\\lambda_k}y_k$ is decomposed as stated in the paper; substitution of (2.12) gives (2.16), and substitution into the quadratic term gives (2.17). We obtain (2.13) by using lines (2.16) and (2.17) in (2.15). This proves the theorem. $\\square$",
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "def_3",
+        "lem_1",
+        "ext_def_6"
+      ]
+    },
+    {
+      "id": "cor_1",
+      "type": "corollary",
+      "name": "COROLLARY 2.1",
+      "statement": "If, in Theorem 2.1, we choose $$y _ {k} = (1 - \\alpha_ {k}) x _ {k} + \\alpha_ {k} \\nu_ {k}, \\tag {2.18}$$ then $$\\varphi_ {k + 1} ^ {*} \\geq f (J _ {\\lambda_ {k}} y _ {k}) + \\frac {1}{2 \\lambda_ {k}} \\left(2 - \\frac {\\alpha_ {k} ^ {2}}{A _ {k + 1} \\lambda_ {k}}\\right) \\| y _ {k} - J _ {\\lambda_ {k}} y _ {k} \\| ^ {2}. \\tag {2.19}$$",
+      "proof": "",
+      "depends_on": [
+        "def_1",
+        "def_3",
+        "thm_1"
+      ]
+    },
+    {
+      "id": "cor_4",
+      "type": "corollary",
+      "name": "COROLLARY 3.1",
+      "statement": "If $x_{k+1}$ is chosen according to criterion $\\mathbf{A}'$, then $$\\|x_{k+1}-J_{\\lambda_k}y_k\\|\\leq\\varepsilon_k. \\tag{3.5}$$",
+      "proof": "Cited from: R. T. Rockafellar, Monotone operators and the proximal point algorithm, SIAM J. Control Optim., 14 (1976), pp. 877-898, Proposition 3.",
+      "depends_on": [
+        "def_1",
+        "def_4",
+        "lem_3",
+        "ext_def_3"
+      ]
+    },
+    {
+      "id": "cor_5",
+      "type": "corollary",
+      "name": "COROLLARY 3.2",
+      "statement": "If $y_k$ is chosen as in (2.18) and $\\alpha_k$ is chosen as in (2.21), then $$\\varphi_{k+1}^*+(1-\\alpha_k)\\delta_k\\geq f(J_{\\lambda_k}y_k)+\\frac1{2\\lambda_k}\\|J_{\\lambda_k}y_k-y_k\\|^2=\\phi_k^*. \\tag{3.8}$$",
+      "proof": "",
+      "depends_on": [
+        "def_1",
+        "def_3",
+        "lem_4",
+        "ext_def_3"
+      ]
+    },
+    {
+      "id": "cor_2",
+      "type": "corollary",
+      "name": "COROLLARY 2.2",
+      "statement": "If $y_{k}$ is chosen as in (2.18), $x_{k+1}$ is chosen as in (2.20), and $\\alpha_{k}$ is chosen as in (2.21), then $$\\varphi_ {k + 1} ^ {*} \\geq f (x _ {k + 1}) + \\frac {1}{2 \\lambda_ {k}} \\left\\| y _ {k} - x _ {k + 1} \\right\\| ^ {2} \\geq f (x _ {k + 1}). \\tag {2.22}$$",
+      "proof": "",
+      "depends_on": [
+        "def_1",
+        "def_3",
+        "cor_1"
+      ]
+    },
+    {
+      "id": "algo_1",
+      "type": "algorithm",
+      "name": "THE PROXIMAL POINT ALGORITHM",
+      "statement": "Initialization. Choose a feasible starting point $x_0 \\in \\mathbf{R}^n$ ($f(x_0)<\\infty$), and constants $\\lambda_0>0$ and $A>0$. Define $\\nu_0:=x_0$, $A_0:=A$. Step $k$, $k\\geq0$: (a) Choose $\\lambda_k>0$, and calculate $\\alpha_k>0$ from $\\alpha_k^2=(1-\\alpha_k)A_k\\lambda_k$, that is, $$\\alpha_ {k} = \\frac {\\sqrt {(A _ {k} \\lambda_ {k}) ^ {2} + 4 A _ {k} \\lambda_ {k}} - A _ {k} \\lambda_ {k}}{2}. \\tag {2.23}$$ (b) Define $$\\begin{aligned}y_k&=(1-\\alpha_k)x_k+\\alpha_k\\nu_k,\\\\x_{k+1}&:=J_{\\lambda_k}y_k=\\arg\\min_{z\\in\\mathbf R^n}\\{f(z)+(1/(2\\lambda_k))\\|z-y_k\\|^2\\},\\end{aligned} \\tag {2.24}$$ $$\\nu_{k+1}=\\nu_k+(1/\\alpha_k)(x_{k+1}-y_k),\\qquad A_{k+1}=(1-\\alpha_k)A_k.$$",
+      "proof": null,
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "def_3",
+        "cor_2",
+        "ext_def_6"
+      ]
+    },
+    {
+      "id": "algo_2",
+      "type": "algorithm",
+      "name": "THE MONOTONIC PROXIMAL POINT ALGORITHM",
+      "statement": "Initialization. Choose a feasible starting point $x_0\\in\\mathbf R^n$ ($f(x_0)<\\infty$), and constants $\\lambda_0>0$ and $A>0$. Define $\\nu_0:=x_0$, $A_0:=A$. Step $k$, $k\\geq0$: choose $\\lambda_k>0$ and set $$\\alpha_k=\\frac{\\sqrt{(A_k\\lambda_k)^2+4A_k\\lambda_k}-A_k\\lambda_k}{2}.$$ Define $$y_k=(1-\\alpha_k)x_k+\\alpha_k\\nu_k,$$ $$\\bar x_{k+1}=J_{\\lambda_k}y_k:=\\arg\\min_{z\\in\\mathbf R^n}\\{f(z)+(1/(2\\lambda_k))\\|z-y_k\\|^2\\},$$ $$x_{k+1}=\\arg\\min\\{f(\\bar x_{k+1}),f(x_k)\\},$$ $$\\nu_{k+1}=\\nu_k+(1/\\alpha_k)(x_{k+1}-y_k),\\qquad A_{k+1}=(1-\\alpha_k)A_k.$$",
+      "proof": null,
+      "depends_on": [
+        "def_1",
+        "def_3",
+        "algo_1",
+        "ext_def_6"
+      ]
+    },
+    {
+      "id": "lem_2",
+      "type": "lemma",
+      "name": "LEMMA 2.2",
+      "statement": "$$\\frac {1}{(1 + \\sqrt {A} \\sum_ {j = 0} ^ {k - 1} \\sqrt {\\lambda_ {j}}) ^ {2}} \\leqq \\beta_ {k} \\leqq \\frac {1}{(1 + (\\sqrt {A} / 2) \\sum_ {j = 0} ^ {k - 1} \\sqrt {\\lambda_ {j}}) ^ {2}}. \\tag {2.25}$$",
+      "proof": "Proof. Put $\\beta_k=\\mu_k^{-2}$. From $\\beta_{k+1}=(1-\\alpha_k)\\beta_k$, $A_{k+1}=\\beta_{k+1}A$, and (2.21), one obtains $$\\mu_{k+1}^2-\\mu_k^2=\\mu_{k+1}\\sqrt{A\\lambda_k}. \\tag{2.26}$$ The inequality $2\\mu_{k+1}(\\mu_{k+1}-\\mu_k)\\geq\\mu_{k+1}^2-\\mu_k^2$ gives $\\mu_{k+1}-\\mu_k\\geq\\sqrt{A\\lambda_k}/2$; summing and using $\\mu_0=1$ proves the upper bound. Since $\\mu_{k+1}\\geq\\mu_k$, the reverse comparison gives $\\mu_{k+1}-\\mu_k\\leq\\sqrt{A\\lambda_k}$; summing proves the lower bound.",
+      "depends_on": [
+        "def_2",
+        "def_3",
+        "algo_1",
+        "ext_def_6"
+      ]
+    },
+    {
+      "id": "thm_4",
+      "type": "theorem",
+      "name": "THEOREM 3.1",
+      "statement": "If, in the algorithm in §2, $x_{k+1}$ is calculated according to criterion A' instead of (2.20), then $$f(x_k)\\leq\\varphi_k^*+\\delta_k, \\tag{3.9}$$ where $\\{\\delta_k\\}_{k=0}^\\infty$ satisfies $$\\delta_0=0,\\quad\\delta_{k+1}=(1-\\alpha_k)\\delta_k+\\frac{\\varepsilon_k^2}{2\\lambda_k},\\quad k=0,1,\\dots. \\tag{3.10}$$",
+      "proof": "Proof. We prove (3.9) and (3.10) by induction. Since $f(x_0)=\\varphi_0^*$, they are true for $k=0$. Suppose they hold for $k$. From (3.8) and Lemma 3.1, $$\\varphi_{k+1}^*+(1-\\alpha_k)\\delta_k\\geq\\phi_k^*\\geq\\phi_k(x_{k+1})-\\frac{\\varepsilon_k^2}{2\\lambda_k}=f(x_{k+1})+\\frac1{2\\lambda_k}\\|x_{k+1}-y_k\\|^2-\\frac{\\varepsilon_k^2}{2\\lambda_k},$$ which implies the assertion. This proves the theorem. $\\square$",
+      "depends_on": [
+        "def_1",
+        "def_3",
+        "def_4",
+        "lem_3",
+        "cor_5",
+        "algo_1",
+        "ext_def_3"
+      ]
+    },
+    {
+      "id": "lem_5",
+      "type": "lemma",
+      "name": "LEMMA 3.3",
+      "statement": "The solution to (3.10) is $$\\delta_k=\\frac{\\beta_k}{2}\\cdot\\sum_{j=0}^{k-1}\\frac{\\varepsilon_j^2/\\lambda_j}{\\beta_{j+1}}. \\tag{3.12}$$ Moreover, $$\\delta_k\\leqq2\\sum_{j=0}^{k-1}\\frac{\\varepsilon_j^2}{\\lambda_j}\\left(\\frac{1+\\sqrt A\\sum_{i=0}^j\\sqrt{\\lambda_i}}{1+\\sqrt A\\sum_{j=0}^{k-1}\\sqrt{\\lambda_j}}\\right)^2. \\tag{3.13}$$ Assume $\\lambda_i\\leq M\\lambda_j$ whenever $i\\leq j$, (3.14), and $\\varepsilon_k=O(1/k^\\sigma)$, $k=1,2,\\dots$, for some $\\sigma>0$, (3.15). Then $$\\delta_k=O(1/k^{2\\sigma-1}). \\tag{3.16}$$",
+      "proof": "Proof. Divide $\\delta_{j+1}=(\\beta_{j+1}/\\beta_j)\\delta_j+\\varepsilon_j^2/(2\\lambda_j)$ by $\\beta_{j+1}$ to obtain (3.17), sum for $j=0,1,\\ldots,k-1$, and use $\\delta_0=0$ to obtain (3.12). Inequality (3.13) follows from the lower bound in Lemma 2.2. Under (3.14), the estimates in the paper give $$\\delta_k\\leq\\bar c\\,\\frac{\\sum_{j=0}^{k-1}(j\\varepsilon_j)^2}{k^2}. \\tag{3.18}$$ Condition (3.15) bounds the numerator by $\\tilde c\\int_0^k t^{2-2\\sigma}dt=\\tilde c k^{3-2\\sigma}/(3-2\\sigma)$, proving (3.16).",
+      "depends_on": [
+        "def_2",
+        "lem_2",
+        "thm_4",
+        "ext_def_6"
+      ]
+    },
+    {
+      "id": "thm_2",
+      "type": "theorem",
+      "name": "THEOREM 2.2",
+      "statement": "For any feasible point $x \\in \\mathbb{R}^n$, the proximal point algorithm stated above has the global convergence rate estimate $$\\begin{aligned} f (x _ {k}) - f (x) + \\frac {1}{2 \\lambda_ {k - 1}} \\| y _ {k - 1} - x _ {k} \\| ^ {2} &\\leq \\frac {f (x _ {0}) - f (x) + (A / 2) \\| x - x _ {0} \\| ^ {2}}{(1 + (\\sqrt {A} / 2) \\sum_ {j = 0} ^ {k - 1} \\sqrt {\\lambda_ {j}}) ^ {2}} \\tag {2.27} \\\\ &= O \\left(\\frac {1}{(\\sum_{j=0}^{k-1}\\sqrt{\\lambda_j})^2}\\right).\\end{aligned}$$",
+      "proof": "",
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "def_3",
+        "cor_2",
+        "lem_2",
+        "lem_1",
+        "algo_1",
+        "ext_def_1",
+        "ext_def_4"
+      ]
+    },
+    {
+      "id": "thm_5",
+      "type": "theorem",
+      "name": "THEOREM 3.2",
+      "statement": "In the modified proximal point algorithm in which the point $x_k$ is calculated according to criterion A', we have for any $x\\in\\mathbb R^n$, $$f(x_k)-f(x)\\leq\\beta_k(\\varphi_0(x)-f(x))+\\delta_k,$$ where $\\{\\delta_k\\}$ satisfies (3.10). In particular, $$f(x_k)-f^*\\leq\\beta_k\\left(f(x_0)-f^*+\\frac A2\\rho(x_0,X^*)^2\\right)+\\delta_k. \\tag{3.11}$$",
+      "proof": "",
+      "depends_on": [
+        "def_2",
+        "def_3",
+        "lem_1",
+        "thm_4",
+        "ext_def_1",
+        "ext_def_4"
+      ]
+    },
+    {
+      "id": "thm_3",
+      "type": "theorem",
+      "name": "THEOREM 2.3",
+      "statement": "Suppose $f$ has a minimizer $x^*$ and $f^*=f(x^*)=\\min_{z\\in\\mathbb R^n}f(z)$. Denote the set of minimizers of $f$ by $X^*$. The proximal point algorithm above possesses the global convergence rate estimate $$f(x_k)-f^*\\leq\\frac{4}{A(\\sum_{j=0}^{k-1}\\sqrt{\\lambda_j})^2}\\left(f(x_0)-f^*+\\frac A2\\rho(x_0,X^*)^2\\right). \\tag{2.28}$$ The algorithm converges, that is, $f(x_k)\\to f^*$ if $$\\sum_{k=0}^{\\infty}\\sqrt{\\lambda_k}=\\infty. \\tag{2.29}$$ In particular, if $\\lambda_k\\cong\\lambda>0$, $$\\begin{aligned}f(x_k)-f^*&\\leq\\frac{4/(A\\lambda)}{k^2}\\left(f(x_0)-f^*+\\frac A2\\rho(x_0,X^*)^2\\right)\\tag{2.30}\\\\&=O(1/k^2).\\end{aligned}$$",
+      "proof": "",
+      "depends_on": [
+        "thm_2",
+        "ext_def_4"
+      ]
+    },
+    {
+      "id": "thm_6",
+      "type": "theorem",
+      "name": "THEOREM 3.3",
+      "statement": "Consider a proximal point algorithm that differs from the one stated in §2 only in that $x_k$ is approximately calculated according to criterion $\\mathbf A'$ with an error $\\varepsilon_k$. Assume errors satisfy (3.15) for some $\\sigma>1/2$, and parameters satisfy (3.14). Then, for any feasible $x\\in\\mathbb R^n$, $$f(x_k)-f(x)\\leq O(1/k^2)+O(1/k^{2\\sigma-1})\\to0.$$ In particular, $$f(x_k)-f^*=O(1/k^2)+O(1/k^{2\\sigma-1}),$$ and if $\\sigma\\geq3/2$, $$f(x_k)-f^*=O(1/k^2).$$",
+      "proof": "It is obtained from Theorem 3.2 and Lemmas 2.2 and 3.3.",
+      "depends_on": [
+        "thm_5",
+        "lem_2",
+        "lem_5",
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "cor_3",
+      "type": "corollary",
+      "name": "COROLLARY 2.3",
+      "statement": "If (2.29) holds true in the proximal point algorithm, then $$\\frac{\\|x_{k+1}-y_k\\|^2}{\\lambda_k}\\to0. \\tag{2.32}$$ If $\\{\\lambda_k\\}$ is bounded from above, then $\\|x_{k+1}-y_k\\|\\to0$. (2.33) Also, $\\lambda_k\\rho(0,\\partial f(x_{k+1}))^2\\to0$. (2.34) If $\\{\\lambda_k\\}$ is bounded away from 0, then $\\rho(0,\\partial f(x_k))\\to0$. (2.35) If $f$ is differentiable, (2.35) means that $\\|f'(x_k)\\|\\to0$. (2.36)",
+      "proof": "",
+      "depends_on": [
+        "def_1",
+        "thm_3",
+        "ext_def_2",
+        "ext_def_4",
+        "ext_thm_1"
+      ]
+    },
+    {
+      "id": "rem_1",
+      "type": "remark",
+      "name": "Remark 2.4",
+      "statement": "The convergence rate (2.26) for the accelerated proximal point algorithm compares favorably with the classical proximal point estimate\n\n$$\nf(x_k)-f^*\\leq \\frac{d(x_0,X^*)^2}{2\\sum_{j=0}^{k-1}\\lambda_j}.\n$$\n\nThe new denominator grows like the square of $\\sum_j\\sqrt{\\lambda_j}$.",
+      "proof": null,
+      "depends_on": [
+        "thm_3"
+      ]
+    },
+    {
+      "id": "thm_7",
+      "type": "theorem",
+      "name": "THEOREM 4.1",
+      "statement": "Suppose $f$ has no minimizers or is unbounded from below. The original proximal point algorithms in §§2 and 3, and their monotonic versions discussed above, minimize $f$, that is, $$\\lim_{k\\to\\infty}f(x_k)=\\inf_{x\\in\\mathbf R^n}f(x). \\tag{4.1}$$",
+      "proof": "Proof. Since the algorithm in §2 is a special case of the algorithm in §3, we prove (4.1) only for the latter. The proofs for the monotonic versions are similar. First consider $f^*>-\\infty$. Given $\\varepsilon>0$, take $x^\\varepsilon$ satisfying $f(x^\\varepsilon)-f^*\\leq\\varepsilon/2$. For large $k$, (3.23) gives $f(x_k)-f(x^\\varepsilon)\\leq\\varepsilon/2$, hence $f(x_k)-f^*\\leq\\varepsilon$. If $f^*=-\\infty$, let $M$ be arbitrary and choose $x^M$ satisfying $f(x^M)\\leq M$. For large $k$, (3.23) gives $f(x_k)-f(x^M)\\leq\\varepsilon$, hence $f(x_k)\\leq M+\\varepsilon$ and (4.1) follows.",
+      "depends_on": [
+        "thm_6",
+        "thm_2",
+        "algo_1",
+        "algo_2",
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "rem_2",
+      "type": "remark",
+      "name": "Remark 3.1",
+      "statement": "Rockafellar's inexact proximal point result gives convergence of iterates to a zero of a maximal monotone operator under summable errors. Section 3 instead records objective-value estimates for criterion $\\mathbf A'$ and compares their error requirements with those classical criteria.",
+      "proof": null,
+      "depends_on": [
+        "def_4",
+        "thm_6",
+        "algo_1",
+        "rem_1"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,221 @@
+{
+  "metadata": {
+    "title": "A Fast Iterative Shrinkage-Thresholding Algorithm for Linear Inverse Problems",
+    "authors": [
+      "Amir Beck",
+      "Marc Teboulle"
+    ],
+    "year": 2009,
+    "source_type": "markdown",
+    "venue": "SIAM Journal on Imaging Sciences, Vol. 2, No. 1, pp. 183-202"
+  },
+  "items": [
+    {
+      "id": "def_1",
+      "type": "definition",
+      "name": "Positive part function",
+      "statement": "For any real number $a$, the positive part is defined as $(a)_+ := \\max\\{a, 0\\}$.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "def_2",
+      "type": "definition",
+      "name": "Shrinkage (soft-thresholding) operator",
+      "statement": "For $\\alpha > 0$, the shrinkage operator $T_\\alpha : \\mathbb{R}^n \\to \\mathbb{R}^n$ is defined componentwise by $$T_\\alpha(x)_i = (|x_i|-\\alpha)_+ \\operatorname{sgn}(x_i), \\quad i = 1,\\ldots,n.$$",
+      "proof": null,
+      "depends_on": [
+        "def_1"
+      ]
+    },
+    {
+      "id": "def_3",
+      "type": "definition",
+      "name": "$C^{1,1}$ function class (Lipschitz continuous gradient)",
+      "statement": "A function $f : \\mathbb{R}^n \\to \\mathbb{R}$ is of type $C^{1,1}$ if it is continuously differentiable and its gradient $\\nabla f$ is Lipschitz continuous with constant $L(f) > 0$: $$\\|\\nabla f(x) - \\nabla f(y)\\| \\le L(f)\\|x-y\\| \\quad \\text{for every } x,y \\in \\mathbb{R}^n,$$ where $\\|\\cdot\\|$ denotes the standard Euclidean norm and $L(f)$ is the Lipschitz constant of $\\nabla f$.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "def_4",
+      "type": "definition",
+      "name": "Subdifferential of a convex function",
+      "statement": "For a convex function $g : \\mathbb{R}^n \\to \\mathbb{R}$, the subdifferential $\\partial g(x)$ at a point $x \\in \\mathbb{R}^n$ is the set of subgradients: $$\\partial g(x) := \\{\\gamma \\in \\mathbb{R}^n : g(y) \\ge g(x) + \\langle \\gamma, y-x\\rangle \\text{ for all } y \\in \\mathbb{R}^n\\}.$$",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "def_5",
+      "type": "definition",
+      "name": "General convex optimization model (Problem P)",
+      "statement": "The general nonsmooth convex optimization model is $$(\\mathrm{P})\\quad \\min\\{F(x) \\equiv f(x) + g(x) : x \\in \\mathbb{R}^n\\},$$ where:\\n- $g : \\mathbb{R}^n \\to \\mathbb{R}$ is a continuous convex function which is possibly nonsmooth.\\n- $f : \\mathbb{R}^n \\to \\mathbb{R}$ is a smooth convex function of type $C^{1,1}$, i.e., continuously differentiable with Lipschitz continuous gradient $L(f)$.\\n- Problem (P) is solvable, i.e., $X^* := \\arg\\min F \\ne \\emptyset$, and for $x^* \\in X^*$ we set $F_* := F(x^*)$.",
+      "proof": null,
+      "depends_on": [
+        "def_3"
+      ]
+    },
+    {
+      "id": "def_6",
+      "type": "definition",
+      "name": "Quadratic approximation $Q_L(x,y)$",
+      "statement": "For any $L > 0$, the quadratic approximation of $F(x) := f(x) + g(x)$ at a given point $y$ is $$Q_L(x,y) := f(y) + \\langle x-y, \\nabla f(y)\\rangle + \\frac{L}{2}\\|x-y\\|^2 + g(x).$$",
+      "proof": null,
+      "depends_on": [
+        "def_5"
+      ]
+    },
+    {
+      "id": "def_7",
+      "type": "definition",
+      "name": "Proximal operator $p_L(y)$",
+      "statement": "For any $L > 0$ and $y \\in \\mathbb{R}^n$, the proximal operator (or prox-map) is defined as the unique minimizer $$p_L(y) := \\arg\\min\\{Q_L(x,y) : x \\in \\mathbb{R}^n\\}.$$ Equivalently, ignoring constant terms in $y$, $$p_L(y) = \\arg\\min_x \\left\\{ g(x) + \\frac{L}{2}\\left\\|x - \\left(y - \\frac{1}{L}\\nabla f(y)\\right)\\right\\|^2 \\right\\}.$$",
+      "proof": null,
+      "depends_on": [
+        "def_6"
+      ]
+    },
+    {
+      "id": "ext_thm_1",
+      "type": "theorem",
+      "name": "Descent Lemma (Quadratic upper bound for $C^{1,1}$ functions)",
+      "statement": "Let $f : \\mathbb{R}^n \\to \\mathbb{R}$ be a continuously differentiable function with Lipschitz continuous gradient and Lipschitz constant $L(f)$. Then, for any $L \\ge L(f)$, $$f(x) \\le f(y) + \\langle x-y, \\nabla f(y)\\rangle + \\frac{L}{2}\\|x-y\\|^2 \\quad \\text{for every } x,y \\in \\mathbb{R}^n.$$",
+      "proof": "Cited from: J. M. Ortega and W. C. Rheinboldt, Iterative Solution of Nonlinear Equations in Several Variables, Classics Appl. Math. 30, SIAM, Philadelphia, 2000; and D. P. Bertsekas, Nonlinear Programming, 2nd ed., Athena Scientific, Belmont, MA, 1999.",
+      "depends_on": [
+        "def_3"
+      ]
+    },
+    {
+      "id": "lem_1",
+      "type": "lemma",
+      "name": "Lemma 2.1: Quadratic upper bound (Descent Lemma) for $C^{1,1}$ functions",
+      "statement": "Let $f : \\mathbb{R}^n \\to \\mathbb{R}$ be a continuously differentiable function with Lipschitz continuous gradient and Lipschitz constant $L(f)$. Then, for any $L \\ge L(f)$, $$f(x) \\le f(y) + \\langle x-y, \\nabla f(y)\\rangle + \\frac{L}{2}\\|x-y\\|^2 \\quad \\text{for every } x,y \\in \\mathbb{R}^n.$$",
+      "proof": "The quadratic upper bound follows from the Lipschitz continuity of the gradient by the standard descent-lemma argument.",
+      "depends_on": [
+        "def_3"
+      ]
+    },
+    {
+      "id": "lem_2",
+      "type": "lemma",
+      "name": "Lemma 2.2: Optimality characterization of the proximal operator",
+      "statement": "For any $y \\in \\mathbb{R}^n$, one has $z = p_L(y)$ if and only if there exists $\\gamma(y) \\in \\partial g(z)$, the subdifferential of $g(\\cdot)$, such that $$\\nabla f(y) + L(z-y) + \\gamma(y) = 0.$$",
+      "proof": "The proof is immediate from optimality conditions for the strongly convex problem (2.6). Since $Q_L(\\cdot, y)$ is strongly convex with modulus $L$, the first-order necessary and sufficient optimality condition is $0 \\in \\partial(Q_L(\\cdot, y))(z) = \\nabla f(y) + L(z-y) + \\partial g(z)$.",
+      "depends_on": [
+        "def_4",
+        "def_7"
+      ]
+    },
+    {
+      "id": "lem_3",
+      "type": "lemma",
+      "name": "Lemma 2.3: Key inequality for gradient-step analysis",
+      "statement": "Let $y \\in \\mathbb{R}^n$ and $L > 0$ be such that $$F(p_L(y)) \\le Q_L(p_L(y), y).$$ Then for any $x \\in \\mathbb{R}^n$, $$F(x) - F(p_L(y)) \\ge \\frac{L}{2}\\|p_L(y)-y\\|^2 + L\\langle y-x, p_L(y)-y\\rangle.$$",
+      "proof": "From (2.9), we have $F(x) - F(p_L(y)) \\ge F(x) - Q_L(p_L(y), y)$.\\n\\nNow, since $f,g$ are convex we have\\n$$f(x) \\ge f(y) + \\langle x-y, \\nabla f(y)\\rangle,$$\\n$$g(x) \\ge g(p_L(y)) + \\langle x-p_L(y), \\gamma(y)\\rangle,$$\\nwhere $\\gamma(y)$ is defined in the premise of Lemma 2.2. Summing the above inequalities yields\\n$$F(x) \\ge f(y) + \\langle x-y, \\nabla f(y)\\rangle + g(p_L(y)) + \\langle x-p_L(y), \\gamma(y)\\rangle.$$\\n\\nOn the other hand, by the definition of $p_L(y)$ one has\\n$$Q_L(p_L(y),y) = f(y) + \\langle p_L(y)-y, \\nabla f(y)\\rangle + \\frac{L}{2}\\|p_L(y)-y\\|^2 + g(p_L(y)).$$\\n\\nTherefore, using the above inequalities it follows that\\n$$\\begin{aligned}\\nF(x)-F(p_L(y))\\n&\\ge -\\frac{L}{2}\\|p_L(y)-y\\|^2 + \\langle x-p_L(y), \\nabla f(y)+\\gamma(y)\\rangle \\\\\\n&= -\\frac{L}{2}\\|p_L(y)-y\\|^2 + L\\langle x-p_L(y), y-p_L(y)\\rangle \\\\\\n&= \\frac{L}{2}\\|p_L(y)-y\\|^2 + L\\langle y-x, p_L(y)-y\\rangle,\\n\\end{aligned}$$\\nwhere in the first equality above we used (2.8) from Lemma 2.2.\\n\\nNote that from Lemma 2.1, it follows that if $L \\ge L(f)$, then the condition (2.9) is always satisfied for $p_L(y)$.",
+      "depends_on": [
+        "def_5",
+        "def_6",
+        "def_7",
+        "lem_1",
+        "lem_2"
+      ]
+    },
+    {
+      "id": "lem_4",
+      "type": "lemma",
+      "name": "Lemma 4.1: Key recursive relation for FISTA",
+      "statement": "The sequences $\\{x_k, y_k\\}$ generated via FISTA with either a constant or backtracking stepsize rule satisfy for every $k \\ge 1$, $$\\frac{2}{L_k}t_k^2 v_k - \\frac{2}{L_{k+1}}t_{k+1}^2 v_{k+1} \\ge \\|u_{k+1}\\|^2 - \\|u_k\\|^2,$$ where $$v_k := F(x_k) - F(x^*), \\qquad u_k := t_k x_k - (t_k-1)x_{k-1} - x^*.$$",
+      "proof": "First apply Lemma 2.3 at the points $(x := x_k, y := y_{k+1})$ with $L = L_{k+1}$, and likewise at the points $(x := x^*, y := y_{k+1})$, to get\\n$$2L_{k+1}^{-1}(v_k-v_{k+1}) \\ge \\|x_{k+1}-y_{k+1}\\|^2 + 2\\langle x_{k+1}-y_{k+1}, y_{k+1}-x_k\\rangle,$$\\n$$-2L_{k+1}^{-1}v_{k+1} \\ge \\|x_{k+1}-y_{k+1}\\|^2 + 2\\langle x_{k+1}-y_{k+1}, y_{k+1}-x^*\\rangle,$$\\nwhere we used the fact that $x_{k+1} = p_{L_{k+1}}(y_{k+1})$.\\n\\nTo get a relation between $v_k$ and $v_{k+1}$, we multiply the first inequality above by $(t_{k+1}-1)$ and add it to the second inequality:\\n$$\\frac{2}{L_{k+1}}\\big((t_{k+1}-1)v_k - t_{k+1}v_{k+1}\\big) \\ge t_{k+1}\\|x_{k+1}-y_{k+1}\\|^2 + 2\\langle x_{k+1}-y_{k+1}, t_{k+1}y_{k+1}-(t_{k+1}-1)x_k-x^*\\rangle.$$\\n\\nMultiplying the last inequality by $t_{k+1}$ and using the relation $t_k^2 = t_{k+1}^2 - t_{k+1}$ which holds thanks to (4.2), we obtain\\n$$\\frac{2}{L_{k+1}}(t_k^2 v_k - t_{k+1}^2 v_{k+1}) \\ge \\|t_{k+1}(x_{k+1}-y_{k+1})\\|^2 + 2t_{k+1}\\langle x_{k+1}-y_{k+1}, t_{k+1}y_{k+1}-(t_{k+1}-1)x_k-x^*\\rangle.$$\\n\\nApplying the Pythagoras relation $\\|b-a\\|^2 + 2\\langle b-a, a-c\\rangle = \\|b-c\\|^2 - \\|a-c\\|^2$ to the right-hand side with\\n$$a := t_{k+1}y_{k+1}, \\qquad c := (t_{k+1}-1)x_k + x^*, \\qquad b := t_{k+1}x_{k+1},$$\\nwe get\\n$$\\frac{2}{L_{k+1}}(t_k^2 v_k - t_{k+1}^2 v_{k+1}) \\ge \\|t_{k+1}x_{k+1} - (t_{k+1}-1)x_k - x^*\\|^2 - \\|t_{k+1}y_{k+1} - (t_{k+1}-1)x_k - x^*\\|^2.$$\\n\\nTherefore, with $y_{k+1}$ defined by $t_{k+1}y_{k+1} = t_{k+1}x_k + (t_k-1)(x_k-x_{k-1})$ (cf. (4.3)) and $u_k = t_k x_k - (t_k-1)x_{k-1} - x^*$, it follows that\\n$$\\frac{2}{L_{k+1}}(t_k^2 v_k - t_{k+1}^2 v_{k+1}) \\ge \\|u_{k+1}\\|^2 - \\|u_k\\|^2,$$\\nwhich combined with the inequality $L_{k+1} \\ge L_k$ yields the desired result.",
+      "depends_on": [
+        "def_5",
+        "def_7",
+        "lem_3"
+      ]
+    },
+    {
+      "id": "lem_5",
+      "type": "lemma",
+      "name": "Lemma 4.2: Sequence inequality",
+      "statement": "Let $\\{a_k, b_k\\}$ be positive sequences of reals satisfying $a_k - a_{k+1} \\ge b_{k+1} - b_k$ for all $k \\ge 1$, with $a_1 + b_1 \\le c$, $c > 0$. Then $a_k \\le c$ for every $k \\ge 1$.",
+      "proof": "The result follows by induction. From $a_k - a_{k+1} \\ge b_{k+1} - b_k$, summing from $k=1$ to $n-1$ gives $a_1 - a_n \\ge b_n - b_1$, i.e., $a_n \\le a_1 + b_1 - b_n \\le a_1 + b_1 \\le c$, since $b_n > 0$.",
+      "depends_on": []
+    },
+    {
+      "id": "lem_6",
+      "type": "lemma",
+      "name": "Lemma 4.3: Lower bound on the FISTA sequence $\\{t_k\\}$",
+      "statement": "The positive sequence $\\{t_k\\}$ generated in FISTA via $t_{k+1} = \\frac{1+\\sqrt{1+4t_k^2}}{2}$ with $t_1 = 1$ satisfies $t_k \\ge \\frac{k+1}{2}$ for all $k \\ge 1$.",
+      "proof": "The proof follows by induction. For $k=1$, $t_1 = 1 \\ge 2/2 = 1$, true. Assume $t_k \\ge (k+1)/2$. Then $t_{k+1} = \\frac{1+\\sqrt{1+4t_k^2}}{2} \\ge \\frac{1+\\sqrt{1+4((k+1)/2)^2}}{2} = \\frac{1+\\sqrt{1+(k+1)^2}}{2} \\ge \\frac{1+\\sqrt{(k+2)^2/4 \\cdot 4}}{2} = \\frac{1+(k+2)}{2} = \\frac{k+3}{2}$, completing the induction.",
+      "depends_on": []
+    },
+    {
+      "id": "algo_1",
+      "type": "algorithm",
+      "name": "FISTA with constant stepsize",
+      "statement": "FISTA with constant stepsize: the sequences satisfy the proximal update and the momentum recurrences of equations (4.1)--(4.3).",
+      "proof": null,
+      "depends_on": [
+        "def_5",
+        "def_7"
+      ]
+    },
+    {
+      "id": "algo_2",
+      "type": "algorithm",
+      "name": "FISTA with backtracking",
+      "statement": "FISTA with backtracking: each trial proximal step satisfies the majorization test, and the smallest accepted exponent determines the next stepsize and momentum iterate.",
+      "proof": null,
+      "depends_on": [
+        "def_5",
+        "def_7"
+      ]
+    },
+    {
+      "id": "algo_3",
+      "type": "algorithm",
+      "name": "ISTA with constant stepsize",
+      "statement": "ISTA with constant stepsize: for every iteration k >= 1, x_k is the proximal point p_{L(f)}(x_{k-1}).",
+      "proof": null,
+      "depends_on": [
+        "def_5",
+        "def_7"
+      ]
+    },
+    {
+      "id": "algo_4",
+      "type": "algorithm",
+      "name": "ISTA with backtracking",
+      "statement": "ISTA with backtracking: each iterate is selected from the smallest accepted proximal trial under the paper majorization test.",
+      "proof": null,
+      "depends_on": [
+        "algo_2"
+      ]
+    },
+    {
+      "id": "thm_1",
+      "type": "theorem",
+      "name": "Theorem 3.1: Global convergence rate of ISTA — $O(1/k)$",
+      "statement": "Let $\\{x_k\\}$ be the sequence generated by ISTA with either constant stepsize ($x_k = p_{L(f)}(x_{k-1})$) or backtracking stepsize rule. Then for any $k \\ge 1$, $$F(x_k) - F(x^*) \\le \\frac{\\alpha L(f)\\|x_0 - x^*\\|^2}{2k} \\quad \\forall x^* \\in X^*,$$ where $\\alpha = 1$ for the constant stepsize setting and $\\alpha = \\eta$ for the backtracking stepsize setting.",
+      "proof": "Invoking Lemma 2.3 with $x = x^*$, $y = x_n$, and $L = L_{n+1}$, we obtain\\n$$\\frac{2}{L_{n+1}}(F(x^*)-F(x_{n+1})) \\ge \\|x_{n+1}-x_n\\|^2 + 2\\langle x_n-x^*,x_{n+1}-x_n\\rangle = \\|x^*-x_{n+1}\\|^2 - \\|x^*-x_n\\|^2,$$\\nwhich combined with the bound $L_{n+1} \\le \\alpha L(f)$ and the fact that $F(x^*)-F(x_{n+1})\\le 0$ yields\\n$$\\frac{2}{\\alpha L(f)}(F(x^*)-F(x_{n+1})) \\ge \\|x^*-x_{n+1}\\|^2-\\|x^*-x_n\\|^2.$$\\n\\nSumming this inequality over $n=0,\\ldots,k-1$ gives\\n$$\\frac{2}{\\alpha L(f)}\\left(kF(x^*) - \\sum_{n=0}^{k-1}F(x_{n+1})\\right) \\ge \\|x^*-x_k\\|^2-\\|x^*-x_0\\|^2.$$\\n\\nInvoking Lemma 2.3 one more time with $x = y = x_n$ and $L = L_{n+1}$ yields\\n$$\\frac{2}{L_{n+1}}(F(x_n)-F(x_{n+1})) \\ge \\|x_n-x_{n+1}\\|^2.$$\\nSince $L_{n+1} \\ge \\beta L(f)$ and $F(x_n)-F(x_{n+1})\\ge 0$, it follows that\\n$$\\frac{2}{\\beta L(f)}(F(x_n)-F(x_{n+1})) \\ge \\|x_n-x_{n+1}\\|^2.$$\\n\\nMultiplying the last inequality by $n$ and summing over $n=0,\\ldots,k-1$, we obtain\\n$$\\frac{2}{\\beta L(f)}\\sum_{n=0}^{k-1}\\left(nF(x_n)-(n+1)F(x_{n+1})+F(x_{n+1})\\right) \\ge \\sum_{n=0}^{k-1} n\\|x_n-x_{n+1}\\|^2,$$\\nwhich simplifies to\\n$$\\frac{2}{\\beta L(f)}\\left(-kF(x_k)+\\sum_{n=0}^{k-1}F(x_{n+1})\\right) \\ge \\sum_{n=0}^{k-1} n\\|x_n-x_{n+1}\\|^2.$$\\n\\nAdding the two summed inequalities with appropriate weights, we get\\n$$\\frac{2k}{\\alpha L(f)}(F(x^*)-F(x_k)) \\ge \\|x^*-x_k\\|^2 + \\frac{\\beta}{\\alpha}\\sum_{n=0}^{k-1}n\\|x_n-x_{n+1}\\|^2 - \\|x^*-x_0\\|^2,$$\\nand hence it follows that\\n$$F(x_k)-F(x^*) \\le \\frac{\\alpha L(f)\\|x^*-x_0\\|^2}{2k}.$$",
+      "depends_on": [
+        "def_5",
+        "def_7",
+        "lem_3"
+      ]
+    },
+    {
+      "id": "thm_2",
+      "type": "theorem",
+      "name": "Theorem 4.4: Global convergence rate of FISTA — $O(1/k^2)$",
+      "statement": "Let $\\{x_k\\}$, $\\{y_k\\}$ be generated by FISTA with either constant or backtracking stepsize rule. Then for any $k \\ge 1$, $$F(x_k) - F(x^*) \\le \\frac{2\\alpha L(f)\\|x_0 - x^*\\|^2}{(k+1)^2} \\quad \\forall x^* \\in X^*,$$ where $\\alpha = 1$ for the constant stepsize setting and $\\alpha = \\eta$ for the backtracking stepsize setting.",
+      "proof": "Define the quantities\\n$$a_k := \\frac{2}{L_k}t_k^2 v_k, \\qquad b_k := \\|u_k\\|^2, \\qquad c := \\|y_1 - x^*\\|^2 = \\|x_0 - x^*\\|^2,$$\\nand recall (cf. Lemma 4.1) that $v_k := F(x_k) - F(x^*)$.\\n\\nThen, by Lemma 4.1 we have for every $k \\ge 1$\\n$$a_k - a_{k+1} \\ge b_{k+1} - b_k,$$\\nand hence assuming that $a_1 + b_1 \\le c$ holds true, invoking Lemma 4.2, we obtain that\\n$$\\frac{2}{L_k}t_k^2 v_k \\le \\|x_0 - x^*\\|^2,$$\\nwhich combined with $t_k \\ge (k+1)/2$ (by Lemma 4.3) yields\\n$$v_k \\le \\frac{2L_k\\|x_0 - x^*\\|^2}{(k+1)^2}.$$\\n\\nUtilizing the upper bound on $L_k$ given by $L_k \\le \\alpha L(f)$, the desired result follows.\\n\\nThus, all that remains is to prove the validity of the relation $a_1 + b_1 \\le c$. Since $t_1 = 1$, and using the definition of $u_k$ given in Lemma 4.1, we have\\n$$a_1 = \\frac{2}{L_1}t_1^2 v_1 = \\frac{2}{L_1}v_1, \\qquad b_1 = \\|u_1\\|^2 = \\|x_1 - x^*\\|^2.$$\\n\\nApplying Lemma 2.3 to the points $x := x^*$, $y := y_1$ with $L = L_1$, we get\\n$$F(x^*) - F(p_{L_1}(y_1)) \\ge \\frac{L_1}{2}\\|p_{L_1}(y_1)-y_1\\|^2 + L_1\\langle y_1-x^*, p_{L_1}(y_1)-y_1\\rangle.$$\\n\\nThus,\\n$$\\begin{aligned}\\nF(x^*) - F(x_1) &= F(x^*) - F(p_{L_1}(y_1)) \\\\\\n&\\ge \\frac{L_1}{2}\\|p_{L_1}(y_1)-y_1\\|^2 + L_1\\langle y_1-x^*, p_{L_1}(y_1)-y_1\\rangle \\\\\\n&= \\frac{L_1}{2}\\|x_1-y_1\\|^2 + L_1\\langle y_1-x^*, x_1-y_1\\rangle \\\\\\n&= \\frac{L_1}{2}\\{\\|x_1-x^*\\|^2 - \\|y_1-x^*\\|^2\\}.\\n\\end{aligned}$$\\n\\nConsequently,\\n$$\\frac{2}{L_1}v_1 \\le \\|y_1-x^*\\|^2 - \\|x_1-x^*\\|^2;$$\\nthat is, $a_1 + b_1 \\le c$ holds true.",
+      "depends_on": [
+        "def_5",
+        "def_7",
+        "lem_3",
+        "lem_4",
+        "lem_5",
+        "lem_6"
+      ]
+    }
+  ]
+}

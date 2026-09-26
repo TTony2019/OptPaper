@@ -1,0 +1,318 @@
+{
+  "metadata": {
+    "title": "Robustness of the Hybrid Extragradient-Proximal Point Algorithm",
+    "authors": [
+      "R. S. Burachik",
+      "S. Scheimberg",
+      "B.F. Svaiter"
+    ],
+    "year": 2001,
+    "source_type": "markdown"
+  },
+  "items": [
+    {
+      "id": "def_1",
+      "type": "definition",
+      "name": "Definition 1",
+      "statement": "Let $\\varepsilon \\geq 0$, the operator $T^{\\varepsilon} \\colon H \\to \\mathcal{P}(H)$ is defined as\n\\[\nT ^ {\\varepsilon} (x) = \\{v \\in H \\mid \\langle w - v, z - x \\rangle \\geq - \\varepsilon \\text {for all} (z, w) \\in G (T) \\}.\n\\]\nIt follows that $T^0 = T$ and for each $x \\in H$\n\\[\nT ^ {\\varepsilon_ {1}} (x) \\subseteq T ^ {\\varepsilon_ {2}} (x) \\quad \\text {if} \\quad 0 \\leq \\varepsilon_ {1} \\leq \\varepsilon_ {2}.\n\\]\nIn particular it holds that\n\\[\nT (x) \\subseteq T ^ {\\varepsilon} (x) \\quad \\text {for all} \\quad \\varepsilon \\geq 0.\n\\]",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Foundation: SetValued.Basic] recall SetValuedOperator.graph, SetValuedOperator.IsMaximalMonotone | [Notation: paper $G(T)$ maps to SetValuedOperator.graph]"
+    },
+    {
+      "id": "rem_1",
+      "type": "remark",
+      "name": "Remark 1",
+      "statement": "Let $f:H\\to\\mathbb{R}\\cup\\{+\\infty\\}$ be a proper closed convex function. Then $\\partial f:H\\to\\mathcal{P}(H)$ is maximal monotone and for $T=\\partial f$, it holds that\n\\[\n\\partial_ {\\varepsilon} f (x) \\subseteq T ^ {\\varepsilon} (x) = (\\partial f) ^ {\\varepsilon} (x)\n\\]\nfor any $x \\in H$, $\\varepsilon \\geq 0$. The inclusion is proper in the general case (see Ref. 17 for an example).",
+      "proof": null,
+      "depends_on": [
+        "def_1"
+      ],
+      "remark": "[Foundation: Analysis.ExtendedRealFunctions] recall IsProper | [Note: the subdifferential and epsilon-subdifferential inclusion are not supplied by this paper]"
+    },
+    {
+      "id": "algo_1",
+      "type": "algorithm",
+      "name": "Algorithm 2.1 Inexact Hybrid Extragradient-Proximal Algorithm",
+      "statement": "(i) Initialization. Take $x^0 \\in H$, $k = 0$.\n\n(ii) Iterative step. Given $x^{k - 1} \\in H$, and $c_k > 0$, take\n\\[\nx ^ {k} \\approx x ^ {k - 1} - c _ {k} \\tilde {v} ^ {k}\n\\]\nwhere for some $\\tilde{y}^{k}$, the pair $\\tilde{y}^{k}$, $\\tilde{v}^{k}$ is an approximate solution of the system\n\\[\nv \\in T (y)\n\\]\n\\[\nc _ {k} v + y - x ^ {k - 1} = 0,\n\\]\nin the following sense: for some $\\varepsilon_{k} \\geq 0$,\n\\[\n\\tilde {v} ^ {k} \\in T ^ {\\varepsilon_ {k}} (\\tilde {y} ^ {k}), \\tag {11a}\n\\]\n\\[\n\\| c _ {k} \\tilde {v} ^ {k} + \\tilde {y} ^ {k} - x ^ {k - 1} \\| ^ {2} + 2 c _ {k} \\varepsilon_ {k} \\leq \\delta_ {k} + \\sigma_ {k} ^ {2} \\| \\tilde {y} ^ {k} - x ^ {k - 1} \\| ^ {2}, \\tag {11b}\n\\]\n\\[\n\\| x ^ {k} - (x ^ {k - 1} - c _ {k} \\tilde {v} ^ {k}) \\| \\leq \\alpha_ {k}, \\tag {11c}\n\\]\nwhere $\\{c_k\\}$, $\\{\\delta_k\\}$, $\\{\\sigma_k\\}$ and $\\{\\alpha_k\\}$ are nonnegative and\n\\[\n\\sum \\delta_ {k} <   + \\infty , \\quad \\sum \\alpha_ {k} <   + \\infty . \\tag {12a}\n\\]\n\\[\n0 <   \\sigma_ {k} \\leq \\sigma <   1, \\quad c _ {k} \\geq c > 0, \\tag {12b}\n\\]\nfor all k.",
+      "proof": null,
+      "depends_on": [
+        "def_1"
+      ],
+      "remark": "[Foundation: SetValued.Basic] recall SetValuedOperator.zeros | [Prove hint: formalize the iterate and witnesses as an algorithm structure]"
+    },
+    {
+      "id": "def_2",
+      "type": "definition",
+      "name": "Auxiliary sequence $z^k$",
+      "statement": "Define an auxiliary sequence\n\\[\nz ^ {k} := x ^ {k - 1} - c _ {k} \\tilde {v} ^ {k}. \\tag {15}\n\\]\nObserve that $z^{k}$ corresponds to the “exact” extragradient step.",
+      "proof": null,
+      "depends_on": [
+        "algo_1"
+      ],
+      "remark": "[Prove hint: unfold $z^k$ to rewrite the extragradient residual]"
+    },
+    {
+      "id": "lem_1",
+      "type": "lemma",
+      "name": "Lemma 3.1",
+      "statement": "Let $x^{*} \\in H$ be a solution of problem (P). Then, for all $k$,\n\\[\n| | x ^ {*} - x ^ {k - 1} | | ^ {2} - | | x ^ {*} - z ^ {k} | | ^ {2} \\geq (1 - \\sigma_ {k} ^ {2}) | | \\tilde {y} ^ {k} - x ^ {k - 1} | | ^ {2} - \\delta_ {k},\n\\]",
+      "proof": "Proof. By definition of norm in a Hilbert space we obtain\n\\[\n\\begin{aligned} | | x ^ {*} - x ^ {k - 1} | | ^ {2} - | | x ^ {*} - z ^ {k} | | ^ {2} &= | | x ^ {*} - \\tilde {y} ^ {k} + (\\tilde {y} ^ {k} - x ^ {k - 1}) | | ^ {2} \\\\ - | | x ^ {*} - \\tilde {y} ^ {k} + (\\tilde {y} ^ {k} - z ^ {k}) | | ^ {2} \\\\ &= 2 \\langle z ^ {k} - x ^ {k - 1}, x ^ {*} - \\tilde {y} ^ {k} \\rangle + | | \\tilde {y} ^ {k} - x ^ {k - 1} | | ^ {2} \\\\ - | | \\tilde {y} ^ {k} - z ^ {k} | | ^ {2}. \\\\ \\end{aligned}\n\\]\nOn the other hand, as $0 \\in T(x^{*})$ and $\\tilde{v}^k \\in T^{\\varepsilon_k}(\\tilde{y}^k)$, we have by definition of $T^{\\varepsilon_k}$ :\n\\[\nc _ {k} \\left\\langle 0 - \\tilde {v} ^ {k}, x ^ {*} - \\tilde {y} ^ {k} \\right\\rangle \\geq - c _ {k} \\varepsilon_ {k}.\n\\]\nCombining the expression above with (15), we get\n\\[\n\\langle z ^ {k} - x ^ {k - 1}, x ^ {*} - \\tilde {y} ^ {k} \\rangle \\geq - c _ {k} \\varepsilon_ {k}.\n\\]\nThus we have\n\\[\n| | x ^ {*} - x ^ {k - 1} | | ^ {2} - | | x ^ {*} - z ^ {k} | | ^ {2} \\geq | | \\tilde {y} ^ {k} - x ^ {k - 1} | | ^ {2} - | | \\tilde {y} ^ {k} - z ^ {k} | | ^ {2} - 2 c _ {k} \\varepsilon_ {k}.\n\\]\nNow, the desired result follows from (11). [Indeed, (15) gives $\\tilde y^k-z^k=\\tilde y^k-x^{k-1}+c_k\\tilde v^k$, so (11b) bounds exactly the parenthesized nonnegative quantity in the preceding inequality by $\\delta_k+\\sigma_k^2\\|\\tilde y^k-x^{k-1}\\|^2$. Substituting this bound and collecting the coefficient of $\\|\\tilde y^k-x^{k-1}\\|^2$ yields $(1-\\sigma_k^2)\\|\\tilde y^k-x^{k-1}\\|^2-\\delta_k$.] In fact, we have that\n\\[\n| | \\tilde {y} ^ {k} - z ^ {k} | | ^ {2} + 2 c _ {k} \\varepsilon_ {k} = | | \\tilde {y} ^ {k} - x ^ {k - 1} + c _ {k} \\tilde {v} ^ {k} | | ^ {2} + 2 c _ {k} \\varepsilon_ {k} \\leq \\delta_ {k} + \\sigma_ {k} ^ {2} | | \\tilde {y} ^ {k} - x ^ {k - 1} | | ^ {2}.\n\\]\nUsing the last two inequalities, we gather\n\\[\n\\begin{aligned} | | x ^ {*} - x ^ {k - 1} | | ^ {2} - | | x ^ {*} - z ^ {k} | | ^ {2} &\\geq | | \\tilde {y} ^ {k} - x ^ {k - 1} | | ^ {2} - (| | \\tilde {y} ^ {k} - z ^ {k} | | ^ {2} + 2 c _ {k} \\varepsilon_ {k}) \\\\ &\\geq \\left. \\left| \\left| \\tilde {y} ^ {k} - x ^ {k - 1} \\right| \\right| ^ {2} - \\left(\\delta_ {k} + \\sigma_ {k} ^ {2} \\right| \\left| \\tilde {y} ^ {k} - x ^ {k - 1} \\right| \\right| ^ {2}) \\\\ &= (1 - \\sigma_ {k} ^ {2}) | | \\tilde {y} ^ {k} - x ^ {k - 1} | | ^ {2} - \\delta_ {k}. \\\\ \\end{aligned}\n\\]\nThe proof is complete.",
+      "depends_on": [
+        "def_1",
+        "algo_1",
+        "def_2"
+      ],
+      "remark": "[Foundation: Hilbert.Basic] recall norm-square expansion | [Prove hint: use the enlargement inequality at $(x^*,0)$]"
+    },
+    {
+      "id": "cor_1",
+      "type": "corollary",
+      "name": "Corollary 3.1",
+      "statement": "Let $x^{*} \\in H$ be a solution of Problem (P). Then, for all $k$\n\\[\n\\| x ^ {k} - x ^ {*} \\| \\leq \\alpha_ {k} + \\sqrt {\\| x ^ {k - 1} - x ^ {*} \\| ^ {2} + \\delta_ {k}}. \\tag {16}\n\\]",
+      "proof": "Proof. Using the triangle inequality, (15) and the second condition in (11) we get:\n\\[\n\\begin{aligned} \\| x ^ {k} - x ^ {*} \\| &\\leq \\| x ^ {k} - z ^ {k} \\| + \\| z ^ {k} - x ^ {*} \\| \\\\ &\\leq \\alpha_ {k} + \\| z ^ {k} - x ^ {*} \\|. \\\\ \\end{aligned}\n\\]\nBy Lemma 3.1[Rearranging Lemma 3.1 gives $\\|z^k-x^*\\|^2\\leq\\|x^{k-1}-x^*\\|^2+\\delta_k-(1-\\sigma_k^2)\\|\\tilde y^k-x^{k-1}\\|^2$. Its right-hand side is nonnegative because it bounds a squared norm, so taking square roots is legitimate.] \n\\[\n\\begin{aligned} \\| z ^ {k} - x ^ {*} \\| &\\leq \\sqrt {\\| x ^ {k - 1} - x ^ {*} \\| ^ {2} + \\delta_ {k} - (1 - \\sigma_ {k} ^ {2}) \\| \\tilde {y} ^ {k} - x ^ {k - 1} \\| ^ {2}} \\\\ &\\leq \\sqrt {\\| x ^ {k - 1} - x ^ {*} \\| ^ {2} + \\delta_ {k}}, \\\\ \\end{aligned}\n\\]\nand the desired result follows.",
+      "depends_on": [
+        "algo_1",
+        "def_2",
+        "lem_1"
+      ],
+      "remark": "[Prove hint: combine the algorithm error bound with Lemma 3.1 and monotonicity of square root]"
+    },
+    {
+      "id": "ext_lem_1",
+      "type": "lemma",
+      "name": "Lemma 3.2",
+      "statement": "Let $\\{\\alpha_k\\}$, $\\{\\delta_k\\}$ and $\\{\\gamma_k\\}$ be sequences of nonnegative scalars such that the following conditions are satisfied:\n\n(i) $\\sum_{k=0}^{\\infty} \\delta_k < \\infty$ and $\\sum_{k=0}^{\\infty} \\alpha_k < \\infty$,  \n(ii) $\\gamma_{k + 1}\\leq \\alpha_{k} + \\sqrt{\\gamma_{k}^{2} + \\delta_{k}}$ for all $k\\in N$\n\nThen $\\{\\gamma_k\\}$ converges to some $L\\in \\mathbb{R}_{+}$.",
+      "proof": "Cited from: Polyak, B. T., Introduction to optimization, Optimization Software Inc., Publications Division, New York, New York, 1987.",
+      "depends_on": [],
+      "source": "Polyak, B. T., Introduction to optimization, Optimization Software Inc., Publications Division, New York, New York, 1987.",
+      "resolution_priority": "high",
+      "remark": "[Prove hint: compare $\\gamma_{k+1}$ with $\\gamma_k+\\alpha_k+\\sqrt{\\delta_k}$ and use summability]"
+    },
+    {
+      "id": "cor_2",
+      "type": "corollary",
+      "name": "Corollary 3.2",
+      "statement": "For any $x^*$, solution of (P), the sequence $\\{ \\| x^k - x^* \\| \\}$ converges to some $L \\in \\mathbb{R}_+$.",
+      "proof": "Proof. Take $\\gamma_{k} := \\|x^{k-1} - x^{*}\\|$. By Corollary 3.1 and (12), Lemma 3.2 applies. [More precisely, with $\\gamma_k=\\|x^{k-1}-x^*\\|$, (16) reads $\\gamma_{k+1}\\leq\\alpha_k+\\sqrt{\\gamma_k^2+\\delta_k}$; (12a) supplies the two summability hypotheses of Lemma 3.2.] Hence, the conclusion holds.",
+      "depends_on": [
+        "algo_1",
+        "cor_1",
+        "ext_lem_1"
+      ],
+      "remark": "[Prove hint: instantiate Lemma 3.2 with $\\gamma_k=\\|x^{k-1}-x^*\\|$]"
+    },
+    {
+      "id": "cor_3",
+      "type": "corollary",
+      "name": "Corollary 3.3",
+      "statement": "Suppose that problem (P) has solutions. Then it holds that\n\n(i) The sequence $\\{x^k\\}$ is bounded.  \n(ii) $\\lim_{k\\to \\infty}\\| x^{k - 1} - \\tilde{y}^k\\| = 0.$  \n(iii) $\\lim_{k\\to \\infty}\\varepsilon_k = 0.$  \n(iv) $\\lim_{k\\to \\infty}\\| \\tilde{v}^k\\| = 0,\\lim_{k\\to \\infty}\\| c_k\\tilde{v}^k\\| = 0.$",
+      "proof": "Proof. Take $x^{*}$ a solution of problem (P). From Corollary 3.2, it follows that\n\\[\n\\lim _ {k \\to \\infty} \\| x ^ {k} - x ^ {*} \\| = L \\in \\mathbb {R} _ {+}. \\tag {17}\n\\]\nHence, item (i) holds. [Indeed, convergence of $\\|x^k-x^*\\|$ makes this real sequence bounded, and $\\|x^k\\|\\leq\\|x^k-x^*\\|+\\|x^*\\|$.] We proceed to prove (ii). By Lemma 3.1 and the fact that $\\sigma_{k} \\leq \\sigma < 1$, we have that\n\\[\n(1 - \\sigma^ {2}) \\| \\tilde {y} ^ {k} - x ^ {k - 1} \\| ^ {2} \\leq \\| x ^ {k - 1} - x ^ {*} \\| ^ {2} - \\| z ^ {k} - x ^ {*} \\| ^ {2} + \\delta_ {k}. \\tag {18}\n\\]\nNow, as $\\lim_{k\\to \\infty}\\| x^k -z^k\\| \\leq \\lim_{k\\to \\infty}\\alpha_k = 0$, and using also (17) it follows that [The reverse triangle inequality gives $|\\|z^k-x^*\\|-\\|x^k-x^*\\||\\leq\\|z^k-x^k\\|\\leq\\alpha_k$; since a summable nonnegative sequence tends to zero, this proves (19).]\n\\[\n\\lim _ {k \\to \\infty} \\| z ^ {k} - x ^ {*} \\| = L. \\tag {19}\n\\]\nCombining (17), (18), (19), and taking into account that $\\lim_{k\\to\\infty}\\delta_k = 0$, we conclude that item (ii) holds. [The right-hand side of (18) tends to $L^2-L^2+0=0$, while $1-\\sigma^2>0$, hence the nonnegative squared norm on its left tends to zero.]\n\nRecall that, according to (11),\n\\[\n\\| c _ {k} \\tilde {v} ^ {k} + \\tilde {y} ^ {k} - x ^ {k - 1} \\| ^ {2} + 2 c _ {k} \\varepsilon_ {k} \\leq \\delta_ {k} + \\sigma_ {k} ^ {2} \\| \\tilde {y} ^ {k} - x ^ {k - 1} \\| ^ {2}.\n\\]\nSince $\\sigma_{k}$ is bounded, using also item (ii) and the nonnegativity of $c_{k}$, we conclude that\n\\[\n\\lim _ {k \\to \\infty} \\| c _ {k} \\tilde {v} ^ {k} + \\tilde {y} ^ {k} - x ^ {k - 1} \\| = \\lim _ {k \\to \\infty} c _ {k} \\varepsilon_ {k} = 0 \\tag {20}\n\\] [The right-hand side of (11b) tends to zero because $\\delta_k\\to0$, $\\sigma_k\\leq\\sigma$, and item (ii) holds. Each term on its left is nonnegative, so each tends to zero.]\nSince $c_k$ is bounded away from zero, we conclude that item (iii) holds. To prove item (iv), observe that\n\\[\n\\| c _ {k} \\tilde {v} ^ {k} \\| \\leq \\| c _ {k} \\tilde {v} ^ {k} + \\tilde {y} ^ {k} - x ^ {k - 1} \\| + \\| \\tilde {y} ^ {k} - x ^ {k - 1} \\|.\n\\]\nCombining this with item (ii) and (20), we obtain that $\\lim_{k\\to\\infty}\\|c_{k}\\tilde{v}^{k}\\|=0$. Using again that $c_{k}$ is bounded away from zero, the first claim of item (iv) follows.",
+      "depends_on": [
+        "algo_1",
+        "def_2",
+        "lem_1",
+        "cor_2"
+      ],
+      "remark": "[Prove hint: use summable nonnegative sequences tending to zero, then separate the nonnegative terms in (11b)]"
+    },
+    {
+      "id": "ext_thm_1",
+      "type": "theorem",
+      "name": "Demiclosedness of the epsilon-enlargement",
+      "statement": "Let $T:H\\to\\mathcal{P}(H)$ be maximal monotone. If $y_j\\rightharpoonup y$, $v_j\\to v$ strongly, $\\varepsilon_j\\to0$, and $v_j\\in T^{\\varepsilon_j}(y_j)$ for every $j$, then $v\\in T(y)$.",
+      "proof": "Cited from: Burachik, R. S.; Sagastizabal, C. A.; and Svaiter, B. F., $\\varepsilon$-enlargements of maximal monotone operators: theory and applications, Reformulation: nonsmooth, piecewise smooth, semismooth and smoothing methods (Lausanne, 1997), Kluwer Academic Publishers, Dordrecht, pp. 25-43, 1999.",
+      "depends_on": [
+        "def_1"
+      ],
+      "source": "Burachik, R. S.; Sagastizabal, C. A.; and Svaiter, B. F. (1999), $\\varepsilon$-enlargements of maximal monotone operators: theory and applications.",
+      "resolution_priority": "high",
+      "remark": "[Foundation: FixedPoint.Algorithms] recall Demiclosed; [Note: this is the enlargement-specific weak-strong closedness statement]"
+    },
+    {
+      "id": "ext_thm_2",
+      "type": "theorem",
+      "name": "Opial lemma",
+      "statement": "If $x_j\\rightharpoonup x$ in a Hilbert space, then for every $z\\ne x$, $\\liminf_j\\|x_j-z\\|>\\liminf_j\\|x_j-x\\|$.",
+      "proof": "Cited from: Opial, Z., Weak convergence of the sequence of successive approximations for nonexpansive mappings, Bulletin of the American Mathematical Society, Vol. 73, pp. 591-597, 1967.",
+      "depends_on": [],
+      "source": "Opial, Z. (1967), Weak convergence of the sequence of successive approximations for nonexpansive mappings, Bulletin of the American Mathematical Society 73, 591-597.",
+      "resolution_priority": "high",
+      "remark": "[Foundation: Hilbert.WeakConvergence] recall opial_lemma"
+    },
+    {
+      "id": "lem_2",
+      "type": "lemma",
+      "name": "Lemma 3.3",
+      "statement": "If the solution set of problem (P) is not empty, then $\\{x^{k}\\}$ converges weakly to a solution.",
+      "proof": "Proof. First we claim that any weak cluster point of $\\{x^{k}\\}$ is a solution of problem (P). Indeed, let $\\bar{x}$ be a weak cluster point of $\\{x^{k}\\}$. By Corollary 3.3(ii), $\\bar{x}$ is also a weak cluster point of $\\{\\tilde{y}^{k}\\}$. [To account for the index shift, Corollary 3.3(ii), (20), and $\\|x^k-z^k\\|\\leq\\alpha_k$ imply $\\|x^k-x^{k-1}\\|\\leq\\alpha_k+\\|c_k\\tilde v^k\\|\\to0$ and then $\\|\\tilde y^{k+1}-x^k\\|\\to0$. Thus a subsequence of $x^k$ weakly converging to $\\bar x$ yields the corresponding weakly convergent subsequence of $\\tilde y^{k+1}$.] Hence, there exists a subsequence $\\{\\tilde{y}^{k_{j}}\\}$ converging weakly to $\\bar{x}$ :\n\\[\n\\tilde {y} ^ {k _ {j}} \\xrightarrow {w} \\bar {x}.\n\\]\nObserve also that, from Corollary 3.3(iii)-(iv):\n\\[\n\\begin{array}{l} \\tilde {v} ^ {k _ {j}} \\stackrel {{\\| \\cdot \\|}} {{\\longrightarrow}} 0, \\\\ \\varepsilon_ {k _ {j}} \\rightarrow 0. \\\\ \\end{array}\n\\]\nSince $\\tilde{v}^{k_j} \\in T^{\\varepsilon_{k_j}}(\\tilde{y}^{k_j})$, and $T^\\varepsilon$ has a demiclosed graph (Ref. 19), it follows that $0 \\in T(\\bar{x})$. [This is precisely the enlargement demiclosedness theorem: along the chosen subsequence, the arguments converge weakly to $\\bar x$, the values converge strongly to $0$, and the enlargement parameters tend to $0$.] In other words, $\\bar{x}$ is a solution of (P).\n\nBy Corollary 3.3(i), $\\{x^k\\}$ is bounded. So, it has some weak cluster point, say $\\bar{x}$, [A bounded sequence in a Hilbert space has a weakly convergent subsequence.] which by the first part of the proof, is a solution of (P). Now we shall prove that the whole sequence converges weakly to $\\bar{x}$. Since $\\{x^k\\}$ is bounded, it is enough to prove that $\\bar{x}$ is the unique weak cluster point. Suppose there exists another weak cluster point $\\bar{z} \\neq \\bar{x}$ of $\\{x^k\\}$. By the first part of the proof, $\\bar{z}$ is a solution of (P). Let $\\{x^{k_j}\\}$ and $\\{x^{k_i}\\}$ be two subsequences of $\\{x^k\\}$ converging weakly to $\\bar{x}$ and $\\bar{z}$, respectively:\n\\[\nx ^ {k _ {j}} \\stackrel {w} {\\longrightarrow} \\bar {x}, \\quad x ^ {k _ {i}} \\stackrel {w} {\\longrightarrow} \\bar {z}.\n\\]\nUsing the Opial lemma (Ref. 28) we get\n\\[\n\\begin{aligned} \\operatorname * {l i m i n f} _ {j} \\| x ^ {k _ {j}} - \\bar {z} \\| &> \\operatorname * {l i m i n f} _ {j} \\| x ^ {k _ {j}} - \\bar {x} \\|, \\\\ \\operatorname * {l i m i n f} _ {i} \\| x ^ {k _ {i}} - \\bar {x} \\| &> \\operatorname * {l i m i n f} _ {i} \\| x ^ {k _ {i}} - \\bar {z} \\|. \\\\ \\end{aligned}\n\\]\nUsing also Corollary 3.2, we conclude that [For either solution $q\\in\\{\\bar x,\\bar z\\}$, Corollary 3.2 gives existence of $\\lim_k\\|x^k-q\\|$; hence each displayed subsequential liminf equals the corresponding full-sequence limit.]\n\\[\n\\begin{aligned} \\lim _ {k} \\| x ^ {k} - \\bar {z} \\| &> \\lim _ {k} \\| x ^ {k} - \\bar {x} \\|, \\\\ \\lim _ {k} \\| x ^ {k} - \\bar {x} \\| &> \\lim _ {k} \\| x ^ {k} - \\bar {z} \\|, \\\\ \\end{aligned}\n\\]\nwhich is a contradiction.",
+      "depends_on": [
+        "def_1",
+        "cor_2",
+        "cor_3",
+        "ext_thm_1",
+        "ext_thm_2"
+      ],
+      "remark": "[Foundation: Hilbert.WeakConvergence] recall bounded_sequence_has_weakly_convergent_subsequence, opial_lemma | [Foundation: FixedPoint.Algorithms] recall Demiclosed | [Note: the required demiclosedness is for epsilon-enlargements]"
+    },
+    {
+      "id": "def_3",
+      "type": "definition",
+      "name": "Normality operator $N_C$",
+      "statement": "For $A \\subset H$ , we denote by $A^{\\circ}$ the interior of A. Given a closed and convex set C, we recall that $N_{C}$ , the normality operator associated to the convex set C, is $N_{C}(z) := \\{w \\in H \\mid \\langle w, z - u \\rangle \\geq 0 \\quad \\forall u \\in C\\}$ if $z \\in C$ , and $\\emptyset$ otherwise.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Notation: $A^\\circ$ is Set.interior $A$; normal cone sign convention is paper-specific]"
+    },
+    {
+      "id": "ext_def_1",
+      "type": "definition",
+      "name": "Pointwise sum of set-valued operators",
+      "statement": "For set-valued operators $A,B:H\\to\\mathcal{P}(H)$, their pointwise sum is the operator $(A+B):H\\to\\mathcal{P}(H)$ defined by\\n\\[\\n(A+B)(x):=\\{a+b\\mid a\\in A(x),\\ b\\in B(x)\\}.\\n\\]",
+      "proof": null,
+      "depends_on": [],
+      "resolution_priority": "low",
+      "remark": "[Notation: paper writes $T+N_S$; use the pointwise Minkowski sum of set-valued operators]"
+    },
+    {
+      "id": "def_4",
+      "type": "definition",
+      "name": "Related operator $U$",
+      "statement": "Let $S$ be the closed ball with radius $2M$ and center 0,\n\\[\nS := \\{x \\in H \\mid \\| x \\| \\leq 2 M \\}.\n\\]\nDefine\n\\[\nU := T + N _ {S},\n\\]\nwhere $N_{S}$ stands for the normality operator associated to S.",
+      "proof": null,
+      "depends_on": [
+        "def_3",
+        "ext_def_1"
+      ],
+      "remark": "[Notation: paper $T+N_S$ uses ext_def_1; paper $D(T)$ maps to SetValuedOperator.dom]"
+    },
+    {
+      "id": "ext_thm_3",
+      "type": "theorem",
+      "name": "Rockafellar sum maximality theorem",
+      "statement": "Let $T$ be maximal monotone and let $C\\subset H$ be nonempty, closed, and convex. If $D(T)\\cap C^{\\circ}\\ne\\emptyset$, then $T+N_C$ is maximal monotone.",
+      "proof": "Cited from: Rockafellar, R. T., On the maximality of sums of nonlinear monotone operators, Transactions of the American Mathematical Society, Vol. 149, pp. 75-88, 1970, Theorem 1.",
+      "depends_on": [
+        "def_3",
+        "ext_def_1"
+      ],
+      "source": "Rockafellar, R. T. (1970), On the maximality of sums of nonlinear monotone operators, Transactions of the American Mathematical Society 149, 75-88, Theorem 1.",
+      "resolution_priority": "high",
+      "remark": "[Note: instantiate with the ball $S$ and $z_0\\in D(T)\\cap S^{\\circ}$]"
+    },
+    {
+      "id": "ext_thm_4",
+      "type": "theorem",
+      "name": "Surjectivity from bounded domain",
+      "statement": "If $U:H\\to\\mathcal{P}(H)$ is maximal monotone and $D(U)$ is bounded, then $\\operatorname{ran} U=H$. In particular, $U^{-1}(0)\\ne\\emptyset$.",
+      "proof": "Cited from: Brezis, H., Operateurs maximaux monotones et semi-groupes de contractions dans les espaces de Hilbert, Mathematical Studies, North-Holland, Amsterdam, Vol. 5, 1973.",
+      "depends_on": [],
+      "source": "Brezis, H. (1973), Operateurs maximaux monotones et semi-groupes de contractions dans les espaces de Hilbert, Mathematical Studies, Vol. 5.",
+      "resolution_priority": "high",
+      "remark": "[Notation: paper uses $U^{-1}(0)$; Lean uses SetValuedOperator.inverse or SetValuedOperator.zeros]"
+    },
+    {
+      "id": "lem_3",
+      "type": "lemma",
+      "name": "Lemma 3.4",
+      "statement": "If the solution set of problem (P) is empty, then $x^{k}$ is unbounded.",
+      "proof": "Proof. Suppose, for purposes of contradiction, that $T^{-1}(0)=\\emptyset$, and that $\\{x^{k}\\}$ is bounded. Now we claim that $\\{\\tilde{y}^{k}\\}$ is also bounded. Observe that $\\|x^{k}-z^{k}\\|\\leq\\alpha_{k}$, and hence, $\\{z^{k}\\}$ is also bounded. Since $z^{k}=x^{k}-c_{k}\\tilde{v}^{k}$, it follows also that $\\{c_{k}\\tilde{v}^{k}\\}$ is bounded. Recall that, according to (11),\n\\[\n\\| c _ {k} \\tilde {v} ^ {k} + \\tilde {y} ^ {k} - x ^ {k - 1} \\| ^ {2} + 2 c _ {k} \\varepsilon_ {k} \\leq \\delta_ {k} + \\sigma_ {k} ^ {2} \\| \\tilde {y} ^ {k} - x ^ {k - 1} \\| ^ {2}.\n\\]\nDefine $t_{k} := \\|\\tilde{y}^{k} - x^{k-1}\\|$. Expanding the square in the left hand side of the above inequality, and using Cauchy-Schwartz inequality,\n\\[\n\\| c _ {k} \\tilde {v} ^ {k} \\| ^ {2} - 2 \\| c _ {k} \\tilde {v} ^ {k} \\| t _ {k} + t _ {k} ^ {2} + 2 c _ {k} \\varepsilon_ {k} \\leq \\delta_ {k} + \\sigma_ {k} ^ {2} t _ {k} ^ {2}.\n\\]\nSince $c_{k}\\varepsilon_{k}\\geq 0$ and $\\sigma_{k}\\leq \\sigma$, we obtain\n\\[\n\\| c _ {k} \\tilde {v} ^ {k} \\| ^ {2} - 2 \\| c _ {k} \\tilde {v} ^ {k} \\| t _ {k} + t _ {k} ^ {2} \\leq \\delta_ {k} + \\sigma^ {2} t _ {k} ^ {2}.\n\\]\nRearranging the expression above, we get\n\\[\n(1 - \\sigma^ {2}) t _ {k} ^ {2} - 2 \\| c _ {k} \\tilde {v} ^ {k} \\| t _ {k} + \\| c _ {k} \\tilde {v} ^ {k} \\| ^ {2} - \\delta_ {k} \\leq 0.\n\\]\nSince $\\{\\|c_k\\tilde{v}^k\\|\\}$ and $\\{\\delta_k\\}$ converge to zero, take $d \\geq \\max_k \\|c_k\\tilde{v}^k\\|$ and $\\delta \\geq \\max_k \\delta_k$. Then,\n\\[\n(1 - \\sigma^ {2}) t _ {k} ^ {2} - 2 d t _ {k} \\leq \\delta .\n\\]\nTherefore, $\\{t_k\\}$ is bounded. [Since $1-\\sigma^2>0$, the quadratic inequality implies $t_k\\leq(d+\\sqrt{d^2+(1-\\sigma^2)\\delta})/(1-\\sigma^2)$. Here $d$ and $\\delta$ may be chosen as finite uniform upper bounds because the relevant nonnegative sequences converge to zero.] So $\\{\\tilde{y}^k\\}$ is also bounded.\n\nOur aim now is to define a related operator, say U, such that $U^{-1}(0) \\neq \\emptyset$, and the sequences $\\{x^{k}\\}$, $\\{\\tilde{y}^{k}\\}$, $\\{\\tilde{v}^{k}\\}$, and $\\{z^{k}\\}$ satisfy conditions (11)-(12) of Algorithm 2.1 applied to find a zero of U. In order to define such an operator, take $z_{0}$ in the domain of T, and some M > 0 such that\n\\[\n\\begin{array}{l} \\| z _ {0} \\| <   M, \\\\ \\| x ^ {k} \\| <   M, \\| \\tilde {y} ^ {k} \\| <   M, \\quad \\forall k. \\\\ \\end{array}\n\\]\nLet $S$ be the closed ball with radius $2M$ and center 0,\n\\[\nS := \\{x \\in H \\mid \\| x \\| \\leq 2 M \\}.\n\\]\nDefine\n\\[\nU := T + N _ {S},\n\\]\nwhere $N_{S}$ stands for the normality operator associated to S. Observe that $z_{0} \\in D(T) \\cap S^{\\circ}$. Therefore, from Ref. 29, Theorem 1, it follows that U is maximal monotone. Furthermore, U has a bounded domain and hence is onto (see Ref. 30). In particular,\n\\[\nU ^ {- 1} (0) \\neq \\emptyset .\n\\] [Because $D(U)\\subseteq S$ is bounded, the cited surjectivity theorem yields $0\\in\\operatorname{ran}U$, which is equivalent to $U^{-1}(0)\\ne\\emptyset$.]\nObserve that for proving that the mentioned sequences satisfy conditions (11)-(12) for finding a zero of $U$, it is enough to check the approximated inclusion $\\tilde{v}^k \\in U^{\\varepsilon_k}(\\tilde{y}^k)$ for all $k$. In other words, we must show that $\\forall (w,z) \\in G(U)$,\n\\[\n\\langle w - \\tilde {v} ^ {k}, z - \\tilde {y} ^ {k} \\rangle \\geq - \\varepsilon^ {k}.\n\\]\nTake $(w,z)\\in G(U)$. By definition of $U$,\n\\[\nw = u + \\eta ,\n\\]\nfor some $u \\in T(z)$ and $\\eta \\in N_S(z)$. Note that $\\tilde{v}^k \\in T^{\\varepsilon_k}(\\tilde{y}^k)$ and $\\tilde{y}^k \\in S^\\circ$. Therefore by the definition of normal cone and Definition 1 it follows that\n\\[\n\\langle u - \\tilde {v} ^ {k}, z - \\tilde {y} ^ {k} \\rangle \\geq - \\varepsilon^ {k},\n\\]\nand\n\\[\n\\langle \\eta , z - \\tilde {y} ^ {k} \\rangle \\geq 0,\n\\]\nfor all $k \\in N$. Hence by summing this two inequalities we get [Since $w-\\tilde v^k=(u-\\tilde v^k)+\\eta$, bilinearity of the inner product makes the sum of the two displayed lower bounds exactly the required lower bound.]\n\\[\n\\langle w - \\tilde {v} ^ {k}, z - \\tilde {y} ^ {k} \\rangle \\geq - \\varepsilon^ {k},\n\\]\nfor all $k \\in N$. Since $(z, w)$ is an arbitrary point of the graph of $U$ we conclude that\n\\[\n\\tilde {v} ^ {k} \\in U ^ {\\varepsilon_ {k}} (\\tilde {y} ^ {k}),\n\\]\nfor each $k\\in N$\n\nNow we can apply Lemma 3.3 to the operator U and we get that the sequence $\\{x^{k}\\}$ is weakly convergent to an element $\\bar{x}$ in $U^{-1}(0)$. In other words, $0 \\in T(\\bar{x}) + N_{S}(\\bar{x})$. Since $||x^{k}|| < M$ for all $k \\in N$, it holds that $||\\bar{x}|| \\leq M$. Hence, $\\bar{x} \\in S^{\\circ}$, so it must be $N_{S}(\\bar{x}) = \\{0\\}$. [Indeed, $\\|\\bar x\\|\\leq M<2M$ places $\\bar x$ in the interior of $S$; a normal vector at an interior point is zero, since the normal-cone inequality can be tested against sufficiently small displacements in both directions.] Therefore $0 \\in T(\\bar{x})$, which is in contradiction with our assumptions. Thus the sequence $\\{x^{k}\\}$ is unbounded.",
+      "depends_on": [
+        "def_1",
+        "algo_1",
+        "def_2",
+        "def_3",
+        "def_4",
+        "lem_2",
+        "ext_def_1",
+        "ext_thm_3",
+        "ext_thm_4"
+      ],
+      "remark": "[Foundation: SetValued.Basic] recall SetValuedOperator.dom, SetValuedOperator.inverse | [Prove hint: contradiction via $U=T+N_S$, then apply Lemma 3.3 to $U$]"
+    },
+    {
+      "id": "thm_1",
+      "type": "theorem",
+      "name": "Theorem 3.1",
+      "statement": "If the solution set of problem (P) is not empty, then $\\{x^{k}\\}$ converges weakly to a solution. If the solution set of problem (P) is empty, then $\\{x^{k}\\}$ is unbounded.",
+      "proof": "Clearly, the last two lemmas imply Theorem 3.1. [If $T^{-1}(0)\\ne\\emptyset$, apply Lemma 3.3; if $T^{-1}(0)=\\emptyset$, apply Lemma 3.4. These cases are exhaustive.]",
+      "depends_on": [
+        "lem_2",
+        "lem_3"
+      ],
+      "remark": "[Prove hint: split on whether the zero set is empty and apply Lemmas 3.3 and 3.4]"
+    }
+  ],
+  "external_theorems": [
+    {
+      "id": "ext_def_1",
+      "type": "definition",
+      "name": "Pointwise sum of set-valued operators",
+      "statement": "For set-valued operators $A,B:H\\to\\mathcal{P}(H)$, their pointwise sum is the operator $(A+B):H\\to\\mathcal{P}(H)$ defined by\\n\\[\\n(A+B)(x):=\\{a+b\\mid a\\in A(x),\\ b\\in B(x)\\}.\\n\\]",
+      "proof": null,
+      "depends_on": [],
+      "resolution_priority": "low",
+      "remark": "[Notation: paper writes $T+N_S$; use the pointwise Minkowski sum of set-valued operators]"
+    },
+    {
+      "id": "ext_lem_1",
+      "type": "lemma",
+      "name": "Lemma 3.2",
+      "statement": "Let $\\{\\alpha_k\\}$, $\\{\\delta_k\\}$ and $\\{\\gamma_k\\}$ be sequences of nonnegative scalars such that the following conditions are satisfied:\n\n(i) $\\sum_{k=0}^{\\infty} \\delta_k < \\infty$ and $\\sum_{k=0}^{\\infty} \\alpha_k < \\infty$,  \n(ii) $\\gamma_{k + 1}\\leq \\alpha_{k} + \\sqrt{\\gamma_{k}^{2} + \\delta_{k}}$ for all $k\\in N$\n\nThen $\\{\\gamma_k\\}$ converges to some $L\\in \\mathbb{R}_{+}$.",
+      "proof": "Cited from: Polyak, B. T., Introduction to optimization, Optimization Software Inc., Publications Division, New York, New York, 1987.",
+      "depends_on": [],
+      "source": "Polyak, B. T., Introduction to optimization, Optimization Software Inc., Publications Division, New York, New York, 1987.",
+      "resolution_priority": "high",
+      "remark": "[Prove hint: compare $\\gamma_{k+1}$ with $\\gamma_k+\\alpha_k+\\sqrt{\\delta_k}$ and use summability]"
+    },
+    {
+      "id": "ext_thm_1",
+      "type": "theorem",
+      "name": "Demiclosedness of the epsilon-enlargement",
+      "statement": "Let $T:H\\to\\mathcal{P}(H)$ be maximal monotone. If $y_j\\rightharpoonup y$, $v_j\\to v$ strongly, $\\varepsilon_j\\to0$, and $v_j\\in T^{\\varepsilon_j}(y_j)$ for every $j$, then $v\\in T(y)$.",
+      "proof": "Cited from: Burachik, R. S.; Sagastizabal, C. A.; and Svaiter, B. F., $\\varepsilon$-enlargements of maximal monotone operators: theory and applications, Reformulation: nonsmooth, piecewise smooth, semismooth and smoothing methods (Lausanne, 1997), Kluwer Academic Publishers, Dordrecht, pp. 25-43, 1999.",
+      "depends_on": [
+        "def_1"
+      ],
+      "source": "Burachik, R. S.; Sagastizabal, C. A.; and Svaiter, B. F. (1999), $\\varepsilon$-enlargements of maximal monotone operators: theory and applications.",
+      "resolution_priority": "high",
+      "remark": "[Foundation: FixedPoint.Algorithms] recall Demiclosed; [Note: this is the enlargement-specific weak-strong closedness statement]"
+    },
+    {
+      "id": "ext_thm_2",
+      "type": "theorem",
+      "name": "Opial lemma",
+      "statement": "If $x_j\\rightharpoonup x$ in a Hilbert space, then for every $z\\ne x$, $\\liminf_j\\|x_j-z\\|>\\liminf_j\\|x_j-x\\|$.",
+      "proof": "Cited from: Opial, Z., Weak convergence of the sequence of successive approximations for nonexpansive mappings, Bulletin of the American Mathematical Society, Vol. 73, pp. 591-597, 1967.",
+      "depends_on": [],
+      "source": "Opial, Z. (1967), Weak convergence of the sequence of successive approximations for nonexpansive mappings, Bulletin of the American Mathematical Society 73, 591-597.",
+      "resolution_priority": "high",
+      "remark": "[Foundation: Hilbert.WeakConvergence] recall opial_lemma"
+    },
+    {
+      "id": "ext_thm_3",
+      "type": "theorem",
+      "name": "Rockafellar sum maximality theorem",
+      "statement": "Let $T$ be maximal monotone and let $C\\subset H$ be nonempty, closed, and convex. If $D(T)\\cap C^{\\circ}\\ne\\emptyset$, then $T+N_C$ is maximal monotone.",
+      "proof": "Cited from: Rockafellar, R. T., On the maximality of sums of nonlinear monotone operators, Transactions of the American Mathematical Society, Vol. 149, pp. 75-88, 1970, Theorem 1.",
+      "depends_on": [
+        "def_3",
+        "ext_def_1"
+      ],
+      "source": "Rockafellar, R. T. (1970), On the maximality of sums of nonlinear monotone operators, Transactions of the American Mathematical Society 149, 75-88, Theorem 1.",
+      "resolution_priority": "high",
+      "remark": "[Note: instantiate with the ball $S$ and $z_0\\in D(T)\\cap S^{\\circ}$]"
+    },
+    {
+      "id": "ext_thm_4",
+      "type": "theorem",
+      "name": "Surjectivity from bounded domain",
+      "statement": "If $U:H\\to\\mathcal{P}(H)$ is maximal monotone and $D(U)$ is bounded, then $\\operatorname{ran} U=H$. In particular, $U^{-1}(0)\\ne\\emptyset$.",
+      "proof": "Cited from: Brezis, H., Operateurs maximaux monotones et semi-groupes de contractions dans les espaces de Hilbert, Mathematical Studies, North-Holland, Amsterdam, Vol. 5, 1973.",
+      "depends_on": [],
+      "source": "Brezis, H. (1973), Operateurs maximaux monotones et semi-groupes de contractions dans les espaces de Hilbert, Mathematical Studies, Vol. 5.",
+      "resolution_priority": "high",
+      "remark": "[Notation: paper uses $U^{-1}(0)$; Lean uses SetValuedOperator.inverse or SetValuedOperator.zeros]"
+    }
+  ]
+}

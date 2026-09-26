@@ -1,0 +1,274 @@
+{
+  "metadata": {
+    "title": "An Inertial Forward-Backward Algorithm for Monotone Inclusions",
+    "authors": [
+      "Dirk A. Lorenz",
+      "Thomas Pock"
+    ],
+    "year": 2014,
+    "source_type": "markdown"
+  },
+  "items": [
+    {
+      "id": "def_2",
+      "type": "definition",
+      "name": "Section 3 saddle-point setting",
+      "statement": "Now let X and Y be two Hilbert spaces and consider the saddle point problem\n\n$$\n\\min _ {x \\in X} \\max _ {y \\in Y} G (x) + Q (x) + \\langle K x, y \\rangle - F ^ {*} (y) - P ^ {*} (y) \\tag {19}\n$$\n\nwith convex G, Q: X \\to \\mathbb{R}_{\\infty}, F^{*}, P^{*}: Y \\to \\mathbb{R}_{\\infty}, K: X \\to Y linear and bounded and Q, P^{*} differentiable with Lipschitz gradient (with respective Lipschitz constants L_{Q}, L_{P}).",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "ext_def_1",
+      "type": "definition",
+      "name": "Positive definite linear map",
+      "statement": "A linear selfadjoint map M on a real Hilbert space is positive definite when ⟨Mx, x⟩ > 0 for every nonzero x. The associated squared norm is ‖x‖_M^2 = ⟨Mx, x⟩.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "ext_thm_1",
+      "type": "theorem",
+      "name": "Baillon-Haddad Theorem ([3, Corollary 18.16])",
+      "statement": "Referenced as: if a convex function has a Lipschitz-continuous gradient with Lipschitz constant L, then its gradient is co-coercive with respect to L^{-1}.",
+      "proof": "Cited from: Bauschke, H.H., Combettes, P.L.: Convex Analysis and Monotone Operator Theory in Hilbert Spaces. Springer, Berlin (2011), Corollary 18.16.",
+      "depends_on": []
+    },
+    {
+      "id": "ext_thm_2",
+      "type": "theorem",
+      "name": "Opial's Theorem [38]",
+      "statement": "Referenced as: Opial's Theorem concludes weak convergence of the sequence from the established boundedness, cluster-point, and distance-limit properties.",
+      "proof": "Cited from: Opial, Z.: Weak convergence of the sequence of successive approximations for nonexpansive mappings. Bull. Am. Math. Soc. 73, 591–597 (1967).",
+      "depends_on": []
+    },
+    {
+      "id": "ext_thm_3",
+      "type": "theorem",
+      "name": "Alvarez-Attouch inertial proximal estimate",
+      "statement": "For an inertial proximal iteration of a maximal monotone operator, the standard Alvarez-Attouch energy estimate controls the next squared distance by the two preceding distances and the inertial coefficient. Under the summability condition used in Theorem 1, it yields convergence of the distance sequence and summability of successive increments.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "def_1",
+      "type": "definition",
+      "name": "Co-coercivity with respect to an inverse metric (9)",
+      "statement": "Let $S=(A+B)^{-1}(0)$. The operator $B$ is co-coercive with respect to $L^{-1}$ on $S$ when\n\n$$\n\\langle Bx-By,x-y\\rangle\\geq \\|Bx-By\\|_{L^{-1}}^2\n$$\n\nfor every $x$ and every $y\\in S$, where $\\|u\\|_{L^{-1}}^2=\\langle L^{-1}u,u\\rangle$. This is condition (9).",
+      "proof": null,
+      "depends_on": [
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "ext_def_2",
+      "type": "definition",
+      "name": "Variable-metric proximal relation",
+      "statement": "For a positive definite metric operator $P$ with inverse $P^{-1}$ and a proper convex function $f$, the variable-metric proximal relation is\n\n$$\n(\\operatorname{Id}+P^{-1}\\partial f)^{-1}.\n$$\n\nIt contains $u$ at $x$ exactly when $P(x-u)\\in\\partial f(u)$.",
+      "proof": null,
+      "depends_on": [
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "lem_2",
+      "type": "lemma",
+      "name": "Lemma 8",
+      "statement": "Lemma 8 Let A_{1}, A_{2} be symmetric positive definite maps and B a bounded operator. If \\|A_{2}^{-\\frac{1}{2}}BA_{1}^{\\frac{1}{2}}\\| < 1, then A = \\begin{bmatrix} A_{1} & B^{*} \\\\ B & A_{2} \\end{bmatrix} is positive definite.",
+      "proof": "Proof We calculate\n\n$$\n\\langle [x;y], [A_1,B^*;B,A_2][x;y] \\rangle = \\langle x,A_1x\\rangle+2\\langle Bx,y\\rangle+\\langle y,A_2y\\rangle\n$$\n\nand estimate the middle term from below by Cauchy-Schwarz and Young's inequality. For every c > 0,\n\n$$\n\\langle Bx,y\\rangle = \\langle A_2^{-1/2}BA_1^{-1/2}A_1^{1/2}x,A_2^{1/2}y\\rangle \\geq -\\frac c2\\|A_2^{-1/2}BA_1^{-1/2}\\|^2\\|A_1^{1/2}x\\|^2-\\frac1{2c}\\|A_2^{1/2}y\\|^2.\n$$\n\nCombining this with the assumption that \\|A_{2}^{-1/2}BA_{1}^{1/2}\\| < 1 we see that we can choose c such that the resulting quadratic form is strictly positive, which proves the auxiliary statement.",
+      "depends_on": [
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "algo_1",
+      "type": "algorithm",
+      "name": "Proposed inertial forward-backward algorithm (10) and (11)",
+      "statement": "The algorithm we propose in this paper is a basically a modification of the forward-backward splitting algorithm (3). The scheme is as follows:\n\n$$\n\\left\\{ \\begin{array}{l} y ^ {k} = x ^ {k} + \\alpha_ {k} (x ^ {k} - x ^ {k - 1}) \\\\ x ^ {k + 1} = (\\mathrm{Id} + \\lambda_ {k} M ^ {- 1} A) ^ {- 1} (\\mathrm{Id} - \\lambda_ {k} M ^ {- 1} B) (y ^ {k}), \\end{array} \\right. \\tag {10}\n$$\n\nwhere \\alpha_{k} \\in [0, 1) is an extrapolation factor, \\lambda_{k} is a step-size parameter and M is a linear selfadjoint and positive definite map that can be used as a preconditioner for the algorithm (cf. Sect. 3.2). Note that the iteration can be equivalently expressed as\n\n$$\n\\left\\{ \\begin{array}{l} y ^ {k} = x ^ {k} + \\alpha_ {k} (x ^ {k} - x ^ {k - 1}) \\\\ x ^ {k + 1} = (M + \\lambda_ {k} A) ^ {- 1} (M - \\lambda_ {k} B) (y ^ {k}), \\end{array} \\right. \\tag {11}\n$$\n\nObserve that (10) (resp. (11)) differs from the inertial forward-backward algorithm of Moudafi and Oliny insofar that we also evaluate the operator B at the inertial extrapolate y^{k}. This allows us to rewrite the algorithm in the form of the standard forward-backward algorithm (3).",
+      "proof": null,
+      "depends_on": [
+        "def_1",
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "def_3",
+      "type": "definition",
+      "name": "Saddle-point monotone operators and preconditioner (20)",
+      "statement": "We define the monotone operators A, B on X \\times Y as\n\n$$\nA = \\left[ \\begin{array}{c c} \\partial G & K ^ {*} \\\\ - K & \\partial F ^ {*} \\end{array} \\right], \\qquad B = \\left[ \\begin{array}{c c} \\nabla Q & 0 \\\\ 0 & \\nabla P ^ {*} \\end{array} \\right]\n$$\n\nand observe that the optimality system of the saddle point problem can be written as\n\n$$\n0 \\in (A + B) \\left[ \\begin{array}{c} x \\\\ y \\end{array} \\right].\n$$\n\nThe idea is, to choose M such that one of the off-diagonal blocks in A cancel out. However, M still has to be symmetric and positive definite and this leads to the choice\n\n$$\nM = \\left[ \\begin{array}{c c} \\frac {1}{\\tau} \\operatorname{Id} & - K ^ {*} \\\\ - K & \\frac {1}{\\sigma} \\operatorname{Id} \\end{array} \\right]. \\tag {20}\n$$",
+      "proof": null,
+      "depends_on": [
+        "def_2",
+        "ext_def_2"
+      ]
+    },
+    {
+      "id": "algo_2",
+      "type": "algorithm",
+      "name": "Fully implicit inertial proximal point iteration",
+      "statement": "The fully implicit inertial proximal point scheme uses\n\n$$\ny^k=x^k+\\alpha_k(x^k-x^{k-1}),\\qquad x^{k+1}=(\\operatorname{Id}+\\lambda_k\\overline M^{-1}(A+B))^{-1}(y^k),\n$$\n\nwhere $\\overline M$ is self-adjoint and positive definite.",
+      "proof": null,
+      "depends_on": [
+        "algo_1"
+      ]
+    },
+    {
+      "id": "algo_4",
+      "type": "algorithm",
+      "name": "Preconditioned inertial primal-dual method (30)",
+      "statement": "Applying the preconditioning technique to the proposed inertial primal-dual forward-backward algorithm (21), we obtain the method\n\n$$\n\\left\\{ \\begin{array}{l l} \\xi^ {k} & = x ^ {k} + \\alpha_ {k} (x ^ {k} - x ^ {k - 1}) \\\\ \\zeta^ {k} & = y ^ {k} + \\alpha_ {k} (y ^ {k} - y ^ {k - 1}) \\\\ x ^ {k + 1} & = (\\operatorname{Id} + T \\partial G) ^ {- 1} (\\xi^ {k} - T (\\nabla Q (\\xi^ {k}) + K ^ {*} \\zeta^ {k})) \\\\ \\bar {\\xi} ^ {k + 1} & = 2 x ^ {k + 1} - \\xi^ {k} \\\\ y ^ {k + 1} & = (\\operatorname{Id} + \\Sigma \\partial F ^ {*}) ^ {- 1} (\\zeta^ {k} - \\Sigma (\\nabla P ^ {*} (\\zeta^ {k}) - K \\bar {\\xi} ^ {k + 1})). \\end{array} \\right. \\tag {30}\n$$",
+      "proof": null,
+      "depends_on": [
+        "def_3",
+        "ext_def_2"
+      ]
+    },
+    {
+      "id": "def_4",
+      "type": "definition",
+      "name": "Scalar primal-dual preconditioner (20)",
+      "statement": "For the saddle-point problem (19), the scalar-step preconditioner is the block operator\n\n$$\nM=\\begin{bmatrix}\\tau^{-1}I&-K^*\\\\-K&\\sigma^{-1}I\\end{bmatrix}.\n$$\n\nThe smoothness operator is $C=\\operatorname{diag}(L_QI,L_PI)$, and condition (23) uses the squared $M$-metric of consecutive primal-dual iterates.",
+      "proof": null,
+      "depends_on": [
+        "def_3"
+      ]
+    },
+    {
+      "id": "def_5",
+      "type": "definition",
+      "name": "Operator-valued primal-dual preconditioner",
+      "statement": "In Section 3.2 the scalar step sizes are replaced by positive definite operators $T$ and $\\Sigma$. The preconditioner becomes\n\n$$\nM=\\begin{bmatrix}T^{-1}&-K^*\\\\-K&\\Sigma^{-1}\\end{bmatrix}.\n$$",
+      "proof": null,
+      "depends_on": [
+        "def_3"
+      ]
+    },
+    {
+      "id": "thm_1",
+      "type": "theorem",
+      "name": "Theorem 1",
+      "statement": "Theorem 1 Let X be a real Hilbert space and A, B: X \\rightrightarrows X be maximally monotone operators. Further assume that M, L: X \\to X are linear, bounded, selfadjoint and positive definite maps and that B is single valued and co-coercive w.r.t. L^{-1} (cf. (9)). Moreover, let \\lambda_k > 0, \\alpha < 1, \\alpha_k \\in [0, \\alpha], x^0 = x^{-1} \\in X and let the sequences x^k and y^k be defined by (10) (or (11)). If\n\n(i) S_{k} = M - \\frac{\\lambda_{k}}{2} L is positive definite for all k and  \n(ii) \\sum_{k=1}^{\\infty} \\alpha_k \\|x^{\\bar{k}} - x^{k-1}\\|_M^2 < \\infty\n\nthen x^{k} converges weakly to a solution of the inclusion 0 \\in (A + B)(x).",
+      "proof": "Proof Denote by x^{*} a zero of A + B. From (8), it holds that\n\n$$\n- B (x ^ {*}) \\in A (x ^ {*}).\n$$\n\nFurthermore, the second line in (11) can be equivalently expressed as\n\n$$\nM (y ^ {k} - x ^ {k + 1}) - \\lambda_ {k} B (y ^ {k}) \\in \\lambda_ {k} A (x ^ {k + 1}).\n$$\n\nFor convenience, we define for any symmetric positive definite M,\n\n$$\n\\phi_ {M} ^ {k} = \\frac {1}{2} \\| x ^ {k} - x ^ {*} \\| _ {M} ^ {2} = \\frac {1}{2} \\langle M (x ^ {k} - x ^ {*}), x ^ {k} - x ^ {*} \\rangle ,\n$$\n\n$$\n\\Delta_ {M} ^ {k} = \\frac {1}{2} \\| x ^ {k} - x ^ {k - 1} \\| _ {M} ^ {2} = \\frac {1}{2} \\langle M (x ^ {k} - x ^ {k - 1}), x ^ {k} - x ^ {k - 1} \\rangle\n$$\n\n$$\n\\Gamma_ {M} ^ {k} = \\frac {1}{2} \\| x ^ {k + 1} - y ^ {k} \\| _ {M} ^ {2} = \\frac {1}{2} \\langle M (x ^ {k + 1} - y ^ {k}), x ^ {k + 1} - y ^ {k} \\rangle .\n$$\n\nFrom the well-known identity\n\n$$\n\\langle a - b, a - c \\rangle_ {M} = \\frac {1}{2} \\| a - b \\| _ {M} ^ {2} + \\frac {1}{2} \\| a - c \\| _ {M} ^ {2} - \\frac {1}{2} \\| b - c \\| _ {M} ^ {2} \\tag {12}\n$$\n\nwe have by using the definition of the inertial extrapolate y_{k} that\n\n$$\n\\phi_ {M} ^ {k} - \\phi_ {M} ^ {k + 1} = \\varDelta_ {M} ^ {k + 1} + \\langle y ^ {k} - x ^ {k + 1}, x ^ {k + 1} - x ^ {*} \\rangle_ {M} - \\alpha_ {k} \\left\\langle x ^ {k} - x ^ {k - 1}, x ^ {k + 1} - x ^ {*} \\right\\rangle_ {M}. \\tag {13}\n$$\n\nThen, by using the monotonicity of A we deduce (14), and from the co-coercivity property of B obtain\n\n$$\n\\phi_ {M} ^ {k + 1} - \\phi_ {M} ^ {k} - \\alpha_ {k} (\\phi_ {M} ^ {k} - \\phi_ {M} ^ {k - 1}) \\leq - \\Gamma_ {M} ^ {k} + \\frac {\\lambda_ {k}}{2} \\Gamma_ {L} ^ {k} + (\\alpha_ {k} + \\alpha_ {k} ^ {2}) \\Delta_ {M} ^ {k}. \\tag {15}\n$$\n\nThe rest of the proof closely follows the proof of Theorem 2.1 in [2]. By the definition of S_{k} and using (\\alpha_{k} + \\alpha_{k}^{2}) / 2 \\leq \\alpha_{k}, we have\n\n$$\n\\phi_ {M} ^ {k + 1} - \\phi_ {M} ^ {k} - \\alpha_ {k} (\\phi_ {M} ^ {k} - \\phi_ {M} ^ {k - 1}) \\leq - \\Gamma_ {S _ {k}} ^ {k} + 2 \\alpha_ {k} \\Delta_ {M} ^ {k}. \\tag {16}\n$$\n\nNow, defining \\theta^k = \\max (0,\\phi_M^k -\\phi_M^{k - 1}) and setting \\delta^ {k} = 2 \\alpha_ {k} \\varDelta_ {M} ^ {k} = \\alpha_ {k} \\| x ^ {k} - x ^ {k - 1} \\| _ {M} ^ {2}, we obtain \\theta^ {k + 1} \\leq \\alpha_ {k} \\theta^ {k} + \\delta^ {k} \\leq \\alpha \\theta^ {k} + \\delta^ {k}. Applying this inequality recursively and summing shows that \\sum_{k=0}^{\\infty}\\theta^{k+1} converges by assumption (ii). Thus \\phi_M^k is convergent and \\theta^k \\to 0. From (16), since \\delta^k is summable, it follows that \\|x^k-x^{k-1}\\|_{S_k}\\to0. A weakly convergent subsequence x_\\nu \\rightharpoonup \\bar x also gives y_\\nu \\rightharpoonup \\bar x. Passing to the limit in (10), after extracting a subsequence such that \\lambda_\\nu \\to \\bar\\lambda if necessary, gives -B(\\bar x) \\in A(\\bar x), so \\bar x is a solution. Opial's Theorem [38] concludes the proof.",
+      "depends_on": [
+        "def_1",
+        "algo_1",
+        "ext_def_1",
+        "ext_thm_2",
+        "ext_thm_3"
+      ]
+    },
+    {
+      "id": "algo_3",
+      "type": "algorithm",
+      "name": "Inertial primal-dual forward-backward algorithm (21)",
+      "statement": "From (10) we get for \\lambda_{k} = 1 the following inertial primal-dual forward-backward algorithm\n\n$$\n\\left\\{ \\begin{array}{l l} \\xi^ {k} & = x ^ {k} + \\alpha_ {k} (x ^ {k} - x ^ {k - 1}) \\\\ \\zeta^ {k} & = y ^ {k} + \\alpha_ {k} (y ^ {k} - y ^ {k - 1}) \\\\ x ^ {k + 1} & = (\\operatorname{Id} + \\tau \\partial G) ^ {- 1} (\\xi^ {k} - \\tau (\\nabla Q (\\xi^ {k}) + K ^ {*} \\zeta^ {k})) \\\\ \\bar {\\xi} ^ {k + 1} & = 2 x ^ {k + 1} - \\xi^ {k} \\\\ y ^ {k + 1} & = (\\operatorname{Id} + \\sigma \\partial F ^ {*}) ^ {- 1} (\\zeta^ {k} - \\sigma (\\nabla P ^ {*} (\\zeta^ {k}) - K \\bar {\\xi} ^ {k + 1})). \\end{array} \\right. \\tag {21}\n$$\n\nIn the case that Q = P^{*} = 0 and \\alpha_{k} = 0 we obtain the primal-dual method from [10].",
+      "proof": null,
+      "depends_on": [
+        "def_3",
+        "def_4",
+        "ext_def_2"
+      ]
+    },
+    {
+      "id": "thm_2",
+      "type": "theorem",
+      "name": "Theorem 2",
+      "statement": "Theorem 2 In addition to the conditions to Theorem 1 assume that \\{\\lambda_k\\} and \\{\\alpha_k\\} are nondecreasing sequences and that there exists a \\varepsilon > 0 such that for all \\alpha_k\n\n$$\nR _ {k} = (1 - 3 \\alpha_ {k}) M - (1 - \\alpha_ {k}) ^ {2} \\frac {\\lambda_ {k}}{2} L \\geq \\varepsilon M. \\tag {17}\n$$\n\nThen x^{k} converges weakly to a solution of the inclusion 0 \\in (A + B)(x^{*}).",
+      "proof": "Proof The proof of this result is an adaption of the proof of Proposition 2.1 in [2]. From the last estimate in (15) and using the definition of y^{k} in (6) it follows that\n\n$$\n\\phi_ {M} ^ {k + 1} - \\phi_ {M} ^ {k} - \\alpha_ {k} (\\phi_ {M} ^ {k} - \\phi_ {M} ^ {k - 1}) \\leq (\\alpha_ {k} - 1) \\Delta_ {S _ {k}} ^ {k + 1} + \\alpha_ {k} \\Delta_ {T _ {k}} ^ {k},\n$$\n\nwhere T_{k} = 2M - \\frac{(1 - \\alpha_{k})\\lambda_{k}}{2} L. We define \\mu^k = \\phi_M^k -\\alpha_k\\phi_M^{k - 1} + \\alpha_k\\Delta_{T_k}^k. Using the preceding inequality, \\alpha_{k+1}\\geq\\alpha_k, and \\lambda_{k+1}\\geq\\lambda_k, we obtain\n\n$$\n\\mu^ {k + 1} - \\mu^ {k} \\leq - \\Delta_ {R _ {k}} ^ {k}. \\tag {18}\n$$\n\nObserve that by assumption (17), the sequence \\{\\mu_k\\} is non-increasing. The resulting estimates show that \\phi_M^k is bounded and \\sum_{k=1}^{\\infty}\\varDelta_M^k < \\infty, which especially shows (ii) in Theorem 1. The weak convergence of the x^k now follows from Theorem 1.",
+      "depends_on": [
+        "thm_1",
+        "algo_1",
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "rem_1",
+      "type": "remark",
+      "name": "Remark 3",
+      "statement": "Remark 3 In case, M = m \\operatorname{Id}, L = l \\operatorname{Id}, \\lambda_k \\equiv \\lambda and defining the normalized step size \\gamma = \\frac{l\\lambda}{m} \\in (0,2), assertion (17) reduces to\n\n$$\n1 - 3 \\alpha_ {k} - \\varepsilon - \\frac {(1 - \\alpha_ {k}) ^ {2}}{2} \\gamma \\geq 0.\n$$\n\nIt easily follows that for any \\varepsilon \\in (0, (9 - 4\\gamma)/(2\\gamma)), the algorithm converges, if the sequence \\{\\alpha_k\\} is non-decreasing with 0 \\leq \\alpha_k \\leq \\alpha(\\gamma), where\n\n$$\n\\alpha (\\gamma) = 1 + \\frac {\\sqrt {9 - 4 \\gamma - 2 \\varepsilon \\gamma} - 3}{\\gamma}.\n$$",
+      "proof": null,
+      "depends_on": [
+        "thm_2"
+      ]
+    },
+    {
+      "id": "rem_2",
+      "type": "remark",
+      "name": "Remark 4",
+      "statement": "Remark 4 Let us consider a “fully-implicit” variant of the scheme (10), which is given by\n\n$$\n\\left\\{ \\begin{array}{l} y ^ {k} = x ^ {k} + \\alpha_ {k} (x ^ {k} - x ^ {k - 1}), \\\\ x ^ {k + 1} = (\\mathrm{Id} + \\lambda_ {k} \\overline {{M}} ^ {- 1} (A + B)) ^ {- 1} (y ^ {k}), \\end{array} \\right.\n$$\n\nwhere \\overline{M} is again a linear, selfadjoint and positive definite map. In fact this algorithm, is an inertial proximal point algorithm, in the \\overline{M} metric, whose convergence properties have been studied in [2]. Interestingly, if the operator B is a linear, selfadjoint and positive semi-definite map, using \\lambda_{k} \\equiv \\lambda and setting \\overline{M}=M-\\lambda B, where \\lambda is chosen such that \\overline{M}>0, it turns out that the fully implicit scheme in the \\overline{M} metric is equivalent to our proposed inertial forward-backward splitting algorithm (10) in the M metric, which only requires to compute the resolvent with respect to A. According to Theorem 2.1 and Proposition 2.1 in [2], condition (i) of Theorem 1 can be replaced by the simpler condition M - \\lambda B > 0 and convergence of the algorithm is guaranteed for \\{\\alpha_k\\} non-decreasing in [0, \\alpha] with \\alpha < 1/3.",
+      "proof": null,
+      "depends_on": [
+        "algo_1",
+        "algo_2",
+        "thm_1",
+        "thm_2"
+      ]
+    },
+    {
+      "id": "thm_5",
+      "type": "theorem",
+      "name": "Theorem 5",
+      "statement": "Theorem 5 The iterates given by method (21) converge weakly to a solution of the saddle point problem (19) if\n\n$$\n0 <   \\tau <   2 / L _ {Q}, \\quad 0 <   \\sigma <   2 / L _ {P}, \\quad \\| K \\| ^ {2} <   (\\frac {1}{\\tau} - \\frac {L _ {Q}}{2}) (\\frac {1}{\\sigma} - \\frac {L _ {P}}{2}), \\tag {22}\n$$\n\nand if \\alpha_{k}\\in [0,\\alpha ] with \\alpha < 1 and the iterates (x^{k},y^{k}) fulfill\n\n$$\n\\sum_ {k = 1} ^ {\\infty} \\alpha_ {k} \\| (x ^ {k}, y ^ {k}) - (x ^ {k - 1}, y ^ {k - 1}) \\| _ {M} ^ {2} <   \\infty . \\tag {23}\n$$\n\nFurthermore, condition (23) is fulfilled, if \\{\\alpha_k\\} is nondecreasing and there exists \\varepsilon > 0 such for all \\alpha_k\n\n$$\n\\left(\\frac {1 - 3 \\alpha_ {k} - \\varepsilon}{\\tau} - \\frac {(1 - \\alpha_ {k}) ^ {2}}{2} L _ {Q}\\right) \\left(\\frac {1 - 3 \\alpha_ {k} - \\varepsilon}{\\sigma} - \\frac {(1 - \\alpha_ {k}) ^ {2}}{2} L _ {P}\\right) \\geq (1 - 3 \\alpha_ {k} - \\varepsilon) ^ {2} \\| K \\| ^ {2}. \\tag {24}\n$$",
+      "proof": "Proof Since Q and P^{*} are convex with Lipschitz-continuous gradients with Lipschitz constants L_{Q} and L_{P}, respectively, it follows from the Baillon-Haddad Theorem ([3, Corollary 18.16]) that that \\nabla Q and \\nabla P^{*} are co-coercive w.r.t. L_{Q}^{-1} and L_{P}^{-1}, respectively. Hence, for x, \\xi \\in X and y, \\zeta \\in Y it holds that\n\n$$\n\\langle B (x, y) - B (\\xi , \\zeta), (x, y) - (\\xi , \\zeta) \\rangle_ {X \\times Y} \\geq L _ {Q} ^ {- 1} \\| \\nabla Q (x) - \\nabla Q (\\xi) \\| _ {X} ^ {2} + L _ {P} ^ {- 1} \\| \\nabla P ^ {*} (y) - \\nabla P ^ {*} (\\zeta) \\| _ {Y} ^ {2}.\n$$\n\nThus B is co-coercive w.r.t. the mapping L^{-1} = [L_Q^{-1}Id, 0; 0, L_P^{-1}Id]. It is easy to check that S = M - L/2 is positive definite if (22) is fulfilled and (23) follows from Theorem 1. Applying condition (17) to (21) gives the stated condition (24).",
+      "depends_on": [
+        "thm_1",
+        "thm_2",
+        "def_2",
+        "def_3",
+        "def_4",
+        "algo_3",
+        "ext_def_1",
+        "ext_thm_1"
+      ]
+    },
+    {
+      "id": "lem_1",
+      "type": "lemma",
+      "name": "Lemma 6",
+      "statement": "Lemma 6 Choose \\gamma, \\delta \\in (0,2) and r > 0 and set\n\n$$\n\\tau = \\frac {1}{\\| K \\| r + L _ {Q} / \\gamma} \\text {and} \\sigma = \\frac {1}{\\| K \\| / r + L _ {P} / \\delta},\n$$\n\nFurthermore, let \\{\\alpha_k\\} be a non-decreasing sequence satisfying 0 \\leq \\alpha_k \\leq \\alpha(\\gamma, \\delta), where\n\n$$\n\\alpha (\\gamma , \\delta) = 1 + \\frac {\\sqrt {9 - 4 \\max (\\gamma , \\delta) - 2 \\varepsilon \\max (\\gamma , \\delta)} - 3}{\\max (\\gamma , \\delta)}, \\tag {25}\n$$\n\nand \\varepsilon \\in (0, (9 - 4\\max (\\gamma, \\delta)) / (2\\max (\\gamma, \\delta))). Then, the conditions (22) and (24) of Theorem 5 hold, i.e. algorithm (21) converges weakly to a solution of the saddle-point problem (19).",
+      "proof": "Proof It can be easily checked that the conditions (22) hold. Indeed, one has \\tau < 2/L_{Q}, \\sigma < 2/L_{P} and also\n\n$$\n\\left(\\frac {1}{\\tau} - \\frac {L _ {Q}}{2}\\right) \\left(\\frac {1}{\\sigma} - \\frac {L _ {P}}{2}\\right) = \\| K \\| ^ {2} + \\| K \\| \\left(\\frac {r L _ {P} (2 - \\delta)}{2 \\delta} + \\frac {L _ {Q} (2 - \\gamma)}{2 \\gamma r}\\right) + L _ {Q} L _ {P} \\frac {(2 - \\gamma) (2 - \\delta)}{4 \\gamma \\delta} \\geq \\| K \\| ^ {2}. \\tag {26}\n$$\n\nObserve that for any r > 0 assertion (24) holds in particular if the two displayed inequalities in the source following (26) hold. Where \\gamma = \\frac{\\tau L_Q}{1-\\tau\\|K\\|r} and \\delta = \\frac{\\sigma L_P}{1-\\sigma\\|K\\|/r}, these inequalities are fulfilled if (1-3\\alpha_k-\\varepsilon)-((1-\\alpha_k)^2/2)\\max(\\gamma,\\delta) \\geq 0, from which the upper bound \\alpha(\\gamma,\\delta) follows.",
+      "depends_on": [
+        "thm_5",
+        "algo_3"
+      ]
+    },
+    {
+      "id": "thm_9",
+      "type": "theorem",
+      "name": "Theorem 9",
+      "statement": "Theorem 9 In the setting of Theorem 5 let furthermore \\nabla Q and \\nabla P^{*} be co-coercive w.r.t. the two bound, linear, symmetric and positive linear maps D^{-1} and E^{-1}, respectively. If it holds that\n\n$$\n\\Sigma^ {- 1} - \\frac {1}{2} E > 0, \\tag {31}\n$$\n\n$$\nT ^ {- 1} - \\frac {1}{2} D > 0, \\tag {32}\n$$\n\n$$\n\\| (\\Sigma^ {- 1} - \\frac {1}{2} E) ^ {- \\frac {1}{2}} K (T ^ {- 1} - \\frac {1}{2} D) ^ {- \\frac {1}{2}} \\| <   1, \\tag {33}\n$$\n\nand that \\alpha_{k} is a nondecreasnig sequence in [0, \\alpha] with \\alpha < 1, and the iterates (x^{k}, y^{k}) of (30) fulfill \\sum_{k=1}^{\\infty}\\alpha_k\\|(x^k,y^k)-(x^{k-1},y^{k-1})\\|_M^2<\\infty then (x^{k},y^{k}) converges weakly to a saddle point of (19). Furthermore, convergence is assured if there exists an \\varepsilon >0 such that for all \\alpha_{k} the three inequalities displayed in (34) hold.",
+      "proof": "Proof We start by setting C = [D,0;0,E]. By Theorem 1 we only need to check if S = M - C/2 is positive. Obviously, the diagonal blocks of S are positive, by (31) and (32). Now we use Lemma 8 to see that (31), (32) and (33) imply that S is positive definite. For the second claim, we employ Theorem 2 and only need to show that R = (1 - 3\\alpha_k)M - ((1 - \\alpha_k)^2/2)C \\geq \\epsilon M. Again using Lemma 8 we obtain that (34) ensures this. \\square",
+      "depends_on": [
+        "thm_1",
+        "thm_5",
+        "def_2",
+        "def_3",
+        "def_5",
+        "algo_4",
+        "lem_2",
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "lem_3",
+      "type": "lemma",
+      "name": "Lemma 10",
+      "statement": "Lemma 10 Assume that \\nabla Q and \\nabla P^{*} are co-coercive with respect to diagonal matrices D^{-1} and E^{-1}, where D = \\mathrm{diag}(d_1, \\ldots, d_n) and E = \\mathrm{diag}(e_1, \\ldots, e_n). Fix \\gamma, \\delta \\in (0, 2), r > 0, s \\in [0, 2] and let T = \\mathrm{diag}(\\tau_1, \\ldots, \\tau_n) and \\Sigma = \\mathrm{diag}(\\sigma_1, \\ldots, \\sigma_m) with\n\n$$\n\\tau_ {j} = \\frac {1}{\\frac {d _ {j}}{\\gamma} + r \\sum_ {i = 1} ^ {m} | K _ {i , j} | ^ {2 - s}}, \\quad \\sigma_ {i} = \\frac {1}{\\frac {e _ {i}}{\\delta} + \\frac {1}{r} \\sum_ {j = 1} ^ {n} | K _ {i , j} | ^ {s}} \\tag {35}\n$$\n\nthen it holds that\n\n$$\n\\Sigma^ {- 1} - \\frac {1}{2} E > 0, \\quad T ^ {- 1} - \\frac {1}{2} D > 0, \\tag {36}\n$$\n\n$$\n\\| (\\Sigma^ {- 1} - \\frac {1}{2} E) ^ {- \\frac {1}{2}} K (T ^ {- 1} - \\frac {1}{2} D) ^ {- \\frac {1}{2}} \\| \\leq 1. \\tag {37}\n$$\n\nFurthermore, Eq. (34) is fulfilled if (25) is fulfilled.",
+      "proof": "Proof The first two conditions follow from the fact that for diagonal matrices, the (36) can be written pointwise. By the definition of \\tau_{j}, and \\sigma_{i} it follows that for any s\\in[0,2] and using the convention that 0^0 = 0, the two displayed pointwise inequalities in the source hold. For the third condition, Cauchy-Schwarz gives the estimate (38). By definition of \\sigma_i and \\tau_j, and introducing r > 0, this simplifies through (39) to \\|x\\|^2; taking the supremum in the operator-norm definition gives (40), hence (37). If (25) is fulfilled, the displayed inequalities following (40), together with the definitions in (35), allow the same arguments as in (38) and (39) to derive (34). \\u25a1",
+      "depends_on": [
+        "thm_9",
+        "algo_4",
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "rem_3",
+      "type": "remark",
+      "name": "Remark 7",
+      "statement": "Remark 7 From equation (26), we can see that in case L_{P} or L_{Q} is zero (and fixed \\gamma respectively \\delta), it might be favorable to choose larger respectively smaller values of r, since it leads to a smaller product of the terms on the left hand side of (26) and hence to larger product of primal and dual step sizes.",
+      "proof": null,
+      "depends_on": [
+        "lem_1"
+      ]
+    }
+  ]
+}

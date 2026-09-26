@@ -1,0 +1,347 @@
+{
+  "metadata": {
+    "title": "Dynamical systems and forward-backward algorithms associated with the sum of a convex subdifferential and a monotone cocoercive operator",
+    "authors": [
+      "Boushra Abbas",
+      "Hédy Attouch"
+    ],
+    "year": 2015,
+    "source_type": "markdown",
+    "doi": "10.1080/02331934.2013.811668"
+  },
+  "items": [
+    {
+      "id": "algo_1",
+      "type": "algorithm",
+      "name": "(BF)",
+      "statement": "The above system is regular with respect to the new variable y. Its explicit discretization gives (with a constant step size h > 0) the following backward-forward algorithm: $(x_{k}, y_{k}) \\rightarrow (x_{k}, y_{k+1}) \\rightarrow (x_{k+1}, y_{k+1})$,\n\n$$\n\\text {(BF)} \\left\\{ \\begin{aligned} x _ {k} &= \\mathrm{prox} _ {\\mu \\Phi} (y _ {k}), \\\\ y _ {k + 1} &= (1 - h) y _ {k} + h (x _ {k} - \\mu B (x _ {k})). \\end{aligned} \\right.\n$$",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "thm_1",
+      "type": "theorem",
+      "name": "THEOREM 2.1",
+      "statement": "Let $\\lambda > 0$ be a positive constant. Suppose that $\\partial\\Phi$ is the subdifferential of a convex lower semicontinuous proper function $\\Phi: \\mathcal{H} \\to \\mathbb{R} \\cup \\{+\\infty\\}$, and that $B: \\mathcal{H} \\to \\mathcal{H}$ is a cocoercive operator on $\\mathcal{H}$. Let $(x_0, v_0) \\in \\mathcal{H} \\times \\mathcal{H}$ be such that $v_0 \\in \\partial\\Phi(x_0)$.\n\nThen, there exists a unique strong global solution $(x(\\cdot),\\upsilon (\\cdot)):[0, + \\infty [ \\to \\mathcal{H}\\times \\mathcal{H}$ of the Cauchy problem\n\n$$\nv (t) \\in \\partial \\Phi (x (t)); \\tag {8}\n$$\n\n$$\n\\lambda \\dot {x} (t) + \\dot {\\upsilon} (t) + \\upsilon (t) + B (x (t)) = 0; \\tag {9}\n$$\n\n$$\nx (0) = x _ {0}, \\upsilon (0) = \\upsilon_ {0}. \\tag {10}\n$$",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "def_1",
+      "type": "definition",
+      "name": "Definition 2.2",
+      "statement": "We say that the pair $(x(\\cdot),\\upsilon (\\cdot))$ is a strong global solution of (8)-(10) iff the following properties are satisfied:\n\n(i) $x(\\cdot), \\upsilon(\\cdot): [0, +\\infty[\\rightarrow \\mathcal{H}$ are absolutely continuous on each interval $[0, b]$, $0 < b < +\\infty$ ;\n(ii) $v(t)\\in \\partial \\Phi (x(t))$ for all $t\\in [0, + \\infty [;$\n(iii) $\\lambda \\dot{x}(t) + \\dot{v}(t) + v(t) + B(x(t)) = 0$ for almost all $t\\in [0, + \\infty [;$\n(iv) $x(0) = x_{0}, \\upsilon(0) = \\upsilon_{0}.$",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "rem_1",
+      "type": "remark",
+      "name": "Remark 2.3",
+      "statement": "For sake of simplicity, we have taken the regularization parameters $\\lambda$ and $\\mu$ constant. Indeed, the conclusion of Theorem 2.1 still holds true, just assuming that $\\lambda : [0, +\\infty[ \\to]0, +\\infty[$ is absolutely continuous on each bounded interval $[0, b]$, $0 < b < +\\infty$ (indeed, it is enough assuming that $\\lambda$ is locally of bounded variation). Taking $\\lambda$ varying and asymptotically vanishing provides a dynamic which is asymptotically close the Newton dynamic associated to $\\Phi$, see [5,6,11]. This is an important issue for fast converging methods, a subject for further studies.",
+      "proof": null,
+      "depends_on": [
+        "thm_1"
+      ]
+    },
+    {
+      "id": "lem_1",
+      "type": "lemma",
+      "name": "LEMMA 2.4",
+      "statement": "Let $B: \\mathcal{H} \\to \\mathcal{H}$ be a $\\beta$-cocoercive operator. Then, $B$ is $\\frac{1}{\\beta}$-Lipschitz continuous.",
+      "proof": "Let $x, y \\in \\mathcal{H}$. Since $B$ is $\\beta$ -cocoercive, by Cauchy-Schwarz inequality, we have\n\n$$\n\\begin{aligned} \\beta \\left\\| B x - B y \\right\\| ^ {2} &\\leq \\langle B x - B y, x - y \\rangle \\\\ &\\leq \\| B x - B y \\| \\| x - y \\|. \\\\ \\end{aligned}\n$$\n\nHence,\n\n$$\n\\| B x - B y \\| \\leq \\frac {1}{\\beta} \\| x - y \\|,\n$$\n\nwhich expresses that $B$ is $\\frac{1}{\\beta}$-Lipschitz continuous.",
+      "depends_on": []
+    },
+    {
+      "id": "lem_2",
+      "type": "lemma",
+      "name": "LEMMA 2.5 [13, Corollaire 10]",
+      "statement": "Let $\\Psi : \\mathcal{H} \\to \\mathbb{R}$ be a differentiable convex function and let $\\tau > 0$. Suppose that $\\nabla\\Psi$ is $\\tau$ -Lipschitz continuous. Then $\\nabla\\Psi$ is $\\tau^{-1}$ -cocoercive.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "lem_3",
+      "type": "lemma",
+      "name": "LEMMA 2.6 [14, Lemma 2.3]",
+      "statement": "Let $B: \\mathcal{H} \\to \\mathcal{H}$ be a $\\beta$ -cocoercive operator, and let $\\mu \\in ]0, 2\\beta[$. Then $Id - \\mu B$ is nonexpansive.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "lem_4",
+      "type": "lemma",
+      "name": "LEMMA 2.7",
+      "statement": "Let B be a maximal monotone operator which is cocoercive, and let $\\partial\\Phi$ be the subdifferential of a convex lower semicontinuous proper function $\\Phi: \\mathcal{H} \\to R \\cup \\{+\\inft $S = \\{z \\in H; \\partial\\Phi(z) + Bz \\ni 0\\}$ be the solution set of (1). Then Bz is a constant vector, as z varies over S.",
+      "proof": "Let $z_{1}$ and $z_{2}$ be two elements of $S$. Hence, $-Bz_{1} \\in \\partial \\Phi(z_{1})$ and $-Bz_{2} \\in \\partial \\Phi(z_{2})$. By the monotonicity property of $\\partial \\Phi$\n\n$$\n\\langle - B z _ {1} + B z _ {2}, z _ {1} - z _ {2} \\rangle \\geq 0.\n$$\n\nEquivalently\n\n$$\n0 \\geq \\left\\langle B z _ {1} - B z _ {2}, z _ {1} - z _ {2} \\right\\rangle .\n$$\n\nCombining this inequality with the cocoercive property of B,\n\n$$\n\\langle B z _ {1} - B z _ {2}, z _ {1} - z _ {2} \\rangle \\geq \\beta \\| B z _ {1} - B z _ {2} \\| ^ {2},\n$$\n\nwe obtain $0 \\geq \\beta \\| Bz_1 - Bz_2\\|^2$, that is $Bz_1 = Bz_2$.",
+      "depends_on": []
+    },
+    {
+      "id": "rem_2",
+      "type": "remark",
+      "name": "Bregman distance remark",
+      "statement": "Note that $\\Gamma_{z}(t)$ is a Bregman distance between $x(t)$ and z. It is associated with the convex function $x \\mapsto \\frac{1}{2} \\|x\\|^{2} + \\mu \\Phi(x)$. In our nonsmooth setting, it combines the metric of H with the metric associated to the ‘Hessian’ of $\\Phi$. Our proof of the convergence is based on Lyapunov analysis, and the fact that $t \\mapsto \\Gamma_{z}(t)$ is a decreasing function.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "thm_2",
+      "type": "theorem",
+      "name": "Theorem 2.8",
+      "statement": "Suppose $S \\neq \\emptyset$. Then for all $x(\\cdot)$ orbit of the system (8) and (9), the following convergence properties are satisfied, when $t$ tends to infinity:\n\n(1) $\\lim_{t\\to +\\infty}\\| v(t) + B(x(t))\\| = 0;$\n\n(2) $B(x(\\cdot))$ converges strongly to $Bz$, where $Bz$ is uniquely defined for $z \\in S$.\n\n(3) $\\upsilon(\\cdot)$ converges strongly to $-Bz$, where $Bz$ is uniquely defined for $z \\in S$.\n\n(4) $x(\\cdot)$ converges weakly to an element of S.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "lem_5",
+      "type": "lemma",
+      "name": "Lemma 2.9",
+      "statement": "Suppose that the assumptions (i)-(iii) are satisfied:\n\n(i) $v(t)\\in \\partial \\Phi (x(t))$ for almost every $t\\in [0,b]$;\n\n(ii) $v$ belongs to $L^2 (0,b;\\mathcal{H})$;\n\n(iii) $\\dot{x}\\in L^{2}(0,b;\\mathcal{H})$.\n\nThen, $t \\mapsto \\Phi(x(t))$ is absolutely continuous on $[0, b]$, and, for almost every $t \\in [0, b]$,\n\n$$\n\\frac {d}{d t} \\Phi (x (t)) = \\langle v (t), \\dot {x} (t) \\rangle . \\tag {14}\n$$",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "lem_6",
+      "type": "lemma",
+      "name": "Lemma 2.10",
+      "statement": "Let $S$ be a nonempty subset of $\\mathcal{H}$ and $x:[0, + \\infty [\\rightarrow \\mathcal{H}$ a map. Assume that\n\n(i) for every $z \\in S$, $\\lim_{t \\to +\\infty} \\|x(t) - z\\|$ exists;\n\n(ii) every weak sequential cluster point of the map $x$ belongs to $S$.\n\nThen\n\n$$\nw - \\lim _ {t \\to + \\infty} x (t) = x _ {\\infty} \\text {exists, for some element} x _ {\\infty} \\in S.\n$$",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "lem_7",
+      "type": "lemma",
+      "name": "Lemma 2.11",
+      "statement": "Suppose that $1 \\leq p < \\infty$, $1 \\leq r \\leq \\infty$, $F \\in L^{p}([0, \\infty[)$ is a locally absolutely continuous nonnegative function, $G \\in L^{r}([0, \\infty[)$ and for almost all $t$\n\n$$\n\\frac {d}{d t} F (t) \\leq G (t). \\tag {15}\n$$\n\nThen $\\lim_{t\\to \\infty}F(t) = 0$.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "lem_8",
+      "type": "lemma",
+      "name": "Lemma 2.13",
+      "statement": "For any $t \\geq 0$ and $z \\in S$\n\n$$\ng _ {z} (t) \\geq 0\n$$\n\nand for almost all $t \\geq 0$\n\n$$\n\\frac {d}{d t} g _ {z} (t) = \\langle x (t) - z, \\dot {\\upsilon} (t) \\rangle .\n$$",
+      "proof": "The first inequality $g_{z}(t) \\geq 0$ follows from the subdifferential inequality for $\\Phi$ at $x(t)$, and $\\upsilon(t) \\in \\partial \\Phi(x(t))$. By the derivation chain rule in the nonsmooth convex case, see Lemma 2.9, and $\\upsilon(t) \\in \\partial \\Phi(x(t))$, we have $\\frac{d}{dt}\\Phi(x(t)) = \\langle \\upsilon(t), \\dot{x}(t) \\rangle$. Hence,\n\n$$\n\\begin{aligned} \\frac {d}{d t} g _ {z} (t) &= - \\frac {d}{d t} \\Phi (x (t)) + \\langle \\dot {x} (t), v (t) \\rangle + \\langle x (t) - z, \\dot {v} (t) \\rangle \\\\ &= - \\left\\langle \\dot {x} (t), \\upsilon (t) \\right\\rangle + \\left\\langle \\dot {x} (t), \\upsilon (t) \\right\\rangle + \\left\\langle x (t) - z, \\dot {\\upsilon} (t) \\right\\rangle \\\\ &= \\left\\langle x (t) - z, \\dot {v} (t) \\right\\rangle . \\\\ \\end{aligned}\n$$",
+      "depends_on": [
+        "lem_5"
+      ]
+    },
+    {
+      "id": "lem_9",
+      "type": "lemma",
+      "name": "Lemma 2.14",
+      "statement": "For almost every $t > 0$ the following property holds:\n\n$$\n\\langle \\dot {x} (t), \\dot {v} (t) \\rangle \\geq 0. \\tag {16}\n$$",
+      "proof": "For almost every $t > 0$, $\\dot{x}(t)$ and $\\dot{v}(t)$ are well defined, thus\n\n$$\n\\langle \\dot {x} (t), \\dot {v} (t) \\rangle = \\lim _ {h \\to 0} \\frac {1}{h ^ {2}} \\left\\langle x (t + h) - x (t), v (t + h) - v (t) \\right\\rangle .\n$$\n\nBy Equation (8), we have $v(t) \\in \\partial \\Phi(x(t))$. Since $\\partial \\Phi : \\mathcal{H} \\to 2^{\\mathcal{H}}$ is monotone\n\n$$\n\\langle x (t + h) - x (t), v (t + h) - v (t) \\rangle \\geq 0.\n$$\n\nDividing by $h^{2}$, and passing to the limit preserves the inequality, which yields (16).",
+      "depends_on": []
+    },
+    {
+      "id": "prop_1",
+      "type": "proposition",
+      "name": "Proposition 2.12",
+      "statement": "Suppose that $S \\neq \\emptyset$. Then, for any $z \\in S$, $\\Gamma_z$ is a decreasing nonnegative function, and hence $\\lim_{t \\to +\\infty} \\Gamma_z(t)$ exists. Moreover,\n\n(1) $\\|B(x)-Bz\\|\\in L^{2}([0,+\\infty[);$\n\n(2) $x$ is bounded;\n\n(3) $\\|\\dot{x}\\|\\in L^{2}([0,+\\infty[);$\n\n(4) $\\|\\dot{\\upsilon} + \\upsilon + Bz\\| \\in L^{2}([0, +\\infty[);$\n\n(5) $\\| \\dot{\\upsilon}\\| \\in L^2 ([0, + \\infty [);$\n\n(6) $\\| v\\| \\in L^{\\infty}$ ([0, +∞]).\n\n(7) $\\lim_{t\\to +\\infty}(\\Phi (x(t)) + \\langle x(t),Bz\\rangle)$ exists.",
+      "proof": "By definition of $\\Gamma_z$, and Lemma 2.13\n\n$$\n\\begin{aligned} \\frac {d}{d t} \\Gamma_ {z} (t) &= \\langle \\dot {x} (t), x (t) - z \\rangle + \\mu \\langle \\dot {\\upsilon} (t), x (t) - z \\rangle \\\\ &= \\langle x (t) - z, \\dot {x} (t) + \\mu \\dot {\\upsilon} (t) \\rangle . \\tag {17} \\\\ \\end{aligned}\n$$\n\nFrom (12) and (17) we deduce that\n\n$$\n\\frac {d}{d t} \\Gamma_ {z} (t) + \\mu \\left\\langle x (t) - z, v (t) + B (x (t)) \\right\\rangle = 0. \\tag {18}\n$$\n\nSince $z \\in S$, we have $\\partial \\Phi(z) + Bz \\ni 0$. Equivalently, there exists some $\\xi \\in \\partial \\Phi(z)$ such that $\\xi + Bz = 0$. By monotonicity of $\\partial \\Phi$, and $v(t) \\in \\partial \\Phi(x(t))$ we have\n\n$$\n\\langle x (t) - z, \\upsilon (t) - \\xi \\rangle \\geq 0. \\tag {19}\n$$\n\nLet us rewrite (18) as\n\n$$\n\\frac {d}{d t} \\Gamma_ {z} (t) + \\mu \\langle x (t) - z, \\upsilon (t) - \\xi \\rangle + \\mu \\langle x (t) - z, \\xi + B (x (t)) \\rangle = 0,\n$$\n\nwhich, from (19), gives\n\n$$\n\\frac {d}{d t} \\Gamma_ {z} (t) + \\mu \\left\\langle x (t) - z, \\xi + B (x (t)) \\right\\rangle \\leq 0.\n$$\n\nFrom $\\xi + Bz = 0$, we deduce that\n\n$$\n\\frac {d}{d t} \\Gamma_ {z} (t) + \\mu \\langle x (t) - z, B (x (t)) - B z \\rangle \\leq 0.\n$$\n\nBy the cocoercive property of $B$, we infer\n\n$$\n\\frac {d}{d t} \\Gamma_ {z} (t) + \\mu \\beta \\| B (x (t)) - B z \\| ^ {2} \\leq 0. \\tag {20}\n$$\n\nFrom (20), we readily obtain that $\\Gamma_z$ is a decreasing function. Being nonnegative, it converges to a finite value. By integration of the above inequality, and using that $\\Gamma_z$ is nonnegative, we obtain\n\n$$\n\\int_ {0} ^ {\\infty} \\| B (x (t)) - B z \\| ^ {2} d t <   + \\infty ,\n$$\n\nthat's item 1. Since $g_{z}$ is nonnegative, and $\\Gamma_{z}$ is bounded from above, we deduce from the definition of $\\Gamma_{z}$ that $\\| x(t) - z\\|^2$ is bounded, which implies that the orbit $x$ is bounded, that's item 2.\n\nTo prove item 3, we return to (20), and combine it with (9), $\\lambda \\dot{x}(t) + \\dot{v}(t) + v(t) + B(x(t)) = 0$, to obtain\n\n$$\n\\frac {d}{d t} \\Gamma_ {z} (t) + \\mu \\beta \\| \\lambda \\dot {x} (t) + \\dot {v} (t) + v (t) + B z \\| ^ {2} \\leq 0.\n$$\n\nAfter developing, we obtain\n\n$$\n\\begin{aligned} \\frac {d}{d t} \\Gamma_ {z} (t) + \\mu \\beta \\lambda^ {2} \\| \\dot {x} (t) \\| ^ {2} + \\mu \\beta \\| \\dot {v} (t) + v (t) + B z \\| ^ {2} \\\\ + 2 \\mu \\beta \\lambda \\left\\langle \\dot {x} (t), \\dot {\\upsilon} (t) + \\upsilon (t) + B z \\right\\rangle &\\leq 0. \\tag {21} \\\\ \\end{aligned}\n$$\n\nBy examining the last term of the left member, we have\n\n$\\langle \\dot{x} (t),\\dot{\\upsilon} (t)\\rangle \\geq 0$ by Lemma 2.14.\n\n$\\langle \\dot{x} (t),\\upsilon (t)\\rangle = \\frac{d}{dt}\\Phi (x(t))$ by Lemma 2.9.\n\n$\\langle \\dot{x}(t),Bz\\rangle = \\frac{d}{dt}\\langle x(t),Bz\\rangle .$\n\nCombining (21), $\\mu \\lambda = 1$, and the above formulas we obtain\n\n$$\n\\frac {d}{d t} \\left[ \\Gamma_ {z} (t) + 2 \\beta (\\Phi (x (t)) + \\langle x (t), B z \\rangle) \\right] + \\beta \\lambda \\| \\dot {x} (t) \\| ^ {2} + \\mu \\beta \\| \\dot {v} (t) + v (t) + B z \\| ^ {2} \\leq 0. \\tag {22}\n$$\n\nFrom this, we directly obtain that\n\n$$\nG _ {z} (t) := \\Gamma_ {z} (t) + 2 \\beta [ \\Phi (x (t)) + \\langle x (t), B z \\rangle ]\n$$\n\nis a decreasing function. Since the orbit x is bounded, it follows that $G_{z}$ is bounded from below (use that $\\Gamma_{z}$ is nonnegative, and $\\Phi$ admits a continuous affine minorant). Hence, $\\lim_{t\\to+\\infty}G_{z}(t)$ exists. Since $\\lim_{t\\to+\\infty}\\Gamma_{z}(t)$ also exists, we infer\n\n$$\n\\lim _ {t \\to + \\infty} (\\Phi (x (t)) + \\langle x (t), B z \\rangle) \\text {exists.}\n$$\n\nBy integration of (22), and using that $G_{z}$ is bounded from below, we obtain\n\n$$\n\\int_ {0} ^ {+ \\infty} \\| \\dot {x} (t) \\| ^ {2} d t <   + \\infty \\tag {23}\n$$\n\n$$\n\\int_ {0} ^ {+ \\infty} \\| \\dot {\\upsilon} (t) + \\upsilon (t) + B z \\| ^ {2} d t <   + \\infty . \\tag {24}\n$$\n\nLet us now establish estimations on $\\dot{\\upsilon}$. Let us start from (24), and develop it. Equivalently, there exists some positive constant $M$ such that for any $0 < T < \\infty$\n\n$$\n\\int_ {0} ^ {T} \\left(\\| \\dot {\\upsilon} (t) \\| ^ {2} + \\| \\upsilon (t) + B z \\| ^ {2} + 2 \\langle \\dot {\\upsilon} (t), \\upsilon (t) + B z \\rangle\\right) d t \\leq M.\n$$\n\nFrom\n\n$$\n2 \\left\\langle \\dot {v} (t), v (t) + B z \\right\\rangle = 2 \\left\\langle \\dot {v} (t), v (t) \\right\\rangle + 2 \\left\\langle \\dot {v} (t), B z \\right\\rangle = \\frac {d}{d t} \\left(\\| v (t) \\| ^ {2} + 2 \\left\\langle v (t), B z \\right\\rangle\\right)\n$$\n\nwe deduce that\n\n$$\n\\int_ {0} ^ {T} \\| \\dot {\\upsilon} (t) \\| ^ {2} d t + \\| \\upsilon (T) \\| ^ {2} + 2 \\langle \\upsilon (T), B z \\rangle \\leq \\| \\upsilon_ {0} \\| ^ {2} + 2 \\langle \\upsilon_ {0}, B z \\rangle + M.\n$$\n\nThis being valid for any $0 < T < \\infty$, we immediately obtain\n\n$$\n\\int_ {0} ^ {+ \\infty} \\| \\dot {\\upsilon} (t) \\| ^ {2} d t <   + \\infty\n$$\n\nand\n\n$$\n\\| v \\| \\in L ^ {\\infty} ([ 0, + \\infty [),\n$$\n\nwhich completes the proof of Proposition 2.12.",
+      "depends_on": [
+        "lem_8",
+        "lem_9",
+        "lem_5"
+      ]
+    },
+    {
+      "id": "def_2",
+      "type": "definition",
+      "name": "The functions \\(\\Gamma_z\\) and \\(g_z\\)",
+      "statement": "\\[\\Gamma_ {z} (t) := \\frac {1}{2} \\| x (t) - z \\| ^ {2} + \\mu g _ {z} (t)\\]\n\\[g_{z}(t):=\\Phi(z)-[\\Phi(x(t))+\\langle z-x(t),\\upsilon(t)\\rangle].\\]",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "prop_2",
+      "type": "proposition",
+      "name": "Proposition 2.15",
+      "statement": "Suppose that \\(S \\neq \\emptyset\\). Then, for any \\(z \\in S\\),\n\\[\n\\Phi (z) - \\Phi (x (t)) - \\langle v (t), z - x (t) \\rangle \\longrightarrow 0 \\quad a s t \\rightarrow + \\infty .\n\\]",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "prop_3",
+      "type": "proposition",
+      "name": "Proposition 2.16",
+      "statement": "Suppose that \\(S \\neq \\emptyset\\). Then, for any \\(z \\in S\\),\n\\[\n\\int_ {0} ^ {+ \\infty} \\Phi (x (t)) - \\Phi (z) + \\langle B z, x (t) - z \\rangle d t <   + \\infty ,\n\\]\nand\n\\[\n\\Phi (x (t)) - \\Phi (z) + \\langle B z, x (t) - z \\rangle \\longrightarrow 0 \\quad a s t \\rightarrow + \\infty ,\n\\]\nwhere \\(Bz\\) is the element which is uniquely defined for \\(z \\in S\\). In particular (take \\(z = x_{\\infty}\\) ),\n\\[\n\\Phi (x (t)) \\rightarrow \\Phi (x _ {\\infty}) \\quad a s t \\rightarrow + \\infty ,\n\\]\nwhere \\(x_{\\infty}\\in S\\) is the weak limit of the trajectory \\(t\\mapsto x(t)\\).",
+      "proof": "Let us return to (18)\n\\[\n\\frac {d}{d t} \\Gamma_ {z} (t) + \\mu \\langle x (t) - z, v (t) \\rangle + \\mu \\langle x (t) - z, B (x (t)) \\rangle = 0.\n\\]\n\nBy \\(\\upsilon(t) \\in \\partial \\Phi(x(t))\\), we have the subdifferential inequality\n\\[\n\\Phi (z) \\geq \\Phi (x (t)) + \\langle z - x (t), v (t) \\rangle .\n\\]\n\nCombining the above two relations yields\n\\[\n\\frac {d}{d t} \\Gamma_ {z} (t) + \\mu [ \\Phi (x (t)) - \\Phi (z) ] + \\mu \\langle B (x (t)) - B z, x (t) - z \\rangle + \\mu \\langle B z, x (t) - z \\rangle \\leq 0.\n\\]\n\nSince \\(B\\) is \\(\\beta\\) -cocoercive, we have \\(\\langle B(x(t)) - Bz, x(t) - z \\rangle \\geq \\beta \\| B(x(t)) - Bz\\|^2\\). Hence,\n\\[\n\\frac {d}{d t} \\Gamma_ {z} (t) + \\mu [ \\Phi (x (t)) - \\Phi (z) ] + \\mu \\beta \\| B (x (t)) - B z \\| ^ {2} + \\mu \\langle B z, x (t) - z \\rangle \\leq 0.\n\\]\n\nAs a consequence\n\\[\n\\frac {d}{d t} \\Gamma_ {z} (t) + \\mu [ \\Phi (x (t)) - \\Phi (z) + \\langle B z, x (t) - z \\rangle ] \\leq 0. \\tag {33}\n\\]\n\nSince \\(-Bz \\in \\partial\\Phi(z)\\) we have \\(\\Phi(x(t)) - \\Phi(z) + \\langle Bz, x(t) - z \\rangle \\geq 0\\). By integration of (33), and \\(\\Gamma_z\\) minorized, we obtain\n\\[\n\\int_ {0} ^ {+ \\infty} \\Phi (x (t)) - \\Phi (z) + \\langle B z, x (t) - z \\rangle d t <   + \\infty . \\tag {34}\n\\]\n\nLet us apply Lemma 2.11 with \\(F_{2}(t) = \\Phi(x(t)) - \\Phi(z) + \\langle Bz, x(t) - z\\rangle\\). By (34), and \\(F_{2}\\) nonnegative, we have \\(F_{2} \\in L^{1}([0, +\\infty[)\\). Moreover, by using the derivation chain rule in the nonsmooth convex case, see Lemma 2.9, and \\(\\upsilon(t) \\in \\partial \\Phi(x(t))\\), we have \\(\\frac{d}{dt}\\Phi(x(t)) = \\langle \\upsilon(t), \\dot{x}(t)\\rangle\\). Hence,\n\\[\n\\frac {d}{d t} F _ {2} (t) = \\langle \\dot {x} (t), \\upsilon (t) + B z \\rangle , \\tag {35}\n\\]\nwhich by Cauchy-Schwarz inequality yields\n\\[\n\\left| \\frac {d}{d t} F _ {2} (t) \\right| \\leq \\| \\dot {x} (t) \\| \\left(\\| v (t) \\| + \\| B z \\|\\right). \\tag {36}\n\\]\n\nBy Proposition 2.12, item 3, \\(\\| \\dot{x} \\| \\in L^2([0, +\\infty[)\\). Moreover, by Proposition 2.12, item 5, \\(\\| v \\| \\in L^\\infty([0, +\\infty[)\\). Hence, by (36), we obtain \\(\\frac{d}{dt} F_2 \\in L^2([0, +\\infty[)\\). By Lemma 2.11, we deduce that \\(\\lim_{t \\to +\\infty} F_2(t) = 0\\), which is our claim.",
+      "depends_on": [
+        "lem_7",
+        "lem_5",
+        "prop_1"
+      ]
+    },
+    {
+      "id": "cor_1",
+      "type": "corollary",
+      "name": "Corollary 2.17",
+      "statement": "Let us suppose that \\(\\Phi\\) is strongly convex. \\(^{1}\\) Then the solution set \\(S\\) is reduced to a single element \\(\\bar{z}\\), and any orbit \\(x(\\cdot)\\) of system (8) and (9) converges strongly to \\(\\bar{z}\\), as \\(t \\to +\\infty\\).",
+      "proof": "Since \\(\\Phi\\) is strongly convex, its subdifferential \\(\\partial\\Phi\\) is strongly monotone, and so is the sum \\(A = \\partial\\Phi + B\\). Thus the solution set is reduced to a single element, let \\(\\bar{z}\\).\n\nMoreover, since \\(\\Phi\\) is strongly convex, and \\(-B(\\bar{z})\\in\\partial\\Phi(\\bar{z})\\), we have the subdifferential inequality\n\\[\n\\Phi (x (t)) - \\Phi (\\bar {z}) + \\langle B z, x (t) - \\bar {z} \\rangle \\geq \\gamma \\| x (t) - \\bar {z} \\| ^ {2}\n\\]\nfor some positive constant \\(\\gamma\\). By Proposition 2.16\n\\[\n\\Phi (x (t)) - \\Phi (\\bar {z}) + \\langle B \\bar {z}, x (t) - \\bar {z} \\rangle \\longrightarrow 0 \\quad \\text {as} t \\rightarrow + \\infty .\n\\]\n\nHence \\(\\lim \\| x(t) - \\bar{z}\\| = 0\\), which gives the claim.",
+      "depends_on": [
+        "prop_3"
+      ]
+    },
+    {
+      "id": "cor_2",
+      "type": "corollary",
+      "name": "Corollary 2.18",
+      "statement": "Suppose that \\(S \\neq \\emptyset\\). Let us suppose that \\(\\Phi\\) is boundedly inf-compact, i.e. the intersections of the sublevel sets of \\(\\Phi\\) with the closed balls of \\(\\mathcal{H}\\) are relatively compact sets. Then, any orbit \\(x(\\cdot)\\) of system (8) and (9) converges strongly as \\(t \\to +\\infty\\), and its limit belongs to \\(S\\).",
+      "proof": "We know that the orbit \\(x(\\cdot)\\) of system (8) and (9) converges weakly to some \\(\\bar{z} \\in S\\). As a consequence it is bounded. Moreover, by Proposition 2.16, \\(\\Phi(x(t)) \\to \\Phi(x_{\\infty})\\), and hence \\(x(\\cdot)\\) remains in a fixed sublevel set of \\(\\Phi\\). Since \\(\\Phi\\) is boundedly inf-compact, we obtain that the trajectory is relatively compact in H, and thus converges strongly. ☐",
+      "depends_on": [
+        "prop_3"
+      ]
+    },
+    {
+      "id": "rem_3",
+      "type": "remark",
+      "name": "Remark 2.19",
+      "statement": "By a similar argument, strong convergence of \\(x(\\cdot)\\) holds under the Kadek-Klee property: whenever \\((x_k)\\) converges weakly to \\(x\\), and \\((\\Phi(x_k))\\) converges to \\(\\Phi(x)\\), then \\((x_k)\\) converges strongly to \\(x\\).",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "algo_2",
+      "type": "algorithm",
+      "name": "Backward-forward algorithm (BF)",
+      "statement": "Explicit discretization of (38) with respect to the time variable \\(t\\), with constant step size \\(h > 0\\), gives\n\\[\n\\left\\{ \\begin{aligned} x _ {k} &= \\operatorname{prox} _ {\\mu \\Phi} (y _ {k}), \\\\ \\frac {y _ {k + 1} - y _ {k}}{h} + y _ {k} - \\operatorname{prox} _ {\\mu \\Phi} (y _ {k}) + \\mu B \\left(\\operatorname{prox} _ {\\mu \\Phi} (y _ {k})\\right) &= 0. \\end{aligned} \\right.\n\\]\n\nThe algorithm can be equivalently written as \\((x_{k}, y_{k}) \\rightarrow (x_{k}, y_{k+1}) \\rightarrow (x_{k+1}, y_{k+1})\\),\n\\[\n\\left\\{ \\begin{aligned} x _ {k} &= \\operatorname{prox} _ {\\mu \\Phi} (y _ {k}), \\\\ y _ {k + 1} &= (1 - h) y _ {k} + h \\left(x _ {k} - \\mu B \\left(x _ {k}\\right)\\right). \\end{aligned} \\right. \\tag {39}\n\\]\n\nWhen \\(h = 1\\) we recover the classical forward-backward algorithm\n\\[\nx _ {k + 1} = \\mathrm{prox} _ {\\mu \\Phi} \\Big (x _ {k} - \\mu B \\left(x _ {k}\\right) \\Big).\n\\]",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "def_3",
+      "type": "definition",
+      "name": "$\\alpha$-averaged operator",
+      "statement": "An operator $T : \\mathcal{H} \\to H$ is $\\alpha$ -averaged with constant $0 < \\alpha < 1$ , if there exists a nonexpansir $R : H \\to H$ such that $T = (1 - \\alpha)I + \\alpha R$ .",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "lem_10",
+      "type": "lemma",
+      "name": "Lemma 3.2",
+      "statement": "[3, Proposition 4.32] Let $T_i : \\mathcal{H} \\to \\mathcal{H}$ be a $\\alpha_i$ -averaged operator, $i = 1, 2$. Then $T := T_1 \\circ T_2$ is $\\alpha$ -averaged with constant $\\alpha = \\frac{1}{\\delta}$, and $\\delta = \\frac{1}{2} + \\frac{1}{2} \\inf \\left\\{ \\frac{1}{\\alpha_1}, \\frac{1}{\\alpha_2} \\right\\}$.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "thm_3",
+      "type": "theorem",
+      "name": "Theorem 3.1",
+      "statement": "Let Hypothesis H hold. Let $(x_{k}, y_{k})$ be a sequence generated by (BF). Then the following properties hold:\n\n(a) $(y_{k})$ converges weakly to an element $\\bar{y}$, with $prox_{\\mu\\Phi}\\bar{y}\\in S$ ;\n(b) $(x_{k})$ converges weakly to $\\bar{x} = prox_{\\mu\\Phi}\\bar{y}$, with $\\bar{x} \\in S$ ;\n(c) $B(x_{k})$ converges strongly to $B\\bar{x}$ ;\n(d) the velocity is square summable, i.e. $\\sum_{k} \\| x_k - x_{k-1} \\|^2 < \\infty$, and $\\sum_{k} \\| y_k - y_{k-1} \\|^2 < \\infty$ ; in particular $x_k - x_{k-1}$ and $y_k - y_{k-1}$ converge strongly to zero.\n(e) $y_{k} - x_{k}$ converges strongly in $\\mathcal{H}$.",
+      "proof": "We will first study the convergence of the sequence $(y_{k})$, and then of the sequence $(x_{k})$.\n\nConvergence of the sequence $(y_{k})$ It will be obtained as a direct consequence of the convergence of the Krasnosel'skii-Mann iteration for nonexpansive mappings. Let $T : \\mathcal{H} \\to H$ be thehich is defined by: for any $\\xi \\in H$,\n\n$$\nT (\\xi) = (I - \\mu B) \\circ (\\mathrm{prox} _ {\\mu \\Phi} (\\xi)). \\tag {40}\n$$\n\nThe algorithm (BF) can be equivalently written as\n\n$$\n\\left\\{ \\begin{aligned} x _ {k} &= \\operatorname{prox} _ {\\mu \\Phi} (y _ {k}), \\\\ y _ {k + 1} &= (1 - h) y _ {k} + h T (y _ {k}). \\end{aligned} \\right. \\tag {41}\n$$\n\n(i) Let us first suppose that $0 < h < 1$. Let us verify that we are in the situation covered by Krasnosel'skii-Mann theorem. Since $B$ is $\\beta$ -cocoercive, and $0 < \\mu < 2\\beta$, by Lemma 2.6, the operator $Id - \\mu B$ is nonexpansive. Since $\\mathrm{prox}_{\\mu \\Phi}$ is nonexpansive, we deduce that the composition mapping $T = (I - \\mu B) \\circ (\\mathrm{prox}_{\\mu \\Phi})$ is nonexpansive. By Krasnosel'skii-Mann algorithm, [3, Theorem 5.14], for $0 < h < 1$, the sequence $(y_k)$ converges weakly to a fixed point of $T$, let $y_k \\to \\bar{y}$ with $T(\\bar{y}) = \\bar{y}$. Equivalently, by definition of $T$, we have $\\mathrm{prox}_{\\mu \\Phi}(\\bar{y}) - \\mu B(\\mathrm{prox}_{\\mu \\Phi}(\\bar{y})) = \\bar{y}$. Set $\\bar{z} := \\mathrm{prox}_{\\mu \\Phi}(\\bar{y})$. We have $\\bar{z} - \\mu B(\\bar{z}) = \\bar{y}$, which gives\n\n$$\n\\frac {1}{\\mu} (\\bar {y} - \\mathrm{prox} _ {\\mu \\Phi} (\\bar {y})) + B (\\bar {z}) = 0.\n$$\n\nThe extremality condition characterizing prox $_{\\mu\\Phi}(\\bar{y})$ gives\n\n$$\n\\frac {1}{\\mu} (\\bar {y} - \\mathrm{prox} _ {\\mu \\Phi} (\\bar {y})) \\in \\partial \\Phi (\\mathrm{prox} _ {\\mu \\Phi} (\\bar {y})).\n$$\n\nComparing the two above equations, we finally obtain\n\n$$\n\\partial \\Phi (\\bar {z}) + B (\\bar {z}) \\ni 0.\n$$\n\n(ii) Take now $h$ possibly greater or equal than 1, but $h < \\delta$. Let's analyse in more detail the algorithm\n\n$$\ny _ {k + 1} = (1 - h) y _ {k} + h T (y _ {k}).\n$$\n\nWe rely on the notion of $\\alpha$ -averaged operator that has been discussed in the previous subsection. Let us examine the operator $T = (I - \\mu B) \\circ (\\mathrm{prox}_{\\mu \\Phi})$. The operator $\\mathrm{prox}_{\\mu \\Phi}$ is $\\frac{1}{2}$ -averaged ([3, Corollary 23.8]). The operator $(I - \\mu B)$ is $\\frac{\\mu}{2\\beta}$ -averaged ([3, Proposition 4.33]). Hence, $T$ is $\\alpha$ -averaged with constant $\\alpha = \\frac{1}{\\delta}$, and $\\delta = \\frac{1}{2} + \\inf \\left\\{1, \\frac{\\beta}{\\mu}\\right\\}$, see Lemma 3.2. By the condition $0 < \\mu < 2\\beta$, we have $\\delta > 1$, and hence $0 < \\alpha < 1$. By [3, Proposition 5.15], we deduce that, for any $0 < h < \\delta$ the sequence $(y_k)$ converges weakly to a fixed point of $T$, and\n\n$$\n\\sum_ {k} \\| T y _ {k} - y _ {k} \\| ^ {2} <   \\infty .\n$$\n\nEquivalently, by (41)\n\n$$\n\\sum_ {k} \\| y _ {k + 1} - y _ {k} \\| ^ {2} <   \\infty . \\tag {42}\n$$\n\nHence,\n\n$$\ny _ {k + 1} - y _ {k} \\rightarrow 0 \\text {strongly in} \\mathcal {H}. \\tag {43}\n$$\n\nA Lyapunov-type sequence Take $\\bar{z}$ an arbitrary element in $S$. Since $x_{k} = \\mathrm{prox}_{\\mu \\Phi}(y_{k})$, we have\n\n$$\nv _ {k} := \\frac {1}{\\mu} (y _ {k} - x _ {k}) \\in \\partial \\Phi (x _ {k}). \\tag {44}\n$$\n\nAs a Lyapunov sequence take\n\n$$\nA _ {k} := \\frac {1}{2 \\mu} \\| x _ {k} - \\bar {z} \\| ^ {2} + g _ {\\bar {z}} ^ {k}, \\tag {45}\n$$\n\nwith\n\n$$\ng _ {\\bar {z}} ^ {k} := \\Phi (\\bar {z}) - (\\Phi (x _ {k}) + \\langle \\bar {z} - x _ {k}, v _ {k} \\rangle). \\tag {46}\n$$\n\n(a) The following equality is a direct consequence of the Hilbert structure of $\\mathcal{H}$.\n\n$$\n\\| x _ {k + 1} - \\bar {z} \\| ^ {2} = \\| x _ {k + 1} - x _ {k} + x _ {k} - \\bar {z} \\| ^ {2} \\tag {47}\n$$\n\n$$\n= \\| x _ {k + 1} - x _ {k} \\| ^ {2} + 2 \\langle x _ {k + 1} - x _ {k}, x _ {k} - \\bar {z} \\rangle + \\| x _ {k} - \\bar {z} \\| ^ {2}. \\tag {48}\n$$\n\n(b) We have\n\n$$\n\\begin{aligned} g _ {\\bar {z}} ^ {k + 1} - g _ {\\bar {z}} ^ {k} &= \\Phi (\\bar {z}) - \\Phi (x _ {k + 1}) - \\langle \\bar {z} - x _ {k + 1}, v _ {k + 1} \\rangle - \\Phi (\\bar {z}) + \\Phi (x _ {k}) + \\langle \\bar {z} - x _ {k}, v _ {k} \\rangle \\\\ &= \\Phi (x _ {k}) - \\Phi (x _ {k + 1}) + \\langle x _ {k + 1} - x _ {k}, v _ {k} \\rangle + \\langle x _ {k + 1} - \\bar {z}, v _ {k + 1} - v _ {k} \\rangle . \\\\ \\end{aligned}\n$$\n\nBy convexity of $\\Phi$ and $v_{k} \\in \\partial \\Phi(x_{k})$, we have $\\Phi(x_{k}) - \\Phi(x_{k+1}) + \\langle x_{k+1} - x_{k}, v_{k} \\rangle \\leq 0$, which gives\n\n$$\ng _ {\\bar {z}} ^ {k + 1} - g _ {\\bar {z}} ^ {k} \\leq \\left\\langle x _ {k + 1} - \\bar {z}, v _ {k + 1} - v _ {k} \\right\\rangle . \\tag {49}\n$$\n\nc) Let us show that $A_{k} := \\frac{1}{2\\mu} \\|x_{k} - \\bar{z}\\|^{2} + g_{\\bar{z}}^{k}$ is a Lyapunov sequence. By (44), (48) and (49) we have\n\n$$\n\\begin{array}{l} A _ {k + 1} - A _ {k} \\leq \\frac {1}{2 \\mu} \\left(\\| x _ {k + 1} - x _ {k} \\| ^ {2} + 2 \\langle x _ {k + 1} - x _ {k}, x _ {k} - \\bar {z} \\rangle\\right) + \\langle x _ {k + 1} - \\bar {z}, v _ {k + 1} - v _ {k} \\rangle \\\\ \\leq \\frac {1}{2 \\mu} \\| x _ {k + 1} - x _ {k} \\| ^ {2} + \\frac {1}{\\mu} \\Big (\\langle x _ {k + 1} - x _ {k}, x _ {k} - \\bar {z} \\rangle \\\\ \\left. + \\langle x _ {k + 1} - \\bar {z}, (y _ {k + 1} - y _ {k}) - (x _ {k + 1} - x _ {k}) \\rangle\\right) \\\\ \\leq \\frac {1}{2 \\mu} \\| x _ {k + 1} - x _ {k} \\| ^ {2} + \\frac {1}{\\mu} \\left(- \\| x _ {k + 1} - x _ {k} \\| ^ {2} + \\langle x _ {k + 1} - \\bar {z}, y _ {k + 1} - y _ {k} \\rangle\\right) \\\\ \\leq - \\frac {1}{\\mu} \\| x _ {k + 1} - x _ {k} \\| ^ {2} + \\frac {1}{\\mu} \\langle x _ {k + 1} - \\bar {z}, y _ {k + 1} - y _ {k} \\rangle \\\\ \\leq - \\frac {1}{\\mu} \\| x _ {k + 1} - x _ {k} \\| ^ {2} + \\frac {1}{\\mu} \\langle x _ {k} - \\bar {z}, y _ {k + 1} - y _ {k} \\rangle + \\frac {1}{\\mu} \\langle x _ {k + 1} - x _ {k}, y _ {k + 1} - y _ {k} \\rangle . \\\\ \\end{array}\n$$\n\nLet us write (BF) algorithm as\n\n$$\ny _ {k + 1} - y _ {k} = h [ (x _ {k} - y _ {k}) - \\mu B x _ {k} ]. \\tag {50}\n$$\n\nReplacing $y_{k+1} - y_{k}$ by this expression in the above inequality gives\n\n$$\nA _ {k + 1} - A _ {k} \\leq - \\frac {1}{\\mu} \\| x _ {k + 1} - x _ {k} \\| ^ {2} + \\frac {h}{\\mu} \\langle x _ {k} - \\bar {z}, (x _ {k} - y _ {k}) - \\mu B x _ {k} \\rangle + \\frac {1}{\\mu} \\langle x _ {k + 1} - x _ {k}, y _ {k + 1} - y _ {k} \\rangle .\n$$\n\nEquivalently\n\n$$\n\\begin{aligned} A _ {k + 1} - A _ {k} + \\frac {1}{\\mu} \\| x _ {k + 1} - x _ {k} \\| ^ {2} + h \\langle B x _ {k} - B \\bar {z}, x _ {k} - \\bar {z} \\rangle + h \\langle x _ {k} - \\bar {z}, \\frac {1}{\\mu} (y _ {k} - x _ {k}) + B \\bar {z} \\rangle \\\\ &\\leq \\frac {1}{\\mu} \\langle x _ {k + 1} - x _ {k}, y _ {k + 1} - y _ {k} \\rangle . \\tag {51} \\\\ \\end{aligned}\n$$\n\nSince $B$ is $\\beta$-cocoercive\n\n$$\n\\langle B x _ {k} - B \\bar {z}, x _ {k} - \\bar {z} \\rangle \\geq \\beta \\| B x _ {k} - B \\bar {z} \\| ^ {2}. \\tag {52}\n$$\n\nBy (44), we have $\\frac{1}{\\mu}(y_{k}-x_{k})\\in\\partial\\Phi(x_{k})$. By definition of S, and $\\bar{z}\\in S$, we have $-B\\bar{z}\\in\\partial\\Phi(\\bar{z})$. Hence, by monotonicity of $\\partial\\Phi$\n\n$$\n\\left\\langle x _ {k} - \\bar {z}, \\frac {1}{\\mu} (y _ {k} - x _ {k}) + B \\bar {z} \\right\\rangle \\geq 0. \\tag {53}\n$$\n\nCombining (51)-(53), we obtain\n\n$$\nA _ {k + 1} - A _ {k} + \\frac {1}{\\mu} \\| x _ {k + 1} - x _ {k} \\| ^ {2} + h \\beta \\| B x _ {k} - B \\bar {z} \\| ^ {2} \\leq \\frac {1}{\\mu} \\langle x _ {k + 1} - x _ {k}, y _ {k + 1} - y _ {k} \\rangle . \\tag {54}\n$$\n\nBy using $\\langle x_{k + 1} - x_k,y_{k + 1} - y_k\\rangle \\leq \\frac{1}{2}\\| x_{k + 1} - x_k\\| ^2 +\\frac{1}{2}\\| y_{k + 1} - y_k\\| ^2$, we obtain\n\n$$\nA _ {k + 1} - A _ {k} + \\frac {1}{2 \\mu} \\| x _ {k + 1} - x _ {k} \\| ^ {2} + h \\beta \\| B x _ {k} - B \\bar {z} \\| ^ {2} \\leq \\frac {1}{2 \\mu} \\| y _ {k + 1} - y _ {k} \\| ^ {2}. \\tag {55}\n$$\n\nBy (42), $\\sum_{k} \\| y_{k+1} - y_k\\|^2 < \\infty$, and $A_k$ is nonnegative. By a standard argument, from (55), we obtain\n\n(a) $\\lim A_k$ exists. Since $g^k$ is nonnegative, we have $A_k \\geq \\frac{1}{2\\mu} \\| x_k - \\bar{z}\\|^2$. As a consequence, the sequence $(x_k)$ is bounded.\n\n(b) $\\sum_{k}\\| Bx_{k} - B\\bar{z}\\|^{2} < \\infty$. Hence,\n\n$$\nB (x _ {k}) \\rightarrow B \\bar {z} \\quad \\text {strongly} \\tag {56}\n$$\n\nwhere $B\\bar{z}$ is uniquely defined for $\\bar{z} \\in S$.\n\n(c) $\\sum_{k} \\| x_{k+1} - x_k\\|^2 < \\infty$.\n\nThis proves item (c) and (d) of Theorem 3.1.\n\nConvergence of the sequence $(x_{k})$ Let us write (BF) in the following form\n\n$$\n\\frac {1}{h \\mu} (y _ {k + 1} - y _ {k}) + \\frac {1}{\\mu} (y _ {k} - x _ {k}) + B (x _ {k}) = 0, \\tag {57}\n$$\n\nwith\n\n$$\nv _ {k} := \\frac {1}{\\mu} (y _ {k} - x _ {k}) \\in \\partial \\Phi (x _ {k}). \\tag {58}\n$$\n\nBy (43), $y_{k+1} - y_k \\to 0$ strongly in $\\mathcal{H}$. By (56), $B(x_k) \\to B\\bar{z}$ strongly in $\\mathcal{H}$. From (57) we deduce that\n\n$$\ny _ {k} - x _ {k} \\rightarrow - \\mu B \\bar {z}\n$$\n\nstrongly in $\\mathcal{H}$. Note again that $B\\bar{z}$ is uniquely defined when $\\bar{z} \\in S$. Since we have already obtained that the sequence $(y_k)$ converges weakly, we deduce that the sequence $(x_k)$ converges weakly, let $x_k \\rightharpoonup \\bar{x}$ weakly. From (57) and (58) we have\n\n$$\n- \\frac {1}{h \\mu} (y _ {k + 1} - y _ {k}) \\in (\\partial \\Phi + B) (x _ {k}).\n$$\n\nThe operator $A = \\partial \\Phi + B$ is maximal monotone, and hence is demi-closed. From $y_{k+1} - y_k \\to 0$ strongly (43), $x_k \\rightharpoonup \\bar{x}$ weakly, we deduce that $A(\\bar{x}) = \\partial \\Phi(\\bar{x}) + B(\\bar{x}) \\ni 0$, that is $\\bar{x} \\in S$.\n\nLet us make precise the relation between the respective limits of the sequences $(y_{k})$ and $(x_{k})$. Let $y_{k} \\rightharpoonup \\bar{y}$ weakly. Since $\\bar{x} \\in S$ we have $B(x_{k}) \\to B\\bar{x}$ strongly in H. From (57), we deduce that $\\bar{y} - \\bar{x} + \\mu B\\bar{x} = 0$. Since $B\\bar{x} + \\partial\\Phi(\\bar{x}) \\ni 0$, we obtain $\\bar{x} + \\mu\\partial\\Phi(\\bar{x}) \\ni \\bar{y}$. Hence, $\\bar{x} = prox_{\\mu\\Phi}\\bar{y}$.\n\nThis complete the proof of Theorem 3.1.",
+      "depends_on": [
+        "lem_10"
+      ]
+    },
+    {
+      "id": "rem_4",
+      "type": "remark",
+      "name": "Remark 3.3",
+      "statement": "(a) Clearly, since $\\delta > 1$, we can take an arbitrary $0 < h \\leq 1$. Indeed, the above analysis provides an over-relaxation result.\n(b) The above result can be readily extended to the case $h_k$ varying with $k$. The convergence of $(y_k)$ is satisfied under the assumption: there exists some $\\epsilon > 0$, such that for all $k \\in \\mathbb{N}$, $0 < \\epsilon \\leq h_k \\leq \\delta - \\epsilon$.\n(c) When the dimension of $\\mathcal{H}$ is finite, by continuity of $\\mathrm{prox}_{\\mu \\Phi}$, and $x_{k} = \\mathrm{prox}_{\\mu \\Phi}(y_{k})$ we immediately obtain the convergence of the sequence $(x_{k})$ to an element of the solution set $S$. In the infinite-dimensional case, this argument does not work anymore, because of the lack of continuity of the prox mapping for the weak topology.\n(d) By analogy with the continuous case, one can reasonably conjecture that the weak convergence of the sequence $(x_{k})$ holds under the weaker condition: $0 < h < 1$ and $h\\mu < 2\\beta$.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "rem_5",
+      "type": "remark",
+      "name": "Remark 3.4",
+      "statement": "Comparing the numerical performance of the forward-backward algorithms provided by discretization of various dynamical systems is an important issue. This is a delicate question, directly related to obtaining rapid numerical methods, a subject of ongoing study, see [10,17].",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "thm_4",
+      "type": "theorem",
+      "name": "Theorem 4.1",
+      "statement": "Suppose that $S \\neq \\emptyset$. Then, for any orbit $x(\\cdot)$ of (59), the following properties hold:\n\n(1) $\\int_0^{+\\infty}\\| \\dot{x} (t)\\| ^2 dt < +\\infty ,i.e.x(\\cdot)$ has a finite energy.\n\n(2) $x(\\cdot)$ converges weakly to an element of S.\n\n(3) $B(x(\\cdot))$ converges strongly to $Bz$, where $Bz$ is uniquely defined for $z \\in S$.",
+      "proof": "Let $x(\\cdot):[0, + \\infty [\\rightarrow \\mathcal{H}$ be an orbit of (59). Equivalently, we set\n\n$$\nv (t) \\in \\partial \\Phi (x (t)) \\tag {60}\n$$\n\n$$\n\\dot {x} (t) + v (t) + B (x (t)) = 0. \\tag {61}\n$$\n\nFor any $z \\in S$, let us define $h_z: [0, +\\infty[ \\to \\mathbb{R}^+$ by\n\n$$\nh _ {z} (t) := \\frac {1}{2} \\| x (t) - z \\| ^ {2}.\n$$\n\nLet us show that $h_z$ is a Lyapunov function. By the classical derivation chain rule, and (61), for almost all $t \\geq 0$\n\n$$\n\\begin{aligned} \\frac {d}{d t} h _ {z} (t) &= \\langle x (t) - z, \\dot {x} (t) \\rangle (62) \\\\ &= - \\left\\langle x (t) - z, v (t) + B (x (t)) \\right\\rangle . (63) \\\\ \\end{aligned}\n$$\n\nLet us rewrite this last equality as\n\n$$\n\\frac {d}{d t} h _ {z} (t) + \\langle x (t) - z, v (t) + B z \\rangle + \\langle x (t) - z, B (x (t)) - B z \\rangle = 0. \\tag {64}\n$$\n\nSince $z \\in S$, we have $-Bz \\in \\partial \\Phi(z)$. Moreover, $v(t) \\in \\partial \\Phi(x(t))$. By monotonicity of $\\partial \\Phi$, this gives\n\n$$\n\\langle x (t) - z, v (t) + B z \\rangle \\geq 0. \\tag {65}\n$$\n\nCombining (64) with (65) we obtain\n\n$$\n\\frac {d}{d t} h _ {z} (t) + \\langle x (t) - z, B (x (t)) - B z \\rangle \\leq 0. \\tag {66}\n$$\n\nBy cocoercivity of $B$, we deduce that\n\n$$\n\\frac {d}{d t} h _ {z} (t) + \\beta \\| B (x (t)) - B z \\| ^ {2} \\leq 0. \\tag {67}\n$$\n\nFrom this, we readily obtain\n\n$$\nt \\mapsto h _ {z} (t) \\text {is a decreasing function,} \\tag {68}\n$$\n\nand after integration of (67)\n\n$$\n\\int_ {0} ^ {+ \\infty} \\| B (x (t)) - B z \\| ^ {2} d t <   + \\infty . \\tag {69}\n$$\n\nLet us return to (67). By (61), we equivalently have\n\n$$\n\\frac {d}{d t} h _ {z} (t) + \\beta \\| \\dot {x} (t) + v (t) + B z \\| ^ {2} \\leq 0. \\tag {70}\n$$\n\nAfter developing\n\n$$\n\\frac {d}{d t} h _ {z} (t) + \\beta \\| \\dot {x} (t) \\| ^ {2} + \\beta \\| v (t) + B z \\| ^ {2} + 2 \\beta \\langle \\dot {x} (t), v (t) + B z \\rangle \\leq 0. \\tag {71}\n$$\n\nBy using the derivation chain rule for a convex lower semicontinuous function, see Lemma 2.9\n\n$$\n\\frac {d}{d t} \\Phi (x (t)) = \\langle v (t), \\dot {x} (t) \\rangle , \\tag {72}\n$$\n\nwe can rewrite (71) as\n\n$$\n\\frac {d}{d t} \\left[ h _ {z} (t) + 2 \\beta \\Phi (x (t)) + 2 \\beta \\langle x (t), B z \\rangle \\right] + \\beta \\| \\dot {x} (t) \\| ^ {2} + \\beta \\| v (t) + B z \\| ^ {2} \\leq 0. \\tag {73}\n$$\n\nSet\n\n$$\nk _ {z} (t) := \\Phi (x (t)) - \\Phi (z) + \\langle B z, x (t) - z \\rangle . \\tag {74}\n$$\n\nSince $-Bz\\in \\partial \\Phi (z)$, by the convex subdifferential inequality, we have $k_{z}(t)\\geq 0$. Let us rewrite (73) as\n\n$$\n\\frac {d}{d t} \\left[ h _ {z} (t) + 2 \\beta k _ {z} (t) \\right] + \\beta \\| \\dot {x} (t) \\| ^ {2} + \\beta \\| v (t) + B z \\| ^ {2} \\leq 0. \\tag {75}\n$$\n\nSince $h_z + 2\\beta k_z$ is nonnegative, by integration of (75), we infer\n\n$$\n\\int_ {0} ^ {+ \\infty} \\| \\dot {x} (t) \\| ^ {2} d t <   + \\infty . \\tag {76}\n$$\n\nThat's item 1. In order to prove item 2., which is the weak convergence property of $x$, we use Opial's lemma 2.10, with $S$ equal to the solution set of problem (1). By (68), $t \\mapsto h_z(t)$ is a decreasing function, and hence $\\lim \\| x(t) - z\\|$ exists. Let us complete the verification of the hypothesis of Opial's lemma, by showing that every weak sequential cluster point of $x$ belongs to $S$. Let $\\bar{x} = w - \\lim x(t_n)$ for some sequence $t_n \\to +\\infty$. By the general theory of semigroups generated by maximal monotone operators, we have that\n\n$$\nt \\mapsto \\left\\| (\\partial \\Phi (x (t)) + B (x (t))) ^ {0} \\right\\| \\tag {77}\n$$\n\nis a nonincreasing function, where $(\\partial \\Phi(x(t)) + B(x(t)))^0$ is the element of minimal norm of the closed convex set $\\partial \\Phi(x(t)) + B(x(t))$. Since $\\dot{x}(t) = -(\\partial \\Phi(x(t)) + B(x(t)))^0$ for almost all $t \\geq 0$, we deduce from (76) that\n\n$$\n\\int_ {0} ^ {+ \\infty} \\left\\| (\\partial \\Phi (x (t)) + B (x (t))) ^ {0} \\right\\| ^ {2} d t <   + \\infty . \\tag {78}\n$$\n\nSince $t \\mapsto \\left\\| (\\partial \\Phi(x(t)) + B(x(t)))^0 \\right\\|$ is nonincreasing, it converges and, by (78) its limit is equal to zero. Thus, by taking $w(t) = (\\partial \\Phi(x(t)) + B(x(t)))^0$, we have obtained the existence of a mapping $w$ which verifies: $w(t) \\in (\\partial \\Phi + B)(x(t))$ for all $t > 0$, and $w(t) \\to 0$ strongly in $\\mathcal{H}$, as $t \\to +\\infty$. From $w(t_n) \\in (\\partial \\Phi + B)(x(t_n))$, by the demi-closedness property of the maximal monotone operator $A = \\partial \\Phi + B$, we obtain $A(\\bar{x}) = \\partial \\Phi(\\bar{x}) + B(\\bar{x}) \\ni 0$, that is $\\bar{x} \\in S$.\n\nLet us now prove item 3. Set $F_{3}(t) = \\| B(x(t)) - Bz\\|$. By (69) $F_{3} \\in L^{2}([0, +\\infty[)$. Since $B$ is Lipschitz continuous and $\\dot{x} \\in L^{2}([0, +\\infty[)$ we obtain $\\frac{d}{dt} F_{3} \\in L^{2}([0, +\\infty[)$. By Lemma 2.11, we deduce that $\\lim_{t \\to +\\infty} F_{3}(t) = 0$, which is our claim.",
+      "depends_on": [
+        "lem_5",
+        "lem_6",
+        "lem_7"
+      ]
+    },
+    {
+      "id": "rem_6",
+      "type": "remark",
+      "name": "Remark 4.2",
+      "statement": "The strong convergence of orbits falls within the general theory of semi-group of contractions generated by a maximal monotone operator $A$. It is satisfied if $A$ is strongly monotone, or $\\Phi$ boundedly inf-compact (note that in the proof of Theorem 4.1 we have shown that $\\Phi(x(t))$ converges, and thus is bounded). Also note that, following [12, Theorem 3.13], if $\\mathrm{int}S = \\mathrm{int}A^{-1}(0) \\neq \\emptyset$, then (59) has orbits whose total variation is bounded, and hence which converge strongly.",
+      "proof": null,
+      "depends_on": [
+        "thm_4"
+      ]
+    },
+    {
+      "id": "algo_3",
+      "type": "algorithm",
+      "name": "Forward-backward algorithm",
+      "statement": "The discretization of (59) with respect to the time variable $t$, in an implicit way with respect to the nonsmooth term $\\partial \\Phi$, and explicit with respect to the smooth term $B$, and with constant step size $h > 0$, gives\n\n$$\n\\frac {x _ {k + 1} - x _ {k}}{h} + \\partial \\Phi (x _ {k + 1}) + B (x _ {k}) \\ni 0. \\tag {79}\n$$\n\nEquivalently\n\n$$\nx _ {k + 1} = (I + h \\partial \\Phi) ^ {- 1} \\left(x _ {k} - h B (x _ {k})\\right). \\tag {80}\n$$\n\nThis is the classical forward-backward algorithm, whose convergence has been well established. The weak convergence of $(x_{k})$ to an element of $S$ is obtained under the stepsize limitation: $0 < h < 2\\beta$.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "def_4",
+      "type": "definition",
+      "name": "Gradient-projection dynamics",
+      "statement": "First take $\\Phi = \\delta_{C}$ equal to the indicator function of a closed convex set $C \\subset H$ , and $B = \\nabla\\Psi$ , the gradient of a convex differentiable function $\\Psi : \\mathcal{H} \\to R$. The semigroup of contractions, generated by -A, which has been studied in the previous section, specializes in gradient-projection system\n\n$$\n\\dot {x} (t) = \\operatorname{proj} _ {T _ {C} (x (t))} (- \\nabla \\Psi (x (t))), \\tag {81}\n$$\n\nwhere $T_{C}(x)$ is the tangent cone to C at $x \\in C$.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "prop_4",
+      "type": "proposition",
+      "name": "Proposition 5.1",
+      "statement": "Let $\\Psi : \\mathcal{H} \\to \\mathbb{R}$ be a convex differentiable function, whose gradient is Lipschitz continuous on bounded sets. Let $C$ be a closed convex set in $\\mathcal{H}$, and suppose that $\\Psi$ is bounded from below on $C$. Then, for any $x_0 \\in \\mathcal{H}$, there exists a unique classical global solution $x : [0, +\\infty[ \\to \\mathcal{H}$ of the Cauchy problem for the relaxed gradient-projection dynamical system\n\n$$\n\\left\\{ \\begin{aligned} \\dot {x} (t) + x (t) - \\operatorname{proj} _ {C} \\left(x (t) - \\mu \\nabla \\Psi (x (t))\\right) &= 0; \\\\ x (0) &= x _ {0}. \\end{aligned} \\right. \\tag {85}\n$$\n\nThe following asymptotic properties are satisfied:\n\n(i) If $S = \\argmin_{C} \\Psi$ is nonempty, then $x(t)$ converges weakly to some $x_{\\infty} \\in S$, as $t \\to +\\infty$.\n\n(ii) If moreover $x_0 \\in C$, then $x(t) \\in C$ for all $t \\geq 0$, $\\Psi(x(t))$ decreases to $\\inf_C \\Psi$ as $t$ increases to $+\\infty$, and\n\n$$\n\\mu \\frac {d}{d t} \\Psi (x (t)) + \\| \\dot {x} (t) \\| ^ {2} \\leq 0. \\tag {86}\n$$",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "rem_7",
+      "type": "remark",
+      "name": "Remark 4.3",
+      "statement": "Let us compare the asymptotic behaviour of the orbits of the semigroup generated by $-(\\partial\\Phi + B)$ with the orbits of the Newton-like regularized system. Since both converge weakly to equilibria, the point is compare their rate of convergence. For simplicity take B = 0, and $\\Phi$ convex differentiable. Thus, the point is: at which rate does $\\nabla\\Phi(x(t))$ converges to zero?\n\n(a) For the semigroup, the standard estimation is the linear convergence:\n\n$$\n\\| \\nabla \\Phi (x (t) \\| \\leq \\frac {C}{t}.\n$$\n\nIndeed, without any further assumption on $\\Phi$ or $\\mathcal{H}$, this is the best-known general estimate. Indeed, in infinite-dimensional spaces one can exhibit orbits of the gradient flow which have infinite length, this is a consequence of Baillon counterexample.[19] Note that, in finite-dimensional spaces, the corresponding result is not known, see [20].\n\n(b) For the Newton-like regularized system, $v(t) = \\nabla \\Phi(x(t))$ satisfies the differential equation\n\n$$\n\\lambda (t) \\dot {x} (t) + \\dot {v} (t) + v (t) = 0.\n$$\n\nBy taking $\\lambda(t) = ce^{-t}$, we have the following estimation (see [5, Proposition 5.1])\n\n$$\n\\| \\nabla \\Phi (x (t) \\| \\leq C e ^ {- t}.\n$$\n\nThese results naturally suggest to extend our results to the case of a vanishing regularization parameter (see $[5,11]$ for some first results in this direction).",
+      "proof": null,
+      "depends_on": [
+        "prop_4"
+      ]
+    },
+    {
+      "id": "def_5",
+      "type": "definition",
+      "name": "Proximal-gradient dynamics",
+      "statement": "Let us now return to our setting: $A = \\partial\\Phi + B$, where $\\Phi$ is a closed convex proper function, and B is a monotone cocoercive operator (the previous case corresponds to $\\Phi = \\delta_{C}$ and $B = \\nabla\\Psi$, with $\\nabla\\Psi$ Lipschitz continuous). As a natural extension of (82), let us consider the differential system\n\n$$\n\\dot {x} (t) + x (t) - \\mathrm{prox} _ {\\mu \\Phi} \\left(x (t) - \\mu B (x (t))\\right) = 0. \\tag {87}\n$$\n\nWe shall see that the explicit discretization of this system gives the relaxed FB algorithm. The vector field which governs (87) is Lipschitz continuous. Hence, for any $x_{0} \\in H$, the corresponding Cauchy problem has a unique global classical solution.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "thm_5",
+      "type": "theorem",
+      "name": "THEOREM 5.2",
+      "statement": "Let $\\Phi : \\mathcal{H} \\to \\mathbb{R} \\cup \\{+\\infty\\}$ be a convex lower semicontinuous proper function, and $B$ a maximal monotone operator which is $\\beta$-cocoercive. Suppose that $S = \\{z \\in \\mathcal{H}; \\partial \\Phi(z) + Bz \\ni 0\\}$, the solution set of (1), is nonempty.\n\nFor any $x_0 \\in \\mathcal{H}$, let $x : [0, +\\infty[ \\to \\mathcal{H}]$ be the unique classical global solution of the Cauchy problem for the proximal-gradient dynamical system\n\n$$\n\\left\\{ \\begin{aligned} \\dot {x} (t) + x (t) - \\operatorname{prox} _ {\\mu \\Phi} (x (t) - \\mu B (x (t))) &= 0; \\\\ x (0) &= x _ {0}. \\end{aligned} \\right. \\tag {88}\n$$\n\nThen, the following asymptotic properties are satisfied:\n\n(1) Suppose that $0 < \\mu < 4\\beta$, then\n\n(i) $x(t)$ converges weakly to some $x_{\\infty} \\in S$, as $t \\to +\\infty$.\n\n(ii) $B(x(t))$ converges strongly to $Bz$ as $t \\to +\\infty$, where $Bz$ is uniquely defined for $z \\in S$. Moreover, $\\int_0^\\infty \\| B(x(t)) - Bz\\|^2 dt < +\\infty$.\n\n(iii) $\\lim_{t\\to +\\infty}\\dot{x} (t) = 0$, and $\\int_0^\\infty \\| \\dot{x} (t)\\| ^2 dt < + \\infty$.\n\n(2) Suppose that $B = \\nabla \\Psi$, where $\\Psi$ is a convex differentiable function. Then, for arbitrary $\\mu > 0$, the above properties (i), (ii), (iii) are satisfied.",
+      "proof": "We rely on a Lyapunov analysis. Take $z \\in S$. Equivalently\n\n$$\n- B z \\in \\partial \\Phi (z). \\tag {89}\n$$\n\nSet $\\xi(t) := x(t) - \\mu B(x(t))$. By definition of $\\mathrm{prox}_{\\mu \\Phi}$, we have\n\n$$\n\\frac {1}{\\mu} (\\xi (t) - \\mathrm{prox} _ {\\mu \\Phi} \\xi (t)) \\in \\partial \\Phi (\\mathrm{prox} _ {\\mu \\Phi} \\xi (t)).\n$$\n\nSince $\\mathrm{prox}_{\\mu \\Phi}\\xi (t) = x(t) + \\dot{x} (t)$, the above equation can be written in equivalent way\n\n$$\n- B (x (t)) - \\frac {1}{\\mu} \\dot {x} (t) \\in \\partial \\Phi (x (t) + \\dot {x} (t)). \\tag {90}\n$$\n\nBy the monotonicity property of the operator $\\partial \\Phi$, and (89), (90), we obtain\n\n$$\n0 \\geq \\left\\langle x (t) - z + \\dot {x} (t), B (x (t)) - B z + \\frac {1}{\\mu} \\dot {x} (t) \\right\\rangle . \\tag {91}\n$$\n\nEquivalently\n\n$$\n0 \\geq \\frac {1}{2 \\mu} \\frac {d}{d t} \\| x (t) - z \\| ^ {2} + \\frac {1}{\\mu} \\| \\dot {x} (t) \\| ^ {2} + \\langle B (x (t)) - B z, x (t) - z \\rangle + \\langle \\dot {x} (t), B (x (t)) - B z \\rangle . \\tag {92}\n$$\n\n(1) Let us first examine the general case, $B$ $\\beta$-cocoercive. From (92), it follows that\n\n$$\n0 \\geq \\frac {1}{2 \\mu} \\frac {d}{d t} \\| x (t) - z \\| ^ {2} + \\frac {1}{\\mu} \\| \\dot {x} (t) \\| ^ {2} + \\beta \\| B (x (t)) - B z \\| ^ {2} + \\langle \\dot {x} (t), B (x (t)) - B z \\rangle . \\tag {93}\n$$\n\nLet us introduce $\\alpha > 0$, a positive parameter. In order to estimate the last term in (93), we use Cauchy-Schwarz inequality, and the following elementary inequality\n\n$$\n\\| \\dot {x} (t) \\| \\| B (x (t)) - B z \\| \\leq \\frac {1}{2 \\alpha} \\| \\dot {x} (t) \\| ^ {2} + \\frac {\\alpha}{2} \\| B (x (t)) - B z \\| ^ {2}. \\tag {94}\n$$\n\nFrom (93) and (94) we deduce that\n\n$$\n0 \\geq \\frac {1}{2 \\mu} \\frac {d}{d t} \\| x (t) - z \\| ^ {2} + \\left(\\frac {1}{\\mu} - \\frac {1}{2 \\alpha}\\right) \\| \\dot {x} (t) \\| ^ {2} + \\left(\\beta - \\frac {\\alpha}{2}\\right) \\| B (x (t)) - B z \\| ^ {2}. \\tag {95}\n$$\n\nChoose $\\alpha$ such that $\\frac{1}{\\mu} - \\frac{1}{2\\alpha} > 0$ and $\\beta - \\frac{\\alpha}{2} > 0$. This is equivalent to find $\\frac{\\mu}{2} < \\alpha < 2\\beta$, which is possible iff $\\mu < 4\\beta$, that's precisely our condition on parameters $\\mu$ and $\\beta$. When this condition is satisfied, taking (for example) $\\alpha = \\frac{1}{2} (\\frac{\\mu}{2} + 2\\beta) = \\frac{\\mu}{4} + \\beta$ in (95), we obtain\n\n$$\n0 \\geq \\frac {1}{2 \\mu} \\frac {d}{d t} \\| x (t) - z \\| ^ {2} + \\frac {4 \\beta - \\mu}{\\mu (\\mu + 4 \\beta)} \\| \\dot {x} (t) \\| ^ {2} + \\frac {1}{8} (4 \\beta - \\mu) \\| B (x (t)) - B z \\| ^ {2}. \\tag {96}\n$$\n\nFrom (96), it follows that, for any $z \\in S$, $t \\mapsto \\| x(t) - z \\|$ is a decreasing function, and hence $\\lim \\| x(t) - z \\|$ exists. Moreover, by integration of (96), we obtain\n\n$$\n\\int_ {0} ^ {\\infty} \\| \\dot {x} (t) \\| ^ {2} d t < + \\infty , \\tag {97}\n$$\n\n$$\n\\int_ {0} ^ {\\infty} \\| B (x (t)) - B z \\| ^ {2} d t < + \\infty . \\tag {98}\n$$\n\nSince $B$ is Lipschitz continuous, and $\\| \\dot{x}(\\cdot)\\|$ belongs to $L^2 (0, + \\infty)$, we have $\\frac{d}{dt} B(x)\\in L^2 (0, + \\infty)$. Hence, by (98), $B(x) - Bz$ and its derivative belong to $L^2 (0, + \\infty)$. By Lemma 2.11, we infer\n\n$$\n\\lim _ {t \\to + \\infty} B (x (t)) = B z \\tag {99}\n$$\n\nwhere $Bz$ is uniquely defined for $z \\in S$. On the other hand, by (87) and (97), $\\dot{x}$ and its derivative belong to $L^2(0, +\\infty)$. By Lemma 2.11, we infer\n\n$$\n\\lim _ {t \\to + \\infty} \\dot {x} (t) = 0. \\tag {100}\n$$\n\nBy Opial Lemma 2.10, in order to obtain the weak convergence of the orbit $x$, we just need to prove that any weak sequential cluster point of $x$ belongs to $S$. Let $\\bar{x}$ be a weak sequential cluster point of $x$, i.e. $\\bar{x} = w - \\lim x(t_n)$ for some sequence $t_n \\to +\\infty$. In order to pass to the limit on (87), we rewrite it as\n\n$$\nx (t) - \\mu B (x (t)) - \\mathrm{prox} _ {\\mu \\Phi} \\left(x (t) - \\mu B (x (t))\\right) = - \\dot {x} (t) - \\mu B (x (t)), \\tag {101}\n$$\n\nand use the demi-closedness property of the maximal monotone operator $I - \\mathrm{prox}_{\\mu \\Phi}$. Since $x(t_n) - \\mu B(x(t_n)) \\rightharpoonup \\bar{x} - \\mu Bz$, and $\\dot{x}(t) + \\mu B(x(t)) \\to \\mu Bz$ strongly, we obtain\n\n$$\n\\bar {x} - \\mu B z - \\mathrm{prox} _ {\\mu \\Phi} (\\bar {x} - \\mu B z) = - \\mu B z. \\tag {102}\n$$\n\nEquivalently,\n\n$$\n\\bar {x} = \\mathrm{prox} _ {\\mu \\Phi} (\\bar {x} - \\mu B z), \\tag {103}\n$$\n\nthat is\n\n$$\n\\partial \\Phi (\\bar {x}) + B z \\ni 0.\n$$\n\nSince $B$ is maximal monotone, it is demi-closed, and hence $B\\bar{x} = Bz$. Thus\n\n$$\n\\partial \\Phi (\\bar {x}) + B \\bar {x} \\ni 0,\n$$\n\nand $\\bar{x}\\in S$, which completes the proof.\n\n(2) Now consider $B = \\nabla\\Psi$, where $\\Psi$ is a convex differentiable function (a special case of cocoercive operator), and show that we can conclude to the same convergence results, without making any restrictive assumption on $\\mu > 0$. Let us return to (93). By using\n\n$$\n\\langle \\dot {x} (t), \\nabla \\Psi (x (t)) - \\nabla \\Psi (z) \\rangle = \\frac {d}{d t} [ \\Psi (x (t)) - \\langle \\nabla \\Psi (z), x (t) \\rangle ],\n$$\n\nwe can rewrite (93) as\n\n$$\n\\begin{aligned} 0 &\\geq \\frac {d}{d t} \\left[ \\frac {1}{2 \\mu} \\| x (t) - z \\| ^ {2} + \\Psi (x (t)) - \\Psi (z) - \\langle \\nabla \\Psi (z), x (t) - z \\rangle \\right] \\\\ + \\frac {1}{\\mu} \\| \\dot {x} (t) \\| ^ {2} + \\beta \\| B (x (t)) - B z \\| ^ {2}. \\tag {104} \\\\ \\end{aligned}\n$$\n\nSince $\\Psi(x(t)) - \\Psi(z) - \\langle \\nabla\\Psi(z), x(t) - z \\rangle$ is nonnegative, by a similar argument as before we see that $B(x(\\cdot))$ converges strongly to $Bz$, where $Bz$ is uniquely defined for $z \\in S$, $\\lim_{t \\to \\infty} \\dot{x}(t) = 0$, and $\\| \\dot{x} \\| \\in L^2(0, +\\infty)$. Moreover, any weak sequential cluster point of $x$ belongs to $S$. But unlike the previous situation, we do not know if the limit of $\\| x(t) - z\\|$ exists. Instead we have $\\lim E(t,z)$ exists for any $z\\in S$, where\n\n$$\nE (t, z) := \\frac {1}{2 \\mu} \\| x (t) - z \\| ^ {2} + \\Psi (x (t)) - \\Psi (z) - \\langle \\nabla \\Psi (z), x (t) - z \\rangle . \\tag {105}\n$$\n\nFollowing the arguments in [9], we will show that this implies that $x$ has a unique weak sequential cluster point, which clearly implies the weak convergence of the whole sequence. Let $z_{1}$ and $z_{2}$ be two weak sequential cluster points of $x$, i.e. $z_{1} = w - \\lim x(t_{n})$, and $z_{2} = w - \\lim x(t_{n}')$, for some sequences $t_n \\to +\\infty$ and $t_n' \\to +\\infty$. We already obtained that $z_{1}$ and $z_{2}$ belong to $S$. Hence, $E(t,z_1)$ and $E(t,z_2)$ converge as $t \\to +\\infty$, as well as $E(t,z_1) - E(t,z_2)$. We deduce that the following limit exists\n\n$$\n\\lim _ {t \\to + \\infty} \\left[ \\frac {1}{\\mu} \\left\\langle x (t), z _ {2} - z _ {1} \\right\\rangle + \\left\\langle \\nabla \\Psi (z _ {2}) - \\nabla \\Psi (z _ {1}), x (t) \\right\\rangle \\right].\n$$\n\nThus the limits obtained by successively replacing t by $t_{n}$ and $t_{n}'$ are equal, which gives\n\n$$\n\\frac {1}{\\mu} \\left\\langle z _ {1}, z _ {2} - z _ {1} \\right\\rangle + \\left\\langle \\nabla \\Psi (z _ {2}) - \\nabla \\Psi (z _ {1}), z _ {1} \\right\\rangle = \\frac {1}{\\mu} \\left\\langle z _ {2}, z _ {2} - z _ {1} \\right\\rangle + \\left\\langle \\nabla \\Psi (z _ {2}) - \\nabla \\Psi (z _ {1}), z _ {2} \\right\\rangle .\n$$\n\nEquivalently\n\n$$\n\\frac {1}{\\mu} \\| z _ {2} - z _ {1} \\| ^ {2} + \\langle \\nabla \\Psi (z _ {2}) - \\nabla \\Psi (z _ {1}), z _ {2} - z _ {1} \\rangle = 0,\n$$\n\nwhich, by monotonicity of $\\nabla \\Psi$, gives $z_{1} = z_{2}$.",
+      "depends_on": [
+        "lem_7",
+        "lem_6"
+      ]
+    },
+    {
+      "id": "rem_8",
+      "type": "remark",
+      "name": "Remark 5.3",
+      "statement": "Under the more restrictive assumption, $0 < \\mu < 2\\beta$, using the results of Section 2.2, the operator that governs the dynamical system is of the form $I - T$, where $T$ is a contraction. Accordingly, the operator $I - T$ is demi-positive, and the weak convergence of $x$ is a direct consequence of Bruck Theorem.[7] It is an open question whether the convergence property is true for a general cocoercive operator $B$, without restriction on $\\mu > 0$.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "algo_4",
+      "type": "algorithm",
+      "name": "Relaxed forward-backward algorithm",
+      "statement": "The explicit discretization of the regular dynamic (87) with respect to the time variable $t$, with constant step size $h > 0$, gives\n\n$$\n\\frac {x _ {k + 1} - x _ {k}}{h} + x _ {k} - \\operatorname{prox} _ {\\mu \\Phi} (x _ {k} - \\mu B (x _ {k})) = 0. \\tag {106}\n$$\n\nEquivalently\n\n$$\nx _ {k + 1} = (1 - h) x _ {k} + h \\mathrm{prox} _ {\\mu \\Phi} \\left(x _ {k} - \\mu B (x _ {k})\\right).\n$$\n\nThis is the relaxed forward-backward algorithm, whose convergence properties are well known. The weak convergence of $(x_{k})$ to an element of $S$ is obtained under the stepsize limitation: $0 < \\mu < 2\\beta$, and $0 < h \\leq 1$.",
+      "proof": null,
+      "depends_on": []
+    }
+  ]
+}

@@ -1,0 +1,463 @@
+{
+  "metadata": {
+    "title": "A second-order gradient-like dissipative dynamical system with Hessian-driven damping. Application to optimization and mechanics",
+    "authors": [
+      "F. Alvarez",
+      "H. Attouch",
+      "J. Bolte",
+      "P. Redont"
+    ],
+    "year": 2002,
+    "source_type": "markdown"
+  },
+  "items": [
+    {
+      "id": "def_1",
+      "type": "definition",
+      "name": "Assumption (H)",
+      "statement": "Throughout this paper, $H$ is a real Hilbert space with scalar product and norm denoted by $\\langle\\cdot,\\cdot\\rangle$ and $|\\cdot|$ , respectively. Let $\\Phi:H\\to\\mathbb{R}$ be a mapping satisfying:\n\n$$\n\\begin{array}{l l} (\\mathcal {H}) & \\left\\{ \\begin{array}{l} \\varPhi \\text {is bounded from below on} H, \\\\ \\varPhi \\text {is twice continuously differentiable on} H, \\\\ \\text {the Hessian} \\nabla^ {2} \\varPhi \\text {is Lipschitz continuous on the bounded subsets of} H. \\end{array} \\right. \\end{array}\n$$",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Note: local Hessian Lipschitzness is used to make the DIN phase vector field locally Lipschitz]"
+    },
+    {
+      "id": "def_2",
+      "type": "definition",
+      "name": "(DIN)",
+      "statement": "Given two parameters $\\alpha > 0$ and $\\beta > 0$ , consider the following second-order in time system in H:\n\n$$\n(\\mathrm{DIN}) \\quad \\ddot {x} + \\alpha \\dot {x} + \\beta \\nabla^ {2} \\varPhi (x) \\dot {x} + \\nabla \\varPhi (x) = 0.\n$$",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Notation: formulate as a second-order ODE on the Hilbert space]"
+    },
+    {
+      "id": "def_4",
+      "type": "definition",
+      "name": "Strong monotonicity on bounded subsets",
+      "statement": "In this section we assume that $\\Phi$ belongs to $\\mathcal{C}^{2}(H)$ , with a Hessian Lipschitz continuous on bounded subsets, and that $\\Phi$ is coercive with $\\nabla\\Phi$ strongly monotone on bounded subsets of H. More precisely, it is required that $\\forall R > 0, \\exists\\beta_{R} > 0$ such that $\\forall x, y \\in H$ ,\n\n$$\n\\max \\left\\{| x |, | y | \\right\\} <   R \\quad \\Rightarrow \\quad \\left\\langle \\nabla \\Phi (x) - \\nabla \\Phi (y), x - y \\right\\rangle \\geqslant \\beta_ {R} | x - y | ^ {2}. \\tag {5}\n$$",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Foundation: Operator.Linear] recall IsStronglyMonotone | [Notation: this is a local-in-radius variant]"
+    },
+    {
+      "id": "def_7",
+      "type": "definition",
+      "name": "Definition 4.1",
+      "statement": "Definition 4.1. Let $\\Omega$ be an open subset of $\\mathbb{R}^N$ . A function $\\varPhi:\\varOmega\\mapsto\\mathbb{R}$ is real analytic (in $\\varOmega$ ), if for every point $\\xi=(\\xi_1,\\ldots,\\xi_N)$ in $\\varOmega$ there exist a neighbourhood $U\\subseteq\\varOmega$ of $\\xi$ and real coefficients $(c_{\\nu_1,\\ldots,\\nu_N})_{(\\nu_1,\\ldots,\\nu_N)\\in\\mathbb{N}^N}$ such that\n\n$$\n\\begin{array}{l} x = (x _ {1}, \\dots , x _ {N}) \\in U \\\\ \\Rightarrow \\quad \\Phi (x) = \\sum_ {(\\nu_ {1}, \\dots , \\nu_ {N}) \\in \\mathbb {N} ^ {N}} c _ {\\nu_ {1}, \\dots , \\nu_ {N}} (x _ {1} - \\xi_ {1}) ^ {\\nu_ {1}} \\dots (x _ {N} - \\xi_ {N}) ^ {\\nu_ {N}}. \\\\ \\end{array}\n$$",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Note: finite-dimensional real analyticity; the power series convention is paper-specific]"
+    },
+    {
+      "id": "ext_lem_2",
+      "type": "lemma",
+      "name": "Opial's Lemma",
+      "statement": "Lemma 5.1 (Opial). Let $H$ be a Hilbert space and $x:[0, +\\infty [\\mapsto H$ a function such that there exists a nonempty set $S \\subseteq H$ verifying:\n\n(a) if $x(t_n) \\rightharpoonup \\bar{x}$ weakly in $H$ for some $t_n \\to +\\infty$ then $\\bar{x} \\in S$ ;  \n(b) $\\forall z\\in S,\\lim_{t\\to +\\infty}|x(t) - z|$ exists.\n\nThen, $x(t)$ weakly converges as $t \\to +\\infty$ to an element of $S$ .",
+      "proof": "Cited from: Z. Opial, Weak convergence of the sequence of successive approximations for nonexpansive mappings, Bull. Amer. Math. Soc. 73 (1967) 591–597.",
+      "depends_on": [],
+      "source": "Z. Opial, Weak convergence of the sequence of successive approximations for nonexpansive mappings, Bull. Amer. Math. Soc. 73 (1967) 591–597.",
+      "remark": "[Foundation: Hilbert.WeakConvergence] recall opial_lemma",
+      "resolution_priority": "high"
+    },
+    {
+      "id": "def_8",
+      "type": "definition",
+      "name": "(g-DIN)",
+      "statement": "It is natural now to introduce the following first-order system (where g stands for generalized)\n\n$$\n(\\mathrm{g} \\text {-DIN}) \\quad \\left\\{ \\begin{array}{l} \\dot {x} + \\beta \\nabla \\varPhi (x) + a x + b y = 0, \\\\ \\dot {y} + a x + b y = 0, \\end{array} \\right.\n$$\n\nwhich is a slight generalization of (18); indeed (g-DIN) is (18) if we set:\n\n$$\na = \\alpha - \\frac {1}{\\beta}, \\quad b = \\frac {1}{\\beta}. \\tag {19}\n$$",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Prove hint: set $a=\\alpha-1/\\beta$, $b=1/\\beta$ to recover DIN]"
+    },
+    {
+      "id": "ext_def_1",
+      "type": "definition",
+      "name": "Unconstrained and constrained minimizers",
+      "proof": null,
+      "depends_on": [],
+      "statement": "For $\\\\Phi:H\\\\to\\\\mathbb{R}$ and $C\\\\subseteq H$, define $$\\\\operatorname{Argmin}\\\\Phi:=\\\\{z\\\\in H:\\\\forall y\\\\in H,\\\\ \\\\Phi(z)\\\\leq\\\\Phi(y)\\\\},\\\\qquad \\\\operatorname{Argmin}_{C}\\\\Phi:=\\\\{z\\\\in C:\\\\forall y\\\\in C,\\\\ \\\\Phi(z)\\\\leq\\\\Phi(y)\\\\}.$$ A point $a$ is called a critical point of a differentiable $\\\\Phi$ when $\\\\nabla\\\\Phi(a)=0$",
+      "remark": "[Prove hint: unfold Argmin; for convex differentiable $Phi$, use the first-order convexity inequality]"
+    },
+    {
+      "id": "ext_def_2",
+      "type": "definition",
+      "name": "$omega$-limit set of a trajectory",
+      "proof": null,
+      "depends_on": [],
+      "statement": "For a trajectory $x:[0,\\\\infty[\\\\to H$, its $\\\\omega$-limit set is $$\\\\omega(x):=\\\\{a\\\\in H:\\\\exists t_n\\\\to\\\\infty\\\\text{ with }x(t_n)\\\\to a\\\\}.$$ The distance to a nonempty set $A$ is $\\\\operatorname{dist}(u,A):=\\\\inf_{a\\\\in A}|u-a|$.",
+      "remark": "[Prove hint: in finite dimension, boundedness gives precompactness of the orbit]"
+    },
+    {
+      "id": "ext_def_3",
+      "type": "definition",
+      "name": "Metric projection onto a closed convex set",
+      "proof": null,
+      "depends_on": [],
+      "statement": "If $C\\\\subseteq H$ is nonempty, closed, and convex, then $P_C:H\\\\to C$ denotes the unique metric projection: $$P_Cu\\\\in C\\\\quad\\\\text{and}\\\\quad |u-P_Cu|=\\\\inf_{v\\\\in C}|u-v|.$$ It is characterized by $$\\\\langle v-P_Cu,\\\\,u-P_Cu\\\\rangle\\\\leq0\\\\qquad( v\\\\in C).$$",
+      "remark": "[Foundation: Projection.BestApproximation] recall isChebyshev_of_nonempty_isClosed_convex | [Foundation: Projection.BestApproximation] recall eq_projectionPoint_iff_mem_and_inner_sub_right_nonpos_of_nonempty_isClosed_convex"
+    },
+    {
+      "id": "ext_thm_1",
+      "type": "theorem",
+      "name": "Cauchy--Lipschitz continuation theorem",
+      "depends_on": [],
+      "statement": "Let $X$ be a Banach space and $F:X\\\\to X$ be locally Lipschitz. For every $Y_0\\\\in X$, the equation $\\\\dot Y=F(Y)$ has a unique maximal classical solution. If its maximal time $T_{\\\\max}$ is finite and $Y(t)$ has a finite limit as $t\\\\uparrow T_{\\\\max}$, then the solution extends past $T_{\\\\max}$.",
+      "proof": "Cited from: standard Cauchy--Lipschitz/Picard--Lindel\"of theorem for Banach-space ODEs.",
+      "source": "Standard Cauchy--Lipschitz/Picard--Lindel\"of theorem.",
+      "resolution_priority": "high",
+      "remark": "[Prove hint: show the phase-space vector field is locally Lipschitz, then use the continuation clause]"
+    },
+    {
+      "id": "ext_thm_3",
+      "type": "theorem",
+      "name": "Bruck strong-convergence theorem for even convex gradient flows",
+      "depends_on": [],
+      "statement": "If $\\\\mathcal E$ is an even convex differentiable functional on a Hilbert space with nonempty minimizer set, then the trajectory of its gradient flow $\\\\dot X+\\\\nabla\\\\mathcal E(X)=0$ converges strongly to a minimizer under the hypotheses used in Proposition 5.2.",
+      "proof": "Cited from: R. E. Bruck, Asymptotic convergence of nonlinear contraction semigroups in Hilbert space, J. Funct. Anal. 18 (1975), 15--26.",
+      "source": "R. E. Bruck, Asymptotic convergence of nonlinear contraction semigroups in Hilbert space, J. Funct. Anal. 18 (1975), 15--26.",
+      "resolution_priority": "medium",
+      "remark": "[Note: apply after Proposition 6.1 to the even convex energy on $H\times H$]"
+    },
+    {
+      "id": "def_3",
+      "type": "definition",
+      "name": "Energy $E_\\lambda$",
+      "statement": "Along every trajectory of (DIN) and for $\\lambda > 0$ define:\n\n$$\nE _ {\\lambda} (t) = \\lambda \\Phi (x (t)) + \\frac {1}{2} | \\dot {x} (t) + \\beta \\nabla \\Phi (x (t)) | ^ {2}. \\tag {1}\n$$\n\nIn particular, we will write for short\n\n$$\nE (t) = E _ {\\alpha \\beta + 1} (t) = (\\alpha \\beta + 1) \\varPhi \\big (x (t) \\big) + \\frac {1}{2} \\big | \\dot {x} (t) + \\beta \\nabla \\varPhi \\big (x (t) \\big) \\big | ^ {2}. \\tag {2}\n$$",
+      "proof": null,
+      "depends_on": [
+        "def_2"
+      ],
+      "remark": "[Prove hint: differentiate using the chain rule and substitute (DIN)]"
+    },
+    {
+      "id": "def_5",
+      "type": "definition",
+      "name": "$(\\varepsilon\\text{-DIN})$",
+      "statement": "For simplicity, take $\\alpha = 0$ and $\\beta = 1$ and, for each $\\varepsilon > 0$ , consider a solution $x_{\\varepsilon} \\in C^{2}([0, \\infty[;H)$ to the initial value problem ( $x_{\\varepsilon}$ does exist, see [12]),\n\n$$\n(\\varepsilon \\text {-DIN}) \\quad \\left\\{ \\begin{array}{l} \\varepsilon \\ddot {x} _ {\\varepsilon} + \\nabla^ {2} \\varPhi (x _ {\\varepsilon}) \\dot {x} _ {\\varepsilon} + \\nabla \\varPhi (x _ {\\varepsilon}) = 0, \\quad t > 0, \\\\ x _ {\\varepsilon} (0) = x _ {0}, \\quad \\dot {x} _ {\\varepsilon} (0) = \\dot {x} _ {0}, \\end{array} \\right.\n$$",
+      "proof": null,
+      "depends_on": [
+        "def_4"
+      ],
+      "remark": "[Note: existence is cited in the paper; the proposition assumes a classical solution]"
+    },
+    {
+      "id": "def_6",
+      "type": "definition",
+      "name": "(CN)",
+      "statement": "where $x_{0}, \\dot{x}_{0} \\in H$ are given. We are interested in the asymptotic behaviour of $x_{\\varepsilon}$ as $\\varepsilon \\rightarrow 0$ . Observe that ( $\\varepsilon$ -DIN) may be considered as a singular perturbation of the following evolution equation:\n\n$$\n\\text {(CN)} \\quad \\left\\{ \\begin{array}{l} \\nabla^ {2} \\varPhi (x) \\dot {x} + \\nabla \\varPhi (x) = 0, \\quad t > 0, \\\\ x (0) = x _ {0}. \\end{array} \\right.\n$$\n\nThis is the Continuous Newton method for the minimization of $\\Phi$ , which is a continuous version of the well-known Newton iteration:\n\n$$\n\\nabla^ {2} \\varPhi \\big (x ^ {k} \\big) \\big (x ^ {k + 1} - x ^ {k} \\big) + \\nabla \\varPhi \\big (x ^ {k} \\big) = 0.\n$$\n\nThe unique solution $x \\in C^2([0, \\infty[;H)$ of (CN) satisfies:",
+      "proof": null,
+      "depends_on": [
+        "def_4"
+      ],
+      "remark": "[Prove hint: rewrite as $\\frac d{dt}\\nabla\\Phi(x)+\\nabla\\Phi(x)=0$]"
+    },
+    {
+      "id": "ext_lem_1",
+      "type": "lemma",
+      "name": "Lojasiewicz Lemma",
+      "statement": "Lemma 4.1 (Lojasiewicz). Let $\\Phi : \\mathbb{R}^N \\to \\mathbb{R}$ be a function which is supposed to be analytic in a neighbourhood of a critical point $a$ . Then, there exist $\\sigma > 0$ and $\\theta \\in ]0, 1/2[$ such that $^2$\n\n$$\n| x - a | <   \\sigma \\quad \\Rightarrow \\quad \\left| \\Phi (x) - \\Phi (a) \\right| ^ {1 - \\theta} \\leqslant \\left| \\nabla \\Phi (x) \\right|.\n$$",
+      "proof": "Cited from: S. Lojasiewicz, Ensembles semi-analytiques, IHES Notes (1965).",
+      "depends_on": [
+        "def_7"
+      ],
+      "source": "S. Lojasiewicz, Ensembles semi-analytiques, IHES Notes (1965).",
+      "remark": "[Note: the paper needs the local gradient inequality near a critical point]",
+      "resolution_priority": "high"
+    },
+    {
+      "id": "thm_4",
+      "type": "theorem",
+      "name": "Theorem 6.1",
+      "statement": "Theorem 6.1. Suppose $\\Phi\\in\\mathcal{C}^{2}(H)$ , and let the constants $\\alpha,\\beta,a,b$ satisfy $\\beta\\neq0$ and (19). The systems (DIN) and (g-DIN) are equivalent in the sense that $x$ is a solution of (DIN) if and only if there exists $y\\in\\mathcal{C}^{2}([0,+\\infty[,H)$ such that $(x,y)$ is a solution of (g-DIN).",
+      "proof": "$$\n\\dot {x} + \\beta \\nabla \\varPhi (x) + \\left(\\alpha - \\frac {1}{\\beta}\\right) x + \\frac {1}{\\beta} y = 0. \\tag {15}\n$$\n\nDifferentiate (15) to obtain:\n\n$$\n\\beta \\bigg [ \\ddot {x} + \\beta \\nabla^ {2} \\varPhi (x) \\dot {x} + \\bigg (\\alpha - \\frac {1}{\\beta} \\bigg) \\dot {x} \\bigg ] + \\dot {y} = 0,\n$$\n\nwhich, in view of (DIN), yields\n\n$$\n\\beta \\left[ - \\nabla \\varPhi (x) - \\frac {1}{\\beta} \\dot {x} \\right] + \\dot {y} = 0. \\tag {16}\n$$\n\nAdding (15) and (16) gives: [The $\\dot x$ and $\\nabla\\Phi(x)$ terms cancel exactly, leaving (17).]\n\n$$\n\\left(\\alpha - \\frac {1}{\\beta}\\right) x + \\dot {y} + \\frac {1}{\\beta} y = 0. \\tag {17}\n$$\n\nCollecting (15) and (17) gives the first-order system:\n\n$$\n\\left\\{ \\begin{array}{l} \\dot {x} + \\beta \\nabla \\Phi (x) + \\left(\\alpha - \\frac {1}{\\beta}\\right) x + \\frac {1}{\\beta} y = 0, \\\\ \\dot {y} + \\left(\\alpha - \\frac {1}{\\beta}\\right) x + \\frac {1}{\\beta} y = 0. \\end{array} \\right. \\tag {18}\n$$\n\nConversely, let $(x, y)$ be a solution of (18). Combining the two lines of (18) yields $\\dot{y} = \\dot{x} + \\beta \\nabla \\Phi(x)$ , while differentiating the first equation yields\n\n$$\n\\ddot {x} + \\beta \\nabla^ {2} \\varPhi (x) \\dot {x} + \\bigg (\\alpha - \\frac {1}{\\beta} \\bigg) \\dot {x} + \\frac {1}{\\beta} \\dot {y} = 0.\n$$\n\nSubstituting the value of $\\dot{y}$ in the above equation gives (DIN) again. Thus (DIN) is equivalent to (18).",
+      "depends_on": [
+        "def_2",
+        "def_8"
+      ],
+      "remark": "[Prove hint: differentiate the coordinate relation and eliminate $\\dot y$]"
+    },
+    {
+      "id": "thm_5",
+      "type": "theorem",
+      "name": "Theorem 6.2",
+      "statement": "Theorem 6.2. Assume that $\\Phi : H \\mapsto \\mathbb{R}$ is bounded from below, differentiable with $\\nabla \\Phi$ Lipschitz continuous on the bounded subsets of $H$ ; assume further $\\beta > 0$ , $b > 0$ , $b + a > 0$ in (g-DIN). Then the following properties hold:\n\n(i) For each $(x_0, y_0)$ in $H \\times H$ , there exists a unique solution $(x, y)$ of (g-DIN) defined on the whole interval $[0, +\\infty[$ , which belongs to $\\mathcal{C}^1(0, \\infty; H) \\times \\mathcal{C}^2(0, \\infty; H)$ and satisfies the initial conditions $x(0) = x_0$ and $y(0) = y_0$ .  \n(ii) For any $\\lambda \\in [\\beta (\\sqrt{a + b} -\\sqrt{b})^2,\\beta (\\sqrt{a + b} +\\sqrt{b})^2 ]$ the function\n\n$$\nF _ {\\lambda}: (x, y) \\in H \\times H \\mapsto \\lambda \\varPhi (x) + (1 / 2) | a x + b y | ^ {2}\n$$\n\nis a Liapounov function of (g-DIN); for every solution $(x, y)$ the energy $F_{\\lambda}(x(t), y(t))$ is decreasing on $[0, +\\infty[$ , bounded from below and hence, it converges to some real value as $t \\to +\\infty$ . Moreover,\n\n- $\\dot{x}$ and $\\nabla\\Phi(x)$ belong to $L^{2}(0,+\\infty;H)$ ;  \n- $\\lim_{t\\to +\\infty}\\Phi (x(t))$ exists;  \n- $\\lim_{t\\to +\\infty}(\\dot{x} (t) + \\beta \\nabla \\Phi x(t)) = 0.$\n\n(iii) Assuming moreover that $x$ is in $L^{\\infty}(0, +\\infty; H)$ , then we have:\n\n- $\\dot{x}, \\nabla \\Phi(x)$ are bounded on $[0, +\\infty[$ ;  \n- $\\lim_{t\\to +\\infty}\\nabla \\Phi (x(t)) = \\lim_{t\\to +\\infty}\\dot{x} (t) = 0.$",
+      "proof": "",
+      "depends_on": [
+        "def_8"
+      ],
+      "remark": "[Prove hint: repeat the Lyapunov calculation for the first-order system]"
+    },
+    {
+      "id": "def_9",
+      "type": "definition",
+      "name": "Gradient system (21) and energy (22)",
+      "statement": "Suppose $\\Phi \\in \\mathcal{C}^1 (H)$ and $a > 0$ , $b > 0$ in (g-DIN). Rescaling the variable $y$ by $y = \\sqrt{a / b} z$ transforms (g-DIN) into the equivalent system:\n\n$$\n\\left\\{ \\begin{array}{l} \\dot {x} + \\beta \\nabla \\Phi (x) + a x + \\sqrt {a b} z = 0, \\\\ \\dot {z} + \\sqrt {a b} x + b z = 0. \\end{array} \\right. \\tag {20}\n$$\n\nWe note that (20) is exactly the gradient system\n\n$$\n\\dot {X} + \\nabla \\mathcal {E} (X) = 0, \\tag {21}\n$$\n\nwhere $X = (x, z)$ and $E : H \\times H \\mapsto R$ is defined by:\n\n$$\n\\mathcal {E} (X) = \\beta \\varPhi (x) + \\frac {1}{2} \\big | \\sqrt {a} x + \\sqrt {b} z \\big | ^ {2}.\n$$\n\nSuppose now that $\\varPhi$ belongs to $\\mathcal{C}^2 (H)$ and let us turn to (DIN) which we know is equivalent to (g-DIN) with $a = \\alpha -1 / \\beta$ , $b = 1 / \\beta$ . If $\\alpha$ , $\\beta$ satisfy $\\alpha \\beta >1$ in addition to $\\alpha >0$ , $\\beta >0$ , then $a$ , $b$ satisfy $a > 0$ , $b > 0$ . As a consequence, (DIN) is equivalent to the gradient system (20); using the parameters $\\alpha$ , $\\beta$ the expression of $\\mathcal{E}$ is\n\n$$\n\\mathcal {E} (X) = \\mathcal {E} (x, z) = \\beta \\varPhi (x) + \\frac {1}{2 \\beta} \\big | \\sqrt {\\alpha \\beta - 1} x + z \\big | ^ {2}. \\tag {22}\n$$",
+      "proof": null,
+      "depends_on": [
+        "def_8"
+      ],
+      "remark": "[Notation: the gradient flow is on the product Hilbert space $H\\times H$]"
+    },
+    {
+      "id": "ext_thm_2",
+      "type": "theorem",
+      "name": "Properties of the $omega$-limit set of a bounded finite-dimensional trajectory",
+      "depends_on": [
+        "ext_def_2"
+      ],
+      "statement": "For a bounded trajectory of a continuous autonomous flow in $\\\\mathbb{R}^N$, $\\\\omega(x)$ is nonempty, compact, and connected, and $\\\\operatorname{dist}(x(t),\\\\omega(x))\\\\to0$. If along the trajectory the velocity and the gradient of a $C^1$ Lyapunov potential tend to $0$, then every point of $\\\\omega(x)$ is a critical point of that potential.",
+      "proof": "Cited from: A. Haraux, Systèmes Dynamiques Dissipatifs et Applications, RMA 17, Masson, 1991, as cited in the proof of Theorem 4.1.",
+      "source": "A. Haraux, Systèmes Dynamiques Dissipatifs et Applications, RMA 17, Masson, 1991.",
+      "resolution_priority": "high",
+      "remark": "[Note: the stated compactness uses the finite-dimensional hypothesis $H=mathbb{R}^N$]"
+    },
+    {
+      "id": "def_10",
+      "type": "definition",
+      "name": "(c-DIN), (H-c), and constrained energy",
+      "statement": "We propose in the following theorem to combine (g-DIN) and (S1) to solve $(\\mathcal{P})$ . More precisely, given real parameters $\\beta$ , a and b such that $\\beta > 0$ , $a \\neq 0$ , b > 0 and $b + a > 0$ , we consider the first-order system in $H \\times H$ :\n\n$$\n\\begin{array}{l l} \\text {(c - DIN)} & \\left\\{ \\begin{array}{l} \\dot {x} (t) + x (t) - P _ {C} \\big [ x (t) - \\beta \\nabla \\Phi \\big (x (t) \\big) - a x (t) - b y (t) \\big ] = 0, \\\\ \\dot {y} (t) + a x (t) + b y (t) = 0, \\end{array} \\right. \\end{array}\n$$\n\nwith initial conditions\n\n$$\nx (0) = x _ {0} \\in C, \\quad y (0) = y _ {0} \\in H. \\tag {27}\n$$\n\nOf course, (c-DIN) reduces to (g-DIN) if C = H. The functional $\\Phi$ is required to satisfy the following hypotheses:\n\n$$\n\\text {(H - c)} \\quad \\left\\{ \\begin{array}{l} \\Phi \\text {is defined and continuously differentiable} \\\\ \\quad \\text {on an open neighbourhood of the closed convex set} C, \\\\ \\Phi \\text {is bounded from below on} C, \\\\ \\text {the gradient} \\nabla \\Phi \\text {is Lipschitz continuous} \\\\ \\quad \\text {on the bounded subsets of} C. \\end{array} \\right.\n$$\n\nIf $(x, y)$ is a solution to (c-DIN) and for $\\lambda > 0$ , let us define:\n\n$$\nE _ {\\lambda} (t) = \\lambda \\Phi \\big (x (t) \\big) + \\frac {1}{2} \\big | a x (t) + b y (t) \\big | ^ {2}. \\tag {28}\n$$",
+      "proof": null,
+      "depends_on": [
+        "ext_def_3"
+      ],
+      "remark": "[Foundation: Projection.BestApproximation] recall eq_projectionPoint_iff_mem_and_inner_sub_right_nonpos_of_nonempty_isClosed_convex"
+    },
+    {
+      "id": "thm_1",
+      "type": "theorem",
+      "name": "Theorem 2.1",
+      "statement": "Theorem 2.1. Let $\\Phi$ satisfy (H). Then the following properties hold for (DIN), provided $\\alpha > 0$ and $\\beta > 0$ :\n\n(i) For each $(x_0, \\dot{x}_0) \\in H \\times H$ , there exists a unique global solution $x(t)$ of (DIN) satisfying the initial conditions $x(0) = x_0$ and $\\dot{x}(0) = \\dot{x}_0$ , with $x \\in \\mathcal{C}^2([0, +\\infty[;H])$ .  \n(ii) For every trajectory $x(t)$ of (DIN) and $\\lambda \\in [(1 - \\sqrt{\\alpha\\beta})^2, (1 + \\sqrt{\\alpha\\beta})^2]$ , the scalar function $E_{\\lambda}$ defined by (1) is bounded from below and decreasing on $[0, +\\infty[$ , hence, it converges as $t \\to +\\infty$ . Moreover,\n\n- $\\dot{x}$ and $\\nabla\\Phi(x)$ belong to $L^{2}(0,+\\infty;H)$ ;  \n- $\\lim_{t\\to +\\infty}\\Phi (x(t))$ exists;  \n- $\\lim_{t\\to +\\infty}(\\dot{x}(t) + \\beta \\nabla \\Phi x(t)) = 0.$\n\n(iii) Assuming, moreover, that $x \\in L^{\\infty}(0, +\\infty; H)$ , we have:\n\n- $\\dot{x},\\ddot{x},\\nabla \\Phi (x)$ and $\\nabla^2\\Phi (x)$ are bounded on $[0, + \\infty [;$  \n- $\\lim_{t\\to +\\infty}\\nabla \\Phi (x(t)) = \\lim_{t\\to +\\infty}\\dot{x} (t) = \\lim_{t\\to +\\infty}\\ddot{x} (t) = 0.$",
+      "proof": "Proof. (i) For any choice of initial conditions $(x_{0},\\dot{x}_{0})\\in H\\times H$ , the existence and uniqueness of a classic local solution to (DIN) follow from the Cauchy–Lipschitz theorem applied to the equivalent first-order in time system in the phase space $H\\times H$ , $\\dot{Y}=F(Y)$ , with\n\n$\nY (t) = \\binom{x (t)}{\\dot {x} (t)}\n\n[The map $F$ is locally Lipschitz on $H\\times H$: on every bounded ball the Hessian is bounded and Lipschitz, so $(u,v)\\mapsto\\nabla^2\\Phi(u)v$ is locally Lipschitz, while $\\nabla\\Phi$ is locally Lipschitz there. Thus the hypotheses of the Cauchy--Lipschitz theorem hold.] \\quad \\text {and} \\quad F (u, v) = \\binom{v}{- \\alpha v - \\beta \\nabla^ {2} \\varPhi (u) v - \\nabla \\varPhi (u)}.\n$$\n\nLet $x$ denote the maximal solution defined on some interval $[0, T_{\\max}[$ with $0 < T_{\\max} \\leqslant +\\infty$ . The regularity assumptions on $\\Phi$ imply that $x \\in \\mathcal{C}^2([0, T_{\\max}[; H])$ . Suppose, contrary to our claim, that $T_{\\max} < +\\infty$ . Differentiating $E(t)$ (see (2)) and using (DIN), we successively obtain:\n\n$$\n\\begin{array}{l} \\dot {E} (t) = (\\alpha \\beta + 1) \\bigl \\langle \\nabla \\Phi (x (t)), \\dot {x} (t) \\bigr \\rangle + \\bigl \\langle \\ddot {x} (t) + \\beta \\nabla^ {2} \\Phi (x (t)) \\dot {x} (t), \\dot {x} (t) + \\beta \\nabla \\Phi (x (t)) \\bigr \\rangle \\\\ = (\\alpha \\beta + 1) \\bigl \\langle \\nabla \\Phi (x (t)), \\dot {x} (t) \\bigr \\rangle - \\bigl \\langle \\alpha \\dot {x} (t) + \\nabla \\Phi (x (t)), \\dot {x} (t) + \\beta \\nabla \\Phi (x (t)) \\bigr \\rangle \\\\ = - \\alpha \\left| \\dot {x} (t) \\right| ^ {2} - \\beta \\left| \\nabla \\Phi (x (t)) \\right| ^ {2}. \\tag {3} \\\\ \\end{array}\n$$\n\nHence, $E(t)$ is a Liapounov function for the trajectory x. Further, for all $t \\in [0, T_{\\max}[$ ,\n\n$$\n\\begin{array}{l} (\\alpha \\beta + 1) \\varPhi (x (t)) + \\frac {1}{2} | \\dot {x} (t) + \\beta \\nabla \\varPhi (x (t)) | ^ {2} + \\alpha \\int_ {0} ^ {t} | \\dot {x} (\\tau) | ^ {2} \\mathrm{d} \\tau \\\\ + \\beta \\int_ {0} ^ {t} \\left| \\nabla \\varPhi (x (\\tau)) \\right| ^ {2} \\mathrm{d} \\tau = E (0). \\tag {4} \\\\ \\end{array}\n$\n\nSince $\\Phi$ is bounded from below\n\n[Integrating (3) from $0$ to $t$ gives (4), because $E$ is $C^1$ along the classical solution.  Since the first two terms of (4) are bounded below, both nonnegative integral terms are uniformly bounded.] and $\\alpha, \\beta > 0$ , we obtain that $\\dot{x}$ and $\\nabla \\Phi(x)$ belong to $L^2(0, T_{\\max}; H)$ . Therefore, for all $0 \\leqslant s \\leqslant t < T_{\\max}$ ,\n\n$$\n\\left| x (t) - x (s) \\right| \\leqslant \\int_ {s} ^ {t} \\left| \\dot {x} (\\tau) \\right| \\mathrm{d} \\tau \\leqslant \\sqrt {t - s} \\sqrt {\\int_ {s} ^ {t} \\left| \\dot {x} (\\tau) \\right| ^ {2} \\mathrm{d} \\tau} \\leqslant \\sqrt {t - s} \\| \\dot {x} \\| _ {L ^ {2} (0, T _ {\\max}; H)},\n$$\n\nwhich shows that $\\lim_{t\\to T_{\\max}}x(t)$ exists. As a consequence, $x$ is bounded on $[0,T_{\\max}]$ and so is $\\nabla^2\\Phi (x)$ in view of the Lipschitz continuity of $\\nabla^{2}\\Phi$ . Thus\n\n$$\n\\ddot {x} = - \\alpha \\dot {x} - \\beta \\nabla^ {2} \\varPhi (x) \\dot {x} - \\nabla \\varPhi (x)\n$$\n\nbelongs to $L^{2}(0, T_{\\max}; H)$ , and we have for all $0 \\leqslant s \\leqslant t < T_{\\max}$ :\n\n$$\n\\left| \\dot {x} (t) - \\dot {x} (s) \\right| \\leqslant \\int_ {s} ^ {t} \\left| \\ddot {x} (\\tau) \\right| \\mathrm{d} \\tau \\leqslant \\sqrt {t - s} \\| \\ddot {x} \\| _ {L ^ {2} (0, T _ {\\max}; H)},\n$$\n\nso that $\\lim_{t\\to T_{\\max}}\\dot{x}(t)$ exists. Applying the Cauchy–Lipschitz local existence theorem to (DIN) with initial data at $T_{\\max}$ given by $(\\lim_{t\\to T_{\\max}}x(t),\\lim_{t\\to T_{\\max}}\\dot{x}(t))$ , we can extend the maximal solution to an interval strictly larger than $[0,T_{\\max}[$ , which contradicts the maximality of the solution. Consequently, $T_{\\max}=+\\infty$ .\n\n(ii) The point here is to realize that there is a whole family of Liapounov functions for the trajectory x. Indeed, setting for short (recall (1))\n\n$$\nE _ {\\pm} (t) = E _ {1 \\pm \\sqrt {\\alpha \\beta}} = \\left(1 \\pm \\sqrt {\\alpha \\beta}\\right) ^ {2} \\varPhi \\big (x (t) \\big) + \\frac {1}{2} \\big | \\dot {x} (t) + \\beta \\nabla \\varPhi \\big (x (t) \\big) \\big | ^ {2},\n$$\n\nwe obtain:\n\n$$\n\\dot {E} _ {\\pm} (t) = - \\left| \\sqrt {\\alpha} \\dot {x} (t) \\mp \\sqrt {\\beta} \\nabla \\Phi (x (t)) \\right| ^ {2}.\n$\n\nHence, $E_{+}$ and $E_{-}$ are two Liapounov functions for $x$ , as well as any convex combination of them.\n\n[Indeed $E_\\lambda$ depends affinely on $\\lambda$; every $\\lambda$ in the displayed interval is obtained as a convex combination of $(1-\\sqrt{\\alpha\\beta})^2$ and $(1+\\sqrt{\\alpha\\beta})^2$, while the quadratic term is common to both endpoint energies.] As a result, for any $\\lambda$ in $[(1 - \\sqrt{\\alpha\\beta})^2, (1 + \\sqrt{\\alpha\\beta})^2]$ , $E_{\\lambda}$ is decreasing on $[0, +\\infty[$ , (e.g., $E = E_{\\alpha\\beta + 1} = (1/2)(E^{+} + E^{-})$ ). Further we have:\n\n$$\n\\begin{array}{l} \\left(1 \\pm \\sqrt {\\alpha \\beta}\\right) ^ {2} \\varPhi (x (t)) + \\frac {1}{2} \\big | \\dot {x} (t) + \\beta \\nabla \\varPhi (x (t)) \\big | ^ {2} - E _ {\\pm} (0) \\\\ = - \\int_ {0} ^ {t} \\left| \\sqrt {\\alpha} \\dot {x} (\\tau) \\mp \\sqrt {\\beta} \\nabla \\Phi (x (\\tau)) \\right| ^ {2} \\mathrm{d} \\tau . \\\\ \\end{array}\n$$\n\nSince $\\Phi$ is bounded from below, we obtain that both\n\n$$\n\\left| \\sqrt {\\alpha} \\dot {x} - \\sqrt {\\beta} \\nabla \\Phi (x) \\right| \\quad \\text {and} \\quad \\left| \\sqrt {\\alpha} \\dot {x} + \\sqrt {\\beta} \\nabla \\Phi (x) \\right|\n$$\n\nbelong to $L^2(0, +\\infty)$ and hence $\\dot{x}$ and $\\nabla \\Phi(x)$ are in $L^2(0, +\\infty; H)$ . [More explicitly, the sum of the squares of these two functions is $2\\alpha|\\dot x|^2+2\\beta|\\nabla\\Phi(x)|^2$, so finiteness of both integrals gives the asserted two $L^2$ bounds.] Now, since $E_+$ and $E_-$ are decreasing and bounded from below, $\\lim_{t \\to +\\infty} E_+(t)$ and $\\lim_{t \\to +\\infty} E_-(t)$ exist. Therefore, $\\Phi(x(t)) = (1/(4\\sqrt{\\alpha\\beta})) (E_+(t) - E_-(t))$ admits a limit as $t \\to +\\infty$ . As a consequence, $|\\dot{x}(t) + \\beta\\nabla \\Phi(x(t))|$ has a limit as $t \\to +\\infty$ , which is zero because $|\\dot{x}(t) + \\beta\\nabla \\Phi(x(t))| \\in L^2(0, +\\infty)$ .\n\n(iii) We now assume that $x$ is in $L^{\\infty}(0, +\\infty; H)$ . Then, by (H), $\\nabla^{2}\\Phi(x)$ and $\\nabla \\Phi(x)$ are bounded on $[0, +\\infty[$ ; and so are $\\dot{x} = (\\dot{x} + \\beta \\nabla \\Phi(x)) - \\beta \\nabla \\Phi(x)$ and $\\ddot{x} = -\\alpha \\dot{x} - \\beta \\nabla^{2}\\Phi(x)\\dot{x} - \\nabla \\Phi(x)$ . Set $h(t) = (1/2)|\\nabla \\Phi(x(t))|^{2}$ and note that $h \\in L^{1}(0, +\\infty)$ and $\\dot{h} = \\langle \\nabla^{2}\\Phi(x)\\dot{x}, \\nabla \\Phi(x) \\rangle \\in L^{\\infty}(0, +\\infty)$ ; then, by a standard argument, $\\lim_{t \\to +\\infty} h(t) = 0$ . [For completeness, if $h$ did not tend to $0$, there would be $\\varepsilon>0$ and times $t_n\\to\\infty$ with $h(t_n)\\geq\\varepsilon$.  The bound on $\\dot h$ supplies disjoint intervals of a fixed positive length on which $h\\geq\\varepsilon/2$, contradicting $h\\in L^1$.] Likewise, if we set $k(t) = (1/2)|\\dot{x}(t)|^{2}$ then $\\lim_{t \\to +\\infty} k(t) = 0$ . [The same argument applies because $k\\in L^1$ by (ii) and $\\dot k=\\langle\\ddot x,\\dot x\\rangle$ is bounded.] It follows that $\\ddot{x}(t) \\to 0$ as $t \\to +\\infty$ .",
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "def_3",
+        "ext_thm_1"
+      ],
+      "remark": "[Prove hint: energy identity (3), continuation, endpoint Lyapunov energies, then the bounded-derivative $L^1$ lemma]"
+    },
+    {
+      "id": "prop_1",
+      "type": "proposition",
+      "name": "Proposition 3.1",
+      "statement": "Proposition 3.1. There exists a constant $C > 0$ such that $\\forall t \\geqslant 0$ , $|x_{\\varepsilon}(t) - x(t)| \\leqslant C\\sqrt{\\varepsilon}$ . Therefore, $x_{\\varepsilon} \\to x$ uniformly on $[0, +\\infty[$ .",
+      "proof": "Proof. Let us introduce the $\\varepsilon$ -energy\n\n$$\nU _ {\\varepsilon} (t) := \\frac {\\varepsilon}{2} \\big | \\dot {x} _ {\\varepsilon} (t) \\big | ^ {2} + \\varPhi \\big (x _ {\\varepsilon} (t) \\big),\n$$\n\nwhich satisfies\n\n$$\n\\dot {U} _ {\\varepsilon} (t) = - \\big \\langle \\nabla^ {2} \\varPhi \\big (x _ {\\varepsilon} (t) \\big) \\dot {x} _ {\\varepsilon} (t), \\dot {x} _ {\\varepsilon} (t) \\big \\rangle \\leqslant 0.\n$\n\nHence,\n\n$\n\n[The inequality uses that strong monotonicity of $\\nabla\\Phi$ implies monotonicity, and differentiability then gives $\\langle\\nabla^2\\Phi(x_\\varepsilon)\\dot x_\\varepsilon,\\dot x_\\varepsilon\\rangle\\geq0$.]\nU _ {\\varepsilon} (t) \\leqslant U _ {\\varepsilon} (0) = \\frac {\\varepsilon}{2} | \\dot {x} _ {0} | ^ {2} + \\varPhi (x _ {0}), \\tag {7}\n$$\n\nand consequently\n\n$$\n\\sup _ {0 <   \\varepsilon \\leqslant 1} \\sup _ {t \\geqslant 0} \\varPhi \\big (x _ {\\varepsilon} (t) \\big) \\leqslant \\frac {1}{2} | \\dot {x} _ {0} | ^ {2} + \\varPhi (x _ {0}) =: \\alpha .\n$$\n\nSince $\\Phi$ is coercive, the sublevel set $\\Gamma_{\\alpha}(\\Phi):=\\{x\\in H:\\Phi(x)\\leqslant\\alpha\\}$ is bounded and then $\\sup_{0<\\varepsilon\\leqslant1}\\sup_{t\\geqslant0}|x_{\\varepsilon}(t)|<R$ for a suitable constant $R>0$ . Similarly, we obtain that the solution $x(t)$ of (CN) satisfies $\\{x(t):t\\geqslant0\\}\\subset\\Gamma_{\\Phi(x_0)}(\\Phi)\\subset\\Gamma_{\\alpha}(\\Phi)$ , so that we may assume that $\\sup_{t\\geqslant0}|x(t)|<R$ . By (5), we have\n\n$$\n\\forall t > 0, \\quad \\left| x _ {\\varepsilon} (t) - x (t) \\right| \\leqslant \\frac {1}{\\beta_ {R}} \\Big | \\nabla \\Phi \\big (x _ {\\varepsilon} (t) \\big) - \\nabla \\Phi \\big (x (t) \\big) \\Big |. \\tag {8}\n$\n\nNotice that the differential equation\n\n[To obtain (8), combine (5) with Cauchy--Schwarz: $\\beta_R|x_\\varepsilon-x|^2\\leq\\langle\\nabla\\Phi(x_\\varepsilon)-\\nabla\\Phi(x),x_\\varepsilon-x\\rangle\\leq|\\nabla\\Phi(x_\\varepsilon)-\\nabla\\Phi(x)|\\,|x_\\varepsilon-x|$, and cancel unless the distance is zero.] in ( $\\varepsilon$ -DIN) may be rewritten:\n\n$$\n\\frac {\\mathrm{d}}{\\mathrm{d} t} \\big [ \\varepsilon \\dot {x} _ {\\varepsilon} (t) + \\nabla \\varPhi \\big (x _ {\\varepsilon} (t) \\big) \\big ] + \\nabla \\varPhi \\big (x _ {\\varepsilon} (t) \\big) = 0.\n$$\n\nSetting $\\omega_{\\varepsilon}(t):=\\varepsilon\\dot{x}_{\\varepsilon}(t)+\\nabla\\Phi(x_{\\varepsilon}(t))$ , we obtain the nonhomogeneous initial value problem:\n\n$$\n\\left\\{ \\begin{array}{l} \\dot {\\omega} _ {\\varepsilon} + \\omega_ {\\varepsilon} = \\varepsilon \\dot {x} _ {\\varepsilon} (t), \\quad t > 0, \\\\ \\omega_ {\\varepsilon} (0) = \\varepsilon \\dot {x} _ {0} + \\nabla \\Phi (x _ {0}), \\end{array} \\right.\n$$\n\nwhose solution is given by:\n\n$$\n\\omega_ {\\varepsilon} (t) = \\mathrm{e} ^ {- t} \\big (\\varepsilon \\dot {x} _ {0} + \\nabla \\varPhi (x _ {0}) \\big) + \\varepsilon \\int_ {0} ^ {t} \\mathrm{e} ^ {- (t - \\tau)} \\dot {x} _ {\\varepsilon} (\\tau)   \\mathrm{d} \\tau .\n$$\n\nThus\n\n$$\n\\nabla \\varPhi \\big (x _ {\\varepsilon} (t) \\big) = \\mathrm{e} ^ {- t} \\big (\\varepsilon \\dot {x} _ {0} + \\nabla \\varPhi (x _ {0}) \\big) - \\varepsilon \\dot {x} _ {\\varepsilon} (t) + \\varepsilon \\int_ {0} ^ {t} \\mathrm{e} ^ {- (t - \\tau)} \\dot {x} _ {\\varepsilon} (\\tau)   \\mathrm{d} \\tau .\n$$\n\nBy (6) together with (8), we have:\n\n$$\n\\left| x _ {\\varepsilon} (t) - x (t) \\right| \\leqslant \\frac {1}{\\beta_ {R}} \\Bigg (\\varepsilon | \\dot {x} _ {0} | + \\varepsilon \\big | \\dot {x} _ {\\varepsilon} (t) \\big | + \\int_ {0} ^ {t} \\mathrm{e} ^ {- (t - \\tau)} \\varepsilon \\big | \\dot {x} _ {\\varepsilon} (\\tau) \\big |   \\mathrm{d} \\tau \\Bigg).\n$$\n\nOn the other hand, from the energy estimate (7), it follows that $\\sup_{0 < \\varepsilon \\leqslant 1} \\sup_{t \\geqslant 0} \\varepsilon |\\dot{x}_{\\varepsilon}(t)| \\leqslant \\sqrt{2\\varepsilon(\\alpha - \\inf \\Phi)}$ . Consequently,\n\n$ [The convolution term is bounded by $\\sup_{s\\geq0}\\varepsilon|\\dot x_\\varepsilon(s)|$, since $\\int_0^t e^{-(t-\\tau)}d\\tau\\leq1$.]\n\\big | x _ {\\varepsilon} (t) - x (t) \\big | \\leqslant \\frac {1}{\\beta_ {R}} \\big (\\varepsilon | \\dot {x} _ {0} | + 2 \\sqrt {2 \\varepsilon (\\alpha - \\inf \\varPhi)} \\big) \\leqslant \\frac {\\sqrt {\\varepsilon}}{\\beta_ {R}} \\big (| \\dot {x} _ {0} | + 2 \\sqrt {2 (\\alpha - \\inf \\varPhi)} \\big),\n$$\n\nwhich completes the proof. □",
+      "depends_on": [
+        "def_4",
+        "def_5",
+        "def_6"
+      ],
+      "remark": "[Prove hint: energy bound gives a common sublevel ball; use strong monotonicity and variation of constants]"
+    },
+    {
+      "id": "cor_2",
+      "type": "corollary",
+      "name": "Corollary 4.1",
+      "statement": "Corollary 4.1. Let $\\Phi : \\Omega \\subseteq \\mathbb{R}^N \\to \\mathbb{R}$ be a function which is supposed to be analytic in the open set $\\Omega$ . Let $A$ be a nonempty subset of $\\Omega$ such that $\\nabla \\Phi(a) = 0$ , for all $a$ in $A$ :\n\n(1) if A is connected then $\\Phi$ assumes a constant value on A, say $\\Phi_{A}$ ;  \n(2) if $A$ is connected and compact, then there exist $\\sigma > 0$ and $\\theta \\in ]0, 1/2[$ such that\n\n$$\n\\mathrm{dist} (x, A) <   \\sigma \\quad \\Rightarrow \\quad \\left| \\Phi (x) - \\Phi_ {A} \\right| ^ {1 - \\theta} \\leqslant \\left| \\nabla \\Phi (x) \\right|.\n$$",
+      "proof": "Proof. (1) Pick some $a$ in $A$ . After the lemma there exist $\\sigma > 0$ and $\\theta \\in ]0, 1/2[$ such that\n\n$$\n| x - a | <   \\sigma \\quad \\Rightarrow \\quad \\left| \\Phi (x) - \\Phi (a) \\right| ^ {1 - \\theta} \\leqslant \\left| \\nabla \\Phi (x) \\right|.\n$$\n\nHence, if x belongs to $A \\cap B(a, \\sigma)$ where $B(a, \\sigma)$ is the open ball with center a and radius $\\sigma$ , then $|\\Phi(x) - \\Phi(a)| = 0$ . As a consequence, the set $\\{x \\in A / \\Phi(x) = \\Phi(a)\\}$ is open in A; as it is obviously closed in A and nonvoid it is equal to A. [A subset that is simultaneously open and closed in the connected space $A$ is either empty or all of $A$; it contains $a$, so it is all of $A$.]\n\n(2) Without restriction we may assume that $\\varPhi$ vanishes on $A$ . [Replace $\\Phi$ by $\\Phi-\\Phi_A$; this leaves its gradient and the desired inequality unchanged.] According to Lojasiewicz's lemma and owing to the compactness of $A$ , there exists a finite family $(a_i, \\sigma_i, \\theta_i)_{i \\in \\{1, ..., n\\}}$ with $a_i \\in A$ , $\\sigma_i > 0$ , $\\theta_i \\in ]0, 1/2[$ such that\n\n- the balls $B(a_{i},\\sigma_{i})$ , build a finite open cover of $A$ ;\n\n$$\n- x \\in \\Omega , | x - a _ {i} | <   \\sigma_ {i} \\Rightarrow | \\varPhi (x) | ^ {1 - \\theta_ {i}} \\leqslant | \\nabla \\varPhi (x) |.\n$$\n\nResorting once more to the compactness of $A$ , and to the continuity of $\\varPhi$ , we assert the existence of some $\\sigma > 0$ such that\n\n$$\n\\mathrm{dist} (x, A) <   \\sigma \\quad \\Rightarrow \\quad x \\in \\Omega , \\quad x \\in \\bigcup_ {i = 1} ^ {n} B (a _ {i}, \\sigma_ {i}), \\quad \\left| \\varPhi (x) \\right| \\leqslant 1.\n$$\n\nIf we set $\\theta = \\min \\theta_{i}$ [Because $|\\Phi(x)|\\leq1$ and $\\theta\\leq\\theta_i$, one has $|\\Phi(x)|^{1-\\theta}\\leq|\\Phi(x)|^{1-\\theta_i}$.] , then any $x$ complying with $\\mathrm{dist}(x,A) < \\sigma$ verifies $x\\in \\Omega$ and $x\\in B(a_i,\\sigma_i)$ for some $i\\in \\{1,\\dots ,n\\}$ ; hence, $|\\varPhi (x)|^{1 - \\theta}\\leqslant |\\varPhi (x)|^{1 - \\theta_i}\\leqslant |\\nabla \\varPhi (x)|$ .",
+      "depends_on": [
+        "def_7",
+        "ext_lem_1"
+      ],
+      "remark": "[Prove hint: connected clopen argument, then a finite compactness cover]"
+    },
+    {
+      "id": "thm_6",
+      "type": "theorem",
+      "name": "Theorem 6.3",
+      "statement": "Theorem 6.3. In addition to the hypotheses of Theorem 6.2 assume that $\\Phi$ is convex and that $\\operatorname{Argmin} \\Phi$ , the set of minimizers of $\\Phi$ on $H$ , is nonempty. Then for any solution $(x, y)$ of (g-DIN), $x(t)$ weakly converges to a minimizer of $\\Phi$ on $H$ as $t$ goes to infinity.",
+      "proof": "",
+      "depends_on": [
+        "def_8",
+        "thm_5",
+        "ext_def_1"
+      ],
+      "remark": "[Foundation: Hilbert.WeakConvergence] recall opial_lemma | [Prove hint: adapt Theorem 5.1]"
+    },
+    {
+      "id": "prop_4",
+      "type": "proposition",
+      "name": "Proposition 6.1",
+      "statement": "Proposition 6.1. Suppose $\\Phi \\in \\mathcal{C}^2 (H)$ , $\\alpha >0$ , $\\beta >0$ and $\\alpha \\beta >1$ . The system (DIN) is equivalent to the gradient system (21) with $\\mathcal{E}$ given by (22).",
+      "proof": "Suppose $\\Phi \\in \\mathcal{C}^1 (H)$ and $a > 0$ , $b > 0$ in (g-DIN). Rescaling the variable $y$ by $y = \\sqrt{a / b} z$ transforms (g-DIN) into the equivalent system:\n\n$$\n\\left\\{ \\begin{array}{l} \\dot {x} + \\beta \\nabla \\Phi (x) + a x + \\sqrt {a b} z = 0, \\\\ \\dot {z} + \\sqrt {a b} x + b z = 0. \\end{array} \\right. \\tag {20}\n$$\n\nWe note that (20) is exactly the gradient system [Indeed the two partial gradients of $\\mathcal E(x,z)=\\beta\\Phi(x)+\\frac12|\\sqrt a x+\\sqrt b z|^2$ are $\\beta\\nabla\\Phi(x)+ax+\\sqrt{ab}z$ and $\\sqrt{ab}x+bz$.]\n\n$$\n\\dot {X} + \\nabla \\mathcal {E} (X) = 0, \\tag {21}\n$$\n\nwhere $X = (x, z)$ and $E : H \\times H \\mapsto R$ is defined by:\n\n$$\n\\mathcal {E} (X) = \\beta \\varPhi (x) + \\frac {1}{2} \\big | \\sqrt {a} x + \\sqrt {b} z \\big | ^ {2}.\n$$\n\nSuppose now that $\\varPhi$ belongs to $\\mathcal{C}^2 (H)$ and let us turn to (DIN) which we know is equivalent to (g-DIN) with $a = \\alpha -1 / \\beta$ , $b = 1 / \\beta$ . If $\\alpha$ , $\\beta$ satisfy $\\alpha \\beta >1$ in addition to $\\alpha >0$ , $\\beta >0$ , then $a$ , $b$ satisfy $a > 0$ , $b > 0$ . As a consequence, (DIN) is equivalent to the gradient system (20); using the parameters $\\alpha$ , $\\beta$ the expression of $\\mathcal{E}$ is\n\n$$\n\\mathcal {E} (X) = \\mathcal {E} (x, z) = \\beta \\varPhi (x) + \\frac {1}{2 \\beta} \\big | \\sqrt {\\alpha \\beta - 1} x + z \\big | ^ {2}. \\tag {22}\n$$",
+      "depends_on": [
+        "def_2",
+        "def_8",
+        "thm_4",
+        "def_9"
+      ],
+      "remark": "[Prove hint: compute the two product-space partial gradients explicitly]"
+    },
+    {
+      "id": "thm_7",
+      "type": "theorem",
+      "name": "Theorem 7.1",
+      "statement": "Theorem 7.1. Let $\\Phi$ satisfy the hypotheses (H-c) and assume $\\beta > 0$ , $a \\neq 0$ , $b > 0$ and $b + a > 0$ . Then the following properties hold:\n\n(i) For each $(x_{0}, y_{0}) \\in C \\times H$ , there exists a unique solution $(x(t), y(t))$ of (c-DIN) defined on the whole interval $[0, +\\infty[$ which satisfies the initial conditions $x(0) = x_{0}$ , $y(0) = y_{0}$ ; $(x, y)$ belongs to $\\mathcal{C}^{1}(0, +\\infty; H) \\times \\mathcal{C}^{2}(0, +\\infty; H)$ and x is viable, that is $x(t)$ lies in C for all $t \\geqslant 0$ .\n\n(ii) For every trajectory $(x(t), y(t))$ of (c-DIN) and for $\\lambda \\in [\\beta(\\sqrt{b} - \\sqrt{b+a})^{2}, \\beta(\\sqrt{b} + \\sqrt{b+a})^{2}]$ , the energy $E_{\\lambda}$ is decreasing on $[0, +\\infty[$ , bounded from below and, hence, converges to some real value as $t \\to +\\infty$ . Moreover,\n\n- $\\dot{x}$ and $\\dot{y}$ belong to $L^2(0, +\\infty; H)$ ;  \n- $\\lim_{t\\to +\\infty}\\Phi (x(t))$ exists;  \n- $\\lim_{t\\to +\\infty}\\dot{y} (t) = 0.$\n\n(iii) Assuming in addition that $x$ is in $L^{\\infty}(0, +\\infty; H)$ , we have:\n\n- $\\nabla\\Phi(x)$ , $y$ , $\\dot{x}$ are bounded on $[0, +\\infty[$ ;  \n- $\\lim_{t\\to +\\infty}\\dot{x} (t) = 0.$",
+      "proof": "The proof essentially goes along the same lines as in Theorem 2.1. The nonlinearity caused by the projection $P_C$ is compensated by the characteristic inequality $\\langle v - P_C u, u - P_C u \\rangle \\leqslant 0$ for all $(u, v)$ in $H \\times C$ . The natural quantities upon which the calculations rely are $\\dot{x}$ and $\\dot{y}$ (rather than $\\dot{x}$ and $\\nabla \\Phi(x)$ in the proof of Theorem 2.1). [The projection inequality is precisely the characterization in ext_def_3, and the local phase-space vector field is locally Lipschitz because both $P_C$ and $\\nabla\\Phi$ are Lipschitz on bounded sets.]\n\nProof of Theorem 7.1. (i) Since the projection $P_C$ is a Lipschitz continuous operator, the local existence and the uniqueness of a solution to (c-DIN) with initial conditions (27) follow from the Cauchy-Lipschitz theorem. Let $(x, y)$ denote the maximal solution defined on some interval $[0, T_{\\max}]$ with $0 \\leqslant T_{\\max} \\leqslant +\\infty$ .\n\nFirst let us show that $x$ is viable for $t \\in [0, T_{\\max}[$ . Define $p: [0, T_{\\max}[ \\mapsto C$ by $p(t) = P_C[x(t) - \\beta \\nabla \\Phi(x(t)) - ax(t) - by(t)]$ and integrate the equation $\\dot{x} + x = p$ on $[0, t] \\subset [0, T_{\\max}[$ :\n\n$$\nx (t) = \\int_ {0} ^ {t} \\mathrm{e} ^ {- (t - s)} p (s) \\mathrm{d} s + \\mathrm{e} ^ {- t} x _ {0}.\n$$\n\nObserve that $\\xi(t) = \\int_0^t\\mathrm{e}^{-(t - s)} / (1 - \\mathrm{e}^{-t})p(s)\\mathrm{d}s$ belongs to $C$ , as the weight function $s\\mapsto \\mathrm{e}^{-(t - s)} / (1 - \\mathrm{e}^{-t})$ is positive and its integral over $[0,t]$ is 1. Now writing $x(t) = (1 - \\mathrm{e}^{-t})\\xi (t) + \\mathrm{e}^{-t}x_{0}$ shows that $x(t)$ belongs to $C$ . [This uses convexity of $C$: $\\xi(t)\\in C$ is a normalized positive average of points of $C$, and $x(t)$ is its convex combination with $x_0\\in C$.]\n\nNext, the viability of $x$ and the convexity of $C$ are used to derive the following inequality on $[0, T_{\\max}[:$\n\n$$\n\\left\\langle x - P _ {C} \\big (x - \\beta \\nabla \\Phi (x) + \\dot {y} \\big), x - \\beta \\nabla \\Phi (x) + \\dot {y} - P _ {C} \\big (x - \\beta \\nabla \\Phi (x) + \\dot {y} \\big) \\right\\rangle \\leqslant 0,\n$$\n\nwhich, in view of (c-DIN), successively reduces to\n\n$$\n\\left\\langle - \\dot {x}, - \\dot {x} - \\beta \\nabla \\Phi (x) + \\dot {y} \\right\\rangle \\leqslant 0, \\quad \\beta \\left\\langle \\dot {x}, \\nabla \\Phi (x) \\right\\rangle \\leqslant - | \\dot {x} | ^ {2} + \\langle \\dot {x}, \\dot {y} \\rangle . \\tag {29}\n$$\n\nFurther, in order to apply classical energy arguments, we show that $E_{\\lambda}$ defined by (28) is decreasing along the trajectory $(x, y)$ , at least for some value of $\\lambda$ . Indeed, we have (using the second equation in (c-DIN)):\n\n$$\n\\dot {E} _ {\\lambda} = \\lambda \\big \\langle \\dot {x}, \\nabla \\varPhi (x) \\big \\rangle - b | \\dot {y} | ^ {2} - a \\langle \\dot {x}, \\dot {y} \\rangle .\n$$\n\nTaking (29) into account, we obtain:\n\n$$\n\\dot {E} _ {\\lambda} \\leqslant - \\frac {\\lambda}{\\beta} | \\dot {x} | ^ {2} - b | \\dot {y} | ^ {2} + \\left(\\frac {\\lambda}{\\beta} - a\\right) \\langle \\dot {x}, \\dot {y} \\rangle . \\tag {30}\n$$\n\nIn particular, if we choose $\\lambda = \\beta(a + 2b)$ (this last quantity is positive), we have:\n\n$$\n\\dot {E} _ {\\beta (a + 2 b)} \\leqslant - (a + b) | \\dot {x} | ^ {2} - b | \\dot {x} - \\dot {y} | ^ {2}. \\tag {31}\n$$\n\nIntegrating this inequality over $[0, t] \\subset [0, T_{\\max}[$ , we obtain:\n\n$$\n\\begin{array}{l} \\beta (a + 2 b) \\Phi (x (t)) + \\frac {1}{2} | a x (t) + b y (t) | ^ {2} + (a + b) \\int_ {0} ^ {t} | \\dot {x} (\\tau) | ^ {2} \\mathrm{d} \\tau + b \\int_ {0} ^ {t} | \\dot {x} (\\tau) - \\dot {y} (\\tau) | ^ {2} \\mathrm{d} \\tau \\\\ \\leqslant \\beta (a + 2 b) \\Phi (x _ {0}) + \\frac {1}{2} | a x _ {0} + b y _ {0} | ^ {2}. \\tag {32} \\\\ \\end{array}\n$$\n\nFinally, to prove that $(x,y)$ is defined over $[0, +\\infty[$ , we suppose that $T_{\\max} < +\\infty$ and argue by contradiction. Since $x$ is viable and $\\Phi$ is bounded from below, (32) shows that $\\dot{y} = -(ax + by)$ is bounded on $[0, T_{\\max}[$ ; hence, $\\lim_{t \\to T_{\\max}} y(t)$ exists. As a consequence, $y$ and $x = -(1/a)(\\dot{y} + by)$ are bounded, and so is $\\nabla \\Phi(x)$ in view of (H-c). Then (c-DIN) shows that $\\dot{x}$ is bounded too. Hence, $\\lim_{t \\to T_{\\max}} x(t)$ exists. This classically yields a contradiction, and $T_{\\max}$ must be equal to $+\\infty$ . [The just-established limits $(x(T_{\\max}^-),y(T_{\\max}^-))$ furnish initial data for Cauchy--Lipschitz continuation, contradicting maximality.]\n\nThe last assertion, $(x,y)\\in \\mathcal{C}^1 (0, + \\infty ;H)\\times \\mathcal{C}^2 (0, + \\infty ;H)$ , immediately follows from (c-DIN).\n\n(ii) Set $q(\\lambda) = -(\\lambda / \\beta) |\\dot{x}|^2 - b |\\dot{y}|^2 + ((\\lambda / \\beta) - a) \\langle \\dot{x}, \\dot{y} \\rangle$ , $\\lambda_{\\min} = \\beta (\\sqrt{b} - \\sqrt{b + a})^2$ , and $\\lambda_{\\max} = \\beta (\\sqrt{b} + \\sqrt{b + a})^2$ . The inequality (30) yields:\n\n$$\n\\dot {E} _ {\\lambda_ {\\min}} \\leqslant q (\\lambda_ {\\min}) = - \\left| \\left(\\sqrt {b} - \\sqrt {b + a}\\right) \\dot {x} + \\sqrt {b}   \\dot {y} \\right| ^ {2},\n$$\n\n$$\n\\dot {E} _ {\\lambda_ {\\max}} \\leqslant q (\\lambda_ {\\max}) = - \\left| \\left(\\sqrt {b} + \\sqrt {b + a}\\right) \\dot {x} - \\sqrt {b}   \\dot {y} \\right| ^ {2}.\n$$\n\nSince $q$ is an affine function of $\\lambda$ for every $\\lambda \\in [\\lambda_{\\min}, \\lambda_{\\max}]$ , $E_{\\lambda}$ lies between $q(\\lambda_{\\min})$ and $q(\\lambda_{\\max})$ and hence, is nonpositive. [More precisely, $\\dot E_\\lambda\\leq q(\\lambda)$ and affine interpolation of the two nonpositive endpoint values gives $q(\\lambda)\\leq0$; the phrase \"$E_\\lambda$\" here refers to its derivative.] The energy $E_{\\lambda}$ is then decreasing on $[0, +\\infty[$ and converges since $\\Phi$ is bounded from below on $C$ .\n\nThe inequality (32) shows that $\\dot{x}$ and $\\dot{y}$ belong to $L^{2}(0,+\\infty;H)$ .\n\nNow, considering two different values $\\lambda, \\lambda'$ in $[\\lambda_{\\min}, \\lambda_{\\max}]$ shows that $\\Phi(x) = (1/(\\lambda' - \\lambda))(E_{\\lambda'} - E_{\\lambda})$ admits a limit as $t \\to +\\infty$ .\n\nHence, $|\\dot{y}|^2 = |ax + by|^2 = 2(E_\\lambda - \\lambda \\Phi(x))$ also admits a limit which necessarily is zero since $|\\dot{y}|$ belongs to $L^2(0, +\\infty; H)$ .\n\n(iii) If $x$ is bounded, then $\\nabla \\Phi(x)$ is bounded (after $(\\mathcal{H} - c)$ ), and $y = -(1/b)(ax + \\dot{y})$ is bounded (recall $\\dot{y} \\to 0, t \\to +\\infty$ ). Further $\\dot{x}$ is bounded in view of (c-DIN). Since $\\dot{x}$ and $\\dot{y}$ are bounded, $x$ and $y$ are Lipschitz continuous, which shows, in view of (c-DIN), that $\\dot{x}$ itself is Lipschitz continuous. But $\\dot{x}$ belongs to $L^2(0, +\\infty; H)$ , hence, according to a classical argument, $\\dot{x}(t) \\to 0$ as $t \\to +\\infty$ .",
+      "depends_on": [
+        "def_10",
+        "ext_def_3",
+        "ext_thm_1"
+      ],
+      "remark": "[Prove hint: projection variational inequality supplies (29); combine it with a quadratic energy]"
+    },
+    {
+      "id": "cor_1",
+      "type": "corollary",
+      "name": "Corollary 2.1",
+      "statement": "Corollary 2.1. Assume that $\\Phi: H \\to \\mathbb{R}$ satisfies (H) and is coercive, i.e. $\\lim_{|x| \\to +\\infty} \\Phi(x) = +\\infty$ . Then the solution $x$ of (DIN) is in $L^{\\infty}(0, +\\infty; H)$ . In particular, the properties in Theorem 2.1(iii) hold.",
+      "proof": "Proof. It suffices to observe that (4) gives $(\\alpha\\beta+1)\\Phi(x(t))\\leqslant E(0)$ . This estimate and the coerciveness of $\\Phi$ imply that the trajectory x remains bounded. [Indeed $\\Phi(x(t))\\leq E(0)/(\\alpha\\beta+1)$ for every $t$; the corresponding sublevel set is bounded by coercivity.] ☐",
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "thm_1"
+      ],
+      "remark": "[Prove hint: use the energy sublevel bound and coercivity]"
+    },
+    {
+      "id": "thm_3",
+      "type": "theorem",
+      "name": "Theorem 5.1",
+      "statement": "Theorem 5.1. Let $\\Phi$ be a convex function satisfying (H) and assume that $\\operatorname{Argmin} \\Phi \\neq \\emptyset$ . Let $x$ be a solution of (DIN). Then for all $z \\in \\operatorname{Argmin} \\Phi$ , $\\lim_{t \\to +\\infty} |x(t) - z|$ exists, and $x(t)$ weakly converges to a minimum point of $\\Phi$ as $t \\to +\\infty$ .",
+      "proof": "Proof. Write $S = \\operatorname{Argmin} \\Phi$ and pick some $z$ in $S$ . In order to prove the existence of $\\lim_{t \\to +\\infty} |x(t) - z|$ , we introduce an auxiliary energy:\n\n$$\nE _ {\\varepsilon} (t) = E (t) + \\varepsilon \\left(\\frac {\\alpha}{2} \\big | x (t) - z \\big | ^ {2} + \\big \\langle \\dot {x} (t) + \\beta \\nabla \\varPhi \\big (x (t) \\big), x (t) - z \\big \\rangle\\right), \\tag {12}\n$$\n\nwhere $E$ is the energy defined by (2) and $\\varepsilon$ is a positive parameter. Let us show that, by choosing $\\varepsilon$ small enough, $E_{\\varepsilon}$ is a Liapounov function for (DIN). Using (DIN) and (3), we have:\n\n$$\n\\begin{array}{l} \\dot {E} _ {\\varepsilon} (t) = - (\\alpha - \\varepsilon) \\big | \\dot {x} (t) \\big | ^ {2} - \\beta \\big | \\nabla \\Phi \\big (x (t) \\big) \\big | ^ {2} \\\\ \\left. - \\varepsilon \\big \\langle \\nabla \\Phi (x (t)), x (t) - z \\big \\rangle + \\varepsilon \\big \\langle \\beta \\nabla \\Phi (x (t)), \\dot {x} (t) \\big \\rangle . \\right. \\\\ \\end{array}\n$$\n\nUsing the Young inequality for the last term, we obtain:\n\n$$\n\\begin{array}{l} \\dot {E} _ {\\varepsilon} (t) \\leqslant - \\left(\\alpha - \\frac {3 \\varepsilon}{2}\\right) \\big | \\dot {x} (t) \\big | ^ {2} - \\beta \\left(1 - \\frac {\\varepsilon \\beta}{2}\\right) \\big | \\nabla \\varPhi \\big (x (t) \\big) \\big | ^ {2} \\\\ \\left. - \\varepsilon \\big \\langle \\nabla \\Phi (x (t)), x (t) - z \\big \\rangle . \\right. \\tag {13} \\\\ \\end{array}\n$$\n\nTake $\\varepsilon$ so small that each term in the previous expression is nonpositive [For instance take $0<\\varepsilon<\\min\\{2\\alpha/3,2/\\beta\\}$.  Convexity gives $\\langle\\nabla\\Phi(x)-\\nabla\\Phi(z),x-z\\rangle\\geq0$ and $\\nabla\\Phi(z)=0$, hence the remaining inner-product term is nonpositive.] (for the last term, use the fact that $\\nabla\\Phi$ is monotone and $z\\in S$ ); then $E_{\\varepsilon}$ is nonincreasing and we readily obtain:\n\n$$\n\\big \\langle \\dot {x} (t) + \\beta \\nabla \\Phi \\big (x (t) \\big), x (t) - z \\big \\rangle + \\frac {\\alpha}{2} \\big | x (t) - z \\big | ^ {2} \\leqslant \\frac {1}{\\varepsilon} \\big (E _ {\\varepsilon} (0) - E (t) \\big).\n$$\n\nSince $E(t)$ is bounded from below, because so is $\\Phi$ , there exists some constant $M$ such that\n\n$$\n\\left\\langle \\dot {x} (t) + \\beta \\nabla \\Phi \\big (x (t) \\big), x (t) - z \\right\\rangle + \\frac {\\alpha}{2} \\big | x (t) - z \\big | ^ {2} \\leqslant M.\n$$\n\nAs $\\dot{x} + \\beta \\nabla \\Phi(x)$ is bounded by Theorem 2.1(ii), $|x(t) - z|$ is bounded. Hence, $E_{\\varepsilon}(t)$ , which is bounded from below and decreasing, admits a limit as $t \\to +\\infty$ . Moreover, Theorem 2.1(ii)-(iii) asserts the following: $\\lim_{t \\to +\\infty} E(t)$ exists and $\\lim_{t \\to +\\infty} \\dot{x}(t) = \\lim_{t \\to +\\infty} \\nabla \\Phi(x(t)) = 0$ ; hence, after (12), $\\lim_{t \\to +\\infty} |x(t) - z|$ exists.\n\nIn order to apply the Opial lemma we need to prove that the weak cluster points of the trajectory x are in S. Let $\\bar{x} \\in H$ and $t_{n} \\to +\\infty$ be such that $x(t_{n}) \\rightharpoonup \\bar{x}$ . Using the convexity inequality, we have for any $z \\in S$ ,\n\n$$\n\\Phi (z) = \\min \\Phi \\geqslant \\Phi \\big (x (t _ {n}) \\big) + \\big \\langle \\nabla \\Phi \\big (x (t _ {n}) \\big), z - x (t _ {n}) \\big \\rangle .\n$$\n\nSince $\\nabla\\Phi(x(t_{n}))\\to0$ and $\\Phi$ is lower semicontinuous, we obtain:\n\n$$\n\\min \\Phi \\geqslant \\operatorname * {l i m i n f} _ {n \\to + \\infty} \\Phi \\big (x (t _ {n}) \\big) \\geqslant \\Phi (\\bar {x}),\n$$\n\nwhich means that $\\bar{x} \\in S$ . [The displayed convexity inequality has an error term tending to $0$ because $x(t_n)$ is bounded and $\\nabla\\Phi(x(t_n))\\to0$; weak lower semicontinuity of a continuous convex function gives the second inequality.] The Opial lemma then applies, ensuring the weak convergence of $x$ , and we also deduce that $\\Phi(x(t)) \\to \\min \\Phi$ as $t \\to \\infty$ .",
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "def_3",
+        "thm_1",
+        "ext_lem_2",
+        "ext_def_1"
+      ],
+      "remark": "[Foundation: Hilbert.WeakConvergence] recall opial_lemma | [Prove hint: perturbed energy (12) gives Opial condition (b)]"
+    },
+    {
+      "id": "thm_2",
+      "type": "theorem",
+      "name": "Theorem 4.1",
+      "statement": "Theorem 4.1. Let $x$ be a bounded solution of (DIN) and assume that $\\Phi : \\mathbb{R}^N \\mapsto \\mathbb{R}$ is analytic. Then $\\dot{x}$ belongs to $L^1(0, +\\infty; H)$ and $x(t)$ converges towards a critical point of $\\Phi$ as $t \\to \\infty$ .",
+      "proof": "Proof. Let $\\omega(x)$ denote the $\\omega$ -limit set of x. Classically ([19], e.g.), $\\omega(x)$ is a compact connected set which consists of critical points of $\\Phi$ . Moreover, from Theorem 2.1(ii), $\\Phi$ assumes a constant value on $\\omega(x)$ , which we may suppose to be 0. Further, $\\text{dist}(x(t), \\omega(x)) \\to 0$ as $t \\to \\infty$ . [Here boundedness in $\\mathbb R^N$ makes the orbit precompact; Theorem 2.1(iii) gives $\\dot x(t),\\nabla\\Phi(x(t))\\to0$, so the standard $\\omega$-limit theorem yields the stated criticality.]\n\nAfter Corollary 4.1, there exist some $T > 0$ and some $\\theta \\in ]0, 1/2[$ such that\n\n$$\nt \\geqslant T \\quad \\Rightarrow \\quad \\left| \\varPhi (x (t)) \\right| ^ {1 - \\theta} \\leqslant \\left| \\nabla \\varPhi (x (t)) \\right|. \\tag {9}\n$$\n\nThe proof of the convergence of x relies on the equality\n\n$$\n- \\frac {\\mathrm{d}}{\\mathrm{d} t} E (t) ^ {\\theta} = - \\dot {E} (t) E (t) ^ {\\theta - 1}\n$$\n\nand on lower bounds for $-\\dot{E}(t)$ and $E(t)^{\\theta-1}$ involving $|\\dot{x}(t)|$ ; recall that the energy E is defined by (2).\n\nFirst, we have (recall (3)),\n\n$$\n- \\dot {E} (t) \\geqslant \\frac {1}{2} \\min (\\alpha , \\beta) \\left\\{\\left| \\dot {x} (t) \\right| + \\left| \\nabla \\Phi (x (t)) \\right| \\right\\} ^ {2}. \\tag {10}\n$\n\nFurther, for $C = \\max\n\n[The lower bound (10) follows from $\\alpha|\\dot x|^2+\\beta|\\nabla\\Phi|^2\\geq\\min(\\alpha,\\beta)(|\\dot x|^2+|\\nabla\\Phi|^2)\\geq\\frac12\\min(\\alpha,\\beta)(|\\dot x|+|\\nabla\\Phi|)^2$.] (\\alpha \\beta +1,\\beta^2)$ , we have (recall (2)),\n\n$$\nE (t) \\leqslant C \\big \\{\\left| \\Phi (x (t)) \\right| + \\left| \\dot {x} (t) \\right| ^ {2} + \\left| \\nabla \\Phi (x (t)) \\right| ^ {2} \\big \\}.\n$$\n\nHence (using the inequality $(r + s)^{1 - \\theta}\\leqslant r^{1 - \\theta} + s^{1 - \\theta})$\n\n$$\nE (t) ^ {1 - \\theta} \\leqslant C ^ {1 - \\theta} \\big \\{\\big | \\Phi \\big (x (t) \\big) \\big | ^ {1 - \\theta} + \\big | \\dot {x} (t) \\big | ^ {2 (1 - \\theta)} + \\big | \\nabla \\Phi \\big (x (t) \\big) \\big | ^ {2 (1 - \\theta)} \\big \\}.\n$$\n\nUsing (9), we have for $t \\geqslant T$ :\n\n$$\nE (t) ^ {1 - \\theta} \\leqslant C ^ {1 - \\theta} \\big \\{\\big | \\nabla \\varPhi \\big (x (t) \\big) \\big | + \\big | \\dot {x} (t) \\big | ^ {2 (1 - \\theta)} + \\big | \\nabla \\varPhi \\big (x (t) \\big) \\big | ^ {2 (1 - \\theta)} \\big \\}.\n$$\n\nSince $|\\nabla\\Phi(x(t))|$ and $|\\dot{x}(t)|$ tend to zero as $t \\to \\infty$ and since $2(1 - \\theta) > 1$ , the quantities $|\\nabla\\Phi(x(t))|^{2(1-\\theta)}$ and $|\\dot{x}(t)|^{2(1-\\theta)}$ are negligible with respect to $|\\nabla\\Phi(x(t))|$ and $|\\dot{x}(t)|$ . Therefore, there is some constant D > 0 such that, for $t \\geqslant T$ ,\n\n$$\nE (t) ^ {1 - \\theta} \\leqslant D \\Big \\{\\left| \\nabla \\varPhi (x (t)) \\right| + \\left| \\dot {x} (t) \\right| \\Big \\}. \\tag {11}\n$$\n\nIf $|\\nabla\\Phi(x(t))| + |\\dot{x}(t)|$ happens to vanish at some time $t_{1} \\geqslant T$ , then owing to the unicity of the solution to (DIN), $x(t)$ is equal to $x(t_{1})$ for $t \\geqslant t_{1}$ , and the theorem is proved.\n\nElse from (10) and (11) we obtain for $t \\geqslant T$ :\n\n$$\n- \\frac {\\mathrm{d}}{\\mathrm{d} t} E (t) ^ {\\theta} \\geqslant \\frac {1}{2 D} \\min (\\alpha , \\beta) \\big \\{\\left| \\nabla \\varPhi (x (t)) \\right| + \\left| \\dot {x} (t) \\right| \\big \\}.\n$$\n\nSince $\\lim_{t\\to\\infty}E(t)$ exists, $|\\dot{x}|$ belongs to $L^{1}([0,+\\infty[)$ [Integrating the preceding differential inequality from $T$ to $R$ yields a bound by $E(T)^\\theta-E(R)^\\theta$; letting $R\\to\\infty$ proves integrability of $|\\dot x|$ (and of $|\\nabla\\Phi(x)|$).] and consequently $\\lim_{t\\to\\infty}x(t)$ exists. ☐",
+      "depends_on": [
+        "def_2",
+        "def_3",
+        "thm_1",
+        "cor_2",
+        "ext_def_2",
+        "ext_thm_2"
+      ],
+      "remark": "[Prove hint: apply the uniform Lojasiewicz inequality on $\\omega(x)$ to a fractional energy power]"
+    },
+    {
+      "id": "thm_8",
+      "type": "theorem",
+      "name": "Theorem 7.2",
+      "statement": "Theorem 7.2. In addition to the hypotheses of Theorem 7.1, assume that $\\Phi$ is convex and that $\\operatorname{Argmin}_C\\Phi$ , the set of minimizers of $\\Phi$ on $C$ , is nonempty. Then for any solution $(x(t), y(t))$ of (c-DIN), $x(t)$ weakly converges to a minimizer of $\\Phi$ on $C$ as $t$ goes to infinity.",
+      "proof": "Proof. First, let us establish some useful inequalities. Let $x^{*}$ be a minimizer of $\\Phi$ on $C$ . Use the characteristic inequality for $P_{C}$ to write (it is implicit that the time variable $t$ varies in $[0, +\\infty[$ in the following):\n\n$$\n\\left\\langle x ^ {*} - P _ {C} \\big (x - \\beta \\nabla \\Phi (x) + \\dot {y} \\big), x - \\beta \\nabla \\Phi (x) + \\dot {y} - P _ {C} \\big (x - \\beta \\nabla \\Phi (x) + \\dot {y} \\big) \\right\\rangle \\leqslant 0.\n$$\n\nIn view of (c-DIN) we derive\n\n$$\n\\left\\langle x ^ {*} - x - \\dot {x}, - \\dot {x} - \\beta \\nabla \\Phi (x) + \\dot {y} \\right\\rangle \\leqslant 0,\n$$\n\n$$\n\\langle x ^ {*} - x, \\dot {y} - \\dot {x} \\rangle + \\beta \\big \\langle \\dot {x}, \\nabla \\Phi (x) \\big \\rangle \\leqslant \\big \\langle x ^ {*} - x, \\beta \\nabla \\Phi (x) \\big \\rangle - | \\dot {x} | ^ {2}. \\tag {33}\n$$\n\nBut $\\langle x^{*}-x,\\nabla\\Phi(x^{*})-\\nabla\\Phi(x)\\rangle$ is nonnegative since $\\Phi$ is convex; and $\\langle x^{*}-x,-\\nabla\\Phi(x^{*})\\rangle$ is nonnegative because $x^{*}$ is a minimizer of $\\Phi$ on C. Hence, $\\langle x^{*}-x,-\\nabla\\Phi(x)\\rangle$ is nonnegative [Indeed add $\\langle x^*-x,\\nabla\\Phi(x^*)-\\nabla\\Phi(x)\\rangle\\geq0$ and $\\langle x^*-x,-\\nabla\\Phi(x^*)\\rangle\\geq0$ to obtain the claim.] and (33) entails\n\n$$\n\\langle x ^ {*} - x, \\dot {y} - \\dot {x} \\rangle + \\beta \\big \\langle \\dot {x}, \\nabla \\Phi (x) \\big \\rangle \\leqslant - | \\dot {x} | ^ {2}. \\tag {34}\n$$\n\nOur aim now is to introduce an energy functional involving the term $|x^{*}-x|$ . Set\n\n$$\nF (t) = \\bigl \\langle x ^ {*} - x (t), a x (t) + b y (t) \\bigr \\rangle + \\frac {1}{2} (b + a) \\bigl | x ^ {*} - x (t) \\bigr | ^ {2} + b \\beta \\varPhi \\bigl (x (t) \\bigr).\n$$\n\nWe have\n\n$$\n\\dot {F} = b \\big (\\langle x ^ {*} - x, \\dot {y} - \\dot {x} \\rangle + \\big \\langle \\dot {x}, \\beta \\nabla \\varPhi (x) \\big \\rangle \\big) + \\langle \\dot {x}, \\dot {y} \\rangle ,\n$$\n\nand in view of (34) we obtain:\n\n$$\n\\dot {F} \\leqslant \\langle \\dot {x}, \\dot {y} \\rangle - b | \\dot {x} | ^ {2} \\leqslant - \\left(b - \\frac {3}{2}\\right) | \\dot {x} | ^ {2} + \\frac {1}{2} | \\dot {y} - \\dot {x} | ^ {2}. \\tag {35}\n$$\n\nIn view of (31) and (35) we may fix some $\\varepsilon > 0$ so small that the function $\\mathcal{E}:\\mathbb{R}\\mapsto H$ defined by:\n\n$$\n\\begin{array}{l} \\mathcal {E} = E _ {a + 2 b} + \\varepsilon F = (a + 2 b + \\varepsilon b \\beta) \\varPhi (x) + \\frac {1}{2} | a x + b y | ^ {2} \\\\ + \\varepsilon \\langle x ^ {*} - x, a x + b y \\rangle + \\frac {\\varepsilon}{2} (a + b) | x ^ {*} - x | ^ {2} \\\\ \\end{array}\n$$\n\nis decreasing and, hence, bounded above. [Combining (31) and (35), choose $\\varepsilon>0$ so that each positive contribution from $\\varepsilon\\dot F$ is dominated by the strictly negative dissipation terms in $\\dot E_{\\beta(a+2b)}$.] Since $\\Phi(x)$ is bounded from below on C, the quantity\n\n$$\n- | a x + b y | | x ^ {*} - x | + \\frac {1}{2} (b + a) | x - x ^ {*} | ^ {2},\n$$\n\nwhich is less than $\\langle x^{*}-x, ax+by\\rangle+(1/2)(b+a)|x^{*}-x|^{2}$ , is bounded from above; hence, $|x^{*}-x|$ is bounded because $\\dot{y}=ax+by$ is bounded (Theorem (7.1)(ii)). From that we deduce that E is bounded below and admits a limit as $t\\to+\\infty$ . Now in the expression of E the first three terms are known to have a limit, as $t\\to+\\infty$ , hence, $|x^{*}-x|$ has a limit.\n\nIn order to apply Opial's lemma, we now show that any weak limit point $x_{\\infty}$ of $x$ belongs to $\\mathrm{Argmin}_C\\Phi$ . Let $x^{*}$ be an element of $\\mathrm{Argmin}_C\\Phi$ . Invoking the convexity of $\\Phi$ and inequality (33), we have:\n\n$$\n\\Phi (x ^ {*}) \\geqslant \\Phi (x (t)) + \\big \\langle x ^ {*} - x, \\nabla \\Phi (x) \\big \\rangle ,\n$$\n\n$$\n\\varPhi (x ^ {*}) \\geqslant \\varPhi \\big (x (t) \\big) + \\frac {1}{\\beta} \\langle x ^ {*} - x, \\dot {y} - \\dot {x} \\rangle + \\frac {1}{\\beta} \\big \\langle \\dot {x}, \\dot {x} + \\beta \\nabla \\varPhi (x) \\big \\rangle .\n$$\n\nSince $|\\dot{x}| + |\\dot{y}| \\to 0$ as $t \\to +\\infty$ , and since $(x^{*} - x)$ and $(\\dot{x} + \\beta \\nabla \\Phi(x))$ are bounded, we have:\n\n$$\n\\langle x ^ {*} - x, \\dot {y} - \\dot {x} \\rangle + \\left\\langle \\dot {x}, \\dot {x} + \\beta \\nabla \\varPhi (x) \\right\\rangle\\rightarrow 0, \\quad t \\rightarrow + \\infty .\n$$\n\nSo, if $t_{n}$ is a sequence going to infinity such that $x(t_{n})$ weakly converges to $x_{\\infty}$ , we have $\\Phi(x^{*}) \\geqslant \\liminf\\Phi(x(t_{n})) \\geqslant \\Phi(x_{\\infty})$ . Hence, $x_{\\infty}$ is a minimizer of $\\Phi$ on C [Since $x(t_n)\\in C$ and $C$ is closed convex, it is weakly closed, hence $x_\\infty\\in C$; the last inequality therefore identifies it as a constrained minimizer.], and Opial's lemma entails that $x(t)$ weakly converges to $x_{\\infty}$ . ☐",
+      "depends_on": [
+        "def_10",
+        "thm_7",
+        "ext_lem_2",
+        "ext_def_1",
+        "ext_def_3"
+      ],
+      "remark": "[Foundation: Hilbert.WeakConvergence] recall opial_lemma | [Prove hint: establish distance limits through $\\mathcal E$, then verify weak cluster points]"
+    },
+    {
+      "id": "prop_2",
+      "type": "proposition",
+      "name": "Proposition 5.1",
+      "statement": "Proposition 5.1. Under the hypotheses of Theorem 5.1, if, moreover, $\\operatorname{int}(\\operatorname{Argmin}\\Phi) \\neq \\emptyset$ then every trajectory of (DIN) converges to a minimizer of $\\Phi$ with respect to the strong topology of $H$ .",
+      "proof": "Proof. Fix $z \\in \\operatorname{int}(\\operatorname{Argmin}\\Phi)$ so that there exists $\\rho > 0$ such that for every $z' \\in H$ with $|z' - z| < \\rho$ then $z' \\in \\operatorname{int}(\\operatorname{Argmin}\\Phi)$ and consequently $\\nabla\\Phi(z') = 0$ . By monotonicity of $\\nabla\\Phi$ , we have:\n\n$$\n\\left\\langle \\nabla \\varPhi (y), y - z \\right\\rangle \\geqslant \\left\\langle \\nabla \\varPhi (y), z ^ {\\prime} - z \\right\\rangle\n$$\n\nfor all $y \\in H$ and $z' \\in H$ with $\\nabla \\Phi(z') = 0$ . Thus, for every $y \\in H$ ,\n\n$ [Choose $z'=z-\\\\rho\\\\nabla\\\\Phi(y)/|\\\\nabla\\\\Phi(y)|$ when $\\\\nabla\\\\Phi(y)\\\\ne0$ (and argue trivially otherwise); this point lies in the interior minimizer ball, and substitution gives the asserted lower bound.]\n\\big \\langle \\nabla \\varPhi (y), y - z \\big \\rangle \\geqslant \\rho \\big | \\nabla \\varPhi (y) \\big |.\n$$\n\nSpecialize y to $x(t)$ to obtain for all $t \\geqslant 0$ and all $z \\in \\operatorname{int}(\\operatorname{Argmin}\\Phi)$ :\n\n$$\n\\left\\langle \\nabla \\Phi (x (t)), x (t) - z \\right\\rangle \\geqslant \\rho \\left| \\nabla \\Phi (x (t)) \\right|. \\tag {14}\n$$\n\nNow, for $\\varepsilon > 0$ small enough, the inequality (13) may be simplified to\n\n$$\n0 \\leqslant \\varepsilon \\big \\langle \\nabla \\varPhi (x (t)), x (t) - z \\big \\rangle \\leqslant - \\dot {E} _ {\\varepsilon} (t);\n$$\n\nintegrating the latter yields\n\n$$\n0 \\leqslant \\varepsilon \\int_ {0} ^ {t} \\big \\langle \\nabla \\varPhi (x (s)), x (s) - z \\big \\rangle \\mathrm{d} s \\leqslant E _ {\\varepsilon} (0) - E _ {\\varepsilon} (t).\n$$\n\nSince $\\lim_{t\\to +\\infty}E_{\\varepsilon}(t)$ exists, after the proof of Theorem 5.1, we deduce that $\\langle \\nabla \\Phi (x),x - z\\rangle$ belongs to $L^1 (0, + \\infty)$ , and so does $|\\nabla \\Phi (x)|$ in view of (14). If we now integrate (DIN),\n\n$$\n\\dot {x} (t) + \\alpha x (t) + \\beta \\nabla \\varPhi \\big (x (t) \\big) + \\int_ {0} ^ {t} \\nabla \\varPhi \\big (x (s) \\big) \\mathrm{d} s = \\dot {x} _ {0} + \\alpha x _ {0} + \\beta \\nabla \\varPhi (x _ {0}),\n$$\n\nwe see that $\\lim_{t\\to +\\infty}x(t)$ exists in $H$ [The integral of $\\nabla\\Phi(x(s))$ converges because it is in $L^1$, while the two remaining terms on the left have limits; solve the identity for $x(t)$.] , since $\\lim_{t\\to +\\infty}\\dot{x} (t) = \\lim_{t\\to +\\infty}\\nabla \\varPhi (x(t)) = 0$ , after Theorem 2.1(iii).",
+      "depends_on": [
+        "thm_3",
+        "thm_1",
+        "ext_def_1"
+      ],
+      "remark": "[Prove hint: an interior minimizer ball converts monotonicity into an $L^1$ bound for the gradient]"
+    },
+    {
+      "id": "prop_3",
+      "type": "proposition",
+      "name": "Proposition 5.2",
+      "statement": "Proposition 5.2. Under the hypotheses of Theorem 5.1, if, moreover, $\\Phi$ is supposed to be even, i.e. $\\forall y\\in H,\\Phi (y) = \\Phi (-y)$ , then every trajectory of (DIN) converges to a minimizer of $\\Phi$ with respect to the strong topology of $H$ .",
+      "proof": "Proof. Let us successively consider the case $\\alpha \\beta \\leqslant 1$ and the case $\\alpha \\beta > 1$ .\n\n1. Case $\\alpha \\beta \\leqslant 1$ . Fix $t_0 > 0$ and define $g_{t_0}:[0,t_0]\\mapsto \\mathbb{R}$ by\n\n$$\ng _ {t _ {0}} (t) = \\left| x (t) \\right| ^ {2} - \\left| x (t _ {0}) \\right| ^ {2} - \\frac {1}{2} \\big | x (t) - x (t _ {0}) \\big | ^ {2}.\n$$\n\nWe have $\\dot{g}_{t_{0}}(t)=\\langle\\dot{x}(t),x(t)+x(t_{0})\\rangle$ and $\\ddot{g}_{t_{0}}(t)=\\langle\\ddot{x}(t),x(t)+x(t_{0})\\rangle+|\\dot{x}(t)|^{2}$ . From this we obtain:\n\n$$\n\\begin{array}{l} \\ddot {g} _ {t _ {0}} (t) + \\alpha \\dot {g} _ {t _ {0}} (t) = \\left\\langle - \\beta \\nabla^ {2} \\varPhi (x (t)) \\dot {x} (t) - \\nabla \\varPhi (x (t)), x (t) + x (t _ {0}) \\right\\rangle + \\left| \\dot {x} (t) \\right| ^ {2} \\\\ = \\frac {\\mathrm{d}}{\\mathrm{d} t} \\bigl \\langle - \\beta \\nabla \\varPhi (x (t)), x (t) + x (t _ {0}) \\bigr \\rangle + \\bigl \\langle \\beta \\nabla \\varPhi (x (t)), \\dot {x} (t) \\bigr \\rangle \\\\ + \\frac {1}{\\beta} \\bigl \\langle - \\beta \\nabla \\varPhi (x (t)), x (t) + x (t _ {0}) \\bigr \\rangle + \\left| \\dot {x} (t) \\right| ^ {2} \\\\ = \\mathrm{e} ^ {- (1 / \\beta) t} \\frac {\\mathrm{d}}{\\mathrm{d} t} \\mathrm{e} ^ {(1 / \\beta) t} \\bigl \\langle - \\beta \\nabla \\varPhi (x (t)), x (t) + x (t _ {0}) \\bigr \\rangle \\\\ + \\left\\langle \\dot {x} (t) + \\beta \\nabla \\Phi (x (t)), \\dot {x} (t) \\right\\rangle . \\\\ \\end{array}\n$$\n\nSet $f(t) = \\langle \\dot{x}(t) + \\beta \\nabla \\Phi(x(t)), \\dot{x}(t) \\rangle$ . Since $\\dot{x}$ and $\\nabla \\Phi(x)$ are in $L^2(0, +\\infty; H)$ , $f$ belongs to $L^1(0, +\\infty)$ . We have:\n\n$$\n\\frac {\\mathrm{d}}{\\mathrm{d} t} \\big [ \\mathrm{e} ^ {\\alpha t} \\dot {g} _ {t _ {0}} (t) \\big ] = \\mathrm{e} ^ {(\\alpha - 1 / \\beta) t} \\frac {\\mathrm{d}}{\\mathrm{d} t} \\mathrm{e} ^ {(1 / \\beta) t} \\big \\langle - \\beta \\nabla \\varPhi (x (t)), x (t) + x (t _ {0}) \\big \\rangle + \\mathrm{e} ^ {\\alpha t} f (t)\n$$\n\nand so, for every $t \\in ]0, t_0]$ ,\n\n$$\n\\mathrm{e} ^ {\\alpha t} \\dot {g} _ {t _ {0}} (t) - \\dot {g} _ {t _ {0}} (0) = \\int_ {0} ^ {t} \\mathrm{e} ^ {(\\alpha - 1 / \\beta) \\tau} \\frac {\\mathrm{d}}{\\mathrm{d} s} \\big [ \\beta \\mathrm{e} ^ {s / \\beta} \\omega_ {t _ {0}} (s) \\big ] _ {s = \\tau} \\mathrm{d} \\tau + \\int_ {0} ^ {t} \\mathrm{e} ^ {\\alpha \\tau} f (\\tau) \\mathrm{d} \\tau ,\n$$\n\nwith $\\omega_{t_0}(s) = \\langle -\\nabla \\Phi (x(s)), x(s) + x(t_0)\\rangle$ . An integration by parts yields\n\n$$\n\\begin{array}{l} \\int_ {0} ^ {t} \\mathrm{e} ^ {(\\alpha - 1 / \\beta) \\tau} \\frac {\\mathrm{d}}{\\mathrm{d} s} \\big [ \\beta \\mathrm{e} ^ {s / \\beta} \\omega_ {t _ {0}} (s) \\big ] _ {s = \\tau} \\mathrm{d} \\tau \\\\ = \\beta \\mathrm{e} ^ {\\alpha t} \\omega_ {t _ {0}} (t) - \\beta \\omega_ {t _ {0}} (0) + (1 - \\alpha \\beta) \\int_ {0} ^ {t} \\mathrm{e} ^ {\\alpha \\tau} \\omega_ {t _ {0}} (\\tau) \\mathrm{d} \\tau . \\\\ \\end{array}\n$$\n\nWe conclude that\n\n$$\n\\begin{array}{l} \\dot {g} _ {t _ {0}} (t) = \\big \\langle \\dot {x} _ {0} + \\beta \\nabla \\varPhi (x _ {0}), x _ {0} + x (t _ {0}) \\big \\rangle \\mathrm{e} ^ {- \\alpha t} + \\beta \\omega_ {t _ {0}} (t) \\\\ + \\int_ {0} ^ {t} \\mathrm{e} ^ {- \\alpha (t - \\tau)} \\big [ (1 - \\alpha \\beta) \\omega_ {t _ {0}} (\\tau) + f (\\tau) \\big ] \\mathrm{d} \\tau . \\\\ \\end{array}\n$$\n\nSet $F(t) = (1/2)|\\dot{x}(t)|^2 + \\Phi(x(t))$ , which is nonincreasing because $\\Phi$ is convex (in fact, $\\dot{F}(t) = -\\alpha|\\dot{x}(t)|^2 - \\beta\\langle\\nabla^2\\Phi(x(t))\\dot{x}(t), \\dot{x}(t)\\rangle \\leqslant 0$ ). Then, for all $t \\in [0, t_0]$ ,\n\n$$\nF (t) \\geqslant F (t _ {0}) = \\frac {1}{2} \\big | \\dot {x} (t _ {0}) \\big | ^ {2} + \\varPhi \\big (x (t _ {0}) \\big) = \\frac {1}{2} \\big | \\dot {x} (t _ {0}) \\big | ^ {2} + \\varPhi \\big (- x (t _ {0}) \\big).\n$$\n\nBy convexity of $\\Phi$ ,\n\n$$\n\\Phi \\big (- x (t _ {0}) \\big) \\geqslant \\Phi \\big (x (t) \\big) + \\big \\langle \\nabla \\Phi \\big (x (t) \\big), - x (t _ {0}) - x (t) \\big \\rangle\n$$\n\nand, consequently,\n\n$$\n\\omega_ {t _ {0}} (t) = \\left\\langle - \\nabla \\varPhi \\big (x (t) \\big), x (t) + x (t _ {0}) \\right\\rangle \\leqslant \\frac {1}{2} \\Big | \\dot {x} (t) \\Big | ^ {2}.\n$$\n\nTherefore,\n\n$$\n\\dot {g} _ {t _ {0}} (t) \\leqslant \\left\\langle \\dot {x} _ {0} + \\beta \\nabla \\Phi (x _ {0}), x _ {0} + x (t _ {0}) \\right\\rangle \\mathrm{e} ^ {- \\alpha t} + \\frac {\\beta}{2} \\big | \\dot {x} (t) \\big | ^ {2} + \\int_ {0} ^ {t} \\mathrm{e} ^ {- \\alpha (t - \\tau)} h (\\tau) \\mathrm{d} \\tau ,\n$$\n\nwhere $h(t) = ((1 - \\alpha \\beta) / 2)|\\dot{x}(t)|^2 + |f(t)| \\in L^1(0, \\infty)$ . Hence, for all $t \\in [0, t_0]$ ,\n\n$$\n\\begin{array}{l} g _ {t _ {0}} (t _ {0}) - g _ {t _ {0}} (t) \\leqslant \\frac {1}{\\alpha} \\big \\langle \\dot {x} _ {0} + \\beta \\nabla \\varPhi (x _ {0}), x _ {0} + x (t _ {0}) \\big \\rangle \\big (\\mathrm{e} ^ {- \\alpha t} - \\mathrm{e} ^ {- \\alpha t _ {0}} \\big) \\\\ + \\frac {\\beta}{2} \\int_ {t} ^ {t _ {0}} \\left| \\dot {x} (\\tau) \\right| ^ {2} \\mathrm{d} \\tau + \\int_ {t} ^ {t _ {0}} \\int_ {0} ^ {\\theta} \\mathrm{e} ^ {- \\alpha (\\theta - \\tau)} h (\\tau) \\mathrm{d} \\tau \\mathrm{d} \\theta \\\\ \\end{array}\n$$\n\nwhich gives\n\n$$\n\\begin{array}{l} \\frac {1}{2} \\big | x (t _ {0}) - x (t) \\big | ^ {2} \\leqslant \\big | x (t) \\big | ^ {2} - \\big | x (t _ {0}) \\big | ^ {2} \\\\ + \\frac {1}{\\alpha} \\bigl \\langle \\dot {x} _ {0} + \\beta \\nabla \\varPhi (x _ {0}), x _ {0} + x (t _ {0}) \\bigr \\rangle \\bigl (\\mathrm{e} ^ {- \\alpha t} - \\mathrm{e} ^ {- \\alpha t _ {0}} \\bigr) + \\int_ {t} ^ {t _ {0}} p (\\theta) \\mathrm{d} \\theta , \\\\ \\end{array}\n$$\n\nwhere $p \\in L^{1}(0, \\infty)$ . We know that $x(t) \\rightharpoonup x_{\\infty}$ as $t \\to \\infty$ where $x_{\\infty} \\in \\operatorname{Argmin} \\Phi$ . Moreover, for all $z \\in \\operatorname{Argmin} \\Phi$ there exists some $l_{z} \\in \\mathbb{R}$ such that $|x(t) - z|^{2} \\to l_{z}$ , as $t \\to \\infty$ (see Theorem 5.1). Since $\\Phi$ is even, 0 is a minimizer of $\\Phi$ so that there is some $l_{0} \\in \\mathbb{R}$ such that $\\lim_{t \\to \\infty} |x(t)|^{2} = l_{0}$ . From the inequality above it follows that $\\{x(t): t \\to \\infty\\}$ is a Cauchy net in $H$ [Let first $t$, then $t_0$, tend to infinity.  The norm-difference term, the exponentially decaying term, and the $L^1$ tail all tend to $0$, so the displayed estimate forces $|x(t_0)-x(t)|\\to0$ uniformly for large $t,t_0$.] , hence, $x(t) \\to x_{\\infty}$ strongly in $H$ .\n\n2. Case $\\alpha\\beta > 1$ . The conclusion follows in this case from a well-known result of Bruck [16] [Under Proposition 6.1 the equivalent energy on $H\\times H$ is convex and even when $\\Phi$ is convex and even, so the cited gradient-flow theorem applies; projecting the strongly convergent pair gives strong convergence of $x$.] applied to an equivalent gradient-type first-order system defined on $H \\times H$ (see Section 6.3). ☐",
+      "depends_on": [
+        "thm_3",
+        "thm_1",
+        "prop_4",
+        "ext_def_1",
+        "ext_thm_3"
+      ],
+      "remark": "[Prove hint: the $\\alpha\\beta>1$ branch requires ext_thm_3 after the gradient-system equivalence]"
+    },
+    {
+      "id": "rem_1",
+      "type": "remark",
+      "name": "Quadratic potential remark",
+      "statement": "Remark. If $\\Phi(x) = (1/2)\\langle Ax, x\\rangle$ where $A: H \\mapsto H$ is a positive self-adjoint and bounded linear operator, then $\\operatorname{Argmin} \\Phi = \\operatorname{Ker} A = \\{z \\in H: Az = 0\\}$ and $x(t)$ strongly converges in $H$ to the projection of $x_0 + (1/\\alpha)\\dot{x}_0$ on $\\operatorname{Ker} A$ . Indeed, for every $z \\in \\operatorname{Ker} A$ and $t > 0$ , we have:\n\n$$\n\\begin{array}{l} \\big \\langle \\dot {x} (t) + \\alpha x (t) - \\dot {x} _ {0} - \\alpha x _ {0}, z \\big \\rangle = \\int_ {0} ^ {t} \\big \\langle - \\beta \\nabla^ {2} \\varPhi \\big (x (\\tau) \\big) \\dot {x} (\\tau) - \\nabla \\varPhi \\big (x (\\tau) \\big), z \\big \\rangle \\mathrm{d} \\tau \\\\ = \\int_ {0} ^ {t} \\left\\langle - \\beta A \\dot {x} (\\tau) - A x (\\tau), z \\right\\rangle \\mathrm{d} \\tau \\\\ = \\int_ {0} ^ {t} \\left\\langle - \\beta \\dot {x} (\\tau) - x (\\tau), A z \\right\\rangle \\mathrm{d} \\tau = 0. \\\\ \\end{array}\n$$\n\nSince $\\dot{x}(t) \\to 0$ and $x(t) \\to x_{\\infty} \\in \\operatorname{Ker} A$ strongly, we deduce that $\\langle x_{\\infty} - x_0 - (1/\\alpha)\\dot{x}_0, z \\rangle = 0$ for all $z \\in \\operatorname{Ker} A$ , which proves our claim.",
+      "proof": null,
+      "depends_on": [
+        "prop_3"
+      ],
+      "remark": "[Foundation: Projection.BestApproximation] recall isChebyshev_of_nonempty_isClosed_convex"
+    }
+  ],
+  "external_theorems": [
+    {
+      "id": "ext_lem_2",
+      "type": "lemma",
+      "name": "Opial's Lemma",
+      "statement": "Lemma 5.1 (Opial). Let $H$ be a Hilbert space and $x:[0, +\\infty [\\mapsto H$ a function such that there exists a nonempty set $S \\subseteq H$ verifying:\n\n(a) if $x(t_n) \\rightharpoonup \\bar{x}$ weakly in $H$ for some $t_n \\to +\\infty$ then $\\bar{x} \\in S$ ;  \n(b) $\\forall z\\in S,\\lim_{t\\to +\\infty}|x(t) - z|$ exists.\n\nThen, $x(t)$ weakly converges as $t \\to +\\infty$ to an element of $S$ .",
+      "proof": "Cited from: Z. Opial, Weak convergence of the sequence of successive approximations for nonexpansive mappings, Bull. Amer. Math. Soc. 73 (1967) 591–597.",
+      "depends_on": [],
+      "source": "Z. Opial, Weak convergence of the sequence of successive approximations for nonexpansive mappings, Bull. Amer. Math. Soc. 73 (1967) 591–597.",
+      "remark": "[Foundation: Hilbert.WeakConvergence] recall opial_lemma",
+      "resolution_priority": "high"
+    },
+    {
+      "id": "ext_thm_1",
+      "type": "theorem",
+      "name": "Cauchy--Lipschitz continuation theorem",
+      "depends_on": [],
+      "statement": "Let $X$ be a Banach space and $F:X\\\\to X$ be locally Lipschitz. For every $Y_0\\\\in X$, the equation $\\\\dot Y=F(Y)$ has a unique maximal classical solution. If its maximal time $T_{\\\\max}$ is finite and $Y(t)$ has a finite limit as $t\\\\uparrow T_{\\\\max}$, then the solution extends past $T_{\\\\max}$.",
+      "proof": "Cited from: standard Cauchy--Lipschitz/Picard--Lindel\"of theorem for Banach-space ODEs.",
+      "source": "Standard Cauchy--Lipschitz/Picard--Lindel\"of theorem.",
+      "resolution_priority": "high",
+      "remark": "[Prove hint: show the phase-space vector field is locally Lipschitz, then use the continuation clause]"
+    },
+    {
+      "id": "ext_thm_3",
+      "type": "theorem",
+      "name": "Bruck strong-convergence theorem for even convex gradient flows",
+      "depends_on": [],
+      "statement": "If $\\\\mathcal E$ is an even convex differentiable functional on a Hilbert space with nonempty minimizer set, then the trajectory of its gradient flow $\\\\dot X+\\\\nabla\\\\mathcal E(X)=0$ converges strongly to a minimizer under the hypotheses used in Proposition 5.2.",
+      "proof": "Cited from: R. E. Bruck, Asymptotic convergence of nonlinear contraction semigroups in Hilbert space, J. Funct. Anal. 18 (1975), 15--26.",
+      "source": "R. E. Bruck, Asymptotic convergence of nonlinear contraction semigroups in Hilbert space, J. Funct. Anal. 18 (1975), 15--26.",
+      "resolution_priority": "medium",
+      "remark": "[Note: apply after Proposition 6.1 to the even convex energy on $H\times H$]"
+    },
+    {
+      "id": "ext_lem_1",
+      "type": "lemma",
+      "name": "Lojasiewicz Lemma",
+      "statement": "Lemma 4.1 (Lojasiewicz). Let $\\Phi : \\mathbb{R}^N \\to \\mathbb{R}$ be a function which is supposed to be analytic in a neighbourhood of a critical point $a$ . Then, there exist $\\sigma > 0$ and $\\theta \\in ]0, 1/2[$ such that $^2$\n\n$$\n| x - a | <   \\sigma \\quad \\Rightarrow \\quad \\left| \\Phi (x) - \\Phi (a) \\right| ^ {1 - \\theta} \\leqslant \\left| \\nabla \\Phi (x) \\right|.\n$$",
+      "proof": "Cited from: S. Lojasiewicz, Ensembles semi-analytiques, IHES Notes (1965).",
+      "depends_on": [
+        "def_7"
+      ],
+      "source": "S. Lojasiewicz, Ensembles semi-analytiques, IHES Notes (1965).",
+      "remark": "[Note: the paper needs the local gradient inequality near a critical point]",
+      "resolution_priority": "high"
+    },
+    {
+      "id": "ext_thm_2",
+      "type": "theorem",
+      "name": "Properties of the $omega$-limit set of a bounded finite-dimensional trajectory",
+      "depends_on": [
+        "ext_def_2"
+      ],
+      "statement": "For a bounded trajectory of a continuous autonomous flow in $\\\\mathbb{R}^N$, $\\\\omega(x)$ is nonempty, compact, and connected, and $\\\\operatorname{dist}(x(t),\\\\omega(x))\\\\to0$. If along the trajectory the velocity and the gradient of a $C^1$ Lyapunov potential tend to $0$, then every point of $\\\\omega(x)$ is a critical point of that potential.",
+      "proof": "Cited from: A. Haraux, Systèmes Dynamiques Dissipatifs et Applications, RMA 17, Masson, 1991, as cited in the proof of Theorem 4.1.",
+      "source": "A. Haraux, Systèmes Dynamiques Dissipatifs et Applications, RMA 17, Masson, 1991.",
+      "resolution_priority": "high",
+      "remark": "[Note: the stated compactness uses the finite-dimensional hypothesis $H=mathbb{R}^N$]"
+    }
+  ]
+}

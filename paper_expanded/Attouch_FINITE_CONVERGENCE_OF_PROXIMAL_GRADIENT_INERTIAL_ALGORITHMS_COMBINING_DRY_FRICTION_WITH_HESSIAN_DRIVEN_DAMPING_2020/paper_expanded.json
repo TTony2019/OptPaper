@@ -1,0 +1,448 @@
+{
+  "metadata": {
+    "title": "FINITE CONVERGENCE OF PROXIMAL-GRADIENT INERTIAL ALGORITHMS COMBINING DRY FRICTION WITH HESSIAN-DRIVEN DAMPING",
+    "authors": [
+      "SAMIR ADLY",
+      "HEDY ATTOUCH"
+    ],
+    "year": 2020,
+    "source_type": "markdown"
+  },
+  "items": [
+    {
+      "id": "def_3",
+      "type": "definition",
+      "name": "Lasso-type objective",
+      "statement": "Suppose that the function $f : H \\to R \\cup \\{+\\infty\\}$ to be minimized has the additive structure\n\n$$\nf (x) = \\frac {1}{2} \\| A x - b \\| _ {2} ^ {2} + g (x), \\tag {5.1}\n$$\n\nwhere $A \\in \\mathbb{R}^{m \\times n}$ (with $m \\leq n$ ), $b \\in \\mathbb{R}^m$ and $g \\in \\Gamma_0(\\mathbb{R}^n)$ (set of convex, lower semi-continuous, and proper functions).",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "ext_def_1",
+      "type": "definition",
+      "name": "Convex subdifferential",
+      "statement": "For a convex function $g:\\mathcal H\\to\\mathbb R\\cup\\{+\\infty\\}$ and $x\\in\\operatorname{dom}g$, its (convex) subdifferential is $\\partial g(x):=\\{u\\in\\mathcal H: \\forall y\\in\\mathcal H,\\ g(y)\\ge g(x)+\\langle u,y-x\\rangle\\}$.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Foundation: Foundation.SetValued.Basic] recall SetValuedOperator.graph; model $\\partial g$ as a set-valued operator."
+    },
+    {
+      "id": "def_1",
+      "type": "definition",
+      "name": "Dry friction property (DF)",
+      "statement": "The friction potential function $\\phi$ is supposed to satisfy the dry friction property (denoted by (DF))\n\n$$\n\\text {(DF)} \\quad \\left\\{ \\begin{array}{l} \\phi : \\mathcal {H} \\to \\mathbb {R} \\text {is convex continuous;} \\\\ \\min _ {\\xi \\in \\mathcal {H}} \\phi (\\xi) = \\phi (0) = 0; \\\\ 0 \\in \\operatorname{int} (\\partial \\phi (0)). \\end{array} \\right.\n$$",
+      "proof": null,
+      "depends_on": [
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "def_4",
+      "type": "definition",
+      "name": "Moreau envelope associated with the metric induced by M",
+      "statement": "For a symmetric and positive definite matrix $M \\in \\mathbb{R}^{n \\times n}$ , we denote by $\\langle \\cdot, \\cdot \\rangle_M = \\langle M \\cdot, \\cdot \\rangle$ the scalar product on $\\mathbb{R}^n$ induced by $M$ , and by $\\| \\cdot \\|_M$ the associated norm. For a given $f \\in \\Gamma_0(\\mathbb{R}^n)$ , the Moreau's envelope of index $\\lambda > 0$ associated with the metric induced by $M$ is the function $f_\\lambda^M : \\mathcal{H} \\to \\mathbb{R}$ defined by, for $x \\in \\mathbb{R}^n$ ,\n\n$$\nf _ {\\lambda} ^ {M} (x) = \\min _ {\\xi \\in \\mathbb {R} ^ {n}} \\left\\{f (\\xi) + \\frac {1}{2 \\lambda} \\| x - \\xi \\| _ {M} ^ {2} \\right\\}. \\tag {5.2}\n$$\n\nLet us denote by $\\mathrm{prox}_{\\lambda f}^{M}(x)$ the unique minimizer in (5.2), which is the proximal point of $x$ , of index $\\lambda$ , for the metric induced by $M$ . The first-order optimality condition for (5.2) gives\n\n$$\n\\mathrm{prox} _ {\\lambda f} ^ {M} (x) = (M + \\lambda \\partial f) ^ {- 1} (M x). \\tag {5.3}\n$$\n\nWhen $M = I_{n}$ (the identity matrix), we find the classical definitions. It is easy to prove that\n\n$$\n\\left\\| \\mathrm{prox} _ {\\lambda f} ^ {M} (x _ {1}) - \\mathrm{prox} _ {\\lambda f} ^ {M} (x _ {2}) \\right\\| \\leq \\frac {\\mu_ {\\max} (M)}{\\mu_ {\\min} (M)} \\| x _ {1} - x _ {2} \\|,\n$$\n\nwhere $\\mu_{\\max}(M)$ and $\\mu_{\\min}(M)$ are respectively the largest and the smallest eigenvalue of M. The Moreau envelope $f_{\\lambda}^{M}$ is a $C^{1,1}$ function whose gradient for the Euclidean structure is given by\n\n$$\n\\nabla f _ {\\lambda} ^ {M} (x) = \\frac {1}{\\lambda} M \\Big (x - \\mathrm{prox} _ {\\lambda f} ^ {M} (x) \\Big). \\tag {5.4}\n$$\n\nAs a classical result, $\\nabla f_{\\lambda}^{M}$ is $\\frac{1}{\\lambda}$ -Lipschitz continuous for the norm $\\|\\cdot\\|_{M}$ . From this, by using classical linear algebra, we easily deduce that\n\n$$\n\\left\\| \\nabla f _ {\\lambda} ^ {M} (x _ {1}) - \\nabla f _ {\\lambda} ^ {M} (x _ {2}) \\right\\| \\leq \\frac {1}{\\lambda} \\sqrt {\\frac {\\mu_ {\\max} (M)}{\\mu_ {\\min} (M)}} \\| x _ {1} - x _ {2} \\| \\quad \\forall x _ {1}, x _ {2} \\in \\mathbb {R} ^ {n}. \\tag {5.5}\n$$\n\nOn the other hand, one can check easily that $\\arg\\min(f_{\\lambda}^{M}) = \\arg\\min(f)$ . With the particular choice of f in (5.1), we set $M = I_{n} - \\lambda A^{T} A$ . If $\\lambda \\in [0, \\frac{1}{\\|A\\|_{2}^{2}}]$ , then M is positive definite. In this case,\n\n$$\n\\mathrm{prox} _ {\\lambda f} ^ {M} (x) = \\mathrm{prox} _ {\\lambda g} \\left(x - \\lambda A ^ {T} (A x - b)\\right). \\tag {5.6}\n$$\n\nNote that formula (5.6) for the composite optimization problem (5.1) was given in [31, section 4.6, p. 190]. Using (5.4) and (5.6), we get\n\n$$\n\\nabla f _ {\\lambda} ^ {M} (x) = \\frac {1}{\\lambda} M \\Big (x - \\mathrm{prox} _ {\\lambda g} \\left(x - \\lambda A ^ {T} (A x - b)\\right) \\Big). \\tag {5.7}\n$$",
+      "proof": null,
+      "depends_on": [
+        "def_3",
+        "ext_def_1"
+      ],
+      "remark": "[Note: equations (5.3)–(5.5) require first-order optimality and norm-equivalence lemmas; (5.6) is ext_thm_2.]"
+    },
+    {
+      "id": "ext_def_2",
+      "type": "definition",
+      "name": "Fenchel conjugate",
+      "statement": "For $g:\\mathcal H\\to\\mathbb R\\cup\\{+\\infty\\}$, its Fenchel conjugate is $g^*(u):=\\sup_{x\\in\\mathcal H}(\\langle u,x\\rangle-g(x))$.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "ext_lem_1",
+      "type": "lemma",
+      "name": "Lemma 1.1",
+      "statement": "LEMMA 1.1. Let $\\phi : \\mathcal{H} \\to \\mathbb{R}$ be a convex continuous function such that $\\min_{\\xi \\in \\mathcal{H}} \\phi(\\xi) = \\phi(0) = 0$ . Then, the following formulations of the dry friction are equivalent:\n\n(i) $0 \\in \\operatorname{int}(\\partial\\phi(0))$ ;  \n(ii) there exists some $r > 0$ such that $B(0,r)\\subset \\partial \\phi (0)$ ;  \n(iii) there exists some $r > 0$ such that, for all $\\xi \\in \\mathcal{H}$ , $\\phi(\\xi) \\geq r \\| \\xi\\|$ ;  \n(iv) there exists some $r > 0$ such that the following implication is satisfied:\n\n$$\ng \\in \\mathcal {H}, \\quad \\| g \\| \\leq r \\Longrightarrow \\partial \\phi^ {*} (g) \\ni 0.\n$$",
+      "proof": "Cited from: S. ADLY, A Variational Approach to Nonsmooth Dynamics: Applications in Unilateral Mechanics and Electronics, Springer Briefs in Math., Springer, New York, 2017.",
+      "depends_on": [
+        "def_1",
+        "ext_def_1",
+        "ext_def_2"
+      ],
+      "source": "S. ADLY, A Variational Approach to Nonsmooth Dynamics: Applications in Unilateral Mechanics and Electronics, Springer Briefs in Math., Springer, New York, 2017.",
+      "remark": "[Note: this is the only Section 1 result whose proof is delegated; formalization needs the equivalence (ii)$\\Rightarrow$(iii) and (ii)$\\Rightarrow$(iv).]",
+      "resolution_priority": "high"
+    },
+    {
+      "id": "ext_def_3",
+      "type": "definition",
+      "name": "Proximal mapping",
+      "statement": "For $g:\\mathcal H\\to\\mathbb R\\cup\\{+\\infty\\}$ and $\\lambda>0$, $\\operatorname{prox}_{\\lambda g}(x)$ denotes the unique minimizer $p$ of $y\\mapsto g(y)+\\frac1{2\\lambda}\\|y-x\\|^2$; equivalently, $x-p\\in\\lambda\\partial g(p)$.",
+      "proof": null,
+      "depends_on": [
+        "ext_def_1"
+      ],
+      "remark": "[Notation: paper writes $\\operatorname{prox}_{\\lambda g}$; formalize through the optimality inclusion $x-p\\in\\lambda\\partial g(p)$.]"
+    },
+    {
+      "id": "lem_1",
+      "type": "lemma",
+      "name": "Lemma 1.2",
+      "statement": "LEMMA 1.2. Let $\\phi : \\mathcal{H} \\to \\mathbb{R}$ be a convex continuous function which satisfies the property $(\\mathrm{DF})_r$ , i.e., $\\partial \\phi(0) \\supset B(0, r)$ . Then, the following implication holds: for $\\lambda > 0$ , and $x \\in \\mathcal{H}$\n\n$$\n\\| x \\| \\leq \\lambda r \\implies \\mathrm{prox} _ {\\lambda \\phi} (x) = 0.\n$$",
+      "proof": "[Let $p=\\operatorname{prox}_{\\lambda\\phi}(x)$. By the proximal optimality condition, $p=0$ is equivalent to $x\\in\\lambda\\partial\\phi(0)$. Since $\\|x\\|\\le\\lambda r$, we have $x/\\lambda\\in B(0,r)\\subset\\partial\\phi(0)$, hence $x\\in\\lambda\\partial\\phi(0)$ and therefore $p=0$.]",
+      "depends_on": [
+        "def_1",
+        "ext_lem_1",
+        "ext_def_3"
+      ]
+    },
+    {
+      "id": "algo_1",
+      "type": "algorithm",
+      "name": "IPAHDD",
+      "statement": "# (IPAHDD)\n\nInitialize: $x_0 \\in \\mathcal{H}$ , $x_1 \\in \\mathcal{H}$\n\n$$\n\\begin{array}{l} x _ {k + 1} = x _ {k} + h \\operatorname{prox} _ {\\frac {h}{1 + h \\gamma} \\phi} \\left(\\frac {1}{h (1 + h \\gamma)} (x _ {k} - x _ {k - 1}) - \\frac {\\beta}{1 + h \\gamma} (\\nabla f (x _ {k}) - \\nabla f (x _ {k - 1}))\\right) \\\\ \\left. - \\frac {h}{1 + h \\gamma} \\nabla f (x _ {k})\\right) \\\\ \\end{array}\n$$",
+      "proof": null,
+      "depends_on": [
+        "ext_def_3"
+      ]
+    },
+    {
+      "id": "algo_3",
+      "type": "algorithm",
+      "name": "IPAHDD-Var",
+      "statement": "(IPAHDD-Var)\n\nInitialize: $x_0 \\in \\mathcal{H}$ , $x_1 \\in \\mathcal{H}$\n\n$$\nx _ {k + 1} = x _ {k} + h \\operatorname{prox} _ {h \\phi} \\Big (\\Big (\\frac {1 - h \\gamma}{h} \\Big) (x _ {k} - x _ {k - 1}) - \\beta \\left(\\nabla f (x _ {k}) - \\nabla f (x _ {k - 1})\\right) - h \\nabla f (x _ {k}) \\Big)\n$$",
+      "proof": null,
+      "depends_on": [
+        "ext_def_3"
+      ]
+    },
+    {
+      "id": "algo_4",
+      "type": "algorithm",
+      "name": "IPAHDD-pert",
+      "statement": "(IPAHDD-pert)\n\nInitialize: $x_0 \\in \\mathcal{H}$ , $x_1 \\in \\mathcal{H}$\n\n$$\ny _ {k} = \\frac {1}{h (1 + h \\gamma)} (x _ {k} - x _ {k - 1}) - \\frac {\\beta}{1 + h \\gamma} (\\nabla f (x _ {k}) - \\nabla f (x _ {k - 1})) - \\frac {h}{1 + h \\gamma} \\nabla f (x _ {k}) + \\frac {h}{1 + h \\gamma} e _ {k}\n$$\n\n$$\nx _ {k + 1} = x _ {k} + h \\operatorname{prox} _ {\\frac {h}{1 + h \\gamma} \\phi} (y _ {k})\n$$",
+      "proof": null,
+      "depends_on": [
+        "ext_def_3"
+      ]
+    },
+    {
+      "id": "algo_5",
+      "type": "algorithm",
+      "name": "IPAHDD-N",
+      "statement": "# (IPAHDD-N)\n\nInitialize: $x_0 \\in \\mathcal{H}$ , $x_1 \\in \\mathcal{H}$\n\n$$\ny _ {k} = x _ {k} + \\frac {1}{1 + h \\gamma} (x _ {k} - x _ {k - 1})\n$$\n\n$$\nx _ {k + 1} = x _ {k} + h \\operatorname{prox} _ {\\frac {h}{1 + h \\gamma} \\phi} \\left(\\frac {1}{h} (y _ {k} - x _ {k}) - \\frac {\\beta}{1 + h \\gamma} (\\nabla f (x _ {k}) - \\nabla f (x _ {k - 1})) - \\frac {h}{1 + h \\gamma} \\nabla f (y _ {k})\\right)\n$$",
+      "proof": null,
+      "depends_on": [
+        "ext_def_3"
+      ]
+    },
+    {
+      "id": "algo_6",
+      "type": "algorithm",
+      "name": "IPAHDD-N-Var",
+      "statement": "# (IPAHDD-N-Var)\n\nInitialize: $x_0 \\in \\mathcal{H}$ , $x_1 \\in \\mathcal{H}$\n\n$$\ny _ {k} = x _ {k} + \\frac {1}{h (1 + h \\gamma)} (x _ {k} - x _ {k - 1})\n$$\n\n$$\nx _ {k + 1} = x _ {k} + h \\operatorname{prox} _ {\\frac {h}{1 + h \\gamma} \\phi} \\left(y _ {k} - x _ {k} - \\frac {\\beta}{1 + h \\gamma} \\left(\\nabla f (x _ {k}) - \\nabla f (x _ {k - 1})\\right) - \\frac {h}{1 + h \\gamma} \\nabla f (y _ {k})\\right)\n$$",
+      "proof": null,
+      "depends_on": [
+        "ext_def_3"
+      ]
+    },
+    {
+      "id": "def_2",
+      "type": "definition",
+      "name": "Moreau envelope",
+      "statement": "For any $\\lambda > 0$ , the Moreau envelope of $f$ of index $\\lambda$ is the function $f_{\\lambda}: \\mathcal{H} \\to \\mathbb{R}$ defined by, for all $x \\in \\mathcal{H}$ ,\n\n$$\nf _ {\\lambda} (x) = \\min _ {\\xi \\in \\mathcal {H}} \\left\\{f (\\xi) + \\frac {1}{2 \\lambda} \\| x - \\xi \\| ^ {2} \\right\\}.\n$$",
+      "proof": null,
+      "depends_on": [
+        "ext_def_3"
+      ]
+    },
+    {
+      "id": "algo_7",
+      "type": "algorithm",
+      "name": "IPAHDD-nonsmooth",
+      "statement": "(IPAHDD-nonsmooth)\n\nInitialize: $x_0 \\in \\mathcal{H}$ , $x_1 \\in \\mathcal{H}$\n\n$$\ny _ {k} = \\frac {1}{1 + h \\gamma} \\left(\\frac {\\lambda - \\beta h}{\\lambda h} (x _ {k} - x _ {k - 1}) + \\frac {\\beta}{\\lambda} \\left(\\mathrm{prox} _ {\\lambda f} (x _ {k}) - \\mathrm{prox} _ {\\lambda f} (x _ {k - 1})\\right) - \\frac {h}{\\lambda} \\left(x _ {k} - \\mathrm{prox} _ {\\lambda f} (x _ {k})\\right)\\right)\n$$\n\n$$\nx _ {k + 1} = x _ {k} + h \\operatorname{prox} _ {\\frac {h}{1 + h \\gamma} \\phi} (y _ {k})\n$$",
+      "proof": null,
+      "depends_on": [
+        "def_2",
+        "ext_def_3"
+      ]
+    },
+    {
+      "id": "algo_8",
+      "type": "algorithm",
+      "name": "IPAHDD-Lasso",
+      "statement": "(IPAHDD)-Lasso  \nInitialize: $x_0 \\in \\mathbb{R}^n$ , $x_1 \\in \\mathbb{R}^n$ , $M = I_n - \\lambda A^T A$ , $0 < \\lambda \\|A\\|_2^2 < 1$ $z_k = \\frac{1}{\\lambda} M\\left(x_k - \\text{prox}_{\\lambda g}\\left(x_k - \\lambda A^T (Ax_k - b)\\right)\\right)$ $y_k = \\frac{1}{h(1 + h\\gamma)} (x_k - x_{k-1}) - \\frac{\\beta}{1 + h\\gamma}(z_k - z_{k-1}) - \\frac{h}{1 + h\\gamma} z_k$ $x_{k+1} = x_k + h \\text{ prox}_{\\frac{h}{1 + h\\gamma} \\phi}(y_k)$",
+      "proof": null,
+      "depends_on": [
+        "def_3",
+        "def_4",
+        "ext_def_3"
+      ]
+    },
+    {
+      "id": "ext_def_4",
+      "type": "definition",
+      "name": "Lipschitz gradient",
+      "statement": "A differentiable function $f$ has $L$-Lipschitz gradient if $\\|\\nabla f(x)-\\nabla f(y)\\|\\le L\\|x-y\\|$ for all $x,y$.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Prove hint: separately establish the descent inequality $f(y)\\le f(x)+\\langle\\nabla f(x),y-x\\rangle+\\frac L2\\|y-x\\|^2$.]"
+    },
+    {
+      "id": "thm_1",
+      "type": "theorem",
+      "name": "Theorem 2.1",
+      "statement": "THEOREM 2.1. Let $f : \\mathcal{H} \\to \\mathbb{R}$ be a $\\mathcal{C}^1$ function whose gradient is $L$ -Lipschitz continuous, and such that $\\inf_{\\mathcal{H}} f > -\\infty$ . Assume that the dry friction function $\\phi$\n\nsatisfies $(\\mathrm{DF})_{r}$ . Suppose that the parameters h, $\\gamma$ , $\\beta$ in the algorithm (IPAHDD) satisfy the relation\n\n$$\n\\gamma \\geq L \\left(\\frac {h}{2} + \\beta\\right).\n$$\n\nThen, for any sequence $(x_{k})$ generated by the algorithm (IPAHDD), we have the following:\n\n(i) $\\sum_{k=1}^{\\infty} \\|x_{k+1} - x_k\\| < +\\infty$ , and hence $\\lim_k x_k := x_\\infty$ exists for the strong topology of $\\mathcal{H}$ . Moreover,\n\n$$\n\\sum_ {k = 1} ^ {\\infty} \\| x _ {k + 1} - x _ {k} \\| \\leq \\frac {1}{r} \\left(E _ {1} + \\frac {\\beta L}{2 h} \\| x _ {1} - x _ {0} \\| ^ {2}\\right),\n$$\n\n$$\n\\sum_ {k = 1} ^ {\\infty} \\left\\| x _ {k + 1} - 2 x _ {k} + x _ {k - 1} \\right\\| ^ {2} \\leq 2 h ^ {2} \\left(E _ {1} + \\frac {\\beta L}{2 h} \\| x _ {1} - x _ {0} \\| ^ {2}\\right),\n$$\n\nwhere $E_1 := \\frac{1}{2} \\| \\frac{1}{h}(x_1 - x_0) \\|^2 + f(x_1) - \\inf_{\\mathcal{H}} f$ .\n\n(ii) The limit $x_{\\infty}$ of the sequence $(x_{k})$ satisfies $0 \\in \\partial \\phi(0) + \\nabla f(x_{\\infty})$ .",
+      "proof": "We use an energetic argument based on the nonincreasing property of the sequence $(E_{k})$ of nonnegative global energy functions\n\n$$\nE _ {k} := \\frac {1}{2} \\left\\| \\frac {1}{h} (x _ {k} - x _ {k - 1}) \\right\\| ^ {2} + f (x _ {k}) - \\inf _ {\\mathcal {H}} f.\n$$\n\nLet's formulate (2.1) in terms of the discrete velocity vectors $\\frac{1}{h} (x_k - x_{k - 1})$ . After multiplication by $h$ , we obtain the equivalent formulation\n\n$$\n\\frac {1}{h} (x _ {k + 1} - x _ {k}) - \\frac {1}{h} (x _ {k} - x _ {k - 1}) + \\gamma (x _ {k + 1} - x _ {k}) + h \\partial \\phi \\left(\\frac {1}{h} (x _ {k + 1} - x _ {k})\\right)\n$$\n\n$$\n+ \\beta \\left(\\nabla f (x _ {k}) - \\nabla f (x _ {k - 1})\\right) + h \\nabla f (x _ {k}) \\ni 0. \\tag {2.2}\n$$\n\n(i) Let's first establish energy estimates. Without ambiguity, we write simply $\\partial \\phi$ to designate any element belonging to this set. Taking the scalar product of (2.2) with $\\frac{1}{h}(x_{k + 1} - x_k)$ , we obtain\n\n$$\n\\left\\langle \\frac {1}{h} (x _ {k + 1} - x _ {k}) - \\frac {1}{h} (x _ {k} - x _ {k - 1}), \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\rangle + \\gamma h \\left\\| \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\| ^ {2} \\tag {2.3}\n$$\n\n$$\n+ \\left\\langle \\nabla f (x _ {k}), x _ {k + 1} - x _ {k} \\right\\rangle + h \\left\\langle \\partial \\phi \\left(\\frac {1}{h} (x _ {k + 1} - x _ {k})\\right), \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\rangle\n$$\n\n$$\n+ \\beta \\left\\langle \\nabla f (x _ {k}) - \\nabla f (x _ {k - 1}), \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\rangle = 0.\n$$\n\nSet $X_{k} := \\frac{1}{h}(x_{k} - x_{k-1})$ . The following elementary relation reflects the strong convexity of $\\frac{1}{2}\\|\\cdot\\|^{2}$ : [Indeed, expand $\\|X_{k+1}-X_k\\|^2=\\|X_{k+1}\\|^2+\\|X_k\\|^2-2\\langle X_{k+1},X_k\\rangle$ and rearrange.]\n\n$$\n\\langle X _ {k + 1} - X _ {k}, X _ {k + 1} \\rangle = \\frac {1}{2} \\| X _ {k + 1} \\| ^ {2} - \\frac {1}{2} \\| X _ {k} \\| ^ {2} + \\frac {1}{2} \\| X _ {k + 1} - X _ {k} \\| ^ {2}. \\tag {2.4}\n$$\n\nAccording to the convexity of $\\phi$ and $\\phi(0)=0$ , we have\n\n$$\n\\langle \\partial \\phi (X _ {k + 1}), X _ {k + 1} \\rangle \\geq \\phi (X _ {k + 1}). \\tag {2.5}\n$$\n\nTaking into account (2.4) and (2.5), we deduce from (2.3) the following inequality:\n\n$$\n\\begin{array}{l} \\frac {1}{2} \\| X _ {k + 1} \\| ^ {2} - \\frac {1}{2} \\| X _ {k} \\| ^ {2} + \\frac {1}{2} \\| X _ {k + 1} - X _ {k} \\| ^ {2} + \\gamma h \\| X _ {k + 1} \\| ^ {2} + h \\phi (X _ {k + 1}) \\\\ \\quad + \\beta \\left\\langle \\nabla f (x _ {k}) - \\nabla f (x _ {k - 1}), \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\rangle + \\langle \\nabla f (x _ {k}), x _ {k + 1} - x _ {k} \\rangle \\leq 0. \\tag {2.6} \\\\ \\end{array}\n$$\n\nLet's now use the assumptions on the potential functions $\\phi$ and $f$ . According to the assumption $(\\mathrm{DF})_r$ on $\\phi$ and Lemma 1.1, for all $k \\geq 1$\n\n$$\n\\phi \\left(X _ {k + 1}\\right) \\geq r \\| X _ {k + 1} \\|. \\tag {2.7}\n$$\n\nSince $\\nabla f$ is $L$ -Lipschitz continuous, the classical gradient descent lemma gives, for all $k \\geq 1$ ,\n\n$$\nf (x _ {k + 1}) \\leq f (x _ {k}) + \\langle \\nabla f (x _ {k}), x _ {k + 1} - x _ {k} \\rangle + \\frac {L}{2} \\| x _ {k + 1} - x _ {k} \\| ^ {2}. \\tag {2.8}\n$$\n\nAccording to the Cauchy–Schwarz inequality, and using again that $\\nabla f$ is L-Lipschitz continuous,\n\n$$\n\\begin{array}{l} \\left| \\left\\langle \\nabla f (x _ {k}) - \\nabla f (x _ {k - 1}), \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\rangle \\right| \\leq h L \\| X _ {k} \\| \\| X _ {k + 1} \\| \\\\ \\leq \\frac {h L}{2} (\\| X _ {k} \\| ^ {2} + \\| X _ {k + 1} \\| ^ {2}). \\tag {2.9} \\\\ \\end{array}\n$$\n\nCombining inequalities (2.7)-(2.8)-(2.9) with (2.6), we obtain, for all $k \\geq 1$ ,\n\n$$\n\\begin{array}{l} \\frac {1}{2} \\left\\| \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\| ^ {2} - \\frac {1}{2} \\left\\| \\frac {1}{h} (x _ {k} - x _ {k - 1}) \\right\\| ^ {2} + \\frac {1}{2 h ^ {2}} \\| x _ {k + 1} - 2 x _ {k} + x _ {k - 1} \\| ^ {2} \\\\ + \\frac {\\gamma}{h} \\| x _ {k + 1} - x _ {k} \\| ^ {2} + r \\| x _ {k + 1} - x _ {k} \\| + f (x _ {k + 1}) - f (x _ {k}) - \\frac {L}{2} \\| x _ {k + 1} - x _ {k} \\| ^ {2} \\\\ \\leq \\frac {\\beta L}{2 h} (\\| x _ {k} - x _ {k - 1} \\| ^ {2} + \\| x _ {k + 1} - x _ {k} \\| ^ {2}). \\\\ \\end{array}\n$$\n\nIn terms of $E_{k}:= \\frac{1}{2}\\| \\frac{1}{h} (x_{k} - x_{k - 1})\\|^{2} + f(x_{k}) - \\inf_{\\mathcal{H}}f$ , this is equivalent to\n\n$$\n\\begin{array}{l} E _ {k + 1} - E _ {k} + \\left(\\frac {\\gamma}{h} - \\frac {L}{2} - \\frac {\\beta L}{2 h}\\right) \\| x _ {k + 1} - x _ {k} \\| ^ {2} + \\frac {1}{2 h ^ {2}} \\| x _ {k + 1} - 2 x _ {k} + x _ {k - 1} \\| ^ {2} \\\\ + r \\| x _ {k + 1} - x _ {k} \\| \\leq \\frac {\\beta L}{2 h} \\| x _ {k} - x _ {k - 1} \\| ^ {2}. \\\\ \\end{array}\n$$\n\nAccording to the assumption $\\gamma \\geq L\\left(\\frac{h}{2} +\\beta\\right)$ , we have $\\frac{\\gamma}{h} -\\frac{L}{2} -\\frac{\\beta L}{2h}\\geq \\frac{\\beta L}{2h}$ . Therefore, (2.10)\n\n$$\nE _ {k + 1} - E _ {k} + \\frac {1}{2 h ^ {2}} \\| x _ {k + 1} - 2 x _ {k} + x _ {k - 1} \\| ^ {2} + r \\| x _ {k + 1} - x _ {k} \\| + \\frac {\\beta L}{2 h} \\| x _ {k + 1} - x _ {k} \\| ^ {2} \\leq \\frac {\\beta L}{2 h} \\| x _ {k} - x _ {k - 1} \\| ^ {2}.\n$$\n\nSet $\\tilde{E}_k := E_k + \\frac{\\beta L}{2h} \\|x_k - x_{k-1}\\|^2$ . We have\n\n$$\n\\tilde {E} _ {k + 1} - \\tilde {E} _ {k} + \\frac {1}{2 h ^ {2}} \\| x _ {k + 1} - 2 x _ {k} + x _ {k - 1} \\| ^ {2} + r \\| x _ {k + 1} - x _ {k} \\| \\leq 0. \\tag {2.11}\n$$\n\nAdding the above inequalities, and according to $E_{k} \\geq 0$ , and $r > 0$ , we deduce from (2.11) that [more precisely, summing (2.11) for $k=1,\\ldots,N$ telescopes the $\\tilde E_k$ terms; discarding the nonnegative $\\tilde E_{N+1}$ and then letting $N\\to\\infty$ yields (2.12), while retaining the squared second-difference term yields (2.13). The finite sum of increments also makes $(x_k)$ Cauchy because $\\|x_m-x_n\\|\\le\\sum_{j=n}^{m-1}\\|x_{j+1}-x_j\\|$.]\n\n$$\n\\sum_ {k = 1} ^ {\\infty} \\| x _ {k + 1} - x _ {k} \\| \\leq \\frac {1}{r} \\left(E _ {1} + \\frac {\\beta L}{2 h} \\| x _ {1} - x _ {0} \\| ^ {2}\\right) <   + \\infty . \\tag {2.12}\n$$\n\nTherefore, the sequence $(x_{k})$ has a finite length, which implies that the strong limit of the sequence $(x_{k})$ exists. Set $x_{\\infty} := \\lim_{k} x_{k}$ . In addition, according to (2.11), we also get\n\n$$\n\\sum_ {k = 1} ^ {\\infty} \\| x _ {k + 1} - 2 x _ {k} + x _ {k - 1} \\| ^ {2} \\leq 2 h ^ {2} \\left(E _ {1} + \\frac {\\beta L}{2 h} \\| x _ {1} - x _ {0} \\| ^ {2}\\right) <   + \\infty . \\tag {2.13}\n$$\n\nEstimation (2.13) gives more accurate information than (2.12) when the step size h is small.\n\n(ii) From $\\sum_{k=1}^{\\infty} \\|x_{k+1} - x_k\\| < +\\infty$ , we get $\\lim_k \\|x_{k+1} - x_k\\| = 0$ . This in turn implies\n\n$$\n\\lim _ {k} \\frac {1}{h ^ {2}} (x _ {k + 1} - 2 x _ {k} + x _ {k - 1}) = \\lim _ {k} \\frac {1}{h ^ {2}} \\left((x _ {k + 1} - x _ {k}) - (x _ {k} - x _ {k - 1})\\right) = 0.\n$$\n\nMoreover, since $\\nabla f$ is Lipschitz continuous and $(x_{k})$ converges strongly to $x_{\\infty}$ , we have\n\n$$\n\\lim _ {k} \\nabla f (x _ {k}) = \\nabla f (x _ {\\infty}) \\quad \\text {and} \\quad \\lim _ {k} \\| \\nabla f (x _ {k}) - \\nabla f (x _ {k - 1}) \\| = 0.\n$$\n\nTo pass to the limit on (2.1), rewrite it as follows:\n\n$$\n\\begin{array}{l} - \\frac {1}{h ^ {2}} (x _ {k + 1} - 2 x _ {k} + x _ {k - 1}) - \\frac {\\gamma}{h} (x _ {k + 1} - x _ {k}) - \\frac {\\beta}{h} (\\nabla f (x _ {k}) - \\nabla f (x _ {k - 1})) \\\\ - \\nabla f (x _ {k}) \\in \\partial \\phi \\left(\\frac {1}{h} (x _ {k + 1} - x _ {k})\\right). \\\\ \\end{array}\n$$\n\nAccording to the above convergence results and the closedness of the graph of $\\partial \\phi$ , we deduce that [the arguments of $\\partial\\phi$ converge strongly to $0$, and the displayed selected subgradients converge strongly to $-\\nabla f(x_\\infty)$; the strong-strong closed-graph theorem for the subdifferential of a continuous convex function applies.]\n\n$$\n- \\nabla f (x _ {\\infty}) \\in \\partial \\phi (0),\n$$\n\nwhich gives item (ii).",
+      "depends_on": [
+        "def_1",
+        "ext_lem_1",
+        "algo_1",
+        "ext_def_1",
+        "ext_def_3",
+        "ext_def_4"
+      ],
+      "remark": "[Prove hint: telescope (2.11); summability gives Cauchy convergence, then use strong–strong closedness of $\\operatorname{gra}(\\partial\\phi)$.]"
+    },
+    {
+      "id": "thm_2",
+      "type": "theorem",
+      "name": "Theorem 2.2 (geometric, finite convergence)",
+      "statement": "THEOREM 2.2 (geometric, finite convergence). Let $f: \\mathcal{H} \\to \\mathbb{R}$ be a $\\mathcal{C}^1$ function whose gradient is $L$ -Lipschitz continuous, and such that $\\inf_{\\mathcal{H}} f > -\\infty$ . Assume that the dry friction function $\\phi$ satisfies $(\\mathrm{DF})_r$ . Suppose that the positive parameters $h, \\gamma, \\beta$ in (IPAHDD) satisfy the relation\n\n$$\n\\gamma \\geq L \\left(\\frac {h}{2} + \\beta\\right).\n$$\n\nLet $(x_{k})$ be a sequence generated by the algorithm (IPAHDD), and let $x_{\\infty}$ be its strong limit (as given by Theorem 2.1).\n\n(i) Suppose that $-\\nabla f(x_{\\infty}) \\in \\mathrm{int}(\\partial \\phi(0))$ . Then, there is geometric convergence of the velocities to zero. Set $q := \\frac{1}{\\sqrt{1 + \\frac{2h(\\gamma - \\beta L)}{1 + \\beta hL}}}$ , which satisfies $0 < q < 1$ .\n\nThere exists $k_{0} \\geq 0$ such that\n\n$$\n\\forall k \\geq k _ {0} \\quad \\| x _ {k + 1} - x _ {k} \\| \\leq q ^ {k} \\| x _ {k _ {0} + 1} - x _ {k _ {0}} \\|.\n$$\n\nThere is geometric convergence of the sequence $(x_{k})$ : for all $k \\geq k_{0}$\n\n$$\n\\| x _ {k} - x _ {\\infty} \\| \\leq \\frac {q ^ {k}}{1 - q} \\| x _ {k _ {0} + 1} - x _ {k _ {0}} \\|. \\tag {2.15}\n$$\n\n(ii) Suppose that $\\| \\nabla f(x_{\\infty})\\| < r$ , where $B(0,r)\\subset \\partial \\phi (0)$ . Then the sequence $(x_{k})$ is finitely convergent. The iteration stops at $x_{k}$ when $k\\geq k_0$ and\n\n$$\nq ^ {k - 1} \\leq \\frac {r - \\| \\nabla f (x _ {\\infty}) \\|}{\\left(\\frac {1}{h ^ {2}} + \\frac {\\beta L}{h} + L \\frac {q}{1 - q}\\right) \\| x _ {k _ {0} + 1} - x _ {k _ {0}} \\|},\n$$\n\nwhich is satisfied for $k$ large enough, because of $q < 1$ .",
+      "proof": "(i) The assumption $-\\nabla f(x_{\\infty}) \\in \\mathrm{int}(\\partial \\phi(0))$ implies the existence of $\\varepsilon > 0$ such that\n\n$$\n- \\nabla f (x _ {\\infty}) + B (0, 2 \\varepsilon) \\subset \\partial \\phi (0).\n$$\n\nOn the other hand, since $\\lim_k\\nabla f(x_k) = \\nabla f(x_\\infty)$ , there exists $k_0\\in \\mathbb{N}$ such that for all $k\\geq k_0$\n\n$$\n\\nabla f (x _ {k}) \\in \\nabla f (x _ {\\infty}) + B (0, \\varepsilon).\n$$\n\nTherefore,\n\n$$\n- \\nabla f (x _ {k}) + B (0, \\varepsilon) \\subset - \\nabla f (x _ {\\infty}) + B (0, 2 \\varepsilon) \\subset \\partial \\phi (0).\n$$\n\nEquivalently, for every $k \\geq k_0$ and for every $u \\in B(0,1)$ , we have $-\\nabla f(x_k) + \\varepsilon u \\in \\partial \\phi(0)$ .\n\nLet's write the corresponding subdifferential inequality at the origin (recall that $\\phi(0) = 0$ ). For every $k \\geq k_0$ , we have\n\n$$\n\\forall u \\in B (0, 1), \\quad \\phi \\left(\\frac {1}{h} (x _ {k + 1} - x _ {k})\\right) \\geq \\left\\langle - \\nabla f (x _ {k}) + \\varepsilon u, \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\rangle .\n$$\n\nTaking the supremum over $u \\in B(0,1)$ , we obtain that [the supremum of $\\langle u,v\\rangle$ over the closed unit ball is $\\|v\\|$ by Cauchy--Schwarz, attained when $v\\ne0$ at $u=v/\\|v\\|], we obtain that, for every $k \\geq k_{0}$ ,\n\n$$\n\\phi \\left(\\frac {1}{h} (x _ {k + 1} - x _ {k})\\right) + \\left\\langle \\nabla f (x _ {k}), \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\rangle \\geq \\varepsilon \\left\\| \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\|. \\tag {2.16}\n$$\n\nLet's return to inequality (2.6). According to (2.9), we have\n\n$$\n\\begin{array}{l} \\frac {1}{2} \\left\\| \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\| ^ {2} - \\frac {1}{2} \\left\\| \\frac {1}{h} (x _ {k} - x _ {k - 1}) \\right\\| ^ {2} + \\left(\\frac {\\gamma}{h} - \\frac {\\beta L}{2 h}\\right) \\| x _ {k + 1} - x _ {k} \\| ^ {2} \\\\ + h \\phi \\left(\\frac {1}{h} (x _ {k + 1} - x _ {k})\\right) + \\langle \\nabla f (x _ {k}), x _ {k + 1} - x _ {k} \\rangle \\leq \\frac {\\beta L}{2 h} \\| x _ {k} - x _ {k - 1} \\| ^ {2}. \\\\ \\end{array}\n$$\n\nAccording to $\\gamma \\geq L\\left(\\frac{h}{2} + \\beta\\right)$ , we have $\\gamma > \\beta L$ . Hence $\\frac{\\gamma}{h} - \\frac{\\beta L}{2h} = \\frac{\\beta L}{2h} + \\frac{1}{h} (\\gamma - \\beta L) > \\frac{\\beta L}{2h}$ , which gives\n\n$$\n\\begin{array}{l} \\frac {1}{2} \\left\\| \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\| ^ {2} - \\frac {1}{2} \\left\\| \\frac {1}{h} (x _ {k} - x _ {k - 1}) \\right\\| ^ {2} + \\frac {\\beta L}{2 h} \\| x _ {k + 1} - x _ {k} \\| ^ {2} + \\frac {1}{h} (\\gamma - \\beta L) \\| x _ {k + 1} - x _ {k} \\| ^ {2} \\\\ + h \\phi \\left(\\frac {1}{h} (x _ {k + 1} - x _ {k})\\right) + \\langle \\nabla f (x _ {k}), x _ {k + 1} - x _ {k} \\rangle \\leq \\frac {\\beta L}{2 h} \\| x _ {k} - x _ {k - 1} \\| ^ {2}. \\\\ \\end{array}\n$$\n\nCombining the inequality above with (2.16), we obtain, for every $k \\geq k_0$ ,\n\n$$\n\\frac {1}{2} (1 + \\beta h L) \\left\\| \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\| ^ {2} - \\frac {1}{2} (1 + \\beta h L) \\left\\| \\frac {1}{h} (x _ {k} - x _ {k - 1}) \\right\\| ^ {2}\n$$\n\n$$\n+ \\frac {1}{h} \\left(\\gamma - \\beta L\\right) \\left\\| x _ {k + 1} - x _ {k} \\right\\| ^ {2} + \\varepsilon \\left\\| x _ {k + 1} - x _ {k} \\right\\| \\leq 0. \\tag {2.17}\n$$\n\nNeglecting the nonnegative term $\\varepsilon \\| x_{k + 1} - x_k\\| \\geq 0$ in the above inequality, we obtain\n\n$$\n\\frac {1}{2} (1 + \\beta h L) \\left\\| \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\| ^ {2} - \\frac {1}{2} (1 + \\beta h L) \\left\\| \\frac {1}{h} (x _ {k} - x _ {k - 1}) \\right\\| ^ {2} + \\frac {1}{h} (\\gamma - \\beta L) \\| x _ {k + 1} - x _ {k} \\| ^ {2} \\leq 0.\n$$\n\nEquivalently\n\n$$\n\\left(1 + \\beta h L + 2 h (\\gamma - \\beta L)\\right) \\| x _ {k + 1} - x _ {k} \\| ^ {2} \\leq \\left(1 + \\beta h L\\right) \\| x _ {k} - x _ {k - 1} \\| ^ {2},\n$$\n\nwhich gives the geometric convergence of velocities toward zero: [Iterating the one-step estimate gives $\\|x_{k+1}-x_k\\|\\le q^{k-k_0}\\|x_{k_0+1}-x_{k_0}\\|$. TODO: verify the paper's displayed $q^k$ normalization; it omits the shift by $k_0$ unless the initial constant is rescaled.] for $k \\geq k_{0}$\n\n$$\n\\| x _ {k + 1} - x _ {k} \\| \\leq q ^ {k} \\| x _ {k _ {0} + 1} - x _ {k _ {0}} \\|, \\tag {2.18}\n$$\n\nwith $q := \\frac{1}{\\sqrt{1 + \\frac{2h(\\gamma - \\beta L)}{1 + \\beta h L}}}$ . Set $C := \\|x_{1} - x_{0}\\|$ . For, $p \\geq 0$ we have\n\n$$\n\\| x _ {k} - x _ {k + p} \\| \\leq C q ^ {k} \\left(1 + q + \\dots + q ^ {p - 1}\\right) \\leq C \\frac {q ^ {k}}{1 - q}.\n$$\n\nBy making $p$ go to infinity in the inequality above, and using that $(x_{k})$ converges to $x_{\\infty}$ , we obtain\n\n$$\n\\| x _ {k} - x _ {\\infty} \\| \\leq C \\frac {q ^ {k}}{1 - q}.\n$$\n\nThis formula expresses the geometric convergence of the sequence $(x_{k})$ to its limit $x_{\\infty}$ . This is a remarkable property because there can be a continuum of possible limits of the sequence $(x_{k})$ .\n\n(ii) Let us show that the finite convergence property holds under the assumption $\\|\\nabla f(x_{\\infty})\\| < r$ where $B(0, r) \\subset \\partial\\phi(0)$ . Write the algorithm (IPAHDD) as follows:\n\n$$\n\\frac {1}{h} (x _ {k + 1} - x _ {k}) + \\gamma (x _ {k + 1} - x _ {k}) + h \\partial \\phi \\left(\\frac {1}{h} (x _ {k + 1} - x _ {k})\\right) \\ni \\xi_ {k}, \\tag {2.19}\n$$\n\nwhere $\\xi_{k}:=\\frac{1}{h}(x_{k}-x_{k-1})-h\\nabla f(x_{k})-\\beta\\left(\\nabla f(x_{k})-\\nabla f(x_{k-1})\\right)$ . Equivalently,\n\n$$\n(1 + \\gamma h) \\left(\\frac {1}{h} (x _ {k + 1} - x _ {k})\\right) + h \\partial \\phi \\left(\\frac {1}{h} (x _ {k + 1} - x _ {k})\\right) \\ni \\xi_ {k},\n$$\n\nwhich gives, with $\\lambda := \\frac{h}{1 + \\gamma h}$ ,\n\n$$\n\\frac {1}{h} (x _ {k + 1} - x _ {k}) = \\mathrm{prox} _ {\\lambda \\phi} \\left(\\frac {1}{1 + \\gamma h} \\xi_ {k}\\right). \\tag {2.20}\n$$\n\nTo show the finite convergence property, we need to show that $x_{k+1} - x_k = 0$ for k large enough. According to (2.20) and Lemma 1.2, it suffices to prove that\n\n$$\n\\frac {1}{\\lambda} \\left\\| \\frac {1}{1 + \\gamma h} \\xi_ {k} \\right\\| \\leq r, \\tag {2.21}\n$$\n\nwhich, according to the definition of $\\lambda$ , is written equivalently as $\\frac{1}{h}\\|\\xi_{k}\\|\\leq r$ . By the triangle inequality and the L-Lipschitz continuity of $\\nabla f$ we have\n\n$$\n\\begin{array}{l} \\frac {1}{h} \\| \\xi_ {k} \\| = \\left\\| \\frac {1}{h ^ {2}} (x _ {k} - x _ {k - 1}) - \\nabla f (x _ {k}) - \\frac {\\beta}{h} \\left(\\nabla f (x _ {k}) - \\nabla f (x _ {k - 1})\\right) \\right\\| \\\\ \\leq \\frac {1}{h ^ {2}} \\| x _ {k} - x _ {k - 1} \\| + \\| \\nabla f (x _ {\\infty}) \\| + L \\| x _ {k} - x _ {\\infty} \\| + \\frac {\\beta L}{h} \\| x _ {k} - x _ {k - 1} \\|. \\tag {2.22} \\\\ \\end{array}\n$$\n\nWhen $k \\to +\\infty$ , the right-hand side of the inequality (2.22) tends to [the two increment terms tend to $0$ by finite length, and $\\|\\nabla f(x_k)-\\nabla f(x_\\infty)\\|\\le L\\|x_k-x_\\infty\\|\\to0$,] $\\| \\nabla f(x_{\\infty}) \\|$ . So, condition (2.21) will be satisfied for $k$ large enough if $\\| \\nabla f(x_{\\infty}) \\| < r$ . Let us suppose this condition is satisfied and further analyze (2.22). We have $x_{k+1} - x_k = 0$ as soon as\n\n$$\n\\left(\\frac {1}{h ^ {2}} + \\frac {\\beta L}{h}\\right) \\| x _ {k} - x _ {k - 1} \\| + L \\| x _ {k} - x _ {\\infty} \\| \\leq r - \\| \\nabla f (x _ {\\infty}) \\|\\cdot\n$$\n\nAccording to the geometric convergence rate obtained in (i), this will be satisfied when $k \\geq k_{0}$ and\n\n$$\n\\left(\\frac {1}{h ^ {2}} + \\frac {\\beta L}{h} + L \\frac {q}{1 - q}\\right) q ^ {k - 1} \\| x _ {k _ {0} + 1} - x _ {k _ {0}} \\| \\leq r - \\| \\nabla f (x _ {\\infty}) \\|.\n$$\n\nThis gives\n\n$$\nq ^ {k - 1} \\leq \\frac {r - \\| \\nabla f (x _ {\\infty}) \\|}{\\left(\\frac {1}{h ^ {2}} + \\frac {\\beta L}{h} + L \\frac {q}{1 - q}\\right) \\| x _ {k _ {0} + 1} - x _ {k _ {0}} \\|},\n$$\n\nwhich completes the proof.",
+      "depends_on": [
+        "def_1",
+        "lem_1",
+        "algo_1",
+        "thm_1",
+        "ext_def_1",
+        "ext_def_3",
+        "ext_def_4"
+      ],
+      "remark": "[Prove hint: derive the velocity recurrence from (2.17), then use a geometric tail estimate; check the printed exponent $q^k$ against the induction base $k_0$.]"
+    },
+    {
+      "id": "rem_1",
+      "type": "remark",
+      "name": "Remark 2.3",
+      "statement": "Remark 2.3. Let's give another proof of the finite convergence property. On the one hand, it only assumes that $-\\nabla f(x_{\\infty}) \\in \\mathrm{int}(\\partial \\phi(0))$ , but it is valid only when $\\mathcal{H}$ is a finite dimensional space. It is similar to the argument developed by Baji and Cabot in [22]. Argue by contradiction, and suppose that there is an infinite number of indices $k \\in \\mathbb{N}$ such that $\\|x_{k+1} - x_k\\| \\neq 0$ . Set $\\mathcal{N} := \\{k \\in \\mathbb{N} : \\|x_{k+1} - x_k\\| \\neq 0\\}$ , and consider the sequence $(\\omega_k)_k$ defined by\n\n$$\n\\omega_ {k} := \\frac {x _ {k + 1} - x _ {k}}{\\| x _ {k + 1} - x _ {k} \\|} \\quad \\text { for } \\quad k \\in \\mathcal {N}.\n$$\n\nThe sequence $(\\omega_{k})$ belongs to the unit sphere of H, and since H is assumed to have a finite dimension, we can extract a convergent sequence (still denoted $(\\omega_{k})$ ) that converges to a point $\\omega$ which belongs to the unit sphere (in an infinite dimensional space, we would only have weak convergence toward a point of the unit ball). Set $a_{k} = -\\frac{1}{h^{2}}(x_{k+1} - 2x_{k} + x_{k-1})$ . According to the monotonicity property of $\\partial\\phi$ and the definition of the algorithm (IPAHDD), we have, for all $k \\in N$ ,\n\n$$\n\\left\\langle a _ {k} - \\frac {\\gamma}{h} (x _ {k + 1} - x _ {k}) - \\frac {\\beta}{h} \\left(\\nabla f (x _ {k}) - \\nabla f (x _ {k - 1})\\right) - \\nabla f (x _ {k}) - \\partial \\phi (0), \\omega_ {k} \\right\\rangle \\geq 0, \\tag {2.23}\n$$\n\nwhere, in the above formula, $\\partial \\phi(0)$ denotes an arbitrary point of this set.\n\nAccording to convergence properties shown above, by passing to the limit in (2.23), we obtain\n\n$$\n\\langle \\nabla f (x _ {\\infty}) + \\partial \\phi (0), \\omega \\rangle \\leq 0.\n$$\n\nSince $-\\nabla f(x_{\\infty}) \\in \\mathrm{int}(\\partial \\phi(0))$ , there exists some $\\rho > 0$ such that $B(0, \\rho) \\subset \\nabla f(x_{\\infty}) + \\partial \\phi(0)$ .\n\nTherefore, we would have $\\langle \\rho u,\\omega \\rangle \\leq 0$ for all $u\\in B(0,1)$ . Taking $u = \\omega$ (since $\\| \\omega \\| = 1$ ) gives $\\rho \\| \\omega \\| ^2\\leq 0$ , and hence $\\omega = 0$ , a clear contraction with $\\omega$ belonging to the unit sphere.",
+      "proof": null,
+      "depends_on": [
+        "def_1",
+        "algo_1",
+        "thm_1",
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "thm_3",
+      "type": "theorem",
+      "name": "Theorem 2.6",
+      "statement": "THEOREM 2.6. Let $f:\\mathcal{H}\\to\\mathbb{R}$ be a $\\mathcal{C}^{1}$ function whose gradient is $L$ -Lipschitz continuous, and such that $\\inf_{\\mathcal{H}}f>-\\infty$ . Assume that the dry friction function $\\phi$ satisfies (DF) $_{r}$ . Suppose that the positive parameters $h$ , $\\gamma$ in the algorithm (IPAHDD-Var) satisfy the relation\n\n$$\n\\gamma \\geq L \\left(\\beta + \\frac {1}{2} h\\right) + \\frac {1}{2} \\gamma^ {2} h.\n$$\n\nThen, for any sequence $(x_{k})$ defined by the algorithm (IPAHDD-Var), we have the following:\n\n(i) $\\sum_{k=1}^{\\infty} \\|x_{k+1}-x_k\\| < +\\infty$ , and $\\lim_k x_k := x_\\infty$ exists for the strong topology of $\\mathcal{H}$ . Moreover,\n\n$$\n\\sum_ {k = 1} ^ {\\infty} \\| x _ {k + 1} - x _ {k} \\| \\leq \\frac {E _ {1}}{r}, \\text {where} E _ {1} := \\frac {1}{2} \\Big (1 + \\beta h L \\Big) \\left\\| \\frac {1}{h} (x _ {1} - x _ {0}) \\right\\| ^ {2} + f (x _ {1}) - \\inf _ {\\mathcal {H}} f.\n$$\n\n(ii) The limit $x_{\\infty}$ of the sequence $(x_k)$ satisfies $0 \\in \\partial \\phi(0) + \\nabla f(x_{\\infty})$ .  \n(iii) Suppose that $\\gamma > L\\left(\\beta + \\frac{1}{2} h\\right) + \\frac{1}{2}\\gamma^2 h$ .\n\n(a) Suppose that $-\\nabla f(x_{\\infty}) \\in \\mathrm{int}(\\partial \\phi(0))$ . Then, there is geometric convergence of $(x_k)$ .\n\n(b) Suppose that $\\| \\nabla f(x_{\\infty})\\| < r$ , where $B(0,r)\\subset \\partial \\phi (0)$ . Then $(x_{k})$ is finitely convergent.",
+      "proof": "",
+      "depends_on": [
+        "def_1",
+        "algo_3",
+        "ext_def_1",
+        "ext_def_3",
+        "ext_def_4"
+      ]
+    },
+    {
+      "id": "thm_4",
+      "type": "theorem",
+      "name": "Theorem 2.7",
+      "statement": "THEOREM 2.7. Let's make the assumptions of Theorem 2.1, and suppose that the sequence $(e_k)$ of perturbations and errors satisfies $\\lim_k \\| e_k\\| = 0$ . Then, for any sequence $(x_k)$ defined by the algorithm (IPAHDD-pert), we have the following:\n\n(i) $\\sum_{k=1}^{\\infty} \\|x_{k+1}-x_k\\| < +\\infty$ , and therefore $\\lim_k x_k := x_\\infty$ exists for the strong topology of $\\mathcal{H}$ .\n\nSuppose that $\\| e_k\\| \\leq \\frac{r}{2}$ . Then\n\n$$\n\\sum_ {k = 1} ^ {\\infty} \\| x _ {k + 1} - x _ {k} \\| \\leq \\frac {2}{r} \\left(E _ {1} + \\frac {\\beta L}{2 h} \\| x _ {1} - x _ {0} \\| ^ {2}\\right).\n$$\n\n(ii) The limit $x_{\\infty}$ of the sequence $(x_k)$ satisfies $0 \\in \\partial \\phi(0) + \\nabla f(x_{\\infty})$ .  \n(iii) Suppose that $-\\nabla f(x_{\\infty}) \\in \\mathrm{int}(\\partial \\phi(0))$ . Then, there is geometric convergence of the velocities to zero. Set $q = \\frac{1}{\\sqrt{1 + 2h\\gamma}}$ . There exists $k_0 \\geq 0$ such that for all $k \\geq k_0$\n\n$$\n\\| x _ {k} - x _ {\\infty} \\| \\leq \\frac {q ^ {k}}{1 - q} \\| x _ {k _ {0} + 1} - x _ {k _ {0}} \\|.\n$$\n\n(iv) Suppose that $\\| \\nabla f(x_{\\infty})\\| < r$ , where $B(0,r)\\subset \\partial \\phi (0)$ . Then $(x_{k})$ is finitely convergent.",
+      "proof": "Appendix A. Proof of Theorem 2.7. The beginning of the proof is similar to that of Theorem 2.1. Taking the scalar product of (2.31) with $\\frac{1}{h}(x_{k+1} - x_k)$ , we obtain\n\n(A.1)\n\n$$\n\\begin{array}{l} \\left\\langle \\frac {1}{h} (x _ {k + 1} - x _ {k}) - \\frac {1}{h} (x _ {k} - x _ {k - 1}), \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\rangle + \\gamma h \\left\\| \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\| ^ {2} \\\\ + h \\left\\langle \\partial \\phi \\left(\\frac {1}{h} (x _ {k + 1} - x _ {k})\\right), \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\rangle + \\beta \\left\\langle \\nabla f (x _ {k}) - \\nabla f (x _ {k - 1}), \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\rangle \\\\ + \\left\\langle \\nabla f (x _ {k}), x _ {k + 1} - x _ {k} \\right\\rangle = \\left\\langle e _ {k}, x _ {k + 1} - x _ {k} \\right\\rangle . \\\\ \\end{array}\n$$\n\nSet $X_{k} := \\frac{1}{h}(x_{k} - x_{k-1})$ . Using convex subdifferential inequalities, we get\n\n$$\n\\frac {1}{2} \\| X _ {k + 1} \\| ^ {2} - \\frac {1}{2} \\| X _ {k} \\| ^ {2} + \\gamma h \\| X _ {k + 1} \\| ^ {2} + h \\phi (X _ {k + 1}) + \\langle \\nabla f (x _ {k}), x _ {k + 1} - x _ {k} \\rangle\n$$\n\n$$\n\\quad + \\beta \\left\\langle \\nabla f (x _ {k}) - \\nabla f (x _ {k - 1}), \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\rangle \\leq \\langle e _ {k}, x _ {k + 1} - x _ {k} \\rangle . \\tag {A.2}\n$$\n\nAccording to the assumption $(\\mathrm{DF})_{r}$ on $\\phi$ and Lemma 1.1, for all $k \\geq 1$\n\n$$\n\\phi \\left(X _ {k + 1}\\right) \\geq r \\| X _ {k + 1} \\|. \\tag {A.3}\n$$\n\nSince $\\nabla f$ is L-Lipschitz continuous, the classical gradient descent gives, for all $k \\geq 1$ ,\n\n$$\nf (x _ {k + 1}) \\leq f (x _ {k}) + \\langle \\nabla f (x _ {k}), x _ {k + 1} - x _ {k} \\rangle + \\frac {L}{2} \\| x _ {k + 1} - x _ {k} \\| ^ {2}. \\tag {A.4}\n$$\n\nAccording to the Cauchy–Schwarz inequality, and using again that $\\nabla f$ is L-Lipschitz continuous,\n\n$$\n\\left| \\left\\langle \\nabla f (x _ {k}) - \\nabla f (x _ {k - 1}), \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\rangle \\right| \\leq h L \\| X _ {k} \\| \\| X _ {k + 1} \\|\n$$\n\n$$\n\\leq \\frac {h L}{2} (\\| X _ {k} \\| ^ {2} + \\| X _ {k + 1} \\| ^ {2}). \\tag {A.5}\n$$\n\nCombining (A.3)-(A.4)-(A.5) with (A.2), and using the Cauchy-Schwarz inequality, we obtain\n\n$$\n\\begin{array}{l} \\frac {1}{2} \\left\\| \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\| ^ {2} - \\frac {1}{2} \\left\\| \\frac {1}{h} (x _ {k} - x _ {k - 1}) \\right\\| ^ {2} + \\frac {\\gamma}{h} \\| x _ {k + 1} - x _ {k} \\| ^ {2} + r \\| x _ {k + 1} - x _ {k} \\| \\\\ + f (x _ {k + 1}) - f (x _ {k}) - \\frac {L}{2} \\| x _ {k + 1} - x _ {k} \\| ^ {2} \\leq \\frac {\\beta L}{2 h} (\\| x _ {k} - x _ {k - 1} \\| ^ {2} + \\| x _ {k + 1} - x _ {k} \\| ^ {2}) \\\\ + \\left\\| e _ {k} \\right\\| \\left\\| x _ {k + 1} - x _ {k} \\right\\|. \\\\ \\end{array}\n$$\n\nIn terms of $E_{k} := \\frac{1}{2} \\| \\frac{1}{h}(x_{k} - x_{k-1}) \\|^{2} + (f(x_{k}) - \\inf f)$ , this is equivalent to (A.6)\n\n$$\nE _ {k + 1} - E _ {k} + \\left(\\frac {\\gamma}{h} - \\frac {L}{2} - \\frac {\\beta L}{2 h}\\right) \\| x _ {k + 1} - x _ {k} \\| ^ {2} + (r - \\| e _ {k} \\|) \\| x _ {k + 1} - x _ {k} \\| \\leq \\frac {\\beta L}{2 h} \\| x _ {k} - x _ {k - 1} \\| ^ {2}.\n$$\n\nAccording to the assumption $\\gamma \\geq L\\left(\\frac{h}{2} +\\beta\\right)$ , we have $\\frac{\\gamma}{h} -\\frac{L}{2} -\\frac{\\beta L}{2h}\\geq \\frac{\\beta L}{2h}$ . Therefore,\n\n$$\nE _ {k + 1} - E _ {k} + (r - \\| e _ {k} \\|) \\| x _ {k + 1} - x _ {k} \\| + \\frac {\\beta L}{2 h} \\| x _ {k + 1} - x _ {k} \\| ^ {2} \\leq \\frac {\\beta L}{2 h} \\| x _ {k} - x _ {k - 1} \\| ^ {2}. \\tag {A.7}\n$$\n\nSet $\\tilde{E}_k := E_k + \\frac{\\beta L}{2h} \\|x_k - x_{k-1}\\|^2$ . We have\n\n$$\n\\tilde {E} _ {k + 1} - \\tilde {E} _ {k} + (r - \\| e _ {k} \\|) \\| x _ {k + 1} - x _ {k} \\| \\leq 0. \\tag {A.8}\n$$\n\nAdding the above inequalities, and according to $E_{k} \\geq 0$ , and $e_k \\to 0$ , we deduce from (2.11) that $\\sum_{k=1}^{\\infty} \\|x_{k+1} - x_k\\| < +\\infty$ . So, the sequence $(x_k)$ has a finite length, which implies that the strong limit of $(x_k)$ exists. Set $x_{\\infty} := \\lim x_k$ . Therefore, $\\lim_k \\|x_{k+1} - x_k\\| = 0$ , $\\lim_k \\frac{1}{h^2}(x_{k+1} - 2x_k + x_{k-1}) = 0$ , and $\\lim_k \\nabla f(x_k) = \\nabla f(x_{\\infty})$ . To pass to the limit on (2.31), rewrite it as follows: $A_k \\in \\partial \\phi(\\frac{1}{h}(x_{k+1} - x_k))$ with\n\n$$\nA _ {k} = - \\frac {1}{h ^ {2}} (x _ {k + 1} - 2 x _ {k} + x _ {k - 1}) - \\frac {\\gamma}{h} (x _ {k + 1} - x _ {k}) - \\frac {\\beta}{h} (\\nabla f (x _ {k}) - \\nabla f (x _ {k - 1})) - \\nabla f (x _ {k}) + e _ {k}.\n$$\n\nAccording to the above convergence results and the closedness of the graph of $\\partial \\phi$ , we deduce that\n\n$$\n- \\nabla f (x _ {\\infty}) \\in \\partial \\phi (0).\n$$\n\nThe proof of (iii) and (iv) follows the lines of the proof of Theorem 2.2. Estimation (2.17) becomes\n\n$$\n\\begin{array}{l} \\frac {1}{2} (1 + \\beta h L) \\left\\| \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\| ^ {2} - \\frac {1}{2} (1 + \\beta h L) \\left\\| \\frac {1}{h} (x _ {k} - x _ {k - 1}) \\right\\| ^ {2} \\tag {A.9} \\\\ + \\frac {1}{h} (\\gamma - \\beta L) \\| x _ {k + 1} - x _ {k} \\| ^ {2} + \\varepsilon \\| x _ {k + 1} - x _ {k} \\| \\leq \\| e _ {k} \\| \\| x _ {k + 1} - x _ {k} \\|. \\\\ \\end{array}\n$$\n\nSince $\\| e_k\\| \\to 0$ , we obtain that for $k$ sufficiently large\n\n$$\n\\begin{array}{l} \\frac {1}{2} (1 + \\beta h L) \\left\\| \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\| ^ {2} - \\frac {1}{2} (1 + \\beta h L) \\left\\| \\frac {1}{h} (x _ {k} - x _ {k - 1}) \\right\\| ^ {2} \\\\ + \\frac {1}{h} (\\gamma - \\beta L) \\| x _ {k + 1} - x _ {k} \\| ^ {2} + \\frac {\\varepsilon}{2} \\| x _ {k + 1} - x _ {k} \\| \\leq 0. \\\\ \\end{array}\n$$\n\nAccording to $\\gamma -\\beta L > 0$ , we easily deduce the geometric convergence of the sequence $(x_{k})$ .\n\nTo prove the finite convergence, we return to the definition of the algorithm (IPAHDD-pert):\n\n$$\n\\frac {1}{h} (x _ {k + 1} - x _ {k}) = \\mathrm{prox} _ {\\lambda \\phi} (\\xi_ {k}), \\text {where} \\lambda = \\frac {h}{1 + h \\gamma}, \\text {and}\n$$\n\n$$\n\\xi_ {k} := \\frac {1}{h (1 + h \\gamma)} (x _ {k} - x _ {k - 1}) - \\frac {\\beta}{1 + h \\gamma} (\\nabla f (x _ {k}) - \\nabla f (x _ {k - 1})) - \\frac {h}{1 + h \\gamma} \\nabla f (x _ {k}) + \\frac {h}{1 + h \\gamma} e _ {k}.\n$$\n\nAccording to Lemma 1.2, the finite convergence will result from proving the inequality $\\frac{1}{\\lambda}\\| \\xi_k\\| \\leq r$ . Since $\\frac{1}{\\lambda}\\| \\xi_k\\| \\to \\| \\nabla f(x_{\\infty})\\|$ , this will be satisfied for $k$ large enough if $\\| \\nabla f(x_{\\infty})\\| < r$ .",
+      "depends_on": [
+        "def_1",
+        "ext_lem_1",
+        "lem_1",
+        "algo_4",
+        "thm_1",
+        "thm_2",
+        "ext_def_1",
+        "ext_def_3",
+        "ext_def_4"
+      ],
+      "remark": "[Prove hint: repeat the energy proof with the error term controlled by $\\|e_k\\|$; isolate the finite-stopping induction after a zero velocity.]"
+    },
+    {
+      "id": "thm_5",
+      "type": "theorem",
+      "name": "Theorem 3.1",
+      "statement": "THEOREM 3.1. Let $f: \\mathcal{H} \\to \\mathbb{R}$ be a $\\mathcal{C}^1$ function whose gradient is L-Lipschitz continuous and such that $\\inf_{\\mathcal{H}} f > -\\infty$ . Assume that the potential friction function $\\phi$ satisfies (DF) $_r$ . Suppose that the positive parameters $h, \\gamma, \\beta$ in the algorithm (IPAHDD-N) satisfy the relation\n\n$$\n\\gamma \\geq \\frac {3 L}{2} (h + \\beta) \\quad a n d \\quad L h ^ {2} \\leq 1.\n$$\n\nThen, for any sequence $(x_{k})$ defined by the algorithm (IPAHDD-N), we have the following:\n\n(i) $\\sum_{k=1}^{\\infty} \\|x_{k+1}-x_k\\| < \\infty$ , and hence $\\lim_k x_k := x_\\infty$ exists for the strong topology of $\\mathcal{H}$ . Moreover,\n\n$$\n\\sum_ {k = 1} ^ {\\infty} \\left\\| x _ {k + 1} - x _ {k} \\right\\| \\leq \\frac {1}{r} \\left(\\frac {1}{2 h ^ {2}} \\left(1 + h \\gamma - \\frac {L h ^ {2}}{2}\\right) \\left\\| x _ {1} - x _ {0} \\right\\| ^ {2} + f (x _ {1}) - \\inf _ {\\mathcal {H}} f\\right).\n$$\n\n(ii) The limit $x_{\\infty}$ of the sequence $(x_k)$ satisfies $0 \\in \\partial \\phi(0) + \\nabla f(x_{\\infty})$ .  \n(iii) Suppose that $-\\nabla f(x_{\\infty}) \\in \\mathrm{int}(\\partial \\phi(0))$ . Then, there is geometric convergence of $(x_k)$ .  \n(iv) Suppose that $\\| \\nabla f(x_{\\infty})\\| < r$ , where $B(0,r)\\subset \\partial \\phi (0)$ . Then $(x_{k})$ is finitely convergent.\n\nSimilar properties hold for the sequence $(y_{k})$ , which has the same limit as $(x_{k})$ .",
+      "proof": "Appendix B. Proof of Theorem 3.1. (i) By taking the scalar product of (3.2) with $\\frac{1}{h}(x_{k + 1} - x_k)$ , we obtain\n\n$$\n\\begin{array}{l} \\left\\langle \\frac {1}{h} (x _ {k + 1} - x _ {k}) - \\frac {1}{h} (x _ {k} - x _ {k - 1}), \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\rangle + \\gamma h \\left\\| \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\| ^ {2} \\\\ \\left. + \\langle \\nabla f (y _ {k}), x _ {k + 1} - x _ {k} \\rangle + h \\left\\langle \\partial \\phi \\left(\\frac {1}{h} (x _ {k + 1} - x _ {k})\\right), \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\rangle \\right. \\\\ \\quad + \\beta \\left\\langle \\nabla f (x _ {k}) - \\nabla f (x _ {k - 1}), \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\rangle = 0. \\tag {B.1} \\\\ \\end{array}\n$$\n\nSet $X_{k} := \\frac{1}{h}(x_{k} - x_{k-1})$ . According to the assumption (DF) $_r$ on $\\phi$ and Lemma 1.1, for all $k \\geq 1$\n\n$$\n\\langle \\partial \\phi (X _ {k + 1}), X _ {k + 1} \\rangle \\geq \\phi (X _ {k + 1}) \\geq r \\| X _ {k + 1} \\|.\n$$\n\nAccording to the Cauchy–Schwarz inequality, and using that $\\nabla f$ is L-Lipschitz continuous,\n\n$$\n\\left| \\left\\langle \\nabla f (x _ {k}) - \\nabla f (x _ {k - 1}), \\frac {1}{h} (x _ {k + 1} - x _ {k}) \\right\\rangle \\right| \\leq h L \\| X _ {k} \\| \\| X _ {k + 1} \\| \\leq \\frac {h L}{2} (\\| X _ {k} \\| ^ {2} + \\| X _ {k + 1} \\| ^ {2}).\n$$\n\nCombining (B.1) with the two above inequalities, we obtain\n\n$$\n\\begin{array}{l} \\langle X _ {k + 1} - X _ {k}, X _ {k + 1} \\rangle + \\gamma h \\| X _ {k + 1} \\| ^ {2} + h r \\| X _ {k + 1} \\| + \\langle \\nabla f (y _ {k}), x _ {k + 1} - x _ {k} \\rangle \\\\ \\leq \\frac {\\beta h L}{2} (\\| X _ {k} \\| ^ {2} + \\| X _ {k + 1} \\| ^ {2}). \\\\ \\end{array}\n$$\n\nUsing successively the gradient descent lemma for $f$ , the $L$ -Lipschitz continuity of $\\nabla f$ , and the equality $y_{k} = x_{k} + \\frac{1}{1 + h\\gamma}(x_{k} - x_{k - 1})$ (by definition of (IPAHDD-N)), we get\n\n$$\n\\begin{array}{l} f (x _ {k + 1}) \\leq f (x _ {k}) + \\langle \\nabla f (x _ {k}), x _ {k + 1} - x _ {k} \\rangle + \\frac {L}{2} \\| x _ {k + 1} - x _ {k} \\| ^ {2} \\\\ \\leq f (x _ {k}) + \\langle \\nabla f (y _ {k}), x _ {k + 1} - x _ {k} \\rangle + \\frac {L}{1 + h \\gamma} \\| x _ {k} - x _ {k - 1} \\| \\| x _ {k + 1} - x _ {k} \\| + \\frac {L}{2} \\| x _ {k + 1} - x _ {k} \\| ^ {2}. \\\\ \\end{array}\n$$\n\nCombining the above inequalities, we obtain\n\n$$\n\\begin{array}{l} \\langle X _ {k + 1} - X _ {k}, X _ {k + 1} \\rangle + \\gamma h \\| X _ {k + 1} \\| ^ {2} + h r \\| X _ {k + 1} \\| + f (x _ {k + 1}) - f (x _ {k}) \\\\ - \\frac {L h ^ {2}}{1 + h \\gamma} \\| X _ {k} \\| \\| X _ {k + 1} \\| - \\frac {L h ^ {2}}{2} \\| X _ {k + 1} \\| ^ {2} \\leq \\frac {\\beta h L}{2} (\\| X _ {k} \\| ^ {2} + \\| X _ {k + 1} \\| ^ {2}). \\\\ \\end{array}\n$$\n\nTherefore,\n\n(B.2)\n\n$$\n\\begin{array}{l} \\left(1 + h \\gamma - \\frac {L h ^ {2}}{2} - \\frac {\\beta h L}{2}\\right) \\| X _ {k + 1} \\| ^ {2} - \\left(1 + \\frac {L h ^ {2}}{1 + h \\gamma}\\right) \\| X _ {k} \\| \\| X _ {k + 1} \\| - \\frac {\\beta h L}{2} \\| X _ {k} \\| ^ {2} \\\\ + h r \\| X _ {k + 1} \\| + f (x _ {k + 1}) - f (x _ {k}) \\leq 0. \\\\ \\end{array}\n$$\n\nAccording to $\\gamma \\geq \\frac{3L}{2} (h + \\beta)$ , and $Lh^2 \\leq 1$ , we get $1 + h\\gamma - \\frac{Lh^2}{2} - \\frac{\\beta hL}{2} \\geq 0$ . From (B.2) we infer\n\n$$\n\\begin{array}{l} \\frac {1}{2} \\left(1 + h \\gamma - \\frac {L h ^ {2}}{2} - \\frac {\\beta h L}{2}\\right) \\left(\\| X _ {k + 1} \\| ^ {2} - \\| X _ {k} \\| ^ {2}\\right) + \\frac {1}{2} \\left(1 + h \\gamma - \\frac {L h ^ {2}}{2} - \\frac {\\beta h L}{2}\\right) \\| X _ {k + 1} \\| ^ {2} \\\\ + \\frac {1}{2} \\left(1 + h \\gamma - \\frac {L h ^ {2}}{2} - \\frac {3 \\beta h L}{2}\\right) \\| X _ {k} \\| ^ {2} - \\left(1 + \\frac {L h ^ {2}}{1 + h \\gamma}\\right) \\| X _ {k} \\| \\| X _ {k + 1} \\| \\\\ + h r \\| X _ {k + 1} \\| + f (x _ {k + 1}) - f (x _ {k}) \\leq 0. \\\\ \\end{array}\n$$\n\nTherefore,\n\n$$\n\\begin{array}{l} \\frac {1}{2} \\left(1 + h \\gamma - \\frac {L h ^ {2}}{2} - \\frac {\\beta h L}{2}\\right) \\left(\\| X _ {k + 1} \\| ^ {2} - \\| X _ {k} \\| ^ {2}\\right) + \\frac {1}{2} \\left(1 + h \\gamma - \\frac {L h ^ {2}}{2} - \\frac {3 \\beta h L}{2}\\right) \\| X _ {k + 1} \\| ^ {2} \\\\ + \\frac {1}{2} \\left(1 + h \\gamma - \\frac {L h ^ {2}}{2} - \\frac {3 \\beta h L}{2}\\right) \\| X _ {k} \\| ^ {2} - \\left(1 + \\frac {L h ^ {2}}{1 + h \\gamma}\\right) \\| X _ {k} \\| \\| X _ {k + 1} \\| \\\\ + h r \\| X _ {k + 1} \\| + f (x _ {k + 1}) - f (x _ {k}) \\leq 0. \\\\ \\end{array}\n$$\n\nElementary algebra (sign of a polynomial of the second degree) gives that the inequality\n\n$$\n\\begin{array}{l} \\frac {1}{2} \\left(1 + h \\gamma - \\frac {L h ^ {2}}{2} - \\frac {3 \\beta h L}{2}\\right) \\| X _ {k + 1} \\| ^ {2} - \\left(1 + \\frac {L h ^ {2}}{1 + h \\gamma}\\right) \\| X _ {k} \\| \\| X _ {k + 1} \\| \\\\ + \\frac {1}{2} \\left(1 + h \\gamma - \\frac {L h ^ {2}}{2} - \\frac {3 \\beta h L}{2}\\right) \\| X _ {k} \\| ^ {2} \\geq 0 \\\\ \\end{array}\n$$\n\nis satisfied under the condition $\\Delta = (1 + \\frac{Lh^2}{1 + h\\gamma})^2 - (1 + h\\gamma - \\frac{Lh^2}{2} - \\frac{3\\beta hL}{2})^2 \\leq 0$ . This is equivalent to $\\frac{\\gamma}{L} \\geq \\frac{h}{1 + h\\gamma} + \\frac{h}{2} + \\frac{3\\beta}{2}$ . Since $\\frac{1}{2} + \\frac{1}{1 + h\\gamma} \\leq \\frac{3}{2}$ , we end up with the condition $\\frac{\\gamma}{L} \\geq \\frac{3}{2}(h + \\beta)$ , which is satisfied by assumption. To summarize the results, in terms of\n\n$$\nE _ {k} := \\frac {1}{2} \\left(1 + h \\gamma - \\frac {L h ^ {2}}{2}\\right) \\left\\| \\frac {1}{h} (x _ {k} - x _ {k - 1}) \\right\\| ^ {2} + \\left(f (x _ {k}) - \\inf _ {\\mathcal {H}} f\\right),\n$$\n\nwe have obtained $E_{k+1}-E_{k}+r\\|x_{k+1}-x_{k}\\|\\leq0$ . According to the nonnegativity of $E_{k}$ , and r>0, we deduce that $\\sum_{k=1}^{\\infty}\\|x_{k+1}-x_{k}\\|\\leq\\frac{1}{r}E_{1}<+\\infty$ . Therefore, the sequence $(x_{k})$ has a finite length, which implies that the strong limit of $(x_{k})$ exists. Set $x_{\\infty}:=\\lim_{k}x_{k}$ , which ends item (i).\n\n(ii) From $\\sum_{k} \\|x_{k+1}-x_{k}\\| < +\\infty$ , we get immediately $\\lim_{k} \\|x_{k+1}-x_{k}\\|=0$ . This in turn implies $\\lim_{k} \\frac{1}{h^{2}} (x_{k+1}-2x_{k}+x_{k-1}) = \\lim_{k} \\frac{1}{h^{2}} ((x_{k+1}-x_{k})-(x_{k}-x_{k-1})) = 0$ . Moreover, since $\\nabla f$ is continuous and $(x_{k})$ converges strongly to $x_{\\infty}$ , we have $\\nabla f(x_{k}) \\to \\nabla f(x_{\\infty})$ . According to the $L$ -Lipschitz continuity of $\\nabla f$ , and $y_{k}-x_{k}=\\frac{1}{1+h\\gamma}(x_{k}-x_{k-1})$ , we have\n\n$$\n\\| \\nabla f (y _ {k}) - \\nabla f (x _ {k}) \\| \\leq L \\| y _ {k} - x _ {k} \\| \\leq \\frac {L}{1 + h \\gamma} \\| x _ {k} - x _ {k - 1} \\|.\n$$\n\nTherefore, $\\lim_k\\nabla f(y_k) = \\nabla f(x_\\infty)$ . To pass to the limit in (3.1), rewrite it as follows:\n\n$$\n- \\frac {1}{h ^ {2}} (x _ {k + 1} - 2 x _ {k} + x _ {k - 1}) - \\frac {\\gamma}{h} (x _ {k + 1} - x _ {k}) - \\nabla f (y _ {k}) \\in \\partial \\phi \\left(\\frac {1}{h} (x _ {k + 1} - x _ {k})\\right).\n$$\n\nAccording to the above convergence results and the closedness of the graph of $\\partial\\phi$ in $H\\times H$ , we deduce that $-\\nabla f(x_{\\infty})\\in\\partial\\phi(0)$ , which gives item (ii). Items (iii) and (iv) are obtained by a similar argument as in Theorem 2.2. By definition of (IPAHDD-N), we have $\\|y_{k}-x_{k}\\|\\leq\\|x_{k}-x_{k-1}\\|$ , and hence $y_{k}-x_{k}$ converges strongly to zero. From this, we immediately deduce that the sequence $(y_{k})$ has the same limit as $(x_{k})$ and satisfies similar convergence properties as $(x_{k})$ .\n\nAcknowledgment. The authors would like to thank the three anonymous reviewers for their careful reading and their relevant suggestions and comments.",
+      "depends_on": [
+        "def_1",
+        "ext_lem_1",
+        "algo_5",
+        "ext_def_1",
+        "ext_def_3",
+        "ext_def_4"
+      ],
+      "remark": "[Prove hint: Appendix B requires a separate Lyapunov telescoping calculation; do not treat it as an immediate instance of Theorem 2.1.]"
+    },
+    {
+      "id": "ext_def_5",
+      "type": "definition",
+      "name": "Extremal eigenvalues",
+      "statement": "For a symmetric positive-definite matrix $M$, $\\mu_{\\min}(M)$ and $\\mu_{\\max}(M)$ denote respectively its smallest and largest eigenvalue.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Note: use the Rayleigh-quotient norm equivalence to move between $\\|\\cdot\\|_M$ and the Euclidean norm.]"
+    },
+    {
+      "id": "ext_def_6",
+      "type": "definition",
+      "name": "Soft-thresholding operator",
+      "statement": "For $a\\ge0$, $T_a(t):=\\operatorname{sign}(t)(|t|-a)_+$, where $(s)_+:=\\max\\{s,0\\}$.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "algo_2",
+      "type": "algorithm",
+      "name": "IPAHDD with soft thresholding on the velocities",
+      "statement": "(IPAHDD) with soft thresholding on the velocities\n\nInitialize: $x_0 \\in \\mathbb{R}^n$ , $x_1 \\in \\mathbb{R}^n$\n\n$$\nf o r i = 1, 2, \\dots n\n$$\n\n$$\n\\begin{array}{l} x _ {k + 1, i} = x _ {k, i} + h T _ {\\frac {h r}{1 + h \\gamma}} \\left(\\frac {1}{h (1 + h \\gamma)} (x _ {k, i} - x _ {k - 1, i}) - \\frac {\\beta}{1 + h \\gamma} \\left(\\frac {\\partial f}{\\partial x _ {i}} (x _ {k}) - \\frac {\\partial f}{\\partial x _ {i}} (x _ {k - 1})\\right) \\right. \\\\ \\left. - \\frac {h}{1 + h \\gamma} \\frac {\\partial f}{\\partial x _ {i}} (x _ {k})\\right) \\\\ \\end{array}\n$$",
+      "proof": null,
+      "depends_on": [
+        "algo_1",
+        "ext_def_6"
+      ]
+    },
+    {
+      "id": "cor_1",
+      "type": "corollary",
+      "name": "Corollary 2.5",
+      "statement": "COROLLARY 2.5. Let $f: \\mathbb{R}^n \\to \\mathbb{R}$ be a $\\mathcal{C}^1$ function whose gradient is L-Lipschitz continuous, and such that $\\inf_{\\mathcal{H}} f > -\\infty$ . Assume that the potential friction function $\\phi$ is given by $\\phi(x) = r \\|x\\|_1$ . Suppose that the positive parameters $h, \\gamma, \\beta$ in the algorithm (IPAHDD) satisfy the relation\n\n$$\n\\gamma \\geq L \\left(\\frac {h}{2} + \\beta\\right).\n$$\n\nLet $(x_{k})$ be a sequence generated by the algorithm (IPAHDD) with soft thresholding on the velocities.\n\n(i) Then, the sequence $(x_{k})$ has a finite length. It converges to $x_{\\infty}$ that verifies $\\| \\nabla f(x_{\\infty})\\| _1\\leq r$ .  \n(ii) Suppose that $\\| \\nabla f(x_{\\infty})\\| _1 < r$ . Then, there is geometric convergence (2.15), and the sequence $(x_{k})$ is finitely convergent.\n\nClearly, taking r small is the interesting situation for optimization.",
+      "proof": "[For $\\phi(x)=r\\|x\\|_1$, the componentwise formula (2.27) identifies the displayed update with (IPAHDD). The hypotheses give the dry-friction ball condition at the origin, so Theorems 2.1 and 2.2 apply componentwise and yield the stated conclusion.]",
+      "depends_on": [
+        "algo_1",
+        "algo_2",
+        "thm_1",
+        "thm_2",
+        "ext_def_6"
+      ]
+    },
+    {
+      "id": "ext_thm_1",
+      "type": "theorem",
+      "name": "Moreau envelope regularity and proximal identities",
+      "statement": "Referenced as: if $f$ is proper, lower semicontinuous, and convex and $\\lambda>0$, then $f_\\lambda$ is $C^{1,1}$, $\\nabla f_\\lambda(x)=\\lambda^{-1}(x-\\operatorname{prox}_{\\lambda f}(x))$ is $\\lambda^{-1}$-Lipschitz, $\\operatorname{prox}_{\\lambda f}$ is nonexpansive, and $\\nabla f_\\lambda(x)\\in\\partial f(\\operatorname{prox}_{\\lambda f}(x))$.",
+      "proof": "Cited from: H. Attouch, G. Buttazzo, and G. Michaille, Variational Analysis in Sobolev and BV Spaces, 2nd ed., 2014, §17.2.1; H. Bauschke and P. L. Combettes, Convex Analysis and Monotone Operator Theory in Hilbert Spaces, 2011; H. Brézis, Opérateurs maximaux monotones dans les espaces de Hilbert, 1972.",
+      "depends_on": [
+        "ext_def_1",
+        "ext_def_3"
+      ],
+      "source": "[9, §17.2.1], [23], [29], as cited in the paper.",
+      "resolution_priority": "high",
+      "remark": "[Note: required to reduce Theorem 4.1 to Theorems 2.1–2.2.]"
+    },
+    {
+      "id": "thm_6",
+      "type": "theorem",
+      "name": "Theorem 4.1",
+      "statement": "THEOREM 4.1. Let $f: \\mathcal{H} \\to \\mathbb{R} \\cup \\{+\\infty\\}$ be a convex lower semicontinuous and proper function such that $\\inf f > -\\infty$ . Assume that the potential friction function $\\phi$ satisfies $(\\mathrm{DF})_r$ . Suppose that the parameters $h, \\gamma, \\beta, \\lambda$ in the algorithm (IPAHDD-nonsmooth) satisfy the relation\n\n$$\n\\gamma \\geq \\frac {1}{\\lambda} \\left(\\frac {h}{2} + \\beta\\right).\n$$\n\nThen, for any sequence $(x_{k})$ defined by the algorithm (IPAHDD-nonsmooth), we have the following:\n\n(i) $\\sum_{k=1}^{\\infty} \\|x_{k+1}-x_k\\| < +\\infty$ . Hence $\\lim_k x_k := x_\\infty$ exists for the strong topology of $\\mathcal{H}$ . Moreover,\n\n$$\n\\sum_ {k = 1} ^ {\\infty} \\| x _ {k + 1} - x _ {k} \\| \\leq \\frac {1}{r} \\left(E _ {1} + \\frac {\\beta L}{2 h} \\| x _ {1} - x _ {0} \\| ^ {2}\\right),\n$$\n\n$$\n\\sum_ {k = 1} ^ {\\infty} \\left\\| x _ {k + 1} - 2 x _ {k} + x _ {k - 1} \\right\\| ^ {2} \\leq 2 h ^ {2} \\left(E _ {1} + \\frac {\\beta L}{2 h} \\| x _ {1} - x _ {0} \\| ^ {2}\\right),\n$$\n\nwhere $E_1 := \\frac{1}{2} \\| \\frac{1}{h}(x_1 - x_0) \\|^2 + f(x_1) - \\inf_{\\mathcal{H}} f$ .\n\n(ii) The limit $x_{\\infty}$ of the sequence $(x_k)$ satisfies $0 \\in \\partial \\phi(0) + \\nabla f_{\\lambda}(x_{\\infty})$ . The sequence $(p_k)$ with $p_k = \\mathrm{prox}_{\\lambda f}(x_k)$ has a finite length, and it converges strongly toward $p_{\\infty} = \\mathrm{prox}_{\\lambda f}x_{\\infty}$ which satisfies the approximate optimality property:\n\n$$\n\\partial f (p _ {\\infty}) + \\partial \\phi (0) \\ni 0.\n$$\n\nSuppose moreover that $-\\nabla f_{\\lambda}(x_{\\infty}) \\in \\operatorname{int}(\\partial\\phi(0))$ . Then, there is geometric convergence of the velocities to zero. Set $q := \\frac{1}{\\sqrt{1 + \\frac{2h(\\gamma\\lambda - \\beta)}{\\lambda + \\beta h}}} \\in]0, 1[$ . There exists $k_{0} \\geq 0$ such that for all $k \\geq k_{0}$\n\n$$\n\\| x _ {k + 1} - x _ {k} \\| \\leq q ^ {k} \\| x _ {k _ {0} + 1} - x _ {k _ {0}} \\| \\text {and} \\| x _ {k} - x _ {\\infty} \\| \\leq \\frac {q ^ {k}}{1 - q} \\| x _ {k _ {0} + 1} - x _ {k _ {0}} \\|\\cdot\n$$\n\n(iii) Suppose that $\\| \\nabla f_{\\lambda}(x_{\\infty})\\| < r$ , where $B(0,r)\\subset \\partial \\phi (0)$ . Then, the sequence $(x_{k})$ is finitely convergent. The iteration stops at $x_{k}$ when $k\\geq k_0$ and\n\n$$\nq ^ {k - 1} \\leq \\frac {r - \\| \\nabla f _ {\\lambda} (x _ {\\infty}) \\|}{\\left(\\frac {1}{h ^ {2}} + \\frac {\\beta}{h \\lambda} + \\frac {q}{\\lambda (1 - q)}\\right) \\| x _ {k _ {0} + 1} - x _ {k _ {0}} \\|},\n$$\n\nwhich is satisfied for $k$ large enough, because of $q < 1$ .",
+      "proof": "The proof consists in replacing $f$ by $f_{\\lambda}$ [By ext_thm_1, $f_\\lambda$ meets every smooth-potential hypothesis of Theorems 2.1 and 2.2, with $L=1/\\lambda$, and its proximal-gradient formula expands exactly to the displayed IPAHDD-nonsmooth update.] in Theorems 2.1 and 2.2 and in using that $\\nabla f_{\\lambda}$ is $\\frac{1}{\\lambda}$ -Lipschitz continuous. By taking $L = \\frac{1}{\\lambda}$ , the condition $\\gamma \\geq L(\\frac{h}{2} + \\beta)$ becomes $\\gamma \\geq \\frac{1}{\\lambda} (\\frac{h}{2} + \\beta)$ . Now consider the sequence $(p_k)$ with $p_k = \\mathrm{prox}_{\\lambda f} x_k$ . Since $\\mathrm{prox}_{\\lambda f}$ is a nonexpansive mapping, we have $\\sum_k \\| p_{k+1} - p_k \\| \\leq \\sum_k \\| x_{k+1} - x_k \\| < +\\infty$ . Consequently, the sequence $(p_k)$ has a finite length, and it converges strongly toward $p_{\\infty} = \\mathrm{prox}_{\\lambda f} x_{\\infty}$ . Using the relation $\\nabla f_{\\lambda}(x_{\\infty}) \\in \\partial f(p_{\\infty})$ [together with $-\\nabla f_\\lambda(x_\\infty)\\in\\partial\\phi(0)$ from the preceding application of Theorem 2.1] , we obtain the approximate optimality property: $\\partial f(p_{\\infty}) + \\partial \\phi(0) \\ni 0$ .",
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "algo_7",
+        "thm_1",
+        "thm_2",
+        "ext_def_1",
+        "ext_def_3",
+        "ext_def_4",
+        "ext_thm_1"
+      ],
+      "remark": "[Prove hint: invoke ext_thm_1 before applying Theorems 2.1–2.2 with $L=1/\\lambda$.]"
+    },
+    {
+      "id": "rem_2",
+      "type": "remark",
+      "name": "Remark 4.2",
+      "statement": "Remark 4.2. It could be possible to make the parameter $\\lambda$ vary, but it has to be bounded away from zero (because of the assumption $\\lambda \\geq \\frac{1}{\\gamma}(\\frac{h}{2} + \\beta)$ ). Thus our approach differs from the classical approximation method which consists in approaching f by $f_{\\lambda}$ as $\\lambda$ goes to zero.",
+      "proof": null,
+      "depends_on": [
+        "thm_6"
+      ]
+    },
+    {
+      "id": "ext_thm_2",
+      "type": "theorem",
+      "name": "Variable-metric composite proximal identity",
+      "statement": "Referenced as equation (5.6): for $f(x)=\\frac12\\|Ax-b\\|_2^2+g(x)$ and $M=I_n-\\lambda A^TA$, $\\operatorname{prox}_{\\lambda f}^{M}(x)=\\operatorname{prox}_{\\lambda g}(x-\\lambda A^T(Ax-b))$.",
+      "proof": "Cited from: A. Chambolle and T. Pock, An introduction to continuous optimization for imaging, Acta Numerica 25 (2016), §4.6, p. 190.",
+      "depends_on": [
+        "ext_def_3"
+      ],
+      "source": "[31, §4.6, p. 190], as cited in the paper.",
+      "resolution_priority": "high",
+      "remark": "[Note: supplies the splitting identity used by IPAHDD-Lasso.]"
+    },
+    {
+      "id": "thm_7",
+      "type": "theorem",
+      "name": "Theorem 5.1",
+      "statement": "THEOREM 5.1. Assume that the potential friction function $\\phi = r\\| \\cdot \\| _2$ . Suppose that the parameters $h, \\gamma, \\beta, \\lambda$ in the algorithm (IPAHDD)-Lasso satisfy the relation\n\n$$\n\\gamma \\geq \\frac {1}{\\lambda} \\sqrt {\\frac {\\mu_ {\\max} (M)}{\\mu_ {\\min} (M)}} \\left(\\frac {h}{2} + \\beta\\right).\n$$\n\nLet $(x_{k})$ be a sequence defined by the algorithm (IPAHDD)-Lasso. Then,\n\n$$\n\\sum_ {k} \\| x _ {k + 1} - x _ {k} \\| <   + \\infty , \\text {and therefore} \\lim _ {k} x _ {k} := x _ {\\infty} \\text {exists}.\n$$\n\nMoreover, $\\sum_{k=1}^{\\infty} \\|x_{k+1}-x_k\\| \\leq \\frac{1}{r}\\left(\\frac{1}{2}\\|\\frac{1}{h}(x_1-x_0)\\|^2 + (f(x_1)-\\inf_{\\mathcal{H}} f) + \\frac{\\beta L}{2h}\\|x_1-x_0\\|^2\\right)$ . The limit $x_\\infty$ satisfies $\\|A^T(A x_\\infty-b) + \\partial g(x_\\infty)\\| \\leq r$ .\n\nSuppose that the above inequality is strict. Then, $(x_{k})$ is finitely convergent.",
+      "proof": "[Apply ext_thm_2 to identify the Lasso update as IPAHDD with smooth potential $f_\\lambda^M$. Equation (5.5) supplies its Euclidean Lipschitz constant, so the displayed parameter bound is exactly the hypothesis of Theorems 2.1 and 2.2. The stated finite-length, stationarity, and strict-margin finite-convergence conclusions then follow from those theorems.]",
+      "depends_on": [
+        "def_3",
+        "def_4",
+        "algo_8",
+        "thm_1",
+        "thm_2",
+        "ext_def_1",
+        "ext_def_3",
+        "ext_def_4",
+        "ext_def_5",
+        "ext_thm_1",
+        "ext_thm_2"
+      ],
+      "remark": "[Prove hint: apply Theorems 2.1–2.2 to $f_\\lambda^M$ after ext_thm_1/ext_thm_2 and the Euclidean Lipschitz bound (5.5).]"
+    }
+  ],
+  "external_theorems": [
+    {
+      "id": "ext_lem_1",
+      "type": "lemma",
+      "name": "Lemma 1.1",
+      "statement": "LEMMA 1.1. Let $\\phi : \\mathcal{H} \\to \\mathbb{R}$ be a convex continuous function such that $\\min_{\\xi \\in \\mathcal{H}} \\phi(\\xi) = \\phi(0) = 0$ . Then, the following formulations of the dry friction are equivalent:\n\n(i) $0 \\in \\operatorname{int}(\\partial\\phi(0))$ ;  \n(ii) there exists some $r > 0$ such that $B(0,r)\\subset \\partial \\phi (0)$ ;  \n(iii) there exists some $r > 0$ such that, for all $\\xi \\in \\mathcal{H}$ , $\\phi(\\xi) \\geq r \\| \\xi\\|$ ;  \n(iv) there exists some $r > 0$ such that the following implication is satisfied:\n\n$$\ng \\in \\mathcal {H}, \\quad \\| g \\| \\leq r \\Longrightarrow \\partial \\phi^ {*} (g) \\ni 0.\n$$",
+      "proof": "Cited from: S. ADLY, A Variational Approach to Nonsmooth Dynamics: Applications in Unilateral Mechanics and Electronics, Springer Briefs in Math., Springer, New York, 2017.",
+      "depends_on": [
+        "def_1",
+        "ext_def_1",
+        "ext_def_2"
+      ],
+      "source": "S. ADLY, A Variational Approach to Nonsmooth Dynamics: Applications in Unilateral Mechanics and Electronics, Springer Briefs in Math., Springer, New York, 2017.",
+      "remark": "[Note: this is the only Section 1 result whose proof is delegated; formalization needs the equivalence (ii)$\\Rightarrow$(iii) and (ii)$\\Rightarrow$(iv).]",
+      "resolution_priority": "high"
+    },
+    {
+      "id": "ext_thm_1",
+      "type": "theorem",
+      "name": "Moreau envelope regularity and proximal identities",
+      "statement": "Referenced as: if $f$ is proper, lower semicontinuous, and convex and $\\lambda>0$, then $f_\\lambda$ is $C^{1,1}$, $\\nabla f_\\lambda(x)=\\lambda^{-1}(x-\\operatorname{prox}_{\\lambda f}(x))$ is $\\lambda^{-1}$-Lipschitz, $\\operatorname{prox}_{\\lambda f}$ is nonexpansive, and $\\nabla f_\\lambda(x)\\in\\partial f(\\operatorname{prox}_{\\lambda f}(x))$.",
+      "proof": "Cited from: H. Attouch, G. Buttazzo, and G. Michaille, Variational Analysis in Sobolev and BV Spaces, 2nd ed., 2014, §17.2.1; H. Bauschke and P. L. Combettes, Convex Analysis and Monotone Operator Theory in Hilbert Spaces, 2011; H. Brézis, Opérateurs maximaux monotones dans les espaces de Hilbert, 1972.",
+      "depends_on": [
+        "ext_def_1",
+        "ext_def_3"
+      ],
+      "source": "[9, §17.2.1], [23], [29], as cited in the paper.",
+      "resolution_priority": "high",
+      "remark": "[Note: required to reduce Theorem 4.1 to Theorems 2.1–2.2.]"
+    },
+    {
+      "id": "ext_thm_2",
+      "type": "theorem",
+      "name": "Variable-metric composite proximal identity",
+      "statement": "Referenced as equation (5.6): for $f(x)=\\frac12\\|Ax-b\\|_2^2+g(x)$ and $M=I_n-\\lambda A^TA$, $\\operatorname{prox}_{\\lambda f}^{M}(x)=\\operatorname{prox}_{\\lambda g}(x-\\lambda A^T(Ax-b))$.",
+      "proof": "Cited from: A. Chambolle and T. Pock, An introduction to continuous optimization for imaging, Acta Numerica 25 (2016), §4.6, p. 190.",
+      "depends_on": [
+        "ext_def_3"
+      ],
+      "source": "[31, §4.6, p. 190], as cited in the paper.",
+      "resolution_priority": "high",
+      "remark": "[Note: supplies the splitting identity used by IPAHDD-Lasso.]"
+    }
+  ]
+}

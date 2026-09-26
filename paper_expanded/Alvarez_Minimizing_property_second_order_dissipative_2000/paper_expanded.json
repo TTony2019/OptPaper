@@ -1,0 +1,294 @@
+{
+  "metadata": {
+    "title": "ON THE MINIMIZING PROPERTY OF A SECOND ORDER DISSIPATIVE SYSTEM IN HILBERT SPACES",
+    "authors": [
+      "FELIPE ALVAREZ"
+    ],
+    "year": 2000,
+    "source_type": "markdown"
+  },
+  "items": [
+    {
+      "id": "def_1",
+      "type": "definition",
+      "name": "System $(E_{\\gamma};u_0,v_0)$",
+      "statement": "$$ (E _ {\\gamma}; u _ {0}, v _ {0}) \\quad \\left\\{ \\begin{array}{l} u ^ {\\prime \\prime} + \\gamma u' + \\nabla \\Phi (u) = 0, \\\\ u (0) = u _ {0}, u' (0) = v _ {0}, \\end{array} \\right. $$ where $\\gamma>0$, $\\Phi:\\mathcal H\\to\\mathbb R$, and $u_0,v_0\\in H$ are given.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Prove hint: differentiate the energy along a $C^2$ solution]"
+    },
+    {
+      "id": "def_2",
+      "type": "definition",
+      "name": "Assumption $(h_{\\Phi})$",
+      "statement": "$$ (h _ {\\Phi}) \\qquad \\qquad \\Phi \\in C ^ {1} (H; \\mathbb {R}) \\text {is convex and inf} \\Phi > - \\infty . $$",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Foundation: Foundation.Analysis.Semicontinuity] convex continuous functions are weakly lower-semicontinuous"
+    },
+    {
+      "id": "def_3",
+      "type": "definition",
+      "name": "System $(E_{\\Gamma};u_0,v_0)$",
+      "statement": "$$ (E _ {\\Gamma}; u _ {0}, v _ {0}) \\quad \\left\\{ \\begin{array}{l} u ^ {\\prime \\prime} + \\Gamma u' + \\nabla \\Phi (u) = 0, \\\\ u (0) = u _ {0}, u' (0) = v _ {0}, \\end{array} \\right. $$ where $\\Gamma : \\mathcal{H} \\to H$ is a bounded self-adjoint linear operator.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Prove hint: use coercivity of $Gamma$ to define an equivalent Hilbert norm]"
+    },
+    {
+      "id": "def_4",
+      "type": "definition",
+      "name": "Assumption $(h_{\\Gamma})$",
+      "statement": "$$ (h _ {\\Gamma}) \\qquad \\text {there exists} \\gamma > 0 \\text {such that for any} x \\in H, \\langle \\Gamma x, x \\rangle \\geq \\gamma | x | ^ {2}. $$",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Foundation: Foundation.Operator.Linear] recall IsStronglyMonotone; this is coercivity/ellipticity of $Gamma$]"
+    },
+    {
+      "id": "ext_def_1",
+      "type": "definition",
+      "name": "Energy functional of a dissipative trajectory",
+      "statement": "For a $C^2$ solution $u$ of $(E_{\\gamma};u_0,v_0)$, define $E:[0,\\infty[\\to\\mathbb R$ by $$E(t):=\\frac12|u'(t)|^2+\\Phi(u(t)).$$",
+      "proof": null,
+      "depends_on": [
+        "def_1",
+        "def_2"
+      ],
+      "remark": "[Prove hint: $E'(t)=\\langle u'(t),u''(t)+\\nabla\\Phi(u(t))\\rangle=-\\gamma|u'(t)|^2]"
+    },
+    {
+      "id": "ext_def_2",
+      "type": "definition",
+      "name": "Minimizer set",
+      "statement": "For a function $F:H\\to\\mathbb R\\cup\\{+\\infty\\}$ bounded below, $$\\operatorname{Argmin}F:=\\{x\\in H:F(x)=\\inf_{y\\in H}F(y)\\}.$$ ",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Notation: paper writes $S=\\operatorname{Argmin}\\Phi$]"
+    },
+    {
+      "id": "ext_def_3",
+      "type": "definition",
+      "name": "Epsilon-subdifferential",
+      "statement": "For a proper convex function $f:H\\to\\mathbb R\\cup\\{+\\infty\\}$ and $\\epsilon\\ge0$, $$\\partial_{\\epsilon}f(x):=\\{p\\in H: f(y)\\ge f(x)+\\langle p,y-x\\rangle-\\epsilon\\ \text{for every }y\\in H\\}.$$ ",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Foundation: Foundation.Analysis.ExtendedRealFunctions] recall IsProper | [Notation: $p\\in\\partial_\\epsilon f(x)$ is the paper’s approximate subgradient relation]"
+    },
+    {
+      "id": "ext_def_4",
+      "type": "definition",
+      "name": "Distance and metric projection onto a set",
+      "statement": "For $C\\subset H$, define $d(x,C):=\\inf_{y\\in C}|x-y|$. If $C$ is nonempty, closed, and convex, $\\operatorname{proj}_C(x)$ denotes its unique point $p\\in C$ satisfying $|x-p|=d(x,C)$.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Foundation: Foundation.Projection.BestApproximation] recall isChebyshev_of_nonempty_isClosed_convex"
+    },
+    {
+      "id": "ext_def_5",
+      "type": "definition",
+      "name": "Weak limit point of a trajectory",
+      "statement": "A point $y\\in H$ is a weak limit point of a trajectory $u:[0,\\infty[\\to H$ if there exists $t_k\\to\\infty$ such that $u(t_k)\\rightharpoonup y$.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Foundation: Foundation.Topology.Sequences] recall IsSequentialClusterPt"
+    },
+    {
+      "id": "ext_def_6",
+      "type": "definition",
+      "name": "Even function",
+      "statement": "A function $\\Phi:H\\to\\mathbb R$ is even if $\\Phi(-x)=\\Phi(x)$ for every $x\\in H$.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Prove hint: convexity and evenness imply $\\Phi(0)\\le\\Phi(x)$ for every $x$]"
+    },
+    {
+      "id": "ext_def_7",
+      "type": "definition",
+      "name": "Positive quadratic form",
+      "statement": "A quadratic potential on $H$ has the form $\\Phi(x)=\\frac12\\langle Ax,x\\rangle$, where $A:H\\to H$ is bounded, self-adjoint, and positive, i.e. $\\langle Ax,x\\rangle\\ge0$ for every $x\\in H$.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Foundation: Foundation.Operator.Linear] use bounded self-adjoint linear operators; $\\operatorname{Argmin}\\Phi=\\ker A$]"
+    },
+    {
+      "id": "algo_1",
+      "type": "algorithm",
+      "name": "Inertial proximal method",
+      "statement": "$$ \\frac {1}{\\lambda_ {k}} (u _ {k + 1} - (1 + \\alpha_ {k}) u _ {k} + \\alpha_ {k} u _ {k - 1}) + \\partial_ {\\epsilon_ {k}} f (u _ {k + 1}) \\ni 0, \\tag {1.2} $$ where $\\epsilon_{k},\\lambda_{k}>0$, $\\alpha_{k}\\in[0,1[$, $f:H\\to \\mathbb{R}\\cup\\{\\infty\\}$ is a closed proper convex function and $\\partial_{\\epsilon}f$ is the $\\epsilon$-approximate subdifferential in convex analysis.",
+      "proof": null,
+      "depends_on": [
+        "ext_def_3"
+      ],
+      "remark": "[Foundation: Foundation.Analysis.ExtendedRealFunctions] recall IsProper | [Notation: (1.2) is relabelled (3.4) in Section 3]"
+    },
+    {
+      "id": "ext_lem_1",
+      "type": "lemma",
+      "name": "Opial's Lemma",
+      "statement": "Let $H$ be a Hilbert space, let $\\{u(t): t \\to \\infty\\} \\subset H$ be a trajectory, and denote by $W$ the set of its weak limit points $$ W := \\{y \\in H: \\exists t _ {k} \\to \\infty s. t. u (t _ {k}) \\rightharpoonup y \\}. $$ If there exists $\\emptyset \\neq S\\subset H$ such that $$ \\forall z \\in S, \\lim _ {t \\to \\infty} | u (t) - z | \\text {exists}, \\tag {2.4} $$ then $W \\neq \\emptyset$. Moreover, if $W \\subset S$, then $u(t)$ converges weakly toward $\\widehat{u} \\in S$ as $t \\to \\infty$.",
+      "proof": "Cited from: Z. OPIAL, Weak convergence of the sequence of successive approximations for nonexpansive mappings, Bull. Amer. Math. Soc., 73 (1967), pp. 591-597.",
+      "depends_on": [],
+      "source": "Z. OPIAL, Weak convergence of the sequence of successive approximations for nonexpansive mappings, Bull. Amer. Math. Soc., 73 (1967), pp. 591-597.",
+      "remark": "[Foundation: Foundation.Hilbert.WeakConvergence] recall opial_lemma"
+    },
+    {
+      "id": "ext_thm_2",
+      "type": "theorem",
+      "name": "Bruck strong-convergence result for steepest descent",
+      "statement": "The paper cites this reference only as providing the result analogous to Theorem 2.4(i), namely the even-potential strong-convergence case for steepest descent; no complete statement is reproduced.",
+      "proof": "Cited from: R. E. BRUCK, Asymptotic convergence of nonlinear contraction semi-groups in Hilbert spaces, J. Funct. Anal., 18 (1975), pp. 15-26.",
+      "depends_on": [],
+      "source": "R. E. BRUCK, Asymptotic convergence of nonlinear contraction semi-groups in Hilbert spaces, J. Funct. Anal., 18 (1975), pp. 15-26.",
+      "resolution_priority": "medium",
+      "remark": "[Note: cited as methodological precedent, while the present paper supplies its own proof]"
+    },
+    {
+      "id": "ext_thm_3",
+      "type": "theorem",
+      "name": "Brezis interior-minimizer convergence result",
+      "statement": "The paper cites this reference only as providing the result analogous to Theorem 2.4(ii), namely the nonempty-interior minimizer-set case for steepest descent; no complete statement is reproduced.",
+      "proof": "Cited from: H. BREZIS, Opérateurs Maximaux Monotones, North-Holland Math. Stud. 5, North-Holland, Amsterdam, 1973.",
+      "depends_on": [],
+      "source": "H. BREZIS, Opérateurs Maximaux Monotones, North-Holland Math. Stud. 5, North-Holland, Amsterdam, 1973.",
+      "resolution_priority": "medium",
+      "remark": "[Note: cited as methodological precedent, while the present paper supplies its own proof]"
+    },
+    {
+      "id": "lem_1",
+      "type": "lemma",
+      "name": "Lemma 2.2",
+      "statement": "Let $\\theta \\in C^1([0,\\infty[;\\mathbb{R})$ be bounded from below. If $[\\theta']_+ \\in L^1([0,\\infty[;\\mathbb{R})$, then $\\theta(t)$ converges as $t \\to \\infty$.",
+      "proof": "Set $$ w (t) := \\theta (t) - \\int_ {0} ^ {t} [ \\theta' (\\tau) ] _ {+} d \\tau . $$ Since $w(t)$ is bounded from below and $w'(t) \\leq 0$, [indeed $w'(t)=\\theta'(t)-[\\theta'(t)]_+\\leq0$, and $w(t)\\geq\\inf\\theta-\\int_0^\\infty[\\theta'(\\tau)]_+d\\tau$,] then $w(t)$ converges as $t \\to \\infty$, and consequently $\\theta(t)$ converges as $t \\to \\infty$.",
+      "depends_on": [],
+      "remark": "[Prove hint: subtract the integral of the positive derivative part, then use monotonicity]"
+    },
+    {
+      "id": "lem_2",
+      "type": "lemma",
+      "name": "Lemma 2.3",
+      "statement": "If $\\omega \\in C^1([0,\\infty[;\\mathbb{R})$ satisfies the differential inequality $$ \\omega' + \\gamma \\omega \\leq g (t) \\tag {2.6} $$ with $\\gamma > 0$ and $g \\in L^{1}([0, \\infty[; \\mathbb{R})$, then $[\\omega]_{+} \\in L^{1}([0, \\infty[; \\mathbb{R})$.",
+      "proof": "We can certainly assume that $g \\geq 0$, for if not, we replace $g$ by $|g|$. Multiplying (2.6) by $e^{\\gamma t}$ and integrating we get $$ \\omega (t) \\leq e ^ {- \\gamma t} \\omega (0) + \\int_ {0} ^ {t} e ^ {- \\gamma (t - \\tau)} g (\\tau) d \\tau . $$ Thus $$ [ \\omega (t) ] _ {+} \\leq e ^ {- \\gamma t} [ \\omega (0) ] _ {+} + \\int_ {0} ^ {t} e ^ {- \\gamma (t - \\tau)} g (\\tau) d \\tau , $$ and Fubini's theorem gives [after integrating the first term as $\\int_0^\\infty e^{-\\gamma t}[\\omega(0)]_+dt=[\\omega(0)]_+/\\gamma$; Tonelli applies to the nonnegative convolution term,] $\\int_0^\\infty \\int_0^t e^{-\\gamma (t - \\tau)}g(\\tau)d\\tau dt = \\frac{1}{\\gamma}\\int_0^\\infty g(\\tau)d\\tau < \\infty .$",
+      "depends_on": [],
+      "remark": "[Prove hint: integrate the exponential kernel and apply Tonelli/Fubini]"
+    },
+    {
+      "id": "thm_1",
+      "type": "theorem",
+      "name": "Theorem 2.1",
+      "statement": "Suppose that $(h_{\\Phi})$ holds. If $u \\in C^2([0, \\infty[;H)$ is a solution of $(E_{\\gamma}; u_0, v_0)$, then $u' \\in L^2([0, \\infty[;H)$, $u'(t) \\to 0$ as $t \\to \\infty$, and $$ \\lim _ {t \\to \\infty} \\Phi (u (t)) = \\inf \\Phi . \\tag {2.1} $$ Furthermore, if $\\mathrm{Argmin}\\Phi \\neq \\emptyset$, then there exists $\\widehat{u} \\in \\mathrm{Argmin}\\Phi$ such that $u(t) \\rightharpoonup \\widehat{u}$ weakly in $H$ as $t \\to \\infty$.",
+      "proof": "We begin by noticing that $u'$ is bounded (see the argument above). In order to prove the minimizing property (2.1), it suffices to prove that $$ \\operatorname*{limsup}_{t \\to \\infty} \\Phi (u (t)) \\leq \\Phi (x) $$ for any $x \\in H$. Fix $x \\in H$ and define the auxiliary function $\\varphi(t) := \\frac{1}{2}|u(t) - x|^{2}$. Since u is a solution of $(E_{\\gamma})$, [using $\\varphi'=\\langle u',u-x\\rangle$ and $\\varphi''=|u'|^2+\\langle u'',u-x\\rangle$, then substituting $u''=-\\gamma u'-\\nabla\\Phi(u)$,] it follows that $$ \\varphi^ {\\prime \\prime} + \\gamma \\varphi' = \\langle \\nabla \\Phi (u), x - u \\rangle + | u' | ^ {2}, $$ which together with the convexity inequality $\\Phi(u)+\\langle\\nabla\\Phi(u),x-u\\rangle\\leq\\Phi(x)$ yields $$ \\varphi^ {\\prime \\prime} + \\gamma \\varphi' \\leq \\Phi (x) - \\Phi (u) + | u' | ^ {2}. \\tag {2.2} $$ We do not have information on the behavior of $\\Phi(u(t))$ but we know that $E(t)$ is nonincreasing. Thus, we rewrite (2.2) as $$ \\varphi^ {\\prime \\prime} + \\gamma \\varphi' \\leq \\Phi (x) - E (t) + \\frac {3}{2} | u' | ^ {2}. $$ Given $t > 0$, for all $\\tau \\in [0, t]$ we have $$ \\varphi^ {\\prime \\prime} (\\tau) + \\gamma \\varphi' (\\tau) \\leq \\Phi (x) - E (t) + \\frac {3}{2} | u' (\\tau) | ^ {2}. $$ After multiplication by $e^{\\gamma \\tau}$ and integration we obtain $$ \\varphi' (t) \\leq e ^ {- \\gamma t} \\varphi' (0) + \\frac {1}{\\gamma} (1 - e ^ {- \\gamma t}) [ \\Phi (x) - E (t) ] + \\frac {3}{2} \\int_ {0} ^ {t} e ^ {- \\gamma (t - \\tau)} | u' (\\tau) | ^ {2} d \\tau . $$ We write this equation with t replaced by $\\theta$, and use the fact that $E(t)$ decreases and integrate once more to obtain $$ \\varphi (t) \\leq \\varphi (0) + \\frac {1}{\\gamma} (1 - e ^ {- \\gamma t}) \\varphi' (0) + \\frac {1}{\\gamma^ {2}} (\\gamma t - 1 + e ^ {- \\gamma t}) [ \\Phi (x) - E (t) ] + h (t), \\tag {2.3} $$ where $$ h (t) := \\frac {3}{2} \\int_ {0} ^ {t} \\int_ {0} ^ {\\theta} e ^ {- \\gamma (\\theta - \\tau)} | u' (\\tau) | ^ {2} d \\tau d \\theta . $$ Since $E(t)\\geq \\Phi (u(t))$, (2.3) gives $$ \\frac {1}{\\gamma^ {2}} (\\gamma t - 1 + e ^ {- \\gamma t}) \\Phi (u (t)) \\leq \\varphi (0) + \\frac {1}{\\gamma} (1 - e ^ {- \\gamma t}) \\varphi' (0) + \\frac {1}{\\gamma^ {2}} (\\gamma t - 1 + e ^ {- \\gamma t}) \\Phi (x) + h (t). $$ Dividing this inequality by $\\frac{1}{\\gamma^{2}}(\\gamma t-1+e^{-\\gamma t})$ and letting $t\\to\\infty$ we get $$ \\operatorname * {l i m s u p} _ {t \\to \\infty} \\Phi (u (t)) \\leq \\Phi (x) + \\operatorname * {l i m s u p} _ {t \\to \\infty} \\frac {\\gamma}{t} h (t). $$ It suffices to show that $h(t)$ remains bounded as $t \\to \\infty$. By Fubini's theorem $$ h (t) = \\frac {3}{2} \\int_ {0} ^ {t} \\int_ {\\tau} ^ {t} e ^ {- \\gamma (\\theta - \\tau)} | u' (\\tau) | ^ {2} d \\theta d \\tau = \\frac {3}{2 \\gamma} \\int_ {0} ^ {t} | u' (\\tau) | ^ {2} (1 - e ^ {- \\gamma (t - \\tau)}) d \\tau . $$ Note that from the equality $E' = -\\gamma|u'|^{2}$ it follows that $$ \\frac {1}{2} | u' | ^ {2} + \\Phi (u) + \\gamma \\int_ {0} ^ {t} | u' (\\tau) | ^ {2} d \\tau = E _ {0}, $$ and in particular, $$ \\int_ {0} ^ {t} | u' (\\tau) | ^ {2} d \\tau \\leq \\frac {E _ {0} - \\inf \\Phi}{\\gamma} <   \\infty . $$ Then $u' \\in L^2([0, \\infty[;H])$, and $$ h (t) \\leq \\frac {3}{2 \\gamma} \\int_ {0} ^ {t} | u' (\\tau) | ^ {2} d \\tau \\leq \\frac {3}{2 \\gamma} \\int_ {0} ^ {\\infty} | u' (\\tau) | ^ {2} d \\tau <   \\infty . $$ On the other hand, since $E(\\cdot)$ is nonincreasing and bounded from below by inf $\\Phi$, it converges as $t \\to \\infty$. If $\\lim_{t \\to \\infty} E(t) > \\inf \\Phi$, then $\\lim_{t \\to \\infty} |u'(t)| > 0$ because of (2.1). This contradicts the fact that $u' \\in L^2$. [More precisely, a positive limit of $|u'(t)|$ would give $|u'(t)|\\ge c>0$ eventually, making its squared norm nonintegrable.] Therefore, $\\lim_{t \\to \\infty} E(t) = \\inf \\Phi$, hence $u'(t) \\to 0$ as $t \\to \\infty$. The task now is to establish the weak convergence of $u(t)$ when Argmin $\\Phi \\neq \\emptyset$. For this purpose, we shall apply the Opial lemma [15]. Suppose that there exists $\\widehat{u} \\in H$ such that $u(t_{k}) \\rightharpoonup \\widehat{u}$ for a suitable sequence $t_{k} \\to \\infty$. The function $\\Phi$ is weak lower-semicontinuous, because $\\Phi$ is convex and continuous; hence $$ \\Phi (\\widehat {u}) \\leq \\liminf _ {k \\to \\infty} \\Phi (u (t _ {k})) = \\lim _ {t \\to \\infty} \\Phi (u (t)) = \\inf \\Phi , $$ and therefore $\\widehat{u} \\in \\mathrm{Argmin}\\,\\Phi$. According to the Opial lemma, [boundedness follows from the already-established existence of $|u(t)-z|$ for one minimizer $z$, hence weak cluster points exist in a Hilbert space; the preceding lower-semicontinuity argument places every such point in $\\operatorname{Argmin}\\Phi$,] we have only to prove that $$ \\forall z \\in \\operatorname{Argmin} \\Phi , \\lim _ {t \\to \\infty} | u (t) - z | \\text {exists.} $$ For this, fix $z \\in \\operatorname{Argmin} \\Phi$ and define $\\varphi(t) := \\frac{1}{2}|u(t) - z|^{2}$. On account of the optimality of z, it follows from (2.2) that $$ \\varphi^ {\\prime \\prime} + \\gamma \\varphi' \\leq | u' | ^ {2}. \\tag {2.5} $$ Recalling that $|u'|^2 \\in L^1([0, \\infty[; \\mathbb{R})$, the proof of the theorem is completed by applying Lemma 2.3 to (2.5).",
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "ext_lem_1",
+        "lem_1",
+        "lem_2",
+        "ext_def_1",
+        "ext_def_2",
+        "ext_def_5"
+      ],
+      "remark": "[Foundation: Foundation.Hilbert.WeakConvergence] recall opial_lemma | [Prove hint: energy identity, convexity inequality, then Opial]"
+    },
+    {
+      "id": "thm_2",
+      "type": "theorem",
+      "name": "Theorem 2.4",
+      "statement": "Under the hypotheses of Theorem 2.1, if either (i) Argmin $\\Phi \\neq \\emptyset$ and $\\Phi$ is even or (ii) $\\operatorname{int}(\\operatorname{Argmin} \\Phi) \\neq \\emptyset$, then $$ u (t) \\to \\widehat {u} \\text {strongly in} H \\text {as} t \\to \\infty , $$ where $\\widehat{u} \\in \\mathrm{Argmin}\\, \\Phi$.",
+      "proof": "The proof is adapted from the corresponding results for the steepest descent method; see [7] for the analogous hypothesis of (i) and [6] for (ii). (i) Fix $t_{0} > 0$ and define $g : [0, t_{0}] \\to R$ by $$ g (t) := | u (t) | ^ {2} - | u (t _ {0}) | ^ {2} - \\frac {1}{2} | u (t) - u (t _ {0}) | ^ {2}. $$ Then $g'(t) = \\langle u'(t), u(t) + u(t_0) \\rangle$ and $g''(t) = \\langle u''(t), u(t) + u(t_0) \\rangle + |u'(t)|^2$. Consequently $$ g ^ {\\prime \\prime} (t) + \\gamma g' (t) = \\langle - \\nabla \\Phi (u (t)), u (t) + u (t _ {0}) \\rangle + | u' (t) | ^ {2}. $$ Since $E(t) = \\frac{1}{2} |u'(t)|^2 + \\Phi(u(t))$ is decreasing and $\\Phi$ is even, we deduce that $$ E (t) \\geq \\frac {1}{2} | u' (t _ {0}) | ^ {2} + \\Phi (- u (t _ {0})) $$ for all $t \\in [0, t_0]$. By the convexity of $\\Phi$ we conclude that $$ E (t) \\geq \\frac {1}{2} | u' (t _ {0}) | ^ {2} + \\Phi (u (t)) + \\langle \\nabla \\Phi (u (t)), - u (t) - u (t _ {0}) \\rangle $$ and hence that $$ \\frac {1}{2} | u' (t) | ^ {2} \\geq \\langle - \\nabla \\Phi (u (t)), u (t) + u (t _ {0}) \\rangle . $$ Thus $$ g ^ {\\prime \\prime} (t) + \\gamma g' (t) \\leq \\frac {3}{2} | u' (t) | ^ {2}. $$ The standard integration procedure [multiply $g''+\\gamma g'\\le3|u'|^2/2$ by $e^{\\gamma t}$, integrate from $0$ to $\\theta$, and then integrate the resulting bound for $g'$ from $t$ to $t_0$] yields $$ g (t _ {0}) - g (t) \\leq \\frac {1}{\\gamma} (e ^ {- \\gamma t} - e ^ {- \\gamma t _ {0}}) g' (0) + \\frac {3}{2} \\int_ {t} ^ {t _ {0}} \\int_ {0} ^ {\\theta} e ^ {- \\gamma (\\theta - \\tau)} | u' (\\tau) | ^ {2} d \\tau d \\theta . $$ Therefore, for all $t \\in [0, t_0]$ we have that $$ \\frac {1}{2} | u (t) - u (t _ {0}) | ^ {2} \\leq | u (t) | ^ {2} - | u (t _ {0}) | ^ {2} + \\frac {1}{\\gamma} (e ^ {- \\gamma t} - e ^ {- \\gamma t _ {0}}) g' (0) + h (t _ {0}) - h (t), \\tag {2.9} $$ where $$ h (t) = \\frac {3}{2} \\int_ {0} ^ {t} \\int_ {0} ^ {\\theta} e ^ {- \\gamma (\\theta - \\tau)} | u' (\\tau) | ^ {2} d \\tau d \\theta . $$ On the other hand, in the proof of Theorem 2.1 we have shown that $h(t)$ is convergent as $t \\to \\infty$. We also proved that for all $z \\in \\operatorname{Argmin} \\Phi$ the $\\lim_{t \\to \\infty} |u(t) - z|$ exists. Since $\\Phi$ is convex and even, we have $0 \\in \\operatorname{Argmin} \\Phi$ whenever the infimum is realized. In that case, $|u(t)|$ is convergent as $t \\to \\infty$ and we infer from (2.9) that $\\{u(t) : t \\to \\infty\\}$ is a Cauchy net. Hence $u(t)$ converges strongly as $t \\to \\infty$ and, by Theorem 2.1, the limit belongs to Argmin $\\Phi$. (ii) Let $z_0 \\in \\mathrm{int}(\\mathrm{Argmin}\\,\\Phi)$. There exists $\\rho > 0$ such that for every $z \\in H$ with $|z - z_0| \\leq \\rho$, then $z \\in \\mathrm{int}(\\mathrm{Argmin}\\,\\Phi)$. In particular, if $|z - z_0| \\leq \\rho$, then $\\nabla\\Phi(z) = 0$. Consequently, $$ \\langle \\nabla \\Phi (x), x - z _ {0} \\rangle \\geq \\langle \\nabla \\Phi (x), z - z _ {0} \\rangle $$ for every $x \\in H$ and $z$ with $|z - z_0| \\leq \\rho$. Hence, [choose $z=z_0-\\rho\\nabla\\Phi(x)/|\\nabla\\Phi(x)|$ when $\\nabla\\Phi(x)\\ne0$; this point lies in the minimizer ball and yields the displayed estimate; the zero-gradient case is immediate,] $ \\langle \\nabla \\Phi (x), x - z _ {0} \\rangle \\geq \\rho | \\nabla \\Phi (x) | $$ for every $x \\in H$. Applying this inequality to $x = u(t)$ we deduce that $$ - \\langle u ^ {\\prime \\prime} + \\gamma u', u - z _ {0} \\rangle \\geq \\rho | u ^ {\\prime \\prime} + \\gamma u' |. $$ Set $\\varphi(t) := \\frac{1}{2} |u(t) - z_0|^2$. We thus obtain $$ - \\varphi^ {\\prime \\prime} + | u' | ^ {2} - \\gamma \\varphi' \\geq \\rho | u ^ {\\prime \\prime} + \\gamma u' |. $$ Integrating this inequality yields $$ \\varphi' (0) - \\varphi' (t) + \\int_ {0} ^ {t} | u' (\\tau) | ^ {2} d \\tau + \\gamma (\\varphi (0) - \\varphi (t)) \\geq \\rho \\int_ {0} ^ {t} | u ^ {\\prime \\prime} (\\tau) + \\gamma u' (\\tau) | d \\tau . $$ We have already proved that the $\\lim_{t\\to\\infty}\\varphi(t)$ exists and $\\lim_{t\\to\\infty}\\varphi'(t)=0$. Moreover, $u'\\in L^{2}(0,\\infty;H)$. As a conclusion, $u''+\\gamma u'\\in L^{1}(0,\\infty;H)$. We deduce that the $\\lim_{t\\to\\infty}u'(t)+\\gamma u(t)$ exists, which finishes the proof because $u'(t)\\to0$ as $t\\to\\infty$. $\\square$",
+      "depends_on": [
+        "thm_1",
+        "ext_def_2",
+        "ext_def_6",
+        "ext_thm_2",
+        "ext_thm_3"
+      ],
+      "remark": "[Prove hint: use (2.9) for the even case; use the interior-ball gradient estimate in case (ii)]"
+    },
+    {
+      "id": "prop_1",
+      "type": "proposition",
+      "name": "Proposition 2.5",
+      "statement": "Let $u$ be solution of $(E_{\\gamma}; u_0, v_0)$ and $\\widehat{u} \\in S:=\\operatorname{Argmin}\\Phi$ be such that $u(t) \\rightharpoonup \\widehat{u}$ weakly as $t \\to \\infty$. Then, for all $x \\in S$ $$ | \\widehat {u} - x | \\leq | u _ {0} + \\frac {1}{\\gamma} v _ {0} - x | + \\frac {1}{\\gamma} \\delta (u _ {0}), \\tag {2.10} $$ where $\\delta(u_0) = \\sqrt{2}[\\Phi(u_0) - \\inf \\Phi]^{1/2}$. Consequently $$ | \\widehat {u} - \\mathrm{proj} _ {S} (u _ {0} + \\frac {1}{\\gamma} v _ {0}) | \\leq d (u _ {0} + \\frac {1}{\\gamma} v _ {0}, S) + \\frac {1}{\\gamma} \\delta (u _ {0}), $$ where $d(u_0, S)$ is the distance between $u_0$ and the set $S$. If $S$ is an affine subspace of $H$, then $$ | \\widehat {u} - \\mathrm{proj} _ {S} (u _ {0} + \\frac {1}{\\gamma} v _ {0}) | \\leq \\frac {1}{\\gamma} \\delta (u _ {0}). $$ If, moreover, $\\Phi$ is a quadratic form, then $$ u (t) \\rightarrow \\mathrm{proj} _ {S} (u _ {0} + \\frac {1}{\\gamma} v _ {0}) \\text {strongly in H as} t \\rightarrow \\infty . $$",
+      "proof": "Let $x \\in S$ and set $\\varphi(t) := \\frac{1}{2} |u(t) - x|^2$. The inequality (2.2) and the optimality of $x$ give $\\varphi'' + \\gamma\\varphi' \\leq |u'|^2$. Hence $$ \\varphi (t) \\leq \\varphi (0) + \\frac {1}{\\gamma} (1 - e ^ {- \\gamma t}) \\varphi' (0) + \\int_ {0} ^ {t} \\int_ {0} ^ {\\theta} e ^ {- \\gamma (\\theta - \\tau)} | u' (\\tau) | ^ {2} d \\tau d \\theta . $$ Due to the weak lower-semicontinuity of the norm and Fubini's theorem, we can let $t \\to \\infty$ to obtain $$ \\frac {1}{2} | \\widehat {u} - x | ^ {2} \\leq \\frac {1}{2} | u _ {0} - x | ^ {2} + \\frac {1}{\\gamma} \\langle v _ {0}, u _ {0} - x \\rangle + \\frac {1}{\\gamma} \\int_ {0} ^ {\\infty} | u' (\\tau) | ^ {2} d \\tau . \\tag {2.11} $$ On the other hand, from the energy equation $$ \\frac {1}{2} | u' | ^ {2} + \\Phi (u) + \\gamma \\int_ {0} ^ {t} | u' (\\tau) | ^ {2} d \\tau = \\frac {1}{2} | v _ {0} | ^ {2} + \\Phi (u _ {0}), $$ it follows that $$ \\int_ {0} ^ {\\infty} | u' (\\tau) | ^ {2} d \\tau \\leq \\frac {1}{\\gamma} \\Big [ \\frac {1}{2} | v _ {0} | ^ {2} + \\Phi (u _ {0}) - \\inf \\Phi \\Big ]. $$ Replacing the last estimate in (2.11), [multiply by $2$, collect the $v_0$ terms to obtain $|\\widehat u-x|^2\\le |u_0+\\gamma^{-1}v_0-x|^2+\\gamma^{-2}\\delta(u_0)^2$, and use $\\sqrt{a^2+b^2}\\le a+b$,] it easy to show that (2.10) holds. For (i), it suffices to take $x = \\mathrm{proj}_S(u_0 + \\frac{1}{\\gamma} v_0)$ in (2.10). For (ii), let $e := \\widehat{u} - \\text{proj}_{S}(u_{0} + \\frac{1}{\\gamma} v_{0})$. If $e \\neq 0$, then set $$ x _ {r} := \\mathrm{proj} _ {S} \\Big (u _ {0} + \\frac {1}{\\gamma} v _ {0} \\Big) - r d \\Big (u _ {0} + \\frac {1}{\\gamma} v _ {0}, S \\Big) \\frac {e}{| e |}, $$ which belongs to S. An easy computation [uses orthogonality of $u_0+\\gamma^{-1}v_0-\\operatorname{proj}_S(u_0+\\gamma^{-1}v_0)$ to the affine subspace $S$ and the Pythagorean identity] shows that $$ \\Big | u _ {0} + \\frac {1}{\\gamma} v _ {0} - x _ {r} \\Big | - | \\widehat {u} - x _ {r} | = \\Big (\\sqrt {1 + r ^ {2}} - r \\Big) d \\Big (u _ {0} + \\frac {1}{\\gamma} v _ {0}, S \\Big) - | e |, $$ which together with (2.10) yields $$ | e | \\leq \\Big (\\sqrt {1 + r ^ {2}} - r \\Big) d \\Big (u _ {0} + \\frac {1}{\\gamma} v _ {0} - x, S \\Big) + \\frac {1}{\\gamma} \\delta (u _ {0}). $$ Letting $r\\to \\infty$ we get the result. Finally, suppose that $\\Phi(x)=\\frac{1}{2}\\langle Ax,x\\rangle$ where $A:H\\to H$ is a positive and self-adjoint bounded linear operator. Then $S=\\{x\\in H\\mid Ax=0\\}$ the null space of A. Let $z\\in S$; for all $t\\geq0$ we have that $$ \\begin{array}{l} \\langle u' (t) - v _ {0}, z \\rangle + \\gamma \\langle u (t) - u _ {0}, z \\rangle = \\int_ {0} ^ {t} \\langle u ^ {\\prime \\prime} (\\tau) + \\gamma u' (\\tau), z \\rangle d \\tau \\\\ = \\int_ {0} ^ {t} \\langle - A u (\\tau), z \\rangle d \\tau \\\\ = \\int_ {0} ^ {t} - \\langle u (\\tau), A z \\rangle d \\tau = 0. \\end{array} $$ Since $u'(t) \\to 0$ and $u(t) \\to \\widehat{u} \\in S$ strongly ($\\Phi$ is even) as $t \\to \\infty$, we can deduce that $$ \\left\\langle \\widehat {u} - \\left(u _ {0} + \\frac {1}{\\gamma} v _ {0}\\right), z \\right\\rangle = 0 $$ for all $z \\in S$, which completes the proof. $\\square$",
+      "depends_on": [
+        "def_1",
+        "thm_1",
+        "thm_2",
+        "ext_def_1",
+        "ext_def_2",
+        "ext_def_4",
+        "ext_def_7"
+      ],
+      "remark": "[Foundation: Foundation.Projection.BestApproximation] recall isChebyshev_of_nonempty_isClosed_convex | [Prove hint: complete the square in (2.11)]"
+    },
+    {
+      "id": "thm_3",
+      "type": "theorem",
+      "name": "Theorem 2.6",
+      "statement": "Suppose $(h_{\\Phi})$ and $(h_{\\Gamma})$ hold. If $u \\in C^2([0, \\infty[;H)$ is a solution of $(E_{\\Gamma}; u_0, v_0)$, then it satisfies $u' \\in L^2([0, \\infty[;H)$, $u'(t) \\to 0$ as $t \\to \\infty$, and $$ \\lim _ {t \\to \\infty} \\Phi (u (t)) = \\inf \\Phi . \\tag {2.12} $$ Furthermore, if $\\operatorname{Argmin} \\Phi \\neq \\emptyset$, then there exists $\\widehat{u} \\in \\operatorname{Argmin} \\Phi$ such that $u(t) \\rightharpoonup \\widehat{u}$ weakly in $H$ as $t \\to \\infty$.",
+      "proof": "We only need to adapt the proof of Theorem 2.1. First, note that the properties of existence, uniqueness, and infinite extendibility to the right of the solution follow by similar arguments. Likewise, the energy $E(t) := \\frac{1}{2} |u'(t)|^2 + \\Phi(u(t))$ satisfies $E' = -\\langle \\Gamma u', u' \\rangle$, and we can deduce that $u' \\in L^2$. Next, define the operator $A: \\mathcal{H} \\to H$ by $Ax := \\Gamma x - \\gamma x$, with $\\gamma > 0$ given by $(h_{\\Gamma})$. Fix $x \\in H$ and set $\\varphi(t) := \\frac{1}{2} |u(t) - x|^2$ and $\\rho(t):=\\frac{1}{2} \\langle A(u(t) - x), u(t) - x \\rangle$, in such a way that $$ \\varphi^ {\\prime \\prime} + \\gamma \\varphi' + \\rho' = \\langle \\nabla \\Phi (u), x - u \\rangle + | u' | ^ {2}. \\tag {2.13} $$ As in the proof of Theorem 2.1, (2.13) gives $$ \\varphi' (t) + \\int_ {0} ^ {t} e ^ {- \\gamma (t - \\tau)} \\rho' (\\tau) d \\tau \\leq e ^ {- \\gamma t} \\varphi' (0) + \\frac {1}{\\gamma} (1 - e ^ {- \\gamma t}) [ \\Phi (x) - E (t) ] + r (t), \\tag {2.14} $$ with $$ r (t) := \\frac {3}{2} \\int_ {0} ^ {t} e ^ {- \\gamma (t - \\tau)} | u' (\\tau) | ^ {2} d \\tau , $$ the only difference being the term $\\int_{0}^{t}e^{-\\gamma(t-\\tau)}\\rho'(\\tau)d\\tau$. An integration by parts yields $$ \\int_ {0} ^ {t} e ^ {- \\gamma (t - \\tau)} \\rho' (\\tau) d \\tau = \\rho (t) - e ^ {- \\gamma t} \\rho (0) - \\gamma \\int_ {0} ^ {t} e ^ {- \\gamma (t - \\tau)} \\rho (\\tau) d \\tau . $$ Setting $f(t) := \\int_{0}^{t} e^{-\\gamma (t - \\tau)} \\rho(\\tau) d\\tau$, we have $$ \\int_ {0} ^ {t} e ^ {- \\gamma (t - \\tau)} \\rho' (\\tau) d \\tau = f' (t) - e ^ {- \\gamma t} \\rho (0). $$ Thus, we can rewrite (2.14) as $$ \\varphi' (t) + f' (t) \\leq e ^ {- \\gamma t} (\\varphi' (0) + \\rho (0)) + \\frac {1}{\\gamma} (1 - e ^ {- \\gamma t}) [ \\Phi (x) - E (t) ] + r (t). $$ We leave it to the reader to verify that [integrating the displayed inequality for $\\varphi'+f'$ a second time produces the analogue of (2.3), with $f(t)\\ge0$ because $A=\\Gamma-\\gamma I$ is positive; the convolution term is bounded by the $L^2$ energy estimate, so the same limsup argument proves (2.12)] the minimizing property (2.12) can now be established as in Theorem 2.1. The proof of $u'(t) \\to 0$ as $t \\to \\infty$ is analogous. When Argmin $\\Phi \\neq \\emptyset$, we fix $z \\in$ Argmin$\\Phi$ and consider the corresponding functions $\\varphi$ and $\\rho$ as above (with x replaced by z). Using the optimality of z, it follows that $$ \\varphi' (t) + f' (t) \\leq e ^ {- \\gamma t} (\\varphi' (0) + \\rho (0)) + \\int_ {0} ^ {t} e ^ {- \\gamma (t - \\tau)} | u' (\\tau) | ^ {2} d \\tau , \\tag {2.15} $$ with $f$ associated with $\\rho$ as above. Integrating this inequality we conclude that $\\varphi(t)$ stays bounded as $t \\to \\infty$, but we cannot deduce its convergence. Then, we rewrite (2.15) in the form $$ \\varphi' (t) + \\int_ {0} ^ {t} e ^ {- \\gamma (t - \\tau)} \\rho' (\\tau) d \\tau \\leq e ^ {- \\gamma t} \\varphi' (0) + \\int_ {0} ^ {t} e ^ {- \\gamma (t - \\tau)} | u' (\\tau) | ^ {2} d \\tau , $$ and we conclude that $[\\varphi'(t) + \\int_0^t e^{-\\gamma(t - \\tau)}\\rho'(\\tau)d\\tau]_+ \\in L^1([0,\\infty[;\\mathbb{R})$. We note that $$ \\varphi' (t) + \\int_ {0} ^ {t} e ^ {- \\gamma (t - \\tau)} \\rho' (\\tau) d \\tau = \\mu' (t) + \\xi' (t), $$ where $$ \\mu (t) := \\frac {1}{2 \\gamma} \\langle \\Gamma (u (t) - z), u (t) - z \\rangle , $$ and $$ \\xi (t) := - \\frac {1}{\\gamma} \\int_ {0} ^ {t} e ^ {- \\gamma (t - \\tau)} \\rho' (\\tau) d \\tau . $$ By virtue of Lemma 2.2, if we show that $\\xi(t)$ is bounded from below, then $\\mu(t) + \\xi(t)$ converges as $t \\to \\infty$. Since $\\rho'(t) = \\langle Au'(t), u(t) - z \\rangle$, there exists a constant $M > 0$ independent of $t$ such that $|\\rho'(t)| \\leq M|u'(t)|\\sqrt{\\varphi(t)}$ for any $t > 0$. We conclude that $\\rho'(t) \\to 0$ as $t \\to \\infty$. From this fact [write $\\xi(t)=-\\gamma^{-1}\\int_0^t e^{-\\gamma(t-\\tau)}\\rho'(\\tau)d\\tau$; split the integral at a sufficiently large $T$, bound the tail by $\\sup_{\\tau\\ge T}|\\rho'(\\tau)|/\\gamma$, and let $t\\to\\infty$ before $T\\to\\infty$,] it follows easily that $\\xi(t) \\to 0$ as $t \\to \\infty$. Therefore, $\\mu(t) + \\xi(t)$ converges as $t \\to \\infty$, hence $\\mu(t)$ converges as well. The proof is completed by applying the Opial lemma to the trajectory $\\{u(t):t\\to\\infty\\}$, where the Hilbert space H is endowed with the inner product $\\langle\\langle\\cdot,\\cdot\\rangle\\rangle:H\\times H\\to R$ defined by $\\langle\\langle x,y\\rangle\\rangle:=\\frac{1}{\\gamma}\\langle\\Gamma x,y\\rangle$ and its associated norm. $\\square$",
+      "depends_on": [
+        "def_2",
+        "def_3",
+        "def_4",
+        "ext_lem_1",
+        "lem_1",
+        "thm_1",
+        "ext_def_1",
+        "ext_def_2",
+        "ext_def_5",
+        "lem_2"
+      ],
+      "remark": "[Foundation: Foundation.Hilbert.WeakConvergence] recall opial_lemma | [Note: $langlelangle x,y\rangle\rangle=gamma^{-1}langleGamma x,y\rangle$ is an equivalent inner product]"
+    },
+    {
+      "id": "thm_4",
+      "type": "theorem",
+      "name": "Theorem 3.1",
+      "statement": "Assume that $f$ is closed proper convex and bounded from below. Let $\\{u_k\\} \\subset H$ be a sequence generated by (3.4), where (i) $0 \\leq \\alpha_{k} \\leq 1$ and $\\{\\lambda_k\\}$ is bounded from below by a positive constant, (ii) the sequence $\\{\\alpha_k / \\lambda_k\\}$ is nonincreasing and $\\sum \\lambda_k\\epsilon_k < \\infty$. Then $$ \\lim _ {k \\to \\infty} \\frac {1}{\\lambda_ {k}} (u _ {k + 1} - (1 + \\alpha_ {k}) u _ {k} + \\alpha_ {k} u _ {k - 1}) = 0, \\tag {3.5} $$ and in particular $\\lim_{k\\to \\infty}d(0,\\partial_{\\epsilon_k}f(u_{k + 1})) = 0.$ When $\\operatorname{Argmin} f \\neq \\emptyset$, assume in addition that (iii) there exists $\\bar{\\alpha} \\in ]0,1[$ such that $0 \\leq \\alpha_{k} \\leq \\bar{\\alpha}$, and $\\{\\lambda_k\\}$ is bounded from above if there is at least one $\\alpha_{k} > 0$. Then, there exists $\\widehat{u} \\in \\operatorname{Argmin} f$ such that $u_k \\rightharpoonup \\widehat{u}$ weakly as $k \\to \\infty$.",
+      "proof": "The proof consists of adapting the analysis done for the differential equation $(E_{\\gamma})$. We begin by defining the discrete energy by $$ E _ {k + 1} = \\frac {\\alpha_ {k}}{2 \\lambda_ {k}} | u _ {k + 1} - u _ {k} | ^ {2} + f (u _ {k + 1}), $$ and we study the successive difference $E_{k+1} - E_k$. Since $\\alpha_k / \\lambda_k \\leq \\alpha_{k-1} / \\lambda_{k-1}$, $$ E _ {k + 1} - E _ {k} \\leq \\frac {\\alpha_ {k}}{2 \\lambda_ {k}} \\left(| u _ {k + 1} - u _ {k} | ^ {2} - | u _ {k} - u _ {k - 1} | ^ {2}\\right) + f (u _ {k + 1}) - f (u _ {k}). $$ By definition of $\\partial_{\\epsilon_k}f$, (3.4) yields $$ f (u _ {k + 1}) - f (u _ {k}) \\leq - \\frac {1}{\\lambda_ {k}} \\langle u _ {k + 1} - (1 + \\alpha_ {k}) u _ {k} + \\alpha_ {k} u _ {k - 1}, u _ {k + 1} - u _ {k} \\rangle + \\epsilon_ {k}. $$ As we can write $$ \\langle u _ {k + 1} - (1 + \\alpha_ {k}) u _ {k} + \\alpha_ {k} u _ {k - 1}, u _ {k + 1} - u _ {k} \\rangle = | u _ {k + 1} - u _ {k} | ^ {2} - \\alpha_ {k} \\langle u _ {k} - u _ {k - 1}, u _ {k + 1} - u _ {k} \\rangle , $$ we have $$ E _ {k + 1} - E _ {k} \\leq - \\frac {\\alpha_ {k}}{2 \\lambda_ {k}} | u _ {k + 1} - 2 u _ {k} + u _ {k - 1} | ^ {2} - \\frac {1 - \\alpha_ {k}}{\\lambda_ {k}} | u _ {k + 1} - u _ {k} | ^ {2} + \\epsilon_ {k}, $$ and consequently $$ \\sum_ {k = 1} ^ {N} \\left[ \\frac {\\alpha_ {k}}{2 \\lambda_ {k}} | u _ {k + 1} - 2 u _ {k} + u _ {k - 1} | ^ {2} + \\frac {1 - \\alpha_ {k}}{\\lambda_ {k}} | u _ {k + 1} - u _ {k} | ^ {2} \\right] \\leq E _ {1} - E _ {N + 1} + \\sum_ {k = 1} ^ {N} \\epsilon_ {k}. $$ Noting that $$ E _ {1} - E _ {N + 1} + \\sum_ {k = 1} ^ {N} \\epsilon_ {k} \\leq E _ {1} - \\inf f + \\sum \\epsilon_ {k} <   \\infty , $$ and because $0 \\leq \\alpha_{k} \\leq 1$, we deduce that $$ \\sum \\frac {\\alpha_ {k}}{2 \\lambda_ {k}} | u _ {k + 1} - 2 u _ {k} + u _ {k - 1} | ^ {2} <   \\infty $$ and $$ \\sum \\frac {1 - \\alpha_ {k}}{\\lambda_ {k}} | u _ {k + 1} - u _ {k} | ^ {2} <   \\infty . \\tag {3.6} $$ As $0 \\leq \\alpha_{k} \\leq 1$ and $\\lambda_{k}$ is bounded from below by a positive constant, we have $$ \\lim _ {k \\to \\infty} \\frac {\\alpha_ {k}}{\\lambda_ {k}} | u _ {k + 1} - 2 u _ {k} + u _ {k - 1} | = \\lim _ {k \\to \\infty} \\frac {(1 - \\alpha_ {k})}{\\lambda_ {k}} | u _ {k + 1} - u _ {k} | = 0. $$ Writing $$ u _ {k + 1} - (1 + \\alpha_ {k}) u _ {k} + \\alpha_ {k} u _ {k - 1} = \\alpha_ {k} (u _ {k + 1} - 2 u _ {k} + u _ {k - 1}) + (1 - \\alpha_ {k}) (u _ {k + 1} - u _ {k}), $$ we conclude that (3.5) holds. Suppose now that Argmin $f \\neq \\emptyset$. We apply the Opial lemma to prove the weak convergence of $\\{u_k\\}$. On account of (3.5), it is sufficient to show that for any $z \\in \\operatorname{Argmin} f$, the sequence of positive numbers $\\{|u_k - z|\\}$ is convergent. Fix $z \\in \\operatorname{Argmin} f$; since $u_{k+1}$ satisfies (3.4), we have $$ f (u _ {k + 1}) - \\frac {1}{\\lambda_ {k}} \\langle u _ {k + 1} - (1 + \\alpha_ {k}) u _ {k} + \\alpha_ {k} u _ {k - 1}, z - u _ {k + 1} \\rangle \\leq f (z) + \\epsilon_ {k}, $$ and by the optimality of $z$ (3.7) $\\langle u_{k + 1} - u_k,u_{k + 1} - z\\rangle -\\alpha_k\\langle u_k - u_{k - 1},u_{k + 1} - z\\rangle \\leq \\lambda_k\\epsilon_k.$ Set $\\varphi_{k}:=\\frac{1}{2}|u_{k}-z|^{2}$. It is direct to check [expand $|u_{k+1}-z|^2=|u_k-z+(u_{k+1}-u_k)|^2$ and rearrange the inner-product term] that for any $k\\in\\mathbb{N}$ $$ \\varphi_ {k + 1} = \\varphi_ {k} + \\langle u _ {k + 1} - u _ {k}, u _ {k + 1} - z \\rangle - \\frac {1}{2} | u _ {k + 1} - u _ {k} | ^ {2}. $$ Since $\\langle u_k - u_{k-1}, u_{k+1} - z \\rangle = \\langle u_k - u_{k-1}, u_k - z \\rangle + \\langle u_k - u_{k-1}, u_{k+1} - u_k \\rangle$, (3.7) shows that $$ \\varphi_ {k + 1} - \\varphi_ {k} - \\alpha_ {k} \\left(\\varphi_ {k} - \\varphi_ {k - 1} + \\frac {1}{2} | u _ {k} - u _ {k - 1} | ^ {2} + \\langle u _ {k} - u _ {k - 1}, u _ {k + 1} - u _ {k} \\rangle\\right) \\leq \\lambda_ {k} \\epsilon_ {k}, $$ and therefore $$ \\varphi_ {k + 1} - (1 + \\alpha_ {k}) \\varphi_ {k} + \\alpha_ {k} \\varphi_ {k - 1} \\leq \\delta_ {k}, $$ where $\\delta_{k}=\\alpha_{k}|u_{k}-u_{k-1}|^{2}+\\frac{\\alpha_{k}}{2}|u_{k+1}-u_{k}|^{2}+\\lambda_{k}\\epsilon_{k}$. Using (iii) and (3.6) it follows that $\\sum|u_{k+1}-u_{k}|^{2}<\\infty$, thus $\\sum\\delta_{k}<\\infty$. Set $\\theta_{k}:=\\varphi_{k}-\\varphi_{k-1}$; the above inequality implies $$ [ \\theta_ {k + 1} ] _ {+} \\leq \\bar {\\alpha} [ \\theta_ {k} ] _ {+} + \\delta_ {k}. $$ Thus $$ [ \\theta_ {k + 1} ] _ {+} \\leq \\bar {\\alpha} ^ {k} [ \\theta_ {1} ] _ {+} + \\sum_ {j = 0} ^ {k - 1} \\bar {\\alpha} ^ {j} \\delta_ {k - j}, $$ which yields $$ \\sum_ {k = 0} ^ {\\infty} [ \\theta_ {k + 1} ] _ {+} \\leq \\frac {1}{1 - \\bar {\\alpha}} \\left([ \\theta_ {1} ] _ {+} + \\sum_ {k = 1} ^ {\\infty} \\delta_ {k}\\right) <   \\infty . $$ Set $w_{k} := \\varphi_{k} - \\sum_{j=1}^{k} [\\theta_{j}]_{+}$. Since $\\varphi_{k} \\geq 0$ and $\\sum[\\theta_{j}]_{+} < \\infty$, $w_{k}$ is bounded from below. As $\\{w_{k}\\}$ is nonincreasing we have that it converges. Hence $\\{\\varphi_{k}\\}$ converges, which completes the proof of the theorem. $\\square$",
+      "depends_on": [
+        "algo_1",
+        "ext_lem_1",
+        "ext_def_2",
+        "ext_def_3"
+      ],
+      "remark": "[Foundation: Foundation.Hilbert.WeakConvergence] recall opial_lemma | [Prove hint: telescope the discrete energy and use the positive-part recurrence]"
+    }
+  ],
+  "external_theorems": [
+    {
+      "id": "ext_lem_1",
+      "type": "lemma",
+      "name": "Opial's Lemma",
+      "statement": "Let $H$ be a Hilbert space, let $\\{u(t): t \\to \\infty\\} \\subset H$ be a trajectory, and denote by $W$ the set of its weak limit points $$ W := \\{y \\in H: \\exists t _ {k} \\to \\infty s. t. u (t _ {k}) \\rightharpoonup y \\}. $$ If there exists $\\emptyset \\neq S\\subset H$ such that $$ \\forall z \\in S, \\lim _ {t \\to \\infty} | u (t) - z | \\text {exists}, \\tag {2.4} $$ then $W \\neq \\emptyset$. Moreover, if $W \\subset S$, then $u(t)$ converges weakly toward $\\widehat{u} \\in S$ as $t \\to \\infty$.",
+      "proof": "Cited from: Z. OPIAL, Weak convergence of the sequence of successive approximations for nonexpansive mappings, Bull. Amer. Math. Soc., 73 (1967), pp. 591-597.",
+      "depends_on": [],
+      "source": "Z. OPIAL, Weak convergence of the sequence of successive approximations for nonexpansive mappings, Bull. Amer. Math. Soc., 73 (1967), pp. 591-597.",
+      "resolution_priority": "high",
+      "remark": "[Foundation: Foundation.Hilbert.WeakConvergence] recall opial_lemma"
+    },
+    {
+      "id": "ext_thm_2",
+      "type": "theorem",
+      "name": "Bruck strong-convergence result for steepest descent",
+      "statement": "The paper cites this reference only as providing the result analogous to Theorem 2.4(i), namely the even-potential strong-convergence case for steepest descent; no complete statement is reproduced.",
+      "proof": "Cited from: R. E. BRUCK, Asymptotic convergence of nonlinear contraction semi-groups in Hilbert spaces, J. Funct. Anal., 18 (1975), pp. 15-26.",
+      "depends_on": [],
+      "source": "R. E. BRUCK, Asymptotic convergence of nonlinear contraction semi-groups in Hilbert spaces, J. Funct. Anal., 18 (1975), pp. 15-26.",
+      "resolution_priority": "medium",
+      "remark": "[Note: cited as methodological precedent, while the present paper supplies its own proof]"
+    },
+    {
+      "id": "ext_thm_3",
+      "type": "theorem",
+      "name": "Brezis interior-minimizer convergence result",
+      "statement": "The paper cites this reference only as providing the result analogous to Theorem 2.4(ii), namely the nonempty-interior minimizer-set case for steepest descent; no complete statement is reproduced.",
+      "proof": "Cited from: H. BREZIS, Opérateurs Maximaux Monotones, North-Holland Math. Stud. 5, North-Holland, Amsterdam, 1973.",
+      "depends_on": [],
+      "source": "H. BREZIS, Opérateurs Maximaux Monotones, North-Holland Math. Stud. 5, North-Holland, Amsterdam, 1973.",
+      "resolution_priority": "medium",
+      "remark": "[Note: cited as methodological precedent, while the present paper supplies its own proof]"
+    }
+  ]
+}

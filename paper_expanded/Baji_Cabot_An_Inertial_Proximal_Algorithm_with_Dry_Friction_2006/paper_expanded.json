@@ -1,0 +1,368 @@
+{
+  "metadata": {
+    "title": "An Inertial Proximal Algorithm with Dry Friction: Finite Convergence Results",
+    "authors": [
+      "Bruno Baji",
+      "Alexandre Cabot"
+    ],
+    "year": 2006,
+    "source_type": "markdown"
+  },
+  "items": [
+    {
+      "id": "def_1",
+      "type": "definition",
+      "name": "Distance function",
+      "statement": "Given a subset $A \\subset H$, the distance function to $A$ is $d(x, A) = \\inf_{y \\in A} |x - y|$ for every $x \\in H$.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "def_2",
+      "type": "definition",
+      "name": "Excess of a set over another",
+      "statement": "Given subsets $A, B \\subset H$, the excess of $A$ over $B$ is $e(A, B) = \\sup_{x \\in A} d(x, B)$.",
+      "proof": null,
+      "depends_on": [
+        "def_1"
+      ]
+    },
+    {
+      "id": "def_3",
+      "type": "definition",
+      "name": "Algorithm (A)",
+      "statement": "Let $H$ be a Hilbert space and $A, B: H \\Rightarrow H$ two maximal monotone operators. Given initial data $x_0, x_1 \\in H$ and a sequence $(\\lambda_n)$ of positive steps, the sequence $(x_n)$ is defined by:\n$$\n(x_{n+2} - 2x_{n+1} + x_n) / \\lambda_n^2 + A((x_{n+2} - x_{n+1}) / \\lambda_n) + B(x_{n+2}) \\ni 0.\n$$",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "def_4",
+      "type": "definition",
+      "name": "Energy sequence (E_n)",
+      "statement": "When $B = \\partial f$ for a convex function $f: H \\to \\mathbb{R} \\cup \\{+\\infty\\}$, the energy-like sequence $(E_n)$ is defined by:\n$$\nE_n = \\frac{1}{2\\lambda_n^2} |x_{n+1} - x_n|^2 + f(x_{n+1}).\n$$",
+      "proof": null,
+      "depends_on": [
+        "def_3"
+      ]
+    },
+    {
+      "id": "def_5",
+      "type": "definition",
+      "name": "Function $\\Phi_A$",
+      "statement": "For a monotone operator $A: H \\Rightarrow H$, the function $\\Phi_A$ is defined by:\n$$\n\\Phi_A(x) := \\inf_{y \\in A(x)} \\langle y, x \\rangle.\n$$",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "def_6",
+      "type": "definition",
+      "name": "Set $\\mathcal{D}$ of stationary indices",
+      "statement": "$\\mathcal{D} = \\{n \\in \\mathbb{N}, x_{n+1} = x_n\\}$, where $(x_n)$ is the sequence defined by Algorithm $(\\mathcal{A})$.",
+      "proof": null,
+      "depends_on": [
+        "def_3"
+      ]
+    },
+    {
+      "id": "def_9",
+      "type": "definition",
+      "name": "Function of class $\\mathcal{C}^{1,1}$",
+      "statement": "A function $f: H \\to \\mathbb{R}$ is said to be of class $\\mathcal{C}^{1,1}$ if it is of class $\\mathcal{C}^1$ and if its gradient $\\nabla f$ is locally Lipschitz on $H$.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "def_10",
+      "type": "definition",
+      "name": "Strongly convex function (gradient form)",
+      "statement": "A $\\mathcal{C}^1$ function $f: H \\to \\mathbb{R}$ is said to be strongly convex if there exists $M > 0$ such that:\n$$\n\\forall x, y \\in H, \\quad \\langle \\nabla f(x) - \\nabla f(y), x - y \\rangle \\geqslant M |x - y|^2.\n$$\nEquivalently, there exists $M > 0$ such that:\n$$\n\\forall x, y \\in H, \\quad f(x) \\geqslant f(y) + \\langle \\nabla f(y), x - y \\rangle + \\frac{M}{2} |x - y|^2.\n$$",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "def_11",
+      "type": "definition",
+      "name": "Second energy sequence $(F_n)$",
+      "statement": "The second energy-like sequence $(F_n)$ is defined by:\n$$\nF_n = E_n - f(x_\\infty) - \\langle \\nabla f(x_\\infty), x_{n+1} - x_\\infty \\rangle,\n$$\nwhere $x_\\infty = s-\\lim_{n \\to +\\infty} x_n$ and $(E_n)$ is the energy sequence defined in (2).",
+      "proof": null,
+      "depends_on": [
+        "def_4"
+      ]
+    },
+    {
+      "id": "ext_def_1",
+      "type": "definition",
+      "name": "Maximal monotone operator",
+      "statement": "A set-valued operator $A: H \\Rightarrow H$ on a Hilbert space $H$ is monotone if $\\forall (x,u), (y,v) \\in \\operatorname{gra} A$, $\\langle u - v, x - y \\rangle \\geqslant 0$. It is maximal monotone if its graph is not properly contained in the graph of any other monotone operator. The domain is $\\operatorname{dom} A = \\{x \\in H \\mid A(x) \\neq \\emptyset\\}$.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "ext_def_2",
+      "type": "definition",
+      "name": "Resolvent of a maximal monotone operator",
+      "statement": "For a maximal monotone operator $A: H \\Rightarrow H$ and $\\lambda > 0$, the resolvent of $A$ is defined by $J_\\lambda^A := (I + \\lambda A)^{-1}$. The resolvent is single-valued and nonexpansive on $H$.",
+      "proof": null,
+      "depends_on": [
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "ext_def_3",
+      "type": "definition",
+      "name": "Normal cone to a convex set",
+      "statement": "For a convex subset $C \\subset H$ and $x \\in C$, the normal cone to $C$ at $x$ is defined by:\n$$\nN_C(x) = \\{u \\in H \\mid \\forall y \\in C, \\langle u, y - x \\rangle \\leqslant 0\\}.\n$$\nFor $x \\notin C$, $N_C(x) = \\emptyset$. For a set $S \\subset H$, $N_C(S) = \\bigcup_{\\xi \\in S} N_C(\\xi)$.",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "ext_def_4",
+      "type": "definition",
+      "name": "Support function of a convex set",
+      "statement": "For a subset $C \\subset H$, the support function $\\sigma_C: H \\to \\mathbb{R} \\cup \\{+\\infty\\}$ is defined by:\n$$\n\\sigma_C(x) = \\sup_{z \\in C} \\langle z, x \\rangle.\n$$",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "ext_thm_1",
+      "type": "theorem",
+      "name": "Sum of maximal monotone operators (Brézis Corollary 2.7)",
+      "statement": "Let $A, B: H \\Rightarrow H$ be maximal monotone operators. If $\\operatorname{int}(\\operatorname{dom} A) \\cap \\operatorname{dom} B \\neq \\emptyset$, then $A + B$ is maximal monotone.",
+      "proof": "Cited from: H. Brézis, Opérateurs maximaux monotones dans les espaces de Hilbert et équations d'évolution, Lecture Notes 5, North Holland, Amsterdam, 1972, Corollary 2.7.",
+      "depends_on": [
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "ext_prop_1",
+      "type": "proposition",
+      "name": "Interior characterization via support function",
+      "statement": "Let $C \\subset H$ be a convex set. Then $0 \\in \\operatorname{int}(C)$ if and only if there exists $\\alpha > 0$ such that $\\sigma_C(x) \\geqslant \\alpha |x|$ for all $x \\in H$.",
+      "proof": "Cited from: classical result in convex analysis (see e.g. R.T. Rockafellar, Convex Analysis, Princeton University Press, 1970).",
+      "depends_on": [
+        "ext_def_4"
+      ]
+    },
+    {
+      "id": "prop_1",
+      "type": "proposition",
+      "name": "Proposition 2.1",
+      "statement": "Assume that $A: H \\Rightarrow H$ and $B: H \\Rightarrow H$ are maximal monotone operators satisfying respectively $\\operatorname{dom} A = H$ and $\\operatorname{dom} B \\neq \\emptyset$. Given $x_0, x_1 \\in H$ and a sequence $(\\lambda_n)$ of positive numbers, the sequence $(x_n)$ is uniquely defined by the algorithm $(\\mathcal{A})$ and the initial data $x_0, x_1$.",
+      "proof": "Let us define the maximal monotone operator $B_n: H \\Rightarrow H$ by $B_n(x) := B(\\lambda_n x + x_{n+1})$. The algorithm $(\\mathcal{A})$ can be rewritten as\n$$\n\\frac{1}{\\lambda_n} (x_{n+2} - x_{n+1}) - \\frac{1}{\\lambda_n} (x_{n+1} - x_n) + \\lambda_n (A + B_n)((x_{n+2} - x_{n+1}) / \\lambda_n) \\ni 0,\n$$\nor equivalently:\n$$\n(I + \\lambda_n (A + B_n))((x_{n+2} - x_{n+1}) / \\lambda_n) \\ni (x_{n+1} - x_n) / \\lambda_n.\n$$\nSince the sets $\\operatorname{int}(\\operatorname{dom} A) = H$ and $\\operatorname{dom} B_n$ have a nonempty intersection, we deduce from [6, Corollary 2.7] that the operator $A + B_n$ is maximal monotone. As a consequence, the previous inclusion is equivalent to $(x_{n+2} - x_{n+1})/\\lambda_n = J_{\\lambda_n}^{A+B_n}((x_{n+1} - x_n)/\\lambda_n)$, which clearly shows that $x_{n+2}$ is uniquely defined as a function of $x_n$ and $x_{n+1}$.",
+      "depends_on": [
+        "def_3",
+        "ext_def_1",
+        "ext_def_2",
+        "ext_thm_1"
+      ]
+    },
+    {
+      "id": "prop_2",
+      "type": "proposition",
+      "name": "Proposition 2.2",
+      "statement": "Let $A: H \\Rightarrow H$ be a maximal monotone operator such that $\\operatorname{dom} A = H$ and $0 \\in A(0)$. The operator $B$ is supposed to be equal to $\\partial f$ for a closed convex function $f: H \\to \\mathbb{R} \\cup \\{+\\infty\\}$ satisfying $\\operatorname{dom} \\partial f \\neq \\emptyset$ and $\\inf f > -\\infty$. The positive sequence $(\\lambda_n)$ is assumed to be nondecreasing. Then, the sequence $(x_n)$ defined by algorithm $(\\mathcal{A})$ satisfies:\n(i) $E_{n+1} - E_n \\leqslant -\\lambda_n \\Phi_A((x_{n+2} - x_{n+1}) / \\lambda_n)$, where the sequence $(E_n)$ and the function $\\Phi_A$ are defined by (2) and (3), respectively.\n(ii) $\\sum_{n=0}^{+\\infty} \\lambda_n \\Phi_A((x_{n+2} - x_{n+1}) / \\lambda_n) < +\\infty$.",
+      "proof": "(i) Let $v_{n+2} \\in \\partial f(x_{n+2})$ satisfy\n$$\n(x_{n+2} - 2x_{n+1} + x_n) / \\lambda_n^2 + v_{n+2} \\in -A((x_{n+2} - x_{n+1}) / \\lambda_n). \\tag{5}\n$$\nSince $\\lambda_n \\leqslant \\lambda_{n+1}$, we have\n$$\n\\begin{array}{l}\nE_{n+1} - E_n \\leqslant \\frac{1}{2\\lambda_n^2} \\left(\\left| x_{n+2} - x_{n+1} \\right|^2 - \\left| x_{n+1} - x_n \\right|^2\\right) + f(x_{n+2}) - f(x_{n+1}) \\\\\n\\leqslant \\frac{1}{\\lambda_n^2} \\left\\langle x_{n+2} - 2x_{n+1} + x_n, x_{n+2} - x_{n+1} \\right\\rangle + f(x_{n+2}) - f(x_{n+1}).\n\\end{array}\n$$\nThe convexity of $f$ gives $f(x_{n+2}) - f(x_{n+1}) \\leqslant \\langle v_{n+2}, x_{n+2} - x_{n+1} \\rangle$, so that the previous inequality yields\n$$\nE_{n+1} - E_n \\leqslant \\big\\langle (x_{n+2} - 2x_{n+1} + x_n) / \\lambda_n^2 + v_{n+2}, x_{n+2} - x_{n+1} \\big\\rangle.\n$$\nIn view of inclusion (5) and the definition of $\\Phi_A$, we immediately deduce\n$$\nE_{n+1} - E_n \\leqslant -\\lambda_n \\Phi_A((x_{n+2} - x_{n+1}) / \\lambda_n). \\tag{6}\n$$\n\n(ii) Let us add inequalities (6) for $n = 0, 1, \\ldots, N$:\n$$\n\\sum_{n=0}^{N} \\lambda_n \\Phi_A((x_{n+2} - x_{n+1}) / \\lambda_n) \\leqslant E_0 - E_{N+1} \\leqslant E_0 - \\inf f.\n$$\nTaking the limit when $N \\rightarrow +\\infty$ gives the expected conclusion.",
+      "depends_on": [
+        "def_3",
+        "def_4",
+        "def_5",
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "ext_prop_2",
+      "type": "proposition",
+      "name": "Normal cone stability for convex polyhedra",
+      "statement": "Let $C \\subset H$ be a convex polyhedron and $\\overline{x} \\in C$. Then there exists a neighbourhood $V$ of $\\overline{x}$ such that for all $x \\in V$, $N_C(x) \\subset N_C(\\overline{x})$.",
+      "proof": "Cited from: known property of convex polyhedra (see e.g. R.T. Rockafellar and R. Wets, Variational Analysis, Springer, 1998).",
+      "depends_on": [
+        "ext_def_3"
+      ]
+    },
+    {
+      "id": "def_7",
+      "type": "definition",
+      "name": "Smooth convex set at a point",
+      "statement": "A convex set $C \\subset H$ is said to be smooth at a point $\\overline{x} \\in C$ if $N_C(\\overline{x})$ is reduced to a half-line.",
+      "proof": null,
+      "depends_on": [
+        "ext_def_3"
+      ]
+    },
+    {
+      "id": "def_8",
+      "type": "definition",
+      "name": "Smooth convex set",
+      "statement": "A convex set $C \\subset H$ is said to be smooth if it is smooth at every point of its boundary.",
+      "proof": null,
+      "depends_on": [
+        "def_7"
+      ]
+    },
+    {
+      "id": "lem_1",
+      "type": "lemma",
+      "name": "Lemma 2.1",
+      "statement": "Let $A: H \\Rightarrow H$ be a monotone operator such that $\\operatorname{dom} A = H$ and $0 \\in A(0)$. The function $\\Phi_A$ defined by (3) satisfies:\n(i) $\\forall x \\in H$, $\\Phi_A(x) \\geqslant \\sigma_{A(0)}(x) \\geqslant 0$.\n(ii) $0 \\in \\operatorname{int}(A(0)) \\Rightarrow \\exists \\alpha > 0$, $\\forall x \\in H$, $\\Phi_A(x) \\geqslant \\alpha |x|$.",
+      "proof": "(i) For any $x \\in H$, let $y \\in A(x)$ and $z \\in A(0)$. The monotonicity of $A$ yields $\\langle y - z, x - 0 \\rangle \\geqslant 0$, and hence $\\langle y, x \\rangle \\geqslant \\langle z, x \\rangle$. Since this is true for every $y \\in A(x)$ and $z \\in A(0)$, we infer that\n$$\n\\Phi_A(x) := \\inf_{y \\in A(x)} \\langle y, x \\rangle \\geqslant \\sup_{z \\in A(0)} \\langle z, x \\rangle = \\sigma_{A(0)}(x).\n$$\nOn the other hand, since $0 \\in A(0)$, it is clear that $\\sigma_{A(0)}(x) \\geqslant 0$.\n\n(ii) According to a classical result, the assertion $0 \\in \\operatorname{int}(C)$ (where $C \\subset H$) is equivalent to the existence of $\\alpha > 0$ such that $\\sigma_C \\geqslant \\alpha |\\cdot|$. The conclusion is then an immediate consequence of (i).",
+      "depends_on": [
+        "def_5",
+        "ext_def_1",
+        "ext_def_4",
+        "ext_prop_1"
+      ]
+    },
+    {
+      "id": "cor_1",
+      "type": "corollary",
+      "name": "Corollary 2.1",
+      "statement": "Let $f: H \\to \\mathbb{R} \\cup \\{+\\infty\\}$ be a closed convex function satisfying $\\operatorname{dom} \\partial f \\neq \\emptyset$ and $\\inf f > -\\infty$. The operators $A$ and $B$ are supposed to be respectively defined by $A := \\partial |\\cdot|^\\alpha$ $(\\alpha \\geqslant 1)$ and $B := \\partial f$. Consider a nondecreasing sequence $(\\lambda_n)$ of positive steps. Then, the sequence $(x_n)$ defined by $(\\mathcal{A})$ satisfies $|(x_{n+2} - x_{n+1}) / \\lambda_n| \\in \\ell^\\alpha$.",
+      "proof": "From Proposition 2.2(ii) and expression (4), we obtain\n$$\n\\sum_{n=0}^{+\\infty} \\lambda_n |(x_{n+2} - x_{n+1}) / \\lambda_n|^\\alpha < +\\infty.\n$$\nThe conclusion follows from the fact that $\\lambda_n \\geqslant \\lambda_0 > 0$ for every $n \\in \\mathbb{N}$.",
+      "depends_on": [
+        "def_3",
+        "prop_2",
+        "lem_1"
+      ]
+    },
+    {
+      "id": "thm_1",
+      "type": "theorem",
+      "name": "Theorem 3.1",
+      "statement": "Let $A: H \\Rightarrow H$ be a maximal monotone operator such that $\\operatorname{dom} A = H$ and $0 \\in \\operatorname{int}(A(0))$. The operator $B$ is supposed to be equal to $\\partial f$ for a closed convex function $f: H \\to \\mathbb{R} \\cup \\{+\\infty\\}$ satisfying $\\operatorname{dom} \\partial f \\neq \\emptyset$ and $\\inf f > -\\infty$. The positive sequence $(\\lambda_n)$ is assumed to be nondecreasing. Then, the sequence $(x_n)$ defined by algorithm $(\\mathcal{A})$ satisfies:\n(i) $(|x_{n+1} - x_n|) \\in \\ell^1$ and therefore $x_\\infty := s-\\lim_{n \\to +\\infty} x_n$ exists.\n(ii) The vector $x_\\infty$ is such that $0 \\in A(0) + \\partial f(x_\\infty)$.\n(iii) If $H$ is finite-dimensional, then either the sequence $(x_n)$ is finitely convergent or the limit points of $\\left(\\frac{x_{n+1} - x_n}{|x_{n+1} - x_n|}\\right)_{n \\in \\mathbb{N} \\setminus \\mathcal{D}}$ are contained in\n$$\nN_{A(0)}(-\\partial f(x_\\infty)) := \\bigcup_{\\xi \\in -\\partial f(x_\\infty)} N_{A(0)}(\\xi).\n$$\nIf moreover $-\\partial f(x_\\infty) \\subset \\operatorname{int}(A(0))$, the sequence $(x_n)$ is finitely convergent.",
+      "proof": "(i) From Lemma 2.1(ii), the assumption $0 \\in \\operatorname{int}(A(0))$ implies that $\\Phi_A \\geqslant \\alpha |\\cdot|$ for some $\\alpha > 0$. Assertion (i) is then an immediate consequence of Proposition 2.2.\n\n(ii) Let $v_{n+2} \\in \\partial f(x_{n+2})$ satisfy:\n$$\n-(x_{n+2} - 2x_{n+1} + x_n) / \\lambda_n^2 - v_{n+2} \\in A((x_{n+2} - x_{n+1}) / \\lambda_n). \\tag{7}\n$$\nSince $s-\\lim_{n \\to +\\infty} x_n = x_\\infty$ and since $\\lambda_n \\geqslant \\underline{\\lambda} > 0$ for every $n \\in \\mathbb{N}$, we have\n$$\ns-\\lim_{n \\to +\\infty} (x_{n+2} - 2x_{n+1} + x_n) / \\lambda_n^2 = 0. \\tag{8}\n$$\nOn the other hand, since $\\operatorname{dom} A = H$, the operator $A$ is locally bounded on $H$, which clearly implies that the sequence $(v_n)$ is bounded in $H$. Therefore, there exist $\\overline{v} \\in H$ and a subsequence of $(v_n)$, still denoted by $(v_n)$ such that $w-\\lim_{n \\to +\\infty} v_n = \\overline{v}$. Since the graph of $\\partial f$ is closed for the product topology $s-H \\times w-H$, we have $\\overline{v} \\in \\partial f(x_\\infty)$. In view of (7) and (8), the same graph closedness property applied to $A$ shows that $-\\overline{v} \\in A(0)$. We then conclude that $0 \\in A(0) + \\partial f(x_\\infty)$.\n\n(iii) Now assume that the space $H$ is finite-dimensional and that the sequence $(x_n)$ is not finitely convergent. Let $\\overline{\\omega}$ denote the (nonempty) set of limit points of $\\left(\\frac{x_{n+1}-x_n}{|x_{n+1}-x_n|}\\right)_{n \\in \\mathbb{N} \\setminus \\mathcal{D}}$ and let $d \\in \\overline{\\omega}$. There exists a subsequence of $(x_n)_{n \\in \\mathbb{N} \\setminus \\mathcal{D}}$, still denoted by $(x_n)$ such that $\\lim_{n \\to +\\infty} \\frac{x_{n+1}-x_n}{|x_{n+1}-x_n|} = d$. Let $v_{n+2} \\in \\partial f(x_{n+2})$ satisfy the same relation as above. The same arguments as in (ii) show that there exist $\\overline{v} \\in H$ and a subsequence of $(v_n)$, still denoted by $(v_n)$ such that $\\lim_{n \\to +\\infty} v_n = \\overline{v} \\in \\partial f(x_\\infty)$. Let $\\xi$ be an element of $A(0)$; from the monotonicity of $A$, we have\n$$\n\\left\\langle -(x_{n+2} - 2x_{n+1} + x_n) \\Big/ \\lambda_n^2 - v_{n+2} - \\xi, \\frac{x_{n+2} - x_{n+1}}{\\left| x_{n+2} - x_{n+1} \\right|} \\right\\rangle \\geqslant 0.\n$$\nBy taking the limit in the previous inequality when $n \\to +\\infty$, we obtain $\\langle -\\overline{v} - \\xi, d \\rangle \\geqslant 0$, which expresses that $d \\in N_{A(0)}(-\\overline{v}) \\subset N_{A(0)}(-\\partial f(x_\\infty))$. Let us now assume that $-\\partial f(x_\\infty) \\subset \\operatorname{int}(A(0))$ and let us prove that the sequence $(x_n)$ is finitely convergent. We argue by contradiction and we still denote by $\\overline{\\omega}$ the set of limit points of $\\left(\\frac{x_{n+1}-x_n}{|x_{n+1}-x_n|}\\right)_{n \\in \\mathbb{N} \\setminus \\mathcal{D}}$. In view of $-\\partial f(x_\\infty) \\subset \\operatorname{int}(A(0))$, we have $\\overline{\\omega} \\subset N_{A(0)}(-\\partial f(x_\\infty)) = \\{0\\}$. Hence $0$ is the unique limit point of the bounded sequence $\\left(\\frac{x_{n+1}-x_n}{|x_{n+1}-x_n|}\\right)_{n \\in \\mathbb{N} \\setminus \\mathcal{D}}$ and we conclude that $\\lim_{n \\to +\\infty} \\frac{x_{n+1}-x_n}{|x_{n+1}-x_n|} = 0$. This clearly contradicts the fact that $\\frac{x_{n+1}-x_n}{|x_{n+1}-x_n|} \\in \\mathbb{S}$ for every $n \\in \\mathbb{N}$.",
+      "depends_on": [
+        "def_3",
+        "def_5",
+        "def_6",
+        "lem_1",
+        "prop_2",
+        "ext_def_1",
+        "ext_def_3"
+      ]
+    },
+    {
+      "id": "prop_3",
+      "type": "proposition",
+      "name": "Proposition 4.1",
+      "statement": "Let $H$ be a finite dimensional space and let $A: H \\Rightarrow H$ be a maximal monotone operator such that $\\operatorname{dom} A = H$ and $0 \\in \\operatorname{int}(A(0))$. The operator $B$ is supposed to be equal to $\\nabla f$ for a convex function $f: H \\to \\mathbb{R}$ of class $\\mathcal{C}^1$ satisfying $\\inf f > -\\infty$. The positive sequence $(\\lambda_n)$ is assumed to be nondecreasing. Let $(x_n)$ be the sequence generated by the algorithm $(\\mathcal{A})$ and let us set $x_\\infty = \\lim_{n \\to +\\infty} x_n$. Assume that the set $A(0)$ is smooth at the point $-\\nabla f(x_\\infty)$ and consider the unique vector $u \\in H$ defined by $|u| = 1$ and $N_{A(0)}(-\\nabla f(x_\\infty)) = \\mathbb{R}_+ u$. Then, either the sequence $(x_n)$ is finitely convergent or we have\n$$\n\\lim_{n \\rightarrow +\\infty, n \\in \\mathbb{N} \\setminus \\mathcal{D}} \\frac{x_{n+1} - x_n}{|x_{n+1} - x_n|} = u,\n$$\n$$\nx_n = x_\\infty - \\left(\\sum_{k=n}^{+\\infty} |x_{k+1} - x_k|\\right) u + \\mathrm{o}\\left(\\sum_{k=n}^{+\\infty} |x_{k+1} - x_k|\\right).\n$$\nAs a consequence, we have the equivalence $|x_n - x_\\infty| \\sim \\sum_{k=n}^{+\\infty} |x_{k+1} - x_k|$ when $n \\to +\\infty$ and we deduce that, either $x_n = x_\\infty$ for $n$ large enough or $|x_n - x_\\infty| > 0$ for $n$ large enough.",
+      "proof": "Let $\\overline{\\omega}$ denote the (nonempty) set of limit points of $\\left(\\frac{x_{n+1}-x_n}{|x_{n+1}-x_n|}\\right)_{n \\in \\mathbb{N} \\setminus \\mathcal{D}}$. From Theorem 3.1(iii), we have $\\overline{\\omega} \\subset N_{A(0)}(-\\nabla f(x_\\infty)) = \\mathbb{R}_+ u$. On the other hand, we have $\\frac{x_{n+1}-x_n}{|x_{n+1}-x_n|} \\in \\mathbb{S}$, and therefore $\\overline{\\omega} \\subset \\mathbb{R}_+ u \\cap \\mathbb{S} = \\{u\\}$. Hence, $u$ is the unique limit point of the bounded sequence $\\left(\\frac{x_{n+1}-x_n}{|x_{n+1}-x_n|}\\right)_{n \\in \\mathbb{N} \\setminus \\mathcal{D}}$ and we conclude that $\\lim \\left(\\frac{x_{n+1}-x_n}{|x_{n+1}-x_n|}\\right)_{n \\in \\mathbb{N} \\setminus \\mathcal{D}} = u$ or, equivalently,\n$$\nx_{n+1} - x_n = |x_{n+1} - x_n| u + \\mathrm{o}(|x_{n+1} - x_n|)\n$$\nwhen $n \\to +\\infty$. Summing the last equality from $n = N$ to $+\\infty$ and taking into account the fact that $(|x_{n+1} - x_n|)_{n \\in \\mathbb{N}} \\in \\ell^1$, we obtain (10). The other assertions are immediate consequences of Equation (10).",
+      "depends_on": [
+        "def_3",
+        "def_6",
+        "def_7",
+        "thm_1",
+        "ext_def_3"
+      ]
+    },
+    {
+      "id": "thm_2",
+      "type": "theorem",
+      "name": "Theorem 4.1",
+      "statement": "Let $H$ be a finite dimensional space and let $A: H \\Rightarrow H$ be a maximal monotone operator such that $\\operatorname{dom} A = H$ and $0 \\in \\operatorname{int}(A(0))$. Assume that there exist $\\eta > 0$ and $\\alpha \\geqslant 0$ such that the linear growth condition\n$$\n|x| \\leqslant \\eta \\Rightarrow e(A(x), A(0)) \\leqslant \\alpha |x|. \\tag{12}\n$$\nholds. Suppose that the function $f: H \\to \\mathbb{R}$ is of class $\\mathcal{C}^{1,1}$, bounded from below and satisfies the strong convexity assumption (11); the operator $B$ is defined by $B := \\nabla f$. The sequence $(\\lambda_n)$ is assumed to be constant, equal to $\\lambda > 0$. Let $(x_n)$ be the sequence generated by the algorithm $(\\mathcal{A})$ and let us set $x_\\infty = \\lim_{n \\to +\\infty} x_n$. If the set $A(0)$ is smooth at the point $-\\nabla f(x_\\infty)$, then one of the following cases holds:\n(i) The sequence $(x_n)$ is finitely convergent.\n(ii) There exist $n_0 \\in \\mathbb{N}$, $C_1, C_2 > 0$ and $q_1, q_2 \\in ]0, 1[$ such that for every $n \\geqslant n_0$,\n$$\n|x_n - x_\\infty| \\geqslant C_1 q_1^n \\quad \\text{and} \\quad \\sum_{k=n}^{+\\infty} |x_k - x_\\infty| \\leqslant C_2 q_2^n.\n$$\nAny $q_1 \\in ]0, 1[$ (resp. $q_2 \\in ]0, 1[$) such that $q_1 < 1/(\\alpha\\lambda + 1)$ (resp. $q_2 > \\alpha/(\\alpha + M\\lambda)$) satisfies the previous estimate. If moreover $\\alpha < \\sqrt{M}$ then the convergence is finite.",
+      "proof": "Let us assume that case (i) does not hold, i.e., the sequence $(x_n)$ does not finitely converge. Let us define $\\xi_n$ as the unique element of $A(0)$ such that\n$$\n\\begin{array}{l}\nd\\bigl(-(x_{n+2} - 2x_{n+1} + x_n)/\\lambda^2 - \\nabla f(x_{n+2}), A(0)\\bigr) \\\\\n= \\left| \\xi_n + (x_{n+2} - 2x_{n+1} + x_n)/\\lambda^2 + \\nabla f(x_{n+2}) \\right|.\n\\end{array}\n$$\nSince the set $A(0)$ is smooth at the point $-\\nabla f(x_\\infty)$, there exists $u \\in H$ such that $|u| = 1$ and $N_{A(0)}(-\\nabla f(x_\\infty)) = \\mathbb{R}_+ u$. We then have\n$$\n\\begin{array}{l}\n\\left\\langle (x_{n+2} - 2x_{n+1} + x_n)/\\lambda^2, u \\right\\rangle \\\\\n= \\left\\langle \\xi_n + (x_{n+2} - 2x_{n+1} + x_n)/\\lambda^2 + \\nabla f(x_{n+2}), u \\right\\rangle + \\\\\n+ \\langle \\nabla f(x_{n+2}) - \\nabla f(x_\\infty), -u \\rangle - \\langle \\xi_n + \\nabla f(x_\\infty), u \\rangle. \\tag{13}\n\\end{array}\n$$\nLet us now minorize each term of the right member. From the definitions of the term $\\xi_n$ and the sequence $(x_n)$, we have\n$$\n\\begin{array}{l}\n\\left| \\xi_n + (x_{n+2} - 2x_{n+1} + x_n)/\\lambda^2 + \\nabla f(x_{n+2}) \\right| \\\\\n\\leqslant e(A((x_{n+2} - x_{n+1})/\\lambda), A(0)).\n\\end{array}\n$$\nSince $\\lim_{n \\to +\\infty} x_{n+2} - x_{n+1} = 0$, we deduce from the assumption (12) that, for $n$ large enough\n$$\n\\left| \\xi_n + (x_{n+2} - 2x_{n+1} + x_n)/\\lambda^2 + \\nabla f(x_{n+2}) \\right| \\leqslant \\alpha/\\lambda |x_{n+2} - x_{n+1}|. \\tag{14}\n$$\nSince $u \\in N_{A(0)}(-\\nabla f(x_\\infty))$ and $\\xi_n \\in A(0)$, we infer\n$$\n\\langle \\xi_n + \\nabla f(x_\\infty), u \\rangle \\leqslant 0. \\tag{15}\n$$\nFrom Proposition 4.1, we have $x_{n+2} - x_\\infty = -|x_{n+2} - x_\\infty| u + o(|x_{n+2} - x_\\infty|)$ when $n \\to +\\infty$ and $|x_{n+2} - x_\\infty| > 0$ for $n$ large enough. We deduce that\n$$\n\\langle \\nabla f(x_{n+2}) - \\nabla f(x_\\infty), -u \\rangle = \\bigg\\langle \\nabla f(x_{n+2}) - \\nabla f(x_\\infty), \\frac{x_{n+2} - x_\\infty}{|x_{n+2} - x_\\infty|} + \\mathrm{o}(1) \\bigg\\rangle.\n$$\nHence, in view of the strong convexity assumption (11) and the local Lipschitz continuity of $\\nabla f$, we infer that\n$$\n\\langle \\nabla f(x_{n+2}) - \\nabla f(x_\\infty), -u \\rangle \\geqslant M |x_{n+2} - x_\\infty| + o(|x_{n+2} - x_\\infty|).\n$$\nLet us set $R_n = \\sum_{k=n+1}^{+\\infty} |x_{k+1} - x_k|$; from Proposition 4.1, we have the equivalence $|x_{n+1} - x_\\infty| \\sim R_n$. As a consequence, the previous inequality can be rewritten as\n$$\n\\langle \\nabla f(x_{n+2}) - \\nabla f(x_\\infty), -u \\rangle \\geqslant M R_{n+1} + \\mathrm{o}(R_{n+1}). \\tag{16}\n$$\nIn view of equality (13), we deduce from inequalities (14), (15) and (16) that\n$$\n\\begin{array}{l}\n\\left\\langle (x_{n+2} - 2x_{n+1} + x_n)/\\lambda^2, u \\right\\rangle \\tag{17} \\\\\n\\geqslant -\\alpha/\\lambda |x_{n+2} - x_{n+1}| + M R_{n+1} + \\mathrm{o}(R_{n+1}).\n\\end{array}\n$$\nIt ensues that $(R_n) \\in \\ell^1$ so that we can define $S_n = \\sum_{k=n}^{+\\infty} R_{k+1}$. Now, let us sum inequalities (17) from $k = n$ to $+\\infty$ to obtain\n$$\n-\\big\\langle (x_{n+1} - x_n)/\\lambda^2, u \\big\\rangle \\geqslant -\\alpha R_n/\\lambda + M S_n + \\mathrm{o}(S_n).\n$$\nSince $x_{n+1} - x_n = |x_{n+1} - x_n| u + o(|x_{n+1} - x_n|)$, we infer:\n$$\n|x_{n+1} - x_n|/\\lambda^2 + \\mathrm{o}(|x_{n+1} - x_n|) + M S_n + \\mathrm{o}(S_n) \\leqslant \\alpha R_n/\\lambda.\n$$\nAs a consequence, for every $\\varepsilon \\in ]0, 1[$ and for $n$ large enough, we have:\n$$\n(1 - \\varepsilon) |x_{n+1} - x_n|/\\lambda^2 \\leqslant \\alpha R_n/\\lambda \\quad \\text{and} \\quad (1 - \\varepsilon) M S_n \\leqslant \\alpha R_n/\\lambda.\n$$\nBy noting that $R_{n-1} - R_n = |x_{n+1} - x_n|$, the first inequality yields for $n$ large enough:\n$$\nR_n \\geqslant \\left(\\frac{1 - \\varepsilon}{\\alpha\\lambda + 1 - \\varepsilon}\\right) R_{n-1}.\n$$\nTherefore, there exists $n_1 \\in \\mathbb{N}$ such that for every $n \\geqslant n_1$, $R_n \\geqslant \\left(\\frac{1 - \\varepsilon}{\\alpha\\lambda + 1 - \\varepsilon}\\right)^{n - n_1} R_{n_1}$. Hence, by using the equivalence $R_n \\sim |x_{n+1} - x_\\infty|$, we infer that there exists $C_1 > 0$ such that for $n$ large enough:\n$$\n|x_n - x_\\infty| \\geqslant C_1 \\left(\\frac{1 - \\varepsilon}{\\alpha\\lambda + 1 - \\varepsilon}\\right)^n = C_1 q_1^n. \\tag{18}\n$$\nIn the same way, we have $S_{n-1} - S_n = R_n$, and the second inequality gives\n$$\nS_n \\leqslant \\left(\\frac{\\alpha}{\\lambda(1 - \\varepsilon)M + \\alpha}\\right) S_{n-1}.\n$$\nAs a consequence, there exists $n_2 \\in \\mathbb{N}$ such that for every $n \\geqslant n_2$, $S_n \\leqslant \\left(\\frac{\\alpha}{\\lambda(1 - \\varepsilon)M + \\alpha}\\right)^{n - n_2} S_{n_2}$. We can conclude that there exists $C_2 > 0$ such that for $n$ large enough:\n$$\n\\sum_{k=n}^{+\\infty} |x_k - x_\\infty| \\leqslant C_2 \\left(\\frac{\\alpha}{\\lambda(1 - \\varepsilon)M + \\alpha}\\right)^n = C_2 q_2^n. \\tag{19}\n$$\nLet us now assume that case (ii) holds. If $\\alpha = 0$, inequality (19) shows that $x_n = x_\\infty$ for $n$ large enough, which contradicts the infinite convergence assumption. We thus infer that $\\alpha > 0$. By adding inequalities (18) from $n$ to $+\\infty$, we obtain: $\\sum_{k=n}^{+\\infty} |x_k - x_\\infty| \\geqslant C_1/(1 - q_1) q_1^n$. By comparing with inequality (19), we infer that $q_1 \\leqslant q_2$ or equivalently $\\alpha^2 \\geqslant (1 - \\varepsilon)^2 M$. This inequality being true for every $\\varepsilon \\in ]0, 1[$, we conclude that $\\alpha^2 \\geqslant M$ i.e., $\\alpha \\geqslant \\sqrt{M}$.",
+      "depends_on": [
+        "def_3",
+        "def_2",
+        "def_7",
+        "def_9",
+        "def_10",
+        "prop_3",
+        "thm_1",
+        "ext_def_3"
+      ]
+    },
+    {
+      "id": "cor_2",
+      "type": "corollary",
+      "name": "Corollary 4.1",
+      "statement": "Let $H$ be a finite dimensional space and let $C$ be a closed convex subset of $H$ which is bounded and such that $0 \\in \\operatorname{int}(C)$. Consider a single-valued maximal monotone operator $A_0: H \\to H$ and assume that there exist $\\eta > 0$ and $\\alpha \\geqslant 0$ such that\n$$\n|x| \\leqslant \\eta \\Rightarrow |A_0(x)| \\leqslant \\alpha |x|. \\tag{20}\n$$\nDefine the maximal monotone operator $A: H \\Rightarrow H$ by $A := \\partial\\sigma_C + A_0$. The operator $B$ and the sequence $(\\lambda_n)$ satisfy the same assumptions as in Theorem 4.1. Let $(x_n)$ be the sequence generated by the algorithm $(\\mathcal{A})$ and let us set $x_\\infty = \\lim_{n \\to +\\infty} x_n$. If the set $C$ is smooth at the point $-\\nabla f(x_\\infty)$, then the sequence $(x_n)$ satisfies the same conclusions as in Theorem 4.1.",
+      "proof": "It is immediate to check that $\\partial\\sigma_C(0) = C$ and $\\partial\\sigma_C(x) \\subset C$ for every $x \\in H$. From the assumption (20), we deduce that $A_0(0) = 0$ and, hence, $A(0) = C$. Let us verify that condition (12) of Theorem 4.1 holds. Indeed, we have:\n$$\n\\begin{array}{l}\ne(A(x), A(0)) = e(\\partial\\sigma_C(x) + A_0(x), C) \\\\\n\\leqslant e(C + A_0(x), C) \\\\\n= \\sup_{\\xi \\in C} d(\\xi + A_0(x), C) \\\\\n\\leqslant \\sup_{\\xi \\in C} |\\xi + A_0(x) - \\xi| = |A_0(x)|.\n\\end{array}\n$$\nTherefore, in view of assumption (20), we conclude that: $|x| \\leqslant \\eta \\Rightarrow e(A(x), A(0)) \\leqslant \\alpha|x|$. It suffices then to apply Theorem 4.1.",
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "def_3",
+        "def_7",
+        "thm_2",
+        "ext_def_4"
+      ]
+    },
+    {
+      "id": "prop_4",
+      "type": "proposition",
+      "name": "Proposition 5.1",
+      "statement": "Let $A: H \\Rightarrow H$ be a maximal monotone operator such that $\\operatorname{dom} A = H$ and $0 \\in \\operatorname{int}(A(0))$. Assume that the set $A(0)$ is a convex polyhedron and that condition\n$$\n\\lim_{x \\to 0} e(A(x), \\partial\\sigma_{A(0)}(x)) = 0. \\tag{22}\n$$\nholds. The operator $B$ is supposed to be equal to $\\nabla f$ for a convex function $f: H \\to \\mathbb{R}$ of class $\\mathcal{C}^1$ satisfying $\\inf f > -\\infty$. The positive sequence $(\\lambda_n)$ is assumed to be nondecreasing. Let $(x_n)$ be the sequence generated by the algorithm $(\\mathcal{A})$ and let us set $x_\\infty = s-\\lim_{n \\to +\\infty} x_n$. Then there exists $n_* \\in \\mathbb{N}$ such that:\n$$\n\\forall n \\geqslant n_*, \\quad x_{n+1} - x_n \\in N_{A(0)}(-\\nabla f(x_\\infty)). \\tag{23}\n$$",
+      "proof": "Let $\\xi_n$ be the unique element of $\\partial\\sigma_{A(0)}((x_{n+2} - x_{n+1})/\\lambda_n)$ such that:\n$$\n\\begin{array}{l}\nd\\bigl(-(x_{n+2} - 2x_{n+1} + x_n)/\\lambda_n^2 - \\nabla f(x_{n+2}), \\partial\\sigma_{A(0)}((x_{n+2} - x_{n+1})/\\lambda_n)\\bigr) \\\\\n= \\left| \\xi_n + (x_{n+2} - 2x_{n+1} + x_n)/\\lambda_n^2 + \\nabla f(x_{n+2}) \\right|.\n\\end{array}\n$$\nFrom the definitions of the term $\\xi_n$ and the sequence $(x_n)$, we have:\n$$\n\\begin{array}{l}\n\\left| \\xi_n + (x_{n+2} - 2x_{n+1} + x_n)/\\lambda_n^2 + \\nabla f(x_{n+2}) \\right| \\\\\n\\leqslant e\\big(A((x_{n+2} - x_{n+1})/\\lambda_n), \\partial\\sigma_{A(0)}((x_{n+2} - x_{n+1})/\\lambda_n)\\big). \\tag{24}\n\\end{array}\n$$\nSince $s-\\lim_{n \\to +\\infty} x_{n+2} - x_{n+1} = 0$ and the sequence $(\\lambda_n)$ is minorized by some $\\underline{\\lambda} > 0$, we infer from condition (22) that the right member of inequality (24) tends to $0$ when $n \\to +\\infty$. Since $s-\\lim_{n \\to +\\infty} x_{n+2} - 2x_{n+1} + x_n = 0$ and $s-\\lim_{n \\to +\\infty} \\nabla f(x_{n+2}) = \\nabla f(x_\\infty)$, we deduce from inequality (24) that $s-\\lim_{n \\to +\\infty} \\xi_n = -\\nabla f(x_\\infty)$. On the other hand, the fact that $\\xi_n \\in \\partial\\sigma_{A(0)}((x_{n+2} - x_{n+1})/\\lambda_n)$ is equivalent to $x_{n+2} - x_{n+1} \\in N_{A(0)}(\\xi_n)$. Finally, what remains to be seen is that $N_{A(0)}(\\xi_n) \\subset N_{A(0)}(-\\nabla f(x_\\infty))$ for $n$ large enough. Since $A(0)$ is a convex polyhedron, it suffices to apply property (21) with $C := A(0)$ and $\\overline{x} := -\\nabla f(x_\\infty)$.",
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "def_3",
+        "thm_1",
+        "ext_def_3",
+        "ext_def_4",
+        "ext_prop_2"
+      ]
+    },
+    {
+      "id": "cor_3",
+      "type": "corollary",
+      "name": "Corollary 5.1",
+      "statement": "Let $C$ be a closed convex polyhedron of $H$ which is bounded and such that $0 \\in \\operatorname{int}(C)$. Consider a single-valued maximal monotone operator $A_0: H \\to H$ which satisfies $\\lim_{x \\to 0} A_0(x) = 0$. Define the maximal monotone operator $A: H \\Rightarrow H$ by $A := \\partial\\sigma_C + A_0$. The operator $B$ and the sequence $(\\lambda_n)$ satisfy the same assumptions as in Proposition 5.1. Let $(x_n)$ be the sequence generated by the algorithm $(\\mathcal{A})$ and let us set $x_\\infty = s-\\lim_{n \\to +\\infty} x_n$. Then there exists $n_* \\in \\mathbb{N}$ such that\n$$\n\\forall n \\geqslant n_*, \\quad x_{n+1} - x_n \\in N_C(-\\nabla f(x_\\infty)).\n$$",
+      "proof": "Since $\\lim_{x \\to 0} A_0(x) = 0$, we have $A_0(0) = 0$ and hence the set $A(0) = \\partial\\sigma_C(0) = C$ is a convex polyhedron. On the other hand, we have\n$$\n\\begin{array}{l}\ne\\big(A(x), \\partial\\sigma_{A(0)}(x)\\big) = e(\\partial\\sigma_C(x) + A_0(x), \\partial\\sigma_C(x)) \\\\\n= \\sup_{\\xi \\in \\partial\\sigma_C(x)} d(\\xi + A_0(x), \\partial\\sigma_C(x)) \\\\\n\\leqslant \\sup_{\\xi \\in \\partial\\sigma_C(x)} |\\xi + A_0(x) - \\xi| = |A_0(x)|.\n\\end{array}\n$$\nSince $\\lim_{x \\to 0} A_0(x) = 0$ we can conclude that $\\lim_{x \\to 0} e(A(x), \\partial\\sigma_{A(0)}(x)) = 0$, hence condition (22) holds, which allows to apply Proposition 5.1.",
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "def_3",
+        "prop_4",
+        "ext_def_3",
+        "ext_def_4"
+      ]
+    },
+    {
+      "id": "thm_3",
+      "type": "theorem",
+      "name": "Theorem 5.1",
+      "statement": "Let $C$ be a closed convex polyhedron of $H$ which is bounded and such that $0 \\in \\operatorname{int}(C)$. Consider a single-valued maximal monotone operator $A_0: H \\to H$ of class $\\mathcal{C}^2$. Assume that $A_0(0) = 0$ and that the differential operator $\\mathrm{d}A_0(0)$ at $0$ verifies the coercivity condition\n$$\n\\forall x \\in H, \\quad \\langle \\mathrm{d}A_0(0) x, x \\rangle \\geqslant m |x|^2, \\tag{26}\n$$\nfor some $m > 0$. Define the maximal monotone operator $A: H \\Rightarrow H$ by $A := \\partial\\sigma_C + A_0$. The operator $B$ is supposed to be equal to $\\nabla f$ for a convex function $f: H \\to \\mathbb{R}$ of class $\\mathcal{C}^1$ which is bounded from below. Assume that the function $f$ is strongly convex, i.e., there exists $M > 0$ such that\n$$\n\\forall x, y \\in H, \\quad f(x) \\geqslant f(y) + \\langle \\nabla f(y), x - y \\rangle + \\frac{M}{2} |x - y|^2. \\tag{27}\n$$\nThe sequence $(\\lambda_n)$ is assumed to be constant, equal to $\\lambda > 0$. Let $(x_n)$ be the sequence generated by the algorithm $(\\mathcal{A})$ and let us set $x_\\infty = s-\\lim_{n \\to +\\infty} x_n$. Then, there exist $n_0 \\in \\mathbb{N}$, $K > 0$ and $q \\in ]0, 1[$ such that\n$$\n\\forall n \\geqslant n_0, \\quad |x_{n+1} - x_n| \\leqslant K q^n. \\tag{28}\n$$",
+      "proof": "Throughout the proof, we denote by $L$ the symmetric linear operator $\\mathrm{d}A_0(0)$ and we define the auxiliary sequence $(G_n)$ by:\n$$\nG_n := \\frac{1}{\\lambda} \\big\\langle x_{n+1} - x_n, x_{n+1} - x_\\infty \\big\\rangle + \\frac{1}{2} \\langle L(x_{n+1} - x_\\infty), x_{n+1} - x_\\infty \\rangle.\n$$\nAn elementary computation shows that\n$$\n\\begin{array}{l}\nG_{n+1} - G_n = \\frac{1}{\\lambda} \\langle x_{n+2} - 2x_{n+1} + x_n, x_{n+2} - x_\\infty \\rangle + \\frac{1}{\\lambda} \\langle x_{n+1} - x_n, x_{n+2} - x_{n+1} \\rangle + \\\\\n+ \\frac{1}{2} \\langle L(x_{n+2} - x_{n+1}), x_{n+2} - x_\\infty \\rangle + \\frac{1}{2} \\langle L(x_{n+2} - x_{n+1}), x_{n+1} - x_\\infty \\rangle \\\\\n= \\frac{1}{\\lambda} \\langle x_{n+2} - 2x_{n+1} + x_n + \\lambda L(x_{n+2} - x_{n+1}), x_{n+2} - x_\\infty \\rangle + \\\\\n+ \\frac{1}{\\lambda} \\langle x_{n+1} - x_n, x_{n+2} - x_{n+1} \\rangle - \\frac{1}{2} \\langle L(x_{n+2} - x_{n+1}), x_{n+2} - x_{n+1} \\rangle.\n\\end{array}\n$$\nWe finally obtain\n$$\n\\begin{array}{l}\nG_{n+1} - G_n = \\lambda \\big\\langle (x_{n+2} - 2x_{n+1} + x_n)/\\lambda^2 + A_0((x_{n+2} - x_{n+1})/\\lambda) + \\\\\n+ \\nabla f(x_{n+2}) - \\nabla f(x_\\infty), x_{n+2} - x_\\infty \\rangle - \\\\\n- \\lambda \\langle A_0((x_{n+2} - x_{n+1})/\\lambda) - L((x_{n+2} - x_{n+1})/\\lambda), x_{n+2} - x_\\infty \\rangle - \\\\\n- \\lambda \\langle \\nabla f(x_{n+2}), x_{n+2} - x_\\infty \\rangle + \\lambda \\langle \\nabla f(x_\\infty), x_{n+2} - x_\\infty \\rangle + \\\\\n+ \\frac{1}{\\lambda} \\langle x_{n+1} - x_n, x_{n+2} - x_{n+1} \\rangle - \\\\\n- \\frac{1}{2} \\langle L(x_{n+2} - x_{n+1}), x_{n+2} - x_{n+1} \\rangle. \\tag{29}\n\\end{array}\n$$\nLet us evaluate each term of the right member of (29). Since $A = \\partial\\sigma_C + A_0$, we infer from $(\\mathcal{A})$ that\n$$\n\\begin{array}{l}\n-(x_{n+2} - 2x_{n+1} + x_n)/\\lambda^2 - A_0((x_{n+2} - x_{n+1})/\\lambda) - \\nabla f(x_{n+2}) \\\\\n\\in \\partial\\sigma_C((x_{n+2} - x_{n+1})/\\lambda) \\subset C. \\tag{30}\n\\end{array}\n$$\nSince the set $C$ is a convex polyhedron, we deduce from Corollary 5.1 that there exists $n_* \\in \\mathbb{N}$ such that for all $n \\geqslant n_*$, $x_{n+1} - x_n \\in N_C(-\\nabla f(x_\\infty))$. By summing these inclusions from $n+2$ to $+\\infty$ and using the stability of the cone $N_C(-\\nabla f(x_\\infty))$ under addition, we obtain $x_\\infty - x_{n+2} \\in N_C(-\\nabla f(x_\\infty))$ for every $n \\geqslant n_*$. We then deduce from inclusion (30) that for every $n \\geqslant n_*$,\n$$\n\\begin{array}{l}\n\\big\\langle (x_{n+2} - 2x_{n+1} + x_n)/\\lambda^2 + A_0((x_{n+2} - x_{n+1})/\\lambda) + \\\\\n+ \\nabla f(x_{n+2}) - \\nabla f(x_\\infty), x_{n+2} - x_\\infty \\rangle \\leqslant 0. \\tag{31}\n\\end{array}\n$$\nSince the function $A_0$ is of class $\\mathcal{C}^2$ and $A_0(0) = 0$, we deduce from the Taylor expansion of $A_0$ at $0$ that, when $n \\to +\\infty$\n$$\n\\left| A_0((x_{n+2} - x_{n+1})/\\lambda) - L((x_{n+2} - x_{n+1})/\\lambda) \\right| = \\mathrm{O}\\Big(|x_{n+2} - x_{n+1}|^2\\Big). \\tag{32}\n$$\nConsider some $\\eta \\in ]0, m[$ (where $m$ is defined by (26)). Since $s-\\lim_{n \\to +\\infty} x_n = x_\\infty$, we deduce from the previous equality that for $n$ large enough\n$$\n\\begin{array}{l}\n\\left| \\left\\langle A_0((x_{n+2} - x_{n+1})/\\lambda) - L((x_{n+2} - x_{n+1})/\\lambda), x_{n+2} - x_\\infty \\right\\rangle \\right| \\\\\n\\leqslant \\frac{\\eta}{\\lambda^2} \\left| x_{n+2} - x_{n+1} \\right|^2.\n\\end{array} \\tag{33}\n$$\nOn the other hand, the convexity of $f$ yields\n$$\n\\langle \\nabla f(x_{n+2}), x_\\infty - x_{n+2} \\rangle \\leqslant f(x_\\infty) - f(x_{n+2}). \\tag{34}\n$$\nIn view of the coercivity condition on $L := \\mathrm{d}A_0(0)$ we can write\n$$\n\\langle L(x_{n+2} - x_{n+1}), x_{n+2} - x_{n+1} \\rangle \\geqslant m |x_{n+2} - x_{n+1}|^2 \\geqslant 0. \\tag{35}\n$$\nLet us finally recall the classical inequality\n$$\n\\left\\langle x_{n+1} - x_n, x_{n+2} - x_{n+1} \\right\\rangle \\leqslant \\frac{1}{2} \\left| x_{n+1} - x_n \\right|^2 + \\frac{1}{2} \\left| x_{n+2} - x_{n+1} \\right|^2. \\tag{36}\n$$\nBy combining equality (29) with equalities (31), (33), (34), (35) and (36), we obtain for $n$ large enough:\n$$\n\\begin{array}{l}\nG_{n+1} - G_n \\leqslant \\frac{1 + 2\\eta}{2\\lambda} |x_{n+2} - x_{n+1}|^2 + \\frac{1}{2\\lambda} |x_{n+1} - x_n|^2 - \\\\\n- \\lambda(f(x_{n+2}) - f(x_\\infty) - \\langle \\nabla f(x_\\infty), x_{n+2} - x_\\infty \\rangle).\n\\end{array}\n$$\nThe last inequality can be re-expressed in terms of the sequence $(F_n)$ (see definition (25)):\n$$\nG_{n+1} - G_n + \\lambda F_{n+1} \\leqslant \\frac{1 + \\eta}{\\lambda} |x_{n+2} - x_{n+1}|^2 + \\frac{1}{2\\lambda} |x_{n+1} - x_n|^2. \\tag{37}\n$$\nLet us compute the decay rate of the sequence $(F_n)$:\n$$\n\\begin{array}{l}\nF_{n+1} - F_n = \\left\\langle x_{n+2} - 2x_{n+1} + x_n, x_{n+2} - x_{n+1} \\right\\rangle / \\lambda^2 - \\\\\n- \\left| x_{n+2} - 2x_{n+1} + x_n \\right|^2 / (2\\lambda^2) + f(x_{n+2}) - f(x_{n+1}) - \\\\\n- \\left\\langle \\nabla f(x_\\infty), x_{n+2} - x_{n+1} \\right\\rangle.\n\\end{array}\n$$\nLet us rearrange the terms of the previous equality by taking into account the fact that $|x_{n+2} - 2x_{n+1} + x_n|^2 \\geqslant 0$.\n$$\n\\begin{array}{l}\nF_{n+1} - F_n \\leqslant \\left\\langle (x_{n+2} - 2x_{n+1} + x_n)/\\lambda^2 + A_0((x_{n+2} - x_{n+1})/\\lambda) + \\right. \\\\\n+ \\nabla f(x_{n+2}) - \\nabla f(x_\\infty), x_{n+2} - x_{n+1} \\rangle - \\\\\n- \\left\\langle A_0((x_{n+2} - x_{n+1})/\\lambda) - L((x_{n+2} - x_{n+1})/\\lambda), x_{n+2} - x_{n+1} \\right\\rangle - \\\\\n- \\left\\langle L(x_{n+2} - x_{n+1}), x_{n+2} - x_{n+1} \\right\\rangle / \\lambda + \\\\\n+ f(x_{n+2}) - f(x_{n+1}) - \\langle \\nabla f(x_{n+2}), x_{n+2} - x_{n+1} \\rangle. \\tag{38}\n\\end{array}\n$$\nLet us evaluate each term of the right member of inequality (38). Formula (30) can be equivalently rewritten as:\n$$\n\\begin{array}{l}\nx_{n+2} - x_{n+1} \\in N_C\\bigl(-(x_{n+2} - 2x_{n+1} + x_n)/\\lambda^2 - A_0((x_{n+2} - x_{n+1})/\\lambda) - \\\\\n- \\nabla f(x_{n+2})\\bigr).\n\\end{array}\n$$\nSince $-\\nabla f(x_\\infty) \\in C$, we infer from the previous inclusion that\n$$\n\\begin{array}{l}\n\\big\\langle (x_{n+2} - 2x_{n+1} + x_n)/\\lambda^2 + A_0((x_{n+2} - x_{n+1})/\\lambda) + \\\\\n+ \\nabla f(x_{n+2}) - \\nabla f(x_\\infty), x_{n+2} - x_{n+1} \\rangle \\leqslant 0. \\tag{39}\n\\end{array}\n$$\nOn the other hand, we deduce from inequality (32) that\n$$\n\\begin{array}{l}\n\\langle A_0((x_{n+2} - x_{n+1})/\\lambda) - L((x_{n+2} - x_{n+1})/\\lambda), x_{n+2} - x_{n+1} \\rangle \\\\\n= \\mathrm{O}\\Big(|x_{n+2} - x_{n+1}|^3\\Big). \\tag{40}\n\\end{array}\n$$\nThe convexity of $f$ yields:\n$$\nf(x_{n+2}) - f(x_{n+1}) - \\langle \\nabla f(x_{n+2}), x_{n+2} - x_{n+1} \\rangle \\leqslant 0. \\tag{41}\n$$\nFinally, by combining inequality (38) with inequalities (35), (39), (40) and (41), we have\n$$\nF_{n+1} - F_n \\leqslant -\\frac{m}{\\lambda} \\big| x_{n+2} - x_{n+1} \\big|^2 + \\mathrm{O}\\Big(\\big| x_{n+2} - x_{n+1} \\big|^3\\Big),\n$$\nwhich enables us to conclude that, for $n$ large enough:\n$$\nF_{n+1} - F_n \\leqslant -\\frac{m - \\eta}{\\lambda} |x_{n+2} - x_{n+1}|^2. \\tag{42}\n$$\nBy combining now inequalities (37) and (42), we obtain\n$$\nG_{n+1} - G_n + \\frac{1 + \\eta}{m - \\eta}(F_{n+1} - F_n) + \\frac{1/2}{m - \\eta}(F_n - F_{n-1}) + \\lambda F_{n+1} \\leqslant 0.\n$$\nDefining the sequence $(H_n)$ by\n$$\nH_n := G_n + \\frac{1 + \\eta}{m - \\eta} F_n + \\frac{1/2}{m - \\eta} F_{n-1},\n$$\nwe have:\n$$\nH_{n+1} - H_n + \\lambda F_{n+1} \\leqslant 0. \\tag{43}\n$$\nLet us now prove the following relation between the sequences $(F_n)$ and $(G_n)$:\n$$\n\\forall n \\in \\mathbb{N}, \\quad G_n \\geqslant -F_n/m \\quad \\text{and} \\quad F_n \\geqslant \\tau_0 G_n, \\tag{44}\n$$\nwhere $\\tau_0$ is a positive real that we are going to determine. It is well known that, for all $\\theta > 0$,\n$$\n|\\langle x_{n+1} - x_n, x_{n+1} - x_\\infty \\rangle| \\leqslant \\frac{|x_{n+1} - x_n|^2}{2\\theta} + \\frac{\\theta}{2} |x_{n+1} - x_\\infty|^2.\n$$\nTherefore, we have\n$$\nG_n \\geqslant -\\frac{\\left| x_{n+1} - x_n \\right|^2}{2\\lambda\\theta} + \\frac{-\\theta/\\lambda + m}{2} \\left| x_{n+1} - x_\\infty \\right|^2, \\tag{45}\n$$\nand\n$$\nG_n \\leqslant -\\frac{\\left| x_{n+1} - x_n \\right|^2}{2\\lambda\\theta} + \\frac{\\theta/\\lambda + \\|L\\|}{2} \\left| x_{n+1} - x_\\infty \\right|^2, \\tag{46}\n$$\nwhere $\\|L\\| := \\sup_{|x| \\leqslant 1} |Lx|$ is the norm of the continuous operator $L$.\nTaking $\\theta = \\lambda m$ in inequality (45) we obtain\n$$\nG_n \\geqslant -\\frac{\\left| x_{n+1} - x_n \\right|^2}{2\\lambda^2 m} \\geqslant -F_n/m,\n$$\nwhich is the first inequality of (44). On the other hand, the strong convexity assumption (27) implies:\n$$\nF_n \\geqslant \\frac{1}{2\\lambda^2} |x_{n+1} - x_n|^2 + \\frac{M}{2} |x_{n+1} - x_\\infty|^2. \\tag{47}\n$$\nSetting\n$$\n\\tau(\\theta) := \\min \\bigg\\{\\theta/\\lambda, \\frac{M}{\\theta/\\lambda + \\|L\\|} \\bigg\\},\n$$\nwe deduce from inequalities (46) and (47) that\n$$\nF_n \\geqslant \\tau(\\theta) G_n. \\tag{48}\n$$\nWe let the reader check that the maximum value of the function $\\tau: \\mathbb{R}_+ \\to \\mathbb{R}$ equals $\\tau_0 := \\left(\\sqrt{\\|L\\|^2 + 4M} - \\|L\\|\\right)/2$ and it is achieved at $\\theta_0 := \\lambda\\tau_0$. Taking $\\theta = \\theta_0$ in inequality (48), we obtain the second inequality of (44).\nFrom inequality (42), the sequence $(F_n)$ is non-increasing and hence the expression of $(H_n)$ combined with (44) yields\n$$\n\\left(\\frac{3/2 + \\eta}{m - \\eta} - \\frac{1}{m}\\right) F_n \\leqslant H_n \\leqslant \\left(\\frac{3/2 + \\eta}{m - \\eta} + \\frac{1}{\\tau_0}\\right) F_{n-1}. \\tag{49}\n$$\nSetting $\\alpha := (m - \\eta)/(3/2 + \\eta)$, we deduce from (43) and the second inequality of (49) that\n$$\nH_{n+1} - H_n + \\lambda \\frac{\\tau_0 \\alpha}{\\tau_0 + \\alpha} H_{n+2} \\leqslant 0. \\tag{50}\n$$\nOn the other hand, from the first inequality of (49), we deduce that\n$$\nH_n \\geqslant \\frac{1}{2m} F_n \\geqslant 0, \\tag{51}\n$$\nwhich, in view of inequality (50) shows that the sequence $(H_n)$ is nonincreasing. Using inequality (50) again, we obtain\n$$\n(\\tau_0 + \\alpha + \\lambda \\tau_0 \\alpha) H_{n+2} \\leqslant (\\tau_0 + \\alpha) H_n.\n$$\nConsequently, there exists $K > 0$ such that for $n$ large enough:\n$$\nH_n \\leqslant K \\bigg(\\frac{\\tau_0 + \\alpha}{\\tau_0 + \\alpha + \\lambda \\tau_0 \\alpha}\\bigg)^{n/2}.\n$$\nFinally, we can conclude, in view of inequality (51) that for $n$ large enough:\n$$\n\\left| x_{n+1} - x_n \\right| \\leqslant \\sqrt{2\\lambda^2 F_n} \\leqslant \\sqrt{4\\lambda^2 m K} \\bigg(\\frac{\\tau_0 + \\alpha}{\\tau_0 + \\alpha + \\lambda \\tau_0 \\alpha}\\bigg)^{n/4}.\n$$",
+      "depends_on": [
+        "def_3",
+        "def_10",
+        "def_11",
+        "cor_3",
+        "ext_def_3",
+        "ext_def_4"
+      ]
+    },
+    {
+      "id": "rem_1",
+      "type": "remark",
+      "name": "Remark 2.1",
+      "statement": "In the particular case where $A := \\partial g$, conclusion (i) of Lemma 2.1 can be slightly improved. Indeed, the subdifferential inequality yields:\n$$\n\\forall x \\in H, \\quad \\Phi_{\\partial g}(x) \\geqslant g(x) - g(0) \\geqslant \\sigma_{\\partial g(0)}(x).\n$$",
+      "proof": null,
+      "depends_on": [
+        "lem_1",
+        "ext_def_4"
+      ]
+    },
+    {
+      "id": "rem_2",
+      "type": "remark",
+      "name": "Remark 5.1",
+      "statement": "In the statement of Theorem 5.1, the operator $A$ is supposed to be of the form $A = \\partial\\sigma_C + A_0$. It is possible to show that the conclusions of Theorem 5.1 hold true for more general operators $A$, provided that there exists a symmetric operator $L \\in \\mathcal{L}(H)$ such that\n$$\ne\\big(A(x), \\partial\\sigma_{A(0)}(x) + Lx\\big) = \\mathrm{O}\\Big(|x|^2\\Big) \\quad \\text{when } x \\to 0.\n$$\nThe operator $L$ must also verify the coercivity condition: $\\langle Lx, x \\rangle \\geqslant m|x|^2$ for some $m > 0$ and for every $x \\in H$.",
+      "proof": null,
+      "depends_on": [
+        "thm_3",
+        "ext_def_4"
+      ]
+    },
+    {
+      "id": "rem_3",
+      "type": "remark",
+      "name": "Remark 5.2",
+      "statement": "Estimate (28) of the discrete velocity $|x_{n+1} - x_n|$ allows to evaluate the distance of the iterate $x_n$ to the limit $x_\\infty$. More precisely, we immediately deduce from inequality (28) that\n$$\n\\forall n \\geqslant n_0, \\quad |x_n - x_\\infty| \\leqslant \\frac{K}{1 - q} q^n.\n$$",
+      "proof": null,
+      "depends_on": [
+        "thm_3"
+      ]
+    }
+  ]
+}

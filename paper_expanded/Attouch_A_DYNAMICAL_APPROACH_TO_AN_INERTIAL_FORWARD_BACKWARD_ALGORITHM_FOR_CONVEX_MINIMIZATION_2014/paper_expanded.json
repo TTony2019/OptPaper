@@ -1,0 +1,548 @@
+{
+  "metadata": {
+    "title": "A DYNAMICAL APPROACH TO AN INERTIAL FORWARD-BACKWARD ALGORITHM FOR CONVEX MINIMIZATION",
+    "authors": [
+      "HÉDY ATTOUCH",
+      "JUAN PEYPOUQUET",
+      "PATRICK REDONT"
+    ],
+    "year": 2014,
+    "source_type": "markdown"
+  },
+  "items": [
+    {
+      "id": "def_1",
+      "type": "definition",
+      "name": "Hypothesis H",
+      "statement": "Hypothesis $H$ .\n\n$H_{\\Phi}$ : The function $\\Phi: H \\to \\mathbf{R} \\cup \\{+\\infty\\}$ is proper, lower-semicontinuous, and convex.\n\n$H_{\\Psi}$ : The function $\\Psi : H \\to \\mathbf{R}$ is differentiable and its gradient $\\nabla \\Psi$ is Lipschitz continuous with constant $L_{\\Psi}$ .\n\n$H_{\\lambda}$ : The step size $\\lambda$ satisfies $0 < \\lambda < \\Lambda = \\min \\left\\{\\frac{1}{a}, \\frac{2(a + b)}{bL_{\\Psi}}\\right\\}$ with $a, b > 0$ .\n\n$H_{\\Theta}$ : The function $\\Theta = \\Phi + \\Psi$ is convex and bounded from below.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Note: package $H_\\Phi,H_\\Psi,H_\\lambda,H_\\Theta$ as a reusable Lean structure] | [Foundation: Foundation.Analysis.ExtendedRealFunctions] recall IsProper"
+    },
+    {
+      "id": "def_3",
+      "type": "definition",
+      "name": "Velocity sequence $\\xi_k$",
+      "statement": "The velocity of the system is represented by the sequence $(\\xi_{k})$ defined by\n\n$$\n\\xi_ {k} = u _ {k} - u _ {k - 1}.\n$$",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Notation: preserve the paper\\x27s sequence indexing and make all ambient-space hypotheses explicit in Lean.]"
+    },
+    {
+      "id": "def_5",
+      "type": "definition",
+      "name": "Sequence $\\zeta_k$",
+      "statement": "In order to simplify the notation write\n\n$$\n\\zeta_ {k} = y _ {k} - y _ {k - 1} \\tag {3.3}\n$$",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Notation: preserve the paper\\x27s sequence indexing and make all ambient-space hypotheses explicit in Lean.]"
+    },
+    {
+      "id": "lem_1",
+      "type": "lemma",
+      "name": "Lemma 5",
+      "statement": "LEMMA 5. Let $(a_k)$ , $(b_k)$ , and $(\\varepsilon_k)$ be real sequences with $(\\varepsilon_k) \\in \\ell^1$ . Let $\\theta \\in \\mathbf{R}$ and assume\n\n$$\na _ {k} - a _ {k - 1} \\leq \\theta + \\varepsilon_ {k}, \\quad b _ {k + 1} - b _ {k} \\leq a _ {k}, \\quad a n d \\quad b _ {k} \\geq 0\n$$\n\nfor all $k \\geq k_0$ . Then $\\theta \\geq 0$ .",
+      "proof": "Proof. Summing up the first inequality for $k = k_0, \\ldots, m$ we deduce that $a_m \\leq m\\theta + A$ for some constant $A$ . [One may take $A=a_{k_0-1}-k_0\\theta+\\sum_{j=k_0}^{\\infty}|\\varepsilon_j|$, because partial sums of the $\\ell^1$ sequence are uniformly bounded.] Using the second inequality and summing again for $m = k_0, \\ldots, M$ we obtain\n\n$$\nb _ {M + 1} - b _ {k _ {0}} \\leq \\sum_ {k = k _ {0}} ^ {M} a _ {k} \\leq \\sum_ {k = 1} ^ {M} (k \\theta + A) = \\frac {M (M + 1)}{2} \\theta + M A.\n$$\n\nThus $0 \\leq 2b_{M+1} \\leq M^2\\theta + (2A + \\theta)M + 2b_{k_0}$ . Divide by $M^2$ and let $M \\to +\\infty$ to see that $\\theta \\geq 0$ . [If $\\theta<0$, the right-hand side divided by $M^2$ tends to $\\theta<0$, contradicting the nonnegative left-hand side.]",
+      "depends_on": [],
+      "remark": "[Notation: preserve the paper\\x27s sequence indexing and make all ambient-space hypotheses explicit in Lean.]"
+    },
+    {
+      "id": "lem_2",
+      "type": "lemma",
+      "name": "Lemma 7",
+      "statement": "LEMMA 7. Let $(p_k)$ be a nonnegative sequence such that\n\n$$\np _ {k} - \\omega p _ {k - 1} \\leq K\n$$\n\nfor some $\\omega < 1$ , some $K \\in \\mathbf{R}$ , and all sufficiently large $k$ . Then $(p_k)$ is bounded.",
+      "proof": "Proof. If $\\omega \\leq 0$ the result is immediate. [Indeed, if $\\omega\\le0$ then $p_k\\le K$ for all sufficiently large $k$, so nonnegativity bounds the tail.] If $\\omega \\in (0,1)$ , a simple induction argument shows that [Starting from the recurrence, repeatedly substitute the preceding bound; the finite geometric sum is $\\sum_{j=0}^{k-1}\\omega^j=(1-\\omega^k)/(1-\\omega)$.] $p_k \\leq \\omega^k p_0 + K\\sum_{j=0}^{k-1} \\omega^j \\leq p_0 + K(1-\\omega)^{-1}$ and so $(p_k)$ is bounded.",
+      "depends_on": [],
+      "remark": "[Notation: preserve the paper\\x27s sequence indexing and make all ambient-space hypotheses explicit in Lean.]"
+    },
+    {
+      "id": "ext_thm_1",
+      "type": "theorem",
+      "name": "Opial's Lemma",
+      "statement": "Let $(x_n)$ be a sequence in a Hilbert space and let $S\\ne\\emptyset$. If (a) for every $q\\in S$, $\\lim_n\\|x_n-q\\|$ exists, and (b) every weak sequential cluster point of $(x_n)$ belongs to $S$, then $(x_n)$ converges weakly to an element of $S$.",
+      "proof": "Cited from: Z. Opial, “Weak convergence of the sequence of successive approximations for nonexpansive mappings,” *Bull. Amer. Math. Soc.* 73 (1967), 591–597.",
+      "depends_on": [],
+      "source": "Z. Opial (1967).",
+      "resolution_priority": "high",
+      "remark": "[Foundation: Foundation.Hilbert.WeakConvergence] recall opial_lemma"
+    },
+    {
+      "id": "def_10",
+      "type": "definition",
+      "name": "Boundedly inf-compact function",
+      "statement": "A function $f : H \\to R \\cup \\{+\\infty\\}$ is boundedly inf-compact if for each $r \\in R$ and R > 0 the set\n\n$$\n\\Gamma_ {r} ^ {R} = \\{v \\in H: f (v) \\leq r \\text {and} \\| v \\| \\leq R \\}\n$$\n\nis relatively compact for the strong topology.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Note: relative compactness is for the strong topology]"
+    },
+    {
+      "id": "lem_3",
+      "type": "lemma",
+      "name": "Lemma 13",
+      "statement": "LEMMA 13. Let $(p_k)$ and $(\\varepsilon_k)$ be real sequences such that $\\limsup_{k\\to +\\infty}\\varepsilon_k\\leq 0$ and\n\n$$\np _ {k + 1} \\leq \\eta p _ {k} + \\varepsilon_ {k}\n$$\n\nfor some $\\eta \\in (0,1)$ and all sufficiently large $k$ . Then $\\limsup_{k\\to +\\infty}p_k\\leq 0$ .",
+      "proof": "Proof. A simple induction argument shows that [For $k=1$ this is the recurrence. If it holds at $k$, multiply it by $\\eta$ and add $\\varepsilon_k$; this produces the formula at $k+1$.]\n\n$$\np _ {k} \\leq \\eta^ {k} p _ {0} + \\sum_ {j = 0} ^ {k - 1} \\eta^ {k - j - 1} \\varepsilon_ {j}.\n$$\n\nSet $C_k = \\sum_{j=0}^{k-1} \\varepsilon_j \\eta^{k-j-1}$ . Since $\\lim_{k \\to +\\infty} \\eta^k p_0 = 0$ , it suffices to prove that $\\limsup_{k \\to +\\infty} C_k \\leq 0$ . To this end, fix $\\varepsilon > 0$ . Since $\\limsup_{k \\to +\\infty} \\varepsilon_k \\leq 0$ , there exists $k_\\varepsilon > 0$ such that $\\varepsilon_j \\leq \\varepsilon$ for all $j \\geq k_\\varepsilon$ . Then, for all $k > k_\\varepsilon$ we have\n\n$$\nC _ {k} \\leq \\sum_ {j = 0} ^ {k _ {\\varepsilon} - 1} \\eta^ {k - j - 1} \\varepsilon_ {j} + \\sum_ {j = k _ {\\varepsilon}} ^ {k} \\eta^ {k - j - 1} \\varepsilon_ {j} \\leq \\eta^ {k - 1} M _ {\\varepsilon} + \\frac {\\varepsilon}{1 - \\eta},\n$$\n\nwhere the quantity $M_{\\varepsilon} = \\sum_{j=0}^{k_{\\varepsilon}-1} \\eta^{-j} \\varepsilon_j$ is independent of $k$ . Letting $k \\to +\\infty$ we deduce that\n\n$$\n\\operatorname * {l i m s u p} _ {k \\to + \\infty} C _ {k} \\leq \\frac {\\varepsilon}{1 - \\eta}.\n$$\n\nThis being true for any $\\varepsilon > 0$ , the conclusion follows.",
+      "depends_on": [],
+      "remark": "[Notation: preserve the paper\\x27s sequence indexing and make all ambient-space hypotheses explicit in Lean.]"
+    },
+    {
+      "id": "ext_def_1",
+      "type": "definition",
+      "name": "Solution set $\\mathcal{S}=\\operatorname{Argmin}\\Theta$",
+      "statement": "$$\\mathcal{S}=\\operatorname{Argmin}(\\Theta):=\\{q\\in H:\\Theta(q)=\\inf_{v\\in H}\\Theta(v)\\}.$$",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Notation: preserve the paper\\x27s sequence indexing and make all ambient-space hypotheses explicit in Lean.]"
+    },
+    {
+      "id": "ext_def_2",
+      "type": "definition",
+      "name": "Convex subdifferential",
+      "statement": "For a proper convex function $f:H\\to\\mathbf{R}\\cup\\{+\\infty\\}$ and $u\\in H$, $$\\partial f(u):=\\{g\\in H:\\; f(v)\\ge f(u)+\\langle g,v-u\\rangle\\ \\text{for every }v\\in H\\}.$$ Thus $g\\in\\partial f(u)$ is exactly the subdifferential inequality used below.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Notation: preserve the paper\\x27s sequence indexing and make all ambient-space hypotheses explicit in Lean.]"
+    },
+    {
+      "id": "ext_def_3",
+      "type": "definition",
+      "name": "Weak-to-weak sequential continuity",
+      "statement": "A map $T:H\\to H$ is weak-to-weak sequentially continuous if, for every sequence $(x_n)$ and $x\\in H$, $$x_n\\rightharpoonup x\\quad\\Longrightarrow\\quad T(x_n)\\rightharpoonup T(x).$$",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Foundation: Foundation.Topology.Sequences] use sequential weak-convergence API"
+    },
+    {
+      "id": "ext_def_4",
+      "type": "definition",
+      "name": "Strong convexity",
+      "statement": "A function $f:H\\to\\mathbf{R}\\cup\\{+\\infty\\}$ is strongly convex with parameter $\\rho>0$ if for every $x,y\\in\\operatorname{dom}f$ and $t\\in[0,1]$, $$f((1-t)x+ty)\\le(1-t)f(x)+tf(y)-\\frac{\\rho}{2}t(1-t)\\|x-y\\|^2.$$ Equivalently, when $g\\in\\partial f(x)$, $$f(y)\\ge f(x)+\\langle g,y-x\\rangle+\\frac{\\rho}{2}\\|y-x\\|^2.$$",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Notation: preserve the paper\\x27s sequence indexing and make all ambient-space hypotheses explicit in Lean.]"
+    },
+    {
+      "id": "ext_def_5",
+      "type": "definition",
+      "name": "Proximity operator",
+      "statement": "For proper lower-semicontinuous convex $f$ and $x\\in H$, $$\\operatorname{prox}_f(x):=\\underset{v\\in H}{\\operatorname{argmin}}\\left(f(v)+\\frac12\\|v-x\\|^2\\right).$$ In particular, the paper writes $\\operatorname{prox}_{\\lambda\\Phi}$ for the proximity operator of $\\lambda\\Phi$.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Notation: preserve the paper\\x27s sequence indexing and make all ambient-space hypotheses explicit in Lean.]"
+    },
+    {
+      "id": "ext_def_6",
+      "type": "definition",
+      "name": "Metric projection onto a closed convex set",
+      "statement": "For a nonempty closed convex set $C\\subseteq H$, $$\\operatorname{Proj}_C(x):=\\underset{v\\in C}{\\operatorname{argmin}}\\,\\|v-x\\|.$$ The minimizer is unique in a Hilbert space.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Foundation: Foundation.Projection.BestApproximation] recall isChebyshev_of_nonempty_isClosed_convex"
+    },
+    {
+      "id": "ext_def_7",
+      "type": "definition",
+      "name": "Indicator function of a set",
+      "statement": "For $C\\subseteq H$, its indicator function is $$\\delta_C(x):=\\begin{cases}0,&x\\in C,\\\\+\\infty,&x\\notin C.\\end{cases}$$",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Notation: preserve the paper\\x27s sequence indexing and make all ambient-space hypotheses explicit in Lean.]"
+    },
+    {
+      "id": "ext_def_8",
+      "type": "definition",
+      "name": "Distance to a set",
+      "statement": "For $C\\subseteq H$ and $x\\in H$, $$\\operatorname{dist}(x,C):=\\inf_{v\\in C}\\|x-v\\|.$$",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Notation: preserve the paper\\x27s sequence indexing and make all ambient-space hypotheses explicit in Lean.]"
+    },
+    {
+      "id": "ext_thm_2",
+      "type": "theorem",
+      "name": "Descent lemma for a Lipschitz gradient",
+      "statement": "If $\\Psi:H\\to\\mathbf{R}$ is differentiable and $\\nabla\\Psi$ is $L_\\Psi$-Lipschitz, then for all $x,v\\in H$, $$\\Psi(v)\\leq\\Psi(x)+\\langle\\nabla\\Psi(x),v-x\\rangle+\\frac{L_\\Psi}{2}\\|v-x\\|^2.$$",
+      "proof": "Cited from: D. Bertsekas, *Nonlinear Programming*, Proposition A.24 (1999); J. M. Ortega and W. C. Rheinboldt, *Iterative Solution of Nonlinear Equations in Several Variables* (2000).",
+      "depends_on": [],
+      "source": "Bertsekas [17, Proposition A.24]; Ortega--Rheinboldt [33].",
+      "resolution_priority": "high",
+      "remark": "[Prove hint: apply the standard smoothness/descent inequality with $x=u_k$ and $v=u_{k+1}$]"
+    },
+    {
+      "id": "algo_1",
+      "type": "algorithm",
+      "name": "Inertial forward-backward (IFB)",
+      "statement": "More precisely, start with $(u_{0}, y_{0}) \\in H \\times H$ . At the kth iteration, given $(u_{k}, y_{k})$ compute $u_{k+1}$ and then $y_{k+1}$ using the following rule:\n\n$$\n\\left\\{ \\begin{array}{l} 0 \\in \\frac {u _ {k + 1} - u _ {k}}{\\lambda} + \\partial \\Phi (u _ {k + 1}) + a u _ {k} - b y _ {k}, \\\\ 0 = \\frac {y _ {k + 1} - y _ {k}}{\\lambda} + \\nabla \\Psi (u _ {k + 1}) - a u _ {k + 1} + b y _ {k + 1}, \\end{array} \\right. \\tag {IFB}\n$$\n\nwhere a, b, and $\\lambda$ are positive constants. (IFB stands for inertial forward-backward.) As we shall see, this algorithm keeps the physical interpretation of (1.4), which will allow us to find energy-type Liapunov functions.",
+      "proof": null,
+      "depends_on": [
+        "def_1",
+        "ext_def_2"
+      ],
+      "remark": "[Notation: $0\\in\\cdots+\\partial\\Phi(u)$ means an existential subgradient]"
+    },
+    {
+      "id": "def_2",
+      "type": "definition",
+      "name": "Parameter $\\gamma$",
+      "statement": "$$\n\\gamma = \\frac {1 - a \\lambda}{2 b \\lambda^ {2}} > 0, \\tag {3.1}\n$$\n\nwhere the inequality follows from $H_{\\lambda}$ .",
+      "proof": null,
+      "depends_on": [
+        "def_1"
+      ],
+      "remark": "[Notation: preserve the paper\\x27s sequence indexing and make all ambient-space hypotheses explicit in Lean.]"
+    },
+    {
+      "id": "def_6",
+      "type": "definition",
+      "name": "Sequence $z_k$",
+      "statement": "$$\nz _ {k} = \\frac {\\xi_ {k}}{\\lambda} + a u _ {k - 1} - b y _ {k - 1} \\in - \\partial \\Phi (u _ {k}). \\tag {3.4}\n$$",
+      "proof": null,
+      "depends_on": [
+        "def_3",
+        "def_5",
+        "ext_def_2"
+      ],
+      "remark": "[Notation: $z_k\\in-\\partial\\Phi(u_k)$ is equivalent to $-z_k\\in\\partial\\Phi(u_k)$]"
+    },
+    {
+      "id": "algo_2",
+      "type": "algorithm",
+      "name": "Gradient-projection algorithm",
+      "statement": "$$\n\\left\\{ \\begin{array}{l} u _ {k + 1} = \\operatorname{Proj} _ {C} \\left(\\lambda y _ {k} + (1 - \\lambda) u _ {k}\\right), \\\\ y _ {k + 1} = (1 - \\mu) y _ {k} + \\mu \\left(u _ {k + 1} - \\nabla \\Psi (u _ {k + 1})\\right), \\end{array} \\right. \\tag {5.1}\n$$\n\nwhere $\\mu = \\frac{\\lambda}{1+\\lambda}$ , and will be referred to as the gradient-projection algorithm. Figure 5.1 illustrates how the two subiterations are performed. The thick broken line represents part of the boundary of the set C, while the ellipses depict the level sets of the function $\\Psi$ .\n\n![](images/8b318c21d905b27771ff31dedc9c65c7fb9ea7b146838c68737294703cae59c1.jpg)\n\n<details>\n<summary>text_image</summary>\n\ny_k\nu_k\nu_{k+1}\ny_{k+1}\nu_{k+1} - \\nabla \\Psi(u_{k+1})\n</details>\n\nFIG. 5.1.",
+      "proof": null,
+      "depends_on": [
+        "ext_def_6",
+        "ext_def_7"
+      ],
+      "remark": "[Foundation: Foundation.Projection.BestApproximation] recall setValuedProjector / unique projection theorem"
+    },
+    {
+      "id": "algo_3",
+      "type": "algorithm",
+      "name": "Classical gradient-projection algorithm",
+      "statement": "The classical forward-backward splitting algorithm (gradient-projection) reads as follows. Take $u_{0} \\in R^{n}$ and $0 < \\lambda < 2$ . For $k = 0, 1, \\ldots$ ,\n\n$$\nu _ {k + 1} = \\mathrm{Proj} _ {C} \\left((1 - \\lambda) u _ {k} + \\lambda \\sum_ {i = 1} ^ {p} \\omega_ {i} \\mathrm{Proj} _ {C _ {i}} (u _ {k})\\right). \\tag {5.4}\n$$",
+      "proof": null,
+      "depends_on": [
+        "ext_def_6"
+      ],
+      "remark": "[Foundation: Foundation.Projection.BestApproximation] recall projection theorem"
+    },
+    {
+      "id": "algo_5",
+      "type": "algorithm",
+      "name": "Inertial CQ algorithm",
+      "statement": "The classical forward-backward algorithm when applied to this structured minimization problem gives rise to the so-called CQ algorithm, originally introduced by Byrne in [20]:\n\n$$\nu _ {k + 1} = \\mathrm{Proj} _ {C} \\left(u _ {k} - \\lambda A ^ {t} (I - \\mathrm{Proj} _ {Q}) A u _ {k}\\right). \\tag {5.13}\n$$",
+      "proof": null,
+      "depends_on": [
+        "ext_def_6",
+        "ext_def_7",
+        "ext_def_8"
+      ],
+      "remark": "[Foundation: Foundation.Projection.BestApproximation] recall projection theorem"
+    },
+    {
+      "id": "algo_7",
+      "type": "algorithm",
+      "name": "Iterative shrinkage/thresholding algorithm (ISTA)",
+      "statement": "The classical forward-backward operator provides the so-called iterative shrinkage/thresholding algorithm (ISTA) (see [15, 16])\n\n$$\nu _ {k + 1} = \\mathrm{prox} _ {\\lambda \\gamma \\| \\cdot \\| _ {1}} \\left(u _ {k} - 2 \\lambda A ^ {t} (A u _ {k} - b)\\right). \\tag {5.18}\n$$",
+      "proof": null,
+      "depends_on": [
+        "ext_def_5"
+      ],
+      "remark": "[Notation: preserve the paper\\x27s sequence indexing and make all ambient-space hypotheses explicit in Lean.]"
+    },
+    {
+      "id": "def_4",
+      "type": "definition",
+      "name": "Mechanical energy $E_k$",
+      "statement": "$$\nE _ {k} = \\Theta (u _ {k}) + \\gamma \\| \\xi_ {k} \\| ^ {2}, \\tag {3.2}\n$$",
+      "proof": null,
+      "depends_on": [
+        "def_2",
+        "def_3"
+      ],
+      "remark": "[Notation: preserve the paper\\x27s sequence indexing and make all ambient-space hypotheses explicit in Lean.]"
+    },
+    {
+      "id": "def_7",
+      "type": "definition",
+      "name": "Auxiliary sequence $G_k(q)$",
+      "statement": "Given $q \\in H$ and $k \\geq 2$ , we define the auxiliary sequence $(G_{k}(q))$ by\n\n$$\nG _ {k} (q) = \\langle z _ {k}, u _ {k} - q \\rangle - \\sum_ {i = 2} ^ {k} \\langle z _ {i}, \\xi_ {i} \\rangle , \\tag {3.11}\n$$\n\nwhere $z_{k}$ is given by (3.4).",
+      "proof": null,
+      "depends_on": [
+        "def_3",
+        "def_6"
+      ],
+      "remark": "[Notation: preserve the paper\\x27s sequence indexing and make all ambient-space hypotheses explicit in Lean.]"
+    },
+    {
+      "id": "prop_6",
+      "type": "proposition",
+      "name": "Proposition 12",
+      "statement": "PROPOSITION 12. Let $(u_k, y_k)$ satisfy (IFB). The following holds:\n\n(i) If $(u_k)$ converges weakly to some $u_{\\infty}$ and $\\nabla \\Psi$ is weak-to-weak sequentially continuous, then $(y_k)$ converges weakly to some $y_{\\infty}$ ;  \n(ii) If $(u_k)$ converges strongly to some $u_{\\infty}$ , then $(y_k)$ converges strongly to some $y_{\\infty}$ .\n\nIn either case, we have\n\n$$\n\\nabla \\Psi (u _ {\\infty}) - a u _ {\\infty} + b y _ {\\infty} = 0. \\tag {4.3}\n$$",
+      "proof": "Proof of Proposition 12. For $k \\geq 1$ , set\n\n(4.4) $bw_{k}=au_{k+1}-\\nabla\\Psi(u_{k+1}).$\n\nLet $u_{\\infty}$ be the (weak or strong) limit of the sequence $(u_k)$ as $k \\to +\\infty$ and set\n\n$$\nb y _ {\\infty} = a u _ {\\infty} - \\nabla \\Psi (u _ {\\infty})\n$$\n\nso that (4.2) can be rewritten as\n\n(4.5) $(y_{k+1}-y_{\\infty})=\\eta(y_{k}-y_{\\infty})+\\lambda b\\eta(w_{k}-y_{\\infty}),$\n\nwhere $\\eta = \\frac{1}{1 + \\lambda b} \\in (0,1)$ .\n\nIn order to prove (i), let $(u_{k})$ converge weakly to $u_{\\infty}$ as $k\\to +\\infty$ . Since $\\nabla \\Psi$ is weak-to-weak sequentially continuous, the sequence $(w_{k})$ converges weakly to $y_{\\infty}$ as $k\\rightarrow +\\infty$ . Take $\\xi \\in H$ and multiply (4.5) by $\\xi$ to obtain\n\n$$\n\\langle y _ {k + 1} - y _ {\\infty}, \\xi \\rangle = \\eta \\langle y _ {k} - y _ {\\infty}, \\xi \\rangle + \\lambda b \\eta \\langle w _ {k} - y _ {\\infty}, \\xi \\rangle .\n$$\n\nUse Lemma 13 with $p_k = \\langle y_k - y_\\infty, \\xi \\rangle$ and $\\varepsilon_k = \\lambda b\\eta \\langle w_k - y_\\infty, \\xi \\rangle$ to deduce that\n\n$$\n\\operatorname * {l i m s u p} _ {k \\to + \\infty} \\langle y _ {k} - y _ {\\infty}, \\xi \\rangle \\leq 0\n$$\n\nfor all $\\xi \\in H$ . Replacing $\\xi$ by $-\\xi$ we conclude that\n\n$$\n\\operatorname * {l i m i n f} _ {k \\to + \\infty} \\langle y _ {k} - y _ {\\infty}, \\xi \\rangle \\geq 0\n$$\n\nand so $(y_{k})$ converges weakly to $y_{\\infty}$ . [For each $\\xi$, the limsup bound for $\\xi$ and the corresponding bound for $-\\xi$ give liminf $\\ge0$; hence the scalar products converge to $0$, which is the definition of weak convergence.]\n\nTo prove (ii), use (4.5) and the triangle inequality to deduce that\n\n$$\n\\| y _ {k + 1} - y _ {\\infty} \\| \\leq \\eta \\| y _ {k} - y _ {\\infty} \\| + \\lambda b \\eta \\| w _ {k} - y _ {\\infty} \\|.\n$$\n\nRecall that $\\lim_{k\\to+\\infty}\\|w_k-y_\\infty\\|=0$ if $(u_k)$ converges strongly to $u_\\infty$ as $k\\to+\\infty$ , and use Lemma 13 with $p_k=\\|y_k-y_\\infty\\|$ and $\\varepsilon_k=\\lambda b\\eta\\|w_k-y_\\infty\\|$ to conclude that $\\lim_{k\\to+\\infty}\\|y_k-y_\\infty\\|=0$ . [Lemma 13 gives $\\limsup p_k\\le0$; since $p_k=\\|y_k-y_\\infty\\|\\ge0$, this is equivalent to $p_k\\to0$.] ☐",
+      "depends_on": [
+        "algo_1",
+        "lem_3",
+        "ext_def_3"
+      ],
+      "remark": "[Prove hint: scalarize weak convergence against arbitrary $\\xi$, then use Lemma 13 for both $\\xi$ and $-\\xi$]"
+    },
+    {
+      "id": "algo_4",
+      "type": "algorithm",
+      "name": "General IFB gradient-projection algorithm",
+      "statement": "(iii) Take now general positive parameters $a$ and $b$ . The (IFB) algorithm reads\n\n$$\n\\left\\{ \\begin{array}{l} u _ {k + 1} = \\operatorname{Proj} _ {C} \\left((1 - \\lambda a) u _ {k} + \\lambda b y _ {k}\\right), \\\\ y _ {k + 1} = \\frac {1}{1 + \\lambda b} y _ {k} + \\frac {\\lambda a}{1 + \\lambda b} u _ {k + 1} - \\frac {\\lambda}{1 + \\lambda b} \\left(u _ {k + 1} - \\sum_ {i = 1} ^ {p} \\omega_ {i} \\operatorname{Proj} _ {C _ {i}} (u _ {k + 1})\\right). \\end{array} \\right. \\tag {5.6}\n$$",
+      "proof": null,
+      "depends_on": [
+        "algo_1",
+        "ext_def_6"
+      ],
+      "remark": "[Foundation: Foundation.Projection.BestApproximation] recall projection theorem"
+    },
+    {
+      "id": "algo_6",
+      "type": "algorithm",
+      "name": "IFB CQ algorithm",
+      "statement": "Let us now consider the (IFB) algorithm and apply it to the structured minimization problem (5.12):\n\n$$\n\\left\\{ \\begin{array}{l} u _ {k + 1} = \\operatorname{Proj} _ {C} \\left((1 - \\lambda a) u _ {k} + \\lambda b y _ {k}\\right), \\\\ y _ {k + 1} = \\frac {1}{1 + \\lambda b} y _ {k} + \\frac {\\lambda a}{1 + \\lambda b} u _ {k + 1} - \\frac {\\lambda}{1 + \\lambda b} \\left(u _ {k + 1} - A ^ {t} (I - \\operatorname{Proj} _ {Q}) A (u _ {k + 1})\\right). \\end{array} \\right. \\tag {5.14}\n$$",
+      "proof": null,
+      "depends_on": [
+        "algo_1",
+        "ext_def_6",
+        "ext_def_7",
+        "ext_def_8"
+      ],
+      "remark": "[Foundation: Foundation.Projection.BestApproximation] recall projection theorem"
+    },
+    {
+      "id": "algo_8",
+      "type": "algorithm",
+      "name": "IFB signal-recovery algorithm",
+      "statement": "Let us now consider the (IFB) algorithm and apply it to the structured minimization problem $(5.15)$ :\n\n$$\n\\left\\{ \\begin{array}{l} u _ {k + 1} = \\operatorname{prox} _ {\\lambda \\gamma \\| \\cdot \\| _ {1}} \\left((1 - \\lambda a) u _ {k} + \\lambda b y _ {k}\\right), \\\\ y _ {k + 1} = \\frac {1}{1 + \\lambda b} y _ {k} + \\frac {\\lambda a}{1 + \\lambda b} u _ {k + 1} - \\frac {2 \\lambda}{1 + \\lambda b} A ^ {t} (A u _ {k + 1} - b). \\end{array} \\right. \\tag {5.19}\n$$",
+      "proof": null,
+      "depends_on": [
+        "algo_1",
+        "ext_def_5"
+      ],
+      "remark": "[Notation: preserve the paper\\x27s sequence indexing and make all ambient-space hypotheses explicit in Lean.]"
+    },
+    {
+      "id": "prop_1",
+      "type": "proposition",
+      "name": "Proposition 2",
+      "statement": "PROPOSITION 2. Let Hypothesis $H$ hold. $^{1}$ Then the sequence $(E_k)$ is non-increasing and $\\lim_{k \\to +\\infty} E_k$ exists. Moreover, $(\\|\\xi_k\\|) \\in \\ell^2$ and $\\lim_{k \\to +\\infty} \\Theta(u_k) = \\lim_{k \\to +\\infty} E_k$ .",
+      "proof": "Proof. Since $\\Theta$ is bounded from below, so is $(E_k)$ . Therefore, it suffices to prove that there exists $\\beta > 0$ such that $E_{k+1} - E_k + \\beta \\| \\xi_{k+1} \\|^2 \\leq 0$ for every $k \\geq 1$ . [Indeed, summing this inequality from a fixed index to $N$ makes $(E_k)$ decreasing and yields $\\beta\\sum_{k}\\|\\xi_{k+1}\\|^2\\le E_1-\\inf\\Theta$; hence the asserted limit and $\\ell^2$ summability follow.]\n\nFirst, let us write the subdifferential inequality for $\\Phi$ at point $u_{k + 1}$ ; for all $v\\in H$ , we have\n\n$$\n\\Phi (v) \\geq \\Phi (u _ {k + 1}) + \\left\\langle \\frac {u _ {k + 1} - u _ {k}}{\\lambda} + a u _ {k} - b y _ {k}, u _ {k + 1} - v \\right\\rangle .\n$$\n\nSetting $v = u_{k}$ , we deduce that\n\n$$\n\\Phi (u _ {k}) \\geq \\Phi (u _ {k + 1}) + \\left\\langle \\frac {u _ {k + 1} - u _ {k}}{\\lambda} + a u _ {k} - b y _ {k}, u _ {k + 1} - u _ {k} \\right\\rangle ,\n$$\n\nand so\n\n$$\n\\Phi (u _ {k + 1}) - \\Phi (u _ {k}) + \\frac {1}{\\lambda} \\| \\xi_ {k + 1} \\| ^ {2} + \\langle a u _ {k} - b y _ {k}, \\xi_ {k + 1} \\rangle \\leq 0. \\tag {3.5}\n$$\n\nOn the other hand, the descent lemma for $\\Psi$ [17, Proposition A.24], [33] gives [The hypotheses of this result are exactly $H_\\Psi$: differentiability and $L_\\Psi$-Lipschitz continuity of $\\nabla\\Psi$.]\n\n$$\n\\Psi (v) \\leq \\Psi (u _ {k}) + \\langle \\nabla \\Psi (u _ {k}), v - u _ {k} \\rangle + \\frac {L _ {\\Psi}}{2} \\| v - u _ {k} \\| ^ {2},\n$$\n\nwhich, in view of the second (IFB) equation, yields\n\n$$\n\\Psi (v) \\leq \\Psi (u _ {k}) + \\left\\langle a u _ {k} - b y _ {k} - \\frac {y _ {k} - y _ {k - 1}}{\\lambda}, v - u _ {k} \\right\\rangle + \\frac {L _ {\\Psi}}{2} \\| v - u _ {k} \\| ^ {2}.\n$$\n\nSetting $v = u_{k + 1}$ , we obtain\n\n$$\n\\Psi (u _ {k + 1}) - \\Psi (u _ {k}) - \\frac {L _ {\\Psi}}{2} \\| \\xi_ {k + 1} \\| ^ {2} - \\langle a u _ {k} - b y _ {k}, \\xi_ {k + 1} \\rangle \\leq - \\frac {1}{\\lambda} \\langle \\zeta_ {k}, \\xi_ {k + 1} \\rangle , \\tag {3.6}\n$$\n\nwhere $\\zeta_{k}$ is defined in (3.3). Adding inequalities (3.5) and (3.6) we obtain\n\n$$\n\\Theta (u _ {k + 1}) - \\Theta (u _ {k}) + \\left[ \\frac {1}{\\lambda} - \\frac {L _ {\\Psi}}{2} \\right] \\| \\xi_ {k + 1} \\| ^ {2} \\leq - \\frac {1}{\\lambda} \\langle \\zeta_ {k}, \\xi_ {k + 1} \\rangle . \\tag {3.7}\n$$\n\nRecall from (3.4) that $z_{k+1} = \\frac{\\xi_{k+1}}{\\lambda} + au_k - by_k \\in -\\partial \\Phi(u_{k+1})$ . We use the monotonicity of $\\partial \\Phi$ at points $u_k$ and $u_{k+1}$ to deduce that\n\n$$\n\\left\\langle \\frac {\\xi_ {k + 1}}{\\lambda} + a u _ {k} - b y _ {k} - \\frac {\\xi_ {k}}{\\lambda} - a u _ {k - 1} + b y _ {k - 1}, u _ {k + 1} - u _ {k} \\right\\rangle \\leq 0.\n$$\n\nWe can rewrite this as\n\n$$\n\\frac {1}{\\lambda} \\langle \\xi_ {k + 1} - \\xi_ {k}, \\xi_ {k + 1} \\rangle + a \\langle \\xi_ {k}, \\xi_ {k + 1} \\rangle - b \\langle \\zeta_ {k}, \\xi_ {k + 1} \\rangle \\leq 0.\n$$\n\nDividing by $b\\lambda$ and rearranging the terms we obtain, with $\\gamma$ defined by (3.1), [Here the coefficient of $\\langle\\xi_k,\\xi_{k+1}\\rangle$ is $(1-a\\lambda)/(b\\lambda^2)=2\\gamma$, so moving all terms to the displayed side gives (3.8).]\n\n$$\n- \\frac {1}{\\lambda} \\langle \\zeta_ {k}, \\xi_ {k + 1} \\rangle + \\frac {1}{b \\lambda^ {2}} \\| \\xi_ {k + 1} \\| ^ {2} - 2 \\gamma \\langle \\xi_ {k}, \\xi_ {k + 1} \\rangle \\leq 0. \\tag {3.8}\n$$\n\nSince\n\n$$\n2 \\langle \\xi_ {k}, \\xi_ {k + 1} \\rangle \\leq \\| \\xi_ {k + 1} \\| ^ {2} + \\| \\xi_ {k} \\| ^ {2},\n$$\n\ninequality (3.8) gives\n\n$$\n- \\frac {1}{\\lambda} \\langle \\zeta_ {k}, \\xi_ {k + 1} \\rangle + \\left[ \\frac {1}{b \\lambda^ {2}} - \\gamma \\right] \\| \\xi_ {k + 1} \\| ^ {2} - \\gamma \\| \\xi_ {k} \\| ^ {2} \\leq 0. \\tag {3.9}\n$$\n\nAdding inequalities (3.7) and (3.9) we see that\n\n$$\n\\Theta (u _ {k + 1}) - \\Theta (u _ {k}) + \\left[ \\frac {1}{\\lambda} - \\frac {L _ {\\Psi}}{2} + \\frac {1}{b \\lambda^ {2}} - \\gamma \\right] \\| \\xi_ {k + 1} \\| ^ {2} - \\gamma \\| \\xi_ {k} \\| ^ {2} \\leq 0\n$$\n\nand recalling the definition of $E_{k}$ we deduce that\n\n$$\nE _ {k + 1} - E _ {k} + \\left[ \\frac {1}{\\lambda} - \\frac {L _ {\\Psi}}{2} + \\frac {1}{b \\lambda^ {2}} - 2 \\gamma \\right] \\| \\xi_ {k + 1} \\| ^ {2} \\leq 0.\n$$\n\nHaving $H_{\\lambda}$ in mind, it suffices to set\n\n$$\n\\beta = \\frac {1}{\\lambda} - \\frac {L _ {\\Psi}}{2} + \\frac {1}{b \\lambda^ {2}} - 2 \\gamma = \\frac {2 (a + b) - b \\lambda L _ {\\Psi}}{2 b \\lambda} > 0 \\tag {3.10}\n$$\n\nto complete the proof. [The preceding summation argument also gives $\\xi_k\\to0$; since $E_k-\\Theta(u_k)=\\gamma\\|\\xi_k\\|^2$, the two limits coincide.] □",
+      "depends_on": [
+        "def_1",
+        "algo_1",
+        "def_2",
+        "def_3",
+        "def_4",
+        "def_5",
+        "def_6",
+        "ext_def_2",
+        "ext_thm_2"
+      ],
+      "remark": "[Prove hint: add the subgradient and descent inequalities, then telescope the energy estimate]"
+    },
+    {
+      "id": "def_8",
+      "type": "definition",
+      "name": "Liapunov-type sequence $F_k(q)$",
+      "statement": "Next, we define the sequence $(F_{k}(q))$ , by\n\n$$\nF _ {k} (q) = \\frac {a + b}{2 \\lambda} \\| u _ {k} - q \\| ^ {2} - \\left(\\frac {1}{\\lambda} + b\\right) G _ {k + 1} (q) - \\delta \\sum_ {i = 2} ^ {k} \\| \\xi_ {i} \\| ^ {2} + 2 \\alpha \\langle \\xi_ {k + 1}, u _ {k} - q \\rangle \\tag {3.12}\n$$\n\nwith\n\n$$\n\\alpha = \\frac {1 + b \\lambda}{2 \\lambda^ {2}} \\quad \\text {and} \\quad \\delta = \\frac {2 + (b - a) \\lambda}{2 \\lambda^ {2}}.\n$$",
+      "proof": null,
+      "depends_on": [
+        "def_3",
+        "def_7"
+      ],
+      "remark": "[Notation: preserve the paper\\x27s sequence indexing and make all ambient-space hypotheses explicit in Lean.]"
+    },
+    {
+      "id": "def_9",
+      "type": "definition",
+      "name": "Sequence $A_k(q)$",
+      "statement": "For $q\\in H$ define\n\n$$\nA _ {k} (q) = \\left(\\frac {a + b}{2 \\lambda}\\right) \\| u _ {k} - q \\| ^ {2} - \\left(\\frac {1}{\\lambda} + b\\right) G _ {k + 1} (q) \\tag {3.23}\n$$",
+      "proof": null,
+      "depends_on": [
+        "def_7"
+      ],
+      "remark": "[Notation: preserve the paper\\x27s sequence indexing and make all ambient-space hypotheses explicit in Lean.]"
+    },
+    {
+      "id": "prop_2",
+      "type": "proposition",
+      "name": "Proposition 3",
+      "statement": "PROPOSITION 3. Assume $\\Theta$ is convex. For each $q\\in H$ and $k\\geq 1$ we have\n\n(3.13)\n\n$$\nb (\\Theta (q) - \\Theta (u _ {k + 1})) \\geq b \\left\\langle \\left(\\frac {1}{\\lambda} - a\\right) \\xi_ {k + 1} + \\left(\\frac {1}{\\lambda} + b\\right) \\zeta_ {k + 1}, u _ {k + 1} - q \\right\\rangle = F _ {k + 1} (q) - F _ {k} (q).\n$$\n\nIn particular, the sequence $(F_k(q))$ is nonincreasing whenever $q \\in S$ .",
+      "proof": "Proof. First observe that since $\\Theta$ is convex and\n\n$$\n0 \\in \\left(\\frac {1}{\\lambda} - a\\right) \\xi_ {k} + \\left(\\frac {1}{\\lambda} + b\\right) \\zeta_ {k} + \\partial \\Theta (u _ {k}), \\tag {3.14}\n$$\n\nwe must have\n\n$$\n\\left\\langle \\left(\\frac {1}{\\lambda} - a\\right) \\xi_ {k} + \\left(\\frac {1}{\\lambda} + b\\right) \\zeta_ {k}, u _ {k} - q \\right\\rangle \\leq \\Theta (q) - \\Theta (u _ {k}),\n$$\n\nwhich proves the inequality. [Indeed, (3.14) says the negative of the displayed vector lies in $\\partial\\Theta(u_k)$, and the subdifferential inequality with $v=q$ gives precisely the claimed bound.] Let us now prove that the product above can be written as the difference of consecutive terms of the sequence $(F_{k}(q))$ . From the definition of $G_{k}(q)$ given in (3.11) we have\n\n$$\nG _ {k + 2} (q) - G _ {k + 1} (q) = \\langle z _ {k + 2}, u _ {k + 2} - q \\rangle - \\langle z _ {k + 1}, u _ {k + 1} - q \\rangle - \\langle z _ {k + 2}, \\xi_ {k + 2} \\rangle .\n$$\n\nWe deduce that\n\n$$\n\\begin{array}{l} F _ {k + 1} (q) - F _ {k} (q) \\tag {3.15} \\\\ = \\frac {a + b}{2 \\lambda} \\left[ \\| u _ {k + 1} - q \\| ^ {2} - \\| u _ {k} - q \\| ^ {2} \\right] + \\left(\\frac {1}{\\lambda} + b\\right) \\langle z _ {k + 2}, \\xi_ {k + 2} \\rangle - \\delta \\| \\xi_ {k + 1} \\| ^ {2} \\\\ - \\left(\\frac {1}{\\lambda} + b\\right) \\left[ \\langle z _ {k + 2}, u _ {k + 2} - q \\rangle - \\langle z _ {k + 1}, u _ {k + 1} - q \\rangle \\right] \\\\ + 2 \\alpha \\left[ \\left\\langle \\xi_ {k + 2}, u _ {k + 1} - q \\right\\rangle - \\left\\langle \\xi_ {k + 1}, u _ {k} - q \\right\\rangle \\right] \\\\ = \\frac {a + b}{2 \\lambda} \\left[ \\| u _ {k + 1} - q \\| ^ {2} - \\| u _ {k} - q \\| ^ {2} \\right] + \\left(\\frac {1}{\\lambda} + b\\right) \\langle z _ {k + 2}, \\xi_ {k + 2} \\rangle - \\delta \\| \\xi_ {k + 1} \\| ^ {2} \\\\ \\left. - \\left(\\frac {1}{\\lambda} + b\\right) \\left[ \\langle z _ {k + 2}, u _ {k + 1} - q \\rangle - \\langle z _ {k + 1}, u _ {k} - q \\rangle \\right] \\right. \\\\ + 2 \\alpha \\left[ \\langle \\xi_ {k + 2}, u _ {k + 1} - q \\rangle - \\langle \\xi_ {k + 1}, u _ {k} - q \\rangle \\right] \\\\ - \\left(\\frac {1}{\\lambda} + b\\right) \\left[ \\langle z _ {k + 2}, \\xi_ {k + 2} \\rangle - \\langle z _ {k + 1}, \\xi_ {k + 1} \\rangle \\right] \\\\ = \\frac {a + b}{2 \\lambda} \\left[ \\| u _ {k + 1} - q \\| ^ {2} - \\| u _ {k} - q \\| ^ {2} \\right] + \\left(\\frac {1}{\\lambda} + b\\right) \\langle z _ {k + 1}, \\xi_ {k + 1} \\rangle - \\delta \\| \\xi_ {k + 1} \\| ^ {2} \\\\ \\left. - \\left(\\frac {1}{\\lambda} + b\\right) \\left[ \\langle z _ {k + 2} - \\frac {\\xi_ {k + 2}}{\\lambda}, u _ {k + 1} - q \\rangle - \\langle z _ {k + 1} - \\frac {\\xi_ {k + 1}}{\\lambda}, u _ {k} - q \\rangle \\right] \\right. \\\\ = \\frac {a + b}{2 \\lambda} \\left[ \\| u _ {k + 1} - q \\| ^ {2} - \\| u _ {k} - q \\| ^ {2} \\right] + \\left(\\frac {1}{\\lambda} + b\\right) \\langle z _ {k + 1}, \\xi_ {k + 1} \\rangle - \\delta \\| \\xi_ {k + 1} \\| ^ {2} \\\\ \\left. - \\left(\\frac {1}{\\lambda} + b\\right) \\left[ \\langle a u _ {k + 1} - b y _ {k + 1}, u _ {k + 1} - q \\rangle - \\langle a u _ {k} - b y _ {k}, u _ {k} - q \\rangle \\right]. \\right. \\\\ \\end{array}\n$$\n\nKeeping this in mind, let us rewrite the quantity\n\n$$\nB _ {k + 1} (q) = b \\left\\langle \\left(\\frac {1}{\\lambda} - a\\right) \\xi_ {k + 1} + \\left(\\frac {1}{\\lambda} + b\\right) \\zeta_ {k + 1}, u _ {k + 1} - q \\right\\rangle\n$$\n\non the right-hand side of the equality in (3.13). First observe that\n\n(3.16)\n\n$$\n\\begin{array}{l} B _ {k + 1} (q) \\\\ = \\frac {b}{\\lambda} \\left\\langle \\xi_ {k + 1}, u _ {k + 1} - q \\right\\rangle - b \\left\\langle a \\xi_ {k + 1}, u _ {k + 1} - q \\right\\rangle + \\left(\\frac {1}{\\lambda} + b\\right) \\left\\langle b \\zeta_ {k + 1}, u _ {k + 1} - q \\right\\rangle \\\\ = \\frac {a + b}{\\lambda} \\left\\langle \\xi_ {k + 1}, u _ {k + 1} - q \\right\\rangle - \\left(\\frac {1}{\\lambda} + b\\right) \\left\\langle a \\xi_ {k + 1}, u _ {k + 1} - q \\right\\rangle + \\left(\\frac {1}{\\lambda} + b\\right) \\left\\langle b \\zeta_ {k + 1}, u _ {k + 1} - q \\right\\rangle \\\\ = \\frac {a + b}{\\lambda} \\left\\langle \\xi_ {k + 1}, u _ {k + 1} - q \\right\\rangle - \\left(\\frac {1}{\\lambda} + b\\right) \\left\\langle a \\xi_ {k + 1} - b \\zeta_ {k + 1}, u _ {k + 1} - q \\right\\rangle \\\\ = \\frac {a + b}{2 \\lambda} \\left[ \\| u _ {k + 1} - q \\| ^ {2} - \\| u _ {k} - q \\| ^ {2} + \\| \\xi_ {k + 1} \\| ^ {2} \\right] - \\left(\\frac {1}{\\lambda} + b\\right) \\langle a \\xi_ {k + 1} - b \\zeta_ {k + 1}, u _ {k + 1} - q \\rangle . \\\\ \\end{array}\n$$\n\nNext, we have\n\n$$\n\\begin{array}{l} \\langle a \\xi_ {k + 1} - b \\zeta_ {k + 1}, u _ {k + 1} - q \\rangle \\\\ = \\left\\langle a u _ {k + 1} - b y _ {k + 1}, u _ {k + 1} - q \\right\\rangle - \\left\\langle a u _ {k} - b y _ {k}, u _ {k} - q \\right\\rangle - \\left\\langle a u _ {k} - b y _ {k}, \\xi_ {k + 1} \\right\\rangle \\\\ = \\left\\langle a u _ {k + 1} - b y _ {k + 1}, u _ {k + 1} - q \\right\\rangle - \\left\\langle a u _ {k} - b y _ {k}, u _ {k} - q \\right\\rangle + \\frac {1}{\\lambda} \\| \\xi_ {k + 1} \\| ^ {2} \\\\ - \\left\\langle \\frac {\\xi_ {k + 1}}{\\lambda} + a u _ {k} - b y _ {k}, \\xi_ {k + 1} \\right\\rangle \\\\ = \\left\\langle a u _ {k + 1} - b y _ {k + 1}, u _ {k + 1} - q \\right\\rangle - \\left\\langle a u _ {k} - b y _ {k}, u _ {k} - q \\right\\rangle \\\\ + \\frac {1}{\\lambda} \\| \\xi_ {k + 1} \\| ^ {2} - \\langle z _ {k + 1}, \\xi_ {k + 1} \\rangle . \\\\ \\end{array}\n$$\n\nUsing this in (3.16) we deduce that\n\n$$\n\\begin{array}{l} = \\frac {a + b}{2 \\lambda} \\left[ \\| u _ {k + 1} - q \\| ^ {2} - \\| u _ {k} - q \\| ^ {2} \\right] + \\left[ \\frac {a + b}{2 \\lambda} - \\frac {1}{\\lambda} \\left(\\frac {1}{\\lambda} + b\\right) \\right] \\| \\xi_ {k + 1} \\| ^ {2} \\\\ \\left. - \\left(\\frac {1}{\\lambda} + b\\right) \\left[ \\langle a u _ {k + 1} - b y _ {k + 1}, u _ {k + 1} - q \\rangle - \\langle a u _ {k} - b y _ {k}, u _ {k} - q \\rangle \\right] \\right. \\\\ + \\left(\\frac {1}{\\lambda} + b\\right) \\langle z _ {k + 1}, \\xi_ {k + 1} \\rangle \\\\ = \\frac {a + b}{2 \\lambda} \\left[ \\| u _ {k + 1} - q \\| ^ {2} - \\| u _ {k} - q \\| ^ {2} \\right] + \\left(\\frac {1}{\\lambda} + b\\right) \\langle z _ {k + 1}, \\xi_ {k + 1} \\rangle - \\delta \\| \\xi_ {k + 1} \\| ^ {2} \\\\ \\left. - \\left(\\frac {1}{\\lambda} + b\\right) \\left[ \\langle a u _ {k + 1} - b y _ {k + 1}, u _ {k + 1} - q \\rangle - \\langle a u _ {k} - b y _ {k}, u _ {k} - q \\rangle \\right]. \\right. \\\\ \\end{array}\n$$\n\n(3.17) $B_{k + 1}(q)$\n\nThe right-hand sides of (3.15) and (3.17) coincide, and the equality in (3.13) is verified. ☐",
+      "depends_on": [
+        "algo_1",
+        "def_3",
+        "def_5",
+        "def_6",
+        "def_7",
+        "def_8",
+        "ext_def_1",
+        "ext_def_2"
+      ],
+      "remark": "[Prove hint: derive (3.14) by adding IFB equations and use the convex subgradient inequality]"
+    },
+    {
+      "id": "prop_3",
+      "type": "proposition",
+      "name": "Proposition 4",
+      "statement": "PROPOSITION 4. Let hypotheses $H_{\\Phi}$ and $H_{\\Psi}$ hold. Then, for each $q \\in \\text{dom}(\\Phi)$ , the sequence $(G_k(q))$ is bounded from above.",
+      "proof": "Proof. First write\n\n$$\nG _ {k} (q) = \\langle z _ {k}, u _ {k} - q \\rangle - \\sum_ {i = 2} ^ {k} \\langle z _ {i - 1}, u _ {i} - u _ {i - 1} \\rangle - \\sum_ {i = 2} ^ {k} \\langle z _ {i} - z _ {i - 1}, \\xi_ {i} \\rangle . \\tag {3.18}\n$$\n\nThe subdifferential inequality for $\\Phi$ gives\n\n$$\n\\langle z _ {k}, u _ {k} - q \\rangle \\leq \\Phi (q) - \\Phi (u _ {k}) \\tag {3.19}\n$$\n\nand\n\n$$\n- \\langle z _ {i - 1}, u _ {i} - u _ {i - 1} \\rangle \\leq \\Phi (u _ {i}) - \\Phi (u _ {i - 1}) \\tag {3.20}\n$$\n\nbecause $-z_{j} \\in \\partial \\Phi(u_{j})$ for each j. On the other hand,\n\n$$\n\\begin{array}{l} - \\langle z _ {i} - z _ {i - 1}, \\xi_ {i} \\rangle = - \\left\\langle \\frac {\\xi_ {i} - \\xi_ {i - 1}}{\\lambda} + a \\xi_ {i - 1} - b \\zeta_ {i - 1}, \\xi_ {i} \\right\\rangle \\tag {3.21} \\\\ = - \\frac {1}{\\lambda} \\| \\xi_ {i} \\| ^ {2} + \\frac {1 - a \\lambda}{\\lambda} \\langle \\xi_ {i - 1}, \\xi_ {i} \\rangle + b \\langle \\zeta_ {i - 1}, \\xi_ {i} \\rangle \\\\ \\leq - \\frac {1}{\\lambda} \\| \\xi_ {i} \\| ^ {2} + \\frac {1 - a \\lambda}{2 \\lambda} \\| \\xi_ {i} \\| ^ {2} + \\frac {1 - a \\lambda}{2 \\lambda} \\| \\xi_ {i - 1} \\| ^ {2} \\\\ + b \\lambda (\\Theta (u _ {i - 1}) - \\Theta (u _ {i})) - b \\lambda \\left[ \\frac {1}{\\lambda} - \\frac {L _ {\\Psi}}{2} \\right] \\| \\xi_ {i} \\| ^ {2} \\\\ \\leq \\left[ \\frac {b \\lambda^ {2} L _ {\\Psi} - (a + 2 b) \\lambda - 1}{2 \\lambda} \\right] \\| \\xi_ {i} \\| ^ {2} \\\\ + \\frac {1 - a \\lambda}{2 \\lambda} \\| \\xi_ {i - 1} \\| ^ {2} + b \\lambda (\\Theta (u _ {i - 1}) - \\Theta (u _ {i})) \\\\ \\end{array}\n$$\n\nby inequality (3.7). Using inequalities (3.19), (3.20), and (3.21) in equality (3.18) we deduce that\n\n$$\nG _ {k} (q) \\leq \\Phi (q) - \\Phi (u _ {1}) + b \\lambda (\\Theta (u _ {1}) - \\Theta (u _ {k})) + K \\sum_ {i = 1} ^ {k} \\| \\xi_ {i} \\| ^ {2}\n$$\n\nfor some positive constant K. [More explicitly, summing (3.20) telescopes the $\\Phi$-increments, and the two $\\Theta$-increments in (3.21) telescope; the remaining squared-velocity sums are finite by Proposition 2.] The right-hand side is finite by virtue of Proposition 2. ☐",
+      "depends_on": [
+        "def_1",
+        "def_3",
+        "def_5",
+        "def_6",
+        "def_7",
+        "prop_1",
+        "ext_def_2"
+      ],
+      "remark": "[Prove hint: telescope (3.18) after applying the subgradient inequalities]"
+    },
+    {
+      "id": "prop_4",
+      "type": "proposition",
+      "name": "Proposition 6",
+      "statement": "PROPOSITION 6. Assume hypothesis H holds. Then $\\lim_{k\\to+\\infty}\\Theta(u_k)=\\inf\\Theta$ . In particular, every weak cluster point of the sequence $(u_k)$ lies in S. As a consequence, if $S=\\emptyset$ , then $\\lim_{k\\to+\\infty}\\|u_k\\|=+\\infty$ .",
+      "proof": "Proof. From Proposition 3 and the definition of $E_{k}$ we deduce that for each $q \\in H$ ,\n\n$$\nF _ {k} (q) - F _ {k - 1} (q) \\leq b (\\Theta (q) - \\Theta (u _ {k})) = b (\\Theta (q) - E _ {k}) + b \\gamma \\| \\xi_ {k} \\| ^ {2}.\n$$\n\nLet $E_{\\infty} = \\lim_{k\\to +\\infty}E_k = \\lim_{k\\to +\\infty}\\Theta (u_k)$ . Since the sequence $(E_k)$ is nonincreasing we have\n\n$$\nF _ {k} (q) - F _ {k - 1} (q) \\leq b (\\Theta (q) - E _ {\\infty}) + b \\gamma \\| \\xi_ {k} \\| ^ {2}.\n$$\n\nOn the other hand, inequality (3.22) shows that\n\n$$\n\\alpha \\| u _ {k + 1} - q \\| ^ {2} - \\alpha \\| u _ {k} - q \\| ^ {2} \\leq F _ {k} (q) - C\n$$\n\nfor some constant $C$ . Taking $a_{k} = F_{k}(q) - C$ , $b_{k} = \\alpha \\| u_{k} - q\\|^{2}$ , $\\varepsilon_{k} = b\\gamma \\| \\xi_{k}\\|^{2}$ (which is in $\\ell^1$ by Proposition 2), and $\\theta = b(\\Theta (q) - E_{\\infty})$ in Lemma 5, we deduce that $E_{\\infty}\\leq \\Theta (q)$ . Since this holds for any $q\\in H$ we have $E_{\\infty} = \\inf \\Theta$ .\n\nObserve that the sequence $(u_k)$ is minimizing even if $S = \\emptyset$ .",
+      "depends_on": [
+        "def_2",
+        "def_3",
+        "def_4",
+        "def_8",
+        "prop_1",
+        "prop_2",
+        "lem_1",
+        "ext_def_1"
+      ],
+      "remark": "[Foundation: Foundation.Topology.Sequences] use weak cluster-point API; prove minimizing-sequence conclusion before lower semicontinuity]"
+    },
+    {
+      "id": "prop_5",
+      "type": "proposition",
+      "name": "Proposition 8",
+      "statement": "PROPOSITION 8. Assume hypothesis $H$ holds and let $\\mathcal{S} \\neq \\emptyset$ . Then the sequence $(u_k)$ is bounded. Moreover, $\\lim_{k \\to +\\infty} F_k(q)$ exists for each $q \\in \\mathcal{S}$ .",
+      "proof": "Proof. Take $q \\in S$ . By Proposition 3, the sequence $(F_k(q))$ is nonincreasing. Inequality (3.22) then gives\n\n$$\n\\| u _ {k} - q \\| ^ {2} - \\left[ \\frac {2 \\alpha \\lambda - a - b}{2 \\alpha \\lambda} \\right] \\| u _ {k - 1} - q \\| ^ {2} \\leq \\left[ \\frac {F _ {1} (q) - C}{\\alpha} \\right].\n$$\n\nSince $\\frac{2\\alpha\\lambda-a-b}{2\\alpha\\lambda}\\in(0,1)$ , Lemma 7 shows that the sequence $(\\|u_{k}-q\\|)$ is bounded. [Apply Lemma 7 to $p_k=\\|u_k-q\\|^2$, with the displayed coefficient as $\\omega$ and the displayed constant as $K$.] Using inequality (3.22) again we deduce that the sequence $(F_{k}(q))$ is bounded from below. Since it is nonincreasing, it must converge. ☐",
+      "depends_on": [
+        "def_8",
+        "prop_2",
+        "prop_3",
+        "lem_2",
+        "ext_def_1"
+      ],
+      "remark": "[Prove hint: apply Lemma 7 to the recurrence obtained from (3.22)]"
+    },
+    {
+      "id": "thm_1",
+      "type": "theorem",
+      "name": "Theorem 1",
+      "statement": "THEOREM 1. Let Hypothesis H hold. Then $\\lim_{k\\to+\\infty}\\Theta(u_k)=\\inf\\Theta$ . Assume moreover that S=Argmin $\\Theta\\neq\\emptyset$ and any of the following conditions holds:\n\n(i) The set $\\mathcal{S}$ is a singleton.  \n(ii) The function $\\Phi$ is differentiable and its gradient is weak-to-weak sequentially continuous.  \n(iii) The gradient of $\\Psi$ is weak-to-weak sequentially continuous.  \n(iv) The function $\\Psi$ is convex.\n\nThen any sequence $(u_{k})$ generated by algorithm (IFB) converges weakly as $k \\to +\\infty$ to an element of S. On the other hand, if $S = \\emptyset$ , then $\\lim_{k \\to +\\infty} \\|u_{k}\\| = +\\infty$ .",
+      "proof": "The final statement follows directly from Proposition 6. [Proposition 6 proves that $(u_k)$ is minimizing; if it did not escape every norm ball when $\\mathcal S=\\emptyset$, a bounded subsequence would admit a weak cluster point, which Proposition 6 would place in $\\mathcal S$, a contradiction.] Let us assume that $S \\neq \\emptyset$ and prove the weak convergence of $(u_k)$ to an element of S. We shall analyze each case separately.\n\nCase (i). It is immediate from Propositions 6 and 8. [Proposition 8 gives boundedness, so weak cluster points exist; Proposition 6 puts each in the singleton $\\mathcal S$, hence all cluster points coincide and the bounded sequence converges weakly to that point.]\n\nFor cases (ii) and (iii) we shall prove that the sequence $(u_{k})$ can have at most one weak cluster point. But before doing so, let us turn our attention to the first two terms in the definition of $F_{k}(q)$ . For $q\\in H$ define\n\n$$\nA _ {k} (q) = \\left(\\frac {a + b}{2 \\lambda}\\right) \\| u _ {k} - q \\| ^ {2} - \\left(\\frac {1}{\\lambda} + b\\right) G _ {k + 1} (q) \\tag {3.23}\n$$\n\nand observe that $\\lim_{k\\to +\\infty}A_k(q)$ exists whenever $q\\in \\mathcal{S}$ . Indeed, recall from (3.12) that\n\n$$\nF _ {k} (q) = A _ {k} (q) - \\delta \\sum_ {i = 2} ^ {k} \\| \\xi_ {i} \\| ^ {2} + 2 \\alpha \\langle \\xi_ {k + 1}, u _ {k} - q \\rangle .\n$$\n\nWe know that $(\\|\\xi_{i}\\|)$ belongs to $\\ell^{2}$ by Proposition 2 and that $(u_{k})$ is bounded by Proposition 8; hence $\\lim_{k\\to+\\infty}F_{k}(q)-A_{k}(q)$ exists. But $\\lim_{k\\to+\\infty}F_{k}(q)$ also exists since $q\\in S$ (also by Proposition 8).\n\nNow take $p, q \\in H$ and $m, n \\in N$ . We have\n\n$$\n\\begin{array}{l} A _ {m} (p) - A _ {n} (p) - A _ {m} (q) + A _ {n} (q) \\tag {3.24} \\\\ = \\left(\\frac {a + b}{\\lambda}\\right) \\langle u _ {m} - u _ {n}, q - p \\rangle - \\left(\\frac {1}{\\lambda} + b\\right) \\langle z _ {m + 1} - z _ {n + 1}, q - p \\rangle . \\\\ \\end{array}\n$$\n\nAssume $u_{t_k} \\rightharpoonup \\bar{p}$ and $u_{s_k} \\rightharpoonup \\bar{q}$ as $k \\to +\\infty$ . By Proposition 6, both $\\bar{p}$ and $\\bar{q}$ must be in $S$ . Observe also that since $\\lim_{k \\to +\\infty} \\xi_k = 0$ we have $u_{t_k - 1} \\rightharpoonup \\bar{p}$ and $u_{s_k - 1} \\rightharpoonup \\bar{q}$ as $k \\to +\\infty$ . Use $p = \\bar{p}$ , $q = \\bar{q}$ , $m = t_k - 1$ , and $n = s_k - 1$ in (3.24). Then let $k \\to +\\infty$ to obtain\n\n$$\n\\lim _ {k \\to + \\infty} \\langle z _ {t _ {k}} - z _ {s _ {k}}, \\bar {p} - \\bar {q} \\rangle = \\left(\\frac {a + b}{1 + b \\lambda}\\right) \\| \\bar {p} - \\bar {q} \\| ^ {2}. \\tag {3.25}\n$$\n\nThis fact will be used in what follows.\n\nCase (ii). Since $\\nabla \\Phi$ is weak-to-weak sequentially continuous, if $u_{t_k} \\rightharpoonup \\bar{p}$ and $u_{s_k} \\rightharpoonup \\bar{q}$ as $k \\to +\\infty$ , we deduce that\n\n$$\n\\lim _ {k \\to + \\infty} \\langle z _ {t _ {k}} - z _ {s _ {k}}, \\bar {p} - \\bar {q} \\rangle = - \\langle \\nabla \\Phi (\\bar {p}) - \\nabla \\Phi (\\bar {q}), \\bar {p} - \\bar {q} \\rangle \\leq 0\n$$\n\nby the monotonicity of $\\nabla \\Phi$ . Then (3.25) implies that $\\bar{p} = \\bar{q}$ .\n\nCase (iii). Observe that $\\left(\\frac{1}{\\lambda} - a\\right)\\xi_k + \\left(\\frac{1}{\\lambda} + b\\right)\\zeta_k = z_k - \\nabla\\Psi(u_k)$ . Proposition 3 implies\n\n$$\nF _ {k} (\\bar {q}) - F _ {k - 1} (\\bar {q}) = b \\langle z _ {k} - \\nabla \\Psi (u _ {k}), u _ {k} - \\bar {q} \\rangle \\tag {3.26}\n$$\n\nand this quantity vanishes as $k \\to +\\infty$ whenever $\\bar{q} \\in \\mathcal{S}$ . For $q \\in H$ set $\\mathcal{A}_k(q) = \\langle z_k - \\nabla \\Psi(u_k), u_k - q \\rangle$ . A simple computation shows that for $p, q \\in H$ and for $m, n \\in \\mathbf{N}$ we have [Expand each $\\mathcal A_j(r)=\\langle z_j-\\nabla\\Psi(u_j),u_j-r\\rangle$; the $z_j$ terms combine into $\\langle z_m-z_n,p-q\\rangle$, and moving the gradient terms to the other side gives the displayed identity.]\n\n$$\n\\langle \\nabla \\Psi (u _ {m}) - \\nabla \\Psi (u _ {n}), p - q \\rangle = \\mathcal {A} _ {m} (p) - \\mathcal {A} _ {n} (p) - \\mathcal {A} _ {m} (q) + \\mathcal {A} _ {n} (q) + \\langle z _ {m} - z _ {n}, p - q \\rangle .\n$$\n\nIf $u_{t_k} \\rightharpoonup \\bar{p}$ and $u_{s_k} \\rightharpoonup \\bar{q}$ as $k \\to +\\infty$ , then $\\bar{p}, \\bar{q} \\in S$ and the previous equation gives\n\n$$\n\\lim _ {k \\to \\infty} \\left\\langle \\nabla \\Psi (u _ {t _ {k}}) - \\nabla \\Psi (u _ {s _ {k}}), \\bar {p} - \\bar {q} \\right\\rangle = \\lim _ {k \\to \\infty} \\left\\langle z _ {t _ {k}} - z _ {s _ {k}}, \\bar {p} - \\bar {q} \\right\\rangle .\n$$\n\nThus, in view of (3.25) and the weak-to-weak sequential continuity of $\\nabla \\Psi$ , we conclude that\n\n$$\n\\left(\\frac {a + b}{1 + b \\lambda}\\right) \\| \\bar {p} - \\bar {q} \\| ^ {2} = \\langle \\nabla \\Psi (\\bar {p}) - \\nabla \\Psi (\\bar {q}), \\bar {p} - \\bar {q} \\rangle \\leq 0\n$$\n\nbecause $\\nabla\\Psi(q)\\in-\\partial\\Phi(q)$ whenever $q\\in S$ . It ensues, as before, that $\\bar{p}=\\bar{q}$ .\n\nCase (iv). Let $q \\in S$ and $m > n$ . We have\n\n$$\nG _ {n + 1} (q) - G _ {m + 1} (q) = \\left[ \\langle z _ {n + 1}, u _ {n + 1} - q \\rangle + \\sum_ {i = n + 2} ^ {m + 1} \\langle z _ {i}, \\xi_ {i} \\rangle \\right] + \\langle - z _ {m + 1}, u _ {m + 1} - q \\rangle .\n$$\n\nOn the one hand,\n\n$$\n\\begin{array}{l} \\langle z _ {n + 1}, u _ {n + 1} - q \\rangle + \\sum_ {i = n + 2} ^ {m + 1} \\langle z _ {i}, \\xi_ {i} \\rangle \\leq \\Phi (q) - \\Phi (u _ {n + 1}) + \\sum_ {i = n + 2} ^ {m + 1} [ \\Phi (u _ {i - 1}) - \\Phi (u _ {i}) ] \\\\ = \\Phi (q) - \\Phi (u _ {m + 1}) \\\\ \\end{array}\n$$\n\nby the convexity of $\\Phi$ . On the other hand, equality (3.26) and the convexity of $\\Psi$ imply\n\n$$\n\\begin{array}{l} \\left\\langle - z _ {m + 1}, u _ {m + 1} - q \\right\\rangle = \\left\\langle - z _ {m + 1} + \\nabla \\Psi (u _ {m + 1}), u _ {m + 1} - q \\right\\rangle - \\left\\langle \\nabla \\Psi (u _ {m + 1}), u _ {m + 1} - q \\right\\rangle \\\\ \\leq \\frac {1}{b} [ F _ {m} (q) - F _ {m + 1} (q) ] + \\Psi (q) - \\Psi (u _ {m + 1}). \\\\ \\end{array}\n$$\n\nFrom the above relations and the definition of $G$ , it follows that\n\n$$\nG _ {n + 1} (q) - G _ {m + 1} (q) \\leq \\Theta (q) - \\Theta (u _ {m + 1}) + \\frac {1}{b} [ F _ {m} (q) - F _ {m + 1} (q) ].\n$$\n\nThus, in view of (3.23),\n\n$$\n\\begin{array}{l} \\left(\\frac {a + b}{2 \\lambda}\\right) \\| u _ {n} - q \\| ^ {2} \\\\ = \\left(\\frac {a + b}{2 \\lambda}\\right) \\| u _ {m} - q \\| ^ {2} + [ A _ {n} (q) - A _ {m} (q) ] + \\left(\\frac {1}{\\lambda} + b\\right) [ G _ {n + 1} (q) - G _ {m + 1} (q) ] \\\\ \\leq \\left(\\frac {a + b}{2 \\lambda}\\right) \\| u _ {m} - q \\| ^ {2} + [ A _ {n} (q) - A _ {m} (q) ] \\\\ + \\left(\\frac {1}{\\lambda} + b\\right) \\left[ \\frac {1}{b} [ F _ {m} (q) - F _ {m + 1} (q) ] + \\Theta (q) - \\Theta (u _ {m + 1}) \\right]. \\\\ \\end{array}\n$$\n\nTake the lower limit as $m \\to +\\infty$ and recall that $\\lim_{m \\to +\\infty} \\Theta(u_m) = \\Theta(q)$ . Then take the upper limit as $n \\to +\\infty$ to conclude that\n\n$$\n\\operatorname * {l i m s u p} _ {n \\to + \\infty} \\| u _ {n} - q \\| \\leq \\operatorname * {l i m i n f} _ {m \\to + \\infty} \\| u _ {m} - q \\|.\n$$\n\nTherefore $\\lim_{k\\to +\\infty}\\| u_k - q\\|$ exists and the result follows from Proposition 6 and Opial's lemma. [For every $q\\in\\mathcal S$ the preceding limsup/liminf inequality yields existence of $\\lim_k\\|u_k-q\\|$; Proposition 6 says that every weak cluster point lies in $\\mathcal S$. These are exactly the two hypotheses of Opial's lemma.]",
+      "depends_on": [
+        "def_1",
+        "algo_1",
+        "def_2",
+        "def_3",
+        "def_5",
+        "def_6",
+        "def_7",
+        "def_8",
+        "def_9",
+        "prop_1",
+        "prop_2",
+        "prop_3",
+        "prop_4",
+        "prop_5",
+        "ext_thm_1",
+        "ext_def_1",
+        "ext_def_2",
+        "ext_def_3"
+      ],
+      "remark": "[Foundation: Foundation.Hilbert.WeakConvergence] recall opial_lemma | [Prove hint: establish boundedness, identify all weak cluster points, then prove uniqueness or Opial condition]"
+    },
+    {
+      "id": "cor_2",
+      "type": "corollary",
+      "name": "Corollary 10",
+      "statement": "COROLLARY 10. Assume hypothesis $H$ holds and let $\\Theta$ be strongly convex. Then $(u_k)$ converges strongly to the unique $\\bar{q} \\in \\mathcal{S}$ .",
+      "proof": "Assume $\\Theta$ is strongly convex with parameter $\\rho$ . In view of (3.14), for each $q \\in H$ and $k \\geq 1$ we have\n\n$$\n\\left\\langle \\left(\\frac {1}{\\lambda} - a\\right) \\xi_ {k} + \\left(\\frac {1}{\\lambda} + b\\right) \\zeta_ {k}, u _ {k} - q \\right\\rangle + \\frac {\\rho}{2} \\| u _ {k} - q \\| ^ {2} \\leq \\Theta (q) - \\Theta (u _ {k}),\n$$\n\nand so\n\n$$\nF _ {k + 1} (q) - F _ {k} (q) + \\frac {\\rho b}{2} \\| u _ {k + 1} - q \\| ^ {2} \\leq b (\\Theta (q) - \\Theta (u _ {k + 1})) \\tag {4.1}\n$$\n\nby the equality in (3.13). Moreover, since $\\Theta$ is strongly convex, we have $S = \\{\\bar{q}\\}$ . If Hypothesis $H$ holds, we can write $q = \\bar{q}$ in inequality (4.1), let $k \\to +\\infty$ , and apply Propositions 6 and 8 to deduce that $\\lim_{k \\to +\\infty} \\|u_k - \\bar{q}\\| = 0$ . [Indeed, $F_k(\\bar q)$ converges by Proposition 8, while the right-hand side of (4.1) tends to $0$ by Proposition 6; taking limits forces the nonnegative term $(\\rho b/2)\\|u_{k+1}-\\bar q\\|^2$ to vanish.] We have proved the following corollary.\n\nCOROLLARY 10. Assume hypothesis $H$ holds and let $\\Theta$ be strongly convex. Then $(u_k)$ converges strongly to the unique $\\bar{q} \\in \\mathcal{S}$ .",
+      "depends_on": [
+        "def_1",
+        "def_8",
+        "prop_2",
+        "prop_4",
+        "prop_5",
+        "ext_def_1",
+        "ext_def_2",
+        "ext_def_4"
+      ],
+      "remark": "[Prove hint: use the strong subgradient inequality and the limiting energy identity]"
+    },
+    {
+      "id": "cor_3",
+      "type": "corollary",
+      "name": "Corollary 11",
+      "statement": "COROLLARY 11. Assume hypothesis $H$ holds and let $\\Theta$ be boundedly inf-compact. If $(u_k)$ converges weakly as $k \\to +\\infty$ , then it converges strongly and the limit belongs to $S$ .",
+      "proof": "Proof. If $(u_{k})$ converges weakly as $k \\to +\\infty$ , then it is bounded. By Proposition 6, the weak limit belongs to $S \\neq \\emptyset$ and $\\lim_{k \\to +\\infty} \\Theta(u_{k}) = \\min \\Theta$ . Therefore, there exist $r \\in R$ and R > 0 such that the set $\\Gamma_{r}^{R}$ contains $(u_{k})$ and is relatively compact for the strong topology. A standard argument shows that $(u_{k})$ converges strongly as $k \\to +\\infty$ . [Every subsequence has a further strongly convergent subsequence by relative compactness. Its strong limit is also its weak limit, hence equals the given weak limit; the usual subsequence criterion then gives strong convergence of the full sequence.] ☐",
+      "depends_on": [
+        "def_1",
+        "def_10",
+        "prop_4",
+        "ext_def_1"
+      ],
+      "remark": "[Prove hint: relative compactness gives a strongly convergent subsequence; weak-limit uniqueness identifies its limit]"
+    },
+    {
+      "id": "cor_1",
+      "type": "corollary",
+      "name": "Corollary 9",
+      "statement": "COROLLARY 9. Let $H$ be finite-dimensional. Assume Hypothesis $H$ holds and $S \\neq \\emptyset$ . Then $(u_k)$ converges to an element of $S$ .",
+      "proof": "[In finite dimension, weak convergence is equivalent to strong convergence. Hypothesis $H_\\Psi$ gives continuity of $\\nabla\\Psi$, hence weak-to-weak sequential continuity, so Theorem 1 applies and yields convergence to an element of $S$.]",
+      "depends_on": [
+        "def_1",
+        "thm_1",
+        "ext_def_3"
+      ],
+      "remark": "[Note: in finite dimension weak and strong convergence coincide]"
+    },
+    {
+      "id": "rem_1",
+      "type": "remark",
+      "name": "Remark 15",
+      "statement": "Remark 15. If $\\Psi$ is convex (not necessarily quadratic but verifying hypothesis $H_{\\Psi}$ ), one may use part (iv) of Theorem 1.",
+      "proof": null,
+      "depends_on": [
+        "def_1",
+        "thm_1"
+      ],
+      "remark": "[Prove hint: invoke case (iv) of Theorem 1 after checking Hypothesis $H$]"
+    }
+  ],
+  "external_theorems": [
+    {
+      "id": "ext_thm_1",
+      "type": "theorem",
+      "name": "Opial's Lemma",
+      "statement": "Let $(x_n)$ be a sequence in a Hilbert space and let $S\\ne\\emptyset$. If (a) for every $q\\in S$, $\\lim_n\\|x_n-q\\|$ exists, and (b) every weak sequential cluster point of $(x_n)$ belongs to $S$, then $(x_n)$ converges weakly to an element of $S$.",
+      "proof": "Cited from: Z. Opial, “Weak convergence of the sequence of successive approximations for nonexpansive mappings,” *Bull. Amer. Math. Soc.* 73 (1967), 591–597.",
+      "depends_on": [],
+      "source": "Z. Opial (1967).",
+      "resolution_priority": "high",
+      "remark": "[Foundation: Foundation.Hilbert.WeakConvergence] recall opial_lemma"
+    },
+    {
+      "id": "ext_thm_2",
+      "type": "theorem",
+      "name": "Descent lemma for a Lipschitz gradient",
+      "statement": "If $\\Psi:H\\to\\mathbf{R}$ is differentiable and $\\nabla\\Psi$ is $L_\\Psi$-Lipschitz, then for all $x,v\\in H$, $$\\Psi(v)\\leq\\Psi(x)+\\langle\\nabla\\Psi(x),v-x\\rangle+\\frac{L_\\Psi}{2}\\|v-x\\|^2.$$",
+      "proof": "Cited from: D. Bertsekas, *Nonlinear Programming*, Proposition A.24 (1999); J. M. Ortega and W. C. Rheinboldt, *Iterative Solution of Nonlinear Equations in Several Variables* (2000).",
+      "depends_on": [],
+      "source": "Bertsekas [17, Proposition A.24]; Ortega--Rheinboldt [33].",
+      "resolution_priority": "high",
+      "remark": "[Prove hint: apply the standard smoothness/descent inequality with $x=u_k$ and $v=u_{k+1}$]"
+    }
+  ]
+}

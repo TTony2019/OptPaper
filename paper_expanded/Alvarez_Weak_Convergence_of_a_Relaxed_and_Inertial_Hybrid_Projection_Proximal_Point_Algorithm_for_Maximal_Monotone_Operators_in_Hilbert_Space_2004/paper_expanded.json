@@ -1,0 +1,155 @@
+{
+  "metadata": {
+    "title": "Weak Convergence of a Relaxed and Inertial Hybrid Projection-Proximal Point Algorithm for Maximal Monotone Operators in Hilbert Space",
+    "authors": [
+      "Felipe Alvarez"
+    ],
+    "year": 2004,
+    "source_type": "markdown"
+  },
+  "items": [
+    {
+      "id": "def_1",
+      "type": "definition",
+      "name": "Resolvent and solution set",
+      "statement": "For a maximal monotone operator $A:H\\Rightarrow H$ and $\\lambda>0$, the single-valued function $J_{\\lambda}^{A} := (I + \\lambda A)^{-1} : H \\to H$ is the resolvent of A of parameter $\\lambda$ . The resolvent is a nonexpansive mapping and, moreover,\\n\\n$$\\nJ _ {\\lambda} ^ {A} (x) = x \\text {   if   and   only   if   } 0 \\in A (x). \\tag {1.2}\\n$$\\n\\nSet $S:=A^{-1}(\\{0\\})$ .",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "def_2",
+      "type": "definition",
+      "name": "Parameter assumptions (1.3)-(1.6)",
+      "statement": "The parameters satisfy\\n\\n$$\\n\\begin{array}{l} \\lambda := \\inf _ {k \\geq 0} \\lambda_ {k} > 0, (1.3) \\\\ \\forall k \\in \\mathbb {N}, \\alpha_ {k} \\in [ 0, 1) \\quad \\text { and } \\quad \\alpha := \\sup _ {k \\geq 0} \\alpha_ {k} <   1, (1.4) \\\\ \\sum \\alpha_ {k} \\| x ^ {k} - x ^ {k - 1} \\| ^ {2} <   \\infty . (1.5) \\\\ \\end{array}\\n$$\\n\\nand\\n\\n$$\\nR _ {1} := \\inf _ {k \\geq 0} \\rho_ {k} > 0 \\text {and} R _ {2} := \\sup _ {k \\geq 0} \\rho_ {k} <   2. \\tag {1.6}\\n$$",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "algo_1",
+      "type": "algorithm",
+      "name": "Algorithm (A_1^rho)-(A_2^rho)",
+      "statement": "$(\\mathcal{A}_1^\\rho)$ Given $x^{k}, x^{k-1} \\in H, \\lambda_k > 0$ , $\\alpha_k \\in [0,1)$ , and $\\rho_k \\in (0,2)$ , find $z^k \\in H$ such that\\n\\n$$\\n(z ^ {k} - y ^ {k}) / \\lambda_ {k} + v ^ {k} = \\eta^ {k}, \\text {for some} v ^ {k} \\in \\rho_ {k} A (z ^ {k} / \\rho_ {k} + (1 - 1 / \\rho_ {k}) y ^ {k}), \\tag {2.1}\\n$$\\n\\nwhere $y^{k}:= x^{k}+\\alpha_{k}(x^{k}-x^{k-1})$ and the residual $\\eta^k\\in H$ satisfies\\n\\n$$\\n\\| \\eta^ {k} \\| \\leq \\sigma \\max \\{\\| z ^ {k} - y ^ {k} \\| / \\lambda_ {k}, \\| v ^ {k} \\| \\}. \\tag {2.2}\\n$$\\n\\n$(\\mathcal{A}_2^\\rho)$ If $v^{k} = 0$ then set $x^n := y^k$ for all $n \\geq k + 1$ and stop.\\n\\nOtherwise:\\n\\n- Let $P_{k}: H \\to H$ be the orthogonal projection operator onto the hyperplane\\n\\n$$\\nH _ {k} = \\{x \\in H \\mid \\langle v ^ {k}, x - z ^ {k} \\rangle = (1 - 1 / \\rho_ {k}) \\langle v ^ {k}, y ^ {k} - z ^ {k} \\rangle \\}. \\tag {2.3}\\n$$\\n\\n- Set\\n\\n$$\\nx ^ {k + 1} := y ^ {k} + \\rho_ {k} (P _ {k} y ^ {k} - y ^ {k}) = y ^ {k} - \\frac {\\langle v ^ {k} , y ^ {k} - z ^ {k} \\rangle}{\\| v ^ {k} \\| ^ {2}} v ^ {k}. \\tag {2.4}\\n$$\\n\\n- Let $k \\leftarrow k + 1$ and return to $(\\mathcal{A}_1^\\rho)$ .",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "lem_1",
+      "type": "lemma",
+      "name": "LEMMA 2.1",
+      "statement": "Let $\\sigma \\in [0,1)$ . If $v = u + \\eta$ with $\\| \\eta \\| \\leq \\sigma \\max \\{\\| u\\| ,\\| v\\|\\}$ , then\\n\\n(i) $\\| v\\| \\leq \\| u\\| /(1 - \\sigma),$  \\n(ii) $\\langle v,u\\rangle\\geq(1-\\sigma)\\|u\\|\\|v\\|$ .",
+      "proof": "Proof. Suppose $\\|v\\| > \\|u\\|$ so that $\\|\\eta\\| \\leq \\sigma \\|v\\|$ ; then $\\|v\\| \\leq \\|u\\| + \\sigma \\|v\\|$ , or equivalently $\\|v\\| \\leq \\|u\\| / (1 - \\sigma)$ ; otherwise, $\\|v\\| \\leq \\|u\\|$ . In any case, (i) holds. For (ii), it suffices to consider the case $\\|v\\| \\leq \\|u\\|$ [because in the complementary case $\\|v\\|>\\|u\\|$, the error bound gives $\\|\\eta\\|\\leq\\sigma\\|v\\|$ and hence $\\langle v,u\\rangle=\\|v\\|^2-\\langle v,\\eta\\rangle\\geq(1-\\sigma)\\|v\\|^2\\geq(1-\\sigma)\\|u\\|\\|v\\|$] , which implies $\\langle v, u \\rangle = \\|u\\|^2 + \\langle \\eta, u \\rangle \\geq (1 - \\sigma) \\|u\\|^2 \\geq (1 - \\sigma) \\|u\\| \\|v\\|$ . ☐",
+      "depends_on": []
+    },
+    {
+      "id": "lem_2",
+      "type": "lemma",
+      "name": "LEMMA 2.3",
+      "statement": "Let $\\varphi_k \\geq 0$ and $\\delta_k \\geq 0$ be such that $\\varphi_{k+1} \\leq \\varphi_k + \\alpha_k (\\varphi_k - \\varphi_{k-1}) + \\delta_k$ with $\\sum \\delta_k < \\infty$ , and $0 \\leq \\alpha_k \\leq \\alpha < 1$ . Then the following hold:\\n\\n(i) $\\sum [\\varphi_k - \\varphi_{k-1}]_+ < \\infty$ , where $[t]_+ := \\max\\{t, 0\\}$ .  \\n(ii) There exists $\\varphi^{*}\\geq 0$ such that $\\lim_{k\\to \\infty}\\varphi_k = \\varphi^*$ .",
+      "proof": "Proof. Set $\\theta_k = \\varphi_k - \\varphi_{k-1}$ . Then $[\\theta_{k+1}]_+ \\leq \\alpha[\\theta_k]_+ + \\delta_k$ [since $\\theta_{k+1}\\leq\\alpha_k\\theta_k+\\delta_k\\leq\\alpha[\\theta_k]_+ +\\delta_k$ and the right hand side is nonnegative] . This yields $[\\theta_{k+1}]_+ \\leq \\alpha^k[\\theta_1]_+ + \\sum_{j=0}^{k-1} \\alpha^j \\delta_{k-j}$ , so that $\\sum[\\theta_{k+1}]_+ \\leq 1/(1 - \\alpha)([\\theta_1]_+ + \\sum \\delta_k) < \\infty$ . Set $w_k := \\varphi_k - \\sum_{j=1}^k [\\theta_j]_+$ , which is bounded from below and nonincreasing [indeed $w_{k+1}-w_k=\\theta_{k+1}-[\\theta_{k+1}]_+\\leq0$, and $w_k\\geq -\\sum_{j\\geq1}[\\theta_j]_+$ because $\\varphi_k\\geq0$] . It follows that $(w_k)$ is convergent; hence $\\lim_{k \\to \\infty} \\varphi_k = \\sum_{j>1} [\\theta_j]_+ + \\lim_{k \\to \\infty} w_k$ .",
+      "depends_on": []
+    },
+    {
+      "id": "lem_3",
+      "type": "lemma",
+      "name": "LEMMA 2.4 (Opial)",
+      "statement": "Let H be a Hilbert space and $(x^{k})$ a sequence such that there exists a nonempty set $S \\subset H$ verifying the following:\\n\\n(a) For every $\\bar{x} \\in S$ , $\\lim_{k \\to \\infty} \\|x^k - \\bar{x}\\|$ exists.  \\n(b) If $x^{k_j} \\rightharpoonup \\hat{x}$ weakly in $H$ for a subsequence $k_j \\to \\infty$ , then $\\hat{x} \\in S$ .\\n\\nThen, there exists $x^{*} \\in S$ such that $x^{k} \\rightharpoonup x^{*}$ weakly in $H$ as $k \\to \\infty$ .",
+      "proof": "Proof. It suffices to prove the uniqueness of the weak cluster point [existence follows because choosing any $s\\in S$, condition (a) bounds $\\|x^k-s\\|$, and bounded sequences in a Hilbert space have weakly convergent subsequences] . The original proof in [20] requires $S$ to be closed and convex. The following argument (see [15, 22]) does not need that hypothesis. Let $\\widehat{x}_1, \\widehat{x}_2 \\in S$ be two cluster points of $(x^k)$ for the weak topology of $H$ . Set $l_i := \\lim_{k \\to \\infty} \\|x^k - \\widehat{x}_i\\|^2$ for each $i = 1, 2$ . Take a sequence $k_j \\to \\infty$ such that $x^{k_j} \\rightharpoonup \\widehat{x}_1$ weakly in $H$ . But $\\|x^k - \\widehat{x}_1\\|^2 - \\|x^k - \\widehat{x}_2\\|^2 = \\| \\widehat{x}_1 - \\widehat{x}_2\\|^2 + 2\\langle \\widehat{x}_1 - \\widehat{x}_2, \\widehat{x}_2 - x^k \\rangle$ , so that $l_1 - l_2 = -\\|\\widehat{x}_1 - \\widehat{x}_2\\|^2$ . Similarly, taking $k_m \\to \\infty$ such that $x^{k_m} \\rightharpoonup \\widehat{x}_2$ , $l_1 - l_2 = \\| \\widehat{x}_1 - \\widehat{x}_2\\|^2$ . Consequently, $\\|\\widehat{x}_1 - \\widehat{x}_2\\| = 0$ [so all weak cluster points coincide; every subsequence has a further weakly convergent subsequence with this same limit, which implies weak convergence of the whole sequence to that point] .",
+      "depends_on": []
+    },
+    {
+      "id": "ext_def_1",
+      "type": "definition",
+      "name": "Yosida approximation of a maximal monotone operator",
+      "statement": "For a maximal monotone operator $A:H\\Rightarrow H$ and $\\lambda>0$, its Yosida approximation is the single-valued map $A_{\\lambda}:H\\to H$ defined by\n\n$$\nA_{\\lambda}(x):=\\frac{1}{\\lambda}(x-J_{\\lambda}^{A}(x)).\n$$\nEquivalently, if $\\xi=x-J_{\\lambda}^{A}(x)$, then $\\xi/\\lambda\\in A(x-\\xi)$.",
+      "proof": null,
+      "depends_on": [
+        "def_1"
+      ]
+    },
+    {
+      "id": "ext_thm_1",
+      "type": "theorem",
+      "name": "Weak-strong closedness of maximal monotone graphs",
+      "statement": "Let $A:H\\Rightarrow H$ be maximal monotone. If $x_i\\rightharpoonup x$ weakly in $H$, $v_i\\to v$ strongly in $H$, and $v_i\\in A(x_i)$ for all $i$, then $v\\in A(x)$. Equivalently, $\\operatorname{gra} A$ is closed in $H\\times H$ for the weak-strong topology.",
+      "proof": "Cited from: H. Brezis, Opérateurs maximaux monotones et semi-groupes de contractions dans les espaces de Hilbert, Mathematics Studies 5, North-Holland, Amsterdam, 1973. The paper invokes this result as “the graph of the maximal monotone operator A is closed in $H\\times H$ for the weak-strong topology (see [7])” to pass to the limit in (2.13) and (3.11).",
+      "depends_on": []
+    },
+    {
+      "id": "thm_1",
+      "type": "theorem",
+      "name": "THEOREM 2.2",
+      "statement": "Let $(x^{k})\\subset H$ be a sequence generated by (2.1)-(2.4), where $A:H\\Rightarrow H$ is a maximal monotone operator with $S:= A^{-1}(\\{0\\})\\neq\\emptyset$ , $\\sigma\\in[0,1)$ , and the parameters $\\alpha_{k}$ and $\\rho_{k}$ satisfy (1.4) and (1.6), respectively. Under (1.5), the following hold:\\n\\n(i) For all $\\bar{x} \\in S$ , $\\|x^{k} - \\bar{x}\\|$ is convergent, and\\n\\n$$\\n\\lim _ {k \\to \\infty} \\| x ^ {k + 1} - z ^ {k} / \\rho_ {k} - (1 - 1 / \\rho_ {k}) y ^ {k} \\| = 0. \\tag {2.5}\\n$$\\n\\n(ii) If in addition $\\lambda_{k}$ satisfies (1.3), then $\\lim_{k\\to \\infty}\\| v^k\\| = 0$ and there exists $x^{*}\\in S$ such that $x^{k}\\rightharpoonup x^{*}$ weakly in $H$ as $k\\to \\infty$ .",
+      "proof": "Proof. From now on, assume that $v^k \\neq 0$ for all $k \\geq 1$ ; otherwise, the algorithm finishes in a finite number of iterations, providing a solution to (1.1).\\n\\nLet $\\bar{x} \\in S = A^{-1}(\\{0\\})$ and define $\\varphi_k := \\frac{1}{2} \\|x^k - \\bar{x}\\|^2$ . It follows from (2.4) that\\n\\n$$\\n\\begin{array}{l} \\varphi_ {k + 1} = \\frac {1}{2} \\| y ^ {k} - \\bar {x} \\| ^ {2} + \\rho_ {k} \\langle P _ {k} y ^ {k} - y ^ {k}, y ^ {k} - \\bar {x} \\rangle + \\frac {\\rho_ {k} ^ {2}}{2} \\| P _ {k} y ^ {k} - y ^ {k} \\| ^ {2} \\\\ = \\frac {1}{2} \\| y ^ {k} - \\bar {x} \\| ^ {2} - \\rho_ {k} \\| P _ {k} y ^ {k} - y ^ {k} \\| ^ {2} + \\rho_ {k} \\left\\langle P _ {k} y ^ {k} - y ^ {k}, P _ {k} y ^ {k} - \\bar {x} \\right\\rangle + \\frac {\\rho_ {k} ^ {2}}{2} \\| P _ {k} y ^ {k} - y ^ {k} \\| ^ {2} \\\\ = \\frac {1}{2} \\| y ^ {k} - \\bar {x} \\| ^ {2} - \\rho_ {k} (1 - \\rho_ {k} / 2) \\| P _ {k} y ^ {k} - y ^ {k} \\| ^ {2} + \\rho_ {k} \\langle P _ {k} y ^ {k} - y ^ {k}, P _ {k} y ^ {k} - \\bar {x} \\rangle . \\\\ \\end{array}\\n$$\\n\\nNext, notice that, by Lemma 2.1(i), $v^{k} \\neq 0$ implies $(y^{k} - z^{k}) / \\lambda_{k} \\neq 0$ due to (2.1) and (2.2). Then, by virtue of Lemma 2.1(ii),\\n\\n$$\\n\\ell_ {k} (y ^ {k}) = \\langle v ^ {k}, y ^ {k} - z ^ {k} \\rangle \\geq (1 - \\sigma) \\| v ^ {k} \\| \\| y ^ {k} - z ^ {k} \\| > 0, \\tag {2.6}\\n$$\\n\\nwhere $\\ell_k(x) = \\langle v^k, x - z^k \\rangle$ . As $v^k \\in \\rho_k A(z^k / \\rho_k + (1 - 1 / \\rho_k)y^k)$ , the monotonicity of $A$ gives $\\langle v^k, \\bar{x} - z^k / \\rho_k - (1 - 1 / \\rho_k)y^k \\rangle \\leq 0$ . Thus [multiplying the monotonicity inequality by $\\rho_k>0$ gives $\\ell_k(\\bar{x})\\leq(1-1/\\rho_k)\\ell_k(y^k)$], $\\bar{x}$ belongs to the half-space $H_k^\\leq = \\{x \\in H \\mid \\ell_k(x) \\leq (1 - 1 / \\rho_k)\\ell_k(y^k)\\}$ . Therefore, since $\\rho_k > 0$ and taking into account (2.6), the hyperplane $H_k$ given by (2.3) strictly separates $y^k$ from $\\bar{x}$ . Moreover, since the orthogonal projection of $y^k$ onto $H_k$ is also the orthogonal projection onto the half-space $H_k^\\leq$ , one gets $\\langle P_k y^k - y^k, P_k y^k - \\bar{x} \\rangle \\leq 0$ . It follows that\\n\\n$$\\n\\varphi_ {k + 1} \\leq \\frac {1}{2} \\| y ^ {k} - \\bar {x} \\| ^ {2} - \\rho_ {k} (1 - \\rho_ {k} / 2) \\| P _ {k} y ^ {k} - y ^ {k} \\| ^ {2}. \\tag {2.7}\\n$$\\n\\nBut $\\frac{1}{2}\\| y^k -\\bar{x}\\|^2 = \\varphi_k + \\alpha_k\\langle x^k -\\bar{x},x^k -x^{k - 1}\\rangle +\\frac{\\alpha_k^2}{2}\\| x^k -x^{k - 1}\\|^2$ . On the other hand, it is direct to verify that [using $\\|a\\|^2-\\|b\\|^2=2\\langle a,a-b\\rangle-\\|a-b\\|^2$ with $a=x^k-\\bar{x}$ and $b=x^{k-1}-\\bar{x}$] $\\varphi_{k} = \\varphi_{k - 1} + \\langle x^{k} - \\bar{x},x^{k} - x^{k - 1}\\rangle -\\frac{1}{2}\\| x^{k} - x^{k - 1}\\|^{2}$ . Hence\\n\\n$$\\n\\frac {1}{2} \\| y ^ {k} - \\bar {x} \\| ^ {2} = \\varphi_ {k} + \\alpha_ {k} (\\varphi_ {k} - \\varphi_ {k - 1}) + \\frac {\\alpha_ {k} + \\alpha_ {k} ^ {2}}{2} \\| x ^ {k} - x ^ {k - 1} \\| ^ {2}. \\tag {2.8}\\n$$\\n\\nThus\\n\\n$$\\n\\varphi_ {k + 1} \\leq \\varphi_ {k} + \\alpha_ {k} (\\varphi_ {k} - \\varphi_ {k - 1}) + \\delta_ {k} - \\rho_ {k} (1 - \\rho_ {k} / 2) \\| P _ {k} y ^ {k} - y ^ {k} \\| ^ {2}, \\tag {2.9}\\n$$\\n\\nwhere $\\delta_k := \\frac{\\alpha_k + \\alpha_k^2}{2} \\|x^k - x^{k-1}\\|^2$ , which satisfies $\\sum \\delta_k < \\infty$ thanks to (1.5) (recall that $\\alpha_k \\in [0,1)$ ).\\n\\nBy virtue of Lemma 2.3 applied to (2.9), the sequence $(\\varphi_k)$ is convergent under (1.4) and (1.5). Since $\\bar{x} \\in S$ is arbitrary, the latter proves the first assertion in Theorem 2.2(i).\\n\\nOn the other hand, by Lemma 2.3(i), it follows from (2.9) that\\n\\n$$\\n\\sum \\rho_ {k} (1 - \\rho_ {k} / 2) \\| P _ {k} y ^ {k} - y ^ {k} \\| ^ {2} \\leq \\varphi_ {1} + \\alpha \\sum [ \\varphi_ {k} - \\varphi_ {k - 1} ] _ {+} + \\sum \\delta_ {k} <   \\infty ,\\n$$\\n\\nwhich amounts to\\n\\n$$\\n(1 / R _ {2} - 1 / 2) \\sum (\\langle v ^ {k}, y ^ {k} - z ^ {k} \\rangle / \\| v ^ {k} \\|) ^ {2} <   \\infty , \\tag {2.10}\\n$$\\n\\nwith $R_{2} = \\sup_{k\\geq 1}\\rho_{k} < 2$ thanks to (1.6). By Lemma 2.1, it may be concluded from (2.10) that [Lemma 2.1(ii) gives $(1-\\sigma)\\|v^k\\|\\|y^k-z^k\\|\\leq\\langle v^k,y^k-z^k\\rangle$, while Lemma 2.1(i) applied to $u=(y^k-z^k)/\\lambda_k$ gives $\\lambda_k\\|v^k\\|\\leq\\|y^k-z^k\\|/(1-\\sigma)$]\\n\\n$$\\n\\sum \\lambda_ {k} ^ {2} \\| v ^ {k} \\| ^ {2} \\leq \\sum \\| y ^ {k} - z ^ {k} \\| ^ {2} / (1 - \\sigma) ^ {2} <   \\infty . \\tag {2.11}\\n$$\\n\\nIt follows that\\n\\n$$\\n\\lim _ {k \\to \\infty} \\langle v ^ {k}, y ^ {k} - z ^ {k} \\rangle / \\| v ^ {k} \\| = \\lim _ {k \\to \\infty} \\| y ^ {k} - z ^ {k} \\| = \\lim _ {k \\to \\infty} \\lambda_ {k} \\| v ^ {k} \\| = 0. \\tag {2.12}\\n$$\\n\\nBy (2.4), the first limit in (2.12) ensures that $\\lim_{k\\to\\infty}\\|x^{k+1}-y^{k}\\|=0$ . From this fact, together with the second limit in (2.12), it follows that (2.5) holds because $R_{1}=\\inf\\rho_{k}>0$ due to (1.6). This completes the proof of Theorem 2.2(i).\\n\\nIn order to prove Theorem 2.2(ii), the idea is to apply the following well-known result on weak convergence in Hilbert spaces, whose proof is given here for the convenience of the reader.\\n\\nBy Theorem 2.2(i), condition (a) of Lemma 2.4 holds with $S = A^{-1}(\\{0\\})$ . Next, suppose (1.3) and let $\\hat{x}$ be a weak cluster point of $(x^k)$ . By (2.5), $z^k / \\rho_k + (1 - 1 / \\rho_k)y^k \\rightharpoonup \\hat{x}$ [along the chosen weakly convergent subsequence, since $x^{k+1}-y^k\\to0$ and $x^{k+1}-(z^k/\\rho_k+(1-1/\\rho_k)y^k)\\to0$ strongly] . But\\n\\n$$\\nv ^ {k} / \\rho_ {k} \\in A (z ^ {k} / \\rho_ {k} + (1 - 1 / \\rho_ {k}) y ^ {k}), \\tag {2.13}\\n$$\\n\\nwith $v^{k}/\\rho_{k} \\rightarrow 0$ strongly in H thanks to the last limit in (2.12) together with (1.3) and (1.6). Since the graph of the maximal monotone operator A is closed in $H \\times H$ for the weak-strong topology (see [7]), it is possible to pass to the limit in (2.13) to deduce that $0 \\in A(\\hat{x})$ , i.e., $\\hat{x} \\in S$ . Thus, condition (b) of Lemma 2.4 is also satisfied, which proves the weak convergence of $(x^{k})$ . ☐",
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "algo_1",
+        "lem_1",
+        "lem_2",
+        "lem_3",
+        "ext_thm_1"
+      ]
+    },
+    {
+      "id": "rem_1",
+      "type": "remark",
+      "name": "Remark 1",
+      "statement": "If (1.3) is replaced with\\n\\n$$\\n\\sum \\lambda_ {k} ^ {2} = \\infty , \\tag {2.14}\\n$$\\n\\nthen it may be deduced from (2.11) that there exists a subsequence of $(v^{k})$ that converges strongly to 0. In the finite dimensional case, this is sufficient for the convergence of $(x^{k})$ (see [23, Rem. 2.3]). Indeed, take $v^{k_{i}} \\rightarrow 0$ and assume that $\\dim H < \\infty$ . By Theorem 2.2(i), $(x^{k})$ is bounded so that one may assume that, up to a subsequence, $x^{k_{i} + 1}\\to \\hat{x}$ for some $\\hat{x}\\in H$ . By virtue of (2.5), one may let $k_{i}\\rightarrow \\infty$ in (2.13) to deduce that $0\\in A(\\hat{x})$ . Hence $\\hat{x}\\in S$ and, by Theorem 2.2(i), $\\| x^k -\\hat{x}\\|$ is convergent. Therefore $\\lim_{k\\to \\infty}\\| x^k -\\hat{x}\\| = \\lim_{i\\to \\infty}\\| x^{k_i + 1} - \\hat{x}\\| = 0$ .",
+      "proof": null,
+      "depends_on": [
+        "thm_1",
+        "ext_thm_1"
+      ]
+    },
+    {
+      "id": "prop_1",
+      "type": "proposition",
+      "name": "PROPOSITION 2.5",
+      "statement": "Under the assumptions of Theorem 2.2 with, in addition, $(\\alpha_{k})$ being nondecreasing (i.e., $\\alpha_{k+1} \\geq \\alpha_{k}$ ) and satisfying $0 \\leq \\alpha_{k} \\leq \\alpha$ for some $\\alpha \\in [0,1)$ such that\\n\\n$$\\n0 <   p (\\alpha) := 1 / R _ {2} - 1 / 2 - (2 / R _ {1} - 1 / 2) \\alpha - (1 - 1 / R _ {2}) \\alpha^ {2}, \\tag {2.15}\\n$$\\n\\nthen $\\sum \\| x^k - x^{k-1} \\|^2 < \\infty$ . In particular, (1.5) holds and thus there exists $\\widehat{x} \\in S$ such that $x^k \\rightharpoonup \\widehat{x}$ weakly in $H$ as $k \\to \\infty$ .",
+      "proof": "Proof. Noticing that [substitute $y^k=x^k+\\alpha_k(x^k-x^{k-1})$ and use $-2\\langle a,b\\rangle\\geq-\\|a\\|^2-\\|b\\|^2$ in the weighted form] $\\rho_k^2 \\| P_ky^k - y^k\\|^2 = \\| x^{k+1} - y^k\\|^2 = \\| x^{k+1} - x^k\\|^2 - 2\\alpha_k \\langle x^{k+1} - x^k, x^k - x^{k-1} \\rangle + \\alpha_k^2 \\| x^k - x^{k-1}\\|^2 \\geq (1 - \\alpha_k)\\| x^{k+1} - x^k\\|^2 - \\alpha_k(1 - \\alpha_k)\\| x^k - x^{k-1}\\|^2$ , it follows from (2.9) that\\n\\n$$\\n\\begin{array}{l} \\varphi_ {k + 1} \\leq \\varphi_ {k} + \\alpha_ {k} (\\varphi_ {k} - \\varphi_ {k - 1}) + [ (\\alpha_ {k} + \\alpha_ {k} ^ {2}) / 2 + (1 / \\rho_ {k} - 1 / 2) \\alpha_ {k} (1 - \\alpha_ {k}) ] \\| x ^ {k} - x ^ {k - 1} \\| ^ {2} \\\\ - (1 / \\rho_ {k} - 1 / 2) (1 - \\alpha_ {k}) \\| x ^ {k + 1} - x ^ {k} \\| ^ {2}, \\\\ \\end{array}\\n$$\\n\\nwhere $\\varphi_{k}:=\\frac{1}{2}\\|x^{k}-\\bar{x}\\|^{2}$ . This yields\\n\\n$$\\n\\begin{array}{l} \\varphi_ {k + 1} - \\alpha_ {k} \\varphi_ {k} \\leq \\varphi_ {k} - \\alpha_ {k} \\varphi_ {k - 1} + \\alpha_ {k} [ 1 / \\rho_ {k} + (1 - 1 / \\rho_ {k}) \\alpha_ {k} ] \\| x ^ {k} - x ^ {k - 1} \\| ^ {2} \\\\ - (1 / \\rho_ {k} - 1 / 2) (1 - \\alpha_ {k}) \\| x ^ {k + 1} - x ^ {k} \\| ^ {2}. \\\\ \\end{array}\\n$$\\n\\nSetting $\\mu_k := \\varphi_k - \\alpha_k \\varphi_{k-1} + \\alpha_k [1/\\rho_k + (1-1/\\rho_k) \\alpha_k] \\|x^k - x^{k-1}\\|^2$ , and since $\\alpha_{k+1} \\geq \\alpha_k$ [so the term $-\\alpha_{k+1}\\varphi_k$ is no larger than $-\\alpha_k\\varphi_k$ after moving to the left-hand side] , we obtain\\n\\n$$\\n\\mu_ {k + 1} \\leq \\mu_ {k} + [ \\alpha_ {k + 1} / \\rho_ {k + 1} + (1 - 1 / \\rho_ {k + 1}) \\alpha_ {k + 1} ^ {2} + (1 / \\rho_ {k} - 1 / 2) (\\alpha_ {k} - 1) ] \\| x ^ {k + 1} - x ^ {k} \\| ^ {2}.\\n$$\\n\\nBut $\\alpha_{k + 1} / \\rho_{k + 1} + (1 - 1 / \\rho_{k + 1})\\alpha_{k + 1}^2\\leq \\alpha /R_1 + (1 - 1 / R_2)\\alpha^2$ and $(1 / \\rho_k - 1 / 2)(\\alpha_k - 1)\\leq (1 / R_1 - 1 / 2)\\alpha -1 / R_2 + 1 / 2$ . Therefore $\\mu_{k + 1}\\leq \\mu_k - p(\\alpha)\\| x^{k + 1} - x^k\\|^2$ , where $p(\\alpha)$ is given by (2.15). Since $p(\\alpha) > 0$ , $(\\mu_k)$ is nonincreasing, which implies $\\varphi_{k}\\leq \\alpha \\varphi_{k - 1} + \\mu_{k}\\leq \\alpha \\varphi_{k - 1} + \\mu_{1}$ . This gives $\\varphi_{k}\\leq \\alpha^{k}\\varphi_{0} + \\mu_{1}\\sum_{j = 0}^{k - 1}\\alpha^{j}\\leq \\alpha^{k}\\varphi_{0} + \\mu_{1} / (1 - \\alpha)$ . Furthermore, it follows that $p(\\alpha)\\sum_{j = 0}^{k}\\| x^{j + 1} - x^{j}\\|^2\\leq \\mu_{1} - \\mu_{k + 1}\\leq \\mu_{1} + \\alpha \\varphi_{k}\\leq \\alpha^{k + 1}\\varphi_{0} + \\mu_{1} / (1 - \\alpha)$ . This shows that $\\sum \\| x^k -x^{k - 1}\\|^2\\leq 2\\mu_1 / ((1 - \\alpha)p(\\alpha))$ [after taking the supremum over the partial sums and absorbing the bounded geometric tail] . The conclusion follows by Theorem 2.2.",
+      "depends_on": [
+        "def_2",
+        "thm_1"
+      ]
+    },
+    {
+      "id": "rem_2",
+      "type": "remark",
+      "name": "Remark 2",
+      "statement": "Suppose $R_{2} \\geq 1$ . Since $p(0) = 1 / R_{2} - 1 / 2 > 0$ thanks to (1.6), there exists a unique positive root $\\alpha^{*} > 0$ of the quadratic polynomial $p(\\alpha)$ , and for all $\\alpha \\in [0, \\alpha^{*})$ , $p(\\alpha) > 0$ . For instance, when $\\rho_{k} \\equiv 1$ , one gets $p(\\alpha) = 1 / 2 - (3 / 2)\\alpha$ and so $\\alpha^{*} = 1 / 3$ .",
+      "proof": null,
+      "depends_on": [
+        "def_2",
+        "prop_1"
+      ]
+    },
+    {
+      "id": "thm_2",
+      "type": "theorem",
+      "name": "THEOREM 3.1",
+      "statement": "Let $A:H\\Rightarrow H$ be a maximal monotone operator with $S:= A^{-1}(\\{0\\})\\neq\\emptyset$ and $(x^{k})\\subset H$ a sequence satisfying\\n\\n$$\\n(x ^ {k + 1} - y ^ {k}) / \\lambda_ {k} + v ^ {k} = \\eta^ {k} \\quad \\text {for some} v ^ {k} \\in \\rho_ {k} A (x ^ {k + 1} / \\rho_ {k} + (1 - 1 / \\rho_ {k}) y ^ {k}), \\tag {3.2}\\n$$\\n\\nwhere $y^{k} = x^{k} + \\alpha_{k}(x^{k} - x^{k - 1})$ , and the parameters $\\lambda_{k}$ , $\\alpha_{k}$ , and $\\rho_{k}$ satisfy (1.3), (1.4), and (1.6), respectively. Suppose (1.5), (3.1), and\\n\\n$$\\n\\sum \\lambda_ {k} \\| \\eta^ {k} \\| \\| y ^ {k} \\| <   \\infty . \\tag {3.3}\\n$$\\n\\nThen $v^k \\to 0$ strongly in $H$ and there exists $x^* \\in S$ such that $x^k \\rightharpoonup x^*$ weakly in $H$ .",
+      "proof": "Proof. It is easy to see that (3.2) amounts to [rewrite (3.2) as $y^k+(\\lambda_k/\\rho_k)\\eta^k\\in (I+\\lambda_kA)(x^{k+1}/\\rho_k+(1-1/\\rho_k)y^k)$ and then apply the resolvent definition]  $x^{k + 1} = (1 - \\rho_k)y^k +\\rho_kJ_{\\lambda_k}^A (y^k +(\\lambda_k / \\rho_k)\\eta^k)$ . Let $(w^{k})$ be the auxiliary sequence defined by\\n\\n$$\\nw ^ {k} := (1 - \\rho_ {k}) y ^ {k} + \\rho_ {k} J _ {\\lambda_ {k}} ^ {A} (y ^ {k}). \\tag {3.4}\\n$$\\n\\nSince $J_{\\lambda}^{A}$ is nonexpansive,\\n\\n$$\\n\\| x ^ {k + 1} - w ^ {k} \\| \\leq \\lambda_ {k} \\| \\eta^ {k} \\|. \\tag {3.5}\\n$$\\n\\nOn the other hand, (3.4) may be written as $w^{k} = y^{k} - \\lambda_{k}\\rho_{k}A_{\\lambda_{k}}(y^{k})$ , where $A_{\\lambda}:H\\to H$ is given by $A_{\\lambda} = \\frac{1}{\\lambda}(I - J_{\\lambda}^{A})$ . Thanks to (1.2),\\n\\n$$\\n0 \\in A (x) \\text {   if   and   only   if   } A _ {\\lambda} (x) = 0. \\tag {3.6}\\n$$\\n\\nMoreover, as $J_{\\lambda}^{A}$ is nonexpansive, $A_{\\lambda}$ is a cocoercive maximal monotone operator of parameter $\\lambda$ ; that is,\\n\\n$$\\n\\forall x _ {1}, x _ {2} \\in H, \\langle A _ {\\lambda} (x _ {1}) - A _ {\\lambda} (x _ {2}), x _ {1} - x _ {2} \\rangle \\geq \\lambda \\| A _ {\\lambda} (x _ {1}) - A _ {\\lambda} (x _ {2}) \\| ^ {2}. \\tag {3.7}\\n$$\\n\\nLet $\\bar{x} \\in S$ . By (3.6), $A_{\\lambda}(\\bar{x}) = 0$ and since $\\frac{1}{2} \\| w^k - \\bar{x} \\|^2 = \\frac{1}{2} \\| y^k - \\bar{x} \\|^2 - \\rho_k \\lambda_k \\langle y^k - \\bar{x}, A_{\\lambda_k}(y^k) \\rangle + \\frac{(\\rho_k \\lambda_k)^2}{2} \\| A_{\\lambda_k}(y^k) \\|^2$ , the cocoercivity property (3.7) yields\\n\\n$$\\n\\frac {1}{2} \\| w ^ {k} - \\bar {x} \\| ^ {2} \\leq \\frac {1}{2} \\| y ^ {k} - \\bar {x} \\| ^ {2} - \\lambda_ {k} ^ {2} \\rho_ {k} (1 - \\rho_ {k} / 2) \\| A _ {\\lambda_ {k}} (y ^ {k}) \\| ^ {2}. \\tag {3.8}\\n$$\\n\\nDefine $\\varphi_{k}:=\\frac{1}{2}\\|x^{k}-\\bar{x}\\|^{2}$ . Then $\\varphi_{k+1}\\leq\\frac{1}{2}\\|w^{k}-\\bar{x}\\|^{2}+\\|x^{k+1}-w^{k}\\|\\|w^{k}-\\bar{x}\\|+\\frac{1}{2}\\|x^{k+1}-w^{k}\\|^{2}$ . By (3.5) and (3.8),\\n\\n$$\\n\\varphi_ {k + 1} \\leq \\frac {1}{2} \\| y ^ {k} - \\bar {x} \\| ^ {2} - \\lambda_ {k} ^ {2} \\rho_ {k} (1 - \\rho_ {k} / 2) \\| A _ {\\lambda_ {k}} (y ^ {k}) \\| ^ {2} + \\lambda_ {k} \\| \\eta^ {k} \\| \\| y ^ {k} - \\bar {x} \\| + \\frac {\\lambda_ {k} ^ {2}}{2} \\| \\eta^ {k} \\| ^ {2}. \\tag {3.9}\\n$$\\n\\nRecalling (2.8), it follows that\\n\\n$$\\n\\varphi_ {k + 1} \\leq \\varphi_ {k} + \\alpha_ {k} (\\varphi_ {k} - \\varphi_ {k - 1}) + \\delta_ {k} - \\lambda_ {k} ^ {2} \\rho_ {k} (1 - \\rho_ {k} / 2) \\| A _ {\\lambda_ {k}} (y ^ {k}) \\| ^ {2}, \\tag {3.10}\\n$$\\n\\nwhere $\\delta_k := \\frac{\\alpha_k + \\alpha_k^2}{2} \\|x^k - x^{k-1}\\|^2 + \\lambda_k\\|\\eta^k\\|\\|y^k - \\bar{x}\\| + \\frac{\\lambda_k^2}{2}\\|\\eta^k\\|^2$ . Under (1.5), (3.1), if (3.3) holds, then $\\sum \\delta_k < \\infty$ [because $\\|y^k-\\bar{x}\\|\\leq\\|y^k\\|+\\|\\bar{x}\\|$, (3.3) controls the $\\|y^k\\|$ part, (3.1) controls the constant part, and boundedness of $(\\lambda_k)$ from (3.1) makes $\\sum\\lambda_k^2\\|\\eta^k\\|^2$ summable after discarding finitely many zero terms] . Thus $\\sum \\delta_k < \\infty$ and, by virtue of Lemma 2.3, $(\\varphi_k)$ is convergent. Moreover, we deduce that $\\sum \\lambda_k^2\\|A_{\\lambda_k}(y^k)\\|^2 < \\infty$ [by summing (3.10) as in the proof of (2.10), using Lemma 2.3(i) and the lower bound $\\rho_k(1-\\rho_k/2)\\geq R_1(1-R_2/2)>0$] . Set $\\xi^k := y^k - J_{\\lambda_k}^A(y^k)$ , which amounts to\\n\\n$$\\n\\xi^ {k} / \\lambda_ {k} \\in A (y ^ {k} - \\xi^ {k}). \\tag {3.11}\\n$$\\n\\nSince $\\sum \\| \\xi^k\\|^2 < \\infty$ [because $\\xi^k=\\lambda_k A_{\\lambda_k}(y^k)$], in particular $\\lim_{k\\to \\infty}\\xi^k = 0$ . Let $\\hat{x}$ be a weak cluster point of $(x^{k})$ . Since $\\lim_{k\\to \\infty}\\alpha_{k}\\| x^{k} - x^{k - 1}\\| = 0$ , $y^{k}\\rightharpoonup \\hat{x}$ and consequently $y^{k} - \\xi^{k}\\rightharpoonup \\hat{x}$ . By the weak-strong closedness of the graph of $A$ , letting $k\\to \\infty$ in (3.11) gives $0\\in A(\\hat{x})$ . Therefore, condition (b) of Lemma 2.4 holds [condition (a) was obtained from the convergence of $\\varphi_k$ for every $\\bar{x}\\in S$], which finishes the proof.",
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "lem_2",
+        "lem_3",
+        "thm_1",
+        "ext_def_1",
+        "ext_thm_1"
+      ]
+    },
+    {
+      "id": "rem_3",
+      "type": "remark",
+      "name": "Remark 3",
+      "statement": "Under (1.5) and (3.1), assume\\n\\n$$\\n\\sum \\alpha_ {k} \\| x ^ {k} - x ^ {k - 1} \\| <   \\infty . \\tag {3.12}\\n$$\\n\\nFrom (3.9), it follows that $\\| x^{k+1} - \\bar{x} \\| \\leq \\| y^k - \\bar{x} \\| + \\lambda_k \\| \\eta^k \\| \\leq \\| x^k - \\bar{x} \\| + \\alpha_k \\| x^k - x^{k-1} \\| + \\lambda_k \\| \\eta^k \\|$ . Using (3.1) and (3.12), $\\| x^k - \\bar{x} \\|$ is convergent; in particular ( $y^k$ ) is bounded. Hence in view of (3.1), condition (3.3) is realized.",
+      "proof": null,
+      "depends_on": [
+        "def_2",
+        "thm_2",
+        "ext_def_1"
+      ]
+    }
+  ]
+}

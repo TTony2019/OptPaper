@@ -1,0 +1,604 @@
+{
+  "metadata": {
+    "title": "SECOND ORDER DYNAMICAL SYSTEMS GOVERNED BY MAXIMALLY MONOTONE OPERATORS: QUANTITATIVE STABILITY",
+    "authors": [
+      "Mohamed Ait Mansour",
+      "Hedy Attouch",
+      "Zakaria Mazgouri"
+    ],
+    "year": 2024,
+    "source_type": "markdown"
+  },
+  "items": [
+    {
+      "id": "def_1",
+      "type": "definition",
+      "name": "Definition 2.1",
+      "statement": "A single-valued map $A:H\\rightarrow H$ is monotone if $\\langle Au-Av,u-v\\rangle\\geq0$ for all $u,v\\in H$; $m$-strongly monotone $(m>0)$ if $\\langle Au-Av,u-v\\rangle\\geq m\\|u-v\\|^2$ for all $u,v\\in H$; $\\beta$-cocoercive $(\\beta>0)$ if $\\langle Au-Av,u-v\\rangle\\geq\\beta\\|Au-Av\\|^2$ for all $u,v\\in H$; and $L$-Lipschitz continuous $(L>0)$ if $\\|Au-Av\\|\\leq L\\|u-v\\|$ for all $u,v\\in H$. It is clear that $m\\leq L$ and that every $\\beta$-cocoercive operator is $\\frac1\\beta$-Lipschitz continuous. Moreover, every $1$-Lipschitz continuous operator is said to be a contraction.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Foundation: Foundation.Operator.Linear] recall IsMonotone | [Foundation: Foundation.FixedPoint.Nonexpansive] recall CocoerciveOn"
+    },
+    {
+      "id": "def_2",
+      "type": "definition",
+      "name": "Definition 2.2",
+      "statement": "A function $f:H\\to\\mathbb R$ is convex if $f(tx+(1-t)y)\\leq tf(x)+(1-t)f(y)$ for all $x,y\\in H$ and all $t\\in[0,1]$; it is $\\delta$-strongly convex $(\\delta>0)$ if $f(tx+(1-t)y)\\leq tf(x)+(1-t)f(y)-\\frac\\delta2t(1-t)\\|x-y\\|^2$ for all $x,y\\in H$ and all $t\\in[0,1]$.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "def_3",
+      "type": "definition",
+      "name": "Definition 2.3",
+      "statement": "A function $x:[0,b]\\to H$ $(b>0)$ is absolutely continuous if: (i) there exists an integrable $y:[0,b]\\to H$ such that $x(t)=x(0)+\\int_0^t y(s)ds$ for all $t\\in[0,b]$; equivalently (ii) $x$ is continuous and its distributional derivative $\\dot x$ is Lebesgue integrable on $[0,b]$; equivalently (iii) for every $\\epsilon>0$ there exists $\\eta>0$ such that $(I_k\\cap I_j=\\emptyset\\text{ and }\\sum_k|b_k-a_k|<\\eta)\\Rightarrow\\sum_k\\|f(b_k)-f(a_k)\\|<\\epsilon$. We call $x:[0,+\\infty)\\to H$ a strong global solution of $S(A,u_0,v_0)$ if $x$ and $\\dot x$ are locally absolutely continuous, $x(0)=u_0$, $\\dot x(0)=v_0$, and $\\ddot x(t)+\\gamma\\dot x(t)+Ax(t)=0$ for almost every $t\\in[0,+\\infty)$.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "ext_lem_1",
+      "type": "lemma",
+      "name": "Lemma 2.6",
+      "statement": "Let $T>0$, $a,b\\in L^1(t_0,t_0+T;\\mathbb R)$ with $b(t)\\geq0$ for a.e. $t\\in[t_0,t_0+T]$, $0\\leq\\alpha<1$, and let $w:[t_0,t_0+T]\\to\\mathbb R_+$ be absolutely continuous and satisfy $(1-\\alpha)w'(t)\\leq a(t)w(t)+b(t)w^\\alpha(t)$ for a.e. $t\\in[t_0,t_0+T]$. Then for all $t\\in[t_0,t_0+T]$, $w^{1-\\alpha}(t)\\leq w^{1-\\alpha}(t_0)e^{\\int_{t_0}^t a(\\tau)d\\tau}+\\int_{t_0}^t e^{\\int_s^t a(\\tau)d\\tau}b(s)ds.$",
+      "proof": "Cited from: R. E. Showalter, Monotone Operators in Banach Spaces and Nonlinear Partial Differential Equations, Math. Surveys Monogr., 49. American Mathematical Society, Providence, RI, 1997.",
+      "depends_on": [],
+      "source": "R. E. Showalter, Monotone Operators in Banach Spaces and Nonlinear Partial Differential Equations, Math. Surveys Monogr., 49. American Mathematical Society, Providence, RI, 1997.",
+      "resolution_priority": "high",
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "def_5",
+      "type": "definition",
+      "name": "Yosida approximation",
+      "statement": "For $\\lambda>0$ and a perturbed maximal monotone operator $A(\\cdot,\\mu):H\\times\\Lambda\\to H$, $A_\\lambda(\\cdot,\\mu)=\\frac1\\lambda(I-J_\\lambda^A(\\cdot,\\mu))$, where $J_\\lambda^A(\\cdot,\\mu):=(I+\\lambda A(\\cdot,\\mu))^{-1}$ is the resolvent operator of index $\\lambda$.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Foundation: Foundation.SetValued.Basic] recall SetValuedOperator.resolvent | [Notation: paper $J_\\lambda^A$ is the resolvent and $A_\\lambda$ its Yosida approximation]"
+    },
+    {
+      "id": "def_6",
+      "type": "definition",
+      "name": "$r$-distance $D_r$",
+      "statement": "For $r>0$ and single-valued operators $A,B:H\\to H$, $D_r(A,B)=\\sup_{u\\in B(0,r)}\\|Au-Bu\\|$.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "def_8",
+      "type": "definition",
+      "name": "$d_r$ distance",
+      "statement": "For operators $A,B:H\\to H$ and $r>0$, $d_r(A,B):=\\sup_{u,v\\in B(0,r),u\\ne v}\\frac{\\|Au-Bv\\|}{\\|u-v\\|}$.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "ext_def_1",
+      "type": "definition",
+      "name": "Distance, excess, Hausdorff distance, and approximate fixed points",
+      "statement": "For a metric space $X$, $d(x,C):=\\inf_{y\\in C} d(x,y)$, $e(C,D):=\\sup_{x\\in C}d(x,D)$, and $h(C,D):=\\max\\{e(C,D),e(D,C)\\}$, with the empty-set conventions in Section 2.2. For $T:X\\rightrightarrows X$ and $\\varepsilon\\geq0$, $\\varepsilon\\text{-Fix}(T):=\\{x\\in X:d(x,T(x))\\leq\\varepsilon\\}$ and $\\operatorname{Fix}(T):=\\{x\\in X:x\\in T(x)\\}$.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Notation: supplies $d$, $e$, $h$, $\\operatorname{Fix}$, and $\\varepsilon$-Fix used by Theorems 2.4, 2.5, and 7.8]"
+    },
+    {
+      "id": "ext_def_5",
+      "type": "definition",
+      "name": "Strict contraction",
+      "statement": "A map $T:X\\to X$ on a metric space is a contraction if there is $\\lambda\\in[0,1)$ such that $d(Tx,Ty)\\leq\\lambda d(x,y)$ for all $x,y\\in X$.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Note: Definition 2.1 calls a $1$-Lipschitz map a contraction, whereas Theorems 2.4--2.5 require the strict $\\lambda<1$ convention]"
+    },
+    {
+      "id": "ext_thm_5",
+      "type": "theorem",
+      "name": "Cauchy--Lipschitz--Picard theorem",
+      "statement": "A globally Lipschitz vector field on a Banach space has a unique global classical solution for each initial value; the paper applies this to the first-order system on $H\\times H$.",
+      "proof": "Cited from: A. Haraux, Systèmes Dynamiques Dissipatifs et Applications, Recherches en Mathématiques Appliquées, 17, Masson, Paris, 1991. The paper uses it in Section 2.1 and Theorem 3.1.",
+      "depends_on": [],
+      "source": "A. Haraux, Systèmes Dynamiques Dissipatifs et Applications, Recherches en Mathématiques Appliquées, 17, Masson, Paris, 1991.",
+      "resolution_priority": "high",
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "ext_thm_1",
+      "type": "theorem",
+      "name": "Theorem 2.4",
+      "statement": "Let $X$ be a metric space and let $T_1:X\\rightrightarrows X$ and $T_2:X\\rightrightarrows X$. Suppose that both $T_1$ and $T_2$ are Lipschitz continuous on $X$ with the same Lipschitz constant $\\lambda\\in[0,1)$. Then for every $\\varepsilon>0$, $\\varepsilon$-Fix$(T_i)\\neq\\emptyset$, $i=1,2$, and $h(\\varepsilon\\text{-Fix}(T_1),\\varepsilon\\text{-Fix}(T_2))\\leq\\frac\\varepsilon{1-\\lambda}+\\frac1{1-\\lambda}\\sup_{x\\in X}h(T_1(x),T_2(x)).$",
+      "proof": "Cited from: M. Ait Mansour, M. A Bahraoui and A. El Bekkali, Metric regularity and Lyusternik-Graves theorem via approximate fixed points of set-valued map in noncomplete metric spaces, Set-Valued Var. Anal., 30 (2022), 233-256.",
+      "depends_on": [
+        "ext_def_1"
+      ],
+      "source": "M. Ait Mansour, M. A Bahraoui and A. El Bekkali, Metric regularity and Lyusternik-Graves theorem via approximate fixed points of set-valued map in noncomplete metric spaces, Set-Valued Var. Anal., 30 (2022), 233-256.",
+      "resolution_priority": "medium",
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "ext_thm_2",
+      "type": "theorem",
+      "name": "Theorem 2.5 (Lim's Lemma)",
+      "statement": "Let $X$ be a complete metric space and let $T_1,T_2$ be two maps from $X$ into the family of nonempty closed subsets of $X$. Suppose that both $T_1$ and $T_2$ are Lipschitz continuous on $X$ with the same Lipschitz constant $\\lambda\\in[0,1)$. Then $h(\\operatorname{Fix}(T_1),\\operatorname{Fix}(T_2))\\leq\\frac1{1-\\lambda}\\sup_{x\\in X}h(T_1(x),T_2(x)).$",
+      "proof": "Cited from: T.-C. Lim, On fixed-point stability for set-valued contractive mappings with applications to generalized differential equations, J. Math. Anal. Appl., 110 (1985), 436-441.",
+      "depends_on": [
+        "ext_def_1"
+      ],
+      "source": "T.-C. Lim, On fixed-point stability for set-valued contractive mappings with applications to generalized differential equations, J. Math. Anal. Appl., 110 (1985), 436-441.",
+      "resolution_priority": "medium",
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "def_4",
+      "type": "definition",
+      "name": "Conditions $(C_1)$ and $(C_2)$",
+      "statement": "$(C_1)$: for each $\\mu\\in\\mathcal V(\\bar\\mu)$ there exists $\\alpha_\\mu>0$ such that $\\langle A_\\mu(u)-A_\\mu(v),u-v\\rangle\\geq\\alpha_\\mu\\|A_\\mu(u)-A_\\mu(v)\\|^2$ for all $u,v\\in H$. $(C_2)$: there exist $\\theta_1>0$, $\\theta_2\\in]0,1]$ such that $\\|A_\\mu(u)-A_{\\mu'}(u)\\|\\leq\\theta_1\\|\\mu-\\mu'\\|^{\\theta_2}$ for all $u\\in H$ and $\\mu,\\mu'\\in\\mathcal V(\\bar\\mu)$.",
+      "proof": null,
+      "depends_on": [
+        "def_1"
+      ],
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "def_7",
+      "type": "definition",
+      "name": "$d_{\\lambda,\\rho}$ distance",
+      "statement": "For maximal monotone operators $A,B$ and $\\lambda,\\rho>0$, $d_{\\lambda,\\rho}(A,B):=\\sup_{u\\in B(0,\\rho)}\\|J_\\lambda^Au-J_\\lambda^Bu\\|=\\lambda\\sup_{u\\in B(0,\\rho)}\\|A_\\lambda u-B_\\lambda u\\|$.",
+      "proof": null,
+      "depends_on": [
+        "def_5"
+      ],
+      "remark": "[Foundation: Foundation.SetValued.Basic] recall SetValuedOperator.resolvent"
+    },
+    {
+      "id": "ext_def_2",
+      "type": "definition",
+      "name": "Parametric second-order system",
+      "statement": "For $A_\\mu:H\\to H$, damping $\\gamma>0$, and $(u_0^\\mu,v_0^\\mu)\\in H\\times H$, $S(A_\\mu,u_0^\\mu,v_0^\\mu)$ denotes $\\ddot x_\\mu(t)+\\gamma\\dot x_\\mu(t)+A_\\mu(x_\\mu(t))=0$ for a.e. $t\\geq0$, with $x_\\mu(0)=u_0^\\mu$ and $\\dot x_\\mu(0)=v_0^\\mu$.",
+      "proof": null,
+      "depends_on": [
+        "def_3"
+      ],
+      "remark": "[Notation: makes the recurring system label $S(A_\\mu,u_0^\\mu,v_0^\\mu)$ explicit]"
+    },
+    {
+      "id": "ext_def_3",
+      "type": "definition",
+      "name": "Inertial gradient-like dynamics and parametric minimization",
+      "statement": "$DIN(\\varphi,\\mu)$ denotes $\\ddot x_\\mu+\\gamma\\dot x_\\mu+\\beta\\nabla^2\\varphi_\\mu(x_\\mu)\\dot x_\\mu+\\nabla\\varphi_\\mu(x_\\mu)=0$ with the stated initial data. $(PM_\\mu)$ denotes $\\min_{x\\in H}\\varphi(x,\\mu)$, and $\\arg\\min\\varphi(\\cdot,\\mu):=\\{x\\in H:\\varphi(x,\\mu)=\\inf_{y\\in H}\\varphi(y,\\mu)\\}$.",
+      "proof": null,
+      "depends_on": [
+        "def_2"
+      ],
+      "remark": "[Notation: introduces the DIN and $PM_\\mu$ labels and the argmin set used in Section 6]"
+    },
+    {
+      "id": "ext_thm_4",
+      "type": "theorem",
+      "name": "Baillon--Haddad theorem",
+      "statement": "For a convex differentiable function with $L$-Lipschitz gradient, its gradient is $1/L$-cocoercive; the paper invokes this as [22, Corollary 18.16] with $L=1/\\beta$.",
+      "proof": "Cited from: H. H. Bauschke and P. L. Combettes, Convex Analysis and Monotone Operator Theory in Hilbert Spaces, CMS Books in Mathematics, Springer, New York, 2011, Corollary 18.16.",
+      "depends_on": [
+        "def_1",
+        "def_2"
+      ],
+      "source": "H. H. Bauschke and P. L. Combettes, Convex Analysis and Monotone Operator Theory in Hilbert Spaces, CMS Books in Mathematics, Springer, New York, 2011.",
+      "resolution_priority": "medium",
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "ext_thm_6",
+      "type": "theorem",
+      "name": "Approximate fixed points converge to the exact fixed point",
+      "statement": "For the contractive fixed-point setting used in Section 7, the paper cites [4, Proposition 4(g)] for Painlevé--Kuratowski convergence of $\\varepsilon$-approximate fixed points to the unique exact fixed point as $\\varepsilon\\to0$.",
+      "proof": "Cited from: M. Ait Mansour, M. A. Bahraoui and A. El Bekkali, Metric regularity and Lyusternik-Graves theorem via approximate fixed points of set-valued map in noncomplete metric spaces, Set-Valued Var. Anal., 30 (2022), 233-256, Proposition 4(g).",
+      "depends_on": [
+        "ext_def_1"
+      ],
+      "source": "M. Ait Mansour, M. A. Bahraoui and A. El Bekkali, Metric regularity and Lyusternik-Graves theorem via approximate fixed points of set-valued map in noncomplete metric spaces, Set-Valued Var. Anal., 30 (2022), 233-256.",
+      "resolution_priority": "medium",
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "thm_1",
+      "type": "theorem",
+      "name": "Theorem 3.1",
+      "statement": "Assume $(C_1)-(C_2)$. For each $\\mu\\in\\mathcal V(\\bar\\mu)$ and $(u_0^\\mu,v_0^\\mu)\\in H\\times H$, $S(A_\\mu,u_0^\\mu,v_0^\\mu)$ admits a unique strong global solution $x_\\mu$ and, if $\\mu,\\mu'\\in\\mathcal V(\\bar\\mu)$, then for a.e. $t\\geq0$, $\\|x_\\mu(t)-x_{\\mu'}(t)\\|\\leq e^{mt}\\sqrt{\\|u_0^\\mu-u_0^{\\mu'}\\|^2+\\|v_0^\\mu-v_0^{\\mu'}\\|^2}+\\frac{\\theta_1}{m}(e^{mt}-1)\\|\\mu-\\mu'\\|^{\\theta_2}\\tag{3}$, where $m=\\max(m_\\mu,m_{\\mu'})$ and $m_\\mu=(1+2\\gamma^2+\\frac2{\\alpha_\\mu^2})^{1/2}$.",
+      "proof": "For $X_\\mu=(x_\\mu,\\dot x_\\mu)$, write $\\dot X_\\mu=\\mathcal A_\\mu(X_\\mu)$, $\\mathcal A_\\mu(u,v)=(v,-\\gamma v-A_\\mu u)$. Cocoercivity makes $\\mathcal A_\\mu$ Lipschitz. [Indeed, $\\|A_\\mu u-A_\\mu v\\|\\leq\\alpha_\\mu^{-1}\\|u-v\\|$, and $\\|(v-v\\prime,-\\gamma(v-v\\prime)-[A_\\mu u-A_\\mu u\\prime])\\|^2\\leq(1+2\\gamma^2+2/\\alpha_\\mu^2)\\|(u-u\\prime,v-v\\prime)\\|^2$.] For a.e. $t$, $\\frac12\\frac d{dt}\\|X_\\mu-X_{\\mu'}\\|^2\\leq m_{\\mu'}\\|X_\\mu-X_{\\mu'}\\|^2+\\theta_1\\|\\mu-\\mu'\\|^{\\theta_2}\\|X_\\mu-X_{\\mu'}\\|$. Applying Lemma 2.6 with $t_0=0$, $\\alpha=\\frac12$, $a=m_{\\mu'}$, $b=\\theta_1\\|\\mu-\\mu'\\|^{\\theta_2}$ and $w=\\|X_\\mu-X_{\\mu'}\\|^2$ gives $\\|X_\\mu(t)-X_{\\mu'}(t)\\|\\leq e^{m_{\\mu'}t}\\|X_\\mu(0)-X_{\\mu'}(0)\\|+\\frac{\\theta_1}{m_{\\mu'}}(e^{m_{\\mu'}t}-1)\\|\\mu-\\mu'\\|^{\\theta_2}$. Since $\\|X_\\mu-X_{\\mu'}\\|\\geq\\|x_\\mu-x_{\\mu'}\\|$ and $\\|X_\\mu(0)-X_{\\mu'}(0)\\|=\\sqrt{\\|u_0^\\mu-u_0^{\\mu'}\\|^2+\\|v_0^\\mu-v_0^{\\mu'}\\|^2}$, symmetry gives (3). [Interchanging $\\mu$ and $\\mu\\prime$ yields the analogous bound with $m_\\mu$; replacing both constants by $m=\\max(m_\\mu,m_{\\mu\\prime})$ enlarges the right-hand side.]",
+      "depends_on": [
+        "def_1",
+        "def_3",
+        "def_4",
+        "ext_lem_1",
+        "ext_def_2",
+        "ext_thm_5"
+      ],
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "thm_4",
+      "type": "theorem",
+      "name": "Theorem 5.4",
+      "statement": "For each $\\mu$, let $x_\\mu$ be the unique solution of $S(A_\\mu,u_0^\\mu,v_0^\\mu)$. If for given $r,T>0$, $x_\\mu(t)\\in B(0,r)$ for a.e. $t\\in[0,T]$ and every $\\mu$, then for a.e. $t\\in[0,T]$, $\\|x_\\mu(t)-x_{\\mu'}(t)\\|\\leq\\sqrt{\\|u_0^\\mu-u_0^{\\mu'}\\|^2+\\|v_0^\\mu-v_0^{\\mu'}\\|^2}\\exp\\left(2\\left(1+2\\gamma^2+\\frac2{d_r(A_\\mu,A_{\\mu'})^2}\\right)^{1/2}T\\right).$",
+      "proof": "For a.e. $t$, $\\|A_{\\mu'}(x_{\\mu'}(t))-A_\\mu(x_\\mu(t))\\|\\leq d_r(A_\\mu,A_{\\mu'})\\|x_\\mu(t)-x_{\\mu'}(t)\\|$. Thus $\\frac12\\frac d{dt}\\|X_\\mu-X_{\\mu'}\\|^2\\leq(1+2\\gamma^2+\\frac2{d_r(A_\\mu,A_{\\mu'})^2})^{1/2}\\|X_\\mu-X_{\\mu'}\\|^2$. Integration gives the claimed estimate. [Since $w(t)=\\|X_\\mu(t)-X_{\\mu\\prime}(t)\\|^2$ satisfies $w\\prime(t)\\leq2c w(t)$, Gronwall gives $\\|X_\\mu(t)-X_{\\mu\\prime}(t)\\|\\leq e^{ct}\\|X_\\mu(0)-X_{\\mu\\prime}(0)\\|$; use $t\\leq T$ and project onto the first component.]",
+      "depends_on": [
+        "def_8",
+        "ext_def_2"
+      ],
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "thm_5",
+      "type": "theorem",
+      "name": "Theorem 6.1",
+      "statement": "For each $\\mu$, let $x_\\mu$ be the unique solution of $DIN(\\varphi,\\mu)$. Assume $\\beta\\gamma>1$, each $\\varphi(\\cdot,\\mu)$ is differentiable and $\\delta_\\mu$-strongly convex, and (9). Then for all $\\mu,\\mu'$ and a.e. $t\\geq0$, $\\|x_\\mu(t)-x_{\\mu'}(t)\\|\\leq e^{-\\beta\\delta t}\\sqrt{\\|u_0^\\mu-u_0^{\\mu'}\\|^2+\\|v_0^\\mu-v_0^{\\mu'}\\|^2}+\\frac{\\theta_1}{\\delta}(1-e^{-\\beta\\delta t})\\|\\mu-\\mu'\\|^{\\theta_2}\\tag{17}$, where $\\delta=\\max(\\delta_\\mu,\\delta_{\\mu'})$, $\\theta_1=k_1$, and $\\theta_2=\\gamma_1$.",
+      "proof": "With $X_\\mu=(x_\\mu,z_\\mu)$, use the equivalent gradient system $\\dot X_\\mu+\\nabla\\varepsilon_\\mu(X_\\mu)=0$, where $\\varepsilon_\\mu(x,z)=\\beta\\varphi_\\mu(x)+\\frac12\\|\\sqrt a x+\\sqrt b z\\|^2$, $a=\\gamma-\\frac1\\beta$, $b=\\frac1\\beta$. Assumption (9) gives $\\|\\nabla\\varepsilon_\\mu(X_\\mu)-\\nabla\\varepsilon_{\\mu'}(X_\\mu)\\|\\leq\\beta\\theta_1\\|\\mu-\\mu'\\|^{\\theta_2}$. Strong convexity makes $\\nabla\\varepsilon_{\\mu'}$ $\\beta\\delta_{\\mu'}$-strongly monotone, hence $\\frac12\\frac d{dt}\\|X_\\mu-X_{\\mu'}\\|^2\\leq-\\beta\\delta_{\\mu'}\\|X_\\mu-X_{\\mu'}\\|^2+\\beta\\theta_1\\|\\mu-\\mu'\\|^{\\theta_2}\\|X_\\mu-X_{\\mu'}\\|$. Lemma 2.6 and symmetry yield (17). [Apply Lemma 2.6 to $w=\\|X_\\mu-X_{\\mu\\prime}\\|^2$ with $a=-\\beta\\delta_{\\mu\\prime}$ and $b=\\beta\\theta_1\\|\\mu-\\mu\\prime\\|^{\\theta_2}$; the integral is $(1-e^{-\\beta\\delta_{\\mu\\prime}t})/\\delta_{\\mu\\prime}$.]",
+      "depends_on": [
+        "def_2",
+        "ext_lem_1",
+        "ext_def_3"
+      ],
+      "remark": "[Foundation: Foundation.Operator.Linear] recall IsStronglyMonotone | [Prove hint: prove strong monotonicity of $\\nabla\\varepsilon_\\mu$ from strong convexity]"
+    },
+    {
+      "id": "def_9",
+      "type": "definition",
+      "name": "Definition 6.6",
+      "statement": "For $DIN(\\varphi,\\mu)$, $\\bar x$ is Lyapunov stable for (DIN) if for every $\\epsilon>0$ there exists $\\delta>0$ such that $\\|u_0-\\bar x\\|<\\delta$ implies $\\|x(t)-\\bar x\\|<\\epsilon$ for every $t\\geq0$; it is asymptotically stable if it is Lyapunov stable and $\\|x_0-\\bar x\\|<\\delta$ implies $\\lim_{t\\to\\infty}\\|x(t)-\\bar x\\|=0$. It is Lyapunov uniformly $\\bar\\mu$-stable for the family if for every $\\epsilon>0$ there is $\\delta>0$ such that $\\|u_0-\\bar x\\|<\\delta$ and $\\|\\mu-\\bar\\mu\\|<\\delta$ imply $\\|x_\\mu(t)-\\bar x\\|<\\epsilon$ for every $t\\geq0$; asymptotic uniform $\\bar\\mu$-stability additionally requires $\\lim_{t\\to\\infty}\\|x_\\mu(t)-\\bar x\\|=0$.",
+      "proof": null,
+      "depends_on": [
+        "ext_def_3"
+      ],
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "ext_def_4",
+      "type": "definition",
+      "name": "Fixed-point integral map and uniform norm",
+      "statement": "For $T>0$, $\\|x\\|_\\infty:=\\sup_{t\\in[0,T]}\\|x(t)\\|$. For a differentiable path $x$, $\\Gamma_{A,u_0,v_0}(x)(t):=u_0+t v_0+\\int_0^t(s-t)[\\gamma\\dot x(s)+Ax(s)]\\,ds$.",
+      "proof": null,
+      "depends_on": [
+        "ext_def_2"
+      ],
+      "remark": "[Note: the paper declares $\\Gamma$ on $C([0,T];H)$ but its formula uses $\\dot x$; formalization needs a $C^1$ or absolutely-continuous path space]"
+    },
+    {
+      "id": "ext_thm_3",
+      "type": "theorem",
+      "name": "Alvarez--Attouch--Bolte--Redont Proposition 5.1",
+      "statement": "Under the hypotheses quoted in Section 6, including $\\operatorname{int}(\\arg\\min\\varphi)\\ne\\emptyset$, every trajectory of $(DIN)$ converges strongly to a minimizer of $\\varphi$.",
+      "proof": "Cited from: F. Alvarez, H. Attouch, J. Bolte and P. Redont, A second-order gradient-like dissipative dynamical system with hessian-driven damping: Application to optimization and mechanics, J. Math. Pures Appl., 81 (2002), 747-779. The paper uses Proposition 5.1 specifically for strong convergence in Theorem 6.2.",
+      "depends_on": [
+        "ext_def_3"
+      ],
+      "source": "F. Alvarez, H. Attouch, J. Bolte and P. Redont, A second-order gradient-like dissipative dynamical system with hessian-driven damping: Application to optimization and mechanics, J. Math. Pures Appl., 81 (2002), 747-779.",
+      "resolution_priority": "high",
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "rem_1",
+      "type": "remark",
+      "name": "Remark 3.2",
+      "statement": "If $\\alpha_0:=\\sup_{\\mu\\in\\mathcal V(\\bar\\mu)}\\alpha_\\mu<+\\infty$, the conclusion of Theorem 3.1 holds with $m_0=(1+2\\gamma^2+\\frac2{\\alpha_0^2})^{1/2}$. If $(u_0^\\mu,v_0^\\mu)=(u_0,v_0)$ for all $\\mu$, it becomes $\\|x_\\mu(t)-x_{\\mu'}(t)\\|\\leq\\frac{\\theta_1}{m}(e^{mt}-1)\\|\\mu-\\mu'\\|^{\\theta_2}$.",
+      "proof": null,
+      "depends_on": [
+        "thm_1"
+      ],
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "cor_1",
+      "type": "corollary",
+      "name": "Corollary 4.1",
+      "statement": "Assume each $\\varphi(\\cdot,\\mu)$ is differentiable with $\\frac1{\\beta_\\mu}$-Lipschitz continuous gradient $(\\beta_\\mu>0)$ and $\\|\\nabla\\varphi(x,\\mu)-\\nabla\\varphi(x,\\mu')\\|\\leq k_1\\|\\mu-\\mu'\\|^{\\gamma_1}\\tag{9}$. Then (8) admits a unique strong global solution $x_\\mu$ and $\\|x_\\mu(t)-x_{\\mu'}(t)\\|\\leq e^{mt}\\sqrt{\\|u_0^\\mu-u_0^{\\mu'}\\|^2+\\|v_0^\\mu-v_0^{\\mu'}\\|^2}+\\frac{k_1}{m}(e^{mt}-1)\\|\\mu-\\mu'\\|^{\\gamma_1}\\tag{10}$, where $m=\\max(m_\\mu,m_{\\mu'})$ and $m_\\mu=(1+2\\gamma^2+\\frac2{\\beta_\\mu^2})^{1/2}$.",
+      "proof": "Since (8) is $S(A_\\mu,u_0^\\mu,v_0^\\mu)$ with $A(\\cdot,\\mu)=\\nabla\\varphi(\\cdot,\\mu)$, use Theorem 3.1. [The Baillon--Haddad step uses the surrounding convexity and differentiability assumptions: $1/\\beta_\\mu$-Lipschitz continuity of $\\nabla\\varphi_\\mu$ gives $\\beta_\\mu$-cocoercivity, so $(C_1)$ holds with $\\alpha_\\mu=\\beta_\\mu$.] The Baillon-Haddad Theorem says that $\\nabla\\varphi$ is $\\frac1\\beta$-Lipschitz iff $\\varphi$ is $\\beta$-cocoercive; (9) gives $(C_2)$ with $\\theta_1=k_1$, $\\theta_2=\\gamma_1$.",
+      "depends_on": [
+        "def_1",
+        "thm_1",
+        "ext_thm_4"
+      ],
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "cor_2",
+      "type": "corollary",
+      "name": "Corollary 4.2",
+      "statement": "Assume $T(\\cdot,\\mu)$ is a contraction for all $\\mu\\in\\mathcal V(\\bar\\mu)$ and $\\|T(u,\\mu)-T(u,\\mu')\\|\\leq\\theta_1\\|\\mu-\\mu'\\|^{\\theta_2}\\tag{12}$. Then system (11) admits a unique strong global solution $x_\\mu$ and $\\|x_\\mu(t)-x_{\\mu'}(t)\\|\\leq e^{mt}\\sqrt{\\|u_0^\\mu-u_0^{\\mu'}\\|^2+\\|v_0^\\mu-v_0^{\\mu'}\\|^2}+\\frac{\\theta_1}{m}(e^{mt}-1)\\|\\mu-\\mu'\\|^{\\theta_2}$, where $m=(1+2\\gamma^2+8)^{1/2}$.",
+      "proof": "For $A_\\mu=I-T(\\cdot,\\mu)$, $\\langle A_\\mu u-A_\\mu v,u-v\\rangle-\\frac12\\|A_\\mu u-A_\\mu v\\|^2=\\frac12(\\|u-v\\|^2-\\|T(u,\\mu)-T(v,\\mu)\\|^2)\\geq0$. Hence $(C_1)$ holds with $\\alpha_\\mu=\\frac12$; [The displayed identity follows by expanding $\\|[u-v]-[T(u,\\mu)-T(v,\\mu)]\\|^2$ and cancelling the cross terms. Since a strict contraction is $1$-Lipschitz, its final nonnegative term proves the cocoercivity inequality.] (12) gives $(C_2)$. Apply Theorem 3.1.",
+      "depends_on": [
+        "def_1",
+        "def_4",
+        "thm_1",
+        "ext_def_5"
+      ],
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "cor_3",
+      "type": "corollary",
+      "name": "Corollary 4.3",
+      "statement": "Assume that, for all $\\lambda>0$, $\\|J_\\lambda^A(u,\\mu)-J_\\lambda^A(u,\\mu')\\|\\leq\\lambda\\theta_1\\|\\mu-\\mu'\\|^{\\theta_2}\\tag{15}$. Then for given $\\lambda>0$, system (14) admits a unique strong global solution $x_\\mu$ and $\\|x_\\mu(t)-x_{\\mu'}(t)\\|\\leq e^{mt}\\sqrt{\\|u_0^\\mu-u_0^{\\mu'}\\|^2+\\|v_0^\\mu-v_0^{\\mu'}\\|^2}+\\frac{\\theta_1}{m}(e^{mt}-1)\\|\\mu-\\mu'\\|^{\\theta_2}$, where $m=(1+2\\gamma^2+\\frac2{\\lambda^2})^{1/2}$.",
+      "proof": "$A_\\lambda(\\cdot,\\mu)$ is $\\frac1\\lambda$-Lipschitz and $\\lambda$-cocoercive, so $(C_1)$ holds with $\\alpha_\\mu=\\lambda$. [By the resolvent/Yosida properties of a maximal monotone operator, $A_\\lambda$ is $\\lambda$-cocoercive and therefore $1/\\lambda$-Lipschitz.] Assumption (15) implies $\\|A_\\lambda(u,\\mu)-A_\\lambda(u,\\mu')\\|\\leq\\theta_1\\|\\mu-\\mu'\\|^{\\theta_2}$, hence $(C_2)$, and (3) applies.",
+      "depends_on": [
+        "def_1",
+        "def_4",
+        "def_5",
+        "thm_1"
+      ],
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "thm_2",
+      "type": "theorem",
+      "name": "Theorem 5.1",
+      "statement": "For each $\\mu$, let $x_\\mu$ be the unique solution of $S(A_\\mu,u_0^\\mu,v_0^\\mu)$. Suppose $(C_1)$ and, for given $r,T>0$, $x_\\mu(t)\\in B(0,r)$ for a.e. $t\\in[0,T]$ and every $\\mu$. Then, for all $\\mu,\\mu'$ and a.e. $t\\in[0,T]$, $\\|x_\\mu(t)-x_{\\mu'}(t)\\|\\leq e^{mT}\\sqrt{\\|u_0^\\mu-u_0^{\\mu'}\\|^2+\\|v_0^\\mu-v_0^{\\mu'}\\|^2}+\\frac1m(e^{mT}-1)D_r(A_\\mu,A_{\\mu'})$, where $m=\\max(m_\\mu,m_{\\mu'})$, $m_\\mu=(1+2\\gamma^2+\\frac2{\\alpha_\\mu^2})^{1/2}$.",
+      "proof": "The proof repeats Theorem 3.1, replacing the $(C_2)$ estimate by $\\|\\mathcal A_\\mu(X_\\mu(t))-\\mathcal A_{\\mu'}(X_\\mu(t))\\|=\\|A_\\mu(x_\\mu(t))-A_{\\mu'}(x_\\mu(t))\\|\\leq D_r(A_\\mu,A_{\\mu'})$, then applying Lemma 2.6. [With $w=\\|X_\\mu-X_{\\mu\\prime}\\|^2$, the preceding estimate gives $(1-1/2)w\\prime\\leq m_{\\mu\\prime}w+D_r(A_\\mu,A_{\\mu\\prime})w^{1/2}$; Lemma 2.6 therefore yields the stated exponential term after evaluating the constant-coefficient integral.]",
+      "depends_on": [
+        "def_4",
+        "def_6",
+        "ext_lem_1",
+        "thm_1",
+        "ext_def_2"
+      ],
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "thm_3",
+      "type": "theorem",
+      "name": "Theorem 5.2",
+      "statement": "For given $\\lambda>0$, let $x_\\mu$ be the unique solution of (14). If for some $\\rho,T>0$, $x_\\mu(t)\\in B(0,\\rho)$ for a.e. $t\\in[0,T]$, then for all $\\mu,\\mu'$ and a.e. $t\\in[0,T]$, $\\|x_\\mu(t)-x_{\\mu'}(t)\\|\\leq e^{mT}\\sqrt{\\|u_0^\\mu-u_0^{\\mu'}\\|^2+\\|v_0^\\mu-v_0^{\\mu'}\\|^2}+\\frac1{\\lambda m}(e^{mT}-1)d_{\\lambda,\\rho}(A_\\mu,A_{\\mu'})$, where $m=(1+2\\gamma^2+\\frac2{\\lambda^2})^{1/2}$ and $A_\\mu:=A(\\cdot,\\mu)$.",
+      "proof": "Using $\\mathcal A_\\mu^\\lambda(u,v)=(v,-\\gamma v-A_\\lambda(u,\\mu))$, the $\\lambda$-cocoercivity gives $\\|\\mathcal A_{\\mu'}^\\lambda(X_\\mu)-\\mathcal A_{\\mu'}^\\lambda(X_{\\mu'})\\|\\leq m\\|X_\\mu-X_{\\mu'}\\|$, and $\\|\\mathcal A_\\mu^\\lambda(X_\\mu)-\\mathcal A_{\\mu'}^\\lambda(X_\\mu)\\|\\leq\\frac1\\lambda d_{\\lambda,\\rho}(A_\\mu,A_{\\mu'})$. Lemma 2.6 yields the asserted estimate. [More explicitly, use $d_{\\lambda,\\rho}=\\lambda\\sup_{u\\in B(0,\\rho)}\\|A_\\lambda u-B_\\lambda u\\|$ and the trajectory containment to obtain the forcing coefficient $d_{\\lambda,\\rho}/\\lambda$, then evaluate Lemma 2.6 with $\\alpha=1/2$.]",
+      "depends_on": [
+        "def_5",
+        "def_7",
+        "ext_lem_1",
+        "thm_1",
+        "ext_def_2"
+      ],
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "thm_6",
+      "type": "theorem",
+      "name": "Theorem 6.2",
+      "statement": "For each $\\mu$, let $x_\\mu$ be the unique solution of $DIN(\\varphi,\\mu)$ and suppose $\\arg\\min\\varphi(\\cdot,\\mu)\\ne\\emptyset$. Under the hypotheses of Theorem 6.1 and $\\operatorname{int}(\\arg\\min\\varphi(\\cdot,\\mu))\\ne\\emptyset$, $(x_\\mu(t))_{t\\geq0}$ converges strongly to the unique solution $\\bar x_\\mu$ of $(PM_\\mu)$, and $\\|\\bar x_\\mu-\\bar x_{\\mu'}\\|\\leq\\frac{\\theta_1}{\\delta}\\|\\mu-\\mu'\\|^{\\theta_2}\\tag{23}$ for $\\delta=\\max(\\delta_\\mu,\\delta_{\\mu'})$.",
+      "proof": "Uniqueness follows from strong convexity; strong convergence follows from [10, Proposition 5.1]. [The cited proposition supplies $x_\\mu(t)\\to\\bar x_\\mu$ and $x_{\\mu\\prime}(t)\\to\\bar x_{\\mu\\prime}$ strongly, while $e^{-\\beta\\delta t}\\to0$ and $1-e^{-\\beta\\delta t}\\to1.] Passing to the limit $t\\to+\\infty$ in (17) gives $\\|\\bar x_\\mu-\\bar x_{\\mu'}\\|\\leq\\frac{\\theta_1}{\\delta}\\|\\mu-\\mu'\\|^{\\theta_2}$.",
+      "depends_on": [
+        "thm_5",
+        "ext_def_3",
+        "ext_thm_3"
+      ],
+      "remark": "[Prove hint: apply the external convergence result, then take limits in Theorem 6.1]"
+    },
+    {
+      "id": "rem_3",
+      "type": "remark",
+      "name": "Remark 6.3",
+      "statement": "If, instead of (9), for given $r,T>0$, $x_\\mu(t)\\in B(0,r)$ for a.e. $t\\in[0,T]$ and all $\\mu$, then $\\|\\nabla\\varepsilon_\\mu(X_\\mu(t))-\\nabla\\varepsilon_{\\mu'}(X_\\mu(t))\\|\\leq\\beta D_r(\\nabla\\varphi_\\mu,\\nabla\\varphi_{\\mu'}).$",
+      "proof": null,
+      "depends_on": [
+        "def_6",
+        "thm_5",
+        "ext_def_3"
+      ],
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "thm_7",
+      "type": "theorem",
+      "name": "Theorem 6.7",
+      "statement": "Assume the conditions of Theorem 6.1 and that $\\bar x$ is Lyapunov stable for (DIN). (i) If $\\lim_{\\mu\\to\\bar\\mu}(u_0^\\mu,v_0^\\mu)=(u_0,v_0)$, then $\\bar x$ is Lyapunov uniformly $\\bar\\mu$-stable for $DIN(\\varphi,\\mu)$. (ii) If moreover $(u_0^\\mu,v_0^\\mu)=(u_0,v_0)$ for all $\\mu$, then $\\bar x$ is asymptotically uniformly $\\bar\\mu$-stable.",
+      "proof": "For $\\epsilon>0$, Lyapunov stability supplies $\\delta_0$ with $\\|x(t)-\\bar x\\|<\\epsilon/3$. Initial-data convergence supplies $\\delta_1$ with $\\|(u_0^\\mu,v_0^\\mu)-(u_0,v_0)\\|<\\epsilon/3$. Using (17), $\\|x_\\mu(t)-\\bar x\\|\\leq\\|(u_0^\\mu,v_0^\\mu)-(u_0,v_0)\\|+\\frac{\\theta_1}{\\delta}\\|\\mu-\\bar\\mu\\|^{\\theta_2}+\\|x(t)-\\bar x\\|<\\epsilon$. Under equal initial data, the limiting version of this inequality gives the stated asymptotic conclusion. [TODO: verify: with fixed $\\mu\\ne\\bar\\mu$, the displayed estimate leaves the positive term $(\\theta_1/\\delta)\\|\\mu-\\bar\\mu\\|^{\\theta_2}$ as $t\\to\\infty$, so it does not prove convergence to $\\bar x$ without an additional argument or $\\mu=\\bar\\mu$.]",
+      "depends_on": [
+        "def_9",
+        "thm_5",
+        "ext_def_3"
+      ],
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "thm_8",
+      "type": "theorem",
+      "name": "Theorem 7.1",
+      "statement": "Assume for some $\\alpha>0$ that $A_\\mu$ is $\\alpha$-cocoercive for each $\\mu\\in\\mathcal V(\\bar\\mu)$ and $(C_2)$. Let $x_\\mu$ be the unique strong global solution of $S(A_\\mu,u_0^\\mu,v_0^\\mu)$. Given $T>0$ with $\\gamma T+\\frac{T^2}{\\alpha}\\in[0,1)$, for all $\\mu,\\mu'$, $\\|x_\\mu-x_{\\mu'}\\|_\\infty\\leq\\frac\\alpha{\\alpha-\\alpha\\gamma T-T^2}(\\|u_0^\\mu-u_0^{\\mu'}\\|+T\\|v_0^\\mu-v_0^{\\mu'}\\|+T^2\\theta_1\\|\\mu-\\mu'\\|^{\\theta_2}).\\tag{25}$",
+      "proof": "A strong solution satisfies $x(t)=u_0+tv_0+\\int_0^t(s-t)[\\gamma\\dot x(s)+Ax(s)]ds\\tag{26}$. Define $\\Gamma_{A_\\mu,u_0^\\mu,v_0^\\mu}(x)=u_0^\\mu+tv_0^\\mu+\\int_0^t(s-t)[\\gamma\\dot x(s)+A_\\mu x(s)]ds$. It has fixed point $x_\\mu$ and is Lipschitz with constant $\\gamma T+T^2/\\alpha$. [Integrating $-\\ddot x=\\gamma\\dot x+Ax$ twice gives the fixed-point identity.] [TODO: verify the stated Lipschitz estimate on $C([0,T];H)$, because the formula for $\\Gamma$ contains $\\dot x$; the natural domain must control derivatives.] Theorem 2.5 gives $\\|x_\\mu-x_{\\mu'}\\|_\\infty\\leq\\frac\\alpha{\\alpha-\\alpha\\gamma T-T^2}\\sup_x\\|\\Gamma_\\mu(x)-\\Gamma_{\\mu'}(x)\\|_\\infty$. [For the operator term, $(C_2)$ gives $\\|\\int_0^t(s-t)[A_\\mu x(s)-A_{\\mu\\prime}x(s)]ds\\|\\leq\\theta_1\\|\\mu-\\mu\\prime\\|^{\\theta_2}\\int_0^t(t-s)ds\\leq T^2\\theta_1\\|\\mu-\\mu\\prime\\|^{\\theta_2}$.] Estimate the latter by $\\|u_0^\\mu-u_0^{\\mu'}\\|+T\\|v_0^\\mu-v_0^{\\mu'}\\|+T^2\\theta_1\\|\\mu-\\mu'\\|^{\\theta_2}$ using $(C_2)$.",
+      "depends_on": [
+        "def_1",
+        "def_3",
+        "def_4",
+        "ext_thm_2",
+        "ext_def_2",
+        "ext_def_4"
+      ],
+      "remark": "[Prove hint: work on a differentiable/AC path space and bound the integral kernel carefully]"
+    },
+    {
+      "id": "rem_2",
+      "type": "remark",
+      "name": "Remark 5.3",
+      "statement": "If $\\mu_n\\to\\bar\\mu$, $x_n(t)=x_{\\mu_n}(t)$, and $x(t)=x_{\\bar\\mu}(t)$, Theorem 5.2 (respectively Theorem 5.1) ensures $x_n$ converges uniformly almost everywhere on $[0,T]$ to $x$ whenever $u_0^n\\to u_0$, $\\dot u_0^n\\to v_0$, the values belong to $B(0,\\rho)$ (respectively $B(0,r)$), and $A_{\\mu_n}$ converges to $A$ relative to $d_{\\lambda,\\rho}$ (respectively $D_r$).",
+      "proof": null,
+      "depends_on": [
+        "thm_2",
+        "thm_3"
+      ],
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "cor_4",
+      "type": "corollary",
+      "name": "Corollary 6.5",
+      "statement": "For each $\\mu$, let $x_\\mu$ be the unique solution of $DIN(\\varphi,\\mu)$. Assume $\\beta\\gamma>1$, each $\\varphi(\\cdot,\\mu)$ is differentiable and $\\delta_\\mu$-strongly convex, and for given $r,T>0$, $x_\\mu(t)\\in B(0,r)$ for a.e. $t\\in[0,T]$. Then $\\|x_\\mu(t)-x_{\\mu'}(t)\\|\\leq e^{-\\beta\\delta t}\\sqrt{\\|u_0^\\mu-u_0^{\\mu'}\\|^2+\\|v_0^\\mu-v_0^{\\mu'}\\|^2}+\\frac1\\delta(1-e^{-\\beta\\delta t})D_r(\\nabla\\varphi_\\mu,\\nabla\\varphi_{\\mu'})$. Moreover $x_\\mu(t)$ strongly converges to the unique $\\bar x_\\mu$ of $(PM_\\mu)$ and $\\|\\bar x_\\mu-\\bar x_{\\mu'}\\|\\leq\\frac1\\delta D_r(\\nabla\\varphi_\\mu,\\nabla\\varphi_{\\mu'})$.",
+      "proof": "",
+      "depends_on": [
+        "def_2",
+        "def_6",
+        "thm_5",
+        "thm_6",
+        "ext_def_3"
+      ],
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "rem_4",
+      "type": "remark",
+      "name": "Remark 7.2",
+      "statement": "In $(C([0,T];H),\\|\\cdot\\|_\\infty)$, (3) becomes $\\|x_\\mu-x_{\\mu'}\\|_\\infty\\leq e^{mT}\\sqrt{\\|u_0^\\mu-u_0^{\\mu'}\\|^2+\\|v_0^\\mu-v_0^{\\mu'}\\|^2}+\\frac{\\theta_1}{m}(e^{mT}-1)\\|\\mu-\\mu'\\|^{\\theta_2}\\tag{28}$, where $m=(1+2\\gamma^2+\\frac2{\\alpha^2})^{1/2}$. For $\\gamma T+T^2/\\alpha\\in[0,1)$, (25) refines (28) by sharp error bounds.",
+      "proof": null,
+      "depends_on": [
+        "thm_1",
+        "thm_8"
+      ],
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "thm_9",
+      "type": "theorem",
+      "name": "Theorem 7.4",
+      "statement": "Assume for some $\\alpha>0$ that $A_\\mu$ is $\\alpha$-cocoercive for each $\\mu$, and let $x_\\mu$ be the unique strong global solution of $S(A_\\mu,u_0^\\mu,v_0^\\mu)$. Given $T>0$ with $\\gamma T+\\frac{T^2}{\\alpha}\\in[0,1)$, suppose for almost all $t\\in[0,T]$ the function $\\mu\\mapsto A_\\mu(x(t))$ is continuous in $\\bar\\mu$. Then $x_\\mu$ converges uniformly to $x=x_{\\bar\\mu}$ as $\\mu\\to\\bar\\mu$, $u_0^\\mu\\to u_0$, and $v_0^\\mu\\to v_0$.",
+      "proof": "At (27), take $\\mu'=\\bar\\mu$. The estimate has the final term $\\sup_x\\sup_t\\|\\int_0^t(s-t)[A(x(s))-A_\\mu(x(s))]ds\\|$, which tends to zero uniformly in $t$ and $x$ by the continuity assumption and continuity under the integral sign. [TODO: verify: the stated assumption controls $A_\\mu(x(t))$ only along the reference trajectory, whereas (27) contains a supremum over all $x\\in C([0,T];H)$; uniform convergence on that larger class requires a stronger uniformity hypothesis.] The remaining initial-data terms tend to zero.",
+      "depends_on": [
+        "def_1",
+        "thm_8",
+        "ext_def_2",
+        "ext_def_4"
+      ],
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "def_10",
+      "type": "definition",
+      "name": "Definition 7.5",
+      "statement": "A function $x\\in C^1([0,T];H)$ is an $\\varepsilon$-approximate solution to $S(A,u_0,v_0)$ iff it is an $\\varepsilon$-fixed point of $\\Gamma_{A,u_0,v_0}$, namely $x\\in\\varepsilon\\text{-Fix}(\\Gamma_{A,u_0,v_0}):=\\{x\\in C([0,T];H):\\|x-\\Gamma_{A,u_0,v_0}(x))\\|\\leq\\varepsilon\\}$. The set $\\varepsilon$-Fix$(\\Gamma_{A,u_0,v_0})$ is denoted $S^\\varepsilon(A,u_0,v_0)$.",
+      "proof": null,
+      "depends_on": [
+        "thm_8",
+        "ext_def_1",
+        "ext_def_4"
+      ],
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "thm_10",
+      "type": "theorem",
+      "name": "Theorem 7.8",
+      "statement": "Assume the conditions of Theorem 7.1. For each $\\mu$, let $x_\\mu$ be the unique strong global solution of $S(A_\\mu,u_0^\\mu,v_0^\\mu)$. For all $\\varepsilon>0$ and all $\\mu,\\mu'$, $S^\\varepsilon(\\mu)$ and $S^\\varepsilon(\\mu')$ are nonempty and $h(S^\\varepsilon(\\mu),S^\\varepsilon(\\mu'))\\leq\\frac{\\varepsilon\\alpha}{\\alpha-\\alpha\\gamma T-T^2}+\\frac\\alpha{\\alpha-\\alpha\\gamma T-T^2}(\\|u_0^\\mu-u_0^{\\mu'}\\|+T\\|v_0^\\mu-v_0^{\\mu'}\\|+T^2\\theta_1\\|\\mu-\\mu'\\|^{\\theta_2}).\\tag{29}$ In particular, this distance tends to $0$ when $\\mu'\\to\\mu$, $u_0^{\\mu'}\\to u_0^\\mu$, and $v_0^{\\mu'}\\to v_0^\\mu$. When $\\varepsilon\\to0$, $S^\\varepsilon(\\mu)$ converges to $x_\\mu$.",
+      "proof": "Under Theorem 7.1, apply Theorem 2.4 to the contractions $\\Gamma_{A_\\mu,u_0^\\mu,v_0^\\mu}$ and $\\Gamma_{A_{\\mu'},u_0^{\\mu'},v_0^{\\mu'}}$. The supremum of their distance is bounded by $\\|u_0^\\mu-u_0^{\\mu'}\\|+T\\|v_0^\\mu-v_0^{\\mu'}\\|+T^2\\theta_1\\|\\mu-\\mu'\\|^{\\theta_2}$ via $(C_2)$, yielding (29). [The kernel estimate is the same as in Theorem 7.1: integrate $t-s$ over $[0,t]$ and bound it by $T^2$ (the sharper factor is $T^2/2$). The final convergence as $\\varepsilon\\to0$ additionally uses the cited approximate-fixed-point convergence result.]",
+      "depends_on": [
+        "def_4",
+        "def_10",
+        "ext_thm_1",
+        "thm_8",
+        "ext_def_2",
+        "ext_def_1",
+        "ext_def_4",
+        "ext_thm_6"
+      ],
+      "remark": "[Prove hint: Theorem 2.4 supplies the Hausdorff estimate; use ext_thm_6 for the final $\\varepsilon\\to0$ assertion]"
+    },
+    {
+      "id": "rem_5",
+      "type": "remark",
+      "name": "Remark 7.9",
+      "statement": "The exact estimate (25) of Theorem 7.1 is an immediate consequence of the approximate estimate (29) in Theorem 7.8 by passage to the limit as $\\varepsilon\\to0$.",
+      "proof": null,
+      "depends_on": [
+        "thm_8",
+        "thm_10"
+      ],
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    }
+  ],
+  "external_theorems": [
+    {
+      "id": "ext_thm_1",
+      "type": "theorem",
+      "name": "Theorem 2.4",
+      "statement": "Let $X$ be a metric space and let $T_1:X\\rightrightarrows X$ and $T_2:X\\rightrightarrows X$. Suppose that both $T_1$ and $T_2$ are Lipschitz continuous on $X$ with the same Lipschitz constant $\\lambda\\in[0,1)$. Then for every $\\varepsilon>0$, $\\varepsilon$-Fix$(T_i)\\neq\\emptyset$, $i=1,2$, and $h(\\varepsilon\\text{-Fix}(T_1),\\varepsilon\\text{-Fix}(T_2))\\leq\\frac\\varepsilon{1-\\lambda}+\\frac1{1-\\lambda}\\sup_{x\\in X}h(T_1(x),T_2(x)).$",
+      "proof": "Cited from: M. Ait Mansour, M. A Bahraoui and A. El Bekkali, Metric regularity and Lyusternik-Graves theorem via approximate fixed points of set-valued map in noncomplete metric spaces, Set-Valued Var. Anal., 30 (2022), 233-256.",
+      "depends_on": [
+        "ext_def_1"
+      ],
+      "source": "M. Ait Mansour, M. A Bahraoui and A. El Bekkali, Metric regularity and Lyusternik-Graves theorem via approximate fixed points of set-valued map in noncomplete metric spaces, Set-Valued Var. Anal., 30 (2022), 233-256.",
+      "resolution_priority": "medium",
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "ext_thm_2",
+      "type": "theorem",
+      "name": "Theorem 2.5 (Lim's Lemma)",
+      "statement": "Let $X$ be a complete metric space and let $T_1,T_2$ be two maps from $X$ into the family of nonempty closed subsets of $X$. Suppose that both $T_1$ and $T_2$ are Lipschitz continuous on $X$ with the same Lipschitz constant $\\lambda\\in[0,1)$. Then $h(\\operatorname{Fix}(T_1),\\operatorname{Fix}(T_2))\\leq\\frac1{1-\\lambda}\\sup_{x\\in X}h(T_1(x),T_2(x)).$",
+      "proof": "Cited from: T.-C. Lim, On fixed-point stability for set-valued contractive mappings with applications to generalized differential equations, J. Math. Anal. Appl., 110 (1985), 436-441.",
+      "depends_on": [
+        "ext_def_1"
+      ],
+      "source": "T.-C. Lim, On fixed-point stability for set-valued contractive mappings with applications to generalized differential equations, J. Math. Anal. Appl., 110 (1985), 436-441.",
+      "resolution_priority": "medium",
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "ext_lem_1",
+      "type": "lemma",
+      "name": "Lemma 2.6",
+      "statement": "Let $T>0$, $a,b\\in L^1(t_0,t_0+T;\\mathbb R)$ with $b(t)\\geq0$ for a.e. $t\\in[t_0,t_0+T]$, $0\\leq\\alpha<1$, and let $w:[t_0,t_0+T]\\to\\mathbb R_+$ be absolutely continuous and satisfy $(1-\\alpha)w'(t)\\leq a(t)w(t)+b(t)w^\\alpha(t)$ for a.e. $t\\in[t_0,t_0+T]$. Then for all $t\\in[t_0,t_0+T]$, $w^{1-\\alpha}(t)\\leq w^{1-\\alpha}(t_0)e^{\\int_{t_0}^t a(\\tau)d\\tau}+\\int_{t_0}^t e^{\\int_s^t a(\\tau)d\\tau}b(s)ds.$",
+      "proof": "Cited from: R. E. Showalter, Monotone Operators in Banach Spaces and Nonlinear Partial Differential Equations, Math. Surveys Monogr., 49. American Mathematical Society, Providence, RI, 1997.",
+      "depends_on": [],
+      "source": "R. E. Showalter, Monotone Operators in Banach Spaces and Nonlinear Partial Differential Equations, Math. Surveys Monogr., 49. American Mathematical Society, Providence, RI, 1997.",
+      "resolution_priority": "high",
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "ext_thm_3",
+      "type": "theorem",
+      "name": "Alvarez--Attouch--Bolte--Redont Proposition 5.1",
+      "statement": "Under the hypotheses quoted in Section 6, including $\\operatorname{int}(\\arg\\min\\varphi)\\ne\\emptyset$, every trajectory of $(DIN)$ converges strongly to a minimizer of $\\varphi$.",
+      "proof": "Cited from: F. Alvarez, H. Attouch, J. Bolte and P. Redont, A second-order gradient-like dissipative dynamical system with hessian-driven damping: Application to optimization and mechanics, J. Math. Pures Appl., 81 (2002), 747-779. The paper uses Proposition 5.1 specifically for strong convergence in Theorem 6.2.",
+      "depends_on": [
+        "ext_def_3"
+      ],
+      "source": "F. Alvarez, H. Attouch, J. Bolte and P. Redont, A second-order gradient-like dissipative dynamical system with hessian-driven damping: Application to optimization and mechanics, J. Math. Pures Appl., 81 (2002), 747-779.",
+      "resolution_priority": "high",
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "ext_thm_4",
+      "type": "theorem",
+      "name": "Baillon--Haddad theorem",
+      "statement": "For a convex differentiable function with $L$-Lipschitz gradient, its gradient is $1/L$-cocoercive; the paper invokes this as [22, Corollary 18.16] with $L=1/\\beta$.",
+      "proof": "Cited from: H. H. Bauschke and P. L. Combettes, Convex Analysis and Monotone Operator Theory in Hilbert Spaces, CMS Books in Mathematics, Springer, New York, 2011, Corollary 18.16.",
+      "depends_on": [
+        "def_1",
+        "def_2"
+      ],
+      "source": "H. H. Bauschke and P. L. Combettes, Convex Analysis and Monotone Operator Theory in Hilbert Spaces, CMS Books in Mathematics, Springer, New York, 2011.",
+      "resolution_priority": "medium",
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "ext_thm_5",
+      "type": "theorem",
+      "name": "Cauchy--Lipschitz--Picard theorem",
+      "statement": "A globally Lipschitz vector field on a Banach space has a unique global classical solution for each initial value; the paper applies this to the first-order system on $H\\times H$.",
+      "proof": "Cited from: A. Haraux, Systèmes Dynamiques Dissipatifs et Applications, Recherches en Mathématiques Appliquées, 17, Masson, Paris, 1991. The paper uses it in Section 2.1 and Theorem 3.1.",
+      "depends_on": [],
+      "source": "A. Haraux, Systèmes Dynamiques Dissipatifs et Applications, Recherches en Mathématiques Appliquées, 17, Masson, Paris, 1991.",
+      "resolution_priority": "high",
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    },
+    {
+      "id": "ext_thm_6",
+      "type": "theorem",
+      "name": "Approximate fixed points converge to the exact fixed point",
+      "statement": "For the contractive fixed-point setting used in Section 7, the paper cites [4, Proposition 4(g)] for Painlevé--Kuratowski convergence of $\\varepsilon$-approximate fixed points to the unique exact fixed point as $\\varepsilon\\to0$.",
+      "proof": "Cited from: M. Ait Mansour, M. A. Bahraoui and A. El Bekkali, Metric regularity and Lyusternik-Graves theorem via approximate fixed points of set-valued map in noncomplete metric spaces, Set-Valued Var. Anal., 30 (2022), 233-256, Proposition 4(g).",
+      "depends_on": [
+        "ext_def_1"
+      ],
+      "source": "M. Ait Mansour, M. A. Bahraoui and A. El Bekkali, Metric regularity and Lyusternik-Graves theorem via approximate fixed points of set-valued map in noncomplete metric spaces, Set-Valued Var. Anal., 30 (2022), 233-256.",
+      "resolution_priority": "medium",
+      "remark": "[Prove hint: preserve the paper notation and use the listed dependencies.]"
+    }
+  ]
+}

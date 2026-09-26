@@ -1,0 +1,322 @@
+{
+  "metadata": {
+    "title": "Fast convex optimization via a third-order in time evolution equation: TOGES-V an improved version of TOGES*",
+    "authors": [
+      "Hedy Attouch",
+      "Zaki Chbani",
+      "Hassan Riahi"
+    ],
+    "year": 2024,
+    "source_type": "markdown"
+  },
+  "items": [
+    {
+      "id": "def_1",
+      "type": "definition",
+      "name": "TOGES-V",
+      "statement": "$$\n(\\text {TOGES - V}) \\dddot {u} (t) + \\frac {\\alpha + 7}{t} \\ddot {u} (t) + \\frac {5 (\\alpha + 1)}{t ^ {2}} \\dot {u} (t) + \\nabla f \\left(u (t) + \\frac {1}{4} t \\dot {u} (t)\\right) = 0.\n$$",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Note: statement appears to use a third derivative while later algebra uses it; preserve source notation and type-check against the ODE]"
+    },
+    {
+      "id": "def_2",
+      "type": "definition",
+      "name": "TOGES",
+      "statement": "$$\n\\text {(TOGES)} \\quad \\ddot {u} (t) + \\frac {3 \\alpha + 5}{2 t} \\ddot {u} (t) + \\frac {3 \\alpha - 1}{t ^ {2}} \\dot {u} (t) + \\nabla f (u (t) + t \\dot {u} (t)) = 0.\n$$",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Note: source displays two second-derivative terms; compare the cited 2022 TOGES equation before formalization]"
+    },
+    {
+      "id": "def_5",
+      "type": "definition",
+      "name": "Strongly convex third-order evolution equation",
+      "statement": "$$\n\\dddot {u} (t) + 3 \\sqrt {\\mu} \\ddot {u} (t) + 2 \\mu \\dot {u} (t) + \\sqrt {\\mu} \\nabla f \\left(u (t) + \\frac {1}{\\sqrt {\\mu}} \\dot {u} (t)\\right) = 0. \\tag {24}\n$$",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Note: require $\\mu>0$ so $\\sqrt\\mu$ and $1/\\sqrt\\mu$ are defined]"
+    },
+    {
+      "id": "ext_def_1",
+      "type": "definition",
+      "name": "Convex differentiable objective and first-order inequality",
+      "statement": "A differentiable function $f:\\mathcal H\\to\\mathbb R$ is convex if $f((1-s)x+sy)\\leq(1-s)f(x)+sf(y)$ for all $x,y\\in\\mathcal H$ and $s\\in[0,1]$. For such an $f$, $f(y)\\geq f(x)+\\langle\\nabla f(x),y-x\\rangle$ for all $x,y\\in\\mathcal H$.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Foundation: Foundation.Convex.Basic] recall convexity infrastructure | [Prove hint: the displayed first-order inequality is the convexity fact used in (15)]"
+    },
+    {
+      "id": "ext_def_2",
+      "type": "definition",
+      "name": "Strong convexity",
+      "statement": "For $\\mu>0$, a differentiable function $f:\\mathcal H\\to\\mathbb R$ is $\\mu$-strongly convex if $f(y)\\geq f(x)+\\langle\\nabla f(x),y-x\\rangle+\\frac{\\mu}{2}\\|y-x\\|^2$ for all $x,y\\in\\mathcal H$.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Foundation: Foundation.Operator.Linear] recall IsStronglyMonotone for the corresponding gradient property]"
+    },
+    {
+      "id": "ext_def_3",
+      "type": "definition",
+      "name": "Convex subdifferential",
+      "statement": "For a proper convex function $f:\\mathcal H\\to\\mathbb R\\cup\\{+\\infty\\}$ and $x\\in\\operatorname{dom}f$, define $\\partial f(x):=\\{p\\in\\mathcal H\\mid\\forall y\\in\\mathcal H,\\ f(y)\\geq f(x)+\\langle p,y-x\\rangle\\}$; set $\\partial f(x)=\\varnothing$ when $x\\notin\\operatorname{dom}f$.",
+      "proof": null,
+      "depends_on": [],
+      "remark": "[Foundation: Foundation.SetValued.Basic] recall SetValuedOperator and SetValuedOperator.IsMaximalMonotone | [Notation: paper writes $(I+\\lambda\\partial f)^{-1}$; Lean uses SetValuedOperator.inverse/resolvent]"
+    },
+    {
+      "id": "ext_thm_3",
+      "type": "theorem",
+      "name": "Weak weighted Cesaro convergence",
+      "statement": "If $v(t)\\rightharpoonup v_\\infty$ in a Hilbert space and $w\\geq0$ is locally integrable with $W(t):=\\int_{t_0}^t w(s)\\,ds\\to\\infty$, then $\\frac1{W(t)}\\int_{t_0}^t w(s)v(s)\\,ds\\rightharpoonup v_\\infty$.",
+      "proof": "Cited from: standard weak ergodic/Cesaro convergence principle (uncited in the paper).",
+      "depends_on": [],
+      "source": "Standard weak convergence result (uncited in the paper).",
+      "resolution_priority": "high",
+      "remark": "[Foundation: Foundation.Hilbert.WeakConvergence] recall weak convergence infrastructure | [Note: apply with $w(t)=4t^3$]"
+    },
+    {
+      "id": "ext_thm_4",
+      "type": "theorem",
+      "name": "Scalar differential comparison by integrating factors",
+      "statement": "If $E:[t_0,\\infty)\\to\\mathbb R$ is differentiable and $E'(t)+aE(t)\\leq b(t)$ for $a\\geq0$, then $E(t)\\leq e^{-a(t-t_0)}E(t_0)+\\int_{t_0}^t e^{-a(t-s)}b(s)\\,ds$.",
+      "proof": "Cited from: standard Gronwall/integrating-factor inequality (uncited in the paper).",
+      "depends_on": [],
+      "source": "Standard differential inequality result (uncited in the paper).",
+      "resolution_priority": "medium",
+      "remark": "[Prove hint: multiply by $e^{at}$ and integrate]"
+    },
+    {
+      "id": "ext_thm_1",
+      "type": "theorem",
+      "name": "Theorem 2.1 of Attouch, Chbani, and Riahi",
+      "statement": "Suppose $\\alpha \\geq 3$ . Then, for any trajectory of (TOGES) there exists a constant $C > 0$ such that, for all $t \\geq t_0$ ,\n\n$$\nf (u (t) + t \\dot {u} (t)) - \\inf _ {\\mathcal {H}} f \\leq \\frac {C}{t ^ {3}};\n$$\n\n$$\nf (u (t)) - \\inf _ {\\mathcal {H}} f \\leq \\frac {1}{t} \\left(t _ {0} \\left(f (x (t _ {0})) - \\inf _ {\\mathcal {H}} f\\right) + \\frac {C}{2 t _ {0} ^ {2}}\\right).\n$$",
+      "proof": "Cited from: Attouch H, Chbani Z, Riahi H. Fast convex optimization via a third-order in time evolution equation. Optimization. 2022;71(5):1275–1304.",
+      "depends_on": [
+        "def_2"
+      ],
+      "source": "Attouch H, Chbani Z, Riahi H. Fast convex optimization via a third-order in time evolution equation. Optimization. 2022;71(5):1275–1304.",
+      "resolution_priority": "high",
+      "remark": "[Note: the paper uses this result for the rate and weak convergence of the auxiliary $v/\\nu$ trajectory; its extracted statement only records rate estimates, so recover the full cited theorem before formalization]"
+    },
+    {
+      "id": "def_3",
+      "type": "definition",
+      "name": "TOGES-VH",
+      "statement": "$$\n\\begin{array}{l} \\ddot {u} (t) + \\frac {\\alpha + 7}{t} \\ddot {u} (t) + \\frac {5 (\\alpha + 1)}{t ^ {2}} \\dot {u} (t) \\\\ + \\beta \\nabla^ {2} f \\left(u (t) + \\frac {1}{4} t \\dot {u} (t)\\right) \\left(\\frac {5}{4} \\dot {u} (t) + \\frac {1}{4} t \\ddot {u} (t)\\right) + \\nabla f \\left(u (t) + \\frac {1}{4} t \\dot {u} (t)\\right) = 0. \\\\ \\end{array}\n$$",
+      "proof": null,
+      "depends_on": [
+        "def_1"
+      ],
+      "remark": "[Prove hint: use the chain rule for $\\nabla f(v(t))$; require $f\\in C^2$ and $u\\in C^3$]"
+    },
+    {
+      "id": "def_6",
+      "type": "definition",
+      "name": "Lyapunov function mathcal E",
+      "statement": "$$\n\\begin{array}{l} \\mathcal {E} (t) := f \\left(u (t) + \\frac {1}{\\sqrt {\\mu}} \\dot {u} (t)\\right) - \\inf _ {\\mathcal {H}} f \\\\ + \\frac {1}{2} \\left\\| \\sqrt {\\mu} \\left(u (t) + \\frac {1}{\\sqrt {\\mu}} \\dot {u} (t) - x ^ {*}\\right) + \\dot {u} (t) + \\frac {1}{\\sqrt {\\mu}} \\ddot {u} (t) \\right\\| ^ {2}, \\\\ \\end{array}\n$$\n\nand $x^{*}$ is the unique global minimizer of $f$ on $\\mathcal{H}$ . To condense the formulas, we write\n\n$$\nF (t _ {0}) = f (u (t _ {0})) - \\inf _ {\\mathcal {H}} f \\quad \\text {and} \\quad C = \\mathcal {E} (t _ {0})   \\mathrm{e} ^ {\\sqrt {\\mu} t _ {0}}.\n$$",
+      "proof": null,
+      "depends_on": [
+        "def_5"
+      ],
+      "remark": "[Note: $x^*$ requires existence and uniqueness of a minimizer; strong convexity supplies uniqueness once existence is assumed]"
+    },
+    {
+      "id": "ext_thm_2",
+      "type": "theorem",
+      "name": "Integral Jensen inequality",
+      "statement": "If $F$ is convex, $a<b$, and $g:[a,b]\\to\\mathcal H$ is integrable, then $F\\!\\left(\\frac1{b-a}\\int_a^b g(s)\\,ds\\right)\\leq\\frac1{b-a}\\int_a^b F(g(s))\\,ds$.",
+      "proof": "Cited from: standard integral Jensen inequality (uncited in the paper).",
+      "depends_on": [
+        "ext_def_1"
+      ],
+      "source": "Standard convex analysis result (uncited in the paper).",
+      "resolution_priority": "high",
+      "remark": "[Note: required for the barycentric estimates in Theorems 2.1 and 5.1]"
+    },
+    {
+      "id": "ext_thm_5",
+      "type": "theorem",
+      "name": "Moreau envelope regularity and minimizers",
+      "statement": "If $f:\\mathcal H\\to\\mathbb R\\cup\\{+\\infty\\}$ is proper, lower semicontinuous, and convex, and $\\lambda>0$, then $f_\\lambda$ is convex and continuously differentiable, $\\inf f_\\lambda=\\inf f$, $\\operatorname{argmin}f_\\lambda=\\operatorname{argmin}f$, and $f_\\lambda(x)=f(\\operatorname{prox}_{\\lambda f}x)+\\frac1{2\\lambda}\\|x-\\operatorname{prox}_{\\lambda f}x\\|^2$.",
+      "proof": "Cited from: Attouch H, Buttazzo G, Michaille G. Variational analysis in Sobolev and BV spaces, 2nd ed., SIAM, 2014, Section 17.2.1; Bauschke H, Combettes PL. Convex analysis and monotone operator theory in Hilbert spaces, Springer, 2011; Brezis H. Operateurs maximaux monotones dans les espaces de Hilbert et equations d evolution, North Holland, 1972.",
+      "depends_on": [
+        "ext_def_3"
+      ],
+      "source": "Paper references [22, Section 17.2.1], [23], and [24].",
+      "resolution_priority": "high",
+      "remark": "[Foundation: Foundation.Analysis.ExtendedRealFunctions] recall IsProper | [Foundation: Foundation.SetValued.Basic] recall SetValuedOperator.resolvent"
+    },
+    {
+      "id": "def_4",
+      "type": "definition",
+      "name": "Lyapunov function E",
+      "statement": "$$\n\\begin{array}{l} E (t) := 4 (t ^ {3} - 2 \\beta t ^ {2}) \\left(f \\left(u (t) + \\frac {1}{4} t \\dot {u} (t)\\right) - \\inf _ {\\mathcal {H}} f\\right) \\\\ \\left. + \\frac {1}{2} \\right\\| t ^ {2} \\left(\\ddot {u} (t) + \\beta \\nabla f (u (t) + \\frac {1}{4} t \\dot {x} (t))\\right) \\\\ + (\\alpha + 5) t \\dot {u} (t) + 4 \\alpha (u (t) - z) \\| ^ {2}. \\tag {8} \\\\ \\end{array}\n$$\n\n$$\nE (t) := 4 t \\delta (t) \\left(f (\\nu (t)) - \\inf _ {\\mathcal {H}} f\\right) + \\frac {1}{2} \\| w (t) \\| ^ {2}, \\tag {9}\n$$\n\nwhere\n\n$$\nv (t) := u (t) + \\frac {1}{4} t \\dot {u} (t); \\tag {10}\n$$\n\n$$\nw (t) := t ^ {2} \\left(\\ddot {u} (t) + \\beta \\nabla f (u (t) + \\frac {1}{4} t \\dot {u} (t))\\right) + (\\alpha + 5) t \\dot {u} (t) + 4 \\alpha (u (t) - z); \\tag {11}\n$$\n\n$$\n\\delta (t) = t ^ {2} \\left(1 - \\frac {2 \\beta}{t}\\right). \\tag {12}\n$$",
+      "proof": null,
+      "depends_on": [
+        "def_3"
+      ],
+      "remark": "[Notation: source alternates $v$ and $\\nu$, and has $\\dot x$ in (8); normalize only in Lean binders after checking the source]"
+    },
+    {
+      "id": "thm_1",
+      "type": "theorem",
+      "name": "Theorem 2.1",
+      "statement": "Theorem 2.1: Let $u:[t_0, + \\infty [\\to \\mathcal{H}$ be a solution trajectory of the evolution system (TOGES-V).\n\n(a) Suppose that $\\alpha \\geq 3$ . Then, as $t \\to +\\infty$\n\n(i) $f(u(t) + \\frac{1}{4} t\\dot{u}(t)) - \\inf_{\\mathcal{H}}f = \\mathcal{O}(\\frac{1}{t^3});$  \n(ii) $f(u(t)) - \\inf_{\\mathcal{H}}f = \\mathcal{O}(\\frac{1}{t^3}).$\n\n(b) Suppose that $\\alpha > 3$ . Then, as $t \\to +\\infty$\n\n(iii) $f(u(t) + \\frac{1}{4} t\\dot{u}(t)) - \\inf_{\\mathcal{H}}f = o(\\frac{1}{t^3})$  \n(iv) $f(u(t)) - \\inf_{\\mathcal{H}}f = o(\\frac{1}{t^3})$ ;  \n(v) the trajectory converges weakly as $t \\to +\\infty$ , let $u(t) \\rightharpoonup u_{\\infty}$ , and $u_{\\infty} \\in \\arg\\min_{\\mathcal{H}} f$ .",
+      "proof": "Proof: To obtain (i), just replace $v(t)$ by $u(t) + \\frac{1}{4}t\\dot{u}(t)$ in (3). [Here the auxiliary variable is $v(t)=u(t)+\\frac14t\\dot u(t)$; the cited TOGES result must be invoked after verifying that the rescaled equation is exactly its hypothesis.]\n\nTo prove (ii), let us start from the relation $\\frac{\\mathrm{d}}{\\mathrm{d}t}(t^{4}u(t)) = 4t^{3}\\nu(t)$ . After integration from t to $t + h$ of this relation, we get\n\n$$\n\\begin{array}{l} u (t + h) = \\left(\\frac {t}{t + h}\\right) ^ {4} u (t) + \\frac {1}{(t + h) ^ {4}} \\int_ {t} ^ {t + h} 4 \\tau^ {3} \\nu (\\tau)   \\mathrm{d} \\tau \\\\ = \\left(\\frac {t}{t + h}\\right) ^ {4} u (t) + \\left(1 - \\left(\\frac {t}{t + h}\\right) ^ {4}\\right) \\frac {1}{(t + h) ^ {4} - t ^ {4}} \\int_ {t} ^ {t + h} 4 \\tau^ {3} \\nu (\\tau) \\mathrm{d} \\tau \\\\ = \\left(\\frac {t}{t + h}\\right) ^ {4} u (t) + \\left(1 - \\left(\\frac {t}{t + h}\\right) ^ {4}\\right) \\frac {1}{(t + h) ^ {4} - t ^ {4}} \\int_ {t ^ {4}} ^ {(t + h) ^ {4}} \\nu (s ^ {1 / 4}) \\mathrm{d} s, \\\\ \\end{array}\n$$\n\nwhere the last equality comes from the change of time variable $s = \\tau^{4}$ . [Indeed $ds=4\\tau^3d\\tau$ and $(t+h)^4-t^4=\\int_t^{t+h}4\\tau^3d\\tau$, so the final integral is the average of $v(s^{1/4})$ over $[t^4,(t+h)^4]$.] According to the convexity of the function $F = f - \\inf_{H} f$ , and using the Jensen inequality, we obtain [The coefficients are nonnegative and sum to one, and integral Jensen is applied to the probability measure $ds/((t+h)^4-t^4)$.]\n\n$$\n\\begin{array}{l} F (u (t + h)) \\leq \\left(\\frac {t}{t + h}\\right) ^ {4} F (u (t)) \\\\ \\left. + \\left(1 - \\left(\\frac {t}{t + h}\\right) ^ {4}\\right) F \\left(\\frac {1}{(t + h) ^ {4} - t ^ {4}} \\int_ {t ^ {4}} ^ {(t + h) ^ {4}} v (s ^ {1 / 4}) \\mathrm{d} s\\right) \\right. \\\\ \\leq \\left(\\frac {t}{t + h}\\right) ^ {4} F (u (t)) \\\\ \\left. + \\left(1 - \\left(\\frac {t}{t + h}\\right) ^ {4}\\right) \\frac {1}{(t + h) ^ {4} - t ^ {4}} \\int_ {t ^ {4}} ^ {(t + h) ^ {4}} F \\left(\\nu (s ^ {1 / 4})\\right) \\mathrm{d} s. \\right. \\\\ \\end{array}\n$$\n\nUsing again the change of time variable $s = \\tau^{4}$ , we get\n\n$$\n\\int_ {t ^ {4}} ^ {(t + h) ^ {4}} F (\\nu (s ^ {1 / 4})) \\mathrm{d} s = \\int_ {t} ^ {t + h} 4 \\tau^ {3} F (\\nu (\\tau)) \\mathrm{d} \\tau .\n$$\n\nIt follows\n\n$$\n\\begin{array}{l} F (u (t + h)) \\leq \\left(\\frac {t}{t + h}\\right) ^ {4} F (u (t)) \\\\ \\left. + \\left(1 - \\left(\\frac {t}{t + h}\\right) ^ {4}\\right) \\frac {1}{(t + h) ^ {4} - t ^ {4}} \\int_ {t} ^ {t + h} F (\\nu (\\tau)) 4 \\tau^ {3} \\mathrm{d} \\tau .\\right. \\\\ \\end{array}\n$$\n\nUsing the assertion $(i)$ , we obtain the existence of a constant $C > 0$ such that\n\n$$\n\\begin{array}{l} F (u (t + h)) \\leq \\left(\\frac {t}{t + h}\\right) ^ {4} F (u (t)) + \\left(1 - \\left(\\frac {t}{t + h}\\right) ^ {4}\\right) \\frac {C}{(t + h) ^ {4} - t ^ {4}} \\int_ {t} ^ {t + h} \\mathrm{d} \\tau \\\\ = \\left(\\frac {t}{t + h}\\right) ^ {4} F (u (t)) + \\frac {C h}{(t + h) ^ {4}}. \\tag {4} \\\\ \\end{array}\n$$\n\nTherefore,\n\n$$\n\\frac {1}{h} ((t + h) ^ {4} F (u (t + h)) - t ^ {4} F (u (t))) \\leq C.\n$$\n\nBy letting $h \\to 0^{+}$ in the above inequality, we get [Since $u$ and $f$ are differentiable along the trajectory, $t\\mapsto t^4F(u(t))$ is right differentiable; its right derivative is bounded by $C$.]\n\n$$\n\\frac {\\mathrm{d}}{\\mathrm{d} t} (t ^ {4} F (u (t))) \\leq C = \\frac {\\mathrm{d}}{\\mathrm{d} t} (C t),\n$$\n\nwhich implies that $t \\mapsto t^{4}F(u(t)) - Ct$ is non-increasing. Consequently,\n\n$$\nf (u (t)) - \\inf _ {\\mathcal {H}} f = F (u (t)) \\leq (t _ {0} ^ {4} F (u (t _ {0})) - C t _ {0}) \\frac {1}{t ^ {4}} + \\frac {C}{t ^ {3}}. \\tag {5}\n$$\n\nWe conclude that $f(u(t)) - \\inf_{\\mathcal{H}}f = \\mathcal{O}(\\frac{1}{t^3})$ as $t \\to +\\infty$ .\n\n(iii) Take now $\\alpha > 3$ . We know that $\\nu(t)$ converges weakly to some $\\nu_{\\infty} \\in \\arg\\min_{\\mathcal{H}} f$ . The relation\n\n$$\n\\frac {\\mathrm{d}}{\\mathrm{d} t} (t ^ {4} u (t)) = 4 t ^ {3} v (t)\n$$\n\ngives after integration\n\n$$\nt ^ {4} u (t) = t _ {0} ^ {4} u (t _ {0}) + \\int_ {t _ {0}} ^ {t} 4 \\tau^ {3} \\nu (\\tau) \\mathrm{d} \\tau .\n$$\n\nEquivalently,\n\n$$\nu (t) = \\frac {t _ {0} ^ {4} u (t _ {0})}{t ^ {4}} + \\frac {1}{t ^ {4}} \\int_ {t _ {0}} ^ {t} 4 \\tau^ {3} \\nu (\\tau) \\mathrm{d} \\tau .\n$$\n\nNote that $\\int_{t_{0}}^{t}4\\tau^{3}\\mathrm{d}\\tau\\sim t^{4}$ as $t\\to+\\infty$ . As a general rule, convergence implies ergodic convergence. [More precisely, apply weak weighted Cesaro convergence to $v(\\tau)\\rightharpoonup v_\\infty$ with weight $4\\tau^3$; the initial term $t_0^4u(t_0)/t^4$ tends strongly to $0$.] Therefore, $u(t)$ converges weakly to $u_{\\infty}=v_{\\infty}\\in\\arg\\min_{\\mathcal{H}}f$ .\n\nMoreover, we know that\n\n$$\nf (\\nu (t)) - \\inf _ {\\mathcal {H}} f = o \\left(\\frac {1}{t ^ {3}}\\right) \\quad \\text {as} t \\rightarrow + \\infty , \\tag {6}\n$$\n\nwhich gives by a similar argument as above, as $t \\to +\\infty$ [For each $\\varepsilon>0$, choose $T$ with $F(v(\\tau))\\leq\\varepsilon/\\tau^3$ for $\\tau\\geq T$ and repeat the Jensen estimate from $T$; the resulting differential inequality yields $t^3F(u(t))\\to0$.]\n\n$$\nf \\left(u (t) + \\frac {1}{4} t \\dot {u} (t)\\right) - \\inf _ {\\mathcal {H}} f = o \\left(\\frac {1}{t ^ {3}}\\right) \\quad \\text {and} \\quad f (u (t)) - \\inf _ {\\mathcal {H}} f = o \\left(\\frac {1}{t ^ {3}}\\right).\n$$\n\nThis completes the proof of Theorem 2.1.",
+      "depends_on": [
+        "def_1",
+        "ext_thm_1",
+        "ext_thm_2",
+        "ext_thm_3"
+      ],
+      "remark": "[Prove hint: derive the weighted barycenter identity, apply integral Jensen, then use the weighted weak Cesaro lemma] | [Foundation: Foundation.Hilbert.WeakConvergence] recall weak convergence infrastructure"
+    },
+    {
+      "id": "thm_3",
+      "type": "theorem",
+      "name": "Theorem 5.1",
+      "statement": "Theorem 5.1: Suppose that $f : \\mathcal{H} \\to \\mathbb{R}$ is $\\mu$ -strongly convex for some $\\mu > 0$ . Let $u(\\cdot)$ be a solution trajectory of (24). Then, the following properties hold:\n\nFor all $t \\geq t_0$ , we have\n\n$$\nf \\left(u (t) + \\frac {1}{\\sqrt {\\mu}} \\dot {u} (t)\\right) - \\inf _ {\\mathcal {H}} f \\leq \\mathcal {E} (t _ {0}) \\mathrm{e} ^ {- \\sqrt {\\mu} (t - t _ {0});} \\tag {25}\n$$\n\n$$\nf (u (t)) - \\inf _ {\\mathcal {H}} f \\leq (C \\sqrt {\\mu} t + \\mathrm{e} ^ {\\sqrt {\\mu} t _ {0}} F (t _ {0}) - C \\sqrt {\\mu} t _ {0}) \\mathrm{e} ^ {- \\sqrt {\\mu} t}; \\tag {26}\n$$\n\n$$\n\\left\\| u (t) + \\frac {1}{\\sqrt {\\mu}} \\dot {u} (t) - x ^ {*} \\right\\| ^ {2} \\leq \\frac {\\mathrm{e} ^ {\\sqrt {\\mu} t _ {0}}}{\\sqrt {\\mu}} \\left(\\sqrt {\\mu} \\| y \\left(t _ {0}\\right) - x ^ {*} \\| ^ {2} + 2 \\mathcal {E} \\left(t _ {0}\\right) \\left(t - t _ {0}\\right)\\right) \\mathrm{e} ^ {- \\sqrt {\\mu} t}; \\tag {27}\n$$\n\n$$\n\\| u (t) - x ^ {*} \\| ^ {2} \\leq \\frac {2}{\\mu} (C \\sqrt {\\mu} t + \\mathrm{e} ^ {\\sqrt {\\mu} t _ {0}} F (t _ {0}) - C \\sqrt {\\mu} t _ {0}) \\mathrm{e} ^ {- \\sqrt {\\mu} t}. \\tag {28}\n$$",
+      "proof": "Proof: (a) Set $y(t) = u(t) + \\frac{1}{\\sqrt{\\mu}} \\dot{u}(t)$ . Note that (24) can be equivalently written [Differentiate $y=u+\\mu^{-1/2}\\dot u$ twice and substitute (24): $\\ddot y+2\\sqrt\\mu\\dot y+\\nabla f(y)=\\mu^{-1/2}(\\dddot u+3\\sqrt\\mu\\ddot u+2\\mu\\dot u+\\sqrt\\mu\\nabla f(y))=0$.]\n\n$$\n\\ddot {y} (t) + 2 \\sqrt {\\mu} \\dot {y} (t) + \\nabla f (y (t)) = 0, \\tag {29}\n$$\n\nand that $\\mathcal{E}:[t_0, + \\infty [ \\to \\mathbb{R}^+$ writes\n\n$$\n\\mathcal {E} (t) = f (y (t)) - \\inf _ {\\mathcal {H}} f + \\frac {1}{2} \\| \\sqrt {\\mu} (y (t) - x ^ {*}) + \\dot {y} (t) \\| ^ {2}. \\tag {30}\n$$\n\nSet $v(t) = \\sqrt{\\mu}(y(t) - x^{*}) + \\dot{y}(t)$ . Derivation of $\\mathcal{E}(\\cdot)$ gives\n\n$$\n\\frac {\\mathrm{d}}{\\mathrm{d} t} \\mathcal {E} (t) = \\langle \\nabla f (y (t)), \\dot {y} (t) \\rangle + \\langle v (t), \\sqrt {\\mu} \\dot {y} (t) + \\ddot {y} (t) \\rangle .\n$$\n\nAccording to (29), we obtain\n\n$$\n\\frac {\\mathrm{d}}{\\mathrm{d} t} \\mathcal {E} (t) = \\langle \\nabla f (y (t)), \\dot {y} (t) \\rangle + \\langle \\sqrt {\\mu} (y (t) - x ^ {*}) + \\dot {y} (t), - \\sqrt {\\mu} \\dot {y} (t) - \\nabla f (y (t)) \\rangle .\n$$\n\nAfter developing and simplification, we obtain\n\n$$\n\\frac {\\mathrm{d}}{\\mathrm{d} t} \\mathcal {E} (t) + \\sqrt {\\mu} \\langle \\nabla f (y (t)), y (t) - x ^ {*} \\rangle + \\mu \\langle y (t) - x ^ {*}, \\dot {y} (t) \\rangle + \\sqrt {\\mu} \\| \\dot {y} (t) \\| ^ {2} = 0.\n$$\n\nAccording to the strong convexity of $f$ , we have\n\n$$\n\\langle \\nabla f (y (t)), y (t) - x ^ {*} \\rangle \\geq f (y (t)) - f (x ^ {*}) + \\frac {\\mu}{2} \\| y (t) - x ^ {*} \\| ^ {2}.\n$$\n\nBy combining the two relations above, and using the formulation (30) of $\\mathcal{E}(t)$ , we obtain [Expand $\\mathcal E=f(y)-f(x^*)+\\frac12(\\mu\\|y-x^*\\|^2+2\\sqrt\\mu\\langle y-x^*,\\dot y\\rangle+\\|\\dot y\\|^2)$ and use the strong-convexity lower bound; all residual terms are nonnegative.]\n\n$$\n\\frac {\\mathrm{d}}{\\mathrm{d} t} \\mathcal {E} (t) + \\sqrt {\\mu} \\left(\\mathcal {E} (t) + \\frac {1}{2} \\| \\dot {y} \\| ^ {2}\\right) \\leq 0.\n$$\n\nTherefore, $\\frac{\\mathrm{d}}{\\mathrm{d}t}\\mathcal{E}(t) + \\sqrt{\\mu}\\mathcal{E}(t)\\leq 0$ . By integrating this differential inequality, we obtain, for all $t\\geq t_0$ , [Equivalently, $(e^{\\sqrt\\mu t}\\mathcal E(t))\\prime\\leq0$; integrate on $[t_0,t]$.]\n\n$$\n\\mathcal {E} (t) \\leq \\mathcal {E} (t _ {0}) \\mathrm{e} ^ {- \\sqrt {\\mu} (t - t _ {0})}.\n$$\n\nBy definition of $\\mathcal{E}(t)$ and $y(t)$ , we deduce that\n\n$$\nf (y (t)) - \\inf _ {\\mathcal {H}} f = f \\left(u (t) + \\frac {1}{\\sqrt {\\mu}} \\dot {u} (t)\\right) - \\inf _ {\\mathcal {H}} f \\leq \\mathcal {E} (t _ {0}) \\mathrm{e} ^ {- \\sqrt {\\mu} (t - t _ {0})} \\tag {31}\n$$\n\nand\n\n$$\n\\begin{array}{l} \\| \\sqrt {\\mu} (y (t) - x ^ {*}) + \\dot {y} (t) \\| ^ {2} \\\\ = \\left\\| \\sqrt {\\mu} \\left(u (t) + \\frac {1}{\\sqrt {\\mu}} \\dot {u} (t) - x ^ {*}\\right) + \\dot {u} (t) + \\frac {1}{\\sqrt {\\mu}} \\ddot {u} (t) \\right\\| ^ {2} \\leq 2 \\mathcal {E} (t _ {0}) \\mathrm{e} ^ {- \\sqrt {\\mu} (t - t _ {0})}. \\\\ \\end{array}\n$$\n\n(b) Set $C = \\mathcal{E}(t_0)\\mathrm{e}^{\\sqrt{\\mu} t_0}$ . Developing the expression above, we obtain\n\n$$\n\\mu \\| y (t) - x ^ {*} \\| ^ {2} + \\| \\dot {y} (t) \\| ^ {2} + \\langle \\dot {y} (t), 2 \\sqrt {\\mu} (y (t) - x ^ {*}) \\rangle \\leq 2 C \\mathrm{e} ^ {- \\sqrt {\\mu} t}.\n$$\n\nNote that\n\n$$\n\\langle \\dot {y} (t), 2 \\sqrt {\\mu} (y (t) - x ^ {*}) \\rangle = \\frac {\\mathrm{d}}{\\mathrm{d} t} (\\sqrt {\\mu} \\| y (t) - x ^ {*} \\| ^ {2}).\n$$\n\nCombining the above results, we obtain\n\n$$\n\\sqrt {\\mu} (\\sqrt {\\mu} \\| y (t) - x ^ {*} \\| ^ {2}) + \\frac {\\mathrm{d}}{\\mathrm{d} t} (\\sqrt {\\mu} \\| y (t) - x ^ {*} \\| ^ {2}) \\leq 2 C \\mathrm{e} ^ {- \\sqrt {\\mu} t}.\n$$\n\nSet $Z(t) := \\sqrt{\\mu} \\|y(t) - x^{*}\\|^{2}$ , then we have\n\n$$\n\\frac {\\mathrm{d}}{\\mathrm{d} t} (\\mathrm{e} ^ {\\sqrt {\\mu} t} Z (t) - 2 C t) = \\mathrm{e} ^ {\\sqrt {\\mu} t} \\frac {\\mathrm{d}}{\\mathrm{d} t} Z (t) + \\sqrt {\\mu} \\mathrm{e} ^ {\\sqrt {\\mu} t} Z (t) - 2 C \\leq 0.\n$$\n\nBy integrating this differential inequality, elementary computation gives\n\n$$\nZ (t) \\leq \\mathrm{e} ^ {- \\sqrt {\\mu} (t - t _ {0})} Z (t _ {0}) + 2 C (t - t _ {0}) \\mathrm{e} ^ {- \\sqrt {\\mu} t}.\n$$\n\nTherefore,\n\n$$\n\\| y (t) - x ^ {*} \\| ^ {2} \\leq \\frac {\\mathrm{e} ^ {\\sqrt {\\mu} t _ {0}}}{\\sqrt {\\mu}} (\\sqrt {\\mu} \\| y (t _ {0}) - x ^ {*} \\| ^ {2} + 2 \\mathcal {E} (t _ {0}) (t - t _ {0})) \\mathrm{e} ^ {- \\sqrt {\\mu} t}.\n$$\n\n(c) Let us now analyse the convergence rate of values for $f(u(t)) - \\inf_{\\mathcal{H}}f$ . We start from (31), which can be equivalently written as follows: for all $t \\geq t_0$\n\n$$\nf (y (t)) - \\inf _ {\\mathcal {H}} f \\leq C \\mathrm{e} ^ {- \\sqrt {\\mu} t}, \\tag {32}\n$$\n\nwhere, we recall, $C = \\mathcal{E}(t_0)\\mathrm{e}^{\\sqrt{\\mu} t_0}$ . By integrating the relation $\\frac{\\mathrm{d}}{\\mathrm{d}t} (\\mathrm{e}^{\\sqrt{\\mu} t}u(t)) = \\sqrt{\\mu}\\mathrm{e}^{\\sqrt{\\mu} t}y(t)$ from $t$ to $t + h$ (h is a positive parameter which is intended to go to zero), we get\n\n$$\n\\mathrm{e} ^ {\\sqrt {\\mu} (t + h)} u (t + h) = \\mathrm{e} ^ {\\sqrt {\\mu} t} u (t) + \\int_ {t} ^ {t + h} \\sqrt {\\mu} \\mathrm{e} ^ {\\sqrt {\\mu} \\tau} y (\\tau) \\mathrm{d} \\tau .\n$$\n\nEquivalently, $u(t + h) = \\mathrm{e}^{-\\sqrt{\\mu}h}u(t) + \\mathrm{e}^{-\\sqrt{\\mu}(t + h)}\\int_{t}^{t + h}\\sqrt{\\mu}\\mathrm{e}^{\\sqrt{\\mu}\\tau}y(\\tau)\\mathrm{d}\\tau$ .\n\nLet us rewrite this relation in a barycentric form, which is convenient to use a convexity argument:\n\n$$\n\\begin{array}{l} u (t + h) = \\mathrm{e} ^ {- \\sqrt {\\mu} h} u (t) + \\mathrm{e} ^ {- \\sqrt {\\mu} (t + h)} \\frac {\\mathrm{e} ^ {\\sqrt {\\mu} (t + h)} - \\mathrm{e} ^ {\\sqrt {\\mu} t}}{\\mathrm{e} ^ {\\sqrt {\\mu} (t + h)} - \\mathrm{e} ^ {\\sqrt {\\mu} t}} \\int_ {t} ^ {t + h} \\sqrt {\\mu} \\mathrm{e} ^ {\\sqrt {\\mu} \\tau} y (\\tau) \\mathrm{d} \\tau \\\\ = \\mathrm{e} ^ {- \\sqrt {\\mu} h} u (t) + (1 - \\mathrm{e} ^ {- \\sqrt {\\mu} h}) \\frac {1}{\\mathrm{e} ^ {\\sqrt {\\mu} (t + h)} - \\mathrm{e} ^ {\\sqrt {\\mu} t}} \\int_ {t} ^ {t + h} \\sqrt {\\mu} \\mathrm{e} ^ {\\sqrt {\\mu} \\tau} y (\\tau) \\mathrm{d} \\tau . \\tag {33} \\\\ \\end{array}\n$$\n\nAccording to the convexity of the function $f - \\inf_{\\mathcal{H}}f$ , we obtain\n\n$$\n\\begin{array}{l} f (u (t + h)) - \\inf _ {\\mathcal {H}} f \\leq \\mathrm{e} ^ {- \\sqrt {\\mu} h} (f (u (t)) - \\inf _ {\\mathcal {H}} f) \\\\ + (1 - \\mathrm{e} ^ {- \\sqrt {\\mu} h}) (f - \\inf _ {\\mathcal {H}} f) \\left(\\frac {1}{\\mathrm{e} ^ {\\sqrt {\\mu} (t + h)} - \\mathrm{e} ^ {\\sqrt {\\mu} t}} \\int_ {t} ^ {t + h} \\sqrt {\\mu} \\mathrm{e} ^ {\\sqrt {\\mu} \\tau} y (\\tau) \\mathrm{d} \\tau\\right). \\tag {34} \\\\ \\end{array}\n$$\n\nLet us apply the Jensen inequality to majorize the last above expression. Set $s = \\mathrm{e}^{\\sqrt{\\mu\\tau}}$ , then\n\n$$\n\\int_ {t} ^ {t + h} \\sqrt {\\mu} \\mathrm{e} ^ {\\sqrt {\\mu} \\tau} y (\\tau) \\mathrm{d} \\tau = \\int_ {\\mathrm{e} ^ {\\sqrt {\\mu} t}} ^ {\\mathrm{e} ^ {\\sqrt {\\mu} (t + h)}} y \\left(\\frac {1}{\\sqrt {\\mu}} \\ln s\\right) \\mathrm{d} s\n$$\n\nLet us apply Jensen's inequality. According to the convexity of $\\Psi := f - \\inf_{\\mathcal{H}} f$ , we get [Use the normalized Lebesgue measure on $[e^{\\sqrt\\mu t},e^{\\sqrt\\mu(t+h)}]$. TODO: verify the source typo in the displayed integrand, which should be $\\Psi(\\frac1{\\sqrt\\mu}\\ln s)$ rather than $\\Psi(\\ln(\\frac1{\\sqrt\\mu}\\ln s))$.]\n\n$$\n\\begin{array}{l} \\Psi \\left(\\frac {1}{\\mathrm{e} ^ {\\sqrt {\\mu} (t + h)} - \\mathrm{e} ^ {\\sqrt {\\mu} t}} \\int_ {t} ^ {t + h} \\sqrt {\\mu} \\mathrm{e} ^ {\\sqrt {\\mu} \\tau} y (\\tau) \\mathrm{d} \\tau\\right) \\\\ = \\Psi \\left(\\frac {1}{\\mathrm{e} ^ {\\sqrt {\\mu} (t + h)} - \\mathrm{e} ^ {\\sqrt {\\mu} t}} \\int_ {\\mathrm{e} ^ {\\sqrt {\\mu} t}} ^ {\\mathrm{e} ^ {\\sqrt {\\mu} (t + h)}} y \\left(\\frac {1}{\\sqrt {\\mu}} \\ln s\\right) \\mathrm{d} s\\right) \\\\ \\leq \\frac {1}{\\mathrm{e} ^ {\\sqrt {\\mu} (t + h)} - \\mathrm{e} ^ {\\sqrt {\\mu} t}} \\int_ {\\mathrm{e} ^ {\\sqrt {\\mu} t}} ^ {\\mathrm{e} ^ {\\sqrt {\\mu} (t + h)}} \\Psi \\left(\\ln \\left(\\frac {1}{\\sqrt {\\mu}} \\ln s\\right)\\right) \\mathrm{d} s \\\\ = \\frac {1}{\\mathrm{e} ^ {\\sqrt {\\mu} (t + h)} - \\mathrm{e} ^ {\\sqrt {\\mu} t}} \\int_ {t} ^ {t + h} \\sqrt {\\mu} \\mathrm{e} ^ {\\sqrt {\\mu} \\tau} \\Psi (y (\\tau)) \\mathrm{d} \\tau . \\\\ \\end{array}\n$$\n\nThen, inequality (34) becomes\n\n$$\n\\begin{array}{l} f (u (t + h)) - \\inf _ {\\mathcal {H}} f \\leq \\mathrm{e} ^ {- \\sqrt {\\mu} h} \\left(f (u (t)) - \\inf _ {\\mathcal {H}} f\\right) \\\\ + \\frac {(1 - \\mathrm{e} ^ {- \\sqrt {\\mu} h}) \\sqrt {\\mu}}{\\mathrm{e} ^ {\\sqrt {\\mu} (t + h)} - \\mathrm{e} ^ {\\sqrt {\\mu} t}} \\int_ {t} ^ {t + h} \\mathrm{e} ^ {\\sqrt {\\mu} \\tau} (f (y (\\tau)) - \\inf _ {\\mathcal {H}} f) \\mathrm{d} \\tau . \\tag {35} \\\\ \\end{array}\n$$\n\nAccording to the convergence rate of the values (32) which was obtained for $y$ , we get\n\n$$\n\\begin{array}{l} f (u (t + h)) - \\inf _ {\\mathcal {H}} f \\leq \\mathrm{e} ^ {- \\sqrt {\\mu} h} \\left(f (u (t)) - \\inf _ {\\mathcal {H}} f\\right) \\\\ + \\frac {(1 - \\mathrm{e} ^ {- \\sqrt {\\mu} h}) \\sqrt {\\mu}}{\\mathrm{e} ^ {\\sqrt {\\mu} (t + h)} - \\mathrm{e} ^ {\\sqrt {\\mu} t}} \\int_ {t} ^ {t + h} \\mathrm{e} ^ {\\sqrt {\\mu} \\tau} C \\mathrm{e} ^ {- \\sqrt {\\mu} \\tau} \\mathrm{d} \\tau . \\tag {36} \\\\ \\end{array}\n$$\n\nSet $F(t) := f(u(t)) - \\inf_{\\mathcal{H}} f$ . We can rewrite equivalently (36) as\n\n$$\nF (t + h) - F (t) + (1 - \\mathrm{e} ^ {- \\sqrt {\\mu} h}) F (t) \\leq C h \\sqrt {\\mu} \\mathrm{e} ^ {- \\sqrt {\\mu} t} \\frac {1 - \\mathrm{e} ^ {- \\sqrt {\\mu} h}}{\\mathrm{e} ^ {h} - 1}.\n$$\n\nNote that $F$ is a $\\mathcal{C}^1$ function, as a composition of such functions. Therefore, dividing by $h > 0$ , and letting $h \\to 0^{+}$ in the above inequality, we get by elementary calculation\n\n$$\nF ^ {\\prime} (t) + \\sqrt {\\mu} F (t) \\leq C \\sqrt {\\mu} \\mathrm{e} ^ {- \\sqrt {\\mu} t}. \\tag {37}\n$$\n\nEquivalently, $\\frac{\\mathrm{d}}{\\mathrm{d}t} (\\mathrm{e}^{\\sqrt{\\mu} t}F(t) - C\\sqrt{\\mu} t) = \\mathrm{e}^{\\sqrt{\\mu} t}(F'(t) + F(t)) - C\\sqrt{\\mu}\\leq 0$ . Therefore, the function $t\\mapsto \\mathrm{e}^{\\sqrt{\\mu} t}F(t) - C\\sqrt{\\mu} t$ is non-increasing, which gives\n\n$$\n\\mathrm{e} ^ {\\sqrt {\\mu} t} F (t) - C \\sqrt {\\mu} t \\leq C _ {0} := \\mathrm{e} ^ {\\sqrt {\\mu} t _ {0}} F (t _ {0}) - C \\sqrt {\\mu} t _ {0}.\n$$\n\nWe conclude that\n\n$$\nf (u (t)) - \\inf _ {\\mathcal {H}} f \\leq (C \\sqrt {\\mu} t + C _ {0}) \\mathrm{e} ^ {- \\sqrt {\\mu} t}.\n$$\n\n(d) Relations (27), (28) follow immediately from (25), (26) and strong convexity of $f$ . [Indeed strong convexity at the minimizer gives $f(x)-f(x^*)\\geq\\frac\\mu2\\|x-x^*\\|^2$; apply it respectively to $x=y(t)$ and $x=u(t)$ and insert (25) and (26).]",
+      "depends_on": [
+        "def_5",
+        "def_6",
+        "ext_def_2",
+        "ext_thm_2",
+        "ext_thm_4"
+      ],
+      "remark": "[Prove hint: transform to the damped second-order equation for $y$, use strong convexity and integrating factors]"
+    },
+    {
+      "id": "def_7",
+      "type": "definition",
+      "name": "Moreau envelope and proximal mapping",
+      "statement": "$$\nf _ {\\lambda} (x) = \\min _ {\\xi \\in \\mathcal {H}} \\left\\{f (\\xi) + \\frac {1}{2 \\lambda} \\| x - \\xi \\| ^ {2} \\right\\}.\n$$\n\n$$\nf _ {\\lambda} (x) = f (\\mathrm{prox} _ {\\lambda f} x) + \\frac {1}{2 \\lambda} \\| x - \\mathrm{prox} _ {\\lambda f} x \\| ^ {2}, \\tag {38}\n$$\n\nwhere $\\mathrm{prox}_{\\lambda f}$ is the proximal mapping of index $\\lambda > 0$ of $f$ . Equivalently $\\mathrm{prox}_{\\lambda f} = (I + \\lambda \\partial f)^{-1}$ is the resolvent of index $\\lambda > 0$ of the subdifferential of $f$ (a maximally monotone operator).",
+      "proof": null,
+      "depends_on": [
+        "ext_def_3",
+        "ext_thm_5"
+      ],
+      "remark": "[Foundation: Foundation.SetValued.Basic] recall SetValuedOperator.inverse, SetValuedOperator.resolvent, SetValuedOperator.IsMaximalMonotone | [Foundation: Foundation.Analysis.ExtendedRealFunctions] recall IsProper, dom"
+    },
+    {
+      "id": "rem_1",
+      "type": "remark",
+      "name": "Remark 2.2",
+      "statement": "Remark 2.2: Let us analyse in more detail the difference between the two dynamic systems of the third order (TOGES) and (TOGES-V). The key point is the choice of the parameter p in the relation\n\n$$\np t ^ {p - 1} \\nu (t) = \\frac {\\mathrm{d}}{\\mathrm{d} t} (t ^ {p} u (t))\n$$\n\nwhich connects the two variables v and u. In [1], we took p = 1 and thus get $\\nu(t) = \\frac{\\mathrm{d}}{\\mathrm{d}t}(tu(t))$ . In this case, the convergence of the values for u is only of order $\\mathcal{O}(1/t)$ . In contrast, in (TOGES-V), our choice is fixed at p = 4, which allows us to increase the speed of convergence to $\\mathcal{O}(1/t^{3})$ . Thus, in Theorem 2.1, we improve the results of [1, Theorem 2.1]. Indeed, under similar conditions, the convergence rate of the values $f(u(t)) - \\inf_{\\mathcal{H}} f$ passes from $\\mathcal{O}(\\frac{1}{t})$ to $\\mathcal{O}(\\frac{1}{t^{3}})$ .",
+      "proof": null,
+      "depends_on": [
+        "thm_1",
+        "def_1",
+        "def_2"
+      ],
+      "remark": "[Note: explanatory comparison only; no separate formal theorem is required]"
+    },
+    {
+      "id": "thm_2",
+      "type": "theorem",
+      "name": "Theorem 3.1",
+      "statement": "Theorem 3.1: Let $u:[t_0, + \\infty [\\to \\mathcal{H}$ be a solution trajectory of the evolution equation (TOGES-VH).\n\n(i) Suppose that the parameters satisfy the following condition:\n\n$$\n\\alpha > 3 \\quad \\text { and } \\quad \\beta \\geq 0.\n$$\n\nThen, for all $t \\geq t_1 := \\frac{2\\beta(\\alpha - 2)}{\\alpha - 3}$ ,\n\n$$\nf \\left(u (t) + \\frac {1}{4} t \\dot {u} (t)\\right) - \\inf _ {\\mathcal {H}} f \\leq \\frac {(\\alpha - 2) E (t _ {1})}{4 t ^ {3}},\n$$\n\n$$\nf (u (t)) - \\inf _ {\\mathcal {H}} f \\leq (t _ {1} ^ {4} F (u (t _ {1})) - (\\alpha - 2) E (t _ {1}) t _ {1}) \\frac {1}{t ^ {4}} + \\frac {(\\alpha - 2) E (t _ {1})}{t ^ {3}},\n$$\n\nwith\n\n$$\n\\begin{array}{l} E (t _ {1}) = 4 (t _ {1} ^ {3} - 2 \\beta t _ {1} ^ {2}) \\left(f (u (t _ {1}) + \\frac {1}{4} t _ {1} \\dot {u} (t _ {1})) - \\inf _ {\\mathcal {H}} f\\right) \\\\ + \\frac {1}{2} \\| t _ {1} ^ {2} \\left(\\ddot {x} (t _ {1}) + \\beta \\nabla f (u (t _ {1}) + \\frac {1}{4} t _ {1} \\dot {u} (t _ {1}))\\right) \\\\ + (\\alpha + 5) t _ {1} \\dot {u} (t _ {1}) + 4 \\alpha (u (t _ {1}) - z) \\| ^ {2}. \\\\ \\end{array}\n$$\n\nMoreover, we have an approximate descent method in the following sense: The function $t \\mapsto f(u(t)) + \\frac{(\\alpha - 2)E(t_1)}{3t^3}$ is non-increasing on $[t_1, +\\infty[$ .\n\n(ii) In addition, for $\\beta > 0$ ,\n\n$$\n\\int_ {t _ {1}} ^ {+ \\infty} t ^ {4} \\| \\nabla f (u (t) + t \\dot {u} (t)) \\| ^ {2} \\mathrm{d} t \\leq \\frac {(\\alpha - 2) E (t _ {1})}{\\beta}.\n$$",
+      "proof": "Proof: Let us compute the time derivative of the energy function $E(\\cdot)$ which is written as follows:\n\n$$\nE (t) := 4 t \\delta (t) \\left(f (\\nu (t)) - \\inf _ {\\mathcal {H}} f\\right) + \\frac {1}{2} \\| w (t) \\| ^ {2}.\n$$\n\nAccording to the derivation chain rule, we get [This uses $\\dot v(t)=\\frac54\\dot u(t)+\\frac14t\\ddot u(t)$, $\\frac d{dt}f(v(t))=\\langle\\nabla f(v(t)),\\dot v(t)\\rangle$, and $\\frac d{dt}\\frac12\\|w(t)\\|^2=\\langle w(t),\\dot w(t)\\rangle$.]\n\n$$\n\\begin{array}{l} \\dot {E} (t) := 4 t \\delta (t) \\langle \\nabla f (\\nu (t)), \\dot {\\nu} (t) \\rangle + 4 (\\delta (t) \\\\ + t \\dot {\\delta} (t)) \\left(f (\\nu (t)) - \\inf _ {\\mathcal {H}} f\\right) + \\langle w (t), \\dot {w} (t) \\rangle . \\tag {13} \\\\ \\end{array}\n$$\n\nLet us compute $\\dot{w}(t)$ .\n\n$$\n\\begin{array}{l} \\dot {w} (t) = t ^ {2} \\left(\\ddot {\\ddot {u}} (t) + \\beta \\nabla^ {2} f \\left(u (t) + \\frac {1}{4} t \\dot {u} (t)\\right) \\left(\\frac {5}{4} \\dot {u} (t) + \\frac {1}{4} t \\ddot {u} (t)\\right)\\right) \\\\ \\left. + 2 t \\left(\\ddot {u} (t) + \\beta \\nabla f \\left(u (t) + \\frac {1}{4} t \\dot {u} (t)\\right)\\right)\\right. \\\\ + (\\alpha + 5) (t \\ddot {u} (t) + \\dot {u} (t)) + 4 \\alpha \\dot {u} (t) \\\\ = \\left(t ^ {2} \\ddot {u} (t) + (\\alpha + 7) t \\ddot {u} (t) + 5 (\\alpha + 1) \\dot {u} (t) \\right. \\\\ \\left. + t ^ {2} \\beta \\nabla^ {2} f \\left(u (t) + \\frac {1}{4} t \\dot {u} (t)\\right) \\left(\\frac {5}{4} \\dot {u} (t) + \\frac {1}{4} t \\ddot {u} (t)\\right)\\right) \\\\ + 2 t \\beta \\nabla f \\left(u (t) + \\frac {1}{4} t \\dot {u} (t)\\right) \\\\ = - t ^ {2} \\nabla f \\left(u (t) + \\frac {1}{4} t \\dot {u} (t)\\right) + 2 t \\beta \\nabla f \\left(u (t) + \\frac {1}{4} t \\dot {u} (t)\\right) = - \\delta (t) \\nabla f (\\nu (t)), \\\\ \\end{array}\n$$\n\nwhere the two last inequalities follow from the Equation (TOGES-VH) and the definition of $v(\\cdot)$ . Let us give an equivalent formulation of $w(t)$ using $v(t)$ . This will be useful for the rest of the proof. According to the definition of $v(t)$ , we have $t\\ddot{u}(t) = 4\\dot{v}(t) - 5\\dot{u}(t)$ . This gives\n\n$$\n\\begin{array}{l} w (t) = t ^ {2} \\left(\\ddot {u} (t) + \\beta \\nabla f \\left(u (t) + \\frac {1}{4} t \\dot {u} (t)\\right)\\right) + (\\alpha + 5) t \\dot {u} (t) + 4 \\alpha (u (t) - z) \\\\ = t (4 \\dot {v} (t) - 5 \\dot {u} (t)) + t ^ {2} \\beta \\nabla f (v (t)) + (\\alpha + 5) t \\dot {u} (t) + 4 \\alpha (u (t) - z) \\\\ = 4 t \\dot {v} (t) + t ^ {2} \\beta \\nabla f (v (t)) + \\alpha (t \\dot {u} (t) + 4 u (t)) - 4 \\alpha z \\\\ = 4 t \\dot {\\nu} (t) + t ^ {2} \\beta \\nabla f (\\nu (t)) + 4 \\alpha (\\nu (t) - z). \\tag {14} \\\\ \\end{array}\n$$\n\nTherefore,\n\n$$\n\\begin{array}{l} \\langle \\dot {w} (t), w (t) \\rangle = - \\delta (t) \\langle \\nabla f (\\nu (t)), 4 t \\dot {\\nu} (t) + t ^ {2} \\beta \\nabla f (\\nu (t)) + 4 \\alpha (\\nu (t) - z) \\rangle \\\\ = - \\beta t ^ {2} \\delta (t) \\| \\nabla f (\\nu (t)) \\| ^ {2} - 4 t \\delta (t) \\langle \\nabla f (\\nu (t)), \\dot {\\nu} (t) \\rangle \\\\ - 4 \\alpha \\delta (t) \\langle \\nabla f (\\nu (t)), \\nu (t) - z \\rangle \\\\ \\leq - \\beta t ^ {2} \\delta (t) \\| \\nabla f (\\nu (t)) \\| ^ {2} - 4 t \\delta (t) \\langle \\nabla f (\\nu (t)), \\dot {\\nu} (t) \\rangle \\\\ + 4 \\alpha \\delta (t) (f (z) - f (\\nu (t)), \\tag {15} \\\\ \\end{array}\n$$\n\nwhere the last inequality follows from the convexity of $f$ . [Take $x=v(t)$ and $y=z$ in $f(y)\\geq f(x)+\\langle\\nabla f(x),y-x\\rangle$, and use $f(z)=\\inf_{\\mathcal H}f$.] Combining (13) with (15), we obtain\n\n$$\n\\begin{array}{l} \\dot {E} (t) \\leq 4 t \\delta (t) \\langle \\nabla f (\\nu (t)), \\dot {\\nu} (t) \\rangle + 4 (\\delta (t) + t \\dot {\\delta} (t)) (f (\\nu (t)) - \\inf _ {\\mathcal {H}} f) \\\\ \\begin{array}{r} - \\beta t ^ {2} \\delta (t) \\| \\nabla f (\\nu (t)) \\| ^ {2} - 4 t \\delta (t) \\langle \\nabla f (\\nu (t)), \\dot {\\nu} (t) \\rangle + 4 \\alpha \\delta (t) (f (z) - f (\\nu (t))). \\end{array} \\tag {16} \\\\ \\end{array}\n$$\n\nAfter simplification, we get [The terms $4t\\delta\\langle\\nabla f,\\dot v\\rangle$ cancel, and $f(z)-f(v)=-(f(v)-\\inf f)$; collecting the remaining value terms gives $4((\\alpha-1)\\delta-t\\dot\\delta)(f(v)-\\inf f)$.]\n\n$$\n\\dot {E} (t) + \\beta t ^ {2} \\delta (t) \\| \\nabla f (\\nu (t)) \\| ^ {2} + 4 ((\\alpha - 1) \\delta (t) - t \\dot {\\delta} (t)) \\left(f (\\nu (t)) - \\inf _ {\\mathcal {H}} f\\right) \\leq 0. \\tag {17}\n$$\n\nAccording to the definition of $\\delta(\\cdot)$\n\n$$\n\\begin{array}{l} (\\alpha - 1) \\delta (t) - t \\dot {\\delta} (t) = (\\alpha - 1) (t ^ {2} - 2 \\beta t) - t (2 t - 2 \\beta) \\\\ = (\\alpha - 3) t ^ {2} - 2 \\beta t (\\alpha - 2). \\\\ \\end{array}\n$$\n\nTherefore,\n\n$$\n\\dot {E} (t) + \\beta t ^ {2} \\delta (t) \\| \\nabla f (\\nu (t)) \\| ^ {2} + 4 ((\\alpha - 3) t ^ {2} - 2 \\beta t (\\alpha - 2)) \\left(f (\\nu (t)) - \\inf _ {\\mathcal {H}} f\\right) \\leq 0. \\tag {18}\n$$\n\nFor $\\alpha > 3$ and $t \\geq t_1 = \\frac{2\\beta(\\alpha - 2)}{\\alpha - 3}$ (i.e. $t$ sufficiently large), we have $\\dot{E}(t) \\leq 0$ . So, for all $t \\geq t_1$ we have $E(t) \\leq E(t_1)$ , which by definition of $E(\\cdot)$ gives\n\n$$\n4 t ^ {3} \\left(1 - \\frac {2 \\beta}{t}\\right) \\left(f (\\nu (t)) - \\inf _ {\\mathcal {H}} f\\right) \\leq E (t _ {1}).\n$$\n\nNote that for $t \\geq t_1$ we have $1 - \\frac{2\\beta}{t} \\geq \\frac{1}{\\alpha - 2}$ . Therefore, for $t \\geq t_1$ ,\n\n$$\nf \\left(u (t) + \\frac {1}{4} t \\dot {u} (t)\\right) - \\inf _ {\\mathcal {H}} f \\leq \\frac {(\\alpha - 2) E (t _ {1})}{4 t ^ {3}}.\n$$\n\nMoreover, by integrating (17), we obtain\n\n$$\n\\beta \\int_ {t _ {1}} ^ {+ \\infty} t ^ {2} \\delta (t) \\left\\| \\nabla f \\left(u (t) + \\frac {1}{4} t \\dot {u} (t)\\right) \\right\\| ^ {2} \\mathrm{d} t \\leq E (t _ {1}).\n$$\n\nBy a calculation similar to the one above, we obtain [For $t\\geq t_1$, $\\delta(t)=t^2(1-2\\beta/t)\\geq t^2/(\\alpha-2)$, so $t^2\\delta(t)\\geq t^4/(\\alpha-2)$; substitute this lower bound in the preceding integral inequality.]\n\n$$\n\\int_ {t _ {1}} ^ {+ \\infty} t ^ {4} \\left\\| \\nabla f \\left(u (t) + \\frac {1}{4} t \\dot {u} (t)\\right) \\right\\| ^ {2} \\mathrm{d} t \\leq \\frac {(\\alpha - 2) E (t _ {1})}{\\beta}. \\tag {19}\n$$\n\nThen, to pass from estimates on $y(t)$ to estimates on $x(t)$ , we proceed as in Theorem 2.1. Precisely, define $C = (\\alpha - 2)E(t_1)$ , and set $F = f - \\inf f$ . According to (i), we obtained $t^3 F(\\nu(t)) \\leq \\frac{1}{4} C$ .\n\nOn the basis of Jensen's inequality, we obtained the proof of Theorem 2.1 that\n\n$$\n\\frac {\\mathrm{d}}{\\mathrm{d} t} (t ^ {4} F (u (t))) \\leq 4 \\sup _ {t} t ^ {3} F (\\nu (t) \\leq C = (\\alpha - 2) E (t _ {1}). \\tag {20}\n$$\n\nThis implies that $t \\mapsto t^4 F(u(t)) - Ct$ is non-increasing on $[t_1, +\\infty[$ . Consequently,\n\n$$\nf (u (t)) - \\inf _ {\\mathcal {H}} f \\leq (t _ {1} ^ {4} F (u (t _ {1})) - C t _ {1}) \\frac {1}{t ^ {4}} + \\frac {C}{t ^ {3}}. \\tag {21}\n$$\n\nWe conclude that $f(u(t)) - \\inf_{\\mathcal{H}}f = \\mathcal{O}(\\frac{1}{t^3})$ as $t \\to +\\infty$ . Let us return to (20). We have\n\n$$\nt ^ {4} \\frac {\\mathrm{d}}{\\mathrm{d} t} (F (u (t))) + 4 t ^ {3} F (u (t)) \\leq C.\n$$\n\nSince $F(u(t)) \\geq 0$ , we get $\\frac{\\mathrm{d}}{\\mathrm{d}t}(F(u(t))) \\leq \\frac{C}{t^4}$ . Equivalently $\\frac{\\mathrm{d}}{\\mathrm{d}t}(F(u(t)) + \\frac{C}{3t^3}) \\leq 0$ . Therefore, $t \\mapsto f(u(t)) + \\frac{(\\alpha - 2)E(t_1)}{3t^3}$ is non-increasing on $[t_1, +\\infty[$ .",
+      "depends_on": [
+        "def_1",
+        "def_3",
+        "def_4",
+        "thm_1",
+        "ext_def_1",
+        "ext_thm_2"
+      ],
+      "remark": "[Prove hint: differentiate $E$, substitute TOGES-VH into $\\dot w$, use the convex first-order inequality, then integrate]"
+    },
+    {
+      "id": "def_8",
+      "type": "definition",
+      "name": "TOGES-VR",
+      "statement": "$$\n\\begin{array}{l} (\\text {TOGES} - \\text {VR}) \\quad \\ddot {u} (t) + \\frac {\\alpha + 7}{t} \\ddot {u} (t) + \\frac {5 (\\alpha + 1)}{t ^ {2}} \\dot {u} (t) \\\\ + \\nabla f _ {\\lambda} \\left(u (t) + \\frac {1}{4} t \\dot {u} (t)\\right) = 0, \\quad t \\in [ t _ {0}, + \\infty [, \\\\ \\end{array}\n$$",
+      "proof": null,
+      "depends_on": [
+        "def_1",
+        "def_7",
+        "ext_thm_5"
+      ],
+      "remark": "[Note: $∇f_\\lambda$ requires the Moreau regularity result and $\\lambda>0$]"
+    },
+    {
+      "id": "thm_4",
+      "type": "theorem",
+      "name": "Theorem 6.1",
+      "statement": "Theorem 6.1: Let $f:\\mathcal{H}\\to\\mathbb{R}\\cup\\{+\\infty\\}$ be a convex lower semicontinuous and proper function such that $\\operatorname{argmin}_{\\mathcal{H}}f\\neq\\emptyset$ . Let us fix $\\lambda>0$ . Let $u:[t_{0},+\\infty[\\to\\mathcal{H}$ be a solution trajectory of the evolution system (TOGES-VR).\n\n(a) Suppose that $\\alpha \\geq 3$ . Then, as $t \\to +\\infty$\n\n(i) $f_{\\lambda}(u(t) + \\frac{1}{4}t\\dot{u}(t)) - \\inf_{\\mathcal{H}}f = \\mathcal{O}(\\frac{1}{t^{3}}); \\quad f(\\text{prox}_{\\lambda f}(u(t) + \\frac{1}{4}t\\dot{u}(t))) - \\inf_{\\mathcal{H}}f = \\mathcal{O}(\\frac{1}{t^{3}}).$  \n(ii) $f_{\\lambda}(u(t)) - \\inf_{\\mathcal{H}}f = \\mathcal{O}(\\frac{1}{t^3});f(\\mathrm{prox}_{\\lambda f}u(t)) - \\inf_{\\mathcal{H}}f = \\mathcal{O}(\\frac{1}{t^3}).$\n\n(b) Suppose that $\\alpha > 3$ . Then, as $t \\to +\\infty$\n\n(iii) $f_{\\lambda}(u(t)+\\frac{1}{4}t\\dot{u}(t))- \\inf_{\\mathcal{H}}f=o(\\frac{1}{t^{3}}); \\quad f(\\text{prox}_{\\lambda f}(u(t)+\\frac{1}{4}t\\dot{u}(t)))-\\inf_{\\mathcal{H}}f=o(\\frac{1}{t^{3}}).$  \n(iv) $f_{\\lambda}(u(t)) - \\inf_{\\mathcal{H}}f = o(\\frac{1}{t^3});f(\\mathrm{prox}_{\\lambda f}u(t)) - \\inf_{\\mathcal{H}}f = o(\\frac{1}{t^3}).$  \n(v) the trajectory converges weakly as $t \\to +\\infty$ , let $u(t) \\rightharpoonup u_{\\infty}$ , and $u_{\\infty} \\in \\arg\\min_{\\mathcal{H}} f$ .",
+      "proof": "Proof: The proof consists in replacing $f$ by $f_{\\lambda}$ in Theorem 2.1, and in using the property\n\n$$\nf _ {\\lambda} (x) \\geq f (\\mathrm{prox} _ {\\lambda f} x), \\tag {39}\n$$\n\nwhich is a direct consequence of the definition (38) of the proximal mapping. [From (38), $f_\\lambda(x)=f(\\operatorname{prox}_{\\lambda f}x)+\\frac1{2\\lambda}\\|x-\\operatorname{prox}_{\\lambda f}x\\|^2$, and the final term is nonnegative because $\\lambda>0$. The Moreau regularity theorem supplies the convex $C^1$ hypotheses and equality of infima/minimizers needed to invoke Theorem 2.1.]",
+      "depends_on": [
+        "def_7",
+        "def_8",
+        "thm_1",
+        "ext_thm_5"
+      ],
+      "remark": "[Prove hint: apply Theorem 2.1 to $f_\\lambda$, then use $f_\\lambda(x)\\ge f(\\operatorname{prox}_{\\lambda f}x)$]"
+    }
+  ],
+  "external_theorems": [
+    {
+      "id": "ext_thm_3",
+      "type": "theorem",
+      "name": "Weak weighted Cesaro convergence",
+      "statement": "If $v(t)\\rightharpoonup v_\\infty$ in a Hilbert space and $w\\geq0$ is locally integrable with $W(t):=\\int_{t_0}^t w(s)\\,ds\\to\\infty$, then $\\frac1{W(t)}\\int_{t_0}^t w(s)v(s)\\,ds\\rightharpoonup v_\\infty$.",
+      "proof": "Cited from: standard weak ergodic/Cesaro convergence principle (uncited in the paper).",
+      "depends_on": [],
+      "source": "Standard weak convergence result (uncited in the paper).",
+      "resolution_priority": "high",
+      "remark": "[Foundation: Foundation.Hilbert.WeakConvergence] recall weak convergence infrastructure | [Note: apply with $w(t)=4t^3$]"
+    },
+    {
+      "id": "ext_thm_4",
+      "type": "theorem",
+      "name": "Scalar differential comparison by integrating factors",
+      "statement": "If $E:[t_0,\\infty)\\to\\mathbb R$ is differentiable and $E'(t)+aE(t)\\leq b(t)$ for $a\\geq0$, then $E(t)\\leq e^{-a(t-t_0)}E(t_0)+\\int_{t_0}^t e^{-a(t-s)}b(s)\\,ds$.",
+      "proof": "Cited from: standard Gronwall/integrating-factor inequality (uncited in the paper).",
+      "depends_on": [],
+      "source": "Standard differential inequality result (uncited in the paper).",
+      "resolution_priority": "medium",
+      "remark": "[Prove hint: multiply by $e^{at}$ and integrate]"
+    },
+    {
+      "id": "ext_thm_1",
+      "type": "theorem",
+      "name": "Theorem 2.1 of Attouch, Chbani, and Riahi",
+      "statement": "Suppose $\\alpha \\geq 3$ . Then, for any trajectory of (TOGES) there exists a constant $C > 0$ such that, for all $t \\geq t_0$ ,\n\n$$\nf (u (t) + t \\dot {u} (t)) - \\inf _ {\\mathcal {H}} f \\leq \\frac {C}{t ^ {3}};\n$$\n\n$$\nf (u (t)) - \\inf _ {\\mathcal {H}} f \\leq \\frac {1}{t} \\left(t _ {0} \\left(f (x (t _ {0})) - \\inf _ {\\mathcal {H}} f\\right) + \\frac {C}{2 t _ {0} ^ {2}}\\right).\n$$",
+      "proof": "Cited from: Attouch H, Chbani Z, Riahi H. Fast convex optimization via a third-order in time evolution equation. Optimization. 2022;71(5):1275–1304.",
+      "depends_on": [
+        "def_2"
+      ],
+      "source": "Attouch H, Chbani Z, Riahi H. Fast convex optimization via a third-order in time evolution equation. Optimization. 2022;71(5):1275–1304.",
+      "resolution_priority": "high",
+      "remark": "[Note: the paper uses this result for the rate and weak convergence of the auxiliary $v/\\nu$ trajectory; its extracted statement only records rate estimates, so recover the full cited theorem before formalization]"
+    },
+    {
+      "id": "ext_thm_2",
+      "type": "theorem",
+      "name": "Integral Jensen inequality",
+      "statement": "If $F$ is convex, $a<b$, and $g:[a,b]\\to\\mathcal H$ is integrable, then $F\\!\\left(\\frac1{b-a}\\int_a^b g(s)\\,ds\\right)\\leq\\frac1{b-a}\\int_a^b F(g(s))\\,ds$.",
+      "proof": "Cited from: standard integral Jensen inequality (uncited in the paper).",
+      "depends_on": [
+        "ext_def_1"
+      ],
+      "source": "Standard convex analysis result (uncited in the paper).",
+      "resolution_priority": "high",
+      "remark": "[Note: required for the barycentric estimates in Theorems 2.1 and 5.1]"
+    },
+    {
+      "id": "ext_thm_5",
+      "type": "theorem",
+      "name": "Moreau envelope regularity and minimizers",
+      "statement": "If $f:\\mathcal H\\to\\mathbb R\\cup\\{+\\infty\\}$ is proper, lower semicontinuous, and convex, and $\\lambda>0$, then $f_\\lambda$ is convex and continuously differentiable, $\\inf f_\\lambda=\\inf f$, $\\operatorname{argmin}f_\\lambda=\\operatorname{argmin}f$, and $f_\\lambda(x)=f(\\operatorname{prox}_{\\lambda f}x)+\\frac1{2\\lambda}\\|x-\\operatorname{prox}_{\\lambda f}x\\|^2$.",
+      "proof": "Cited from: Attouch H, Buttazzo G, Michaille G. Variational analysis in Sobolev and BV spaces, 2nd ed., SIAM, 2014, Section 17.2.1; Bauschke H, Combettes PL. Convex analysis and monotone operator theory in Hilbert spaces, Springer, 2011; Brezis H. Operateurs maximaux monotones dans les espaces de Hilbert et equations d evolution, North Holland, 1972.",
+      "depends_on": [
+        "ext_def_3"
+      ],
+      "source": "Paper references [22, Section 17.2.1], [23], and [24].",
+      "resolution_priority": "high",
+      "remark": "[Foundation: Foundation.Analysis.ExtendedRealFunctions] recall IsProper | [Foundation: Foundation.SetValued.Basic] recall SetValuedOperator.resolvent"
+    }
+  ]
+}

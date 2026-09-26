@@ -1,0 +1,125 @@
+{
+  "metadata": {
+    "title": "Convergence of a splitting inertial proximal method for monotone operators",
+    "authors": [
+      "A. Moudafi",
+      "M. Oliny"
+    ],
+    "year": 2002,
+    "source_type": "markdown"
+  },
+  "items": [
+    {
+      "id": "ext_def_2",
+      "type": "definition",
+      "name": "Sum of two operators",
+      "statement": "For two set-valued operators \\(A, B : H \\rightrightarrows H\\), their sum \\(A + B\\) is defined by\n\\[(A + B)(x) := \\{a + b : a \\in A(x),\\; b \\in B(x)\\}.\\]",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "def_1",
+      "type": "definition",
+      "name": "Monotone operator",
+      "statement": "An operator \\(T\\) on a real Hilbert space \\(H\\) is said to be monotone if \\(\\langle u - v, x - y \\rangle \\ge 0\\) whenever \\(u \\in T(x), v \\in T(y)\\).",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "ext_def_1",
+      "type": "definition",
+      "name": "Graph of a set-valued operator",
+      "statement": "The graph of a set-valued operator \\(T : H \\rightrightarrows H\\) on a Hilbert space \\(H\\) is the set\n\\[\\operatorname{gra} T := \\{(x, y) \\in H \\times H : y \\in T(x)\\}.\\]",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "ext_def_3",
+      "type": "definition",
+      "name": "Inverse of a set-valued operator",
+      "statement": "For a set-valued operator \\(T : H \\rightrightarrows H\\), its inverse \\(T^{-1}\\) is defined by\n\\[T^{-1}(y) := \\{x \\in H : y \\in T(x)\\}.\\]",
+      "proof": null,
+      "depends_on": []
+    },
+    {
+      "id": "def_4",
+      "type": "definition",
+      "name": "ε-enlargement of a monotone operator",
+      "statement": "For a monotone operator \\(T\\) and \\(\\varepsilon \\ge 0\\), the \\(\\varepsilon\\)-enlargement \\(T_{\\varepsilon}\\) is defined by\n\\[T_{\\varepsilon}(x) := \\{v \\in H : \\langle u - v, y - x \\rangle \\ge -\\varepsilon \\;\\forall y, \\forall u \\in T(y)\\}. \\tag{1.5}\\]\nSince \\(T\\) is assumed to be maximal monotone, \\(T_0(x) = T(x)\\) for any \\(x\\). Furthermore, directly from the definition it follows that\n\\[0 \\le \\varepsilon_1 \\le \\varepsilon_2 \\Rightarrow T_{\\varepsilon_1}(x) \\subset T_{\\varepsilon_2}(x).\\]",
+      "proof": null,
+      "depends_on": [
+        "def_1"
+      ]
+    },
+    {
+      "id": "def_2",
+      "type": "definition",
+      "name": "Maximal monotone operator",
+      "statement": "An operator \\(T\\) is said to be maximal monotone if it is monotone and its graph, \\(\\{(x, y) \\in H \\times H : y \\in T(x)\\}\\), is not properly contained in the graph of any other monotone operator.",
+      "proof": null,
+      "depends_on": [
+        "def_1",
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "def_5",
+      "type": "definition",
+      "name": "Cocoercivity with respect to the solution set",
+      "statement": "An operator \\(B\\) is said to be \\(\\beta\\)-cocoercive with respect to the solution set \\(S := (A + B)^{-1}(0)\\) if\n\\[\\langle B(x) - B(y), x - y \\rangle \\ge \\beta|B(x) - B(y)|^2 \\quad \\forall x \\in H,\\; \\forall y \\in S,\\]\nwhere \\(\\beta > 0\\) is a real number.",
+      "proof": null,
+      "depends_on": [
+        "ext_def_2",
+        "ext_def_3"
+      ]
+    },
+    {
+      "id": "def_3",
+      "type": "definition",
+      "name": "Resolvent of a maximal monotone operator",
+      "statement": "For a maximal monotone operator \\(T\\), for each \\(x \\in H\\) and \\(\\lambda > 0\\) there is a unique \\(z \\in H\\) such that \\(x \\in (I + \\lambda T)z\\). The single-valued operator \\(J_{\\lambda}^T := (I + \\lambda T)^{-1}\\) is called the resolvent of \\(T\\) of parameter \\(\\lambda\\). It is a nonexpansive mapping which is everywhere defined and satisfies: \\(z = J_{\\lambda}^T z\\) if and only if \\(0 \\in Tz\\).",
+      "proof": null,
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "ext_def_3"
+      ]
+    },
+    {
+      "id": "ext_lem_1",
+      "type": "lemma",
+      "name": "Opial's Lemma",
+      "statement": "Let \\(H\\) be a Hilbert space and \\(\\{x_k\\}\\) a sequence such that there exists a nonempty set \\(S \\subset H\\) verifying:\n\n- For every \\(x^* \\in S\\), \\(\\lim_{k \\to +\\infty} |x_k - x^*|\\) exists.\n- If \\(x_{k_j}\\) weakly converges to \\(x \\in H\\) for a subsequence \\(k_j \\to +\\infty\\), then \\(x \\in S\\).\n\nThen, there exists \\(\\tilde{x} \\in S\\) such that \\(\\{x_k\\}\\) weakly converges to \\(\\tilde{x}\\) in \\(H\\).",
+      "proof": "Cited from: Z. Opial, Weak convergence of the sequence of successive approximations for nonexpansive mappings, Bull. Amer. Math. Soc. 73 (1967) 591–597.",
+      "depends_on": []
+    },
+    {
+      "id": "ext_thm_1",
+      "type": "theorem",
+      "name": "Demclosedness of the graph of the ε-enlargement (Proposition 3.4)",
+      "statement": "Let \\(T\\) be a maximal monotone operator on a Banach space \\(X\\). The graph of the ε-enlargement \\(T_{(\\cdot)}(\\cdot) : \\mathbb{R}_+ \\times X \\to 2^{X^*}\\) is demiclosed, i.e., the following conditions hold:\n\n(a) If \\(\\{x_k\\} \\subset X\\) converges strongly to \\(x_0\\), \\(\\{u_k \\in T_{\\varepsilon_k}(x_k)\\}\\) converges weak* to \\(u_0\\) in \\(X^*\\), and \\(\\{\\varepsilon_k\\} \\subset \\mathbb{R}_+\\) converges to \\(\\varepsilon\\), then \\(u_0 \\in T_{\\varepsilon}(x_0)\\).\n\n(b) If \\(\\{x_k\\} \\subset X\\) converges weakly to \\(x_0\\), \\(\\{u_k \\in T_{\\varepsilon_k}(x_k)\\}\\) converges strongly to \\(u_0\\) in \\(X^*\\), and \\(\\{\\varepsilon_k\\} \\subset \\mathbb{R}_+\\) converges to \\(\\varepsilon\\), then \\(u_0 \\in T_{\\varepsilon}(x_0)\\).",
+      "proof": "To prove (a), observe that since \\(\\{x_k\\}\\) converges strongly and \\(\\{u_k\\}\\) converges weak*, they are bounded sequences. Let \\(M < +\\infty\\) be a bound for \\(\\|x_k\\|\\) and \\(\\|u_k\\|\\). Take any \\((y, v) \\in G(T)\\). From Definition 2.1, it follows that\n\n\\[-\\varepsilon_k \\le \\langle x_k - y, u_k - v \\rangle = \\langle x_k - y, u_0 - v \\rangle + \\langle x_k - y, u_k - u_0 \\rangle\\]\n\n\\[= \\langle x_k - y, u_0 - v \\rangle + \\langle x_k - x_0, u_k - u_0 \\rangle + \\langle x_0 - y, u_k - u_0 \\rangle\\]\n\n\\[\\le \\langle x_k - y, u_0 - v \\rangle + \\|x_k - x_0\\|(M + \\|u_0\\|) + \\langle x_0 - y, u_k - u_0 \\rangle.\\]\n\nTaking the limit \\(k \\to +\\infty\\), we obtain\n\n\\[-\\varepsilon \\le \\langle x_0 - y, u_0 - v \\rangle.\\]\n\nSince \\((y, v)\\) is an arbitrary element in the graph of \\(T\\), the conclusion \\(u_0 \\in T_{\\varepsilon}(x_0)\\) follows.\n\nFor proving item (b), recall that weak convergent sequences are also bounded and use a similar reasoning. \\(\\square\\)\n\nIn the context of the Moudafi–Oliny paper (Hilbert space setting, where weak and weak* convergence coincide), part (b) with \\(\\varepsilon_k \\to 0\\) is used to pass from \\(0 \\in (A + B)_{\\varepsilon_{k_j+1}}(x_{k_j+1})\\) with \\(x_{k_j+1} \\rightharpoonup \\bar{x}\\) to the conclusion \\(0 \\in (A + B)(\\bar{x})\\), i.e., \\(\\bar{x} \\in S\\).",
+      "depends_on": [
+        "def_1",
+        "ext_def_1"
+      ]
+    },
+    {
+      "id": "thm_1",
+      "type": "theorem",
+      "name": "Convergence of the splitting inertial proximal method",
+      "statement": "Let \\(\\{x_k\\} \\subset H\\) be a sequence generated by\n\\[\\lambda_k A_{\\varepsilon_k}(x_{k+1}) + x_{k+1} - y_k + \\lambda_k B(x_k) \\ni 0, \\tag{1.6}\\]\nwhere \\(y_k := x_k + \\theta_k(x_k - x_{k-1})\\), \\(A, B\\) are two maximal monotone operators with \\(B\\) \\(\\beta\\)-cocoercive, and suppose that the parameters \\(\\theta_k, \\lambda_k\\) and \\(\\varepsilon_k\\) satisfy:\n\n1. \\(\\exists \\delta, \\exists \\underline{\\lambda} > 0\\) such that \\(\\forall k \\in \\mathbb{N}^*\\), \\(\\underline{\\lambda} \\le \\lambda_k \\le 2\\beta - \\delta\\).\n2. \\(\\exists \\theta \\in [0,1[\\) such that \\(\\forall k \\in \\mathbb{N}^*\\), \\(0 \\le \\theta_k \\le \\theta\\).\n3. \\(\\sum_{k=1}^{+\\infty} \\varepsilon_k < +\\infty\\).\n\nIf the following condition holds\n\\[\\sum_{k=1}^{+\\infty} \\theta_k|x_k - x_{k-1}|^2 < +\\infty, \\tag{2.10}\\]\nthen, there exists \\(x^* \\in S\\) such that \\(\\{x_k\\}\\) weakly converges to \\(x^*\\) as \\(k \\to +\\infty\\).",
+      "proof": "Fix \\(x \\in S = T^{-1}(0)\\) and set \\(\\phi_k = \\frac{1}{2}|x - x_k|^2\\). We have\n\n\\[\\phi_k - \\phi_{k+1} = \\frac{1}{2}|x_{k+1} - x_k|^2 + \\langle x_{k+1} - y_k, x - x_{k+1} \\rangle + \\theta_k\\langle x_k - x_{k-1}, x - x_{k+1} \\rangle, \\tag{2.11}\\]\n\nwhere \\(y_k := x_k + \\theta_k(x_k - x_{k-1})\\). Since \\(-x_{k+1} + y_k - \\lambda_k B(x_k) \\in \\lambda_k A_{\\varepsilon_k}(x_{k+1})\\) and \\(-\\lambda_k B(x) \\in \\lambda_k A(x)\\), from definition (1.5) it follows that\n\n\\[\\langle x_{k+1} - y_k + \\lambda_k(B(x_k) - B(x)), x - x_{k+1} \\rangle \\ge -\\lambda_k \\varepsilon_k. \\tag{2.12}\\]\n\nCombining (2.11) and (2.12), we obtain\n\n\\[\\phi_k - \\phi_{k+1} \\ge \\frac{1}{2}|x_{k+1} - x_k|^2 + \\lambda_k\\langle B(x_k) - B(x), x_{k+1} - x\\rangle - \\theta_k\\langle x_k - x_{k-1}, x_{k+1} - x\\rangle - \\lambda_k\\varepsilon_k.\\]\n\nBy invoking the equality\n\n\\[\\langle x_k - x_{k-1}, x_{k+1} - x\\rangle = \\langle x_k - x_{k-1}, x_k - x\\rangle + \\langle x_k - x_{k-1}, x_{k+1} - x_k\\rangle\\]\n\n\\[= \\phi_k - \\phi_{k-1} + \\frac{1}{2}|x_k - x_{k-1}|^2 + \\langle x_k - x_{k-1}, x_{k+1} - x_k\\rangle,\\]\n\nit follows that\n\n\\[\\phi_{k+1} - \\phi_k - \\theta_k(\\phi_k - \\phi_{k-1}) \\le -\\frac{1}{2}|x_{k+1} - x_k|^2 + \\theta_k\\langle x_k - x_{k-1}, x_{k+1} - x_k\\rangle\\]\n\n\\[+ \\frac{\\theta_k}{2}|x_k - x_{k-1}|^2 - \\lambda_k\\langle B(x_k) - B(x), x_{k+1} - x\\rangle + \\lambda_k\\varepsilon_k.\\]\n\nOn the other hand, since \\(B\\) is cocoercive, we get\n\n\\[\\lambda_k\\langle B(x_k) - B(x), x_{k+1} - x\\rangle\\]\n\n\\[= \\lambda_k\\big(\\langle B(x_k) - B(x), x_k - x\\rangle + \\langle B(x_k) - B(x), x_{k+1} - x_k\\rangle\\big)\\]\n\n\\[\\ge \\lambda_k\\big(\\beta|B(x_k) - B(x)|^2 + \\langle B(x_k) - B(x), x_{k+1} - x_k\\rangle\\big)\\]\n\n\\[\\ge -\\frac{\\lambda_k}{4\\beta}|x_{k+1} - x_k|^2.\\]\n\nFrom which we infer, by setting \\(\\eta_k := 1 - \\lambda_k/(2\\beta)\\), the estimate (2.13) below\n\n\\[\\phi_{k+1} - \\phi_k - \\theta_k(\\phi_k - \\phi_{k-1})\\]\n\n\\[\\le -\\frac{1}{2}\\eta_k|x_{k+1} - x_k|^2 + \\theta_k\\langle x_k - x_{k-1}, x_{k+1} - x_k\\rangle + \\frac{\\theta_k}{2}|x_k - x_{k-1}|^2 + \\lambda_k\\varepsilon_k\\]\n\n\\[\\le -\\frac{1}{2}\\eta_k\\left|x_{k+1} - \\frac{\\theta_k}{\\eta_k} y_k\\right|^2 + \\frac{\\theta_k^2}{2\\eta_k}|x_k - x_{k-1}|^2 + \\frac{\\theta_k}{2}|x_k - x_{k-1}|^2 + \\lambda_k\\varepsilon_k\\]\n\n\\[\\le -\\frac{1}{2}\\eta_k\\left|x_{k+1} - x_k - \\frac{\\theta_k}{\\eta_k}(x_k - x_{k-1})\\right|^2 + \\frac{\\theta_k}{\\eta_k}|x_k - x_{k-1}|^2 + \\lambda_k\\varepsilon_k. \\tag{2.13}\\]\n\nBy taking into account the fact that from the hypotheses \\(\\eta_k\\) is bounded and by setting \\(\\Delta_k := \\phi_k - \\phi_{k-1}\\) and \\(\\sigma_k := \\frac{2\\beta\\theta_k}{\\delta}|x_k - x_{k-1}|^2 + \\lambda_k\\varepsilon_k\\), we obtain\n\n\\[\\Delta_{k+1} \\le \\theta_k\\Delta_k + \\sigma_k \\le \\theta_k[\\Delta_k]_+ + \\sigma_k,\\]\n\nwhere \\([t]_+ := \\max(t, 0)\\), and consequently\n\n\\[[\\Delta_{k+1}]_+ \\le \\theta[\\Delta_k]_+ + \\sigma_k\\]\n\nwith \\(\\theta \\in [0,1[\\) given by hypothesis 2.\n\nThe latter inequality yields\n\n\\[[\\Delta_{k+1}]_+ \\le \\theta^k[\\Delta_1]_+ + \\sum_{i=0}^{k-1} \\theta^i \\sigma_{k-i}\\]\n\nand therefore\n\n\\[\\sum_{k=1}^{\\infty} [\\Delta_{k+1}]_+ \\le \\frac{1}{1-\\theta}\\left([\\Delta_1]_+ + \\sum_{k=1}^{\\infty} \\sigma_k\\right),\\]\n\nwhich is finite thanks to hypothesis 3 and (2.10). Consider the sequence defined by \\(t_k := \\phi_k - \\sum_{i=1}^{k} [\\Delta_i]_+\\). Since \\(\\phi_k \\ge 0\\) and \\(\\sum_{i=1}^{k} [\\Delta_i]_+ < +\\infty\\), it follows that \\(t_k\\) is bounded from below. But\n\n\\[t_{k+1} = \\phi_{k+1} - [\\Delta_{k+1}]_+ - \\sum_{i=1}^{k} [\\Delta_i]_+ \\le \\phi_{k+1} - \\phi_{k+1} + \\phi_k - \\sum_{i=1}^{k} [\\Delta_i]_+ = t_k,\\]\n\nso that \\(\\{t_k\\}\\) is nonincreasing. We thus deduce that \\(\\{t_k\\}\\) is convergent and so is \\(\\{\\phi_k\\}\\). This shows that the first condition of Opial's lemma is satisfied.\n\nOn the other hand, from (2.13) we can write\n\n\\[\\frac{1}{2}\\eta_k\\left|x_{k+1} - x_k - \\frac{\\theta_k}{\\eta_k}(x_k - x_{k-1})\\right|^2 \\le -\\Delta_{k+1} + \\theta\\Delta_k + \\sigma_k.\\]\n\nBy passing to the limit in the above estimate and by taking into account the conditions on the parameters and the fact that by hypothesis \\(|x_k - x_{k-1}| \\to 0\\), we obtain\n\n\\[\\lim_{k \\to +\\infty} |x_{k+1} - x_k - \\theta_k(x_k - x_{k-1})| = 0.\\]\n\nNow let \\(\\bar{x}\\) be a weak cluster point of \\(\\{x_k\\}\\). There exists a subsequence \\(\\{x_{k_j}\\}\\) which converges weakly to \\(\\bar{x}\\) and satisfies, thanks to (1.6),\n\n\\[-\\frac{1}{\\lambda_{k_j}}(x_{k_j+1} - y_{k_j}) + (B(x_{k_j+1}) - B(x_{k_j})) \\in A_{\\varepsilon_{k_j+1}}(x_{k_j+1}) + B(x_{k_j+1}) \\subset (A + B)_{\\varepsilon_{k_j+1}}(x_{k_j+1}).\\]\n\nPassing to the limit, as \\(k_j \\to +\\infty\\), using the fact that \\(B\\) is Lipschitz continuous and thanks to the properties of the enlargements \\cite[Proposition 3.4]{SvaiterBurachik1999}, we obtain that \\(0 \\in (A + B)(\\bar{x})\\), that is \\(\\bar{x} \\in S\\).\n\nThus, the second condition of Opial's lemma is also satisfied, which completes the proof. \\(\\square\\)",
+      "depends_on": [
+        "def_1",
+        "def_2",
+        "def_4",
+        "def_5",
+        "ext_lem_1",
+        "ext_def_2",
+        "ext_def_3",
+        "ext_thm_1"
+      ]
+    }
+  ]
+}
