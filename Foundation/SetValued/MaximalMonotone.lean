@@ -11,9 +11,29 @@ set-valued operators on real Hilbert spaces.
 
 open SetValuedOperator
 open Filter
-open scoped InnerProductSpace Topology
+open scoped InnerProductSpace Topology Pointwise
 
 variable {H : Type _} [NormedAddCommGroup H] [InnerProductSpace ℝ H] [CompleteSpace H]
+
+omit [CompleteSpace H] in
+/-- The pointwise sum of two monotone set-valued operators is monotone. -/
+theorem SetValuedOperator.IsMonotone.add {A B : SetValuedOperator H H}
+    (hA : IsMonotone A) (hB : IsMonotone B) :
+    IsMonotone (A + B) := by
+  intro x y u hu v hv
+  change u ∈ A x + B x at hu
+  change v ∈ A y + B y at hv
+  rcases Set.mem_add.mp hu with ⟨uA, huA, uB, huB, rfl⟩
+  rcases Set.mem_add.mp hv with ⟨vA, hvA, vB, hvB, rfl⟩
+  have hAu : 0 ≤ inner ℝ (uA - vA) (x - y) := hA uA huA vA hvA
+  have hBu : 0 ≤ inner ℝ (uB - vB) (x - y) := hB uB huB vB hvB
+  have hsum :
+      inner ℝ ((uA + uB) - (vA + vB)) (x - y) =
+        inner ℝ (uA - vA) (x - y) + inner ℝ (uB - vB) (x - y) := by
+    simp only [sub_eq_add_neg, inner_add_left, inner_neg_left]
+    ring
+  rw [hsum]
+  exact add_nonneg hAu hBu
 
 omit [CompleteSpace H] in
 theorem mem_of_monotonically_related_to_graph

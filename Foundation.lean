@@ -12,6 +12,7 @@ import Foundation.Convex.NormalCone
 import Foundation.Convex.MoreauDecomposition
 import Foundation.Convex.ProximalOperator
 import Foundation.Convex.RelativeInterior
+import Foundation.Convex.RelativeInteriorGraph
 import Foundation.Convex.Subdifferential
 import Foundation.Convex.WeakClosed
 import Foundation.Differentiation.Gateaux
@@ -30,6 +31,7 @@ import Foundation.Separation.Hyperplanes
 import Foundation.SetValued.Basic
 import Foundation.SetValued.Monotone
 import Foundation.SetValued.MaximalMonotone
+import Foundation.SetValued.ProductNormalCone
 import Foundation.SetValued.Enlargement
 import Foundation.SetValued.MaximalMonotoneSum
 import Foundation.SetValued.Fitzpatrick

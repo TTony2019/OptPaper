@@ -119,6 +119,7 @@ theorem minty_surjective_iff_maximal_monotone {T : SetValuedOperator H H}
 /-- Minty's criterion stated with Mathlib's `Maximal` predicate. -/
 theorem minty_surjective_iff_maximal_isMonotone {T : SetValuedOperator H H}
     (hT_mono : IsMonotone T) :
-    Maximal IsMonotone T ↔ ∀ y : H, ∃ x : H, ∃ u ∈ T x, y = x + u := by
+    Maximal SetValuedOperator.IsMonotone T ↔
+      ∀ y : H, ∃ x : H, ∃ u ∈ T x, y = x + u := by
   rw [← SetValuedOperator.isMaximalMonotone_iff_maximal_isMonotone T]
   exact minty_surjective_iff_maximal_monotone hT_mono
