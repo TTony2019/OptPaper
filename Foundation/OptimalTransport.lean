@@ -1,0 +1,2 @@
+import Foundation.OptimalTransport.Kantorovich
+import Foundation.OptimalTransport.Discrete
